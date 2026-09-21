@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-21T05:22:03.194Z",
+  "status": "CODE_REVIEWED_OFFLINE_PASS_REAL_RETURN_PENDING",
+  "tool": {
+    "path": "tools/authoring/update-reviewed-parameters.mjs",
+    "sha256": "fe93cb1a81488714fb2fd43c67c18b3383142c886cd3769bbb3114cbd6265997",
+    "commit": "7cc25af034c0f1998579086a76479d50ff7140c1"
+  },
+  "scope": "现有固定值和技能等级参数，完整现值合入明示字段；不自动舍入、不修改标识与元数据。",
+  "verification": {
+    "implementationAgent": "/root/rule_description_tool_extension",
+    "syntax": "PASS",
+    "offlineTests": {
+      "passed": 14,
+      "failed": 0,
+      "realHttpCalls": 0
+    },
+    "mainReviewer": "/root",
+    "reviewed": [
+      "与已冻结第三版保护实现逐段对照",
+      "更新字段严格白名单、明确原生数值、完整等级图、互斥取值模式",
+      "多个同列表目标累计核对；仅名称/排序明确更改时允许当前目标行移动，其他行相对顺序和完整内容不变",
+      "来源/批准/冻结/完整现值/逐目标保护，未知响应先记录状态，已有06拒绝重放",
+      "独立回读以即时完整列表和详情作精确终值，保留创建时间和全部未改响应"
+    ],
+    "gitBytePreservation": "两个新工具已加入精确保留换行规则，暂存字节摘要与工作区批准摘要相等，既有第三版源码摘要未变"
+  },
+  "case": {
+    "skillKey": "lissandra_w",
+    "protectedResponses": 19,
+    "snareDurationReferencePaths": [],
+    "corrections": [
+      "官方显式秒数换为准确整数毫秒并改为INTEGER",
+      "仅改错误的基础伤害显示名，70/105/140/175/210不改"
+    ]
+  },
+  "businessWrites": 0,
+  "browser": false
+}

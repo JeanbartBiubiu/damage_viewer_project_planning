@@ -1,0 +1,87 @@
+{
+  "at": "2026-09-21T05:09:11.100Z",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lissandra.json.gz",
+      "sha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Lissandra.json",
+      "sha256": "a5b34cb789b73129a5a3bba84989d0a3da735ed368589719c987027a2110acaf"
+    }
+  ],
+  "officialField": "data.Lissandra.spells[1].effect[2] / effectBurn[2]",
+  "officialDuration": [
+    1.25,
+    1.35,
+    1.45,
+    1.55,
+    1.65
+  ],
+  "officialDisplay": "1.25/1.35/1.45/1.55/1.65",
+  "clientField": "当前W根mSpell.DataValues.SnareDuration索引1..5",
+  "checks": [
+    {
+      "rank": 1,
+      "officialSeconds": 1.25,
+      "clientSeconds": 1.25,
+      "float32Expected": 1.25,
+      "normalizedMs": 1250,
+      "floatMatch": true
+    },
+    {
+      "rank": 2,
+      "officialSeconds": 1.35,
+      "clientSeconds": 1.350000023841858,
+      "float32Expected": 1.350000023841858,
+      "normalizedMs": 1350,
+      "floatMatch": true
+    },
+    {
+      "rank": 3,
+      "officialSeconds": 1.45,
+      "clientSeconds": 1.4500000476837158,
+      "float32Expected": 1.4500000476837158,
+      "normalizedMs": 1450,
+      "floatMatch": true
+    },
+    {
+      "rank": 4,
+      "officialSeconds": 1.55,
+      "clientSeconds": 1.5499999523162842,
+      "float32Expected": 1.5499999523162842,
+      "normalizedMs": 1550,
+      "floatMatch": true
+    },
+    {
+      "rank": 5,
+      "officialSeconds": 1.65,
+      "clientSeconds": 1.649999976158142,
+      "float32Expected": 1.649999976158142,
+      "normalizedMs": 1650,
+      "floatMatch": true
+    }
+  ],
+  "corrections": [
+    {
+      "parameterKey": "snare_duration_ms",
+      "valueType": "INTEGER",
+      "levelValues": {
+        "1": 1250,
+        "2": 1350,
+        "3": 1450,
+        "4": 1550,
+        "5": 1650
+      },
+      "reason": "官方显式两位小数秒与当前客户端二进制单精度对应，按官方精度换算整数毫秒，不保留序列化尾差。"
+    },
+    {
+      "parameterKey": "base_damage",
+      "name": "冰霜之环基础魔法伤害",
+      "reason": "当前技能为冰霜之环，已有70/105/140/175/210数值正确，仅修正被动名称误写。"
+    }
+  ],
+  "businessWrites": 0
+}

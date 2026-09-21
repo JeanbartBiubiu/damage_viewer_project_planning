@@ -1,0 +1,126 @@
+{
+  "at": "2026-09-21T05:11:44.718Z",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Neeko.json.gz",
+      "sha256": "1f65e7a0cc866b9c65e0829c0355109afea3e09c0c427c5ad51ff23b9a2660fc"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Neeko.json",
+      "sha256": "de6adfb1b9c6d0d31cf682d0f092993959f91f7bb0a77d6f17c89862f28b3ef0"
+    }
+  ],
+  "rootBinding": "Characters/Neeko/Spells/NeekoEAbility/NeekoE",
+  "official": {
+    "cooldown": [
+      12,
+      11.5,
+      11,
+      10.5,
+      10
+    ],
+    "cost": [
+      60,
+      65,
+      70,
+      75,
+      80
+    ],
+    "maxammo": "-1"
+  },
+  "client": {
+    "spellCastTime": 0.25,
+    "mCastTime": null,
+    "mUseAutoattackCastTimeData": null,
+    "cooldownTime": [
+      12,
+      12,
+      11.5,
+      11,
+      10.5,
+      10,
+      10
+    ],
+    "manaValues": {
+      "values": [
+        60,
+        65,
+        70,
+        75,
+        80,
+        60
+      ],
+      "__type": "{630af303}"
+    },
+    "dataNames": [
+      "Damage",
+      "BaseRootDuration",
+      "MinRootDuration",
+      "TargetsRequiredForMaxValue",
+      "MaxRootDuration",
+      "EmpoweredWidth",
+      "EmpoweredSpeed"
+    ]
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/processes",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/neeko_e/effects/mana_cost": {
+      "createdAt": "2026-09-10T02:04:59.071785Z",
+      "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放资源消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "neeko_e",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-10T02:04:59.071785Z"
+    },
+    "/skills/neeko_e/processes": []
+  },
+  "hitIndexBoundary": {
+    "supported": true,
+    "code": "SkillTriggerEventCapabilities:SKILL_HIT允许HIT_INDEX",
+    "document": "条件事件与动态输入供值管理详细设计当前只写“当前命中序号”",
+    "unresolved": "起点、重置边界及是否按同次弹道全目标计数未明确，不能直接以索引1证明Neeko首个接触对象。",
+    "decision": "先返回有确定来源的普通使用；首个和强化禁锢继续分别核定资格。"
+  },
+  "businessWrites": 0
+}

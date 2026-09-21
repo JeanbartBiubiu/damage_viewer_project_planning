@@ -1,0 +1,105 @@
+{
+  "at": "2026-09-21T05:09:11.099Z",
+  "reviewer": "/root/lissandra_w_neeko_e_control_sources",
+  "model": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "mode": "固定来源只读核对",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lissandra.json.gz",
+      "sha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Neeko.json.gz",
+      "sha256": "1f65e7a0cc866b9c65e0829c0355109afea3e09c0c427c5ad51ff23b9a2660fc"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Lissandra.json",
+      "sha256": "a5b34cb789b73129a5a3bba84989d0a3da735ed368589719c987027a2110acaf"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Neeko.json",
+      "sha256": "de6adfb1b9c6d0d31cf682d0f092993959f91f7bb0a77d6f17c89862f28b3ef0"
+    }
+  ],
+  "skills": [
+    {
+      "skillKey": "lissandra_w",
+      "rootBinding": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+      "slotIndex": 1,
+      "abilityIndex": 1,
+      "targetingType": "SelfAoe",
+      "radius": 275,
+      "rootDurationSecondsRaw": [
+        1.25,
+        1.350000023841858,
+        1.4500000476837158,
+        1.5499999523162842,
+        1.649999976158142
+      ],
+      "rankOffset": 1,
+      "expectedDurationMs": [
+        1250,
+        1350,
+        1450,
+        1550,
+        1650
+      ],
+      "damage": [
+        70,
+        105,
+        140,
+        175,
+        210
+      ],
+      "branch": "自身周围敌方英雄被W实际命中后的禁锢；无其他对象/标记/技能前置文字。",
+      "unproven": [
+        "TargetsToHit=3的消费含义，不作为禁锢门槛",
+        "未解析的对象标签，不据此构造资格",
+        "同次法术护盾阻挡交互及实际命中生成"
+      ],
+      "currentFinding": "伤害数值正确，显示名误为被动；期限存有二进制浮点尾差。"
+    },
+    {
+      "skillKey": "neeko_e",
+      "rootBinding": "Characters/Neeko/Spells/NeekoEAbility/NeekoE",
+      "slotIndex": 2,
+      "abilityIndex": 3,
+      "targetingType": "Direction",
+      "range": 1000,
+      "missileWidth": 70,
+      "minRootDurationMs": [
+        700,
+        900,
+        1100,
+        1300,
+        1500
+      ],
+      "maxRootDurationMs": [
+        1800,
+        2100,
+        2400,
+        2700,
+        3000
+      ],
+      "rankOffset": 1,
+      "branch": "已确认首个接触对象的最短禁锢。",
+      "unproven": [
+        "官方description与tooltip对强化前置文字不完全相同",
+        "TargetsRequiredForMaxValue=2不能单独推导同一英雄的接触资格",
+        "同次命中索引或强化状态未表达时，不把所有SKILL_HIT都当首个目标"
+      ],
+      "modeExclusion": "cherry.MinRootDuration属于模式覆盖，不使用。"
+    }
+  ],
+  "httpRequests": 0,
+  "businessWrites": 0
+}

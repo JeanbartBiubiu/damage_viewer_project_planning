@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-21T05:07:09.841Z",
+  "status": "CURRENT_VALUE_CONFIRMED_SOURCE_REVIEW_PENDING",
+  "skillKey": "lissandra_w",
+  "parameter": {
+    "createdAt": "2026-09-09T10:36:35.119537Z",
+    "description": "客户端当前根绑定 DataValues.SnareDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+    "fixedValue": null,
+    "gameId": "lol",
+    "levelValues": {
+      "1": 1250,
+      "2": 1350.000024,
+      "3": 1450.000048,
+      "4": 1549.999952,
+      "5": 1649.999976
+    },
+    "name": "禁锢持续（毫秒）",
+    "parameterKey": "snare_duration_ms",
+    "skillKey": "lissandra_w",
+    "sortOrder": 50,
+    "updatedAt": "2026-09-09T10:36:35.119537Z",
+    "valueMode": "SKILL_LEVEL",
+    "valueType": "DECIMAL"
+  },
+  "relatedName": "冰脉驱役基础魔法伤害",
+  "problem": "客户端浮点尾差经单位换算后保留在禁锢毫秒参数；返回禁锢前需按明确来源精度归一。伤害参数显示名疑似复制被动，需核对是名称还是数值问题。",
+  "implementationFinding": {
+    "path": "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillNumericSemantics.java:70",
+    "actualConstraint": "lifecycle.durationValue使用NON_NEGATIVE，不要求整数；当前问题不是已证明的HTTP拒绝。"
+  },
+  "sop": {
+    "path": "文档记录/详细设计/项目/角色技能数据录入标准流程.md",
+    "rule": "客户端浮点尾差按明确数值精度归一后换单位；未知精度不猜。"
+  },
+  "expectedApproach": "固定来源核对后，使用完整保护的参数纠错，明示具体字段和值，不让工具自动舍入；然后返回原禁锢候选。",
+  "businessWrites": 0
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T05:00:25.083Z",
+  "generatedAt": "2026-09-21T05:27:41.674Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13568,6 +13568,48 @@
       "browser": false,
       "wholeSkillComplete": false,
       "runtimeValidation": "未执行"
+    },
+    "lissandraWParameterNormalizationReturn": {
+      "at": "2026-09-21T05:27:41.666Z",
+      "status": "期限与名称已更正并独立回读，待返回首次禁锢",
+      "skillKey": "lissandra_w",
+      "successfulSaves": 2,
+      "independentGets": 19,
+      "unchangedRoutes": 16,
+      "changedLists": 1,
+      "changedDetails": 2,
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/丽桑卓W参数归一与名称返回/09-证据清单.json",
+        "sha256": "f3155dc9e2ba457226a8922ffd0466acc1dff3030647f52368beb58a2c61993f",
+        "commit": "23e23ddfc21c0cf3a01855d947f953bb67828c7f"
+      },
+      "tool": {
+        "commit": "7cc25af034c0f1998579086a76479d50ff7140c1",
+        "sha256": "fe93cb1a81488714fb2fd43c67c18b3383142c886cd3769bbb3114cbd6265997",
+        "offlineTests": 14
+      },
+      "values": {
+        "snareDurationMs": [
+          1250,
+          1350,
+          1450,
+          1550,
+          1650
+        ],
+        "valueType": "INTEGER",
+        "baseDamageName": "冰霜之环基础魔法伤害",
+        "unchangedBaseDamage": [
+          70,
+          105,
+          140,
+          175,
+          210
+        ]
+      },
+      "browser": false,
+      "wholeSkillComplete": false,
+      "runtime": false
     }
   },
   "runtimeValidation": "未执行",
@@ -14428,6 +14470,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜R明确未阻挡首次眩晕返回/09-证据清单.json",
         "sha256": "15f77e1b814e4c5156e4cdb22d68e80209f3ee06b8bc546d5cd1621e21b5fc27",
         "commit": "e1d4c8b6b2e9d062e21252d01b6a6b004823091b"
+      },
+      "lissandraWParameterNormalizationReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/丽桑卓W参数归一与名称返回/09-证据清单.json",
+        "sha256": "f3155dc9e2ba457226a8922ffd0466acc1dff3030647f52368beb58a2c61993f",
+        "commit": "23e23ddfc21c0cf3a01855d947f953bb67828c7f"
       }
     },
     "coverage": {
@@ -26642,7 +26690,8 @@
           "heroSourceInventory",
           "sevenDirectMagicHitBackfill",
           "sixFollowupUseProcessBackfill",
-          "fiveOrdinaryUseDescriptionCleanup"
+          "fiveOrdinaryUseDescriptionCleanup",
+          "lissandraWParameterNormalizationReturn"
         ],
         "currentComponentCounts": {
           "parameters": 6,
