@@ -1,0 +1,21 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-21T02:59:00.745Z",
+  "reviewer": "/root/lucian_q_cost_frozen_review",
+  "mode": "静态独立评审，未HTTP/DB或文件写入",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "5cb47dca7ee16853d5e54b6baa8f30c763cb5a8354d9580f91fa23933b3efbba",
+    "02-冻结请求.json": "f9142cb5929c0b71b5b22e20d9f22747acf1b35fa5cc3d7224b5f3cf16a78983",
+    "03-来源摘要.json": "d0577a25a6bfa2c6793ad254d80bd55fa3e8c766b437f7d40b0775dcfb74e9f1",
+    "04-写入前现值.json": "40a8f4c23786e1c2b81f3c5ebc42a45c37875867e720988f63710aec9beaf1cc"
+  },
+  "checks": [
+    "仅两项新增，先过程后规则",
+    "固定冷却/成本数组与已有参数一致",
+    "无重复成本入口、旧actual_hit保持",
+    "立即登记不替代冲突的施法时间",
+    "24条保护响应及2新目标404"
+  ],
+  "boundary": "代表页面未验，整技能与战斗未完成"
+}

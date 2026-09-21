@@ -1,0 +1,846 @@
+{
+  "at": "2026-09-21T02:56:02.229Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/lucian_q": {
+      "createdAt": "2026-09-06T18:19:15.187587Z",
+      "description": "卢锡安射出一束穿透性的圣光穿过他的目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "卢锡安·透体圣光",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "lucian_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:15.187587Z"
+    },
+    "/characters/champion_lucian": {
+      "characterKey": "champion_lucian",
+      "createdAt": "2026-09-06T15:42:02.122368Z",
+      "description": "圣枪游侠·卢锡安。资料：官方静态资料16.17.1、同补丁客户端16.17.8104348。仅基础属性与1～18级自然成长；技能、被动叠层与图片尚待录入和核对。",
+      "gameId": "lol",
+      "name": "卢锡安",
+      "updatedAt": "2026-09-06T15:42:02.122368Z"
+    },
+    "/characters/champion_lucian/attributes": {
+      "characterKey": "champion_lucian",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 641,
+          "hp_regen": 3.75,
+          "mana": 320,
+          "mana_regen": 7,
+          "armor": 28,
+          "magic_resistance": 33,
+          "attack_damage": 60,
+          "attack_speed": 0.638,
+          "attack_range": 500
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 713,
+          "hp_regen": 4.218,
+          "mana": 350.96,
+          "mana_regen": 7.576,
+          "armor": 31.024,
+          "magic_resistance": 33.792,
+          "attack_damage": 61.8,
+          "attack_speed": 0.649484,
+          "attack_range": 500
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 788.5,
+          "hp_regen": 4.70875,
+          "mana": 383.425,
+          "mana_regen": 8.18,
+          "armor": 34.195,
+          "magic_resistance": 34.6225,
+          "attack_damage": 63.6875,
+          "attack_speed": 0.661526,
+          "attack_range": 500
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 867.5,
+          "hp_regen": 5.22225,
+          "mana": 417.395,
+          "mana_regen": 8.812,
+          "armor": 37.513,
+          "magic_resistance": 35.4915,
+          "attack_damage": 65.6625,
+          "attack_speed": 0.674127,
+          "attack_range": 500
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 950,
+          "hp_regen": 5.7585,
+          "mana": 452.87,
+          "mana_regen": 9.472,
+          "armor": 40.978,
+          "magic_resistance": 36.399,
+          "attack_damage": 67.725,
+          "attack_speed": 0.687285,
+          "attack_range": 500
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1036,
+          "hp_regen": 6.3175,
+          "mana": 489.85,
+          "mana_regen": 10.16,
+          "armor": 44.59,
+          "magic_resistance": 37.345,
+          "attack_damage": 69.875,
+          "attack_speed": 0.701002,
+          "attack_range": 500
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1125.5,
+          "hp_regen": 6.89925,
+          "mana": 528.335,
+          "mana_regen": 10.876,
+          "armor": 48.349,
+          "magic_resistance": 38.3295,
+          "attack_damage": 72.1125,
+          "attack_speed": 0.715278,
+          "attack_range": 500
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1218.5,
+          "hp_regen": 7.50375,
+          "mana": 568.325,
+          "mana_regen": 11.62,
+          "armor": 52.255,
+          "magic_resistance": 39.3525,
+          "attack_damage": 74.4375,
+          "attack_speed": 0.730111,
+          "attack_range": 500
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1315,
+          "hp_regen": 8.131,
+          "mana": 609.82,
+          "mana_regen": 12.392,
+          "armor": 56.308,
+          "magic_resistance": 40.414,
+          "attack_damage": 76.85,
+          "attack_speed": 0.745503,
+          "attack_range": 500
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1415,
+          "hp_regen": 8.781,
+          "mana": 652.82,
+          "mana_regen": 13.192,
+          "armor": 60.508,
+          "magic_resistance": 41.514,
+          "attack_damage": 79.35,
+          "attack_speed": 0.761453,
+          "attack_range": 500
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1518.5,
+          "hp_regen": 9.45375,
+          "mana": 697.325,
+          "mana_regen": 14.02,
+          "armor": 64.855,
+          "magic_resistance": 42.6525,
+          "attack_damage": 81.9375,
+          "attack_speed": 0.777961,
+          "attack_range": 500
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1625.5,
+          "hp_regen": 10.14925,
+          "mana": 743.335,
+          "mana_regen": 14.876,
+          "armor": 69.349,
+          "magic_resistance": 43.8295,
+          "attack_damage": 84.6125,
+          "attack_speed": 0.795028,
+          "attack_range": 500
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1736,
+          "hp_regen": 10.8675,
+          "mana": 790.85,
+          "mana_regen": 15.76,
+          "armor": 73.99,
+          "magic_resistance": 45.045,
+          "attack_damage": 87.375,
+          "attack_speed": 0.812652,
+          "attack_range": 500
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1850,
+          "hp_regen": 11.6085,
+          "mana": 839.87,
+          "mana_regen": 16.672,
+          "armor": 78.778,
+          "magic_resistance": 46.299,
+          "attack_damage": 90.225,
+          "attack_speed": 0.830836,
+          "attack_range": 500
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 1967.5,
+          "hp_regen": 12.37225,
+          "mana": 890.395,
+          "mana_regen": 17.612,
+          "armor": 83.713,
+          "magic_resistance": 47.5915,
+          "attack_damage": 93.1625,
+          "attack_speed": 0.849577,
+          "attack_range": 500
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2088.5,
+          "hp_regen": 13.15875,
+          "mana": 942.425,
+          "mana_regen": 18.58,
+          "armor": 88.795,
+          "magic_resistance": 48.9225,
+          "attack_damage": 96.1875,
+          "attack_speed": 0.868876,
+          "attack_range": 500
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2213,
+          "hp_regen": 13.968,
+          "mana": 995.96,
+          "mana_regen": 19.576,
+          "armor": 94.024,
+          "magic_resistance": 50.292,
+          "attack_damage": 99.3,
+          "attack_speed": 0.888734,
+          "attack_range": 500
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2341,
+          "hp_regen": 14.8,
+          "mana": 1051,
+          "mana_regen": 20.6,
+          "armor": 99.4,
+          "magic_resistance": 51.7,
+          "attack_damage": 102.5,
+          "attack_speed": 0.90915,
+          "attack_range": 500
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_lucian/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "image_4cbf2fbf-03b3-4bc9-836f-b92581e4c5b4",
+        "name": "卢锡安代表图片_4cbf2fbf-03b3-4bc9-836f-b92581e4c5b4"
+      }
+    },
+    "/skills/lucian_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_lucian_q",
+        "name": "lucian_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_lucian": {
+      "items": [
+        {
+          "characterKey": "champion_lucian",
+          "characterName": "卢锡安",
+          "gameId": "lol",
+          "skillKey": "lucian_p",
+          "skillName": "卢锡安·圣光银弹",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_lucian",
+          "characterName": "卢锡安",
+          "gameId": "lol",
+          "skillKey": "lucian_q",
+          "skillName": "卢锡安·透体圣光",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_lucian",
+          "characterName": "卢锡安",
+          "gameId": "lol",
+          "skillKey": "lucian_w",
+          "skillName": "卢锡安·热诚烈弹",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_lucian",
+          "characterName": "卢锡安",
+          "gameId": "lol",
+          "skillKey": "lucian_e",
+          "skillName": "卢锡安·冷酷追击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_lucian",
+          "characterName": "卢锡安",
+          "gameId": "lol",
+          "skillKey": "lucian_r",
+          "skillName": "卢锡安·圣枪洗礼",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=lucian_q": {
+      "items": [
+        {
+          "characterKey": "champion_lucian",
+          "characterName": "卢锡安",
+          "gameId": "lol",
+          "skillKey": "lucian_q",
+          "skillName": "卢锡安·透体圣光",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/lucian_q/parameters": [
+      {
+        "createdAt": "2026-09-07T17:58:20.445627Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8000,
+          "3": 7000,
+          "4": 6000,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lucian_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:20.445627Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:20.813362Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 48,
+          "2": 56,
+          "3": 64,
+          "4": 72,
+          "5": 80
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lucian_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:58:20.813362Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:21.283241Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 115,
+          "3": 150,
+          "4": 185,
+          "5": 220
+        },
+        "name": "基础物理伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lucian_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:58:21.283241Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:22.11799Z",
+        "description": "客户端当前根绑定 DataValues.BonusADRatio 取索引1至5。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外攻击力倍率",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "lucian_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T17:58:22.11799Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/lucian_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:58:20.445627Z",
+      "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 9000,
+        "2": 8000,
+        "3": 7000,
+        "4": 6000,
+        "5": 5000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "lucian_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:58:20.445627Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lucian_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:58:20.813362Z",
+      "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 48,
+        "2": 56,
+        "3": 64,
+        "4": 72,
+        "5": 80
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "lucian_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T17:58:20.813362Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lucian_q/parameters/base_damage": {
+      "createdAt": "2026-09-07T17:58:21.283241Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 115,
+        "3": 150,
+        "4": 185,
+        "5": 220
+      },
+      "name": "基础物理伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "lucian_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T17:58:21.283241Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lucian_q/parameters/bonus_ad_ratio": {
+      "createdAt": "2026-09-07T17:58:22.11799Z",
+      "description": "客户端当前根绑定 DataValues.BonusADRatio 取索引1至5。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "额外攻击力倍率",
+      "parameterKey": "bonus_ad_ratio",
+      "skillKey": "lucian_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T17:58:22.11799Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lucian_q/formulas": [
+      {
+        "createdAt": "2026-09-07T17:58:22.616278Z",
+        "description": "TotalDamage明确额外攻击力1.0。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "透体圣光伤害",
+        "skillKey": "lucian_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:22.616278Z"
+      }
+    ],
+    "/skills/lucian_q/formulas/damage": {
+      "createdAt": "2026-09-07T17:58:22.616278Z",
+      "description": "TotalDamage明确额外攻击力1.0。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "透体圣光伤害",
+      "skillKey": "lucian_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:58:22.616278Z"
+    },
+    "/skills/lucian_q/effects": [
+      {
+        "createdAt": "2026-09-07T17:58:23.143258Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lucian_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:23.143258Z"
+      },
+      {
+        "createdAt": "2026-09-07T17:58:23.669849Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "beam_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "圣光命中",
+        "resultCount": 1,
+        "skillKey": "lucian_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:58:23.669849Z"
+      }
+    ],
+    "/skills/lucian_q/effects/mana_cost": {
+      "createdAt": "2026-09-07T17:58:23.143258Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lucian_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:58:23.143258Z"
+    },
+    "/skills/lucian_q/effects/beam_hit": {
+      "createdAt": "2026-09-07T17:58:23.669849Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "beam_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "圣光命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "圣光命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "lucian_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T17:58:23.669849Z"
+    },
+    "/skills/lucian_q/processes": [],
+    "/skills/lucian_q/internal-states": [],
+    "/skills/lucian_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "透体圣光实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:58:24.187986Z"
+      }
+    ],
+    "/skills/lucian_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "beam_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lucian_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "透体圣光实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/physics": {
+      "createdAt": "2026-08-26T05:59:09.635701Z",
+      "damageTypeKey": "physics",
+      "description": null,
+      "gameId": "lol",
+      "name": "物理伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:09.635701Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lucian",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lucian/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lucian/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_lucian",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=lucian_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/parameters/bonus_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/effects/beam_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/physics",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}
