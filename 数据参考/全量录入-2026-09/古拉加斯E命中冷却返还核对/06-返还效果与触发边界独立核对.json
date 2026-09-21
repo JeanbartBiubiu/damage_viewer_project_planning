@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-21T12:08:53.990Z",
+  "reviewer": "/root/gragas_refund_semantics",
+  "mode": "只读语义评审",
+  "status": "EFFECT_ONLY_READY_TRIGGER_UI_PENDING",
+  "effect": {
+    "resultType": "COOLDOWN_CHANGE",
+    "target": "SOURCE",
+    "operation": "REDUCE_REMAINING_RATIO",
+    "affectedSkills": [
+      "gragas_e"
+    ],
+    "parameterKey": "cooldown_refund_ratio",
+    "value": 0.4,
+    "lifecycle": null,
+    "spellShieldBlockScope": null
+  },
+  "basis": "16.17固定比例为0.4；13.22官方历史定义为减少40%剩余冷却，沿用跨版本补证边界；不需要新增剩余冷却事件值。",
+  "proposedFutureTrigger": {
+    "event": "SKILL_HIT",
+    "sourceSkillKey": "gragas_e",
+    "sameGroup": [
+      "CHAMPION",
+      "SKILL_HIT_TARGET_IS_ENEMY",
+      "SKILL_HIT_SPELL_SHIELD_BLOCKED = 0",
+      "SKILL_HIT_FIRST_CONTACT = 1"
+    ],
+    "status": "候选，首次接触新流程尚未真实页面验收，不批准API接线"
+  },
+  "guards": [
+    "首个敌人碰撞后范围伤害，每目标命中不能当作单次碰撞返还",
+    "不改primary_hit，不把返还塞入原伤害结果",
+    "生命周期存在性、HIT_INDEX、每目标冷却与每过程次数不能替代首次接触资格"
+  ],
+  "runtime": "宿主仍须供应准确关系、同次护盾与首次接触值，缺值不能默认；没有运行通过证明。",
+  "businessWrites": 0
+}
