@@ -1,0 +1,101 @@
+{
+  "at": "2026-09-21T04:36:58.868Z",
+  "status": "SOURCE_AND_CURRENT_CAPABILITY_AUDIT_NO_WRITES",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "skillKey": "tristana_r",
+  "rootBinding": "Characters/Tristana/Spells/TristanaRAbility/TristanaR",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Tristana.json",
+      "sha256": "2ad512109196fbfa13b18ae21b3b47ba6eab2ce057ab5c198816c8177b7d7162"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Tristana.json.gz",
+      "sha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494"
+    }
+  ],
+  "officialTooltip": "Tristana fires a massive cannonball, dealing <magicDamage>{{ damagecalc }} magic damage</magicDamage> to the target, <status>Knocking Back</status> and <status>Stunning</status> them and surrounding enemies for {{ stunduration }} seconds.{{ spellmodifierdescriptionappend }}",
+  "confirmedNumbers": {
+    "stunDurationMs": [
+      400,
+      550,
+      700
+    ],
+    "knockbackDistance": [
+      600,
+      800,
+      1000
+    ]
+  },
+  "missile": {
+    "movementComponent": {
+      "mTargetHeightAugment": 100,
+      "mOffsetInitialTargetHeight": 100,
+      "mStartBoneName": "Root",
+      "mSpeed": 2000,
+      "__type": "FixedSpeedMovement"
+    },
+    "verticalFacing": {
+      "__type": "VeritcalFacingMatchVelocity"
+    },
+    "behaviors": [
+      {
+        "__type": "CastOnMovementComplete"
+      },
+      {
+        "__type": "DestroyOnMovementComplete"
+      }
+    ],
+    "__type": "MissileSpecification"
+  },
+  "capability": {
+    "statusKinds": [
+      "STUN",
+      "MOVEMENT_SLOW",
+      "ROOT",
+      "SILENCE",
+      "CHARM"
+    ],
+    "statusKindPath": "server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java",
+    "statusKindSha256": "8d42dee478d1471d8ac3133ce3ef0687fb216356c73cd55dd2f02feb556e0b67",
+    "resultTypePath": "server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectResultType.java",
+    "resultTypeSha256": "1993fe962e24c9458e43fceb9e1e54d8aef5fb64e1fcae504cc0932c74012881",
+    "displacementResultPresent": false,
+    "stunFlowEvidence": {
+      "worktree": "damage_web_dev",
+      "relativePath": "数据参考/全量录入-2026-09/持续状态施加修复/最终验证证据.json",
+      "sha256": "a6c647900314e34d8061bc48b82123eb5f46f70ee5b263cda0d52de2c4664760",
+      "commit": "95b719b54205e1171c3039d4ce87dd2571d04ce2"
+    }
+  },
+  "preservedCurrent": {
+    "counts": {
+      "parameters": 8,
+      "formulas": 1,
+      "effects": 2,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 2
+    },
+    "useEntry": true,
+    "enemyChampionHitScope": true,
+    "ordinaryOmnivamp": true,
+    "stunEffect": false,
+    "knockbackEffect": false
+  },
+  "findings": [
+    "400/550/700毫秒眩晕与600/800/1000击退距离有当前固定来源，不能用其中一项替代另一项。",
+    "2000为炮弹的移动速度；不能用该值推导受击目标的击退速度或位移结束时刻。",
+    "现有状态操作可表达眩晕，当前结果与状态目录没有击退/受迫位移身份；眩晕表达不等于击退表达。",
+    "旧候选中“E末层等击退结束爆炸”的说法仍需当前根消费者与事件资格证据，不把旧待办描述当成已确认事实。"
+  ],
+  "next": "定点核对R眩晕与法术护盾的同次资格及击退结束/E联动来源，形成最小表达方案；成熟眩晕可独立返回，但不将其算成R控制分支完整。",
+  "browser": "新能力首次正式页面仍待工具连接恢复；成熟流程正式代表页面另记。",
+  "businessWrites": 0,
+  "wholeSkillComplete": false
+}
