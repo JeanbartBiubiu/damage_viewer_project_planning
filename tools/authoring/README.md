@@ -1,6 +1,6 @@
 # 受保护管理数据批次
 
-追加新参数、效果、过程和触发规则使用 `append-reviewed-skill-components-v3.mjs`，新批次说明纠错使用 `update-reviewed-descriptions-v3.mjs`。已经执行过的旧版工具保留原字节，供原批次追溯；后续扩充另立版本，不修改已批准工具来重放旧批次。页面流程尚未稳定时，仍先按项目录入标准流程做真实页面录入，这些工具不替代该前提。
+追加新参数、效果、过程和触发规则使用 `append-reviewed-skill-components-v3.mjs`，新批次说明纠错使用 `update-reviewed-descriptions-v4.mjs`。已经执行过的旧版工具保留原字节，供原批次追溯；后续扩充另立版本，不修改已批准工具来重放旧批次。页面流程尚未稳定时，仍先按项目录入标准流程做真实页面录入，这些工具不替代该前提。
 
 批次放在本工作树的 `数据参考` 下。`prepare` 只读固定来源和实时现值，生成完整请求、来源摘要、保护基线，并确认新对象不存在。独立评审必须绑定工具及01至04文件的原字节摘要；`write` 还要求 `DAMAGE_APPROVED_BATCH_SHA` 与获批冻结文件一致。它在请求前重核来源和现值，以独占方式建立06记录，然后逐项写入、即时回读。没有独立批准或现值漂移时停止，不在写入窗口临时改请求或跳过对象。
 
@@ -9,6 +9,8 @@
 说明纠错 v3 提供 `prepare / preflight / write / readback`（准备、写前核对、写入、独立回读），沿用 `01-纠错计划.json` 的 `changes` 与 `sourceFiles`，来源必须声明准确的 `sha256`。保留 `skill / parameter / effect` 三种说明类型，新增 `kind: "trigger-rule"`，目标路径为 `/skills/<技能标识>/trigger-rules/<规则标识>`。只允许修改 `description`；规则请求移除只读的 `ruleKey` 和事件详情中的 `useKind: null` 占位，完整预期回读仍保留原结构，事件、条件、动作、限流及其他字段保持原值。
 
 v3 必须由独立执行者运行 `node tools/authoring/update-reviewed-descriptions-v3.mjs readback <批次目录>`，不能交给锁定 v2 的旧回读器。06记录保存逐笔完整详情和完整目标列表；规则详情没有更新时间，独立回读以即时规则列表的 `updatedAt` 为精确依据。多个同列表目标逐行累计，参数列表保留全部数值字段，所有未变响应连同时间戳精确比较。HTTP状态先落盘再解析正文；06已存在或结果不明时禁止重放，也不能用独立回读把失败记录认定为成功，应另行只读核对实际落地范围。离线保护检查：`node --test tools/authoring/update-reviewed-descriptions-v3.test.mjs`，会替换全部网络请求，不访问真实服务或数据库。
+
+说明纠错 v4 保留 v3 的技能、参数、效果和触发规则四种目标，新增效果结果行说明的精确修改。仅效果项可带非空 `resultDescriptions: [{ resultKey, description }]`，结果键必须已存在且互不重复；仍提供父说明 `description`，可保持原值但整个目标至少有一处实际变化。工具复制完整原效果，只替换点名的父子说明，不新增、删除或重排结果，不改数值、生命周期及引用。子说明须为已去除首尾空格的非空文本，最多2000字符。准备、写前核对、写入和独立回读均使用 v4 本身，保留原工具字节供历史批次追溯。离线保护检查：`node --test tools/authoring/update-reviewed-descriptions-v4.test.mjs`。
 
 参数字段纠错使用 `update-reviewed-parameters.mjs` 的 `prepare / preflight / write / readback`。`01-纠错计划.json` 中每个 `changes` 项只含 `skillKey`、`parameterKey`、`route` 和 `updates`；最后一项仅接受 `name / description / valueType / valueMode / fixedValue / levelValues / sortOrder` 七个可编辑字段，至少一项实际变化。工具从完整现值合入明示更新，不自动舍入、填值或修改标识和元数据；名称与非空说明须事先去除首尾空格，清空说明用 `null`。首版只修改原值与目标值均为 `FIXED`（固定值）或 `SKILL_LEVEL`（技能等级）的参数，等级图必须完整覆盖技能 `maxLevel`；只接受原生有限数值，`INTEGER`（整数）要求安全整数。固定值与等级图互斥，切换模式须在计划中明确清空旧字段。来源声明、全技能现值、独立批准、冻结摘要、独占06、防重放及解析前响应记录沿用说明工具保护；独立回读精确核对即时详情、完整参数列表、创建时间和所有其他响应。离线检查：`node --test tools/authoring/update-reviewed-parameters.test.mjs`，全部请求均为模拟。
 
