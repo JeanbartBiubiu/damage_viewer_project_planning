@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "崔丝塔娜R明确未阻挡的首次眩晕返回",
+  "generatedAt": "2026-09-21T04:49:33.646Z",
+  "targets": [
+    {
+      "skillKey": "tristana_r",
+      "ownerKey": "champion_tristana"
+    }
+  ],
+  "scope": "仅追加独立眩晕效果与明确未阻挡、无本来源实例的实际命中入口；原伤害、使用入口和其他组成保持，不把眩晕当作击退或R控制完整。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/崔丝塔娜R控制接续核对/00-固定控制数值与能力边界.json",
+      "sha256": "65195c12b9cb83d10c718b8990e572845bab575a31f8ed44e4796766a513e77e"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/崔丝塔娜R控制接续核对/01-控制返回定点现值.json",
+      "sha256": "5137662d1ae024d02d8331d6fb212162361156d05b575d7373ef40845813b9bd"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/崔丝塔娜R控制接续核对/03-控制来源独立核对.json",
+      "sha256": "a8e8cbee2d58931b5665974596256e67b52668459ff89044add25382afa4a309"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/崔丝塔娜R控制接续核对/04-明确未阻挡首次眩晕候选.json",
+      "sha256": "876b9d4d74e0f320945e7ff02a0785d10d5458f8266e4c04916804fa6de14b7a"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/崔丝塔娜R控制接续核对/05-首次眩晕方案独立评审.json",
+      "sha256": "fc260dadfd6975e83e3ee5d5cb100c0b58a17aba8fc881e720aebe03c6e570af"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Tristana.json.gz",
+      "sha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Tristana.json",
+      "sha256": "2ad512109196fbfa13b18ae21b3b47ba6eab2ce057ab5c198816c8177b7d7162"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/持续状态施加修复/最终验证证据.json",
+      "sha256": "a6c647900314e34d8061bc48b82123eb5f46f70ee5b263cda0d52de2c4664760"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜R使用入口说明纠错/07-独立回读.json",
+      "sha256": "a167870727a755933c9c61ed29d0e57fafb42a883991c59b7cc31594c7157610"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/tristana_r/effects",
+      "detailRoute": "/skills/tristana_r/effects/first_hit_stun",
+      "body": {
+        "description": "仅供本轮明确未被同次法术护盾判定阻挡、且目标没有本来源实例的实际命中入口使用；独立眩晕不表示击退或E联动已配置。",
+        "effectKey": "first_hit_stun",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "stun_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "毁灭射击首次眩晕",
+        "results": [
+          {
+            "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "vertigo"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "本次毁灭射击眩晕",
+            "resultKey": "stun",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "sortOrder": 30
+      },
+      "expectedReadback": {
+        "description": "仅供本轮明确未被同次法术护盾判定阻挡、且目标没有本来源实例的实际命中入口使用；独立眩晕不表示击退或E联动已配置。",
+        "effectKey": "first_hit_stun",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "stun_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "毁灭射击首次眩晕",
+        "results": [
+          {
+            "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "vertigo"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "本次毁灭射击眩晕",
+            "resultKey": "stun",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/tristana_r/trigger-rules",
+      "detailRoute": "/skills/tristana_r/trigger-rules/apply_stun_on_unblocked_hit",
+      "body": {
+        "ruleKey": "apply_stun_on_unblocked_hit",
+        "name": "明确未阻挡的首次眩晕",
+        "description": "仅当本技能实际命中明确为敌方英雄、同次法术护盾阻挡值为0且当前目标无本来源眩晕实例时施加；缺值不默认0。阻挡分支、重施、击退与E联动继续独立待核。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "tristana_r"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "stun_eligible",
+            "name": "本次首次眩晕可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_stun_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "first_hit_stun",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_stun",
+            "name": "施加本次眩晕",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "first_hit_stun"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "apply_stun_on_unblocked_hit",
+        "name": "明确未阻挡的首次眩晕",
+        "description": "仅当本技能实际命中明确为敌方英雄、同次法术护盾阻挡值为0且当前目标无本来源眩晕实例时施加；缺值不默认0。阻挡分支、重施、击退与E联动继续独立待核。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "tristana_r",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "stun_eligible",
+            "name": "本次首次眩晕可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_stun_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "first_hit_stun",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_stun",
+            "name": "施加本次眩晕",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "first_hit_stun"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-21T04:57:13.145Z",
+  "status": "APPROVED",
+  "reviewer": "/root/cast_field_description_review",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "1d4701fc2b8eeb0892a41ea1e55c39604cc0d3caebb3d29b5b66cca3962ab1d8",
+    "02-冻结请求.json": "156a7daf36578b6fb4ed67b0391b8419d82ba1a58e4f4ef6095cee60f553fb82",
+    "03-来源摘要.json": "99da5202299ad7afc009834f23c214a2d0bd26446b5348cd290b753d737c1759",
+    "04-写入前现值.json": "b5b611292689a3095dbcb27c43532c09c2a5b7991ced2bbec48e6d6db2393123"
+  },
+  "checks": [
+    "9份来源、32份现值、2个新目标404一致",
+    "与READY草稿逐字段一致；400/550/700毫秒、启用STUN",
+    "同组4条件、null不第二次判盾、唯一新增入口、先效果后规则",
+    "原21份响应与已独立回读说明批次一致，原伤害及RESULT粒度保护"
+  ],
+  "scope": "仅明确同次判定0且无本来源实例的首次分支；不包括值1/缺值/重施/击退/E及控制免疫实际资格",
+  "httpRequests": 0,
+  "businessWrites": 0
+}
