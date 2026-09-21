@@ -1,0 +1,109 @@
+{
+  "title": "五项已接施法流程的八处过时说明整理",
+  "at": "2026-09-19T00:48:40.262Z",
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录/04-写入前现值.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录/07-独立回读.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录/09-证据清单.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/卡萨丁Q伤害与使用流程补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/卡萨丁Q伤害与使用流程补录/04-写入前现值.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/卡萨丁Q伤害与使用流程补录/07-独立回读.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/卡萨丁Q伤害与使用流程补录/09-证据清单.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/阿狸E黛安娜E艾希R使用入口补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/阿狸E黛安娜E艾希R使用入口补录/04-写入前现值.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/阿狸E黛安娜E艾希R使用入口补录/07-独立回读.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/阿狸E黛安娜E艾希R使用入口补录/09-证据清单.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项已接施法流程说明整理/00-说明差异与入口依据.json"
+    }
+  ],
+  "changes": [
+    {
+      "skillKey": "diana_q",
+      "kind": "parameter",
+      "route": "/skills/diana_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Diana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "kassadin_q",
+      "kind": "parameter",
+      "route": "/skills/kassadin_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Kassadin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "kassadin_q",
+      "kind": "effect",
+      "route": "/skills/kassadin_q/effects/mana_cost",
+      "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。"
+    },
+    {
+      "skillKey": "ahri_e",
+      "kind": "parameter",
+      "route": "/skills/ahri_e/parameters/mana_cost",
+      "description": "DDragon16.17.1 Ahri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "diana_e",
+      "kind": "parameter",
+      "route": "/skills/diana_e/parameters/mana_cost",
+      "description": "DDragon16.17.1 Diana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "ashe_r",
+      "kind": "parameter",
+      "route": "/skills/ashe_r/parameters/cooldown_ms",
+      "description": "客户端 cooldownTime 索引 1～3，秒转毫秒；与 DDragon 16.17.1 一致。基础参数，具体起算由引用过程定义。"
+    },
+    {
+      "skillKey": "ashe_r",
+      "kind": "parameter",
+      "route": "/skills/ashe_r/parameters/cast_time_ms",
+      "description": "客户端 spellCastTime=0.25 秒，与冻结 Wiki 一致；由施法过程读取，不代替实际命中。"
+    },
+    {
+      "skillKey": "ashe_r",
+      "kind": "effect",
+      "route": "/skills/ashe_r/effects/mana_cost",
+      "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。"
+    }
+  ],
+  "scope": "黛安娜Q、卡萨丁Q、阿狸E、黛安娜E、艾希R；6处参数说明和2处法力效果说明，AsheR同一参数列表有2个目标行。只改description，保留全部数值、引用、过程和规则。"
+}

@@ -1,0 +1,1067 @@
+{
+  "startedAt": "2026-09-21T10:02:43.772Z",
+  "status": "PASS",
+  "businessWritesAttempted": 7,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/chogath_q/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-21T10:02:46.254953Z",
+          "description": "只登记本次已接受普通主动使用的基础法力消耗与普通冷却；立即步骤不表示完整施法时长为零，不生成实际命中或控制结果。完整施法时序、伤害与控制分支分别核对。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用消耗与普通冷却",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "chogath_q",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-21T10:02:46.254953Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-21T10:02:46.254953Z",
+        "description": "只登记本次已接受普通主动使用的基础法力消耗与普通冷却；立即步骤不表示完整施法时长为零，不生成实际命中或控制结果。完整施法时序、伤害与控制分支分别核对。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "chogath_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-21T10:02:46.254953Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_q/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "本技能每次已接受普通主动使用时启动基础消耗与普通冷却登记；不由命中反推使用，不把事件后的动作作为施放前许可，也不触发伤害或控制。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "chogath_q",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用登记消耗与冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本技能每次已接受普通主动使用时启动基础消耗与普通冷却登记；不由命中反推使用，不把事件后的动作作为施放前许可，也不触发伤害或控制。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "chogath_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/braum_r/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-21T10:02:49.526967Z",
+          "description": "定义本技能每次已接受普通主动使用的100基础法力消耗，读取同技能mana_cost参数并作用于来源对象；具体调用由使用过程挂接决定，本效果不负责施放许可、冷却或命中判断。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "braum_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T10:02:49.526967Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-21T10:02:49.526967Z",
+        "description": "定义本技能每次已接受普通主动使用的100基础法力消耗，读取同技能mana_cost参数并作用于来源对象；具体调用由使用过程挂接决定，本效果不负责施放许可、冷却或命中判断。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "braum_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T10:02:49.526967Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/braum_r/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-21T10:02:50.888853Z",
+          "description": "只登记本次已接受普通主动使用的基础法力消耗与普通冷却；立即步骤不表示完整施法时长为零，不生成实际命中或控制结果。完整施法时序、伤害与控制分支分别核对。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用消耗与普通冷却",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "braum_r",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-21T10:02:50.888853Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-21T10:02:50.888853Z",
+        "description": "只登记本次已接受普通主动使用的基础法力消耗与普通冷却；立即步骤不表示完整施法时长为零，不生成实际命中或控制结果。完整施法时序、伤害与控制分支分别核对。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "braum_r",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-21T10:02:50.888853Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/braum_r/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "本技能每次已接受普通主动使用时启动基础消耗与普通冷却登记；不由命中反推使用，不把事件后的动作作为施放前许可，也不触发伤害或控制。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "braum_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用登记消耗与冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本技能每次已接受普通主动使用时启动基础消耗与普通冷却登记；不由命中反推使用，不把事件后的动作作为施放前许可，也不触发伤害或控制。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "braum_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_r/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-21T10:02:53.762168Z",
+          "description": "只登记本次已接受普通主动使用的基础法力消耗与普通冷却；立即步骤不表示完整施法时长为零，不生成实际命中或控制结果。完整施法时序、伤害与控制分支分别核对。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用消耗与普通冷却",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "maokai_r",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-21T10:02:53.762168Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-21T10:02:53.762168Z",
+        "description": "只登记本次已接受普通主动使用的基础法力消耗与普通冷却；立即步骤不表示完整施法时长为零，不生成实际命中或控制结果。完整施法时序、伤害与控制分支分别核对。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "maokai_r",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-21T10:02:53.762168Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_r/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "本技能每次已接受普通主动使用时启动基础消耗与普通冷却登记；不由命中反推使用，不把事件后的动作作为施放前许可，也不触发伤害或控制。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "maokai_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用登记消耗与冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本技能每次已接受普通主动使用时启动基础消耗与普通冷却登记；不由命中反推使用，不把事件后的动作作为施放前许可，也不触发伤害或控制。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "maokai_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "4a03066abbf2a98339e914c060beb543cec432aaeca0770b88a8e225fc51afd5",
+    "02-冻结请求.json": "aa0fde85f448841a07b946892fb584acbb01aa7942e8128b7777804c29fae7f8",
+    "03-来源摘要.json": "28e5a076896ba0bfe8b8fd7ecc99d0b8dfe8bd0813b1a8e116ed43d159efa11b",
+    "04-写入前现值.json": "06a9a3e519dd5b674d6dad0196f66c45ed0012713e72e266b9e0366f944666c2"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-21T10:02:54.157Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_chogath",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_chogath/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_chogath/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_chogath",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=chogath_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/knockup_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_braum",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_braum/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_braum/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_braum",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=braum_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/minimum_knockup_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/maximum_knockup_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/slow_zone_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/slow_debuff_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_maokai",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_maokai/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_maokai/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_maokai",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=maokai_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/minimum_root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/maximum_root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/move_haste_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/haste_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/chogath_q/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/chogath_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/braum_r/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/braum_r/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/braum_r/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/maokai_r/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/maokai_r/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    }
+  ]
+}

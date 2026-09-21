@@ -1,0 +1,367 @@
+{
+  "at": "2026-09-20T12:35:19.991Z",
+  "targets": [
+    {
+      "skillKey": "zilean_w",
+      "ownerKey": "champion_zilean"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/zilean_w/effects",
+      "detailRoute": "/skills/zilean_w/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "穿梭未来法力消耗",
+        "description": "普通主动使用登记中，从来源对象消耗当前参数确定的35法力；只在过程开始执行一次，不以Q/E处于何种剩余冷却为收费公式。客户端自动扣费标志不作为零成本依据。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mana_cost",
+        "name": "穿梭未来法力消耗",
+        "description": "普通主动使用登记中，从来源对象消耗当前参数确定的35法力；只在过程开始执行一次，不以Q/E处于何种剩余冷却为收费公式。客户端自动扣费标志不作为零成本依据。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zilean_w/effects",
+      "detailRoute": "/skills/zilean_w/effects/rewind_basic_cooldowns",
+      "body": {
+        "effectKey": "rewind_basic_cooldowns",
+        "name": "穿梭未来减少Q与E冷却",
+        "description": "对来源对象实际拥有的zilean_q与zilean_e各执行一次10000毫秒当前冷却减少；不包括W自身、终极技能或其他对象，不以重置或技能急速替代。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reduce_q_e_cooldowns",
+            "name": "减少自身Q与E当前冷却",
+            "resultType": "COOLDOWN_CHANGE",
+            "target": "SOURCE",
+            "description": "当前正文的其它基础技能对应本角色Q和E；共用同一个减少幅度与范围。",
+            "sortOrder": 10,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_reduction_ms"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "operation": "REDUCE",
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillKeys": [
+                  "zilean_q",
+                  "zilean_e"
+                ],
+                "skillCategoryKeys": []
+              }
+            },
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "rewind_basic_cooldowns",
+        "name": "穿梭未来减少Q与E冷却",
+        "description": "对来源对象实际拥有的zilean_q与zilean_e各执行一次10000毫秒当前冷却减少；不包括W自身、终极技能或其他对象，不以重置或技能急速替代。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reduce_q_e_cooldowns",
+            "name": "减少自身Q与E当前冷却",
+            "resultType": "COOLDOWN_CHANGE",
+            "target": "SOURCE",
+            "description": "当前正文的其它基础技能对应本角色Q和E；共用同一个减少幅度与范围。",
+            "sortOrder": 10,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "cooldown_reduction_ms"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "operation": "REDUCE",
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillKeys": [
+                  "zilean_q",
+                  "zilean_e"
+                ],
+                "skillCategoryKeys": []
+              }
+            },
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zilean_w/processes",
+      "detailRoute": "/skills/zilean_w/processes/use_cost_cooldown_and_rewind",
+      "body": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "普通主动使用时登记35法力、自身基础冷却，并执行Q/E当前冷却各减少10000毫秒。立即步骤仅承载已证登记，不代表有效施放时间为0；根0.5183秒字段与非整数毫秒精度继续核定。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          },
+          {
+            "bindingKey": "rewind_basic_cooldowns",
+            "effectKey": "rewind_basic_cooldowns",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 20
+          }
+        ],
+        "name": "穿梭未来普通使用登记",
+        "processKey": "use_cost_cooldown_and_rewind",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "登记本次普通使用的成本、冷却及明确冷却减少；不编造施放延迟。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ]
+      },
+      "expectedReadback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "普通主动使用时登记35法力、自身基础冷却，并执行Q/E当前冷却各减少10000毫秒。立即步骤仅承载已证登记，不代表有效施放时间为0；根0.5183秒字段与非整数毫秒精度继续核定。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          },
+          {
+            "bindingKey": "rewind_basic_cooldowns",
+            "effectKey": "rewind_basic_cooldowns",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 20
+          }
+        ],
+        "name": "穿梭未来普通使用登记",
+        "processKey": "use_cost_cooldown_and_rewind",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "登记本次普通使用的成本、冷却及明确冷却减少；不编造施放延迟。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zilean_w/trigger-rules",
+      "detailRoute": "/skills/zilean_w/trigger-rules/on_used_cost_cooldown_and_rewind",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "start_use_registration",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_cooldown_and_rewind"
+            },
+            "name": "启动穿梭未来使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本技能的普通主动使用事件启动登记过程；法力、自身冷却和Q/E冷却减少由过程统一执行，各一次。仅代表已确认的主动使用入口，不生成Q/E的使用或命中事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "zilean_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "穿梭未来普通主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_cooldown_and_rewind",
+        "sortOrder": 10
+      },
+      "expectedReadback": {
+        "actions": [
+          {
+            "actionKey": "start_use_registration",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_cooldown_and_rewind"
+            },
+            "name": "启动穿梭未来使用登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本技能的普通主动使用事件启动登记过程；法力、自身冷却和Q/E冷却减少由过程统一执行，各一次。仅代表已确认的主动使用入口，不生成Q/E的使用或命中事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "zilean_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "穿梭未来普通主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_cooldown_and_rewind",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Zilean.json.gz",
+      "sha256": "33de2eb35de066e983e53ea06d1aede5cc1a920699cbbf7f1b14236f785c5e2d"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Zilean.json",
+      "sha256": "358afc4390e66600ad8d7f1ed35cdaed8456a1e2f25c85fe0962ded936c285b6"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/基兰W冷却回退返回/03-来源与范围.json",
+      "sha256": "65985f496b0467be4e72d98f473833accae0b0955d72aa824dae9fb9485e8c1a"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/基兰W冷却回退返回/02-引用技能与法力现值.json",
+      "sha256": "1f799435e23ecc5657f2cc46ab375c5f1311e53a42af9ac66d1784463dcabdf6"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/伤害与使用组成/02-冻结请求.json",
+      "sha256": "679164d2be00c98616a1e60dd462ddb5d9be37a8486d6366581e6c3e51199f2b"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts",
+      "sha256": "f7f05d48b273b810d3d136fe8a32913e0c75da4de75691f89df4659976002696"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/技能作用范围管理详细设计.md",
+      "sha256": "730065525f5cdd3fc063bef336cfeaea93da5672bc5b620d05e704885cbb7913"
+    }
+  ],
+  "scope": "补录法力消耗、Q/E当前冷却减少、普通使用登记过程及唯一主动入口；不改任何已有参数，施放时长继续待核。跨技能Q/E根与既有规则另有定点前后保护，不重读两技能全组成。"
+}

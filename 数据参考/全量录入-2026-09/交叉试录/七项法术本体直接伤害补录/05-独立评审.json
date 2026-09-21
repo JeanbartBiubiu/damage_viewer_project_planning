@@ -1,0 +1,617 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T03:13:53.869Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "decision": "批准七项本体伤害与实际命中规则；固定根技能来源及正文计算足以区分本轮直接伤害与另有根身份的被动、后续技能操作。",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "073501f5cac168ff29c0de6496379369d21c6add28b2094d6dadae61de0d0edd",
+    "02-冻结请求.json": "5d87cacc6c3158c47b04c96c2f3d15ec4d1de2fd7e6b89bb21d5a9b7020c21bf",
+    "03-来源摘要.json": "482b7d0b683fca13cb8325fbc9488d10c83460489d756fe36f8c7f57c332e315",
+    "04-写入前现值.json": "d59e1f1a0d9a6626563b45f686c638f9d0d0222ec706d05612ab32335a1befcc"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "checks": {
+    "sourceHashes": 21,
+    "officialAndCompressedClientFiles": 12,
+    "uncompressedClientHashes": 6,
+    "allSourceRootBindingsChecked": 8,
+    "approvedRootBindings": 7,
+    "rankCount": 35,
+    "arithmeticPoints": 105,
+    "tolerance": 0.0001,
+    "maxAbsoluteDifference": 0.000007152557373046875,
+    "existingFormulaChanges": 0,
+    "preparationGETs": 168,
+    "protectedBaselineResponses": 154,
+    "newDetail404s": 14,
+    "duplicateKeys": 0,
+    "plannedEffects": 7,
+    "plannedRules": 7,
+    "protectedRepresentativeImageResponses": 12
+  },
+  "perSkill": [
+    {
+      "skillKey": "vex_q",
+      "ownerKey": "champion_vex",
+      "rootSpell": "Characters/Vex/Spells/VexQAbility/VexQ",
+      "abilityPath": "Characters/Vex/Spells/VexQAbility",
+      "sourceSlot": 0,
+      "matchedAbilityArrayIndex": 1,
+      "calculation": "QDamageCalc",
+      "formulaKey": "magic_damage",
+      "coefficients": [
+        {
+          "rank": 1,
+          "terms": [
+            {
+              "fixed": 70
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.699999988079071
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "terms": [
+            {
+              "fixed": 115
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.699999988079071
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "terms": [
+            {
+              "fixed": 160
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.699999988079071
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "terms": [
+            {
+              "fixed": 205
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.699999988079071
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "terms": [
+            {
+              "fixed": 250
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.699999988079071
+            }
+          ]
+        }
+      ],
+      "originalEffectCount": 0,
+      "originalRuleCount": 0,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "vex_w",
+      "ownerKey": "champion_vex",
+      "rootSpell": "Characters/Vex/Spells/VexWAbility/VexW",
+      "abilityPath": "Characters/Vex/Spells/VexWAbility",
+      "sourceSlot": 1,
+      "matchedAbilityArrayIndex": 2,
+      "calculation": "WDamageCalc",
+      "formulaKey": "magic_damage",
+      "coefficients": [
+        {
+          "rank": 1,
+          "terms": [
+            {
+              "fixed": 80
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.30000001192092896
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "terms": [
+            {
+              "fixed": 120
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.30000001192092896
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "terms": [
+            {
+              "fixed": 160
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.30000001192092896
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "terms": [
+            {
+              "fixed": 200
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.30000001192092896
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "terms": [
+            {
+              "fixed": 240
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.30000001192092896
+            }
+          ]
+        }
+      ],
+      "originalEffectCount": 1,
+      "originalRuleCount": 1,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "vex_e",
+      "ownerKey": "champion_vex",
+      "rootSpell": "Characters/Vex/Spells/VexEAbility/VexE",
+      "abilityPath": "Characters/Vex/Spells/VexEAbility",
+      "sourceSlot": 2,
+      "matchedAbilityArrayIndex": 3,
+      "calculation": "EDamageCalc",
+      "formulaKey": "magic_damage",
+      "coefficients": [
+        {
+          "rank": 1,
+          "terms": [
+            {
+              "fixed": 50
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.4000000059604645
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "terms": [
+            {
+              "fixed": 70
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.44999998807907104
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "terms": [
+            {
+              "fixed": 90
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.5
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "terms": [
+            {
+              "fixed": 110
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.550000011920929
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "terms": [
+            {
+              "fixed": 130
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.6000000238418579
+            }
+          ]
+        }
+      ],
+      "originalEffectCount": 0,
+      "originalRuleCount": 0,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "bard_q",
+      "ownerKey": "champion_bard",
+      "rootSpell": "Characters/Bard/Spells/BardQAbility/BardQ",
+      "abilityPath": "Characters/Bard/Spells/BardQAbility",
+      "sourceSlot": 0,
+      "matchedAbilityArrayIndex": 0,
+      "calculation": "TotalDamage",
+      "formulaKey": "total_damage",
+      "coefficients": [
+        {
+          "rank": 1,
+          "terms": [
+            {
+              "fixed": 80
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.800000011920929
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "terms": [
+            {
+              "fixed": 120
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.800000011920929
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "terms": [
+            {
+              "fixed": 160
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.800000011920929
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "terms": [
+            {
+              "fixed": 200
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.800000011920929
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "terms": [
+            {
+              "fixed": 240
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.800000011920929
+            }
+          ]
+        }
+      ],
+      "originalEffectCount": 1,
+      "originalRuleCount": 0,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "akali_q",
+      "ownerKey": "champion_akali",
+      "rootSpell": "Characters/Akali/Spells/AkaliQAbility/AkaliQ",
+      "abilityPath": "Characters/Akali/Spells/AkaliQAbility",
+      "sourceSlot": 0,
+      "matchedAbilityArrayIndex": 1,
+      "calculation": "Damage",
+      "formulaKey": "damage",
+      "coefficients": [
+        {
+          "rank": 1,
+          "terms": [
+            {
+              "fixed": 45
+            },
+            {
+              "attributeKey": "attack_damage",
+              "ratio": 0.6499999761581421
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.6000000238418579
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "terms": [
+            {
+              "fixed": 70
+            },
+            {
+              "attributeKey": "attack_damage",
+              "ratio": 0.6499999761581421
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.6000000238418579
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "terms": [
+            {
+              "fixed": 95
+            },
+            {
+              "attributeKey": "attack_damage",
+              "ratio": 0.6499999761581421
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.6000000238418579
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "terms": [
+            {
+              "fixed": 120
+            },
+            {
+              "attributeKey": "attack_damage",
+              "ratio": 0.6499999761581421
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.6000000238418579
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "terms": [
+            {
+              "fixed": 145
+            },
+            {
+              "attributeKey": "attack_damage",
+              "ratio": 0.6499999761581421
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.6000000238418579
+            }
+          ]
+        }
+      ],
+      "originalEffectCount": 1,
+      "originalRuleCount": 0,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "katarina_q",
+      "ownerKey": "champion_katarina",
+      "rootSpell": "Characters/Katarina/Spells/KatarinaQAbility/KatarinaQ",
+      "abilityPath": "Characters/Katarina/Spells/KatarinaQAbility",
+      "sourceSlot": 0,
+      "matchedAbilityArrayIndex": 0,
+      "calculation": "TotalDamage",
+      "formulaKey": "magic_damage",
+      "coefficients": [
+        {
+          "rank": 1,
+          "terms": [
+            {
+              "fixed": 80
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.4000000059604645
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "terms": [
+            {
+              "fixed": 115
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.4000000059604645
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "terms": [
+            {
+              "fixed": 150
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.4000000059604645
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "terms": [
+            {
+              "fixed": 185
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.4000000059604645
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "terms": [
+            {
+              "fixed": 220
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.4000000059604645
+            }
+          ]
+        }
+      ],
+      "originalEffectCount": 0,
+      "originalRuleCount": 0,
+      "runtimeInputCount": 0
+    },
+    {
+      "skillKey": "syndra_q",
+      "ownerKey": "champion_syndra",
+      "rootSpell": "Characters/Syndra/Spells/SyndraQAbility/SyndraQ",
+      "abilityPath": "Characters/Syndra/Spells/SyndraQAbility",
+      "sourceSlot": 0,
+      "matchedAbilityArrayIndex": 0,
+      "calculation": "TotalDamage",
+      "formulaKey": "damage",
+      "coefficients": [
+        {
+          "rank": 1,
+          "terms": [
+            {
+              "fixed": 90
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.699999988079071
+            }
+          ]
+        },
+        {
+          "rank": 2,
+          "terms": [
+            {
+              "fixed": 125
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.699999988079071
+            }
+          ]
+        },
+        {
+          "rank": 3,
+          "terms": [
+            {
+              "fixed": 160
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.699999988079071
+            }
+          ]
+        },
+        {
+          "rank": 4,
+          "terms": [
+            {
+              "fixed": 195
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.699999988079071
+            }
+          ]
+        },
+        {
+          "rank": 5,
+          "terms": [
+            {
+              "fixed": 230
+            },
+            {
+              "attributeKey": "ability_power",
+              "ratio": 0.699999988079071
+            }
+          ]
+        }
+      ],
+      "originalEffectCount": 1,
+      "originalRuleCount": 0,
+      "runtimeInputCount": 0
+    }
+  ],
+  "sourceAndBoundaryReview": {
+    "rootBinding": "按角色spells槽定位根技能，再在mAbilities集合中以mRootSpell唯一匹配。VexQ和AkaliQ均在能力数组索引1，不能按Q槽索引0取能力。全部原文摘录与解压对象逐字段一致。",
+    "vex": "Q/W/E本体分别使用QDamageCalc/WDamageCalc/EDamageCalc。暮气的额外伤害属于独立VexPAbility/VexP；其结果执行不会按共享契约自动再产生SKILL_HIT。恐惧、暮气消费/施加、范围选择仍未实现，既有来源技能筛选只消费本体实际命中。",
+    "vex_w": "既有on_used仍只执行self_shield，护盾结果target=SOURCE；新增actual_hit只执行primary_hit，不改护盾值/时长或旧规则。",
+    "vex_e": "APRatio按等级约0.4/0.45/0.5/0.55/0.6，原SKILL_LEVEL参数与五级数学吻合，未压成常数。",
+    "bard_q": "官方正文明确头两个实际命中敌人使用同一TotalDamage。第二碰撞/墙体决定控制，没有另一套伤害倍率；CHAMPION条件不生产第二次命中或墙体伤害。",
+    "akali_q": "当前根Damage树为BaseDamageNamed + tADRatio×mStat2总攻击力 + APRatio×总法强，使用两个SOURCE/TOTAL属性。官方概述仍写额外攻击力，与当前明确tADRatio计算不一致；本批复用现有总AD公式并以当前根计算为数值证据，不引用MinionDamage。",
+    "katarina_q": "固定官方Q正文描述投掷与弹射直接伤害；同一官方被动正文明确拾取匕首范围斩击。客户端KatarinaDaggerPickupPBAoE属于独立KatarinaPassiveAbility，不在Q的childSpells中；本规则sourceSkillKey=katarina_q不授权将拾取被动标成Q命中。",
+    "syndra_q": "Q只取生成法球时的TotalDamage，官方明确之后由其他技能操纵；客户端W/E/R各有独立根。后续操作不能因球最初由Q生成而重标为syndra_q命中。升级仅有充能边界，未在本批改变伤害。",
+    "leblanc_q": "初始与印记引爆有不同入口和数值，明确排除，未合并进同一实际命中规则。",
+    "isolationDecision": "在现有sourceSkillKey指向实际来源技能、SKILL_HIT只代表真实本次命中的管理契约下，本批七个本体分支可稳定筛选；未发现必须额外阶段条件才能区分的同源不同伤害。真实生产器必须保留这些来源身份，本报告不证明宿主已经做到。"
+  },
+  "payloadReview": {
+    "damage": "普通magic/SKILL/DIRECT，公式倍率1、禁止暴击、SKILL护盾粒度、OMNIVAMP/POST_DEFENSE_DAMAGE/效率1。",
+    "trigger": "SKILL_HIT+各自sourceSkillKey+CHAMPION，唯一EXECUTE_EFFECT/primary_hit/CURRENT_TARGET，无运行输入和修正；POST不带useKind而预期回读为null。",
+    "preservation": "参数/公式/资源/自盾、旧规则、角色属性、关系、图片及时间戳保护；仅14个集合增加14个对象。"
+  },
+  "expectedIndependentReadback": {
+    "GETs": 168,
+    "newObjects": 14,
+    "expectedChangedCollections": 14,
+    "unchangedResponsesIncludingTimestamps": 140,
+    "businessWrites": 0
+  },
+  "executionConditions": [
+    "保留工具、01至04及21来源原字节；写前重核154現值和14个详情404。",
+    "只单次执行冻结14POST，效果先于引用规则；06存在或结果不确定时先查落地。",
+    "写后独立执行只读回读并wx保存07。"
+  ],
+  "validationLimits": {
+    "HTTP": "本评审0HTTP，仅核冻结GET和本地原文",
+    "database": "未直接访问数据库",
+    "browser": "认证不可用，页面待验",
+    "runtime": "没有宿主事件生产、Wasm或战斗验收；不能将被动伤害、球体操作或额外子对象事件错误归并成本体新命中"
+  },
+  "blockingFindings": []
+}

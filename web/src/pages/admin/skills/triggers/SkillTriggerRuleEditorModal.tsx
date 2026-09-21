@@ -76,6 +76,7 @@ import {
   SKILL_TRIGGER_CYCLE_MESSAGE,
   SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT,
   SKILL_TRIGGER_SOURCE_INITIALIZED_HINT,
+  SKILL_TRIGGER_TAKEDOWN_HINT,
   SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT,
   SKILL_TRIGGER_DAMAGE_DELIVERY_KIND_LABELS,
   SKILL_TRIGGER_DAMAGE_ORIGIN_KIND_LABELS,
@@ -208,7 +209,7 @@ function disabledName(name: string, key: string, disabled: boolean): string {
   return disabled ? `${label}（${DISABLED_CATALOG_LABEL}）` : label;
 }
 
-function matchesEventTypeSearch(inputValue: string, option: ReactElement): boolean {
+function matchesSelectOptionSearch(inputValue: string, option: ReactElement): boolean {
   const query = inputValue.trim().toLowerCase();
   if (!query) return true;
   const value = String(option.props.value ?? null).toLowerCase();
@@ -243,7 +244,7 @@ export function SkillTriggerRuleEditorModal({
   const [cycle, setCycle] = useState<MappedTriggerFieldIssues['cycle']>(null);
   const [saving, setSaving] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
-  const [detailReady, setDetailReady] = useState(mode === 'create');
+  const [detailReady, setDetailReady] = useState(false);
   const [recordMissing, setRecordMissing] = useState(false);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [attributes, setAttributes] = useState<Attribute[]>([]);
@@ -335,7 +336,7 @@ export function SkillTriggerRuleEditorModal({
     setCycle(null);
     setSaving(false);
     setLoadingDetail(false);
-    setDetailReady(mode === 'create');
+    setDetailReady(false);
     setRecordMissing(false);
     setSkills([]);
     setAttributes([]);
@@ -557,7 +558,7 @@ export function SkillTriggerRuleEditorModal({
     const token = adminToken.trim();
     if (!visible || mode !== 'edit' || !rule) {
       setLoadingDetail(false);
-      setDetailReady(mode === 'create');
+      setDetailReady(visible && mode === 'create');
       return;
     }
     if (!token) {
@@ -566,6 +567,7 @@ export function SkillTriggerRuleEditorModal({
       setDetailReady(false);
       return;
     }
+    setDetailReady(false);
     setLoadingDetail(true);
     setLoadError(null);
     try {
@@ -792,9 +794,14 @@ export function SkillTriggerRuleEditorModal({
         }))
     ];
     if (currentKey && !options.some((item) => item.value === currentKey)) {
+      const catalogLabel = catalogStates.skills === 'ready'
+        ? MISSING_CATALOG_LABEL
+        : catalogStates.skills === 'error'
+          ? '目录加载失败'
+          : '目录加载中';
       options.push({
         value: currentKey,
-        label: `${currentKey}（${MISSING_CATALOG_LABEL}）`,
+        label: `${currentKey}（${catalogLabel}）`,
         disabled: true
       });
     }
@@ -1204,6 +1211,8 @@ export function SkillTriggerRuleEditorModal({
             <Alert key={item.path} type="error" content={`${item.path}：${item.message}`} />
           ))}
 
+          {mode === 'create' || (detailReady && !loadingDetail) ? (
+          <Space direction="vertical" size="medium" style={{ width: '100%' }}>
           <Typography.Title heading={6}>基本信息</Typography.Title>
           <Form layout="vertical">
             <Form.Item
@@ -1269,7 +1278,7 @@ export function SkillTriggerRuleEditorModal({
               <Select
                 aria-label="事件类型"
                 showSearch
-                filterOption={matchesEventTypeSearch}
+                filterOption={matchesSelectOptionSearch}
                 value={draft.eventSource.eventType}
                 disabled={saving}
                 options={SKILL_TRIGGER_EVENT_TYPES.map((value) => ({
@@ -1283,6 +1292,9 @@ export function SkillTriggerRuleEditorModal({
             </Form.Item>
             {draft.eventSource.eventType === 'SOURCE_INITIALIZED' ? (
               <Alert type="info" content={`${SKILL_TRIGGER_SOURCE_INITIALIZED_HINT} ${SKILL_TRIGGER_EVENT_CAPABILITIES.SOURCE_INITIALIZED.currentTargetBinding}`} />
+            ) : null}
+            {draft.eventSource.eventType === 'TAKEDOWN' ? (
+              <Alert type="info" content={SKILL_TRIGGER_TAKEDOWN_HINT} />
             ) : null}
             {renderEventSourceFields({
               eventSource: draft.eventSource,
@@ -1581,6 +1593,8 @@ export function SkillTriggerRuleEditorModal({
               </>
             ) : null}
           </Form>
+          </Space>
+          ) : !loadError ? <Alert type="info" content="正在加载规则详情…" /> : null}
         </Space>
       </Modal>
 
@@ -1708,6 +1722,8 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
           <Form.Item label="来源技能">
             <Select
               aria-label="来源技能"
+              showSearch
+              filterOption={matchesSelectOptionSearch}
               value={eventSource.detail.sourceSkillKey ?? ''}
               disabled={disabled}
               options={props.skills(eventSource.detail.sourceSkillKey)}
@@ -1748,6 +1764,8 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
         <Form.Item label="来源技能">
           <Select
             aria-label="命中来源技能"
+            showSearch
+            filterOption={matchesSelectOptionSearch}
             value={eventSource.detail.sourceSkillKey ?? ''}
             disabled={disabled}
             options={props.skills(eventSource.detail.sourceSkillKey)}
@@ -1767,6 +1785,8 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
         <Form.Item label="来源技能" help={SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT}>
             <Select
               aria-label="联动来源技能"
+              showSearch
+              filterOption={matchesSelectOptionSearch}
               value={eventSource.detail.sourceSkillKey ?? ''}
               disabled={disabled}
               options={props.skills(eventSource.detail.sourceSkillKey)}

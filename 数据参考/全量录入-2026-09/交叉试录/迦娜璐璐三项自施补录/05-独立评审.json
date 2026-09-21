@@ -1,0 +1,65 @@
+{
+  "status": "APPROVED",
+  "reviewer": "Damage后端接口与数据模型分析代理",
+  "time": "2026-09-18T17:18:41.7576684Z",
+  "approvedFiles": {
+    "01-补录计划.json": "e8470ac66041504902d2684d6b8eed3260137584d63b5d077a3bf633d20cb0a7",
+    "02-冻结请求.json": "a9468bdedd90b796c8eb7226160f55a4720b46043835024996dec94fda35927a",
+    "03-来源摘要.json": "443db548862b3906776f1feca29ae5357332ffe2365da39c725b9d14008e9d1c",
+    "04-写入前现值.json": "9d80f4bfb4643fdb6bd34b32b336ad4d907c4842f0055f9419180d2d90d5ab7e",
+    "共享受保护触发批次/受保护自施补录-v1.mjs": "17a7d81a54bb4e2dfc6554591b06d05351cddd8204e4dd1ae1d92903677b9eec"
+  },
+  "sourceFindings": {
+    "semantic": "PASS：规划来源 lines 7-34 分别证明 Janna E、Lulu W、Lulu R 可对自身施放；仅用于目标语义，未采用指南数值。",
+    "numeric": "PASS：内存解析固定客户端 Janna/Lulu gzip 原文，核对 Janna 护盾 80/120/160/200/240、0.55 AP、4 秒；Lulu W 0.25+0.0005 AP、攻速 0.2/0.225/0.25/0.275/0.3、3/3.25/3.5/3.75/4 秒；Lulu R 275/425/575、0.55 AP、7 秒。",
+    "scope": "PASS：01-补录计划.json:2-11 仅包含三条自施分支及两条说明更新，明确排除攻击力、控制、法力、冷却、当前生命、到期、击飞和减速。"
+  },
+  "checks": [
+    {
+      "name": "冻结文件与来源哈希",
+      "status": "PASS",
+      "evidence": "独立 Get-FileHash；02 sourceSha256/baselineSha256 与 03/04 一致。"
+    },
+    {
+      "name": "请求准确性",
+      "status": "PASS",
+      "evidence": "02-冻结请求.json:5-297 为 3 POST；:308-549 为 2 PUT；每条 SKILL_USED 均绑定当前 sourceSkillKey、ACTIVE、EXPLICIT_TARGET_IS_SOURCE detail:{}，动作仅使用当前技能既有效果。"
+    },
+    {
+      "name": "现值与关系保护",
+      "status": "PASS",
+      "evidence": "04-写入前现值.json:814-870、1585-1707、2133-2193；效果均 SOURCE 实例、SOURCE 结果、无周期执行；三条 trigger-rules 空列表见 :877、:1711、:2197。"
+    },
+    {
+      "name": "后端接口与事务",
+      "status": "PASS",
+      "evidence": "SkillTriggerRuleAdminController.java:31,48-91；SkillEffectAdminController.java:31,48-91；服务写入使用事务与 GameConfigurationWriteGuard，源码对应 SkillTriggerRuleService.java:195-216、SkillEffectService.java:191-290、GameConfigurationWriteGuard.java:32-57,83-118。"
+    },
+    {
+      "name": "校验、外键与引用",
+      "status": "PASS",
+      "evidence": "显式自施条件校验见 SkillTriggerRuleService.java:1223-1229,1743-1746；语义约束见 SkillExplicitTargetIsSourceConditionSemantics.java:19-32；数据库根对象主键/技能外键/JSON 形状约束见 db/game_manage/schema.sql:402-429,503-547,635-647。"
+    },
+    {
+      "name": "纯 GET 预检与防重放",
+      "status": "PASS",
+      "evidence": "执行器受保护请求见受保护自施补录-v1.mjs:23-32；范围快照见 :34-43；冻结绑定与批准哈希见 :65-67；写入前现值深比较与 POST 404 见 :81-83；批准哈希和首写前 wx 文件门槛见 :85-87。"
+    },
+    {
+      "name": "即时回读与完整回读",
+      "status": "PASS",
+      "evidence": "即时回读见受保护自施补录-v1.mjs:87-90；readback 分支逐路由比较旧值、变更值和新增规则见 :68-80；readback/preflight 使用 GET-only 客户端路径。"
+    },
+    {
+      "name": "可观测性与缓存边界",
+      "status": "PASS",
+      "evidence": "snapshot 仅对三项目标及其属性/乘区/关系做一次 GET 缓存，见 :36-42；审计记录 method/path/status 见 :28-29，基线 04 记录 82 次 GET，:2689 businessWrites 为 0。"
+    },
+    {
+      "name": "静态验证",
+      "status": "PASS",
+      "evidence": "node --check 受保护自施补录-v1.mjs 通过；四份 JSON 均可解析；未执行浏览器、真实数据库、DDL、迁移或业务写入。"
+    }
+  ],
+  "businessWrites0": 0
+}

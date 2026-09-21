@@ -1,0 +1,4711 @@
+{
+  "at": "2026-09-19T02:07:16.543Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/kennen_q": {
+      "createdAt": "2026-09-06T18:18:58.644217Z",
+      "description": "凯南向目标区域投掷手里剑，对第一个目标造成伤害并附加【忍法！雷缚印】。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "凯南·奥义！千鸟",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "kennen_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:58.644217Z"
+    },
+    "/characters/champion_kennen": {
+      "characterKey": "champion_kennen",
+      "createdAt": "2026-09-06T17:19:17.112624Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "凯南",
+      "updatedAt": "2026-09-06T17:19:17.112624Z"
+    },
+    "/characters/champion_kennen/attributes": {
+      "characterKey": "champion_kennen",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 580,
+          "hp_regen": 5.5,
+          "armor": 29,
+          "magic_resistance": 30,
+          "attack_damage": 48,
+          "attack_speed": 0.625,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 650.56,
+          "hp_regen": 5.968,
+          "armor": 32.564,
+          "magic_resistance": 30.936,
+          "attack_damage": 50.7,
+          "attack_speed": 0.641891,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 724.55,
+          "hp_regen": 6.45875,
+          "armor": 36.30125,
+          "magic_resistance": 31.9175,
+          "attack_damage": 53.53125,
+          "attack_speed": 0.659604,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 801.97,
+          "hp_regen": 6.97225,
+          "armor": 40.21175,
+          "magic_resistance": 32.9445,
+          "attack_damage": 56.49375,
+          "attack_speed": 0.678137,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 882.82,
+          "hp_regen": 7.5085,
+          "armor": 44.2955,
+          "magic_resistance": 34.017,
+          "attack_damage": 59.5875,
+          "attack_speed": 0.697491,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 967.1,
+          "hp_regen": 8.0675,
+          "armor": 48.5525,
+          "magic_resistance": 35.135,
+          "attack_damage": 62.8125,
+          "attack_speed": 0.717667,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1054.81,
+          "hp_regen": 8.64925,
+          "armor": 52.98275,
+          "magic_resistance": 36.2985,
+          "attack_damage": 66.16875,
+          "attack_speed": 0.738664,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1145.95,
+          "hp_regen": 9.25375,
+          "armor": 57.58625,
+          "magic_resistance": 37.5075,
+          "attack_damage": 69.65625,
+          "attack_speed": 0.760482,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1240.52,
+          "hp_regen": 9.881,
+          "armor": 62.363,
+          "magic_resistance": 38.762,
+          "attack_damage": 73.275,
+          "attack_speed": 0.78312,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1338.52,
+          "hp_regen": 10.531,
+          "armor": 67.313,
+          "magic_resistance": 40.062,
+          "attack_damage": 77.025,
+          "attack_speed": 0.80658,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1439.95,
+          "hp_regen": 11.20375,
+          "armor": 72.43625,
+          "magic_resistance": 41.4075,
+          "attack_damage": 80.90625,
+          "attack_speed": 0.830861,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1544.81,
+          "hp_regen": 11.89925,
+          "armor": 77.73275,
+          "magic_resistance": 42.7985,
+          "attack_damage": 84.91875,
+          "attack_speed": 0.855964,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1653.1,
+          "hp_regen": 12.6175,
+          "armor": 83.2025,
+          "magic_resistance": 44.235,
+          "attack_damage": 89.0625,
+          "attack_speed": 0.881887,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1764.82,
+          "hp_regen": 13.3585,
+          "armor": 88.8455,
+          "magic_resistance": 45.717,
+          "attack_damage": 93.3375,
+          "attack_speed": 0.908631,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 1879.97,
+          "hp_regen": 14.12225,
+          "armor": 94.66175,
+          "magic_resistance": 47.2445,
+          "attack_damage": 97.74375,
+          "attack_speed": 0.936197,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 1998.55,
+          "hp_regen": 14.90875,
+          "armor": 100.65125,
+          "magic_resistance": 48.8175,
+          "attack_damage": 102.28125,
+          "attack_speed": 0.964584,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2120.56,
+          "hp_regen": 15.718,
+          "armor": 106.814,
+          "magic_resistance": 50.436,
+          "attack_damage": 106.95,
+          "attack_speed": 0.993791,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2246,
+          "hp_regen": 16.55,
+          "armor": 113.15,
+          "magic_resistance": 52.1,
+          "attack_damage": 111.75,
+          "attack_speed": 1.02382,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_kennen/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_kennen",
+        "name": "champion_kennen"
+      }
+    },
+    "/skills/kennen_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_kennen_q",
+        "name": "kennen_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_kennen": {
+      "items": [
+        {
+          "characterKey": "champion_kennen",
+          "characterName": "凯南",
+          "gameId": "lol",
+          "skillKey": "kennen_p",
+          "skillName": "凯南·【忍法！雷缚印】",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_kennen",
+          "characterName": "凯南",
+          "gameId": "lol",
+          "skillKey": "kennen_q",
+          "skillName": "凯南·奥义！千鸟",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_kennen",
+          "characterName": "凯南",
+          "gameId": "lol",
+          "skillKey": "kennen_w",
+          "skillName": "凯南·奥义！电刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_kennen",
+          "characterName": "凯南",
+          "gameId": "lol",
+          "skillKey": "kennen_e",
+          "skillName": "凯南·奥义！雷铠",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_kennen",
+          "characterName": "凯南",
+          "gameId": "lol",
+          "skillKey": "kennen_r",
+          "skillName": "凯南·秘奥义！万雷天牢引",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=kennen_q": {
+      "items": [
+        {
+          "characterKey": "champion_kennen",
+          "characterName": "凯南",
+          "gameId": "lol",
+          "skillKey": "kennen_q",
+          "skillName": "凯南·奥义！千鸟",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/kennen_q/parameters": [
+      {
+        "createdAt": "2026-09-09T06:39:16.319375Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 175,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "kennen_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:39:16.319375Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T06:39:17.235552Z",
+        "description": "官方资源类型为能量；官方cost与当前manaValues逐级一致，字段名不改变资源身份。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 55,
+          "3": 50,
+          "4": 45,
+          "5": 40
+        },
+        "name": "基础能量消耗",
+        "parameterKey": "energy_cost",
+        "skillKey": "kennen_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:39:17.235552Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T06:39:18.136486Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 75,
+          "2": 125,
+          "3": 175,
+          "4": 225,
+          "5": 275
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "kennen_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:39:18.136486Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T06:39:19.110139Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "千鸟伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "kennen_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:39:19.110139Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:46.759183Z",
+        "description": "DDragon16.17.1 Kennen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 7000,
+          "2": 6250,
+          "3": 5500,
+          "4": 4750,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kennen_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:46.759183Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/kennen_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T06:39:16.319375Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 175,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "kennen_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T06:39:16.319375Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kennen_q/parameters/energy_cost": {
+      "createdAt": "2026-09-09T06:39:17.235552Z",
+      "description": "官方资源类型为能量；官方cost与当前manaValues逐级一致，字段名不改变资源身份。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 55,
+        "3": 50,
+        "4": 45,
+        "5": 40
+      },
+      "name": "基础能量消耗",
+      "parameterKey": "energy_cost",
+      "skillKey": "kennen_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T06:39:17.235552Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kennen_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T06:39:18.136486Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 75,
+        "2": 125,
+        "3": 175,
+        "4": 225,
+        "5": 275
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "kennen_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T06:39:18.136486Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kennen_q/parameters/calculation_constant_1": {
+      "createdAt": "2026-09-09T06:39:19.110139Z",
+      "description": "当前原计算树显式常数；只用于此数学表达式。",
+      "fixedValue": 0.75,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "千鸟伤害固定系数",
+      "parameterKey": "calculation_constant_1",
+      "skillKey": "kennen_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T06:39:19.110139Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kennen_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:46.759183Z",
+      "description": "DDragon16.17.1 Kennen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 7000,
+        "2": 6250,
+        "3": 5500,
+        "4": 4750,
+        "5": 4000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "kennen_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:46.759183Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kennen_q/formulas": [
+      {
+        "createdAt": "2026-09-09T06:39:20.235091Z",
+        "description": "第一个实际命中敌人的魔法伤害；印记依赖另接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "千鸟伤害",
+        "skillKey": "kennen_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:39:20.235091Z"
+      }
+    ],
+    "/skills/kennen_q/formulas/damage": {
+      "createdAt": "2026-09-09T06:39:20.235091Z",
+      "description": "第一个实际命中敌人的魔法伤害；印记依赖另接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "calculation_constant_1"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "千鸟伤害",
+      "skillKey": "kennen_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T06:39:20.235091Z"
+    },
+    "/skills/kennen_q/effects": [
+      {
+        "createdAt": "2026-09-09T06:39:21.253791Z",
+        "description": "只保存基础能量消耗。；仅独立效果，没有默认施放、命中或初始化触发。",
+        "effectKey": "energy_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放能量消耗",
+        "resultCount": 1,
+        "skillKey": "kennen_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:39:21.253791Z"
+      },
+      {
+        "createdAt": "2026-09-19T02:00:31.833385Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "凯南·奥义！千鸟命中伤害",
+        "resultCount": 1,
+        "skillKey": "kennen_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:31.833385Z"
+      }
+    ],
+    "/skills/kennen_q/effects/energy_cost": {
+      "createdAt": "2026-09-09T06:39:21.253791Z",
+      "description": "只保存基础能量消耗。；仅独立效果，没有默认施放、命中或初始化触发。",
+      "effectKey": "energy_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放能量消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "energy",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放能量消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "energy_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "kennen_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T06:39:21.253791Z"
+    },
+    "/skills/kennen_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:31.833385Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "凯南·奥义！千鸟命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "kennen_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:31.833385Z"
+    },
+    "/skills/kennen_q/processes": [],
+    "/skills/kennen_q/internal-states": [],
+    "/skills/kennen_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 kennen_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "凯南·奥义！千鸟实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:33.233825Z"
+      }
+    ],
+    "/skills/kennen_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行凯南·奥义！千鸟伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 kennen_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "kennen_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "凯南·奥义！千鸟实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/teemo_q": {
+      "createdAt": "2026-09-06T18:20:38.025025Z",
+      "description": "用一团强力的毒液来侵蚀一名敌人的视野，对目标单位造成伤害并使目标致盲一段时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "提莫·致盲吹箭",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "teemo_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:38.025025Z"
+    },
+    "/characters/champion_teemo": {
+      "characterKey": "champion_teemo",
+      "createdAt": "2026-09-06T17:57:31.027861Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "提莫",
+      "updatedAt": "2026-09-06T17:57:31.027861Z"
+    },
+    "/characters/champion_teemo/attributes": {
+      "characterKey": "champion_teemo",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 615,
+          "hp_regen": 5.5,
+          "mana": 334,
+          "mana_regen": 9.6,
+          "armor": 24,
+          "magic_resistance": 30,
+          "attack_damage": 54,
+          "attack_speed": 0.69,
+          "attack_range": 500
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 689.88,
+          "hp_regen": 5.968,
+          "mana": 352,
+          "mana_regen": 9.924,
+          "armor": 27.24,
+          "magic_resistance": 30.936,
+          "attack_damage": 56.16,
+          "attack_speed": 0.706792,
+          "attack_range": 500
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 768.4,
+          "hp_regen": 6.45875,
+          "mana": 370.875,
+          "mana_regen": 10.26375,
+          "armor": 30.6375,
+          "magic_resistance": 31.9175,
+          "attack_damage": 58.425,
+          "attack_speed": 0.7244,
+          "attack_range": 500
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 850.56,
+          "hp_regen": 6.97225,
+          "mana": 390.625,
+          "mana_regen": 10.61925,
+          "armor": 34.1925,
+          "magic_resistance": 32.9445,
+          "attack_damage": 60.795,
+          "attack_speed": 0.742824,
+          "attack_range": 500
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 936.36,
+          "hp_regen": 7.5085,
+          "mana": 411.25,
+          "mana_regen": 10.9905,
+          "armor": 37.905,
+          "magic_resistance": 34.017,
+          "attack_damage": 63.27,
+          "attack_speed": 0.762065,
+          "attack_range": 500
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 1025.8,
+          "hp_regen": 8.0675,
+          "mana": 432.75,
+          "mana_regen": 11.3775,
+          "armor": 41.775,
+          "magic_resistance": 35.135,
+          "attack_damage": 65.85,
+          "attack_speed": 0.782122,
+          "attack_range": 500
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1118.88,
+          "hp_regen": 8.64925,
+          "mana": 455.125,
+          "mana_regen": 11.78025,
+          "armor": 45.8025,
+          "magic_resistance": 36.2985,
+          "attack_damage": 68.535,
+          "attack_speed": 0.802995,
+          "attack_range": 500
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1215.6,
+          "hp_regen": 9.25375,
+          "mana": 478.375,
+          "mana_regen": 12.19875,
+          "armor": 49.9875,
+          "magic_resistance": 37.5075,
+          "attack_damage": 71.325,
+          "attack_speed": 0.824685,
+          "attack_range": 500
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1315.96,
+          "hp_regen": 9.881,
+          "mana": 502.5,
+          "mana_regen": 12.633,
+          "armor": 54.33,
+          "magic_resistance": 38.762,
+          "attack_damage": 74.22,
+          "attack_speed": 0.84719,
+          "attack_range": 500
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1419.96,
+          "hp_regen": 10.531,
+          "mana": 527.5,
+          "mana_regen": 13.083,
+          "armor": 58.83,
+          "magic_resistance": 40.062,
+          "attack_damage": 77.22,
+          "attack_speed": 0.870512,
+          "attack_range": 500
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1527.6,
+          "hp_regen": 11.20375,
+          "mana": 553.375,
+          "mana_regen": 13.54875,
+          "armor": 63.4875,
+          "magic_resistance": 41.4075,
+          "attack_damage": 80.325,
+          "attack_speed": 0.894651,
+          "attack_range": 500
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1638.88,
+          "hp_regen": 11.89925,
+          "mana": 580.125,
+          "mana_regen": 14.03025,
+          "armor": 68.3025,
+          "magic_resistance": 42.7985,
+          "attack_damage": 83.535,
+          "attack_speed": 0.919605,
+          "attack_range": 500
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1753.8,
+          "hp_regen": 12.6175,
+          "mana": 607.75,
+          "mana_regen": 14.5275,
+          "armor": 73.275,
+          "magic_resistance": 44.235,
+          "attack_damage": 86.85,
+          "attack_speed": 0.945376,
+          "attack_range": 500
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 1872.36,
+          "hp_regen": 13.3585,
+          "mana": 636.25,
+          "mana_regen": 15.0405,
+          "armor": 78.405,
+          "magic_resistance": 45.717,
+          "attack_damage": 90.27,
+          "attack_speed": 0.971963,
+          "attack_range": 500
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 1994.56,
+          "hp_regen": 14.12225,
+          "mana": 665.625,
+          "mana_regen": 15.56925,
+          "armor": 83.6925,
+          "magic_resistance": 47.2445,
+          "attack_damage": 93.795,
+          "attack_speed": 0.999366,
+          "attack_range": 500
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2120.4,
+          "hp_regen": 14.90875,
+          "mana": 695.875,
+          "mana_regen": 16.11375,
+          "armor": 89.1375,
+          "magic_resistance": 48.8175,
+          "attack_damage": 97.425,
+          "attack_speed": 1.027586,
+          "attack_range": 500
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2249.88,
+          "hp_regen": 15.718,
+          "mana": 727,
+          "mana_regen": 16.674,
+          "armor": 94.74,
+          "magic_resistance": 50.436,
+          "attack_damage": 101.16,
+          "attack_speed": 1.056622,
+          "attack_range": 500
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2383,
+          "hp_regen": 16.55,
+          "mana": 759,
+          "mana_regen": 17.25,
+          "armor": 100.5,
+          "magic_resistance": 52.1,
+          "attack_damage": 105,
+          "attack_speed": 1.086474,
+          "attack_range": 500
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_teemo/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_teemo",
+        "name": "champion_teemo"
+      }
+    },
+    "/skills/teemo_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_teemo_q",
+        "name": "teemo_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_teemo": {
+      "items": [
+        {
+          "characterKey": "champion_teemo",
+          "characterName": "提莫",
+          "gameId": "lol",
+          "skillKey": "teemo_p",
+          "skillName": "提莫·游击队军备",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_teemo",
+          "characterName": "提莫",
+          "gameId": "lol",
+          "skillKey": "teemo_q",
+          "skillName": "提莫·致盲吹箭",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_teemo",
+          "characterName": "提莫",
+          "gameId": "lol",
+          "skillKey": "teemo_w",
+          "skillName": "提莫·小莫快跑",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_teemo",
+          "characterName": "提莫",
+          "gameId": "lol",
+          "skillKey": "teemo_e",
+          "skillName": "提莫·毒性射击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_teemo",
+          "characterName": "提莫",
+          "gameId": "lol",
+          "skillKey": "teemo_r",
+          "skillName": "提莫·种蘑菇",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=teemo_q": {
+      "items": [
+        {
+          "characterKey": "champion_teemo",
+          "characterName": "提莫",
+          "gameId": "lol",
+          "skillKey": "teemo_q",
+          "skillName": "提莫·致盲吹箭",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/teemo_q/parameters": [
+      {
+        "createdAt": "2026-09-10T02:17:45.666971Z",
+        "description": "BaseDamage索引1至5为80/125/170/215/260；索引0=35不作1级。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "teemo_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:17:45.666971Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:17:47.356123Z",
+        "description": "来自CalculatedDamage第二个分支APRatio。",
+        "fixedValue": 0.699999988,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强伤害倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "teemo_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:17:47.356123Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:17:49.053928Z",
+        "description": "BlindDuration索引1至5为2/2.25/2.5/2.75/3秒；转换为整数毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 2000,
+          "2": 2250,
+          "3": 2500,
+          "4": 2750,
+          "5": 3000
+        },
+        "name": "致盲持续时间（毫秒）",
+        "parameterKey": "blind_duration_ms",
+        "skillKey": "teemo_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T02:17:49.053928Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:17:50.92716Z",
+        "description": "当前根spellCastTime=0.25秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "teemo_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-10T02:17:50.92716Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:04.810383Z",
+        "description": "DDragon16.17.1 Teemo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "teemo_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:04.810383Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:06.170466Z",
+        "description": "DDragon16.17.1 Teemo.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "teemo_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:06.170466Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/teemo_q/parameters/base_damage": {
+      "createdAt": "2026-09-10T02:17:45.666971Z",
+      "description": "BaseDamage索引1至5为80/125/170/215/260；索引0=35不作1级。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "teemo_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:17:45.666971Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/teemo_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-10T02:17:47.356123Z",
+      "description": "来自CalculatedDamage第二个分支APRatio。",
+      "fixedValue": 0.699999988,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强伤害倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "teemo_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T02:17:47.356123Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/teemo_q/parameters/blind_duration_ms": {
+      "createdAt": "2026-09-10T02:17:49.053928Z",
+      "description": "BlindDuration索引1至5为2/2.25/2.5/2.75/3秒；转换为整数毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 2000,
+        "2": 2250,
+        "3": 2500,
+        "4": 2750,
+        "5": 3000
+      },
+      "name": "致盲持续时间（毫秒）",
+      "parameterKey": "blind_duration_ms",
+      "skillKey": "teemo_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-10T02:17:49.053928Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/teemo_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-10T02:17:50.92716Z",
+      "description": "当前根spellCastTime=0.25秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "teemo_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-10T02:17:50.92716Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/teemo_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:05:04.810383Z",
+      "description": "DDragon16.17.1 Teemo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "teemo_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:05:04.810383Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/teemo_q/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:05:06.170466Z",
+      "description": "DDragon16.17.1 Teemo.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "teemo_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:05:06.170466Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/teemo_q/formulas": [
+      {
+        "createdAt": "2026-09-10T02:17:52.815135Z",
+        "description": "CalculatedDamage=BaseDamage+APRatio×法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "致盲吹箭魔法伤害",
+        "skillKey": "teemo_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:17:52.815135Z"
+      }
+    ],
+    "/skills/teemo_q/formulas/magic_damage": {
+      "createdAt": "2026-09-10T02:17:52.815135Z",
+      "description": "CalculatedDamage=BaseDamage+APRatio×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "致盲吹箭魔法伤害",
+      "skillKey": "teemo_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:17:52.815135Z"
+    },
+    "/skills/teemo_q/effects": [
+      {
+        "createdAt": "2026-09-19T02:00:35.644311Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "提莫·致盲吹箭命中伤害",
+        "resultCount": 1,
+        "skillKey": "teemo_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:35.644311Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:17:54.480004Z",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "teemo_q",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-10T02:17:54.480004Z"
+      }
+    ],
+    "/skills/teemo_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:35.644311Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "提莫·致盲吹箭命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 magic_damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "teemo_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:35.644311Z"
+    },
+    "/skills/teemo_q/effects/mana_cost": {
+      "createdAt": "2026-09-10T02:17:54.480004Z",
+      "description": "复用冻结公共法力参数；仅记录基础消耗。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放资源消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "teemo_q",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-10T02:17:54.480004Z"
+    },
+    "/skills/teemo_q/processes": [],
+    "/skills/teemo_q/internal-states": [],
+    "/skills/teemo_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 teemo_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "提莫·致盲吹箭实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:36.992107Z"
+      }
+    ],
+    "/skills/teemo_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行提莫·致盲吹箭伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 teemo_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "teemo_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "提莫·致盲吹箭实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/gragas_e": {
+      "createdAt": "2026-09-06T18:18:26.898472Z",
+      "description": "古拉加斯向目标区域冲锋，在撞上第一个敌人后，对附近的所有敌方单位造成伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "古拉加斯·肉弹冲击",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "gragas_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:26.898472Z"
+    },
+    "/characters/champion_gragas": {
+      "characterKey": "champion_gragas",
+      "createdAt": "2026-09-06T16:47:34.178755Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "古拉加斯",
+      "updatedAt": "2026-09-06T16:47:34.178755Z"
+    },
+    "/characters/champion_gragas/attributes": {
+      "characterKey": "champion_gragas",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 640,
+          "hp_regen": 5.5,
+          "mana": 400,
+          "mana_regen": 6,
+          "armor": 38,
+          "magic_resistance": 32,
+          "attack_damage": 64,
+          "attack_speed": 0.675,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 722.8,
+          "hp_regen": 5.86,
+          "mana": 433.84,
+          "mana_regen": 6.576,
+          "armor": 41.6,
+          "magic_resistance": 33.476,
+          "attack_damage": 66.52,
+          "attack_speed": 0.684225,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 809.625,
+          "hp_regen": 6.2375,
+          "mana": 469.325,
+          "mana_regen": 7.18,
+          "armor": 45.375,
+          "magic_resistance": 35.02375,
+          "attack_damage": 69.1625,
+          "attack_speed": 0.693898,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 900.475,
+          "hp_regen": 6.6325,
+          "mana": 506.455,
+          "mana_regen": 7.812,
+          "armor": 49.325,
+          "magic_resistance": 36.64325,
+          "attack_damage": 71.9275,
+          "attack_speed": 0.70402,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 995.35,
+          "hp_regen": 7.045,
+          "mana": 545.23,
+          "mana_regen": 8.472,
+          "armor": 53.45,
+          "magic_resistance": 38.3345,
+          "attack_damage": 74.815,
+          "attack_speed": 0.714591,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 1094.25,
+          "hp_regen": 7.475,
+          "mana": 585.65,
+          "mana_regen": 9.16,
+          "armor": 57.75,
+          "magic_resistance": 40.0975,
+          "attack_damage": 77.825,
+          "attack_speed": 0.725609,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1197.175,
+          "hp_regen": 7.9225,
+          "mana": 627.715,
+          "mana_regen": 9.876,
+          "armor": 62.225,
+          "magic_resistance": 41.93225,
+          "attack_damage": 80.9575,
+          "attack_speed": 0.737077,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1304.125,
+          "hp_regen": 8.3875,
+          "mana": 671.425,
+          "mana_regen": 10.62,
+          "armor": 66.875,
+          "magic_resistance": 43.83875,
+          "attack_damage": 84.2125,
+          "attack_speed": 0.748992,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1415.1,
+          "hp_regen": 8.87,
+          "mana": 716.78,
+          "mana_regen": 11.392,
+          "armor": 71.7,
+          "magic_resistance": 45.817,
+          "attack_damage": 87.59,
+          "attack_speed": 0.761356,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1530.1,
+          "hp_regen": 9.37,
+          "mana": 763.78,
+          "mana_regen": 12.192,
+          "armor": 76.7,
+          "magic_resistance": 47.867,
+          "attack_damage": 91.09,
+          "attack_speed": 0.774169,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1649.125,
+          "hp_regen": 9.8875,
+          "mana": 812.425,
+          "mana_regen": 13.02,
+          "armor": 81.875,
+          "magic_resistance": 49.98875,
+          "attack_damage": 94.7125,
+          "attack_speed": 0.78743,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1772.175,
+          "hp_regen": 10.4225,
+          "mana": 862.715,
+          "mana_regen": 13.876,
+          "armor": 87.225,
+          "magic_resistance": 52.18225,
+          "attack_damage": 98.4575,
+          "attack_speed": 0.801139,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1899.25,
+          "hp_regen": 10.975,
+          "mana": 914.65,
+          "mana_regen": 14.76,
+          "armor": 92.75,
+          "magic_resistance": 54.4475,
+          "attack_damage": 102.325,
+          "attack_speed": 0.815297,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 2030.35,
+          "hp_regen": 11.545,
+          "mana": 968.23,
+          "mana_regen": 15.672,
+          "armor": 98.45,
+          "magic_resistance": 56.7845,
+          "attack_damage": 106.315,
+          "attack_speed": 0.829903,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 2165.475,
+          "hp_regen": 12.1325,
+          "mana": 1023.455,
+          "mana_regen": 16.612,
+          "armor": 104.325,
+          "magic_resistance": 59.19325,
+          "attack_damage": 110.4275,
+          "attack_speed": 0.844958,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2304.625,
+          "hp_regen": 12.7375,
+          "mana": 1080.325,
+          "mana_regen": 17.58,
+          "armor": 110.375,
+          "magic_resistance": 61.67375,
+          "attack_damage": 114.6625,
+          "attack_speed": 0.860461,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2447.8,
+          "hp_regen": 13.36,
+          "mana": 1138.84,
+          "mana_regen": 18.576,
+          "armor": 116.6,
+          "magic_resistance": 64.226,
+          "attack_damage": 119.02,
+          "attack_speed": 0.876413,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2595,
+          "hp_regen": 14,
+          "mana": 1199,
+          "mana_regen": 19.6,
+          "armor": 123,
+          "magic_resistance": 66.85,
+          "attack_damage": 123.5,
+          "attack_speed": 0.892813,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_gragas/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_gragas",
+        "name": "champion_gragas"
+      }
+    },
+    "/skills/gragas_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_gragas_e",
+        "name": "gragas_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_gragas": {
+      "items": [
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_p",
+          "skillName": "古拉加斯·欢乐时光",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_q",
+          "skillName": "古拉加斯·滚动酒桶",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_w",
+          "skillName": "古拉加斯·醉酒狂暴",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_e",
+          "skillName": "古拉加斯·肉弹冲击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_r",
+          "skillName": "古拉加斯·爆破酒桶",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=gragas_e": {
+      "items": [
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_e",
+          "skillName": "古拉加斯·肉弹冲击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/gragas_e/parameters": [
+      {
+        "createdAt": "2026-09-09T15:06:14.357012Z",
+        "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "gragas_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:14.357012Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:15.371875Z",
+        "description": "当前根DataValues.BaseDamage取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "gragas_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:06:15.371875Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:16.459573Z",
+        "description": "当前根DataValues.APRatio取索引1至5。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "gragas_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:06:16.459573Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:17.587362Z",
+        "description": "当前根DataValues.StunDuration取索引1至5，秒转为整数毫秒。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "控制持续（毫秒）",
+        "parameterKey": "control_duration_ms",
+        "skillKey": "gragas_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T15:06:17.587362Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:18.603665Z",
+        "description": "当前根DataValues.CooldownRefund取索引1至5。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "命中后冷却缩短比例",
+        "parameterKey": "cooldown_refund_ratio",
+        "skillKey": "gragas_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T15:06:18.603665Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:40.078976Z",
+        "description": "DDragon16.17.1 Gragas.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13500,
+          "3": 13000,
+          "4": 12500,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "gragas_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:40.078976Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:40.474369Z",
+        "description": "DDragon16.17.1 Gragas.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gragas_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:40.474369Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/gragas_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T15:06:14.357012Z",
+      "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "gragas_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:06:14.357012Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_e/parameters/base_damage": {
+      "createdAt": "2026-09-09T15:06:15.371875Z",
+      "description": "当前根DataValues.BaseDamage取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "gragas_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T15:06:15.371875Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T15:06:16.459573Z",
+      "description": "当前根DataValues.APRatio取索引1至5。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "gragas_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T15:06:16.459573Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/gragas_e/parameters/control_duration_ms": {
+      "createdAt": "2026-09-09T15:06:17.587362Z",
+      "description": "当前根DataValues.StunDuration取索引1至5，秒转为整数毫秒。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "控制持续（毫秒）",
+      "parameterKey": "control_duration_ms",
+      "skillKey": "gragas_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T15:06:17.587362Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_e/parameters/cooldown_refund_ratio": {
+      "createdAt": "2026-09-09T15:06:18.603665Z",
+      "description": "当前根DataValues.CooldownRefund取索引1至5。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "命中后冷却缩短比例",
+      "parameterKey": "cooldown_refund_ratio",
+      "skillKey": "gragas_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T15:06:18.603665Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/gragas_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:40.078976Z",
+      "description": "DDragon16.17.1 Gragas.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 14000,
+        "2": 13500,
+        "3": 13000,
+        "4": 12500,
+        "5": 12000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "gragas_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:40.078976Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:40.474369Z",
+      "description": "DDragon16.17.1 Gragas.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 50,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "gragas_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:40.474369Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_e/formulas": [
+      {
+        "createdAt": "2026-09-09T15:06:19.688706Z",
+        "description": "TotalDamage按当前树，唯一目标命中保留。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "肉弹冲击魔法伤害",
+        "skillKey": "gragas_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:19.688706Z"
+      }
+    ],
+    "/skills/gragas_e/formulas/magic_damage": {
+      "createdAt": "2026-09-09T15:06:19.688706Z",
+      "description": "TotalDamage按当前树，唯一目标命中保留。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "肉弹冲击魔法伤害",
+      "skillKey": "gragas_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:06:19.688706Z"
+    },
+    "/skills/gragas_e/effects": [
+      {
+        "createdAt": "2026-09-09T15:06:20.899652Z",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "gragas_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:20.899652Z"
+      },
+      {
+        "createdAt": "2026-09-19T02:00:38.813127Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "古拉加斯·肉弹冲击命中伤害",
+        "resultCount": 1,
+        "skillKey": "gragas_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:38.813127Z"
+      }
+    ],
+    "/skills/gragas_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T15:06:20.899652Z",
+      "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "mana_cost",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "gragas_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:06:20.899652Z"
+    },
+    "/skills/gragas_e/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:38.813127Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "古拉加斯·肉弹冲击命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 magic_damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "gragas_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:38.813127Z"
+    },
+    "/skills/gragas_e/processes": [],
+    "/skills/gragas_e/internal-states": [],
+    "/skills/gragas_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 gragas_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "古拉加斯·肉弹冲击实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:40.131037Z"
+      }
+    ],
+    "/skills/gragas_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行古拉加斯·肉弹冲击伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 gragas_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "gragas_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "古拉加斯·肉弹冲击实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/gragas_r": {
+      "createdAt": "2026-09-06T18:18:27.224071Z",
+      "description": "古拉加斯向目标区域投掷他的酒桶，对爆炸范围内的所有敌人造成伤害和击退效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "古拉加斯·爆破酒桶",
+      "skillCategoryKeys": [],
+      "skillKey": "gragas_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:27.224071Z"
+    },
+    "/skills/gragas_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_gragas_r",
+        "name": "gragas_r"
+      }
+    },
+    "/character-skill-relations?skillKey=gragas_r": {
+      "items": [
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "gragas_r",
+          "skillName": "古拉加斯·爆破酒桶",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/gragas_r/parameters": [
+      {
+        "createdAt": "2026-09-09T15:06:21.994975Z",
+        "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "gragas_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:21.994975Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:23.097647Z",
+        "description": "当前根DataValues.BaseDamage取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 200,
+          "2": 300,
+          "3": 400
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "gragas_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:06:23.097647Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:24.188192Z",
+        "description": "当前根DataValues.APRatio取索引1至3。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "gragas_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:06:24.188192Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:25.294408Z",
+        "description": "当前根DataValues.KnockbackDistance取索引1至3。",
+        "fixedValue": 900,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击退距离",
+        "parameterKey": "knockback_distance",
+        "skillKey": "gragas_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T15:06:25.294408Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:40.903059Z",
+        "description": "DDragon16.17.1 Gragas.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 85000,
+          "3": 70000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "gragas_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:40.903059Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:41.26052Z",
+        "description": "DDragon16.17.1 Gragas.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gragas_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:41.26052Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/gragas_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T15:06:21.994975Z",
+      "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "gragas_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:06:21.994975Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_r/parameters/base_damage": {
+      "createdAt": "2026-09-09T15:06:23.097647Z",
+      "description": "当前根DataValues.BaseDamage取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 200,
+        "2": 300,
+        "3": 400
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "gragas_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T15:06:23.097647Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T15:06:24.188192Z",
+      "description": "当前根DataValues.APRatio取索引1至3。",
+      "fixedValue": 0.8,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "gragas_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T15:06:24.188192Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/gragas_r/parameters/knockback_distance": {
+      "createdAt": "2026-09-09T15:06:25.294408Z",
+      "description": "当前根DataValues.KnockbackDistance取索引1至3。",
+      "fixedValue": 900,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击退距离",
+      "parameterKey": "knockback_distance",
+      "skillKey": "gragas_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T15:06:25.294408Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:40.903059Z",
+      "description": "DDragon16.17.1 Gragas.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 100000,
+        "2": 85000,
+        "3": 70000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "gragas_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:40.903059Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:41.26052Z",
+      "description": "DDragon16.17.1 Gragas.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "gragas_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:41.26052Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_r/formulas": [
+      {
+        "createdAt": "2026-09-09T15:06:26.447334Z",
+        "description": "DamageDone按当前根绑定。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "爆破酒桶魔法伤害",
+        "skillKey": "gragas_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:26.447334Z"
+      }
+    ],
+    "/skills/gragas_r/formulas/magic_damage": {
+      "createdAt": "2026-09-09T15:06:26.447334Z",
+      "description": "DamageDone按当前根绑定。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "爆破酒桶魔法伤害",
+      "skillKey": "gragas_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:06:26.447334Z"
+    },
+    "/skills/gragas_r/effects": [
+      {
+        "createdAt": "2026-09-09T15:06:27.494385Z",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "gragas_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:27.494385Z"
+      },
+      {
+        "createdAt": "2026-09-19T02:00:41.993984Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "古拉加斯·爆破酒桶命中伤害",
+        "resultCount": 1,
+        "skillKey": "gragas_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:41.993984Z"
+      }
+    ],
+    "/skills/gragas_r/effects/mana_cost": {
+      "createdAt": "2026-09-09T15:06:27.494385Z",
+      "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "mana_cost",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "gragas_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:06:27.494385Z"
+    },
+    "/skills/gragas_r/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:41.993984Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "古拉加斯·爆破酒桶命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 magic_damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "gragas_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:41.993984Z"
+    },
+    "/skills/gragas_r/processes": [],
+    "/skills/gragas_r/internal-states": [],
+    "/skills/gragas_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 gragas_r 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "古拉加斯·爆破酒桶实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:43.256621Z"
+      }
+    ],
+    "/skills/gragas_r/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行古拉加斯·爆破酒桶伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 gragas_r 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "gragas_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "古拉加斯·爆破酒桶实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/lissandra_q": {
+      "createdAt": "2026-09-06T18:19:12.518594Z",
+      "description": "掷出一杆冰矛，冰矛会在命中敌人时碎裂，造成魔法伤害和减速效果。碎裂会穿过目标，对被冰矛命中的其他敌人造成等量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "丽桑卓·寒冰碎片",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "lissandra_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:12.518594Z"
+    },
+    "/characters/champion_lissandra": {
+      "characterKey": "champion_lissandra",
+      "createdAt": "2026-09-06T17:21:20.505939Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "丽桑卓",
+      "updatedAt": "2026-09-06T17:21:20.505939Z"
+    },
+    "/characters/champion_lissandra/attributes": {
+      "characterKey": "champion_lissandra",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 620,
+          "hp_regen": 7,
+          "mana": 475,
+          "mana_regen": 8,
+          "armor": 22,
+          "magic_resistance": 30,
+          "attack_damage": 55,
+          "attack_speed": 0.656,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 699.2,
+          "hp_regen": 7.396,
+          "mana": 496.6,
+          "mana_regen": 8.288,
+          "armor": 25.024,
+          "magic_resistance": 30.936,
+          "attack_damage": 56.944,
+          "attack_speed": 0.66275,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 782.25,
+          "hp_regen": 7.81125,
+          "mana": 519.25,
+          "mana_regen": 8.59,
+          "armor": 28.195,
+          "magic_resistance": 31.9175,
+          "attack_damage": 58.9825,
+          "attack_speed": 0.669828,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 869.15,
+          "hp_regen": 8.24575,
+          "mana": 542.95,
+          "mana_regen": 8.906,
+          "armor": 31.513,
+          "magic_resistance": 32.9445,
+          "attack_damage": 61.1155,
+          "attack_speed": 0.677234,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 959.9,
+          "hp_regen": 8.6995,
+          "mana": 567.7,
+          "mana_regen": 9.236,
+          "armor": 34.978,
+          "magic_resistance": 34.017,
+          "attack_damage": 63.343,
+          "attack_speed": 0.684969,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 1054.5,
+          "hp_regen": 9.1725,
+          "mana": 593.5,
+          "mana_regen": 9.58,
+          "armor": 38.59,
+          "magic_resistance": 35.135,
+          "attack_damage": 65.665,
+          "attack_speed": 0.693031,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 1152.95,
+          "hp_regen": 9.66475,
+          "mana": 620.35,
+          "mana_regen": 9.938,
+          "armor": 42.349,
+          "magic_resistance": 36.2985,
+          "attack_damage": 68.0815,
+          "attack_speed": 0.701422,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1255.25,
+          "hp_regen": 10.17625,
+          "mana": 648.25,
+          "mana_regen": 10.31,
+          "armor": 46.255,
+          "magic_resistance": 37.5075,
+          "attack_damage": 70.5925,
+          "attack_speed": 0.710141,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1361.4,
+          "hp_regen": 10.707,
+          "mana": 677.2,
+          "mana_regen": 10.696,
+          "armor": 50.308,
+          "magic_resistance": 38.762,
+          "attack_damage": 73.198,
+          "attack_speed": 0.719187,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1471.4,
+          "hp_regen": 11.257,
+          "mana": 707.2,
+          "mana_regen": 11.096,
+          "armor": 54.508,
+          "magic_resistance": 40.062,
+          "attack_damage": 75.898,
+          "attack_speed": 0.728563,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1585.25,
+          "hp_regen": 11.82625,
+          "mana": 738.25,
+          "mana_regen": 11.51,
+          "armor": 58.855,
+          "magic_resistance": 41.4075,
+          "attack_damage": 78.6925,
+          "attack_speed": 0.738266,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1702.95,
+          "hp_regen": 12.41475,
+          "mana": 770.35,
+          "mana_regen": 11.938,
+          "armor": 63.349,
+          "magic_resistance": 42.7985,
+          "attack_damage": 81.5815,
+          "attack_speed": 0.748297,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1824.5,
+          "hp_regen": 13.0225,
+          "mana": 803.5,
+          "mana_regen": 12.38,
+          "armor": 67.99,
+          "magic_resistance": 44.235,
+          "attack_damage": 84.565,
+          "attack_speed": 0.758656,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1949.9,
+          "hp_regen": 13.6495,
+          "mana": 837.7,
+          "mana_regen": 12.836,
+          "armor": 72.778,
+          "magic_resistance": 45.717,
+          "attack_damage": 87.643,
+          "attack_speed": 0.769344,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 2079.15,
+          "hp_regen": 14.29575,
+          "mana": 872.95,
+          "mana_regen": 13.306,
+          "armor": 77.713,
+          "magic_resistance": 47.2445,
+          "attack_damage": 90.8155,
+          "attack_speed": 0.780359,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 2212.25,
+          "hp_regen": 14.96125,
+          "mana": 909.25,
+          "mana_regen": 13.79,
+          "armor": 82.795,
+          "magic_resistance": 48.8175,
+          "attack_damage": 94.0825,
+          "attack_speed": 0.791703,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 2349.2,
+          "hp_regen": 15.646,
+          "mana": 946.6,
+          "mana_regen": 14.288,
+          "armor": 88.024,
+          "magic_resistance": 50.436,
+          "attack_damage": 97.444,
+          "attack_speed": 0.803375,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2490,
+          "hp_regen": 16.35,
+          "mana": 985,
+          "mana_regen": 14.8,
+          "armor": 93.4,
+          "magic_resistance": 52.1,
+          "attack_damage": 100.9,
+          "attack_speed": 0.815375,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_lissandra/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_lissandra",
+        "name": "champion_lissandra"
+      }
+    },
+    "/skills/lissandra_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_lissandra_q",
+        "name": "lissandra_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_lissandra": {
+      "items": [
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_p",
+          "skillName": "丽桑卓·冰脉驱役",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_q",
+          "skillName": "丽桑卓·寒冰碎片",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_w",
+          "skillName": "丽桑卓·冰霜之环",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_e",
+          "skillName": "丽桑卓·冰川之径",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_r",
+          "skillName": "丽桑卓·冰封陵墓",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=lissandra_q": {
+      "items": [
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_q",
+          "skillName": "丽桑卓·寒冰碎片",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/lissandra_q/parameters": [
+      {
+        "createdAt": "2026-09-09T10:36:24.488765Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "lissandra_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T10:36:24.488765Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:25.785966Z",
+        "description": "客户端当前根绑定 DataValues.damage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 115,
+          "3": 150,
+          "4": 185,
+          "5": 220
+        },
+        "name": "寒冰碎片基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lissandra_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T10:36:25.785966Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:26.943772Z",
+        "description": "客户端当前根绑定 DataValues.slowDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "lissandra_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T10:36:26.943772Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:27.990766Z",
+        "description": "客户端当前根绑定 DataValues.slowPercentage；原始值为负移速修正，当前正文占位为 @slowPercentage*-100@%，转为正的20至36百分数点。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20,
+          "2": 24,
+          "3": 28,
+          "4": 32,
+          "5": 36
+        },
+        "name": "减速百分数点",
+        "parameterKey": "slow_percent",
+        "skillKey": "lissandra_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T10:36:27.990766Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:29.061317Z",
+        "description": "TotalDamage树直接给出0.75。",
+        "fixedValue": 0.75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio_constant",
+        "skillKey": "lissandra_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T10:36:29.061317Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:47.906811Z",
+        "description": "DDragon16.17.1 Lissandra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 7000,
+          "2": 6000,
+          "3": 5000,
+          "4": 4000,
+          "5": 3000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lissandra_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:47.906811Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:48.271351Z",
+        "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 55,
+          "2": 60,
+          "3": 65,
+          "4": 70,
+          "5": 75
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lissandra_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:48.271351Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/lissandra_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T10:36:24.488765Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "lissandra_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T10:36:24.488765Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T10:36:25.785966Z",
+      "description": "客户端当前根绑定 DataValues.damage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 115,
+        "3": 150,
+        "4": 185,
+        "5": 220
+      },
+      "name": "寒冰碎片基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "lissandra_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T10:36:25.785966Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_q/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T10:36:26.943772Z",
+      "description": "客户端当前根绑定 DataValues.slowDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "lissandra_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T10:36:26.943772Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_q/parameters/slow_percent": {
+      "createdAt": "2026-09-09T10:36:27.990766Z",
+      "description": "客户端当前根绑定 DataValues.slowPercentage；原始值为负移速修正，当前正文占位为 @slowPercentage*-100@%，转为正的20至36百分数点。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 20,
+        "2": 24,
+        "3": 28,
+        "4": 32,
+        "5": 36
+      },
+      "name": "减速百分数点",
+      "parameterKey": "slow_percent",
+      "skillKey": "lissandra_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T10:36:27.990766Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lissandra_q/parameters/ap_ratio_constant": {
+      "createdAt": "2026-09-09T10:36:29.061317Z",
+      "description": "TotalDamage树直接给出0.75。",
+      "fixedValue": 0.75,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio_constant",
+      "skillKey": "lissandra_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T10:36:29.061317Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lissandra_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:47.906811Z",
+      "description": "DDragon16.17.1 Lissandra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 7000,
+        "2": 6000,
+        "3": 5000,
+        "4": 4000,
+        "5": 3000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "lissandra_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:47.906811Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:48.271351Z",
+      "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 55,
+        "2": 60,
+        "3": 65,
+        "4": 70,
+        "5": 75
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "lissandra_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:48.271351Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_q/formulas": [
+      {
+        "createdAt": "2026-09-09T10:36:30.425475Z",
+        "description": "TotalDamage = damage + 0.75×法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "寒冰碎片魔法伤害",
+        "skillKey": "lissandra_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:30.425475Z"
+      }
+    ],
+    "/skills/lissandra_q/formulas/damage": {
+      "createdAt": "2026-09-09T10:36:30.425475Z",
+      "description": "TotalDamage = damage + 0.75×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio_constant"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "寒冰碎片魔法伤害",
+      "skillKey": "lissandra_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:30.425475Z"
+    },
+    "/skills/lissandra_q/effects": [
+      {
+        "createdAt": "2026-09-09T10:36:31.612447Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lissandra_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:31.612447Z"
+      },
+      {
+        "createdAt": "2026-09-19T02:00:45.055511Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "丽桑卓·寒冰碎片命中伤害",
+        "resultCount": 1,
+        "skillKey": "lissandra_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:45.055511Z"
+      }
+    ],
+    "/skills/lissandra_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T10:36:31.612447Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:31.612447Z"
+    },
+    "/skills/lissandra_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:45.055511Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "丽桑卓·寒冰碎片命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:45.055511Z"
+    },
+    "/skills/lissandra_q/processes": [],
+    "/skills/lissandra_q/internal-states": [],
+    "/skills/lissandra_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 lissandra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "丽桑卓·寒冰碎片实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:46.40493Z"
+      }
+    ],
+    "/skills/lissandra_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·寒冰碎片伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 lissandra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·寒冰碎片实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/lissandra_w": {
+      "createdAt": "2026-09-06T18:19:12.755851Z",
+      "description": "将周围的敌人冻在原地，造成魔法伤害和束缚效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "丽桑卓·冰霜之环",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "lissandra_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:12.755851Z"
+    },
+    "/skills/lissandra_w/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_lissandra_w",
+        "name": "lissandra_w"
+      }
+    },
+    "/character-skill-relations?skillKey=lissandra_w": {
+      "items": [
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_w",
+          "skillName": "丽桑卓·冰霜之环",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        }
+      ],
+      "total": 1
+    },
+    "/skills/lissandra_w/parameters": [
+      {
+        "createdAt": "2026-09-09T10:36:33.074555Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "lissandra_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T10:36:33.074555Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:34.068488Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "冰脉驱役基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lissandra_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T10:36:34.068488Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:35.119537Z",
+        "description": "客户端当前根绑定 DataValues.SnareDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1250,
+          "2": 1350.000024,
+          "3": 1450.000048,
+          "4": 1549.999952,
+          "5": 1649.999976
+        },
+        "name": "禁锢持续（毫秒）",
+        "parameterKey": "snare_duration_ms",
+        "skillKey": "lissandra_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T10:36:35.119537Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:36.122585Z",
+        "description": "TotalDamage树直接给出0.7。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio_constant",
+        "skillKey": "lissandra_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T10:36:36.122585Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:48.652975Z",
+        "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lissandra_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:48.652975Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:48.964763Z",
+        "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lissandra_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:48.964763Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/lissandra_w/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T10:36:33.074555Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "lissandra_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T10:36:33.074555Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/parameters/base_damage": {
+      "createdAt": "2026-09-09T10:36:34.068488Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 105,
+        "3": 140,
+        "4": 175,
+        "5": 210
+      },
+      "name": "冰脉驱役基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "lissandra_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T10:36:34.068488Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/parameters/snare_duration_ms": {
+      "createdAt": "2026-09-09T10:36:35.119537Z",
+      "description": "客户端当前根绑定 DataValues.SnareDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1250,
+        "2": 1350.000024,
+        "3": 1450.000048,
+        "4": 1549.999952,
+        "5": 1649.999976
+      },
+      "name": "禁锢持续（毫秒）",
+      "parameterKey": "snare_duration_ms",
+      "skillKey": "lissandra_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T10:36:35.119537Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lissandra_w/parameters/ap_ratio_constant": {
+      "createdAt": "2026-09-09T10:36:36.122585Z",
+      "description": "TotalDamage树直接给出0.7。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio_constant",
+      "skillKey": "lissandra_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T10:36:36.122585Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lissandra_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:48.652975Z",
+      "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10000,
+        "2": 9500,
+        "3": 9000,
+        "4": 8500,
+        "5": 8000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "lissandra_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:48.652975Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:48.964763Z",
+      "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 40,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "lissandra_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:48.964763Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/formulas": [
+      {
+        "createdAt": "2026-09-09T10:36:37.272625Z",
+        "description": "TotalDamage = BaseDamage + 0.7×法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "冰脉驱役魔法伤害",
+        "skillKey": "lissandra_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:37.272625Z"
+      }
+    ],
+    "/skills/lissandra_w/formulas/damage": {
+      "createdAt": "2026-09-09T10:36:37.272625Z",
+      "description": "TotalDamage = BaseDamage + 0.7×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio_constant"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "冰脉驱役魔法伤害",
+      "skillKey": "lissandra_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:37.272625Z"
+    },
+    "/skills/lissandra_w/effects": [
+      {
+        "createdAt": "2026-09-09T10:36:38.399957Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lissandra_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:38.399957Z"
+      },
+      {
+        "createdAt": "2026-09-19T02:00:48.189279Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "丽桑卓·冰霜之环命中伤害",
+        "resultCount": 1,
+        "skillKey": "lissandra_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:48.189279Z"
+      }
+    ],
+    "/skills/lissandra_w/effects/mana_cost": {
+      "createdAt": "2026-09-09T10:36:38.399957Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:38.399957Z"
+    },
+    "/skills/lissandra_w/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:48.189279Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "丽桑卓·冰霜之环命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:48.189279Z"
+    },
+    "/skills/lissandra_w/processes": [],
+    "/skills/lissandra_w/internal-states": [],
+    "/skills/lissandra_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 lissandra_w 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "丽桑卓·冰霜之环实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:49.498082Z"
+      }
+    ],
+    "/skills/lissandra_w/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·冰霜之环伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 lissandra_w 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·冰霜之环实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/energy": {
+      "attributeKey": "energy",
+      "createdAt": "2026-08-22T15:27:36.229561Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "能量值",
+      "sortOrder": 320,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.229561Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kennen",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kennen/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kennen/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_kennen",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=kennen_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/energy_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/calculation_constant_1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/effects/energy_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_teemo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_teemo/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_teemo/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_teemo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=teemo_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/blind_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_gragas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_gragas/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_gragas/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_gragas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=gragas_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/control_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=gragas_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/knockback_distance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lissandra",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lissandra/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lissandra/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_lissandra",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=lissandra_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/slow_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=lissandra_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/snare_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/energy",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/teemo_q/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_q/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/on_used",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

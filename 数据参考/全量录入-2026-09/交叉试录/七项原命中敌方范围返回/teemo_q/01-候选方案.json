@@ -1,0 +1,99 @@
+{
+  "at": "2026-09-21T10:40:37.382Z",
+  "executionMode": "REVIEWED_API",
+  "skillKey": "teemo_q",
+  "ruleKey": "actual_hit",
+  "conditionGroups": [
+    {
+      "conditions": [
+        {
+          "conditionKey": "champion_target",
+          "conditionType": "TARGET_CATEGORY_CHECK",
+          "detail": {
+            "categories": [
+              "CHAMPION"
+            ]
+          },
+          "sortOrder": 10
+        },
+        {
+          "conditionKey": "enemy_target",
+          "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+          "sortOrder": 20,
+          "detail": {}
+        }
+      ],
+      "groupKey": "champion_target",
+      "name": "本轮英雄目标",
+      "sortOrder": 10
+    }
+  ],
+  "scope": "仅在原单一英雄条件组末尾追加SKILL_HIT_TARGET_IS_ENEMY，保留组标识、组名、排序、原条件、事件、动作及所有其他组成。",
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项普通魔法命中伤害补录/00b-固定来源核对.json",
+      "sha256": "0eec5ce1dc2eab890c894a1e637805ed65978fc0862d3433a258f0eaf419d0e5"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项普通魔法命中伤害补录/00c-管理接线边界.json",
+      "sha256": "57a78c8d94886a29b72bdcc37cb95abba1de019231efaf3b2952a2eb9d4aabcc"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kennen.json",
+      "sha256": "fc58a3db4962211aa0586864ad3daa0966e960e481ab9e6a68bbdf014c3fb188"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kennen.json.gz",
+      "sha256": "1231fab06e36bab2deaae4656adf91be2ecc52c3be0a41f7dafdddb3fd5d784c"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Teemo.json",
+      "sha256": "23a031a4c7ed02785986d4f8243913df34487c1b4c1057e28af0fb2cf6a2dd51"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Teemo.json.gz",
+      "sha256": "279230eea2e755d24f55f1dce0f4f22a71df113696ae85df8c54ba23ea8a7abe"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Gragas.json",
+      "sha256": "3d9280c9048361e5c71942374542b3a5be37e994609d0c2eb32d693914ace472"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Gragas.json.gz",
+      "sha256": "00ab98ea8c5af40d605ad574ccbf8a385ad25a81adda79540b554943388c071e"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lissandra.json",
+      "sha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lissandra.json.gz",
+      "sha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/敌方命中范围/07-页面验收.json",
+      "sha256": "ac7fcd66e1c3be89b1de98f36b0eb8906ae7d9f381a4235dc4b4f5027accee98"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/古拉加斯E命中冷却返还核对/01-同批命中敌方范围只读.json",
+      "sha256": "d65e6aa5bcdf0ee1b50d60c8540487d458824806734e1b882ca6f2efcb4ca88e"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/古拉加斯E命中冷却返还核对/02-同类命中范围更正取舍.json",
+      "sha256": "14a885b0740d5475219a87df1e4c517fbe57e623a74d1cad187adab366260e5c"
+    }
+  ]
+}

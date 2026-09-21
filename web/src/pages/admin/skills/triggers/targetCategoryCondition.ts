@@ -12,6 +12,7 @@ export function allowsTargetCategoryCheck(eventType: SkillTriggerEventType): boo
   return eventType === 'SKILL_HIT'
     || eventType === 'BASIC_ATTACK_HIT'
     || eventType === 'KILL'
+    || eventType === 'TAKEDOWN'
     || eventType === 'DAMAGE_PENDING'
     || eventType === 'DAMAGE_DEALT'
     || eventType === 'DAMAGE_TAKEN';
@@ -24,6 +25,8 @@ export function targetCategoryConditionHelp(eventType: SkillTriggerEventType): s
       return '命中事件读取本次实际命中对象；匹配所选任一类别。';
     case 'KILL':
       return '击杀事件读取本次被击杀对象；匹配所选任一类别。';
+    case 'TAKEDOWN':
+      return '参与击杀事件读取本次死亡对象；匹配所选任一类别。';
     case 'DAMAGE_DEALT':
       return '造成伤害事件读取本次伤害承受对象；匹配所选任一类别。';
     case 'DAMAGE_PENDING':
@@ -36,7 +39,7 @@ export function targetCategoryConditionHelp(eventType: SkillTriggerEventType): s
 }
 
 export function targetCategoryConditionError(detail: SkillTriggerTargetCategoryCheckDetail, eventType: SkillTriggerEventType): string | null {
-  if (!allowsTargetCategoryCheck(eventType)) return '事件对方类别仅用于技能命中、普攻命中、来源对象完成击杀、伤害待结算、来源对象造成伤害或来源对象受到伤害事件。';
+  if (!allowsTargetCategoryCheck(eventType)) return '事件对方类别仅用于技能命中、普攻命中、来源对象完成击杀、来源对象参与击杀、伤害待结算、来源对象造成伤害或来源对象受到伤害事件。';
   if (!Array.isArray(detail.categories) || detail.categories.length === 0) return '至少选择一个事件对方类别。';
   if (new Set(detail.categories).size !== detail.categories.length
     || detail.categories.some((category) => !SKILL_TRIGGER_TARGET_CATEGORIES.includes(category))) {

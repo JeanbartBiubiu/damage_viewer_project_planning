@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "date": "2026-09-19",
+  "executor": "主负责人，通过CUA内置浏览器实际操作",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "browserBusinessWrites": 0,
+  "representatives": [
+    {"skillKey":"tristana_q","resource":"技能主体","check":"重新加载后查看说明，明确60/75/90/105/120%额外攻速持续7秒，不再显示数值和机制待补证。"},
+    {"skillKey":"tristana_q","resource":"mana_cost参数","check":"参数列表及详情仍为15/20/25/30/35；详情说明与这五级值一致，移除0消耗误述。"},
+    {"skillKey":"janna_e","resource":"self_shield效果","check":"重新加载并打开效果详情，说明为持续4秒且不衰减；生命周期仍按来源对象、引用原持续时间参数，入口和攻击力增益边界明确。"}
+  ],
+  "diagnostics": {"consoleErrors":0,"consoleWarnings":0,"networkCapture":"未单独采集全部网络请求"},
+  "boundary": "覆盖三类说明更新的代表页面重新读取；全部六处说明及其余业务字段由84次独立GET核对。未执行宿主或战斗运行。"
+}

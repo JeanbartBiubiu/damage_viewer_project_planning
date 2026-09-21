@@ -1,0 +1,65 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T06:34:28.790Z",
+  "reviewer": "独立评审代理",
+  "executionMode": "BROWSER_UI_ONLY",
+  "approvedFiles": {
+    "tools/authoring/reviewed-status-ui.mjs": "3b509e846436dc84aca6d68f15876de8e53884bb7f9ac376842b79a5231f3ada",
+    "01-候选方案.json": "53f8ecd80862502704c92b6e8ab2e4137896f2fbd81f936586b0c60a52668fe1",
+    "02-冻结请求.json": "61d783b1de991325394836bfe1116f4791b4a149bfae8d1c4950e00d7fb9b93c",
+    "03-来源摘要.json": "435f7181e92f692cc27aca4dfc1f6f6515eafc1f1a5eaa7e92811189dc31f11b",
+    "04-写入前现值.json": "b17497d774ffbbbfb72ae95684d302df6d1e1d3ede7fa6e23205b8f068315350"
+  },
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "sourceFilesVerified": 9,
+  "blockingFindings": [],
+  "checks": [
+    {
+      "name": "冻结和来源",
+      "result": "PASS",
+      "detail": "工具与 01 至 04 原字节摘要绑定，全部 9 来源一致；02 完整六字段正文与 01 相同，来源/基线摘要正确。当前前后端已有 MOVEMENT_SLOW 种类，计划与历史分层记录仅作为已完成管理能力来源。"
+    },
+    {
+      "name": "目录身份与边界",
+      "result": "PASS",
+      "detail": "唯一新增 movement_slow/普通移动减速/MOVEMENT_SLOW/ENABLED/排序10；目录只保存身份，具体减速比例与期限由技能效果维护，符合共享状态与效果契约。本批不录技能减速效果或强度，不执行历史迁移。"
+    },
+    {
+      "name": "两旧目录保护",
+      "result": "PASS",
+      "detail": "04 恰有2项列表和各自完整详情，列表/详情逐字段一致、无重复；眩晕与禁锢含时间戳分别等于禁锢首次批原值及独立回读。新 movement_slow 为404，4次审计均GET。排序10插入两旧项之间不改变其相对顺序。"
+    },
+    {
+      "name": "只读工具复用",
+      "result": "PASS",
+      "detail": "工具原字节与已审12场景时完全相同，无HTTP写模式；复用成功及旧值/列表/新对象字段/重复/写入状态等离线拦截证据，本次未重跑。新增后只允许1新对象和1列表变化，2旧详情含时间戳完整保持。"
+    }
+  ],
+  "reusedOfflineEvidence": {
+    "path": "output/seven-hit-review/root-status-ui-offline.json",
+    "sha256": "88619cad518eff2fdb4a8acaecbcfbaf8fac193db1823e648606cbd234c67056",
+    "cases": 12,
+    "rerun": false
+  },
+  "expectedReadback": {
+    "GETs": 4,
+    "newObjects": 1,
+    "expectedChangedCollections": 1,
+    "unchangedResponsesIncludingTimestamps": 2
+  },
+  "browserProtocol": {
+    "allowedSaves": 1,
+    "apiWriteAllowed": false,
+    "requirements": [
+      "GET-only preflight通过后以wx建立06 STARTED，再真实页面单次创建。",
+      "06如实记录BROWSER_UI_ONLY、尝试1、页面动作及完整即时GET；未捕获响应不伪造。",
+      "结果不明先只读核实际状态，不重复保存；完成后独立readback与关闭重开种类只读验收。"
+    ]
+  },
+  "boundaries": [
+    "历史迁移不执行、不重放；原眩晕/禁锢及技能组成不变。",
+    "厄加特Q、兰顿、冰杖的实际强度、期限与合法入口另作冻结和页面验收。",
+    "目录保存不证明实际移动速度、减速取强、免疫、宿主或Wasm运行。"
+  ]
+}

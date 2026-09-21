@@ -1,0 +1,245 @@
+{
+  "executionMode": "PROTECTED_API",
+  "targets": [
+    {
+      "skillKey": "chogath_w",
+      "ownerKey": "champion_chogath"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Chogath.json.gz",
+      "sha256": "e098bd867debab64aa497e4ef7155677f7bdb6aeb881e41411b1515bd9736eac",
+      "root": "web"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Chogath.json",
+      "sha256": "f4413f86c1c4c7074b433c703cf4e0cbb6c10a41b419e64f528dc2becfe96ff3",
+      "root": "web"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Chogath.json",
+      "sha256": "a132ad9f7eba390af39efe75a61d2bce5d76ae03e33e047552d9612b482c6843",
+      "root": "web"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/科加斯W伤害返回/01-来源独立结论.json",
+      "sha256": "91a03e36bb563f11dde06c58411c0482aecd4121f66e3845caaae4890e08880d"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/chogath_w/effects",
+      "body": {
+        "description": "实际命中敌方英雄时执行一次直接魔法技能伤害，引用已有完整公式；不以目标没有沉默实例为伤害前置。沉默、主动使用及成本冷却分开维护。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "科加斯·野性尖叫命中伤害",
+        "results": [
+          {
+            "description": "引用同技能magic_damage公式：基础伤害加来源总法强的0.7倍。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      },
+      "detailRoute": "/skills/chogath_w/effects/primary_hit",
+      "expectedReadback": {
+        "description": "实际命中敌方英雄时执行一次直接魔法技能伤害，引用已有完整公式；不以目标没有沉默实例为伤害前置。沉默、主动使用及成本冷却分开维护。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "科加斯·野性尖叫命中伤害",
+        "results": [
+          {
+            "description": "引用同技能magic_damage公式：基础伤害加来源总法强的0.7倍。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_w/trigger-rules",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行野性尖叫伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费本技能实际命中敌方英雄的事件，不从施放或延迟结束生成命中；目标已有沉默实例仍可受到本次伤害。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "chogath_w"
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "科加斯·野性尖叫实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "detailRoute": "/skills/chogath_w/trigger-rules/actual_hit",
+      "expectedReadback": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行野性尖叫伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费本技能实际命中敌方英雄的事件，不从施放或延迟结束生成命中；目标已有沉默实例仍可受到本次伤害。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "chogath_w",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "科加斯·野性尖叫实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "scopeNote": "只补实际敌方英雄命中伤害；不增加施放时长、不把沉默实例不存在作为伤害前置、不登记整技能完成"
+}

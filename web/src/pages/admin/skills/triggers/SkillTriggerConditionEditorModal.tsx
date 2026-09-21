@@ -1,5 +1,6 @@
 import { changeLifecycleCheckKind, changeLifecycleEffect, lifecycleConditionEffects, lifecycleConditionError, lifecycleNeedsSubject, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
 import { allowsExplicitTargetIsSource, explicitTargetIsSourceError, explicitTargetIsSourceHelp } from './explicitTargetCondition';
+import { allowsSkillHitEnemy, skillHitEnemyError, skillHitEnemyHelp } from './skillHitEnemyCondition';
 import { allowsTargetCategoryCheck, targetCategoryConditionError, targetCategoryConditionHelp, TARGET_CATEGORY_LABELS } from './targetCategoryCondition';
 import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerTargetCategory } from '../../../../types/skillTriggerRule';
 import { numericValueError } from '../numericValueForm';
@@ -16,7 +17,7 @@ import {
   Space,
   Switch
 } from '@arco-design/web-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useState } from 'react';
 import type { Attribute } from '../../../../types/attribute';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
@@ -36,13 +37,13 @@ import {
   SKILL_TRIGGER_COMPARATORS,
   SKILL_TRIGGER_CONDITION_TYPE_LABELS,
   SKILL_TRIGGER_CONDITION_TYPES,
-  SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT,
   SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS,
   SKILL_TRIGGER_STATUS_CHECK_LABELS,
   SKILL_TRIGGER_SUBJECT_LABELS,
   allowedEventValuesFor,
   attributeValueKinds,
   createEmptyConditionDraft,
+  eventValueHint,
   eventValueOptionLabel,
   patchAttributeCompareDetail,
   patchEventValueCompareDetail,
@@ -131,9 +132,10 @@ export function SkillTriggerConditionEditorModal({
   const conditionTypes = SKILL_TRIGGER_CONDITION_TYPES.filter(
     (value) => value !== 'EVENT_VALUE_COMPARE' || allowedValues.length > 0
   ).filter((value) => value !== 'TARGET_CATEGORY_CHECK' || allowsTargetCategoryCheck(eventSource.eventType) || originalConditionType === value)
-    .filter((value) => value !== 'EXPLICIT_TARGET_IS_SOURCE' || allowsExplicitTargetIsSource(eventSource.eventType) || originalConditionType === value);
+    .filter((value) => value !== 'EXPLICIT_TARGET_IS_SOURCE' || allowsExplicitTargetIsSource(eventSource.eventType) || originalConditionType === value)
+    .filter((value) => value !== 'SKILL_HIT_TARGET_IS_ENEMY' || allowsSkillHitEnemy(eventSource.eventType) || originalConditionType === value);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!visible) return;
     setCurrent(draft ?? createEmptyConditionDraft(existingKeys));
     setLocalError(null);
@@ -169,6 +171,10 @@ export function SkillTriggerConditionEditorModal({
       const error = explicitTargetIsSourceError(eventSource.eventType);
       if (error) { setLocalError(error); return; }
     }
+    if (current.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY') {
+      const error = skillHitEnemyError(eventSource.eventType);
+      if (error) { setLocalError(error); return; }
+    }
     if (current.conditionType === 'LIFECYCLE_CHECK') {
       if (effectsLoadState === 'error') { setLocalError('效果目录加载失败，请重试后选择生命周期。'); return; }
       const issue = lifecycleConditionError(current.detail, selectedLifecycle, subjectOptions, { parameters, formulas }, { parametersState: parametersLoadState }, skillKey);
@@ -180,6 +186,7 @@ export function SkillTriggerConditionEditorModal({
     }
     if (current.conditionType !== 'TARGET_CATEGORY_CHECK'
       && current.conditionType !== 'EXPLICIT_TARGET_IS_SOURCE'
+      && current.conditionType !== 'SKILL_HIT_TARGET_IS_ENEMY'
       && current.detail.comparator !== null) {
       const error = numericValueError(current.detail.comparisonValue, { parameters, formulas }, { allowRuntimeInput: false, parametersState: parametersLoadState });
       if (error) { setLocalError(error); return; }
@@ -277,6 +284,10 @@ export function SkillTriggerConditionEditorModal({
 
           {current.conditionType === 'EXPLICIT_TARGET_IS_SOURCE' ? (
             <Alert type="info" content={explicitTargetIsSourceHelp(eventSource.eventType)} />
+          ) : null}
+
+          {current.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY' ? (
+            <Alert type="info" content={skillHitEnemyHelp(eventSource.eventType)} />
           ) : null}
 
           {current.conditionType === 'ATTRIBUTE_COMPARE' ? (
@@ -601,14 +612,7 @@ export function SkillTriggerConditionEditorModal({
                 <Form.Item
                   label="事件值"
                   required
-                  extra={
-                    current.detail.eventValueKey === 'BLOCKED'
-                    || current.detail.eventValueKey === 'SKILL_HIT_SPELL_SHIELD_BLOCKED'
-                    || current.detail.eventValueKey === 'IMMUNE'
-                    || current.detail.eventValueKey === 'KILLED'
-                      ? SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT
-                      : undefined
-                  }
+                  extra={eventValueHint(current.detail.eventValueKey)}
                 >
                   <Select
                     aria-label="事件值"

@@ -1,0 +1,364 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/xerath_e/effects",
+      "detailRoute": "/skills/xerath_e/effects/mage_spear_hit",
+      "body": {
+        "effectKey": "mage_spear_hit",
+        "name": "冲击法球实际命中魔法伤害",
+        "description": "本轮1V1唯一敌方英雄的一次实际命中直接魔法伤害；距离对应眩晕另行处理。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能 damage 公式；不包含眩晕距离或时长。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mage_spear_hit",
+        "name": "冲击法球实际命中魔法伤害",
+        "description": "本轮1V1唯一敌方英雄的一次实际命中直接魔法伤害；距离对应眩晕另行处理。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能 damage 公式；不包含眩晕距离或时长。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/xerath_e/processes",
+      "detailRoute": "/skills/xerath_e/processes/cast",
+      "body": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "登记法力、普通冷却与当前根明确的250毫秒施法延迟；伤害由独立实际命中入口处理，不能把施法结束当成投射物命中。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "施放冲击法球",
+        "processKey": "cast",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能 spellCastTime，按毫秒录入。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ]
+      },
+      "expectedReadback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "登记法力、普通冷却与当前根明确的250毫秒施法延迟；伤害由独立实际命中入口处理，不能把施法结束当成投射物命中。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "施放冲击法球",
+        "processKey": "cast",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能 spellCastTime，按毫秒录入。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/xerath_e/trigger-rules",
+      "detailRoute": "/skills/xerath_e/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动冲击法球过程",
+        "description": "接收本技能主动使用，启动既有法力效果、普通冷却及250毫秒延迟的过程；不自动执行命中伤害或眩晕。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "xerath_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动冲击法球过程",
+        "description": "接收本技能主动使用，启动既有法力效果、普通冷却及250毫秒延迟的过程；不自动执行命中伤害或眩晕。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "xerath_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/xerath_e/trigger-rules",
+      "detailRoute": "/skills/xerath_e/trigger-rules/actual_hit",
+      "body": {
+        "ruleKey": "actual_hit",
+        "name": "冲击法球实际命中",
+        "description": "仅消费本技能对当前唯一敌方英雄的实际命中，执行直接伤害；规则不生产投射物、首个目标或眩晕事件。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "xerath_e"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "damage",
+            "name": "执行命中伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "mage_spear_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_hit",
+        "name": "冲击法球实际命中",
+        "description": "仅消费本技能对当前唯一敌方英雄的实际命中，执行直接伤害；规则不生产投射物、首个目标或眩晕事件。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "xerath_e",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "damage",
+            "name": "执行命中伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "mage_spear_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "6e79fdee15a38d3a39c20f54d1ee5f0769d2b772816176489aac3577e2b4cf47",
+  "baselineSha256": "aee2a24f045e5db3f52f06e66d8443cdfb6e3657216cf3361956d0529cc23c5e"
+}

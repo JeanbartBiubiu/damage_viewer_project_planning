@@ -1,0 +1,269 @@
+{
+  "title": "索拉卡R使用成本与基础施放补录",
+  "planRevision": 1,
+  "at": "2026-09-19T10:06:11.558Z",
+  "targets": [
+    {
+      "skillKey": "soraka_r",
+      "ownerKey": "champion_soraka"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Soraka.json",
+      "sha256": "a4893c5310ec7128592abd5e41c67d8bd82d0aa66ba9d200da7605a4913883f2"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Soraka.json.gz",
+      "sha256": "d47a49a8a3760a64b0f7468a1eaa59b2b594998f8ff37907ca8c7f9bfd1b089a"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/索拉卡R条件治疗首次页面/10-完整性后续核对.json",
+      "sha256": "3fed22fa7e5d868b0df09375e18430687e7b1932386e43e502b5cf39e3236bc7"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/索拉卡R条件治疗首次页面/07-独立回读.json",
+      "sha256": "d39bdf7f6fe8079ad35481092fbcf6907a8464a26f8a3974313dee35ec1fcb1e"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/soraka_r/effects",
+      "detailRoute": "/skills/soraka_r/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能主动使用开始时消耗100法力，复用既有法力参数。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能主动使用开始时消耗100法力，复用既有法力参数。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/soraka_r/processes",
+      "detailRoute": "/skills/soraka_r/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "祈愿基础施放与消耗冷却",
+        "activationType": "ACTIVE",
+        "description": "登记250毫秒基础施法，以及开始时100法力消耗和普通冷却；自身治疗仍由本次使用的正常与低生命互斥规则执行，不重复挂接治疗。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_delay",
+            "name": "基础施法时间",
+            "description": "客户端mCastTime为0.25秒，读取既有250毫秒参数；不从延迟结束再次执行治疗。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "祈愿基础施放与消耗冷却",
+        "activationType": "ACTIVE",
+        "description": "登记250毫秒基础施法，以及开始时100法力消耗和普通冷却；自身治疗仍由本次使用的正常与低生命互斥规则执行，不重复挂接治疗。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_delay",
+            "name": "基础施法时间",
+            "description": "客户端mCastTime为0.25秒，读取既有250毫秒参数；不从延迟结束再次执行治疗。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/soraka_r/trigger-rules",
+      "detailRoute": "/skills/soraka_r/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "祈愿主动使用登记消耗冷却",
+        "description": "自身ACTIVE使用仅启动基础施放与消耗冷却过程；本次治疗匹配由两条原互斥规则独立负责，过程不重复治疗。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "soraka_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动基础施放",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "祈愿主动使用登记消耗冷却",
+        "description": "自身ACTIVE使用仅启动基础施放与消耗冷却过程；本次治疗匹配由两条原互斥规则独立负责，过程不重复治疗。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "soraka_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动基础施放",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "scope": "只追加3个成熟组成，原两治疗效果和互斥规则保持，不新增治疗入口或重复治疗；参数公式主体关系图片保持。",
+  "remaining": [
+    "法力参数与主体过时说明纠正",
+    "终极技能分类目录及本技能关联",
+    "完整管理范围最终核对"
+  ],
+  "runtimeValidation": "未实现、未验证"
+}

@@ -1,0 +1,1385 @@
+{
+  "at": "2026-09-19T14:48:41.008Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/olaf_w": {
+      "createdAt": "2026-09-06T18:19:44.174023Z",
+      "description": "奥拉夫的攻击速度得到提升，并获得一层护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "奥拉夫·挺过去",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "olaf_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:44.174023Z"
+    },
+    "/characters/champion_olaf": {
+      "characterKey": "champion_olaf",
+      "createdAt": "2026-09-06T16:29:00.8357Z",
+      "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+      "gameId": "lol",
+      "name": "奥拉夫",
+      "updatedAt": "2026-09-06T16:29:00.8357Z"
+    },
+    "/characters/champion_olaf/attributes": {
+      "characterKey": "champion_olaf",
+      "levelValues": {
+        "1": {
+          "move_speed": 350,
+          "hp": 645,
+          "hp_regen": 6.5,
+          "mana": 316,
+          "mana_regen": 7.5,
+          "armor": 35,
+          "magic_resistance": 32,
+          "attack_damage": 68,
+          "attack_speed": 0.72,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 350,
+          "hp": 730.68,
+          "hp_regen": 6.932,
+          "mana": 352,
+          "mana_regen": 7.932,
+          "armor": 38.024,
+          "magic_resistance": 33.476,
+          "attack_damage": 71.384,
+          "attack_speed": 0.733491,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 350,
+          "hp": 820.525,
+          "hp_regen": 7.385,
+          "mana": 389.75,
+          "mana_regen": 8.385,
+          "armor": 41.195,
+          "magic_resistance": 35.02375,
+          "attack_damage": 74.9325,
+          "attack_speed": 0.747639,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 350,
+          "hp": 914.535,
+          "hp_regen": 7.859,
+          "mana": 429.25,
+          "mana_regen": 8.859,
+          "armor": 44.513,
+          "magic_resistance": 36.64325,
+          "attack_damage": 78.6455,
+          "attack_speed": 0.762442,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 350,
+          "hp": 1012.71,
+          "hp_regen": 8.354,
+          "mana": 470.5,
+          "mana_regen": 9.354,
+          "armor": 47.978,
+          "magic_resistance": 38.3345,
+          "attack_damage": 82.523,
+          "attack_speed": 0.7779,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 350,
+          "hp": 1115.05,
+          "hp_regen": 8.87,
+          "mana": 513.5,
+          "mana_regen": 9.87,
+          "armor": 51.59,
+          "magic_resistance": 40.0975,
+          "attack_damage": 86.565,
+          "attack_speed": 0.794015,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 350,
+          "hp": 1221.555,
+          "hp_regen": 9.407,
+          "mana": 558.25,
+          "mana_regen": 10.407,
+          "armor": 55.349,
+          "magic_resistance": 41.93225,
+          "attack_damage": 90.7715,
+          "attack_speed": 0.810786,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 350,
+          "hp": 1332.225,
+          "hp_regen": 9.965,
+          "mana": 604.75,
+          "mana_regen": 10.965,
+          "armor": 59.255,
+          "magic_resistance": 43.83875,
+          "attack_damage": 95.1425,
+          "attack_speed": 0.828212,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 350,
+          "hp": 1447.06,
+          "hp_regen": 10.544,
+          "mana": 653,
+          "mana_regen": 11.544,
+          "armor": 63.308,
+          "magic_resistance": 45.817,
+          "attack_damage": 99.678,
+          "attack_speed": 0.846294,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 350,
+          "hp": 1566.06,
+          "hp_regen": 11.144,
+          "mana": 703,
+          "mana_regen": 12.144,
+          "armor": 67.508,
+          "magic_resistance": 47.867,
+          "attack_damage": 104.378,
+          "attack_speed": 0.865032,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 350,
+          "hp": 1689.225,
+          "hp_regen": 11.765,
+          "mana": 754.75,
+          "mana_regen": 12.765,
+          "armor": 71.855,
+          "magic_resistance": 49.98875,
+          "attack_damage": 109.2425,
+          "attack_speed": 0.884426,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 350,
+          "hp": 1816.555,
+          "hp_regen": 12.407,
+          "mana": 808.25,
+          "mana_regen": 13.407,
+          "armor": 76.349,
+          "magic_resistance": 52.18225,
+          "attack_damage": 114.2715,
+          "attack_speed": 0.904476,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 350,
+          "hp": 1948.05,
+          "hp_regen": 13.07,
+          "mana": 863.5,
+          "mana_regen": 14.07,
+          "armor": 80.99,
+          "magic_resistance": 54.4475,
+          "attack_damage": 119.465,
+          "attack_speed": 0.925181,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 350,
+          "hp": 2083.71,
+          "hp_regen": 13.754,
+          "mana": 920.5,
+          "mana_regen": 14.754,
+          "armor": 85.778,
+          "magic_resistance": 56.7845,
+          "attack_damage": 124.823,
+          "attack_speed": 0.946542,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 350,
+          "hp": 2223.535,
+          "hp_regen": 14.459,
+          "mana": 979.25,
+          "mana_regen": 15.459,
+          "armor": 90.713,
+          "magic_resistance": 59.19325,
+          "attack_damage": 130.3455,
+          "attack_speed": 0.96856,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 350,
+          "hp": 2367.525,
+          "hp_regen": 15.185,
+          "mana": 1039.75,
+          "mana_regen": 16.185,
+          "armor": 95.795,
+          "magic_resistance": 61.67375,
+          "attack_damage": 136.0325,
+          "attack_speed": 0.991233,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 350,
+          "hp": 2515.68,
+          "hp_regen": 15.932,
+          "mana": 1102,
+          "mana_regen": 16.932,
+          "armor": 101.024,
+          "magic_resistance": 64.226,
+          "attack_damage": 141.884,
+          "attack_speed": 1.014561,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 350,
+          "hp": 2668,
+          "hp_regen": 16.7,
+          "mana": 1166,
+          "mana_regen": 17.7,
+          "armor": 106.4,
+          "magic_resistance": 66.85,
+          "attack_damage": 147.9,
+          "attack_speed": 1.038546,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_olaf/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_olaf",
+        "name": "champion_olaf"
+      }
+    },
+    "/skills/olaf_w/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_olaf_w",
+        "name": "olaf_w"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_olaf": {
+      "items": [
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "olaf_p",
+          "skillName": "奥拉夫·狂战之怒",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "olaf_q",
+          "skillName": "奥拉夫·逆流投掷",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "olaf_w",
+          "skillName": "奥拉夫·挺过去",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "olaf_e",
+          "skillName": "奥拉夫·鲁莽挥击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "olaf_r",
+          "skillName": "奥拉夫·诸神黄昏",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=olaf_w": {
+      "items": [
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "olaf_w",
+          "skillName": "奥拉夫·挺过去",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        }
+      ],
+      "total": 1
+    },
+    "/skills/olaf_w/parameters": [
+      {
+        "createdAt": "2026-09-08T17:37:59.206991Z",
+        "description": "客户端当前根绑定 DataValues.Attackspeed 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.4,
+          "2": 0.5,
+          "3": 0.6,
+          "4": 0.7,
+          "5": 0.8
+        },
+        "name": "额外攻速比例",
+        "parameterKey": "attack_speed_ratio",
+        "skillKey": "olaf_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T17:37:59.206991Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T17:37:59.781093Z",
+        "description": "客户端当前根绑定 DataValues.Duration 取索引1至5。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "攻速持续（毫秒）",
+        "parameterKey": "attack_speed_duration_ms",
+        "skillKey": "olaf_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T17:37:59.781093Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:00.330739Z",
+        "description": "客户端当前根绑定 DataValues.BaseShield 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10,
+          "2": 40,
+          "3": 70,
+          "4": 100,
+          "5": 130
+        },
+        "name": "护盾基础值",
+        "parameterKey": "base_shield",
+        "skillKey": "olaf_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T17:38:00.330739Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:00.928318Z",
+        "description": "客户端当前根绑定 DataValues.ShieldPercMissingHP 取索引1至5。",
+        "fixedValue": 0.175,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已损失生命护盾系数",
+        "parameterKey": "missing_hp_ratio",
+        "skillKey": "olaf_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-08T17:38:00.928318Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:01.536765Z",
+        "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾持续（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "olaf_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-08T17:38:01.536765Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:02.082491Z",
+        "description": "客户端当前根绑定 DataValues.ThresholdForMax 取索引1至5。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾满额剩余生命比例",
+        "parameterKey": "max_shield_hp_threshold",
+        "skillKey": "olaf_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-08T17:38:02.082491Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:02.640561Z",
+        "description": "用1减去剩余生命阈值得到满额已损失比例。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "生命比例单位",
+        "parameterKey": "one",
+        "skillKey": "olaf_w",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-08T17:38:02.640561Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:27.192219Z",
+        "description": "DDragon16.17.1 Olaf.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "olaf_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:27.192219Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:27.598941Z",
+        "description": "DDragon16.17.1 Olaf.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "olaf_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:27.598941Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/olaf_w/parameters/attack_speed_ratio": {
+      "createdAt": "2026-09-08T17:37:59.206991Z",
+      "description": "客户端当前根绑定 DataValues.Attackspeed 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.4,
+        "2": 0.5,
+        "3": 0.6,
+        "4": 0.7,
+        "5": 0.8
+      },
+      "name": "额外攻速比例",
+      "parameterKey": "attack_speed_ratio",
+      "skillKey": "olaf_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T17:37:59.206991Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/olaf_w/parameters/attack_speed_duration_ms": {
+      "createdAt": "2026-09-08T17:37:59.781093Z",
+      "description": "客户端当前根绑定 DataValues.Duration 取索引1至5。",
+      "fixedValue": 5000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "攻速持续（毫秒）",
+      "parameterKey": "attack_speed_duration_ms",
+      "skillKey": "olaf_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-08T17:37:59.781093Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_w/parameters/base_shield": {
+      "createdAt": "2026-09-08T17:38:00.330739Z",
+      "description": "客户端当前根绑定 DataValues.BaseShield 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10,
+        "2": 40,
+        "3": 70,
+        "4": 100,
+        "5": 130
+      },
+      "name": "护盾基础值",
+      "parameterKey": "base_shield",
+      "skillKey": "olaf_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-08T17:38:00.330739Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_w/parameters/missing_hp_ratio": {
+      "createdAt": "2026-09-08T17:38:00.928318Z",
+      "description": "客户端当前根绑定 DataValues.ShieldPercMissingHP 取索引1至5。",
+      "fixedValue": 0.175,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "已损失生命护盾系数",
+      "parameterKey": "missing_hp_ratio",
+      "skillKey": "olaf_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-08T17:38:00.928318Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/olaf_w/parameters/shield_duration_ms": {
+      "createdAt": "2026-09-08T17:38:01.536765Z",
+      "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5。",
+      "fixedValue": 2500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾持续（毫秒）",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "olaf_w",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-08T17:38:01.536765Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_w/parameters/max_shield_hp_threshold": {
+      "createdAt": "2026-09-08T17:38:02.082491Z",
+      "description": "客户端当前根绑定 DataValues.ThresholdForMax 取索引1至5。",
+      "fixedValue": 0.3,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾满额剩余生命比例",
+      "parameterKey": "max_shield_hp_threshold",
+      "skillKey": "olaf_w",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-08T17:38:02.082491Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/olaf_w/parameters/one": {
+      "createdAt": "2026-09-08T17:38:02.640561Z",
+      "description": "用1减去剩余生命阈值得到满额已损失比例。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "生命比例单位",
+      "parameterKey": "one",
+      "skillKey": "olaf_w",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-08T17:38:02.640561Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:27.192219Z",
+      "description": "DDragon16.17.1 Olaf.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 16000,
+        "2": 15000,
+        "3": 14000,
+        "4": 13000,
+        "5": 12000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "olaf_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:27.192219Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:27.598941Z",
+      "description": "DDragon16.17.1 Olaf.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 50,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "olaf_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:00:27.598941Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_w/formulas": [
+      {
+        "createdAt": "2026-09-08T17:38:03.257328Z",
+        "description": "基础10/40/70/100/130 + .175已损失生命。",
+        "formulaKey": "uncapped_shield",
+        "gameId": "lol",
+        "name": "未封顶护盾",
+        "skillKey": "olaf_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:38:03.257328Z"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:03.888649Z",
+        "description": "基础 + .175×(1-.3)×最大生命。",
+        "formulaKey": "max_shield",
+        "gameId": "lol",
+        "name": "低于30%生命时的护盾上限",
+        "skillKey": "olaf_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T17:38:03.888649Z"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:04.54868Z",
+        "description": "已损失生命护盾在剩余生命低于30%时按上限封顶。",
+        "formulaKey": "shield",
+        "gameId": "lol",
+        "name": "挺过去护盾值",
+        "skillKey": "olaf_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T17:38:04.54868Z"
+      }
+    ],
+    "/skills/olaf_w/formulas/uncapped_shield": {
+      "createdAt": "2026-09-08T17:38:03.257328Z",
+      "description": "基础10/40/70/100/130 + .175已损失生命。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "missing_hp_ratio"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "MISSING",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "uncapped_shield",
+      "gameId": "lol",
+      "name": "未封顶护盾",
+      "skillKey": "olaf_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T17:38:03.257328Z"
+    },
+    "/skills/olaf_w/formulas/max_shield": {
+      "createdAt": "2026-09-08T17:38:03.888649Z",
+      "description": "基础 + .175×(1-.3)×最大生命。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "missing_hp_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "one"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "max_shield_hp_threshold"
+                      }
+                    ],
+                    "operation": "SUBTRACT"
+                  },
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "max_shield",
+      "gameId": "lol",
+      "name": "低于30%生命时的护盾上限",
+      "skillKey": "olaf_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-08T17:38:03.888649Z"
+    },
+    "/skills/olaf_w/formulas/shield": {
+      "createdAt": "2026-09-08T17:38:04.54868Z",
+      "description": "已损失生命护盾在剩余生命低于30%时按上限封顶。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_shield"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "missing_hp_ratio"
+                  },
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "MISSING",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_shield"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "missing_hp_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "one"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "max_shield_hp_threshold"
+                          }
+                        ],
+                        "operation": "SUBTRACT"
+                      },
+                      {
+                        "attributeKey": "hp",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        ],
+        "operation": "MIN"
+      },
+      "formulaKey": "shield",
+      "gameId": "lol",
+      "name": "挺过去护盾值",
+      "skillKey": "olaf_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T17:38:04.54868Z"
+    },
+    "/skills/olaf_w/effects": [
+      {
+        "createdAt": "2026-09-08T17:38:05.282706Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "olaf_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:38:05.282706Z"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:05.918677Z",
+        "description": "独立普通护盾；耗尽结束本效果，不取消其它独立效果。",
+        "effectKey": "cast_shield",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "挺过去护盾",
+        "resultCount": 1,
+        "skillKey": "olaf_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T17:38:05.918677Z"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:06.557378Z",
+        "description": "独立5秒攻速；护盾2.5秒耗尽不得提前取消本效果。",
+        "effectKey": "attack_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "挺过去攻速",
+        "resultCount": 1,
+        "skillKey": "olaf_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T17:38:06.557378Z"
+      }
+    ],
+    "/skills/olaf_w/effects/mana_cost": {
+      "createdAt": "2026-09-08T17:38:05.282706Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "olaf_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T17:38:05.282706Z"
+    },
+    "/skills/olaf_w/effects/cast_shield": {
+      "createdAt": "2026-09-08T17:38:05.918677Z",
+      "description": "独立普通护盾；耗尽结束本效果，不取消其它独立效果。",
+      "effectKey": "cast_shield",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "挺过去护盾",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "挺过去护盾",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "shield",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "olaf_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-08T17:38:05.918677Z"
+    },
+    "/skills/olaf_w/effects/attack_speed": {
+      "createdAt": "2026-09-08T17:38:06.557378Z",
+      "description": "独立5秒攻速；护盾2.5秒耗尽不得提前取消本效果。",
+      "effectKey": "attack_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "attack_speed_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "挺过去攻速",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "挺过去攻速",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "attack_speed_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "olaf_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T17:38:06.557378Z"
+    },
+    "/skills/olaf_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-08T17:38:07.278351Z",
+        "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+        "effectBindingCount": 3,
+        "gameId": "lol",
+        "name": "施放挺过去",
+        "processKey": "cast",
+        "skillKey": "olaf_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-08T17:38:07.278351Z"
+      }
+    ],
+    "/skills/olaf_w/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-08T17:38:07.278351Z",
+      "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        },
+        {
+          "bindingKey": "cast_shield",
+          "effectKey": "cast_shield",
+          "moment": {
+            "momentType": "STEP_COMPLETE",
+            "stepKey": "start"
+          },
+          "sortOrder": 20
+        },
+        {
+          "bindingKey": "attack_speed",
+          "effectKey": "attack_speed",
+          "moment": {
+            "momentType": "STEP_COMPLETE",
+            "stepKey": "start"
+          },
+          "sortOrder": 30
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放挺过去",
+      "processKey": "cast",
+      "skillKey": "olaf_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": null,
+          "detail": {},
+          "name": "施放开始",
+          "sortOrder": 10,
+          "stepKey": "start",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-08T17:38:07.278351Z"
+    },
+    "/skills/olaf_w/internal-states": [],
+    "/skills/olaf_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "以主动 SKILL_USED 为输入；CURRENT_TARGET 没有显式目标时回退来源对象，启动已有 cast 过程，由过程管理法力、冷却、护盾与攻速。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "挺过去主动使用启动过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T12:02:36.768743Z"
+      }
+    ],
+    "/skills/olaf_w/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动挺过去过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "以主动 SKILL_USED 为输入；CURRENT_TARGET 没有显式目标时回退来源对象，启动已有 cast 过程，由过程管理法力、冷却、护盾与攻速。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "olaf_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "挺过去主动使用启动过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/attributes/hp": {
+      "attributeKey": "hp",
+      "createdAt": "2026-08-22T15:27:36.051116Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "生命值",
+      "sortOrder": 300,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.051116Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/bonus_attack_speed_percent": {
+      "attributeKey": "bonus_attack_speed_percent",
+      "createdAt": "2026-08-30T16:27:55.439812Z",
+      "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "额外攻击速度比例",
+      "sortOrder": 521,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:27:55.439812Z",
+      "valueType": "DECIMAL"
+    },
+    "/modifier-zones/attribute_flat_add": {
+      "applicationStage": "ATTRIBUTE_FLAT",
+      "calculationMode": "FLAT_ADD",
+      "createdAt": "2026-09-06T16:50:52.756989Z",
+      "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+      "domain": "ATTRIBUTE",
+      "gameId": "lol",
+      "modifierZoneKey": "attribute_flat_add",
+      "name": "属性固定加算",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T16:50:52.756989Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_olaf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_olaf/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_olaf/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_olaf",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=olaf_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/attack_speed_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/missing_hp_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/max_shield_hp_threshold",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/one",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/formulas/uncapped_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/formulas/max_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/formulas/shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/effects/cast_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/effects/attack_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/hp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/bonus_attack_speed_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/effects/attack_timer_reset",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/trigger-rules/on_used_attack_reset",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

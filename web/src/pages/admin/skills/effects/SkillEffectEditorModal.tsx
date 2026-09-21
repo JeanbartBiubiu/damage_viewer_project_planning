@@ -25,6 +25,8 @@ import { createSkillEffect, getSkillEffect, listSkillEffects, updateSkillEffect 
 import { listSkillFormulas } from '../../../../services/skillFormulaClient';
 import { listSkillCategories } from '../../../../services/skillCategoryClient';
 import { listSkills } from '../../../../services/skillClient';
+import { listStatuses } from '../../../../services/statusClient';
+import type { GameStatus } from '../../../../types/status';
 import type { Attribute } from '../../../../types/attribute';
 import type { Skill } from '../../../../types/skill';
 import type { SkillCategory } from '../../../../types/skillCategory';
@@ -191,13 +193,16 @@ function referenceSummary(
       return `${operation} · ${formula} · ${scope}`;
     }
     case 'STATUS_OPERATION':
-      return result.statusKey || '—';
+      return result.value !== null && result.statusOperation === 'APPLY'
+        ? `${result.statusKey} · 减速比例 ${formula} × ${result.fixedMultiplier}（0 至 1）`
+        : result.statusKey || '—';
     case 'LIFECYCLE_OPERATION':
       return result.targetEffectKey || '—';
     case 'DAMAGE_MODIFIER':
     case 'DAMAGE_IMMUNITY':
       return result.damageTypeKey || '全部伤害';
     case 'HEALING_MODIFIER':
+    case 'SHIELD_RECEIVED_MODIFIER':
       return numericValueSummary(result.value, names?.formulas);
     case 'HEALTH_FLOOR':
       return result.attributeKey || '—';
@@ -211,6 +216,8 @@ function referenceSummary(
       return numericValueSummary(result.value, names?.formulas);
     case 'SPELL_SHIELD':
       return '—';
+    case 'ATTACK_TIMER_RESET':
+      return '清零普通攻击间隔的剩余等待';
     default: {
       const unexpected: never = result.resultType;
       return unexpected;
@@ -255,6 +262,11 @@ function interactionSummary(result: SkillEffectResultDraft): string {
       ? SKILL_EFFECT_CRITICAL_FILTER_LABELS[result.criticalFilter]
       : '—';
     return `${direction} / ${operation} / ${delivery} / ${origin} / ${critical}`;
+  }
+  if (result.resultType === 'SHIELD_RECEIVED_MODIFIER') {
+    const operation = result.modifierOperation
+      ? SKILL_EFFECT_MODIFIER_OPERATION_LABELS[result.modifierOperation] : '—';
+    return `收到普通护盾 / ${operation}`;
   }
   if (result.resultType === 'HEALING_MODIFIER') {
     const direction = result.healingModifierDirection
@@ -336,10 +348,14 @@ export function SkillEffectEditorModal({
   const [formulasError, setFormulasError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
-  const [detailReady, setDetailReady] = useState(mode === 'create');
+  const [detailReady, setDetailReady] = useState(false);
   const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
   const { parameters, parametersLoadState } = useNumericParameters(apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible);
   const [formulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [statuses, setStatuses] = useState<GameStatus[]>([]);
+  const [statusesLoadState, setStatusesLoadState] = useState<'ready' | 'failed' | undefined>();
+  const [statusesError, setStatusesError] = useState<string | null>(null);
+  const statusSerial = useRef(0);
   const [attributes, setAttributes] = useState<Attribute[]>([]);
   const [attributesLoadState, setAttributesLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
   const [attributesError, setAttributesError] = useState<string | null>(null);
@@ -366,6 +382,10 @@ export function SkillEffectEditorModal({
   }, [onDirtyChange]);
 
   const resetLocalState = useCallback(() => {
+    statusSerial.current += 1;
+    setStatuses([]);
+    setStatusesLoadState(undefined);
+    setStatusesError(null);
     detailSerial.current += 1;
     formulaSerial.current += 1;
     attributeSerial.current += 1;
@@ -382,7 +402,7 @@ export function SkillEffectEditorModal({
     setFormulasError(null);
     setSaving(false);
     setLoadingDetail(false);
-    setDetailReady(mode === 'create');
+    setDetailReady(false);
     setFormulas([]);
     setFormulasLoadState(undefined);
     setAttributes([]);
@@ -423,6 +443,26 @@ export function SkillEffectEditorModal({
       setFormulasError(getErrorMessage(error));
     }
   }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
+
+  const loadStatusesCatalog = useCallback(async () => {
+    const serial = ++statusSerial.current;
+    const token = adminToken.trim();
+    setStatuses([]);
+    setStatusesLoadState(undefined);
+    setStatusesError(null);
+    if (!visible || !token) return;
+    try {
+      const response = await listStatuses(apiBaseUrl, selectedGameId, token);
+      if (serial !== statusSerial.current) return;
+      setStatuses(response.data.items);
+      setStatusesLoadState('ready');
+      setStatusesError(null);
+    } catch (error) {
+      if (serial !== statusSerial.current) return;
+      setStatusesLoadState('failed');
+      setStatusesError(getErrorMessage(error));
+    }
+  }, [adminToken, apiBaseUrl, selectedGameId, visible]);
 
   const loadAttributesCatalog = useCallback(async () => {
     const serial = attributeSerial.current + 1;
@@ -542,6 +582,7 @@ export function SkillEffectEditorModal({
       setLoadingDetail(false);
       return;
     }
+    setDetailReady(false);
     setLoadingDetail(true);
     setLoadError(null);
     try {
@@ -594,11 +635,12 @@ export function SkillEffectEditorModal({
     setSaving(false);
     void loadDetail();
     void loadFormulas();
+    void loadStatusesCatalog();
     void loadAttributesCatalog();
     void loadSkillsCatalog();
     void loadSkillCategoriesCatalog();
     void loadEffectSummaries();
-  }, [loadAttributesCatalog, loadDetail, loadEffectSummaries, loadFormulas, loadSkillCategoriesCatalog, loadSkillsCatalog, onDirtyChange, resetLocalState, visible]);
+  }, [loadStatusesCatalog, loadAttributesCatalog, loadDetail, loadEffectSummaries, loadFormulas, loadSkillCategoriesCatalog, loadSkillsCatalog, onDirtyChange, resetLocalState, visible]);
 
   const patchField = <K extends keyof SkillEffectDraft>(field: K, value: SkillEffectDraft[K]) => {
     const next = clearHiddenLifecycleFields({ ...draft, [field]: value });
@@ -673,12 +715,13 @@ export function SkillEffectEditorModal({
         attributes,
         skills,
         skillCategories,
-        statuses: []
+        statuses
       },
       catalogLoadState: {
         formulas: formulasLoadState,
         effects: effectsLoadState,
-        attributes: attributesLoadState
+        attributes: attributesLoadState,
+        statuses: statusesLoadState
       }
     });
     if (!validation.ok) {
@@ -877,10 +920,12 @@ export function SkillEffectEditorModal({
     },
     {
       title: '排序',
+      width: 80,
       render: (_value, row: { item: SkillEffectResultDraft }) => row.item.sortOrder
     },
     {
       title: '操作',
+      width: 180,
       render: (_value, row: { item: SkillEffectResultDraft; index: number }) => (
         <Space size="mini">
           <Button
@@ -988,6 +1033,10 @@ export function SkillEffectEditorModal({
               }
             />
           ) : null}
+          {statusesError && draft.results.some((item) => item.resultType === 'STATUS_OPERATION') ? (
+            <Alert type="error" content={statusesError}
+              action={<Button size="mini" onClick={() => void loadStatusesCatalog()}>重试状态目录</Button>} />
+          ) : null}
           {attributesError ? (
             <Alert
               type="error"
@@ -997,6 +1046,8 @@ export function SkillEffectEditorModal({
               }
             />
           ) : null}
+          {mode === 'create' || (detailReady && !loadingDetail) ? (
+          <Space direction="vertical" size="medium" style={{ width: '100%' }}>
           <Form layout="vertical">
             <Form.Item
               label="效果标识"
@@ -1294,18 +1345,24 @@ export function SkillEffectEditorModal({
               ) : null}
             </div>
             {errors.results ? <Alert type="error" content={errors.results} style={{ marginBottom: 12 }} /> : null}
+            {draft.lifecycleEnabled && draft.results.length === 0 ? (
+              <Alert type="info" content="仅记录生命周期，不产生数值或状态结果。" style={{ marginBottom: 12 }} />
+            ) : null}
             <Table
               className="data-table-shell"
               loading={loadingDetail}
               columns={columns}
               data={displayedResults}
               pagination={false}
+              scroll={{ x: draft.lifecycleEnabled ? 1800 : 1320 }}
               rowKey={(row: { item: SkillEffectResultDraft; index: number }) => (
                 `${row.index}-${row.item.resultKey || 'new'}`
               )}
               noDataElement={<Empty description="暂无结果" />}
             />
           </div>
+          </Space>
+          ) : !loadError ? <Alert type="info" content="正在加载效果详情…" /> : null}
         </Space>
       </Modal>
 

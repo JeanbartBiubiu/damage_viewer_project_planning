@@ -1,0 +1,81 @@
+{
+  "at": "2026-09-20T08:38:07.068Z",
+  "status": "SOURCE_VALUE_AND_INTERPOLATION_NEED_VERIFICATION",
+  "skillKey": "tristana_p",
+  "businessWrites": 0,
+  "HTTPGETs": 13,
+  "current": {
+    "components": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "baseAttackRangeAllLevels": 550,
+    "baseRangeAlreadyIncludesPassive": false,
+    "baseRangeEvidence": "固定角色attackRangeModifiable.baseValue=550；18级管理属性均550，未随被动等级增加。"
+  },
+  "fixedSources": {
+    "client": {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Tristana.json.gz",
+      "sha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494"
+    },
+    "zh": {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Tristana.json",
+      "sha256": "84fb0ff7f6b1a921e6b13d3dfab5ac4ad48f32f012b9fb912e3bade1ed168b5a"
+    },
+    "en": {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Tristana.json",
+      "sha256": "2ad512109196fbfa13b18ae21b3b47ba6eab2ce057ab5c198816c8177b7d7162"
+    }
+  },
+  "rootBinding": {
+    "characterPassive": "Characters/Tristana/Spells/TristanaPassiveAbility/TristanaPassive",
+    "calculation": "mSpell/mSpellCalculations/BonusPassiveRange",
+    "rawNode": {
+      "mFormulaParts": [
+        {
+          "mEndValue": 150,
+          "__type": "ByCharLevelInterpolationCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    }
+  },
+  "officialFixedMeaning": "攻击射程随等级提高，固定DDragon未直接给出18级完整值。",
+  "ER": {
+    "rootCastRange": 550,
+    "explicitBonusPassiveRangeReferenceFound": false,
+    "boundary": "未发现该引用不等于不存在联动；尚不以此断言E/R独立或无增益"
+  },
+  "references": [
+    {
+      "url": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-14-19-notes/",
+      "kind": "Riot历史版本说明",
+      "use": "基础射程由525到550，历史被动额外范围写0到125；只说明来源类型和历史起点，不能替代16.17当前150节点。"
+    },
+    {
+      "url": "https://www.leagueoflegends.com/en-au/news/game-updates/patch-14-20-notes/",
+      "kind": "Riot历史版本说明",
+      "use": "E与R一级施放范围由525到550，以匹配当时普攻范围；未直接给出当前完整被动联动算法。"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/moonshadow565/calcrev/master/calc.py",
+      "kind": "第三方计算节点逆向实现，非16.17游戏运行证明",
+      "lines": [
+        299,
+        307
+      ],
+      "use": "默认分支按(level-1)/17插值，另有可切换分支；用于定位需核的缺省起点和开关，不直接据此写18级表。"
+    }
+  ],
+  "remaining": [
+    "固定16.17稀疏节点缺省mStartValue与插值开关的可靠解释",
+    "1至18级完整曲线是否线性及精度",
+    "E/R是否复用同一被动增量与准确管理表达"
+  ],
+  "decision": "暂不补零或直接套用旧每级增量；主目标继续其他可完成项，本项在资料待核类别内定点续查。",
+  "runtimeValidation": "未执行"
+}

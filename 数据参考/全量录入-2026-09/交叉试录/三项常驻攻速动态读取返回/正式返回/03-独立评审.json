@@ -1,0 +1,322 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-09-20T09:57:43.5066094Z",
+  "status": "APPROVED",
+  "reviewer": "kogmaw_q_source_math独立冻结请求审查",
+  "methodPolicy": "LOCAL_FILES_ONLY_NO_HTTP_SQL",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "reviewerBusinessWrites": 0,
+  "HTTPRequestsByReviewer": 0,
+  "SQLRequestsByReviewer": 0,
+  "approvedFiles": {
+    "01-冻结请求与允许差异.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/01-冻结请求与允许差异.json",
+      "byteSize": 18120,
+      "sha256": "0b1e47d05f5204bf41206ecd95cf9a1a07aa668252324aa04f4c9961094a0af2",
+      "originalBytesBound": true
+    },
+    "02-写前保护现值.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/02-写前保护现值.json",
+      "byteSize": 102425,
+      "sha256": "739b9c5b8fc571f6cc1f6d67792d219add6669ab0d03d5d109a41c29219f098e",
+      "originalBytesBound": true
+    }
+  },
+  "protectedSnapshot": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/02-写前保护现值.json",
+    "sha256": "739b9c5b8fc571f6cc1f6d67792d219add6669ab0d03d5d109a41c29219f098e",
+    "auditGETCount": 85,
+    "uniqueProtectedRoutes": 78,
+    "reusedGETs": 85,
+    "newGETs": 0,
+    "businessWrites": 0,
+    "methodCounts": {
+      "GET": 85
+    },
+    "statusCounts": {
+      "200": 85
+    }
+  },
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/KogMaw.json.gz",
+      "expectedSha256": "5eafce97815062a4cc8ef819967257c625a487ff560347eeb4dc810a859e8c5c",
+      "actualSha256": "5eafce97815062a4cc8ef819967257c625a487ff560347eeb4dc810a859e8c5c",
+      "matches": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/KogMaw.json",
+      "expectedSha256": "0b3108e708beef63649ff526f6539c2575598f7f19c8e85553d4397bc67ed8ed",
+      "actualSha256": "0b3108e708beef63649ff526f6539c2575598f7f19c8e85553d4397bc67ed8ed",
+      "matches": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/KogMaw.json",
+      "expectedSha256": "5b6abbf6b34516b9d057ce5c2fdbbe99bc615b6630d29a77d9b65dd837338f37",
+      "actualSha256": "5b6abbf6b34516b9d057ce5c2fdbbe99bc615b6630d29a77d9b65dd837338f37",
+      "matches": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/JarvanIV.json.gz",
+      "expectedSha256": "45eb3307c6d2a0015ce3942366e08a6d8b5566402e94afec8d2acef1e473b9ae",
+      "actualSha256": "45eb3307c6d2a0015ce3942366e08a6d8b5566402e94afec8d2acef1e473b9ae",
+      "matches": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/JarvanIV.json",
+      "expectedSha256": "6ad75b89b0c298bbe08c5aa13b46f8013f81a4c6fa460e6826157d8efce4e483",
+      "actualSha256": "6ad75b89b0c298bbe08c5aa13b46f8013f81a4c6fa460e6826157d8efce4e483",
+      "matches": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/JarvanIV.json",
+      "expectedSha256": "27820f30fdda0380b5c25006a6253c4b4bc61050e63b4709c165bd99c14e4343",
+      "actualSha256": "27820f30fdda0380b5c25006a6253c4b4bc61050e63b4709c165bd99c14e4343",
+      "matches": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/TwistedFate.json.gz",
+      "expectedSha256": "9173c046ffc63b7075cf64d2f725c658808685a88539416e4d68df1bc3d23e59",
+      "actualSha256": "9173c046ffc63b7075cf64d2f725c658808685a88539416e4d68df1bc3d23e59",
+      "matches": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/TwistedFate.json",
+      "expectedSha256": "6163447fc01fa1a63c3d959b1a072aba58892f54fd3581b037f93b538f494429",
+      "actualSha256": "6163447fc01fa1a63c3d959b1a072aba58892f54fd3581b037f93b538f494429",
+      "matches": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/TwistedFate.json",
+      "expectedSha256": "8bd11dee51dccdb8553f1df5d92495269d0083ba907b2837f19a8f0ba4ab06ed",
+      "actualSha256": "8bd11dee51dccdb8553f1df5d92495269d0083ba907b2837f19a8f0ba4ab06ed",
+      "matches": true
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/乘区管理与修正结果补充详细设计.md",
+      "expectedSha256": "64a802c3e748c6001050a2d26ba91a4cb1f7e05cd0147f83eb3c7802dd63c524",
+      "actualSha256": "64a802c3e748c6001050a2d26ba91a4cb1f7e05cd0147f83eb3c7802dd63c524",
+      "matches": true
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/02-来源与范围.json",
+      "expectedSha256": "0686a3876f94c8df2afba95a972704a92e5061783a579abc4205464c8d56ffb0",
+      "actualSha256": "0686a3876f94c8df2afba95a972704a92e5061783a579abc4205464c8d56ffb0",
+      "matches": true
+    }
+  ],
+  "contractReview": {
+    "path": "文档记录/详细设计/项目/乘区管理与修正结果补充详细设计.md",
+    "sha256": "64a802c3e748c6001050a2d26ba91a4cb1f7e05cd0147f83eb3c7802dd63c524",
+    "lines": "252-270",
+    "meaning": "MOMENT_EVALUATION 在属性结算时重新读取当前参数；持续属性允许 SHARED，重施值必须为 null；不新增升级事件，不改变初始化动作。"
+  },
+  "requestReview": [
+    {
+      "route": "/skills/kogmaw_q/effects/passive_attack_speed",
+      "skillKey": "kogmaw_q",
+      "effectKey": "passive_attack_speed",
+      "status": "PASS",
+      "allowedChanges": [
+        "description",
+        "results[0].lifecycleBehavior.valueReadMode",
+        "results[0].lifecycleBehavior.reapplicationValueMode"
+      ],
+      "actualChangedPaths": [
+        "description",
+        "results[0].lifecycleBehavior.valueReadMode",
+        "results[0].lifecycleBehavior.reapplicationValueMode"
+      ],
+      "sourceRoot": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
+      "sourceDataValue": "AttackSpeed",
+      "parameterKey": "passive_attack_speed_ratio",
+      "levelDomain": "1至5；管理参数不含未学习0级默认",
+      "values": {
+        "1": 0.05,
+        "2": 0.1,
+        "3": 0.15,
+        "4": 0.2,
+        "5": 0.25
+      },
+      "shape": {
+        "moment": "PERSISTENT",
+        "instanceScope": "SOURCE",
+        "target": "SOURCE",
+        "maxStacks": 1,
+        "applicationStacks": 1,
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "stackValueMode": "SHARED",
+        "reapplicationValueModeAfter": null,
+        "attributeKey": "bonus_attack_speed_percent",
+        "modifierZoneKey": "attribute_flat_add",
+        "operation": "INCREASE"
+      },
+      "initializationRuleUnchanged": "initialize_passive_attack_speed / SOURCE_INITIALIZED / EXECUTE_EFFECT(passive_attack_speed)"
+    },
+    {
+      "route": "/skills/jarvaniv_e/effects/self_attack_speed",
+      "skillKey": "jarvaniv_e",
+      "effectKey": "self_attack_speed",
+      "status": "PASS",
+      "allowedChanges": [
+        "description",
+        "results[0].lifecycleBehavior.valueReadMode",
+        "results[0].lifecycleBehavior.reapplicationValueMode",
+        "results[0].description"
+      ],
+      "actualChangedPaths": [
+        "description",
+        "results[0].description",
+        "results[0].lifecycleBehavior.valueReadMode",
+        "results[0].lifecycleBehavior.reapplicationValueMode"
+      ],
+      "sourceRoot": "Characters/JarvanIV/Spells/JarvanIVDemacianStandardAbility/JarvanIVDemacianStandard",
+      "sourceDataValue": "PermanentAttackSpeed",
+      "parameterKey": "self_attack_speed_ratio",
+      "levelDomain": "1至5；管理参数不含未学习0级默认",
+      "values": {
+        "1": 0.2,
+        "2": 0.22499999,
+        "3": 0.25,
+        "4": 0.27500001,
+        "5": 0.30000001
+      },
+      "shape": {
+        "moment": "PERSISTENT",
+        "instanceScope": "SOURCE",
+        "target": "SOURCE",
+        "maxStacks": 1,
+        "applicationStacks": 1,
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "stackValueMode": "SHARED",
+        "reapplicationValueModeAfter": null,
+        "attributeKey": "bonus_attack_speed_percent",
+        "modifierZoneKey": "attribute_flat_add",
+        "operation": "INCREASE"
+      },
+      "initializationRuleUnchanged": "initialize_self_attack_speed / SOURCE_INITIALIZED / EXECUTE_EFFECT(self_attack_speed)",
+      "activeExcluded": "主动军旗光环与8秒时长不在本次PUT"
+    },
+    {
+      "route": "/skills/twistedfate_e/effects/permanent_attack_speed",
+      "skillKey": "twistedfate_e",
+      "effectKey": "permanent_attack_speed",
+      "status": "PASS",
+      "allowedChanges": [
+        "description",
+        "results[0].lifecycleBehavior.valueReadMode",
+        "results[0].lifecycleBehavior.reapplicationValueMode",
+        "results[0].description"
+      ],
+      "actualChangedPaths": [
+        "description",
+        "results[0].description",
+        "results[0].lifecycleBehavior.valueReadMode",
+        "results[0].lifecycleBehavior.reapplicationValueMode"
+      ],
+      "sourceRoot": "Characters/TwistedFate/Spells/CardmasterStackAbility/CardmasterStack",
+      "sourceDataValue": "AttackSpeedBonus",
+      "parameterKey": "attack_speed_bonus_ratio",
+      "levelDomain": "1至5；管理参数不含未学习0级默认",
+      "values": {
+        "1": 0.15,
+        "2": 0.25,
+        "3": 0.35,
+        "4": 0.45,
+        "5": 0.55
+      },
+      "shape": {
+        "moment": "PERSISTENT",
+        "instanceScope": "SOURCE",
+        "target": "SOURCE",
+        "maxStacks": 1,
+        "applicationStacks": 1,
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "stackValueMode": "SHARED",
+        "reapplicationValueModeAfter": null,
+        "attributeKey": "bonus_attack_speed_percent",
+        "modifierZoneKey": "attribute_flat_add",
+        "operation": "INCREASE"
+      },
+      "initializationRuleUnchanged": "initialize_permanent_attack_speed / SOURCE_INITIALIZED / EXECUTE_EFFECT(permanent_attack_speed)",
+      "activeExcluded": "第四次攻击计数、命中和额外伤害不在本次PUT"
+    }
+  ],
+  "sourceInterpretation": {
+    "kogmaw_q": {
+      "officialPaths": [
+        "data.KogMaw.spells[0] zh_CN/en_US"
+      ],
+      "officialEvidence": "Q官方中英文说明均把额外攻击速度放在被动段；客户端主根AttackSpeed下标1至5为0.05至0.25。",
+      "scope": "只修持续自身攻速读取；Q主动伤害、双抗削减、法力、冷却和实际命中不在这3个PUT。"
+    },
+    "jarvaniv_e": {
+      "officialPaths": [
+        "data.JarvanIV.spells[2] zh_CN/en_US"
+      ],
+      "officialEvidence": "E官方中英文说明均区分被动自身额外攻速与主动军旗落点/友军光环；客户端主根PermanentAttackSpeed下标1至5对应管理值0.2至0.30000001。",
+      "scope": "只修被动自身常驻攻速；主动军旗伤害、光环、旗帜连接与控制不在这3个PUT。"
+    },
+    "twistedfate_e": {
+      "officialPaths": [
+        "data.TwistedFate.spells[2] zh_CN/en_US"
+      ],
+      "officialEvidence": "E官方中英文说明均把攻击速度提升与每四次攻击额外伤害并列；客户端CardmasterStack的AttackSpeedBonus原值15/25/35/45/55，管理值为0.15至0.55。",
+      "scope": "只修永久自身攻速；第四次攻击计数、命中和额外伤害不在这3个PUT。"
+    }
+  },
+  "checks": {
+    "frozenRequestShaMatches": true,
+    "protectedSnapshotShaMatches": true,
+    "sourceFileCount": 11,
+    "sourceFileShaMatches": true,
+    "requestCount": 3,
+    "requestMethodsExactly": [
+      "PUT",
+      "PUT",
+      "PUT"
+    ],
+    "requestRoutesExactly": [
+      "/skills/kogmaw_q/effects/passive_attack_speed",
+      "/skills/jarvaniv_e/effects/self_attack_speed",
+      "/skills/twistedfate_e/effects/permanent_attack_speed"
+    ],
+    "plannedPutCount": 3,
+    "reviewerBusinessWrites": 0,
+    "actualDiffsWithinAllowedChanges": true,
+    "onlyDescriptionAndDynamicReadShapeChanged": true,
+    "lifecycleTargetAttributeParameterAndMultiplierUnchanged": true,
+    "initializationRulesUnchanged": true,
+    "processInternalStateAndTriggerCollectionsOutsideTargetEffectsUntouched": true,
+    "activeAndFourthAttackBranchesExcluded": true,
+    "originalGETAuditAll200": true,
+    "postWriteReadback": false
+  },
+  "businessWriteLimit": 3,
+  "decision": "APPROVED：允许仅对上述3个效果执行冻结的3个PUT。三项均为PERSISTENT、SOURCE、单层无限、SHARED的自身额外攻击速度；只改描述、动态读取方式和重施值为空，保留已有初始化入口。无需新增升级事件、主动联动或运行代码。",
+  "risks": [
+    "本审查未执行HTTP、SQL、实际PUT或写后回读；APPROVED只表示冻结请求在允许差异和来源快照上通过。",
+    "未学习等级0没有管理参数默认值；本批准只覆盖已学习等级1至5。",
+    "战斗运行、属性重算、攻速最终聚合和SOURCE_INITIALIZED资格未验证。",
+    "嘉文主动军旗光环与8秒时长、崔斯特第四次攻击链、克格莫Q主动伤害和双抗削减均保持开放。"
+  ],
+  "runtimeValidation": "未执行",
+  "goalComplete": false
+}

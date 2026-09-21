@@ -1,0 +1,189 @@
+{
+  "startedAt": "2026-09-19T05:12:18.189Z",
+  "status": "PASS",
+  "executionMode": "BROWSER_UI_ONLY",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "9753bdbf5026437df3facc6487903439c08fc1c70688e3799f8c5e7294d76c49",
+    "02-冻结请求.json": "970c0e9c66923fbc7e67bb01fd84860b5b08ed0412e850508b8291577ff4da33",
+    "03-来源摘要.json": "e1dd7d54ab136c7541e83891a60b1318e5c80104c457895dcfb526501482dbe2",
+    "04-写入前现值.json": "06a7408831d902fc4f8feabecb301f7f2e78731996422e41740b81cd44b88e7a"
+  },
+  "businessWritesAttempted": 2,
+  "postResponseCaptured": false,
+  "operations": [
+    {
+      "method": "BROWSER_FORM_SAVE",
+      "route": "/skills/morgana_q/effects",
+      "detailRoute": "/skills/morgana_q/effects/dark_binding_root",
+      "postResponseCaptured": false,
+      "readback": {
+        "createdAt": "2026-09-19T05:12:27.921748Z",
+        "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+        "effectKey": "dark_binding_root",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "暗之禁锢首次施加",
+        "results": [
+          {
+            "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "root"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "暗之禁锢",
+            "resultKey": "root",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "morgana_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T05:12:27.921748Z"
+      }
+    },
+    {
+      "method": "BROWSER_FORM_SAVE",
+      "route": "/skills/morgana_q/trigger-rules",
+      "detailRoute": "/skills/morgana_q/trigger-rules/apply_root_on_unblocked_hit",
+      "postResponseCaptured": false,
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "dark_binding_root"
+            },
+            "name": "施加本次禁锢",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                },
+                "sortOrder": 30
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "detail": {
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null,
+                  "effectKey": "dark_binding_root",
+                  "subject": "CURRENT_TARGET"
+                },
+                "sortOrder": 40
+              }
+            ],
+            "groupKey": "root_eligible",
+            "name": "本次禁锢可施加",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源禁锢实例时执行禁锢；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "morgana_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "未受阻挡且无本禁锢时施加",
+        "perTargetCooldown": null,
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "sortOrder": 30
+      }
+    }
+  ],
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/effects/dark_binding_root",
+      "status": 404,
+      "at": "2026-09-19T05:12:18.255Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/effects/dark_binding_root",
+      "status": 200,
+      "at": "2026-09-19T05:12:35.295Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 404,
+      "at": "2026-09-19T05:18:55.798Z"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 200,
+      "at": "2026-09-19T05:19:16.439Z"
+    }
+  ],
+  "preflightGETs": 30,
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T05:19:16.443Z"
+}

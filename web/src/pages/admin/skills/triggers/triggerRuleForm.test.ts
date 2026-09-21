@@ -219,6 +219,14 @@ const EVENT_CAPABILITY_ROWS = [
     detailFields: []
   },
   {
+    eventType: 'TAKEDOWN',
+    label: '来源对象参与击杀',
+    currentTargetBinding: '本次死亡对象。',
+    hasEventSource: false,
+    requiredCatalogs: [],
+    detailFields: []
+  },
+  {
     eventType: 'PROCESS_CANCEL_REQUESTED',
     label: '指定过程收到主动取消请求',
     currentTargetBinding: '目标过程实例的目标；没有时为来源对象。',
@@ -417,8 +425,8 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
 };
 
 describe('trigger event member set and capability table', () => {
-  it('exposes exactly 22 frozen events with labels, current-target, event-source and catalogs', () => {
-    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(22);
+  it('exposes exactly 23 frozen events with labels, current-target, event-source and catalogs', () => {
+    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(23);
     expect([...SKILL_TRIGGER_EVENT_TYPES]).toEqual(EVENT_CAPABILITY_ROWS.map((row) => row.eventType));
     expect(Object.keys(SKILL_TRIGGER_EVENT_CAPABILITIES)).toEqual([...SKILL_TRIGGER_EVENT_TYPES]);
 
@@ -445,6 +453,8 @@ describe('trigger event member set and capability table', () => {
       eventType: 'SOURCE_INITIALIZED',
       detail: {}
     });
+    expect(createEmptyEventSource('TAKEDOWN')).toEqual({ eventType: 'TAKEDOWN', detail: {} });
+    expect(switchEventType(createEmptyEventSource('SKILL_USED'), 'TAKEDOWN')).toEqual({ eventType: 'TAKEDOWN', detail: {} });
     expect(createEmptyEventSource('SKILL_USED')).toEqual({
       eventType: 'SKILL_USED',
       detail: { sourceSkillKey: null, useKind: 'ANY' }
@@ -494,6 +504,7 @@ describe('trigger event member set and capability table', () => {
       'CHARGE_DURATION_MS',
       'RECAST_COUNT',
       'HIT_INDEX',
+      'SKILL_HIT_FIRST_CONTACT',
       'SKILL_HIT_SPELL_SHIELD_BLOCKED',
       'LIFECYCLE_STACKS',
       'PERIOD_INDEX',
@@ -526,9 +537,10 @@ describe('trigger event member set and capability table', () => {
     expect(SKILL_TRIGGER_EVENT_VALUE_DOMAINS.LINK_INDEX).toBe('INTEGER');
 
     expect(allowedEventValuesFor(createEmptyEventSource('SOURCE_INITIALIZED'))).toEqual([]);
+    expect(allowedEventValuesFor(createEmptyEventSource('TAKEDOWN'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('SKILL_USED'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('BASIC_ATTACK_HIT'))).toEqual(['HIT_INDEX']);
-    expect(allowedEventValuesFor(createEmptyEventSource('SKILL_HIT'))).toEqual(['HIT_INDEX', 'SKILL_HIT_SPELL_SHIELD_BLOCKED']);
+    expect(allowedEventValuesFor(createEmptyEventSource('SKILL_HIT'))).toEqual(['HIT_INDEX', 'SKILL_HIT_FIRST_CONTACT', 'SKILL_HIT_SPELL_SHIELD_BLOCKED']);
     expect(allowedEventValuesFor(createEmptyEventSource('RESULT_AVAILABLE'))).toEqual([]);
     expect(allowedEventValuesFor(createEmptyEventSource('DAMAGE_TAKEN'))).toEqual([
       'RAW_DAMAGE',
@@ -727,13 +739,14 @@ describe('forbidden VALUE_REACHED, PERSISTENT event and RESULT_AVAILABLE vs life
 });
 
 describe('condition, action and runtime-source conversion with stale-field cleanup', () => {
-  it('uses exactly seven conditions, three actions and five runtime sources', () => {
+  it('uses exactly eight conditions, three actions and five runtime sources', () => {
     expect([...SKILL_TRIGGER_CONDITION_TYPES]).toEqual([
       'ATTRIBUTE_COMPARE',
       'STATUS_CHECK',
       'LIFECYCLE_CHECK',
       'TARGET_CATEGORY_CHECK',
       'EXPLICIT_TARGET_IS_SOURCE',
+      'SKILL_HIT_TARGET_IS_ENEMY',
       'INTERNAL_STATE_CHECK',
       'EVENT_VALUE_COMPARE'
     ]);
@@ -1284,7 +1297,7 @@ describe('hit-link and attack-link events', () => {
     expect(eventHasEventSource('HIT_LINK_APPLIED')).toBe(false);
     expect(eventHasEventSource('ATTACK_LINK_APPLIED')).toBe(false);
     expect(subjectOptionsForEvent('HIT_LINK_APPLIED')).not.toContain('EVENT_SOURCE');
-    expect(SKILL_TRIGGER_PRODUCED_EVENTS_BY_RESULT.EXECUTE).toEqual(['KILL', 'ENTITY_DIED']);
+    expect(SKILL_TRIGGER_PRODUCED_EVENTS_BY_RESULT.EXECUTE).toEqual(['KILL', 'TAKEDOWN', 'ENTITY_DIED']);
     expect(SKILL_TRIGGER_PRODUCED_EVENTS_BY_RESULT.HIT_LINK_APPLICATION).toEqual(['HIT_LINK_APPLIED']);
     expect(SKILL_TRIGGER_PRODUCED_EVENTS_BY_RESULT.ATTACK_LINK_APPLICATION).toEqual(['ATTACK_LINK_APPLIED']);
     expect(SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT).toContain('来源技能只缩小事件匹配范围');

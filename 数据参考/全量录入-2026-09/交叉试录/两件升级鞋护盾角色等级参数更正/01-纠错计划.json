@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "两件升级鞋护盾角色等级参数更正",
+  "generatedAt": "2026-09-21T14:00:48.797Z",
+  "scope": "仅把已确证的基础护盾曲线由无默认运行输入改为角色等级表，同时去掉参数名称中的外供歧义；原12/2属性输入、既有系数、公式、护盾结果和触发状态保持。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+      "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备技能实录/第二十批升级鞋/冻结来源.json",
+      "sha256": "3861cdd2d66da43deb99aca9c085c894258f58a21bfdfc967b9feaa71203e649"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/00-当前组成一次只读.json",
+      "sha256": "a77615c5a4b96433c4992ebfa3351849586dc1897b6a4f277aafb4e62f405b2c"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/01-两项固定曲线独立核对.json",
+      "sha256": "4e20db7b39a5c91ebee2e01bc77b535eca1e36185c720a09ad92f6497ea5652e"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/02-断点曲线独立核对.json",
+      "sha256": "09dee8d5786c5c67c0257e15de3ddef469feaf6acfec096477b7563c1047f27d"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/04-同类参数转换验收先例.json",
+      "sha256": "1c1361379bc6f0dd39a905385c4affcec00e961f9d0faac88c14332f094e3f40"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/08-角色等级参数实际返回.json",
+      "sha256": "d3257d9cbd0ddf56ba85f433a8e8181cb005b9978f5f124041885231338e6522"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备技能实录/Luna第九批/海妖逐等级核算.json",
+      "sha256": "dd5f7ef1eafad86a7319d46cec758a1928403340c571501fdc34a188f0a6b130"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/约里克Q来源补证与18级治疗补录/独立复核/来源与计划独立复核.md",
+      "sha256": "1392eb9da2c22a705025dce91128db60e168c87ae8b2fae802a8666dcd750abe"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/class-Breakpoint.json",
+      "sha256": "313c6134de8febd0911eb0b63126b1bbb2b7c922d7057806e3ef778c1e523f14"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/class-ByCharLevelBreakpointsCalculationPart.json",
+      "sha256": "0a45050e2ac7a930e0f69b285c3df8cd5d6a3f072182de86541433fb401f6300"
+    }
+  ],
+  "changes": [
+    {
+      "skillKey": "item_3173_passive",
+      "parameterKey": "actual_level_base_shield",
+      "route": "/skills/item_3173_passive/parameters/actual_level_base_shield",
+      "updates": {
+        "name": "角色等级基础护盾",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 90,
+          "2": 90,
+          "3": 90,
+          "4": 90,
+          "5": 90,
+          "6": 90,
+          "7": 90,
+          "8": 90,
+          "9": 100,
+          "10": 110,
+          "11": 120,
+          "12": 130,
+          "13": 140,
+          "14": 150,
+          "15": 160,
+          "16": 170,
+          "17": 180,
+          "18": 190
+        },
+        "description": "按装备持有者角色等级取值：1至8级90，从9级当级起每级增加10，18级190。固定客户端16.17 ShieldAmountCalc的等级基础部分；原属性12、公式2输入与0.08系数另由原公式处理。"
+      }
+    },
+    {
+      "skillKey": "item_3174_passive",
+      "parameterKey": "actual_level_base_shield",
+      "route": "/skills/item_3174_passive/parameters/actual_level_base_shield",
+      "updates": {
+        "name": "角色等级基础护盾",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 90,
+          "2": 90,
+          "3": 90,
+          "4": 90,
+          "5": 90,
+          "6": 90,
+          "7": 90,
+          "8": 90,
+          "9": 100,
+          "10": 110,
+          "11": 120,
+          "12": 130,
+          "13": 140,
+          "14": 150,
+          "15": 160,
+          "16": 170,
+          "17": 180,
+          "18": 190
+        },
+        "description": "按装备持有者角色等级取值：1至8级90，从9级当级起每级增加10，18级190。固定客户端16.17 ShieldAmountCalc的等级基础部分；原属性12、公式2输入与0.08系数另由原公式处理。"
+      }
+    }
+  ]
+}

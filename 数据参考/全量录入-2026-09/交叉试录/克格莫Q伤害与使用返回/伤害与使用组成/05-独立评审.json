@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-09-20T10:45:00.000Z",
+  "status": "APPROVED",
+  "reviewer": "kogmaw_q_damage_use_independent_review",
+  "methodPolicy": "LOCAL_FILES_ONLY_NO_HTTP_SQL",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "reviewerSQLRequests": 0,
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "064d1faaaaafd522b714d20e622f9877665b3b0202a283ad0325719441d847de",
+    "02-冻结请求.json": "679164d2be00c98616a1e60dd462ddb5d9be37a8486d6366581e6c3e51199f2b",
+    "03-来源摘要.json": "075b37a216cebc004dbf898b01b404f733e3c683125eb4d7648c1b57a25028b9",
+    "04-写入前现值.json": "f6927cec616edc4067d1d2be4f4181af726facb85f2862dbd4b0b75f0f7fdc16"
+  },
+  "frozenFiles": {
+    "01-候选方案.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/伤害与使用组成/01-候选方案.json",
+      "byteSize": 14643,
+      "sha256": "064d1faaaaafd522b714d20e622f9877665b3b0202a283ad0325719441d847de"
+    },
+    "02-冻结请求.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/伤害与使用组成/02-冻结请求.json",
+      "byteSize": 12572,
+      "sha256": "679164d2be00c98616a1e60dd462ddb5d9be37a8486d6366581e6c3e51199f2b"
+    },
+    "03-来源摘要.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/伤害与使用组成/03-来源摘要.json",
+      "byteSize": 2536,
+      "sha256": "075b37a216cebc004dbf898b01b404f733e3c683125eb4d7648c1b57a25028b9"
+    },
+    "04-写入前现值.json": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/伤害与使用组成/04-写入前现值.json",
+      "byteSize": 37595,
+      "sha256": "f6927cec616edc4067d1d2be4f4181af726facb85f2862dbd4b0b75f0f7fdc16"
+    }
+  },
+  "baselineReview": {
+    "prewritePath": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/伤害与使用组成/04-写入前现值.json",
+    "prewriteBusinessWrites": 0,
+    "prewriteAuditGETs": 29,
+    "prewriteStatusCounts": {
+      "200": 29
+    },
+    "reusedFromAS06aRoutes": 28,
+    "reusedFromAS06aRoutesAllMatch": true,
+    "extraEarlierGETRoute": "/damage-types/magic",
+    "oldSharedBaselinePath": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/01-共享现值.json",
+    "oldSharedBaselineSha256": "673c2f518e726db4db12922e425c5dfefcdef4497e4013633a50289e45f55ffc",
+    "newObjectAbsence": {
+      "source": "04-写入前现值.json.newObjectAbsence",
+      "allFourDeclaredAbsent": true,
+      "detailRoutes": [
+        "/skills/kogmaw_q/effects/primary_hit",
+        "/skills/kogmaw_q/processes/use_cost_and_cooldown",
+        "/skills/kogmaw_q/trigger-rules/actual_hit",
+        "/skills/kogmaw_q/trigger-rules/on_used_cost_and_cooldown"
+      ],
+      "note": "前置快照声明按稳定键不存在；实际写入工具会在每个POST前再次GET 404，且本审查不重放。"
+    }
+  },
+  "supportingEvidence": [
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/06a-独立回读补充核对.json",
+      "sha256": "be737b7539289f610ae64fda7e482e6ec1370689272d72c4fc4bb16a1209feee",
+      "status": "PASS",
+      "evidence": "78条GET全部200，三项目标详情和效果列表均匹配；业务写入0。"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/08-冻结对照字段说明.json",
+      "sha256": "f2ea82b4a6c7a9b86b567d7d89a40ab210c8e3572f62eb1723a852049a7f6c4a",
+      "status": "AUDIT_SHAPE_CORRECTION_NO_BUSINESS_WRITE",
+      "evidence": "更新效果的白名单只适用于PUT；本批是新增POST，effectKey/processKey/ruleKey必须保留在正文，不能套用更新体裁。"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/02-来源与范围.json",
+      "sha256": "0686a3876f94c8df2afba95a972704a92e5061783a579abc4205464c8d56ffb0",
+      "status": "需修（已由前批修正被动后复用）",
+      "evidence": "主根、目标、护盾、吸血、40法力/7000毫秒登记范围及未运行边界已完成来源核定。"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/03-公式算术.json",
+      "sha256": "aaede8e97f6ee32701a88404e7756345818a84cce1b743d330e6701948c14194",
+      "status": "PASS",
+      "evidence": "15个等级与总法强算例已通过；本审查复用，不重复运行。"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/08-主负责人范围与顺序结论.json",
+      "sha256": "a8c024cc042dd6783ac211394d55330416afd1dc209f02b5b8352739b1cb39e9",
+      "evidence": "确认先保存三项常驻攻速，再执行Kog Q四项追加；双抗和有效施法时长仍为整技能开放项。"
+    }
+  ],
+  "passiveProtection": {
+    "route": "/skills/kogmaw_q/effects/passive_attack_speed",
+    "notInThisBatchRequests": true,
+    "postWriteBaselineEqualsAS06a": true,
+    "as06aPath": "数据参考/全量录入-2026-09/交叉试录/三项常驻攻速动态读取返回/正式返回/06a-独立回读补充核对.json",
+    "as06aSha256": "be737b7539289f610ae64fda7e482e6ec1370689272d72c4fc4bb16a1209feee",
+    "expectedLifecycle": {
+      "moment": "PERSISTENT",
+      "valueReadMode": "MOMENT_EVALUATION",
+      "stackValueMode": "SHARED",
+      "reapplicationValueMode": null,
+      "instanceScope": "SOURCE",
+      "target": "SOURCE",
+      "maxStacks": 1,
+      "durationValue": null,
+      "expiryMode": "EXPLICIT_ONLY"
+    },
+    "note": "四个POST不改参数、公式、被动效果或初始化规则。"
+  },
+  "requests": [
+    {
+      "index": 1,
+      "method": "POST",
+      "route": "/skills/kogmaw_q/effects",
+      "detailRoute": "/skills/kogmaw_q/effects/primary_hit",
+      "stableKeyField": "effectKey",
+      "stableKey": "primary_hit",
+      "stableKeyInBody": true,
+      "stableKeyInExpectedReadback": true,
+      "bodyComplete": true,
+      "shape": {
+        "lifecycle": null,
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "target": "TARGET",
+        "formulaKey": "damage",
+        "damageTypeKey": "magic",
+        "deliveryKind": "SKILL",
+        "originKind": "DIRECT",
+        "criticalMode": "DISALLOWED",
+        "spellShieldBlockScope": "SKILL",
+        "vampType": "OMNIVAMP",
+        "vampBasisOutputKind": "POST_DEFENSE_DAMAGE",
+        "vampEfficiencyFixed": 1
+      },
+      "scopeCheck": "描述明确根Q首个碰撞目标同时为敌方英雄时才处理；不通过主动使用或过程完成制造命中，双抗削减另行维护。",
+      "status": "PASS"
+    },
+    {
+      "index": 2,
+      "method": "POST",
+      "route": "/skills/kogmaw_q/processes",
+      "detailRoute": "/skills/kogmaw_q/processes/use_cost_and_cooldown",
+      "stableKeyField": "processKey",
+      "stableKey": "use_cost_and_cooldown",
+      "stableKeyInBody": true,
+      "stableKeyInExpectedReadback": true,
+      "bodyComplete": true,
+      "shape": {
+        "activationType": "ACTIVE",
+        "cooldownDurationParameter": "cooldown_ms",
+        "cooldownStartMoment": "PROCESS_START",
+        "effectBinding": "mana_cost@PROCESS_START",
+        "stepType": "IMMEDIATE",
+        "stepDetail": {},
+        "stateOperations": []
+      },
+      "valuesFromExistingParameters": {
+        "manaCost": 40,
+        "cooldownMs": 7000
+      },
+      "castTimeBoundary": "立即步骤不表示零施放时长；spellCastTime与mUseAutoattackCastTimeData关系继续开放。",
+      "status": "PASS"
+    },
+    {
+      "index": 3,
+      "method": "POST",
+      "route": "/skills/kogmaw_q/trigger-rules",
+      "detailRoute": "/skills/kogmaw_q/trigger-rules/actual_hit",
+      "stableKeyField": "ruleKey",
+      "stableKey": "actual_hit",
+      "stableKeyInBody": true,
+      "stableKeyInExpectedReadback": true,
+      "bodyComplete": true,
+      "shape": {
+        "eventType": "SKILL_HIT",
+        "sourceSkillKey": "kogmaw_q",
+        "targetConditions": [
+          "TARGET_CATEGORY_CHECK(CHAMPION)",
+          "SKILL_HIT_TARGET_IS_ENEMY"
+        ],
+        "actionType": "EXECUTE_EFFECT",
+        "actionEffectKey": "primary_hit",
+        "actionTargetContext": "CURRENT_TARGET",
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadbackNormalization": {
+        "eventSourceDetail": {
+          "sourceSkillKey": "kogmaw_q",
+          "useKind": null
+        },
+        "useKindNullConfirmed": true
+      },
+      "status": "PASS"
+    },
+    {
+      "index": 4,
+      "method": "POST",
+      "route": "/skills/kogmaw_q/trigger-rules",
+      "detailRoute": "/skills/kogmaw_q/trigger-rules/on_used_cost_and_cooldown",
+      "stableKeyField": "ruleKey",
+      "stableKey": "on_used_cost_and_cooldown",
+      "stableKeyInBody": true,
+      "stableKeyInExpectedReadback": true,
+      "bodyComplete": true,
+      "shape": {
+        "eventType": "SKILL_USED",
+        "sourceSkillKey": "kogmaw_q",
+        "useKind": "ACTIVE",
+        "conditionGroups": [],
+        "actionType": "START_PROCESS",
+        "actionProcessKey": "use_cost_and_cooldown",
+        "actionTargetContext": "CURRENT_TARGET",
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "status": "PASS"
+    }
+  ],
+  "dependencyOrder": {
+    "frozenRequestOrder": [
+      "POST /skills/kogmaw_q/effects -> primary_hit",
+      "POST /skills/kogmaw_q/processes -> use_cost_and_cooldown",
+      "POST /skills/kogmaw_q/trigger-rules -> actual_hit",
+      "POST /skills/kogmaw_q/trigger-rules -> on_used_cost_and_cooldown"
+    ],
+    "writerLoopEvidence": {
+      "toolPath": "tools/authoring/append-reviewed-skill-components-v3.mjs",
+      "lines": "134-138",
+      "meaning": "工具按01候选方案requests顺序逐项GET404、POST、即时详情GET回读，不重排请求。"
+    },
+    "dependencyChecks": {
+      "primaryHitEffectBeforeActualHitRule": true,
+      "processBeforeOnUsedRule": true,
+      "existingManaCostReferenced": true,
+      "noCrossSkillOrNewParameterPost": true
+    }
+  },
+  "postIdentityAndShape": {
+    "allMethodsArePOST": true,
+    "effectKeyRequiredForNewEffect": true,
+    "processKeyRequiredForNewProcess": true,
+    "ruleKeyRequiredForNewRules": true,
+    "updateWhitelistNotAppliedToPOST": true,
+    "expectedReadbackStableKeysMatch": true,
+    "actualHitUseKindNullPresent": true
+  },
+  "checks": {
+    "frozenRequestCount": 4,
+    "frozenRequestShaMatches": true,
+    "candidateShaMatchesApprovedFile": true,
+    "sourceSummaryShaMatchesFrozen": true,
+    "baselineShaMatchesPrewrite": true,
+    "prewriteGETCount": 29,
+    "prewriteGETAll200": true,
+    "prewriteBusinessWrites": 0,
+    "reusedAS06aRouteCount": 28,
+    "magicDirectoryRouteCount": 1,
+    "newObjectAbsenceCount": 4,
+    "allNewObjectAbsenceDeclared": true,
+    "allFourPOSTBodiesComplete": true,
+    "dependencyOrderValid": true,
+    "passiveAlreadyCorrectAndUntouched": true,
+    "formulaArithmeticReusedPASS": true,
+    "reviewerHTTP0": true,
+    "reviewerSQL0": true,
+    "reviewerBusinessWrites0": true
+  },
+  "risks": [
+    "本审查不执行实际POST、HTTP、SQL、浏览器或战斗运行；批准只针对冻结组成和请求形状。",
+    "SKILL_HIT、SKILL_USED、首个碰撞目标、法术护盾、防御后伤害和全能吸血仍需运行时验证。",
+    "双抗削减及其与Q伤害的先后、有效施法时长、未学习0级资格继续开放，不阻塞这四个明确组成。",
+    "没有把旧三项攻速PUT的更新字段白名单套到本批新增POST；新增效果、过程和规则正文均保留稳定键。"
+  ],
+  "runtimeValidation": "未执行",
+  "wholeSkillComplete": false,
+  "decision": "APPROVED：四个POST的来源、现值保护、对象不存在性、正文稳定键、依赖顺序、40法力/7000毫秒普通登记、实际命中expectedReadback useKind:null及已修正被动保护均通过；允许进入受保护写入流程。"
+}

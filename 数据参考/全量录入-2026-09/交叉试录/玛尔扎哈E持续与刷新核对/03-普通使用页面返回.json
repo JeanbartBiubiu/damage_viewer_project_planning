@@ -1,0 +1,44 @@
+{
+  "kind": "BROWSER_OBSERVATIONS",
+  "observedAt": "2026-09-19T18:45:07.695Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "skillKey": "malzahar_e",
+  "businessWrites": 0,
+  "process": {
+    "list": {
+      "key": "cast",
+      "name": "煞星幻象施放登记",
+      "steps": 1,
+      "effectBindings": 1,
+      "stateOperations": 0
+    },
+    "detail": {
+      "startup": "主动",
+      "cooldownParameter": "cooldown_ms",
+      "cooldownTiming": "过程开始",
+      "step": {
+        "key": "cast_time",
+        "kind": "延迟",
+        "parameter": "cast_time_ms"
+      },
+      "cost": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "timing": "过程开始"
+      },
+      "description": "登记普通主动使用的基础法力消耗、既有250毫秒根施放延迟与普通冷却；延迟结束不表示持续伤害已施加，刷新和传播由各自分支处理。"
+    },
+    "status": "PASS"
+  },
+  "rule": {
+    "key": "on_used",
+    "event": "技能被主动或消耗使用",
+    "sourceSkill": "玛尔扎哈·煞星幻象（malzahar_e）",
+    "useKind": "主动",
+    "conditionGroups": 0,
+    "action": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0",
+    "perTargetCooldown": false,
+    "status": "PASS"
+  },
+  "scope": "真实页面重开核对已由受保护API保存的普通施放配置；未通过页面再次保存，不代表持续伤害、刷新、传播或战斗运行。"
+}

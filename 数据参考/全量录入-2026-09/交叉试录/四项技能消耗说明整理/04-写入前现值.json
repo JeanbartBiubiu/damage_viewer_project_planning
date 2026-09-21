@@ -1,0 +1,2987 @@
+{
+  "at": "2026-09-18T19:52:04.406Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/morgana_e": {
+      "createdAt": "2026-09-06T18:19:31.065054Z",
+      "description": "莫甘娜为一名友方英雄涂上一层保护性的星火屏障，在被打破之前吸收魔法伤害和限制效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "莫甘娜·黑暗之盾",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "morgana_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:31.065054Z"
+    },
+    "/skills/morgana_e/parameters": [
+      {
+        "createdAt": "2026-09-09T17:58:00.979238Z",
+        "description": "客户端DataValues.ShieldStrength取索引1至5；索引0为旧占位45。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100,
+          "2": 155,
+          "3": 210,
+          "4": 265,
+          "5": 320
+        },
+        "name": "基础魔法护盾值",
+        "parameterKey": "base_shield",
+        "skillKey": "morgana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:58:00.979238Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:58:02.370309Z",
+        "description": "客户端ShieldDuration为5秒，转换为5000毫秒。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾持续时间（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "morgana_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:58:02.370309Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:58:03.731128Z",
+        "description": "TotalShieldStrength树的StatByCoefficient系数为0.7×来源总法强。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾法强比例",
+        "parameterKey": "shield_ap_ratio",
+        "skillKey": "morgana_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:58:03.731128Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:22.135946Z",
+        "description": "DDragon16.17.1 Morgana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 26000,
+          "2": 23500,
+          "3": 21000,
+          "4": 18500,
+          "5": 16000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "morgana_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:22.135946Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:22.615737Z",
+        "description": "DDragon16.17.1 Morgana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 80,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "morgana_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:22.615737Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/morgana_e/parameters/base_shield": {
+      "createdAt": "2026-09-09T17:58:00.979238Z",
+      "description": "客户端DataValues.ShieldStrength取索引1至5；索引0为旧占位45。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 100,
+        "2": 155,
+        "3": 210,
+        "4": 265,
+        "5": 320
+      },
+      "name": "基础魔法护盾值",
+      "parameterKey": "base_shield",
+      "skillKey": "morgana_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:58:00.979238Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_e/parameters/shield_duration_ms": {
+      "createdAt": "2026-09-09T17:58:02.370309Z",
+      "description": "客户端ShieldDuration为5秒，转换为5000毫秒。",
+      "fixedValue": 5000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾持续时间（毫秒）",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "morgana_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:58:02.370309Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_e/parameters/shield_ap_ratio": {
+      "createdAt": "2026-09-09T17:58:03.731128Z",
+      "description": "TotalShieldStrength树的StatByCoefficient系数为0.7×来源总法强。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾法强比例",
+      "parameterKey": "shield_ap_ratio",
+      "skillKey": "morgana_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:58:03.731128Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/morgana_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:22.135946Z",
+      "description": "DDragon16.17.1 Morgana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 26000,
+        "2": 23500,
+        "3": 21000,
+        "4": 18500,
+        "5": 16000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "morgana_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:22.135946Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:22.615737Z",
+      "description": "DDragon16.17.1 Morgana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 80,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "morgana_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:00:22.615737Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_e/formulas": [
+      {
+        "createdAt": "2026-09-09T17:58:05.067769Z",
+        "description": "TotalShieldStrength = ShieldStrength + 0.7×来源总法强；只表达普通魔法护盾数值。",
+        "formulaKey": "magic_shield_value",
+        "gameId": "lol",
+        "name": "黑暗之盾自身魔法护盾值",
+        "skillKey": "morgana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:58:05.067769Z"
+      }
+    ],
+    "/skills/morgana_e/formulas/magic_shield_value": {
+      "createdAt": "2026-09-09T17:58:05.067769Z",
+      "description": "TotalShieldStrength = ShieldStrength + 0.7×来源总法强；只表达普通魔法护盾数值。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_shield_value",
+      "gameId": "lol",
+      "name": "黑暗之盾自身魔法护盾值",
+      "skillKey": "morgana_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:58:05.067769Z"
+    },
+    "/skills/morgana_e/effects": [
+      {
+        "createdAt": "2026-09-09T17:58:06.575518Z",
+        "description": "仅记录morgana_e的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "morgana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:58:06.575518Z"
+      },
+      {
+        "createdAt": "2026-09-09T17:58:07.848746Z",
+        "description": "自身魔法护盾持续5秒，仅吸收魔法伤害且不衰减；显式自施入口已连接。控制免疫仍单独待配，不等同一次性法术护盾。",
+        "effectKey": "magic_shield",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "黑暗之盾自身魔法护盾",
+        "resultCount": 1,
+        "skillKey": "morgana_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T16:40:16.301861Z"
+      }
+    ],
+    "/skills/morgana_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T17:58:06.575518Z",
+      "description": "仅记录morgana_e的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "morgana_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:58:06.575518Z"
+    },
+    "/skills/morgana_e/effects/magic_shield": {
+      "createdAt": "2026-09-09T17:58:07.848746Z",
+      "description": "自身魔法护盾持续5秒，仅吸收魔法伤害且不衰减；显式自施入口已连接。控制免疫仍单独待配，不等同一次性法术护盾。",
+      "effectKey": "magic_shield",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "黑暗之盾自身魔法护盾",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "absorbedDamageTypeKey": "magic",
+            "decayMode": "NONE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "黑暗之盾自身魔法护盾",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_shield_value",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "morgana_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T16:40:16.301861Z"
+    },
+    "/skills/morgana_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T19:48:52.711862Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "morgana_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T19:48:52.711862Z"
+      }
+    ],
+    "/skills/morgana_e/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T19:48:52.711862Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "morgana_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T19:48:52.711862Z"
+    },
+    "/skills/morgana_e/internal-states": [],
+    "/skills/morgana_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T19:48:54.0042Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "莫甘娜E主动使用且回退前的显式目标为来源对象时，执行已有自身护盾。无显式目标不匹配；仅录魔法伤害吸收，控制免疫、队友、资源及冷却不在本条规则内。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动自施黑暗护盾",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_self_shield",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T16:04:35.084283Z"
+      }
+    ],
+    "/skills/morgana_e/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动消耗与冷却登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "morgana_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/morgana_e/trigger-rules/on_used_self_shield": {
+      "actions": [
+        {
+          "actionKey": "apply_self_shield",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "magic_shield"
+          },
+          "name": "执行黑暗自护盾",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "explicit_self",
+              "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+              "detail": {},
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "self_cast",
+          "name": "明确对自身施放",
+          "sortOrder": 10
+        }
+      ],
+      "description": "莫甘娜E主动使用且回退前的显式目标为来源对象时，执行已有自身护盾。无显式目标不匹配；仅录魔法伤害吸收，控制免疫、队友、资源及冷却不在本条规则内。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "morgana_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动自施黑暗护盾",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_shield",
+      "sortOrder": 10
+    },
+    "/skills/janna_e": {
+      "createdAt": "2026-09-06T18:18:39.369155Z",
+      "description": "迦娜制造出一阵防御性的气旋，来为目标友军或防御塔吸收即将到来的伤害，并提高目标的攻击力。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "迦娜·风暴之眼",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "janna_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:39.369155Z"
+    },
+    "/skills/janna_e/parameters": [
+      {
+        "createdAt": "2026-09-09T17:42:47.660027Z",
+        "description": "客户端DataValues.ECDRefundforCC按等级索引1取0.2；控制命中条件仅作来源参数，未创建无条件冷却效果。",
+        "fixedValue": 0.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "控制命中时冷却返还比例",
+        "parameterKey": "cc_cooldown_refund_ratio",
+        "skillKey": "janna_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:42:47.660027Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:48.931305Z",
+        "description": "客户端EmpowerDuration按等级索引1取5秒，转换为5000毫秒；当前候选不把它作为独立攻击力增益生命周期。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "旧强化字段持续时间（毫秒）",
+        "parameterKey": "empower_duration_ms",
+        "skillKey": "janna_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:42:48.931305Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:50.239659Z",
+        "description": "客户端DecayGracePeriod按等级索引1取4秒，转换为4000毫秒；衰减过程不在本轮展开。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "衰减宽限时间（毫秒）",
+        "parameterKey": "decay_grace_period_ms",
+        "skillKey": "janna_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:42:50.239659Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:51.5362Z",
+        "description": "客户端DataValues.BaseShield取等级索引1至5，得到80/120/160/200/240。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础护盾值",
+        "parameterKey": "base_shield",
+        "skillKey": "janna_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T17:42:51.5362Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:52.980111Z",
+        "description": "TotalShield树按等级索引1消费ShieldAPRatio=0.55×来源总法强。",
+        "fixedValue": 0.55,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾法强比例",
+        "parameterKey": "shield_ap_ratio",
+        "skillKey": "janna_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T17:42:52.980111Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:54.25039Z",
+        "description": "客户端DataValues.BonusAD取等级索引1至5，得到10/15/20/25/30；TotalAD树消费该基础值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10,
+          "2": 15,
+          "3": 20,
+          "4": 25,
+          "5": 30
+        },
+        "name": "强化额外攻击力",
+        "parameterKey": "bonus_attack_damage",
+        "skillKey": "janna_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T17:42:54.25039Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:55.549869Z",
+        "description": "客户端TotalAD树按等级索引1消费ADAPRatio=0.1×来源总法强。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外攻击力法强比例",
+        "parameterKey": "attack_damage_ap_ratio",
+        "skillKey": "janna_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T17:42:55.549869Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:56.811278Z",
+        "description": "客户端ShieldDuration按等级索引1取4秒，转换为4000毫秒。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾持续时间（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "janna_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T17:42:56.811278Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:02.988367Z",
+        "description": "DDragon16.17.1 Janna.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "janna_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:02.988367Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:03.378982Z",
+        "description": "DDragon16.17.1 Janna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "janna_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:03.378982Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/janna_e/parameters/cc_cooldown_refund_ratio": {
+      "createdAt": "2026-09-09T17:42:47.660027Z",
+      "description": "客户端DataValues.ECDRefundforCC按等级索引1取0.2；控制命中条件仅作来源参数，未创建无条件冷却效果。",
+      "fixedValue": 0.2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "控制命中时冷却返还比例",
+      "parameterKey": "cc_cooldown_refund_ratio",
+      "skillKey": "janna_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:42:47.660027Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/janna_e/parameters/empower_duration_ms": {
+      "createdAt": "2026-09-09T17:42:48.931305Z",
+      "description": "客户端EmpowerDuration按等级索引1取5秒，转换为5000毫秒；当前候选不把它作为独立攻击力增益生命周期。",
+      "fixedValue": 5000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "旧强化字段持续时间（毫秒）",
+      "parameterKey": "empower_duration_ms",
+      "skillKey": "janna_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:42:48.931305Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/parameters/decay_grace_period_ms": {
+      "createdAt": "2026-09-09T17:42:50.239659Z",
+      "description": "客户端DecayGracePeriod按等级索引1取4秒，转换为4000毫秒；衰减过程不在本轮展开。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "衰减宽限时间（毫秒）",
+      "parameterKey": "decay_grace_period_ms",
+      "skillKey": "janna_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:42:50.239659Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/parameters/base_shield": {
+      "createdAt": "2026-09-09T17:42:51.5362Z",
+      "description": "客户端DataValues.BaseShield取等级索引1至5，得到80/120/160/200/240。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "基础护盾值",
+      "parameterKey": "base_shield",
+      "skillKey": "janna_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T17:42:51.5362Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/parameters/shield_ap_ratio": {
+      "createdAt": "2026-09-09T17:42:52.980111Z",
+      "description": "TotalShield树按等级索引1消费ShieldAPRatio=0.55×来源总法强。",
+      "fixedValue": 0.55,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾法强比例",
+      "parameterKey": "shield_ap_ratio",
+      "skillKey": "janna_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T17:42:52.980111Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/janna_e/parameters/bonus_attack_damage": {
+      "createdAt": "2026-09-09T17:42:54.25039Z",
+      "description": "客户端DataValues.BonusAD取等级索引1至5，得到10/15/20/25/30；TotalAD树消费该基础值。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "name": "强化额外攻击力",
+      "parameterKey": "bonus_attack_damage",
+      "skillKey": "janna_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T17:42:54.25039Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/parameters/attack_damage_ap_ratio": {
+      "createdAt": "2026-09-09T17:42:55.549869Z",
+      "description": "客户端TotalAD树按等级索引1消费ADAPRatio=0.1×来源总法强。",
+      "fixedValue": 0.1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "额外攻击力法强比例",
+      "parameterKey": "attack_damage_ap_ratio",
+      "skillKey": "janna_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T17:42:55.549869Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/janna_e/parameters/shield_duration_ms": {
+      "createdAt": "2026-09-09T17:42:56.811278Z",
+      "description": "客户端ShieldDuration按等级索引1取4秒，转换为4000毫秒。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾持续时间（毫秒）",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "janna_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T17:42:56.811278Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:02.988367Z",
+      "description": "DDragon16.17.1 Janna.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 16000,
+        "2": 15000,
+        "3": 14000,
+        "4": 13000,
+        "5": 12000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "janna_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:02.988367Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:03.378982Z",
+      "description": "DDragon16.17.1 Janna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "janna_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:00:03.378982Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/formulas": [
+      {
+        "createdAt": "2026-09-09T17:42:58.09414Z",
+        "description": "TotalShield = BaseShield + ShieldAPRatio×来源总法强。目标为自身路径，实际友方目标资格待补。",
+        "formulaKey": "total_shield",
+        "gameId": "lol",
+        "name": "风暴之眼自身护盾值",
+        "skillKey": "janna_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:42:58.09414Z"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:59.323674Z",
+        "description": "TotalAD = BonusAD + ADAPRatio×来源总法强。",
+        "formulaKey": "total_attack_damage_bonus",
+        "gameId": "lol",
+        "name": "风暴之眼自身额外攻击力",
+        "skillKey": "janna_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:42:59.323674Z"
+      }
+    ],
+    "/skills/janna_e/formulas/total_shield": {
+      "createdAt": "2026-09-09T17:42:58.09414Z",
+      "description": "TotalShield = BaseShield + ShieldAPRatio×来源总法强。目标为自身路径，实际友方目标资格待补。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "total_shield",
+      "gameId": "lol",
+      "name": "风暴之眼自身护盾值",
+      "skillKey": "janna_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:42:58.09414Z"
+    },
+    "/skills/janna_e/formulas/total_attack_damage_bonus": {
+      "createdAt": "2026-09-09T17:42:59.323674Z",
+      "description": "TotalAD = BonusAD + ADAPRatio×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_attack_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_damage_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "total_attack_damage_bonus",
+      "gameId": "lol",
+      "name": "风暴之眼自身额外攻击力",
+      "skillKey": "janna_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:42:59.323674Z"
+    },
+    "/skills/janna_e/effects": [
+      {
+        "createdAt": "2026-09-09T17:43:00.709916Z",
+        "description": "仅记录janna_e的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "janna_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:43:00.709916Z"
+      },
+      {
+        "createdAt": "2026-09-09T17:43:02.179374Z",
+        "description": "风暴之眼的自身护盾，持续4秒且不衰减；攻击力增益作为独立组成处理。",
+        "effectKey": "self_shield",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "风暴之眼自身护盾",
+        "resultCount": 1,
+        "skillKey": "janna_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T17:22:52.656198Z"
+      }
+    ],
+    "/skills/janna_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T17:43:00.709916Z",
+      "description": "仅记录janna_e的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "janna_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:43:00.709916Z"
+    },
+    "/skills/janna_e/effects/self_shield": {
+      "createdAt": "2026-09-09T17:43:02.179374Z",
+      "description": "风暴之眼的自身护盾，持续4秒且不衰减；攻击力增益作为独立组成处理。",
+      "effectKey": "self_shield",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "风暴之眼自身护盾",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "风暴之眼自身护盾",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "total_shield",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "janna_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T17:22:52.656198Z"
+    },
+    "/skills/janna_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T19:48:55.562843Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "janna_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T19:48:55.562843Z"
+      }
+    ],
+    "/skills/janna_e/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T19:48:55.562843Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "janna_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T19:48:55.562843Z"
+    },
+    "/skills/janna_e/internal-states": [],
+    "/skills/janna_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T19:48:56.770187Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "主动使用风暴之眼且回退前显式目标为本人时执行自身护盾；无显式目标不匹配。攻击力增益、控制返还冷却、法力和冷却入口另行配置。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动自施风暴之眼护盾",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_self_shield",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T17:22:46.74199Z"
+      }
+    ],
+    "/skills/janna_e/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动消耗与冷却登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "janna_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/janna_e/trigger-rules/on_used_self_shield": {
+      "actions": [
+        {
+          "actionKey": "apply_self_shield",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_shield"
+          },
+          "name": "执行风暴之眼自身护盾",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "explicit_self",
+              "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+              "detail": {},
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "self_cast",
+          "name": "明确对自身施放",
+          "sortOrder": 10
+        }
+      ],
+      "description": "主动使用风暴之眼且回退前显式目标为本人时执行自身护盾；无显式目标不匹配。攻击力增益、控制返还冷却、法力和冷却入口另行配置。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "janna_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动自施风暴之眼护盾",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_shield",
+      "sortOrder": 10
+    },
+    "/skills/lulu_w": {
+      "createdAt": "2026-09-06T18:19:16.771821Z",
+      "description": "如果对友军施放，会暂时增加目标友军的攻击速度和移动速度。如果对敌人施放，会将一名敌方英雄变成可爱的动物，使其无法攻击或施法。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "璐璐·奇思妙想",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "lulu_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:16.771821Z"
+    },
+    "/skills/lulu_w/parameters": [
+      {
+        "createdAt": "2026-09-09T17:43:35.268968Z",
+        "description": "客户端DataValues.BaseMS为0.25。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础移动速度比例",
+        "parameterKey": "base_move_speed_ratio",
+        "skillKey": "lulu_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:43:35.268968Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:43:36.539945Z",
+        "description": "客户端CCDuration取索引1至5，单位秒转换为1200/1400/1600/1800/2000毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1200,
+          "2": 1400,
+          "3": 1600,
+          "4": 1800,
+          "5": 2000
+        },
+        "name": "敌方变形持续时间（毫秒）",
+        "parameterKey": "polymorph_duration_ms",
+        "skillKey": "lulu_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:43:36.539945Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:07:35.066613Z",
+        "description": "客户端SlowAmount原始值为-60，当前扩展正文以SlowAmount×-1显示60且没有百分号。保留有符号原始量；未证明具体移动速度属性层，禁止除100当比例或作为百分数点自动接线。",
+        "fixedValue": -60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "变形减速原始量",
+        "parameterKey": "polymorph_slow_amount",
+        "skillKey": "lulu_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:07:35.066613Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:43:39.143993Z",
+        "description": "客户端MSDuration取索引1至5，单位秒转换为3000/3250/3500/3750/4000毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 3000,
+          "2": 3250,
+          "3": 3500,
+          "4": 3750,
+          "5": 4000
+        },
+        "name": "友方增益持续时间（毫秒）",
+        "parameterKey": "ally_buff_duration_ms",
+        "skillKey": "lulu_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T17:43:39.143993Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:43:40.601981Z",
+        "description": "客户端ASBonus取索引1至5；按0.2代表20%保存。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.225,
+          "3": 0.25,
+          "4": 0.275,
+          "5": 0.3
+        },
+        "name": "攻击速度增益比例",
+        "parameterKey": "attack_speed_bonus_ratio",
+        "skillKey": "lulu_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T17:43:40.601981Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:43:42.102011Z",
+        "description": "客户端TotalMS的StatByCoefficient系数为0.0005；同版属性构造窄口径按来源总法强读取。",
+        "fixedValue": 0.0005,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "移动速度法强比例",
+        "parameterKey": "move_speed_ap_ratio",
+        "skillKey": "lulu_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T17:43:42.102011Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T01:02:43.369486Z",
+        "description": "DDragon16.17.1 Lulu.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 18000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lulu_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:43.369486Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:02:43.913392Z",
+        "description": "DDragon16.17.1 Lulu.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lulu_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:43.913392Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/lulu_w/parameters/base_move_speed_ratio": {
+      "createdAt": "2026-09-09T17:43:35.268968Z",
+      "description": "客户端DataValues.BaseMS为0.25。",
+      "fixedValue": 0.25,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础移动速度比例",
+      "parameterKey": "base_move_speed_ratio",
+      "skillKey": "lulu_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:43:35.268968Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lulu_w/parameters/polymorph_duration_ms": {
+      "createdAt": "2026-09-09T17:43:36.539945Z",
+      "description": "客户端CCDuration取索引1至5，单位秒转换为1200/1400/1600/1800/2000毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1200,
+        "2": 1400,
+        "3": 1600,
+        "4": 1800,
+        "5": 2000
+      },
+      "name": "敌方变形持续时间（毫秒）",
+      "parameterKey": "polymorph_duration_ms",
+      "skillKey": "lulu_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:43:36.539945Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_w/parameters/polymorph_slow_amount": {
+      "createdAt": "2026-09-09T18:07:35.066613Z",
+      "description": "客户端SlowAmount原始值为-60，当前扩展正文以SlowAmount×-1显示60且没有百分号。保留有符号原始量；未证明具体移动速度属性层，禁止除100当比例或作为百分数点自动接线。",
+      "fixedValue": -60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "变形减速原始量",
+      "parameterKey": "polymorph_slow_amount",
+      "skillKey": "lulu_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:07:35.066613Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_w/parameters/ally_buff_duration_ms": {
+      "createdAt": "2026-09-09T17:43:39.143993Z",
+      "description": "客户端MSDuration取索引1至5，单位秒转换为3000/3250/3500/3750/4000毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 3000,
+        "2": 3250,
+        "3": 3500,
+        "4": 3750,
+        "5": 4000
+      },
+      "name": "友方增益持续时间（毫秒）",
+      "parameterKey": "ally_buff_duration_ms",
+      "skillKey": "lulu_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T17:43:39.143993Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_w/parameters/attack_speed_bonus_ratio": {
+      "createdAt": "2026-09-09T17:43:40.601981Z",
+      "description": "客户端ASBonus取索引1至5；按0.2代表20%保存。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.225,
+        "3": 0.25,
+        "4": 0.275,
+        "5": 0.3
+      },
+      "name": "攻击速度增益比例",
+      "parameterKey": "attack_speed_bonus_ratio",
+      "skillKey": "lulu_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T17:43:40.601981Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lulu_w/parameters/move_speed_ap_ratio": {
+      "createdAt": "2026-09-09T17:43:42.102011Z",
+      "description": "客户端TotalMS的StatByCoefficient系数为0.0005；同版属性构造窄口径按来源总法强读取。",
+      "fixedValue": 0.0005,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "移动速度法强比例",
+      "parameterKey": "move_speed_ap_ratio",
+      "skillKey": "lulu_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T17:43:42.102011Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lulu_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:02:43.369486Z",
+      "description": "DDragon16.17.1 Lulu.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 18000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "lulu_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:02:43.369486Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_w/parameters/mana_cost": {
+      "createdAt": "2026-09-08T01:02:43.913392Z",
+      "description": "DDragon16.17.1 Lulu.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 65,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "lulu_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T01:02:43.913392Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_w/formulas": [
+      {
+        "createdAt": "2026-09-09T17:43:43.373294Z",
+        "description": "TotalMS = BaseMS + 0.0005×来源总法强；只表达友方增益数值，未把变形当作技能替换。",
+        "formulaKey": "ally_move_speed_ratio",
+        "gameId": "lol",
+        "name": "奇思妙想友方移动速度比例",
+        "skillKey": "lulu_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:43:43.373294Z"
+      }
+    ],
+    "/skills/lulu_w/formulas/ally_move_speed_ratio": {
+      "createdAt": "2026-09-09T17:43:43.373294Z",
+      "description": "TotalMS = BaseMS + 0.0005×来源总法强；只表达友方增益数值，未把变形当作技能替换。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_move_speed_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "move_speed_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "ally_move_speed_ratio",
+      "gameId": "lol",
+      "name": "奇思妙想友方移动速度比例",
+      "skillKey": "lulu_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:43:43.373294Z"
+    },
+    "/skills/lulu_w/effects": [
+      {
+        "createdAt": "2026-09-09T17:43:44.65412Z",
+        "description": "仅记录lulu_w的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lulu_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:43:44.65412Z"
+      },
+      {
+        "createdAt": "2026-09-09T17:43:46.042371Z",
+        "description": "奇思妙想自施时的移动速度比例增益，与自身攻击速度增益同时施加；不包含对敌变形分支。",
+        "effectKey": "self_move_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "奇思妙想自身移动速度增益",
+        "resultCount": 1,
+        "skillKey": "lulu_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T17:22:54.264344Z"
+      },
+      {
+        "createdAt": "2026-09-09T17:56:12.103994Z",
+        "description": "保留自身作为合法友方目标时的攻击速度路径；不把对敌变形分支混入。",
+        "effectKey": "self_attack_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "奇思妙想自身攻击速度增益",
+        "resultCount": 1,
+        "skillKey": "lulu_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:56:12.103994Z"
+      }
+    ],
+    "/skills/lulu_w/effects/mana_cost": {
+      "createdAt": "2026-09-09T17:43:44.65412Z",
+      "description": "仅记录lulu_w的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lulu_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:43:44.65412Z"
+    },
+    "/skills/lulu_w/effects/self_move_speed": {
+      "createdAt": "2026-09-09T17:43:46.042371Z",
+      "description": "奇思妙想自施时的移动速度比例增益，与自身攻击速度增益同时施加；不包含对敌变形分支。",
+      "effectKey": "self_move_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "ally_buff_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "奇思妙想自身移动速度增益",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "奇思妙想自身移动速度增益",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "ally_move_speed_ratio",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "lulu_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T17:22:54.264344Z"
+    },
+    "/skills/lulu_w/effects/self_attack_speed": {
+      "createdAt": "2026-09-09T17:56:12.103994Z",
+      "description": "保留自身作为合法友方目标时的攻击速度路径；不把对敌变形分支混入。",
+      "effectKey": "self_attack_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "ally_buff_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "奇思妙想自身攻击速度增益",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "奇思妙想自身攻击速度增益",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "attack_speed_bonus_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "lulu_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:56:12.103994Z"
+    },
+    "/skills/lulu_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T19:48:58.261049Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "lulu_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T19:48:58.261049Z"
+      }
+    ],
+    "/skills/lulu_w/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T19:48:58.261049Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "lulu_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T19:48:58.261049Z"
+    },
+    "/skills/lulu_w/internal-states": [],
+    "/skills/lulu_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T19:48:59.497328Z"
+      },
+      {
+        "actionCount": 2,
+        "conditionGroupCount": 1,
+        "description": "主动使用奇思妙想且回退前显式目标为本人时，同时施加自身移速和攻速增益；无显式目标不匹配，对敌变形不得触发该分支。法力和冷却入口另行配置。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动自施奇思妙想增益",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_self_buffs",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T17:22:49.202381Z"
+      }
+    ],
+    "/skills/lulu_w/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动消耗与冷却登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lulu_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/lulu_w/trigger-rules/on_used_self_buffs": {
+      "actions": [
+        {
+          "actionKey": "apply_self_move_speed",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_move_speed"
+          },
+          "name": "执行奇思妙想自身移动速度增益",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        },
+        {
+          "actionKey": "apply_self_attack_speed",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_attack_speed"
+          },
+          "name": "执行奇思妙想自身攻击速度增益",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 20,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "explicit_self",
+              "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+              "detail": {},
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "self_cast",
+          "name": "明确对自身施放",
+          "sortOrder": 10
+        }
+      ],
+      "description": "主动使用奇思妙想且回退前显式目标为本人时，同时施加自身移速和攻速增益；无显式目标不匹配，对敌变形不得触发该分支。法力和冷却入口另行配置。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lulu_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动自施奇思妙想增益",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_buffs",
+      "sortOrder": 10
+    },
+    "/skills/lulu_r": {
+      "createdAt": "2026-09-06T18:19:17.377794Z",
+      "description": "璐璐让她的友军变大，击飞目标附近的敌人，同时为她的友军提供大量生命值加成。接下来的数秒内，该友军会获得一个减少附近敌人速度的光环。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "璐璐·狂野生长",
+      "skillCategoryKeys": [],
+      "skillKey": "lulu_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:17.377794Z"
+    },
+    "/skills/lulu_r/parameters": [
+      {
+        "createdAt": "2026-09-09T17:56:27.421575Z",
+        "description": "客户端DataValues.BonusHealth取等级索引1至3，得到275/425/575。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 275,
+          "2": 425,
+          "3": 575
+        },
+        "name": "额外生命值",
+        "parameterKey": "bonus_health",
+        "skillKey": "lulu_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:56:27.421575Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:56:28.54319Z",
+        "description": "客户端DataValues.SlowPercent取等级索引1至3，得到30/45/60；只作唯一敌人控制参数。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60
+        },
+        "name": "范围减速百分数点",
+        "parameterKey": "slow_percent_points",
+        "skillKey": "lulu_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:56:28.54319Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:56:29.773061Z",
+        "description": "客户端BuffDuration按等级索引1取7秒，转换为7000毫秒。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "生命增益持续时间（毫秒）",
+        "parameterKey": "buff_duration_ms",
+        "skillKey": "lulu_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:56:29.773061Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:56:31.014513Z",
+        "description": "客户端AoERadius按等级索引1取400；额外目标分配不展开。",
+        "fixedValue": 400,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "范围半径",
+        "parameterKey": "aoe_radius",
+        "skillKey": "lulu_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T17:56:31.014513Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:56:32.316858Z",
+        "description": "客户端KnockbackDuration按等级索引1取1秒，转换为1000毫秒。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击飞持续时间（毫秒）",
+        "parameterKey": "knockup_duration_ms",
+        "skillKey": "lulu_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T17:56:32.316858Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:56:33.567416Z",
+        "description": "客户端KnockbackDistance按等级索引1取275；不展开位移过程。",
+        "fixedValue": 275,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击退距离",
+        "parameterKey": "knockback_distance",
+        "skillKey": "lulu_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T17:56:33.567416Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:56:34.863532Z",
+        "description": "TotalBonusHealth树的StatByCoefficient系数为0.55×来源总法强。",
+        "fixedValue": 0.55,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外生命值法强比例",
+        "parameterKey": "bonus_health_ap_ratio",
+        "skillKey": "lulu_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T17:56:34.863532Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T01:02:45.446473Z",
+        "description": "DDragon16.17.1 Lulu.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lulu_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:45.446473Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:02:45.945331Z",
+        "description": "DDragon16.17.1 Lulu.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lulu_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:45.945331Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/lulu_r/parameters/bonus_health": {
+      "createdAt": "2026-09-09T17:56:27.421575Z",
+      "description": "客户端DataValues.BonusHealth取等级索引1至3，得到275/425/575。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 275,
+        "2": 425,
+        "3": 575
+      },
+      "name": "额外生命值",
+      "parameterKey": "bonus_health",
+      "skillKey": "lulu_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:56:27.421575Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_r/parameters/slow_percent_points": {
+      "createdAt": "2026-09-09T17:56:28.54319Z",
+      "description": "客户端DataValues.SlowPercent取等级索引1至3，得到30/45/60；只作唯一敌人控制参数。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 30,
+        "2": 45,
+        "3": 60
+      },
+      "name": "范围减速百分数点",
+      "parameterKey": "slow_percent_points",
+      "skillKey": "lulu_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:56:28.54319Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_r/parameters/buff_duration_ms": {
+      "createdAt": "2026-09-09T17:56:29.773061Z",
+      "description": "客户端BuffDuration按等级索引1取7秒，转换为7000毫秒。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "生命增益持续时间（毫秒）",
+      "parameterKey": "buff_duration_ms",
+      "skillKey": "lulu_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:56:29.773061Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_r/parameters/aoe_radius": {
+      "createdAt": "2026-09-09T17:56:31.014513Z",
+      "description": "客户端AoERadius按等级索引1取400；额外目标分配不展开。",
+      "fixedValue": 400,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "范围半径",
+      "parameterKey": "aoe_radius",
+      "skillKey": "lulu_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T17:56:31.014513Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_r/parameters/knockup_duration_ms": {
+      "createdAt": "2026-09-09T17:56:32.316858Z",
+      "description": "客户端KnockbackDuration按等级索引1取1秒，转换为1000毫秒。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击飞持续时间（毫秒）",
+      "parameterKey": "knockup_duration_ms",
+      "skillKey": "lulu_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T17:56:32.316858Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_r/parameters/knockback_distance": {
+      "createdAt": "2026-09-09T17:56:33.567416Z",
+      "description": "客户端KnockbackDistance按等级索引1取275；不展开位移过程。",
+      "fixedValue": 275,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击退距离",
+      "parameterKey": "knockback_distance",
+      "skillKey": "lulu_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T17:56:33.567416Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_r/parameters/bonus_health_ap_ratio": {
+      "createdAt": "2026-09-09T17:56:34.863532Z",
+      "description": "TotalBonusHealth树的StatByCoefficient系数为0.55×来源总法强。",
+      "fixedValue": 0.55,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "额外生命值法强比例",
+      "parameterKey": "bonus_health_ap_ratio",
+      "skillKey": "lulu_r",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T17:56:34.863532Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lulu_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:02:45.446473Z",
+      "description": "DDragon16.17.1 Lulu.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 120000,
+        "2": 100000,
+        "3": 80000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "lulu_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:02:45.446473Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_r/parameters/mana_cost": {
+      "createdAt": "2026-09-08T01:02:45.945331Z",
+      "description": "DDragon16.17.1 Lulu.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "lulu_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T01:02:45.945331Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lulu_r/formulas": [
+      {
+        "createdAt": "2026-09-09T17:56:36.209517Z",
+        "description": "TotalBonusHealth = BonusHealth + 0.55×来源总法强；只表达自身作为友方目标的数值路径。",
+        "formulaKey": "bonus_health_value",
+        "gameId": "lol",
+        "name": "狂野生长自身额外生命值",
+        "skillKey": "lulu_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:56:36.209517Z"
+      }
+    ],
+    "/skills/lulu_r/formulas/bonus_health_value": {
+      "createdAt": "2026-09-09T17:56:36.209517Z",
+      "description": "TotalBonusHealth = BonusHealth + 0.55×来源总法强；只表达自身作为友方目标的数值路径。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_health"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_health_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "bonus_health_value",
+      "gameId": "lol",
+      "name": "狂野生长自身额外生命值",
+      "skillKey": "lulu_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:56:36.209517Z"
+    },
+    "/skills/lulu_r/effects": [
+      {
+        "createdAt": "2026-09-09T17:56:37.707392Z",
+        "description": "仅记录lulu_r的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lulu_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:56:37.707392Z"
+      },
+      {
+        "createdAt": "2026-09-09T17:56:39.108064Z",
+        "description": "保留自身作为合法友方目标时的最大生命值增益；额外敌人击飞和减速仅作参数，未创建控制结果。",
+        "effectKey": "self_max_health",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "狂野生长自身额外生命值",
+        "resultCount": 1,
+        "skillKey": "lulu_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:56:39.108064Z"
+      }
+    ],
+    "/skills/lulu_r/effects/mana_cost": {
+      "createdAt": "2026-09-09T17:56:37.707392Z",
+      "description": "仅记录lulu_r的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lulu_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:56:37.707392Z"
+    },
+    "/skills/lulu_r/effects/self_max_health": {
+      "createdAt": "2026-09-09T17:56:39.108064Z",
+      "description": "保留自身作为合法友方目标时的最大生命值增益；额外敌人击飞和减速仅作参数，未创建控制结果。",
+      "effectKey": "self_max_health",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "buff_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "狂野生长自身额外生命值",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "hp",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "狂野生长自身额外生命值",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "bonus_health_value",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "lulu_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:56:39.108064Z"
+    },
+    "/skills/lulu_r/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T19:49:00.983289Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "lulu_r",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T19:49:00.983289Z"
+      }
+    ],
+    "/skills/lulu_r/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T19:49:00.983289Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "lulu_r",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T19:49:00.983289Z"
+    },
+    "/skills/lulu_r/internal-states": [],
+    "/skills/lulu_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T19:49:02.24922Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "主动使用狂野生长且回退前显式目标为本人时，仅施加已有最大生命属性增益；无显式目标不匹配。当前血量和到期处理、击飞、减速、法力与冷却入口均另行配置。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动自施狂野生长最大生命",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_self_health",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T17:22:50.919451Z"
+      }
+    ],
+    "/skills/lulu_r/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动消耗与冷却登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lulu_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/lulu_r/trigger-rules/on_used_self_health": {
+      "actions": [
+        {
+          "actionKey": "apply_self_max_health",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_max_health"
+          },
+          "name": "执行狂野生长自身额外生命值",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "explicit_self",
+              "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+              "detail": {},
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "self_cast",
+          "name": "明确对自身施放",
+          "sortOrder": 10
+        }
+      ],
+      "description": "主动使用狂野生长且回退前显式目标为本人时，仅施加已有最大生命属性增益；无显式目标不匹配。当前血量和到期处理、击飞、减速、法力与冷却入口均另行配置。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lulu_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动自施狂野生长最大生命",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_health",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/formulas/magic_shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects/magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/trigger-rules/on_used_self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/cc_cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/empower_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/decay_grace_period_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/bonus_attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/attack_damage_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/formulas/total_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/formulas/total_attack_damage_bonus",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/effects/self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/trigger-rules/on_used_self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/parameters/base_move_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/parameters/polymorph_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/parameters/polymorph_slow_amount",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/parameters/ally_buff_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/parameters/attack_speed_bonus_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/parameters/move_speed_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/formulas/ally_move_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/effects/self_move_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/effects/self_attack_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_w/trigger-rules/on_used_self_buffs",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/parameters/bonus_health",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/parameters/buff_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/parameters/aoe_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/parameters/knockup_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/parameters/knockback_distance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/parameters/bonus_health_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/formulas/bonus_health_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/effects/self_max_health",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lulu_r/trigger-rules/on_used_self_health",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

@@ -1,0 +1,3132 @@
+{
+  "reportVersion": "six-magic-damage-followup-2026-09-19-v1",
+  "generatedAt": "2026-09-18T23:54:55.343Z",
+  "boundary": "仅GET管理接口、固定客户端16.17与DDragon16.17.1原资料及当前管理现值核对；不发送POST/PUT/DELETE，不冻结批次，不证明浏览器、Wasm或战斗运行。",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "gameId": "lol",
+  "clientVersion": "16.17",
+  "ddragonVersion": "16.17.1",
+  "targets": [
+    "kassadin_q",
+    "ivern_q",
+    "ahri_e",
+    "diana_e",
+    "ashe_r",
+    "veigar_e"
+  ],
+  "businessWrites": 0,
+  "getCount": 49,
+  "requestAuditFile": "request-audit.json",
+  "getOriginalsDirectory": "gets/",
+  "referenceFiles": [
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+      "sha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501",
+      "bytes": 1313
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+      "sha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+      "bytes": 40079
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+      "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+      "bytes": 1271370
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/阶段进度.json",
+      "sha256": "0aa6cd55018efad4de1590418d721fd7a76c575f213b7e460b90b1fce585ef7b",
+      "bytes": 1854609
+    },
+    {
+      "path": "tools/authoring/update-reviewed-damage-vamp.mjs",
+      "sha256": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+      "bytes": 9093
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kassadin.json",
+      "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29",
+      "bytes": 11848
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Kassadin.json",
+      "sha256": "9afd359ea6daacd81b2589692e7da653926ec55b0b63184a521d0e1b24edbd25",
+      "bytes": 11193
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kassadin.json.gz",
+      "sha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+      "bytes": 6741
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ivern.json",
+      "sha256": "944b848a16ce275abfe73bff480a001eafdf014df9f849b436cba47231a95be3",
+      "bytes": 12109
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ivern.json",
+      "sha256": "891792e3b500acaf06cf58158077a6038c3903083f0df2c513f75730f32df712",
+      "bytes": 11841
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ivern.json.gz",
+      "sha256": "3e21fdf20084ca37263d8bc86ea2eb040cabba152161021e8e89054548948196",
+      "bytes": 8567
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ahri.json",
+      "sha256": "d7aa942350ef9d9756df1476a6bd83a3da4cf1dcee1b22107676d5b1a86c6b04",
+      "bytes": 16182
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ahri.json",
+      "sha256": "0bd796d1e9376a738a70b2eb809d408ac296da11a527be2847aced37bfbaeea7",
+      "bytes": 15543
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ahri.json.gz",
+      "sha256": "61c7d14f2d30346f1ae51ab82dab1f48c19ec7d9542f0c76e99f0576e1c71d12",
+      "bytes": 9117
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Diana.json",
+      "sha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d",
+      "bytes": 16631
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Diana.json",
+      "sha256": "06bba838083bb91b9d6c41f6c9f7395966d911719b9893be08734ba6425e8055",
+      "bytes": 15878
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Diana.json.gz",
+      "sha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c",
+      "bytes": 7926
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ashe.json",
+      "sha256": "6da1288d3a252541b543aeb4837a4a6b8399984b2ad437025b231f276ee356fb",
+      "bytes": 16326
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ashe.json",
+      "sha256": "e85c7e4b51ee4e39e602a6792ed106909414ba267b1f3914677d218e5977ca95",
+      "bytes": 15496
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ashe.json.gz",
+      "sha256": "64ee52402a8f3b0eece7f9b584028767204058246d41441adc2cfd370f2a8e44",
+      "bytes": 10652
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Veigar.json",
+      "sha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+      "bytes": 14350
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Veigar.json",
+      "sha256": "71eed4440c741f187b3e36900a67e4544b188edb6aba4501ae3d981e494c28c2",
+      "bytes": 14094
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz",
+      "sha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc",
+      "bytes": 7128
+    }
+  ],
+  "lockedExecutor": {
+    "path": "tools/authoring/update-reviewed-damage-vamp.mjs",
+    "expectedSha256": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "actualSha256": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a"
+  },
+  "sourceConclusionReference": {
+    "interactionFile": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+    "interactionSha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501",
+    "matureCandidateFile": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+    "matureCandidateSha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+    "vampRules": [
+      {
+        "vampType": "OMNIVAMP",
+        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+        "efficiencyValue": {
+          "kind": "FIXED",
+          "value": 1
+        }
+      }
+    ],
+    "semantic": "空vampRules没有默认全能吸血资格；普通DIRECT/SKILL/magic伤害只有在明确保存OMNIVAMP、POST_DEFENSE_DAMAGE、效率1时才具备本候选资格；这不是实际扣血或运行时证明。"
+  },
+  "qualificationRule": "按每个效果逐项检查：效果results必须只有一个DAMAGE结果，且target=TARGET、damageTypeKey=magic、deliveryKind=SKILL、originKind=DIRECT、critical.mode=DISALLOWED、效果lifecycle=null、结果lifecycleBehavior=null、旧vampRules为空；不是按整个技能合计DAMAGE数量判断。",
+  "counts": {
+    "skills": 6,
+    "damageResults": 4,
+    "preparedCandidates": 4,
+    "skippedSkillsWithoutDamage": [
+      "kassadin_q",
+      "veigar_e"
+    ],
+    "businessWrites": 0
+  },
+  "skills": [
+    {
+      "skillKey": "kassadin_q",
+      "skillName": "卡萨丁·虚无法球",
+      "subjectRoute": "/skills/kassadin_q",
+      "effectsListRoute": "/skills/kassadin_q/effects",
+      "triggerRulesListRoute": "/skills/kassadin_q/trigger-rules",
+      "subject": {
+        "createdAt": "2026-09-06T18:18:53.006891Z",
+        "description": "卡萨丁向目标发射虚空能量法球，造成伤害并打断目标的技能引导。满溢的能量会在他身边环绕，提供一个可吸收魔法伤害的临时护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡萨丁·虚无法球",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kassadin_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:53.006891Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-09T05:42:37.259358Z",
+          "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "kassadin_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T05:42:37.259358Z"
+        },
+        {
+          "createdAt": "2026-09-09T05:42:38.202528Z",
+          "description": "当前正文明确自身1.5秒魔法护盾；施放与目标命中、护盾采样时点未自动连接。",
+          "effectKey": "magic_shield",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "虚无法球自身魔法护盾",
+          "resultCount": 1,
+          "skillKey": "kassadin_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:42:38.202528Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收 kassadin_q 主动使用；无条件在 CURRENT_TARGET 上执行已有 magic_shield。magic_shield 结果 target=SOURCE 且只吸收 magic 魔法伤害，不表达目标伤害、引导打断或资源消耗。",
+          "eventType": "SKILL_USED",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "虚无法球主动使用",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "on_used",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-12T16:39:54.10274Z"
+        }
+      ],
+      "sourceEvidence": {
+        "skillKey": "kassadin_q",
+        "champion": "Kassadin",
+        "slot": "Q",
+        "binding": {
+          "rootPath": "Characters/Kassadin/CharacterRecords/Root",
+          "clientPath": "Characters/Kassadin/Spells/NullLanceAbility/NullLance",
+          "officialSpellIndex": 0,
+          "officialId": "NullLance",
+          "bindingAvailable": true,
+          "sourceIndexEntry": {
+            "name": "虚无法球",
+            "officialMaxRank": 5,
+            "dataValueNames": [
+              "BaseDamage",
+              "ShieldAmount",
+              "ShieldDuration"
+            ],
+            "calculationNames": [
+              "TotalShield",
+              "TotalDamage"
+            ],
+            "officialCooldown": [
+              9,
+              8.5,
+              8,
+              7.5,
+              7
+            ],
+            "officialCost": [
+              60,
+              65,
+              70,
+              75,
+              80
+            ],
+            "clientCooldown": [
+              9,
+              9,
+              8.5,
+              8,
+              7.5,
+              7,
+              8
+            ],
+            "clientMana": [
+              60,
+              65,
+              70,
+              75,
+              80,
+              80
+            ],
+            "clientCastTime": 0.25,
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        },
+        "sourceFiles": {
+          "officialZh": {
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kassadin.json",
+            "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29",
+            "pointer": "/data/Kassadin/spells/0"
+          },
+          "officialEn": {
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Kassadin.json",
+            "sha256": "9afd359ea6daacd81b2589692e7da653926ec55b0b63184a521d0e1b24edbd25",
+            "pointer": "/data/Kassadin/spells/0"
+          },
+          "clientCompressed": {
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kassadin.json.gz",
+            "sha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+            "rawSha256": "5032507c744a7bdf98f2391f0a125176a5da203395544228146007ba26676785",
+            "bytes": 6741
+          },
+          "sourceIndex": {
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+            "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+          },
+          "phaseProgress": {
+            "path": "数据参考/全量录入-2026-09/阶段进度.json",
+            "sha256": "0aa6cd55018efad4de1590418d721fd7a76c575f213b7e460b90b1fce585ef7b"
+          }
+        },
+        "official": {
+          "zh": {
+            "id": "NullLance",
+            "name": "虚无法球",
+            "description": "卡萨丁向目标发射虚空能量法球，造成伤害并打断目标的技能引导。满溢的能量会在他身边环绕，提供一个可吸收魔法伤害的临时护盾。",
+            "tooltip": "卡萨丁发射一颗虚无能量法球，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>并打断引导技能。卡萨丁还会获得<shield>{{ totalshield }}魔法护盾</shield>，持续1.5秒。{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "cooldown": [
+              9,
+              8.5,
+              8,
+              7.5,
+              7
+            ],
+            "cost": [
+              60,
+              65,
+              70,
+              75,
+              80
+            ],
+            "effectBurn": [
+              null,
+              "65/95/125/155/185",
+              "0",
+              "80/110/140/170/200",
+              "1.5",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          },
+          "en": {
+            "id": "NullLance",
+            "name": "Null Sphere",
+            "description": "Kassadin fires an orb of void energy at a target, dealing damage and interrupting channels. The excess energy forms around himself, granting a temporary shield that absorbs magic damage.",
+            "tooltip": "Kassadin fires an orb of void energy, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> and interrupting channels. Kassadin also gains <shield>{{ totalshield }} Magic Shield</shield> for 1.5 seconds.{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "cooldown": [
+              9,
+              8.5,
+              8,
+              7.5,
+              7
+            ],
+            "cost": [
+              60,
+              65,
+              70,
+              75,
+              80
+            ],
+            "effectBurn": [
+              null,
+              "65/95/125/155/185",
+              "0",
+              "80/110/140/170/200",
+              "1.5",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "client": {
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kassadin/kassadin.bin.json",
+          "spellPath": "Characters/Kassadin/Spells/NullLanceAbility/NullLance",
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                35,
+                65,
+                95,
+                125,
+                155,
+                185,
+                215
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ShieldAmount",
+              "values": [
+                50,
+                80,
+                110,
+                140,
+                170,
+                200,
+                230
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ShieldDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculationKeys": [
+            "TotalDamage",
+            "TotalShield"
+          ],
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            9,
+            9,
+            8.5,
+            8,
+            7.5,
+            7,
+            8
+          ],
+          "mana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            80
+          ]
+        },
+        "phaseProgress": {
+          "sourceChampionId": "Kassadin",
+          "sourceNumericId": "38",
+          "conclusion": "资料待核",
+          "conclusionScope": "技能范围内数据与机制",
+          "reason": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。",
+          "pendingCounts": {
+            "source": 1,
+            "system": 0,
+            "configuration": 1,
+            "other": 0
+          },
+          "batchKey": "heroThirteenthBatch",
+          "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+          "evidenceRefs": [
+            "skillFirstStageCurrentReadback",
+            "heroSourceInventory"
+          ]
+        }
+      },
+      "damageResults": [],
+      "skip": {
+        "status": "明确跳过",
+        "reason": "当前效果详情没有DAMAGE结果；现有组成仅按真实GET记录，未为控制或其他结果编造伤害候选。"
+      },
+      "unfinishedBranches": "已保存明确组成；仍有2个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口1个。",
+      "counts": {
+        "effects": 2,
+        "triggerRules": 1,
+        "damageResults": 0
+      }
+    },
+    {
+      "skillKey": "ivern_q",
+      "skillName": "艾翁·根深敌固",
+      "subjectRoute": "/skills/ivern_q",
+      "effectsListRoute": "/skills/ivern_q/effects",
+      "triggerRulesListRoute": "/skills/ivern_q/trigger-rules",
+      "subject": {
+        "createdAt": "2026-09-06T18:18:37.484312Z",
+        "description": "艾翁召唤出一束荆棘，对命中的敌方单位造成伤害和禁锢效果。艾翁的友军可以突进到禁锢目标附近。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾翁·根深敌固",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ivern_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:37.484312Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-10T04:07:58.577602Z",
+          "description": "唯一敌人本体伤害；禁锢与再次施放冲刺的同一目标条件由事件层接线。",
+          "effectKey": "damage",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "根深敌固魔法伤害",
+          "resultCount": 1,
+          "skillKey": "ivern_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-10T04:07:58.577602Z"
+        },
+        {
+          "createdAt": "2026-09-10T04:08:00.161969Z",
+          "description": "复用冻结公共法力参数；仅记录基础消耗。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "ivern_q",
+          "sortOrder": 900,
+          "updatedAt": "2026-09-10T04:08:00.161969Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "仅消费宿主确认的 ivern_q 实际英雄命中，并在当前目标上执行已有的 damage；禁锢、再次施放突进、友军与非史诗级野怪分支、法力消耗和冷却不在本条规则中。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "命中英雄触发根深敌固伤害",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-12T16:39:56.117716Z"
+        }
+      ],
+      "sourceEvidence": {
+        "skillKey": "ivern_q",
+        "champion": "Ivern",
+        "slot": "Q",
+        "binding": {
+          "rootPath": "Characters/Ivern/CharacterRecords/Root",
+          "clientPath": "Characters/Ivern/Spells/IvernQAbility/IvernQ",
+          "officialSpellIndex": 0,
+          "officialId": "IvernQ",
+          "bindingAvailable": true,
+          "sourceIndexEntry": {
+            "name": "根深敌固",
+            "officialMaxRank": 5,
+            "dataValueNames": [
+              "DashSpeed",
+              "BaseDamage",
+              "RootDuration",
+              "APRatio"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "officialCooldown": [
+              14,
+              13,
+              12,
+              11,
+              10
+            ],
+            "officialCost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "clientCooldown": [
+              15,
+              14,
+              13,
+              12,
+              11,
+              10,
+              9
+            ],
+            "clientMana": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "clientCastTime": 0.25,
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        },
+        "sourceFiles": {
+          "officialZh": {
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ivern.json",
+            "sha256": "944b848a16ce275abfe73bff480a001eafdf014df9f849b436cba47231a95be3",
+            "pointer": "/data/Ivern/spells/0"
+          },
+          "officialEn": {
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ivern.json",
+            "sha256": "891792e3b500acaf06cf58158077a6038c3903083f0df2c513f75730f32df712",
+            "pointer": "/data/Ivern/spells/0"
+          },
+          "clientCompressed": {
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ivern.json.gz",
+            "sha256": "3e21fdf20084ca37263d8bc86ea2eb040cabba152161021e8e89054548948196",
+            "rawSha256": "40e544c50fe387702ee3cbc82e41bf2296be3996640cf077b517a2ec7724d03e",
+            "bytes": 8567
+          },
+          "sourceIndex": {
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+            "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+          },
+          "phaseProgress": {
+            "path": "数据参考/全量录入-2026-09/阶段进度.json",
+            "sha256": "0aa6cd55018efad4de1590418d721fd7a76c575f213b7e460b90b1fce585ef7b"
+          }
+        },
+        "official": {
+          "zh": {
+            "id": "IvernQ",
+            "name": "根深敌固",
+            "description": "艾翁召唤出一束荆棘，对命中的敌方单位造成伤害和禁锢效果。艾翁的友军可以突进到禁锢目标附近。",
+            "tooltip": "艾翁召唤一束荆棘，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>并<status>禁锢</status>命中的第一个敌人{{ rootduration }}秒。友军在攻击<status>禁锢</status>的敌人时会冲刺到攻击距离处。<br /><br /><recast>再次施放：</recast>艾翁直接冲刺到这个被<status>禁锢</status>的敌人身边。<br /><br /><rules>命中非史诗级野怪会使<spellName>根深敌固</spellName>的冷却时间缩减50%。</rules>{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "cooldown": [
+              14,
+              13,
+              12,
+              11,
+              10
+            ],
+            "cost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          },
+          "en": {
+            "id": "IvernQ",
+            "name": "Rootcaller",
+            "description": "Ivern conjures a vine, dealing damage and rooting enemy targets hit. Ivern's allies can dash to the rooted target.",
+            "tooltip": "Ivern conjures a vine dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> and <status>Rooting</status> the first enemy hit for {{ rootduration }} seconds. Allies that Attack a <status>Rooted</status> enemy dash into Attack Range. <br /><br /><recast>Recast:</recast> Ivern dashes directly onto the <status>Rooted</status> enemy.<br /><br /><rules>Hitting non-epic monsters reduces <spellName>Rootcaller's</spellName> cooldown by 50%.</rules>{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "cooldown": [
+              14,
+              13,
+              12,
+              11,
+              10
+            ],
+            "cost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "client": {
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ivern/ivern.bin.json",
+          "spellPath": "Characters/Ivern/Spells/IvernQAbility/IvernQ",
+          "dataValues": [
+            {
+              "name": "DashSpeed",
+              "values": [
+                1500,
+                1500,
+                1500,
+                1500,
+                1500,
+                1500,
+                1500
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                35,
+                80,
+                125,
+                170,
+                215,
+                260,
+                305
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RootDuration",
+              "values": [
+                1.5,
+                1.600000023841858,
+                1.7000000476837158,
+                1.7999999523162842,
+                1.899999976158142,
+                2,
+                2.0999999046325684
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071,
+                0.699999988079071
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculationKeys": [
+            "TotalDamage"
+          ],
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            15,
+            14,
+            13,
+            12,
+            11,
+            10,
+            9
+          ],
+          "mana": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ]
+        },
+        "phaseProgress": {
+          "sourceChampionId": "Ivern",
+          "sourceNumericId": "427",
+          "conclusion": "系统暂缓",
+          "conclusionScope": "技能范围内数据与机制",
+          "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+          "pendingCounts": {
+            "source": 0,
+            "system": 1,
+            "configuration": 0,
+            "other": 0
+          },
+          "batchKey": "heroFortyEighthBatch",
+          "candidateSha256": "d406a10109e52abfa58c3767551a612e0ec12ef405d7fdf808cab501d30f7268",
+          "evidenceRefs": [
+            "skillFirstStageCurrentReadback",
+            "heroSourceInventory"
+          ]
+        }
+      },
+      "damageResults": [
+        {
+          "skillKey": "ivern_q",
+          "skillName": "艾翁·根深敌固",
+          "effectKey": "damage",
+          "resultKey": "damage",
+          "effectRoute": "/skills/ivern_q/effects/damage",
+          "status": "准备候选",
+          "exceptions": [],
+          "effectResultCount": 1,
+          "effectDamageResultCount": 1,
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "effectLifecycle": null,
+            "resultLifecycleBehavior": null,
+            "vampRules": [],
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-10T04:07:58.577602Z",
+              "description": "唯一敌人本体伤害；禁锢与再次施放冲刺的同一目标条件由事件层接线。",
+              "effectKey": "damage",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "根深敌固魔法伤害",
+              "results": [
+                {
+                  "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "根深敌固魔法伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "magic_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "ivern_q",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-10T04:07:58.577602Z"
+            },
+            "formulaDetails": {
+              "magic_damage": {
+                "createdAt": "2026-09-10T04:07:55.285913Z",
+                "description": "TotalDamage=BaseDamage+APRatio×来源总法强。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "magic_damage",
+                "gameId": "lol",
+                "name": "根深敌固魔法伤害",
+                "skillKey": "ivern_q",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-10T04:07:55.285913Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-10T04:00:58.387241Z",
+                "description": "TotalDamage第二分支读取APRatio和来源总法强。",
+                "fixedValue": 0.699999988,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "法强倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "ivern_q",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-10T04:00:58.387241Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-10T04:00:54.626347Z",
+                "description": "当前根BaseDamage按保护最高等级从索引1开始映射；索引0为占位。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 80,
+                  "2": 125,
+                  "3": 170,
+                  "4": 215,
+                  "5": 260
+                },
+                "name": "根深敌固基础魔法伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "ivern_q",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-10T04:00:54.626347Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "93a6e92eca038d361a0958f5c791e1d9102d4dec28b2f9166109ec5340af9e2e",
+            "formulas": {
+              "/skills/ivern_q/formulas/magic_damage": "f26740e4914612a313937662319373718a3ea0e7b6b5c17c335b7d8a2e80707e"
+            },
+            "parameters": {
+              "/skills/ivern_q/parameters/ap_ratio": "91dff884312b45b0d43537be29584f80e7ba455d7aa8dacd3bd871dac5f10527",
+              "/skills/ivern_q/parameters/base_damage": "3c4711ca0e32f13b64e8be569ae8d00f77bbe5ad741aa97e6a51f0c615d1d243"
+            }
+          },
+          "existingWiring": {
+            "triggerRuleListRoute": "/skills/ivern_q/trigger-rules",
+            "relatedRuleRoutes": [
+              "/skills/ivern_q/trigger-rules/actual_hit"
+            ],
+            "relatedRules": [
+              {
+                "actions": [
+                  {
+                    "actionKey": "execute_damage",
+                    "actionType": "EXECUTE_EFFECT",
+                    "detail": {
+                      "effectKey": "damage"
+                    },
+                    "name": "执行根深敌固命中伤害",
+                    "resultModifiers": [],
+                    "runtimeInputBindings": [],
+                    "sortOrder": 10,
+                    "targetContext": "CURRENT_TARGET"
+                  }
+                ],
+                "conditionGroups": [
+                  {
+                    "conditions": [
+                      {
+                        "conditionKey": "champion_target",
+                        "conditionType": "TARGET_CATEGORY_CHECK",
+                        "detail": {
+                          "categories": [
+                            "CHAMPION"
+                          ]
+                        },
+                        "sortOrder": 10
+                      }
+                    ],
+                    "groupKey": "champion_target",
+                    "name": "命中对象为英雄",
+                    "sortOrder": 10
+                  }
+                ],
+                "description": "仅消费宿主确认的 ivern_q 实际英雄命中，并在当前目标上执行已有的 damage；禁锢、再次施放突进、友军与非史诗级野怪分支、法力消耗和冷却不在本条规则中。",
+                "eventSource": {
+                  "detail": {
+                    "sourceSkillKey": "ivern_q",
+                    "useKind": null
+                  },
+                  "eventType": "SKILL_HIT"
+                },
+                "maxTriggersPerProcess": null,
+                "name": "命中英雄触发根深敌固伤害",
+                "perTargetCooldown": null,
+                "ruleKey": "actual_hit",
+                "sortOrder": 10
+              }
+            ],
+            "note": "管理配置已有执行该效果的入口；这只证明配置接线，不证明宿主/Wasm/战斗运行。"
+          },
+          "put": {
+            "method": "PUT",
+            "route": "/skills/ivern_q/effects/damage",
+            "body": {
+              "name": "根深敌固魔法伤害",
+              "description": "唯一敌人本体伤害；禁锢与再次施放冲刺的同一目标条件由事件层接线。；补充明确全能吸血资格。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "根深敌固魔法伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "magic_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            },
+            "preservation": "仅修改父说明和该DAMAGE结果的vampRules；名称、数值、公式、原法术护盾粒度、暴击、其他结果和所有入口保持原值。"
+          }
+        }
+      ],
+      "skip": null,
+      "unfinishedBranches": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+      "counts": {
+        "effects": 2,
+        "triggerRules": 1,
+        "damageResults": 1
+      }
+    },
+    {
+      "skillKey": "ahri_e",
+      "skillName": "阿狸·魅惑妖术",
+      "subjectRoute": "/skills/ahri_e",
+      "effectsListRoute": "/skills/ahri_e/effects",
+      "triggerRulesListRoute": "/skills/ahri_e/trigger-rules",
+      "subject": {
+        "createdAt": "2026-09-06T18:16:14.427185Z",
+        "description": "阿狸献出红唇热吻，对命中的第一个敌人造成伤害并将目标魅惑，并且立刻终止目标的移动技能并使目标无恶意地走向她。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿狸·魅惑妖术",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ahri_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:14.427185Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-07T18:52:42.496789Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "ahri_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:52:42.496789Z"
+        },
+        {
+          "createdAt": "2026-09-07T18:52:43.148014Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "charm_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "魅惑命中魔法伤害",
+          "resultCount": 1,
+          "skillKey": "ahri_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:52:43.148014Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "魅惑妖术实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:52:44.23608Z"
+        }
+      ],
+      "sourceEvidence": {
+        "skillKey": "ahri_e",
+        "champion": "Ahri",
+        "slot": "E",
+        "binding": {
+          "rootPath": "Characters/Ahri/CharacterRecords/Root",
+          "clientPath": "Characters/Ahri/Spells/AhriEAbility/AhriE",
+          "officialSpellIndex": 2,
+          "officialId": "AhriE",
+          "bindingAvailable": true,
+          "sourceIndexEntry": {
+            "name": "魅惑妖术",
+            "officialMaxRank": 5,
+            "dataValueNames": [
+              "BaseDamage",
+              "SlowPercent",
+              "CharmDuration",
+              "APRatio"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "officialCooldown": [
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "officialCost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "clientCooldown": [
+              12,
+              12,
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "clientMana": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "clientCastTime": 0.25,
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        },
+        "sourceFiles": {
+          "officialZh": {
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ahri.json",
+            "sha256": "d7aa942350ef9d9756df1476a6bd83a3da4cf1dcee1b22107676d5b1a86c6b04",
+            "pointer": "/data/Ahri/spells/2"
+          },
+          "officialEn": {
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ahri.json",
+            "sha256": "0bd796d1e9376a738a70b2eb809d408ac296da11a527be2847aced37bfbaeea7",
+            "pointer": "/data/Ahri/spells/2"
+          },
+          "clientCompressed": {
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ahri.json.gz",
+            "sha256": "61c7d14f2d30346f1ae51ab82dab1f48c19ec7d9542f0c76e99f0576e1c71d12",
+            "rawSha256": "65607b5729a1e8e851d6b95ee16f504737ff2a2a796f2cc49ff69bcfae70480f",
+            "bytes": 9117
+          },
+          "sourceIndex": {
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+            "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+          },
+          "phaseProgress": {
+            "path": "数据参考/全量录入-2026-09/阶段进度.json",
+            "sha256": "0aa6cd55018efad4de1590418d721fd7a76c575f213b7e460b90b1fce585ef7b"
+          }
+        },
+        "official": {
+          "zh": {
+            "id": "AhriE",
+            "name": "魅惑妖术",
+            "description": "阿狸献出红唇热吻，对命中的第一个敌人造成伤害并将目标魅惑，并且立刻终止目标的移动技能并使目标无恶意地走向她。",
+            "tooltip": "阿狸献出红唇热吻，<status>魅惑</status>命中的首个敌人{{ charmduration }}秒并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "cooldown": [
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "cost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          },
+          "en": {
+            "id": "AhriE",
+            "name": "Charm",
+            "description": "Ahri blows a kiss that damages and charms an enemy it encounters, instantly stopping movement abilities and causing them to walk harmlessly towards her.",
+            "tooltip": "Ahri blows a kiss that <status>Charms</status> the first enemy hit for {{ charmduration }} seconds and deals <magicDamage>{{ totaldamage }} magic damage</magicDamage>.{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "cooldown": [
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "cost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "client": {
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ahri/ahri.bin.json",
+          "spellPath": "Characters/Ahri/Spells/AhriEAbility/AhriE",
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                40,
+                80,
+                120,
+                160,
+                200,
+                240,
+                280
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowPercent",
+              "values": [
+                -0.6499999761581421,
+                -0.6499999761581421,
+                -0.6499999761581421,
+                -0.6499999761581421,
+                -0.6499999761581421,
+                -0.6499999761581421,
+                -0.6499999761581421
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CharmDuration",
+              "values": [
+                1.0499999523162842,
+                1.2000000476837158,
+                1.350000023841858,
+                1.5,
+                1.649999976158142,
+                1.7999999523162842,
+                1.9500000476837158
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579,
+                0.8500000238418579
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculationKeys": [
+            "TotalDamage"
+          ],
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "mana": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ]
+        },
+        "phaseProgress": {
+          "sourceChampionId": "Ahri",
+          "sourceNumericId": "103",
+          "conclusion": "系统暂缓",
+          "conclusionScope": "技能范围内数据与机制",
+          "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+          "pendingCounts": {
+            "source": 0,
+            "system": 0,
+            "configuration": 1,
+            "other": 0
+          },
+          "batchKey": "heroFourthBatch",
+          "candidateSha256": null,
+          "evidenceRefs": [
+            "skillThirdStageCurrentReadback",
+            "heroSourceInventory"
+          ]
+        }
+      },
+      "damageResults": [
+        {
+          "skillKey": "ahri_e",
+          "skillName": "阿狸·魅惑妖术",
+          "effectKey": "charm_hit",
+          "resultKey": "damage",
+          "effectRoute": "/skills/ahri_e/effects/charm_hit",
+          "status": "准备候选",
+          "exceptions": [],
+          "effectResultCount": 1,
+          "effectDamageResultCount": 1,
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "effectLifecycle": null,
+            "resultLifecycleBehavior": null,
+            "vampRules": [],
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T18:52:43.148014Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "charm_hit",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "魅惑命中魔法伤害",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "魅惑命中魔法伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "ahri_e",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T18:52:43.148014Z"
+            },
+            "formulaDetails": {
+              "damage": {
+                "createdAt": "2026-09-07T18:52:41.871095Z",
+                "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "魅惑妖术基础伤害",
+                "skillKey": "ahri_e",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T18:52:41.871095Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T18:52:39.90728Z",
+                "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+                "fixedValue": 0.85,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "法强倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "ahri_e",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-07T18:52:39.90728Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T18:52:39.367241Z",
+                "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 80,
+                  "2": 120,
+                  "3": 160,
+                  "4": 200,
+                  "5": 240
+                },
+                "name": "基础伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "ahri_e",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T18:52:39.367241Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "4c07c2708e1705ccc242c49b23d78f7f2ccc87cb5547eca6d4e4117a1b37a4eb",
+            "formulas": {
+              "/skills/ahri_e/formulas/damage": "201dc1b1a4aad1968077f75d05983b21ebd21a6c20d883be56f0b45340103b39"
+            },
+            "parameters": {
+              "/skills/ahri_e/parameters/ap_ratio": "51574840c1af4186cdabfef77165f5b631b1607ab10fc76ff529565b241d02df",
+              "/skills/ahri_e/parameters/base_damage": "8afef48b08b18bfe86ce5eb6bb875a7fd685931b85d717b35bed285f2e80aa37"
+            }
+          },
+          "existingWiring": {
+            "triggerRuleListRoute": "/skills/ahri_e/trigger-rules",
+            "relatedRuleRoutes": [
+              "/skills/ahri_e/trigger-rules/actual_hit"
+            ],
+            "relatedRules": [
+              {
+                "actions": [
+                  {
+                    "actionKey": "damage",
+                    "actionType": "EXECUTE_EFFECT",
+                    "detail": {
+                      "effectKey": "charm_hit"
+                    },
+                    "name": "执行命中伤害",
+                    "resultModifiers": [],
+                    "runtimeInputBindings": [],
+                    "sortOrder": 10,
+                    "targetContext": "CURRENT_TARGET"
+                  }
+                ],
+                "conditionGroups": [],
+                "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+                "eventSource": {
+                  "detail": {
+                    "sourceSkillKey": "ahri_e",
+                    "useKind": null
+                  },
+                  "eventType": "SKILL_HIT"
+                },
+                "maxTriggersPerProcess": null,
+                "name": "魅惑妖术实际命中",
+                "perTargetCooldown": null,
+                "ruleKey": "actual_hit",
+                "sortOrder": 10
+              }
+            ],
+            "note": "管理配置已有执行该效果的入口；这只证明配置接线，不证明宿主/Wasm/战斗运行。"
+          },
+          "put": {
+            "method": "PUT",
+            "route": "/skills/ahri_e/effects/charm_hit",
+            "body": {
+              "name": "魅惑命中魔法伤害",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。；补充明确全能吸血资格。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "魅惑命中魔法伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            },
+            "preservation": "仅修改父说明和该DAMAGE结果的vampRules；名称、数值、公式、原法术护盾粒度、暴击、其他结果和所有入口保持原值。"
+          }
+        }
+      ],
+      "skip": null,
+      "unfinishedBranches": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+      "counts": {
+        "effects": 2,
+        "triggerRules": 1,
+        "damageResults": 1
+      }
+    },
+    {
+      "skillKey": "diana_e",
+      "skillName": "黛安娜·月神冲刺",
+      "subjectRoute": "/skills/diana_e",
+      "effectsListRoute": "/skills/diana_e/effects",
+      "triggerRulesListRoute": "/skills/diana_e/trigger-rules",
+      "subject": {
+        "createdAt": "2026-09-06T18:18:09.313429Z",
+        "description": "成为复仇之月的活化身，冲向一名敌人并造成魔法伤害。<br>【月神冲刺】在冲达一名被施加了【月光】效果的敌人时，会没有冷却时间。所有其它的敌人都将移除掉身上的【月光】效果，无论他们是否是【月神冲刺】的目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "黛安娜·月神冲刺",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "diana_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:09.313429Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-07T18:53:49.670451Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "diana_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:53:49.670451Z"
+        },
+        {
+          "createdAt": "2026-09-07T18:53:50.245978Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "lunar_rush_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "月神冲刺命中",
+          "resultCount": 1,
+          "skillKey": "diana_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:53:50.245978Z"
+        },
+        {
+          "createdAt": "2026-09-07T18:53:50.9611Z",
+          "description": null,
+          "effectKey": "moonlight_cooldown_reset",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "命中已有月光目标重置冲刺",
+          "resultCount": 1,
+          "skillKey": "diana_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:53:50.9611Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "月神冲刺实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:53:52.088523Z"
+        }
+      ],
+      "sourceEvidence": {
+        "skillKey": "diana_e",
+        "champion": "Diana",
+        "slot": "E",
+        "binding": {
+          "rootPath": "Characters/Diana/CharacterRecords/Root",
+          "clientPath": "Characters/Diana/Spells/DianaTeleportAbility/DianaTeleport",
+          "officialSpellIndex": 2,
+          "officialId": "DianaTeleport",
+          "bindingAvailable": true,
+          "sourceIndexEntry": {
+            "name": "月神冲刺",
+            "officialMaxRank": 5,
+            "dataValueNames": [
+              "BaseDamage",
+              "APRatio",
+              "CDResetTime"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "officialCooldown": [
+              22,
+              20,
+              18,
+              16,
+              14
+            ],
+            "officialCost": [
+              40,
+              45,
+              50,
+              55,
+              60
+            ],
+            "clientCooldown": [
+              22,
+              22,
+              20,
+              18,
+              16,
+              14,
+              10
+            ],
+            "clientMana": [
+              40,
+              45,
+              50,
+              55,
+              60,
+              60
+            ],
+            "clientCastTime": 0.25,
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        },
+        "sourceFiles": {
+          "officialZh": {
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Diana.json",
+            "sha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d",
+            "pointer": "/data/Diana/spells/2"
+          },
+          "officialEn": {
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Diana.json",
+            "sha256": "06bba838083bb91b9d6c41f6c9f7395966d911719b9893be08734ba6425e8055",
+            "pointer": "/data/Diana/spells/2"
+          },
+          "clientCompressed": {
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Diana.json.gz",
+            "sha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c",
+            "rawSha256": "ed46b24b345a284e7938db666ff6f354cd837f49e6e0e7ef544429addd817efa",
+            "bytes": 7926
+          },
+          "sourceIndex": {
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+            "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+          },
+          "phaseProgress": {
+            "path": "数据参考/全量录入-2026-09/阶段进度.json",
+            "sha256": "0aa6cd55018efad4de1590418d721fd7a76c575f213b7e460b90b1fce585ef7b"
+          }
+        },
+        "official": {
+          "zh": {
+            "id": "DianaTeleport",
+            "name": "月神冲刺",
+            "description": "成为复仇之月的活化身，冲向一名敌人并造成魔法伤害。<br>【月神冲刺】在冲达一名被施加了【月光】效果的敌人时，会没有冷却时间。所有其它的敌人都将移除掉身上的【月光】效果，无论他们是否是【月神冲刺】的目标。",
+            "tooltip": "黛安娜成为复仇之月的活化身，冲向一名敌人并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。如果目标被施加了<keywordMajor>月光</keywordMajor>，那么这个技能的冷却时间会被刷新。{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "cooldown": [
+              22,
+              20,
+              18,
+              16,
+              14
+            ],
+            "cost": [
+              40,
+              45,
+              50,
+              55,
+              60
+            ],
+            "effectBurn": [
+              null,
+              "4/4/4/0/0",
+              "40/60/80/100/120",
+              "50/75/100/0/0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          },
+          "en": {
+            "id": "DianaTeleport",
+            "name": "Lunar Rush",
+            "description": "Becomes the living embodiment of the vengeful moon, dashing to an enemy and dealing magic damage.<br><br>Lunar Rush has no cooldown when used to dash to an enemy afflicted with Moonlight. All other enemies will have the Moonlight debuff removed regardless of whether they were the target of Lunar Rush.",
+            "tooltip": "Diana becomes as the vengeful moon, dashing to an enemy and dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage>. If the target is afflicted with <keywordMajor>Moonlight</keywordMajor>, this Ability's Cooldown is refreshed.{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "cooldown": [
+              22,
+              20,
+              18,
+              16,
+              14
+            ],
+            "cost": [
+              40,
+              45,
+              50,
+              55,
+              60
+            ],
+            "effectBurn": [
+              null,
+              "4/4/4/0/0",
+              "40/60/80/100/120",
+              "50/75/100/0/0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "client": {
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/diana/diana.bin.json",
+          "spellPath": "Characters/Diana/Spells/DianaTeleportAbility/DianaTeleport",
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                50,
+                70,
+                90,
+                110,
+                130,
+                150
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CDResetTime",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculationKeys": [
+            "TotalDamage"
+          ],
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            22,
+            22,
+            20,
+            18,
+            16,
+            14,
+            10
+          ],
+          "mana": [
+            40,
+            45,
+            50,
+            55,
+            60,
+            60
+          ]
+        },
+        "phaseProgress": {
+          "sourceChampionId": "Diana",
+          "sourceNumericId": "131",
+          "conclusion": "系统暂缓",
+          "conclusionScope": "技能范围内数据与机制",
+          "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+          "pendingCounts": {
+            "source": 0,
+            "system": 0,
+            "configuration": 1,
+            "other": 0
+          },
+          "batchKey": "heroFourthBatch",
+          "candidateSha256": null,
+          "evidenceRefs": [
+            "skillThirdStageCurrentReadback",
+            "heroSourceInventory"
+          ]
+        }
+      },
+      "damageResults": [
+        {
+          "skillKey": "diana_e",
+          "skillName": "黛安娜·月神冲刺",
+          "effectKey": "lunar_rush_hit",
+          "resultKey": "damage",
+          "effectRoute": "/skills/diana_e/effects/lunar_rush_hit",
+          "status": "准备候选",
+          "exceptions": [],
+          "effectResultCount": 1,
+          "effectDamageResultCount": 1,
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "effectLifecycle": null,
+            "resultLifecycleBehavior": null,
+            "vampRules": [],
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T18:53:50.245978Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "lunar_rush_hit",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "月神冲刺命中",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "月神冲刺命中",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "diana_e",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T18:53:50.245978Z"
+            },
+            "formulaDetails": {
+              "damage": {
+                "createdAt": "2026-09-07T18:53:48.982208Z",
+                "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "月神冲刺基础伤害",
+                "skillKey": "diana_e",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T18:53:48.982208Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T18:53:47.872189Z",
+                "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+                "fixedValue": 0.6,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "法强倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "diana_e",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-07T18:53:47.872189Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T18:53:47.37083Z",
+                "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 50,
+                  "2": 70,
+                  "3": 90,
+                  "4": 110,
+                  "5": 130
+                },
+                "name": "基础伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "diana_e",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T18:53:47.37083Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "bc138fc3ff80642c14782c9f13f8be86f77aadd8f1509ef7809e472a04d2db8f",
+            "formulas": {
+              "/skills/diana_e/formulas/damage": "40abe3bd8e3b4e0405a8fbddccca934a97c1db6d59eb119f5c5ebbf8b779a80a"
+            },
+            "parameters": {
+              "/skills/diana_e/parameters/ap_ratio": "642b75c677375195c9a3c8767bc311be408b6e27119547c801215df6cb5a97c5",
+              "/skills/diana_e/parameters/base_damage": "81d6ee0a35e33b3c992f05cd3c9941d92dcf13bd96e482c8344fe3799e29c433"
+            }
+          },
+          "existingWiring": {
+            "triggerRuleListRoute": "/skills/diana_e/trigger-rules",
+            "relatedRuleRoutes": [
+              "/skills/diana_e/trigger-rules/actual_hit"
+            ],
+            "relatedRules": [
+              {
+                "actions": [
+                  {
+                    "actionKey": "damage",
+                    "actionType": "EXECUTE_EFFECT",
+                    "detail": {
+                      "effectKey": "lunar_rush_hit"
+                    },
+                    "name": "执行命中伤害",
+                    "resultModifiers": [],
+                    "runtimeInputBindings": [],
+                    "sortOrder": 10,
+                    "targetContext": "CURRENT_TARGET"
+                  }
+                ],
+                "conditionGroups": [],
+                "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+                "eventSource": {
+                  "detail": {
+                    "sourceSkillKey": "diana_e",
+                    "useKind": null
+                  },
+                  "eventType": "SKILL_HIT"
+                },
+                "maxTriggersPerProcess": null,
+                "name": "月神冲刺实际命中",
+                "perTargetCooldown": null,
+                "ruleKey": "actual_hit",
+                "sortOrder": 10
+              }
+            ],
+            "note": "管理配置已有执行该效果的入口；这只证明配置接线，不证明宿主/Wasm/战斗运行。"
+          },
+          "put": {
+            "method": "PUT",
+            "route": "/skills/diana_e/effects/lunar_rush_hit",
+            "body": {
+              "name": "月神冲刺命中",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。；补充明确全能吸血资格。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "月神冲刺命中",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            },
+            "preservation": "仅修改父说明和该DAMAGE结果的vampRules；名称、数值、公式、原法术护盾粒度、暴击、其他结果和所有入口保持原值。"
+          }
+        }
+      ],
+      "skip": null,
+      "unfinishedBranches": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+      "counts": {
+        "effects": 3,
+        "triggerRules": 1,
+        "damageResults": 1
+      }
+    },
+    {
+      "skillKey": "ashe_r",
+      "skillName": "艾希·魔法水晶箭",
+      "subjectRoute": "/skills/ashe_r",
+      "effectsListRoute": "/skills/ashe_r/effects",
+      "triggerRulesListRoute": "/skills/ashe_r/trigger-rules",
+      "subject": {
+        "createdAt": "2026-09-06T17:14:17.927699Z",
+        "description": "来源：官方静态资料16.17.1。原始说明：艾希射出一支沿直线飞行的魔法水晶箭。如果水晶箭命中了一名敌方英雄，那么它会对该英雄造成伤害和晕眩效果，晕眩时长取决于水晶箭的飞行距离。此外，该英雄附近的敌方单位会受到伤害和减速效果。 数值、机制及图片尚待录入与核对。",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "艾希·魔法水晶箭",
+        "skillCategoryKeys": [],
+        "skillKey": "ashe_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T17:14:17.927699Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-07T14:35:30.04621Z",
+          "description": "仅直接命中英雄的伤害组成；眩晕、附近目标伤害及减速、视野和弹道待补，不默认命中。",
+          "effectKey": "hit_damage",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "R 命中英雄魔法伤害",
+          "resultCount": 1,
+          "skillKey": "ashe_r",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-07T14:35:30.04621Z"
+        },
+        {
+          "createdAt": "2026-09-07T14:35:30.429327Z",
+          "description": "明确的施放法力消耗组成；当前尚未挂接施法过程，不表示已经自动消耗。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "R 施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "ashe_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T14:35:30.429327Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "仅在运行时确认 ashe_r 已命中英雄后，在当前目标上执行已有的 hit_damage；眩晕、距离换算、附近目标伤害、减速、弹道、视野、消耗与冷却不在本条规则中。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "命中英雄触发水晶箭伤害",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-12T15:21:11.140365Z"
+        }
+      ],
+      "sourceEvidence": {
+        "skillKey": "ashe_r",
+        "champion": "Ashe",
+        "slot": "R",
+        "binding": {
+          "rootPath": "Characters/Ashe/CharacterRecords/Root",
+          "clientPath": "Characters/Ashe/Spells/EnchantedCrystalArrowAbility/EnchantedCrystalArrow",
+          "officialSpellIndex": 3,
+          "officialId": "EnchantedCrystalArrow",
+          "bindingAvailable": true,
+          "sourceIndexEntry": {
+            "name": "魔法水晶箭",
+            "officialMaxRank": 3,
+            "dataValueNames": [
+              "RBaseDamage",
+              "MinStunDuration",
+              "MaxStunDuration",
+              "SlowRadius",
+              "AoECoefficient",
+              "APRatio"
+            ],
+            "calculationNames": [
+              "RMainDamage",
+              "{6b932875}"
+            ],
+            "officialCooldown": [
+              100,
+              80,
+              60
+            ],
+            "officialCost": [
+              100,
+              100,
+              100
+            ],
+            "clientCooldown": [
+              100,
+              100,
+              80,
+              60,
+              60,
+              60,
+              60
+            ],
+            "clientMana": [
+              100,
+              100,
+              100,
+              0,
+              0,
+              0
+            ],
+            "clientCastTime": 0.25,
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        },
+        "sourceFiles": {
+          "officialZh": {
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ashe.json",
+            "sha256": "6da1288d3a252541b543aeb4837a4a6b8399984b2ad437025b231f276ee356fb",
+            "pointer": "/data/Ashe/spells/3"
+          },
+          "officialEn": {
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ashe.json",
+            "sha256": "e85c7e4b51ee4e39e602a6792ed106909414ba267b1f3914677d218e5977ca95",
+            "pointer": "/data/Ashe/spells/3"
+          },
+          "clientCompressed": {
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ashe.json.gz",
+            "sha256": "64ee52402a8f3b0eece7f9b584028767204058246d41441adc2cfd370f2a8e44",
+            "rawSha256": "9b2e4e241134f8e93153a752fe54f65c2dddccc795b9c9d575ec45111fccafd2",
+            "bytes": 10652
+          },
+          "sourceIndex": {
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+            "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+          },
+          "phaseProgress": {
+            "path": "数据参考/全量录入-2026-09/阶段进度.json",
+            "sha256": "0aa6cd55018efad4de1590418d721fd7a76c575f213b7e460b90b1fce585ef7b"
+          }
+        },
+        "official": {
+          "zh": {
+            "id": "EnchantedCrystalArrow",
+            "name": "魔法水晶箭",
+            "description": "艾希射出一支沿直线飞行的魔法水晶箭。如果水晶箭命中了一名敌方英雄，那么它会对该英雄造成伤害和晕眩效果，晕眩时长取决于水晶箭的飞行距离。此外，该英雄附近的敌方单位会受到伤害和减速效果。",
+            "tooltip": "艾希射出魔法水晶箭，<status>晕眩</status>命中的第一个敌方英雄，并造成<magicDamage>{{ rmaindamage }}魔法伤害</magicDamage>。<status>晕眩</status>时长取决于飞行距离，至多{{ maxstunduration }}秒。目标周围的敌人会受到<spellName>冰霜射击</spellName>的<status>减速</status>效果。{{ spellmodifierdescriptionappend }}",
+            "maxrank": 3,
+            "cooldown": [
+              100,
+              80,
+              60
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          },
+          "en": {
+            "id": "EnchantedCrystalArrow",
+            "name": "Enchanted Crystal Arrow",
+            "description": "Ashe fires a missile of ice in a straight line. If the arrow collides with an enemy Champion, it deals damage and stuns the Champion, stunning for longer the farther arrow has traveled. In addition, surrounding enemy units take damage and are slowed.",
+            "tooltip": "Ashe launches a crystal arrow of ice that <status>Stuns</status> the first champion hit and deals <magicDamage>{{ rmaindamage }} magic damage</magicDamage>. The <status>Stun</status> duration increases with distance travelled, up to {{ maxstunduration }} seconds. Surrounding enemies are <status>Slowed</status> by <spellName>Frost Shot</spellName>.{{ spellmodifierdescriptionappend }}",
+            "maxrank": 3,
+            "cooldown": [
+              100,
+              80,
+              60
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "client": {
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ashe/ashe.bin.json",
+          "spellPath": "Characters/Ashe/Spells/EnchantedCrystalArrowAbility/EnchantedCrystalArrow",
+          "dataValues": [
+            {
+              "name": "RBaseDamage",
+              "values": [
+                0,
+                200,
+                400,
+                600,
+                800,
+                1000,
+                1200
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinStunDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxStunDuration",
+              "values": [
+                3.5,
+                3.5,
+                3.5,
+                3.5,
+                3.5,
+                3.5,
+                3.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowRadius",
+              "values": [
+                400,
+                400,
+                400,
+                400,
+                400,
+                400,
+                400
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AoECoefficient",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculationKeys": [
+            "RMainDamage",
+            "{6b932875}"
+          ],
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            100,
+            100,
+            80,
+            60,
+            60,
+            60,
+            60
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ]
+        },
+        "phaseProgress": {
+          "sourceChampionId": "Ashe",
+          "sourceNumericId": "22",
+          "conclusion": "系统暂缓",
+          "conclusionScope": "技能范围内数据与机制",
+          "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+          "pendingCounts": {
+            "source": 0,
+            "system": 1,
+            "configuration": 0,
+            "other": 0
+          },
+          "batchKey": "heroFiftiethBatch",
+          "candidateSha256": "0ce76bd47383a74900ed3c2b6e3a7a070c3608c741c30016595ecad0b56b5dba",
+          "evidenceRefs": [
+            "skillFirstStageCurrentReadback",
+            "heroSourceInventory"
+          ]
+        }
+      },
+      "damageResults": [
+        {
+          "skillKey": "ashe_r",
+          "skillName": "艾希·魔法水晶箭",
+          "effectKey": "hit_damage",
+          "resultKey": "damage",
+          "effectRoute": "/skills/ashe_r/effects/hit_damage",
+          "status": "准备候选",
+          "exceptions": [],
+          "effectResultCount": 1,
+          "effectDamageResultCount": 1,
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "effectLifecycle": null,
+            "resultLifecycleBehavior": null,
+            "vampRules": [],
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "hit_damage",
+                "kind": "FORMULA"
+              }
+            }
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T14:35:30.04621Z",
+              "description": "仅直接命中英雄的伤害组成；眩晕、附近目标伤害及减速、视野和弹道待补，不默认命中。",
+              "effectKey": "hit_damage",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "R 命中英雄魔法伤害",
+              "results": [
+                {
+                  "description": "仅伤害数值组成，不加普通暴击倍率；减速或眩晕另行配置。旧 Wiki 明示可被法术护盾阻挡，本结果选择当前结果粒度。吸血留待游戏级规则，空列表不表示不吸血。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "一次命中伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 0,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": null,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "hit_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "ashe_r",
+              "sortOrder": 0,
+              "updatedAt": "2026-09-07T14:35:30.04621Z"
+            },
+            "formulaDetails": {
+              "hit_damage": {
+                "createdAt": "2026-09-07T14:35:29.71371Z",
+                "description": "基础伤害 + 120%法术强度；对应 RMainDamage，未建立附近目标选择。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "hit_damage",
+                "gameId": "lol",
+                "name": "R 命中英雄魔法伤害",
+                "skillKey": "ashe_r",
+                "sortOrder": 0,
+                "updatedAt": "2026-09-07T14:35:29.71371Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T14:35:27.155772Z",
+                "description": "客户端 RMainDamage.APRatio 原浮点 1.2000000476837158 按 1.2 归一，与冻结 Wiki 120%一致。",
+                "fixedValue": 1.2,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "R 法术强度比例",
+                "parameterKey": "ap_ratio",
+                "skillKey": "ashe_r",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T14:35:27.155772Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T14:35:26.731135Z",
+                "description": "客户端 RBaseDamage 索引 1～3，与冻结 Wiki 一致。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 200,
+                  "2": 400,
+                  "3": 600
+                },
+                "name": "R 基础魔法伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "ashe_r",
+                "sortOrder": 0,
+                "updatedAt": "2026-09-07T14:35:26.731135Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "37c12e365caac649c38b7e4858d751b881dabaf8bf20269b2d4e353a3f719526",
+            "formulas": {
+              "/skills/ashe_r/formulas/hit_damage": "5deb11af68821063130765a5f4bbff402041d2f2ab61e7a1e853305e4738afba"
+            },
+            "parameters": {
+              "/skills/ashe_r/parameters/ap_ratio": "1748f9c7f1be3bd646c66185b8da456312f10e7363434675213400cd31cecf86",
+              "/skills/ashe_r/parameters/base_damage": "05d2e24c7a01ac9776e13388e85bee3cb37a0f2d9a0845a5510ce62c53095ec3"
+            }
+          },
+          "existingWiring": {
+            "triggerRuleListRoute": "/skills/ashe_r/trigger-rules",
+            "relatedRuleRoutes": [
+              "/skills/ashe_r/trigger-rules/actual_hit"
+            ],
+            "relatedRules": [
+              {
+                "actions": [
+                  {
+                    "actionKey": "execute_hit_damage",
+                    "actionType": "EXECUTE_EFFECT",
+                    "detail": {
+                      "effectKey": "hit_damage"
+                    },
+                    "name": "执行水晶箭命中伤害",
+                    "resultModifiers": [],
+                    "runtimeInputBindings": [],
+                    "sortOrder": 10,
+                    "targetContext": "CURRENT_TARGET"
+                  }
+                ],
+                "conditionGroups": [
+                  {
+                    "conditions": [
+                      {
+                        "conditionKey": "champion_target",
+                        "conditionType": "TARGET_CATEGORY_CHECK",
+                        "detail": {
+                          "categories": [
+                            "CHAMPION"
+                          ]
+                        },
+                        "sortOrder": 10
+                      }
+                    ],
+                    "groupKey": "champion_target",
+                    "name": "命中对象为英雄",
+                    "sortOrder": 10
+                  }
+                ],
+                "description": "仅在运行时确认 ashe_r 已命中英雄后，在当前目标上执行已有的 hit_damage；眩晕、距离换算、附近目标伤害、减速、弹道、视野、消耗与冷却不在本条规则中。",
+                "eventSource": {
+                  "detail": {
+                    "sourceSkillKey": "ashe_r",
+                    "useKind": null
+                  },
+                  "eventType": "SKILL_HIT"
+                },
+                "maxTriggersPerProcess": null,
+                "name": "命中英雄触发水晶箭伤害",
+                "perTargetCooldown": null,
+                "ruleKey": "actual_hit",
+                "sortOrder": 10
+              }
+            ],
+            "note": "管理配置已有执行该效果的入口；这只证明配置接线，不证明宿主/Wasm/战斗运行。"
+          },
+          "put": {
+            "method": "PUT",
+            "route": "/skills/ashe_r/effects/hit_damage",
+            "body": {
+              "name": "R 命中英雄魔法伤害",
+              "description": "仅直接命中英雄的伤害组成；眩晕、附近目标伤害及减速、视野和弹道待补，不默认命中。；补充明确全能吸血资格。",
+              "sortOrder": 0,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": "仅伤害数值组成，不加普通暴击倍率；减速或眩晕另行配置。旧 Wiki 明示可被法术护盾阻挡，本结果选择当前结果粒度。吸血留待游戏级规则，空列表不表示不吸血。",
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "一次命中伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 0,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": null,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "hit_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            },
+            "preservation": "仅修改父说明和该DAMAGE结果的vampRules；名称、数值、公式、原法术护盾粒度、暴击、其他结果和所有入口保持原值。"
+          }
+        }
+      ],
+      "skip": null,
+      "unfinishedBranches": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+      "counts": {
+        "effects": 2,
+        "triggerRules": 1,
+        "damageResults": 1
+      }
+    },
+    {
+      "skillKey": "veigar_e",
+      "skillName": "维迦·扭曲空间",
+      "subjectRoute": "/skills/veigar_e",
+      "effectsListRoute": "/skills/veigar_e/effects",
+      "triggerRulesListRoute": "/skills/veigar_e/trigger-rules",
+      "subject": {
+        "createdAt": "2026-09-06T18:20:55.351379Z",
+        "description": "维迦扭曲空间的边缘，创造一个牢笼来使途径的敌人晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "维迦·扭曲空间",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "veigar_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:55.351379Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-07T18:51:55.526579Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "veigar_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:51:55.526579Z"
+        },
+        {
+          "createdAt": "2026-09-10T05:28:20.482357Z",
+          "description": "碰到牢笼边缘时向当前目标施加眩晕；本次状态随父效果期限结束，施加结果可被法术护盾阻挡。真实边缘接触事件的产生另行接线。",
+          "effectKey": "event_horizon_stun",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "碰到牢笼边缘眩晕",
+          "resultCount": 1,
+          "skillKey": "veigar_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-10T05:37:19.998598Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收veigar_e主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；牢笼生成、边缘接触、重复触发、状态归属与眩晕行动限制继续暂缓。管理保存不证明宿主已生产该事件。",
+          "eventType": "SKILL_USED",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "主动使用启动扭曲空间施法过程",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "on_used",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-13T13:09:03.777448Z"
+        }
+      ],
+      "sourceEvidence": {
+        "skillKey": "veigar_e",
+        "champion": "Veigar",
+        "slot": "E",
+        "binding": {
+          "rootPath": "Characters/Veigar/CharacterRecords/Root",
+          "clientPath": "Characters/Veigar/Spells/VeigarEventHorizonAbility/VeigarEventHorizon",
+          "officialSpellIndex": 2,
+          "officialId": "VeigarEventHorizon",
+          "bindingAvailable": true,
+          "sourceIndexEntry": {
+            "name": "扭曲空间",
+            "officialMaxRank": 5,
+            "dataValueNames": [
+              "StunDuration",
+              "CageDelay"
+            ],
+            "calculationNames": [],
+            "officialCooldown": [
+              20,
+              18.5,
+              17,
+              15.5,
+              14
+            ],
+            "officialCost": [
+              70,
+              75,
+              80,
+              85,
+              90
+            ],
+            "clientCooldown": [
+              20,
+              20,
+              18.5,
+              17,
+              15.5,
+              14,
+              14
+            ],
+            "clientMana": [
+              70,
+              75,
+              80,
+              85,
+              90,
+              95
+            ],
+            "clientCastTime": 0.25,
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        },
+        "sourceFiles": {
+          "officialZh": {
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Veigar.json",
+            "sha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+            "pointer": "/data/Veigar/spells/2"
+          },
+          "officialEn": {
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Veigar.json",
+            "sha256": "71eed4440c741f187b3e36900a67e4544b188edb6aba4501ae3d981e494c28c2",
+            "pointer": "/data/Veigar/spells/2"
+          },
+          "clientCompressed": {
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz",
+            "sha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc",
+            "rawSha256": "2dbb6f22563ef94b230e24af998836e95d883bb7fd6d39e4f5cc273ad371af78",
+            "bytes": 7128
+          },
+          "sourceIndex": {
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+            "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+          },
+          "phaseProgress": {
+            "path": "数据参考/全量录入-2026-09/阶段进度.json",
+            "sha256": "0aa6cd55018efad4de1590418d721fd7a76c575f213b7e460b90b1fce585ef7b"
+          }
+        },
+        "official": {
+          "zh": {
+            "id": "VeigarEventHorizon",
+            "name": "扭曲空间",
+            "description": "维迦扭曲空间的边缘，创造一个牢笼来使途径的敌人晕眩。",
+            "tooltip": "维迦扭曲空间的边缘，创造一个牢笼来使途经的敌人<status>晕眩</status>{{ stunduration }}秒。牢笼持续3秒。{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "cooldown": [
+              20,
+              18.5,
+              17,
+              15.5,
+              14
+            ],
+            "cost": [
+              70,
+              75,
+              80,
+              85,
+              90
+            ],
+            "effectBurn": [
+              null,
+              "1.5/1.75/2/2.25/2.5",
+              "0.5",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          },
+          "en": {
+            "id": "VeigarEventHorizon",
+            "name": "Event Horizon",
+            "description": "Veigar twists the edges of space, creating a cage that Stuns enemies that pass through.",
+            "tooltip": "Veigar twists the edges of space, creating a cage that <status>Stuns</status> enemies that pass through for {{ stunduration }} seconds. The cage lasts for 3 seconds.{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "cooldown": [
+              20,
+              18.5,
+              17,
+              15.5,
+              14
+            ],
+            "cost": [
+              70,
+              75,
+              80,
+              85,
+              90
+            ],
+            "effectBurn": [
+              null,
+              "1.5/1.75/2/2.25/2.5",
+              "0.5",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "client": {
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/veigar/veigar.bin.json",
+          "spellPath": "Characters/Veigar/Spells/VeigarEventHorizonAbility/VeigarEventHorizon",
+          "dataValues": [
+            {
+              "name": "StunDuration",
+              "values": [
+                1.25,
+                1.5,
+                1.75,
+                2,
+                2.25,
+                2.5,
+                2.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CageDelay",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculationKeys": [],
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            20,
+            20,
+            18.5,
+            17,
+            15.5,
+            14,
+            14
+          ],
+          "mana": [
+            70,
+            75,
+            80,
+            85,
+            90,
+            95
+          ]
+        },
+        "phaseProgress": {
+          "sourceChampionId": "Veigar",
+          "sourceNumericId": "45",
+          "conclusion": "系统暂缓",
+          "conclusionScope": "技能范围内数据与机制",
+          "reason": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；牢笼生成、边缘接触、重复触发、状态归属与眩晕行动限制仍未接，整技能保持系统暂缓。",
+          "pendingCounts": {
+            "source": 0,
+            "system": 1,
+            "configuration": 1,
+            "other": 0
+          },
+          "batchKey": "heroFourthBatch",
+          "candidateSha256": null,
+          "evidenceRefs": [
+            "skillThirdStageCurrentReadback",
+            "heroSourceInventory",
+            "sixHeroCastProcessEntryBackfillThird"
+          ]
+        }
+      },
+      "damageResults": [],
+      "skip": {
+        "status": "明确跳过",
+        "reason": "当前效果详情没有DAMAGE结果；现有组成仅按真实GET记录，未为控制或其他结果编造伤害候选。"
+      },
+      "unfinishedBranches": "已补录主动使用后启动cast施法过程，法力消耗、基础冷却和施法延迟已有入口；牢笼生成、边缘接触、重复触发、状态归属与眩晕行动限制仍未接，整技能保持系统暂缓。",
+      "counts": {
+        "effects": 2,
+        "triggerRules": 1,
+        "damageResults": 0
+      }
+    }
+  ]
+}

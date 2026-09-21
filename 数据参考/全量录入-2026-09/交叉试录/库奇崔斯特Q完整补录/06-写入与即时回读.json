@@ -1,0 +1,1194 @@
+{
+  "startedAt": "2026-09-18T19:05:51.496Z",
+  "status": "PASS",
+  "businessWritesAttempted": 9,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/corki_q/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-18T19:05:51.086449Z",
+          "description": "施放时消耗对应技能等级的法力。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "corki_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-18T19:05:51.086449Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-18T19:05:51.086449Z",
+        "description": "施放时消耗对应技能等级的法力。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "corki_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T19:05:51.086449Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/corki_q/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-18T19:05:52.669613Z",
+          "description": "1V1范围内当前唯一敌方目标的一次实际命中魔法伤害；纯视野显形不在本效果内。",
+          "effectKey": "primary_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "对当前目标命中伤害",
+          "results": [
+            {
+              "description": "引用同技能 magic_damage 公式。",
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "魔法伤害",
+              "resultKey": "magic_damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "SKILL",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "magic_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "corki_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T19:05:52.669613Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-18T19:05:52.669613Z",
+        "description": "1V1范围内当前唯一敌方目标的一次实际命中魔法伤害；纯视野显形不在本效果内。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "对当前目标命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 magic_damage 公式。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "magic_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "corki_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T19:05:52.669613Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/corki_q/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-18T19:05:53.933491Z",
+          "description": "负责法力消耗、施法延迟和基础冷却；命中效果由实际 SKILL_HIT 规则触发。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "施放磷光炸弹",
+          "processKey": "cast",
+          "skillKey": "corki_q",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "读取当前技能 250 毫秒施法参数。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法时间",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-18T19:05:53.933491Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-18T19:05:53.933491Z",
+        "description": "负责法力消耗、施法延迟和基础冷却；命中效果由实际 SKILL_HIT 规则触发。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放磷光炸弹",
+        "processKey": "cast",
+        "skillKey": "corki_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能 250 毫秒施法参数。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-18T19:05:53.933491Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/corki_q/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动磷光炸弹施法过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收库奇 Q 主动使用并启动已有 cast 过程；命中和区域几何由后续运行层事件提供。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "corki_q",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用启动磷光炸弹施法过程",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动磷光炸弹施法过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "接收库奇 Q 主动使用并启动已有 cast 过程；命中和区域几何由后续运行层事件提供。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "corki_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用启动磷光炸弹施法过程",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/corki_q/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "action_1",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "primary_hit"
+              },
+              "name": "对当前目标命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "仅监听当前技能对当前唯一敌方目标的一次实际 SKILL_HIT；规则本身不产生命中事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "corki_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "Q实际命中结算",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_q_hit",
+          "sortOrder": 20
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "对当前目标命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "仅监听当前技能对当前唯一敌方目标的一次实际 SKILL_HIT；规则本身不产生命中事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "corki_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "Q实际命中结算",
+        "perTargetCooldown": null,
+        "ruleKey": "resolve_on_q_hit",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/twistedfate_q/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-18T19:05:58.779524Z",
+          "description": "1V1范围内同一敌方目标至多承受一张牌的实际命中魔法伤害，不乘三。",
+          "effectKey": "primary_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "对当前目标命中伤害",
+          "results": [
+            {
+              "description": "引用同技能 enemy_magic_damage 公式；三条弹道空间分配不在本候选内。",
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "魔法伤害",
+              "resultKey": "magic_damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "SKILL",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "enemy_magic_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "twistedfate_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T19:05:58.779524Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-18T19:05:58.779524Z",
+        "description": "1V1范围内同一敌方目标至多承受一张牌的实际命中魔法伤害，不乘三。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "对当前目标命中伤害",
+        "results": [
+          {
+            "description": "引用同技能 enemy_magic_damage 公式；三条弹道空间分配不在本候选内。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "magic_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "enemy_magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "twistedfate_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T19:05:58.779524Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/twistedfate_q/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-18T19:06:00.116669Z",
+          "description": "负责法力消耗、施法延迟和基础冷却；同一目标至多一张牌的命中效果由 SKILL_HIT 规则触发。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "施放万能牌",
+          "processKey": "cast",
+          "skillKey": "twistedfate_q",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "读取当前技能 250 毫秒施法参数。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法时间",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-18T19:06:00.116669Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-18T19:06:00.116669Z",
+        "description": "负责法力消耗、施法延迟和基础冷却；同一目标至多一张牌的命中效果由 SKILL_HIT 规则触发。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放万能牌",
+        "processKey": "cast",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能 250 毫秒施法参数。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-18T19:06:00.116669Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/twistedfate_q/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动万能牌施法过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收崔斯特 Q 主动使用并启动已有 cast 过程；三条弹道空间分配由后续运行层事件提供。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "twistedfate_q",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用启动万能牌施法过程",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动万能牌施法过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "接收崔斯特 Q 主动使用并启动已有 cast 过程；三条弹道空间分配由后续运行层事件提供。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "twistedfate_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用启动万能牌施法过程",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/twistedfate_q/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "action_1",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "primary_hit"
+              },
+              "name": "对当前目标命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "仅监听当前技能对当前唯一敌方目标的一次实际 SKILL_HIT；同一目标至多一张牌，不乘三，规则本身不产生命中事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "twistedfate_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "Q实际命中结算",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_q_hit",
+          "sortOrder": 20
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "对当前目标命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "仅监听当前技能对当前唯一敌方目标的一次实际 SKILL_HIT；同一目标至多一张牌，不乘三，规则本身不产生命中事件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "twistedfate_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "Q实际命中结算",
+        "perTargetCooldown": null,
+        "ruleKey": "resolve_on_q_hit",
+        "sortOrder": 20
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components.mjs": "80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a",
+    "01-候选方案.json": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+    "02-冻结请求.json": "6e2151fc45a925018c7873bf51f5492ab386487dd18201b62570e6aac8e9e511",
+    "03-来源摘要.json": "0e7e3b1e4fe91b50e8e5266796b83a0eb4701b39126ff5d6c5c6026202c870b1",
+    "04-写入前现值.json": "306954dd2989dc4498c256c1a77d9e1f0aa7156343180eb2a14ffe20899495c6"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-18T19:06:05.761Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/corki_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_corki",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_corki/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_corki/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_corki",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=corki_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/bonus_attack_damage_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_twistedfate",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_twistedfate/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_twistedfate/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_twistedfate",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=twistedfate_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/bonus_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/formulas/enemy_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules/resolve_on_q_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules/resolve_on_q_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/corki_q/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/corki_q/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/corki_q/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/corki_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules/resolve_on_q_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/corki_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/twistedfate_q/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/twistedfate_q/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/twistedfate_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules/resolve_on_q_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/twistedfate_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    }
+  ]
+}

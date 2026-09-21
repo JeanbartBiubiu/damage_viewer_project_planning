@@ -1,0 +1,262 @@
+{
+  "at": "2026-09-19T08:03:07.471Z",
+  "businessWrites": 0,
+  "values": {
+    "/statuses": {
+      "items": [
+        {
+          "createdAt": "2026-08-28T14:55:06.53067Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "眩晕",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "statusKey": "vertigo",
+          "statusKind": "STUN",
+          "updatedAt": "2026-08-28T14:55:06.53067Z"
+        },
+        {
+          "createdAt": "2026-09-19T06:37:05.092208Z",
+          "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+          "gameId": "lol",
+          "name": "普通移动减速",
+          "sortOrder": 10,
+          "status": "ENABLED",
+          "statusKey": "movement_slow",
+          "statusKind": "MOVEMENT_SLOW",
+          "updatedAt": "2026-09-19T06:37:05.092208Z"
+        },
+        {
+          "createdAt": "2026-09-19T04:52:01.232803Z",
+          "description": "禁锢状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+          "gameId": "lol",
+          "name": "禁锢",
+          "sortOrder": 20,
+          "status": "ENABLED",
+          "statusKey": "root",
+          "statusKind": "ROOT",
+          "updatedAt": "2026-09-19T04:52:01.232803Z"
+        }
+      ],
+      "total": 3
+    },
+    "/statuses/vertigo": {
+      "createdAt": "2026-08-28T14:55:06.53067Z",
+      "description": null,
+      "gameId": "lol",
+      "name": "眩晕",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "statusKey": "vertigo",
+      "statusKind": "STUN",
+      "updatedAt": "2026-08-28T14:55:06.53067Z"
+    },
+    "/statuses/movement_slow": {
+      "createdAt": "2026-09-19T06:37:05.092208Z",
+      "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+      "gameId": "lol",
+      "name": "普通移动减速",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "statusKey": "movement_slow",
+      "statusKind": "MOVEMENT_SLOW",
+      "updatedAt": "2026-09-19T06:37:05.092208Z"
+    },
+    "/statuses/root": {
+      "createdAt": "2026-09-19T04:52:01.232803Z",
+      "description": "禁锢状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+      "gameId": "lol",
+      "name": "禁锢",
+      "sortOrder": 20,
+      "status": "ENABLED",
+      "statusKey": "root",
+      "statusKind": "ROOT",
+      "updatedAt": "2026-09-19T04:52:01.232803Z"
+    },
+    "/skills/urgot_q/effects/corrosive_charge_slow": {
+      "createdAt": "2026-09-19T07:12:18.84671Z",
+      "description": "本技能实际命中本轮敌方英雄且同次命中明确未被法术护盾阻挡时施加普通移动减速；强度读取原百分数点参数并乘0.01，期限1250毫秒。重施及不同普通减速来源按当前统一契约处理。",
+      "effectKey": "corrosive_charge_slow",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "slow_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE_TARGET",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "腐蚀电荷普通减速",
+      "results": [
+        {
+          "description": "施加时读取普通减速比例，固定上下界0至1；持续期间贡献该比例，期限随父效果结束。",
+          "detail": {
+            "operation": "APPLY",
+            "statusKey": "movement_slow"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "腐蚀电荷减速",
+          "resultKey": "slow",
+          "resultType": "STATUS_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": 1,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 0.01,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "slow_percent_points"
+            }
+          }
+        }
+      ],
+      "skillKey": "urgot_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-19T07:12:18.84671Z"
+    },
+    "/skills/urgot_q/trigger-rules/apply_slow_on_unblocked_hit": {
+      "actions": [
+        {
+          "actionKey": "apply_slow",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "corrosive_charge_slow"
+          },
+          "name": "施加本次普通减速",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            }
+          ],
+          "groupKey": "slow_eligible",
+          "name": "本次普通减速可施加",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只在本技能实际命中明确敌方英雄且同次法术护盾阻挡值为0时执行普通减速。缺少判定不能默认0；本规则不生成爆炸命中、控制免疫或实际移动速度结算。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "urgot_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "实际命中未受阻挡时减速",
+      "perTargetCooldown": null,
+      "ruleKey": "apply_slow_on_unblocked_hit",
+      "sortOrder": 30
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/statuses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/vertigo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/movement_slow",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/root",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/effects/corrosive_charge_slow",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/trigger-rules/apply_slow_on_unblocked_hit",
+      "status": 200
+    }
+  ],
+  "requests": [
+    {
+      "method": "PUT",
+      "path": "/statuses/movement_slow",
+      "body": {
+        "statusKind": "MOVEMENT_SLOW",
+        "name": "普通移动减速",
+        "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+        "status": "DISABLED",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/statuses/movement_slow",
+      "body": {
+        "statusKind": "MOVEMENT_SLOW",
+        "name": "普通移动减速",
+        "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+        "status": "ENABLED",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "scope": "页面依次停用再启用；只允许目标status与updatedAt变化；保留种类、标识、排序、创建时间及原控制目录与厄加特减速引用。"
+}

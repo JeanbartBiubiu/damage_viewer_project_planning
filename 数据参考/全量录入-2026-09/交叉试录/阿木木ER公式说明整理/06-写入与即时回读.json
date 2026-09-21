@@ -1,0 +1,484 @@
+{
+  "startedAt": "2026-09-21T12:40:14.986Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "route": "/skills/amumu_e/formulas/tantrum_damage",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T14:32:55.566466Z",
+          "description": "主动本体魔法伤害：BaseDamage + 0.5×来源总法强；65/95/125/155/185基础值与固定客户端16.17一致。被动物理减伤、受击减冷却与诅咒不属于本公式。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "tantrum_damage",
+          "gameId": "lol",
+          "name": "阿木木的愤怒主动魔法伤害",
+          "skillKey": "amumu_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-21T12:40:17.839246Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T14:32:55.566466Z",
+        "description": "主动本体魔法伤害：BaseDamage + 0.5×来源总法强；65/95/125/155/185基础值与固定客户端16.17一致。被动物理减伤、受击减冷却与诅咒不属于本公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "tantrum_damage",
+        "gameId": "lol",
+        "name": "阿木木的愤怒主动魔法伤害",
+        "skillKey": "amumu_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-21T12:40:17.839246Z"
+      },
+      "listRoute": "/skills/amumu_e/formulas",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-09T14:32:52.267543Z",
+          "description": "DamageReduction = BaseDamageReduction + 0.03×来源额外护甲 + 0.03×来源额外魔抗；输出是固定物理减免点数，不乘0.01。",
+          "formulaKey": "damage_reduction_points",
+          "gameId": "lol",
+          "name": "物理伤害减免点数",
+          "skillKey": "amumu_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T14:32:52.267543Z"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:53.396525Z",
+          "description": "封顶前结果沿用固定物理减免点数；不能按百分比或本次伤害先行换算。",
+          "formulaKey": "raw_physical_damage_reduction",
+          "gameId": "lol",
+          "name": "封顶前物理伤害减免点数",
+          "skillKey": "amumu_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T14:32:53.396525Z"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:54.442337Z",
+          "description": "最终减免量 = MIN(固定减免点数, 0.5×本次承受物理伤害)；保留50%最低承伤边界。",
+          "formulaKey": "capped_physical_damage_reduction",
+          "gameId": "lol",
+          "name": "封顶后物理伤害减免量",
+          "skillKey": "amumu_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T14:32:54.442337Z"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:55.566466Z",
+          "description": "主动本体魔法伤害：BaseDamage + 0.5×来源总法强；65/95/125/155/185基础值与固定客户端16.17一致。被动物理减伤、受击减冷却与诅咒不属于本公式。",
+          "formulaKey": "tantrum_damage",
+          "gameId": "lol",
+          "name": "阿木木的愤怒主动魔法伤害",
+          "skillKey": "amumu_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-21T12:40:17.839246Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/amumu_r/formulas/damage",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T14:33:02.353343Z",
+          "description": "木乃伊之咒本体魔法伤害：RDamage + 0.8×来源总法强；200/300/400基础值与固定客户端16.17一致。眩晕和诅咒分别由相应组成表达，不属于本公式。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "木乃伊之咒魔法伤害",
+          "skillKey": "amumu_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T12:40:19.322343Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T14:33:02.353343Z",
+        "description": "木乃伊之咒本体魔法伤害：RDamage + 0.8×来源总法强；200/300/400基础值与固定客户端16.17一致。眩晕和诅咒分别由相应组成表达，不属于本公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "木乃伊之咒魔法伤害",
+        "skillKey": "amumu_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T12:40:19.322343Z"
+      },
+      "listRoute": "/skills/amumu_r/formulas",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-09T14:33:02.353343Z",
+          "description": "木乃伊之咒本体魔法伤害：RDamage + 0.8×来源总法强；200/300/400基础值与固定客户端16.17一致。眩晕和诅咒分别由相应组成表达，不属于本公式。",
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "木乃伊之咒魔法伤害",
+          "skillKey": "amumu_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T12:40:19.322343Z"
+        }
+      ]
+    }
+  ],
+  "pendingRoute": null,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-formula-labels.mjs": "73ecbb48cf02032e31afc0e1a39c407c4559e2bffbc6d27d2dbef8dec69b4eb9",
+    "01-纠错计划.json": "b6b8f51a3ddc5b74f62469fbe1056733aa4bdece7dd4e88e6fd654df54f77a56",
+    "02-冻结请求.json": "68af93fc50764d1583da761d242f7f1768ebf7cd9f929885bfe7bb9d40256fea",
+    "03-来源摘要.json": "7506e7c93e776ef5d61ae3a0f25e4088e3e2230334464032a43e93dc0b4a0ded",
+    "04-写入前现值.json": "38da1e68e2365bee615b9a7c1e25fc74cf62b0654731ee39990a3a15c20a5676"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/base_damage_reduction_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/bonus_armor_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/bonus_magic_resistance_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/reduction_cap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/incoming_physical_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/source_bonus_armor",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/source_bonus_magic_resistance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/cooldown_reduction_on_hit_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas/damage_reduction_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas/raw_physical_damage_reduction",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas/capped_physical_damage_reduction",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas/tantrum_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas/tantrum_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/amumu_e/formulas/tantrum_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas/tantrum_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/amumu_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/formulas",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-21T12:40:17.911Z"
+}

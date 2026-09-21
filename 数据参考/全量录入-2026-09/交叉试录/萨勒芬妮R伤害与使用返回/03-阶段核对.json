@@ -1,0 +1,44 @@
+{
+  "at": "2026-09-20T07:17:26.117Z",
+  "phase": "本批伤害与使用登记、说明更正及独立回读和页面通过",
+  "append": {
+    "writes": 5,
+    "immediateReadbacks": 5,
+    "independentGETs": 30,
+    "unchangedResponsesIncludingTimestamps": 22,
+    "newObjects": 5
+  },
+  "description": {
+    "writes": 2,
+    "immediateReadbacks": 2,
+    "independentGETs": 20
+  },
+  "arithmetic": {
+    "status": "PASS",
+    "cases": 9,
+    "tolerance": 0.00001
+  },
+  "remaining": [
+    "施放时长冲突",
+    "魅惑已有实例重施",
+    "附带移动数值含义",
+    "距离延伸及自身被动依赖核定",
+    "体验-02来源技能目录加载前误报待修正"
+  ],
+  "goalComplete": false,
+  "currentCounts": {
+    "parameters": 5,
+    "formulas": 1,
+    "effects": 3,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 3
+  },
+  "browser": "PASS",
+  "businessWrites": 7,
+  "independentGETs": 50,
+  "managementComplete": false,
+  "runtimeValidation": "未执行",
+  "newCode": false,
+  "newMigration": false
+}

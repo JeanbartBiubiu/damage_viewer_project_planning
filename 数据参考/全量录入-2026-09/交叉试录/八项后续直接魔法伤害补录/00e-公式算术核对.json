@@ -1,0 +1,1151 @@
+{
+  "at": "2026-09-19T02:41:56.797Z",
+  "status": "PASS",
+  "casesCount": 114,
+  "tolerance": 0.0001,
+  "maxAbsoluteDifference": 0.000007152557373046875,
+  "sourceBinding": "每技能使用根角色槽位与根技能绑定，正文明确引用对应计算，等级索引1起。布隆使用来源hp最终值作为最大生命，其他使用来源总法强；吉格斯保留每级AP比例。",
+  "runtimeValidation": "未执行",
+  "cases": [
+    {
+      "skillKey": "braum_q",
+      "rank": 1,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 600,
+      "expectedFromClient": 90.00000022351742,
+      "actualFromStoredFormula": 90,
+      "absoluteDifference": 2.2351741790771484e-7
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 1,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 2000,
+      "expectedFromClient": 125.00000074505806,
+      "actualFromStoredFormula": 125,
+      "absoluteDifference": 7.450580596923828e-7
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 1,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 5000,
+      "expectedFromClient": 200.00000186264515,
+      "actualFromStoredFormula": 200,
+      "absoluteDifference": 0.000001862645149230957
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 2,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 600,
+      "expectedFromClient": 135.00000022351742,
+      "actualFromStoredFormula": 135,
+      "absoluteDifference": 2.2351741790771484e-7
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 2,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 2000,
+      "expectedFromClient": 170.00000074505806,
+      "actualFromStoredFormula": 170,
+      "absoluteDifference": 7.450580596923828e-7
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 2,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 5000,
+      "expectedFromClient": 245.00000186264515,
+      "actualFromStoredFormula": 245,
+      "absoluteDifference": 0.000001862645149230957
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 3,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 600,
+      "expectedFromClient": 180.00000022351742,
+      "actualFromStoredFormula": 180,
+      "absoluteDifference": 2.2351741790771484e-7
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 3,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 2000,
+      "expectedFromClient": 215.00000074505806,
+      "actualFromStoredFormula": 215,
+      "absoluteDifference": 7.450580596923828e-7
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 3,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 5000,
+      "expectedFromClient": 290.00000186264515,
+      "actualFromStoredFormula": 290,
+      "absoluteDifference": 0.000001862645149230957
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 4,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 600,
+      "expectedFromClient": 225.00000022351742,
+      "actualFromStoredFormula": 225,
+      "absoluteDifference": 2.2351741790771484e-7
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 4,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 2000,
+      "expectedFromClient": 260.00000074505806,
+      "actualFromStoredFormula": 260,
+      "absoluteDifference": 7.450580596923828e-7
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 4,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 5000,
+      "expectedFromClient": 335.00000186264515,
+      "actualFromStoredFormula": 335,
+      "absoluteDifference": 0.000001862645149230957
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 5,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 600,
+      "expectedFromClient": 270.0000002235174,
+      "actualFromStoredFormula": 270,
+      "absoluteDifference": 2.2351741790771484e-7
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 5,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 2000,
+      "expectedFromClient": 305.00000074505806,
+      "actualFromStoredFormula": 305,
+      "absoluteDifference": 7.450580596923828e-7
+    },
+    {
+      "skillKey": "braum_q",
+      "rank": 5,
+      "sourceAttributeKey": "hp",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 5000,
+      "expectedFromClient": 380.00000186264515,
+      "actualFromStoredFormula": 380,
+      "absoluteDifference": 0.000001862645149230957
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 85,
+      "actualFromStoredFormula": 85,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 174.9999976158142,
+      "actualFromStoredFormula": 175,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 354.9999928474426,
+      "actualFromStoredFormula": 355,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 130,
+      "actualFromStoredFormula": 130,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 219.9999976158142,
+      "actualFromStoredFormula": 220,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 399.9999928474426,
+      "actualFromStoredFormula": 400,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 175,
+      "actualFromStoredFormula": 175,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 264.9999976158142,
+      "actualFromStoredFormula": 265,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 444.9999928474426,
+      "actualFromStoredFormula": 445,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 220,
+      "actualFromStoredFormula": 220,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 309.9999976158142,
+      "actualFromStoredFormula": 310,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 489.9999928474426,
+      "actualFromStoredFormula": 490,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 265,
+      "actualFromStoredFormula": 265,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 354.9999976158142,
+      "actualFromStoredFormula": 355,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "nautilus_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 534.9999928474426,
+      "actualFromStoredFormula": 535,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 80,
+      "actualFromStoredFormula": 80,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 169.9999976158142,
+      "actualFromStoredFormula": 170,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 349.9999928474426,
+      "actualFromStoredFormula": 350,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 120,
+      "actualFromStoredFormula": 120,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 209.9999976158142,
+      "actualFromStoredFormula": 210,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 389.9999928474426,
+      "actualFromStoredFormula": 390,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 160,
+      "actualFromStoredFormula": 160,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 249.9999976158142,
+      "actualFromStoredFormula": 250,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 429.9999928474426,
+      "actualFromStoredFormula": 430,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 200,
+      "actualFromStoredFormula": 200,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 289.9999976158142,
+      "actualFromStoredFormula": 290,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 469.9999928474426,
+      "actualFromStoredFormula": 470,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 240,
+      "actualFromStoredFormula": 240,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 329.9999976158142,
+      "actualFromStoredFormula": 330,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "velkoz_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 509.9999928474426,
+      "actualFromStoredFormula": 510,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 80,
+      "actualFromStoredFormula": 80,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 140.0000023841858,
+      "actualFromStoredFormula": 140,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 260.0000071525574,
+      "actualFromStoredFormula": 260,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 130,
+      "actualFromStoredFormula": 130,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 194.9999976158142,
+      "actualFromStoredFormula": 195,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 324.9999928474426,
+      "actualFromStoredFormula": 325,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 180,
+      "actualFromStoredFormula": 180,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 249.9999988079071,
+      "actualFromStoredFormula": 250,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 389.9999964237213,
+      "actualFromStoredFormula": 390,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 230,
+      "actualFromStoredFormula": 230,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 305,
+      "actualFromStoredFormula": 305,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 455,
+      "actualFromStoredFormula": 455,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 280,
+      "actualFromStoredFormula": 280,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 360.0000011920929,
+      "actualFromStoredFormula": 360,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "ziggs_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 520.0000035762787,
+      "actualFromStoredFormula": 520,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 60,
+      "actualFromStoredFormula": 60,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 124.99999761581421,
+      "actualFromStoredFormula": 124.9999976,
+      "absoluteDifference": 1.5814208609299385e-8
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 254.99999284744263,
+      "actualFromStoredFormula": 254.9999928,
+      "absoluteDifference": 4.7442625827898155e-8
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 100,
+      "actualFromStoredFormula": 100,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 164.9999976158142,
+      "actualFromStoredFormula": 164.9999976,
+      "absoluteDifference": 1.5814208609299385e-8
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 294.9999928474426,
+      "actualFromStoredFormula": 294.9999928,
+      "absoluteDifference": 4.7442654249607585e-8
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 140,
+      "actualFromStoredFormula": 140,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 204.9999976158142,
+      "actualFromStoredFormula": 204.9999976,
+      "absoluteDifference": 1.5814208609299385e-8
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 334.9999928474426,
+      "actualFromStoredFormula": 334.9999928,
+      "absoluteDifference": 4.7442654249607585e-8
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 180,
+      "actualFromStoredFormula": 180,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 244.9999976158142,
+      "actualFromStoredFormula": 244.9999976,
+      "absoluteDifference": 1.5814208609299385e-8
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 374.9999928474426,
+      "actualFromStoredFormula": 374.9999928,
+      "absoluteDifference": 4.7442654249607585e-8
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 220,
+      "actualFromStoredFormula": 220,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 284.9999976158142,
+      "actualFromStoredFormula": 284.99999760000003,
+      "absoluteDifference": 1.5814180187589955e-8
+    },
+    {
+      "skillKey": "zyra_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 414.9999928474426,
+      "actualFromStoredFormula": 414.9999928,
+      "absoluteDifference": 4.7442654249607585e-8
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 60,
+      "actualFromStoredFormula": 60,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 120.00000238418579,
+      "actualFromStoredFormula": 120.0000024,
+      "absoluteDifference": 1.5814208609299385e-8
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 240.00000715255737,
+      "actualFromStoredFormula": 240.0000072,
+      "absoluteDifference": 4.7442625827898155e-8
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 95,
+      "actualFromStoredFormula": 95,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 155.0000023841858,
+      "actualFromStoredFormula": 155.0000024,
+      "absoluteDifference": 1.5814208609299385e-8
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 275.0000071525574,
+      "actualFromStoredFormula": 275.0000072,
+      "absoluteDifference": 4.7442654249607585e-8
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 130,
+      "actualFromStoredFormula": 130,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 190.0000023841858,
+      "actualFromStoredFormula": 190.0000024,
+      "absoluteDifference": 1.5814208609299385e-8
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 310.0000071525574,
+      "actualFromStoredFormula": 310.0000072,
+      "absoluteDifference": 4.7442654249607585e-8
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 165,
+      "actualFromStoredFormula": 165,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 225.0000023841858,
+      "actualFromStoredFormula": 225.0000024,
+      "absoluteDifference": 1.5814208609299385e-8
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 345.0000071525574,
+      "actualFromStoredFormula": 345.0000072,
+      "absoluteDifference": 4.7442654249607585e-8
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 200,
+      "actualFromStoredFormula": 200,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 260.0000023841858,
+      "actualFromStoredFormula": 260.00000239999997,
+      "absoluteDifference": 1.5814180187589955e-8
+    },
+    {
+      "skillKey": "zyra_e",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 380.0000071525574,
+      "actualFromStoredFormula": 380.0000072,
+      "absoluteDifference": 4.7442654249607585e-8
+    },
+    {
+      "skillKey": "leona_r",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 150,
+      "actualFromStoredFormula": 150,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "leona_r",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 230.0000011920929,
+      "actualFromStoredFormula": 230,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "leona_r",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 390.0000035762787,
+      "actualFromStoredFormula": 390,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "leona_r",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 225,
+      "actualFromStoredFormula": 225,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "leona_r",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 305.0000011920929,
+      "actualFromStoredFormula": 305,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "leona_r",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 465.0000035762787,
+      "actualFromStoredFormula": 465,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "leona_r",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 300,
+      "actualFromStoredFormula": 300,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "leona_r",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 380.0000011920929,
+      "actualFromStoredFormula": 380,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "leona_r",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 540.0000035762787,
+      "actualFromStoredFormula": 540,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 70,
+      "actualFromStoredFormula": 70,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 125.0000011920929,
+      "actualFromStoredFormula": 125,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 1,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 235.0000035762787,
+      "actualFromStoredFormula": 235,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 105,
+      "actualFromStoredFormula": 105,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 160.0000011920929,
+      "actualFromStoredFormula": 160,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 2,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 270.0000035762787,
+      "actualFromStoredFormula": 270,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 140,
+      "actualFromStoredFormula": 140,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 195.0000011920929,
+      "actualFromStoredFormula": 195,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 3,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 305.0000035762787,
+      "actualFromStoredFormula": 305,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 175,
+      "actualFromStoredFormula": 175,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 230.0000011920929,
+      "actualFromStoredFormula": 230,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 4,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 340.0000035762787,
+      "actualFromStoredFormula": 340,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 0,
+      "expectedFromClient": 210,
+      "actualFromStoredFormula": 210,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 100,
+      "expectedFromClient": 265.0000011920929,
+      "actualFromStoredFormula": 265,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "malzahar_q",
+      "rank": 5,
+      "sourceAttributeKey": "ability_power",
+      "sourceAttributeValueKind": "TOTAL",
+      "sourceAttributeValue": 300,
+      "expectedFromClient": 375.0000035762787,
+      "actualFromStoredFormula": 375,
+      "absoluteDifference": 0.0000035762786865234375
+    }
+  ]
+}

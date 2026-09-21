@@ -1,0 +1,332 @@
+{
+  "at": "2026-09-19T12:59:59.796Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "businessWrites": 0,
+  "GETs": 15,
+  "values": {
+    "/runes/rune_8453": {
+      "category": "MINOR",
+      "createdAt": "2026-09-08T18:47:41.276349Z",
+      "description": "获得5%治疗和护盾强度。\n\n你对低于40%生命值的目标施放或获得的治疗效果和护盾效果会增强10%。",
+      "gameId": "lol",
+      "name": "复苏",
+      "runeKey": "rune_8453",
+      "updatedAt": "2026-09-08T18:47:41.276349Z"
+    },
+    "/rune-skill-relations?runeKey=rune_8453": {
+      "items": [
+        {
+          "gameId": "lol",
+          "runeKey": "rune_8453",
+          "runeName": "复苏",
+          "skillKey": "rune_8453_passive",
+          "skillName": "符文·复苏",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "total": 1
+    },
+    "/skills/rune_8453_passive": {
+      "createdAt": "2026-09-09T01:35:09.12767Z",
+      "description": "本批仅录入：先录无条件5%治疗与护盾强度；低生命分支只留参数。其他分支见候选剩余事实，未代表完整符文机制。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "符文·复苏",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "rune_8453_passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-09T01:35:09.12767Z"
+    },
+    "/skills/rune_8453_passive/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "rune_8453",
+        "name": "符文·复苏"
+      }
+    },
+    "/skills/rune_8453_passive/parameters": [
+      {
+        "createdAt": "2026-09-09T01:35:10.490848Z",
+        "description": "低于40%",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "低生命比例阈值",
+        "parameterKey": "low_health_threshold",
+        "skillKey": "rune_8453_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:10.490848Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T01:35:11.217183Z",
+        "description": "施放或获得方向需另核",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "低生命额外增强比例",
+        "parameterKey": "low_health_amplification_ratio",
+        "skillKey": "rune_8453_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:11.217183Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T01:35:09.857508Z",
+        "description": "官方获得5%治疗和护盾强度",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础治疗护盾强度比例",
+        "parameterKey": "base_heal_shield_power_ratio",
+        "skillKey": "rune_8453_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:09.857508Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/rune_8453_passive/parameters/low_health_threshold": {
+      "createdAt": "2026-09-09T01:35:10.490848Z",
+      "description": "低于40%",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "低生命比例阈值",
+      "parameterKey": "low_health_threshold",
+      "skillKey": "rune_8453_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T01:35:10.490848Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rune_8453_passive/parameters/low_health_amplification_ratio": {
+      "createdAt": "2026-09-09T01:35:11.217183Z",
+      "description": "施放或获得方向需另核",
+      "fixedValue": 0.1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "低生命额外增强比例",
+      "parameterKey": "low_health_amplification_ratio",
+      "skillKey": "rune_8453_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T01:35:11.217183Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rune_8453_passive/parameters/base_heal_shield_power_ratio": {
+      "createdAt": "2026-09-09T01:35:09.857508Z",
+      "description": "官方获得5%治疗和护盾强度",
+      "fixedValue": 0.05,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础治疗护盾强度比例",
+      "parameterKey": "base_heal_shield_power_ratio",
+      "skillKey": "rune_8453_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T01:35:09.857508Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rune_8453_passive/formulas": [],
+    "/skills/rune_8453_passive/effects": [
+      {
+        "createdAt": "2026-09-09T01:35:11.899157Z",
+        "description": "仅包含本候选注明的独立属性组成，触发按候选边界另行核对。",
+        "effectKey": "base_heal_shield_power",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "复苏基础强度",
+        "resultCount": 1,
+        "skillKey": "rune_8453_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:11.899157Z"
+      }
+    ],
+    "/skills/rune_8453_passive/effects/base_heal_shield_power": {
+      "createdAt": "2026-09-09T01:35:11.899157Z",
+      "description": "仅包含本候选注明的独立属性组成，触发按候选边界另行核对。",
+      "effectKey": "base_heal_shield_power",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "复苏基础强度",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "heal_shield_power_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "复苏基础强度",
+          "resultKey": "attribute_bonus",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "base_heal_shield_power_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "rune_8453_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T01:35:11.899157Z"
+    },
+    "/skills/rune_8453_passive/processes": [],
+    "/skills/rune_8453_passive/internal-states": [],
+    "/skills/rune_8453_passive/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "只初始化此来源明确无条件的属性组成，未包含其他有条件分支。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化复苏基础强度",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_base_heal_shield_power",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:12.624114Z"
+      }
+    ],
+    "/skills/rune_8453_passive/trigger-rules/initialize_base_heal_shield_power": {
+      "actions": [
+        {
+          "actionKey": "execute_base_heal_shield_power",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "base_heal_shield_power"
+          },
+          "name": "建立复苏基础强度",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "只初始化此来源明确无条件的属性组成，未包含其他有条件分支。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化复苏基础强度",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_base_heal_shield_power",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/runes/rune_8453",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/rune-skill-relations?runeKey=rune_8453",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive/parameters/low_health_threshold",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive/parameters/low_health_amplification_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive/parameters/base_heal_shield_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive/effects/base_heal_shield_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rune_8453_passive/trigger-rules/initialize_base_heal_shield_power",
+      "status": 200
+    }
+  ]
+}

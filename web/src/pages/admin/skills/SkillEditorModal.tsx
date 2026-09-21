@@ -16,6 +16,7 @@ import { getErrorMessage } from '../../../services/apiClient';
 import { createSkill, updateSkill } from '../../../services/skillClient';
 import type { Skill, SkillStatus } from '../../../types/skill';
 import type { SkillCategory } from '../../../types/skillCategory';
+import { loadFocusedSkill } from './focusedSkill';
 import {
   buildCreateSkillRequest,
   buildUpdateSkillRequest,
@@ -83,19 +84,22 @@ export function SkillEditorModal({
   onSaved,
   onDirtyChange
 }: SkillEditorModalProps) {
-  const initial = useMemo<SkillDraft>(
-    () => (skill ? skillToDraft(skill) : createEmptySkillDraft()),
-    [skill]
-  );
-  const [draft, setDraft] = useState<SkillDraft>(initial);
+  const skillKey = skill?.skillKey;
+  const [initial, setInitial] = useState<SkillDraft>(createEmptySkillDraft);
+  const [draft, setDraft] = useState<SkillDraft>(createEmptySkillDraft);
+  const [loadedSkill, setLoadedSkill] = useState<Skill | null>(null);
+  const [loadingDetail, setLoadingDetail] = useState(mode !== 'create');
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [detailAttempt, setDetailAttempt] = useState(0);
   const [errors, setErrors] = useState<SkillDraftErrors>({});
   const [categoryIndexErrors, setCategoryIndexErrors] = useState<SkillCategoryIndexError[]>([]);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [openedMaxLevel, setOpenedMaxLevel] = useState<number | null>(null);
   const readOnly = mode === 'view';
+  const detailReady = mode === 'create' || (loadedSkill !== null && !loadingDetail && !loadError);
   const categoryOptions = useMemo(() => {
-    const originalKeys = new Set(skill?.skillCategoryKeys ?? []);
+    const originalKeys = new Set(loadedSkill?.skillCategoryKeys ?? []);
     return skillCategories
       .filter((item) => item.status === 'ENABLED' || originalKeys.has(item.skillCategoryKey))
       .map((item) => ({
@@ -103,7 +107,7 @@ export function SkillEditorModal({
         value: item.skillCategoryKey,
         disabled: item.status === 'DISABLED'
       }));
-  }, [skill, skillCategories]);
+  }, [loadedSkill, skillCategories]);
   const categoryHelp = [
     errors.skillCategoryKeys,
     ...categoryIndexErrors.map((issue) => formatCategoryIndexError(issue, draft.skillCategoryKeys, skillCategories))
@@ -111,14 +115,46 @@ export function SkillEditorModal({
 
   useEffect(() => {
     if (!visible) return;
-    setDraft(initial);
+    let active = true;
+    const empty = createEmptySkillDraft();
+    setInitial(empty);
+    setDraft(empty);
+    setLoadedSkill(null);
+    setLoadError(null);
     setErrors({});
     setCategoryIndexErrors([]);
     setSaveError(null);
     setSaving(false);
-    setOpenedMaxLevel(skill?.maxLevel ?? null);
+    setOpenedMaxLevel(null);
     onDirtyChange(false);
-  }, [initial, mode, onDirtyChange, skill?.maxLevel, visible]);
+    if (mode === 'create') {
+      setLoadingDetail(false);
+      return () => { active = false; };
+    }
+    const token = adminToken.trim();
+    if (!selectedGameId || !skillKey || !token) {
+      setLoadingDetail(false);
+      setLoadError('请先选择游戏并配置 Admin Token，再重新打开技能。');
+      return () => { active = false; };
+    }
+    setLoadingDetail(true);
+    void loadFocusedSkill(apiBaseUrl, selectedGameId, skillKey, token)
+      .then((current) => {
+        if (!active) return;
+        const fresh = skillToDraft(current);
+        setLoadedSkill(current);
+        setInitial(fresh);
+        setDraft(fresh);
+        setOpenedMaxLevel(current.maxLevel);
+        setLoadingDetail(false);
+      })
+      .catch((error: unknown) => {
+        if (!active) return;
+        setLoadError(getErrorMessage(error));
+        setLoadingDetail(false);
+      });
+    return () => { active = false; };
+  }, [adminToken, apiBaseUrl, detailAttempt, mode, onDirtyChange, selectedGameId, skillKey, visible]);
 
   const patchDraft = <K extends keyof SkillDraft>(field: K, value: SkillDraft[K]) => {
     const next = { ...draft, [field]: value };
@@ -138,6 +174,7 @@ export function SkillEditorModal({
   };
 
   const save = async () => {
+    if (!detailReady || saving) return;
     const validation = validateSkillDraft(draft, mode === 'create');
     if (!validation.ok) {
       setErrors(validation.fieldErrors);
@@ -187,7 +224,7 @@ export function SkillEditorModal({
         : await updateSkill(
             apiBaseUrl,
             selectedGameId,
-            skill!.skillKey,
+            loadedSkill!.skillKey,
             token,
             buildUpdateSkillRequest(validation.normalized)
           );
@@ -217,13 +254,18 @@ export function SkillEditorModal({
         <Space>
           <Button onClick={close} disabled={saving}>{readOnly ? '关闭' : '取消'}</Button>
           {!readOnly ? (
-            <Button type="primary" loading={saving} onClick={() => void save()}>保存</Button>
+            <Button type="primary" loading={saving} disabled={!detailReady} onClick={() => void save()}>保存</Button>
           ) : null}
         </Space>
       }
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
         {saveError ? <Alert type="error" content={saveError} /> : null}
+        {loadError ? (
+          <Alert type="error" content={loadError}
+            action={<Button size="mini" onClick={() => setDetailAttempt((attempt) => attempt + 1)}>重试</Button>} />
+        ) : null}
+        {detailReady ? (
         <Form layout="vertical">
           <Form.Item
             label="技能标识"
@@ -339,9 +381,10 @@ export function SkillEditorModal({
             />
           </Form.Item>
         </Form>
-        {readOnly && skill ? (
+        ) : !loadError ? <Alert type="info" content="正在加载技能详情…" /> : null}
+        {readOnly && loadedSkill && detailReady ? (
           <Typography.Text type="secondary">
-            创建时间：{skill.createdAt || '—'} · 更新时间：{skill.updatedAt || '—'}
+            创建时间：{loadedSkill.createdAt || '—'} · 更新时间：{loadedSkill.updatedAt || '—'}
           </Typography.Text>
         ) : null}
       </Space>

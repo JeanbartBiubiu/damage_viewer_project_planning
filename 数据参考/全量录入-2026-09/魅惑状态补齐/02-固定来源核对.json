@@ -1,0 +1,512 @@
+{
+  "observedAt": "2026-09-19T19:59:02.764Z",
+  "mode": "只读固定来源核对",
+  "scope": {
+    "gameId": "lol",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "note": "只核对 ahri_e 与 seraphine_r；不抓取最新资料，不扩大英雄范围。"
+  },
+  "sourceFiles": [
+    {
+      "kind": "客户端原文",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ahri.json.gz",
+      "sha256": "61c7d14f2d30346f1ae51ab82dab1f48c19ec7d9542f0c76e99f0576e1c71d12",
+      "decompressedSha256": "65607b5729a1e8e851d6b95ee16f504737ff2a2a796f2cc49ff69bcfae70480f",
+      "fixedLabel": "client16.17"
+    },
+    {
+      "kind": "客户端原文",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Seraphine.json.gz",
+      "sha256": "5518c28e0aa895ac000e18e7fd05ce06731c65dc9708ccac84bb812f370b4a56",
+      "decompressedSha256": "fcd2cedf4755636c8ea966d06f12f53ff4e82d5b70fff203d9e31e8de5f2edf9",
+      "fixedLabel": "client16.17"
+    },
+    {
+      "kind": "固定英雄资料",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ahri.json",
+      "sha256": "d7aa942350ef9d9756df1476a6bd83a3da4cf1dcee1b22107676d5b1a86c6b04",
+      "fixedLabel": "DDragon16.17.1"
+    },
+    {
+      "kind": "固定英雄资料",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ahri.json",
+      "sha256": "0bd796d1e9376a738a70b2eb809d408ac296da11a527be2847aced37bfbaeea7",
+      "fixedLabel": "DDragon16.17.1"
+    },
+    {
+      "kind": "固定英雄资料",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Seraphine.json",
+      "sha256": "9f9cce0312119116e2dfed1d91c7d87f1b79b42314a188b0d565330e917f6723",
+      "fixedLabel": "DDragon16.17.1"
+    },
+    {
+      "kind": "固定英雄资料",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Seraphine.json",
+      "sha256": "0668fcbfe69123e319b07e06e7228ab781f6faa336f4b758b798619d7ca84445",
+      "fixedLabel": "DDragon16.17.1"
+    }
+  ],
+  "subjects": [
+    {
+      "skillKey": "ahri_e",
+      "name": "阿狸·魅惑妖术",
+      "sourceBindings": {
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ahri.json.gz",
+          "objectPath": "Characters/Ahri/Spells/AhriEAbility/AhriE",
+          "spellPath": "Characters/Ahri/Spells/AhriEAbility/AhriE/mSpell"
+        },
+        "officialZh": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ahri.json",
+          "jsonPath": "data.Ahri.spells[2]",
+          "version": "16.17.1"
+        },
+        "officialEn": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ahri.json",
+          "jsonPath": "data.Ahri.spells[2]",
+          "version": "16.17.1"
+        }
+      },
+      "charmDuration": {
+        "status": "明确",
+        "clientPath": "Characters/Ahri/Spells/AhriEAbility/AhriE/mSpell/DataValues[name=CharmDuration]/values",
+        "rawValuesSeconds": [
+          1.0499999523162842,
+          1.2000000476837158,
+          1.350000023841858,
+          1.5,
+          1.649999976158142,
+          1.7999999523162842,
+          1.9500000476837158
+        ],
+        "levelMapping": {
+          "sourceArrayIndexBase0": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "skillLevels": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "reason": "客户端等级列表 levelCount=5；与同一技能其他技能等级数组采用索引1至5。"
+        },
+        "sourceUnit": "秒",
+        "recordUnit": "毫秒",
+        "recordValuesMs": {
+          "1": 1200,
+          "2": 1350,
+          "3": 1500,
+          "4": 1650,
+          "5": 1800
+        },
+        "officialEvidence": {
+          "zhPath": "data.Ahri.spells[2].tooltip",
+          "zhText": "魅惑命中的首个敌人{{ charmduration }}秒",
+          "enText": "Charms the first enemy hit for {{ charmduration }} seconds",
+          "numericValueInOfficialFile": "未提供；数值来自客户端原文"
+        },
+        "currentReusableValue": {
+          "route": "/skills/ahri_e/parameters/charm_duration_ms",
+          "valueMode": "SKILL_LEVEL",
+          "levelValuesMs": {
+            "1": 1200,
+            "2": 1350,
+            "3": 1500,
+            "4": 1650,
+            "5": 1800
+          },
+          "matchesSource": true
+        }
+      },
+      "accompanyingMovement": {
+        "slow": {
+          "status": "客户端字段明确，官方固定文字未单独写减速",
+          "clientPath": "Characters/Ahri/Spells/AhriEAbility/AhriE/mSpell/DataValues[name=SlowPercent]/values",
+          "rawValues": [
+            -0.6499999761581421,
+            -0.6499999761581421,
+            -0.6499999761581421,
+            -0.6499999761581421,
+            -0.6499999761581421,
+            -0.6499999761581421,
+            -0.6499999761581421
+          ],
+          "linkedClientPath": "Characters/Ahri/Spells/AhriEAbility/AhriE/BotData/{ec17e271}[EffectTag=1]/EffectCalculation/mFormulaParts[0].mDataValue",
+          "sourceUnit": "客户端比例负值",
+          "recordUnit": "比例",
+          "currentReusableValue": {
+            "route": "/skills/ahri_e/parameters/charm_slow_ratio",
+            "fixedValue": 0.65,
+            "sourceDirection": "客户端 -0.649999976，现有管理参数沿用正的降低比例0.65",
+            "matchesRawMagnitude": true
+          },
+          "suggestedRecordBranch": "可复用现有 0.65；如补控制组成，应作为普通移动减速伴随分支单独挂接，不把普通移动减速身份当成魅惑身份。"
+        },
+        "forcedMovement": {
+          "status": "明确存在文字语义，无独立数值强度",
+          "zhPath": "data.Ahri.spells[2].description",
+          "enPath": "data.Ahri.spells[2].description",
+          "zhText": "立刻终止目标的移动技能并使目标无恶意地走向她",
+          "enText": "instantly stopping movement abilities and causing them to walk harmlessly towards her",
+          "numericStrength": "未知；固定来源未提供距离、速度或额外强度数值",
+          "suggestedRecordBranch": "作为独立的强制移动分支记录目标走向来源对象；不要从魅惑时长或减速比例推导强制移动强度。"
+        }
+      },
+      "hitEligibilityAndIndependentBranches": {
+        "firstHit": {
+          "status": "明确",
+          "evidence": "官方中文/英文 description 与 tooltip 都限定命中的首个敌人",
+          "suggestedRecordBranch": "实际命中事件只允许首个敌方目标；现有 ahri_e/trigger-rules/actual_hit 已接收命中并执行伤害，控制仍未挂接。"
+        },
+        "recast": {
+          "status": "固定资料未见重施文字或独立重施对象",
+          "evidence": "data.Ahri.spells[2] 的 description、tooltip 未出现 Recast；客户端对象仅为 AhriE",
+          "suggestedRecordBranch": "不建立重施分支；该结论只表示本次固定来源未见，不替代运行时证明。"
+        },
+        "allyTarget": {
+          "status": "未见友军命中资格",
+          "evidence": "固定资料明确首个敌人",
+          "suggestedRecordBranch": "不复用友军命中分支。"
+        },
+        "pureVision": {
+          "status": "未见纯视野分支",
+          "evidence": "固定中英文描述、提示和客户端技能数据均未给出纯视野效果",
+          "suggestedRecordBranch": "不建立纯视野分支。"
+        },
+        "projectile": {
+          "status": "飞行命中字段明确，但没有范围扩展",
+          "evidence": {
+            "clientTags": "Trait_Ranged_StopsFirstHit",
+            "clientPath": "Characters/Ahri/Spells/AhriEAbility/AhriE/mSpell",
+            "missileSpeed": 1200,
+            "missileSpeedUnit": "客户端距离/秒"
+          },
+          "suggestedRecordBranch": "只把飞行作为命中资格背景；首个敌人命中后停止，不从飞行字段另造扩展分支。"
+        }
+      },
+      "currentManagement": {
+        "subjectGet": {
+          "route": "/skills/ahri_e",
+          "status": 200
+        },
+        "compositionCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "existingEffects": [
+          "mana_cost",
+          "charm_hit"
+        ],
+        "existingTriggerRules": [
+          "actual_hit",
+          "on_used"
+        ],
+        "charmIdentity": "未建立；charm_hit 目前是伤害效果名称，不是魅惑状态身份",
+        "currentStatusDirectoryHasCharm": false
+      },
+      "suggestedRecordableBranches": [
+        "新增独立魅惑状态身份后，复用现有 charm_duration_ms 接入魅惑持续时间。",
+        "阿狸 E 可复用现有 charm_slow_ratio=0.65 作为普通移动减速伴随分支。",
+        "阿狸 E 的强制走向来源对象单独记录，不能由状态名称或减速比例代替。"
+      ]
+    },
+    {
+      "skillKey": "seraphine_r",
+      "name": "萨勒芬妮·炫音返场",
+      "sourceBindings": {
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Seraphine.json.gz",
+          "objectPath": "Characters/Seraphine/Spells/SeraphineRAbility/SeraphineR",
+          "spellPath": "Characters/Seraphine/Spells/SeraphineRAbility/SeraphineR/mSpell"
+        },
+        "officialZh": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Seraphine.json",
+          "jsonPath": "data.Seraphine.spells[3]",
+          "version": "16.17.1"
+        },
+        "officialEn": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Seraphine.json",
+          "jsonPath": "data.Seraphine.spells[3]",
+          "version": "16.17.1"
+        }
+      },
+      "charmDuration": {
+        "status": "明确",
+        "clientPath": "Characters/Seraphine/Spells/SeraphineRAbility/SeraphineR/mSpell/DataValues[name=RChannelDuration]/values",
+        "rawValuesSeconds": [
+          1,
+          1.25,
+          1.5,
+          1.75,
+          2,
+          2.25,
+          2.5
+        ],
+        "levelMapping": {
+          "sourceArrayIndexBase0": [
+            1,
+            2,
+            3
+          ],
+          "skillLevels": [
+            1,
+            2,
+            3
+          ],
+          "reason": "客户端技能等级列表 levelCount=3；按该技能等级数组的索引1至3录入。"
+        },
+        "sourceUnit": "秒",
+        "recordUnit": "毫秒",
+        "recordValuesMs": {
+          "1": 1250,
+          "2": 1500,
+          "3": 1750
+        },
+        "officialEvidence": {
+          "zhPath": "data.Seraphine.spells[3].tooltip",
+          "zhText": "造成{{ rchannelduration }}秒魅惑效果",
+          "enText": "Charms for {{ rchannelduration }} seconds",
+          "numericValueInOfficialFile": "未提供；数值来自客户端原文"
+        },
+        "currentReusableValue": {
+          "route": "/skills/seraphine_r/parameters/charm_duration_ms",
+          "valueMode": "SKILL_LEVEL",
+          "levelValuesMs": {
+            "1": 1250,
+            "2": 1500,
+            "3": 1750
+          },
+          "matchesSource": true
+        }
+      },
+      "accompanyingMovement": {
+        "slow": {
+          "status": "客户端原始字段存在，但固定官方资料未出现，语义不能确定",
+          "clientPaths": [
+            "Characters/Seraphine/Spells/SeraphineRAbility/SeraphineR/mSpell/DataValues[name=RMinSlow]/values",
+            "Characters/Seraphine/Spells/SeraphineRAbility/SeraphineR/mSpell/DataValues[name=RMaxSlow]/values"
+          ],
+          "rawValues": {
+            "RMinSlow": [
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645
+            ],
+            "RMaxSlow": [
+              -0.9900000095367432,
+              -0.9900000095367432,
+              -0.9900000095367432,
+              -0.9900000095367432,
+              -0.9900000095367432,
+              -0.9900000095367432,
+              -0.9900000095367432
+            ]
+          },
+          "linkedClientPath": "Characters/Seraphine/Spells/SeraphineRAbility/SeraphineR/BotData/{ec17e271}[EffectTag=1]/EffectCalculation/mFormulaParts[0].mDataValue = RMinSlow",
+          "officialEvidence": "data.Seraphine.spells[3].description 与 tooltip 只写伤害、魅惑、英雄命中后的距离刷新和友方音符",
+          "currentManagement": {
+            "slowParameterPresent": false,
+            "slowEffectPresent": false,
+            "currentSkillParameterRoutes": [
+              "/skills/seraphine_r/parameters"
+            ]
+          },
+          "suggestedRecordBranch": "暂不录入普通移动减速；先保留为来源字段待核对，不能把 RMinSlow/RMaxSlow 直接解释为本技能当前应施加的减速。"
+        },
+        "forcedMovement": {
+          "status": "固定来源未见强制移动文字或独立强制移动字段",
+          "suggestedRecordBranch": "不建立强制移动分支。"
+        }
+      },
+      "hitEligibilityAndIndependentBranches": {
+        "enemyTarget": {
+          "status": "明确",
+          "evidence": "官方描述为命中的敌人受伤害和魅惑",
+          "suggestedRecordBranch": "敌方英雄命中可承接伤害与魅惑；魅惑身份仍需独立状态。"
+        },
+        "allyTarget": {
+          "status": "明确但作用独立",
+          "zhText": "任何被命中的英雄（包括友方英雄）都会成为表演的一部分，延长这个技能的距离；友方英雄会获得满层的音符",
+          "enText": "Any champions struck (including allies) become part of the performance, extending the range of this Ability; Allied champions gain maximum Notes",
+          "suggestedRecordBranch": "友方英雄命中只进入范围延伸与音符分支，不套用敌方伤害或魅惑。"
+        },
+        "rangeExtension": {
+          "status": "明确",
+          "evidence": "固定中英文 description/tooltip 均写每次命中友方或敌方英雄刷新或延长距离",
+          "clientEvidence": {
+            "missileSpeed": 1600,
+            "missileSpeedUnit": "客户端距离/秒",
+            "movementTracksTarget": false,
+            "behaviorTypes": [
+              "CastOnHit",
+              "DestroyOnMovementComplete"
+            ]
+          },
+          "suggestedRecordBranch": "把英雄命中后的范围延伸作为独立分支；飞行速度和命中销毁是投射物资料，不能替代范围延伸规则。"
+        },
+        "recast": {
+          "status": "固定资料未见重施文字或独立重施对象",
+          "evidence": "data.Seraphine.spells[3] 的 description、tooltip 未出现 Recast；客户端对象为 SeraphineR",
+          "suggestedRecordBranch": "不建立重施分支。"
+        },
+        "pureVision": {
+          "status": "未见纯视野分支",
+          "evidence": "固定中英文描述、提示和客户端对象未给出纯视野效果",
+          "suggestedRecordBranch": "不建立纯视野分支。"
+        },
+        "flight": {
+          "status": "投射物飞行明确，范围延伸触发条件为英雄命中",
+          "evidence": "mMissileSpec.movementComponent.mSpeed=1600；CastOnHit；官方文本明确友军/敌方英雄命中延长距离",
+          "suggestedRecordBranch": "分开记录投射物飞行和英雄命中后的范围延伸，不从飞行本身猜减速或魅惑资格。"
+        }
+      },
+      "currentManagement": {
+        "subjectGet": {
+          "route": "/skills/seraphine_r",
+          "status": 200
+        },
+        "compositionCounts": {
+          "parameters": 5,
+          "formulas": 1,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "currentParameters": [
+          "base_damage",
+          "ability_power_ratio",
+          "charm_duration_ms",
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "charmIdentity": "未建立；当前仅有 charm_duration_ms 参数，没有状态效果或命中规则",
+        "currentStatusDirectoryHasCharm": false
+      },
+      "sourceConflict": {
+        "mCastTime": 0.5,
+        "spellCastTime": 0,
+        "unit": "秒",
+        "status": "客户端字段冲突",
+        "suggestedRecordBranch": "暂不生成施法时间参数；不把字段冲突误作魅惑或命中资格。"
+      },
+      "suggestedRecordableBranches": [
+        "新增独立魅惑状态身份后，复用现有 charm_duration_ms 接入敌方英雄魅惑持续时间。",
+        "友军命中、敌方英雄命中后的范围延伸保持为独立分支。",
+        "RMinSlow/RMaxSlow 仅保留来源待核对，不建立普通移动减速结果。",
+        "友方音符属于独立友军分支，不并入魅惑状态。"
+      ]
+    }
+  ],
+  "currentStatusDirectory": {
+    "route": "/statuses",
+    "httpStatus": 200,
+    "total": 4,
+    "items": [
+      {
+        "statusKey": "vertigo",
+        "name": "眩晕",
+        "statusKind": "STUN",
+        "status": "ENABLED"
+      },
+      {
+        "statusKey": "movement_slow",
+        "name": "普通移动减速",
+        "statusKind": "MOVEMENT_SLOW",
+        "status": "ENABLED"
+      },
+      {
+        "statusKey": "root",
+        "name": "禁锢",
+        "statusKind": "ROOT",
+        "status": "ENABLED"
+      },
+      {
+        "statusKey": "silence",
+        "name": "沉默",
+        "statusKind": "SILENCE",
+        "status": "ENABLED"
+      }
+    ],
+    "charmIdentity": {
+      "status": "当前缺失",
+      "evidence": "目录仅返回上述四种身份，没有 statusKind=CHARM 或 statusKey=charm",
+      "reusableNow": [
+        "charm_duration_ms 两技能都已有且与固定客户端索引值一致",
+        "ahri_e 的 charm_slow_ratio=0.65 可作为普通移动减速比例现值",
+        "ahri_e 已有实际命中伤害和使用启动规则",
+        "seraphine_r 已有伤害参数、伤害公式和魅惑持续时间参数"
+      ],
+      "notReusableAsCharm": [
+        "movement_slow 不能代替魅惑身份",
+        "ahri_e 的 charm_hit 是伤害效果，不是魅惑状态",
+        "seraphine_r 当前没有效果、过程或触发规则"
+      ],
+      "minimalNextBranch": "先补独立魅惑状态身份，再分别挂接两技能的实际命中控制；阿狸 E 的普通移动减速和强制走向、萨勒芬妮 R 的友军/敌方命中范围延伸分别保持独立。"
+    }
+  },
+  "currentHttpEvidence": {
+    "artifact": "数据参考/全量录入-2026-09/魅惑状态补齐/01-候选现值.json",
+    "basePath": "http://localhost:8080/api/admin/games/lol",
+    "authorization": "随机非空 Bearer，仅用于本次 GET，未写入文件",
+    "requestCount": 37,
+    "failures": [],
+    "returnedOriginalAndSameClassObjects": [
+      {
+        "route": "/skills/ahri_e",
+        "status": 200,
+        "object": "阿狸 E 原对象"
+      },
+      {
+        "route": "/skills/seraphine_r",
+        "status": 200,
+        "object": "萨勒芬妮 R 同类技能对象"
+      },
+      {
+        "route": "/statuses",
+        "status": 200,
+        "object": "当前状态目录"
+      }
+    ],
+    "compositionReadback": {
+      "ahri_e": {
+        "parameters": 7,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 2
+      },
+      "seraphine_r": {
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "businessWrites": 0
+  },
+  "conclusions": {
+    "charmIdentityMissing": true,
+    "ahriE": "魅惑持续时间与伴随减速原始字段均已有明确来源；强制走向有官方文字语义但没有独立数值强度。当前管理只缺魅惑状态身份及控制接线。",
+    "seraphineR": "魅惑持续时间已有明确来源；友军/敌方英雄命中后的范围延伸明确且应独立处理。客户端减速字段与固定官方文字不一致，当前不能录为普通移动减速。",
+    "battleRuntime": "本核对只证明固定来源与管理 GET；没有把管理回读当作战斗运行证明。"
+  }
+}

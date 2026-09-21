@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-19T14:50:29.164Z",
+  "status": "APPROVED",
+  "reviewer": "/root/root_status_source_review",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "5ac21a53c96d88d1960f76f63411837909d1aafb611c826e1f9047fabdfa7b36",
+    "02-冻结请求.json": "d43b9d45ac4594c3f1741641d7ca5f6e13e173bc98d5963dacc9a81b1864b04f",
+    "03-来源摘要.json": "67e865568d445eb986729d57413ab3b7177b8980a9875df49b379494fcb46fac",
+    "04-写入前现值.json": "68bde3b5d2280a4462bd7aba2e951d1d725cfe918bc2d5454bf4a96f6e9c79f9"
+  },
+  "findings": [
+    "SKILL_USED只提供CURRENT_TARGET；效果target=SOURCE仍指技能拥有者",
+    "更正仅1条未执行规则",
+    "新基线效果正文与旧冻结完整一致；26条其他路径保持，效果集合仅预期新增"
+  ]
+}

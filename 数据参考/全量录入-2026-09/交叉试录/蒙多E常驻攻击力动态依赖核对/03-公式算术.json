@@ -1,0 +1,136 @@
+{
+  "at": "2026-09-20T11:32:01.007Z",
+  "status": "PASS",
+  "sourceFile": "02-被动来源与依赖.json",
+  "sourceSha256": "0870471520d275d8148d311b643884381d1abb49c12c21f22efebe031207191c",
+  "actualSavedFormulaSource": "01-共享现值.json",
+  "actualSavedFormulaSourceSHA": "1577e7600eb6584b61cef13ff8427861a2af6af1dfbde71ba6b74cc9599b403a",
+  "declaredAbsoluteTolerance": 0.0001,
+  "toleranceReason": "比较客户端浮点原值与既有十进制归一后的参数和0.01乘数；沿本轮已使用的1e-4绝对算术容差，未按页面显示精度改值。",
+  "parameterChanges": 0,
+  "cases": [
+    {
+      "rank": 1,
+      "totalHp": 1000,
+      "sourceValue": 19.999999552965164,
+      "savedValue": 20,
+      "absoluteDifference": 4.470348358154297e-7,
+      "pass": true
+    },
+    {
+      "rank": 1,
+      "totalHp": 3000,
+      "sourceValue": 59.99999865889549,
+      "savedValue": 60,
+      "absoluteDifference": 0.000001341104507446289,
+      "pass": true
+    },
+    {
+      "rank": 1,
+      "totalHp": 5000,
+      "sourceValue": 99.99999776482582,
+      "savedValue": 100,
+      "absoluteDifference": 0.0000022351741790771484,
+      "pass": true
+    },
+    {
+      "rank": 2,
+      "totalHp": 1000,
+      "sourceValue": 22.99999900907279,
+      "savedValue": 23,
+      "absoluteDifference": 9.90927208732728e-7,
+      "pass": true
+    },
+    {
+      "rank": 2,
+      "totalHp": 3000,
+      "sourceValue": 68.99999702721837,
+      "savedValue": 69,
+      "absoluteDifference": 0.000002972781629750898,
+      "pass": true
+    },
+    {
+      "rank": 2,
+      "totalHp": 5000,
+      "sourceValue": 114.99999504536396,
+      "savedValue": 115,
+      "absoluteDifference": 0.000004954636040110927,
+      "pass": true
+    },
+    {
+      "rank": 3,
+      "totalHp": 1000,
+      "sourceValue": 25.99999846518042,
+      "savedValue": 26.000000000000004,
+      "absoluteDifference": 0.0000015348195852027402,
+      "pass": true
+    },
+    {
+      "rank": 3,
+      "totalHp": 3000,
+      "sourceValue": 77.99999539554125,
+      "savedValue": 78,
+      "absoluteDifference": 0.000004604458752055507,
+      "pass": true
+    },
+    {
+      "rank": 3,
+      "totalHp": 5000,
+      "sourceValue": 129.9999923259021,
+      "savedValue": 130,
+      "absoluteDifference": 0.000007674097901144705,
+      "pass": true
+    },
+    {
+      "rank": 4,
+      "totalHp": 1000,
+      "sourceValue": 29.000000305473783,
+      "savedValue": 28.999999999999996,
+      "absoluteDifference": 3.0547378671030856e-7,
+      "pass": true
+    },
+    {
+      "rank": 4,
+      "totalHp": 3000,
+      "sourceValue": 87.00000091642136,
+      "savedValue": 87,
+      "absoluteDifference": 9.16421356578212e-7,
+      "pass": true
+    },
+    {
+      "rank": 4,
+      "totalHp": 5000,
+      "sourceValue": 145.0000015273689,
+      "savedValue": 145,
+      "absoluteDifference": 0.000001527368908682547,
+      "pass": true
+    },
+    {
+      "rank": 5,
+      "totalHp": 1000,
+      "sourceValue": 31.99999976158141,
+      "savedValue": 32,
+      "absoluteDifference": 2.3841858975970354e-7,
+      "pass": true
+    },
+    {
+      "rank": 5,
+      "totalHp": 3000,
+      "sourceValue": 95.99999928474423,
+      "savedValue": 96,
+      "absoluteDifference": 7.152557657263969e-7,
+      "pass": true
+    },
+    {
+      "rank": 5,
+      "totalHp": 5000,
+      "sourceValue": 159.99999880790705,
+      "savedValue": 160,
+      "absoluteDifference": 0.0000011920929523512314,
+      "pass": true
+    }
+  ],
+  "maxAbsoluteDifference": 0.000007674097901144705,
+  "runtimeValidation": "未执行",
+  "newHTTP": 0
+}

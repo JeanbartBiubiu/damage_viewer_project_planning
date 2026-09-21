@@ -1,0 +1,74 @@
+{
+  "at": "2026-09-20T14:49:36.374Z",
+  "status": "MANAGEMENT_COMPONENT_RETURN_PASS",
+  "skillKey": "tristana_w",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessSaves": 8,
+  "browserScopeUpdates": 1,
+  "componentPOSTs": 3,
+  "vampPUTs": 1,
+  "descriptionPUTs": 3,
+  "independentGETs": 108,
+  "independentParts": {
+    "scope": 22,
+    "append": 36,
+    "vamp": 25,
+    "description": 25
+  },
+  "currentComponentCounts": {
+    "parameters": 8,
+    "formulas": 1,
+    "effects": 4,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 4
+  },
+  "formulaArithmetic": {
+    "cases": 20,
+    "status": "PASS",
+    "parameterOrFormulaWrites": 0
+  },
+  "representativePages": [
+    "原命中范围保存重开",
+    "新增主动使用入口",
+    "首次减速四条件入口",
+    "减速效果与结果",
+    "原施法过程与延迟步骤",
+    "伤害吸血效果与结果",
+    "原冷却重置效果的新说明",
+    "技能主体新说明"
+  ],
+  "diagnosticWarningsOrErrors": 0,
+  "completedBranches": [
+    "原actual_hit限本轮明确敌方英雄",
+    "既有cast过程补唯一普通主动使用入口",
+    "40%持续2000ms首次普通减速",
+    "原普通魔法伤害显式全能吸血资格",
+    "主体与两效果说明同步"
+  ],
+  "reusedHistoricalBranch": {
+    "ruleKey": "own_kill_reset",
+    "commit": "06c2349d",
+    "notCreatedAgain": true
+  },
+  "remaining": [
+    "助攻形成的英雄参与击杀资格与准确事件",
+    "对英雄满层E爆炸的因果联动及W参与叠层",
+    "减速重施及完整技能法术护盾交互来源"
+  ],
+  "excludedOrDeferredFromExistingScope": [
+    "跳跃路径与附近目标搜索"
+  ],
+  "wholeSkillComplete": false,
+  "newTables": 0,
+  "codeChanges": 0,
+  "runtimeValidation": "未执行",
+  "auditNotes": [
+    "新增基线复用原32GET，经范围独立回读后定点更新1条规则列表、增加1条减速目录和3条不存在详情核对。",
+    "事件英雄类别是本轮范围，不将其写成游戏本身只可命中英雄。",
+    "中途收到恢复指令后检查所有写入记录均PASS，无不确定写入，未重放任何请求。"
+  ]
+}

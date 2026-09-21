@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-19T20:11:44.307Z",
+  "stage": "AFTER_SINGLE_APPLY_BEFORE_STATUS_CREATION",
+  "readOnlyHelper": {
+    "path": "C:\\project\\damage_backend_dev\\output\\charm-status-preflight\\ReadCharmStatusBaseline.java",
+    "sha256": "37d90c90a0b355b4b21c75a53ed8444a476972848d06af4b06bcdfe3c64abbc0"
+  },
+  "outputFile": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\魅惑状态补齐\\10-实库独立回读.json",
+  "executor": "independent_agent",
+  "connection": "独立执行者启动新Java进程并新建JDBC只读连接，REPEATABLE_READ事务；不复用写入器连接。",
+  "SELECTs": 9,
+  "businessWrites": 0,
+  "compare": [
+    "database",
+    "tables",
+    "statuses",
+    "columns",
+    "statusReferences",
+    "skill_effects",
+    "skill_object_references",
+    "kindColumnDefinition"
+  ],
+  "expectedConstraint": "CHECK (((status_kind)::text = ANY ((ARRAY['STUN'::character varying, 'MOVEMENT_SLOW'::character varying, 'ROOT'::character varying, 'SILENCE'::character varying, 'CHARM'::character varying])::text[])))",
+  "failureRule": "未PASS前不创建魅惑状态行，不报告迁移验收完成；响应未知先查现值，不重放DDL。",
+  "note": "迁移前只能批准执行方案；独立回读必须在本次COMMIT返回之后实际执行，不能用前置只读查询冒充写后验收。"
+}

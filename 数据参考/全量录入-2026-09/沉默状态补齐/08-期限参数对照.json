@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-19T17:11:02.792Z",
+  "status": "PASS",
+  "checks": [
+    {
+      "skillKey": "chogath_w",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "levelValues": {
+        "1": 1600,
+        "2": 1700,
+        "3": 1800,
+        "4": 1900,
+        "5": 2000
+      },
+      "sourceField": "mSpell.mEffectAmount[1].value，等级索引1至5；官方effectBurn[2]",
+      "status": "PASS"
+    },
+    {
+      "skillKey": "malzahar_q",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "levelValues": {
+        "1": 1000,
+        "2": 1250,
+        "3": 1500,
+        "4": 1750,
+        "5": 2000
+      },
+      "sourceField": "mSpell.DataValues[1].values，等级索引1至5；官方effectBurn[2]",
+      "status": "PASS"
+    }
+  ],
+  "HTTPs": 0,
+  "reusedCurrentReadback": true,
+  "runtimeValidation": "未执行"
+}

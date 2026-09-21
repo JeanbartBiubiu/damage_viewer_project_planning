@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-19T15:59:29.577Z",
+  "reviewer": "/root/attack_reset_sources",
+  "status": "APPROVED_MANAGEMENT_SCOPE",
+  "counts": {
+    "parameters": 6,
+    "formulas": 1,
+    "effects": 1,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 2
+  },
+  "covered": [
+    "435毫秒施放与三级普通冷却、无资源成本、主动过程",
+    "真实敌方英雄命中唯一伤害入口及全能吸血",
+    "cast_range=400已保存，距离及目标有效性属于既有事件宿主契约",
+    "1000毫秒纯视野按用户本轮范围排除，原参数保留"
+  ],
+  "remainingManagementBranches": [],
+  "runtimeBoundary": "实际距离、目标有效性、失败取消和结算由宿主执行验证；固定来源未支持新增对应管理字段，不能伪造。",
+  "descriptionCleanup": "3处说明已保存，独立18GET及主体页面回显通过"
+}

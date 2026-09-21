@@ -1,0 +1,66 @@
+{
+  "title": "纠正四项已接线普通伤害的空吸血规则",
+  "generatedAt": "2026-09-18T22:50:09.672Z",
+  "changes": [
+    {
+      "skillKey": "veigar_q",
+      "effectKey": "baleful_strike_hit",
+      "resultKey": "damage",
+      "route": "/skills/veigar_q/effects/baleful_strike_hit",
+      "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。"
+    },
+    {
+      "skillKey": "veigar_w",
+      "effectKey": "dark_matter_hit",
+      "resultKey": "damage",
+      "route": "/skills/veigar_w/effects/dark_matter_hit",
+      "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。"
+    },
+    {
+      "skillKey": "annie_q",
+      "effectKey": "spell_hit",
+      "resultKey": "damage",
+      "route": "/skills/annie_q/effects/spell_hit",
+      "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。"
+    },
+    {
+      "skillKey": "brand_q",
+      "effectKey": "fireball_hit",
+      "resultKey": "damage",
+      "route": "/skills/brand_q/effects/fireball_hit",
+      "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/四项既有伤害吸血资格纠错/00-五项实际命中只读原件.json"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/伤害吸血通用来源复核/来源与未决口径.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/伤害与普通护盾交互基础详细设计.md"
+    }
+  ],
+  "problem": "四项已有实际命中入口，但效果vampRules仍为空，父效果说明还称空列表不代表不能吸血；现行契约的空数组不自动继承通用资格，因此当前管理数据遗漏了已核定的全能吸血。",
+  "sourceDecision": "沿用已经独立核定的端游26.1起普通对英雄技能伤害全能吸血效率1及POST_DEFENSE_DAMAGE管理映射；四项都是普通直接魔法技能，不是点燃或惩戒。此前映射未宣称护盾及过量伤害的真实运行通过。",
+  "scope": "仅4个既有效果PUT：单个伤害结果的detail.vampRules从[]补为明确OMNIVAMP规则，同时移除过时父效果说明。伤害数值、公式、暴击、法术护盾粒度、名称、键、排序、过程和全部原规则保持不变。",
+  "targetBoundary": "沿本轮唯一敌方英雄范围修正；小兵的33%范围伤害折减不混入，不扩充非英雄场景，也不改已有命中规则。",
+  "notComplete": "仍保留各技能原有控制、被动、返还或其他未完组成；本次不增加整技能管理完成数。",
+  "runtimeBoundary": "仅管理数据纠错；不实现或执行真实吸血、抗性结算、宿主或Wasm。"
+}

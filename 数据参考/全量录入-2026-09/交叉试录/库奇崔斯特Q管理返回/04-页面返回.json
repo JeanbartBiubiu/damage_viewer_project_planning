@@ -1,0 +1,152 @@
+{
+  "at": "2026-09-19T19:25:37.755Z",
+  "kind": "BROWSER_OBSERVATIONS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "corki_q": {
+    "listImage": {
+      "loaded": true,
+      "width": 64,
+      "height": 64
+    },
+    "hitRule": {
+      "savedOnce": true,
+      "saveMessage": "规则「Q实际命中结算」已保存。",
+      "reopened": true,
+      "key": "resolve_on_q_hit",
+      "sourceSkill": "corki_q",
+      "conditions": "事件对方类别 / 英雄 并且 技能命中敌方对象",
+      "action": "执行效果 / 当前目标 / primary_hit / 绑定 0 / 修正 0",
+      "status": "PASS"
+    },
+    "subject": {
+      "description": "库奇向目标区域发射磷光炸弹，造成魔法伤害。本轮1V1已录入敌方英雄实际命中伤害，五级基础值为60/105/150/195/240，加1.25倍来源额外攻击力与1倍来源总法强。主动使用已连接法力、250毫秒施放登记和基础冷却；过程结束不自动生成命中。纯显形按本轮范围排除，区域几何与实际命中另由运行层提供。固定来源：客户端16.17、官方静态资料16.17.1。",
+      "updatedAt": "2026-09-19T19:33:34.391035Z",
+      "status": "PASS"
+    },
+    "useRule": {
+      "key": "on_used",
+      "event": "技能被主动或消耗使用",
+      "sourceSkill": "corki_q",
+      "useKind": "主动",
+      "action": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0",
+      "status": "PASS"
+    },
+    "process": {
+      "key": "cast",
+      "name": "施放磷光炸弹",
+      "activation": "主动",
+      "cooldown": {
+        "parameter": "cooldown_ms",
+        "moment": "过程开始"
+      },
+      "step": {
+        "key": "cast_time",
+        "type": "延迟",
+        "parameter": "cast_time_ms"
+      },
+      "cost": {
+        "effectKey": "mana_cost",
+        "moment": "过程开始"
+      },
+      "stateOperations": 0,
+      "status": "PASS"
+    },
+    "damage": {
+      "effectKey": "primary_hit",
+      "resultKey": "magic_damage",
+      "lifecycle": false,
+      "formula": "magic_damage",
+      "multiplier": 1,
+      "type": "魔法伤害",
+      "target": "当前目标",
+      "delivery": "技能",
+      "origin": "直接伤害",
+      "critical": "不允许暴击",
+      "vamp": {
+        "kind": "全能吸血",
+        "basis": "防御后伤害",
+        "fixedEfficiency": 1
+      },
+      "spellShield": "整个技能",
+      "status": "PASS"
+    }
+  },
+  "twistedfate_q": {
+    "listImage": {
+      "loaded": true,
+      "width": 64,
+      "height": 64
+    },
+    "hitRule": {
+      "savedOnce": true,
+      "saveMessage": "规则「Q实际命中结算」已保存。",
+      "reopened": true,
+      "key": "resolve_on_q_hit",
+      "sourceSkill": "twistedfate_q",
+      "conditions": "事件对方类别 / 英雄 并且 技能命中敌方对象",
+      "action": "执行效果 / 当前目标 / primary_hit / 绑定 0 / 修正 0",
+      "sameTargetLimit": "同一目标至多一张牌，不乘三",
+      "status": "PASS"
+    },
+    "useRule": {
+      "key": "on_used",
+      "event": "技能被主动或消耗使用",
+      "sourceSkill": "twistedfate_q",
+      "useKind": "主动",
+      "action": "启动过程 / 当前目标 / cast / 绑定 0 / 修正 0",
+      "status": "PASS"
+    },
+    "process": {
+      "key": "cast",
+      "name": "施放万能牌",
+      "activation": "主动",
+      "cooldown": {
+        "parameter": "cooldown_ms",
+        "moment": "过程开始"
+      },
+      "step": {
+        "key": "cast_time",
+        "type": "延迟",
+        "parameter": "cast_time_ms"
+      },
+      "cost": {
+        "effectKey": "mana_cost",
+        "moment": "过程开始"
+      },
+      "stateOperations": 0,
+      "scope": "过程不生成命中，同一目标至多一张牌",
+      "status": "PASS"
+    },
+    "damage": {
+      "effectKey": "primary_hit",
+      "resultKey": "magic_damage",
+      "lifecycle": false,
+      "formula": "enemy_magic_damage",
+      "multiplier": 1,
+      "type": "魔法伤害",
+      "target": "当前目标",
+      "delivery": "技能",
+      "origin": "直接伤害",
+      "critical": "不允许暴击",
+      "vamp": {
+        "kind": "全能吸血",
+        "basis": "防御后伤害",
+        "fixedEfficiency": 1
+      },
+      "spellShield": "整个技能",
+      "sameTargetLimit": "同一目标至多一张牌，不乘三",
+      "status": "PASS"
+    },
+    "subject": {
+      "description": "崔斯特扔出三张卡牌，对沿途敌人造成魔法伤害；同一目标至多受到一张牌的伤害。本轮1V1已录入敌方英雄实际命中伤害，五级基础值为60/105/150/195/240，加0.5倍来源额外攻击力与0.85倍来源总法强。主动使用已连接法力、250毫秒施放登记和基础冷却；过程结束不自动生成命中，也不将伤害乘三。弹道几何与实际命中另由运行层提供。固定来源：客户端16.17、官方静态资料16.17.1。",
+      "updatedAt": "2026-09-19T19:33:35.913924Z",
+      "status": "PASS"
+    }
+  },
+  "runtimeValidation": "NOT_RUN",
+  "completedAt": "2026-09-19T19:39:01.825Z",
+  "consoleErrors": 0,
+  "consoleWarnings": 0,
+  "businessWrites": 2,
+  "status": "PASS"
+}

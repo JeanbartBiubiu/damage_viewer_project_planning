@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-19T04:01:50.166Z",
+  "businessWrites": 0,
+  "browserRestored": true,
+  "source": "固定官方16.17.1娜美R正文明确敌方伤害与友方被动收益，原CHAMPION条件不足。新增明确敌方条件与英雄类别同组AND，只消费当前nami_r实际命中。",
+  "previousRevision": "前批修订一已经独立保存primary_hit，当前只补一条规则。",
+  "newConditionValidation": {
+    "independentCodeReview": "PASS",
+    "backendTests": 994,
+    "frontendTests": 674,
+    "serviceOldResponseComparison": 20
+  },
+  "firstWriteMode": "BROWSER_UI_ONLY",
+  "requestCount": 1,
+  "forbidden": "不得调用API写入模式完成首次录入；不得清理他人草稿；不得将页面保存当作敌我运行求值。",
+  "writeEvidenceProtocol": "05批准后，页面最终保存前记录06为STARTED；保存后由独立于页面的GET确认详情，06记录浏览器保存证据与即时GET结果，不伪造未捕获的POST状态或响应。独立执行者再读取全批旧数据与新规则。"
+}

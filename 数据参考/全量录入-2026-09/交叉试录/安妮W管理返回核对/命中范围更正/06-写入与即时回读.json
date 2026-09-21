@@ -1,0 +1,230 @@
+{
+  "status": "PASS",
+  "at": "2026-09-19T18:59:49.417Z",
+  "executionMode": "BROWSER_UI_ONLY",
+  "businessWritesAttempted": 1,
+  "approvedFiles": {
+    "tools/authoring/reviewed-hit-scope-ui.mjs": "b9dc44da5ac25728eeeaa13c8108dd6720f7ae70cd9ac4a8a9896f2715f2d287",
+    "01-候选方案.json": "e3855c0422573d3ec1c66a08ee7296f2d982c688c915b7d63b8d99e2035edf4d",
+    "02-冻结请求.json": "0fe35a14e07a164c5243142c5a098c012131b035b98ca51dddeb0dcdcb005c45",
+    "03-来源摘要.json": "d83a9ce4de417ed1139e897464c731ec8de8cd22998c95fce2c1c723c32faa33",
+    "04-写入前现值.json": "d84c346d799372ec8ff51ada967b7dc5f8c26f6af46a44360b241d1d59dba591"
+  },
+  "request": {
+    "method": "PUT",
+    "route": "/skills/annie_w/trigger-rules/actual_hit",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "spell_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "annie_w"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "焚烧实际命中",
+      "perTargetCooldown": null,
+      "sortOrder": 10
+    },
+    "expectedReadback": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "spell_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "annie_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "焚烧实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "preflight": {
+    "status": "PASS",
+    "GETs": 18,
+    "businessWrites": 0
+  },
+  "note": "已核对真实页面同组英雄及明确敌方条件；以下保存只点击一次，响应未知时先只读核对，不重放。",
+  "immediateReadbacks": {
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/annie_w/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/annie_w/trigger-rules",
+        "status": 200
+      }
+    ],
+    "values": {
+      "/skills/annie_w/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "spell_hit"
+            },
+            "name": "执行命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮敌方英雄",
+            "sortOrder": 10
+          }
+        ],
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "annie_w",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "焚烧实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/annie_w/trigger-rules": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 1,
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "焚烧实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T19:00:03.19737Z"
+        },
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "主动使用时启动本技能施法过程；法力消耗、普通冷却及施法延迟沿用过程配置，实际命中由独立规则处理。",
+          "eventType": "SKILL_USED",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "主动使用启动焚烧施法过程",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "on_used",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-18T23:47:03.360224Z"
+        }
+      ]
+    }
+  },
+  "localComparisonRecovery": "首次内存严格比较遇到跨执行环境对象原型差异；保留同次2GET，不重查、不重放保存，统一为JSON原始值后重比。",
+  "completedAt": "2026-09-19T19:00:47.850Z",
+  "businessWritesObservedInUI": 1,
+  "writeResponseStatus": null,
+  "writeResponseNote": "未捕获页面PUT原始响应；完整GET证实新内容落地，GET状态不冒充PUT状态。"
+}

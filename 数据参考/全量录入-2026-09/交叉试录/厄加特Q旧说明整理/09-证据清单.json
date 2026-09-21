@@ -1,0 +1,61 @@
+{
+  "at": "2026-09-19T08:38:27.706Z",
+  "status": "PASS",
+  "updatedParameterDescriptions": 2,
+  "prepareGETs": 22,
+  "writes": 2,
+  "immediateReadbacks": 2,
+  "independentProgramGETs": 22,
+  "independentAgentGETs": 22,
+  "unchangedResponsesIncludingTimestamps": 19,
+  "expectedChangedCollections": 1,
+  "browser": "PASS",
+  "independentAgentReadback": {
+    "reviewer": "/root/urgot_core_frozen_fallback",
+    "status": "PASS",
+    "toolExitCode": 0,
+    "at": "2026-09-19T08:34:59.354Z",
+    "stdoutSha256": "3a702d71fd590991b6367110fff499c2bd54919f39d34fb6660b8bc0ebf48d83",
+    "stdoutBytes": 31310,
+    "rawStdoutArchived": false
+  },
+  "runtimeValidation": "未执行",
+  "files": [
+    {
+      "name": "01-纠错计划.json",
+      "sha256": "82c394f5a58b86492a78c5a2cd4f726c2c8942a62be4dac51d29beed50edced4"
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "a887d3721509f95dc35b475a3e62961ed5b45956c1c8e7d397f76eaa64e33e17"
+    },
+    {
+      "name": "03-来源摘要.json",
+      "sha256": "d34cd38bb9b98d1ad0c3a80127b3ce55dbcd51a29d91b04c24c5e2cb4e0a33bf"
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "e1adc5a33410f8535a279b4a194aa69fe26d1a3c982fb1cd12c57dd105e00e52"
+    },
+    {
+      "name": "05-独立评审.json",
+      "sha256": "3d8759015e33a90405c4b9f33b56c6d9ccd084a4bb0cdd4210d6b9c8e911f47a"
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "570c27835e2f6e15fd78e07a0647507ffafb4ee324da67f85e474a2a92e66742"
+    },
+    {
+      "name": "07-独立回读.json",
+      "sha256": "e32950446ee5f9fd458a74dd46960fc7bda0ca34ae94ced9ea670b17191a7da6"
+    },
+    {
+      "name": "08-页面验收.json",
+      "sha256": "cc264bc37a539c6ad4196754d604c76e943a9f09033f2b1dac33f07729769e48"
+    },
+    {
+      "name": "README.md",
+      "sha256": "bfe6faf2f35e1cab3b37d28fd6996af18841058be1b024c7a3e7953197ec50be"
+    }
+  ]
+}

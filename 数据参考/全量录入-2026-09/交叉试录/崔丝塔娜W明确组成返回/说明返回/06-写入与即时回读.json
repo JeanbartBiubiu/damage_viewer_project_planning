@@ -1,0 +1,374 @@
+{
+  "startedAt": "2026-09-20T14:45:26.486Z",
+  "status": "PASS",
+  "businessWritesAttempted": 3,
+  "operations": [
+    {
+      "route": "/skills/tristana_w",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:41.015015Z",
+          "description": "火箭跳跃落地对附近敌人造成魔法伤害并减速。本轮已配置敌方英雄实际落地伤害、40%持续2秒首次减速、普通主动使用的法力/基础冷却/250毫秒施法过程，以及本人完成英雄击杀时重置W。助攻参与、对英雄满层E引爆重置与叠层、减速重施及完整护盾交互继续核定；跳跃路径与附近目标搜索沿既定范围后置，战斗运行未验证。来源：客户端16.17、官方静态资料16.17.1。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "崔丝塔娜·火箭跳跃",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "tristana_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-20T14:45:26.684652Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:20:41.015015Z",
+        "description": "火箭跳跃落地对附近敌人造成魔法伤害并减速。本轮已配置敌方英雄实际落地伤害、40%持续2秒首次减速、普通主动使用的法力/基础冷却/250毫秒施法过程，以及本人完成英雄击杀时重置W。助攻参与、对英雄满层E引爆重置与叠层、减速重施及完整护盾交互继续核定；跳跃路径与附近目标搜索沿既定范围后置，战斗运行未验证。来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "崔丝塔娜·火箭跳跃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-20T14:45:26.684652Z"
+      }
+    },
+    {
+      "route": "/skills/tristana_w/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:59:39.81282Z",
+          "description": "本技能等级1至5消耗30/35/40/45/50法力，由普通主动使用入口启动既有cast过程并在过程开始扣除一次。该效果不处理伤害、减速或冷却重置。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "tristana_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-20T14:45:28.207124Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:59:39.81282Z",
+        "description": "本技能等级1至5消耗30/35/40/45/50法力，由普通主动使用入口启动既有cast过程并在过程开始扣除一次。该效果不处理伤害、减速或冷却重置。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-20T14:45:28.207124Z"
+      }
+    },
+    {
+      "route": "/skills/tristana_w/effects/reset_jump",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:59:40.679569Z",
+          "description": "来源对象自身W当前冷却重置，当前仅由本人完成英雄击杀规则执行。名称保留完整机制方向，但英雄助攻参与及对英雄满层E爆炸尚无对应准确入口，不因效果存在而视为已接通。",
+          "effectKey": "reset_jump",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "参与击杀或满层炸弹重置跳跃",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "affectedSkillScope": {
+                  "mode": "SKILLS",
+                  "skillCategoryKeys": [],
+                  "skillKeys": [
+                    "tristana_w"
+                  ]
+                },
+                "operation": "RESET"
+              },
+              "lifecycleBehavior": null,
+              "name": "参与击杀或满层炸弹重置跳跃",
+              "resultKey": "cooldown",
+              "resultType": "COOLDOWN_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": null
+            }
+          ],
+          "skillKey": "tristana_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-20T14:45:30.126206Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:59:40.679569Z",
+        "description": "来源对象自身W当前冷却重置，当前仅由本人完成英雄击杀规则执行。名称保留完整机制方向，但英雄助攻参与及对英雄满层E爆炸尚无对应准确入口，不因效果存在而视为已接通。",
+        "effectKey": "reset_jump",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "参与击杀或满层炸弹重置跳跃",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillCategoryKeys": [],
+                "skillKeys": [
+                  "tristana_w"
+                ]
+              },
+              "operation": "RESET"
+            },
+            "lifecycleBehavior": null,
+            "name": "参与击杀或满层炸弹重置跳跃",
+            "resultKey": "cooldown",
+            "resultType": "COOLDOWN_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-20T14:45:30.126206Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "8a83a99b482d804765c524c2a2680d54a010f889958c49f07d39509e96813391",
+    "02-冻结请求.json": "b4685f1834706987223bb97f7630496a8836491896ec63f1bcb201cf57cbc6e6",
+    "03-来源摘要.json": "473eb74caf9136d848e1a51fd74f939313428f24cc2c7a594e04cefe8221c4c3",
+    "04-写入前现值.json": "747d4b41446be17862c54a6e921f16809373f57f2113cb99c571dd94a7e1c5d9"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-20T14:45:31.881Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/landing_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/reset_jump",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/rocket_jump_slow",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/own_kill_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/trigger-rules/apply_slow_on_first_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/tristana_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/tristana_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/reset_jump",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/tristana_w/effects/reset_jump",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_w/effects/reset_jump",
+      "status": 200
+    }
+  ]
+}

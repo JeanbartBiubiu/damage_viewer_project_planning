@@ -1,0 +1,80 @@
+{
+  "at": "2026-09-20T07:52:53.958Z",
+  "reviewer": "zyra_q_scope_source独立来源审查；主负责人核当前范围与副本SHA",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sourceFiles": [
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Zyra.json.gz",
+      "webSha256": "94e23123ef2c5c00314b79d216fc055ac84411778f425924ce273e2a79c809ef",
+      "planningSha256": "94e23123ef2c5c00314b79d216fc055ac84411778f425924ce273e2a79c809ef"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Zyra.json",
+      "webSha256": "c1ffb17ff4f55221690e58b79a04fc807acff143977fc21db3d1efe0a7e7fe35",
+      "planningSha256": "c1ffb17ff4f55221690e58b79a04fc807acff143977fc21db3d1efe0a7e7fe35"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Zyra.json",
+      "webSha256": "4dea8c9a2d09d6cfb24bac8dec60651ac64b3745d561d2dca516f9951b284a57",
+      "planningSha256": "4dea8c9a2d09d6cfb24bac8dec60651ac64b3745d561d2dca516f9951b284a57"
+    }
+  ],
+  "rootBinding": {
+    "ability": "Characters/Zyra/Spells/ZyraQAbility",
+    "root": "Characters/Zyra/Spells/ZyraQAbility/ZyraQ",
+    "formula": "mSpell/mSpellCalculations/InitialDamage"
+  },
+  "values": {
+    "damage": [
+      60,
+      100,
+      140,
+      180,
+      220
+    ],
+    "levelSourceIndices": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "apRatioApproximately": 0.65,
+    "apOwner": "SOURCE",
+    "apKind": "TOTAL",
+    "mana": 55,
+    "cooldownMs": [
+      7000,
+      6500,
+      6000,
+      5500,
+      5000
+    ],
+    "castTimeMs": 250
+  },
+  "timeBoundary": "spellCastTime明确250毫秒；不把spellTotalTime=1、castFrame或飞行速度当作固定伤害延迟，实际命中生产与几何属本轮未实现运行边界。",
+  "excluded": {
+    "branches": [
+      "种子转植物",
+      "独立植物攻击链"
+    ],
+    "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十五批/最终验收/候选过程/修订一/来源与范围.json",
+    "root": "planning",
+    "sha256": "f29755341edd05384d408f141fcd6858990b6d6e43d1590011f2c50bdd6fa339",
+    "sourceLines": [
+      26,
+      30,
+      391,
+      408
+    ],
+    "existingDataDeletion": false
+  },
+  "crossSkillDependency": "P/W/E/R只影响种子生成、植物攻击或激怒等已排除支路，未发现改变Q根InitialDamage的依赖；mCoefficient2=0.18未被主伤害公式消费，不添加。",
+  "oldCombinedPending": "旧候选将本体命中和种子附近资格合写为待接。当前已保存本体SKILL_HIT入口；种子附近只属于已明确排除的植物支路，按当前Goal不再计本体管理阻塞，历史文件保持。",
+  "decision": "范围可收敛为根Q本体；补原命中规则同组敌方、更新过时主体说明并完成独立回读及页面后，可判断本轮1V1管理完整。",
+  "runtimeValidation": "未执行",
+  "goalComplete": false
+}

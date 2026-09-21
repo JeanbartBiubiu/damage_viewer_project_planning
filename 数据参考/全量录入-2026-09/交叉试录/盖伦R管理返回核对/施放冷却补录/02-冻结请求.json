@@ -1,0 +1,145 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/garen_r/processes",
+      "detailRoute": "/skills/garen_r/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "德玛西亚正义施放登记",
+        "activationType": "ACTIVE",
+        "description": "本次已成立主动使用登记三级普通冷却，并保留固定435毫秒基础施放步骤。该过程不生成命中，也不执行伤害；实际命中继续由独立规则处理，失败取消与运行资格另证。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_delay",
+            "name": "基础施放",
+            "description": "固定客户端当前R根435毫秒，不用spellTotalTime替代。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "德玛西亚正义施放登记",
+        "activationType": "ACTIVE",
+        "description": "本次已成立主动使用登记三级普通冷却，并保留固定435毫秒基础施放步骤。该过程不生成命中，也不执行伤害；实际命中继续由独立规则处理，失败取消与运行资格另证。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_delay",
+            "name": "基础施放",
+            "description": "固定客户端当前R根435毫秒，不用spellTotalTime替代。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/garen_r/trigger-rules",
+      "detailRoute": "/skills/garen_r/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "德玛西亚正义主动使用登记",
+        "description": "本次已成立的盖伦R主动使用启动施放登记过程，维护基础施放与普通冷却；无资源消耗，不以步骤完成伪造实际命中或伤害。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "garen_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动德玛西亚正义施放登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "德玛西亚正义主动使用登记",
+        "description": "本次已成立的盖伦R主动使用启动施放登记过程，维护基础施放与普通冷却；无资源消耗，不以步骤完成伪造实际命中或伤害。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "garen_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动德玛西亚正义施放登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "1c1be5f677605a45313d7b661cd139c8b7fa880d19a929cb08841691c286800f",
+  "baselineSha256": "c3aea47fd6b5119c067b73813f87c74512ed95bee748f9cc0d5d988e9a9c2a5f"
+}

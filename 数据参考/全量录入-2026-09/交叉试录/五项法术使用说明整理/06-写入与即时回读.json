@@ -1,0 +1,837 @@
+{
+  "startedAt": "2026-09-19T03:37:22.927Z",
+  "status": "PASS",
+  "businessWritesAttempted": 5,
+  "operations": [
+    {
+      "route": "/skills/vex_q/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:05:39.631983Z",
+          "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 45,
+            "2": 50,
+            "3": 55,
+            "4": 60,
+            "5": 65
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vex_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T03:37:23.470293Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-08T02:05:39.631983Z",
+        "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T03:37:23.470293Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/vex_w/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:05:40.635938Z",
+          "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vex_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T03:37:25.177082Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-08T02:05:40.635938Z",
+        "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T03:37:25.177082Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/vex_e/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:05:41.501996Z",
+          "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 80,
+            "3": 90,
+            "4": 100,
+            "5": 110
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vex_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T03:37:26.503954Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-08T02:05:41.501996Z",
+        "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T03:37:26.503954Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/bard_q/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:36:02.066139Z",
+          "description": "DDragon16.17.1 Bard.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "bard_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T03:37:27.806358Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:36:02.066139Z",
+        "description": "DDragon16.17.1 Bard.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "bard_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T03:37:27.806358Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/leblanc_q/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:36:42.217552Z",
+          "description": "DDragon16.17.1 Leblanc.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "leblanc_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T03:37:29.124941Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:36:42.217552Z",
+        "description": "DDragon16.17.1 Leblanc.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "leblanc_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T03:37:29.124941Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "50bc479ffd6de7a48f68024597ea17dccc0af9588a6f45e2dd5d1366f371d844",
+    "02-冻结请求.json": "bbfc7d5a255ec9bf731f26b7c2d3f729304c20334ea692649c9f7aa372194557",
+    "03-来源摘要.json": "dcb87ee28baf0748112e87dceeea261933a679d93df53106e073053525c11bac",
+    "04-写入前现值.json": "cb98c5feb268ce7af46af5a75ab39a11948ddd264eed6e344b190cd4d7f80510"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T03:37:29.931Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/vex_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/damage_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/aoe_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/bonus_aoe_radius_vs_dashes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/formulas/shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/effects/self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/trigger-rules/on_used_cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/starting_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/radius_growth_rate",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/max_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/gloom_champion_cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/slow_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/formulas/total_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/mark_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/mark_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/mana_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/formulas/initial_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/formulas/mark_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/vex_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/vex_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/vex_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/vex_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/bard_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/bard_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/leblanc_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/leblanc_q/parameters/mana_cost",
+      "status": 200
+    }
+  ]
+}

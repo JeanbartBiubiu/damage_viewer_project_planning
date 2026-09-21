@@ -1,0 +1,60 @@
+{
+  "status": "SCOPE_CORRECTED_OPEN_CROSS_SKILL_GAP",
+  "at": "2026-09-20",
+  "scope": "修正安妮W管理与运行边界；不覆盖02原件，不判定整技能完成",
+  "evidence": {
+    "wSnapshot": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/安妮W管理返回核对/01-当前管理现值.json",
+      "sha256": "fd6ba412c00f77182a5e75a67c6906e27aa05bf155f3289b93f9528de6c2e715",
+      "GETs": 27,
+      "businessWrites": 0
+    },
+    "pSnapshot": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/安妮W管理返回核对/03-P当前组成回读.json",
+      "sha256": "e75d11e4a34bf149358501badc2ff1a67e9fd7dd7fbb2d25d30fc1ee19a51b9d",
+      "GETs": 9,
+      "businessWrites": 0
+    },
+    "priorScopeFile": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/安妮W管理返回核对/02-固定来源与范围核对.json",
+      "sha256": "c46879b25c04a893e3a48881ff83d67283884a80c92aecee8fcf73000d082e08",
+      "note": "原件保留；本文件只修正范围判断。"
+    }
+  },
+  "correctedBoundary": {
+    "castTiming": "spellTotalTime=1000毫秒是动作总时长字段；mCastTime与spellCastTime均为250毫秒，二者不构成施放时间冲突。当前过程保存250毫秒延迟，不应被解释为完整命中时序，但这不是W管理组成缺失。",
+    "coneAndRuntime": "固定来源确认W为锥形区域、作用区域内敌人；锥形几何、宿主事件和实际结算未运行，只是运行证据边界，不阻止管理层保存与核对。",
+    "wSelfManagement": "W自身参数、公式、mana_cost、spell_hit、cast过程、actual_hit和on_used均已存在；没有来源证明必须再增加W专属资格规则才能保存这一本体管理组成。",
+    "wholeSkillBoundary": "不能因W自身组成齐全就把包含嗜火P联动的整技能标为完成。P联动是跨技能管理语义缺口，不是W锥形几何未运行。"
+  },
+  "pCurrent": {
+    "componentCounts": {
+      "parameters": 2,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "parameters": {
+      "max_stacks": 4,
+      "stun_duration_ms": {
+        "levels1to5": 1250,
+        "levels6to10": 1500,
+        "levels11to18": 1750
+      }
+    },
+    "confirmedSourceSemantics": "固定客户端与官方被动资料确认施放4个技能后，下一次伤害类技能晕眩目标；满层4，晕眩时长按等级断点。",
+    "managementGap": "P当前只有参数，没有层数状态、消费语义、晕眩效果、触发规则或与W实际命中的跨技能连接。"
+  },
+  "minimumNextStep": {
+    "recommendation": "单独建立P层数/消费与晕眩结果的跨技能管理分支，再选择W实际命中作为一个有来源的伤害类技能入口；W本体不再重复建立伤害效果。",
+    "mustKeepOpen": [
+      "P层数由哪些技能事件增加及满层消费时点",
+      "宿主事件是否在W实际命中前后产生",
+      "晕眩状态现有目录与法术护盾/免疫交互",
+      "P触发后W范围内多目标是否分别应用控制"
+    ]
+  },
+  "sourceAndRuntimeBoundary": "来源数值已核；P与W的跨技能交互配置尚未核；管理保存不证明宿主实际事件、几何、伤害结算或战斗运行。"
+}

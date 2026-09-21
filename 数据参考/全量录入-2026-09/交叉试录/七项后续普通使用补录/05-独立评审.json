@@ -1,0 +1,272 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T03:06:17.263Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "decision": "批准七项普通使用过程和入口、布隆Q法力消耗效果；两项仅登记成本冷却，五项复用已存250毫秒参数。",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "616ebd4ff3f0b8448d3e12cfdb6c3540e2ba44d217df48dca14af9c4ae869158",
+    "02-冻结请求.json": "6a3b4c81f57c5157dcca06f0aba5e14a8e7972d6d0a198e1c39dc46a593ba9e4",
+    "03-来源摘要.json": "c1e977b0167140d57a70afe3e34aed0c6f704f87cec9bf412668a114c2118d82",
+    "04-写入前现值.json": "50f1ba2c14d09985b268b62de390fce0cdeb259aad00868ffc69951f3d058560"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "checks": {
+    "sourceHashes": 26,
+    "officialAndCompressedClientFiles": 14,
+    "ordinaryUseRootBindings": 7,
+    "rankCount": 33,
+    "arithmeticPoints": 89,
+    "arithmeticDifferences": 0,
+    "newResourceEffects": 1,
+    "newProcesses": 7,
+    "newUseRules": 7,
+    "preparationGETs": 175,
+    "protectedBaselineResponses": 160,
+    "newDetail404s": 15,
+    "duplicateKeys": 0,
+    "priorOriginalResponsesUnchanged": 132,
+    "priorChangedCollectionsVerified": 14,
+    "priorCreatedDamageAndHitRulesPreserved": 14,
+    "protectedRepresentativeImageResponses": 13
+  },
+  "perSkill": [
+    {
+      "skillKey": "braum_q",
+      "ownerKey": "champion_braum",
+      "rootSpell": "Characters/Braum/Spells/BraumQAbility/BraumQ",
+      "officialId": "BraumQ",
+      "rankCount": 5,
+      "manaCost": [
+        45,
+        50,
+        55,
+        60,
+        65
+      ],
+      "baseCooldownMs": [
+        8000,
+        7500,
+        7000,
+        6500,
+        6000
+      ],
+      "registrationOnly": true,
+      "spellCastTimeSeconds": 0.3888999819755554,
+      "mCastTimeSeconds": 0.25,
+      "modeledCastTimeMs": null,
+      "createdManaEffect": true,
+      "processKey": "use_cost_and_cooldown",
+      "ruleKey": "on_used_cost_and_cooldown",
+      "protectedDamage": "primary_hit",
+      "protectedHitRule": "actual_hit"
+    },
+    {
+      "skillKey": "nautilus_q",
+      "ownerKey": "champion_nautilus",
+      "rootSpell": "Characters/Nautilus/Spells/NautilusAnchorDragAbility/NautilusAnchorDrag",
+      "officialId": "NautilusAnchorDrag",
+      "rankCount": 5,
+      "manaCost": [
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "baseCooldownMs": [
+        14000,
+        13000,
+        12000,
+        11000,
+        10000
+      ],
+      "registrationOnly": false,
+      "spellCastTimeSeconds": 0.25,
+      "mCastTimeSeconds": null,
+      "modeledCastTimeMs": 250,
+      "createdManaEffect": false,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "protectedDamage": "primary_hit",
+      "protectedHitRule": "actual_hit"
+    },
+    {
+      "skillKey": "ziggs_q",
+      "ownerKey": "champion_ziggs",
+      "rootSpell": "Characters/Ziggs/Spells/ZiggsQAbility/ZiggsQ",
+      "officialId": "ZiggsQ",
+      "rankCount": 5,
+      "manaCost": [
+        50,
+        55,
+        60,
+        65,
+        70
+      ],
+      "baseCooldownMs": [
+        6000,
+        5500,
+        5000,
+        4500,
+        4000
+      ],
+      "registrationOnly": true,
+      "spellCastTimeSeconds": 0.375,
+      "mCastTimeSeconds": 0.25,
+      "modeledCastTimeMs": null,
+      "createdManaEffect": false,
+      "processKey": "use_cost_and_cooldown",
+      "ruleKey": "on_used_cost_and_cooldown",
+      "protectedDamage": "primary_hit",
+      "protectedHitRule": "actual_hit"
+    },
+    {
+      "skillKey": "zyra_q",
+      "ownerKey": "champion_zyra",
+      "rootSpell": "Characters/Zyra/Spells/ZyraQAbility/ZyraQ",
+      "officialId": "ZyraQ",
+      "rankCount": 5,
+      "manaCost": [
+        55,
+        55,
+        55,
+        55,
+        55
+      ],
+      "baseCooldownMs": [
+        7000,
+        6500,
+        6000,
+        5500,
+        5000
+      ],
+      "registrationOnly": false,
+      "spellCastTimeSeconds": 0.25,
+      "mCastTimeSeconds": null,
+      "modeledCastTimeMs": 250,
+      "createdManaEffect": false,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "protectedDamage": "primary_hit",
+      "protectedHitRule": "actual_hit"
+    },
+    {
+      "skillKey": "zyra_e",
+      "ownerKey": "champion_zyra",
+      "rootSpell": "Characters/Zyra/Spells/ZyraEAbility/ZyraE",
+      "officialId": "ZyraE",
+      "rankCount": 5,
+      "manaCost": [
+        70,
+        75,
+        80,
+        85,
+        90
+      ],
+      "baseCooldownMs": [
+        11000,
+        11000,
+        11000,
+        11000,
+        11000
+      ],
+      "registrationOnly": false,
+      "spellCastTimeSeconds": 0.25,
+      "mCastTimeSeconds": null,
+      "modeledCastTimeMs": 250,
+      "createdManaEffect": false,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "protectedDamage": "primary_hit",
+      "protectedHitRule": "actual_hit"
+    },
+    {
+      "skillKey": "leona_r",
+      "ownerKey": "champion_leona",
+      "rootSpell": "Characters/Leona/Spells/LeonaSolarFlareAbility/LeonaSolarFlare",
+      "officialId": "LeonaSolarFlare",
+      "rankCount": 3,
+      "manaCost": [
+        100,
+        100,
+        100
+      ],
+      "baseCooldownMs": [
+        90000,
+        75000,
+        60000
+      ],
+      "registrationOnly": false,
+      "spellCastTimeSeconds": 0.25,
+      "mCastTimeSeconds": null,
+      "modeledCastTimeMs": 250,
+      "createdManaEffect": false,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "protectedDamage": "primary_hit",
+      "protectedHitRule": "actual_hit"
+    },
+    {
+      "skillKey": "malzahar_q",
+      "ownerKey": "champion_malzahar",
+      "rootSpell": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+      "officialId": "MalzaharQ",
+      "rankCount": 5,
+      "manaCost": [
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "baseCooldownMs": [
+        6000,
+        6000,
+        6000,
+        6000,
+        6000
+      ],
+      "registrationOnly": false,
+      "spellCastTimeSeconds": 0.25,
+      "mCastTimeSeconds": null,
+      "modeledCastTimeMs": 250,
+      "createdManaEffect": false,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "protectedDamage": "primary_hit",
+      "protectedHitRule": "actual_hit"
+    }
+  ],
+  "specialReview": {
+    "braum_q": "新的mana_cost效果先于use_cost_and_cooldown过程写入，消耗SOURCE/mana且按既有45/50/55/60/65参数；原primary_hit及actual_hit保持。",
+    "timingConflict": "独立解压核实Braum spellCastTime=0.3888999819755554、mCastTime=0.25；Ziggs为0.375与0.25。两者均无既有cast_time_ms，本批不新增、不选其中一个作为实际时长。",
+    "registrationPattern": "两项过程复用已绑定墨菲特E的固定0登记步骤、成本挂接和普通冷却结构；说明明确固定0不定义真实施法时长。登记过程结束不能被后续使用方当作真实施法完成，当前没有这样的规则。",
+    "fiveCastTimes": "NautilusQ/ZyraQ/E/LeonaR/MalzaharQ根spellCastTime均0.25且既有参数为250毫秒；spellTotalTime未被当作施法或命中时点。",
+    "indexing": "法力数组索引0对应等级1，冷却索引1对应等级1；LeonaR只验证1至3级，未误取其manaValues后续0槽。",
+    "nautilus_q": "初次消耗与基础冷却不乘地形返还倍率；地形命中后的返还仍独立待接。",
+    "zyra": "普通使用只扣根技能资源并登记冷却，不启动种子/植物攻击，不混入plantdamage。",
+    "velkoz_q": "因明确重施/分裂分支排除，不对所有ACTIVE使用统一重复收费。"
+  },
+  "expectedIndependentReadback": {
+    "GETs": 175,
+    "newObjects": 15,
+    "expectedChangedCollections": 15,
+    "unchangedResponsesIncludingTimestamps": 145,
+    "businessWrites": 0
+  },
+  "executionConditions": [
+    "26来源及工具、01至04原字节均须保持；写前工具实时重核160现值和15个详情404。",
+    "仅执行冻结15POST，布隆cost先于过程且过程先于规则。",
+    "06已存在或结果不确定时先查实际落地，不重放。",
+    "单次写入后独立只读回读并独占保存07。"
+  ],
+  "validationLimits": {
+    "HTTP": "本次评审0HTTP，只核冻结GET及前批独立回读证据",
+    "database": "未直接访问数据库",
+    "browser": "认证不可用，页面待验",
+    "runtime": "未开发宿主、冷却、资源、施法时序或命中运行；零登记步骤不是施法时长结论"
+  },
+  "blockingFindings": []
+}

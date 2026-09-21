@@ -1,0 +1,61 @@
+{
+  "at": "2026-09-20T11:25:14.933Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "browserBusinessSaves": 3,
+  "checks": [
+    {
+      "route": "/skills/olaf_r/effects/passive_armor",
+      "status": "PASS",
+      "reopenedAfterSave": true,
+      "observed": {
+        "name": "诸神黄昏被动护甲",
+        "description": "常驻自身护甲，按当前已学R等级1至3持续重新读取passive_resist；由已有初始化入口建立单层实例，不把来源初始化当成升级事件。主动攻击力、净化免控、持续延长和朝向加速分别维护。",
+        "valueReadMode": "到当前时点重新读取",
+        "stackValueMode": "整个实例共享数值",
+        "instanceScope": "按来源对象",
+        "expiryMode": "仅显式移除"
+      },
+      "parameter": "passive_resist"
+    },
+    {
+      "route": "/skills/olaf_r/effects/passive_magic_resistance",
+      "status": "PASS",
+      "reopenedAfterSave": true,
+      "observed": {
+        "name": "诸神黄昏被动魔抗",
+        "description": "常驻自身魔法抗性，按当前已学R等级1至3持续重新读取passive_resist；由已有初始化入口建立单层实例，不把来源初始化当成升级事件。主动分支继续分别维护。",
+        "valueReadMode": "到当前时点重新读取",
+        "stackValueMode": "整个实例共享数值",
+        "instanceScope": "按来源对象",
+        "expiryMode": "仅显式移除"
+      },
+      "parameter": "passive_resist"
+    },
+    {
+      "route": "/skills/zaahen_r/effects/armor_penetration",
+      "status": "PASS",
+      "reopenedAfterSave": true,
+      "observed": {
+        "name": "大赦常驻护甲穿透",
+        "description": "常驻自身护甲穿透比例，按当前已学R等级1至3持续重新读取armor_penetration_ratio；已有初始化入口建立单层实例。主动伤害、治疗、施放减伤、位移和生存链继续单列。",
+        "valueReadMode": "到当前时点重新读取",
+        "stackValueMode": "整个实例共享数值",
+        "instanceScope": "按来源对象",
+        "expiryMode": "仅显式移除"
+      },
+      "childResultDescription": "已有来源初始化规则建立自身单层实例；常驻属性按当前已学R等级重新取值，原比例单位与乘区保留。",
+      "parameter": "armor_penetration_ratio"
+    }
+  ],
+  "diagnostics": {
+    "warnings": [],
+    "errors": []
+  },
+  "interactionNotes": [
+    "子结果保存只更新父效果草稿，父效果各保存一次。",
+    "引用目录更新时先等候当前详情，再用实际页面标签定位。一次radio.setChecked未生效后核对现值并改点对应文字，未因此发生重复业务写入。"
+  ],
+  "putBodyOrStatusCaptured": false,
+  "runtimeValidation": "未执行"
+}

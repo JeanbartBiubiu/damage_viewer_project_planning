@@ -1,0 +1,1136 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "阿木木ER普通使用与明确本体返回",
+  "generatedAt": "2026-09-21T12:33:22.549Z",
+  "targets": [
+    {
+      "skillKey": "amumu_e",
+      "ownerKey": "champion_amumu"
+    },
+    {
+      "skillKey": "amumu_r",
+      "ownerKey": "champion_amumu"
+    }
+  ],
+  "scope": "E普通已接受使用登记与R基础250毫秒施法过程，E/R明确未阻挡本体魔法伤害，以及R明确未阻挡且本来源实例不存在时的首次眩晕。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Amumu.json.gz",
+      "sha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Amumu.json",
+      "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/00-当前组成一次只读.json",
+      "sha256": "5a949102ae3c311729b7a589fd1cc0fab8465f40262b1cebc2ae73308b72453d"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/01-固定原文直接核对.json",
+      "sha256": "e366d439e2e06e367f786196baf3cf7b474502d4cd2cbda30f68733c65ea38c3"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/02-公式现值核算.json",
+      "sha256": "44a8b5e4a96d5362e14cd2936d48cb4f37f8b802aee6ba104fc7d56e9c1052ac"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/03-独立固定来源核对.json",
+      "sha256": "35915d90641cce7f49cefadfe734b9cc87186ee76a2a54ffff3f818e97c04411"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/04-受限返回范围.json",
+      "sha256": "17025a113f4a3b8748796620752b71641b9996b5c2cf385a521afed62655e4b3"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十五批/输入包/参考资料/属性默认与边界.json",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/卢锡安Q实际命中返回/02-普通物理技能伤害交互核对.json",
+      "sha256": "da9a9179b08cc0a30d659a9da6b494d99e0f9a50c53cbda4eb589dbbac0f8ac3"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/布兰德E与墨菲特ER使用流程补录/01-候选方案.json",
+      "sha256": "b7f1c8e992f04544e4e4348100c49bba10151e33540232cbf7b3ebc5474cfb75"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项控制技能普通使用返回/07-独立回读.json",
+      "sha256": "0c54b7ce8b64f616d59cf1b4ed8611e5f5647a8e769529c1b64799a14119e7f5"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/三项控制技能明确未阻挡本体伤害返回/07-独立回读.json",
+      "sha256": "477ecd68d4780e9db1f330e853fd83e47242857ef31be1eb6cdc81cc279c4ccb"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/阿木木Q明确未阻挡首次眩晕返回/05-独立评审.json",
+      "sha256": "348b8f045103bdd7c02ad127af88815c1af162e7ad081b927e94e4a1e8f5932f"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/阿木木Q明确未阻挡首次眩晕返回/07-独立回读.json",
+      "sha256": "99dda078aff79f49a50dc1529397aae1f6843110d0df033b7cb251fbb8ca21b0"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/amumu_e/processes",
+      "detailRoute": "/skills/amumu_e/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次已接受普通主动使用的基础法力消耗与普通冷却；立即步骤不表示完整施法时长为零，不生成实际命中或控制结果。完整施法时序、伤害与控制分支分别核对。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次已接受普通主动使用的基础法力消耗与普通冷却；立即步骤不表示完整施法时长为零，不生成实际命中或控制结果。完整施法时序、伤害与控制分支分别核对。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_e/trigger-rules",
+      "detailRoute": "/skills/amumu_e/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "本技能每次已接受普通主动使用时启动基础消耗与普通冷却登记；不由命中反推使用，不把事件后的动作作为施放前许可，也不触发伤害或控制。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "amumu_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "本技能每次已接受普通主动使用时启动基础消耗与普通冷却登记；不由命中反推使用，不把事件后的动作作为施放前许可，也不触发伤害或控制。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "amumu_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_r/processes",
+      "detailRoute": "/skills/amumu_r/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "施放木乃伊之咒",
+        "activationType": "ACTIVE",
+        "description": "绑定已核对的法力、普通冷却和250毫秒施法延迟；不在过程结束时自动造成伤害，实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "主技能spellCastTime已核对为250毫秒。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "施放木乃伊之咒",
+        "activationType": "ACTIVE",
+        "description": "绑定已核对的法力、普通冷却和250毫秒施法延迟；不在过程结束时自动造成伤害，实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "主技能spellCastTime已核对为250毫秒。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_r/trigger-rules",
+      "detailRoute": "/skills/amumu_r/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动木乃伊之咒施法过程",
+        "description": "接收amumu_r主动使用并启动已有cast过程，只处理已保存的法力消耗、普通冷却和250毫秒施法延迟；实际命中由独立规则处理，诅咒与其他控制联动继续另行维护。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "amumu_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动木乃伊之咒施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动木乃伊之咒施法过程",
+        "description": "接收amumu_r主动使用并启动已有cast过程，只处理已保存的法力消耗、普通冷却和250毫秒施法延迟；实际命中由独立规则处理，诅咒与其他控制联动继续另行维护。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "amumu_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动木乃伊之咒施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_e/effects",
+      "detailRoute": "/skills/amumu_e/effects/primary_hit",
+      "body": {
+        "description": "专供同次amumu_e本体合资格实际命中法术护盾结果明确为0的敌方英雄入口；只结算本体魔法伤害，不重复判断法术护盾，空粒度不表示穿盾。被动、诅咒及控制分别处理。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "阿木木的愤怒明确未阻挡本体伤害",
+        "results": [
+          {
+            "description": "仅在受限入口已确认同次本体命中未被阻挡时引用tantrum_damage；不从空护盾粒度反推未阻挡，也不把持续场或重复碰撞自行生成新的伤害命中。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "tantrum_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      },
+      "expectedReadback": {
+        "description": "专供同次amumu_e本体合资格实际命中法术护盾结果明确为0的敌方英雄入口；只结算本体魔法伤害，不重复判断法术护盾，空粒度不表示穿盾。被动、诅咒及控制分别处理。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "阿木木的愤怒明确未阻挡本体伤害",
+        "results": [
+          {
+            "description": "仅在受限入口已确认同次本体命中未被阻挡时引用tantrum_damage；不从空护盾粒度反推未阻挡，也不把持续场或重复碰撞自行生成新的伤害命中。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "tantrum_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_e/trigger-rules",
+      "detailRoute": "/skills/amumu_e/trigger-rules/actual_unblocked_hit",
+      "body": {
+        "ruleKey": "actual_unblocked_hit",
+        "name": "明确未阻挡阿木木的愤怒本体命中伤害",
+        "description": "同组要求amumu_e范围内敌方英雄的合资格本体实际命中、同次法术护盾结果明确为0；缺值或1均不执行。不从使用或施法延迟结束生成命中，不处理被动、诅咒或控制。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "amumu_e"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮明确未阻挡敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行阿木木的愤怒本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_unblocked_hit",
+        "name": "明确未阻挡阿木木的愤怒本体命中伤害",
+        "description": "同组要求amumu_e范围内敌方英雄的合资格本体实际命中、同次法术护盾结果明确为0；缺值或1均不执行。不从使用或施法延迟结束生成命中，不处理被动、诅咒或控制。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "amumu_e",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮明确未阻挡敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行阿木木的愤怒本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_r/effects",
+      "detailRoute": "/skills/amumu_r/effects/primary_hit",
+      "body": {
+        "description": "专供同次amumu_r本体合资格实际命中法术护盾结果明确为0的敌方英雄入口；只结算本体魔法伤害，不重复判断法术护盾，空粒度不表示穿盾。被动、诅咒及控制分别处理。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "木乃伊之咒明确未阻挡本体伤害",
+        "results": [
+          {
+            "description": "仅在受限入口已确认同次本体命中未被阻挡时引用damage；不从空护盾粒度反推未阻挡，也不把持续场或重复碰撞自行生成新的伤害命中。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      },
+      "expectedReadback": {
+        "description": "专供同次amumu_r本体合资格实际命中法术护盾结果明确为0的敌方英雄入口；只结算本体魔法伤害，不重复判断法术护盾，空粒度不表示穿盾。被动、诅咒及控制分别处理。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "木乃伊之咒明确未阻挡本体伤害",
+        "results": [
+          {
+            "description": "仅在受限入口已确认同次本体命中未被阻挡时引用damage；不从空护盾粒度反推未阻挡，也不把持续场或重复碰撞自行生成新的伤害命中。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_r/trigger-rules",
+      "detailRoute": "/skills/amumu_r/trigger-rules/actual_unblocked_hit",
+      "body": {
+        "ruleKey": "actual_unblocked_hit",
+        "name": "明确未阻挡木乃伊之咒本体命中伤害",
+        "description": "同组要求amumu_r范围内敌方英雄的合资格本体实际命中、同次法术护盾结果明确为0；缺值或1均不执行。不从使用或施法延迟结束生成命中，不处理被动、诅咒或控制。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "amumu_r"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮明确未阻挡敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行木乃伊之咒本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_unblocked_hit",
+        "name": "明确未阻挡木乃伊之咒本体命中伤害",
+        "description": "同组要求amumu_r范围内敌方英雄的合资格本体实际命中、同次法术护盾结果明确为0；缺值或1均不执行。不从使用或施法延迟结束生成命中，不处理被动、诅咒或控制。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "amumu_r",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮明确未阻挡敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行木乃伊之咒本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_r/effects",
+      "detailRoute": "/skills/amumu_r/effects/first_hit_stun",
+      "body": {
+        "description": "仅供木乃伊之咒本体合资格实际命中敌方英雄、同次法术护盾判定明确未阻挡且无本来源眩晕实例的入口；引用1500毫秒参数，不处理诅咒、重施或其他免控分支。",
+        "effectKey": "first_hit_stun",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "stun_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "木乃伊之咒首次施加眩晕",
+        "results": [
+          {
+            "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "vertigo"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "本次木乃伊之咒眩晕",
+            "resultKey": "stun",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "sortOrder": 30
+      },
+      "expectedReadback": {
+        "description": "仅供木乃伊之咒本体合资格实际命中敌方英雄、同次法术护盾判定明确未阻挡且无本来源眩晕实例的入口；引用1500毫秒参数，不处理诅咒、重施或其他免控分支。",
+        "effectKey": "first_hit_stun",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "stun_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "木乃伊之咒首次施加眩晕",
+        "results": [
+          {
+            "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "vertigo"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "本次木乃伊之咒眩晕",
+            "resultKey": "stun",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_r/trigger-rules",
+      "detailRoute": "/skills/amumu_r/trigger-rules/apply_stun_on_unblocked_hit",
+      "body": {
+        "ruleKey": "apply_stun_on_unblocked_hit",
+        "name": "木乃伊之咒命中且无本来源实例时眩晕",
+        "description": "仅接收amumu_r范围内敌方英雄的合资格本体实际命中；同组要求英雄、明确敌方、同次法术护盾阻挡值等于0及无本来源眩晕实例。缺值不默认0，实例不存在不代替命中资格；重施、诅咒和其他免控分支另核。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "amumu_r"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "stun_eligible",
+            "name": "本次首次眩晕可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_stun_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "first_hit_stun",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_stun",
+            "name": "施加本次眩晕",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "first_hit_stun"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "apply_stun_on_unblocked_hit",
+        "name": "木乃伊之咒命中且无本来源实例时眩晕",
+        "description": "仅接收amumu_r范围内敌方英雄的合资格本体实际命中；同组要求英雄、明确敌方、同次法术护盾阻挡值等于0及无本来源眩晕实例。缺值不默认0，实例不存在不代替命中资格；重施、诅咒和其他免控分支另核。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "amumu_r",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "stun_eligible",
+            "name": "本次首次眩晕可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_stun_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "first_hit_stun",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_stun",
+            "name": "施加本次眩晕",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "first_hit_stun"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ]
+}

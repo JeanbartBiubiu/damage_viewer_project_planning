@@ -1,0 +1,285 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/sivir_q/processes",
+      "detailRoute": "/skills/sivir_q/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，实际伤害仍由已有命中规则执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，实际伤害仍由已有命中规则执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sivir_q/trigger-rules",
+      "detailRoute": "/skills/sivir_q/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "本技能主动使用时启动消耗与冷却登记；不定义完整施法时长，不生成实际命中，原实际命中规则保持。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sivir_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "本技能主动使用时启动消耗与冷却登记；不定义完整施法时长，不生成实际命中，原实际命中规则保持。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "sivir_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/tristana_r/trigger-rules",
+      "detailRoute": "/skills/tristana_r/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "毁灭射击主动使用入口",
+        "description": "本技能主动使用时启动现有施放过程，登记法力、普通冷却及已核定的施法延迟；实际伤害和控制仍由原命中规则处理。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "tristana_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动已有施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "毁灭射击主动使用入口",
+        "description": "本技能主动使用时启动现有施放过程，登记法力、普通冷却及已核定的施法延迟；实际伤害和控制仍由原命中规则处理。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "tristana_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动已有施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/xinzhao_e/trigger-rules",
+      "detailRoute": "/skills/xinzhao_e/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "无畏冲锋主动使用入口",
+        "description": "本技能主动使用时启动现有消耗与冷却登记过程；即时登记不代表完整冲锋时长，不生成命中、攻速或减速。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "xinzhao_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动已有施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "无畏冲锋主动使用入口",
+        "description": "本技能主动使用时启动现有消耗与冷却登记过程；即时登记不代表完整冲锋时长，不生成命中、攻速或减速。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "xinzhao_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动已有施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "0a0f8928131f046043a2ec6ed3afd5d8290183d3576e172eb0352ed731aea29f",
+  "baselineSha256": "33621678baebf34e49272c4bc3735e986f991ce20fa89be7db520651cd00f5bd"
+}

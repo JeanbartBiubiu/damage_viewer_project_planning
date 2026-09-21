@@ -1,0 +1,1474 @@
+{
+  "toolExitCode": 0,
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T02:02:17.041Z\",\"businessWrites\":0,\"GETs\":153,\"unchangedResponsesIncludingTimestamps\":125,\"expectedChangedCollections\":14,\"newObjects\":{\"/skills/kennen_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:00:31.833385Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"凯南·奥义！千鸟命中伤害\",\"results\":[{\"description\":\"引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"kennen_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:00:31.833385Z\"},\"/skills/kennen_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行凯南·奥义！千鸟伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 kennen_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"kennen_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"凯南·奥义！千鸟实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/teemo_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:00:35.644311Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"提莫·致盲吹箭命中伤害\",\"results\":[{\"description\":\"引用当前技能的 magic_damage 公式；基础数值和法强加成保持现有配置。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"teemo_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:00:35.644311Z\"},\"/skills/teemo_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行提莫·致盲吹箭伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 teemo_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"teemo_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"提莫·致盲吹箭实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/gragas_e/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:00:38.813127Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"古拉加斯·肉弹冲击命中伤害\",\"results\":[{\"description\":\"引用当前技能的 magic_damage 公式；基础数值和法强加成保持现有配置。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"gragas_e\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:00:38.813127Z\"},\"/skills/gragas_e/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行古拉加斯·肉弹冲击伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 gragas_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"gragas_e\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"古拉加斯·肉弹冲击实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/gragas_r/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:00:41.993984Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"古拉加斯·爆破酒桶命中伤害\",\"results\":[{\"description\":\"引用当前技能的 magic_damage 公式；基础数值和法强加成保持现有配置。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"magic_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"gragas_r\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:00:41.993984Z\"},\"/skills/gragas_r/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行古拉加斯·爆破酒桶伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 gragas_r 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"gragas_r\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"古拉加斯·爆破酒桶实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/lissandra_q/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:00:45.055511Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"丽桑卓·寒冰碎片命中伤害\",\"results\":[{\"description\":\"引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"lissandra_q\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:00:45.055511Z\"},\"/skills/lissandra_q/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行丽桑卓·寒冰碎片伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 lissandra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"lissandra_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"丽桑卓·寒冰碎片实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/lissandra_w/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:00:48.189279Z\",\"description\":\"本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"丽桑卓·冰霜之环命中伤害\",\"results\":[{\"description\":\"引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"lissandra_w\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:00:48.189279Z\"},\"/skills/lissandra_w/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行丽桑卓·冰霜之环伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 lissandra_w 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"lissandra_w\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"丽桑卓·冰霜之环实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10},\"/skills/lissandra_e/effects/primary_hit\":{\"createdAt\":\"2026-09-19T02:00:51.299238Z\",\"description\":\"冰爪实际命中敌方英雄时的一次直接魔法技能伤害；再次施放的传送不是伤害入口。\",\"effectKey\":\"primary_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"丽桑卓·冰川之径命中伤害\",\"results\":[{\"description\":\"引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"lissandra_e\",\"sortOrder\":20,\"updatedAt\":\"2026-09-19T02:00:51.299238Z\"},\"/skills/lissandra_e/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"execute_primary_hit\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"primary_hit\"},\"name\":\"执行丽桑卓·冰川之径伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"只消费已确认的 lissandra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。 仅对应冰爪的实际命中，不把再次施放传送当成命中。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"lissandra_e\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"丽桑卓·冰川之径实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":10}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/kennen_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_kennen\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_kennen/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_kennen/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_kennen\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=kennen_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/parameters/energy_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/parameters/calculation_constant_1\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/effects/energy_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/kennen_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_teemo\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_teemo/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_teemo/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_teemo\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=teemo_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/parameters/blind_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/teemo_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_gragas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_gragas/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_gragas/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_gragas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=gragas_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/parameters/control_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/parameters/cooldown_refund_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_e/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=gragas_r\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/parameters/knockback_distance\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/gragas_r/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_lissandra\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_lissandra/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_lissandra/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_lissandra\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=lissandra_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/parameters/slow_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/parameters/slow_percent\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/parameters/ap_ratio_constant\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=lissandra_w\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/parameters/snare_duration_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/parameters/ap_ratio_constant\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_w/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=lissandra_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/parameters/ap_ratio_constant\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/lissandra_e/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/magic\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/ability_power\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/energy\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/mana\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T02:02:17.041Z",
+    "businessWrites": 0,
+    "GETs": 153,
+    "unchangedResponsesIncludingTimestamps": 125,
+    "expectedChangedCollections": 14,
+    "newObjects": {
+      "/skills/kennen_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:00:31.833385Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "凯南·奥义！千鸟命中伤害",
+        "results": [
+          {
+            "description": "引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "kennen_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:31.833385Z"
+      },
+      "/skills/kennen_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行凯南·奥义！千鸟伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 kennen_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "kennen_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "凯南·奥义！千鸟实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/teemo_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:00:35.644311Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "提莫·致盲吹箭命中伤害",
+        "results": [
+          {
+            "description": "引用当前技能的 magic_damage 公式；基础数值和法强加成保持现有配置。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "teemo_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:35.644311Z"
+      },
+      "/skills/teemo_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行提莫·致盲吹箭伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 teemo_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "teemo_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "提莫·致盲吹箭实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/gragas_e/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:00:38.813127Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "古拉加斯·肉弹冲击命中伤害",
+        "results": [
+          {
+            "description": "引用当前技能的 magic_damage 公式；基础数值和法强加成保持现有配置。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "gragas_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:38.813127Z"
+      },
+      "/skills/gragas_e/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行古拉加斯·肉弹冲击伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 gragas_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "gragas_e",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "古拉加斯·肉弹冲击实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/gragas_r/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:00:41.993984Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "古拉加斯·爆破酒桶命中伤害",
+        "results": [
+          {
+            "description": "引用当前技能的 magic_damage 公式；基础数值和法强加成保持现有配置。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "gragas_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:41.993984Z"
+      },
+      "/skills/gragas_r/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行古拉加斯·爆破酒桶伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 gragas_r 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "gragas_r",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "古拉加斯·爆破酒桶实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/lissandra_q/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:00:45.055511Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "丽桑卓·寒冰碎片命中伤害",
+        "results": [
+          {
+            "description": "引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lissandra_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:45.055511Z"
+      },
+      "/skills/lissandra_q/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行丽桑卓·寒冰碎片伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 lissandra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "lissandra_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "丽桑卓·寒冰碎片实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/lissandra_w/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:00:48.189279Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "丽桑卓·冰霜之环命中伤害",
+        "results": [
+          {
+            "description": "引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lissandra_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:48.189279Z"
+      },
+      "/skills/lissandra_w/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行丽桑卓·冰霜之环伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 lissandra_w 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "lissandra_w",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "丽桑卓·冰霜之环实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "/skills/lissandra_e/effects/primary_hit": {
+        "createdAt": "2026-09-19T02:00:51.299238Z",
+        "description": "冰爪实际命中敌方英雄时的一次直接魔法技能伤害；再次施放的传送不是伤害入口。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "丽桑卓·冰川之径命中伤害",
+        "results": [
+          {
+            "description": "引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "SKILL",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lissandra_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:51.299238Z"
+      },
+      "/skills/lissandra_e/trigger-rules/actual_hit": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行丽桑卓·冰川之径伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 lissandra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。 仅对应冰爪的实际命中，不把再次施放传送当成命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "lissandra_e",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "丽桑卓·冰川之径实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_kennen",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_kennen/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_kennen/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_kennen",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=kennen_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/parameters/energy_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/parameters/calculation_constant_1",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/effects/energy_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/kennen_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_teemo",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_teemo/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_teemo/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_teemo",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=teemo_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/parameters/blind_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/teemo_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_gragas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_gragas/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_gragas/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_gragas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=gragas_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/parameters/control_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/parameters/cooldown_refund_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_e/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=gragas_r",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/parameters/knockback_distance",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/gragas_r/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_lissandra",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_lissandra/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_lissandra/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_lissandra",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=lissandra_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/parameters/slow_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/parameters/slow_percent",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/parameters/ap_ratio_constant",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=lissandra_w",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/parameters/snare_duration_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/parameters/ap_ratio_constant",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_w/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=lissandra_e",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/parameters/ap_ratio_constant",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/parameters/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/formulas/damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lissandra_e/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/damage-types/magic",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/ability_power",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/energy",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/mana",
+        "status": 200
+      }
+    ]
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "title": "卡特琳娜Q无资源普通冷却首次页面",
+  "planRevision": 1,
+  "at": "2026-09-19T08:12:37.770Z",
+  "executionMode": "BROWSER_UI_ONLY",
+  "targets": [
+    {
+      "skillKey": "katarina_q",
+      "ownerKey": "champion_katarina"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Katarina.json",
+      "sha256": "2278baf5fe3501dd1b5b6f035ee96d8bdb0dc43393aeef34dd52c5ea40da7415"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Katarina.json.gz",
+      "sha256": "b3c1eb6d1c679ed63bb42955497d634fc6fac256f4c2b1b109479dfea9dbfce8"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/katarina_q/processes",
+      "detailRoute": "/skills/katarina_q/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "弹射之刃基础施放与冷却",
+        "activationType": "ACTIVE",
+        "description": "本技能无资源消耗，仅保存250毫秒基础施法时间和开始时普通冷却；效果挂接与内部状态操作为空。实际命中由已有入口处理，落地匕首与被动联动仍待核。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_delay",
+            "name": "基础施法时间",
+            "description": "固定来源spellCastTime为0.25秒，读取既有250毫秒参数；此步骤不代替实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "弹射之刃基础施放与冷却",
+        "activationType": "ACTIVE",
+        "description": "本技能无资源消耗，仅保存250毫秒基础施法时间和开始时普通冷却；效果挂接与内部状态操作为空。实际命中由已有入口处理，落地匕首与被动联动仍待核。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_delay",
+            "name": "基础施法时间",
+            "description": "固定来源spellCastTime为0.25秒，读取既有250毫秒参数；此步骤不代替实际命中。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/katarina_q/trigger-rules",
+      "detailRoute": "/skills/katarina_q/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "弹射之刃主动使用",
+        "description": "本技能已成立的主动使用启动无资源消耗的基础施放与冷却过程；不以延迟结束伪造命中，匕首及被动联动单列待核。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "katarina_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动基础施放",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "弹射之刃主动使用",
+        "description": "本技能已成立的主动使用启动无资源消耗的基础施放与冷却过程；不以延迟结束伪造命中，匕首及被动联动单列待核。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "katarina_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动基础施放",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "source": {
+    "rootSpell": "Characters/Katarina/Spells/KatarinaQAbility/KatarinaQ",
+    "resource": "无消耗",
+    "cooldownSeconds": [
+      11,
+      10,
+      9,
+      8,
+      7
+    ],
+    "castTimeMs": 250
+  },
+  "boundary": "仅验证已有普通冷却可独立构成过程行为的修复，不增加虚构消耗效果；原伤害及命中保持，落地匕首与被动联动继续。"
+}

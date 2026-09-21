@@ -1,0 +1,214 @@
+{
+  "schemaVersion": "authoring.independent-review.v1",
+  "status": "APPROVED",
+  "title": "四项后续命中伤害吸血资格纠错独立评审",
+  "reviewedAt": "2026-09-19T08:02:36.3427058+08:00",
+  "reviewer": "/root/eight_direct_damage_audit",
+  "mode": "静态冻结审查；未访问业务API、数据库、浏览器、Wasm或战斗运行；只新建本文件",
+  "scope": {
+    "worktree": "C:\\project\\damage_web_dev",
+    "directory": "数据参考/全量录入-2026-09/交叉试录/四项后续命中伤害吸血资格纠错",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "plannedPUTs": 4,
+    "baselineGETs": 80,
+    "baselineStatusCounts": {
+      "200": 80
+    },
+    "businessWritesDuringReview": 0,
+    "excluded": [
+      "真实PUT、写后独立回读、浏览器、宿主/Wasm和战斗运行",
+      "Kassadin Q 当前未保存DAMAGE的独立补漏",
+      "Veigar E 无伤害来源，本批不动",
+      "旧Web阶段文件不作为当前进度或游戏事实来源"
+    ]
+  },
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-damage-vamp.mjs": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "01-纠错计划.json": "1119c0bd13b221b53ee02e1ce90f5790cf700ea92aa1dc31fde2eaf769cdc0c1",
+    "02-冻结请求.json": "4eaaf1c34ff76073756f01326fab7e1fedaa4e57fde3d7528e49a9f83b2482a5",
+    "03-来源摘要.json": "a4a44965ac99ff18cc3d4be770ee02e6e69e1fb3c4f1edd1273bc7ab355ad3ed",
+    "04-写入前现值.json": "9e97cf5397b03d82ffc65d5396d773e2c029ec65ebf8f4551443e10005e0adb1"
+  },
+  "supportingFiles": {
+    "00-六项只读候选.json": "2354b86ca08072f00c5131adb6e19858096ef6f660342ad72dc7412b945dd8ed",
+    "00a-候选请求审计.json": "aadd72aece7f40a72d7ddc5a37ffe43b3aa5b275107acc88efd2cc04e31de9a4"
+  },
+  "toolReview": {
+    "candidatePath": "tools/authoring/update-reviewed-damage-vamp.mjs",
+    "candidateSha256": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "expectedSha256": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "match": true,
+    "boundedContract": [
+      "只接受01计划中的效果PUT路由，并要求每个目标效果lifecycle为null且仅含一个DAMAGE结果。",
+      "普通DAMAGE资格固定为TARGET、magic、SKILL、DIRECT、critical DISALLOWED；旧vampRules必须为空。",
+      "正文只克隆现有效果并改父description及该DAMAGE结果的OMNIVAMP/POST_DEFENSE_DAMAGE/固定效率1。",
+      "非prepare阶段绑定工具、01至04完整散列，写入前保护全量现值，每笔PUT后立即独立GET回读。"
+    ],
+    "noToolMutation": true
+  },
+  "sourceAndBaseline": {
+    "sourceVersions": {
+      "client": "16.17",
+      "official": "16.17.1"
+    },
+    "sourceFileCount": 27,
+    "sourceFilesAllMatch": true,
+    "sourceHashesCheckedAgainstCurrentBytes": true,
+    "sourceConclusion": "空vampRules不继承普通全能吸血；本批显式写入OMNIVAMP、POST_DEFENSE_DAMAGE、效率1。该定义不等同于实际扣血、吸血回收或运行时证明。",
+    "sourceCorrectionsRecorded": [
+      "00旧候选中‘空数组不代表不能吸血’的追加说明错误已由01统一纠正。",
+      "01明确旧Web阶段文件只作历史定位，当前正式现值来自本批GET；不冻结旧阶段文件。",
+      "Kassadin Q 当前没有已保存DAMAGE是独立补漏，不表示原技能没有伤害；Veigar E 无伤害来源。"
+    ]
+  },
+  "frozenLinkage": {
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "requestCount": 4,
+    "allMethodsPUT": true,
+    "distinctRoutes": true,
+    "routes": [
+      "/skills/ivern_q/effects/damage",
+      "/skills/ahri_e/effects/charm_hit",
+      "/skills/diana_e/effects/lunar_rush_hit",
+      "/skills/ashe_r/effects/hit_damage"
+    ],
+    "targetSkills": ["ivern_q", "ahri_e", "diana_e", "ashe_r"],
+    "sourceSha256BoundTo03": true,
+    "baselineSha256BoundTo04": true,
+    "sourceSha256": "a4a44965ac99ff18cc3d4be770ee02e6e69e1fb3c4f1edd1273bc7ab355ad3ed",
+    "baselineSha256": "9e97cf5397b03d82ffc65d5396d773e2c029ec65ebf8f4551443e10005e0adb1"
+  },
+  "targetEvidence": [
+    {
+      "skillKey": "ivern_q",
+      "effectKey": "damage",
+      "effectRoute": "/skills/ivern_q/effects/damage",
+      "resultType": "DAMAGE",
+      "target": "TARGET",
+      "damageTypeKey": "magic",
+      "deliveryKind": "SKILL",
+      "originKind": "DIRECT",
+      "critical": "DISALLOWED",
+      "spellShieldBlockScope": "RESULT",
+      "lifecycle": null,
+      "vampRulesBefore": [],
+      "formulaKey": "magic_damage",
+      "actualHitRoute": "/skills/ivern_q/trigger-rules/actual_hit",
+      "actualHitExecutesEffect": true,
+      "currentNumericFormulaAndParametersPreserved": true
+    },
+    {
+      "skillKey": "ahri_e",
+      "effectKey": "charm_hit",
+      "effectRoute": "/skills/ahri_e/effects/charm_hit",
+      "resultType": "DAMAGE",
+      "target": "TARGET",
+      "damageTypeKey": "magic",
+      "deliveryKind": "SKILL",
+      "originKind": "DIRECT",
+      "critical": "DISALLOWED",
+      "spellShieldBlockScope": "RESULT",
+      "lifecycle": null,
+      "vampRulesBefore": [],
+      "formulaKey": "damage",
+      "actualHitRoute": "/skills/ahri_e/trigger-rules/actual_hit",
+      "actualHitExecutesEffect": true,
+      "currentNumericFormulaAndParametersPreserved": true
+    },
+    {
+      "skillKey": "diana_e",
+      "effectKey": "lunar_rush_hit",
+      "effectRoute": "/skills/diana_e/effects/lunar_rush_hit",
+      "resultType": "DAMAGE",
+      "target": "TARGET",
+      "damageTypeKey": "magic",
+      "deliveryKind": "SKILL",
+      "originKind": "DIRECT",
+      "critical": "DISALLOWED",
+      "spellShieldBlockScope": "RESULT",
+      "lifecycle": null,
+      "vampRulesBefore": [],
+      "formulaKey": "damage",
+      "actualHitRoute": "/skills/diana_e/trigger-rules/actual_hit",
+      "actualHitExecutesEffect": true,
+      "currentNumericFormulaAndParametersPreserved": true
+    },
+    {
+      "skillKey": "ashe_r",
+      "effectKey": "hit_damage",
+      "effectRoute": "/skills/ashe_r/effects/hit_damage",
+      "resultType": "DAMAGE",
+      "target": "TARGET",
+      "damageTypeKey": "magic",
+      "deliveryKind": "SKILL",
+      "originKind": "DIRECT",
+      "critical": "DISALLOWED",
+      "spellShieldBlockScope": "RESULT",
+      "lifecycle": null,
+      "fixedMinValueBefore": null,
+      "fixedMinValueInFrozenBody": null,
+      "vampRulesBefore": [],
+      "formulaKey": "hit_damage",
+      "actualHitRoute": "/skills/ashe_r/trigger-rules/actual_hit",
+      "actualHitExecutesEffect": true,
+      "currentNumericFormulaAndParametersPreserved": true
+    }
+  ],
+  "requestProtection": {
+    "allFourDescriptionsMatch01Plan": true,
+    "allFourBodiesMatchCurrent04ExceptDescriptionAndVampRules": true,
+    "allFourExpectedReadbacksMatchCurrent04ExceptDescriptionAndVampRules": true,
+    "allFourVampRulesMatch": true,
+    "allFourOriginalResultsRemainSingleDAMAGE": true,
+    "allFourOriginalFormulasAndParameterValuesRemainUnchanged": true,
+    "allFourTargetsAndCriticalModesRemainUnchanged": true,
+    "allFourSpellShieldScopesRemainRESULT": true,
+    "asheRFixedMinValueNullPreserved": true,
+    "actualHitRulesPreserved": true,
+    "noKassadinQOrVeigarERequest": true
+  },
+  "checks": [
+    {
+      "name": "工具与01至04完整原始字节绑定",
+      "status": "PASS",
+      "evidence": "工具SHA为181c182b...，02为4eaaf1c3...；现场重算01、02、03、04并核对02.sourceSha256/02.baselineSha256均与对应文件一致。"
+    },
+    {
+      "name": "27项来源原字节散列",
+      "status": "PASS",
+      "evidence": "03-来源摘要列出27项，按web/planning根解析后27项均存在，当前原始字节SHA-256逐项一致。"
+    },
+    {
+      "name": "80GET写前基线",
+      "status": "PASS",
+      "evidence": "04包含80个唯一GET路径，响应全部200，method全为GET，businessWrites=0；当前四项目标效果均存在且空vampRules。"
+    },
+    {
+      "name": "四项资格与入口",
+      "status": "PASS",
+      "evidence": "IvernQ、AhriE、DianaE、AsheR均为单一TARGET/DAMAGE/magic/SKILL/DIRECT结果，critical=DISALLOWED、法术护盾粒度RESULT、lifecycle=null；各自actual_hit规则执行对应效果。"
+    },
+    {
+      "name": "冻结请求只改允许字段",
+      "status": "PASS",
+      "evidence": "4条PUT路由与01一致；父说明改为‘入口已配置’并去除空列表误导，结果只将vampRules从空数组改为OMNIVAMP/POST_DEFENSE_DAMAGE/固定效率1；名称、数值、公式、目标、暴击、法术护盾、生命周期、其他结果和入口均保持。"
+    },
+    {
+      "name": "AsheR边界",
+      "status": "PASS",
+      "evidence": "AsheR hit_damage 的fixedMinValue在04现值、02 body及expectedReadback中均为null，未被擅改为0。"
+    },
+    {
+      "name": "排除项边界",
+      "status": "PASS",
+      "evidence": "KassadinQ缺少已保存DAMAGE与VeigarE无伤害来源均明确排除；未把两项排除写成原技能无伤害或整项完成结论。"
+    },
+    {
+      "name": "运行边界",
+      "status": "PASS",
+      "evidence": "本评审未调用API或数据库；GET基线和既有actual_hit配置只证明管理数据与入口配置，不证明宿主/Wasm、真实命中或吸血回收运行。"
+    }
+  ],
+  "conclusion": "APPROVED：未发现阻塞项；主负责人可在保持工具及01至04原始散列、现值和四项字段保护不漂移的前提下进入后续写入阶段。"
+}

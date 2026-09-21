@@ -1,0 +1,238 @@
+{
+  "startedAt": "2026-09-19T08:23:31.381Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "route": "/skills/urgot_q/parameters/slow_percent_points",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T21:00:59.246986Z",
+          "description": "客户端SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为百分数点。普通减速结果读取本参数时乘0.01还原为比例，再按0至1上下界处理；保留原浮点精度。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 44.999998807907104,
+            "2": 50,
+            "3": 55.000001192092896,
+            "4": 60.00000238418579,
+            "5": 64.99999761581421
+          },
+          "name": "腐蚀电荷减速百分数点",
+          "parameterKey": "slow_percent_points",
+          "skillKey": "urgot_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-19T08:23:30.667503Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T21:00:59.246986Z",
+        "description": "客户端SlowAmount技能等级1至5取索引1至5；原始比例乘100后保存为百分数点。普通减速结果读取本参数时乘0.01还原为比例，再按0至1上下界处理；保留原浮点精度。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 44.999998807907104,
+          "2": 50,
+          "3": 55.000001192092896,
+          "4": 60.00000238418579,
+          "5": 64.99999761581421
+        },
+        "name": "腐蚀电荷减速百分数点",
+        "parameterKey": "slow_percent_points",
+        "skillKey": "urgot_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-19T08:23:30.667503Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/urgot_q/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:05:25.381803Z",
+          "description": "DDragon16.17.1各级消耗70法力，与客户端根技能数值一致。当前基础施放过程在开始时引用本参数扣除法力；其他过程资格与净除联动仍需另行核对，不代表战斗运行已验证。",
+          "fixedValue": 70,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "urgot_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T08:23:32.031954Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-08T02:05:25.381803Z",
+        "description": "DDragon16.17.1各级消耗70法力，与客户端根技能数值一致。当前基础施放过程在开始时引用本参数扣除法力；其他过程资格与净除联动仍需另行核对，不代表战斗运行已验证。",
+        "fixedValue": 70,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "urgot_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T08:23:32.031954Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "82c394f5a58b86492a78c5a2cd4f726c2c8942a62be4dac51d29beed50edced4",
+    "02-冻结请求.json": "a887d3721509f95dc35b475a3e62961ed5b45956c1c8e7d397f76eaa64e33e17",
+    "03-来源摘要.json": "d34cd38bb9b98d1ad0c3a80127b3ce55dbcd51a29d91b04c24c5e2cb4e0a33bf",
+    "04-写入前现值.json": "e1adc5a33410f8535a279b4a194aa69fe26d1a3c982fb1cd12c57dd105e00e52"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T08:23:34.112Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/formulas/physical_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/effects/corrosive_charge_slow",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/trigger-rules/apply_slow_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/urgot_q/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/urgot_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/urgot_q/parameters/mana_cost",
+      "status": 200
+    }
+  ]
+}

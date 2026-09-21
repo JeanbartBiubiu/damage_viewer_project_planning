@@ -1,0 +1,34 @@
+{
+  "command": [
+    "node",
+    "C:\\project\\damage_web_dev\\tools\\authoring\\reviewed-status-ui-v2.mjs",
+    "readback",
+    "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\沉默状态补齐\\目录首次页面"
+  ],
+  "toolPath": "C:\\project\\damage_web_dev\\tools\\authoring\\reviewed-status-ui-v2.mjs",
+  "toolSha256": "d63dc75fcbfdc23055e0c43e7f22f9dd9fcc14f1aa41d4020e18cc83df7ebda3",
+  "batchPath": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\沉默状态补齐\\目录首次页面",
+  "stdoutBytes": 797,
+  "stdoutSha256": "851388ba640b294439c82d559717a66b458fbe0b3334ecb7eaf799347837c1e1",
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T16:44:42.177Z\",\"businessWrites\":0,\"GETs\":5,\"unchangedResponsesIncludingTimestamps\":3,\"expectedChangedCollections\":1,\"newObjects\":{\"/statuses/silence\":{\"createdAt\":\"2026-09-19T16:42:34.531835Z\",\"description\":\"沉默状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。\",\"gameId\":\"lol\",\"name\":\"沉默\",\"sortOrder\":30,\"status\":\"ENABLED\",\"statusKey\":\"silence\",\"statusKind\":\"SILENCE\",\"updatedAt\":\"2026-09-19T16:42:34.531835Z\"}},\"audit\":[{\"method\":\"GET\",\"path\":\"/statuses\",\"status\":200},{\"method\":\"GET\",\"path\":\"/statuses/vertigo\",\"status\":200},{\"method\":\"GET\",\"path\":\"/statuses/movement_slow\",\"status\":200},{\"method\":\"GET\",\"path\":\"/statuses/root\",\"status\":200},{\"method\":\"GET\",\"path\":\"/statuses/silence\",\"status\":200}]}\n",
+  "status": "PASS",
+  "GETs": 5,
+  "businessWrites": 0,
+  "unchangedOldStatusDetailsIncludingTimestamps": 3,
+  "keptOldStatusRoutes": [
+    "/statuses/vertigo",
+    "/statuses/movement_slow",
+    "/statuses/root"
+  ],
+  "newSilence": {
+    "createdAt": "2026-09-19T16:42:34.531835Z",
+    "description": "沉默状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+    "gameId": "lol",
+    "name": "沉默",
+    "sortOrder": 30,
+    "status": "ENABLED",
+    "statusKey": "silence",
+    "statusKind": "SILENCE",
+    "updatedAt": "2026-09-19T16:42:34.531835Z"
+  }
+}

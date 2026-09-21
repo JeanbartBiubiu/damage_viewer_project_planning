@@ -1,0 +1,136 @@
+{
+  "reviewedAt": "2026-09-19T20:10:08.377Z",
+  "reviewKind": "魅惑状态迁移独立静态评审",
+  "reviewScope": {
+    "included": [
+      "只读核对03实库写前结构与07迁移候选范围",
+      "静态核对候选SQL与执行器的目标、锁、旧约束、正文时间戳、完整旧数据保护",
+      "静态核对旧沉默SQL与旧执行器未被修改或重放"
+    ],
+    "excluded": [
+      "数据库连接、SQL调用、API调用",
+      "把候选文件复制到正式路径",
+      "执行迁移或建立状态行",
+      "修改任何既有文件"
+    ]
+  },
+  "decision": {
+    "status": "BLOCKED_UNTIL_INDEPENDENT_READBACK",
+    "approvedForCopyAndExecution": false,
+    "reason": "候选执行器只有同一数据库连接上的即时回读，未建立提交后独立连接回读；用户要求独立连接回读通过后才能执行。"
+  },
+  "baseline": {
+    "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/魅惑状态补齐/03-实库写前结构.json",
+    "sha256": "bf5f9718ab414a4022301586cdb47cee6e7ab518959bcb2250a4b99694baf90b",
+    "database": "test0221",
+    "host": "192.168.5.6",
+    "tableCount": 27,
+    "statusRows": 4,
+    "skillEffectsRows": 973,
+    "skillObjectReferencesRows": 9356,
+    "oldConstraint": "CHECK (((status_kind)::text = ANY ((ARRAY['STUN'::character varying, 'MOVEMENT_SLOW'::character varying, 'ROOT'::character varying, 'SILENCE'::character varying])::text[])))",
+    "statusBodiesAndTimestamps": "03中四条状态正文、created_at、updated_at均作为本次旧值基线。",
+    "businessWrites": 0,
+    "readOnlyTransaction": true
+  },
+  "candidateBinding": {
+    "rangePath": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/魅惑状态补齐/07-迁移候选范围.json",
+    "rangeSha256": "ff52a9570a1b5fae28636f93969f343c72d4b25b346bb5d78413b1290a924de6",
+    "sqlDraftPath": "C:/project/damage_backend_dev/output/charm-status-preflight/add_charm_status_kind.sql.review",
+    "sqlDraftSha256": "0832b2f0464fa586604b68741b5414baeab77c592a544b2d2587da5b9e837c72",
+    "plannedSqlPath": "C:/project/damage_backend_dev/db/game_manage/migrations/add_charm_status_kind.sql",
+    "runnerDraftPath": "C:/project/damage_backend_dev/output/charm-status-preflight/ApplyCharmStatusKind.java.review",
+    "runnerDraftSha256": "dd51e81639f574575336a130fcd8e5b9193752e82f58e17138773c6fe309726e",
+    "plannedRunnerPath": "C:/project/damage_backend_dev/tools/authoring/ApplyCharmStatusKind.java",
+    "requiredByteRule": "批准后只能将上述两个候选文件原字节写入对应正式路径；本评审未写入。"
+  },
+  "staticChecks": {
+    "baselineStatusJsonMatchesSqlLiterals": {
+      "pass": true,
+      "detail": "候选SQL中的两组jsonb_to_recordset四条状态正文与03基线逐字段一致，包含description、status、sort_order及两个时间戳。"
+    },
+    "exactOldFourValueCheck": {
+      "pass": true,
+      "detail": "候选SQL前置条件按约束名、CHECK类型、已验证状态和pg_get_constraintdef精确匹配STUN、MOVEMENT_SLOW、ROOT、SILENCE四值。"
+    },
+    "baselineCounts": {
+      "pass": true,
+      "detail": "候选SQL前置条件固定 statuses=4、skill_effects=973、skill_object_references=9356；与03一致。"
+    },
+    "lockCoverage": {
+      "pass": true,
+      "statements": [
+        "public.games IN SHARE ROW EXCLUSIVE MODE",
+        "public.statuses IN ACCESS EXCLUSIVE MODE",
+        "public.skill_effects、public.skill_object_references IN SHARE ROW EXCLUSIVE MODE"
+      ]
+    },
+    "onlyIntendedSchemaChange": {
+      "pass": true,
+      "detail": "静态语句除事务、超时、锁、临时快照、前置/后置DO外，仅DROP/ADD statuses.ck_statuses_kind与COMMENT ON statuses.status_kind；无INSERT、UPDATE、DELETE、TRUNCATE或新表。"
+    },
+    "newConstraint": {
+      "pass": true,
+      "detail": "新约束保留旧四值并只追加CHARM；后置DO再次要求已验证约束精确含CHARM。"
+    },
+    "oldDataProtection": {
+      "sqlLevel": "有。事务内对statuses、skill_effects、skill_object_references建立to_jsonb临时快照，并在改约束后做双向EXCEPT ALL比较；旧状态前置还比较完整正文和时间戳。",
+      "runnerLevel": "有同连接即时回读。前后快照比较tables、statuses、columns、statusReferences、skill_effects、skill_object_references；效果与引用按完整to_jsonb正文排序并计算摘要。",
+      "limitation": "两层都没有满足用户要求的提交后独立连接回读；执行器的最后输出仍写着independentReadback=pending。"
+    },
+    "oldSilenceArtifacts": {
+      "sqlPath": "C:/project/damage_backend_dev/db/game_manage/migrations/add_silence_status_kind.sql",
+      "sqlSha256": "4250939622c27508ed12fc6095bf5a8d9e112a8fa453a9cb408a6a6386c458",
+      "runnerPath": "C:/project/damage_backend_dev/tools/authoring/ApplySilenceStatusKind.java",
+      "runnerSha256": "da4b963eb2ae5d6d44b99a0fda3812b2d8e8b4e65991eee36cbf2b2e35cb9d90",
+      "finding": "旧沉默SQL和旧执行器保持原文件，未被本次评审修改；正式魅惑SQL、执行器和迁移日志路径当前不存在。"
+    }
+  },
+  "runnerAudit": {
+    "targetProtection": {
+      "pass": true,
+      "detail": "执行器只接受--apply，固定SQL摘要、192.168.5.6:5432/test0221，连接超时10秒、套接字超时60秒。"
+    },
+    "journalAndReplay": {
+      "pass": true,
+      "detail": "migration-attempt.jsonl使用Files.createFile创建，CREATE_NEW拒绝已有尝试；提交前、提交返回、异常恢复状态均记录，异常只记录异常类型和SQL状态码，不泄露凭据。"
+    },
+    "immediateReadback": {
+      "pass": true,
+      "detail": "同一Connection在SQL返回后切换只读并完整回读，检查旧正文、效果、引用及CHARM约束。"
+    },
+    "independentReadback": {
+      "pass": false,
+      "blocking": true,
+      "detail": "代码只调用一次DriverManager.getConnection；SQL提交后仍复用变量c执行snapshot，没有第二个独立连接，也没有独立回读日志阶段。"
+    },
+    "commentReadback": {
+      "pass": false,
+      "blocking": false,
+      "detail": "执行器快照没有查询pg_description或obj_description验证列注释；候选SQL静态文本与当前脏工作树schema.sql的CHARM注释一致，属于可补强的回读项。"
+    },
+    "currentWorktreeIntegrationNote": {
+      "backend": [
+        "当前backend/dev工作树的StatusKind.java已在脏改中包含CHARM。",
+        "当前backend/dev工作树的schema.sql已在脏改中追加CHARM与魅惑注释。",
+        "这些脏改属于主负责人现有工作，本评审未修改、未暂存、未回滚。"
+      ],
+      "web": [
+        "当前web/dev工作树的status.ts及相关测试已在脏改中包含CHARM。",
+        "这些脏改不等于数据库迁移已执行，也不改变本次候选SQL/执行器字节审核。"
+      ]
+    }
+  },
+  "requiredResolutionBeforeApproval": [
+    "在ApplyCharmStatusKind.java.review对应执行器中增加提交后第二个独立JDBC连接。",
+    "独立连接只读回读test0221的表清单、四条旧状态正文及时间戳、CHARM约束、skill_effects完整摘要、skill_object_references完整摘要和状态引用集合。",
+    "独立回读通过后再把SQL和执行器原字节写入正式路径；任何提交结果不明时先用独立连接核对，禁止重放。",
+    "可选补强：独立回读同时核对status_kind列注释，但不能用注释回读替代数据完整性检查。"
+  ],
+  "finalAssessment": {
+    "migrationShape": "静态形状通过：锁定范围正确，只扩CHARM与列注释，不新增状态行，旧四条状态正文/时间戳与效果/引用保护均有证据。",
+    "actualBlocker": "执行器缺少提交后独立连接回读，当前不能批准复制正式文件或执行。",
+    "noExecutionEvidence": "本次未调用数据库、未调用API、未复制候选文件、未创建迁移日志、businessWrites=0。",
+    "scopeBoundary": "本评审只覆盖CHARM身份约束迁移；阿狸E伴随减速/移动中止/重施、萨勒芬妮R距离延伸/重施以及战斗运行继续单列。"
+  }
+}

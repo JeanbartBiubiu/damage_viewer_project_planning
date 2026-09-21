@@ -1,0 +1,627 @@
+{
+  "at": "2026-09-20T12:16:33.584Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/ambessa_e": {
+      "createdAt": "2026-09-06T18:16:21.672016Z",
+      "description": "安蓓萨环绕自身挥舞链刃，对附近的敌人们造成伤害和减速。若在施放该技能后使用【龙犬诡步】，则会在冲刺结束时进行第二次打击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "安蓓萨·血戮",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "ambessa_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:21.672016Z"
+    },
+    "/characters/champion_ambessa": {
+      "characterKey": "champion_ambessa",
+      "createdAt": "2026-09-06T17:03:23.407706Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "安蓓萨",
+      "updatedAt": "2026-09-06T17:03:23.407706Z"
+    },
+    "/characters/champion_ambessa/attributes": {
+      "characterKey": "champion_ambessa",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 630,
+          "hp_regen": 8.5,
+          "armor": 35,
+          "magic_resistance": 32,
+          "attack_damage": 63,
+          "attack_speed": 0.625,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 709.2,
+          "hp_regen": 9.04,
+          "armor": 38.528,
+          "magic_resistance": 33.476,
+          "attack_damage": 65.16,
+          "attack_speed": 0.63625,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 792.25,
+          "hp_regen": 9.60625,
+          "armor": 42.2275,
+          "magic_resistance": 35.02375,
+          "attack_damage": 67.425,
+          "attack_speed": 0.648047,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 879.15,
+          "hp_regen": 10.19875,
+          "armor": 46.0985,
+          "magic_resistance": 36.64325,
+          "attack_damage": 69.795,
+          "attack_speed": 0.660391,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 969.9,
+          "hp_regen": 10.8175,
+          "armor": 50.141,
+          "magic_resistance": 38.3345,
+          "attack_damage": 72.27,
+          "attack_speed": 0.673281,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1064.5,
+          "hp_regen": 11.4625,
+          "armor": 54.355,
+          "magic_resistance": 40.0975,
+          "attack_damage": 74.85,
+          "attack_speed": 0.686719,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1162.95,
+          "hp_regen": 12.13375,
+          "armor": 58.7405,
+          "magic_resistance": 41.93225,
+          "attack_damage": 77.535,
+          "attack_speed": 0.700703,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1265.25,
+          "hp_regen": 12.83125,
+          "armor": 63.2975,
+          "magic_resistance": 43.83875,
+          "attack_damage": 80.325,
+          "attack_speed": 0.715234,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1371.4,
+          "hp_regen": 13.555,
+          "armor": 68.026,
+          "magic_resistance": 45.817,
+          "attack_damage": 83.22,
+          "attack_speed": 0.730313,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1481.4,
+          "hp_regen": 14.305,
+          "armor": 72.926,
+          "magic_resistance": 47.867,
+          "attack_damage": 86.22,
+          "attack_speed": 0.745938,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1595.25,
+          "hp_regen": 15.08125,
+          "armor": 77.9975,
+          "magic_resistance": 49.98875,
+          "attack_damage": 89.325,
+          "attack_speed": 0.762109,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1712.95,
+          "hp_regen": 15.88375,
+          "armor": 83.2405,
+          "magic_resistance": 52.18225,
+          "attack_damage": 92.535,
+          "attack_speed": 0.778828,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1834.5,
+          "hp_regen": 16.7125,
+          "armor": 88.655,
+          "magic_resistance": 54.4475,
+          "attack_damage": 95.85,
+          "attack_speed": 0.796094,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1959.9,
+          "hp_regen": 17.5675,
+          "armor": 94.241,
+          "magic_resistance": 56.7845,
+          "attack_damage": 99.27,
+          "attack_speed": 0.813906,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 2089.15,
+          "hp_regen": 18.44875,
+          "armor": 99.9985,
+          "magic_resistance": 59.19325,
+          "attack_damage": 102.795,
+          "attack_speed": 0.832266,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2222.25,
+          "hp_regen": 19.35625,
+          "armor": 105.9275,
+          "magic_resistance": 61.67375,
+          "attack_damage": 106.425,
+          "attack_speed": 0.851172,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2359.2,
+          "hp_regen": 20.29,
+          "armor": 112.028,
+          "magic_resistance": 64.226,
+          "attack_damage": 110.16,
+          "attack_speed": 0.870625,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2500,
+          "hp_regen": 21.25,
+          "armor": 118.3,
+          "magic_resistance": 66.85,
+          "attack_damage": 114,
+          "attack_speed": 0.890625,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_ambessa/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_ambessa",
+        "name": "champion_ambessa"
+      }
+    },
+    "/skills/ambessa_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_ambessa_e",
+        "name": "ambessa_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_ambessa": {
+      "items": [
+        {
+          "characterKey": "champion_ambessa",
+          "characterName": "安蓓萨",
+          "gameId": "lol",
+          "skillKey": "ambessa_p",
+          "skillName": "安蓓萨·龙犬诡步",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_ambessa",
+          "characterName": "安蓓萨",
+          "gameId": "lol",
+          "skillKey": "ambessa_q",
+          "skillName": "安蓓萨·暗袭 / 裂斩",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_ambessa",
+          "characterName": "安蓓萨",
+          "gameId": "lol",
+          "skillKey": "ambessa_w",
+          "skillName": "安蓓萨·铁令",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_ambessa",
+          "characterName": "安蓓萨",
+          "gameId": "lol",
+          "skillKey": "ambessa_e",
+          "skillName": "安蓓萨·血戮",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_ambessa",
+          "characterName": "安蓓萨",
+          "gameId": "lol",
+          "skillKey": "ambessa_r",
+          "skillName": "安蓓萨·公开处刑",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=ambessa_e": {
+      "items": [
+        {
+          "characterKey": "champion_ambessa",
+          "characterName": "安蓓萨",
+          "gameId": "lol",
+          "skillKey": "ambessa_e",
+          "skillName": "安蓓萨·血戮",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/ambessa_e/parameters": [
+      {
+        "createdAt": "2026-09-09T20:03:42.745343Z",
+        "description": "当前Slow_Duration=1秒，转换为1000毫秒。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "血戮减速持续时间（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "ambessa_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T20:03:42.745343Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:03:44.041419Z",
+        "description": "当前正文以Slow_Amount×100显示99%减速；保留0.99比例。",
+        "fixedValue": 0.99000001,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "血戮减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "ambessa_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T20:03:44.041419Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T20:03:45.294469Z",
+        "description": "当前Damage_Flat_Base技能等级1至5为40/60/80/100/120。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 60,
+          "3": 80,
+          "4": 100,
+          "5": 120
+        },
+        "name": "血戮单一敌人基础物理伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ambessa_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T20:03:45.294469Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T20:03:46.490787Z",
+        "description": "当前Calc_Damage_Flat的mStat=2、mStatFormula=2，系数0.5为来源额外攻击力。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "血戮额外攻击力比例",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "ambessa_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T20:03:46.490787Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:35:54.654596Z",
+        "description": "DDragon16.17.1 Ambessa.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12000,
+          "3": 11000,
+          "4": 10000,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ambessa_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:35:54.654596Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/ambessa_e/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T20:03:42.745343Z",
+      "description": "当前Slow_Duration=1秒，转换为1000毫秒。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "血戮减速持续时间（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "ambessa_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T20:03:42.745343Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ambessa_e/parameters/slow_ratio": {
+      "createdAt": "2026-09-09T20:03:44.041419Z",
+      "description": "当前正文以Slow_Amount×100显示99%减速；保留0.99比例。",
+      "fixedValue": 0.99000001,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "血戮减速比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "ambessa_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T20:03:44.041419Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ambessa_e/parameters/base_damage": {
+      "createdAt": "2026-09-09T20:03:45.294469Z",
+      "description": "当前Damage_Flat_Base技能等级1至5为40/60/80/100/120。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 40,
+        "2": 60,
+        "3": 80,
+        "4": 100,
+        "5": 120
+      },
+      "name": "血戮单一敌人基础物理伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "ambessa_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T20:03:45.294469Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ambessa_e/parameters/bonus_ad_ratio": {
+      "createdAt": "2026-09-09T20:03:46.490787Z",
+      "description": "当前Calc_Damage_Flat的mStat=2、mStatFormula=2，系数0.5为来源额外攻击力。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "血戮额外攻击力比例",
+      "parameterKey": "bonus_ad_ratio",
+      "skillKey": "ambessa_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T20:03:46.490787Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ambessa_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:35:54.654596Z",
+      "description": "DDragon16.17.1 Ambessa.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 13000,
+        "2": 12000,
+        "3": 11000,
+        "4": 10000,
+        "5": 9000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "ambessa_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:35:54.654596Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ambessa_e/formulas": [
+      {
+        "createdAt": "2026-09-09T20:03:47.697885Z",
+        "description": "当前Calc_Damage_Flat=Damage_Flat_Base+0.5×来源额外攻击力。",
+        "formulaKey": "physical_damage",
+        "gameId": "lol",
+        "name": "血戮单一敌人物理伤害",
+        "skillKey": "ambessa_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T20:03:47.697885Z"
+      }
+    ],
+    "/skills/ambessa_e/formulas/physical_damage": {
+      "createdAt": "2026-09-09T20:03:47.697885Z",
+      "description": "当前Calc_Damage_Flat=Damage_Flat_Base+0.5×来源额外攻击力。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "physical_damage",
+      "gameId": "lol",
+      "name": "血戮单一敌人物理伤害",
+      "skillKey": "ambessa_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T20:03:47.697885Z"
+    },
+    "/skills/ambessa_e/effects": [],
+    "/skills/ambessa_e/processes": [],
+    "/skills/ambessa_e/internal-states": [],
+    "/skills/ambessa_e/trigger-rules": [],
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ambessa",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ambessa/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ambessa/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_ambessa",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=ambessa_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/parameters/bonus_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/formulas/physical_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ambessa_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

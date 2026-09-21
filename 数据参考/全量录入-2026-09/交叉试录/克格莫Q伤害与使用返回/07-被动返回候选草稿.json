@@ -1,0 +1,106 @@
+{
+  "at": "2026-09-20T09:41:58.204Z",
+  "status": "待独立来源结论；须在前批保存后重新冻结现值",
+  "scope": "既有持续属性取值方式与两处过时说明，不修改参数值、生命周期、乘区或初始化动作",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/kogmaw_q/effects/passive_attack_speed",
+      "body": {
+        "description": "在已学习Q的1至5级范围内，持续按当前技能等级提供额外攻击速度；属性结算时重新读取passive_attack_speed_ratio，沿用单层按来源对象实例和已有初始化入口，不需要用重复初始化模拟升级。未学习时的资格不得补成默认等级；战斗运行未验证。",
+        "effectKey": "passive_attack_speed",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "腐蚀唾液被动额外攻速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "腐蚀唾液被动额外攻速",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "passive_attack_speed_ratio"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      },
+      "allowedChanges": [
+        "description",
+        "results[0].lifecycleBehavior.valueReadMode",
+        "results[0].lifecycleBehavior.reapplicationValueMode"
+      ]
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/kogmaw_q/trigger-rules/initialize_passive_attack_speed",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "execute_passive_attack_speed",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "passive_attack_speed"
+            },
+            "name": "执行腐蚀唾液被动攻速",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有passive_attack_speed，建立单层常驻自身攻速；效果在属性结算时按当前已学Q等级重新取值，不把初始化事件当升级事件。主动使用与命中由各自入口维护，双抗削减和有效施放时长继续单列。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化腐蚀唾液被动攻速",
+        "perTargetCooldown": null,
+        "sortOrder": 10
+      },
+      "allowedChanges": [
+        "description"
+      ]
+    }
+  ],
+  "businessWrites": 0,
+  "runtimeValidation": "未执行"
+}

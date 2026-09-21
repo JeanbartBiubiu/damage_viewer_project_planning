@@ -1,0 +1,5451 @@
+{
+  "schemaVersion": "damage.magic-hit-candidates.report.v1",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "generatedAt": "2026-09-18T22:38:31.305Z",
+  "purpose": "限定五项普通实际命中魔法伤害候选的只读核定报告",
+  "scope": {
+    "gameId": "lol",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "targets": [
+      "veigar_q",
+      "veigar_w",
+      "annie_q",
+      "brand_q",
+      "xerath_e"
+    ],
+    "include": "只核对本次直接魔法伤害：技能等级参数、来源总法术强度、DAMAGE结果、TARGET目标和合法 SKILL_HIT 消费规则",
+    "exclude": [
+      "法力消耗与普通冷却的新增或修订",
+      "ROOT/眩晕及其他控制",
+      "周期伤害",
+      "被动层数与击杀收益",
+      "宿主/Wasm开发、战斗运行和浏览器验收"
+    ],
+    "authorization": "只读调查；无业务写入",
+    "tokenHandling": "每个取数进程只在内存使用非空 Bearer；报告不保存令牌"
+  },
+  "planningBaseline": {
+    "path": "数据参考/全量录入-2026-09/阶段进度.json",
+    "sha256": "c09677ff6908c149c92566308e7381b40418a02de604c152040f4c1891c32595",
+    "sourceVersion": "16.17.1",
+    "generatedAt": "2026-09-18T22:21:11.014Z",
+    "rowPointers": {
+      "veigar_q": "/inventoryConclusions/skills[741]",
+      "brand_q": "/inventoryConclusions/skills[86]",
+      "xerath_e": "/inventoryConclusions/skills[793]",
+      "annie_q": "/inventoryConclusions/skills[41]",
+      "veigar_w": "/inventoryConclusions/skills[742]"
+    },
+    "entries": [
+      {
+        "sourceChampionId": "Annie",
+        "sourceNumericId": "1",
+        "championName": "安妮",
+        "slot": "Q",
+        "skillKey": "annie_q",
+        "name": "安妮·碎裂之火",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroSecondBatch",
+        "candidateSha256": null,
+        "evidenceRefs": [
+          "skillThirdStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Brand",
+        "sourceNumericId": "63",
+        "championName": "布兰德",
+        "slot": "Q",
+        "skillKey": "brand_q",
+        "name": "布兰德·火焰烙印",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroSecondBatch",
+        "candidateSha256": null,
+        "evidenceRefs": [
+          "skillThirdStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Veigar",
+        "sourceNumericId": "45",
+        "championName": "维迦",
+        "slot": "Q",
+        "skillKey": "veigar_q",
+        "name": "维迦·黑暗祭祀",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourthBatch",
+        "candidateSha256": null,
+        "evidenceRefs": [
+          "skillThirdStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Veigar",
+        "sourceNumericId": "45",
+        "championName": "维迦",
+        "slot": "W",
+        "skillKey": "veigar_w",
+        "name": "维迦·黑暗物质",
+        "conclusion": "系统暂缓",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "pendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 1,
+          "other": 0
+        },
+        "batchKey": "heroFourthBatch",
+        "candidateSha256": null,
+        "evidenceRefs": [
+          "skillThirdStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      },
+      {
+        "sourceChampionId": "Xerath",
+        "sourceNumericId": "101",
+        "championName": "泽拉斯",
+        "slot": "E",
+        "skillKey": "xerath_e",
+        "name": "泽拉斯·冲击法球",
+        "conclusion": "资料待核",
+        "conclusionScope": "技能范围内数据与机制",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "pendingCounts": {
+          "source": 3,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "batchKey": "heroFourteenthBatch",
+        "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+        "evidenceRefs": [
+          "skillSecondStageCurrentReadback",
+          "heroSourceInventory"
+        ]
+      }
+    ],
+    "sourceIndex": {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+      "sha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8"
+    },
+    "mechanismBatches": [
+      {
+        "batchKey": "heroSecondBatch",
+        "jsonPointer": "/mechanismBatches/heroSecondBatch",
+        "status": "部分录入",
+        "skills": [
+          "malphite_p",
+          "malphite_q",
+          "malphite_w",
+          "malphite_e",
+          "malphite_r",
+          "missfortune_p",
+          "missfortune_q",
+          "missfortune_w",
+          "missfortune_e",
+          "missfortune_r",
+          "annie_p",
+          "annie_q",
+          "annie_w",
+          "annie_e",
+          "annie_r",
+          "brand_p",
+          "brand_q",
+          "brand_w",
+          "brand_e",
+          "brand_r"
+        ],
+        "parameters": 124,
+        "formulas": 27,
+        "effects": 39,
+        "processes": 7,
+        "internalStates": 0,
+        "triggerRules": 9,
+        "runtimeValidation": "未执行",
+        "evidence": {
+          "worktree": "C:\\project\\damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/回读摘要.json"
+        },
+        "evidencePath": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第二批\\回读摘要.json",
+        "evidenceSha256": "c1178a9e09ade9a913865dd102a435dc7a264235b83d34b9854dcad8d305d2ba"
+      },
+      {
+        "batchKey": "heroFourthBatch",
+        "jsonPointer": "/mechanismBatches/heroFourthBatch",
+        "status": "部分录入；历史未证等级表已纠正，黛安娜两动态攻速效果与五自动规则撤下，公式和其余组成保留，仍需实际等级输入与接线",
+        "skills": [
+          "ahri_p",
+          "ahri_q",
+          "ahri_w",
+          "ahri_e",
+          "ahri_r",
+          "darius_p",
+          "darius_q",
+          "darius_w",
+          "darius_e",
+          "darius_r",
+          "diana_p",
+          "diana_q",
+          "diana_w",
+          "diana_e",
+          "diana_r",
+          "veigar_p",
+          "veigar_q",
+          "veigar_w",
+          "veigar_e",
+          "veigar_r"
+        ],
+        "parameters": 138,
+        "formulas": 26,
+        "effects": 42,
+        "processes": 11,
+        "internalStates": 0,
+        "triggerRules": 6,
+        "runtimeValidation": "未执行",
+        "evidence": {
+          "worktree": "C:\\project\\damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/最终回读摘要.json"
+        },
+        "evidencePath": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第四批\\最终回读摘要.json",
+        "evidenceSha256": "83bc740dbbc372c586a4f8f352e3ce32c919562eb8e4cddee9766ebd4c87d17f"
+      },
+      {
+        "batchKey": "heroFourteenthBatch",
+        "jsonPointer": "/mechanismBatches/heroFourteenthBatch",
+        "status": null,
+        "skills": [
+          "kennen_p",
+          "kennen_q",
+          "kennen_w",
+          "kennen_e",
+          "kennen_r",
+          "velkoz_p",
+          "velkoz_q",
+          "velkoz_w",
+          "velkoz_e",
+          "velkoz_r",
+          "ziggs_p",
+          "ziggs_q",
+          "ziggs_w",
+          "ziggs_e",
+          "ziggs_r",
+          "xerath_p",
+          "xerath_q",
+          "xerath_w",
+          "xerath_e",
+          "xerath_r"
+        ],
+        "parameters": 154,
+        "formulas": 34,
+        "effects": 25,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0,
+        "runtimeValidation": "未执行",
+        "evidence": {
+          "worktree": "C:/project/damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十四批/当前实录状态.json",
+          "commit": "852e021a"
+        },
+        "evidencePath": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十四批\\当前实录状态.json",
+        "evidenceSha256": "d9190de8ab2d1bbd2123f296804e820eae2b8c7c92ef06157d91c0ded78bc08b"
+      }
+    ]
+  },
+  "matureReference": {
+    "title": "库奇Q与崔斯特Q完整补录",
+    "files": [
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+        "sha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/05-独立评审.json",
+        "sha256": "4cc04a5f7ab69942672925c372fef3daceec0a01d13a26e56cb878f3977c7462"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/07-独立回读.json",
+        "sha256": "f6e032a2808ef0bdb1fb55ec1821957ec22dd06c93f2c1ee7936af476462d695"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/09-证据清单.json",
+        "sha256": "fff6955b3c244f0dd5a933f9c13950c1ee879beaa70ae6caacc29c4a493bcd00"
+      }
+    ],
+    "candidateSchema": "damage.authoring.candidate.v1",
+    "observedPattern": {
+      "directDamageEffect": {
+        "resultType": "DAMAGE",
+        "target": "TARGET",
+        "valueRule": "FORMULA",
+        "detail": {
+          "damageTypeKey": "magic",
+          "deliveryKind": "SKILL",
+          "originKind": "DIRECT"
+        },
+        "spellShieldBlockScope": "SKILL",
+        "critical": "DISALLOWED"
+      },
+      "actualHitRule": {
+        "eventType": "SKILL_HIT",
+        "eventSourceDetail": "仅 sourceSkillKey",
+        "actionType": "EXECUTE_EFFECT",
+        "targetContext": "CURRENT_TARGET",
+        "conditionGroups": [],
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      },
+      "processBoundary": "命中效果由实际 SKILL_HIT 规则触发；过程不自动制造命中",
+      "categoryCondition": "样例没有无来源的英雄类别条件；只有来源明确要求时才增加"
+    },
+    "reuseBoundary": "样例的 SKILL spellShieldBlockScope、暴击和吸血取值是样例自身证据；本报告对已有四项只回读现值，对泽拉斯E不复制这些交互"
+  },
+  "candidates": [
+    {
+      "skillKey": "veigar_q",
+      "slot": "Q",
+      "name": "维迦·黑暗祭祀",
+      "stageConclusion": "系统暂缓",
+      "stageConclusionScope": "技能范围内数据与机制",
+      "stageReason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+      "stagePendingCounts": {
+        "source": 0,
+        "system": 0,
+        "configuration": 1,
+        "other": 0
+      },
+      "stageBatchKey": "heroFourthBatch",
+      "classification": "已接线",
+      "classificationScope": "仅指本报告限定的普通实际命中魔法伤害分支；不代表整项技能完成",
+      "sourceEvidence": {
+        "officialZh": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Veigar.json",
+          "sha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+          "jsonPointer": "/data/Veigar/spells/0",
+          "version": "16.17.1",
+          "spell": {
+            "id": "VeigarBalefulStrike",
+            "name": "黑暗祭祀",
+            "description": "维迦释放一束黑暗能量，对最先被命中的两个敌人造成魔法伤害。被这个能量束所击杀的单位，会永久地为维迦提供一些法术强度。",
+            "tooltip": "维迦释放一束黑暗能量，对命中的头2个敌人造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。<br /><br />用此技能击杀一个单位，还会为维迦提供{{ spell.veigarpassive:dqkillstacks }}层<keywordMajor>超凡邪恶</keywordMajor>效果。大型小兵和大型野怪会提供{{ spell.veigarpassive:dqkillstackslarge }}层作为替代。{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "1",
+              "2",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "officialEn": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Veigar.json",
+          "sha256": "71eed4440c741f187b3e36900a67e4544b188edb6aba4501ae3d981e494c28c2",
+          "jsonPointer": "/data/Veigar/spells/0",
+          "version": "16.17.1",
+          "spell": {
+            "id": "VeigarBalefulStrike",
+            "name": "Baleful Strike",
+            "description": "Veigar unleashes a bolt of dark energy that deals magic damage to the first two enemies hit. Units killed by this bolt grant Veigar some ability power permanently.",
+            "tooltip": "Veigar unleashes a bolt of dark energy, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> to the first two enemies hit.<br /><br />If Veigar kills an enemy with this Ability, he gains {{ spell.veigarpassive:dqkillstacks }} stack of <keywordMajor>Phenomenal Evil</keywordMajor>. Large minions and large monsters grant {{ spell.veigarpassive:dqkillstackslarge }} stacks instead.{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "1",
+              "2",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz",
+          "compressedSha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc",
+          "rawJsonSha256": "2dbb6f22563ef94b230e24af998836e95d883bb7fd6d39e4f5cc273ad371af78",
+          "contentVersion": null,
+          "jsonPointer": "/Characters~1Veigar~1Spells~1VeigarBalefulStrikeAbility~1VeigarBalefulStrike/mSpell",
+          "objectPath": "Characters/Veigar/Spells/VeigarBalefulStrikeAbility/VeigarBalefulStrike",
+          "dataValues": [
+            {
+              "name": "APRatio",
+              "values": [
+                0.44999998807907104,
+                0.5,
+                0.550000011920929,
+                0.6000000238418579,
+                0.6499999761581421,
+                0.699999988079071,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                40,
+                80,
+                120,
+                160,
+                200,
+                240,
+                280
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "spellCalculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            6.5,
+            6,
+            5.5,
+            5,
+            4.5,
+            4,
+            3.5
+          ],
+          "mana": [
+            30,
+            35,
+            40,
+            45,
+            50,
+            50
+          ],
+          "spellTags": [
+            "Trait_DamageAbility",
+            "Trait_SignatureSpell",
+            "Trait_AoE"
+          ],
+          "targetingType": {
+            "__type": "Location"
+          }
+        },
+        "sourceIndex": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "jsonPointer": "/heroes/146/skills/1",
+          "championPointer": "/heroes/146",
+          "championId": "Veigar",
+          "officialId": "VeigarBalefulStrike",
+          "clientPath": "Characters/Veigar/Spells/VeigarBalefulStrikeAbility/VeigarBalefulStrike",
+          "bindingAvailable": true
+        },
+        "planningStagePointer": "/inventoryConclusions/skills[741]"
+      },
+      "currentManagement": {
+        "skill": {
+          "createdAt": "2026-09-06T18:20:54.808589Z",
+          "description": "维迦释放一束黑暗能量，对最先被命中的两个敌人造成魔法伤害。被这个能量束所击杀的单位，会永久地为维迦提供一些法术强度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "维迦·黑暗祭祀",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "veigar_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:54.808589Z"
+        },
+        "damageParameters": [
+          {
+            "parameterKey": "base_damage",
+            "name": "基础伤害",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 80,
+              "2": 120,
+              "3": 160,
+              "4": 200,
+              "5": 240
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法强倍率",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "DECIMAL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.5,
+              "2": 0.55,
+              "3": 0.6,
+              "4": 0.65,
+              "5": 0.7
+            },
+            "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+            "sortOrder": 50
+          }
+        ],
+        "damageFormula": {
+          "createdAt": "2026-09-07T18:54:08.018604Z",
+          "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "黑暗祭祀基础伤害",
+          "skillKey": "veigar_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:54:08.018604Z"
+        },
+        "formulaExpressionText": "base_damage + ap_ratio × SOURCE 的总法术强度",
+        "inputDependencies": {
+          "skillLevel": "技能等级，使用已有参数 levelValues",
+          "sourceAbilityPower": "SOURCE 的 TOTAL ability_power",
+          "fixedOrRuntimeInputs": [
+            "无额外运行时输入"
+          ]
+        },
+        "directEffect": {
+          "createdAt": "2026-09-07T18:54:09.212789Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "baleful_strike_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "黑暗能量命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "黑暗能量命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "veigar_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:54:09.212789Z"
+        },
+        "actualHitRule": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "baleful_strike_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "veigar_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "黑暗祭祀实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        },
+        "processes": [
+          {
+            "activationType": "ACTIVE",
+            "createdAt": "2026-09-07T18:54:09.776797Z",
+            "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+            "effectBindingCount": 1,
+            "gameId": "lol",
+            "name": "施放黑暗祭祀",
+            "processKey": "cast",
+            "skillKey": "veigar_q",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1,
+            "updatedAt": "2026-09-07T18:54:09.776797Z"
+          }
+        ],
+        "internalStates": [],
+        "directPathDetailRoutes": [
+          "/api/admin/games/lol/skills/veigar_q/formulas/damage",
+          "/api/admin/games/lol/skills/veigar_q/effects/baleful_strike_hit",
+          "/api/admin/games/lol/skills/veigar_q/trigger-rules/actual_hit"
+        ],
+        "parameterDetailReads": 0
+      },
+      "valueSummary": {
+        "formulaKey": "damage",
+        "parameterValues": {
+          "base_damage": {
+            "1": 80,
+            "2": 120,
+            "3": 160,
+            "4": 200,
+            "5": 240
+          },
+          "ap_ratio": {
+            "1": 0.5,
+            "2": 0.55,
+            "3": 0.6,
+            "4": 0.65,
+            "5": 0.7
+          }
+        },
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "expressionText": "base_damage + ap_ratio × SOURCE 的总法术强度"
+      },
+      "remainingOriginalBranches": [
+        "被动击杀获得法术强度仍是独立分支；本次直接伤害只读取施法者当前总法术强度。",
+        "官方说明“前两个敌人”以及弹道/多目标分配不由管理规则生成，按每个实际命中目标结算。"
+      ],
+      "excludedFromThisReport": [
+        "击杀被动层数",
+        "弹道和多目标几何"
+      ],
+      "runtimeBoundary": "管理配置只读核对；未执行宿主/Wasm、战斗运行或浏览器验收",
+      "existingDirectBranchConclusion": "主体、伤害参数、damage 公式、DAMAGE/TARGET/DIRECT/magic 结果和 SKILL_HIT→EXECUTE_EFFECT 链已存在；保留原配置，不重复新增。"
+    },
+    {
+      "skillKey": "veigar_w",
+      "slot": "W",
+      "name": "维迦·黑暗物质",
+      "stageConclusion": "系统暂缓",
+      "stageConclusionScope": "技能范围内数据与机制",
+      "stageReason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+      "stagePendingCounts": {
+        "source": 0,
+        "system": 0,
+        "configuration": 1,
+        "other": 0
+      },
+      "stageBatchKey": "heroFourthBatch",
+      "classification": "已接线",
+      "classificationScope": "仅指本报告限定的普通实际命中魔法伤害分支；不代表整项技能完成",
+      "sourceEvidence": {
+        "officialZh": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Veigar.json",
+          "sha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+          "jsonPointer": "/data/Veigar/spells/1",
+          "version": "16.17.1",
+          "spell": {
+            "id": "VeigarDarkMatter",
+            "name": "黑暗物质",
+            "description": "维迦召唤一大团黑暗物质轰击目标区域，落地造成魔法伤害。【超凡邪力】的层数会缩短这个技能的冷却时间。",
+            "tooltip": "维迦召唤黑暗物质将从天而降，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。<br /><br />每{{ spell.veigarpassive:pstacksperdarkmattercdr }}层<keywordMajor>超凡邪力</keywordMajor>会使这个技能的冷却时间减少{{ spell.veigarpassive:darkmattercdrincrement*100 }}%。{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                1.2,
+                1.2,
+                1.2,
+                1.2,
+                1.2
+              ],
+              [
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "1.2",
+              "8",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "officialEn": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Veigar.json",
+          "sha256": "71eed4440c741f187b3e36900a67e4544b188edb6aba4501ae3d981e494c28c2",
+          "jsonPointer": "/data/Veigar/spells/1",
+          "version": "16.17.1",
+          "spell": {
+            "id": "VeigarDarkMatter",
+            "name": "Dark Matter",
+            "description": "Veigar calls a great mass of dark matter to fall from the sky to the target location, dealing magic damage when it lands. Stacks of Phenomenal Evil reduce Dark Matter's cooldown.",
+            "tooltip": "Veigar summons dark matter from the sky, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage>.<br /><br />Every {{ spell.veigarpassive:pstacksperdarkmattercdr }} stacks of <keywordMajor>Phenomenal Evil</keywordMajor> reduce this Ability's Cooldown by {{ spell.veigarpassive:darkmattercdrincrement*100 }}%.{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                1.2,
+                1.2,
+                1.2,
+                1.2,
+                1.2
+              ],
+              [
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "1.2",
+              "8",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz",
+          "compressedSha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc",
+          "rawJsonSha256": "2dbb6f22563ef94b230e24af998836e95d883bb7fd6d39e4f5cc273ad371af78",
+          "contentVersion": null,
+          "jsonPointer": "/Characters~1Veigar~1Spells~1VeigarDarkMatterAbility~1VeigarDarkMatter/mSpell",
+          "objectPath": "Characters/Veigar/Spells/VeigarDarkMatterAbility/VeigarDarkMatter",
+          "dataValues": [
+            {
+              "name": "APRatio",
+              "values": [
+                0.6000000238418579,
+                0.699999988079071,
+                0.800000011920929,
+                0.8999999761581421,
+                1,
+                1.100000023841858,
+                1.2000000476837158
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                85,
+                140,
+                195,
+                250,
+                305,
+                360
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ImpactDelay",
+              "values": [
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158,
+                1.2000000476837158
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseCooldown",
+              "values": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "spellCalculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "spellTags": [
+            "Trait_DamageAbility",
+            "Trait_AoE"
+          ],
+          "targetingType": {
+            "__type": "Area"
+          }
+        },
+        "sourceIndex": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "jsonPointer": "/heroes/146/skills/2",
+          "championPointer": "/heroes/146",
+          "championId": "Veigar",
+          "officialId": "VeigarDarkMatter",
+          "clientPath": "Characters/Veigar/Spells/VeigarDarkMatterAbility/VeigarDarkMatter",
+          "bindingAvailable": true
+        },
+        "planningStagePointer": "/inventoryConclusions/skills[742]"
+      },
+      "currentManagement": {
+        "skill": {
+          "createdAt": "2026-09-06T18:20:55.106128Z",
+          "description": "维迦召唤一大团黑暗物质轰击目标区域，落地造成魔法伤害。【超凡邪力】的层数会缩短这个技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "维迦·黑暗物质",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "veigar_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:55.106128Z"
+        },
+        "damageParameters": [
+          {
+            "parameterKey": "base_damage",
+            "name": "基础伤害",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 85,
+              "2": 140,
+              "3": 195,
+              "4": 250,
+              "5": 305
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法强倍率",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "DECIMAL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.7,
+              "2": 0.8,
+              "3": 0.9,
+              "4": 1,
+              "5": 1.1
+            },
+            "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+            "sortOrder": 40
+          }
+        ],
+        "damageFormula": {
+          "createdAt": "2026-09-07T18:54:14.854157Z",
+          "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "黑暗物质基础伤害",
+          "skillKey": "veigar_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:54:14.854157Z"
+        },
+        "formulaExpressionText": "base_damage + ap_ratio × SOURCE 的总法术强度",
+        "inputDependencies": {
+          "skillLevel": "技能等级，使用已有参数 levelValues",
+          "sourceAbilityPower": "SOURCE 的 TOTAL ability_power",
+          "fixedOrRuntimeInputs": [
+            "无额外运行时输入"
+          ]
+        },
+        "directEffect": {
+          "createdAt": "2026-09-07T18:54:16.086803Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "dark_matter_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "黑暗物质实际命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "黑暗物质实际命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "veigar_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:54:16.086803Z"
+        },
+        "actualHitRule": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "dark_matter_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "veigar_w",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "黑暗物质实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        },
+        "processes": [],
+        "internalStates": [],
+        "directPathDetailRoutes": [
+          "/api/admin/games/lol/skills/veigar_w/formulas/damage",
+          "/api/admin/games/lol/skills/veigar_w/effects/dark_matter_hit",
+          "/api/admin/games/lol/skills/veigar_w/trigger-rules/actual_hit"
+        ],
+        "parameterDetailReads": 0
+      },
+      "valueSummary": {
+        "formulaKey": "damage",
+        "parameterValues": {
+          "base_damage": {
+            "1": 85,
+            "2": 140,
+            "3": 195,
+            "4": 250,
+            "5": 305
+          },
+          "ap_ratio": {
+            "1": 0.7,
+            "2": 0.8,
+            "3": 0.9,
+            "4": 1,
+            "5": 1.1
+          }
+        },
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "expressionText": "base_damage + ap_ratio × SOURCE 的总法术强度"
+      },
+      "remainingOriginalBranches": [
+        "被动层数缩短冷却，客户端冷却数组为动态占位；现有 base_cooldown_ms 和落下延迟参数不改直接伤害值。",
+        "区域落点和实际命中时点仍由运行层提供。"
+      ],
+      "excludedFromThisReport": [
+        "被动冷却缩短",
+        "区域几何与落点时序"
+      ],
+      "runtimeBoundary": "管理配置只读核对；未执行宿主/Wasm、战斗运行或浏览器验收",
+      "existingDirectBranchConclusion": "主体、伤害参数、damage 公式、DAMAGE/TARGET/DIRECT/magic 结果和 SKILL_HIT→EXECUTE_EFFECT 链已存在；保留原配置，不重复新增。"
+    },
+    {
+      "skillKey": "annie_q",
+      "slot": "Q",
+      "name": "安妮·碎裂之火",
+      "stageConclusion": "系统暂缓",
+      "stageConclusionScope": "技能范围内数据与机制",
+      "stageReason": "已保存明确组成；仍有2个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+      "stagePendingCounts": {
+        "source": 0,
+        "system": 0,
+        "configuration": 2,
+        "other": 0
+      },
+      "stageBatchKey": "heroSecondBatch",
+      "classification": "已接线",
+      "classificationScope": "仅指本报告限定的普通实际命中魔法伤害分支；不代表整项技能完成",
+      "sourceEvidence": {
+        "officialZh": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Annie.json",
+          "sha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735",
+          "jsonPointer": "/data/Annie/spells/0",
+          "version": "16.17.1",
+          "spell": {
+            "id": "AnnieQ",
+            "name": "碎裂之火",
+            "description": "安妮向目标投出注入了法力值的火球，对目标造成魔法伤害。如果目标死于碎裂之火，则碎裂之火消耗的法力值会返还给安妮，且碎裂之火的冷却时间减半。",
+            "tooltip": "安妮投出一团火球，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。如果目标阵亡，那么安妮会返还法力值并缩短50%冷却时间。{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "officialEn": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Annie.json",
+          "sha256": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4",
+          "jsonPointer": "/data/Annie/spells/0",
+          "version": "16.17.1",
+          "spell": {
+            "id": "AnnieQ",
+            "name": "Disintegrate",
+            "description": "Annie hurls a Mana infused fireball, dealing damage and refunding the Mana cost if it destroys the target.",
+            "tooltip": "Annie hurls a fireball, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage>. If the target dies, Annie refunds the Mana cost and reduces the Cooldown by 50%.{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Annie.json.gz",
+          "compressedSha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38",
+          "rawJsonSha256": "92318a3473f127db5b086cdf7a34743becb51ae95196df53911e83f0bd327961",
+          "contentVersion": null,
+          "jsonPointer": "/Characters~1Annie~1Spells~1AnnieQAbility~1AnnieQ/mSpell",
+          "objectPath": "Characters/Annie/Spells/AnnieQAbility/AnnieQ",
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                35,
+                80,
+                125,
+                170,
+                215,
+                260,
+                305
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "spellCalculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "mana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "spellTags": [
+            "Trait_DamageAbility",
+            "Trait_SignatureSpell"
+          ],
+          "targetingType": null
+        },
+        "sourceIndex": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "jsonPointer": "/heroes/8/skills/1",
+          "championPointer": "/heroes/8",
+          "championId": "Annie",
+          "officialId": "AnnieQ",
+          "clientPath": "Characters/Annie/Spells/AnnieQAbility/AnnieQ",
+          "bindingAvailable": true
+        },
+        "planningStagePointer": "/inventoryConclusions/skills[41]"
+      },
+      "currentManagement": {
+        "skill": {
+          "createdAt": "2026-09-06T18:16:26.185014Z",
+          "description": "安妮向目标投出注入了法力值的火球，对目标造成魔法伤害。如果目标死于碎裂之火，则碎裂之火消耗的法力值会返还给安妮，且碎裂之火的冷却时间减半。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "安妮·碎裂之火",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "annie_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:26.185014Z"
+        },
+        "damageParameters": [
+          {
+            "parameterKey": "base_damage",
+            "name": "基础伤害",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 80,
+              "2": 125,
+              "3": 170,
+              "4": 215,
+              "5": 260
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法术强度倍率",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+            "sortOrder": 50
+          }
+        ],
+        "damageFormula": {
+          "createdAt": "2026-09-07T16:37:39.983262Z",
+          "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "碎裂之火伤害",
+          "skillKey": "annie_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:39.983262Z"
+        },
+        "formulaExpressionText": "base_damage + ap_ratio × SOURCE 的总法术强度",
+        "inputDependencies": {
+          "skillLevel": "技能等级，使用已有参数 levelValues",
+          "sourceAbilityPower": "SOURCE 的 TOTAL ability_power",
+          "fixedOrRuntimeInputs": [
+            "无额外运行时输入"
+          ]
+        },
+        "directEffect": {
+          "createdAt": "2026-09-07T16:37:40.698135Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "spell_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "碎裂之火命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "碎裂之火命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "annie_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:37:40.698135Z"
+        },
+        "actualHitRule": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "spell_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "annie_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "碎裂之火实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        },
+        "processes": [
+          {
+            "activationType": "ACTIVE",
+            "createdAt": "2026-09-07T16:37:41.475423Z",
+            "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+            "effectBindingCount": 1,
+            "gameId": "lol",
+            "name": "施放碎裂之火",
+            "processKey": "cast",
+            "skillKey": "annie_q",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1,
+            "updatedAt": "2026-09-07T16:37:41.475423Z"
+          }
+        ],
+        "internalStates": [],
+        "directPathDetailRoutes": [
+          "/api/admin/games/lol/skills/annie_q/formulas/damage",
+          "/api/admin/games/lol/skills/annie_q/effects/spell_hit",
+          "/api/admin/games/lol/skills/annie_q/trigger-rules/actual_hit"
+        ],
+        "parameterDetailReads": 0
+      },
+      "valueSummary": {
+        "formulaKey": "damage",
+        "parameterValues": {
+          "base_damage": {
+            "1": 80,
+            "2": 125,
+            "3": 170,
+            "4": 215,
+            "5": 260
+          },
+          "ap_ratio": 0.8
+        },
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "expressionText": "base_damage + ap_ratio × SOURCE 的总法术强度"
+      },
+      "remainingOriginalBranches": [
+        "目标阵亡返还法力与冷却减半是既有独立效果；本次只核对 Q 实际命中的魔法伤害。"
+      ],
+      "excludedFromThisReport": [
+        "击杀返还与冷却缩短"
+      ],
+      "runtimeBoundary": "管理配置只读核对；未执行宿主/Wasm、战斗运行或浏览器验收",
+      "existingDirectBranchConclusion": "主体、伤害参数、damage 公式、DAMAGE/TARGET/DIRECT/magic 结果和 SKILL_HIT→EXECUTE_EFFECT 链已存在；保留原配置，不重复新增。"
+    },
+    {
+      "skillKey": "brand_q",
+      "slot": "Q",
+      "name": "布兰德·火焰烙印",
+      "stageConclusion": "系统暂缓",
+      "stageConclusionScope": "技能范围内数据与机制",
+      "stageReason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+      "stagePendingCounts": {
+        "source": 0,
+        "system": 0,
+        "configuration": 1,
+        "other": 0
+      },
+      "stageBatchKey": "heroSecondBatch",
+      "classification": "已接线",
+      "classificationScope": "仅指本报告限定的普通实际命中魔法伤害分支；不代表整项技能完成",
+      "sourceEvidence": {
+        "officialZh": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Brand.json",
+          "sha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+          "jsonPointer": "/data/Brand/spells/0",
+          "version": "16.17.1",
+          "spell": {
+            "id": "BrandQ",
+            "name": "火焰烙印",
+            "description": "布兰德向前方放出一团可造成魔法伤害的火球。如果目标带有【烈焰焚身】效果，那么【Q火焰烙印】将使目标晕眩。",
+            "tooltip": "布兰德放出一团火球，对命中的第一个敌人造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。<br /><br />如果目标被<keywordMajor>烈焰焚身</keywordMajor>，那么还会被<status>晕眩</status>{{ stunduration }}秒。{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "effect": [
+              null,
+              [
+                70,
+                100,
+                130,
+                160,
+                190
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "70/100/130/160/190",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "officialEn": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Brand.json",
+          "sha256": "d1f7a34ee637918b864268464c39199eea9f53eb5a37101d403f544f5792a8dc",
+          "jsonPointer": "/data/Brand/spells/0",
+          "version": "16.17.1",
+          "spell": {
+            "id": "BrandQ",
+            "name": "Sear",
+            "description": "Brand launches a ball of fire forward that deals magic damage. If the target is ablaze, Sear will stun the target.",
+            "tooltip": "Brand launches a fireball that deals <magicDamage>{{ totaldamage }} magic damage</magicDamage> to the first enemy hit.<br /><br />If the target is <keywordMajor>Ablaze</keywordMajor>, they will be <status>Stunned</status> for {{ stunduration }} seconds.{{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "effect": [
+              null,
+              [
+                70,
+                100,
+                130,
+                160,
+                190
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "70/100/130/160/190",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Brand.json.gz",
+          "compressedSha256": "0f205cb596ac4733d8588aec896f4a0121c71b66fa1ba1f6be924caaeac30dcd",
+          "rawJsonSha256": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d",
+          "contentVersion": null,
+          "jsonPointer": "/Characters~1Brand~1Spells~1BrandQAbility~1BrandQ/mSpell",
+          "objectPath": "Characters/Brand/Spells/BrandQAbility/BrandQ",
+          "dataValues": [
+            {
+              "name": "StunDuration",
+              "values": [
+                1.75,
+                1.75,
+                1.75,
+                1.75,
+                1.75,
+                1.75,
+                1.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SpellBaseDamage",
+              "values": [
+                40,
+                70,
+                100,
+                130,
+                160,
+                190,
+                220
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "spellCalculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "SpellBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.6499999761581421,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            8.5,
+            8,
+            7.5,
+            7,
+            6.5,
+            6,
+            6
+          ],
+          "mana": [
+            70,
+            70,
+            70,
+            70,
+            70,
+            70
+          ],
+          "spellTags": [
+            "Trait_ImmobilizingCCSpell",
+            "Trait_DamageAbility",
+            "Trait_Ranged_StopsFirstHit",
+            "Trait_Low_Damage"
+          ],
+          "targetingType": {
+            "__type": "Location"
+          }
+        },
+        "sourceIndex": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "jsonPointer": "/heroes/16/skills/1",
+          "championPointer": "/heroes/16",
+          "championId": "Brand",
+          "officialId": "BrandQ",
+          "clientPath": "Characters/Brand/Spells/BrandQAbility/BrandQ",
+          "bindingAvailable": true
+        },
+        "planningStagePointer": "/inventoryConclusions/skills[86]"
+      },
+      "currentManagement": {
+        "skill": {
+          "createdAt": "2026-09-06T18:17:56.496373Z",
+          "description": "布兰德向前方放出一团可造成魔法伤害的火球。如果目标带有【烈焰焚身】效果，那么【Q火焰烙印】将使目标晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "布兰德·火焰烙印",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "brand_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:17:56.496373Z"
+        },
+        "damageParameters": [
+          {
+            "parameterKey": "base_damage",
+            "name": "基础伤害",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 70,
+              "2": 100,
+              "3": 130,
+              "4": 160,
+              "5": 190
+            },
+            "description": "客户端当前根绑定 DataValues.SpellBaseDamage 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法术强度倍率",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL",
+            "fixedValue": 0.65,
+            "levelValues": null,
+            "description": "客户端 TotalDamage.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+            "sortOrder": 50
+          }
+        ],
+        "damageFormula": {
+          "createdAt": "2026-09-07T16:38:03.273065Z",
+          "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "火焰烙印伤害",
+          "skillKey": "brand_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:38:03.273065Z"
+        },
+        "formulaExpressionText": "base_damage + ap_ratio × SOURCE 的总法术强度",
+        "inputDependencies": {
+          "skillLevel": "技能等级，使用已有参数 levelValues",
+          "sourceAbilityPower": "SOURCE 的 TOTAL ability_power",
+          "fixedOrRuntimeInputs": [
+            "无额外运行时输入"
+          ]
+        },
+        "directEffect": {
+          "createdAt": "2026-09-07T16:38:04.104338Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "fireball_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "火球命中魔法伤害",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "火球命中魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "brand_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:38:04.104338Z"
+        },
+        "actualHitRule": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "fireball_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "brand_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "火焰烙印实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        },
+        "processes": [
+          {
+            "activationType": "ACTIVE",
+            "createdAt": "2026-09-07T16:38:04.496806Z",
+            "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+            "effectBindingCount": 1,
+            "gameId": "lol",
+            "name": "施放火焰烙印",
+            "processKey": "cast",
+            "skillKey": "brand_q",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1,
+            "updatedAt": "2026-09-07T16:38:04.496806Z"
+          }
+        ],
+        "internalStates": [],
+        "directPathDetailRoutes": [
+          "/api/admin/games/lol/skills/brand_q/formulas/damage",
+          "/api/admin/games/lol/skills/brand_q/effects/fireball_hit",
+          "/api/admin/games/lol/skills/brand_q/trigger-rules/actual_hit"
+        ],
+        "parameterDetailReads": 0
+      },
+      "valueSummary": {
+        "formulaKey": "damage",
+        "parameterValues": {
+          "base_damage": {
+            "1": 70,
+            "2": 100,
+            "3": 130,
+            "4": 160,
+            "5": 190
+          },
+          "ap_ratio": 0.65
+        },
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "expressionText": "base_damage + ap_ratio × SOURCE 的总法术强度"
+      },
+      "remainingOriginalBranches": [
+        "目标已有烈焰焚身时的眩晕属于控制分支；不改变本次直接伤害公式。"
+      ],
+      "excludedFromThisReport": [
+        "被动灼烧条件",
+        "眩晕"
+      ],
+      "runtimeBoundary": "管理配置只读核对；未执行宿主/Wasm、战斗运行或浏览器验收",
+      "existingDirectBranchConclusion": "主体、伤害参数、damage 公式、DAMAGE/TARGET/DIRECT/magic 结果和 SKILL_HIT→EXECUTE_EFFECT 链已存在；保留原配置，不重复新增。"
+    },
+    {
+      "skillKey": "xerath_e",
+      "slot": "E",
+      "name": "泽拉斯·冲击法球",
+      "stageConclusion": "资料待核",
+      "stageConclusionScope": "技能范围内数据与机制",
+      "stageReason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+      "stagePendingCounts": {
+        "source": 3,
+        "system": 0,
+        "configuration": 2,
+        "other": 0
+      },
+      "stageBatchKey": "heroFourteenthBatch",
+      "classification": "明确来源或表达待补",
+      "classificationScope": "仅指本报告限定的普通实际命中魔法伤害分支；不代表整项技能完成",
+      "sourceEvidence": {
+        "officialZh": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Xerath.json",
+          "sha256": "5f4eff400aa79a63693c99966caec56013f53e52d8ced05912b9157a3b396c6a",
+          "jsonPointer": "/data/Xerath/spells/2",
+          "version": "16.17.1",
+          "spell": {
+            "id": "XerathMageSpear",
+            "name": "冲击法球",
+            "description": "对单个敌人造成魔法伤害和晕眩效果。",
+            "tooltip": "泽拉斯发射一颗原生魔法之球，基于飞行距离使命中第一个的敌人<status>晕眩</status>至多{{ maxstunduration }}秒，并造成<magicDamage>{{ tooltiptotaldamage }}魔法伤害</magicDamage>。 {{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "effect": [
+              null,
+              [
+                70,
+                100,
+                130,
+                160,
+                190
+              ],
+              [
+                2.25,
+                2.25,
+                2.25,
+                2.25,
+                2.25
+              ],
+              [
+                0.17,
+                0.17,
+                0.17,
+                0.17,
+                0.17
+              ],
+              [
+                1125,
+                1125,
+                1125,
+                1125,
+                1125
+              ],
+              [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "70/100/130/160/190",
+              "2.25",
+              "0.17",
+              "1125",
+              "0.75",
+              "0",
+              "0",
+              "0.5",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "officialEn": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Xerath.json",
+          "sha256": "6e690f8c2a6030d65f17a7fec27585ed15183a31f1d2a8f3aaa53e49878b46c0",
+          "jsonPointer": "/data/Xerath/spells/2",
+          "version": "16.17.1",
+          "spell": {
+            "id": "XerathMageSpear",
+            "name": "Shocking Orb",
+            "description": "Deals magic damage to an enemy and stuns them.",
+            "tooltip": "Xerath fires an orb of raw magic, <status>Stunning</status> the first enemy hit for up to {{ maxstunduration }} seconds based on distance travelled, and dealing <magicDamage>{{ tooltiptotaldamage }} magic damage</magicDamage>. {{ spellmodifierdescriptionappend }}",
+            "maxrank": 5,
+            "effect": [
+              null,
+              [
+                70,
+                100,
+                130,
+                160,
+                190
+              ],
+              [
+                2.25,
+                2.25,
+                2.25,
+                2.25,
+                2.25
+              ],
+              [
+                0.17,
+                0.17,
+                0.17,
+                0.17,
+                0.17
+              ],
+              [
+                1125,
+                1125,
+                1125,
+                1125,
+                1125
+              ],
+              [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "70/100/130/160/190",
+              "2.25",
+              "0.17",
+              "1125",
+              "0.75",
+              "0",
+              "0",
+              "0.5",
+              "0",
+              "0"
+            ]
+          }
+        },
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Xerath.json.gz",
+          "compressedSha256": "389b87b67a36643581979c26ed7ce27019ecf3daaf3097ad9021a45b3374a567",
+          "rawJsonSha256": "b2c5377ff3cd718b5b8db6b9c1c44e7862e89a6843e5b08a9347da18527a4b62",
+          "contentVersion": null,
+          "jsonPointer": "/Characters~1Xerath~1Spells~1XerathMageSpearAbility~1XerathMageSpear/mSpell",
+          "objectPath": "Characters/Xerath/Spells/XerathMageSpearAbility/XerathMageSpear",
+          "dataValues": [
+            {
+              "name": "MinStunDuration",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxStunDuration",
+              "values": [
+                2.25,
+                2.25,
+                2.25,
+                2.25,
+                2.25,
+                2.25,
+                2.25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                40,
+                70,
+                100,
+                130,
+                160,
+                190,
+                220
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Range",
+              "values": [
+                1125,
+                1125,
+                1125,
+                1125,
+                1125,
+                1125,
+                1125
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "StunScaling_RoughAverageWillBeThisNumber_Every100RangeForTheAdditionalStun_AddedTo_5_",
+              "values": [
+                0.17000000178813934,
+                0.17000000178813934,
+                0.17000000178813934,
+                0.17000000178813934,
+                0.17000000178813934,
+                0.17000000178813934,
+                0.17000000178813934
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "spellCalculations": {
+            "TooltipTotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.44999998807907104,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            13.5,
+            13,
+            12.5,
+            12,
+            11.5,
+            11,
+            11
+          ],
+          "mana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "spellTags": [
+            "Trait_ImmobilizingCCSpell",
+            "Trait_DamageAbility",
+            "Trait_Ranged_StopsFirstHit",
+            "Trait_Low_Damage"
+          ],
+          "targetingType": {
+            "__type": "Location"
+          }
+        },
+        "sourceIndex": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "jsonPointer": "/heroes/156/skills/3",
+          "championPointer": "/heroes/156",
+          "championId": "Xerath",
+          "officialId": "XerathMageSpear",
+          "clientPath": "Characters/Xerath/Spells/XerathMageSpearAbility/XerathMageSpear",
+          "bindingAvailable": true
+        },
+        "planningStagePointer": "/inventoryConclusions/skills[793]"
+      },
+      "currentManagement": {
+        "skill": {
+          "createdAt": "2026-09-06T18:21:09.039377Z",
+          "description": "对单个敌人造成魔法伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "泽拉斯·冲击法球",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "xerath_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:09.039377Z"
+        },
+        "damageParameters": [
+          {
+            "parameterKey": "base_damage",
+            "name": "基础伤害",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 70,
+              "2": 100,
+              "3": 130,
+              "4": 160,
+              "5": 190
+            },
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "calculation_constant_1",
+            "name": "冲击法球伤害固定系数",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL",
+            "fixedValue": 0.45,
+            "levelValues": null,
+            "description": "当前原计算树显式常数；只用于此数学表达式。",
+            "sortOrder": 70
+          }
+        ],
+        "damageFormula": {
+          "createdAt": "2026-09-09T06:42:06.275076Z",
+          "description": "第一个实际命中目标。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "calculation_constant_1"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "冲击法球伤害",
+          "skillKey": "xerath_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:42:06.275076Z"
+        },
+        "formulaExpressionText": "base_damage + SOURCE 的总法术强度 × calculation_constant_1",
+        "inputDependencies": {
+          "skillLevel": "技能等级，使用已有参数 levelValues",
+          "sourceAbilityPower": "SOURCE 的 TOTAL ability_power",
+          "fixedOrRuntimeInputs": [
+            "calculation_constant_1 为已有固定0.45；不把晕眩距离输入带入伤害公式"
+          ]
+        },
+        "directEffect": null,
+        "actualHitRule": null,
+        "processes": [],
+        "internalStates": [],
+        "directPathDetailRoutes": [
+          "/api/admin/games/lol/skills/xerath_e/formulas/damage"
+        ],
+        "parameterDetailReads": 0
+      },
+      "valueSummary": {
+        "formulaKey": "damage",
+        "parameterValues": {
+          "base_damage": {
+            "1": 70,
+            "2": 100,
+            "3": 130,
+            "4": 160,
+            "5": 190
+          },
+          "calculation_constant_1": 0.45
+        },
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "expressionText": "base_damage + SOURCE 的总法术强度 × calculation_constant_1"
+      },
+      "remainingOriginalBranches": [
+        "距离对应晕眩时长的输入和夹限公式保留为已有控制分支；不并入直接伤害。",
+        "实际命中资格由合法 SKILL_HIT 事件提供，当前没有事件生产证明；这不是本次管理草案的阻塞理由。"
+      ],
+      "excludedFromThisReport": [
+        "距离晕眩算法与控制结果"
+      ],
+      "runtimeBoundary": "管理配置只读核对；未执行宿主/Wasm、战斗运行或浏览器验收",
+      "draft": {
+        "draftStatus": "不可冻结、不可直接写入",
+        "reason": "直接伤害公式和实际命中对象已明确，但新 DAMAGE 结果所需的暴击方式、法术护盾阻挡粒度和吸血规则没有本次来源证据；按要求不套用模板猜定。",
+        "legalEvent": {
+          "eventType": "SKILL_HIT",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "xerath_e"
+            }
+          },
+          "note": "实际命中事件是合法既有事件；规则只消费事件，不生成命中。"
+        },
+        "knownEffectRequestShape": {
+          "method": "POST",
+          "route": "/api/admin/games/lol/skills/xerath_e/effects",
+          "bodyWithoutUnresolvedFields": {
+            "effectKey": "mage_spear_hit",
+            "name": "冲击法球实际命中魔法伤害",
+            "description": "仅表达第一个实际命中目标的一次直接魔法伤害；晕眩另行处理。",
+            "sortOrder": 20,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "damage",
+                "name": "魔法伤害",
+                "resultType": "DAMAGE",
+                "target": "TARGET",
+                "description": "引用同技能 damage 公式；不包含晕眩时长。",
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                }
+              }
+            ]
+          }
+        },
+        "omittedRequiredFields": [
+          "results[0].spellShieldBlockScope：来源未确认，不填 RESULT/SKILL 等值",
+          "results[0].detail.critical.mode：来源未确认，不填 DISALLOWED/SOURCE_CRIT_CHANCE/FORCED",
+          "results[0].detail.vampRules：项目要求明确数组语义，空数组也不能无证据代替"
+        ],
+        "hitRuleRequest": {
+          "method": "POST",
+          "route": "/api/admin/games/lol/skills/xerath_e/trigger-rules",
+          "body": {
+            "ruleKey": "actual_hit",
+            "name": "冲击法球实际命中",
+            "description": "仅接收该技能对当前目标的一次实际 SKILL_HIT 并执行直接伤害；规则本身不产生命中事件。",
+            "sortOrder": 10,
+            "eventSource": {
+              "eventType": "SKILL_HIT",
+              "detail": {
+                "sourceSkillKey": "xerath_e"
+              }
+            },
+            "conditionGroups": [],
+            "actions": [
+              {
+                "actionKey": "damage",
+                "name": "执行命中伤害",
+                "actionType": "EXECUTE_EFFECT",
+                "sortOrder": 10,
+                "targetContext": "CURRENT_TARGET",
+                "detail": {
+                  "effectKey": "mage_spear_hit"
+                },
+                "runtimeInputBindings": [],
+                "resultModifiers": []
+              }
+            ],
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null
+          },
+          "dependsOnEffectKey": "mage_spear_hit"
+        },
+        "missingBeforeReady": [
+          "确认上述三个 DAMAGE 明细字段；不以已有四项的 RESULT/暴击/吸血组合推断",
+          "独立评审后冻结 effect + SKILL_HIT rule 请求，并在单次受保护写入前复核现值"
+        ]
+      }
+    }
+  ],
+  "readyCompleteDrafts": [],
+  "pendingDraftKeys": [
+    "xerath_e"
+  ],
+  "apiBaseline": {
+    "adminGameBase": "http://127.0.0.1:8080/api/admin/games/lol",
+    "base": "http://127.0.0.1:8080/api/admin/games/lol/skills",
+    "gameId": "lol",
+    "sourceVersion": "16.17.1",
+    "capturedAt": "2026-09-18T22:28:07.5924282Z",
+    "readOnly": true,
+    "listRequestCount": 35,
+    "detailRequestCount": 13,
+    "totalGetCount": 48,
+    "requestSelection": "每技能主体、parameters、formulas、effects、processes、internal-states、trigger-rules各一次；详情仅取damage公式、直接DAMAGE效果、actual_hit规则；参数未取详情",
+    "requests": [
+      {
+        "requestIndex": 1,
+        "method": "GET",
+        "phase": "list",
+        "kind": "skill",
+        "path": "/api/admin/games/lol/skills/veigar_q",
+        "status": 200,
+        "responseSha256": "afe302e17591a4eae5014a586480dbe5db48d9e2b7cd7483c47b29cee15f6645",
+        "rawBodyLength": 328,
+        "responseBody": {
+          "createdAt": "2026-09-06T18:20:54.808589Z",
+          "description": "维迦释放一束黑暗能量，对最先被命中的两个敌人造成魔法伤害。被这个能量束所击杀的单位，会永久地为维迦提供一些法术强度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "维迦·黑暗祭祀",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "veigar_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:54.808589Z"
+        }
+      },
+      {
+        "requestIndex": 2,
+        "method": "GET",
+        "phase": "list",
+        "kind": "parameters",
+        "path": "/api/admin/games/lol/skills/veigar_q/parameters",
+        "status": 200,
+        "responseSha256": "4cbc36b381f0ab5b614242faa0499b621184023211949e9ca92d706002231dbb",
+        "rawBodyLength": 1746,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-07T18:54:04.453073Z",
+            "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 6000,
+              "2": 5500,
+              "3": 5000,
+              "4": 4500,
+              "5": 4000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "veigar_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T18:54:04.453073Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:54:05.822765Z",
+            "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 30,
+              "2": 35,
+              "3": 40,
+              "4": 45,
+              "5": 50
+            },
+            "name": "法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "veigar_q",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T18:54:05.822765Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:54:06.401901Z",
+            "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+            "fixedValue": 250,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法时间（毫秒）",
+            "parameterKey": "cast_time_ms",
+            "skillKey": "veigar_q",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T18:54:06.401901Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:54:06.92917Z",
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 80,
+              "2": 120,
+              "3": 160,
+              "4": 200,
+              "5": 240
+            },
+            "name": "基础伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "veigar_q",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T18:54:06.92917Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:54:07.489248Z",
+            "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.5,
+              "2": 0.55,
+              "3": 0.6,
+              "4": 0.65,
+              "5": 0.7
+            },
+            "name": "法强倍率",
+            "parameterKey": "ap_ratio",
+            "skillKey": "veigar_q",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T18:54:07.489248Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "DECIMAL"
+          }
+        ]
+      },
+      {
+        "requestIndex": 3,
+        "method": "GET",
+        "phase": "list",
+        "kind": "formulas",
+        "path": "/api/admin/games/lol/skills/veigar_q/formulas",
+        "status": 200,
+        "responseSha256": "3230a126bb75302d629056aedea7c0fbe60b594e600ef777ab848085d1b83ebb",
+        "rawBodyLength": 225,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-07T18:54:08.018604Z",
+            "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+            "formulaKey": "damage",
+            "gameId": "lol",
+            "name": "黑暗祭祀基础伤害",
+            "skillKey": "veigar_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T18:54:08.018604Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 4,
+        "method": "GET",
+        "phase": "list",
+        "kind": "effects",
+        "path": "/api/admin/games/lol/skills/veigar_q/effects",
+        "status": 200,
+        "responseSha256": "5a3daf30c4cb80c6ddc1689079460eadd64473272f84e77260fc6058d931aabf",
+        "rawBodyLength": 528,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-07T18:54:08.509432Z",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "veigar_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T18:54:08.509432Z"
+          },
+          {
+            "createdAt": "2026-09-07T18:54:09.212789Z",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "effectKey": "baleful_strike_hit",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "黑暗能量命中",
+            "resultCount": 1,
+            "skillKey": "veigar_q",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T18:54:09.212789Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 5,
+        "method": "GET",
+        "phase": "list",
+        "kind": "processes",
+        "path": "/api/admin/games/lol/skills/veigar_q/processes",
+        "status": 200,
+        "responseSha256": "2a7ab26c3e76a6eecac10b50b19c7d34d987898a550563b88de5b2d21399b7fa",
+        "rawBodyLength": 309,
+        "responseBody": [
+          {
+            "activationType": "ACTIVE",
+            "createdAt": "2026-09-07T18:54:09.776797Z",
+            "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+            "effectBindingCount": 1,
+            "gameId": "lol",
+            "name": "施放黑暗祭祀",
+            "processKey": "cast",
+            "skillKey": "veigar_q",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1,
+            "updatedAt": "2026-09-07T18:54:09.776797Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 6,
+        "method": "GET",
+        "phase": "list",
+        "kind": "states",
+        "path": "/api/admin/games/lol/skills/veigar_q/internal-states",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2,
+        "responseBody": []
+      },
+      {
+        "requestIndex": 7,
+        "method": "GET",
+        "phase": "list",
+        "kind": "rules",
+        "path": "/api/admin/games/lol/skills/veigar_q/trigger-rules",
+        "status": 200,
+        "responseSha256": "4e2b2ac5cc12ee166896ff8230e7675ddf3a5c4d9501fda6ba883a68c32a20f8",
+        "rawBodyLength": 295,
+        "responseBody": [
+          {
+            "actionCount": 1,
+            "conditionGroupCount": 0,
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "eventType": "SKILL_HIT",
+            "maxTriggersPerProcessEnabled": false,
+            "name": "黑暗祭祀实际命中",
+            "perTargetCooldownEnabled": false,
+            "ruleKey": "actual_hit",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T18:54:10.357169Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 8,
+        "method": "GET",
+        "phase": "list",
+        "kind": "skill",
+        "path": "/api/admin/games/lol/skills/veigar_w",
+        "status": 200,
+        "responseSha256": "06b686e1a73f5865708085353203aa48c8248deb3c2596ab77954ffaa5f45b6c",
+        "rawBodyLength": 319,
+        "responseBody": {
+          "createdAt": "2026-09-06T18:20:55.106128Z",
+          "description": "维迦召唤一大团黑暗物质轰击目标区域，落地造成魔法伤害。【超凡邪力】的层数会缩短这个技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "维迦·黑暗物质",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "veigar_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:55.106128Z"
+        }
+      },
+      {
+        "requestIndex": 9,
+        "method": "GET",
+        "phase": "list",
+        "kind": "parameters",
+        "path": "/api/admin/games/lol/skills/veigar_w/parameters",
+        "status": 200,
+        "responseSha256": "a291adaeeabf2ae8954c15692cb8650365956c9c31b159b72f40bde6d7283a2a",
+        "rawBodyLength": 2038,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-07T18:54:11.263943Z",
+            "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "veigar_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T18:54:11.263943Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:54:11.836199Z",
+            "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+            "fixedValue": 250,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法时间（毫秒）",
+            "parameterKey": "cast_time_ms",
+            "skillKey": "veigar_w",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T18:54:11.836199Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:54:12.476376Z",
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 85,
+              "2": 140,
+              "3": 195,
+              "4": 250,
+              "5": 305
+            },
+            "name": "基础伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "veigar_w",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T18:54:12.476376Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:54:13.106763Z",
+            "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.7,
+              "2": 0.8,
+              "3": 0.9,
+              "4": 1,
+              "5": 1.1
+            },
+            "name": "法强倍率",
+            "parameterKey": "ap_ratio",
+            "skillKey": "veigar_w",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T18:54:13.106763Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T18:54:13.654962Z",
+            "description": "客户端当前根绑定 DataValues.BaseCooldown 取索引1至5。",
+            "fixedValue": 8000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "零被动层数基础冷却（毫秒）",
+            "parameterKey": "base_cooldown_ms",
+            "skillKey": "veigar_w",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T18:54:13.654962Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:54:14.245145Z",
+            "description": "客户端当前根绑定 DataValues.ImpactDelay 取索引1至5。",
+            "fixedValue": 1200,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "黑暗物质落下延迟（毫秒）",
+            "parameterKey": "impact_delay_ms",
+            "skillKey": "veigar_w",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T18:54:14.245145Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      {
+        "requestIndex": 10,
+        "method": "GET",
+        "phase": "list",
+        "kind": "formulas",
+        "path": "/api/admin/games/lol/skills/veigar_w/formulas",
+        "status": 200,
+        "responseSha256": "255875c0d8198e07c57fdd53ef93ccd5dacfa22d8a2c8789f01c8b53fd24d0bb",
+        "rawBodyLength": 225,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-07T18:54:14.854157Z",
+            "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+            "formulaKey": "damage",
+            "gameId": "lol",
+            "name": "黑暗物质基础伤害",
+            "skillKey": "veigar_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T18:54:14.854157Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 11,
+        "method": "GET",
+        "phase": "list",
+        "kind": "effects",
+        "path": "/api/admin/games/lol/skills/veigar_w/effects",
+        "status": 200,
+        "responseSha256": "83e2719ac400df3612663afb921b6de1ee261c905d47c757b918b7cdbbc3f6f4",
+        "rawBodyLength": 527,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-07T18:54:15.462719Z",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "veigar_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T18:54:15.462719Z"
+          },
+          {
+            "createdAt": "2026-09-07T18:54:16.086803Z",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "effectKey": "dark_matter_hit",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "黑暗物质实际命中",
+            "resultCount": 1,
+            "skillKey": "veigar_w",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T18:54:16.086803Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 12,
+        "method": "GET",
+        "phase": "list",
+        "kind": "processes",
+        "path": "/api/admin/games/lol/skills/veigar_w/processes",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2,
+        "responseBody": []
+      },
+      {
+        "requestIndex": 13,
+        "method": "GET",
+        "phase": "list",
+        "kind": "states",
+        "path": "/api/admin/games/lol/skills/veigar_w/internal-states",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2,
+        "responseBody": []
+      },
+      {
+        "requestIndex": 14,
+        "method": "GET",
+        "phase": "list",
+        "kind": "rules",
+        "path": "/api/admin/games/lol/skills/veigar_w/trigger-rules",
+        "status": 200,
+        "responseSha256": "ba53a15daff7e1f61495061534e3f4138e8eee62003bafef8021d83339271b02",
+        "rawBodyLength": 295,
+        "responseBody": [
+          {
+            "actionCount": 1,
+            "conditionGroupCount": 0,
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "eventType": "SKILL_HIT",
+            "maxTriggersPerProcessEnabled": false,
+            "name": "黑暗物质实际命中",
+            "perTargetCooldownEnabled": false,
+            "ruleKey": "actual_hit",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T18:54:16.926509Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 15,
+        "method": "GET",
+        "phase": "list",
+        "kind": "skill",
+        "path": "/api/admin/games/lol/skills/annie_q",
+        "status": 200,
+        "responseSha256": "a17f87bcce8debddffffac188e0210689632a651eb7bc5a87aad051cdde1212c",
+        "rawBodyLength": 338,
+        "responseBody": {
+          "createdAt": "2026-09-06T18:16:26.185014Z",
+          "description": "安妮向目标投出注入了法力值的火球，对目标造成魔法伤害。如果目标死于碎裂之火，则碎裂之火消耗的法力值会返还给安妮，且碎裂之火的冷却时间减半。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "安妮·碎裂之火",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "annie_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:26.185014Z"
+        }
+      },
+      {
+        "requestIndex": 16,
+        "method": "GET",
+        "phase": "list",
+        "kind": "parameters",
+        "path": "/api/admin/games/lol/skills/annie_q/parameters",
+        "status": 200,
+        "responseSha256": "f0ba73fd25022a1252773f9d03bf27f4198f788d7fddb5ac16c630531c5b99ee",
+        "rawBodyLength": 1982,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-07T16:37:37.370399Z",
+            "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+            "fixedValue": 4000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "annie_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:37:37.370399Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:37:37.697231Z",
+            "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "annie_q",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:37:37.697231Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:37:38.104236Z",
+            "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+            "fixedValue": 250,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法时间（毫秒）",
+            "parameterKey": "cast_time_ms",
+            "skillKey": "annie_q",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T16:37:38.104236Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:37:38.711728Z",
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 80,
+              "2": 125,
+              "3": 170,
+              "4": 215,
+              "5": 260
+            },
+            "name": "基础伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "annie_q",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T16:37:38.711728Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:37:39.175526Z",
+            "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+            "fixedValue": 0.8,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法术强度倍率",
+            "parameterKey": "ap_ratio",
+            "skillKey": "annie_q",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T16:37:39.175526Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T16:37:39.570449Z",
+            "description": "官方Q说明目标阵亡返还法力并缩短50%冷却。",
+            "fixedValue": 0.5,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "击杀冷却缩短比例",
+            "parameterKey": "kill_cooldown_refund_ratio",
+            "skillKey": "annie_q",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T16:37:39.570449Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          }
+        ]
+      },
+      {
+        "requestIndex": 17,
+        "method": "GET",
+        "phase": "list",
+        "kind": "formulas",
+        "path": "/api/admin/games/lol/skills/annie_q/formulas",
+        "status": 200,
+        "responseSha256": "56df093072231ac3a1df7c4dda3e6ddc54e84186b7947409745fdcd704fa8d62",
+        "rawBodyLength": 227,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-07T16:37:39.983262Z",
+            "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+            "formulaKey": "damage",
+            "gameId": "lol",
+            "name": "碎裂之火伤害",
+            "skillKey": "annie_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:37:39.983262Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 18,
+        "method": "GET",
+        "phase": "list",
+        "kind": "effects",
+        "path": "/api/admin/games/lol/skills/annie_q/effects",
+        "status": 200,
+        "responseSha256": "3dd8053f3168b0df46229c7b8e014ddbd7235cb7e377a84db9ecb21311d071be",
+        "rawBodyLength": 781,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-07T16:37:40.326971Z",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "annie_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:37:40.326971Z"
+          },
+          {
+            "createdAt": "2026-09-07T16:37:40.698135Z",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "effectKey": "spell_hit",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "碎裂之火命中",
+            "resultCount": 1,
+            "skillKey": "annie_q",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:37:40.698135Z"
+          },
+          {
+            "createdAt": "2026-09-07T16:37:41.030486Z",
+            "description": "仅Q导致目标阵亡时使用；未挂任意击杀事件。",
+            "effectKey": "kill_mana_refund",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "Q击杀返还法力",
+            "resultCount": 1,
+            "skillKey": "annie_q",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T16:37:41.030486Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 19,
+        "method": "GET",
+        "phase": "list",
+        "kind": "processes",
+        "path": "/api/admin/games/lol/skills/annie_q/processes",
+        "status": 200,
+        "responseSha256": "ad067f19575809dbe9739aa66e36624b810a297db29019e46d4f7bf2d63990e4",
+        "rawBodyLength": 308,
+        "responseBody": [
+          {
+            "activationType": "ACTIVE",
+            "createdAt": "2026-09-07T16:37:41.475423Z",
+            "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+            "effectBindingCount": 1,
+            "gameId": "lol",
+            "name": "施放碎裂之火",
+            "processKey": "cast",
+            "skillKey": "annie_q",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1,
+            "updatedAt": "2026-09-07T16:37:41.475423Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 20,
+        "method": "GET",
+        "phase": "list",
+        "kind": "states",
+        "path": "/api/admin/games/lol/skills/annie_q/internal-states",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2,
+        "responseBody": []
+      },
+      {
+        "requestIndex": 21,
+        "method": "GET",
+        "phase": "list",
+        "kind": "rules",
+        "path": "/api/admin/games/lol/skills/annie_q/trigger-rules",
+        "status": 200,
+        "responseSha256": "329c591d05309b6351e34947fad98dc1eaa52dda1e4c43820e8977bcc9a984a4",
+        "rawBodyLength": 295,
+        "responseBody": [
+          {
+            "actionCount": 1,
+            "conditionGroupCount": 0,
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "eventType": "SKILL_HIT",
+            "maxTriggersPerProcessEnabled": false,
+            "name": "碎裂之火实际命中",
+            "perTargetCooldownEnabled": false,
+            "ruleKey": "actual_hit",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:37:41.869179Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 22,
+        "method": "GET",
+        "phase": "list",
+        "kind": "skill",
+        "path": "/api/admin/games/lol/skills/brand_q",
+        "status": 200,
+        "responseSha256": "ee0f5a206620ebaf09dd94d726ca2fc946fe9c1884ff114474b0516a89c9db4c",
+        "rawBodyLength": 322,
+        "responseBody": {
+          "createdAt": "2026-09-06T18:17:56.496373Z",
+          "description": "布兰德向前方放出一团可造成魔法伤害的火球。如果目标带有【烈焰焚身】效果，那么【Q火焰烙印】将使目标晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "布兰德·火焰烙印",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "brand_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:17:56.496373Z"
+        }
+      },
+      {
+        "requestIndex": 23,
+        "method": "GET",
+        "phase": "list",
+        "kind": "parameters",
+        "path": "/api/admin/games/lol/skills/brand_q/parameters",
+        "status": 200,
+        "responseSha256": "5be69f0886ec1b72e2644ce42384237be880c1d1682c5a13493f0f653ae9da74",
+        "rawBodyLength": 2028,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-07T16:38:00.951497Z",
+            "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 8000,
+              "2": 7500,
+              "3": 7000,
+              "4": 6500,
+              "5": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "brand_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:38:00.951497Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:38:01.287475Z",
+            "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+            "fixedValue": 70,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "brand_q",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:38:01.287475Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:38:01.704457Z",
+            "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+            "fixedValue": 250,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法时间（毫秒）",
+            "parameterKey": "cast_time_ms",
+            "skillKey": "brand_q",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T16:38:01.704457Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:38:02.098106Z",
+            "description": "客户端当前根绑定 DataValues.SpellBaseDamage 取索引1至5。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 70,
+              "2": 100,
+              "3": 130,
+              "4": 160,
+              "5": 190
+            },
+            "name": "基础伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "brand_q",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T16:38:02.098106Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T16:38:02.502269Z",
+            "description": "客户端 TotalDamage.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+            "fixedValue": 0.65,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法术强度倍率",
+            "parameterKey": "ap_ratio",
+            "skillKey": "brand_q",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T16:38:02.502269Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T16:38:02.906742Z",
+            "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5。",
+            "fixedValue": 1750,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "已有灼烧时眩晕持续（毫秒）",
+            "parameterKey": "stun_duration_ms",
+            "skillKey": "brand_q",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T16:38:02.906742Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      {
+        "requestIndex": 24,
+        "method": "GET",
+        "phase": "list",
+        "kind": "formulas",
+        "path": "/api/admin/games/lol/skills/brand_q/formulas",
+        "status": 200,
+        "responseSha256": "2189e6a624aaa37be1a551f818da34bc047f7de791c049e8233b0fc39645a7d1",
+        "rawBodyLength": 227,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-07T16:38:03.273065Z",
+            "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+            "formulaKey": "damage",
+            "gameId": "lol",
+            "name": "火焰烙印伤害",
+            "skillKey": "brand_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:38:03.273065Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 25,
+        "method": "GET",
+        "phase": "list",
+        "kind": "effects",
+        "path": "/api/admin/games/lol/skills/brand_q/effects",
+        "status": 200,
+        "responseSha256": "fb2c9ecc2e0ac06492a9fb4761bf30b3e26cc507be3c2bbeac35a9d0f689ebbb",
+        "rawBodyLength": 522,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-07T16:38:03.753249Z",
+            "description": "仅施放法力消耗；具体过程单独绑定。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "brand_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:38:03.753249Z"
+          },
+          {
+            "createdAt": "2026-09-07T16:38:04.104338Z",
+            "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+            "effectKey": "fireball_hit",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "火球命中魔法伤害",
+            "resultCount": 1,
+            "skillKey": "brand_q",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T16:38:04.104338Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 26,
+        "method": "GET",
+        "phase": "list",
+        "kind": "processes",
+        "path": "/api/admin/games/lol/skills/brand_q/processes",
+        "status": 200,
+        "responseSha256": "88f84986cd15da40ed33d589ec5b3fa197b096d92e2bd14c3183610345da6c28",
+        "rawBodyLength": 308,
+        "responseBody": [
+          {
+            "activationType": "ACTIVE",
+            "createdAt": "2026-09-07T16:38:04.496806Z",
+            "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+            "effectBindingCount": 1,
+            "gameId": "lol",
+            "name": "施放火焰烙印",
+            "processKey": "cast",
+            "skillKey": "brand_q",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1,
+            "updatedAt": "2026-09-07T16:38:04.496806Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 27,
+        "method": "GET",
+        "phase": "list",
+        "kind": "states",
+        "path": "/api/admin/games/lol/skills/brand_q/internal-states",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2,
+        "responseBody": []
+      },
+      {
+        "requestIndex": 28,
+        "method": "GET",
+        "phase": "list",
+        "kind": "rules",
+        "path": "/api/admin/games/lol/skills/brand_q/trigger-rules",
+        "status": 200,
+        "responseSha256": "a8ad74975bbc6b4bfb7902a29851fdb43f6d31cc1980e8f96c259759a0f0bdd5",
+        "rawBodyLength": 295,
+        "responseBody": [
+          {
+            "actionCount": 1,
+            "conditionGroupCount": 0,
+            "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+            "eventType": "SKILL_HIT",
+            "maxTriggersPerProcessEnabled": false,
+            "name": "火焰烙印实际命中",
+            "perTargetCooldownEnabled": false,
+            "ruleKey": "actual_hit",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T16:38:04.872549Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 29,
+        "method": "GET",
+        "phase": "list",
+        "kind": "skill",
+        "path": "/api/admin/games/lol/skills/xerath_e",
+        "status": 200,
+        "responseSha256": "01a2cb077803bac555d720bd4405e1399bb55e11264b728285b957a4910fe693",
+        "rawBodyLength": 288,
+        "responseBody": {
+          "createdAt": "2026-09-06T18:21:09.039377Z",
+          "description": "对单个敌人造成魔法伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "泽拉斯·冲击法球",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "xerath_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:09.039377Z"
+        }
+      },
+      {
+        "requestIndex": 30,
+        "method": "GET",
+        "phase": "list",
+        "kind": "parameters",
+        "path": "/api/admin/games/lol/skills/xerath_e/parameters",
+        "status": 200,
+        "responseSha256": "1d0b6dbb80419c22a26b3ffbf430444240575af01db3817eda0c311b8422a3c4",
+        "rawBodyLength": 2891,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-09T06:42:00.050082Z",
+            "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+            "fixedValue": 250,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法时间（毫秒）",
+            "parameterKey": "cast_time_ms",
+            "skillKey": "xerath_e",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T06:42:00.050082Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T06:42:01.098014Z",
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 70,
+              "2": 100,
+              "3": 130,
+              "4": 160,
+              "5": 190
+            },
+            "name": "基础伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "xerath_e",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-09T06:42:01.098014Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T06:42:02.207359Z",
+            "description": "客户端当前根绑定 DataValues.MinStunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+            "fixedValue": 750,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "晕眩下限（毫秒）",
+            "parameterKey": "min_stun_ms",
+            "skillKey": "xerath_e",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T06:42:02.207359Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T06:42:03.196072Z",
+            "description": "客户端当前根绑定 DataValues.MaxStunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+            "fixedValue": 2250,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "晕眩上限（毫秒）",
+            "parameterKey": "max_stun_ms",
+            "skillKey": "xerath_e",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-09T06:42:03.196072Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T06:42:04.261018Z",
+            "description": "当前原计算树显式常数；只用于此数学表达式。",
+            "fixedValue": 0.45,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "冲击法球伤害固定系数",
+            "parameterKey": "calculation_constant_1",
+            "skillKey": "xerath_e",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-09T06:42:04.261018Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T06:42:05.297289Z",
+            "description": "距离到时长的完整算法没有原计算树，实际已核毫秒数外供，不用字段名0.17和端点拼线性。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "实际距离对应晕眩时长（毫秒）",
+            "parameterKey": "confirmed_distance_stun_ms",
+            "skillKey": "xerath_e",
+            "sortOrder": 80,
+            "updatedAt": "2026-09-09T06:42:05.297289Z",
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-08T02:06:08.13438Z",
+            "description": "DDragon16.17.1 Xerath.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 13000,
+              "2": 12500,
+              "3": 12000,
+              "4": 11500,
+              "5": 11000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "xerath_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:08.13438Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:06:08.600764Z",
+            "description": "DDragon16.17.1 Xerath.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "xerath_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:06:08.600764Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      {
+        "requestIndex": 31,
+        "method": "GET",
+        "phase": "list",
+        "kind": "formulas",
+        "path": "/api/admin/games/lol/skills/xerath_e/formulas",
+        "status": 200,
+        "responseSha256": "ea771cd6107d4eeaeac45e3949c23fd63a1ab7f16b7d584e7a391cd00d453818",
+        "rawBodyLength": 481,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-09T06:42:06.275076Z",
+            "description": "第一个实际命中目标。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+            "formulaKey": "damage",
+            "gameId": "lol",
+            "name": "冲击法球伤害",
+            "skillKey": "xerath_e",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T06:42:06.275076Z"
+          },
+          {
+            "createdAt": "2026-09-09T06:42:07.359276Z",
+            "description": "当前正文至少0.75秒、至多2.25秒；最终夹限后用于后续控制配置。",
+            "formulaKey": "bounded_stun_ms",
+            "gameId": "lol",
+            "name": "含当前上下限的晕眩时长（毫秒）",
+            "skillKey": "xerath_e",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T06:42:07.359276Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 32,
+        "method": "GET",
+        "phase": "list",
+        "kind": "effects",
+        "path": "/api/admin/games/lol/skills/xerath_e/effects",
+        "status": 200,
+        "responseSha256": "524319ccca231b2d613254da9a916f3d744329b250614716ec1ba93f5086afc9",
+        "rawBodyLength": 267,
+        "responseBody": [
+          {
+            "createdAt": "2026-09-09T06:42:08.795678Z",
+            "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "xerath_e",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T06:42:08.795678Z"
+          }
+        ]
+      },
+      {
+        "requestIndex": 33,
+        "method": "GET",
+        "phase": "list",
+        "kind": "processes",
+        "path": "/api/admin/games/lol/skills/xerath_e/processes",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2,
+        "responseBody": []
+      },
+      {
+        "requestIndex": 34,
+        "method": "GET",
+        "phase": "list",
+        "kind": "states",
+        "path": "/api/admin/games/lol/skills/xerath_e/internal-states",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2,
+        "responseBody": []
+      },
+      {
+        "requestIndex": 35,
+        "method": "GET",
+        "phase": "list",
+        "kind": "rules",
+        "path": "/api/admin/games/lol/skills/xerath_e/trigger-rules",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2,
+        "responseBody": []
+      },
+      {
+        "requestIndex": 36,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "damage_formula",
+        "path": "/api/admin/games/lol/skills/veigar_q/formulas/damage",
+        "status": 200,
+        "responseSha256": "e7ab334758da8fd342fa2f906829ee2c264f60a7c715b4e2d82d65d115e200fa",
+        "rawBodyLength": 569,
+        "responseBody": {
+          "createdAt": "2026-09-07T18:54:08.018604Z",
+          "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "黑暗祭祀基础伤害",
+          "skillKey": "veigar_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:54:08.018604Z"
+        }
+      },
+      {
+        "requestIndex": 37,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "damage_formula",
+        "path": "/api/admin/games/lol/skills/veigar_w/formulas/damage",
+        "status": 200,
+        "responseSha256": "816b630d0041b3e05b5e926d7fe8eebef52f2dea806db5513454d5ed27c4fa3f",
+        "rawBodyLength": 569,
+        "responseBody": {
+          "createdAt": "2026-09-07T18:54:14.854157Z",
+          "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "黑暗物质基础伤害",
+          "skillKey": "veigar_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:54:14.854157Z"
+        }
+      },
+      {
+        "requestIndex": 38,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "damage_formula",
+        "path": "/api/admin/games/lol/skills/annie_q/formulas/damage",
+        "status": 200,
+        "responseSha256": "583ebc22a8935f1b09f6a1b0604794260e09db5745e1626c1cdb538b5e86dbfb",
+        "rawBodyLength": 571,
+        "responseBody": {
+          "createdAt": "2026-09-07T16:37:39.983262Z",
+          "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "碎裂之火伤害",
+          "skillKey": "annie_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:39.983262Z"
+        }
+      },
+      {
+        "requestIndex": 39,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "damage_formula",
+        "path": "/api/admin/games/lol/skills/brand_q/formulas/damage",
+        "status": 200,
+        "responseSha256": "22a240c17e7f8af713e883d6a93a56593abf24627c002d40902f08cb308a4771",
+        "rawBodyLength": 571,
+        "responseBody": {
+          "createdAt": "2026-09-07T16:38:03.273065Z",
+          "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "火焰烙印伤害",
+          "skillKey": "brand_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:38:03.273065Z"
+        }
+      },
+      {
+        "requestIndex": 40,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "damage_formula",
+        "path": "/api/admin/games/lol/skills/xerath_e/formulas/damage",
+        "status": 200,
+        "responseSha256": "c28e587b5699f2338d5a7834fe7cc296e97bd6a96f1026612a5b608efc0899c3",
+        "rawBodyLength": 594,
+        "responseBody": {
+          "createdAt": "2026-09-09T06:42:06.275076Z",
+          "description": "第一个实际命中目标。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "calculation_constant_1"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "冲击法球伤害",
+          "skillKey": "xerath_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:42:06.275076Z"
+        }
+      },
+      {
+        "requestIndex": 41,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "direct_damage_effect",
+        "path": "/api/admin/games/lol/skills/veigar_q/effects/baleful_strike_hit",
+        "status": 200,
+        "responseSha256": "e204982ef3f721a061c75e44da38ff48aec5331f47f7b53a3e767f7b25f11de6",
+        "rawBodyLength": 705,
+        "responseBody": {
+          "createdAt": "2026-09-07T18:54:09.212789Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "baleful_strike_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "黑暗能量命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "黑暗能量命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "veigar_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:54:09.212789Z"
+        }
+      },
+      {
+        "requestIndex": 42,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "direct_damage_effect",
+        "path": "/api/admin/games/lol/skills/veigar_w/effects/dark_matter_hit",
+        "status": 200,
+        "responseSha256": "c632aa95c7d08755ee51bf7c497ee6aeb320886989d2624c199f2838f5308f87",
+        "rawBodyLength": 706,
+        "responseBody": {
+          "createdAt": "2026-09-07T18:54:16.086803Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "dark_matter_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "黑暗物质实际命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "黑暗物质实际命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "veigar_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:54:16.086803Z"
+        }
+      },
+      {
+        "requestIndex": 43,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "direct_damage_effect",
+        "path": "/api/admin/games/lol/skills/annie_q/effects/spell_hit",
+        "status": 200,
+        "responseSha256": "c597a36586c5a09cf8f57e1380ca7c71dae953b7cec9567bcb3024efb8cfe49d",
+        "rawBodyLength": 695,
+        "responseBody": {
+          "createdAt": "2026-09-07T16:37:40.698135Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "spell_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "碎裂之火命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "碎裂之火命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "annie_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:37:40.698135Z"
+        }
+      },
+      {
+        "requestIndex": 44,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "direct_damage_effect",
+        "path": "/api/admin/games/lol/skills/brand_q/effects/fireball_hit",
+        "status": 200,
+        "responseSha256": "5418e160bdc78a0b2177d5cad43564c8108dc5025700d8125021e94a0ed4b05e",
+        "rawBodyLength": 702,
+        "responseBody": {
+          "createdAt": "2026-09-07T16:38:04.104338Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "fireball_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "火球命中魔法伤害",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "火球命中魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "brand_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:38:04.104338Z"
+        }
+      },
+      {
+        "requestIndex": 45,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "actual_hit_rule",
+        "path": "/api/admin/games/lol/skills/veigar_q/trigger-rules/actual_hit",
+        "status": 200,
+        "responseSha256": "3d53d45f4981b283d132ebca545f6ede7b0e6b1525f0f21423662d2297bb8f4b",
+        "rawBodyLength": 506,
+        "responseBody": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "baleful_strike_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "veigar_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "黑暗祭祀实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "requestIndex": 46,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "actual_hit_rule",
+        "path": "/api/admin/games/lol/skills/veigar_w/trigger-rules/actual_hit",
+        "status": 200,
+        "responseSha256": "8a37b1a74ca1679395968687ad20f8c34709561fba45f7169a7f92c6a366706f",
+        "rawBodyLength": 503,
+        "responseBody": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "dark_matter_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "veigar_w",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "黑暗物质实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "requestIndex": 47,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "actual_hit_rule",
+        "path": "/api/admin/games/lol/skills/annie_q/trigger-rules/actual_hit",
+        "status": 200,
+        "responseSha256": "1861f69c675ad51764985fdc88c9ea4f7a9c4ace5f1a31174aa0ac235f3e0243",
+        "rawBodyLength": 496,
+        "responseBody": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "spell_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "annie_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "碎裂之火实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      },
+      {
+        "requestIndex": 48,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "actual_hit_rule",
+        "path": "/api/admin/games/lol/skills/brand_q/trigger-rules/actual_hit",
+        "status": 200,
+        "responseSha256": "bb9b0086fcdc0111cac495293a60855ded77476e544cbd2e80f74466c6b59447",
+        "rawBodyLength": 499,
+        "responseBody": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "fireball_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "brand_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "火焰烙印实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10
+        }
+      }
+    ],
+    "getAudit": [
+      {
+        "requestIndex": 1,
+        "method": "GET",
+        "phase": "list",
+        "kind": "skill",
+        "path": "/api/admin/games/lol/skills/veigar_q",
+        "status": 200,
+        "responseSha256": "afe302e17591a4eae5014a586480dbe5db48d9e2b7cd7483c47b29cee15f6645",
+        "rawBodyLength": 328
+      },
+      {
+        "requestIndex": 2,
+        "method": "GET",
+        "phase": "list",
+        "kind": "parameters",
+        "path": "/api/admin/games/lol/skills/veigar_q/parameters",
+        "status": 200,
+        "responseSha256": "4cbc36b381f0ab5b614242faa0499b621184023211949e9ca92d706002231dbb",
+        "rawBodyLength": 1746
+      },
+      {
+        "requestIndex": 3,
+        "method": "GET",
+        "phase": "list",
+        "kind": "formulas",
+        "path": "/api/admin/games/lol/skills/veigar_q/formulas",
+        "status": 200,
+        "responseSha256": "3230a126bb75302d629056aedea7c0fbe60b594e600ef777ab848085d1b83ebb",
+        "rawBodyLength": 225
+      },
+      {
+        "requestIndex": 4,
+        "method": "GET",
+        "phase": "list",
+        "kind": "effects",
+        "path": "/api/admin/games/lol/skills/veigar_q/effects",
+        "status": 200,
+        "responseSha256": "5a3daf30c4cb80c6ddc1689079460eadd64473272f84e77260fc6058d931aabf",
+        "rawBodyLength": 528
+      },
+      {
+        "requestIndex": 5,
+        "method": "GET",
+        "phase": "list",
+        "kind": "processes",
+        "path": "/api/admin/games/lol/skills/veigar_q/processes",
+        "status": 200,
+        "responseSha256": "2a7ab26c3e76a6eecac10b50b19c7d34d987898a550563b88de5b2d21399b7fa",
+        "rawBodyLength": 309
+      },
+      {
+        "requestIndex": 6,
+        "method": "GET",
+        "phase": "list",
+        "kind": "states",
+        "path": "/api/admin/games/lol/skills/veigar_q/internal-states",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2
+      },
+      {
+        "requestIndex": 7,
+        "method": "GET",
+        "phase": "list",
+        "kind": "rules",
+        "path": "/api/admin/games/lol/skills/veigar_q/trigger-rules",
+        "status": 200,
+        "responseSha256": "4e2b2ac5cc12ee166896ff8230e7675ddf3a5c4d9501fda6ba883a68c32a20f8",
+        "rawBodyLength": 295
+      },
+      {
+        "requestIndex": 8,
+        "method": "GET",
+        "phase": "list",
+        "kind": "skill",
+        "path": "/api/admin/games/lol/skills/veigar_w",
+        "status": 200,
+        "responseSha256": "06b686e1a73f5865708085353203aa48c8248deb3c2596ab77954ffaa5f45b6c",
+        "rawBodyLength": 319
+      },
+      {
+        "requestIndex": 9,
+        "method": "GET",
+        "phase": "list",
+        "kind": "parameters",
+        "path": "/api/admin/games/lol/skills/veigar_w/parameters",
+        "status": 200,
+        "responseSha256": "a291adaeeabf2ae8954c15692cb8650365956c9c31b159b72f40bde6d7283a2a",
+        "rawBodyLength": 2038
+      },
+      {
+        "requestIndex": 10,
+        "method": "GET",
+        "phase": "list",
+        "kind": "formulas",
+        "path": "/api/admin/games/lol/skills/veigar_w/formulas",
+        "status": 200,
+        "responseSha256": "255875c0d8198e07c57fdd53ef93ccd5dacfa22d8a2c8789f01c8b53fd24d0bb",
+        "rawBodyLength": 225
+      },
+      {
+        "requestIndex": 11,
+        "method": "GET",
+        "phase": "list",
+        "kind": "effects",
+        "path": "/api/admin/games/lol/skills/veigar_w/effects",
+        "status": 200,
+        "responseSha256": "83e2719ac400df3612663afb921b6de1ee261c905d47c757b918b7cdbbc3f6f4",
+        "rawBodyLength": 527
+      },
+      {
+        "requestIndex": 12,
+        "method": "GET",
+        "phase": "list",
+        "kind": "processes",
+        "path": "/api/admin/games/lol/skills/veigar_w/processes",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2
+      },
+      {
+        "requestIndex": 13,
+        "method": "GET",
+        "phase": "list",
+        "kind": "states",
+        "path": "/api/admin/games/lol/skills/veigar_w/internal-states",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2
+      },
+      {
+        "requestIndex": 14,
+        "method": "GET",
+        "phase": "list",
+        "kind": "rules",
+        "path": "/api/admin/games/lol/skills/veigar_w/trigger-rules",
+        "status": 200,
+        "responseSha256": "ba53a15daff7e1f61495061534e3f4138e8eee62003bafef8021d83339271b02",
+        "rawBodyLength": 295
+      },
+      {
+        "requestIndex": 15,
+        "method": "GET",
+        "phase": "list",
+        "kind": "skill",
+        "path": "/api/admin/games/lol/skills/annie_q",
+        "status": 200,
+        "responseSha256": "a17f87bcce8debddffffac188e0210689632a651eb7bc5a87aad051cdde1212c",
+        "rawBodyLength": 338
+      },
+      {
+        "requestIndex": 16,
+        "method": "GET",
+        "phase": "list",
+        "kind": "parameters",
+        "path": "/api/admin/games/lol/skills/annie_q/parameters",
+        "status": 200,
+        "responseSha256": "f0ba73fd25022a1252773f9d03bf27f4198f788d7fddb5ac16c630531c5b99ee",
+        "rawBodyLength": 1982
+      },
+      {
+        "requestIndex": 17,
+        "method": "GET",
+        "phase": "list",
+        "kind": "formulas",
+        "path": "/api/admin/games/lol/skills/annie_q/formulas",
+        "status": 200,
+        "responseSha256": "56df093072231ac3a1df7c4dda3e6ddc54e84186b7947409745fdcd704fa8d62",
+        "rawBodyLength": 227
+      },
+      {
+        "requestIndex": 18,
+        "method": "GET",
+        "phase": "list",
+        "kind": "effects",
+        "path": "/api/admin/games/lol/skills/annie_q/effects",
+        "status": 200,
+        "responseSha256": "3dd8053f3168b0df46229c7b8e014ddbd7235cb7e377a84db9ecb21311d071be",
+        "rawBodyLength": 781
+      },
+      {
+        "requestIndex": 19,
+        "method": "GET",
+        "phase": "list",
+        "kind": "processes",
+        "path": "/api/admin/games/lol/skills/annie_q/processes",
+        "status": 200,
+        "responseSha256": "ad067f19575809dbe9739aa66e36624b810a297db29019e46d4f7bf2d63990e4",
+        "rawBodyLength": 308
+      },
+      {
+        "requestIndex": 20,
+        "method": "GET",
+        "phase": "list",
+        "kind": "states",
+        "path": "/api/admin/games/lol/skills/annie_q/internal-states",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2
+      },
+      {
+        "requestIndex": 21,
+        "method": "GET",
+        "phase": "list",
+        "kind": "rules",
+        "path": "/api/admin/games/lol/skills/annie_q/trigger-rules",
+        "status": 200,
+        "responseSha256": "329c591d05309b6351e34947fad98dc1eaa52dda1e4c43820e8977bcc9a984a4",
+        "rawBodyLength": 295
+      },
+      {
+        "requestIndex": 22,
+        "method": "GET",
+        "phase": "list",
+        "kind": "skill",
+        "path": "/api/admin/games/lol/skills/brand_q",
+        "status": 200,
+        "responseSha256": "ee0f5a206620ebaf09dd94d726ca2fc946fe9c1884ff114474b0516a89c9db4c",
+        "rawBodyLength": 322
+      },
+      {
+        "requestIndex": 23,
+        "method": "GET",
+        "phase": "list",
+        "kind": "parameters",
+        "path": "/api/admin/games/lol/skills/brand_q/parameters",
+        "status": 200,
+        "responseSha256": "5be69f0886ec1b72e2644ce42384237be880c1d1682c5a13493f0f653ae9da74",
+        "rawBodyLength": 2028
+      },
+      {
+        "requestIndex": 24,
+        "method": "GET",
+        "phase": "list",
+        "kind": "formulas",
+        "path": "/api/admin/games/lol/skills/brand_q/formulas",
+        "status": 200,
+        "responseSha256": "2189e6a624aaa37be1a551f818da34bc047f7de791c049e8233b0fc39645a7d1",
+        "rawBodyLength": 227
+      },
+      {
+        "requestIndex": 25,
+        "method": "GET",
+        "phase": "list",
+        "kind": "effects",
+        "path": "/api/admin/games/lol/skills/brand_q/effects",
+        "status": 200,
+        "responseSha256": "fb2c9ecc2e0ac06492a9fb4761bf30b3e26cc507be3c2bbeac35a9d0f689ebbb",
+        "rawBodyLength": 522
+      },
+      {
+        "requestIndex": 26,
+        "method": "GET",
+        "phase": "list",
+        "kind": "processes",
+        "path": "/api/admin/games/lol/skills/brand_q/processes",
+        "status": 200,
+        "responseSha256": "88f84986cd15da40ed33d589ec5b3fa197b096d92e2bd14c3183610345da6c28",
+        "rawBodyLength": 308
+      },
+      {
+        "requestIndex": 27,
+        "method": "GET",
+        "phase": "list",
+        "kind": "states",
+        "path": "/api/admin/games/lol/skills/brand_q/internal-states",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2
+      },
+      {
+        "requestIndex": 28,
+        "method": "GET",
+        "phase": "list",
+        "kind": "rules",
+        "path": "/api/admin/games/lol/skills/brand_q/trigger-rules",
+        "status": 200,
+        "responseSha256": "a8ad74975bbc6b4bfb7902a29851fdb43f6d31cc1980e8f96c259759a0f0bdd5",
+        "rawBodyLength": 295
+      },
+      {
+        "requestIndex": 29,
+        "method": "GET",
+        "phase": "list",
+        "kind": "skill",
+        "path": "/api/admin/games/lol/skills/xerath_e",
+        "status": 200,
+        "responseSha256": "01a2cb077803bac555d720bd4405e1399bb55e11264b728285b957a4910fe693",
+        "rawBodyLength": 288
+      },
+      {
+        "requestIndex": 30,
+        "method": "GET",
+        "phase": "list",
+        "kind": "parameters",
+        "path": "/api/admin/games/lol/skills/xerath_e/parameters",
+        "status": 200,
+        "responseSha256": "1d0b6dbb80419c22a26b3ffbf430444240575af01db3817eda0c311b8422a3c4",
+        "rawBodyLength": 2891
+      },
+      {
+        "requestIndex": 31,
+        "method": "GET",
+        "phase": "list",
+        "kind": "formulas",
+        "path": "/api/admin/games/lol/skills/xerath_e/formulas",
+        "status": 200,
+        "responseSha256": "ea771cd6107d4eeaeac45e3949c23fd63a1ab7f16b7d584e7a391cd00d453818",
+        "rawBodyLength": 481
+      },
+      {
+        "requestIndex": 32,
+        "method": "GET",
+        "phase": "list",
+        "kind": "effects",
+        "path": "/api/admin/games/lol/skills/xerath_e/effects",
+        "status": 200,
+        "responseSha256": "524319ccca231b2d613254da9a916f3d744329b250614716ec1ba93f5086afc9",
+        "rawBodyLength": 267
+      },
+      {
+        "requestIndex": 33,
+        "method": "GET",
+        "phase": "list",
+        "kind": "processes",
+        "path": "/api/admin/games/lol/skills/xerath_e/processes",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2
+      },
+      {
+        "requestIndex": 34,
+        "method": "GET",
+        "phase": "list",
+        "kind": "states",
+        "path": "/api/admin/games/lol/skills/xerath_e/internal-states",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2
+      },
+      {
+        "requestIndex": 35,
+        "method": "GET",
+        "phase": "list",
+        "kind": "rules",
+        "path": "/api/admin/games/lol/skills/xerath_e/trigger-rules",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "rawBodyLength": 2
+      },
+      {
+        "requestIndex": 36,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "damage_formula",
+        "path": "/api/admin/games/lol/skills/veigar_q/formulas/damage",
+        "status": 200,
+        "responseSha256": "e7ab334758da8fd342fa2f906829ee2c264f60a7c715b4e2d82d65d115e200fa",
+        "rawBodyLength": 569
+      },
+      {
+        "requestIndex": 37,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "damage_formula",
+        "path": "/api/admin/games/lol/skills/veigar_w/formulas/damage",
+        "status": 200,
+        "responseSha256": "816b630d0041b3e05b5e926d7fe8eebef52f2dea806db5513454d5ed27c4fa3f",
+        "rawBodyLength": 569
+      },
+      {
+        "requestIndex": 38,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "damage_formula",
+        "path": "/api/admin/games/lol/skills/annie_q/formulas/damage",
+        "status": 200,
+        "responseSha256": "583ebc22a8935f1b09f6a1b0604794260e09db5745e1626c1cdb538b5e86dbfb",
+        "rawBodyLength": 571
+      },
+      {
+        "requestIndex": 39,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "damage_formula",
+        "path": "/api/admin/games/lol/skills/brand_q/formulas/damage",
+        "status": 200,
+        "responseSha256": "22a240c17e7f8af713e883d6a93a56593abf24627c002d40902f08cb308a4771",
+        "rawBodyLength": 571
+      },
+      {
+        "requestIndex": 40,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "damage_formula",
+        "path": "/api/admin/games/lol/skills/xerath_e/formulas/damage",
+        "status": 200,
+        "responseSha256": "c28e587b5699f2338d5a7834fe7cc296e97bd6a96f1026612a5b608efc0899c3",
+        "rawBodyLength": 594
+      },
+      {
+        "requestIndex": 41,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "direct_damage_effect",
+        "path": "/api/admin/games/lol/skills/veigar_q/effects/baleful_strike_hit",
+        "status": 200,
+        "responseSha256": "e204982ef3f721a061c75e44da38ff48aec5331f47f7b53a3e767f7b25f11de6",
+        "rawBodyLength": 705
+      },
+      {
+        "requestIndex": 42,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "direct_damage_effect",
+        "path": "/api/admin/games/lol/skills/veigar_w/effects/dark_matter_hit",
+        "status": 200,
+        "responseSha256": "c632aa95c7d08755ee51bf7c497ee6aeb320886989d2624c199f2838f5308f87",
+        "rawBodyLength": 706
+      },
+      {
+        "requestIndex": 43,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "direct_damage_effect",
+        "path": "/api/admin/games/lol/skills/annie_q/effects/spell_hit",
+        "status": 200,
+        "responseSha256": "c597a36586c5a09cf8f57e1380ca7c71dae953b7cec9567bcb3024efb8cfe49d",
+        "rawBodyLength": 695
+      },
+      {
+        "requestIndex": 44,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "direct_damage_effect",
+        "path": "/api/admin/games/lol/skills/brand_q/effects/fireball_hit",
+        "status": 200,
+        "responseSha256": "5418e160bdc78a0b2177d5cad43564c8108dc5025700d8125021e94a0ed4b05e",
+        "rawBodyLength": 702
+      },
+      {
+        "requestIndex": 45,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "actual_hit_rule",
+        "path": "/api/admin/games/lol/skills/veigar_q/trigger-rules/actual_hit",
+        "status": 200,
+        "responseSha256": "3d53d45f4981b283d132ebca545f6ede7b0e6b1525f0f21423662d2297bb8f4b",
+        "rawBodyLength": 506
+      },
+      {
+        "requestIndex": 46,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "actual_hit_rule",
+        "path": "/api/admin/games/lol/skills/veigar_w/trigger-rules/actual_hit",
+        "status": 200,
+        "responseSha256": "8a37b1a74ca1679395968687ad20f8c34709561fba45f7169a7f92c6a366706f",
+        "rawBodyLength": 503
+      },
+      {
+        "requestIndex": 47,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "actual_hit_rule",
+        "path": "/api/admin/games/lol/skills/annie_q/trigger-rules/actual_hit",
+        "status": 200,
+        "responseSha256": "1861f69c675ad51764985fdc88c9ea4f7a9c4ace5f1a31174aa0ac235f3e0243",
+        "rawBodyLength": 496
+      },
+      {
+        "requestIndex": 48,
+        "method": "GET",
+        "phase": "detail",
+        "kind": "actual_hit_rule",
+        "path": "/api/admin/games/lol/skills/brand_q/trigger-rules/actual_hit",
+        "status": 200,
+        "responseSha256": "bb9b0086fcdc0111cac495293a60855ded77476e544cbd2e80f74466c6b59447",
+        "rawBodyLength": 499
+      }
+    ]
+  },
+  "findings": [
+    "四项已有直接伤害链完整接线：veigar_q、veigar_w、annie_q、brand_q。",
+    "xerath_e已有damage公式，列表显示只有mana_cost效果，processes/internal-states/trigger-rules为空；直接伤害新增表达可沿用合法SKILL_HIT，但三个交互字段必须补证后才可冻结。",
+    "四项现有命中规则均为 SKILL_HIT→EXECUTE_EFFECT，目标上下文 CURRENT_TARGET，无条件组；不创造命中事件。",
+    "管理数据存在不等于宿主/Wasm或战斗运行已验证；本报告没有做运行时声明。"
+  ]
+}

@@ -1,0 +1,925 @@
+{
+  "at": "2026-09-21T04:16:39.777Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/xinzhao_e": {
+      "createdAt": "2026-09-06T18:21:10.441411Z",
+      "description": "赵信对一名敌人发起冲锋，获得攻击速度并对范围内的所有敌人造成伤害，并使他们暂时减速。以被挑战的敌人为目标时，这个技能的施放距离会获得提升。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "赵信·无畏冲锋",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "xinzhao_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:21:10.441411Z"
+    },
+    "/skills/xinzhao_e/parameters": [
+      {
+        "createdAt": "2026-09-08T14:39:15.854386Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 75,
+          "3": 100,
+          "4": 125,
+          "5": 150
+        },
+        "name": "冲锋基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T14:39:15.854386Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:16.446166Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 1.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲锋法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T14:39:16.446166Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:17.046904Z",
+        "description": "客户端当前根绑定 DataValues.ASMod 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.38,
+          "2": 0.46,
+          "3": 0.54,
+          "4": 0.62,
+          "5": 0.7
+        },
+        "name": "冲锋基础额外攻速比例",
+        "parameterKey": "base_attack_speed_ratio",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T14:39:17.046904Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:17.636154Z",
+        "description": "客户端当前根绑定 DataValues.APToASRatio 取索引1至5。",
+        "fixedValue": 0.001,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每点法强增加的额外攻速比例",
+        "parameterKey": "ap_attack_speed_ratio",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-08T14:39:17.636154Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:18.248755Z",
+        "description": "客户端当前根绑定 DataValues.PermanentASToASRatio 取索引1至5。",
+        "fixedValue": 5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "永久额外攻速换算除数",
+        "parameterKey": "permanent_attack_speed_divisor",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-08T14:39:18.248755Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:18.79381Z",
+        "description": "客户端当前根绑定 DataValues.ASDuration 取索引1至5。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲锋攻速持续（毫秒）",
+        "parameterKey": "attack_speed_duration_ms",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-08T14:39:18.79381Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:19.441216Z",
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲锋减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-08T14:39:19.441216Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:19.993797Z",
+        "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲锋减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T14:39:19.993797Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T02:06:11.949827Z",
+        "description": "DDragon16.17.1 XinZhao.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 11000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:11.949827Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:06:12.438111Z",
+        "description": "DDragon16.17.1 XinZhao.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:06:12.438111Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:20.692938Z",
+        "description": "按1表示100%；仅永久额外攻速，不包含本次E、临时技能和其他临时增益。不得绑定普通bonus_attack_speed_percent，否则把临时攻速反复计入自身。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身永久额外攻速比例",
+        "parameterKey": "permanent_bonus_attack_speed_ratio",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T14:39:20.692938Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/xinzhao_e/parameters/base_damage": {
+      "createdAt": "2026-09-08T14:39:15.854386Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 75,
+        "3": 100,
+        "4": 125,
+        "5": 150
+      },
+      "name": "冲锋基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T14:39:15.854386Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/xinzhao_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-08T14:39:16.446166Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 1.2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "冲锋法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-08T14:39:16.446166Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/xinzhao_e/parameters/base_attack_speed_ratio": {
+      "createdAt": "2026-09-08T14:39:17.046904Z",
+      "description": "客户端当前根绑定 DataValues.ASMod 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.38,
+        "2": 0.46,
+        "3": 0.54,
+        "4": 0.62,
+        "5": 0.7
+      },
+      "name": "冲锋基础额外攻速比例",
+      "parameterKey": "base_attack_speed_ratio",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-08T14:39:17.046904Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/xinzhao_e/parameters/ap_attack_speed_ratio": {
+      "createdAt": "2026-09-08T14:39:17.636154Z",
+      "description": "客户端当前根绑定 DataValues.APToASRatio 取索引1至5。",
+      "fixedValue": 0.001,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "每点法强增加的额外攻速比例",
+      "parameterKey": "ap_attack_speed_ratio",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-08T14:39:17.636154Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/xinzhao_e/parameters/permanent_attack_speed_divisor": {
+      "createdAt": "2026-09-08T14:39:18.248755Z",
+      "description": "客户端当前根绑定 DataValues.PermanentASToASRatio 取索引1至5。",
+      "fixedValue": 5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "永久额外攻速换算除数",
+      "parameterKey": "permanent_attack_speed_divisor",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-08T14:39:18.248755Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/xinzhao_e/parameters/attack_speed_duration_ms": {
+      "createdAt": "2026-09-08T14:39:18.79381Z",
+      "description": "客户端当前根绑定 DataValues.ASDuration 取索引1至5。",
+      "fixedValue": 5000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "冲锋攻速持续（毫秒）",
+      "parameterKey": "attack_speed_duration_ms",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-08T14:39:18.79381Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/xinzhao_e/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-08T14:39:19.441216Z",
+      "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+      "fixedValue": 500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "冲锋减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-08T14:39:19.441216Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/xinzhao_e/parameters/slow_ratio": {
+      "createdAt": "2026-09-08T14:39:19.993797Z",
+      "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+      "fixedValue": 0.3,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "冲锋减速比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T14:39:19.993797Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/xinzhao_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:06:11.949827Z",
+      "description": "DDragon16.17.1 XinZhao.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 11000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:06:11.949827Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/xinzhao_e/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:06:12.438111Z",
+      "description": "DDragon16.17.1 XinZhao.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:06:12.438111Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/xinzhao_e/parameters/permanent_bonus_attack_speed_ratio": {
+      "createdAt": "2026-09-08T14:39:20.692938Z",
+      "description": "按1表示100%；仅永久额外攻速，不包含本次E、临时技能和其他临时增益。不得绑定普通bonus_attack_speed_percent，否则把临时攻速反复计入自身。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "自身永久额外攻速比例",
+      "parameterKey": "permanent_bonus_attack_speed_ratio",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T14:39:20.692938Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/skills/xinzhao_e/formulas": [
+      {
+        "createdAt": "2026-09-08T14:39:21.229427Z",
+        "description": "50/75/100/125/150+1.2法强。",
+        "formulaKey": "charge_damage",
+        "gameId": "lol",
+        "name": "无畏冲锋魔法伤害",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:39:21.229427Z"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:21.804229Z",
+        "description": "38/46/54/62/70% + 永久额外攻速比例÷5 + 每点法强0.1%；所有项统一比例单位。",
+        "formulaKey": "attack_speed_bonus",
+        "gameId": "lol",
+        "name": "无畏冲锋获得的额外攻速",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T14:39:21.804229Z"
+      }
+    ],
+    "/skills/xinzhao_e/formulas/charge_damage": {
+      "createdAt": "2026-09-08T14:39:21.229427Z",
+      "description": "50/75/100/125/150+1.2法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "charge_damage",
+      "gameId": "lol",
+      "name": "无畏冲锋魔法伤害",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T14:39:21.229427Z"
+    },
+    "/skills/xinzhao_e/formulas/attack_speed_bonus": {
+      "createdAt": "2026-09-08T14:39:21.804229Z",
+      "description": "38/46/54/62/70% + 永久额外攻速比例÷5 + 每点法强0.1%；所有项统一比例单位。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_attack_speed_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "permanent_bonus_attack_speed_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "permanent_attack_speed_divisor"
+                  }
+                ],
+                "operation": "DIVIDE"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_attack_speed_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "attack_speed_bonus",
+      "gameId": "lol",
+      "name": "无畏冲锋获得的额外攻速",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-08T14:39:21.804229Z"
+    },
+    "/skills/xinzhao_e/effects": [
+      {
+        "createdAt": "2026-09-08T14:39:22.517209Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "xinzhao_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:39:22.517209Z"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:23.081979Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "charge_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "无畏冲锋独立命中魔法伤害",
+        "resultCount": 1,
+        "skillKey": "xinzhao_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T14:39:23.081979Z"
+      },
+      {
+        "createdAt": "2026-09-08T14:39:23.724162Z",
+        "description": "独立5秒攻速候选；仅在永久额外攻速输入正确绑定后应用。当前不从包含临时值的普通额外攻速属性读取。",
+        "effectKey": "charge_attack_speed",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "无畏冲锋自身额外攻速",
+        "resultCount": 1,
+        "skillKey": "xinzhao_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T14:39:23.724162Z"
+      }
+    ],
+    "/skills/xinzhao_e/effects/mana_cost": {
+      "createdAt": "2026-09-08T14:39:22.517209Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "xinzhao_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T14:39:22.517209Z"
+    },
+    "/skills/xinzhao_e/effects/charge_hit": {
+      "createdAt": "2026-09-08T14:39:23.081979Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "charge_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "无畏冲锋独立命中魔法伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "无畏冲锋独立命中魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "charge_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "xinzhao_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-08T14:39:23.081979Z"
+    },
+    "/skills/xinzhao_e/effects/charge_attack_speed": {
+      "createdAt": "2026-09-08T14:39:23.724162Z",
+      "description": "独立5秒攻速候选；仅在永久额外攻速输入正确绑定后应用。当前不从包含临时值的普通额外攻速属性读取。",
+      "effectKey": "charge_attack_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "attack_speed_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "无畏冲锋自身额外攻速",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "无畏冲锋自身额外攻速",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "attack_speed_bonus",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "xinzhao_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T14:39:23.724162Z"
+    },
+    "/skills/xinzhao_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-08T14:39:24.366382Z",
+        "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放无畏冲锋",
+        "processKey": "cast",
+        "skillKey": "xinzhao_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-08T14:39:24.366382Z"
+      }
+    ],
+    "/skills/xinzhao_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-08T14:39:24.366382Z",
+      "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放无畏冲锋",
+      "processKey": "cast",
+      "skillKey": "xinzhao_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": null,
+          "detail": {},
+          "name": "施放开始",
+          "sortOrder": 10,
+          "stepKey": "start",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-08T14:39:24.366382Z"
+    },
+    "/skills/xinzhao_e/internal-states": [],
+    "/skills/xinzhao_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "本技能主动使用时启动现有消耗与冷却登记过程；即时登记不代表完整冲锋时长，不生成命中、攻速或减速。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "无畏冲锋主动使用入口",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-21T04:12:22.564463Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "只接受所列真实事件；规则不自行生成命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "无畏冲锋实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_charge_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:39:24.972948Z"
+      }
+    ],
+    "/skills/xinzhao_e/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动已有施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "本技能主动使用时启动现有消耗与冷却登记过程；即时登记不代表完整冲锋时长，不生成命中、攻速或减速。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "xinzhao_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "无畏冲锋主动使用入口",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 5
+    },
+    "/skills/xinzhao_e/trigger-rules/actual_charge_hit": {
+      "actions": [
+        {
+          "actionKey": "charge_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "charge_hit"
+          },
+          "name": "执行charge_hit",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "只接受所列真实事件；规则不自行生成命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "xinzhao_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "无畏冲锋实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_charge_hit",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/base_attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/ap_attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/permanent_attack_speed_divisor",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/attack_speed_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/permanent_bonus_attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/formulas/charge_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/formulas/attack_speed_bonus",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/effects/charge_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/effects/charge_attack_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/trigger-rules/actual_charge_hit",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

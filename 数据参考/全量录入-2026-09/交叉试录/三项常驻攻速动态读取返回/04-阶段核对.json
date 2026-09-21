@@ -1,0 +1,46 @@
+{
+  "at": "2026-09-20T10:31:21.252Z",
+  "status": "MANAGEMENT_COMPONENT_RETURN_PASS_WITH_AUDIT_CORRECTIONS",
+  "skillKeys": [
+    "kogmaw_q",
+    "jarvaniv_e",
+    "twistedfate_e"
+  ],
+  "businessSaves": 3,
+  "independentHTTPGETs": 78,
+  "unchangedResponsesIncludingTimestamps": 72,
+  "changedDetails": 3,
+  "changedCollections": 3,
+  "change": "持续常驻自身攻速按当前已学技能等级读取，沿用单层来源实例、原参数和初始化动作。",
+  "browser": "三项单次保存、重开与动态读值回显PASS，控制台无错误和警告。",
+  "independent": {
+    "file": "正式返回/06-独立回读.json",
+    "status": "数据校验通过，检查器误用pending字段导致总状态FAIL",
+    "supplement": "正式返回/06a-独立回读补充核对.json",
+    "finalStatus": "PASS",
+    "extraHTTPRequests": 0
+  },
+  "auditCorrections": [
+    "05a保留两次保存后旧内存闭包覆盖尝试计数的现场；05最终为3次尝试、3次即时回读、pendingRoute=null，未重放。",
+    "06a按正式pendingRoute字段核对，修正集合数3；复用06的78次实际回读，没有重复网络查询。",
+    "冻结body多带effectKey，而页面构造器按更新契约排除该字段；08明确实际请求正文未捕获及后续正确请求形状，原冻结不作API重放。"
+  ],
+  "managementWholeSkillsComplete": false,
+  "remaining": {
+    "kogmaw_q": [
+      "主动伤害和使用登记尚未追加",
+      "双抗削减、同次伤害顺序及重施",
+      "有效施法时长"
+    ],
+    "jarvaniv_e": [
+      "主动伤害、使用、军旗光环与连接控制"
+    ],
+    "twistedfate_e": [
+      "第四次攻击计数、命中和额外伤害"
+    ]
+  },
+  "newTables": 0,
+  "codeChanges": 0,
+  "runtimeValidation": "未执行",
+  "goalComplete": false
+}

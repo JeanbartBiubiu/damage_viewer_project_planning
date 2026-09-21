@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-19T18:58:35.389Z",
+  "status": "APPROVED",
+  "reviewer": "/root/root_status_source_review",
+  "approvedFiles": {
+    "tools/authoring/reviewed-hit-scope-ui.mjs": "b9dc44da5ac25728eeeaa13c8108dd6720f7ae70cd9ac4a8a9896f2715f2d287",
+    "01-候选方案.json": "e3855c0422573d3ec1c66a08ee7296f2d982c688c915b7d63b8d99e2035edf4d",
+    "02-冻结请求.json": "0fe35a14e07a164c5243142c5a098c012131b035b98ca51dddeb0dcdcb005c45",
+    "03-来源摘要.json": "d83a9ce4de417ed1139e897464c731ec8de8cd22998c95fce2c1c723c32faa33",
+    "04-写入前现值.json": "d84c346d799372ec8ff51ada967b7dc5f8c26f6af46a44360b241d1d59dba591"
+  },
+  "findings": [
+    "固定中英文官方资料明确安妮W锥形区域命中所有敌人；客户端根对象目标器为锥形。当前1V1范围增加CHAMPION与SKILL_HIT_TARGET_IS_ENEMY同组条件是必要且准确的收窄。",
+    "子目录04为母快照01的精确18路径子集，母快照27个对象、子快照18次GET且businessWrites=0；目标actual_hit原条件组为空。",
+    "冻结请求由工具requestFrom按原规则完整复制，唯一业务新增为同组两个条件；原动作、spell_hit效果、说明、事件类型和排序保持。请求体按现有回读规范省略eventSource.detail.useKind，expectedReadback保留原null。工具仅prepare/preflight/readback且无PUT模式。"
+  ]
+}

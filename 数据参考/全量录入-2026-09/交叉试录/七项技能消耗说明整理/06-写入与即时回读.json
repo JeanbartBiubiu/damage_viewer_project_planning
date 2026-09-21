@@ -1,0 +1,1548 @@
+{
+  "startedAt": "2026-09-18T21:12:58.438Z",
+  "status": "PASS",
+  "businessWritesAttempted": 12,
+  "operations": [
+    {
+      "route": "/skills/nami_q/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:36:56.225344Z",
+          "description": "DDragon16.17.1 Nami.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nami_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-18T21:12:58.212039Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:36:56.225344Z",
+        "description": "DDragon16.17.1 Nami.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nami_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T21:12:58.212039Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nami_q/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T17:56:52.488003Z",
+          "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "施放法力消耗",
+              "resultKey": "resource",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "nami_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-18T21:12:59.721373Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T17:56:52.488003Z",
+        "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "施放法力消耗",
+            "resultKey": "resource",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "nami_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T21:12:59.721373Z"
+      }
+    },
+    {
+      "route": "/skills/nami_r/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:36:58.704743Z",
+          "description": "DDragon16.17.1 Nami.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nami_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-18T21:13:01.375429Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:36:58.704743Z",
+        "description": "DDragon16.17.1 Nami.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nami_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T21:13:01.375429Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nami_r/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T17:57:38.771359Z",
+          "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "施放法力消耗",
+              "resultKey": "resource",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "nami_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-18T21:13:02.728272Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T17:57:38.771359Z",
+        "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "施放法力消耗",
+            "resultKey": "resource",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "nami_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T21:13:02.728272Z"
+      }
+    },
+    {
+      "route": "/skills/sona_q/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T01:03:34.12898Z",
+          "description": "DDragon16.17.1 Sona.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "sona_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-18T21:13:04.306606Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-08T01:03:34.12898Z",
+        "description": "DDragon16.17.1 Sona.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sona_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T21:13:04.306606Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/sona_w/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T01:03:34.843224Z",
+          "description": "DDragon16.17.1 Sona.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 80,
+            "2": 85,
+            "3": 90,
+            "4": 95,
+            "5": 100
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "sona_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-18T21:13:05.74085Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-08T01:03:34.843224Z",
+        "description": "DDragon16.17.1 Sona.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 85,
+          "3": 90,
+          "4": 95,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sona_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T21:13:05.74085Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/orianna_w/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:38:54.781019Z",
+          "description": "DDragon16.17.1 Orianna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "orianna_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-18T21:13:07.083494Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:38:54.781019Z",
+        "description": "DDragon16.17.1 Orianna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "orianna_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T21:13:07.083494Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/orianna_w/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T09:55:13.241413Z",
+          "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "orianna_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-18T21:13:08.421629Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T09:55:13.241413Z",
+        "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "orianna_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T21:13:08.421629Z"
+      }
+    },
+    {
+      "route": "/skills/orianna_e/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:38:55.551174Z",
+          "description": "DDragon16.17.1 Orianna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "orianna_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-18T21:13:10.034101Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:38:55.551174Z",
+        "description": "DDragon16.17.1 Orianna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "orianna_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T21:13:10.034101Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/orianna_e/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T09:55:24.214782Z",
+          "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "orianna_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-18T21:13:11.348843Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T09:55:24.214782Z",
+        "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "orianna_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T21:13:11.348843Z"
+      }
+    },
+    {
+      "route": "/skills/zilean_e/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:41:36.258887Z",
+          "description": "DDragon16.17.1 Zilean.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "zilean_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-18T21:13:12.921712Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-08T02:41:36.258887Z",
+        "description": "DDragon16.17.1 Zilean.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zilean_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T21:13:12.921712Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/sona_w/parameters/cooldown_ms",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T18:36:45.898171Z",
+          "description": "官方DDragon16.17.1 Sona.spells[1].cooldown明确为各级10秒，转换为10000毫秒；客户端当前绑定根未提供cooldownTime，未将缺值当成零。此值为普通基础冷却，未计急速或其他技能修正；具体开始时点由引用过程定义。",
+          "fixedValue": 10000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "坚毅咏叹调冷却时间",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "sona_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-18T21:13:14.250703Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T18:36:45.898171Z",
+        "description": "官方DDragon16.17.1 Sona.spells[1].cooldown明确为各级10秒，转换为10000毫秒；客户端当前绑定根未提供cooldownTime，未将缺值当成零。此值为普通基础冷却，未计急速或其他技能修正；具体开始时点由引用过程定义。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "坚毅咏叹调冷却时间",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sona_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T21:13:14.250703Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions.mjs": "eab116c1b4ac83239d16946ff275c51170154d0ea26229c9f03c1d71f0b2cfed",
+    "01-纠错计划.json": "d2ee28ae33a2bf1d4971cdc77584aa1ee8f847f9f38a252045957c2baa430498",
+    "02-冻结请求.json": "2cd876218802c324075d9fc419bdfe88cb8420fed27dc35efc3f79292bc10fca",
+    "03-来源摘要.json": "eaf6882bfd7184f1b21108bef67ad5dd14bf87beede103f9ea3a59e4c7545df1",
+    "04-写入前现值.json": "3e6b0b6dde47d707096ac65311a7e27be90514cbd57b734d24ca3541e8a7685d"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-18T21:13:15.824Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/nami_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/passive_update_area_length",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/knockup_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/min_slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/max_slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/distance_to_slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_attack_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_attack_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_aura_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_attack_window_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_interval_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/chord_character_level_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/chord_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas/melody_attack_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas/chord_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/base_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/heal_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/aura_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/diminuendo_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/melody_interval_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/diminuendo_base_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/diminuendo_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/formulas/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/formulas/shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/formulas/diminuendo_damage_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/effects/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/trigger-rules/on_used_self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/self_haste_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/field_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/slow_haste_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/shield_base_amount",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/defense_bonus",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/pass_through_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/calculation_constant_1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/calculation_constant_2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/formulas/pass_through_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/formulas/shield_amount",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters/duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters/speed_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters/cast_time_seconds",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/nami_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/nami_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/nami_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/nami_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/sona_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/sona_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/orianna_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/orianna_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/orianna_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/orianna_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/zilean_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/sona_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/cooldown_ms",
+      "status": 200
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-09-20T11:20:00.000Z",
+  "status": "APPROVED",
+  "reviewer": "olaf_zaahen_persistent_attribute_independent_review",
+  "methodPolicy": "LOCAL_FILES_ONLY_NO_HTTP_SQL_UI",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "reviewerSQLRequests": 0,
+  "approvedFiles": {
+    "正式返回/01-冻结请求与允许差异.json": "0daa671fa245b11e9ece40b90830a85173229d0b93d6cd1ed9786ffc93fe7f92",
+    "正式返回/02-写前保护现值.json": "0d331cfadcc3fa2b38bde2684bf2a8bf71ec922240935a8d3c2b07b618da7fbe",
+    "02-来源与最小修正.json": "dfe7596a71598261343e59ed9f93e87f6b6d741a44e0e3c7cb08720e6e2339a6",
+    "技能公共参数实录/客户端原文/Olaf.json.gz": "fb882e8483021bf24d0506a494a8cb5f731fcf1a86a0c9dcde47503938428820",
+    "英雄/原始资料/zh_CN/champion/Olaf.json": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5",
+    "技能公共参数实录/客户端原文/Zaahen.json.gz": "cb025c3ea4217a668ad390e83570a615d6a7be358b22542485e99bbf3d8acff2",
+    "英雄/原始资料/zh_CN/champion/Zaahen.json": "8695912927630edc5c975b908633a99f5e1ce4ef7b133ab101c7439f364e6524"
+  },
+  "sourceChecks": {
+    "sourceReportShaMatches": true,
+    "sourceFileShaMatches": true,
+    "olaf": {
+      "root": "Characters/Olaf/Spells/OlafRagnarokAbility/OlafRagnarok",
+      "dataValue": "Resists",
+      "rawValues": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30,
+        35
+      ],
+      "learnedRanks": [
+        1,
+        2,
+        3
+      ],
+      "savedValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20
+      },
+      "unit": "护甲/魔抗点数",
+      "officialPassive": "被动同时给予护甲和魔法抗性",
+      "effects": [
+        {
+          "effectKey": "passive_armor",
+          "attributeKey": "armor",
+          "target": "SOURCE"
+        },
+        {
+          "effectKey": "passive_magic_resistance",
+          "attributeKey": "magic_resistance",
+          "target": "SOURCE"
+        }
+      ]
+    },
+    "zaahen": {
+      "root": "Characters/Zaahen/Spells/ZaahenRAbility/ZaahenR",
+      "dataValue": "ArmorPen",
+      "rawValues": [
+        0,
+        0.10000000149011612,
+        0.20000000298023224,
+        0.30000001192092896,
+        0.4000000059604645,
+        0.5,
+        0.6000000238418579
+      ],
+      "learnedRanks": [
+        1,
+        2,
+        3
+      ],
+      "savedValues": {
+        "1": 0.100000001,
+        "2": 0.200000003,
+        "3": 0.300000012
+      },
+      "unit": "比例，1表示100%",
+      "officialPassive": "被动给予护甲穿透比例",
+      "effect": {
+        "effectKey": "armor_penetration",
+        "attributeKey": "armor_pen_percent",
+        "target": "SOURCE"
+      }
+    }
+  },
+  "protectedBaseline": {
+    "path": "正式返回/02-写前保护现值.json",
+    "sha256": "0d331cfadcc3fa2b38bde2684bf2a8bf71ec922240935a8d3c2b07b618da7fbe",
+    "auditGETs": 63,
+    "actualAuditMethodCounts": {
+      "GET": 63
+    },
+    "actualAuditStatusCounts": {
+      "200": 63
+    },
+    "sourceReportOriginalGETCount": 65,
+    "businessWrites": 0,
+    "protectedTargets": 3
+  },
+  "requestChecks": {
+    "requestCount": 3,
+    "methods": [
+      "PUT",
+      "PUT",
+      "PUT"
+    ],
+    "routes": [
+      "/skills/olaf_r/effects/passive_armor",
+      "/skills/olaf_r/effects/passive_magic_resistance",
+      "/skills/zaahen_r/effects/armor_penetration"
+    ],
+    "bodyFieldsExactly": [
+      "name",
+      "description",
+      "sortOrder",
+      "lifecycle",
+      "results"
+    ],
+    "effectKeyInBodies": false,
+    "effectKeyInExpectedReadbacks": true,
+    "changesWithinAllowed": true,
+    "changedBusinessFields": [
+      "description",
+      "results[0].lifecycleBehavior.valueReadMode",
+      "results[0].lifecycleBehavior.reapplicationValueMode",
+      "results[0].description（仅亚恒结果）"
+    ],
+    "unchanged": [
+      "参数值、单位和技能等级范围1至3",
+      "PERSISTENT/SOURCE/单层无限/SHARED生命周期",
+      "目标属性、属性固定加算乘区、INCREASE操作",
+      "初始化规则及主动分支"
+    ]
+  },
+  "scope": {
+    "included": "奥拉夫R被动护甲与魔抗、亚恒R常驻护甲穿透在已学R等级1至3的动态读取方式。",
+    "excluded": [
+      "主动伤害、治疗、减伤、净化、命中延长、位移、生存链、其他穿透合并",
+      "等级0默认值与实际战斗结算"
+    ]
+  },
+  "decision": "APPROVED：来源对象、技能等级1至3、数值单位和属性目标均正确；三个结果只从APPLICATION_SNAPSHOT/REPLACE修为MOMENT_EVALUATION/null，不补数值、不带入主动分支或等级0。",
+  "runtimeValidation": "未执行",
+  "wholeSkillComplete": false
+}

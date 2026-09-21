@@ -1,0 +1,69 @@
+{
+  "at": "2026-09-20T07:13:45.111Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "skillKey": "seraphine_r",
+  "formula": {
+    "key": "magic_damage",
+    "preview": "基础伤害 + (法强比例 × 施法者.法术强度.最终值)"
+  },
+  "damageResult": {
+    "effect": "encore_hit",
+    "target": "当前目标",
+    "value": "magic_damage公式",
+    "type": "魔法伤害",
+    "delivery": "技能",
+    "origin": "直接伤害",
+    "critical": "不允许暴击",
+    "vampType": "全能吸血",
+    "basis": "防御后伤害",
+    "efficiency": 1,
+    "spellShield": "当前结果"
+  },
+  "manaResult": {
+    "effect": "mana_cost",
+    "target": "施法者",
+    "attribute": "法力值",
+    "operation": "扣除",
+    "value": "mana_cost参数"
+  },
+  "process": {
+    "key": "use_cost_and_cooldown",
+    "activation": "主动",
+    "step": "register_use / 立即",
+    "cooldown": "cooldown_ms / 过程开始",
+    "manaBinding": "mana_cost / 过程开始",
+    "descriptionExplicitlyNotCastTime": true
+  },
+  "rules": {
+    "actual_hit": {
+      "event": "SKILL_HIT / seraphine_r",
+      "conditions": [
+        "英雄",
+        "明确敌方"
+      ],
+      "conditionRelation": "并且",
+      "action": "当前目标执行encore_hit",
+      "notRestrictedByCharmAbsent": true
+    },
+    "on_used_cost_and_cooldown": {
+      "event": "SKILL_USED / seraphine_r / ACTIVE",
+      "conditions": [],
+      "action": "当前目标启动use_cost_and_cooldown"
+    }
+  },
+  "newObjectsReopened": 5,
+  "businessWrites": 0,
+  "allDraftsCancelled": true,
+  "diagnostics": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "observation": {
+    "issue": "来源技能目录尚未返回时短暂显示seraphine_r（目录缺失），加载完成后正确显示技能名",
+    "reproducedOn": "actual_hit首次重开",
+    "persistentFailure": false,
+    "dataWriteTriggered": false
+  },
+  "runtimeValidation": "未执行"
+}

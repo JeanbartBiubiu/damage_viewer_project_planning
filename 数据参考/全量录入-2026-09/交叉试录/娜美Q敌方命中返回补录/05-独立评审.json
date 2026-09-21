@@ -1,0 +1,48 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T04:38:22.234Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "7da317c3b7635d7969b1f17c3bacfc69f29e4c3e88776a584257e3bee4bbff23",
+    "02-冻结请求.json": "127e4312d59abfe96acd63aa78172acfbdebc19837d4637a84f87a2d45ba8b71",
+    "03-来源摘要.json": "d7bc87899be0223fa38a5acf51bb754cd55eb27dc4af5634010450f52763a9b3",
+    "04-写入前现值.json": "81751bda88ab0900912aad743c9a4d7b895935159ff0ff7c82e3ec852fc363fc"
+  },
+  "executionMode": "PROTECTED_API_APPEND_AFTER_FIRST_BROWSER_ACCEPTANCE",
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "decision": "批准通过成熟受保护追加流程补娜美Q一条实际命中规则；娜美R首次页面保存、重开和独立回读已通过，满足新条件同类接口录入前置。",
+  "checks": {
+    "sourceHashes": 11,
+    "preparationGETs": 27,
+    "protectedResponses": 26,
+    "newRule404s": 1,
+    "firstBrowserAcceptanceStatus": "PASS",
+    "firstBrowserIndependentReadbackStatus": "PASS",
+    "sameConditionGroupExactlyMatchesAcceptedR": true,
+    "existingPrimaryHitExactlyMatchesPriorReadback": true,
+    "originalCostRulePreserved": true,
+    "newDamageOrControlEffects": 0
+  },
+  "eligibility": "来源技能nami_q、实际命中英雄类别与明确敌方关系同时成立；两条件同组AND，{}明细严格，友方/自身/未知关系不放行。原P友方命中语义未被改写。",
+  "scopeBoundary": "唯一动作只执行既有primary_hit魔法伤害；未加悬浮、STUN近似、友方加速或其他结果，旧参数、公式、效果、使用过程和原规则全保护。",
+  "expectedIndependentReadback": {
+    "GETs": 27,
+    "newObjects": 1,
+    "expectedChangedCollections": 1,
+    "unchangedResponsesIncludingTimestamps": 25,
+    "businessWrites": 0
+  },
+  "executionConditions": [
+    "工具、01至04及11来源原字节保持；E write前重核26现值及actual_hit404。",
+    "只单次执行冻结1POST，06存在或结果不确定时先只读核落地，不重放。",
+    "父任务确认成功后独立E readback并wx保存07；其后核Q页面原样回显。"
+  ],
+  "validationLimits": {
+    "HTTP": "本评审0HTTP，审查既有R页面报告及本地冻结证据",
+    "browser": "R首次验收已记录PASS；Q本轮代表页面核对尚待执行",
+    "runtime": "未执行敌我关系求值或宿主/Wasm战斗"
+  },
+  "blockingFindings": []
+}

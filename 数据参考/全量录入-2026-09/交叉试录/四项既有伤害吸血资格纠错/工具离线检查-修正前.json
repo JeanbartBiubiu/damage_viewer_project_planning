@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-18T22:54:53.763Z",
+  "status": "FAIL",
+  "scope": "在内存文件与fetch替身中执行真实工具；业务HTTP请求0，真实业务写入0，不代表后端/浏览器/战斗运行",
+  "toolSha256": "559ad5bac126570845c126f27445bc6aabb22bd8243f259646ea44d9bbf26374",
+  "cases": [
+    {
+      "name": "成功写入及独立回读只允许吸血资格和父说明变化",
+      "status": "PASS"
+    },
+    {
+      "name": "已完成写入不可重放",
+      "status": "PASS"
+    },
+    {
+      "name": "即使数据恢复旧值，已存在06也拒绝重放",
+      "status": "PASS"
+    },
+    {
+      "name": "获批文件散列漂移在网络前拒绝",
+      "status": "PASS"
+    },
+    {
+      "name": "错误批准环境散列拒绝业务写入",
+      "status": "PASS"
+    },
+    {
+      "name": "目标旧吸血资格非空时不制作纠错请求",
+      "status": "PASS"
+    },
+    {
+      "name": "非法资源路径在网络前拒绝",
+      "status": "PASS"
+    },
+    {
+      "name": "即使错误批准完整请求中的额外数值改动也会拒绝",
+      "status": "PASS"
+    },
+    {
+      "name": "独立回读发现非目标参数变化",
+      "status": "PASS"
+    },
+    {
+      "name": "响应无法解析时保留写入尝试和HTTP审计",
+      "status": "FAIL",
+      "error": "Expected values to be strictly equal:\n\n0 !== 1\n"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "title": "五项法术普通使用接线后的参数说明整理",
+  "at": "2026-09-19T03:27:55.288Z",
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项法术普通使用补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项法术普通使用补录/04-写入前现值.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项法术普通使用补录/07-独立回读.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项法术普通使用补录/09-证据清单.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项法术使用说明整理/00-五处说明与入口依据.json"
+    }
+  ],
+  "changes": [
+    {
+      "skillKey": "vex_q",
+      "kind": "parameter",
+      "route": "/skills/vex_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "vex_w",
+      "kind": "parameter",
+      "route": "/skills/vex_w/parameters/mana_cost",
+      "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "vex_e",
+      "kind": "parameter",
+      "route": "/skills/vex_e/parameters/mana_cost",
+      "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "bard_q",
+      "kind": "parameter",
+      "route": "/skills/bard_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Bard.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "leblanc_q",
+      "kind": "parameter",
+      "route": "/skills/leblanc_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Leblanc.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    }
+  ],
+  "scope": "薇古丝Q/W/E、巴德Q、乐芙兰Q五处法力参数description-only。"
+}

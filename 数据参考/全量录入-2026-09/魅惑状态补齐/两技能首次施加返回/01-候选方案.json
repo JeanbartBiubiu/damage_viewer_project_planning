@@ -1,0 +1,598 @@
+{
+  "executionMode": "PROTECTED_API",
+  "targets": [
+    {
+      "skillKey": "ahri_e",
+      "ownerKey": "champion_ahri"
+    },
+    {
+      "skillKey": "seraphine_r",
+      "ownerKey": "champion_seraphine"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ahri.json.gz",
+      "sha256": "61c7d14f2d30346f1ae51ab82dab1f48c19ec7d9542f0c76e99f0576e1c71d12"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Seraphine.json.gz",
+      "sha256": "5518c28e0aa895ac000e18e7fd05ce06731c65dc9708ccac84bb812f370b4a56"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ahri.json",
+      "sha256": "d7aa942350ef9d9756df1476a6bd83a3da4cf1dcee1b22107676d5b1a86c6b04"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ahri.json",
+      "sha256": "0bd796d1e9376a738a70b2eb809d408ac296da11a527be2847aced37bfbaeea7"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Seraphine.json",
+      "sha256": "9f9cce0312119116e2dfed1d91c7d87f1b79b42314a188b0d565330e917f6723"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Seraphine.json",
+      "sha256": "0668fcbfe69123e319b07e06e7228ab781f6faa336f4b758b798619d7ca84445"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/魅惑状态补齐/02-固定来源核对.json",
+      "sha256": "c9eefca951e5116deed95c7752cb8a953d687752e874c483197edc9e4edab46b"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/魅惑状态补齐/06a-方案现版确认.json",
+      "sha256": "48dcb75d252686bf5e217fca438f46e6eab73f79cefa257e8f74a288639c3e2f"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/魅惑状态补齐/目录首次页面/07-独立回读.json",
+      "sha256": "d6b5344dbce5d9134811c6a6e681cfd052ae2529902e09784ac7119520166fae"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/ahri_e/effects",
+      "detailRoute": "/skills/ahri_e/effects/charm_first_application",
+      "body": {
+        "effectKey": "charm_first_application",
+        "name": "魅惑妖术首次魅惑",
+        "description": "本来源当前目标无本魅惑实例时施加一次魅惑，期限引用已有技能等级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重施字段在本入口不可达。只登记魅惑身份与期限，伴随减速、中止或距离延伸等分支分别维护。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "charm_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "charm",
+            "name": "魅惑妖术魅惑",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "施加无强度魅惑并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": null,
+            "detail": {
+              "statusKey": "charm",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "charm_first_application",
+        "name": "魅惑妖术首次魅惑",
+        "description": "本来源当前目标无本魅惑实例时施加一次魅惑，期限引用已有技能等级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重施字段在本入口不可达。只登记魅惑身份与期限，伴随减速、中止或距离延伸等分支分别维护。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "charm_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "charm",
+            "name": "魅惑妖术魅惑",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "施加无强度魅惑并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": null,
+            "detail": {
+              "statusKey": "charm",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ahri_e/trigger-rules",
+      "detailRoute": "/skills/ahri_e/trigger-rules/apply_charm_on_unblocked_hit",
+      "body": {
+        "ruleKey": "apply_charm_on_unblocked_hit",
+        "name": "无本魅惑实例时施加",
+        "description": "仅当本次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源魅惑实例时施加；缺少阻挡值不得默认0。已有实例的重施未录，伤害、资源及其他分支独立维护。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "ahri_e"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "charm_eligible",
+            "name": "本次魅惑可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_charm_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "charm_first_application",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_charm",
+            "name": "施加本次魅惑",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "charm_first_application"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "apply_charm_on_unblocked_hit",
+        "name": "无本魅惑实例时施加",
+        "description": "仅当本次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源魅惑实例时施加；缺少阻挡值不得默认0。已有实例的重施未录，伤害、资源及其他分支独立维护。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "ahri_e",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "charm_eligible",
+            "name": "本次魅惑可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_charm_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "charm_first_application",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_charm",
+            "name": "施加本次魅惑",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "charm_first_application"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/seraphine_r/effects",
+      "detailRoute": "/skills/seraphine_r/effects/charm_first_application",
+      "body": {
+        "effectKey": "charm_first_application",
+        "name": "炫音返场首次魅惑",
+        "description": "本来源当前目标无本魅惑实例时施加一次魅惑，期限引用已有技能等级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重施字段在本入口不可达。只登记魅惑身份与期限，伴随减速、中止或距离延伸等分支分别维护。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "charm_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "charm",
+            "name": "炫音返场魅惑",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "施加无强度魅惑并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": null,
+            "detail": {
+              "statusKey": "charm",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "charm_first_application",
+        "name": "炫音返场首次魅惑",
+        "description": "本来源当前目标无本魅惑实例时施加一次魅惑，期限引用已有技能等级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重施字段在本入口不可达。只登记魅惑身份与期限，伴随减速、中止或距离延伸等分支分别维护。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "charm_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "charm",
+            "name": "炫音返场魅惑",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "施加无强度魅惑并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": null,
+            "detail": {
+              "statusKey": "charm",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/seraphine_r/trigger-rules",
+      "detailRoute": "/skills/seraphine_r/trigger-rules/apply_charm_on_unblocked_hit",
+      "body": {
+        "ruleKey": "apply_charm_on_unblocked_hit",
+        "name": "无本魅惑实例时施加",
+        "description": "仅当本次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源魅惑实例时施加；缺少阻挡值不得默认0。已有实例的重施未录，伤害、资源及其他分支独立维护。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "seraphine_r"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "charm_eligible",
+            "name": "本次魅惑可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_charm_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "charm_first_application",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_charm",
+            "name": "施加本次魅惑",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "charm_first_application"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "apply_charm_on_unblocked_hit",
+        "name": "无本魅惑实例时施加",
+        "description": "仅当本次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源魅惑实例时施加；缺少阻挡值不得默认0。已有实例的重施未录，伤害、资源及其他分支独立维护。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "seraphine_r",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "charm_eligible",
+            "name": "本次魅惑可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_charm_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "charm_first_application",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_charm",
+            "name": "施加本次魅惑",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "charm_first_application"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "scopeNote": "仅新增两项首次魅惑身份与期限及合法命中入口；复用稳定的无强度状态效果、生命周期与条件结构。阿狸减速/移动中止、重施、萨勒芬妮距离延伸等保持待补，不计整技能完成。",
+  "baselineReuse": {
+    "path": "数据参考/全量录入-2026-09/魅惑状态补齐/01-候选现值.json",
+    "sha256": "79e1a77314f8e0bb0a2d0a01b1912424bc98cb5212e88efc02a17f114d413842",
+    "note": "复用37GET中所需响应，仅补角色、图片关系、新charm引用与4个新对象404。"
+  }
+}

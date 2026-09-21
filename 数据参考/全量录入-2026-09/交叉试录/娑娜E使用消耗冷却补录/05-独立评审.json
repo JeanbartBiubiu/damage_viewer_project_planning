@@ -1,0 +1,53 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-18T21:17:10.1321526Z",
+  "reviewer": "/root/sona_e_frozen_review",
+  "requestedModel": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components.mjs": "80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a",
+    "01-候选方案.json": "ca07bff5034699177c84e7aa61d6c8302464e7fd2e3dade520dee79a5cdf46d5",
+    "02-冻结请求.json": "a32d23b81c3477acc21b7451783c7be98a0829fb6ed4c5e02a107b9b2499a738",
+    "03-来源摘要.json": "4c50d7027b480a8464aec5c8338e6ab5a1d49f312a7ef72e42a8193c879c0e5b",
+    "04-写入前现值.json": "c53a80520b40a6a75fd591293ba86e05620a38252d81e5cd4da5fd2f4bdf2663"
+  },
+  "additionalReviewedFiles": {
+    "00-独立来源裁定.json": "1f2c86997a90c59f222f1785a3a0cb009b591b8f99f345c2800542de73641cfa",
+    "参数来源核算.json": "c0b30b6d3beb3b751bef29f20ded6a00bb4f4074f5bee23dc591e540c3cefd68"
+  },
+  "checks": [
+    "固定范围为 sona_e / champion_sona，版本为客户端16.17与官方DDragon16.17.1；00-独立来源裁定的可采纳结论与本批请求一致。",
+    "冻结范围准确：仅3个POST，详情路径分别为 /skills/sona_e/effects/mana_cost、/skills/sona_e/processes/use_cost_and_cooldown、/skills/sona_e/trigger-rules/on_used_cost_and_cooldown，三条路径互不重复。",
+    "mana_cost效果只有一个消耗结果：resultType=RESOURCE_CHANGE、target=SOURCE、detail.attributeKey=mana、operation=CONSUME，值引用参数 mana_cost，未引入固定数值或其他目标。",
+    "use_cost_and_cooldown过程为 activationType=ACTIVE，普通冷却引用 cooldown_ms 并从 PROCESS_START 开始；仅一个 IMMEDIATE 登记步骤，说明明确不代表完整施法时长为零；法力效果在同一过程开始时引用，状态操作为空。",
+    "on_used_cost_and_cooldown规则的事件源为 SKILL_USED，sourceSkillKey=sona_e，useKind=ACTIVE；唯一动作仅启动 use_cost_and_cooldown，条件组、每目标冷却和过程触发上限均为空。",
+    "写前现值账本包含32次GET：29次200与3个目标详情按预期404；sona_e的效果、过程、触发规则集合均为空，三条拟新增详情均不存在，因此没有重复已有登记。",
+    "写前旧值快照覆盖29条成功GET及其时间戳，businessWrites=0；现有技能、参数、公式、内部状态、关系、图片、属性和旧集合均作为保护基线保留。",
+    "参数来源核算为PASS，共10个等级点；mana_cost五级均为65，cooldown_ms五级均为14000，期望值与实际值全部一致。",
+    "01候选方案与02冻结请求的三个请求体逐项一致；02.sourceSha256等于03原文件SHA-256，02.baselineSha256等于04原文件SHA-256，冻结链未漂移。",
+    "03来源摘要共10项，所有声明的sha256与actualSha256一致；固定来源包含00独立来源裁定、规划语义、官方中英文资料、客户端原文、客户端索引及相关类型文件。",
+    "工具原文件SHA-256与批准值一致：80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a。",
+    "过程和触发说明中的“球”属于通用模板残留；本批过程没有球结果或相关动作，不改变请求行为，属于非阻塞措辞问题。",
+    "本次独立评审未访问业务API或数据库；未进行浏览器、宿主、Wasm或战斗运行验证。"
+  ],
+  "frozenLinkage": {
+    "plannedPOSTs": 3,
+    "preflightGETs": 32,
+    "preflightExpectedStatus": {
+      "200": 29,
+      "404": 3
+    },
+    "parameterLevelPoints": 10,
+    "manaCostByRank": [65, 65, 65, 65, 65],
+    "cooldownMsByRank": [14000, 14000, 14000, 14000, 14000],
+    "sourceSummarySha256": "4c50d7027b480a8464aec5c8338e6ab5a1d49f312a7ef72e42a8193c879c0e5b",
+    "baselineSha256": "c53a80520b40a6a75fd591293ba86e05620a38252d81e5cd4da5fd2f4bdf2663"
+  },
+  "businessWritesDuringReview": 0,
+  "networkRequestsDuringReview": 0,
+  "fileWritesDuringReview": [
+    "仅以 wx 创建本文件"
+  ],
+  "browser": "未执行；静态冻结评审范围外",
+  "runtime": "未执行"
+}

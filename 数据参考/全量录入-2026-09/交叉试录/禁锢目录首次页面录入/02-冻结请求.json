@@ -1,0 +1,19 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "executionMode": "BROWSER_UI_ONLY",
+  "request": {
+    "method": "POST",
+    "route": "/statuses",
+    "detailRoute": "/statuses/root",
+    "body": {
+      "statusKey": "root",
+      "name": "禁锢",
+      "description": "禁锢状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+      "statusKind": "ROOT",
+      "status": "ENABLED",
+      "sortOrder": 20
+    }
+  },
+  "sourceSha256": "2989f2be42a30abb373b471e613813abf8e77eff410e1dd05f2126fc8e83f4be",
+  "baselineSha256": "1d98e7111ef737e5f7b45fd71df132465340137e148a5f0ef3f24d5fd5b047dd"
+}

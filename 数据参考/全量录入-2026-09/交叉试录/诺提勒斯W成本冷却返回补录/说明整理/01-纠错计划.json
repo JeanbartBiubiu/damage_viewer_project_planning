@@ -1,0 +1,32 @@
+{
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/诺提勒斯W成本冷却返回补录/07-独立回读.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/诺提勒斯W成本冷却返回补录/01-候选方案.json"
+    }
+  ],
+  "changes": [
+    {
+      "kind": "skill",
+      "skillKey": "nautilus_w",
+      "route": "/skills/nautilus_w",
+      "description": "固定客户端16.17及官方16.17.1确认自身6秒护盾，护盾期间攻击造成2秒总额的附加魔法伤害。当前已接自身护盾、60法力消耗与12秒普通冷却；攻击附伤的资格、节拍与重施、攻击重置及完整施放行为仍待核对。管理保存不代表战斗运行已执行。"
+    },
+    {
+      "kind": "parameter",
+      "skillKey": "nautilus_w",
+      "route": "/skills/nautilus_w/parameters/mana_cost",
+      "description": "DDragon16.17.1与固定客户端当前绑定根均为五级60法力。当前由主动使用启动的cast过程在开始时执行mana_cost效果；实际使用资格及资源不足处理属于事件生产边界。"
+    },
+    {
+      "kind": "effect",
+      "skillKey": "nautilus_w",
+      "route": "/skills/nautilus_w/effects/mana_cost",
+      "description": "主动使用启动cast过程后，在过程开始时消耗来源对象60法力；不施加护盾或附加伤害。管理配置不代表实际使用资格及资源不足处理已经运行验证。"
+    }
+  ]
+}

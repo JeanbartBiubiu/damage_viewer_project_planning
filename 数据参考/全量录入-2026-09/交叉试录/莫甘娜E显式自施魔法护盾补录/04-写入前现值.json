@@ -1,0 +1,782 @@
+{
+  "capturedAt": "2026-09-18T14:03:10.677Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/morgana_e": {
+      "createdAt": "2026-09-06T18:19:31.065054Z",
+      "description": "莫甘娜为一名友方英雄涂上一层保护性的星火屏障，在被打破之前吸收魔法伤害和限制效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "莫甘娜·黑暗之盾",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "morgana_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:31.065054Z"
+    },
+    "/characters/champion_morgana": {
+      "characterKey": "champion_morgana",
+      "createdAt": "2026-09-06T15:42:30.069804Z",
+      "description": "堕落天使·莫甘娜。资料：官方静态资料16.17.1、同补丁客户端16.17.8104348。仅基础属性与1～18级自然成长；技能、被动叠层与图片尚待录入和核对。",
+      "gameId": "lol",
+      "name": "莫甘娜",
+      "updatedAt": "2026-09-06T15:42:30.069804Z"
+    },
+    "/characters/champion_morgana/attributes": {
+      "characterKey": "champion_morgana",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 630,
+          "hp_regen": 5.5,
+          "mana": 340,
+          "mana_regen": 11,
+          "armor": 25,
+          "magic_resistance": 30,
+          "attack_damage": 56,
+          "attack_speed": 0.625,
+          "attack_range": 450
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 704.88,
+          "hp_regen": 5.788,
+          "mana": 383.2,
+          "mana_regen": 11.288,
+          "armor": 28.024,
+          "magic_resistance": 30.936,
+          "attack_damage": 58.52,
+          "attack_speed": 0.631885,
+          "attack_range": 450
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 783.4,
+          "hp_regen": 6.09,
+          "mana": 428.5,
+          "mana_regen": 11.59,
+          "armor": 31.195,
+          "magic_resistance": 31.9175,
+          "attack_damage": 61.1625,
+          "attack_speed": 0.639105,
+          "attack_range": 450
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 865.56,
+          "hp_regen": 6.406,
+          "mana": 475.9,
+          "mana_regen": 11.906,
+          "armor": 34.513,
+          "magic_resistance": 32.9445,
+          "attack_damage": 63.9275,
+          "attack_speed": 0.646659,
+          "attack_range": 450
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 951.36,
+          "hp_regen": 6.736,
+          "mana": 525.4,
+          "mana_regen": 12.236,
+          "armor": 37.978,
+          "magic_resistance": 34.017,
+          "attack_damage": 66.815,
+          "attack_speed": 0.654548,
+          "attack_range": 450
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1040.8,
+          "hp_regen": 7.08,
+          "mana": 577,
+          "mana_regen": 12.58,
+          "armor": 41.59,
+          "magic_resistance": 35.135,
+          "attack_damage": 69.825,
+          "attack_speed": 0.662772,
+          "attack_range": 450
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1133.88,
+          "hp_regen": 7.438,
+          "mana": 630.7,
+          "mana_regen": 12.938,
+          "armor": 45.349,
+          "magic_resistance": 36.2985,
+          "attack_damage": 72.9575,
+          "attack_speed": 0.67133,
+          "attack_range": 450
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1230.6,
+          "hp_regen": 7.81,
+          "mana": 686.5,
+          "mana_regen": 13.31,
+          "armor": 49.255,
+          "magic_resistance": 37.5075,
+          "attack_damage": 76.2125,
+          "attack_speed": 0.680223,
+          "attack_range": 450
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1330.96,
+          "hp_regen": 8.196,
+          "mana": 744.4,
+          "mana_regen": 13.696,
+          "armor": 53.308,
+          "magic_resistance": 38.762,
+          "attack_damage": 79.59,
+          "attack_speed": 0.689451,
+          "attack_range": 450
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1434.96,
+          "hp_regen": 8.596,
+          "mana": 804.4,
+          "mana_regen": 14.096,
+          "armor": 57.508,
+          "magic_resistance": 40.062,
+          "attack_damage": 83.09,
+          "attack_speed": 0.699014,
+          "attack_range": 450
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1542.6,
+          "hp_regen": 9.01,
+          "mana": 866.5,
+          "mana_regen": 14.51,
+          "armor": 61.855,
+          "magic_resistance": 41.4075,
+          "attack_damage": 86.7125,
+          "attack_speed": 0.708911,
+          "attack_range": 450
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1653.88,
+          "hp_regen": 9.438,
+          "mana": 930.7,
+          "mana_regen": 14.938,
+          "armor": 66.349,
+          "magic_resistance": 42.7985,
+          "attack_damage": 90.4575,
+          "attack_speed": 0.719143,
+          "attack_range": 450
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1768.8,
+          "hp_regen": 9.88,
+          "mana": 997,
+          "mana_regen": 15.38,
+          "armor": 70.99,
+          "magic_resistance": 44.235,
+          "attack_damage": 94.325,
+          "attack_speed": 0.729709,
+          "attack_range": 450
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1887.36,
+          "hp_regen": 10.336,
+          "mana": 1065.4,
+          "mana_regen": 15.836,
+          "armor": 75.778,
+          "magic_resistance": 45.717,
+          "attack_damage": 98.315,
+          "attack_speed": 0.740611,
+          "attack_range": 450
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 2009.56,
+          "hp_regen": 10.806,
+          "mana": 1135.9,
+          "mana_regen": 16.306,
+          "armor": 80.713,
+          "magic_resistance": 47.2445,
+          "attack_damage": 102.4275,
+          "attack_speed": 0.751847,
+          "attack_range": 450
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2135.4,
+          "hp_regen": 11.29,
+          "mana": 1208.5,
+          "mana_regen": 16.79,
+          "armor": 85.795,
+          "magic_resistance": 48.8175,
+          "attack_damage": 106.6625,
+          "attack_speed": 0.763417,
+          "attack_range": 450
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2264.88,
+          "hp_regen": 11.788,
+          "mana": 1283.2,
+          "mana_regen": 17.288,
+          "armor": 91.024,
+          "magic_resistance": 50.436,
+          "attack_damage": 111.02,
+          "attack_speed": 0.775323,
+          "attack_range": 450
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2398,
+          "hp_regen": 12.3,
+          "mana": 1360,
+          "mana_regen": 17.8,
+          "armor": 96.4,
+          "magic_resistance": 52.1,
+          "attack_damage": 115.5,
+          "attack_speed": 0.787562,
+          "attack_range": 450
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/character-skill-relations?characterKey=champion_morgana": {
+      "items": [
+        {
+          "characterKey": "champion_morgana",
+          "characterName": "莫甘娜",
+          "gameId": "lol",
+          "skillKey": "morgana_p",
+          "skillName": "莫甘娜·灵魂吸取",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_morgana",
+          "characterName": "莫甘娜",
+          "gameId": "lol",
+          "skillKey": "morgana_q",
+          "skillName": "莫甘娜·暗之禁锢",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_morgana",
+          "characterName": "莫甘娜",
+          "gameId": "lol",
+          "skillKey": "morgana_w",
+          "skillName": "莫甘娜·折磨之影",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_morgana",
+          "characterName": "莫甘娜",
+          "gameId": "lol",
+          "skillKey": "morgana_e",
+          "skillName": "莫甘娜·黑暗之盾",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_morgana",
+          "characterName": "莫甘娜",
+          "gameId": "lol",
+          "skillKey": "morgana_r",
+          "skillName": "莫甘娜·灵魂镣铐",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=morgana_e": {
+      "items": [
+        {
+          "characterKey": "champion_morgana",
+          "characterName": "莫甘娜",
+          "gameId": "lol",
+          "skillKey": "morgana_e",
+          "skillName": "莫甘娜·黑暗之盾",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/characters/champion_morgana/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "image_02c88ae8-b32b-4908-8471-c512265df278",
+        "name": "莫甘娜代表图片_02c88ae8-b32b-4908-8471-c512265df278"
+      }
+    },
+    "/skills/morgana_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_morgana_e",
+        "name": "morgana_e"
+      }
+    },
+    "/skills/morgana_e/parameters": [
+      {
+        "createdAt": "2026-09-09T17:58:00.979238Z",
+        "description": "客户端DataValues.ShieldStrength取索引1至5；索引0为旧占位45。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100,
+          "2": 155,
+          "3": 210,
+          "4": 265,
+          "5": 320
+        },
+        "name": "基础魔法护盾值",
+        "parameterKey": "base_shield",
+        "skillKey": "morgana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:58:00.979238Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:58:02.370309Z",
+        "description": "客户端ShieldDuration为5秒，转换为5000毫秒。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾持续时间（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "morgana_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:58:02.370309Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:58:03.731128Z",
+        "description": "TotalShieldStrength树的StatByCoefficient系数为0.7×来源总法强。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾法强比例",
+        "parameterKey": "shield_ap_ratio",
+        "skillKey": "morgana_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:58:03.731128Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:22.135946Z",
+        "description": "DDragon16.17.1 Morgana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 26000,
+          "2": 23500,
+          "3": 21000,
+          "4": 18500,
+          "5": 16000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "morgana_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:22.135946Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:22.615737Z",
+        "description": "DDragon16.17.1 Morgana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 80,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "morgana_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:22.615737Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/morgana_e/parameters/base_shield": {
+      "createdAt": "2026-09-09T17:58:00.979238Z",
+      "description": "客户端DataValues.ShieldStrength取索引1至5；索引0为旧占位45。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 100,
+        "2": 155,
+        "3": 210,
+        "4": 265,
+        "5": 320
+      },
+      "name": "基础魔法护盾值",
+      "parameterKey": "base_shield",
+      "skillKey": "morgana_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:58:00.979238Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_e/parameters/shield_duration_ms": {
+      "createdAt": "2026-09-09T17:58:02.370309Z",
+      "description": "客户端ShieldDuration为5秒，转换为5000毫秒。",
+      "fixedValue": 5000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾持续时间（毫秒）",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "morgana_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:58:02.370309Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_e/parameters/shield_ap_ratio": {
+      "createdAt": "2026-09-09T17:58:03.731128Z",
+      "description": "TotalShieldStrength树的StatByCoefficient系数为0.7×来源总法强。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾法强比例",
+      "parameterKey": "shield_ap_ratio",
+      "skillKey": "morgana_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:58:03.731128Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/morgana_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:22.135946Z",
+      "description": "DDragon16.17.1 Morgana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 26000,
+        "2": 23500,
+        "3": 21000,
+        "4": 18500,
+        "5": 16000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "morgana_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:22.135946Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:22.615737Z",
+      "description": "DDragon16.17.1 Morgana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 80,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "morgana_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:00:22.615737Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_e/formulas": [
+      {
+        "createdAt": "2026-09-09T17:58:05.067769Z",
+        "description": "TotalShieldStrength = ShieldStrength + 0.7×来源总法强；只表达普通魔法护盾数值。",
+        "formulaKey": "magic_shield_value",
+        "gameId": "lol",
+        "name": "黑暗之盾自身魔法护盾值",
+        "skillKey": "morgana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:58:05.067769Z"
+      }
+    ],
+    "/skills/morgana_e/formulas/magic_shield_value": {
+      "createdAt": "2026-09-09T17:58:05.067769Z",
+      "description": "TotalShieldStrength = ShieldStrength + 0.7×来源总法强；只表达普通魔法护盾数值。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_shield_value",
+      "gameId": "lol",
+      "name": "黑暗之盾自身魔法护盾值",
+      "skillKey": "morgana_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:58:05.067769Z"
+    },
+    "/skills/morgana_e/effects": [
+      {
+        "createdAt": "2026-09-09T17:58:06.575518Z",
+        "description": "仅记录morgana_e的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "morgana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:58:06.575518Z"
+      },
+      {
+        "createdAt": "2026-09-09T17:58:07.848746Z",
+        "description": "当前正文和Trait_Shield明确吸收魔法伤害；Trait_CCImmune代表限制/定身免疫语义，不能把它改写成一次性法术护盾。自身目标资格和控制免疫接线待补。",
+        "effectKey": "magic_shield",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "黑暗之盾自身魔法护盾",
+        "resultCount": 1,
+        "skillKey": "morgana_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:58:07.848746Z"
+      }
+    ],
+    "/skills/morgana_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T17:58:06.575518Z",
+      "description": "仅记录morgana_e的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "morgana_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:58:06.575518Z"
+    },
+    "/skills/morgana_e/effects/magic_shield": {
+      "createdAt": "2026-09-09T17:58:07.848746Z",
+      "description": "当前正文和Trait_Shield明确吸收魔法伤害；Trait_CCImmune代表限制/定身免疫语义，不能把它改写成一次性法术护盾。自身目标资格和控制免疫接线待补。",
+      "effectKey": "magic_shield",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "黑暗之盾自身魔法护盾",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "absorbedDamageTypeKey": "magic",
+            "decayMode": "NONE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "黑暗之盾自身魔法护盾",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_shield_value",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "morgana_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:58:07.848746Z"
+    },
+    "/skills/morgana_e/processes": [],
+    "/skills/morgana_e/internal-states": [],
+    "/skills/morgana_e/trigger-rules": []
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_morgana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=morgana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/formulas/magic_shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects/magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/trigger-rules/on_used_self_shield",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

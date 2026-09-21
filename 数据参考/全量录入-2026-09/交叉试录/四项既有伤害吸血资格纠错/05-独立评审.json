@@ -1,0 +1,65 @@
+{
+  "status": "APPROVED",
+  "task": "four_damage_vamp_review",
+  "reviewer": "/root/four_damage_vamp_review",
+  "reviewedAt": "2026-09-18T22:57:20.843Z",
+  "requestedModel": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-damage-vamp.mjs": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "01-纠错计划.json": "b3630e187003c0126925472d1bf0322ad6968662df0a1e9b67c95e322cc15de0",
+    "02-冻结请求.json": "42ec0a31995dc2eaf6d684d6126cd0b14cd2ba9d2e7b4f6187620a7f4382e5e1",
+    "03-来源摘要.json": "1fb08d448353ce0fed93938ab1180c107386ee3cd01d5c8aec38ac769ae47a55",
+    "04-写入前现值.json": "8c0c55215439a687d66450a0d436fdf41f7a38d1569645a61fd29cc3d66fe844"
+  },
+  "checks": [
+    {
+      "name": "来源适用性与范围",
+      "status": "PASS",
+      "evidence": "00原件四个目标均为16.17.1资料下已接线的普通直接魔法伤害；后续Web库奇崔斯特Q交互来源核定与01候选已收敛普通对英雄全能吸血效率1和POST_DEFENSE_DAMAGE映射，未把历史未决口径当作最新结论。范围只覆盖本轮唯一敌方英雄，不扩展小兵折减、护盾过量伤害或运行时。"
+    },
+    {
+      "name": "四项原件与写前现值",
+      "status": "PASS",
+      "evidence": "00与04均确认veigar_q/baleful_strike_hit、veigar_w/dark_matter_hit、annie_q/spell_hit、brand_q/fireball_hit各有单一DAMAGE结果、TARGET、magic、SKILL、DIRECT、critical DISALLOWED及SKILL_HIT命中接线，旧vampRules均为空；Xerath待核分支未进入本批。04记录71次GET且businessWrites为0。"
+    },
+    {
+      "name": "冻结完整PUT与不可变键",
+      "status": "PASS",
+      "evidence": "02只有4条effects PUT，冻结请求由04完整现值生成；独立深比较显示每条仅改父description和results[0].detail.vampRules[0]。请求体完整保留名称、排序、生命周期、结果名称/键/数值公式/暴击/法术护盾粒度及其他规则，且不携gameId、skillKey、effectKey、createdAt、updatedAt等不可变键。"
+    },
+    {
+      "name": "吸血资格与空数组语义",
+      "status": "PASS",
+      "evidence": "现行伤害契约明确vampRules空数组表示没有吸血规则；四条冻结结果统一补OMNIVAMP、POST_DEFENSE_DAMAGE、FIXED效率1，父说明同步移除空数组不代表不能吸血的过时表述。没有增加其他吸血类型、目标类别或规则目标。"
+    },
+    {
+      "name": "工具范围、冻结绑定与漂移停止",
+      "status": "PASS",
+      "evidence": "新工具只接受prepare/preflight/write/readback四种模式；计划路由限定技能effects详情，写入方法由工具固定为PUT，makeRequests只接受单一普通DAMAGE的magic/SKILL/DIRECT/TARGET/DISALLOWED且旧vampRules=[]。write前重算来源、批准文件、冻结请求和完整现值，环境哈希通过后以wx建立06；逐笔写前再比对并即时GET回读，任何漂移停止。"
+    },
+    {
+      "name": "列表、详情与时间戳保护",
+      "status": "PASS",
+      "evidence": "snapshot同时读取技能根对象、六类组件列表及全部详情；readback对四个变更详情和对应effects列表做完整预期比较，对其他列表与详情做严格深比较。详情比较只允许updatedAt为新合法时间戳，createdAt及其余字段必须保持原值；离线检查覆盖非目标参数变化停止。"
+    },
+    {
+      "name": "原始字节摘要与来源绑定",
+      "status": "PASS",
+      "evidence": "新工具、01、02、03、04当前SHA256与approvedFiles一致；03所列6项来源原始字节逐项重算一致，02.sourceSha256与03、baselineSha256与04一致。"
+    },
+    {
+      "name": "离线故障保护",
+      "status": "PASS",
+      "evidence": "同目录工具离线检查记录10/10通过，覆盖成功写入回读、防重放、06锁、批准文件漂移、错误环境哈希、旧非空吸血资格、非法路径、冻结额外数值改动、非目标变化及坏JSON响应；坏JSON场景确认PUT尝试和HTTP审计先于解析失败被保留，业务HTTP请求与真实写入均为0。"
+    },
+    {
+      "name": "静态验证与运行边界",
+      "status": "PASS",
+      "evidence": "update-reviewed-damage-vamp.mjs及离线检查脚本node --check通过，独立结构断言通过；本评审未访问业务API、数据库或浏览器，未执行宿主/Wasm、战斗运行或真实4PUT。"
+    }
+  ],
+  "blockingIssues": [],
+  "businessWrites": 0,
+  "networkRequestsDuringReview": 0
+}

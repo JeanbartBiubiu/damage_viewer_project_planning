@@ -1,0 +1,35 @@
+{
+  "resultStatus": "finished",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "toolEvents": {
+    "parseable": true,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false,
+    "calls": 66
+  },
+  "runEvidence": ".agents/artifacts/cursor-task-2026-09-18T16-30-53-459Z",
+  "acceptedAt": "2026-09-18T16:40:07.730Z"
+}

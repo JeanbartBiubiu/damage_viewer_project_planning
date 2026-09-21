@@ -1,0 +1,102 @@
+{
+  "at": "2026-09-20T12:10:52.108Z",
+  "status": "SOURCE_PENDING_NOT_CHARACTER_LEVEL_CAPABILITY_GAP",
+  "skillKey": "ambessa_w",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "HTTPGETs": 29,
+  "businessWrites": 0,
+  "currentCounts": {
+    "parameters": 11,
+    "formulas": 3,
+    "effects": 1,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ambessa.json.gz",
+      "sha256": "f8d4ef879059fec4fc2d1d44701440caf889f919fa21fc8618e540334ecba689"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ambessa.json",
+      "sha256": "6bb2391bb93cece3b7da071fa55c776a0394e6b6c1018562aeed25b920c71523"
+    }
+  ],
+  "rootBinding": {
+    "character": "Characters/Ambessa/CharacterRecords/Root",
+    "spellsIndex": 1,
+    "root": "Characters/Ambessa/Spells/AmbessaWAbility/AmbessaW"
+  },
+  "shieldCalculation": {
+    "mFormulaParts": [
+      {
+        "mStartValue": 50,
+        "mEndValue": 320,
+        "__type": "ByCharLevelInterpolationCalculationPart"
+      },
+      {
+        "mStat": 2,
+        "mStatFormula": 2,
+        "mCoefficient": 1.5,
+        "__type": "StatByCoefficientCalculationPart"
+      }
+    ],
+    "__type": "GameCalculation"
+  },
+  "confirmed": {
+    "startField": 50,
+    "endField": 320,
+    "bonusAttackDamageRatio": 1.5,
+    "parameterModeAvailable": "CHARACTER_LEVEL",
+    "currentRuntimeParameter": "shield_base_at_character_level"
+  },
+  "notClaimed": [
+    "未把起终字段自动认定为角色等级1和18的实测值",
+    "未从名称或旧版本默认值推导完整中间等级表",
+    "未把RUNTIME_INPUT提供占位值视为来源已核定",
+    "未验收主动低档/格挡后伤害及其触发资格"
+  ],
+  "missing": "ByCharLevelInterpolationCalculationPart省略插值开关时的16.17行为与完整逐级曲线尚未证明；端点齐全仍不足以单独消除该缺口。",
+  "priorSameClassEvidence": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜被动射程核对/03-插值缺省补充核对.json",
+    "sha256": "8877c0649f6e525dd4bc34fbc55e7730d0ec5918048afb820de95c6f24a3f862",
+    "scope": "只复用同版缺省语义未获证明的边界；安蓓萨起点50已显式给出，不继承崔丝塔娜缺起点的特有问题。"
+  },
+  "capabilityEvidence": [
+    {
+      "root": "web",
+      "path": "web/src/types/skillParameter.ts",
+      "sha256": "35de9ac58d29e440ac65ac03184f34ecd18507894bd146e801c807d63a5f3fa8",
+      "meaning": "参数取值枚举包含CHARACTER_LEVEL"
+    },
+    {
+      "root": "backend",
+      "commit": "19c2c1d8",
+      "path": "server/data_manage/README.md",
+      "sha256": "6c209310e1e403eac8faeba8ceb7d6ef9671a04897f4356f3df7c61df685c7dd",
+      "line": 188,
+      "meaning": "现行业务接口支持角色等级取值模式"
+    },
+    {
+      "root": "backend",
+      "path": "server/data_manage/src/main/java/xyz/game/datamanage/service/skillparameter/SkillParameterService.java",
+      "sha256": "2daf51e45184e0b4ae6937994756ec6d25687aa8526a4379f12413400d4c7143",
+      "lines": [
+        109,
+        163,
+        255,
+        341
+      ],
+      "meaning": "已有角色等级模式与完整等级图校验，无需为已有能力新增接口"
+    }
+  ],
+  "decision": "将本次确认的护盾等级阻塞更正为资料待核；保留原参数、公式、护盾效果和空规则，不生成猜测曲线，不新增供值事件、字段或表。",
+  "wholeSkillComplete": false,
+  "runtimeValidation": "未执行"
+}

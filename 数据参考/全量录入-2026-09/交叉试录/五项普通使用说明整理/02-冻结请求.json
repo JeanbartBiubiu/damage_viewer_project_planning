@@ -1,0 +1,450 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/teemo_q/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1 Teemo.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-08T02:05:06.170466Z",
+        "description": "DDragon16.17.1 Teemo.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "teemo_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:06.170466Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/gragas_e/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1 Gragas.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T17:38:40.474369Z",
+        "description": "DDragon16.17.1 Gragas.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gragas_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:40.474369Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/gragas_e/effects/mana_cost",
+      "body": {
+        "name": "施放法力消耗",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "施放法力消耗",
+            "resultKey": "mana_cost",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T15:06:20.899652Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "施放法力消耗",
+            "resultKey": "mana_cost",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "gragas_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:20.899652Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/gragas_r/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1 Gragas.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T17:38:41.26052Z",
+        "description": "DDragon16.17.1 Gragas.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gragas_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:41.26052Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/gragas_r/effects/mana_cost",
+      "body": {
+        "name": "施放法力消耗",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "施放法力消耗",
+            "resultKey": "mana_cost",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T15:06:27.494385Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "施放法力消耗",
+            "resultKey": "mana_cost",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "gragas_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:27.494385Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/lissandra_q/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 60,
+          "3": 65,
+          "4": 70,
+          "5": 75
+        },
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T17:38:48.271351Z",
+        "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 55,
+          "2": 60,
+          "3": 65,
+          "4": 70,
+          "5": 75
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lissandra_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:48.271351Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/lissandra_q/effects/mana_cost",
+      "body": {
+        "name": "施放法力消耗",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T10:36:31.612447Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "lissandra_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:31.612447Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/lissandra_w/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T17:38:48.964763Z",
+        "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lissandra_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:48.964763Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/lissandra_w/effects/mana_cost",
+      "body": {
+        "name": "施放法力消耗",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T10:36:38.399957Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "lissandra_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:38.399957Z"
+      }
+    }
+  ],
+  "sourceSha256": "6a2be13c8d32711f68474f1838c9cea6a7a8cc0e1bcab073cdf088fa92614568",
+  "baselineSha256": "314d6f7d2e9dc4e9aef46e857d0bf27d64c37419165d3b81fea870222c453f1a"
+}

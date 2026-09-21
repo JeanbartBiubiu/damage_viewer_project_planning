@@ -1,0 +1,106 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/malzahar_e",
+      "body": {
+        "name": "玛尔扎哈·煞星幻象",
+        "description": "玛尔扎哈对目标施加煞星幻象，持续造成魔法伤害。已录入基础参数与总伤害公式，并连接普通主动使用的法力消耗、250毫秒施放登记与基础冷却。总伤害五级为80/115/150/185/220加0.8倍来源总法强，持续4000毫秒；固定客户端给出250毫秒周期，首次结算时点仍待核。施放登记结束不等于幻象已施加；持续伤害、Q或R伤害刷新、死亡传播与回蓝等相关组成尚未连接。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "maxLevel": 5,
+        "status": "ENABLED",
+        "sortOrder": 3,
+        "skillCategoryKeys": [
+          "common"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:20.153696Z",
+        "description": "玛尔扎哈对目标施加煞星幻象，持续造成魔法伤害。已录入基础参数与总伤害公式，并连接普通主动使用的法力消耗、250毫秒施放登记与基础冷却。总伤害五级为80/115/150/185/220加0.8倍来源总法强，持续4000毫秒；固定客户端给出250毫秒周期，首次结算时点仍待核。施放登记结束不等于幻象已施加；持续伤害、Q或R伤害刷新、死亡传播与回蓝等相关组成尚未连接。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "玛尔扎哈·煞星幻象",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "malzahar_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:20.153696Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/malzahar_e/effects/mana_cost",
+      "body": {
+        "name": "施放法力消耗",
+        "description": "普通主动使用时的基础法力消耗，五级为60/70/80/90/100；施放登记过程在开始时引用本效果。实际施放资格与失败取消退款由对应分支另行处理。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T10:35:26.636696Z",
+        "description": "普通主动使用时的基础法力消耗，五级为60/70/80/90/100；施放登记过程在开始时引用本效果。实际施放资格与失败取消退款由对应分支另行处理。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "malzahar_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:35:26.636696Z"
+      }
+    }
+  ],
+  "sourceSha256": "3ea69ef73f6aa96db148035bb6ac2ce8376a7ffa948038767fbf995cb08a099b",
+  "baselineSha256": "68e0e998c78277d6a9237e40899cee15416a2b4b565a389a42bb21cfd06113ec"
+}

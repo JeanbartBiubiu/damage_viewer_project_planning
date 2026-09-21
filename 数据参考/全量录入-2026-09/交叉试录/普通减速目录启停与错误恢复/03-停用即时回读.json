@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-19T08:22:26.619Z",
+  "status": "PASS",
+  "current": {
+    "createdAt": "2026-09-19T06:37:05.092208Z",
+    "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+    "gameId": "lol",
+    "name": "普通移动减速",
+    "sortOrder": 10,
+    "status": "DISABLED",
+    "statusKey": "movement_slow",
+    "statusKind": "MOVEMENT_SLOW",
+    "updatedAt": "2026-09-19T08:22:06.155854Z"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/statuses/movement_slow",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0,
+  "writer": "CUA真实页面单次确认，接口结果由另次GET确认；未捕获PUT响应正文。"
+}

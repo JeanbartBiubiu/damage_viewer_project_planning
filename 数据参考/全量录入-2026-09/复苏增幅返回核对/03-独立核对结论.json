@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-19T13:07:47.605Z",
+  "reviewer": "/root/urgot_core_frozen_fallback",
+  "status": "REMAINING_SOURCE_AND_MANAGEMENT_CONTRACT",
+  "businessWrites": 0,
+  "independentHTTPRequests": 0,
+  "independentDatabaseQueries": 0,
+  "reviewedFiles": {
+    "01-返回现值.json": "bd28449ac9c5ab4273eff3673cda0979387e3fccc79c1646326456932039f55a",
+    "02-固定来源.json": "b4cb335ae1b7a04aaf957491824cde8b5ed32775dc9f78b11a5b7504a62a9351"
+  },
+  "confirmed": [
+    "客户端16.17数值0.05、40、10及对应汉化原件",
+    "已有0.05基础属性效果与初始化入口完整，不重复录入",
+    "收到护盾结果类型已具备"
+  ],
+  "sourceLimits": [
+    "本次未额外核验DDragon原件",
+    "固定根只有Lua路径，没有脚本正文",
+    "不能确认自疗自盾同时满足施放和获得方向时应用一次还是两次及与基础5%的组合"
+  ],
+  "existingCapabilities": [
+    "持续修正当前时点读取",
+    "生命阈值跨越事件及初始化属性比较",
+    "公式四则运算及MIN/MAX"
+  ],
+  "managementGap": "每次接收数值前的严格低生命资格，阈值等号及最大生命变化边界、跨事件调度尚未有足够约定；现有公式没有严格条件选择，不能连续近似。",
+  "minimumAcceptance": [
+    "39%/40%/41%严格边界",
+    "一次治疗从39%跨到41%时本次与下次资格",
+    "初始化低血量及双向跨界",
+    "按来源明确的自施次数与组合"
+  ],
+  "next": "先补齐固定来源和采样含义，再比较补全阈值契约与结果即时条件；目前无新增表或结果类型依据。",
+  "runtimeBoundary": "以上包含实际管理表达与来源缺口，不将未开展宿主或Wasm开发作为暂停原因。"
+}

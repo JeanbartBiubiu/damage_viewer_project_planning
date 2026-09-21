@@ -1,0 +1,470 @@
+{
+  "startedAt": "2026-09-21T13:40:42.366Z",
+  "status": "PASS",
+  "businessWritesAttempted": 1,
+  "operations": [
+    {
+      "route": "/skills/sona_q/parameters/chord_character_level_base_damage",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T18:36:38.574575Z",
+          "description": "按来源对象角色等级取值：1级30；2至8级每级增加15；9级起每级增加22.5，18级360。固定客户端16.17 TotalStaccatoDamage的等级基础部分，法强项由公式另计。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 45,
+            "3": 60,
+            "4": 75,
+            "5": 90,
+            "6": 105,
+            "7": 120,
+            "8": 135,
+            "9": 157.5,
+            "10": 180,
+            "11": 202.5,
+            "12": 225,
+            "13": 247.5,
+            "14": 270,
+            "15": 292.5,
+            "16": 315,
+            "17": 337.5,
+            "18": 360
+          },
+          "name": "Q能量和弦等级基础伤害",
+          "parameterKey": "chord_character_level_base_damage",
+          "skillKey": "sona_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-21T13:40:45.369086Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T18:36:38.574575Z",
+        "description": "按来源对象角色等级取值：1级30；2至8级每级增加15；9级起每级增加22.5，18级360。固定客户端16.17 TotalStaccatoDamage的等级基础部分，法强项由公式另计。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60,
+          "4": 75,
+          "5": 90,
+          "6": 105,
+          "7": 120,
+          "8": 135,
+          "9": 157.5,
+          "10": 180,
+          "11": 202.5,
+          "12": 225,
+          "13": 247.5,
+          "14": 270,
+          "15": 292.5,
+          "16": 315,
+          "17": 337.5,
+          "18": 360
+        },
+        "name": "Q能量和弦等级基础伤害",
+        "parameterKey": "chord_character_level_base_damage",
+        "skillKey": "sona_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-21T13:40:45.369086Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      "listRoute": "/skills/sona_q/parameters",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-09T18:36:30.198756Z",
+          "description": "当前BaseDamage技能等级1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 85,
+            "3": 120,
+            "4": 155,
+            "5": 190
+          },
+          "name": "英勇赞美诗基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "sona_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T18:36:30.198756Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T18:36:31.428725Z",
+          "description": "当前TotalDamage树使用0.4×来源总法强。",
+          "fixedValue": 0.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础魔法伤害法强比例",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "sona_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T18:36:31.428725Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T18:36:32.633768Z",
+          "description": "当前BaseOnHitDamage技能等级1至5；是下次攻击额外组成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10,
+            "2": 15,
+            "3": 20,
+            "4": 25,
+            "5": 30
+          },
+          "name": "乐曲强化普攻基础魔法伤害",
+          "parameterKey": "melody_attack_base_damage",
+          "skillKey": "sona_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T18:36:32.633768Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T18:36:33.83667Z",
+          "description": "当前TotalOnHitDamage树使用0.1×来源总法强。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "乐曲强化普攻法强比例",
+          "parameterKey": "melody_attack_ap_ratio",
+          "skillKey": "sona_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T18:36:33.83667Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T18:36:35.041564Z",
+          "description": "当前AuraDuration=3秒，转换为3000毫秒。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "英勇赞美诗乐曲持续时间",
+          "parameterKey": "melody_aura_duration_ms",
+          "skillKey": "sona_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T18:36:35.041564Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T18:36:36.210358Z",
+          "description": "当前OnHitDuration=5秒，转换为5000毫秒。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化普攻窗口",
+          "parameterKey": "melody_attack_window_ms",
+          "skillKey": "sona_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T18:36:36.210358Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T18:36:37.353959Z",
+          "description": "当前BaseGlobalCD=0.5秒，区别于8秒公共冷却。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础技能公共间隔",
+          "parameterKey": "melody_interval_ms",
+          "skillKey": "sona_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T18:36:37.353959Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T18:36:38.574575Z",
+          "description": "按来源对象角色等级取值：1级30；2至8级每级增加15；9级起每级增加22.5，18级360。固定客户端16.17 TotalStaccatoDamage的等级基础部分，法强项由公式另计。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 45,
+            "3": 60,
+            "4": 75,
+            "5": 90,
+            "6": 105,
+            "7": 120,
+            "8": 135,
+            "9": 157.5,
+            "10": 180,
+            "11": 202.5,
+            "12": 225,
+            "13": 247.5,
+            "14": 270,
+            "15": 292.5,
+            "16": 315,
+            "17": 337.5,
+            "18": 360
+          },
+          "name": "Q能量和弦等级基础伤害",
+          "parameterKey": "chord_character_level_base_damage",
+          "skillKey": "sona_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-21T13:40:45.369086Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T18:36:39.753608Z",
+          "description": "当前TotalStaccatoDamage树AP比例为0.3。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "Q能量和弦法强比例",
+          "parameterKey": "chord_ap_ratio",
+          "skillKey": "sona_q",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T18:36:39.753608Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:33.391909Z",
+          "description": "DDragon16.17.1 Sona.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 8000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "sona_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:33.391909Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T18:36:40.959485Z",
+          "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础施法时间",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "sona_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T18:36:40.959485Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:34.12898Z",
+          "description": "DDragon16.17.1 Sona.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "sona_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-18T21:13:04.306606Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    }
+  ],
+  "pendingRoute": null,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-parameters-v2.mjs": "a3eb702ff0cc20461ab01381711f47a6c989328a44baa83368ed12abdf9fe067",
+    "01-纠错计划.json": "c5c0adcb06970b213183079a770a5288becaa50f7b77c07b2142c8fdf37bd750",
+    "02-冻结请求.json": "0e6255d88e98f6c8ef0ddc1921daf71047cfa9016faff6cbc3eac6a1c4517467",
+    "03-来源摘要.json": "f3ed184b979a2f9b2f546a013573178ab78e33f997a65b1043d172a88760a1ca",
+    "04-写入前现值.json": "b0cb2a54d68b838222b12b10de02204ee208ce77b3df3728a251b417bfe8a17b"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/level-config",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_attack_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_attack_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_aura_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_attack_window_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_interval_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/chord_character_level_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/chord_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas/melody_attack_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas/chord_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/trigger-rules/actual_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/chord_character_level_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/level-config",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/sona_q/parameters/chord_character_level_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/chord_character_level_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-21T13:40:44.111Z"
+}

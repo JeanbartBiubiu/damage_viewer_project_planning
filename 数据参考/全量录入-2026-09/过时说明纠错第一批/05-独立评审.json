@@ -1,0 +1,84 @@
+{
+  "status": "APPROVED",
+  "reviewer": "independent-readonly-reviewer",
+  "reviewedAt": "2026-09-18T16:38:14.636Z",
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions.mjs": "eab116c1b4ac83239d16946ff275c51170154d0ea26229c9f03c1d71f0b2cfed",
+    "01-纠错计划.json": "73cf9a48df0ea646fcd7aa499b6a292804df548faf28dcc2dddf0ac6d2f9e84c",
+    "02-冻结请求.json": "4c60311c49c8993f7c262996ebac07c012a5230675b3894dc5e1724a15f0c989",
+    "03-来源摘要.json": "1928f6e206bc3a16775e3be6c029ed5f0b1115312c37ec55bf8a2d19f56c0e49",
+    "04-写入前现值.json": "02b0495766d63b8de449f8841728604aca60f6b49495456cba281ab21b446fa8"
+  },
+  "sourceFindings": [
+    {
+      "finding": "Nasus被动1～6级10%、7～12级15%、13～18级20%与永久自身属性入口已齐，仅技能说明待纠",
+      "evidence": "亲自散列并解压规划树 Nasus.json.gz；Characters/Nasus/Spells/NasusPassiveAbility/NasusPassive 的 ByCharLevelBreakpointsCalculationPart 为 mLevel1Value=10，7级+5、13级+5。04/独立GET的 nasus_p 仍写待补证；life_steal_ratio 为 0.1/0.15/0.2，soul_eater_lifesteal 无限期 SOURCE，initialize_lifesteal 已存在。",
+      "sha256": {
+        "技能公共参数实录/客户端原文/Nasus.json.gz": "dad0b2fe3a52800faceaf75b9e70cced0ba8128acb3384712cea739ab4386051",
+        "内瑟斯被动完成口径复核/01-当前核对.json": "5d4ddb54374086d3f4d479b9751147db3b2b48e27d28e38eaa3b197c8ad40267"
+      }
+    },
+    {
+      "finding": "TristanaQ 攻速60/75/90/105/120%持续7秒、法力15/20/25/30/35、冷却20/19/18/17/16且cast+active已齐；本批只改技能说明与mana_cost过时0消耗文案",
+      "evidence": "官方16.17.1 TristanaQ.cost=[15,20,25,30,35]、cooldown=[20,19,18,17,16]。客户端 TristanaQ.manaValues.values索引0～4同为15/20/25/30/35，旧mana字段为30/35/40/45/50/50不采用；AttackSpeedMod索引1～5为0.6/0.75/0.9/1.05/1.2，BuffDuration全7。04中 cooldown_ms=20000..16000、mana_cost数值已正确但说明仍写0消耗，cast与active已存在且不在本批写入。",
+      "sha256": {
+        "技能公共参数实录/客户端原文/Tristana.json.gz": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494",
+        "英雄/原始资料/zh_CN/champion/Tristana.json": "84fb0ff7f6b1a921e6b13d3dfab5ac4ad48f32f012b9fb912e3bade1ed168b5a",
+        "崔丝塔娜Q完成口径复核/01-当前核对.json": "bea159294d172f24a5f9850b3b6490d7235a3a29d60878e4ded143007915b4a4"
+      }
+    },
+    {
+      "finding": "JannaE 16.17 ShieldDuration=DecayGracePeriod=4秒且现decayMode=NONE；只删衰减待补，自施入口仍空",
+      "evidence": "亲自解压 Janna.json.gz，EyeOfTheStorm.DataValues 中 ShieldDuration 与 DecayGracePeriod 均为[4,4,4,4,4,4,4]。四项自施来源复核写明13.22删除衰减且不再把衰减列作缺口。04/独立GET的 self_shield 仍写衰减尚未接线；shield_duration_ms=4000、decayMode=NONE、processes与trigger-rules均为[]。",
+      "sha256": {
+        "技能公共参数实录/客户端原文/Janna.json.gz": "0e391039ad77b2b0d39527efc10a702783073e2da50e42a57c927907652b4e10",
+        "四项自施来源复核/README.md": "5d98df2391b7b150e41363c66a2f261001198a95cde7a8feda230e1cea0b2642"
+      }
+    },
+    {
+      "finding": "MorganaE/AnnieE 显式自施入口已在前批独立回读，本批只改仍写待配的效果说明",
+      "evidence": "不重审自施契约。07回读均为PASS且 trigger-rules 从0到1、规则键 on_used_self_shield。04/独立GET的 magic_shield 仍写自身目标资格待补，molten_shield 仍写施加条件另行接线；冻结体仅替换description，持续5秒/3秒、SOURCE、NORMAL_SHIELD与decayMode=NONE保持原值。",
+      "sha256": {
+        "交叉试录/莫甘娜E显式自施魔法护盾补录/07-独立GET回读.json": "f87146153b7f4f71a0185fd7380ec4cba4cd118a3f55fc5a8873dcb92675f7f6",
+        "交叉试录/安妮E显式自施护盾正式补录/07-独立GET回读.json": "2460a0238896234a6282a1abbb9cd48baccfae526a6f529ac8791417be55980b"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "五文件原始字节摘要与冻结绑定",
+      "status": "PASS",
+      "evidence": "Node SHA256：02=4c60311c49c8993f7c262996ebac07c012a5230675b3894dc5e1724a15f0c989，与指定原始摘要一致；02.sourceSha256=03、02.baselineSha256=04；03所列9个来源文件原始字节与计划 sourceFiles 逐项相等。批次目录仅有01–04，无05/06。"
+    },
+    {
+      "name": "冻结请求与工具重建一致且只改description",
+      "status": "PASS",
+      "evidence": "用工具 fieldSets 从04.values重建 makeRequests，assert.deepEqual 与02.requests 完整一致。六笔均为PUT；body不含 skillKey/parameterKey/effectKey/gameId/createdAt/updatedAt；除description外业务字段与04现值逐字段相同；expectedReadback仅覆盖description。",
+      "references": [
+        "tools/authoring/update-reviewed-descriptions.mjs:20-52",
+        "02-冻结请求.json"
+      ]
+    },
+    {
+      "name": "固定路径、允许字段、写前比较、即时回读与wx防重放",
+      "status": "PASS",
+      "evidence": "base固定 http://127.0.0.1:8080/api/admin/games/lol；非GET仅 write 且 PUT 路由必须在计划 seen 内；路由正则只允许技能/参数/效果。preflight/write 校验 APPROVED、五文件精确SHA、来源重算、冻结与基线绑定、frozen.requests===makeRequests(04)。写前 snapshot 对全体业务值（含审计时间）深等；逐笔写前GET目标；写后 noTimes 仅忽略 createdAt/updatedAt，其余业务字段差异即失败。DAMAGE_APPROVED_BATCH_SHA 必须等于02；首写前 wx 创建06。",
+      "references": [
+        "tools/authoring/update-reviewed-descriptions.mjs:12-16",
+        "tools/authoring/update-reviewed-descriptions.mjs:31-39",
+        "tools/authoring/update-reviewed-descriptions.mjs:53-84"
+      ]
+    },
+    {
+      "name": "独立纯GET六个目标与04基线",
+      "status": "PASS",
+      "checkedAt": "2026-09-18T16:38:14.636Z",
+      "GETs": 6,
+      "protectedObjectsEqual": 6,
+      "businessWrites": 0,
+      "evidence": "仅GET六条目标路由，响应与04.values 结构相等（含审计时间）。prepare审计84次GET且全200，businessWrites=0。未做写后回读或浏览器验收。"
+    }
+  ]
+}

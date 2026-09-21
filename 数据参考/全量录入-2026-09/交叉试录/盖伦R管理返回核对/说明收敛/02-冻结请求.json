@@ -1,0 +1,97 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/garen_r",
+      "body": {
+        "name": "盖伦·德玛西亚正义",
+        "description": "固定客户端16.17与官方16.17.1：对敌方英雄实际命中时造成125/200/275加25/30/35%目标已损失生命值的单次真实伤害，不暴击，当前结果参与法术护盾阻挡；按防御后伤害配置全能吸血效率1。无资源消耗，435毫秒基础施放与120/100/80秒普通冷却已接入主动使用过程，施法距离参数400。角色关系、终极技能分类和代表图已具备；纯视野分支按本轮范围排除并保留原参数。上述管理配置已保存，实际施放资格、失败取消与战斗结算未验证。",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T15:35:07.212771Z",
+        "description": "固定客户端16.17与官方16.17.1：对敌方英雄实际命中时造成125/200/275加25/30/35%目标已损失生命值的单次真实伤害，不暴击，当前结果参与法术护盾阻挡；按防御后伤害配置全能吸血效率1。无资源消耗，435毫秒基础施放与120/100/80秒普通冷却已接入主动使用过程，施法距离参数400。角色关系、终极技能分类和代表图已具备；纯视野分支按本轮范围排除并保留原参数。上述管理配置已保存，实际施放资格、失败取消与战斗结算未验证。",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "盖伦·德玛西亚正义",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "garen_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T11:28:51.423188Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/garen_r/parameters/cast_time_ms",
+      "body": {
+        "name": "施法时间（毫秒）",
+        "description": "固定16.17当前GarenR根spellCastTime为0.435秒，换算为435毫秒；不存在mCastTime冲突。已由基础施放延迟步骤直接引用，spellTotalTime和castFrame不替代此数值；过程不生成实际命中，失败取消和战斗运行另证。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 435,
+        "levelValues": null,
+        "sortOrder": 3
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T15:40:28.614453Z",
+        "description": "固定16.17当前GarenR根spellCastTime为0.435秒，换算为435毫秒；不存在mCastTime冲突。已由基础施放延迟步骤直接引用，spellTotalTime和castFrame不替代此数值；过程不生成实际命中，失败取消和战斗运行另证。",
+        "fixedValue": 435,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "garen_r",
+        "sortOrder": 3,
+        "updatedAt": "2026-09-06T15:40:28.614453Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/garen_r/parameters/cooldown_ms",
+      "body": {
+        "name": "基础冷却（毫秒）",
+        "description": "官方16.17.1与固定客户端当前R一致，等级1至3为120000/100000/80000毫秒。已用于主动使用过程的普通冷却，从过程开始登记；无资源成本，不以冷却登记替代实际命中或失败取消语义，战斗运行另证。",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "sortOrder": 2
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T15:40:27.206893Z",
+        "description": "官方16.17.1与固定客户端当前R一致，等级1至3为120000/100000/80000毫秒。已用于主动使用过程的普通冷却，从过程开始登记；无资源成本，不以冷却登记替代实际命中或失败取消语义，战斗运行另证。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "garen_r",
+        "sortOrder": 2,
+        "updatedAt": "2026-09-06T15:40:27.206893Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "sourceSha256": "06a914f159e71a45d53d6efcaaa06b4f27b679f67664f9bf2f719bfe04952b18",
+  "baselineSha256": "45fd4d8ad1e8ae42ee02148239c03632c7f7cec8ad33fcc8e9aa4e7b9eb492a5"
+}

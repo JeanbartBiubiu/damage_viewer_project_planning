@@ -1,0 +1,284 @@
+{
+  "at": "2026-09-19T02:41:56.796Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "evaluated": [
+    {
+      "skillKey": "braum_q",
+      "formulaKey": "magic_damage",
+      "officialId": "BraumQ",
+      "calculationName": "TotalDamage",
+      "rankIndices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "baseName": "BaseDamage",
+      "baseValues": [
+        75,
+        120,
+        165,
+        210,
+        255
+      ],
+      "ratioValues": [
+        0.02500000037252903,
+        0.02500000037252903,
+        0.02500000037252903,
+        0.02500000037252903,
+        0.02500000037252903
+      ],
+      "sourceAttribute": {
+        "attributeKey": "hp",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "tooltipOnly": false,
+      "scope": "最大生命值参与伤害，不能替换为当前生命或法强。"
+    },
+    {
+      "skillKey": "nautilus_q",
+      "formulaKey": "magic_damage",
+      "officialId": "NautilusAnchorDrag",
+      "calculationName": "QDamageCalc",
+      "rankIndices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "baseName": "BaseDamage",
+      "baseValues": [
+        85,
+        130,
+        175,
+        220,
+        265
+      ],
+      "ratioValues": [
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421
+      ],
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "tooltipOnly": false,
+      "scope": "只消费现有合法实际命中事件，不产生命中。"
+    },
+    {
+      "skillKey": "velkoz_q",
+      "formulaKey": "damage",
+      "officialId": "VelkozQ",
+      "calculationName": "TotalDamage",
+      "rankIndices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "baseName": "BaseDamage",
+      "baseValues": [
+        80,
+        120,
+        160,
+        200,
+        240
+      ],
+      "ratioValues": [
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421
+      ],
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "tooltipOnly": false,
+      "scope": "初始与分裂弹体只消费合法实际技能命中，不用再次施放来执行伤害。"
+    },
+    {
+      "skillKey": "ziggs_q",
+      "formulaKey": "damage",
+      "officialId": "ZiggsQ",
+      "calculationName": "TotalDamage",
+      "rankIndices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "baseName": "BaseDamage",
+      "baseValues": [
+        80,
+        130,
+        180,
+        230,
+        280
+      ],
+      "ratioValues": [
+        0.6000000238418579,
+        0.6499999761581421,
+        0.699999988079071,
+        0.75,
+        0.800000011920929
+      ],
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "tooltipOnly": false,
+      "scope": "只消费现有合法实际命中事件，不产生命中。"
+    },
+    {
+      "skillKey": "zyra_q",
+      "formulaKey": "magic_damage",
+      "officialId": "ZyraQ",
+      "calculationName": "InitialDamage",
+      "rankIndices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "baseName": "BaseDamage",
+      "baseValues": [
+        60,
+        100,
+        140,
+        180,
+        220
+      ],
+      "ratioValues": [
+        0.6499999761581421,
+        0.6499999761581421,
+        0.6499999761581421,
+        0.6499999761581421,
+        0.6499999761581421
+      ],
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "tooltipOnly": true,
+      "scope": "只取根技能本体直接伤害；不把独立植物攻击并入本次命中。"
+    },
+    {
+      "skillKey": "zyra_e",
+      "formulaKey": "magic_damage",
+      "officialId": "ZyraE",
+      "calculationName": "TotalDamage",
+      "rankIndices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "baseName": "BaseDamage",
+      "baseValues": [
+        60,
+        95,
+        130,
+        165,
+        200
+      ],
+      "ratioValues": [
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579,
+        0.6000000238418579
+      ],
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "tooltipOnly": false,
+      "scope": "只取根技能本体直接伤害；不把独立植物攻击并入本次命中。"
+    },
+    {
+      "skillKey": "leona_r",
+      "formulaKey": "magic_damage",
+      "officialId": "LeonaSolarFlare",
+      "calculationName": "ExplosionCalculatedDamage",
+      "rankIndices": [
+        1,
+        2,
+        3
+      ],
+      "baseName": "ExplosionBaseDamage",
+      "baseValues": [
+        150,
+        225,
+        300
+      ],
+      "ratioValues": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "tooltipOnly": false,
+      "scope": "取正文引用的ExplosionCalculatedDamage；不取未被当前正文使用的旧OnHit计算。"
+    },
+    {
+      "skillKey": "malzahar_q",
+      "formulaKey": "damage",
+      "officialId": "MalzaharQ",
+      "calculationName": "TotalDamageTooltip",
+      "rankIndices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "baseName": "BaseDamage",
+      "baseValues": [
+        70,
+        105,
+        140,
+        175,
+        210
+      ],
+      "ratioValues": [
+        0.550000011920929,
+        0.550000011920929,
+        0.550000011920929,
+        0.550000011920929,
+        0.550000011920929
+      ],
+      "sourceAttribute": {
+        "attributeKey": "ability_power",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL"
+      },
+      "tooltipOnly": false,
+      "scope": "只消费现有合法实际命中事件，不产生命中。"
+    }
+  ],
+  "scopeBoundary": "维克兹分裂与吉格斯弹跳只作为合法命中的来源机制保留，不在规则中伪造事件或新增次数；婕拉植物没有被纳入根伤害，也不新增独立实体。蕾欧娜控制区域不改变本次统一伤害，控制另行表达。",
+  "jannaDisposition": "不把额外移速运行输入补0，也不直接改公式。现有move_speed.BONUS点数能力已明确，仍需核定游戏选择器和读取时点口径后再决定纠正；没有重新扫描或改分类。"
+}

@@ -1,0 +1,368 @@
+{
+  "startedAt": "2026-09-18T20:57:06.036Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/sona_w/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-18T20:57:05.784652Z",
+          "description": "主动使用时为娑娜自身回复生命值；不包含对其他友军的治疗、光环护盾、渐入佳音或能量和弦。",
+          "effectKey": "self_heal",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "坚毅咏叹调自身治疗",
+          "results": [
+            {
+              "description": null,
+              "detail": {},
+              "lifecycleBehavior": null,
+              "name": "自身回复生命值",
+              "resultKey": "heal",
+              "resultType": "DIRECT_HEAL",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "self_heal",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "sona_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T20:57:05.784652Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-18T20:57:05.784652Z",
+        "description": "主动使用时为娑娜自身回复生命值；不包含对其他友军的治疗、光环护盾、渐入佳音或能量和弦。",
+        "effectKey": "self_heal",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "坚毅咏叹调自身治疗",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "自身回复生命值",
+            "resultKey": "heal",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "self_heal",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "sona_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T20:57:05.784652Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_w/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "heal_self",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "self_heal"
+              },
+              "name": "执行自身治疗",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "当前固定官方说明明确每次主动使用治疗自身；无须显式选中自己，不借用友方光环护盾资格，也不触发仅针对其他友军的层数奖励。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "sona_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用回复自身生命",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_self_heal",
+          "sortOrder": 10
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "heal_self",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "self_heal"
+            },
+            "name": "执行自身治疗",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "当前固定官方说明明确每次主动使用治疗自身；无须显式选中自己，不借用友方光环护盾资格，也不触发仅针对其他友军的层数奖励。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "sona_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用回复自身生命",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_self_heal",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components.mjs": "80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a",
+    "01-候选方案.json": "ba5d9716365f1475705b075e7da3c3d836b2a58a7067653ab0eab4bef984c80e",
+    "02-冻结请求.json": "34e276071f679a225f2edd2c30576b2f25de26fc7cb53f2d74042f9a37e6705f",
+    "03-来源摘要.json": "5a08a5fa39c8641f09e6ba89c3307dd4e98b338617c5c75985ad54348a34ff7b",
+    "04-写入前现值.json": "af4ebbcdda462dfa4d73575dd7bf28c33618f652f9d9859d12c2510759319fd9"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-18T20:57:09.685Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/sona_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_sona",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_sona/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_sona/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_sona",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=sona_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/base_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/heal_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/aura_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/diminuendo_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/melody_interval_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/diminuendo_base_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/diminuendo_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/formulas/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/formulas/shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/formulas/diminuendo_damage_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/effects/self_heal",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/trigger-rules/on_used_self_heal",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/effects/self_heal",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/sona_w/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/effects/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/trigger-rules/on_used_self_heal",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/sona_w/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/trigger-rules/on_used_self_heal",
+      "status": 200
+    }
+  ]
+}

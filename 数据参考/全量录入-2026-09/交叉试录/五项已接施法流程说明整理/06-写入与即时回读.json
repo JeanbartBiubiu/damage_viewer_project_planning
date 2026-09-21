@@ -1,0 +1,1045 @@
+{
+  "startedAt": "2026-09-19T00:53:25.002Z",
+  "status": "PASS",
+  "businessWritesAttempted": 8,
+  "operations": [
+    {
+      "route": "/skills/diana_q/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T16:00:18.624568Z",
+          "description": "DDragon16.17.1 Diana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "diana_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T00:53:25.215464Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T16:00:18.624568Z",
+        "description": "DDragon16.17.1 Diana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "diana_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T00:53:25.215464Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kassadin_q/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:38:44.030641Z",
+          "description": "DDragon16.17.1 Kassadin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kassadin_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T00:53:26.86515Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:38:44.030641Z",
+        "description": "DDragon16.17.1 Kassadin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kassadin_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T00:53:26.86515Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kassadin_q/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T05:42:37.259358Z",
+          "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "kassadin_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T00:53:28.130236Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T05:42:37.259358Z",
+        "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "kassadin_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T00:53:28.130236Z"
+      }
+    },
+    {
+      "route": "/skills/ahri_e/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T16:00:05.845251Z",
+          "description": "DDragon16.17.1 Ahri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ahri_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T00:53:29.879971Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T16:00:05.845251Z",
+        "description": "DDragon16.17.1 Ahri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ahri_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T00:53:29.879971Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/diana_e/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T16:00:19.744223Z",
+          "description": "DDragon16.17.1 Diana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 40,
+            "2": 45,
+            "3": 50,
+            "4": 55,
+            "5": 60
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "diana_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T00:53:31.104717Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T16:00:19.744223Z",
+        "description": "DDragon16.17.1 Diana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "diana_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T00:53:31.104717Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ashe_r/parameters/cooldown_ms",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T14:35:27.851876Z",
+          "description": "客户端 cooldownTime 索引 1～3，秒转毫秒；与 DDragon 16.17.1 一致。基础参数，具体起算由引用过程定义。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100000,
+            "2": 80000,
+            "3": 60000
+          },
+          "name": "R 冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ashe_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-19T00:53:32.440389Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T14:35:27.851876Z",
+        "description": "客户端 cooldownTime 索引 1～3，秒转毫秒；与 DDragon 16.17.1 一致。基础参数，具体起算由引用过程定义。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 80000,
+          "3": 60000
+        },
+        "name": "R 冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:53:32.440389Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ashe_r/parameters/cast_time_ms",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T14:35:29.317405Z",
+          "description": "客户端 spellCastTime=0.25 秒，与冻结 Wiki 一致；由施法过程读取，不代替实际命中。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "R 施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "ashe_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-19T00:53:33.800003Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T14:35:29.317405Z",
+        "description": "客户端 spellCastTime=0.25 秒，与冻结 Wiki 一致；由施法过程读取，不代替实际命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-19T00:53:33.800003Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ashe_r/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T14:35:30.429327Z",
+          "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "R 施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 0,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "ashe_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T00:53:35.230144Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T14:35:30.429327Z",
+        "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "R 施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 0,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "ashe_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T00:53:35.230144Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "10020da39a4ef437fbb49b365d569971bf48ab6c143d17c00f5befc43483e03b",
+    "02-冻结请求.json": "d046d290ee22edf88147d450348606c4e068f862fd35f104f4b8bb29e150979e",
+    "03-来源摘要.json": "5bd025ca16b4538ddc8b313c218704511679150061b9622a4452df778f91235a",
+    "04-写入前现值.json": "4ce27ae677614beeb2595c94a9a32da5359af3c360e5ff5509d9a0a34a2f2be3"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T00:53:36.696Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/diana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/moonlight_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/effects/moon_arc_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/base_magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/calculation_constant_1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/calculation_constant_2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/formulas/magic_shield_amount",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects/magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/trigger-rules/on_used_cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/charm_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/moonlight_reset_delay_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/lunar_rush_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/moonlight_cooldown_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/min_stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/max_stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/formulas/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/diana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/kassadin_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/kassadin_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/ahri_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/diana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/ashe_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/ashe_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/ashe_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/mana_cost",
+      "status": 200
+    }
+  ]
+}

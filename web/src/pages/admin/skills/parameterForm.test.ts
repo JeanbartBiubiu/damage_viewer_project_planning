@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   applyValueModeReset,
+  applyPastedLevelValues,
   buildLevelValues,
   createEmptyParameterDraft,
   fillArithmeticLevelValues,
@@ -49,6 +50,66 @@ describe('parameterForm level helpers', () => {
     expect(buildLevelValues({ '1': '0', '2': '1.5', '3': '-2' }, 1, 3, 'DECIMAL')).toEqual({
       ok: true,
       levelValues: { '1': 0, '2': 1.5, '3': -2 }
+    });
+  });
+
+  it('applies a nonlinear eighteen-level column from a non-1 starting level without mutating the draft', () => {
+    const currentValues = Object.fromEntries(
+      Array.from({ length: 18 }, (_, index) => [String(index + 3), '0'])
+    );
+    const originalValues = { ...currentValues };
+    const values = Array.from({ length: 18 }, (_, index) => String(index * index + 0.25));
+    const result = applyPastedLevelValues(currentValues, values.join('\n'), 3, 20, 'DECIMAL');
+
+    expect(result).toEqual({
+      ok: true,
+      levelValues: Object.fromEntries(values.map((value, index) => [String(index + 3), value]))
+    });
+    expect(currentValues).toEqual(originalValues);
+  });
+
+  it('accepts mixed supported separators and scientific decimal notation', () => {
+    expect(applyPastedLevelValues({}, '1\t-2.5\n3e1，4', 2, 5, 'DECIMAL')).toEqual({
+      ok: true,
+      levelValues: { '2': '1', '3': '-2.5', '4': '3e1', '5': '4' }
+    });
+  });
+
+  it('accepts Windows CRLF line endings while preserving a real empty line', () => {
+    expect(applyPastedLevelValues({}, '1\r\n2\r\n3', 5, 7, 'DECIMAL')).toEqual({
+      ok: true,
+      levelValues: { '5': '1', '6': '2', '7': '3' }
+    });
+    expect(applyPastedLevelValues({}, '1\r\n\r\n3', 5, 7, 'DECIMAL')).toEqual({
+      ok: false,
+      message: '第2项（Lv6）不能为空。'
+    });
+  });
+
+  it('rejects an empty item with its exact level and leaves the draft unchanged', () => {
+    const currentValues = { '5': '10', '6': '20', '7': '30' };
+    const result = applyPastedLevelValues(currentValues, '1\n\n3', 5, 7, 'DECIMAL');
+
+    expect(result).toEqual({ ok: false, message: '第2项（Lv6）不能为空。' });
+    expect(currentValues).toEqual({ '5': '10', '6': '20', '7': '30' });
+  });
+
+  it('rejects an exact count mismatch without filling missing values', () => {
+    expect(applyPastedLevelValues({ '5': '10', '6': '20', '7': '30' }, '1,2', 5, 7, 'DECIMAL'))
+      .toEqual({ ok: false, message: '请按 Lv5 至 Lv7 的顺序输入 3 个数值，当前为 2 个。' });
+  });
+
+  it.each(['0x10', 'NaN', 'Infinity', '-Infinity', '1e309'])('rejects non-decimal or non-finite value: %s', (value) => {
+    expect(applyPastedLevelValues({}, `1\n${value}\n3`, 5, 7, 'DECIMAL')).toEqual({
+      ok: false,
+      message: '第2项（Lv6）必须是十进制有限数字。'
+    });
+  });
+
+  it('rejects a decimal item for an integer parameter', () => {
+    expect(applyPastedLevelValues({}, '1\n2.5\n3', 5, 7, 'INTEGER')).toEqual({
+      ok: false,
+      message: '第2项（Lv6）必须是整数。'
     });
   });
 });

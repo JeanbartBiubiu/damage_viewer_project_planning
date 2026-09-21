@@ -1,0 +1,550 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/brand_e/effects",
+      "detailRoute": "/skills/brand_e/effects/mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。当前官方16.17.1为全等级90。",
+        "sortOrder": 5,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。当前官方16.17.1为全等级90。",
+        "sortOrder": 5,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/brand_e/processes",
+      "detailRoute": "/skills/brand_e/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "施放烈火燃烧",
+        "activationType": "ACTIVE",
+        "description": "绑定已核对的法力、普通冷却和250毫秒施法延迟；不在过程结束时自动造成伤害，实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "主技能spellCastTime已核对为250毫秒。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "施放烈火燃烧",
+        "activationType": "ACTIVE",
+        "description": "绑定已核对的法力、普通冷却和250毫秒施法延迟；不在过程结束时自动造成伤害，实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "cast_time",
+            "name": "施法延迟",
+            "description": "主技能spellCastTime已核对为250毫秒。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/brand_e/trigger-rules",
+      "detailRoute": "/skills/brand_e/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动烈火燃烧施法过程",
+        "description": "接收brand_e主动使用并启动已有cast过程，只处理已保存的法力消耗、普通冷却和250毫秒施法延迟；实际命中由独立规则处理，扩散与被动联动继续另行维护。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "brand_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动烈火燃烧施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动烈火燃烧施法过程",
+        "description": "接收brand_e主动使用并启动已有cast过程，只处理已保存的法力消耗、普通冷却和250毫秒施法延迟；实际命中由独立规则处理，扩散与被动联动继续另行维护。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "brand_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动烈火燃烧施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malphite_e/processes",
+      "detailRoute": "/skills/malphite_e/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；固定0延迟步骤只作登记步骤，不表示技能施法时长为零；实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "固定0延迟仅表示本登记过程不建模技能施法时序。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；固定0延迟步骤只作登记步骤，不表示技能施法时长为零；实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "固定0延迟仅表示本登记过程不建模技能施法时序。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malphite_e/trigger-rules",
+      "detailRoute": "/skills/malphite_e/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次malphite_e主动使用启动专门的消耗与普通冷却登记过程；不定义真实施法时长，实际命中由独立规则处理，攻速削减另行维护。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "malphite_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次malphite_e主动使用启动专门的消耗与普通冷却登记过程；不定义真实施法时长，实际命中由独立规则处理，攻速削减另行维护。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "malphite_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malphite_r/processes",
+      "detailRoute": "/skills/malphite_r/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；固定0延迟步骤只作登记步骤，不表示技能施法时长为零；实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "固定0延迟仅表示本登记过程不建模突进、通道或命中时序。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；固定0延迟步骤只作登记步骤，不表示技能施法时长为零；实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "固定0延迟仅表示本登记过程不建模突进、通道或命中时序。",
+            "sortOrder": 10,
+            "stepType": "DELAY",
+            "detail": {
+              "delayValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malphite_r/trigger-rules",
+      "detailRoute": "/skills/malphite_r/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次malphite_r主动使用启动专门的消耗与普通冷却登记过程；不定义突进、通道、击飞或真实施法时长，实际命中由独立规则处理。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "malphite_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次malphite_r主动使用启动专门的消耗与普通冷却登记过程；不定义突进、通道、击飞或真实施法时长，实际命中由独立规则处理。管理保存不证明宿主已生产该事件。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "malphite_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "3a0b5549a9745e0423d5fe74eaa472d5a95a7a9027eeca106a84086524516fc0",
+  "baselineSha256": "7064a65a9ea82ff33b305b5bb408cf38bde6673f38bfa7ae97fbe0c496462719"
+}

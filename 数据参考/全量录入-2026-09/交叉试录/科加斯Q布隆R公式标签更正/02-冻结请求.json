@@ -1,0 +1,149 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/chogath_q/formulas/magic_damage",
+      "body": {
+        "name": "破裂魔法伤害",
+        "description": "固定客户端16.17根TotalDamageTooltip对应BaseDamage加1倍来源总法术强度，官方16.17.1正文明确为本体魔法伤害；本公式只定义数值，具体执行由合资格命中入口与效果引用决定。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "sortOrder": 10
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T12:47:24.832226Z",
+        "description": "固定客户端16.17根TotalDamageTooltip对应BaseDamage加1倍来源总法术强度，官方16.17.1正文明确为本体魔法伤害；本公式只定义数值，具体执行由合资格命中入口与效果引用决定。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "破裂魔法伤害",
+        "skillKey": "chogath_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:47:24.832226Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/braum_r/formulas/magic_damage",
+      "body": {
+        "name": "冰川裂隙魔法伤害",
+        "description": "固定客户端16.17根TotalDamage对应BaseDamage加0.6倍来源总法术强度；官方16.17.1正文中路径及附近命中敌人的本体魔法伤害共用此式，首目标区别只涉及击飞时长。本公式定义数值，具体执行由合资格命中入口与效果引用决定。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "sortOrder": 10
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T19:29:42.876513Z",
+        "description": "固定客户端16.17根TotalDamage对应BaseDamage加0.6倍来源总法术强度；官方16.17.1正文中路径及附近命中敌人的本体魔法伤害共用此式，首目标区别只涉及击飞时长。本公式定义数值，具体执行由合资格命中入口与效果引用决定。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "冰川裂隙魔法伤害",
+        "skillKey": "braum_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T19:29:42.876513Z"
+      }
+    }
+  ],
+  "sourceSha256": "5d5f8e093697eaabad07fa30037bf469401f53014abeb9d7e93b658c645af48c",
+  "baselineSha256": "912b05aaaa1a64c64f3ffe43020f1fbb21ef42ddf756a237a6b6756f7f4e1542"
+}

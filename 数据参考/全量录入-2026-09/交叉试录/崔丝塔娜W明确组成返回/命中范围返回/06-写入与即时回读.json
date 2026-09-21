@@ -1,0 +1,75 @@
+{
+  "status": "PASS",
+  "at": "2026-09-20T14:11:17.864Z",
+  "executionMode": "BROWSER_UI_ONLY",
+  "businessWritesAttempted": 1,
+  "pendingRoute": null,
+  "approvedFiles": {
+    "tools/authoring/reviewed-hit-scope-ui.mjs": "b9dc44da5ac25728eeeaa13c8108dd6720f7ae70cd9ac4a8a9896f2715f2d287",
+    "01-候选方案.json": "b8ae312fecbf8ee85053aa6ec288fcf5c7e80cdf242331a4a20903786e6e30b6",
+    "02-冻结请求.json": "6b9dd1c24f85434bc301248c93fbedaa6be68f60fb094950a912b6788544a12b",
+    "03-来源摘要.json": "1992f803452f421ed56fab693873eba15ec6a952128e96c0f3f63b6a1267e149",
+    "04-写入前现值.json": "9e5086451d10824ac7756c14bf8e6092b05e78e19f467c0fab08cc418a3d9d52"
+  },
+  "finishedAt": "2026-09-20T14:12:05.698Z",
+  "immediateReadback": {
+    "method": "GET",
+    "path": "/skills/tristana_w/trigger-rules/actual_hit",
+    "status": 200,
+    "body": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "landing_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "tristana_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "火箭跳跃实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "uiEvidence": "页面唯一保存，未抓取PUT正文或响应状态；实际字段由即时GET验证。"
+}

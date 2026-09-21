@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-19T10:05:29.717Z",
+  "status": "PASS",
+  "problem": "索拉卡R连续新增条件和动作时，始终挂载的子组件在同步新draft之前先渲染旧current，造成短暂旧配置显示；未发现共享默认对象污染。",
+  "change": "仅将两子编辑器打开时草稿同步改为useLayoutEffect，在绘制前同步current及局部状态；不改草稿结构、写入契约或默认业务取值。",
+  "independentSourceReview": {
+    "reviewer": "/root/skill_detail_loading_review",
+    "status": "PASS",
+    "businessHTTP": 0,
+    "fileWrites": 0
+  },
+  "checks": {
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "unitTests": 674,
+    "unitFiles": 60,
+    "build": "PASS，既有500kB产物提示保留",
+    "focusedMockBrowserCases": 6,
+    "focusedMockBrowser": "PASS；动作排序、来源效果失败重试、400/409保留草稿、资源成本绑定、类别清理、法术护盾条件清理",
+    "liveBrowser": "重载后先编辑旧SOURCE hp比例GTE0.4条件并取消，再新增条件；点击后首次读取为当前目标、空属性、当前值、小于等于、空固定数值。编辑旧self_heal动作取消后新增，首次读取为空效果和名称，无旧绑定。全部取消，无业务写入。",
+    "liveReadbackGETs": 4,
+    "unchangedObjectsIncludingTimestamps": 4,
+    "consoleErrors": []
+  },
+  "sourceFiles": [
+    {
+      "path": "web/src/pages/admin/skills/triggers/SkillTriggerConditionEditorModal.tsx",
+      "normalizedLfSha256": "5bdd6147117aa3a6c4ac784a0015b01af96a52c4baefd84a8e1ce7f5cc8c8b17"
+    },
+    {
+      "path": "web/src/pages/admin/skills/triggers/SkillTriggerActionEditorModal.tsx",
+      "normalizedLfSha256": "cbc5498baabd2fee52ecc68c4498a928f16a76f506bf73ffc630f884bc648dec"
+    }
+  ],
+  "runtimeValidation": "未执行",
+  "boundary": "真实页面确认点击后首次工具可见内容；不声称录制了逐帧动画或新增自动化首帧采样。"
+}

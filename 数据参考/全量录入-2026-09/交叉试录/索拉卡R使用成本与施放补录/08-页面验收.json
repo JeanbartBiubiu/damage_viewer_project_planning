@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-19T10:45:30.899Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "skillKeys": [
+    "soraka_r"
+  ],
+  "businessWrites": 0,
+  "checks": [
+    "效果列表保留两项自身治疗并新增mana_cost；打开法力效果与结果详情，SOURCE、mana、CONSUME、mana_cost参数，倍率1、最小0、最大空。",
+    "cast过程主动，cast_delay延迟步骤引用cast_time_ms；普通冷却cooldown_ms在过程开始，唯一mana_cost效果挂接也在过程开始，无内部状态操作。",
+    "规则列表3项，on_used排序5；重开确认来源soraka_r、主动、无条件组，唯一START_PROCESS cast，绑定与修正为空。原正常/低生命两条治疗规则仍在列表，取消未保存。",
+    "浏览器错误日志为空。"
+  ],
+  "runtimeValidation": "未执行"
+}

@@ -1,0 +1,230 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/chogath_q/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "固定客户端16.17根技能与官方16.17.1 Chogath.spells[0].cost一致：每次普通主动使用的基础法力消耗为50。本参数定义基础值，实际消耗调用由过程挂接决定，施放许可与完整施法时序分别核对。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T18:36:14.02081Z",
+        "description": "固定客户端16.17根技能与官方16.17.1 Chogath.spells[0].cost一致：每次普通主动使用的基础法力消耗为50。本参数定义基础值，实际消耗调用由过程挂接决定，施放许可与完整施法时序分别核对。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "chogath_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:14.02081Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/chogath_q/effects/mana_cost",
+      "body": {
+        "name": "施放法力消耗",
+        "description": "定义本技能每次已接受普通主动使用的基础法力消耗，读取同技能mana_cost参数并作用于来源对象；具体调用由使用过程挂接决定，本效果不负责施放许可、冷却或命中判断。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T12:47:25.825733Z",
+        "description": "定义本技能每次已接受普通主动使用的基础法力消耗，读取同技能mana_cost参数并作用于来源对象；具体调用由使用过程挂接决定，本效果不负责施放许可、冷却或命中判断。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "chogath_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:47:25.825733Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/braum_r/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "固定客户端16.17根技能与官方16.17.1 Braum.spells[3].cost一致：每次普通主动使用的基础法力消耗为100。本参数定义基础值，实际消耗调用由过程挂接决定，施放许可与完整施法时序分别核对。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T18:36:09.252266Z",
+        "description": "固定客户端16.17根技能与官方16.17.1 Braum.spells[3].cost一致：每次普通主动使用的基础法力消耗为100。本参数定义基础值，实际消耗调用由过程挂接决定，施放许可与完整施法时序分别核对。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "braum_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:09.252266Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/maokai_r/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "固定客户端16.17根技能与官方16.17.1 Maokai.spells[3].cost一致：每次普通主动使用的基础法力消耗为100。本参数定义基础值，实际消耗调用由过程挂接决定，施放许可与完整施法时序分别核对。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-08T01:02:49.143082Z",
+        "description": "固定客户端16.17根技能与官方16.17.1 Maokai.spells[3].cost一致：每次普通主动使用的基础法力消耗为100。本参数定义基础值，实际消耗调用由过程挂接决定，施放许可与完整施法时序分别核对。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "maokai_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:49.143082Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/maokai_r/effects/mana_cost",
+      "body": {
+        "name": "施放法力消耗",
+        "description": "定义本技能每次已接受普通主动使用的基础法力消耗，读取同技能mana_cost参数并作用于来源对象；具体调用由使用过程挂接决定，本效果不负责施放许可、冷却或命中判断。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "施放法力消耗",
+            "resultKey": "mana_cost",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T15:57:42.090811Z",
+        "description": "定义本技能每次已接受普通主动使用的基础法力消耗，读取同技能mana_cost参数并作用于来源对象；具体调用由使用过程挂接决定，本效果不负责施放许可、冷却或命中判断。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "施放法力消耗",
+            "resultKey": "mana_cost",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "maokai_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:57:42.090811Z"
+      }
+    }
+  ],
+  "sourceSha256": "505530728029508b1ac5fb5afeb47e2f3bd1f26a26d1658565a25559d31f9016",
+  "baselineSha256": "f86998987bc27e788cb685fd4f0fae64604efe616c18a28881a264a6ac7401fd"
+}

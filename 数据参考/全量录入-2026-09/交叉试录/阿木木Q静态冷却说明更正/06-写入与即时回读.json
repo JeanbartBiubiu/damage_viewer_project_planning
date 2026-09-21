@@ -1,0 +1,348 @@
+{
+  "startedAt": "2026-09-21T08:34:59.288Z",
+  "status": "PASS",
+  "businessWritesAttempted": 1,
+  "operations": [
+    {
+      "route": "/skills/amumu_q/parameters/cooldown_ms",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T14:32:18.678728Z",
+          "description": "固定客户端16.17根BandageToss的cooldownTime与Cooldown.values各等级均为3秒，且mCooldownNotAffectedByCDR明确为true，表示该冷却不受冷却缩减影响。保留3000毫秒原值；这是静态冷却，不是16/15/14/13/12秒的弹药恢复时间，不据此建立未区分急速的普通冷却过程。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 3000,
+            "2": 3000,
+            "3": 3000,
+            "4": 3000,
+            "5": 3000
+          },
+          "name": "基础静态冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "amumu_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-21T08:35:01.637376Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T14:32:18.678728Z",
+        "description": "固定客户端16.17根BandageToss的cooldownTime与Cooldown.values各等级均为3秒，且mCooldownNotAffectedByCDR明确为true，表示该冷却不受冷却缩减影响。保留3000毫秒原值；这是静态冷却，不是16/15/14/13/12秒的弹药恢复时间，不据此建立未区分急速的普通冷却过程。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 3000,
+          "2": 3000,
+          "3": 3000,
+          "4": 3000,
+          "5": 3000
+        },
+        "name": "基础静态冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "amumu_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T08:35:01.637376Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listRoute": "/skills/amumu_q/parameters",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-09T14:32:18.678728Z",
+          "description": "固定客户端16.17根BandageToss的cooldownTime与Cooldown.values各等级均为3秒，且mCooldownNotAffectedByCDR明确为true，表示该冷却不受冷却缩减影响。保留3000毫秒原值；这是静态冷却，不是16/15/14/13/12秒的弹药恢复时间，不据此建立未区分急速的普通冷却过程。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 3000,
+            "2": 3000,
+            "3": 3000,
+            "4": 3000,
+            "5": 3000
+          },
+          "name": "基础静态冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "amumu_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-21T08:35:01.637376Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:19.904446Z",
+          "description": "客户端根绑定 spellCastTime=0.25秒，按毫秒录入；只记录施法字段，不表示命中发生时点。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "amumu_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T14:32:19.904446Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:20.953705Z",
+          "description": "客户端根绑定 DataValues.BaseDamage 取原始数组索引1至5；索引0的45是未采用的占位值，录入70/95/120/145/170。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 95,
+            "3": 120,
+            "4": 145,
+            "5": 170
+          },
+          "name": "基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "amumu_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T14:32:20.953705Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:22.046304Z",
+          "description": "TotalDamage 第二项 StatByCoefficient 原始 mCoefficient=0.8500000238，按窄口径映射来源总法强并归一为0.85。",
+          "fixedValue": 0.85,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "amumu_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T14:32:22.046304Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:23.136063Z",
+          "description": "客户端根绑定 DataValues.StunDuration 原始数组索引1取1秒，按毫秒录入。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "眩晕持续（毫秒）",
+          "parameterKey": "stun_duration_ms",
+          "skillKey": "amumu_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T14:32:23.136063Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:24.304894Z",
+          "description": "当前绑定正文明确“这个技能有2层充能”，层数使用整数；不创建充能过程。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最大充能层数",
+          "parameterKey": "max_charges",
+          "skillKey": "amumu_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T14:32:24.304894Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:25.335637Z",
+          "description": "客户端根绑定 mAmmoRechargeTime 原始数组索引1至5为16/15/14/13/12秒，按毫秒录入；保留充能数据，不创建充能事件。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 16000,
+            "2": 15000,
+            "3": 14000,
+            "4": 13000,
+            "5": 12000
+          },
+          "name": "充能时间（毫秒）",
+          "parameterKey": "ammo_recharge_time_ms",
+          "skillKey": "amumu_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T14:32:25.335637Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:26.372772Z",
+          "description": "客户端根绑定 DataValues.DashSpeed 原始数组索引1取1800；单位沿客户端字段保留，位移过程未接线。",
+          "fixedValue": 1800,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "绷带移动速度",
+          "parameterKey": "dash_speed",
+          "skillKey": "amumu_q",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T14:32:26.372772Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:32.707906Z",
+          "description": "DDragon16.17.1 Amumu.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "amumu_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:32.707906Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    }
+  ],
+  "pendingRoute": null,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-parameters.mjs": "fe93cb1a81488714fb2fd43c67c18b3383142c886cd3769bbb3114cbd6265997",
+    "01-纠错计划.json": "d5c10eb0152cce828e7da03ef2a5717feddba72dadf0f930c8037c98126cd14f",
+    "02-冻结请求.json": "b3328e23113d283466cc876786a26e5ed6479fde9124015e0c31c0254626cb9d",
+    "03-来源摘要.json": "6e8a1bac32b54b84a8fc5a0cefd8e7a8f9b66867c63a41be773a118adf11fb9b",
+    "04-写入前现值.json": "b01ab143554da7ee2a96cc2425c4d73e17fe3e1148232899e3647f6b570f2a60"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/max_charges",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/ammo_recharge_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/dash_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/formulas/total_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/first_hit_stun",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/actual_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/apply_stun_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/amumu_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-21T08:35:00.760Z"
+}

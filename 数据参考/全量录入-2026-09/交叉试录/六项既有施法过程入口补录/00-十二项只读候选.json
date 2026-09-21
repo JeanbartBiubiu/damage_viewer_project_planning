@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "status": "READ_ONLY_CANDIDATE",
+  "title": "12项技能普通使用入口核对候选报告",
+  "generatedAt": "2026-09-19T07:35:05.288+08:00",
+  "fixedSource": {
+    "versions": {
+      "client": "16.17",
+      "ddragon": "16.17.1"
+    },
+    "officialSource": "DDragon 16.17.1 英文/中文原始英雄资料",
+    "clientSource": "CommunityDragon 16.17 客户端压缩原文（当前根绑定）",
+    "index": {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+      "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+    },
+    "candidateFiles": [
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+        "sha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+        "sha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034"
+      }
+    ],
+    "baselineFiles": [
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/四项既有伤害吸血资格纠错/04-写入前现值.json",
+        "sha256": "8c0c55215439a687d66450a0d436fdf41f7a38d1569645a61fd29cc3d66fe844",
+        "skills": ["veigar_q", "veigar_w", "annie_q", "brand_q"]
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/04-写入前现值.json",
+        "sha256": "bfb9b6670771d29a921e9c21cf652fb3837016fabf818999f1a2a7743a773ff4",
+        "skills": ["annie_w", "brand_w", "brand_e", "malphite_q", "malphite_e", "malphite_r", "diana_q", "veigar_r"]
+      }
+    ],
+    "heroFiles": {
+      "Annie": {
+        "officialZh": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Annie.json", "sha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735"},
+        "officialEn": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Annie.json", "sha256": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4"},
+        "clientGz": {"path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Annie.json.gz", "compressedSha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38", "decompressedSha256": "92318a3473f127db5b086cdf7a34743becb51ae95196df53911e83f0bd327961"}
+      },
+      "Brand": {
+        "officialZh": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Brand.json", "sha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20"},
+        "officialEn": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Brand.json", "sha256": "d1f7a34ee637918b864268464c39199eea9f53eb5a37101d403f544f5792a8dc"},
+        "clientGz": {"path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Brand.json.gz", "compressedSha256": "0f205cb596ac4733d8588aec896f4a0121c71b66fa1ba1f6be924caaeac30dcd", "decompressedSha256": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d"}
+      },
+      "Malphite": {
+        "officialZh": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Malphite.json", "sha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7"},
+        "officialEn": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Malphite.json", "sha256": "717e46ec145f0ccbd25237d32401d224c96e1a4727b72dcdf435729b1c60c707"},
+        "clientGz": {"path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Malphite.json.gz", "compressedSha256": "65865f9dbcbba50a11852301d6f516a21eb7ea88623980bb35ed7a825e7f6fdd", "decompressedSha256": "70dd954ff0fce089bd0d71148dbfaef72d1731c66768afe5aca2d3f4dabeb985"}
+      },
+      "Diana": {
+        "officialZh": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Diana.json", "sha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d"},
+        "officialEn": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Diana.json", "sha256": "06bba838083bb91b9d6c41f6c9f7395966d911719b9893be08734ba6425e8055"},
+        "clientGz": {"path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Diana.json.gz", "compressedSha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c", "decompressedSha256": "ed46b24b345a284e7938db666ff6f354cd837f49e6e0e7ef544429addd817efa"}
+      },
+      "Veigar": {
+        "officialZh": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Veigar.json", "sha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de"},
+        "officialEn": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Veigar.json", "sha256": "71eed4440c741f187b3e36900a67e4544b188edb6aba4501ae3d981e494c28c2"},
+        "clientGz": {"path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz", "compressedSha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc", "decompressedSha256": "2dbb6f22563ef94b230e24af998836e95d883bb7fd6d39e4f5cc273ad371af78"}
+      }
+    }
+  },
+  "scope": {
+    "included": ["veigar_q", "veigar_w", "annie_q", "brand_q", "annie_w", "brand_w", "brand_e", "malphite_q", "malphite_e", "malphite_r", "diana_q", "veigar_r"],
+    "readMode": "仅读取两份指定完整快照、两份候选和固定原始资料；不重新GET，不写业务接口。",
+    "activeQualification": "根对象的主技能路径与候选中的ACTIVE语义共同确认普通主动使用；SKILL_USED.detail.useKind固定为ACTIVE。bIsToggleSpell不用于推导免费或无资源开关。",
+    "selectionRule": "只对已有完整cast过程、合法mana_cost效果绑定和普通cooldown参数的技能准备入口POST；已有on_used不重复；无过程的技能标记另行准备。",
+    "counts": {"readyTriggerOnly": 6, "alreadyHasOnUsed": 2, "processMissing": 4},
+    "noBusinessWrites": true
+  },
+  "commonProcessEvidence": {
+    "existingCastShape": {
+      "activationType": "ACTIVE",
+      "cooldown": {"durationValue": {"kind": "PARAMETER", "parameterKey": "cooldown_ms"}, "startMoment": {"momentType": "PROCESS_START", "stepKey": null}},
+      "manaBinding": {"effectKey": "mana_cost", "moment": {"momentType": "PROCESS_START", "stepKey": null}},
+      "castStep": {"stepType": "DELAY", "delayValue": {"kind": "PARAMETER", "parameterKey": "cast_time_ms"}},
+      "meaning": "cast时间只表示已有过程中的施法延迟；过程或入口本身不生成命中、伤害或完整战斗时序。"
+    },
+    "entryShape": {
+      "eventType": "SKILL_USED",
+      "useKind": "ACTIVE",
+      "actionType": "START_PROCESS",
+      "targetContext": "CURRENT_TARGET",
+      "runtimeInputBindings": [],
+      "resultModifiers": []
+    }
+  },
+  "skills": [
+    {
+      "skillKey": "veigar_q",
+      "name": "黑暗祭祀",
+      "source": {"sourceGroup": "Veigar", "candidateFile": "英雄机制第四批/录入候选.json", "spellPath": "Characters/Veigar/Spells/VeigarBalefulStrikeAbility/VeigarBalefulStrike"},
+      "parameters": {"manaCost": {"mode": "SKILL_LEVEL", "values": [30, 35, 40, 45, 50]}, "cooldown": {"parameterKey": "cooldown_ms", "mode": "SKILL_LEVEL", "values": [6000, 5500, 5000, 4500, 4000]}, "castTimeMs": 250},
+      "rawFacts": {"rootSpell": true, "bIsToggleSpell": "absent", "clientSpellCastTimeMs": 250},
+      "currentRegistration": {"processKey": "cast", "processCompleteForThisScope": true, "triggerRules": ["actual_hit"], "onUsed": {"exists": false}},
+      "decision": "READY_TRIGGER_ONLY",
+      "minimalPost": {
+        "method": "POST",
+        "route": "/skills/veigar_q/trigger-rules",
+        "body": {"ruleKey": "on_used", "name": "主动使用启动黑暗祭祀施法过程", "description": "接收veigar_q主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；实际命中与被动层数继续暂缓。管理保存不证明宿主已生产该事件。", "sortOrder": 10, "eventSource": {"eventType": "SKILL_USED", "detail": {"sourceSkillKey": "veigar_q", "useKind": "ACTIVE"}}, "conditionGroups": [], "actions": [{"actionKey": "start_cast", "name": "启动黑暗祭祀施法过程", "actionType": "START_PROCESS", "sortOrder": 10, "targetContext": "CURRENT_TARGET", "detail": {"processKey": "cast"}, "runtimeInputBindings": [], "resultModifiers": []}], "perTargetCooldown": null, "maxTriggersPerProcess": null}
+      },
+      "remainingMechanismBoundary": "不接线命中、Q击杀与被动层数；不等同完整技能或战斗运行。"
+    },
+    {
+      "skillKey": "veigar_w",
+      "name": "黑暗物质",
+      "source": {"sourceGroup": "Veigar", "candidateFile": "英雄机制第四批/录入候选.json", "spellPath": "Characters/Veigar/Spells/VeigarDarkMatterAbility/VeigarDarkMatter"},
+      "parameters": {"manaCost": {"mode": "SKILL_LEVEL", "values": [60, 65, 70, 75, 80]}, "cooldown": {"parameterKey": null, "mode": "MISSING", "baseCooldownParameter": {"parameterKey": "base_cooldown_ms", "fixedValue": 8000}}, "castTimeMs": 250},
+      "rawFacts": {"rootSpell": true, "bIsToggleSpell": "absent", "clientSpellCastTimeMs": 250, "clientCooldownTimeSeconds": [0, 0, 0, 0, 0, 0, 0]},
+      "currentRegistration": {"processKey": null, "processCompleteForThisScope": false, "triggerRules": ["actual_hit"], "onUsed": {"exists": false}},
+      "decision": "PROCESS_MISSING_NEEDS_SEPARATE_PREP",
+      "minimalPost": null,
+      "blockReason": "普通cooldown_ms不存在；客户端cooldownTime为动态占位，现有base_cooldown_ms=8000仍需结合维迦被动层数和冷却规则，不能创建0冷却或静态cast过程。",
+      "remainingMechanismBoundary": "P层数冷却、落下延迟与命中仍待机制准备；本子任务不擅建过程。"
+    },
+    {
+      "skillKey": "annie_q",
+      "name": "碎裂之火",
+      "source": {"sourceGroup": "Annie", "candidateFile": "英雄机制第二批/录入候选.json", "spellPath": "Characters/Annie/Spells/AnnieQAbility/AnnieQ"},
+      "parameters": {"manaCost": {"mode": "SKILL_LEVEL", "values": [60, 65, 70, 75, 80]}, "cooldown": {"parameterKey": "cooldown_ms", "mode": "FIXED", "fixedValue": 4000}, "castTimeMs": 250},
+      "rawFacts": {"rootSpell": true, "bIsToggleSpell": "absent", "clientSpellCastTimeMs": 250},
+      "currentRegistration": {"processKey": "cast", "processCompleteForThisScope": true, "triggerRules": ["actual_hit"], "onUsed": {"exists": false}},
+      "decision": "READY_TRIGGER_ONLY",
+      "minimalPost": {
+        "method": "POST",
+        "route": "/skills/annie_q/trigger-rules",
+        "body": {"ruleKey": "on_used", "name": "主动使用启动碎裂之火施法过程", "description": "接收annie_q主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；实际命中与击杀返还继续暂缓。管理保存不证明宿主已生产该事件。", "sortOrder": 10, "eventSource": {"eventType": "SKILL_USED", "detail": {"sourceSkillKey": "annie_q", "useKind": "ACTIVE"}}, "conditionGroups": [], "actions": [{"actionKey": "start_cast", "name": "启动碎裂之火施法过程", "actionType": "START_PROCESS", "sortOrder": 10, "targetContext": "CURRENT_TARGET", "detail": {"processKey": "cast"}, "runtimeInputBindings": [], "resultModifiers": []}], "perTargetCooldown": null, "maxTriggersPerProcess": null}
+      },
+      "remainingMechanismBoundary": "不接线实际命中、击杀退款与被动层数；不等同完整技能或战斗运行。"
+    },
+    {
+      "skillKey": "brand_q",
+      "name": "火焰烙印",
+      "source": {"sourceGroup": "Brand", "candidateFile": "英雄机制第二批/录入候选.json", "spellPath": "Characters/Brand/Spells/BrandQAbility/BrandQ"},
+      "parameters": {"manaCost": {"mode": "FIXED", "fixedValue": 70}, "cooldown": {"parameterKey": "cooldown_ms", "mode": "SKILL_LEVEL", "values": [8000, 7500, 7000, 6500, 6000]}, "castTimeMs": 250},
+      "rawFacts": {"rootSpell": true, "bIsToggleSpell": "absent", "clientSpellCastTimeMs": 250},
+      "currentRegistration": {"processKey": "cast", "processCompleteForThisScope": true, "triggerRules": ["actual_hit"], "onUsed": {"exists": false}},
+      "decision": "READY_TRIGGER_ONLY",
+      "minimalPost": {
+        "method": "POST",
+        "route": "/skills/brand_q/trigger-rules",
+        "body": {"ruleKey": "on_used", "name": "主动使用启动火焰烙印施法过程", "description": "接收brand_q主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；实际命中、晕眩与被动灼烧继续暂缓。管理保存不证明宿主已生产该事件。", "sortOrder": 10, "eventSource": {"eventType": "SKILL_USED", "detail": {"sourceSkillKey": "brand_q", "useKind": "ACTIVE"}}, "conditionGroups": [], "actions": [{"actionKey": "start_cast", "name": "启动火焰烙印施法过程", "actionType": "START_PROCESS", "sortOrder": 10, "targetContext": "CURRENT_TARGET", "detail": {"processKey": "cast"}, "runtimeInputBindings": [], "resultModifiers": []}], "perTargetCooldown": null, "maxTriggersPerProcess": null}
+      },
+      "remainingMechanismBoundary": "不接线命中、被动灼烧与晕眩条件；不等同完整技能或战斗运行。"
+    },
+    {
+      "skillKey": "annie_w",
+      "name": "焚烧",
+      "source": {"sourceGroup": "Annie", "candidateFile": "英雄机制第二批/录入候选.json", "spellPath": "Characters/Annie/Spells/AnnieWAbility/AnnieW"},
+      "parameters": {"manaCost": {"mode": "SKILL_LEVEL", "values": [70, 75, 80, 85, 90]}, "cooldown": {"parameterKey": "cooldown_ms", "mode": "FIXED", "fixedValue": 7000}, "castTimeMs": 250},
+      "rawFacts": {"rootSpell": true, "bIsToggleSpell": "absent", "clientSpellCastTimeMs": 250},
+      "currentRegistration": {"processKey": "cast", "processCompleteForThisScope": true, "triggerRules": ["actual_hit"], "onUsed": {"exists": false}},
+      "decision": "READY_TRIGGER_ONLY",
+      "minimalPost": {
+        "method": "POST",
+        "route": "/skills/annie_w/trigger-rules",
+        "body": {"ruleKey": "on_used", "name": "主动使用启动焚烧施法过程", "description": "接收annie_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；实际命中与被动层数继续暂缓。管理保存不证明宿主已生产该事件。", "sortOrder": 10, "eventSource": {"eventType": "SKILL_USED", "detail": {"sourceSkillKey": "annie_w", "useKind": "ACTIVE"}}, "conditionGroups": [], "actions": [{"actionKey": "start_cast", "name": "启动焚烧施法过程", "actionType": "START_PROCESS", "sortOrder": 10, "targetContext": "CURRENT_TARGET", "detail": {"processKey": "cast"}, "runtimeInputBindings": [], "resultModifiers": []}], "perTargetCooldown": null, "maxTriggersPerProcess": null}
+      },
+      "remainingMechanismBoundary": "不接线实际命中和被动层数；不等同完整技能或战斗运行。"
+    },
+    {
+      "skillKey": "brand_w",
+      "name": "烈焰之柱",
+      "source": {"sourceGroup": "Brand", "candidateFile": "英雄机制第二批/录入候选.json", "spellPath": "Characters/Brand/Spells/BrandWAbility/BrandW"},
+      "parameters": {"manaCost": {"mode": "SKILL_LEVEL", "values": [60, 70, 80, 90, 100]}, "cooldown": {"parameterKey": "cooldown_ms", "mode": "SKILL_LEVEL", "values": [10000, 9500, 9000, 8500, 8000]}, "castTimeMs": 250},
+      "rawFacts": {"rootSpell": true, "bIsToggleSpell": "absent", "clientSpellCastTimeMs": 250},
+      "currentRegistration": {"processKey": "cast", "processCompleteForThisScope": true, "triggerRules": ["on_used"], "onUsed": {"exists": true, "eventType": "SKILL_USED", "useKind": "ACTIVE", "actionType": "START_PROCESS", "processKey": "cast"}},
+      "decision": "ALREADY_HAS_ON_USED",
+      "minimalPost": null,
+      "remainingMechanismBoundary": "已有入口保持不重复；火柱生成、实际命中、灼烧条件和强化伤害仍未由此入口完成。"
+    },
+    {
+      "skillKey": "brand_e",
+      "name": "烈火燃烧",
+      "source": {"sourceGroup": "Brand", "candidateFile": "英雄机制第二批/录入候选.json", "spellPath": "Characters/Brand/Spells/BrandEAbility/BrandE"},
+      "parameters": {"manaCost": {"mode": "FIXED", "fixedValue": 90}, "cooldown": {"parameterKey": "cooldown_ms", "mode": "SKILL_LEVEL", "values": [13000, 12000, 11000, 10000, 9000]}, "castTimeMs": 250},
+      "rawFacts": {"rootSpell": true, "bIsToggleSpell": "absent", "clientSpellCastTimeMs": 250, "clientManaValues": [90, 90, 90, 90, 90, 90], "clientLegacyMana": [70, 75, 80, 85, 90, 95]},
+      "currentRegistration": {"processKey": null, "processCompleteForThisScope": false, "triggerRules": ["actual_hit"], "onUsed": {"exists": false}},
+      "decision": "PROCESS_MISSING_NEEDS_SEPARATE_PREP",
+      "minimalPost": null,
+      "blockReason": "当前没有可复用cast过程；法力以当前根manaValues与官方90固定值为准，旧client.mana数组不用于猜过程或免费开关。",
+      "remainingMechanismBoundary": "过程、扩散命中和被动灼烧联动另行准备；本子任务不擅建过程。"
+    },
+    {
+      "skillKey": "malphite_q",
+      "name": "地震碎片",
+      "source": {"sourceGroup": "Malphite", "candidateFile": "英雄机制第二批/录入候选.json", "spellPath": "Characters/Malphite/Spells/SeismicShardAbility/SeismicShard"},
+      "parameters": {"manaCost": {"mode": "SKILL_LEVEL", "values": [70, 75, 80, 85, 90]}, "cooldown": {"parameterKey": "cooldown_ms", "mode": "FIXED", "fixedValue": 8000}, "castTimeMs": 250},
+      "rawFacts": {"rootSpell": true, "bIsToggleSpell": "absent", "clientSpellCastTimeMs": 250},
+      "currentRegistration": {"processKey": "cast", "processCompleteForThisScope": true, "triggerRules": ["actual_hit"], "onUsed": {"exists": false}},
+      "decision": "READY_TRIGGER_ONLY",
+      "minimalPost": {
+        "method": "POST",
+        "route": "/skills/malphite_q/trigger-rules",
+        "body": {"ruleKey": "on_used", "name": "主动使用启动地震碎片施法过程", "description": "接收malphite_q主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；实际命中、移速偷取与其他联动继续暂缓。管理保存不证明宿主已生产该事件。", "sortOrder": 10, "eventSource": {"eventType": "SKILL_USED", "detail": {"sourceSkillKey": "malphite_q", "useKind": "ACTIVE"}}, "conditionGroups": [], "actions": [{"actionKey": "start_cast", "name": "启动地震碎片施法过程", "actionType": "START_PROCESS", "sortOrder": 10, "targetContext": "CURRENT_TARGET", "detail": {"processKey": "cast"}, "runtimeInputBindings": [], "resultModifiers": []}], "perTargetCooldown": null, "maxTriggersPerProcess": null}
+      },
+      "remainingMechanismBoundary": "不接线命中、移速偷取和其他命中机制；不等同完整技能或战斗运行。"
+    },
+    {
+      "skillKey": "malphite_e",
+      "name": "大地震颤",
+      "source": {"sourceGroup": "Malphite", "candidateFile": "英雄机制第二批/录入候选.json", "spellPath": "Characters/Malphite/Spells/LandslideAbility/Landslide"},
+      "parameters": {"manaCost": {"mode": "SKILL_LEVEL", "values": [50, 55, 60, 65, 70]}, "cooldown": {"parameterKey": "cooldown_ms", "mode": "FIXED", "fixedValue": 7000}, "castTimeMs": null},
+      "rawFacts": {"rootSpell": true, "bIsToggleSpell": true, "clientSpellCastTimeMs": 250, "clientMCastTimeMs": 241.9},
+      "currentRegistration": {"processKey": null, "processCompleteForThisScope": false, "triggerRules": ["actual_hit"], "onUsed": {"exists": false}},
+      "decision": "PROCESS_MISSING_NEEDS_SEPARATE_PREP",
+      "minimalPost": null,
+      "blockReason": "bIsToggleSpell=true不表示免费或无普通冷却；当前根已有50/55/60/65/70法力和7000毫秒冷却。客户端mCastTime约241.9毫秒与spellCastTime250毫秒未统一，且当前快照无cast过程/施法时间参数，不能只补入口。",
+      "remainingMechanismBoundary": "施法语义、攻速削减和实际命中另行准备；本子任务不擅建过程。"
+    },
+    {
+      "skillKey": "malphite_r",
+      "name": "势不可挡",
+      "source": {"sourceGroup": "Malphite", "candidateFile": "英雄机制第二批/录入候选.json", "spellPath": "Characters/Malphite/Spells/UFSlashAbility/UFSlash"},
+      "parameters": {"manaCost": {"mode": "FIXED", "fixedValue": 100}, "cooldown": {"parameterKey": "cooldown_ms", "mode": "SKILL_LEVEL", "values": [130000, 115000, 100000]}, "castTimeMs": null},
+      "rawFacts": {"rootSpell": true, "bIsToggleSpell": "absent", "clientSpellCastTimeMs": null, "clientSpellTags": ["Trait_ChannelSpell", "Trait_PlayerSelectedDashDirection"]},
+      "currentRegistration": {"processKey": null, "processCompleteForThisScope": false, "triggerRules": ["actual_hit"], "onUsed": {"exists": false}},
+      "decision": "PROCESS_MISSING_NEEDS_SEPARATE_PREP",
+      "minimalPost": null,
+      "blockReason": "当前没有可复用cast过程；客户端根对象没有spellCastTime，且技能含突进/不可阻挡的特殊语义，不能机械复制普通cast模板。",
+      "remainingMechanismBoundary": "突进、击飞、不可阻挡和命中时序另行准备；本子任务不擅建过程。"
+    },
+    {
+      "skillKey": "diana_q",
+      "name": "新月打击",
+      "source": {"sourceGroup": "Diana", "candidateFile": "英雄机制第四批/录入候选.json", "spellPath": "Characters/Diana/Spells/DianaQAbility/DianaQ"},
+      "parameters": {"manaCost": {"mode": "FIXED", "fixedValue": 50}, "cooldown": {"parameterKey": "cooldown_ms", "mode": "SKILL_LEVEL", "values": [8000, 7500, 7000, 6500, 6000]}, "castTimeMs": 250},
+      "rawFacts": {"rootSpell": true, "bIsToggleSpell": "absent", "clientSpellCastTimeMs": 250},
+      "currentRegistration": {"processKey": "cast", "processCompleteForThisScope": true, "triggerRules": ["actual_hit"], "onUsed": {"exists": false}},
+      "decision": "READY_TRIGGER_ONLY",
+      "minimalPost": {
+        "method": "POST",
+        "route": "/skills/diana_q/trigger-rules",
+        "body": {"ruleKey": "on_used", "name": "主动使用启动新月打击施法过程", "description": "接收diana_q主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；实际命中、月光与E联动继续暂缓。管理保存不证明宿主已生产该事件。", "sortOrder": 10, "eventSource": {"eventType": "SKILL_USED", "detail": {"sourceSkillKey": "diana_q", "useKind": "ACTIVE"}}, "conditionGroups": [], "actions": [{"actionKey": "start_cast", "name": "启动新月打击施法过程", "actionType": "START_PROCESS", "sortOrder": 10, "targetContext": "CURRENT_TARGET", "detail": {"processKey": "cast"}, "runtimeInputBindings": [], "resultModifiers": []}], "perTargetCooldown": null, "maxTriggersPerProcess": null}
+      },
+      "remainingMechanismBoundary": "不接线月光标记、E刷新与实际命中；不等同完整技能或战斗运行。"
+    },
+    {
+      "skillKey": "veigar_r",
+      "name": "能量爆裂",
+      "source": {"sourceGroup": "Veigar", "candidateFile": "英雄机制第四批/录入候选.json", "spellPath": "Characters/Veigar/Spells/VeigarRAbility/VeigarR"},
+      "parameters": {"manaCost": {"mode": "FIXED", "fixedValue": 100}, "cooldown": {"parameterKey": "cooldown_ms", "mode": "SKILL_LEVEL", "values": [120000, 90000, 60000]}, "castTimeMs": 250},
+      "rawFacts": {"rootSpell": true, "bIsToggleSpell": "absent", "clientSpellCastTimeMs": 250},
+      "currentRegistration": {"processKey": "cast", "processCompleteForThisScope": true, "triggerRules": ["on_used"], "onUsed": {"exists": true, "eventType": "SKILL_USED", "useKind": "ACTIVE", "actionType": "START_PROCESS", "processKey": "cast"}},
+      "decision": "ALREADY_HAS_ON_USED",
+      "minimalPost": null,
+      "remainingMechanismBoundary": "已有入口保持不重复；目标生命比例、实际命中和连续伤害倍率仍未由此入口完成。"
+    }
+  ],
+  "globalBoundary": [
+    "报告只准备管理配置候选，不执行任何HTTP写入；POST仅对已有完整cast过程的6项技能可用。",
+    "SKILL_USED/ACTIVE入口只启动已有cast过程，不能证明宿主生产事件、实际扣法力、启动冷却或完成Wasm/战斗运行。",
+    "不修改既有参数、效果、伤害结果、命中规则、控制、被动和其他触发；不把普通使用接线等同完整技能。",
+    "四项无过程技能（veigar_w、brand_e、malphite_e、malphite_r）需另行准备，本报告不机械复制过程或新增过程POST。"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "scope": "六处过时说明纠错，只替换description；全部数值、生命周期、目标、动作、关系及稳定标识不变。",
+  "sourceVersion": "客户端16.17、官方16.17.1；迦娜旧补丁只补证已删除衰减，不取旧数值。",
+  "changes": [
+    {"kind":"skill","skillKey":"nasus_p","route":"/skills/nasus_p","description":"内瑟斯获得额外生命偷取：1～6级10%，7～12级15%，13～18级20%。"},
+    {"kind":"skill","skillKey":"tristana_q","route":"/skills/tristana_q","description":"崔丝塔娜急速射击，获得60/75/90/105/120%额外攻击速度，持续7秒。"},
+    {"kind":"parameter","skillKey":"tristana_q","route":"/skills/tristana_q/parameters/mana_cost","description":"官方16.17.1 cost与客户端当前manaValues.values索引0～4一致：15/20/25/30/35点法力；旧mana字段不采用。"},
+    {"kind":"effect","skillKey":"janna_e","route":"/skills/janna_e/effects/self_shield","description":"当前效果表达风暴之眼的自身护盾数值，持续4秒且不衰减；自施目标资格及触发入口仍待接线，攻击力增益独立处理。"},
+    {"kind":"effect","skillKey":"morgana_e","route":"/skills/morgana_e/effects/magic_shield","description":"自身魔法护盾持续5秒，仅吸收魔法伤害且不衰减；显式自施入口已连接。控制免疫仍单独待配，不等同一次性法术护盾。"},
+    {"kind":"effect","skillKey":"annie_e","route":"/skills/annie_e/effects/molten_shield","description":"自身护盾持续3秒，结果目标与实例范围均为来源对象；显式自施入口已连接。反伤和移动速度独立处理。"}
+  ],
+  "sourceFiles": [
+    {"root":"planning","path":"数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Nasus.json.gz"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Tristana.json.gz"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Tristana.json"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Janna.json.gz"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/四项自施来源复核/README.md"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/内瑟斯被动完成口径复核/01-当前核对.json"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/崔丝塔娜Q完成口径复核/01-当前核对.json"},
+    {"root":"web","path":"数据参考/全量录入-2026-09/交叉试录/安妮E显式自施护盾正式补录/07-独立GET回读.json"},
+    {"root":"web","path":"数据参考/全量录入-2026-09/交叉试录/莫甘娜E显式自施魔法护盾补录/07-独立GET回读.json"}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-21T03:43:18.789Z",
+  "reviewer": "/root/lucian_w_use_review",
+  "mode": "只读静态审查",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-hit-scope.mjs": "909e4572b83c1ebc5f89f43b11fd92b5b532aee82972ddff0fad852c51efd049",
+    "01-候选方案.json": "40cd1361d60e23c88dd2d6673242d27398995baedd224289adfae12feb2f12a3",
+    "02-冻结请求.json": "19b058d71ae2efe68644d7f9ccafdfe7bb4559e4aeddd82364ca411a3ca046de",
+    "03-来源摘要.json": "7b6f37df4fa05ba0f71f6823437d03ca8f778fd63928d4a9ccda632991b504b4",
+    "04-写入前现值.json": "7efc5c92fac078a16ff11be87114afec2f3b19fe51c69ad8561404d1d2681799"
+  },
+  "checks": [
+    "只改变actual_hit条件组",
+    "事件动作和全部其他字段保持",
+    "22GET完整新基线包含并保护on_used",
+    "sourcefile与冻结关联hash一致"
+  ],
+  "boundary": "代表页面待连接恢复"
+}

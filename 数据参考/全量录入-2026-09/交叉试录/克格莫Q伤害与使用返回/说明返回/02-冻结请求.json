@@ -1,0 +1,133 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/kogmaw_q",
+      "body": {
+        "name": "克格莫·腐蚀唾液",
+        "description": "固定来源：客户端16.17、官方静态资料16.17.1。已登记按当前已学Q等级取值的常驻自身攻速、首个碰撞敌人为英雄时的直接魔法伤害，以及普通主动使用的40法力和7000毫秒基础冷却；伤害由独立实际命中入口执行。双抗削减及其与伤害的先后和重施规则、有效施法时长仍待核定，当前不计整技能管理配置完整。",
+        "maxLevel": 5,
+        "status": "ENABLED",
+        "sortOrder": 1,
+        "skillCategoryKeys": [
+          "common"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:04.23212Z",
+        "description": "固定来源：客户端16.17、官方静态资料16.17.1。已登记按当前已学Q等级取值的常驻自身攻速、首个碰撞敌人为英雄时的直接魔法伤害，以及普通主动使用的40法力和7000毫秒基础冷却；伤害由独立实际命中入口执行。双抗削减及其与伤害的先后和重施规则、有效施法时长仍待核定，当前不计整技能管理配置完整。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "克格莫·腐蚀唾液",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kogmaw_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:04.23212Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/kogmaw_q/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "官方静态资料16.17.1 KogMaw.spells[0].cost，等级1起索引0；与固定客户端根绑定字段逐级一致。普通主动使用消耗40法力，由使用登记过程开始时引用并扣除，不以命中为前提。仅基础成本，未计其他技能修正；不表示有效施法时长及整技能机制完成。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T18:00:15.437135Z",
+        "description": "官方静态资料16.17.1 KogMaw.spells[0].cost，等级1起索引0；与固定客户端根绑定字段逐级一致。普通主动使用消耗40法力，由使用登记过程开始时引用并扣除，不以命中为前提。仅基础成本，未计其他技能修正；不表示有效施法时长及整技能机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kogmaw_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:15.437135Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/kogmaw_q/effects/mana_cost",
+      "body": {
+        "name": "施放法力消耗",
+        "description": "引用已有mana_cost参数，普通主动使用的登记过程开始时从来源对象消耗基础40法力，不以实际命中为前提；与伤害入口分开，未知有效施法时长继续补证。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T04:29:13.687059Z",
+        "description": "引用已有mana_cost参数，普通主动使用的登记过程开始时从来源对象消耗基础40法力，不以实际命中为前提；与伤害入口分开，未知有效施法时长继续补证。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "kogmaw_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T04:29:13.687059Z"
+      }
+    }
+  ],
+  "sourceSha256": "4d7f439c853e521728491b6d3ca892d9516da9d1dad46cffaadd369b3e0697df",
+  "baselineSha256": "97a8eeb2ad25c0f2c623f3c5512f2f228a0eb11a1f6750d28b2f96eb543cd0b1"
+}

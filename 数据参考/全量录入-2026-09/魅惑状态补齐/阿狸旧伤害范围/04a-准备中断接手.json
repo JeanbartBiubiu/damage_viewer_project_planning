@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-20T00:49:41.311Z",
+  "reason": "准备代理429终止；接手已落地且未批准的01..04，无05或06，无业务写入",
+  "previousFiles": {
+    "01-候选方案.json": "bc4a95693c4c7b7777c9d8df9b9886d75afc290374c01c030425294796362ec2",
+    "02-冻结请求.json": "d60bf8d5e15afe17c2927a72a552ef3bca1136ce65d6c117052af4b3ee2585b5",
+    "03-来源摘要.json": "0a4eda5c86e589c9fa1032961a375b91238389a9a4a8b85bfa47048f3f2fb0a3",
+    "04-写入前现值.json": "b2224986c51799bce389ad5f821168ad011f5fccc5e752c6f5f265f1099df364"
+  },
+  "corrections": [
+    "补回已通过母快照中的技能主体根响应",
+    "更新请求移除不可变ruleKey，详情预期保留",
+    "来源摘要补actualSha256并核对来源实际字节"
+  ],
+  "newBusinessRequests": 0,
+  "newGETs": 0
+}

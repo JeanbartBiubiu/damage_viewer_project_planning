@@ -1,0 +1,54 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T06:01:56.655Z",
+  "reviewer": "独立评审代理",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-damage-vamp.mjs": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "01-纠错计划.json": "e4e62aafc116908472df21c8c6d8d42251c664cf78b1fe7f166b45e66f1ce870",
+    "02-冻结请求.json": "eaaa37abdab31bd3dc4587d5370c03b8b2be4522a75c0c224865e18d26a6426f",
+    "03-来源摘要.json": "5dfe5a36ab710def730cc45c527222991b919925f54b267b83965dfa0e99fb3c",
+    "04-写入前现值.json": "475604d802c70d4c982a3cd35fa160fa44c68a2a3ca3e746c30c6aa0dd5dd430"
+  },
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "sourceFilesVerified": 10,
+  "blockingFindings": [],
+  "checks": [
+    {
+      "name": "来源与冻结",
+      "result": "PASS",
+      "detail": "固定 D 工具和 01 至 04 原字节摘要绑定，10 来源一致；02 的来源与现值摘要正确，完整 PUT 与前次独立候选相同。普通英雄伤害全能吸血效率1及 POST_DEFENSE_DAMAGE 管理映射复用已审通用来源，未扩张小兵或运行结论。"
+    },
+    {
+      "name": "唯一敌方英雄入口前提",
+      "result": "PASS",
+      "detail": "新 04 已含页面保存并独立回读的 resolve_on_q_hit，同组 CHAMPION+明确敌方，唯一动作执行 light_binding_hit；全体规则与过程核对无第二伤害入口。来源08 PASS绑定重开验收；本次效果变化不会落入旧无范围入口。"
+    },
+    {
+      "name": "普通伤害资格",
+      "result": "PASS",
+      "detail": "lifecycle=null、单个 magic_damage、TARGET/DAMAGE/magic/SKILL/DIRECT、DISALLOWED 暴击、旧 vampRules=[]；新值仅一条 OMNIVAMP/POST_DEFENSE_DAMAGE/FIXED1。Lux固定资料为普通光球魔法伤害，非点燃/惩戒例外。"
+    },
+    {
+      "name": "完整请求差异",
+      "result": "PASS",
+      "detail": "撤销父说明及 vampRules 两处变化后，PUT 与旧可写正文逐字段相同；expectedReadback 等于旧完整详情仅替换这两处。RESULT 护盾、公式damage、数值、resultKey、目标、生命周期、名称、排序及createdAt保持，只允许正常updatedAt变化。"
+    },
+    {
+      "name": "旧组成保护",
+      "result": "PASS",
+      "detail": "23 个GET均200，技能与六类组成完整。除上一批已批准规则/列表变化外与旧基线全部一致；新 root_control、禁锢四条件规则、cast/on_used和8个参数受本批完整旧响应保护。"
+    }
+  ],
+  "expectedReadback": {
+    "GETs": 23,
+    "changedDetails": 1,
+    "expectedChangedCollections": 1,
+    "unchangedResponsesIncludingTimestamps": 21
+  },
+  "boundaries": [
+    "批准固定 D 工具单次 1 PUT，使用当前 02 SHA 和写前现值门禁；写后须独立 readback。",
+    "本轮只补英雄分支吸血，非英雄效率、碰撞、护盾吸收、过量伤害及真实吸血/Wasm运行不因此完成。",
+    "参数旧说明、禁锢重施和其他分支不在本次写入范围。"
+  ]
+}

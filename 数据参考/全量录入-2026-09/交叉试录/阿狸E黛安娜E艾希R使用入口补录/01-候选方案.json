@@ -1,0 +1,410 @@
+{
+  "title": "阿狸E、黛安娜E和艾希R普通使用入口补录",
+  "at": "2026-09-19T00:34:00.073Z",
+  "targets": [
+    {
+      "skillKey": "ahri_e",
+      "ownerKey": "champion_ahri"
+    },
+    {
+      "skillKey": "diana_e",
+      "ownerKey": "champion_diana"
+    },
+    {
+      "skillKey": "ashe_r",
+      "ownerKey": "champion_ashe"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/四项后续命中伤害吸血资格纠错/04-写入前现值.json",
+      "sha256": "9e97cf5397b03d82ffc65d5396d773e2c029ec65ebf8f4551443e10005e0adb1"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ahri.json.gz",
+      "sha256": "61c7d14f2d30346f1ae51ab82dab1f48c19ec7d9542f0c76e99f0576e1c71d12"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ahri.json",
+      "sha256": "0bd796d1e9376a738a70b2eb809d408ac296da11a527be2847aced37bfbaeea7"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Diana.json.gz",
+      "sha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Diana.json",
+      "sha256": "06bba838083bb91b9d6c41f6c9f7395966d911719b9893be08734ba6425e8055"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ashe.json.gz",
+      "sha256": "64ee52402a8f3b0eece7f9b584028767204058246d41441adc2cfd370f2a8e44"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ashe.json",
+      "sha256": "e85c7e4b51ee4e39e602a6792ed106909414ba267b1f3914677d218e5977ca95"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ivern.json.gz",
+      "sha256": "3e21fdf20084ca37263d8bc86ea2eb040cabba152161021e8e89054548948196"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Ivern.json",
+      "sha256": "891792e3b500acaf06cf58158077a6038c3903083f0df2c513f75730f32df712"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/阿狸E黛安娜E艾希R使用入口补录/00-四项定点来源核对.json",
+      "sha256": "e424366be257a678da4f1b1ce5a862f5ea18d2789c65ca0b3a56b23c96ebc082"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录/01-候选方案.json",
+      "sha256": "4161dfdaee269f146e8abafd4b7584d1ea4e0c746dfa657fed4e57bc458b5534"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts",
+      "sha256": "0c1c6bec64b26f4b5d9a721eba0989d1fbee8deefc87105304e96fe92cfa2ed5"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillProcess.ts",
+      "sha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/ashe_r/processes",
+      "detailRoute": "/skills/ashe_r/processes/cast",
+      "body": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "登记已核法力、普通冷却与当前根250毫秒施法延迟；实际命中由独立规则处理，不把过程结束当作命中。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "施放魔法水晶箭",
+        "processKey": "cast",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能已核对的施法时间。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ]
+      },
+      "expectedReadback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "登记已核法力、普通冷却与当前根250毫秒施法延迟；实际命中由独立规则处理，不把过程结束当作命中。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "施放魔法水晶箭",
+        "processKey": "cast",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能已核对的施法时间。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ahri_e/trigger-rules",
+      "detailRoute": "/skills/ahri_e/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动阿狸·魅惑妖术过程",
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "ahri_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动阿狸·魅惑妖术过程",
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "ahri_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/diana_e/trigger-rules",
+      "detailRoute": "/skills/diana_e/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动黛安娜·月神冲刺过程",
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "diana_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动黛安娜·月神冲刺过程",
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "diana_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ashe_r/trigger-rules",
+      "detailRoute": "/skills/ashe_r/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动艾希·魔法水晶箭过程",
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "ashe_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "主动使用启动艾希·魔法水晶箭过程",
+        "description": "主动使用时启动本技能既有施法过程；法力、普通冷却和施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "ashe_r",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceBoundary": "固定客户端16.17与官方16.17.1，法力取索引0起、冷却取索引1起，按真实最高等级限定。",
+  "preserve": "只新增艾希R施法过程和三个普通使用入口；原伤害、吸血资格、实际命中、法力效果、所有数值和黛安娜月光重置效果保留。",
+  "remaining": [
+    {
+      "skillKey": "ahri_e",
+      "branches": [
+        "魅惑与移动技能中止",
+        "代表页面及过时消耗说明"
+      ]
+    },
+    {
+      "skillKey": "diana_e",
+      "branches": [
+        "月光条件、重置及标记消费",
+        "代表页面及过时消耗说明"
+      ]
+    },
+    {
+      "skillKey": "ashe_r",
+      "branches": [
+        "距离与眩晕完整表达",
+        "代表页面及过时施放说明"
+      ]
+    }
+  ],
+  "notInBatch": {
+    "skillKey": "ivern_q",
+    "reason": "首次投射与再次冲刺的使用事件资格未核定，不补重复收费规则。"
+  },
+  "runtimeBoundary": "施法延迟只读取当前根与已有过程参数，不实现几何、突进、控制或Wasm运行。"
+}

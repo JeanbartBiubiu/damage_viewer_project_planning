@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-19T10:04:11.621Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "firstAuthoring": true,
+  "successfulBrowserWrites": 4,
+  "checks": [
+    "先创建正常自身治疗，再复制为新效果并明确切换为低生命公式；复制时观察到正确详情加载提示",
+    "两效果均直接治疗SOURCE，无生命周期和法术护盾阻挡；结果固定倍率1、最小0、最大空，增强只在公式内乘1.5",
+    "两规则分别保存自身ACTIVE事件、SOURCE hp CURRENT_RATIO GTE/LT同一个0.4参数，每条一个执行动作，无动态绑定或额外修正",
+    "保存后两条规则重开确认互斥边界及各自效果；两效果重开核公式、目标和无生命周期"
+  ],
+  "arithmetic": {
+    "executor": "/root/urgot_core_frozen_fallback",
+    "cases": 27,
+    "status": "PASS",
+    "inputs": "3等级×AP0/100/200×生命比例39%/40%/41%",
+    "matchedRulesPerCase": 1,
+    "rank3Ap200Heal": [
+      675,
+      450,
+      450
+    ],
+    "boundary": "配置算术，不是宿主或Wasm运行"
+  },
+  "experience": "第二条规则新增条件/动作曾短暂显示上一份草稿；逐项显式确认LT与低血效果，完整即时回读与冻结一致。根因与修复另记子弹窗草稿同步，未发生业务错写。",
+  "runtimeValidation": "未实现、未验证"
+}

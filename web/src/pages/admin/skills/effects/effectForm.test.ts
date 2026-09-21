@@ -102,8 +102,8 @@ const CATALOG: EffectFormCatalog = {
     { skillCategoryKey: 'retired_category', status: 'DISABLED' }
   ],
   statuses: [
-    { statusKey: 'poison', status: 'ENABLED' },
-    { statusKey: 'old_poison', status: 'DISABLED' }
+    { statusKey: 'poison', status: 'ENABLED', statusKind: 'STUN' },
+    { statusKey: 'old_poison', status: 'DISABLED', statusKind: 'STUN' }
   ],
   modifierZones: [
     { modifierZoneKey: 'attribute_percent', domain: 'ATTRIBUTE', status: 'ENABLED' },
@@ -248,7 +248,9 @@ function withBehavior(
 }
 
 function expectValid(draft: SkillEffectDraft, includeEffectKey = true) {
-  const result = validateSkillEffectDraft(draft, { includeEffectKey, catalog: CATALOG });
+  const result = validateSkillEffectDraft(draft, {
+    includeEffectKey, catalog: CATALOG, catalogLoadState: { statuses: 'ready' }
+  });
   expect(result.ok).toBe(true);
   if (!result.ok) {
     throw new Error(`expected valid draft: ${JSON.stringify(result)}`);
@@ -755,14 +757,14 @@ describe('skill effect form validation', () => {
     expect(SKILL_EFFECT_KEY_PATTERN.test('1damage')).toBe(false);
   });
 
-  it('requires at least one result and unique result keys', () => {
+  it('requires a result without lifecycle and unique result keys', () => {
     const empty = validateSkillEffectDraft(validEffectDraft([]), {
       includeEffectKey: true,
       catalog: CATALOG
     });
     expect(empty.ok).toBe(false);
     if (empty.ok) throw new Error('expected invalid');
-    expect(empty.fieldErrors.results).toBe('至少需要一个结果。');
+    expect(empty.fieldErrors.results).toBe('未启用生命周期时至少需要一个结果。');
 
     const duplicated = validateSkillEffectDraft(
       validEffectDraft([
@@ -1346,7 +1348,7 @@ describe('skill effect result conversion coverage', () => {
 
     const retained = validateSkillEffectDraft(
       validEffectDraft([drafts[2]!, drafts[5]!]),
-      { includeEffectKey: false, catalog: CATALOG }
+      { includeEffectKey: false, catalog: CATALOG, catalogLoadState: { statuses: 'ready' } }
     );
     expect(retained.ok).toBe(true);
   });
@@ -1375,6 +1377,32 @@ function lifecycleEnabledDraft(
 }
 
 describe('skill effect lifecycle drafts', () => {
+  it('creates and updates lifecycle-only effects without inventing a result', () => {
+    const draft = lifecycleEnabledDraft([]);
+    const normalized = expectValid(draft);
+    expect(buildCreateSkillEffectRequest(normalized)).toMatchObject({ lifecycle: validLifecycle(), results: [] });
+    const effect: SkillEffect = { ...EFFECT, lifecycle: validLifecycle(), results: [] };
+    expect(buildUpdateSkillEffectRequest(expectValid(skillEffectToDraft(effect), false)))
+      .toMatchObject({ lifecycle: validLifecycle(), results: [] });
+    expect(listLifecycleTargetOptions({ ...CATALOG, effects: [{ effectKey: 'only_mark', lifecycleEnabled: true }] }, '', ''))
+      .toEqual([{ key: 'only_mark', status: 'ENABLED', source: 'enabled' }]);
+  });
+
+  it('retains lifecycle validation and recovers after disabling lifecycle with no results', () => {
+    const draft = lifecycleEnabledDraft([]);
+    const invalid = validateSkillEffectDraft({ ...draft, lifecycle: { ...draft.lifecycle, maxStacksValue: null } },
+      { includeEffectKey: true, catalog: CATALOG });
+    expect(invalid.ok).toBe(false);
+    if (!invalid.ok) expect(invalid.fieldErrors.maxStacksValue).toBeTruthy();
+    const disabled = disableLifecycleDraft(draft);
+    expect(disabled.results).toEqual([]);
+    expect(disabled.name).toBe(draft.name);
+    const validation = validateSkillEffectDraft(disabled, { includeEffectKey: true, catalog: CATALOG });
+    expect(validation.ok).toBe(false);
+    if (!validation.ok) expect(validation.fieldErrors.results).toBe('未启用生命周期时至少需要一个结果。');
+    expectValid({ ...enableLifecycleDraft(disabled), lifecycle: draft.lifecycle });
+  });
+
   it('converts null lifecycle and enabled lifecycle without rewriting instance scope', () => {
     const empty = skillEffectToDraft(EFFECT);
     expect(empty.lifecycleEnabled).toBe(false);
@@ -1933,8 +1961,8 @@ describe('skill effect lifecycle drafts', () => {
 });
 
 describe('execute, hit-link and attack-link results', () => {
-  it('exposes seventeen result types and chinese labels', () => {
-    expect(SKILL_EFFECT_RESULT_TYPES).toHaveLength(17);
+  it('exposes eighteen result types and chinese labels', () => {
+    expect(SKILL_EFFECT_RESULT_TYPES).toHaveLength(19);
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.EXECUTE).toBe('斩杀');
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.HIT_LINK_APPLICATION).toBe('命中联动应用');
     expect(SKILL_EFFECT_RESULT_TYPE_LABELS.ATTACK_LINK_APPLICATION).toBe('攻击联动应用');

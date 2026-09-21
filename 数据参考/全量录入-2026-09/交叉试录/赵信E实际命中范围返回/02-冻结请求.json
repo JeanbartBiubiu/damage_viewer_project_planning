@@ -1,0 +1,116 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "executionMode": "REVIEWED_API",
+  "request": {
+    "method": "PUT",
+    "route": "/skills/xinzhao_e/trigger-rules/actual_charge_hit",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "charge_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "charge_hit"
+          },
+          "name": "执行charge_hit",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "description": "只接受所列真实事件；规则不自行生成命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "xinzhao_e"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "无畏冲锋实际命中",
+      "perTargetCooldown": null,
+      "sortOrder": 10
+    },
+    "expectedReadback": {
+      "actions": [
+        {
+          "actionKey": "charge_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "charge_hit"
+          },
+          "name": "执行charge_hit",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "description": "只接受所列真实事件；规则不自行生成命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "xinzhao_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "无畏冲锋实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_charge_hit",
+      "sortOrder": 10
+    }
+  },
+  "sourceSha256": "8f9dde0f5d7efa919040015adc2d047da97d7afbf9590a9079f9773e8dde2424",
+  "baselineSha256": "f5cfb055625dfb52f99425e5f9626f4873fc8aee7f1baa80e3f6d5de89ee744c"
+}

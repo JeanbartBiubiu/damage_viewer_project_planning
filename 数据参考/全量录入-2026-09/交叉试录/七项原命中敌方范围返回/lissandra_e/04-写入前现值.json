@@ -1,0 +1,506 @@
+{
+  "at": "2026-09-21T10:40:42.909Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/lissandra_e": {
+      "createdAt": "2026-09-06T18:19:13.008327Z",
+      "description": "丽桑卓召唤一个寒冰魔爪来造成魔法伤害。再次激活这个技能，可以让丽桑卓传送到寒冰魔爪的当前位置上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "丽桑卓·冰川之径",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "lissandra_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:13.008327Z"
+    },
+    "/skills/lissandra_e/parameters": [
+      {
+        "createdAt": "2026-09-09T10:36:39.462525Z",
+        "description": "官方逐级冷却与当前根Cooldown字段逐级一致；不含急速或其他技能修正。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 24000,
+          "2": 21000,
+          "3": 18000,
+          "4": 15000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lissandra_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:39.462525Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:40.721913Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "lissandra_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T10:36:40.721913Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:41.913443Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "冰川之径基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lissandra_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T10:36:41.913443Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:43.118314Z",
+        "description": "TotalDamage树直接给出0.6。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio_constant",
+        "skillKey": "lissandra_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T10:36:43.118314Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:49.435516Z",
+        "description": "DDragon16.17.1 Lissandra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 85,
+          "3": 90,
+          "4": 95,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lissandra_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:49.435516Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/lissandra_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-09T10:36:39.462525Z",
+      "description": "官方逐级冷却与当前根Cooldown字段逐级一致；不含急速或其他技能修正。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 24000,
+        "2": 21000,
+        "3": 18000,
+        "4": 15000,
+        "5": 12000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "lissandra_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:39.462525Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T10:36:40.721913Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "lissandra_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T10:36:40.721913Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_e/parameters/base_damage": {
+      "createdAt": "2026-09-09T10:36:41.913443Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 105,
+        "3": 140,
+        "4": 175,
+        "5": 210
+      },
+      "name": "冰川之径基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "lissandra_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T10:36:41.913443Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_e/parameters/ap_ratio_constant": {
+      "createdAt": "2026-09-09T10:36:43.118314Z",
+      "description": "TotalDamage树直接给出0.6。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio_constant",
+      "skillKey": "lissandra_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T10:36:43.118314Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lissandra_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:49.435516Z",
+      "description": "DDragon16.17.1 Lissandra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 85,
+        "3": 90,
+        "4": 95,
+        "5": 100
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "lissandra_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:49.435516Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_e/formulas": [
+      {
+        "createdAt": "2026-09-09T10:36:44.1977Z",
+        "description": "TotalDamage = BaseDamage + 0.6×法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "冰川之径魔法伤害",
+        "skillKey": "lissandra_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:44.1977Z"
+      }
+    ],
+    "/skills/lissandra_e/formulas/damage": {
+      "createdAt": "2026-09-09T10:36:44.1977Z",
+      "description": "TotalDamage = BaseDamage + 0.6×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio_constant"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "冰川之径魔法伤害",
+      "skillKey": "lissandra_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:44.1977Z"
+    },
+    "/skills/lissandra_e/effects": [
+      {
+        "createdAt": "2026-09-09T10:36:45.33906Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lissandra_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:45.33906Z"
+      },
+      {
+        "createdAt": "2026-09-19T02:00:51.299238Z",
+        "description": "冰爪实际命中敌方英雄时的一次直接魔法技能伤害；再次施放的传送不是伤害入口。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "丽桑卓·冰川之径命中伤害",
+        "resultCount": 1,
+        "skillKey": "lissandra_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:51.299238Z"
+      }
+    ],
+    "/skills/lissandra_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T10:36:45.33906Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:45.33906Z"
+    },
+    "/skills/lissandra_e/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:51.299238Z",
+      "description": "冰爪实际命中敌方英雄时的一次直接魔法技能伤害；再次施放的传送不是伤害入口。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "丽桑卓·冰川之径命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:51.299238Z"
+    },
+    "/skills/lissandra_e/processes": [],
+    "/skills/lissandra_e/internal-states": [],
+    "/skills/lissandra_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 lissandra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。 仅对应冰爪的实际命中，不把再次施放传送当成命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "丽桑卓·冰川之径实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:52.684801Z"
+      }
+    ],
+    "/skills/lissandra_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·冰川之径伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 lissandra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。 仅对应冰爪的实际命中，不把再次施放传送当成命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·冰川之径实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_e/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

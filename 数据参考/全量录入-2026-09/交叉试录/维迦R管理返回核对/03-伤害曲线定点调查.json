@@ -1,0 +1,71 @@
+{
+  "status": "PARTIAL_CONFIRMED_PRIMARY_GAP",
+  "at": "2026-09-20",
+  "scope": "维迦R单一敌方英雄伤害曲线定点核对，不修改管理数据",
+  "localEvidence": {
+    "managementSnapshot": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/维迦R管理返回核对/01-当前管理现值.json",
+      "sha256": "affc76fe9c5569730cf35f6f8d42b373cd536d2bbd886580a1f9f43dc0fb3658",
+      "GETs": 33,
+      "businessWrites": 0
+    },
+    "fixedSourceCheck": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/维迦R管理返回核对/02-固定来源核对.json",
+      "sha256": "456021ed523d8435336613a9ca8da6dd228c2fa3ceb9a626b22d3ab1f272b587"
+    },
+    "client": {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz",
+      "sha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc",
+      "objectPath": "Characters/Veigar/Spells/VeigarRAbility/VeigarR",
+      "fields": {
+        "baseDamageRank1To3": [175, 250, 325],
+        "apRatioRank1To3": [0.65, 0.7, 0.75],
+        "maxExecuteMult": 2,
+        "calculationMin": "BaseDamage + APRatio * SOURCE total ability power",
+        "calculationMax": "MinDamage * 2"
+      }
+    },
+    "officialLocal": {
+      "zhPath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Veigar.json",
+      "zhSha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+      "enPath": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Veigar.json",
+      "enSha256": "71eed4440c741f187b3e36900a67e4544b188edb6aba4501ae3d981e494c28c2",
+      "objectPath": "data.Veigar.spells[3]",
+      "confirmedText": "官方静态资料说明伤害基于目标已损失生命值，目标生命值在33%以下达到最大伤害；未给出中间函数。"
+    }
+  },
+  "externalSources": [
+    {
+      "url": "https://nexus.leagueoflegends.com/en-us/champion/veigar/",
+      "sourceType": "Riot official champion page",
+      "relevance": "官方页面只确认R伤害随目标已损失生命值提高，没有给出中间曲线或采样时点。",
+      "shortText": "increasing based on the target's missing health",
+      "supports": ["missing-health scaling exists"],
+      "doesNotSupport": ["1.5% per 1% curve", "exact equality at 33%", "health snapshot timing"]
+    },
+    {
+      "url": "https://leagueoflegends.fandom.com/wiki/Veigar/LoL",
+      "sourceType": "historical secondary source; locator only",
+      "relevance": "页面历史条目给出旧版R改动的精确曲线描述，但不是Riot一手补丁页面，不能单独升级为固定来源真值。",
+      "shortText": "1.5% increased damage for every 1% of target's missing health, up to double at 33% or less",
+      "supports": ["candidate intermediate curve: multiplier=1+1.5*missingFraction, capped at 2"],
+      "doesNotSupport": ["Riot primary-source acceptance for this repository", "whether exactly 33% remaining is included in current 16.17", "pre-resolution health sampling"]
+    }
+  ],
+  "confirmed": [
+    "固定客户端端点为175/250/325 + 0.65/0.70/0.75*SOURCE total AP，最大倍率2。",
+    "官方本地资料和Riot页面都确认伤害随目标已损失生命值提高。",
+    "当前固定文字把最大伤害描述为目标生命值33%以下；客户端没有中间曲线或目标生命读取字段。",
+    "当前管理现值只有minimum_burst与maximum_burst两个独立伤害组成，没有生命值条件互斥入口。"
+  ],
+  "notConfirmed": [
+    "当前未找到Riot历史补丁页面直接给出1.5%/1%中间曲线。",
+    "33%是严格小于、还是小于等于，官方本地文字与历史二手摘录表述不完全一致。",
+    "生命值是在伤害结算前、命中瞬间还是其他时点读取，固定原文与管理现值均未证明。",
+    "本调查未证明宿主实际命中、伤害结算或运行事件。"
+  ],
+  "decision": {
+    "managementAction": "保留端点和33%说明阈值；不把1.5%中间曲线写入正式公式，不把2/3或33%等号写成已证。",
+    "candidateOnly": "历史二手来源的候选函数为 min(2, 1 + 1.5 * missingHealthFraction)，仅作待一手来源确认的定位结果。"
+  }
+}

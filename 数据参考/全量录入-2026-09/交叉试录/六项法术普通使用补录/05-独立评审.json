@@ -1,0 +1,246 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T03:23:30.025Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "decision": "批准四个法力成本效果、六个普通使用过程及六条入口；保留原数值、伤害、护盾和独立规则。",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "83158b73a837ef8072e55d856499f08955735d2d80e074fc1ba84ea0fe43cc26",
+    "02-冻结请求.json": "e6e38d5743bf041434ba67ae0583b5e269d6efdb64b1888e0a430ed81077f630",
+    "03-来源摘要.json": "53aba299b9079efc8c8a600b77dc3a17707386a77278ad7e99a384b1d8005418",
+    "04-写入前现值.json": "ee1d34b61e32b6f0625cf04755cc9dbccc725b8ee47fd6ca7b5f60f8da094da8"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "checks": {
+    "sourceHashes": 24,
+    "officialAndCompressedClientFiles": 12,
+    "independentlyDecompressedSelectedClientFiles": 4,
+    "ordinaryUseRootBindings": 6,
+    "rankCount": 30,
+    "arithmeticPoints": 85,
+    "costAndCooldownDifferences": 0,
+    "maxCastTimeDifferenceMs": 0.0000059604644775390625,
+    "newManaCostEffects": 4,
+    "newProcesses": 6,
+    "newRules": 6,
+    "preparationGETs": 163,
+    "protectedBaselineResponses": 147,
+    "newDetail404s": 16,
+    "duplicateKeys": 0,
+    "priorOriginalResponsesUnchanged": 103,
+    "priorChangedCollectionsVerified": 10,
+    "priorCreatedDamageAndHitRulesPreserved": 10,
+    "newLeblancBaselineResponses": 24,
+    "protectedRepresentativeImageResponses": 10
+  },
+  "perSkill": [
+    {
+      "skillKey": "vex_q",
+      "ownerKey": "champion_vex",
+      "rootSpell": "Characters/Vex/Spells/VexQAbility/VexQ",
+      "abilityRootMatched": "Characters/Vex/Spells/VexQAbility",
+      "resourceAttribute": "mana",
+      "costEffectCreated": true,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "registrationOnly": false,
+      "cooldownField": "Cooldown.values",
+      "baseCooldownMs": [
+        8000,
+        7000,
+        6000,
+        5000,
+        4000
+      ],
+      "resourceCost": [
+        45,
+        50,
+        55,
+        60,
+        65
+      ],
+      "spellCastTime": 0.15000000596046448,
+      "mCastTime": null,
+      "keptCastTimeMs": 150
+    },
+    {
+      "skillKey": "vex_w",
+      "ownerKey": "champion_vex",
+      "rootSpell": "Characters/Vex/Spells/VexWAbility/VexW",
+      "abilityRootMatched": "Characters/Vex/Spells/VexWAbility",
+      "resourceAttribute": "mana",
+      "costEffectCreated": true,
+      "processKey": "cast",
+      "ruleKey": "on_used_cast",
+      "registrationOnly": false,
+      "cooldownField": "Cooldown.values",
+      "baseCooldownMs": [
+        16000,
+        15000,
+        14000,
+        13000,
+        12000
+      ],
+      "resourceCost": [
+        75,
+        75,
+        75,
+        75,
+        75
+      ],
+      "spellCastTime": 0.25,
+      "mCastTime": 0.25,
+      "keptCastTimeMs": 250
+    },
+    {
+      "skillKey": "vex_e",
+      "ownerKey": "champion_vex",
+      "rootSpell": "Characters/Vex/Spells/VexEAbility/VexE",
+      "abilityRootMatched": "Characters/Vex/Spells/VexEAbility",
+      "resourceAttribute": "mana",
+      "costEffectCreated": true,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "registrationOnly": false,
+      "cooldownField": "Cooldown.values",
+      "baseCooldownMs": [
+        12000,
+        12000,
+        12000,
+        12000,
+        12000
+      ],
+      "resourceCost": [
+        70,
+        80,
+        90,
+        100,
+        110
+      ],
+      "spellCastTime": 0.25,
+      "mCastTime": 0.25,
+      "keptCastTimeMs": 250
+    },
+    {
+      "skillKey": "bard_q",
+      "ownerKey": "champion_bard",
+      "rootSpell": "Characters/Bard/Spells/BardQAbility/BardQ",
+      "abilityRootMatched": "Characters/Bard/Spells/BardQAbility",
+      "resourceAttribute": "mana",
+      "costEffectCreated": false,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "registrationOnly": false,
+      "cooldownField": "Cooldown.values",
+      "baseCooldownMs": [
+        11000,
+        10000,
+        9000,
+        8000,
+        7000
+      ],
+      "resourceCost": [
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "spellCastTime": 0.25,
+      "mCastTime": 0.25,
+      "keptCastTimeMs": 250
+    },
+    {
+      "skillKey": "akali_q",
+      "ownerKey": "champion_akali",
+      "rootSpell": "Characters/Akali/Spells/AkaliQAbility/AkaliQ",
+      "abilityRootMatched": "Characters/Akali/Spells/AkaliQAbility",
+      "resourceAttribute": "energy",
+      "costEffectCreated": false,
+      "processKey": "use_cost_and_cooldown",
+      "ruleKey": "on_used_cost_and_cooldown",
+      "registrationOnly": true,
+      "cooldownField": "Cooldown.values",
+      "baseCooldownMs": [
+        1500,
+        1500,
+        1500,
+        1500,
+        1500
+      ],
+      "resourceCost": [
+        110,
+        100,
+        90,
+        80,
+        70
+      ],
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "keptCastTimeMs": null
+    },
+    {
+      "skillKey": "leblanc_q",
+      "ownerKey": "champion_leblanc",
+      "rootSpell": "Characters/Leblanc/Spells/LeblancQAbility/LeblancQ",
+      "abilityRootMatched": "Characters/Leblanc/Spells/LeblancQAbility",
+      "resourceAttribute": "mana",
+      "costEffectCreated": true,
+      "processKey": "cast",
+      "ruleKey": "on_used",
+      "registrationOnly": false,
+      "cooldownField": "Cooldown.values",
+      "baseCooldownMs": [
+        6000,
+        6000,
+        6000,
+        6000,
+        6000
+      ],
+      "resourceCost": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "spellCastTime": 0.25,
+      "mCastTime": null,
+      "keptCastTimeMs": 250
+    }
+  ],
+  "specialReview": {
+    "vex_e": "独立解压当前根确认Cooldown.values全部12，旧cooldownTime全部13；固定16.17.1官方cooldown各级12，现有参数12000逐级匹配当前封装。本批不更新参数，也不使用旧13秒。",
+    "announcement": "00中的26.13公告仅为父任务提供的辅助印证，本独立评审没有访问该URL；批准依据是已冻结客户端当前封装与固定官方资料一致。",
+    "vex_w": "新增on_used_cast只启动成本过程，原on_used仍只执行self_shield；旧护盾效果/公式/规则完整不变，既无重复护盾挂接也无命中触发护盾。",
+    "akali_q": "资源身份由官方能量和既有energy_cost共同确认；底层manaValues不改变资源类型。原spellCastTime=0与mCastTime=0.25冲突，不补cast_time_ms，固定0只复用登记步骤，不主张实际施法0秒。",
+    "vex_q": "原150毫秒保留；源0.15000000596046448秒仅产生约5.96e-6毫秒规范化差异。",
+    "leblanc_q": "仅登记普通主动使用的基础50法力、6000毫秒冷却与既有250毫秒参数；初始伤害、印记引爆、击杀返还均不由本批自动产生或合并。",
+    "excluded": "KatarinaQ无资源纯冷却使用首次页面尚待验、SyndraQ充能资格未接，均不进入本批。"
+  },
+  "payloadReview": {
+    "ordering": "四个新成本效果均先于引用过程，过程先于使用规则；所有POST预期回读与请求主体一致。",
+    "scope": "只有SKILL_USED/ACTIVE启动普通使用过程；成本作用SOURCE，过程无伤害、控制、护盾或其他被动挂接，无动态输入与结果修正。",
+    "preservation": "原主体、参数、公式、资源、护盾、伤害、实际命中规则、角色属性、关系、图片及时间戳保护。"
+  },
+  "expectedIndependentReadback": {
+    "GETs": 163,
+    "newObjects": 16,
+    "expectedChangedCollections": 16,
+    "unchangedResponsesIncludingTimestamps": 131,
+    "businessWrites": 0
+  },
+  "executionConditions": [
+    "24来源与工具、01至04原字节不漂移；写前重核147现值与16详情404。",
+    "只单次执行冻结16POST；06存在或结果不明先查落地，不重放。",
+    "成功后独立只读回读并wx保存07。"
+  ],
+  "validationLimits": {
+    "HTTP": "本评审0HTTP，只核冻结证据及本地原文",
+    "database": "未直接访问数据库",
+    "browser": "认证不可用，代表页面待验",
+    "runtime": "未执行宿主、Wasm或战斗，不代表资源资格、扣除失败处理、实际施法或冷却运行完成"
+  },
+  "blockingFindings": []
+}

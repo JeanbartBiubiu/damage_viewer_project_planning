@@ -1,0 +1,18 @@
+{
+  "at": "2026-09-20T01:02:56.990Z",
+  "status": "PASS",
+  "skillKey": "ahri_e",
+  "ruleKey": "actual_hit",
+  "saveClicks": 1,
+  "reopened": true,
+  "group": "本轮敌方英雄",
+  "conditions": [
+    "事件对方类别 / 英雄",
+    "技能命中敌方对象"
+  ],
+  "conditionRelation": "并且",
+  "event": "技能命中 / ahri_e",
+  "action": "执行效果 / 当前目标 / charm_hit / 绑定0 / 修正0",
+  "uiDraftRecovery": "新建组自动生成cond_1；提交前取消该子草稿、删除默认条件并新建已冻结标识。选项点击超时后检查确认未生效，再选中；父规则只保存一次。",
+  "runtimeValidation": "未执行"
+}

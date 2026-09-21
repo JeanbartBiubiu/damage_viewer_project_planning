@@ -1,0 +1,1214 @@
+{
+  "generatedAt": "2026-09-20T07:58:13.044Z",
+  "status": "PASS",
+  "endpoint": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requestMethod": "GET",
+  "businessWrites": 0,
+  "GETs": 27,
+  "target": {
+    "skillKey": "zyra_q",
+    "ruleKey": "actual_hit",
+    "detailRoute": "/skills/zyra_q/trigger-rules/actual_hit",
+    "listRoute": "/skills/zyra_q/trigger-rules"
+  },
+  "approvalAndSourceChecks": {
+    "reviewStatus": "APPROVED",
+    "writerStatus": "PASS",
+    "currentHashes": {
+      "request": "1d8375ce4be45fa065b5d5bbe44719236a71343e2edb395645122e5baf593676",
+      "baseline": "4fcfef28115b8cc7abde8a3b52b3098e6c70427d1f5301180d6dcba29204bc8e",
+      "review": "172b0fde53736a95321d4ea096e1900d91c4baa04da0ede70a5163c3f7d346aa",
+      "preflight": "36db828f022f03771844f2b5035b67844a8cf0851247d4dd3d5e65ec45cf2ac5",
+      "writer": "03fbd4cad7a591f45cb5b8f1f7fc064716ff8db28f7552e3d810d7813ed8ae17"
+    },
+    "expectedHashes": {
+      "request": "1d8375ce4be45fa065b5d5bbe44719236a71343e2edb395645122e5baf593676",
+      "baseline": "4fcfef28115b8cc7abde8a3b52b3098e6c70427d1f5301180d6dcba29204bc8e"
+    },
+    "requestShaMatches": true,
+    "baselineShaMatches": true,
+    "sourceHashChecks": {
+      "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Zyra.json": {
+        "expected": "c1ffb17ff4f55221690e58b79a04fc807acff143977fc21db3d1efe0a7e7fe35",
+        "actual": "c1ffb17ff4f55221690e58b79a04fc807acff143977fc21db3d1efe0a7e7fe35",
+        "matches": true
+      },
+      "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/01-共享现值.json": {
+        "expected": "85381519cf72c660a334c5af55db0357e4d10cff7ba6f22f238334579d8deffe",
+        "actual": "85381519cf72c660a334c5af55db0357e4d10cff7ba6f22f238334579d8deffe",
+        "matches": true
+      }
+    },
+    "preflightPass": true,
+    "preflightGETs": 27,
+    "preflightBusinessWrites": 0,
+    "writerBusinessWritesAttempted": 1
+  },
+  "comparison": {
+    "routeCount": 27,
+    "unchangedRouteCount": 25,
+    "changedRouteCount": 2,
+    "unchangedRoutes": [
+      "/skills/zyra_q",
+      "/characters/champion_zyra",
+      "/characters/champion_zyra/attributes",
+      "/characters/champion_zyra/representative-image",
+      "/skills/zyra_q/representative-image",
+      "/character-skill-relations?characterKey=champion_zyra",
+      "/character-skill-relations?skillKey=zyra_q",
+      "/skills/zyra_q/parameters",
+      "/skills/zyra_q/parameters/base_damage",
+      "/skills/zyra_q/parameters/ap_ratio",
+      "/skills/zyra_q/parameters/cast_time_ms",
+      "/skills/zyra_q/parameters/cooldown_ms",
+      "/skills/zyra_q/parameters/mana_cost",
+      "/skills/zyra_q/formulas",
+      "/skills/zyra_q/formulas/magic_damage",
+      "/skills/zyra_q/effects",
+      "/skills/zyra_q/effects/primary_hit",
+      "/skills/zyra_q/effects/mana_cost",
+      "/skills/zyra_q/processes",
+      "/skills/zyra_q/processes/cast",
+      "/skills/zyra_q/internal-states",
+      "/skills/zyra_q/trigger-rules/on_used",
+      "/attributes/ability_power",
+      "/damage-types/magic",
+      "/attributes/mana"
+    ],
+    "changedRoutes": [
+      "/skills/zyra_q/trigger-rules",
+      "/skills/zyra_q/trigger-rules/actual_hit"
+    ],
+    "detailExactExpectedReadback": true,
+    "expectedDetailPath": "/skills/zyra_q/trigger-rules/actual_hit",
+    "triggerRulesList": {
+      "listLengthUnchanged": true,
+      "actualHitFound": true,
+      "actualHitConditionGroupCount": 1,
+      "actualHitActionCount": 1,
+      "actualHitCountsCorrect": true,
+      "actualHitOnlyUpdatedAtChanged": true,
+      "actualHitUpdatedAtChangedOrValid": true,
+      "otherRowsCompleteUnchanged": true
+    },
+    "routeComparison": {
+      "/skills/zyra_q": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/characters/champion_zyra": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/characters/champion_zyra/attributes": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/characters/champion_zyra/representative-image": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/representative-image": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/character-skill-relations?characterKey=champion_zyra": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/character-skill-relations?skillKey=zyra_q": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/parameters": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/parameters/base_damage": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/parameters/ap_ratio": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/parameters/cast_time_ms": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/parameters/cooldown_ms": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/parameters/mana_cost": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/formulas": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/formulas/magic_damage": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/effects": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/effects/primary_hit": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/effects/mana_cost": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/processes": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/processes/cast": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/internal-states": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/skills/zyra_q/trigger-rules": {
+        "kind": "list",
+        "listLengthUnchanged": true,
+        "actualHitFound": true,
+        "actualHitConditionGroupCount": 1,
+        "actualHitActionCount": 1,
+        "actualHitCountsCorrect": true,
+        "actualHitOnlyUpdatedAtChanged": true,
+        "actualHitUpdatedAtChangedOrValid": true,
+        "otherRowsCompleteUnchanged": true
+      },
+      "/skills/zyra_q/trigger-rules/actual_hit": {
+        "kind": "detail",
+        "exactExpectedReadback": true
+      },
+      "/skills/zyra_q/trigger-rules/on_used": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/attributes/ability_power": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/damage-types/magic": {
+        "kind": "unchanged",
+        "exact": true
+      },
+      "/attributes/mana": {
+        "kind": "unchanged",
+        "exact": true
+      }
+    }
+  },
+  "values": {
+    "/skills/zyra_q": {
+      "createdAt": "2026-09-06T18:21:27.412699Z",
+      "description": "浓密的藤蔓在地面蔓延，并爆炸成棘刺，对范围内的敌人造成魔法伤害。如果在一颗种子附近施放，那么【Q致命棘刺】就会让种子长成一株荆棘喷射者，可对远处的敌人进行攻击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "婕拉·致命棘刺",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "zyra_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:21:27.412699Z"
+    },
+    "/characters/champion_zyra": {
+      "characterKey": "champion_zyra",
+      "createdAt": "2026-09-06T18:15:20.153805Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "婕拉",
+      "updatedAt": "2026-09-06T18:15:20.153805Z"
+    },
+    "/characters/champion_zyra/attributes": {
+      "characterKey": "champion_zyra",
+      "levelValues": {
+        "1": {
+          "move_speed": 340,
+          "hp": 574,
+          "hp_regen": 5.5,
+          "mana": 418,
+          "mana_regen": 7,
+          "armor": 29,
+          "magic_resistance": 30,
+          "attack_damage": 53,
+          "attack_speed": 0.681,
+          "attack_range": 575
+        },
+        "2": {
+          "move_speed": 340,
+          "hp": 640.96,
+          "hp_regen": 5.86,
+          "mana": 436,
+          "mana_regen": 7.576,
+          "armor": 32.024,
+          "magic_resistance": 30.936,
+          "attack_damage": 55.304,
+          "attack_speed": 0.690495,
+          "attack_range": 575
+        },
+        "3": {
+          "move_speed": 340,
+          "hp": 711.175,
+          "hp_regen": 6.2375,
+          "mana": 454.875,
+          "mana_regen": 8.18,
+          "armor": 35.195,
+          "magic_resistance": 31.9175,
+          "attack_damage": 57.72,
+          "attack_speed": 0.700452,
+          "attack_range": 575
+        },
+        "4": {
+          "move_speed": 340,
+          "hp": 784.645,
+          "hp_regen": 6.6325,
+          "mana": 474.625,
+          "mana_regen": 8.812,
+          "armor": 38.513,
+          "magic_resistance": 32.9445,
+          "attack_damage": 60.248,
+          "attack_speed": 0.71087,
+          "attack_range": 575
+        },
+        "5": {
+          "move_speed": 340,
+          "hp": 861.37,
+          "hp_regen": 7.045,
+          "mana": 495.25,
+          "mana_regen": 9.472,
+          "armor": 41.978,
+          "magic_resistance": 34.017,
+          "attack_damage": 62.888,
+          "attack_speed": 0.721749,
+          "attack_range": 575
+        },
+        "6": {
+          "move_speed": 340,
+          "hp": 941.35,
+          "hp_regen": 7.475,
+          "mana": 516.75,
+          "mana_regen": 10.16,
+          "armor": 45.59,
+          "magic_resistance": 35.135,
+          "attack_damage": 65.64,
+          "attack_speed": 0.733091,
+          "attack_range": 575
+        },
+        "7": {
+          "move_speed": 340,
+          "hp": 1024.585,
+          "hp_regen": 7.9225,
+          "mana": 539.125,
+          "mana_regen": 10.876,
+          "armor": 49.349,
+          "magic_resistance": 36.2985,
+          "attack_damage": 68.504,
+          "attack_speed": 0.744893,
+          "attack_range": 575
+        },
+        "8": {
+          "move_speed": 340,
+          "hp": 1111.075,
+          "hp_regen": 8.3875,
+          "mana": 562.375,
+          "mana_regen": 11.62,
+          "armor": 53.255,
+          "magic_resistance": 37.5075,
+          "attack_damage": 71.48,
+          "attack_speed": 0.757158,
+          "attack_range": 575
+        },
+        "9": {
+          "move_speed": 340,
+          "hp": 1200.82,
+          "hp_regen": 8.87,
+          "mana": 586.5,
+          "mana_regen": 12.392,
+          "armor": 57.308,
+          "magic_resistance": 38.762,
+          "attack_damage": 74.568,
+          "attack_speed": 0.769884,
+          "attack_range": 575
+        },
+        "10": {
+          "move_speed": 340,
+          "hp": 1293.82,
+          "hp_regen": 9.37,
+          "mana": 611.5,
+          "mana_regen": 13.192,
+          "armor": 61.508,
+          "magic_resistance": 40.062,
+          "attack_damage": 77.768,
+          "attack_speed": 0.783071,
+          "attack_range": 575
+        },
+        "11": {
+          "move_speed": 340,
+          "hp": 1390.075,
+          "hp_regen": 9.8875,
+          "mana": 637.375,
+          "mana_regen": 14.02,
+          "armor": 65.855,
+          "magic_resistance": 41.4075,
+          "attack_damage": 81.08,
+          "attack_speed": 0.79672,
+          "attack_range": 575
+        },
+        "12": {
+          "move_speed": 340,
+          "hp": 1489.585,
+          "hp_regen": 10.4225,
+          "mana": 664.125,
+          "mana_regen": 14.876,
+          "armor": 70.349,
+          "magic_resistance": 42.7985,
+          "attack_damage": 84.504,
+          "attack_speed": 0.810831,
+          "attack_range": 575
+        },
+        "13": {
+          "move_speed": 340,
+          "hp": 1592.35,
+          "hp_regen": 10.975,
+          "mana": 691.75,
+          "mana_regen": 15.76,
+          "armor": 74.99,
+          "magic_resistance": 44.235,
+          "attack_damage": 88.04,
+          "attack_speed": 0.825403,
+          "attack_range": 575
+        },
+        "14": {
+          "move_speed": 340,
+          "hp": 1698.37,
+          "hp_regen": 11.545,
+          "mana": 720.25,
+          "mana_regen": 16.672,
+          "armor": 79.778,
+          "magic_resistance": 45.717,
+          "attack_damage": 91.688,
+          "attack_speed": 0.840437,
+          "attack_range": 575
+        },
+        "15": {
+          "move_speed": 340,
+          "hp": 1807.645,
+          "hp_regen": 12.1325,
+          "mana": 749.625,
+          "mana_regen": 17.612,
+          "armor": 84.713,
+          "magic_resistance": 47.2445,
+          "attack_damage": 95.448,
+          "attack_speed": 0.855932,
+          "attack_range": 575
+        },
+        "16": {
+          "move_speed": 340,
+          "hp": 1920.175,
+          "hp_regen": 12.7375,
+          "mana": 779.875,
+          "mana_regen": 18.58,
+          "armor": 89.795,
+          "magic_resistance": 48.8175,
+          "attack_damage": 99.32,
+          "attack_speed": 0.871889,
+          "attack_range": 575
+        },
+        "17": {
+          "move_speed": 340,
+          "hp": 2035.96,
+          "hp_regen": 13.36,
+          "mana": 811,
+          "mana_regen": 19.576,
+          "armor": 95.024,
+          "magic_resistance": 50.436,
+          "attack_damage": 103.304,
+          "attack_speed": 0.888308,
+          "attack_range": 575
+        },
+        "18": {
+          "move_speed": 340,
+          "hp": 2155,
+          "hp_regen": 14,
+          "mana": 843,
+          "mana_regen": 20.6,
+          "armor": 100.4,
+          "magic_resistance": 52.1,
+          "attack_damage": 107.4,
+          "attack_speed": 0.905188,
+          "attack_range": 575
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_zyra/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_zyra",
+        "name": "champion_zyra"
+      }
+    },
+    "/skills/zyra_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_zyra_q",
+        "name": "zyra_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_zyra": {
+      "items": [
+        {
+          "characterKey": "champion_zyra",
+          "characterName": "婕拉",
+          "gameId": "lol",
+          "skillKey": "zyra_p",
+          "skillName": "婕拉·荆棘花园",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_zyra",
+          "characterName": "婕拉",
+          "gameId": "lol",
+          "skillKey": "zyra_q",
+          "skillName": "婕拉·致命棘刺",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_zyra",
+          "characterName": "婕拉",
+          "gameId": "lol",
+          "skillKey": "zyra_w",
+          "skillName": "婕拉·狂野生长",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_zyra",
+          "characterName": "婕拉",
+          "gameId": "lol",
+          "skillKey": "zyra_e",
+          "skillName": "婕拉·缠绕之根",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_zyra",
+          "characterName": "婕拉",
+          "gameId": "lol",
+          "skillKey": "zyra_r",
+          "skillName": "婕拉·绞杀之藤",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=zyra_q": {
+      "items": [
+        {
+          "characterKey": "champion_zyra",
+          "characterName": "婕拉",
+          "gameId": "lol",
+          "skillKey": "zyra_q",
+          "skillName": "婕拉·致命棘刺",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/zyra_q/parameters": [
+      {
+        "createdAt": "2026-09-10T02:20:23.593184Z",
+        "description": "InitialDamage当前消费BaseDamage索引1至5为60/100/140/180/220；索引0虽为60但不作1级。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 100,
+          "3": 140,
+          "4": 180,
+          "5": 220
+        },
+        "name": "本体魔法伤害基础值",
+        "parameterKey": "base_damage",
+        "skillKey": "zyra_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:20:23.593184Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:20:25.141305Z",
+        "description": "InitialDamage当前消费的mCoefficient=0.65。",
+        "fixedValue": 0.649999976,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "zyra_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:20:25.141305Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:20:26.626823Z",
+        "description": "当前根spellCastTime=0.25秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "zyra_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T02:20:26.626823Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:41:41.556451Z",
+        "description": "DDragon16.17.1 Zyra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 7000,
+          "2": 6500,
+          "3": 6000,
+          "4": 5500,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zyra_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:41.556451Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:41:42.069075Z",
+        "description": "DDragon16.17.1 Zyra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 55,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zyra_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T03:17:56.662939Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/zyra_q/parameters/base_damage": {
+      "createdAt": "2026-09-10T02:20:23.593184Z",
+      "description": "InitialDamage当前消费BaseDamage索引1至5为60/100/140/180/220；索引0虽为60但不作1级。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 100,
+        "3": 140,
+        "4": 180,
+        "5": 220
+      },
+      "name": "本体魔法伤害基础值",
+      "parameterKey": "base_damage",
+      "skillKey": "zyra_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:20:23.593184Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/zyra_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-10T02:20:25.141305Z",
+      "description": "InitialDamage当前消费的mCoefficient=0.65。",
+      "fixedValue": 0.649999976,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "zyra_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T02:20:25.141305Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/zyra_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-10T02:20:26.626823Z",
+      "description": "当前根spellCastTime=0.25秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "zyra_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-10T02:20:26.626823Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/zyra_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:41:41.556451Z",
+      "description": "DDragon16.17.1 Zyra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 7000,
+        "2": 6500,
+        "3": 6000,
+        "4": 5500,
+        "5": 5000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "zyra_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:41:41.556451Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/zyra_q/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:41:42.069075Z",
+      "description": "DDragon16.17.1 Zyra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 55,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "zyra_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-19T03:17:56.662939Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/zyra_q/formulas": [
+      {
+        "createdAt": "2026-09-10T02:20:28.183168Z",
+        "description": "当前正文消费tooltipOnly的InitialDamage=基础值+0.65×法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "致命棘刺本体魔法伤害",
+        "skillKey": "zyra_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:20:28.183168Z"
+      }
+    ],
+    "/skills/zyra_q/formulas/magic_damage": {
+      "createdAt": "2026-09-10T02:20:28.183168Z",
+      "description": "当前正文消费tooltipOnly的InitialDamage=基础值+0.65×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "致命棘刺本体魔法伤害",
+      "skillKey": "zyra_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:20:28.183168Z"
+    },
+    "/skills/zyra_q/effects": [
+      {
+        "createdAt": "2026-09-19T02:59:08.122529Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；本效果不计算植物攻击，种子和植物沿既有范围结论另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "婕拉·致命棘刺命中伤害",
+        "resultCount": 1,
+        "skillKey": "zyra_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:59:08.122529Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:20:29.726302Z",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "zyra_q",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-10T02:20:29.726302Z"
+      }
+    ],
+    "/skills/zyra_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:59:08.122529Z",
+      "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；本效果不计算植物攻击，种子和植物沿既有范围结论另行处理。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "婕拉·致命棘刺命中伤害",
+      "results": [
+        {
+          "description": "引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "zyra_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:59:08.122529Z"
+    },
+    "/skills/zyra_q/effects/mana_cost": {
+      "createdAt": "2026-09-10T02:20:29.726302Z",
+      "description": "复用冻结公共法力参数；仅记录基础消耗。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放资源消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "zyra_q",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-10T02:20:29.726302Z"
+    },
+    "/skills/zyra_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T03:08:04.366908Z",
+        "description": "登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "婕拉·致命棘刺施法登记",
+        "processKey": "cast",
+        "skillKey": "zyra_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T03:08:04.366908Z"
+      }
+    ],
+    "/skills/zyra_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T03:08:04.366908Z",
+      "description": "登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "婕拉·致命棘刺施法登记",
+      "processKey": "cast",
+      "skillKey": "zyra_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T03:08:04.366908Z"
+    },
+    "/skills/zyra_q/internal-states": [],
+    "/skills/zyra_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 zyra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "婕拉·致命棘刺实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-20T07:55:04.380271Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用zyra_q时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "婕拉·致命棘刺普通使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:08:05.746642Z"
+      }
+    ],
+    "/skills/zyra_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行婕拉·致命棘刺伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 zyra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "zyra_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "婕拉·致命棘刺实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/zyra_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动婕拉·致命棘刺使用登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用zyra_q时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "zyra_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "婕拉·致命棘刺普通使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_zyra",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_zyra/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_zyra/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_zyra",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=zyra_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    }
+  ],
+  "failures": [],
+  "note": "实际网络只读GET；随机Bearer仅存于本进程内，未输出或落盘；未重复PUT。"
+}

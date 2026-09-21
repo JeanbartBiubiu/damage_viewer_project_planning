@@ -1,0 +1,119 @@
+{
+  "at": "2026-09-19T17:15:30.957Z",
+  "status": "PASS",
+  "statusKind": "SILENCE",
+  "statusKey": "silence",
+  "commits": {
+    "backend": "d6119800",
+    "frontend": "0abfd691"
+  },
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "storage": {
+    "tables": 27,
+    "newTables": 0,
+    "newColumns": 0,
+    "constraintMigrationExecutions": 1,
+    "migrationPreserved": {
+      "statuses": 3,
+      "effects": 970,
+      "references": 9331
+    },
+    "independentDBSelects": 8
+  },
+  "businessWrites": 6,
+  "browserWrites": 2,
+  "protectedAPIWrites": 4,
+  "created": {
+    "statuses": 1,
+    "effects": 2,
+    "triggerRules": 2
+  },
+  "updated": {
+    "triggerRules": 1
+  },
+  "independentGETs": 111,
+  "independentBatches": [
+    {
+      "path": "目录首次页面/07-独立回读.json",
+      "GETs": 5
+    },
+    {
+      "path": "两技能首次施加返回/07-独立回读.json",
+      "GETs": 53
+    },
+    {
+      "path": "玛尔扎哈旧伤害敌方更正/06-独立回读.json",
+      "GETs": 53
+    }
+  ],
+  "checks": {
+    "backendTests": 1008,
+    "frontendTests": 715,
+    "frontendLint": true,
+    "typecheck": true,
+    "build": true,
+    "parameterRankComparisons": 10,
+    "browser": "PASS",
+    "consoleErrors": []
+  },
+  "currentCounts": {
+    "chogath_w": {
+      "parameters": 5,
+      "formulas": 1,
+      "effects": 2,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 1
+    },
+    "malzahar_q": {
+      "parameters": 6,
+      "formulas": 1,
+      "effects": 3,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 3
+    }
+  },
+  "issues": [
+    {
+      "object": "科加斯W、玛尔扎哈Q、费德提克E",
+      "operation": "选择控制状态",
+      "expected": "准确表示沉默身份、由父效果提供期限",
+      "before": "仅有眩晕、减速、禁锢",
+      "fix": "增加不可变沉默种类，沿用无数值状态与现有表",
+      "return": "目录首次页面、科加斯与玛尔扎哈首次施加和独立回读通过"
+    },
+    {
+      "object": "玛尔扎哈Q actual_hit",
+      "operation": "重开旧伤害入口",
+      "expected": "实际敌方英雄命中",
+      "before": "仅英雄类别，未明确敌方",
+      "fix": "同组追加enemy_target空明细",
+      "return": "单次页面保存重开和53次独立GET通过"
+    }
+  ],
+  "remaining": {
+    "chogath_w": [
+      "首次施加以外的沉默重施期限",
+      "伤害效果和命中入口正在下个独立批次准备",
+      "施放时长来源及主动使用成本冷却入口",
+      "旧主体及公式说明待随后续组成收敛"
+    ],
+    "malzahar_q": [
+      "沉默重施期限",
+      "Q刷新E的跨技能关系及E持续效果、入口",
+      "旧主体说明待收敛；旧伤害结果子页继续核对"
+    ],
+    "fiddlesticks_e": [
+      "中心命中资格、减速伤害及使用时序尚未完成"
+    ]
+  },
+  "managementCompleteDelta": 0,
+  "managementCompleteItems": 5,
+  "openSkillItems": 834,
+  "runtimeValidation": "未执行",
+  "goalComplete": false
+}

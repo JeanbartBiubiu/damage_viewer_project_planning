@@ -1,0 +1,72 @@
+{
+  "status": "APPROVED",
+  "task": "sona_self_heal_frozen_review",
+  "root": "C:\\project\\damage_web_dev",
+  "requestedModel": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components.mjs": "80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a",
+    "01-候选方案.json": "0fccf85da61a90d6d0b59fc640eb7e374cd24f20fe58c9349a723012957ab7d5",
+    "02-冻结请求.json": "4a65f6917e21d593dba0f994a3a39de18e82c499a273a0bf0b39f6da0c905e90",
+    "03-来源摘要.json": "bddbe8924694cdadae214c8a81f0bf56e90843361364e44b130a3d4a69b96bf2",
+    "04-写入前现值.json": "42994168da89d53e0f01070b0e101dbe952eac250650a2989d08a4e6e2410b2d"
+  },
+  "reviewedAt": "2026-09-18T21:40:34.786Z",
+  "checks": [
+    {
+      "name": "五文件原始字节摘要、来源哈希与冻结绑定",
+      "status": "PASS",
+      "evidence": "工具、01、02、03、04当前字节哈希已重算；工具=80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a；01=0fccf85da61a90d6d0b59fc640eb7e374cd24f20fe58c9349a723012957ab7d5；02=4a65f6917e21d593dba0f994a3a39de18e82c499a273a0bf0b39f6da0c905e90；03=bddbe8924694cdadae214c8a81f0bf56e90843361364e44b130a3d4a69b96bf2；04=42994168da89d53e0f01070b0e101dbe952eac250650a2989d08a4e6e2410b2d。03所列10项来源原始字节逐项匹配；02.sourceSha256与03、baselineSha256与04一致。",
+      "references": [
+        "01-候选方案.json:12-62",
+        "02-冻结请求.json:132-134",
+        "03-来源摘要.json:1-61"
+      ]
+    },
+    {
+      "name": "冻结请求与目标范围",
+      "status": "PASS",
+      "evidence": "目标仅kayle_w/champion_kayle；01与02请求深比较一致，只有2条POST且明细路由唯一。效果完整正文与expectedReadback一致：self_heal、DIRECT_HEAL、SOURCE、heal_value、无生命周期、detail={}；规则完整正文与expectedReadback一致：on_used_self_heal、SKILL_USED、ACTIVE、空条件、EXECUTE_EFFECT。未出现EXPLICIT_TARGET_IS_SOURCE。",
+      "references": [
+        "01-候选方案.json:64-211",
+        "02-冻结请求.json:3-134"
+      ]
+    },
+    {
+      "name": "官方来源、客户端数值与配置算术",
+      "status": "PASS",
+      "evidence": "KayleW中英文原始tooltip分别明确自身与一名友方英雄；00只读候选虽含kayle_w、soraka_r、taric_q三项，本批目标仅kayle_w。客户端证据Heal索引1至5为55/80/105/130/155，TotalHeal为Heal+0.25×；当前heal_value使用base_heal、heal_ap_ratio与SOURCE/TOTAL ability_power。配置算术复核15/15通过。",
+      "references": [
+        "00-三项治疗只读候选.json",
+        "01-候选方案.json:65-72",
+        "04-写入前现值.json:428-595",
+        "配置算术复核.json"
+      ]
+    },
+    {
+      "name": "现值、旧效果与新增入口保护",
+      "status": "PASS",
+      "evidence": "04基线27次GET含25个旧200和2个预期404，businessWrites为0；旧mana_cost效果完整保留，processes与trigger-rules当前为空，新self_heal与on_used_self_heal均不存在。formula表达式无事件、状态或运行输入节点；移动速度及法力/冷却登记列为后续范围。",
+      "references": [
+        "01-候选方案.json:204-211",
+        "04-写入前现值.json:638-690",
+        "04-写入前现值.json:720-855"
+      ]
+    },
+    {
+      "name": "工具路径、权限门禁、现值比较与可观测性",
+      "status": "PASS",
+      "evidence": "不可变工具原始哈希为80a18af8...；工具只允许计划中的完整POST正文，来源重算、批准文件哈希、冻结与基线绑定、写前全量深比较和目标404均有门禁，write还要求冻结批次哈希并以wx创建06；GET审计只记录method/path/status。本次评审未访问业务API或数据库，未执行写入、DDL、迁移、浏览器、Wasm或战斗运行。",
+      "references": [
+        "tools/authoring/append-reviewed-skill-components.mjs:19-45",
+        "tools/authoring/append-reviewed-skill-components.mjs:47-73",
+        "tools/authoring/append-reviewed-skill-components.mjs:90-142"
+      ]
+    },
+    {
+      "name": "静态结构验证",
+      "status": "PASS",
+      "evidence": "00、01、02、03、04和配置算术复核均可解析；冻结请求、公式、来源十项哈希、38条只读来源审计与27条凯尔W基线均通过独立脚本断言。"
+    }
+  ]
+}

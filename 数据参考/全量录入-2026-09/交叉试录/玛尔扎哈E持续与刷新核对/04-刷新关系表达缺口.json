@@ -1,0 +1,52 @@
+{
+  "kind": "SOURCE_AND_MANAGEMENT_GAP_ANALYSIS",
+  "createdAt": "2026-09-19T18:46:48.755Z",
+  "scope": [
+    "malzahar_e",
+    "malzahar_q"
+  ],
+  "currentBoundary": "普通使用登记已录入；本记录不批准持续伤害或刷新写入。",
+  "sourceFacts": {
+    "fixedVersion": "client16.17 / DDragon16.17.1",
+    "durationMs": 4000,
+    "intervalMs": 250,
+    "totalDamage": "80/115/150/185/220 + 0.8 × 来源总法强",
+    "firstTick": "未核定，不能把周期或旧运行设计的首跳当固定版本游戏证据",
+    "refresh": "Q或R对带有幻象的目标造成伤害后刷新；固定官方说明和旧补充资料需分别保留来源层级"
+  },
+  "existingSupport": {
+    "refresh": "LIFECYCLE_OPERATION / REFRESH 已存在，可由E所属规则操作E本地效果，不需要新增跨技能效果字段",
+    "crossSkillHit": "SKILL_HIT 明细已有 sourceSkillKey；仅能确认来源技能命中，不能证明该次伤害已结算",
+    "damageEvents": "DAMAGE_DEALT / DAMAGE_TAKEN / DAMAGE_PENDING 共用 SkillTriggerDamageEventDetail，当前只有 damageTypeKey、deliveryKind、originKind",
+    "damageOutputs": "造成伤害事件已有实际失血、阻挡和免疫等结果值，但没有来源技能筛选",
+    "resultAvailable": "RESULT_AVAILABLE 仅按所属技能的 effectKey/resultKey 定位结果，不能在E规则中引用Q伤害结果"
+  },
+  "rejectedApproximations": [
+    "不能用一次Q技能命中替代Q伤害已发生",
+    "不能以零值、免疫或护盾状态反推刷新资格",
+    "不能造一个未核定首跳的E持续伤害效果，仅为使刷新引用通过",
+    "不能依据历史Wasm演示合同认定固定版本游戏时序"
+  ],
+  "codeEvidence": [
+    {
+      "root": "backend",
+      "path": "server/data_manage/src/main/java",
+      "symbols": [
+        "SkillTriggerDamageEventDetail",
+        "SkillTriggerEventCapabilities",
+        "SkillTriggerResultEventDetail",
+        "SkillTriggerRuleService",
+        "SkillLifecycleConditionSemantics",
+        "SkillObjectReferences"
+      ]
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "detail": "伤害事件结构不含来源技能"
+    }
+  ],
+  "next": "先补齐E持续伤害的首跳、读取时点与施加资格；可返回真实对象时，再收敛伤害事件来源技能筛选的最小跨端方案并独立评审。",
+  "writes": 0,
+  "runtimeValidation": "NOT_RUN"
+}

@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "damage.authoring.independent-review.v1",
+  "status": "APPROVED",
+  "title": "崔丝塔娜W主动入口与首次减速独立评审",
+  "reviewedAt": "2026-09-20T14:22:02.785Z",
+  "scope": {
+    "worktree": "C:\\project\\damage_web_dev",
+    "directory": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜W明确组成返回/主动入口与首次减速",
+    "gameId": "lol",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "targets": [
+      "tristana_w"
+    ],
+    "preparedPOSTs": 3,
+    "apiCallsDuringReview": 0,
+    "databaseAccess": false,
+    "businessWritesDuringReview": 0,
+    "recordingScope": "本轮是1V1唯一敌方英雄录入范围；同组英雄与敌方条件是项目范围限制，不宣称原技能在游戏中只能命中英雄。",
+    "runtimeBoundary": "只核对来源、冻结请求、管理现值和写入保护边界；不证明浏览器、宿主/Wasm、事件生产、位移落地或战斗运行。"
+  },
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "347a2e601d78e6b8875eb97a9b265edadfd30decd4aea3c00b4549e7a17bfc47",
+    "02-冻结请求.json": "00b73fe99665a25b37ac45ab6038d623e3642e65bb94734e1a6c95a8e03529d6",
+    "03-来源摘要.json": "7265e60135496e9b7b88e84f0c7571698688c8f35b4f9b683fdf7dc1bdeb042a",
+    "04-写入前现值.json": "b9d774fd7e5cff5dddbd754e9425396cd1bc901a7e8ccde4b22170f7f1a15283"
+  },
+  "toolBinding": {
+    "path": "tools/authoring/append-reviewed-skill-components-v3.mjs",
+    "sha256": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "expectedSha256": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "match": true,
+    "writeBoundary": "工具原字节保持不变；写入前仍会重核完整现值和每个新详情404，逐项POST后即时回读。"
+  },
+  "fileBinding": {
+    "fileHashes": {
+      "plan": "347a2e601d78e6b8875eb97a9b265edadfd30decd4aea3c00b4549e7a17bfc47",
+      "frozen": "00b73fe99665a25b37ac45ab6038d623e3642e65bb94734e1a6c95a8e03529d6",
+      "source": "7265e60135496e9b7b88e84f0c7571698688c8f35b4f9b683fdf7dc1bdeb042a",
+      "baseline": "b9d774fd7e5cff5dddbd754e9425396cd1bc901a7e8ccde4b22170f7f1a15283"
+    },
+    "freezeLinks": {
+      "sourceSha256Matches03": true,
+      "baselineSha256Matches04": true,
+      "requestsMatch01": true
+    },
+    "sourceHashAudit": {
+      "count": 6,
+      "mismatchCount": 0
+    },
+    "baselineAudit": {
+      "count": 33,
+      "methods": [
+        "GET"
+      ],
+      "statuses": [
+        200
+      ],
+      "businessWrites": 0
+    },
+    "supplementalNewDetail404": {
+      "path": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜W明确组成返回/06-新增目标不存在核对.json",
+      "status": "PASS",
+      "businessWrites": 0,
+      "audit": [
+        {
+          "method": "GET",
+          "path": "/skills/tristana_w/effects/rocket_jump_slow",
+          "status": 404
+        },
+        {
+          "method": "GET",
+          "path": "/skills/tristana_w/trigger-rules/on_used",
+          "status": 404
+        },
+        {
+          "method": "GET",
+          "path": "/skills/tristana_w/trigger-rules/apply_slow_on_first_unblocked_hit",
+          "status": 404
+        }
+      ]
+    }
+  },
+  "reviewItems": [
+    {
+      "id": "R1",
+      "name": "工具、01至04和来源原字节绑定",
+      "result": "PASS",
+      "evidence": "工具与批准文件SHA-256为现场重算值；02.requests与01.requests深等，02.sourceSha256/ baselineSha256分别等于03/04文件字节；03声明的6项来源散列全部一致。"
+    },
+    {
+      "id": "R2",
+      "name": "三项POST边界",
+      "result": "PASS",
+      "evidence": "仅新增rocket_jump_slow效果、on_used主动使用规则和apply_slow_on_first_unblocked_hit首次未阻挡命中规则；没有参数、公式、过程、actual_hit或own_kill_reset请求。"
+    },
+    {
+      "id": "R3",
+      "name": "首次减速效果契约",
+      "result": "PASS",
+      "evidence": "复用现有slow_ratio=0.4与slow_duration_ms=2000；STATUS_OPERATION/APPLY movement_slow，PERSISTENT，结果法术护盾粒度为RESULT；父效果SOURCE_TARGET、单层、durationValue引用slow_duration_ms。KEEP/REFRESH_ALL/REPLACE保留通用重施契约，但本次规则用当前目标不存在实例限制为首次施加。"
+    },
+    {
+      "id": "R4",
+      "name": "主动入口与首次命中规则",
+      "result": "PASS",
+      "evidence": "on_used为SKILL_USED/ACTIVE并只START_PROCESS cast；已有cast过程承担PROCESS_START法力、基础冷却和250毫秒延迟，入口本身不生成命中、伤害、减速或重置。首次减速规则为SKILL_HIT，同组包含CHAMPION与SKILL_HIT_TARGET_IS_ENEMY、SKILL_HIT_SPELL_SHIELD_BLOCKED EQ 0及当前目标无rocket_jump_slow实例，动作仅EXECUTE_EFFECT rocket_jump_slow。"
+    },
+    {
+      "id": "R5",
+      "name": "现有组成和范围回读一致",
+      "result": "PASS",
+      "evidence": "04现值保留mana_cost、landing_hit、reset_jump、cast、actual_hit和own_kill_reset；命中范围07回读为22次GET、20条未变、仅actual_hit集合变化，04中的actual_hit详情与07 changedDetails完全一致。own_kill_reset未改。"
+    },
+    {
+      "id": "R6",
+      "name": "新对象不存在保护",
+      "result": "PASS",
+      "evidence": "04为33条GET且businessWrites=0；补充06独立确认三个新详情均为404。v3工具write/preflight仍会重做完整现值比较并在每笔POST前再次确认详情404。"
+    },
+    {
+      "id": "R7",
+      "name": "写入范围和证据边界",
+      "result": "PASS",
+      "evidence": "本批只表达1V1录入范围内的首次普通减速；同组英雄与敌方条件不改写原技能的完整游戏目标范围。E满层重置、英雄参与击杀语义、事件生产、浏览器、宿主/Wasm和战斗运行均保持待核，不由本批宣称完成。"
+    }
+  ],
+  "nonBlockingBoundaries": [
+    "固定来源证明W减速数值、根绑定和主动入口字段；本批准入不等于事件或战斗运行已接线。",
+    "重施字段沿用通用契约，但本次规则仅执行无现有实例的首次分支；重施行为另行核对。",
+    "既有own_kill_reset保持原样，未把英雄参与击杀或对英雄满层E爆炸重置并入本批。"
+  ],
+  "conclusion": "APPROVED：三项冻结POST与来源、现值、既有cast过程、普通减速契约及命中范围独立回读一致；未发现阻塞项。"
+}

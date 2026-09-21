@@ -1,0 +1,469 @@
+{
+  "startedAt": "2026-09-21T05:22:31.681Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "route": "/skills/lissandra_w/parameters/snare_duration_ms",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T10:36:35.119537Z",
+          "description": "官方16.17.1 W的effect[2]明确为1.25/1.35/1.45/1.55/1.65秒，与客户端16.17当前根SnareDuration索引1至5的单精度值一致；按官方精度换算为整数毫秒。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 1250,
+            "2": 1350,
+            "3": 1450,
+            "4": 1550,
+            "5": 1650
+          },
+          "name": "禁锢持续（毫秒）",
+          "parameterKey": "snare_duration_ms",
+          "skillKey": "lissandra_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-21T05:22:33.651268Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T10:36:35.119537Z",
+        "description": "官方16.17.1 W的effect[2]明确为1.25/1.35/1.45/1.55/1.65秒，与客户端16.17当前根SnareDuration索引1至5的单精度值一致；按官方精度换算为整数毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1250,
+          "2": 1350,
+          "3": 1450,
+          "4": 1550,
+          "5": 1650
+        },
+        "name": "禁锢持续（毫秒）",
+        "parameterKey": "snare_duration_ms",
+        "skillKey": "lissandra_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-21T05:22:33.651268Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listRoute": "/skills/lissandra_w/parameters",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-09T10:36:33.074555Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "lissandra_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T10:36:33.074555Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:34.068488Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 105,
+            "3": 140,
+            "4": 175,
+            "5": 210
+          },
+          "name": "冰脉驱役基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "lissandra_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T10:36:34.068488Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:35.119537Z",
+          "description": "官方16.17.1 W的effect[2]明确为1.25/1.35/1.45/1.55/1.65秒，与客户端16.17当前根SnareDuration索引1至5的单精度值一致；按官方精度换算为整数毫秒。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 1250,
+            "2": 1350,
+            "3": 1450,
+            "4": 1550,
+            "5": 1650
+          },
+          "name": "禁锢持续（毫秒）",
+          "parameterKey": "snare_duration_ms",
+          "skillKey": "lissandra_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-21T05:22:33.651268Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:36.122585Z",
+          "description": "TotalDamage树直接给出0.7。",
+          "fixedValue": 0.7,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法强倍率",
+          "parameterKey": "ap_ratio_constant",
+          "skillKey": "lissandra_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T10:36:36.122585Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:48.652975Z",
+          "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9500,
+            "3": 9000,
+            "4": 8500,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "lissandra_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:48.652975Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:48.964763Z",
+          "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "lissandra_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T02:21:25.413748Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/lissandra_w/parameters/base_damage",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T10:36:34.068488Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 105,
+            "3": 140,
+            "4": 175,
+            "5": 210
+          },
+          "name": "冰霜之环基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "lissandra_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-21T05:22:35.226572Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T10:36:34.068488Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "冰霜之环基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lissandra_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-21T05:22:35.226572Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listRoute": "/skills/lissandra_w/parameters",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-09T10:36:33.074555Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "lissandra_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T10:36:33.074555Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:34.068488Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 105,
+            "3": 140,
+            "4": 175,
+            "5": 210
+          },
+          "name": "冰霜之环基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "lissandra_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-21T05:22:35.226572Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:35.119537Z",
+          "description": "官方16.17.1 W的effect[2]明确为1.25/1.35/1.45/1.55/1.65秒，与客户端16.17当前根SnareDuration索引1至5的单精度值一致；按官方精度换算为整数毫秒。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 1250,
+            "2": 1350,
+            "3": 1450,
+            "4": 1550,
+            "5": 1650
+          },
+          "name": "禁锢持续（毫秒）",
+          "parameterKey": "snare_duration_ms",
+          "skillKey": "lissandra_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-21T05:22:33.651268Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:36:36.122585Z",
+          "description": "TotalDamage树直接给出0.7。",
+          "fixedValue": 0.7,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法强倍率",
+          "parameterKey": "ap_ratio_constant",
+          "skillKey": "lissandra_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T10:36:36.122585Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:48.652975Z",
+          "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9500,
+            "3": 9000,
+            "4": 8500,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "lissandra_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:48.652975Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:48.964763Z",
+          "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "lissandra_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T02:21:25.413748Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    }
+  ],
+  "pendingRoute": null,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-parameters.mjs": "fe93cb1a81488714fb2fd43c67c18b3383142c886cd3769bbb3114cbd6265997",
+    "01-纠错计划.json": "c39e9b547b7f404bb2f6a607859d2d940306b26d022db263e3a14a2cf47dd731",
+    "02-冻结请求.json": "b78ec3c97f2cf123d57e534b9a91cccc293f0c2479285628b03470270934c7f2",
+    "03-来源摘要.json": "895703b459c851416a3d8bb099d9652ba8402c95ae350599a1397466dc1360c8",
+    "04-写入前现值.json": "c5559e648cd9b55345797660d18ffe725b7f74d9de26e346b37be9c87c2e23d4"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/snare_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/snare_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/lissandra_w/parameters/snare_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/snare_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/lissandra_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-21T05:22:34.624Z"
+}

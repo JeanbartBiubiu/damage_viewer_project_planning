@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-20T07:17:26.117Z",
+  "issueGroup": "体验-02",
+  "status": "待修正",
+  "observed": "首次打开actual_hit时来源技能暂显seraphine_r（目录缺失），目录请求完成后恢复为正确技能名；无控制台错误，无业务保存。",
+  "expected": "目录未完成时显示加载状态；只有目录成功返回后才判断当前标识是否缺失。",
+  "source": {
+    "file": "web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx",
+    "loader": "loadSkillsCatalog将catalogStates.skills置loading后异步读取",
+    "fallback": "skillOptions缺当前键时不检查catalogStates，直接追加MISSING_CATALOG_LABEL"
+  },
+  "scope": "SKILL_USED、SKILL_HIT及其他复用来源技能选项的规则编辑入口",
+  "evidence": "伤害与使用组成/08-页面返回.json",
+  "dataCorrectness": "最终目录和回读一致，此次没有改错数据",
+  "fix": "后续最小显示修正，保留真实缺失与失败恢复，不扩张业务结构"
+}

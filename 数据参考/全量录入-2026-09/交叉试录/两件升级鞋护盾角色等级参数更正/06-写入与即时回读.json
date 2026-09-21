@@ -1,0 +1,612 @@
+{
+  "startedAt": "2026-09-21T14:12:02.672Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "route": "/skills/item_3173_passive/parameters/actual_level_base_shield",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T10:28:09.207496Z",
+          "description": "按装备持有者角色等级取值：1至8级90，从9级当级起每级增加10，18级190。固定客户端16.17 ShieldAmountCalc的等级基础部分；原属性12、公式2输入与0.08系数另由原公式处理。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 90,
+            "2": 90,
+            "3": 90,
+            "4": 90,
+            "5": 90,
+            "6": 90,
+            "7": 90,
+            "8": 90,
+            "9": 100,
+            "10": 110,
+            "11": 120,
+            "12": 130,
+            "13": 140,
+            "14": 150,
+            "15": 160,
+            "16": 170,
+            "17": 180,
+            "18": 190
+          },
+          "name": "角色等级基础护盾",
+          "parameterKey": "actual_level_base_shield",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-21T14:12:05.725417Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T10:28:09.207496Z",
+        "description": "按装备持有者角色等级取值：1至8级90，从9级当级起每级增加10，18级190。固定客户端16.17 ShieldAmountCalc的等级基础部分；原属性12、公式2输入与0.08系数另由原公式处理。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 90,
+          "2": 90,
+          "3": 90,
+          "4": 90,
+          "5": 90,
+          "6": 90,
+          "7": 90,
+          "8": 90,
+          "9": 100,
+          "10": 110,
+          "11": 120,
+          "12": 130,
+          "13": 140,
+          "14": 150,
+          "15": 160,
+          "16": 170,
+          "17": 180,
+          "18": 190
+        },
+        "name": "角色等级基础护盾",
+        "parameterKey": "actual_level_base_shield",
+        "skillKey": "item_3173_passive",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-21T14:12:05.725417Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      "listRoute": "/skills/item_3173_passive/parameters",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-09T10:28:04.937197Z",
+          "description": "客户端Cooldown=15秒，按毫秒保存为15000。官方正文(0秒)不是实际冷却。",
+          "fixedValue": 15000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "不懈冷却",
+          "parameterKey": "shield_cooldown_ms",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:28:04.937197Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:05.925581Z",
+          "description": "客户端ShieldDuration=5秒，按毫秒保存为5000。不创建护盾过程。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾持续",
+          "parameterKey": "shield_duration_ms",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T10:28:05.925581Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:06.997648Z",
+          "description": "ShieldAmountCalc的ByCharLevelBreakpoints.mLevel1Value=90。只保存原节点，不作为运行时基础盾默认值，也不用它推18。",
+          "fixedValue": 90,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾1级节点",
+          "parameterKey": "shield_level1_value",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T10:28:06.997648Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:08.176294Z",
+          "description": "客户端ShieldAmount=0.08，绑定mStat=12且mStatFormula=2。属性口径待核。",
+          "fixedValue": 0.08,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾mStat12系数",
+          "parameterKey": "shield_amount_ratio",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T10:28:08.176294Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:09.207496Z",
+          "description": "按装备持有者角色等级取值：1至8级90，从9级当级起每级增加10，18级190。固定客户端16.17 ShieldAmountCalc的等级基础部分；原属性12、公式2输入与0.08系数另由原公式处理。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 90,
+            "2": 90,
+            "3": 90,
+            "4": 90,
+            "5": 90,
+            "6": 90,
+            "7": 90,
+            "8": 90,
+            "9": 100,
+            "10": 110,
+            "11": 120,
+            "12": 130,
+            "13": 140,
+            "14": 150,
+            "15": 160,
+            "16": 170,
+            "17": 180,
+            "18": 190
+          },
+          "name": "角色等级基础护盾",
+          "parameterKey": "actual_level_base_shield",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-21T14:12:05.725417Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:10.223147Z",
+          "description": "无默认值。保留原12/2实际输入，不按其他对象mStat12/0映射SOURCE.hp.TOTAL。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "来源mStat12/formula2输入",
+          "parameterKey": "source_mstat12_formula2_value",
+          "skillKey": "item_3173_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T10:28:10.223147Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/item_3174_passive/parameters/actual_level_base_shield",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T10:28:20.925928Z",
+          "description": "按装备持有者角色等级取值：1至8级90，从9级当级起每级增加10，18级190。固定客户端16.17 ShieldAmountCalc的等级基础部分；原属性12、公式2输入与0.08系数另由原公式处理。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 90,
+            "2": 90,
+            "3": 90,
+            "4": 90,
+            "5": 90,
+            "6": 90,
+            "7": 90,
+            "8": 90,
+            "9": 100,
+            "10": 110,
+            "11": 120,
+            "12": 130,
+            "13": 140,
+            "14": 150,
+            "15": 160,
+            "16": 170,
+            "17": 180,
+            "18": 190
+          },
+          "name": "角色等级基础护盾",
+          "parameterKey": "actual_level_base_shield",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-21T14:12:07.522855Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T10:28:20.925928Z",
+        "description": "按装备持有者角色等级取值：1至8级90，从9级当级起每级增加10，18级190。固定客户端16.17 ShieldAmountCalc的等级基础部分；原属性12、公式2输入与0.08系数另由原公式处理。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 90,
+          "2": 90,
+          "3": 90,
+          "4": 90,
+          "5": 90,
+          "6": 90,
+          "7": 90,
+          "8": 90,
+          "9": 100,
+          "10": 110,
+          "11": 120,
+          "12": 130,
+          "13": 140,
+          "14": 150,
+          "15": 160,
+          "16": 170,
+          "17": 180,
+          "18": 190
+        },
+        "name": "角色等级基础护盾",
+        "parameterKey": "actual_level_base_shield",
+        "skillKey": "item_3174_passive",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-21T14:12:07.522855Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      "listRoute": "/skills/item_3174_passive/parameters",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-09T10:28:15.472785Z",
+          "description": "客户端DamageReduction=0.1；中文绑定即将到来的攻击伤害降低10%。只保留减幅参数，不套直通公式，不合资格攻击分量与减伤乘区待接。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "镀板攻击伤害降低比例",
+          "parameterKey": "incoming_attack_damage_reduction_ratio",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T10:28:15.472785Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:16.520878Z",
+          "description": "客户端Cooldown=15秒，按毫秒保存为15000。官方正文(0秒)不是实际冷却。",
+          "fixedValue": 15000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "耐久冷却",
+          "parameterKey": "shield_cooldown_ms",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T10:28:16.520878Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:17.679319Z",
+          "description": "客户端ShieldDuration=5秒，按毫秒保存为5000。不创建护盾过程。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾持续",
+          "parameterKey": "shield_duration_ms",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T10:28:17.679319Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:18.76328Z",
+          "description": "ShieldAmountCalc的mLevel1Value=90。只保存原节点，不作为运行时基础盾默认值，也不用它推18。",
+          "fixedValue": 90,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾1级节点",
+          "parameterKey": "shield_level1_value",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T10:28:18.76328Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:19.821082Z",
+          "description": "客户端ShieldAmount=0.08，绑定mStat=12且mStatFormula=2。属性口径待核。",
+          "fixedValue": 0.08,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾mStat12系数",
+          "parameterKey": "shield_amount_ratio",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T10:28:19.821082Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:20.925928Z",
+          "description": "按装备持有者角色等级取值：1至8级90，从9级当级起每级增加10，18级190。固定客户端16.17 ShieldAmountCalc的等级基础部分；原属性12、公式2输入与0.08系数另由原公式处理。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 90,
+            "2": 90,
+            "3": 90,
+            "4": 90,
+            "5": 90,
+            "6": 90,
+            "7": 90,
+            "8": 90,
+            "9": 100,
+            "10": 110,
+            "11": 120,
+            "12": 130,
+            "13": 140,
+            "14": 150,
+            "15": 160,
+            "16": 170,
+            "17": 180,
+            "18": 190
+          },
+          "name": "角色等级基础护盾",
+          "parameterKey": "actual_level_base_shield",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-21T14:12:07.522855Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T10:28:21.899595Z",
+          "description": "无默认值。保留原12/2实际输入，不按其他对象mStat12/0映射SOURCE.hp.TOTAL。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "来源mStat12/formula2输入",
+          "parameterKey": "source_mstat12_formula2_value",
+          "skillKey": "item_3174_passive",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T10:28:21.899595Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    }
+  ],
+  "pendingRoute": null,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-parameters-v2.mjs": "a3eb702ff0cc20461ab01381711f47a6c989328a44baa83368ed12abdf9fe067",
+    "01-纠错计划.json": "0ebd86cdf718ea6b63353cfbf85f2cabdc973d6fea6fa1f128b4cdbc4657afa2",
+    "02-冻结请求.json": "be7457140482539a617b03b4329451927254b10c90f747710db1cab561d8157c",
+    "03-来源摘要.json": "c15cf19ebdc65a04f7ae205a345d47baf920fa3b3bb0326eb67e02dc148cad73",
+    "04-写入前现值.json": "cb1a460c345fc950eef42a563333547750547623e8dfbff04bd2d61e62a81e53"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/level-config",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/shield_cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/shield_level1_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/shield_amount_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/actual_level_base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/source_mstat12_formula2_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/formulas/magic_shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/effects/lifeline_magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/incoming_attack_damage_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/shield_cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/shield_level1_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/shield_amount_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/actual_level_base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/source_mstat12_formula2_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/formulas/physical_shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/effects/lifeline_physical_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/actual_level_base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/level-config",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/item_3173_passive/parameters/actual_level_base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters/actual_level_base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3173_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/actual_level_base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/level-config",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/item_3174_passive/parameters/actual_level_base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters/actual_level_base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3174_passive/parameters",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-21T14:12:06.048Z"
+}

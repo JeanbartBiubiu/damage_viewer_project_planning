@@ -1,0 +1,70 @@
+{
+  "at": "2026-09-21T04:19:03.011Z",
+  "scope": "三项命中范围独立回读后，只补普通直接技能伤害的全能吸血资格和父说明，保留所有公式、数值及既有法术护盾粒度。",
+  "changes": [
+    {
+      "skillKey": "sivir_q",
+      "effectKey": "boomerang_hit",
+      "resultKey": "damage",
+      "route": "/skills/sivir_q/effects/boomerang_hit",
+      "damageTypeKey": "physics",
+      "scopeRuleKey": "actual_hit",
+      "description": "本轮实际命中敌方英雄时执行的普通物理技能伤害，明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；其他吸血类型、具体法术护盾粒度及技能专属联动仍待核定。"
+    },
+    {
+      "skillKey": "tristana_r",
+      "effectKey": "cannon_hit",
+      "resultKey": "damage",
+      "route": "/skills/tristana_r/effects/cannon_hit",
+      "damageTypeKey": "magic",
+      "scopeRuleKey": "actual_hit",
+      "description": "本轮实际命中敌方英雄时执行的普通魔法技能伤害，明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；其他吸血类型、具体法术护盾粒度及技能专属联动仍待核定。"
+    },
+    {
+      "skillKey": "xinzhao_e",
+      "effectKey": "charge_hit",
+      "resultKey": "damage",
+      "route": "/skills/xinzhao_e/effects/charge_hit",
+      "damageTypeKey": "magic",
+      "scopeRuleKey": "actual_charge_hit",
+      "description": "本轮实际命中敌方英雄时执行的普通魔法技能伤害，明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；其他吸血类型、具体法术护盾粒度及技能专属联动仍待核定。"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/普通使用入口候选续接/04-三项实际命中与交互依据.json",
+      "sha256": "b0f3ea34186aef4921e5aa8121649f0c934565fd2f0c003db16bf9c1e9d7d892"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/普通使用入口候选续接/05-三项伤害表达定点核对.json",
+      "sha256": "6e1f8504a21485c2325cfb3d7480545c39c9df40b2aff27dda26856159e6f918"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/卢锡安Q实际命中返回/02-普通物理技能伤害交互核对.json",
+      "sha256": "da9a9179b08cc0a30d659a9da6b494d99e0f9a50c53cbda4eb589dbbac0f8ac3"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+      "sha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/希维尔Q实际命中范围返回/07-独立回读.json",
+      "sha256": "b5400da0747c90f2413d1715cf3d6e0e5dfc2b472acb4765b4ba86ee3148776c"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜R实际命中范围返回/07-独立回读.json",
+      "sha256": "b5c3fc47b29a68a967ae9b1ecbd87737e7125ed4fa65992a9dc9170e5e641654"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/赵信E实际命中范围返回/07-独立回读.json",
+      "sha256": "6110637da561f3189f3e24e20e816467e50b2a2052e725d5193e6c7650efedb3"
+    }
+  ]
+}

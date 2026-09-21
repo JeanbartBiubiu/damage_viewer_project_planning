@@ -1,0 +1,93 @@
+{
+  "at": "2026-09-20T06:55:37.485Z",
+  "mode": "固定来源只读核对，来源代理charm_source_audit与主负责人现有结构核对",
+  "sourceFiles": [
+    {
+      "kind": "客户端原文",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Seraphine.json.gz",
+      "sha256": "5518c28e0aa895ac000e18e7fd05ce06731c65dc9708ccac84bb812f370b4a56",
+      "decompressedSha256": "fcd2cedf4755636c8ea966d06f12f53ff4e82d5b70fff203d9e31e8de5f2edf9",
+      "fixedLabel": "client16.17"
+    },
+    {
+      "kind": "固定英雄资料",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Seraphine.json",
+      "sha256": "9f9cce0312119116e2dfed1d91c7d87f1b79b42314a188b0d565330e917f6723",
+      "fixedLabel": "DDragon16.17.1"
+    },
+    {
+      "kind": "固定英雄资料",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Seraphine.json",
+      "sha256": "0668fcbfe69123e319b07e06e7228ab781f6faa336f4b758b798619d7ca84445",
+      "fixedLabel": "DDragon16.17.1"
+    }
+  ],
+  "clientRoot": "Characters/Seraphine/Spells/SeraphineRAbility/SeraphineR/mSpell",
+  "officialRoot": "data.Seraphine.spells[3]",
+  "maxRank": 3,
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "damage": {
+    "baseClientField": "DataValues[name=R1BaseDamage]/values",
+    "sourceIndices": [
+      1,
+      2,
+      3
+    ],
+    "base": [
+      150,
+      200,
+      250
+    ],
+    "apRatioClientField": "DataValues[name=R1APRatio]/values",
+    "rawRatio": 0.4000000059604645,
+    "recordedRatio": 0.4,
+    "calculation": "mSpellCalculations.R1TotalDamage = R1BaseDamage + R1APRatio * total ability power",
+    "attributeOwner": "SOURCE",
+    "attributeValueKind": "TOTAL",
+    "damageType": "magic",
+    "eligibility": "仅本技能实际命中的敌方英雄，一次普通直接魔法伤害",
+    "vamp": "复用已验证通用规则：OMNIVAMP、POST_DEFENSE_DAMAGE、效率1；固定客户端本身未给吸血文字",
+    "vampBasis": "已核普通敌方英雄直接魔法技能伤害的通用资格，复用阿狸E与科加斯等已批准规则；不声称固定客户端提供吸血文字。"
+  },
+  "use": {
+    "mana": 100,
+    "cooldownSeconds": [
+      160,
+      140,
+      120
+    ],
+    "cooldownMs": [
+      160000,
+      140000,
+      120000
+    ],
+    "sourceIndices": [
+      1,
+      2,
+      3
+    ],
+    "process": "一个IMMEDIATE登记步骤，在PROCESS_START登记法力与普通冷却",
+    "notCastTime": "立即登记不代表零施放时长",
+    "sourceAbsences": "当前固定主R未见再施放、弹药或返还分支，不据缺失标记推断其他技能",
+    "manaClientField": "mana",
+    "cooldownClientField": "cooldownTime"
+  },
+  "remaining": [
+    "mCastTime 0.5秒与spellCastTime 0的冲突",
+    "魅惑已有实例重施",
+    "RMinSlow/RMaxSlow含义",
+    "英雄命中距离延伸",
+    "其他跨技能依赖逐项核定"
+  ],
+  "exclusions": [
+    {
+      "branch": "仅作用队友的满层音符",
+      "reason": "本轮1V1范围无关；不得扩展排除自身被动收益"
+    }
+  ],
+  "businessWrites": 0,
+  "newHTTPGETs": 0
+}

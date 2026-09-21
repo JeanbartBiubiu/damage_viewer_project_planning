@@ -21,6 +21,7 @@ export type SkillTriggerEventType =
   | 'ENTITY_DIED'
   | 'ENTITY_UNTARGETABLE'
   | 'KILL'
+  | 'TAKEDOWN'
   | 'PROCESS_CANCEL_REQUESTED'
   | 'SPELL_SHIELD_BLOCKED'
   | 'HIT_LINK_APPLIED'
@@ -32,6 +33,7 @@ export type SkillTriggerConditionType =
   | 'LIFECYCLE_CHECK'
   | 'TARGET_CATEGORY_CHECK'
   | 'EXPLICIT_TARGET_IS_SOURCE'
+  | 'SKILL_HIT_TARGET_IS_ENEMY'
   | 'INTERNAL_STATE_CHECK'
   | 'EVENT_VALUE_COMPARE';
 
@@ -76,6 +78,7 @@ export type SkillTriggerEventValueKey =
   | 'CHARGE_DURATION_MS'
   | 'RECAST_COUNT'
   | 'HIT_INDEX'
+  | 'SKILL_HIT_FIRST_CONTACT'
   | 'SKILL_HIT_SPELL_SHIELD_BLOCKED'
   | 'LIFECYCLE_STACKS'
   | 'PERIOD_INDEX'
@@ -290,6 +293,11 @@ export type SkillTriggerKillEventSource = {
   detail: SkillTriggerEmptyDetail;
 };
 
+export type SkillTriggerTakedownEventSource = {
+  eventType: 'TAKEDOWN';
+  detail: SkillTriggerEmptyDetail;
+};
+
 export type SkillTriggerProcessCancelRequestedEventSource = {
   eventType: 'PROCESS_CANCEL_REQUESTED';
   detail: SkillTriggerCancelProcessEventDetail;
@@ -329,6 +337,7 @@ export type SkillTriggerEventSource =
   | SkillTriggerEntityDiedEventSource
   | SkillTriggerEntityUntargetableEventSource
   | SkillTriggerKillEventSource
+  | SkillTriggerTakedownEventSource
   | SkillTriggerProcessCancelRequestedEventSource
   | SkillTriggerSpellShieldBlockedEventSource
   | SkillTriggerHitLinkAppliedEventSource
@@ -474,6 +483,12 @@ export type SkillTriggerCondition =
   | {
       conditionKey: string;
       conditionType: 'EXPLICIT_TARGET_IS_SOURCE';
+      sortOrder: number;
+      detail: SkillTriggerEmptyDetail;
+    }
+  | {
+      conditionKey: string;
+      conditionType: 'SKILL_HIT_TARGET_IS_ENEMY';
       sortOrder: number;
       detail: SkillTriggerEmptyDetail;
     }

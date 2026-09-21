@@ -1,0 +1,61 @@
+{
+  "startedAt": "2026-09-19T14:50:30.761Z",
+  "status": "PASS",
+  "executionMode": "BROWSER_UI_ONLY",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "5ac21a53c96d88d1960f76f63411837909d1aafb611c826e1f9047fabdfa7b36",
+    "02-冻结请求.json": "d43b9d45ac4594c3f1741641d7ca5f6e13e173bc98d5963dacc9a81b1864b04f",
+    "03-来源摘要.json": "67e865568d445eb986729d57413ab3b7177b8980a9875df49b379494fcb46fac",
+    "04-写入前现值.json": "68bde3b5d2280a4462bd7aba2e951d1d725cfe918bc2d5454bf4a96f6e9c79f9"
+  },
+  "businessWritesAttempted": 1,
+  "pendingRoute": null,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/talon_q/trigger-rules",
+      "via": "BROWSER_UI",
+      "responseCaptured": false,
+      "immediateReadbackAt": "2026-09-19T14:51:20.843Z",
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "attack_timer_reset"
+            },
+            "name": "执行普攻计时重置",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "接收泰隆Q已成立的主动使用，执行独立普攻计时重置。近战与远程均适用；不以伤害命中或过程开始替代使用时点。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "talon_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用重置普攻计时",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_attack_reset",
+        "sortOrder": 20
+      }
+    }
+  ],
+  "responseCaptured": false,
+  "preflight": {
+    "GETs": 29,
+    "businessWrites": 0,
+    "status": "PASS"
+  },
+  "finishedAt": "2026-09-19T14:51:20.843Z",
+  "comparisonNote": "首次断言遇到REPL跨上下文对象原型不同；对同一已读内容统一JSON对象后完整比对通过，未重发GET或写入。"
+}

@@ -1,0 +1,85 @@
+{
+  "at": "2026-09-19T18:13:43.038Z",
+  "values": {
+    "/skills/malzahar_q": {
+      "createdAt": "2026-09-06T18:19:19.619328Z",
+      "description": "玛尔扎哈开启两扇虚空传送门，短暂延迟后对流的能量对敌方英雄造成魔法伤害并沉默。普通主动使用的法力、冷却和施法延迟、实际敌方英雄命中伤害，以及无本来源实例时的首次沉默已录入；五级沉默为1000/1250/1500/1750/2000毫秒。沉默重施与Q刷新E的跨技能关系仍待核，不计整技能管理完成。固定来源：客户端16.17、官方静态资料16.17.1。",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "玛尔扎哈·虚空召唤",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "malzahar_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T17:29:12.675374Z"
+    },
+    "/skills/malzahar_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:59:17.390934Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；引用已有完整公式，控制、位移、返还或其他分支另行处理。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "玛尔扎哈·虚空召唤命中伤害",
+      "results": [
+        {
+          "description": "引用同技能 damage 公式，保持现有基础值及属性加成口径。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "malzahar_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:59:17.390934Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/effects/primary_hit",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0,
+  "priorEffectUnchanged": true,
+  "priorEvidence": "数据参考/全量录入-2026-09/沉默状态补齐/玛尔扎哈旧伤害敌方更正/06-独立回读.json"
+}

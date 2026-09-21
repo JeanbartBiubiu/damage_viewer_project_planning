@@ -1,0 +1,411 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/ivern_q/effects/damage",
+      "body": {
+        "name": "根深敌固魔法伤害",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "根深敌固魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-10T04:07:58.577602Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "根深敌固魔法伤害",
+        "results": [
+          {
+            "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "根深敌固魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "ivern_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T04:07:58.577602Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ahri_e/effects/charm_hit",
+      "body": {
+        "name": "魅惑命中魔法伤害",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魅惑命中魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T18:52:43.148014Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "charm_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "魅惑命中魔法伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魅惑命中魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "ahri_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:52:43.148014Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/diana_e/effects/lunar_rush_hit",
+      "body": {
+        "name": "月神冲刺命中",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "月神冲刺命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T18:53:50.245978Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "lunar_rush_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "月神冲刺命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "月神冲刺命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "diana_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:53:50.245978Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/ashe_r/effects/hit_damage",
+      "body": {
+        "name": "R 命中英雄魔法伤害",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "sortOrder": 0,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": "仅伤害数值组成，不加普通暴击倍率；减速或眩晕另行配置。旧 Wiki 明示可被法术护盾阻挡，本结果选择当前结果粒度。吸血留待游戏级规则，空列表不表示不吸血。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "一次命中伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 0,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "hit_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T14:35:30.04621Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "hit_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "R 命中英雄魔法伤害",
+        "results": [
+          {
+            "description": "仅伤害数值组成，不加普通暴击倍率；减速或眩晕另行配置。旧 Wiki 明示可被法术护盾阻挡，本结果选择当前结果粒度。吸血留待游戏级规则，空列表不表示不吸血。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "一次命中伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 0,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "hit_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "ashe_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-07T14:35:30.04621Z"
+      }
+    }
+  ],
+  "sourceSha256": "a4a44965ac99ff18cc3d4be770ee02e6e69e1fb3c4f1edd1273bc7ab355ad3ed",
+  "baselineSha256": "9e97cf5397b03d82ffc65d5396d773e2c029ec65ebf8f4551443e10005e0adb1"
+}

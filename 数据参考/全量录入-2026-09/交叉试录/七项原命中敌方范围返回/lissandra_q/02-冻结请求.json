@@ -1,0 +1,116 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "executionMode": "REVIEWED_API",
+  "request": {
+    "method": "PUT",
+    "route": "/skills/lissandra_q/trigger-rules/actual_hit",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·寒冰碎片伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 lissandra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_q"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·寒冰碎片实际命中",
+      "perTargetCooldown": null,
+      "sortOrder": 10
+    },
+    "expectedReadback": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·寒冰碎片伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 lissandra_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·寒冰碎片实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "sourceSha256": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+  "baselineSha256": "9794b9d2ab4053f852c435e80f2800029583e8ce784bff72ef1ee98c3648fc99"
+}

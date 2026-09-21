@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-19T14:53:16.668Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "skillKey": "talon_q",
+  "status": "PASS",
+  "businessWrites": 2,
+  "uiChecks": [
+    "新增结果先输入伤害固定值37，切换普攻计时重置后数值、护盾粒度及伤害字段消失",
+    "空结果标识和名称保存显示明确必填反馈，补填保留草稿",
+    "效果真实保存一次，即时完整GET与原冻结第一条一致，页面重开目标施法者、无生命周期、排序20/10、结果类型不可变",
+    "规则草稿EVENT_SOURCE不适用在提交前被页面选项发现，保留已保存效果并独立冻结更正CURRENT_TARGET",
+    "更正规则真实保存一次，完整即时GET一致，重开来源talon_q、主动、空条件、一动作、CURRENT_TARGET、无绑定修正、排序20"
+  ],
+  "consoleErrors": [],
+  "newDatabaseMigration": false,
+  "runtimeValidation": "未执行"
+}

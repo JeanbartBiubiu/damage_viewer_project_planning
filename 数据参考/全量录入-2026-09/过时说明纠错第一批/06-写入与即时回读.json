@@ -1,0 +1,1026 @@
+{
+  "startedAt": "2026-09-18T16:40:10.769Z",
+  "status": "PASS",
+  "businessWritesAttempted": 6,
+  "operations": [
+    {
+      "route": "/skills/nasus_p",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:34.146368Z",
+          "description": "内瑟斯获得额外生命偷取：1～6级10%，7～12级15%，13～18级20%。",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "内瑟斯·吞噬灵魂",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "nasus_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-18T16:40:10.011675Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:19:34.146368Z",
+        "description": "内瑟斯获得额外生命偷取：1～6级10%，7～12级15%，13～18级20%。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "内瑟斯·吞噬灵魂",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "nasus_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-18T16:40:10.011675Z"
+      }
+    },
+    {
+      "route": "/skills/tristana_q",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:40.726753Z",
+          "description": "崔丝塔娜急速射击，获得60/75/90/105/120%额外攻击速度，持续7秒。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "崔丝塔娜·急速射击",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "tristana_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-18T16:40:11.561564Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:20:40.726753Z",
+        "description": "崔丝塔娜急速射击，获得60/75/90/105/120%额外攻击速度，持续7秒。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "崔丝塔娜·急速射击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tristana_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-18T16:40:11.561564Z"
+      }
+    },
+    {
+      "route": "/skills/tristana_q/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:59:33.205948Z",
+          "description": "官方16.17.1 cost与客户端当前manaValues.values索引0～4一致：15/20/25/30/35点法力；旧mana字段不采用。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 15,
+            "2": 20,
+            "3": 25,
+            "4": 30,
+            "5": 35
+          },
+          "name": "法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "tristana_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T16:40:13.047922Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:59:33.205948Z",
+        "description": "官方16.17.1 cost与客户端当前manaValues.values索引0～4一致：15/20/25/30/35点法力；旧mana字段不采用。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 15,
+          "2": 20,
+          "3": 25,
+          "4": 30,
+          "5": 35
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "tristana_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T16:40:13.047922Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/janna_e/effects/self_shield",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T17:43:02.179374Z",
+          "description": "当前效果表达风暴之眼的自身护盾数值，持续4秒且不衰减；自施目标资格及触发入口仍待接线，攻击力增益独立处理。",
+          "effectKey": "self_shield",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "shield_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "风暴之眼自身护盾",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "absorbedDamageTypeKey": null,
+                "decayMode": "NONE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "风暴之眼自身护盾",
+              "resultKey": "shield",
+              "resultType": "NORMAL_SHIELD",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "total_shield",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "janna_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T16:40:14.573115Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T17:43:02.179374Z",
+        "description": "当前效果表达风暴之眼的自身护盾数值，持续4秒且不衰减；自施目标资格及触发入口仍待接线，攻击力增益独立处理。",
+        "effectKey": "self_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "风暴之眼自身护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "风暴之眼自身护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_shield",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "janna_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T16:40:14.573115Z"
+      }
+    },
+    {
+      "route": "/skills/morgana_e/effects/magic_shield",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T17:58:07.848746Z",
+          "description": "自身魔法护盾持续5秒，仅吸收魔法伤害且不衰减；显式自施入口已连接。控制免疫仍单独待配，不等同一次性法术护盾。",
+          "effectKey": "magic_shield",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "shield_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "黑暗之盾自身魔法护盾",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "absorbedDamageTypeKey": "magic",
+                "decayMode": "NONE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "黑暗之盾自身魔法护盾",
+              "resultKey": "shield",
+              "resultType": "NORMAL_SHIELD",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "magic_shield_value",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "morgana_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T16:40:16.301861Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T17:58:07.848746Z",
+        "description": "自身魔法护盾持续5秒，仅吸收魔法伤害且不衰减；显式自施入口已连接。控制免疫仍单独待配，不等同一次性法术护盾。",
+        "effectKey": "magic_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "黑暗之盾自身魔法护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": "magic",
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "黑暗之盾自身魔法护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_shield_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "morgana_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T16:40:16.301861Z"
+      }
+    },
+    {
+      "route": "/skills/annie_e/effects/molten_shield",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T16:37:51.237187Z",
+          "description": "自身护盾持续3秒，结果目标与实例范围均为来源对象；显式自施入口已连接。反伤和移动速度独立处理。",
+          "effectKey": "molten_shield",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "shield_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "熔岩自护盾",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "absorbedDamageTypeKey": null,
+                "decayMode": "NONE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": "REPLACE",
+                "stackValueMode": "SHARED",
+                "valueReadMode": "APPLICATION_SNAPSHOT"
+              },
+              "name": "普通护盾",
+              "resultKey": "shield",
+              "resultType": "NORMAL_SHIELD",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "shield",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "annie_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T16:40:18.095359Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T16:37:51.237187Z",
+        "description": "自身护盾持续3秒，结果目标与实例范围均为来源对象；显式自施入口已连接。反伤和移动速度独立处理。",
+        "effectKey": "molten_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "熔岩自护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "普通护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "shield",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "annie_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T16:40:18.095359Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions.mjs": "eab116c1b4ac83239d16946ff275c51170154d0ea26229c9f03c1d71f0b2cfed",
+    "01-纠错计划.json": "73cf9a48df0ea646fcd7aa499b6a292804df548faf28dcc2dddf0ac6d2f9e84c",
+    "02-冻结请求.json": "4c60311c49c8993f7c262996ebac07c012a5230675b3894dc5e1724a15f0c989",
+    "03-来源摘要.json": "1928f6e206bc3a16775e3be6c029ed5f0b1115312c37ec55bf8a2d19f56c0e49",
+    "04-写入前现值.json": "02b0495766d63b8de449f8841728604aca60f6b49495456cba281ab21b446fa8"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-18T16:40:20.662Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/parameters/life_steal_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/effects/soul_eater_lifesteal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p/trigger-rules/initialize_lifesteal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/parameters/bonus_attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/parameters/buff_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/effects/rapid_fire",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/trigger-rules/active",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/cc_cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/empower_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/decay_grace_period_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/bonus_attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/attack_damage_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/formulas/total_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/formulas/total_attack_damage_bonus",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/effects/self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/formulas/magic_shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects/magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/trigger-rules/on_used_self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/base_return_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/return_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/move_speed_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/move_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/formulas/shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/formulas/return_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/molten_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/return_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules/on_used_self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/nasus_p",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nasus_p",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/tristana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/tristana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/effects/self_shield",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/janna_e/effects/self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/janna_e/effects/self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects/magic_shield",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/morgana_e/effects/magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects/magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/molten_shield",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/annie_e/effects/molten_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/molten_shield",
+      "status": 200
+    }
+  ]
+}

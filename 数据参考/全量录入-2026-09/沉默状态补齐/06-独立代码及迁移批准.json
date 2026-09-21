@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-19T16:32:51.474Z",
+  "status": "APPROVED",
+  "reviewer": "/root/root_status_source_review",
+  "sqlSha256": "4250939622c27508ed12fc6095bf5a8a8d9e112a8fa453a9cb408a6a6386c458",
+  "runnerSha256": "da4b963eb2ae5d6d44b99a0fda3812b2d8e8b4e65991eee36cbf2b2e35cb9d90",
+  "findings": [
+    "后端枚举和schema同步，复用无强度状态路径，服务与静态测试覆盖",
+    "前端类型、标签、严格读取及清除数值保持",
+    "SQL仅替换约束与注释，现值前检及双向比较",
+    "执行器核目标主机、数据库与SQL摘要，新建流水拒绝重放，原业务前后快照比对",
+    "仅两新增文件禁用换行转换保护摘要"
+  ],
+  "HTTPRequests": 0,
+  "DBRequests": 0
+}

@@ -1,0 +1,139 @@
+{
+  "status": "PASS",
+  "reviewer": "/root/urgot_core_frozen_fallback",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "checks": "逐项读取角色绑定、能力根引用及技能根objectPath与类型；均有Trait_Ultimate，规划清单均非整项排除。Urgot再施放与Annie宠物标记不抵消终极标记，不扩大到子技能。",
+  "sources": [
+    {
+      "hero": "Sett",
+      "skillKey": "sett_r",
+      "binding": "Characters/Sett/CharacterRecords/Root.spells[3]",
+      "abilityRoot": "Characters/Sett/Spells/SettRAbility.mRootSpell",
+      "root": "Characters/Sett/Spells/SettRAbility/SettR",
+      "tag": "Trait_Ultimate",
+      "files": [
+        {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sett.json.gz",
+          "sha256": "02307985a897af077d579aae85285de7799fbf0e6918db6acb5c643925c87cbf"
+        },
+        {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Sett.json",
+          "sha256": "c9d8782de0f5f0ecaffa770801d2b69e7ee9c4b916a5d09332b89aa311184e7d"
+        }
+      ]
+    },
+    {
+      "hero": "Nami",
+      "skillKey": "nami_r",
+      "binding": "Characters/Nami/CharacterRecords/Root.spells[3]",
+      "abilityRoot": "Characters/Nami/Spells/NamiRAbility.mRootSpell",
+      "root": "Characters/Nami/Spells/NamiRAbility/NamiR",
+      "tag": "Trait_Ultimate",
+      "files": [
+        {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Nami.json.gz",
+          "sha256": "6a66b99523e0ce58a553a91afeb8124815dea490c0c76ccf3ce90409971a04df"
+        },
+        {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Nami.json",
+          "sha256": "f9b01b18408d0c55d84dd371581f47242072e041c53e4cf4bcb3272df2528e12"
+        }
+      ]
+    },
+    {
+      "hero": "Urgot",
+      "skillKey": "urgot_r",
+      "binding": "Characters/Urgot/CharacterRecords/Root.spells[3]",
+      "abilityRoot": "Characters/Urgot/Spells/UrgotRAbility.mRootSpell",
+      "root": "Characters/Urgot/Spells/UrgotRAbility/UrgotR",
+      "tag": "Trait_Ultimate",
+      "files": [
+        {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Urgot.json.gz",
+          "sha256": "e5bc358dfd88464470039ae479b3b921d161e6371e623c68ae3a545616b5d84c"
+        },
+        {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Urgot.json",
+          "sha256": "0a081a1286923173fe0eeb855ce32d2b8658fe6ec040d5167f5d01551507943a"
+        }
+      ]
+    },
+    {
+      "hero": "Morgana",
+      "skillKey": "morgana_r",
+      "binding": "Characters/Morgana/CharacterRecords/Root.spells[3]",
+      "abilityRoot": "Characters/Morgana/Spells/MorganaRAbility.mRootSpell",
+      "root": "Characters/Morgana/Spells/MorganaRAbility/MorganaR",
+      "tag": "Trait_Ultimate",
+      "files": [
+        {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+          "sha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5"
+        },
+        {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+          "sha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903"
+        }
+      ]
+    },
+    {
+      "hero": "Lux",
+      "skillKey": "lux_r",
+      "binding": "Characters/Lux/CharacterRecords/Root.spells[3]",
+      "abilityRoot": "Characters/Lux/Spells/LuxRAbility.mRootSpell",
+      "root": "Characters/Lux/Spells/LuxRAbility/LuxR",
+      "tag": "Trait_Ultimate",
+      "files": [
+        {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+          "sha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47"
+        },
+        {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json",
+          "sha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f"
+        }
+      ]
+    },
+    {
+      "hero": "Veigar",
+      "skillKey": "veigar_r",
+      "binding": "Characters/Veigar/CharacterRecords/Root.spells[3]",
+      "abilityRoot": "Characters/Veigar/Spells/VeigarRAbility.mRootSpell",
+      "root": "Characters/Veigar/Spells/VeigarRAbility/VeigarR",
+      "tag": "Trait_Ultimate",
+      "files": [
+        {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz",
+          "sha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc"
+        },
+        {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Veigar.json",
+          "sha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de"
+        }
+      ]
+    },
+    {
+      "hero": "Annie",
+      "skillKey": "annie_r",
+      "binding": "Characters/Annie/CharacterRecords/Root.spells[3]",
+      "abilityRoot": "Characters/Annie/Spells/AnnieRAbility.mRootSpell",
+      "root": "Characters/Annie/Spells/AnnieRAbility/AnnieR",
+      "tag": "Trait_Ultimate",
+      "files": [
+        {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Annie.json.gz",
+          "sha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38"
+        },
+        {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Annie.json",
+          "sha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735"
+        }
+      ]
+    }
+  ],
+  "businessWrites": 0,
+  "HTTPRequests": 0
+}

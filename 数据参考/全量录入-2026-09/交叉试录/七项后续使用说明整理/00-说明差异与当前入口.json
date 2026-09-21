@@ -1,0 +1,98 @@
+{
+  "at": "2026-09-19T03:10:58.742Z",
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "source": "数据参考/全量录入-2026-09/交叉试录/七项后续普通使用补录",
+  "sourceCommit": "df9ea63c",
+  "reason": "七项普通使用已保存并独立回读，7处法力参数与3处成本效果中的未接线说明不再准确。",
+  "changes": [
+    {
+      "skillKey": "braum_q",
+      "kind": "parameter",
+      "route": "/skills/braum_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Braum.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "oldDescription": "DDragon16.17.1 Braum.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "nautilus_q",
+      "kind": "parameter",
+      "route": "/skills/nautilus_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Nautilus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "oldDescription": "DDragon16.17.1 Nautilus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "nautilus_q",
+      "kind": "effect",
+      "route": "/skills/nautilus_q/effects/mana_cost",
+      "description": "本技能普通主动使用时消耗既有参数给出的基础法力；具体使用时点由引用本效果的过程定义。",
+      "oldDescription": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。"
+    },
+    {
+      "skillKey": "ziggs_q",
+      "kind": "parameter",
+      "route": "/skills/ziggs_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Ziggs.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "oldDescription": "DDragon16.17.1 Ziggs.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "zyra_q",
+      "kind": "parameter",
+      "route": "/skills/zyra_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Zyra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "oldDescription": "DDragon16.17.1 Zyra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "zyra_e",
+      "kind": "parameter",
+      "route": "/skills/zyra_e/parameters/mana_cost",
+      "description": "DDragon16.17.1 Zyra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "oldDescription": "DDragon16.17.1 Zyra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "leona_r",
+      "kind": "parameter",
+      "route": "/skills/leona_r/parameters/mana_cost",
+      "description": "DDragon16.17.1 Leona.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "oldDescription": "DDragon16.17.1 Leona.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "leona_r",
+      "kind": "effect",
+      "route": "/skills/leona_r/effects/mana_cost",
+      "description": "本技能普通主动使用时消耗既有参数给出的基础法力；具体使用时点由引用本效果的过程定义。",
+      "oldDescription": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。"
+    },
+    {
+      "skillKey": "malzahar_q",
+      "kind": "parameter",
+      "route": "/skills/malzahar_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "oldDescription": "DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "malzahar_q",
+      "kind": "effect",
+      "route": "/skills/malzahar_q/effects/mana_cost",
+      "description": "本技能普通主动使用时消耗既有参数给出的基础法力；具体使用时点由引用本效果的过程定义。",
+      "oldDescription": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。"
+    }
+  ],
+  "skipped": [
+    {
+      "skillKey": "braum_q",
+      "kind": "effect",
+      "reason": "刚补成本效果已准确说明当前职责。"
+    },
+    {
+      "skillKey": "ziggs_q",
+      "kind": "effect",
+      "reason": "基础成本与实际时点单独记录符合当前职责。"
+    },
+    {
+      "skillKey": "zyra_q,zyra_e",
+      "kind": "effect",
+      "reason": "只记录基础消耗的说明仍准确。"
+    }
+  ],
+  "preserve": "只改description，创建时间、数值、公式、结果、引用和新旧入口完整保护。"
+}

@@ -1,0 +1,108 @@
+{
+  "at": "2026-09-20T13:36:18.216Z",
+  "businessWrites": 0,
+  "values": {
+    "/equipment/item_3065": {
+      "createdAt": "2026-09-06T17:17:27.677427Z",
+      "description": "来源：官方16.17.1装备3065。400生命值、50魔法抗性、10技能急速、100%基础生命回复。无拘活力：持有者受到的治疗和普通护盾量提高25%；两个常驻修正及来源初始化入口已在挂载被动技能中配置，战斗运行未验证。",
+      "equipmentKey": "item_3065",
+      "gameId": "lol",
+      "name": "振奋盔甲",
+      "updatedAt": "2026-09-19T12:50:42.218335Z"
+    },
+    "/equipment-skill-relations?equipmentKey=item_3065": {
+      "items": [
+        {
+          "equipmentKey": "item_3065",
+          "equipmentName": "振奋盔甲",
+          "gameId": "lol",
+          "skillKey": "item_3065_passive",
+          "skillName": "振奋盔甲·无拘活力",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "total": 1
+    },
+    "/skills/item_3065_passive": {
+      "createdAt": "2026-09-07T17:56:47.902983Z",
+      "description": "依据固定客户端16.17与官方16.17.1，持有者受到的治疗和普通护盾量提高25%。两个来源初始化规则分别建立永久单层治疗与收到护盾修正。400生命值、50魔抗、10技能急速、100%基础生命回复由装备属性保存，不在技能中重复施加。管理配置不代表战斗运行已执行。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "振奋盔甲·无拘活力",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "item_3065_passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T12:43:44.252005Z"
+    },
+    "/equipment/item_3157": {
+      "createdAt": "2026-09-06T18:11:00.538209Z",
+      "description": "来源：官方16.17.1装备3157。 原始说明：105法术强度\n50护甲\n\n\n\n时间停止\n进入凝滞状态2.5秒。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_3157",
+      "gameId": "lol",
+      "name": "中娅沙漏",
+      "updatedAt": "2026-09-06T18:11:00.538209Z"
+    },
+    "/equipment-skill-relations?equipmentKey=item_3157": {
+      "items": [
+        {
+          "equipmentKey": "item_3157",
+          "equipmentName": "中娅沙漏",
+          "gameId": "lol",
+          "skillKey": "item_3157_active",
+          "skillName": "中娅沙漏·时间停止",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "total": 1
+    },
+    "/skills/item_3157_active": {
+      "createdAt": "2026-09-07T17:16:00.783169Z",
+      "description": "保存16.17客户端确证的主动冷却和凝滞中的无敌组成：持续2.5秒、冷却120秒、来源承受全类型伤害免疫。伤害免疫分支现由主动使用规则启动activate过程，过程承担120秒冷却并立即应用2.5秒免疫；不可选取和行动限制仍待补，装备直接属性不在技能中重复施加。当前录入不表示完整凝滞。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "中娅沙漏·时间停止",
+      "skillCategoryKeys": [],
+      "skillKey": "item_3157_active",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-13T15:11:50.111321Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/equipment/item_3065",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment-skill-relations?equipmentKey=item_3065",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3065_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment/item_3157",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment-skill-relations?equipmentKey=item_3157",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active",
+      "status": 200
+    }
+  ]
+}

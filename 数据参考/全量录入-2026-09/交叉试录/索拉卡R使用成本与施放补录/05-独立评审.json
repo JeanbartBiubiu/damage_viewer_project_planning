@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-19T10:08:40.937Z",
+  "status": "APPROVED",
+  "reviewer": "/root/urgot_core_frozen_fallback",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "2bcdd64d9554b01355b817d3f9ff95f4157d45404aaf569289322868b693d5ea",
+    "02-冻结请求.json": "cb95c32a511c8dd0c4ddfc1d267938725d8aade37679dc2d978e4f4bc37a55a6",
+    "03-来源摘要.json": "ea2b4f1843e329ab992ebd799c76bf9c1d9b52beaab18b5da929792c3b8badb1",
+    "04-写入前现值.json": "7dafecee9a916d471e74c0a1d4ef4154bd40750bb3fc480a6fa0b653fe58147e"
+  },
+  "sourceHashesMatched": 4,
+  "checks": [
+    "SOURCE100法力，250毫秒延迟及三等级冷却引用一致",
+    "过程只挂扣蓝，新入口只启动cast，原两治疗入口保持且不重复治疗",
+    "32prepare中3新目标404；预期3新3集合26原响应含时间戳保持"
+  ],
+  "findings": [],
+  "businessHTTP": 0,
+  "fileWrites": 0,
+  "runtimeValidation": "未执行"
+}

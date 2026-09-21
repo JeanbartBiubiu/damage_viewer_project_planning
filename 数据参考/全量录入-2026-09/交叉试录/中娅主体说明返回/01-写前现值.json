@@ -1,0 +1,357 @@
+{
+  "at": "2026-09-20T13:51:06.814Z",
+  "businessWrites": 0,
+  "values": {
+    "/equipment/item_3157": {
+      "createdAt": "2026-09-06T18:11:00.538209Z",
+      "description": "来源：官方16.17.1装备3157。 原始说明：105法术强度\n50护甲\n\n\n\n时间停止\n进入凝滞状态2.5秒。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_3157",
+      "gameId": "lol",
+      "name": "中娅沙漏",
+      "updatedAt": "2026-09-06T18:11:00.538209Z"
+    },
+    "/equipment/item_3157/attributes": {
+      "attributeValues": {
+        "armor": 50,
+        "ability_power": 105
+      },
+      "equipmentKey": "item_3157"
+    },
+    "/equipment-skill-relations?equipmentKey=item_3157": {
+      "items": [
+        {
+          "equipmentKey": "item_3157",
+          "equipmentName": "中娅沙漏",
+          "gameId": "lol",
+          "skillKey": "item_3157_active",
+          "skillName": "中娅沙漏·时间停止",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "total": 1
+    },
+    "/skills/item_3157_active": {
+      "createdAt": "2026-09-07T17:16:00.783169Z",
+      "description": "保存16.17客户端确证的主动冷却和凝滞中的无敌组成：持续2.5秒、冷却120秒、来源承受全类型伤害免疫。伤害免疫分支现由主动使用规则启动activate过程，过程承担120秒冷却并立即应用2.5秒免疫；不可选取和行动限制仍待补，装备直接属性不在技能中重复施加。当前录入不表示完整凝滞。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "中娅沙漏·时间停止",
+      "skillCategoryKeys": [],
+      "skillKey": "item_3157_active",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-13T15:11:50.111321Z"
+    },
+    "/skills/item_3157_active/parameters": [
+      {
+        "createdAt": "2026-09-07T17:16:01.126293Z",
+        "description": "客户端Duration=2.5秒，单位：毫秒。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "凝滞持续时间",
+        "parameterKey": "stasis_duration_ms",
+        "skillKey": "item_3157_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:16:01.126293Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:16:01.535515Z",
+        "description": "客户端Cooldown=120秒，单位：毫秒。",
+        "fixedValue": 120000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "时间停止冷却",
+        "parameterKey": "active_cooldown_ms",
+        "skillKey": "item_3157_active",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:16:01.535515Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/item_3157_active/parameters/stasis_duration_ms": {
+      "createdAt": "2026-09-07T17:16:01.126293Z",
+      "description": "客户端Duration=2.5秒，单位：毫秒。",
+      "fixedValue": 2500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "凝滞持续时间",
+      "parameterKey": "stasis_duration_ms",
+      "skillKey": "item_3157_active",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:16:01.126293Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/item_3157_active/parameters/active_cooldown_ms": {
+      "createdAt": "2026-09-07T17:16:01.535515Z",
+      "description": "客户端Cooldown=120秒，单位：毫秒。",
+      "fixedValue": 120000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "时间停止冷却",
+      "parameterKey": "active_cooldown_ms",
+      "skillKey": "item_3157_active",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T17:16:01.535515Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/item_3157_active/effects": [
+      {
+        "createdAt": "2026-09-07T17:16:51.072578Z",
+        "description": "保存凝滞期间对所有伤害类型的免疫组成，持续时间来自stasis_duration_ms；不可选取和行动限制不混入该结果。",
+        "effectKey": "stasis_damage_immunity",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "凝滞伤害免疫",
+        "resultCount": 1,
+        "skillKey": "item_3157_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T17:16:51.072578Z"
+      }
+    ],
+    "/skills/item_3157_active/effects/stasis_damage_immunity": {
+      "createdAt": "2026-09-07T17:16:51.072578Z",
+      "description": "保存凝滞期间对所有伤害类型的免疫组成，持续时间来自stasis_duration_ms；不可选取和行动限制不混入该结果。",
+      "effectKey": "stasis_damage_immunity",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "stasis_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "凝滞伤害免疫",
+      "results": [
+        {
+          "description": "来源在凝滞持续期间免疫所有伤害类型。",
+          "detail": {
+            "damageTypeKey": null,
+            "deliveryKind": "ANY",
+            "originKind": "ANY"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": null,
+            "valueReadMode": null
+          },
+          "name": "全类型伤害免疫",
+          "resultKey": "stasis_damage_immunity",
+          "resultType": "DAMAGE_IMMUNITY",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "item_3157_active",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:16:51.072578Z"
+    },
+    "/skills/item_3157_active/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-13T15:11:46.882481Z",
+        "description": "主动使用时立即施加现有二点五秒全类型伤害免疫并开始一百二十秒冷却；本过程不表示不可选取或行动限制。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用时间停止伤害免疫分支",
+        "processKey": "activate",
+        "skillKey": "item_3157_active",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-13T15:11:46.882481Z"
+      }
+    ],
+    "/skills/item_3157_active/processes/activate": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "active_cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-13T15:11:46.882481Z",
+      "description": "主动使用时立即施加现有二点五秒全类型伤害免疫并开始一百二十秒冷却；本过程不表示不可选取或行动限制。",
+      "effectBindings": [
+        {
+          "bindingKey": "stasis_damage_immunity",
+          "effectKey": "stasis_damage_immunity",
+          "moment": {
+            "momentType": "STEP_EXECUTION",
+            "stepKey": "apply"
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用时间停止伤害免疫分支",
+      "processKey": "activate",
+      "skillKey": "item_3157_active",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": null,
+          "detail": {},
+          "name": "应用凝滞伤害免疫",
+          "sortOrder": 10,
+          "stepKey": "apply",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-13T15:11:46.882481Z"
+    },
+    "/skills/item_3157_active/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收 item_3157_active 主动使用并启动现有伤害免疫分支过程；过程承担一百二十秒冷却和二点五秒全类型伤害免疫，不可选取与行动限制继续暂缓。管理保存不证明宿主已生产该事件或战斗运行已执行冷却。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动时间停止伤害免疫分支",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-13T15:11:48.324879Z"
+      }
+    ],
+    "/skills/item_3157_active/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_activate",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "activate"
+          },
+          "name": "启动主动分支过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收 item_3157_active 主动使用并启动现有伤害免疫分支过程；过程承担一百二十秒冷却和二点五秒全类型伤害免疫，不可选取与行动限制继续暂缓。管理保存不证明宿主已生产该事件或战斗运行已执行冷却。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "item_3157_active",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动时间停止伤害免疫分支",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/equipment/item_3157",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment/item_3157/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment-skill-relations?equipmentKey=item_3157",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/parameters/stasis_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/parameters/active_cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/effects/stasis_damage_immunity",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/processes/activate",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "preparationFailure": {
+    "attemptedGETs": 2,
+    "routes": [
+      {
+        "path": "/skills/item_3157_active",
+        "status": 200
+      },
+      {
+        "path": "/characters/null",
+        "status": 404
+      }
+    ],
+    "reason": "错误复用必需角色拥有者的读取帮助函数；在只读阶段停止，改用装备目标定点查询。"
+  }
+}

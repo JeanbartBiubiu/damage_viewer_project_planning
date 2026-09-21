@@ -1,0 +1,93 @@
+{
+  "reviewedAt": "2026-09-20",
+  "reviewKind": "萨勒芬妮R说明返回独立评审",
+  "status": "APPROVED",
+  "scope": {
+    "target": "seraphine_r",
+    "changes": [
+      "/skills/seraphine_r 技能主体说明",
+      "/skills/seraphine_r/parameters/mana_cost 参数说明"
+    ],
+    "included": [
+      "已通过新增伤害、使用登记、敌方英雄实际命中和首次魅惑组成后的主体说明收敛",
+      "已通过新增法力消耗接线后的 mana_cost 参数说明收敛"
+    ],
+    "excluded": [
+      "冷却、伤害、魅惑组成和其他既有字段变更",
+      "魅惑重施、附带移动数值、距离延伸和施放时间冲突",
+      "友军音符及其他被动收益",
+      "战斗运行和整技能完成"
+    ]
+  },
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "c937987ac1e1c24aa3e6ffd570b6d13e25a7f297c4aa0266476f75a9ec515aa6",
+    "02-冻结请求.json": "e631ae2539b809c32b8db922510b66e0fb15c80e0c295f9bdb89a83073605cf5",
+    "03-来源摘要.json": "bf2e85c401dac83ae8c3e3edad972edd22a697d0a70bfc93f99cff9a50cf8a70",
+    "04-写入前现值.json": "0704959810424b5224dfdf37135cb013a56d155e85c29d09cf41702433c487f0"
+  },
+  "readbackTool": {
+    "path": "tools/authoring/read-reviewed-description-updates.mjs",
+    "sha256": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebc994",
+    "boundary": "独立读取批次和接口，只使用GET，不发出PUT，不创建新文件。"
+  },
+  "sourceBinding": {
+    "status": "PASS",
+    "files": [
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/萨勒芬妮R伤害与使用返回/01-固定来源核对.json",
+        "sha256": "9fffa60a508a380130f48274afa1201fd679377b29f128812b59b77fccedbd1d",
+        "actualMatches": true
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/萨勒芬妮R伤害与使用返回/伤害与使用组成/07-独立回读.json",
+        "sha256": "06f1245e7635a0090e6621677a5493b3da7b0c91e4b50ceed08ae207a099527c",
+        "actualMatches": true
+      }
+    ],
+    "finding": "03来源摘要的两个文件实际散列均匹配；新增组成事实沿用已通过的07回读。"
+  },
+  "requestCheck": {
+    "status": "PASS",
+    "requestCount": 2,
+    "requests": [
+      {
+        "route": "/skills/seraphine_r",
+        "kind": "skill",
+        "bodyKeys": ["description", "maxLevel", "name", "skillCategoryKeys", "sortOrder", "status"],
+        "descriptionOnlyChange": true,
+        "expectedReadbackPreservesOtherFields": true
+      },
+      {
+        "route": "/skills/seraphine_r/parameters/mana_cost",
+        "kind": "parameter",
+        "bodyKeys": ["description", "fixedValue", "levelValues", "name", "sortOrder", "valueMode", "valueType"],
+        "parameterKeyInBody": false,
+        "descriptionOnlyChange": true,
+        "expectedReadbackPreservesOtherFields": true
+      }
+    ],
+    "finding": "两个PUT均只改变说明；参数请求体不带 parameterKey，路径标识承担参数身份。冻结请求SHA与用户给定 e631ae2539b809c32b8db922510b66e0fb15c80e0c295f9bdb89a83073605cf5 一致。"
+  },
+  "baselineCheck": {
+    "status": "PASS",
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "businessWrites": 0,
+    "auditCount": 20,
+    "auditDistribution": { "newGets": 3, "reusedGets": 17 },
+    "finding": "04的20条成功GET审计与values一一对应；3条新增读取和17条复用读取均有origin及来源文件绑定，没有重复全量读取。"
+  },
+  "toolBoundaryCheck": {
+    "status": "PASS",
+    "writer": {
+      "path": "tools/authoring/update-reviewed-descriptions-v2.mjs",
+      "finding": "准备与预检阶段只读；写入阶段仅允许01冻结路由中的PUT，字段集合由技能、参数、效果白名单构成，并以预检现值生成请求。"
+    },
+    "reader": {
+      "path": "tools/authoring/read-reviewed-description-updates.mjs",
+      "finding": "只读工具固定GET、businessWrites=0，比较目标说明、创建时间、更新时间和其余字段；不发PUT。"
+    }
+  },
+  "blockingIssues": [],
+  "conclusion": "批准这两个说明PUT。主体说明保留新增伤害、法力与冷却使用登记、实际命中和首次魅惑事实；mana_cost说明保留使用登记过程接线。冷却/法力/伤害/魅惑组成本身不在本批变更，重施、移动数值、距离延伸、施放时间冲突、其他被动和战斗运行继续开放；不据此宣称整技能完成。"
+}

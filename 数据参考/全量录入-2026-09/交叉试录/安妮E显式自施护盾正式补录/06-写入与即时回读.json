@@ -1,0 +1,256 @@
+{
+  "startedAt": "2026-09-18T13:53:51.981Z",
+  "status": "PASS",
+  "approvedFiles": {
+    "批次执行.mjs": "8c6c4979c3372b61eee85ebdfa168cafa0bb16103f726d0112d80f9866226aea",
+    "01-来源方案.md": "03c35b00540717c747c4d38a988c2915debe57b9484f0c19f166e25401a41f32",
+    "02-冻结请求.json": "99393630e647b2c371096eab477f02e09138e15d5ccf8bee5439dc0d6c25484c",
+    "03-来源快照.json": "09aebbcf82edf34a660a9e0966d35c8668128b1b814a9a9f61d8558d9e850e3b",
+    "04-写入前现值.json": "6656d0ba73e9eb613c9d56a4a43f9761e51fc8542ded9e321142be285e82c0e4"
+  },
+  "writesAttempted": 1,
+  "response": {
+    "status": 201,
+    "data": {
+      "actions": [
+        {
+          "actionKey": "apply_self_shield",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "molten_shield"
+          },
+          "name": "执行熔岩自护盾",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "explicit_self",
+              "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+              "detail": {},
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "self_cast",
+          "name": "明确对自身施放",
+          "sortOrder": 10
+        }
+      ],
+      "description": "安妮E主动使用且回退前的显式目标为来源对象时，执行已有自身护盾。无显式目标不匹配；队友、提伯斯、反伤、移速、资源及冷却不在本条规则内。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "annie_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动自施熔岩护盾",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_shield",
+      "sortOrder": 10
+    }
+  },
+  "immediateReadback": {
+    "actions": [
+      {
+        "actionKey": "apply_self_shield",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "molten_shield"
+        },
+        "name": "执行熔岩自护盾",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET"
+      }
+    ],
+    "conditionGroups": [
+      {
+        "conditions": [
+          {
+            "conditionKey": "explicit_self",
+            "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+            "detail": {},
+            "sortOrder": 10
+          }
+        ],
+        "groupKey": "self_cast",
+        "name": "明确对自身施放",
+        "sortOrder": 10
+      }
+    ],
+    "description": "安妮E主动使用且回退前的显式目标为来源对象时，执行已有自身护盾。无显式目标不匹配；队友、提伯斯、反伤、移速、资源及冷却不在本条规则内。",
+    "eventSource": {
+      "detail": {
+        "sourceSkillKey": "annie_e",
+        "useKind": "ACTIVE"
+      },
+      "eventType": "SKILL_USED"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "主动自施熔岩护盾",
+    "perTargetCooldown": null,
+    "ruleKey": "on_used_self_shield",
+    "sortOrder": 10
+  },
+  "finishedAt": "2026-09-18T13:53:54.504Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/annie_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_annie",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_annie/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_annie",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=annie_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_annie/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/base_return_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/return_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/move_speed_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/move_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/formulas/shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/formulas/return_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/molten_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/return_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules/on_used_self_shield",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/annie_e/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules/on_used_self_shield",
+      "status": 200
+    }
+  ]
+}

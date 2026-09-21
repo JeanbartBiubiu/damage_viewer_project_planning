@@ -1,0 +1,999 @@
+{
+  "at": "2026-09-19T18:28:15.191Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "target": {
+    "skillKey": "veigar_r",
+    "characterKey": "champion_veigar"
+  },
+  "values": {
+    "/skills/veigar_r": {
+      "createdAt": "2026-09-06T18:20:55.654651Z",
+      "description": "引爆目标敌方英雄，造成大量魔法伤害，并基于目标已损失生命值提升伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "维迦·能量爆裂",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "veigar_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:11:38.019498Z"
+    },
+    "/skills/veigar_r/parameters": [
+      {
+        "createdAt": "2026-09-07T18:54:17.833231Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 90000,
+          "3": 60000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "veigar_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:17.833231Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:18.459631Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "veigar_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:54:18.459631Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:19.069532Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "veigar_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:54:19.069532Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:19.691855Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 175,
+          "2": 250,
+          "3": 325
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "veigar_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:54:19.691855Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:20.347409Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.65,
+          "2": 0.7,
+          "3": 0.75
+        },
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "veigar_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:54:20.347409Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:20.894604Z",
+        "description": "客户端当前根绑定 DataValues.MaxExecuteMult 取索引1至3。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "低生命最大伤害倍率",
+        "parameterKey": "maximum_damage_multiplier",
+        "skillKey": "veigar_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:54:20.894604Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:21.516752Z",
+        "description": "当前官方/客户端文字为生命33%以下最大伤害，只记录说明阈值；未据此猜连续斜率或精确2/3断点。",
+        "fixedValue": 0.33,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "说明最大伤害当前生命比例",
+        "parameterKey": "maximum_damage_health_threshold",
+        "skillKey": "veigar_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T18:54:21.516752Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/veigar_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:54:17.833231Z",
+      "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 120000,
+        "2": 90000,
+        "3": 60000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "veigar_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:17.833231Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:54:18.459631Z",
+      "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "veigar_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:54:18.459631Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:54:19.069532Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "veigar_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:54:19.069532Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_r/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:54:19.691855Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 175,
+        "2": 250,
+        "3": 325
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "veigar_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:54:19.691855Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:54:20.347409Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.65,
+        "2": 0.7,
+        "3": 0.75
+      },
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "veigar_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:54:20.347409Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/veigar_r/parameters/maximum_damage_multiplier": {
+      "createdAt": "2026-09-07T18:54:20.894604Z",
+      "description": "客户端当前根绑定 DataValues.MaxExecuteMult 取索引1至3。",
+      "fixedValue": 2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "低生命最大伤害倍率",
+      "parameterKey": "maximum_damage_multiplier",
+      "skillKey": "veigar_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:54:20.894604Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/veigar_r/parameters/maximum_damage_health_threshold": {
+      "createdAt": "2026-09-07T18:54:21.516752Z",
+      "description": "当前官方/客户端文字为生命33%以下最大伤害，只记录说明阈值；未据此猜连续斜率或精确2/3断点。",
+      "fixedValue": 0.33,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "说明最大伤害当前生命比例",
+      "parameterKey": "maximum_damage_health_threshold",
+      "skillKey": "veigar_r",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T18:54:21.516752Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/veigar_r/formulas": [
+      {
+        "createdAt": "2026-09-07T18:54:22.08032Z",
+        "description": "当前根MinDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "能量爆裂基础伤害",
+        "skillKey": "veigar_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:22.08032Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:22.621113Z",
+        "description": "MaxDamage完整修改树为MinDamage×2。",
+        "formulaKey": "max_damage",
+        "gameId": "lol",
+        "name": "能量爆裂最大伤害",
+        "skillKey": "veigar_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:54:22.621113Z"
+      }
+    ],
+    "/skills/veigar_r/formulas/damage": {
+      "createdAt": "2026-09-07T18:54:22.08032Z",
+      "description": "当前根MinDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "能量爆裂基础伤害",
+      "skillKey": "veigar_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:22.08032Z"
+    },
+    "/skills/veigar_r/formulas/max_damage": {
+      "createdAt": "2026-09-07T18:54:22.621113Z",
+      "description": "MaxDamage完整修改树为MinDamage×2。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "maximum_damage_multiplier"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "max_damage",
+      "gameId": "lol",
+      "name": "能量爆裂最大伤害",
+      "skillKey": "veigar_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:54:22.621113Z"
+    },
+    "/skills/veigar_r/effects": [
+      {
+        "createdAt": "2026-09-07T18:54:23.218385Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "veigar_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:54:23.218385Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:23.813661Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。基础与最大伤害组成仍待完整生命比例关系和互斥入口，不同时执行两个组成。",
+        "effectKey": "minimum_burst",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "满生命基础魔法伤害组成",
+        "resultCount": 1,
+        "skillKey": "veigar_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:30:38.241673Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:54:24.44278Z",
+        "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。基础与最大伤害组成仍待完整生命比例关系和互斥入口，不同时执行两个组成。",
+        "effectKey": "maximum_burst",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "低生命上限魔法伤害组成",
+        "resultCount": 1,
+        "skillKey": "veigar_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-18T23:30:39.892517Z"
+      }
+    ],
+    "/skills/veigar_r/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:54:23.218385Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "veigar_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:54:23.218385Z"
+    },
+    "/skills/veigar_r/effects/minimum_burst": {
+      "createdAt": "2026-09-07T18:54:23.813661Z",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。基础与最大伤害组成仍待完整生命比例关系和互斥入口，不同时执行两个组成。",
+      "effectKey": "minimum_burst",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "满生命基础魔法伤害组成",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "满生命基础魔法伤害组成",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "veigar_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T23:30:38.241673Z"
+    },
+    "/skills/veigar_r/effects/maximum_burst": {
+      "createdAt": "2026-09-07T18:54:24.44278Z",
+      "description": "本轮1V1敌方英雄的普通直接魔法技能伤害组成；显式登记防御结算后伤害、效率为1的全能吸血资格。基础与最大伤害组成仍待完整生命比例关系和互斥入口，不同时执行两个组成。",
+      "effectKey": "maximum_burst",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "低生命上限魔法伤害组成",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "低生命上限魔法伤害组成",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "max_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "veigar_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-18T23:30:39.892517Z"
+    },
+    "/skills/veigar_r/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:54:25.062673Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放能量爆裂",
+        "processKey": "cast",
+        "skillKey": "veigar_r",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:54:25.062673Z"
+      }
+    ],
+    "/skills/veigar_r/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:54:25.062673Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放能量爆裂",
+      "processKey": "cast",
+      "skillKey": "veigar_r",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:54:25.062673Z"
+    },
+    "/skills/veigar_r/internal-states": [],
+    "/skills/veigar_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收veigar_r主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；目标当前或已损生命、连续伤害倍率、实际命中与伤害继续暂缓。管理保存不证明宿主已生产该事件。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动能量爆裂施法过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-13T13:09:05.477627Z"
+      }
+    ],
+    "/skills/veigar_r/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动能量爆裂施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收veigar_r主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；目标当前或已损生命、连续伤害倍率、实际命中与伤害继续暂缓。管理保存不证明宿主已生产该事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "veigar_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动能量爆裂施法过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/skills/veigar_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_veigar_r",
+        "name": "veigar_r"
+      }
+    },
+    "/characters/champion_veigar": {
+      "characterKey": "champion_veigar",
+      "createdAt": "2026-09-06T18:02:26.564235Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "维迦",
+      "updatedAt": "2026-09-06T18:02:26.564235Z"
+    },
+    "/characters/champion_veigar/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_veigar",
+        "name": "champion_veigar"
+      }
+    },
+    "/character-skill-relations?skillKey=veigar_r": {
+      "items": [
+        {
+          "characterKey": "champion_veigar",
+          "characterName": "维迦",
+          "gameId": "lol",
+          "skillKey": "veigar_r",
+          "skillName": "维迦·能量爆裂",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/character-skill-relations?characterKey=champion_veigar": {
+      "items": [
+        {
+          "characterKey": "champion_veigar",
+          "characterName": "维迦",
+          "gameId": "lol",
+          "skillKey": "veigar_p",
+          "skillName": "维迦·超凡邪力",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_veigar",
+          "characterName": "维迦",
+          "gameId": "lol",
+          "skillKey": "veigar_q",
+          "skillName": "维迦·黑暗祭祀",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_veigar",
+          "characterName": "维迦",
+          "gameId": "lol",
+          "skillKey": "veigar_w",
+          "skillName": "维迦·黑暗物质",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_veigar",
+          "characterName": "维迦",
+          "gameId": "lol",
+          "skillKey": "veigar_e",
+          "skillName": "维迦·扭曲空间",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_veigar",
+          "characterName": "维迦",
+          "gameId": "lol",
+          "skillKey": "veigar_r",
+          "skillName": "维迦·能量爆裂",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/skills/veigar_e": {
+      "createdAt": "2026-09-06T18:20:55.351379Z",
+      "description": "维迦扭曲空间的边缘，创造一个牢笼来使途径的敌人晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "维迦·扭曲空间",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "veigar_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:55.351379Z"
+    },
+    "/skills/veigar_p": {
+      "createdAt": "2026-09-06T18:20:54.510304Z",
+      "description": "维迦是最强大的恶魔，甚至能对符文之地之心发起攻击——并且他只会越来越强大！用技能攻击一名敌人、击杀单位或拆毁防御塔都会为维迦永久提升法术强度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "维迦·超凡邪力",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "veigar_p",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:54.510304Z"
+    },
+    "/skills/veigar_q": {
+      "createdAt": "2026-09-06T18:20:54.808589Z",
+      "description": "维迦释放一束黑暗能量，对最先被命中的两个敌人造成魔法伤害。被这个能量束所击杀的单位，会永久地为维迦提供一些法术强度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "维迦·黑暗祭祀",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "veigar_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:54.808589Z"
+    },
+    "/skills/veigar_w": {
+      "createdAt": "2026-09-06T18:20:55.106128Z",
+      "description": "维迦召唤一大团黑暗物质轰击目标区域，落地造成魔法伤害。【超凡邪力】的层数会缩短这个技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "维迦·黑暗物质",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "veigar_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:55.106128Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/maximum_damage_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/parameters/maximum_damage_health_threshold",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/formulas/max_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/minimum_burst",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/effects/maximum_burst",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_veigar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_veigar/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=veigar_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_veigar",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_p",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/veigar_w",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0,
+  "referenceKeys": {
+    "attributes": [
+      "ability_power",
+      "mana"
+    ],
+    "damageTypes": [
+      "magic"
+    ],
+    "statuses": [],
+    "modifierZones": [],
+    "skills": [
+      "veigar_e",
+      "veigar_p",
+      "veigar_q",
+      "veigar_w"
+    ],
+    "skillCategories": []
+  }
+}

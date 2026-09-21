@@ -1,0 +1,108 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/tristana_w/effects/landing_hit",
+      "body": {
+        "name": "落地命中伤害",
+        "description": "本轮明确敌方英雄的实际落地魔法伤害，沿原公式读取基础值、额外攻击力与总法强；显式登记防御结算后伤害、效率1的全能吸血资格。保留原结果法术护盾粒度；不将过程结束当命中，减速和重置各自核定。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "落地命中伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T17:59:40.2229Z",
+        "description": "本轮明确敌方英雄的实际落地魔法伤害，沿原公式读取基础值、额外攻击力与总法强；显式登记防御结算后伤害、效率1的全能吸血资格。保留原结果法术护盾粒度；不将过程结束当命中，减速和重置各自核定。",
+        "effectKey": "landing_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "落地命中伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "落地命中伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "tristana_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:59:40.2229Z"
+      }
+    }
+  ],
+  "sourceSha256": "4c22b29592fe8be861480076435119f58a722a097b3e99b3cfedc5e0e668359b",
+  "baselineSha256": "1f5db9d33befacf4c07a2255b128f05a81cb5662d41f26496d43af9e094cc6ad"
+}

@@ -1,0 +1,971 @@
+{
+  "at": "2026-09-19T17:21:11.193Z",
+  "values": {
+    "/skills/chogath_w": {
+      "createdAt": "2026-09-06T18:18:04.921171Z",
+      "description": "科加斯向面前锥形区域施放恐怖声波，造成魔法伤害并沉默数秒。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "科加斯·野性尖叫",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "chogath_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:04.921171Z"
+    },
+    "/characters/champion_chogath": {
+      "characterKey": "champion_chogath",
+      "createdAt": "2026-09-06T16:12:10.476693Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "科加斯",
+      "updatedAt": "2026-09-06T16:12:10.476693Z"
+    },
+    "/characters/champion_chogath/attributes": {
+      "characterKey": "champion_chogath",
+      "levelValues": {
+        "1": {
+          "move_speed": 345,
+          "hp": 644,
+          "hp_regen": 9,
+          "mana": 270,
+          "mana_regen": 7.2,
+          "armor": 38,
+          "magic_resistance": 32,
+          "attack_damage": 69,
+          "attack_speed": 0.658,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 345,
+          "hp": 711.68,
+          "hp_regen": 9.612,
+          "mana": 313.2,
+          "mana_regen": 7.524,
+          "armor": 41.24,
+          "magic_resistance": 33.476,
+          "attack_damage": 72.024,
+          "attack_speed": 0.66448,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 345,
+          "hp": 782.65,
+          "hp_regen": 10.25375,
+          "mana": 358.5,
+          "mana_regen": 7.86375,
+          "armor": 44.6375,
+          "magic_resistance": 35.02375,
+          "attack_damage": 75.195,
+          "attack_speed": 0.671275,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 345,
+          "hp": 856.91,
+          "hp_regen": 10.92525,
+          "mana": 405.9,
+          "mana_regen": 8.21925,
+          "armor": 48.1925,
+          "magic_resistance": 36.64325,
+          "attack_damage": 78.513,
+          "attack_speed": 0.678385,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 345,
+          "hp": 934.46,
+          "hp_regen": 11.6265,
+          "mana": 455.4,
+          "mana_regen": 8.5905,
+          "armor": 51.905,
+          "magic_resistance": 38.3345,
+          "attack_damage": 81.978,
+          "attack_speed": 0.68581,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 345,
+          "hp": 1015.3,
+          "hp_regen": 12.3575,
+          "mana": 507,
+          "mana_regen": 8.9775,
+          "armor": 55.775,
+          "magic_resistance": 40.0975,
+          "attack_damage": 85.59,
+          "attack_speed": 0.69355,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 345,
+          "hp": 1099.43,
+          "hp_regen": 13.11825,
+          "mana": 560.7,
+          "mana_regen": 9.38025,
+          "armor": 59.8025,
+          "magic_resistance": 41.93225,
+          "attack_damage": 89.349,
+          "attack_speed": 0.701605,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 345,
+          "hp": 1186.85,
+          "hp_regen": 13.90875,
+          "mana": 616.5,
+          "mana_regen": 9.79875,
+          "armor": 63.9875,
+          "magic_resistance": 43.83875,
+          "attack_damage": 93.255,
+          "attack_speed": 0.709975,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 345,
+          "hp": 1277.56,
+          "hp_regen": 14.729,
+          "mana": 674.4,
+          "mana_regen": 10.233,
+          "armor": 68.33,
+          "magic_resistance": 45.817,
+          "attack_damage": 97.308,
+          "attack_speed": 0.71866,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 345,
+          "hp": 1371.56,
+          "hp_regen": 15.579,
+          "mana": 734.4,
+          "mana_regen": 10.683,
+          "armor": 72.83,
+          "magic_resistance": 47.867,
+          "attack_damage": 101.508,
+          "attack_speed": 0.72766,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 345,
+          "hp": 1468.85,
+          "hp_regen": 16.45875,
+          "mana": 796.5,
+          "mana_regen": 11.14875,
+          "armor": 77.4875,
+          "magic_resistance": 49.98875,
+          "attack_damage": 105.855,
+          "attack_speed": 0.736975,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 345,
+          "hp": 1569.43,
+          "hp_regen": 17.36825,
+          "mana": 860.7,
+          "mana_regen": 11.63025,
+          "armor": 82.3025,
+          "magic_resistance": 52.18225,
+          "attack_damage": 110.349,
+          "attack_speed": 0.746605,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 345,
+          "hp": 1673.3,
+          "hp_regen": 18.3075,
+          "mana": 927,
+          "mana_regen": 12.1275,
+          "armor": 87.275,
+          "magic_resistance": 54.4475,
+          "attack_damage": 114.99,
+          "attack_speed": 0.75655,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 345,
+          "hp": 1780.46,
+          "hp_regen": 19.2765,
+          "mana": 995.4,
+          "mana_regen": 12.6405,
+          "armor": 92.405,
+          "magic_resistance": 56.7845,
+          "attack_damage": 119.778,
+          "attack_speed": 0.76681,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 345,
+          "hp": 1890.91,
+          "hp_regen": 20.27525,
+          "mana": 1065.9,
+          "mana_regen": 13.16925,
+          "armor": 97.6925,
+          "magic_resistance": 59.19325,
+          "attack_damage": 124.713,
+          "attack_speed": 0.777385,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 345,
+          "hp": 2004.65,
+          "hp_regen": 21.30375,
+          "mana": 1138.5,
+          "mana_regen": 13.71375,
+          "armor": 103.1375,
+          "magic_resistance": 61.67375,
+          "attack_damage": 129.795,
+          "attack_speed": 0.788275,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 345,
+          "hp": 2121.68,
+          "hp_regen": 22.362,
+          "mana": 1213.2,
+          "mana_regen": 14.274,
+          "armor": 108.74,
+          "magic_resistance": 64.226,
+          "attack_damage": 135.024,
+          "attack_speed": 0.79948,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 345,
+          "hp": 2242,
+          "hp_regen": 23.45,
+          "mana": 1290,
+          "mana_regen": 14.85,
+          "armor": 114.5,
+          "magic_resistance": 66.85,
+          "attack_damage": 140.4,
+          "attack_speed": 0.811,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_chogath/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_chogath",
+        "name": "champion_chogath"
+      }
+    },
+    "/skills/chogath_w/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_chogath_w",
+        "name": "chogath_w"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_chogath": {
+      "items": [
+        {
+          "characterKey": "champion_chogath",
+          "characterName": "科加斯",
+          "gameId": "lol",
+          "skillKey": "chogath_p",
+          "skillName": "科加斯·肉食者",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_chogath",
+          "characterName": "科加斯",
+          "gameId": "lol",
+          "skillKey": "chogath_q",
+          "skillName": "科加斯·破裂",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_chogath",
+          "characterName": "科加斯",
+          "gameId": "lol",
+          "skillKey": "chogath_w",
+          "skillName": "科加斯·野性尖叫",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_chogath",
+          "characterName": "科加斯",
+          "gameId": "lol",
+          "skillKey": "chogath_e",
+          "skillName": "科加斯·恐惧之刺",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_chogath",
+          "characterName": "科加斯",
+          "gameId": "lol",
+          "skillKey": "chogath_r",
+          "skillName": "科加斯·盛宴",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=chogath_w": {
+      "items": [
+        {
+          "characterKey": "champion_chogath",
+          "characterName": "科加斯",
+          "gameId": "lol",
+          "skillKey": "chogath_w",
+          "skillName": "科加斯·野性尖叫",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        }
+      ],
+      "total": 1
+    },
+    "/skills/chogath_w/parameters": [
+      {
+        "createdAt": "2026-09-09T12:47:26.86309Z",
+        "description": "客户端根mEffectAmount第一项索引1至5；保留技能等级值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 130,
+          "3": 180,
+          "4": 230,
+          "5": 280
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "chogath_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:47:26.86309Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T12:47:27.823508Z",
+        "description": "TotalDamageTooltip的StatByCoefficientCalculationPart系数0.7，mStat省略按同版窄口径取来源总法强。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "chogath_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T12:47:27.823508Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T12:47:28.793743Z",
+        "description": "客户端根mEffectAmount第二项为秒，转毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1600,
+          "2": 1700,
+          "3": 1800,
+          "4": 1900,
+          "5": 2000
+        },
+        "name": "沉默持续（毫秒）",
+        "parameterKey": "silence_duration_ms",
+        "skillKey": "chogath_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T12:47:28.793743Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:14.519164Z",
+        "description": "DDragon16.17.1 Chogath.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10500,
+          "3": 10000,
+          "4": 9500,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "chogath_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:14.519164Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:15.037827Z",
+        "description": "DDragon16.17.1 Chogath.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "chogath_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:15.037827Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/chogath_w/parameters/base_damage": {
+      "createdAt": "2026-09-09T12:47:26.86309Z",
+      "description": "客户端根mEffectAmount第一项索引1至5；保留技能等级值。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 130,
+        "3": 180,
+        "4": 230,
+        "5": 280
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "chogath_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T12:47:26.86309Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_w/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T12:47:27.823508Z",
+      "description": "TotalDamageTooltip的StatByCoefficientCalculationPart系数0.7，mStat省略按同版窄口径取来源总法强。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "chogath_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T12:47:27.823508Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/chogath_w/parameters/silence_duration_ms": {
+      "createdAt": "2026-09-09T12:47:28.793743Z",
+      "description": "客户端根mEffectAmount第二项为秒，转毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1600,
+        "2": 1700,
+        "3": 1800,
+        "4": 1900,
+        "5": 2000
+      },
+      "name": "沉默持续（毫秒）",
+      "parameterKey": "silence_duration_ms",
+      "skillKey": "chogath_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T12:47:28.793743Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:36:14.519164Z",
+      "description": "DDragon16.17.1 Chogath.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 11000,
+        "2": 10500,
+        "3": 10000,
+        "4": 9500,
+        "5": 9000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "chogath_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:36:14.519164Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:36:15.037827Z",
+      "description": "DDragon16.17.1 Chogath.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "chogath_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:36:15.037827Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_w/formulas": [
+      {
+        "createdAt": "2026-09-09T12:47:29.842217Z",
+        "description": "TotalDamageTooltip=BaseDamage+0.7×来源总法强；只建立数值公式，不创建DAMAGE结果。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "野性尖叫魔法伤害",
+        "skillKey": "chogath_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:47:29.842217Z"
+      }
+    ],
+    "/skills/chogath_w/formulas/magic_damage": {
+      "createdAt": "2026-09-09T12:47:29.842217Z",
+      "description": "TotalDamageTooltip=BaseDamage+0.7×来源总法强；只建立数值公式，不创建DAMAGE结果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "野性尖叫魔法伤害",
+      "skillKey": "chogath_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T12:47:29.842217Z"
+    },
+    "/skills/chogath_w/effects": [
+      {
+        "createdAt": "2026-09-09T12:47:30.868461Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "chogath_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:47:30.868461Z"
+      },
+      {
+        "createdAt": "2026-09-19T17:18:46.507978Z",
+        "description": "实际命中敌方英雄时执行一次直接魔法技能伤害，引用已有完整公式；不以目标没有沉默实例为伤害前置。沉默、主动使用及成本冷却分开维护。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "科加斯·野性尖叫命中伤害",
+        "resultCount": 1,
+        "skillKey": "chogath_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T17:18:46.507978Z"
+      },
+      {
+        "createdAt": "2026-09-19T17:00:47.249796Z",
+        "description": "本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+        "effectKey": "silence_first_application",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "野性尖叫首次沉默",
+        "resultCount": 1,
+        "skillKey": "chogath_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T17:00:47.249796Z"
+      }
+    ],
+    "/skills/chogath_w/effects/mana_cost": {
+      "createdAt": "2026-09-09T12:47:30.868461Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "chogath_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T12:47:30.868461Z"
+    },
+    "/skills/chogath_w/effects/silence_first_application": {
+      "createdAt": "2026-09-19T17:00:47.249796Z",
+      "description": "本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+      "effectKey": "silence_first_application",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "silence_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE_TARGET",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "野性尖叫首次沉默",
+      "results": [
+        {
+          "description": "施加无强度沉默并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+          "detail": {
+            "operation": "APPLY",
+            "statusKey": "silence"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": null,
+            "valueReadMode": null
+          },
+          "name": "野性尖叫沉默",
+          "resultKey": "silence",
+          "resultType": "STATUS_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "chogath_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-19T17:00:47.249796Z"
+    },
+    "/skills/chogath_w/processes": [],
+    "/skills/chogath_w/internal-states": [],
+    "/skills/chogath_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费本技能实际命中敌方英雄的事件，不从施放或延迟结束生成命中；目标已有沉默实例仍可受到本次伤害。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "科加斯·野性尖叫实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T17:18:48.081895Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "无本沉默实例时施加",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "apply_silence_on_unblocked_hit",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T17:00:49.023867Z"
+      }
+    ],
+    "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit": {
+      "actions": [
+        {
+          "actionKey": "apply_silence",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "silence_first_application"
+          },
+          "name": "施加本次沉默",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            },
+            {
+              "conditionKey": "own_silence_absent",
+              "conditionType": "LIFECYCLE_CHECK",
+              "detail": {
+                "checkKind": "ABSENT",
+                "comparator": null,
+                "comparisonValue": null,
+                "effectKey": "silence_first_application",
+                "subject": "CURRENT_TARGET"
+              },
+              "sortOrder": 40
+            }
+          ],
+          "groupKey": "silence_eligible",
+          "name": "本次沉默可施加",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "chogath_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "无本沉默实例时施加",
+      "perTargetCooldown": null,
+      "ruleKey": "apply_silence_on_unblocked_hit",
+      "sortOrder": 30
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/statuses/silence": {
+      "createdAt": "2026-09-19T16:42:34.531835Z",
+      "description": "沉默状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+      "gameId": "lol",
+      "name": "沉默",
+      "sortOrder": 30,
+      "status": "ENABLED",
+      "statusKey": "silence",
+      "statusKind": "SILENCE",
+      "updatedAt": "2026-09-19T16:42:34.531835Z"
+    },
+    "/skills/chogath_w/effects/primary_hit": {
+      "createdAt": "2026-09-19T17:18:46.507978Z",
+      "description": "实际命中敌方英雄时执行一次直接魔法技能伤害，引用已有完整公式；不以目标没有沉默实例为伤害前置。沉默、主动使用及成本冷却分开维护。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "科加斯·野性尖叫命中伤害",
+      "results": [
+        {
+          "description": "引用同技能magic_damage公式：基础伤害加来源总法强的0.7倍。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "chogath_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T17:18:46.507978Z"
+    },
+    "/skills/chogath_w/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行野性尖叫伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费本技能实际命中敌方英雄的事件，不从施放或延迟结束生成命中；目标已有沉默实例仍可受到本次伤害。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "chogath_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "科加斯·野性尖叫实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/formulas/magic_damage",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0,
+  "baselineReuse": "刚通过的伤害批次28GET回读；3GET更新变化集合与当前公式"
+}

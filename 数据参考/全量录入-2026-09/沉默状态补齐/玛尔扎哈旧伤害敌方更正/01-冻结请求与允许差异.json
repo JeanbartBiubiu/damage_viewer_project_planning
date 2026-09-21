@@ -1,0 +1,126 @@
+{
+  "at": "2026-09-19T17:05:31.903Z",
+  "executionMode": "BROWSER_UI_ONLY",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/malzahar_q/trigger-rules/actual_hit",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行玛尔扎哈·虚空召唤伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 malzahar_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "malzahar_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "玛尔扎哈·虚空召唤实际命中",
+        "perTargetCooldown": null,
+        "sortOrder": 10
+      },
+      "expectedReadback": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行玛尔扎哈·虚空召唤伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮英雄目标",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费已确认的 malzahar_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "malzahar_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "玛尔扎哈·虚空召唤实际命中",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "allowedChanges": [
+        "conditionGroups[0].conditions[1]"
+      ]
+    }
+  ],
+  "source": {
+    "path": "../03-固定来源独立核对.json",
+    "sha256": "d49eca8adda74225062f8059a915ec9636f49a69b273df4b511c3b04e363b853"
+  },
+  "protection": "只追加同组敌方条件；保留原英雄条件、事件来源、动作、说明与其他组成；列表仅updatedAt变化"
+}

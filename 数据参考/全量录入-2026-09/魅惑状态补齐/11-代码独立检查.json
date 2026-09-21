@@ -1,0 +1,136 @@
+{
+  "reviewedAt": "2026-09-20",
+  "reviewKind": "代码独立检查",
+  "status": "CODE_SCOPE_CLEAR_DB_READBACK_PENDING",
+  "scope": {
+    "included": [
+      "CHARM 枚举与前后端允许集合一致",
+      "状态创建、读取和创建后不可改",
+      "无强度状态操作、父效果生命周期、持续生效和当前结果法术护盾粒度",
+      "前端状态种类切换清理与严格响应解析",
+      "只读页面准备工具和已批准迁移/执行器的散列绑定"
+    ],
+    "excluded": [
+      "宿主、Wasm、战斗运行和控制执行",
+      "魅惑行进、中止、重施、免疫和解除",
+      "已批准的08a迁移字节复审",
+      ".idea/compiler.xml 等无关脏改"
+    ]
+  },
+  "sourceRange": {
+    "approvedScope": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/魅惑状态补齐/06a-方案现版确认.json",
+    "designSectionSha256": "51419cb3cb9b70c31077f29b6fbb958eb08a994c6568f03e0245b49820b694ad",
+    "migrationStage": "08a已批准；本轮只核对散列绑定，不复审同一SQL字节。"
+  },
+  "checks": [
+    {
+      "id": "ENUM_AND_SCHEMA_RANGE",
+      "result": "PASS",
+      "paths": [
+        "C:/project/damage_web_dev/web/src/types/status.ts:1-14",
+        "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java:3-8",
+        "C:/project/damage_backend_dev/db/game_manage/schema.sql:393-405",
+        "C:/project/damage_backend_dev/server/data_manage/src/test/java/xyz/game/datamanage/db/status/StatusBasicManagementSchemaSqlTest.java:44"
+      ],
+      "finding": "Web类型、中文标签、严格类型判断、Java枚举、建表检查约束和结构断言均包含 STUN、MOVEMENT_SLOW、ROOT、SILENCE、CHARM，集合一致。"
+    },
+    {
+      "id": "CREATE_READ_IMMUTABLE",
+      "result": "PASS",
+      "paths": [
+        "C:/project/damage_web_dev/web/src/services/statusClient.ts:12-17",
+        "C:/project/damage_web_dev/web/src/pages/admin/statuses/statusForm.ts:69-120",
+        "C:/project/damage_web_dev/web/src/pages/admin/statuses/StatusEditorModal.tsx:160-165",
+        "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/status/StatusService.java:81-123",
+        "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/status/StatusService.java:207-255",
+        "C:/project/damage_web_dev/web/src/services/statusClient.test.ts:20",
+        "C:/project/damage_web_dev/web/src/pages/admin/statuses/statusForm.test.ts:128-133",
+        "C:/project/damage_backend_dev/server/data_manage/src/test/java/xyz/game/datamanage/service/status/StatusServiceTest.java:303"
+      ],
+      "finding": "CHARM 可由创建请求和列表/详情响应通过严格解析；编辑页种类选择仅创建模式可用，后端更新比较既有种类并以 IMMUTABLE 拒绝改变。"
+    },
+    {
+      "id": "VALueless_STATUS_EFFECT",
+      "result": "PASS",
+      "paths": [
+        "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/effectForm.ts:930-1001",
+        "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/effectForm.ts:2735-2755",
+        "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java:1312-1375",
+        "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java:1926-1934",
+        "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/movementSlow.test.ts:115-146",
+        "C:/project/damage_backend_dev/server/data_manage/src/test/java/xyz/game/datamanage/service/skilleffect/SkillMovementSlowServiceTest.java:119-170"
+      ],
+      "finding": "数值规则只对 MOVEMENT_SLOW + APPLY 可见和必填；CHARM、其他控制身份及所有 REMOVE 清除或拒绝数值规则，符合无强度身份。"
+    },
+    {
+      "id": "LIFECYCLE_AND_SPELL_SHIELD_COMBINATION",
+      "result": "PASS",
+      "paths": [
+        "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/effectForm.ts:988-1001",
+        "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/effectForm.ts:2235-2273",
+        "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java:558-587",
+        "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java:1662-1674",
+        "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/movementSlow.test.ts:136-185"
+      ],
+      "finding": "现有状态效果仍可使用父效果期限与 PERSISTENT；目标状态施加允许 RESULT 法术护盾粒度，切换目标或状态种类会按既有逻辑清除不适用的隐藏数值和粒度。CHARM 未新增特殊生命周期或运行语义。"
+    },
+    {
+      "id": "READONLY_PAGE_TOOL_BOUNDARY",
+      "result": "PASS",
+      "paths": [
+        "C:/project/damage_web_dev/tools/authoring/reviewed-status-ui-v3.mjs:7-72",
+        "C:/project/damage_web_dev/tools/authoring/README.md:22-24"
+      ],
+      "finding": "v3 仅把 CHARM 纳入冻结请求集合；网络客户端只使用 GET，页面负责实际保存，工具只生成准备、写前核对和独立回读证据。v2保持冻结。"
+    },
+    {
+      "id": "NO_RUNTIME_SCOPE_EXPANSION",
+      "result": "PASS",
+      "paths": [
+        "C:/project/damage_web_dev/web/README.md:30",
+        "C:/project/damage_backend_dev/server/data_manage/README.md:279-285",
+        "C:/project/damage_backend_dev/文档记录/详细设计/server/game_manage/接口定义.md:244-248"
+      ],
+      "finding": "本次差异只扩充状态身份、管理校验、文档、测试和一次约束迁移；没有新增宿主、Wasm或控制运行实现。"
+    }
+  ],
+  "reportedValidation": {
+    "web": "46项定向、717项完整检查、lint、typecheck、build PASS；79项非Wasm页面检查尚在运行。本项不重跑。",
+    "backend": "61项定向、1013项完整检查 PASS；本项不重跑。"
+  },
+  "migrationAndReadback": {
+    "approvedArtifacts": {
+      "sqlPath": "C:/project/damage_backend_dev/db/game_manage/migrations/add_charm_status_kind.sql",
+      "sqlSha256": "0832b2f0464fa586604b68741b5414baeab77c592a544b2d2587da5b9e837c72",
+      "runnerPath": "C:/project/damage_backend_dev/tools/authoring/ApplyCharmStatusKind.java",
+      "runnerSha256": "dd51e81639f574575336a130fcd8e5b9193752e82f58e17138773c6fe309726e",
+      "approvedStage": "08a"
+    },
+    "readbackStatus": "reported migration executed by another actor; independent database readback is in progress and no CHARM row has been created yet",
+    "boundary": "这是迁移后的流程门槛，不构成当前代码独立检查阻塞；本轮没有调用SQL、数据库或业务API。"
+  },
+  "blockingIssues": [],
+  "finalRelevantFileSha256": {
+    "web/src/types/status.ts": "52AC48752C75C07866707A48DA901E1BBA8A5256FE7F76B09320CF59B2ED0C56",
+    "web/src/services/statusClient.test.ts": "573DECC20F04EB5E6476D860A258099A6BBD98732BD27A0D02A1F1998965724B",
+    "web/src/pages/admin/statuses/statusForm.test.ts": "836FF95121581AE949D9CE337EFC928AB431CE29B47B6F3B2363B2BB050901BB",
+    "web/src/pages/admin/skills/effects/movementSlow.test.ts": "F6061354F860B8DF61C1DF97239B32C30020FEB065612FD4DD11037973F33921",
+    "web/src/pages/admin/skills/effects/effectForm.ts": "B2B8B9EBA737F12B6C32649D09E83AEE66B17D97C4755FFA96B3FF9A54C1E17A",
+    "web/src/pages/admin/statuses/StatusEditorModal.tsx": "BE54FD18037DEB61CDBE547470A5DAED6A54D43AFA22CC6B69C17139A99C301E",
+    "web/src/pages/admin/statuses/statusForm.ts": "2B0FD7941FC835563BE629BF6E836215E1C6A27F26F6C4959645A0F39D8B0674",
+    "web/src/services/statusClient.ts": "32B41970FE11FF1A1A1BCAD558ACBCF96BCB682DB4552FD56169F4A1BD08CCBC",
+    "web/README.md": "A2F057965FC3A3C5125F772A5DCD37DADDC363B1362ABD759A5D0624089B9377",
+    "tools/authoring/reviewed-status-ui-v3.mjs": "563E0955608169ADB36592BE4D1A9641C18FA5813D691A17E2E25450A9358370",
+    "tools/authoring/README.md": "B621A26827AA2D6433EDB17E6B9419E6B34F0E803899A7832B12D4A6CE23099D",
+    "backend StatusKind.java": "8D42DEE478D1471D8AC3133CE3EF0687FB216356C73CD55DD2F02FEB556E0B67",
+    "backend schema.sql": "B71A1CFC041317A863768FD21344EAC0D8F0C645179B52A6A3870669BB4E42A5",
+    "backend StatusBasicManagementSchemaSqlTest.java": "DA86CDA9EA056751E49733702B036A4004E48945BD44643428320F6B07D52B5E",
+    "backend SkillMovementSlowServiceTest.java": "49B17108001CB571716E9F10D033CC1A353DACF0F793F9FDDF1794D4893893A5",
+    "backend StatusServiceTest.java": "C271B7CCB4D000ABF14A67E325DA64E688455D8D77CD5BB2B7A862D308DC940E",
+    "backend README.md": "6C209310E1E403EAC8FAEBA8CEB7D6EF9671A04897F4356F3DF7C61DF685C7DD",
+    "backend 接口定义.md": "9B6D72800073EB2EDDB4B67384B7CF01E8F78D5EB207A2B350F23088B14CE265",
+    "backend add_charm_status_kind.sql": "0832B2F0464FA586604B68741B5414BAEAB77C592A544B2D2587DA5B9E837C72",
+    "backend ApplyCharmStatusKind.java": "DD51E81639F574575336A130FCD8E5B9193752E82F58E17138773C6FE309726E"
+  },
+  "conclusion": "CHARM 代码范围通过独立静态检查：可存取、创建后不可改、无强度状态效果、既有生命周期与法术护盾组合、前端目录及只读保护均与现有结构一致；没有代码层阻塞或运行范围扩张。迁移后的独立数据库回读仍按09安排另路完成。"
+}

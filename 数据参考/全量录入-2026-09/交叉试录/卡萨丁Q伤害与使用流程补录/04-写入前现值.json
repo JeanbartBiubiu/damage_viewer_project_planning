@@ -1,0 +1,1070 @@
+{
+  "at": "2026-09-19T00:11:33.362Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/kassadin_q": {
+      "createdAt": "2026-09-06T18:18:53.006891Z",
+      "description": "卡萨丁向目标发射虚空能量法球，造成伤害并打断目标的技能引导。满溢的能量会在他身边环绕，提供一个可吸收魔法伤害的临时护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "卡萨丁·虚无法球",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "kassadin_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:53.006891Z"
+    },
+    "/characters/champion_kassadin": {
+      "characterKey": "champion_kassadin",
+      "createdAt": "2026-09-06T16:55:50.266652Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "卡萨丁",
+      "updatedAt": "2026-09-06T16:55:50.266652Z"
+    },
+    "/characters/champion_kassadin/attributes": {
+      "characterKey": "champion_kassadin",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 646,
+          "hp_regen": 6,
+          "mana": 400,
+          "mana_regen": 6,
+          "armor": 21,
+          "magic_resistance": 30,
+          "attack_damage": 59,
+          "attack_speed": 0.64,
+          "attack_range": 150
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 727.36,
+          "hp_regen": 6.36,
+          "mana": 462.64,
+          "mana_regen": 6.576,
+          "armor": 23.88,
+          "magic_resistance": 30.936,
+          "attack_damage": 61.808,
+          "attack_speed": 0.65705,
+          "attack_range": 150
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 812.675,
+          "hp_regen": 6.7375,
+          "mana": 528.325,
+          "mana_regen": 7.18,
+          "armor": 26.9,
+          "magic_resistance": 31.9175,
+          "attack_damage": 64.7525,
+          "attack_speed": 0.674928,
+          "attack_range": 150
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 901.945,
+          "hp_regen": 7.1325,
+          "mana": 597.055,
+          "mana_regen": 7.812,
+          "armor": 30.06,
+          "magic_resistance": 32.9445,
+          "attack_damage": 67.8335,
+          "attack_speed": 0.693635,
+          "attack_range": 150
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 995.17,
+          "hp_regen": 7.545,
+          "mana": 668.83,
+          "mana_regen": 8.472,
+          "armor": 33.36,
+          "magic_resistance": 34.017,
+          "attack_damage": 71.051,
+          "attack_speed": 0.713171,
+          "attack_range": 150
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1092.35,
+          "hp_regen": 7.975,
+          "mana": 743.65,
+          "mana_regen": 9.16,
+          "armor": 36.8,
+          "magic_resistance": 35.135,
+          "attack_damage": 74.405,
+          "attack_speed": 0.733536,
+          "attack_range": 150
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1193.485,
+          "hp_regen": 8.4225,
+          "mana": 821.515,
+          "mana_regen": 9.876,
+          "armor": 40.38,
+          "magic_resistance": 36.2985,
+          "attack_damage": 77.8955,
+          "attack_speed": 0.75473,
+          "attack_range": 150
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1298.575,
+          "hp_regen": 8.8875,
+          "mana": 902.425,
+          "mana_regen": 10.62,
+          "armor": 44.1,
+          "magic_resistance": 37.5075,
+          "attack_damage": 81.5225,
+          "attack_speed": 0.776752,
+          "attack_range": 150
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1407.62,
+          "hp_regen": 9.37,
+          "mana": 986.38,
+          "mana_regen": 11.392,
+          "armor": 47.96,
+          "magic_resistance": 38.762,
+          "attack_damage": 85.286,
+          "attack_speed": 0.799603,
+          "attack_range": 150
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1520.62,
+          "hp_regen": 9.87,
+          "mana": 1073.38,
+          "mana_regen": 12.192,
+          "armor": 51.96,
+          "magic_resistance": 40.062,
+          "attack_damage": 89.186,
+          "attack_speed": 0.823283,
+          "attack_range": 150
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1637.575,
+          "hp_regen": 10.3875,
+          "mana": 1163.425,
+          "mana_regen": 13.02,
+          "armor": 56.1,
+          "magic_resistance": 41.4075,
+          "attack_damage": 93.2225,
+          "attack_speed": 0.847792,
+          "attack_range": 150
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1758.485,
+          "hp_regen": 10.9225,
+          "mana": 1256.515,
+          "mana_regen": 13.876,
+          "armor": 60.38,
+          "magic_resistance": 42.7985,
+          "attack_damage": 97.3955,
+          "attack_speed": 0.87313,
+          "attack_range": 150
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1883.35,
+          "hp_regen": 11.475,
+          "mana": 1352.65,
+          "mana_regen": 14.76,
+          "armor": 64.8,
+          "magic_resistance": 44.235,
+          "attack_damage": 101.705,
+          "attack_speed": 0.899296,
+          "attack_range": 150
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 2012.17,
+          "hp_regen": 12.045,
+          "mana": 1451.83,
+          "mana_regen": 15.672,
+          "armor": 69.36,
+          "magic_resistance": 45.717,
+          "attack_damage": 106.151,
+          "attack_speed": 0.926291,
+          "attack_range": 150
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 2144.945,
+          "hp_regen": 12.6325,
+          "mana": 1554.055,
+          "mana_regen": 16.612,
+          "armor": 74.06,
+          "magic_resistance": 47.2445,
+          "attack_damage": 110.7335,
+          "attack_speed": 0.954115,
+          "attack_range": 150
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2281.675,
+          "hp_regen": 13.2375,
+          "mana": 1659.325,
+          "mana_regen": 17.58,
+          "armor": 78.9,
+          "magic_resistance": 48.8175,
+          "attack_damage": 115.4525,
+          "attack_speed": 0.982768,
+          "attack_range": 150
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2422.36,
+          "hp_regen": 13.86,
+          "mana": 1767.64,
+          "mana_regen": 18.576,
+          "armor": 83.88,
+          "magic_resistance": 50.436,
+          "attack_damage": 120.308,
+          "attack_speed": 1.01225,
+          "attack_range": 150
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2567,
+          "hp_regen": 14.5,
+          "mana": 1879,
+          "mana_regen": 19.6,
+          "armor": 89,
+          "magic_resistance": 52.1,
+          "attack_damage": 125.3,
+          "attack_speed": 1.04256,
+          "attack_range": 150
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_kassadin/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_kassadin",
+        "name": "champion_kassadin"
+      }
+    },
+    "/skills/kassadin_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_kassadin_q",
+        "name": "kassadin_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_kassadin": {
+      "items": [
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "kassadin_p",
+          "skillName": "卡萨丁·虚空之石",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "kassadin_q",
+          "skillName": "卡萨丁·虚无法球",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "kassadin_w",
+          "skillName": "卡萨丁·虚空之刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "kassadin_e",
+          "skillName": "卡萨丁·能量脉冲",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "kassadin_r",
+          "skillName": "卡萨丁·虚空行走",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=kassadin_q": {
+      "items": [
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "kassadin_q",
+          "skillName": "卡萨丁·虚无法球",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/kassadin_q/parameters": [
+      {
+        "createdAt": "2026-09-09T05:42:29.536793Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "kassadin_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:42:29.536793Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:30.547107Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 65,
+          "2": 95,
+          "3": 125,
+          "4": 155,
+          "5": 185
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "kassadin_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T05:42:30.547107Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:31.52971Z",
+        "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 110,
+          "3": 140,
+          "4": 170,
+          "5": 200
+        },
+        "name": "基础魔法护盾",
+        "parameterKey": "base_magic_shield",
+        "skillKey": "kassadin_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T05:42:31.52971Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:32.43055Z",
+        "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "魔法护盾持续（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "kassadin_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T05:42:32.43055Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:33.432615Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虚无法球魔法伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "kassadin_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T05:42:33.432615Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:34.36376Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "魔法护盾数值固定系数",
+        "parameterKey": "calculation_constant_2",
+        "skillKey": "kassadin_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T05:42:34.36376Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:43.655385Z",
+        "description": "DDragon16.17.1 Kassadin.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8500,
+          "3": 8000,
+          "4": 7500,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kassadin_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:43.655385Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:44.030641Z",
+        "description": "DDragon16.17.1 Kassadin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "kassadin_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:44.030641Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/kassadin_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T05:42:29.536793Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "kassadin_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T05:42:29.536793Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kassadin_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T05:42:30.547107Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 65,
+        "2": 95,
+        "3": 125,
+        "4": 155,
+        "5": 185
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "kassadin_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T05:42:30.547107Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kassadin_q/parameters/base_magic_shield": {
+      "createdAt": "2026-09-09T05:42:31.52971Z",
+      "description": "客户端当前根绑定 DataValues.ShieldAmount 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 110,
+        "3": 140,
+        "4": 170,
+        "5": 200
+      },
+      "name": "基础魔法护盾",
+      "parameterKey": "base_magic_shield",
+      "skillKey": "kassadin_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T05:42:31.52971Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kassadin_q/parameters/shield_duration_ms": {
+      "createdAt": "2026-09-09T05:42:32.43055Z",
+      "description": "客户端当前根绑定 DataValues.ShieldDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "魔法护盾持续（毫秒）",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "kassadin_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T05:42:32.43055Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/kassadin_q/parameters/calculation_constant_1": {
+      "createdAt": "2026-09-09T05:42:33.432615Z",
+      "description": "当前原计算树显式常数；只用于此数学表达式。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "虚无法球魔法伤害固定系数",
+      "parameterKey": "calculation_constant_1",
+      "skillKey": "kassadin_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T05:42:33.432615Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kassadin_q/parameters/calculation_constant_2": {
+      "createdAt": "2026-09-09T05:42:34.36376Z",
+      "description": "当前原计算树显式常数；只用于此数学表达式。",
+      "fixedValue": 0.3,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "魔法护盾数值固定系数",
+      "parameterKey": "calculation_constant_2",
+      "skillKey": "kassadin_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T05:42:34.36376Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/kassadin_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:43.655385Z",
+      "description": "DDragon16.17.1 Kassadin.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 9000,
+        "2": 8500,
+        "3": 8000,
+        "4": 7500,
+        "5": 7000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "kassadin_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:43.655385Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kassadin_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:44.030641Z",
+      "description": "DDragon16.17.1 Kassadin.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "kassadin_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:44.030641Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/kassadin_q/formulas": [
+      {
+        "createdAt": "2026-09-09T05:42:35.339286Z",
+        "description": "基础值加0.7法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "虚无法球魔法伤害",
+        "skillKey": "kassadin_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:42:35.339286Z"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:36.261054Z",
+        "description": "基础值加0.3法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "magic_shield_amount",
+        "gameId": "lol",
+        "name": "魔法护盾数值",
+        "skillKey": "kassadin_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:42:36.261054Z"
+      }
+    ],
+    "/skills/kassadin_q/formulas/damage": {
+      "createdAt": "2026-09-09T05:42:35.339286Z",
+      "description": "基础值加0.7法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "calculation_constant_1"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "虚无法球魔法伤害",
+      "skillKey": "kassadin_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T05:42:35.339286Z"
+    },
+    "/skills/kassadin_q/formulas/magic_shield_amount": {
+      "createdAt": "2026-09-09T05:42:36.261054Z",
+      "description": "基础值加0.3法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_magic_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "calculation_constant_2"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_shield_amount",
+      "gameId": "lol",
+      "name": "魔法护盾数值",
+      "skillKey": "kassadin_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T05:42:36.261054Z"
+    },
+    "/skills/kassadin_q/effects": [
+      {
+        "createdAt": "2026-09-09T05:42:37.259358Z",
+        "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "kassadin_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:42:37.259358Z"
+      },
+      {
+        "createdAt": "2026-09-09T05:42:38.202528Z",
+        "description": "当前正文明确自身1.5秒魔法护盾；施放与目标命中、护盾采样时点未自动连接。",
+        "effectKey": "magic_shield",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "虚无法球自身魔法护盾",
+        "resultCount": 1,
+        "skillKey": "kassadin_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:42:38.202528Z"
+      }
+    ],
+    "/skills/kassadin_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T05:42:37.259358Z",
+      "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "kassadin_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T05:42:37.259358Z"
+    },
+    "/skills/kassadin_q/effects/magic_shield": {
+      "createdAt": "2026-09-09T05:42:38.202528Z",
+      "description": "当前正文明确自身1.5秒魔法护盾；施放与目标命中、护盾采样时点未自动连接。",
+      "effectKey": "magic_shield",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "虚无法球自身魔法护盾",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "absorbedDamageTypeKey": "magic",
+            "decayMode": "NONE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "魔法护盾",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_shield_amount",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "kassadin_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T05:42:38.202528Z"
+    },
+    "/skills/kassadin_q/processes": [],
+    "/skills/kassadin_q/internal-states": [],
+    "/skills/kassadin_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收 kassadin_q 主动使用；无条件在 CURRENT_TARGET 上执行已有 magic_shield。magic_shield 结果 target=SOURCE 且只吸收 magic 魔法伤害，不表达目标伤害、引导打断或资源消耗。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "虚无法球主动使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T16:39:54.10274Z"
+      }
+    ],
+    "/skills/kassadin_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "execute_magic_shield",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "magic_shield"
+          },
+          "name": "执行虚无法球魔法护盾",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收 kassadin_q 主动使用；无条件在 CURRENT_TARGET 上执行已有 magic_shield。magic_shield 结果 target=SOURCE 且只吸收 magic 魔法伤害，不表达目标伤害、引导打断或资源消耗。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "kassadin_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "虚无法球主动使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kassadin",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kassadin/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kassadin/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_kassadin",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=kassadin_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/base_magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/calculation_constant_1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/calculation_constant_2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/formulas/magic_shield_amount",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects/magic_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/trigger-rules/resolve_on_q_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kassadin_q/trigger-rules/on_used_cast",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

@@ -1,0 +1,12 @@
+{
+  "status":"PASS",
+  "reviewer":"/root/urgot_core_frozen_fallback",
+  "scope":"索拉卡R本轮1V1自身治疗管理配置",
+  "conclusion":"自身正常与低生命治疗、100法力消耗、250毫秒施法、普通冷却、终极分类关联及说明均已落地，本轮管理配置完整。",
+  "components":{"parameters":7,"formulas":2,"effects":3,"processes":1,"internalStates":0,"triggerRules":3},
+  "evidenceBatches":["索拉卡R条件治疗首次页面","索拉卡R使用成本与施放补录","终极技能分类与索拉卡R关联","索拉卡R完整录入说明整理"],
+  "independentGETsByBatch":[28,32,3,23],
+  "protectedRelationships":"角色挂载及代表图在治疗与成本批次已核对保持；后两批只改分类和说明。",
+  "excluded":["仅其他友方英雄治疗"],
+  "runtimeValidation":"宿主事件、匹配集合执行、扣费冷却和治疗结算尚未实现或验证；不因此否认管理配置完成。"
+}

@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-20T08:55:34.961Z",
+  "reviewer": "zyra_q_scope_source",
+  "status": "资料待核",
+  "businessWrites": 0,
+  "sourceInterpretation": {
+    "confirmed": "固定16.17根BonusPassiveRange只给mEndValue=150，基础射程550已录；官方16.17.1没有完整逐级值。",
+    "missing": [
+      "mStartValue的同版缺省含义",
+      "两个插值开关的同版缺省含义",
+      "E/R动态施法范围与被动的实际联动"
+    ],
+    "localTool": {
+      "path": "C:/project/damage_backend_dev/数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/英雄工具.mjs",
+      "line": 18,
+      "meaning": "只有起点和终点均存在时才展开18级，不能证明省略字段的缺省值。"
+    },
+    "thirdPartyReference": {
+      "urls": [
+        "https://raw.githubusercontent.com/moonshadow565/calcrev/master/meta.py",
+        "https://raw.githubusercontent.com/moonshadow565/calcrev/master/calc.py"
+      ],
+      "metaLines": [
+        151,
+        197,
+        2013,
+        2019
+      ],
+      "calcLines": [
+        299,
+        307
+      ],
+      "conditionalCandidate": "若旧版模型默认值与16.17一致，则起点0、开关false，按150×(等级−1)/17；该前提尚未证明。",
+      "acceptedForBusinessWrite": false
+    }
+  },
+  "decision": "保持资料待核，不修改现有基础射程，不生成被动等级表，不从静态未引用推断E/R无联动。",
+  "runtimeValidation": "未执行"
+}

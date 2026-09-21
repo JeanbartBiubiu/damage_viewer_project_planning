@@ -1,0 +1,72 @@
+{
+  "at": "2026-09-19T19:39:01.826Z",
+  "status": "MANAGEMENT_COMPLETE_FOR_1V1",
+  "sourceVersion": "client16.17 / DDragon16.17.1",
+  "targets": [
+    "corki_q",
+    "twistedfate_q"
+  ],
+  "currentCountsPerSkill": {
+    "parameters": 6,
+    "formulas": 1,
+    "effects": 2,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 2
+  },
+  "businessWrites": {
+    "total": 4,
+    "browser": 2,
+    "protectedAPI": 2
+  },
+  "independentHTTP": {
+    "GETs": 76,
+    "scopeGETs": 38,
+    "descriptionGETs": 38,
+    "status": "PASS"
+  },
+  "baseline": {
+    "GETs": 54,
+    "reusedForScopeFreezes": 38,
+    "additionalPrepareGETsForScope": 0,
+    "oldDetailAndReferenceResponsesUnchanged": 48
+  },
+  "reusedPriorEvidence": {
+    "webCommit": "900d925e",
+    "businessPOSTs": 9,
+    "independentGETs": 54,
+    "arithmeticCases": 20,
+    "arithmeticRerunThisReturn": false,
+    "evidenceDir": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录",
+    "notes": "旧参数与公式完整原响应未变，20个配置算术样例与固定来源继续有效；没有重放旧9次新增。"
+  },
+  "managementAcceptance": {
+    "sourceAndLevels": "PASS",
+    "parametersAndFormula": "PASS",
+    "effectAndInteractions": "PASS",
+    "costCastAndCooldown": "PASS",
+    "activeAndHitEntries": "PASS",
+    "explicitEnemyChampionConditions": "PASS",
+    "characterRelationAndImages": "PASS",
+    "descriptions": "PASS",
+    "representativeBrowser": "PASS"
+  },
+  "excluded": {
+    "corki_q": [
+      "纯视野显形"
+    ],
+    "both": [
+      "三维位置与弹道几何、命中判定和战斗执行属于运行层，不在本轮开发验收范围"
+    ],
+    "twistedfate_q": [
+      "竞技场覆盖参数"
+    ]
+  },
+  "retainedRules": {
+    "twistedfate_q": "同一目标至多一张牌，不乘三；几何实际命中由运行层提供。",
+    "corki_q": "一次实际命中对当前敌方英雄执行一次魔法伤害。"
+  },
+  "remainingManagementBranches": [],
+  "runtimeValidation": "NOT_RUN",
+  "wholeGoalComplete": false
+}

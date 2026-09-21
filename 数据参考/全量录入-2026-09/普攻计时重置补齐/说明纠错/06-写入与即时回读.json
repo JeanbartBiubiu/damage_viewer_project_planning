@@ -1,0 +1,461 @@
+{
+  "startedAt": "2026-09-19T15:04:42.080Z",
+  "status": "PASS",
+  "businessWritesAttempted": 4,
+  "operations": [
+    {
+      "route": "/skills/olaf_w",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:44.174023Z",
+          "description": "固定客户端16.17与官方16.17.1：主动使用消耗50法力，基础冷却16/15/14/13/12秒；获得40/50/60/70/80%额外攻速，持续5秒，并获得10/40/70/100/130加17.5%已损失生命值的普通护盾，剩余生命30%时达到护盾上限，护盾持续2.5秒。每次主动使用另重置自身普攻计时，前次增益仍在时也重新应用。本轮1V1管理配置已保存、独立回读；战斗运行未验证。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "奥拉夫·挺过去",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "olaf_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T15:04:42.163759Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:19:44.174023Z",
+        "description": "固定客户端16.17与官方16.17.1：主动使用消耗50法力，基础冷却16/15/14/13/12秒；获得40/50/60/70/80%额外攻速，持续5秒，并获得10/40/70/100/130加17.5%已损失生命值的普通护盾，剩余生命30%时达到护盾上限，护盾持续2.5秒。每次主动使用另重置自身普攻计时，前次增益仍在时也重新应用。本轮1V1管理配置已保存、独立回读；战斗运行未验证。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奥拉夫·挺过去",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "olaf_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T15:04:42.163759Z"
+      }
+    },
+    {
+      "route": "/skills/olaf_w/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:00:27.598941Z",
+          "description": "官方16.17.1与固定客户端当前W一致，基础法力消耗50。已由主动使用入口启动施放过程，在过程开始执行来源法力消耗；管理接线完成，实际扣除及施放资格的战斗运行未验证。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "olaf_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T15:04:43.75916Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:00:27.598941Z",
+        "description": "官方16.17.1与固定客户端当前W一致，基础法力消耗50。已由主动使用入口启动施放过程，在过程开始执行来源法力消耗；管理接线完成，实际扣除及施放资格的战斗运行未验证。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "olaf_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T15:04:43.75916Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/olaf_w/parameters/cooldown_ms",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:00:27.192219Z",
+          "description": "官方16.17.1与固定客户端当前W一致，等级1至5为16000/15000/14000/13000/12000毫秒。已用于施放过程的普通冷却，从过程开始登记；尚未计入实际急速与战斗运行。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 16000,
+            "2": 15000,
+            "3": 14000,
+            "4": 13000,
+            "5": 12000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "olaf_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-19T15:04:45.284793Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:00:27.192219Z",
+        "description": "官方16.17.1与固定客户端当前W一致，等级1至5为16000/15000/14000/13000/12000毫秒。已用于施放过程的普通冷却，从过程开始登记；尚未计入实际急速与战斗运行。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "olaf_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-19T15:04:45.284793Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/talon_q",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:35.316779Z",
+          "description": "固定客户端16.17与官方16.17.1：诺克萨斯式外交的基础参数和已核公式保留；已补录主动使用时重置自身普攻计时的独立效果与入口，近战和远程均适用。该分支不代替Q伤害、跃斩、近战暴击或击杀治疗与冷却返还；其余组成继续按来源核对，整技能管理配置尚未完成，战斗运行未验证。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "泰隆·诺克萨斯式外交",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "talon_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T15:04:46.867896Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:20:35.316779Z",
+        "description": "固定客户端16.17与官方16.17.1：诺克萨斯式外交的基础参数和已核公式保留；已补录主动使用时重置自身普攻计时的独立效果与入口，近战和远程均适用。该分支不代替Q伤害、跃斩、近战暴击或击杀治疗与冷却返还；其余组成继续按来源核对，整技能管理配置尚未完成，战斗运行未验证。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泰隆·诺克萨斯式外交",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "talon_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T15:04:46.867896Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "671e4dd0c0bb5b358710a6f326f40429370cb91372c751b0a2c2b136f4366255",
+    "02-冻结请求.json": "a5135540f834f2fac7287f63a82f8e78c36d460ccb0f816f24f7247278cadec8",
+    "03-来源摘要.json": "9c21e10683955f6bbc2fa875b2d68d7efe471874041d1d60312cd85c21d1d5b3",
+    "04-写入前现值.json": "10298fb78368c9c52d6dd06329dd41c659559d550ccd449f50e273ebd4a1b0d2"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T15:04:48.542Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/attack_speed_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/missing_hp_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/max_shield_hp_threshold",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/one",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/formulas/uncapped_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/formulas/max_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/formulas/shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/effects/cast_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/effects/attack_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/effects/attack_timer_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/trigger-rules/on_used_attack_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/bonus_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/enhanced_damage_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/current_critical_stat_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/kill_heal_by_level",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/formulas/leap_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/formulas/critical_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/effects/attack_timer_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q/trigger-rules/on_used_attack_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/olaf_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/olaf_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/olaf_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/olaf_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/talon_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/talon_q",
+      "status": 200
+    }
+  ]
+}

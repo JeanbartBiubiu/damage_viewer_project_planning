@@ -1,0 +1,109 @@
+{
+  "generatedAt": "2026-09-20T08:38:28.920Z",
+  "status": "APPROVED",
+  "reviewKind": "婕拉Q主体说明窄面独立评审",
+  "reviewScope": {
+    "skillKey": "zyra_q",
+    "requestCount": 1,
+    "route": "/skills/zyra_q",
+    "descriptionOnly": true,
+    "businessWrites": 0,
+    "apiOrSqlCallsByReview": 0,
+    "runtimeValidation": "未执行"
+  },
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "efd435c92c304415f7df1bdc7f98451feab36c1e7c16d5a820fcb3f613a13ad7",
+    "02-冻结请求.json": "6b2333ec7f71fe7c1581ecacad358b6054c7933540a03a6dcc772be1cfb5a7d1",
+    "03-来源摘要.json": "b1c83af889ecd2eeaf4381f84cd5fcf262a67415072c876bae15ffbb18dc56fc",
+    "04-写入前现值.json": "7dcddcc2d3397b75aa5e6f318c9f2247cd9b5d8afc7f97c81dff426a8f2bcefe"
+  },
+  "freezeFields": {
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "method": "PUT",
+    "route": "/skills/zyra_q",
+    "bodyKeys": [
+      "name",
+      "description",
+      "maxLevel",
+      "status",
+      "sortOrder",
+      "skillCategoryKeys"
+    ],
+    "expectedReadbackKeys": [
+      "createdAt",
+      "description",
+      "gameId",
+      "maxLevel",
+      "name",
+      "skillCategoryKeys",
+      "skillKey",
+      "sortOrder",
+      "status",
+      "updatedAt"
+    ],
+    "description": "地面藤蔓爆发，对范围内敌人造成魔法伤害。本轮1V1管理范围为Q根本体一次敌方英雄命中；已配置本体伤害公式、55法力、250毫秒基础施放与逐级普通冷却，主动使用和实际命中入口分别维护。种子转植物及独立植物攻击链按既定范围排除，现有资料保留；未把植物攻击并入本体伤害。实际碰撞、命中时间与战斗结算尚未执行运行验证。来源：客户端16.17、官方中英文16.17.1。",
+    "protectedFields": {
+      "name": true,
+      "maxLevel": true,
+      "status": true,
+      "sortOrder": true,
+      "skillCategoryKeys": true
+    },
+    "allowedMutation": "仅 description",
+    "expectedReadbackCreatedAt": "2026-09-06T18:21:27.412699Z",
+    "expectedReadbackUpdatedAt": "2026-09-06T18:21:27.412699Z"
+  },
+  "gateChecks": {
+    "checks": {
+      "requestRouteIsSkill": true,
+      "oneRequest": true,
+      "descriptionMatchesPlan": true,
+      "protectedFieldsUnchanged": true,
+      "descriptionOnlyDiff": true,
+      "expectedCreatedAtUnchanged": true,
+      "expectedUpdatedAtUnchanged": true,
+      "sourceHashesMatch": true,
+      "freezeSourceShaMatches": true,
+      "freezeBaselineShaMatches": true,
+      "motherValues18": true,
+      "motherAudit18": true,
+      "motherAuditGET": true,
+      "motherAudit200": true,
+      "motherWritesZero": true,
+      "motherReused18": true,
+      "motherNewGetsZero": true,
+      "priorReadbackPass": true
+    },
+    "currentHashes": {
+      "plan": "efd435c92c304415f7df1bdc7f98451feab36c1e7c16d5a820fcb3f613a13ad7",
+      "freeze": "6b2333ec7f71fe7c1581ecacad358b6054c7933540a03a6dcc772be1cfb5a7d1",
+      "sources": "b1c83af889ecd2eeaf4381f84cd5fcf262a67415072c876bae15ffbb18dc56fc",
+      "baseline": "7dcddcc2d3397b75aa5e6f318c9f2247cd9b5d8afc7f97c81dff426a8f2bcefe",
+      "tool": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+      "priorReadback": "2880fa183a4ded45699b4d98ec5c4580915051f574d41d4151ac6d743d5e74be",
+      "rangeConclusion": "3a6d4727c714aa7991ed227b67318f1acb440b66c772631dd85287ddc15035d8"
+    },
+    "sourceSummaryPath": "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/主体说明/03-来源摘要.json",
+    "baselinePath": "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/主体说明/04-写入前现值.json",
+    "priorActualReadbackPath": "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/敌方命中范围/06-独立回读.json",
+    "priorActualReadbackSha256": "2880fa183a4ded45699b4d98ec5c4580915051f574d41d4151ac6d743d5e74be"
+  },
+  "scopeBoundary": {
+    "included": [
+      "已配置本体伤害公式",
+      "55法力",
+      "250毫秒基础施放",
+      "逐级普通冷却",
+      "主动使用和实际命中入口"
+    ],
+    "excluded": [
+      "种子转植物",
+      "独立植物攻击链",
+      "植物攻击并入本体伤害",
+      "宿主、Wasm、实际碰撞、命中时间和战斗结算"
+    ],
+    "descriptionClaims": "说明明确标注未执行运行验证，不宣称宿主或战斗完成"
+  },
+  "conclusion": "单条技能主体说明PUT只改变description；18值/18条GET审计母快照全部复用实际27GET独立回读，业务写入为0。固定范围、冻结字段、来源和前置保护通过，批准一次窄面说明更新。"
+}

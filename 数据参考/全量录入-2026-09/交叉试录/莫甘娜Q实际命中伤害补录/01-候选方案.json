@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "莫甘娜Q对唯一敌方英雄实际命中伤害补录",
+  "generatedAt": "2026-09-18T22:26:49.856Z",
+  "targets": [
+    {
+      "skillKey": "morgana_q",
+      "ownerKey": "champion_morgana"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q实际命中伤害补录/00-独立只读候选.json",
+      "sha256": "c186871690f11deb60f60b7ae486a349583fc3db1155fb05e37d7584fde88a00"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/修订三/完整候选.json",
+      "sha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/官方中文/Morgana.json",
+      "sha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/官方英文/Morgana.json",
+      "sha256": "ccee87151700b5aead65c5da0ceadf9285848137b6451fe6d2893c96ee6ecf69"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/客户端原文/Morgana.json.gz",
+      "sha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/输入包/参考资料/技能来源索引.json",
+      "sha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+      "sha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/07-独立回读.json",
+      "sha256": "f6e032a2808ef0bdb1fb55ec1821957ec22dd06c93f2c1ee7936af476462d695"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/07-独立回读.json",
+      "sha256": "00a498cd2b0e248da104fd8a8a3f9f733376eadc534d7485b88806571ace556a"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts",
+      "sha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "sha256": "ec07ed1bb2daccb0217c189a84b16f15a701dccefb82b3258cc8ea6425238331"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/特殊交互与前序结果联动管理详细设计.md",
+      "sha256": "8f96610835ff71864c4671eeda7c853ab5bf652f272e1417bf14db423d01ffa4"
+    }
+  ],
+  "sourceEvidence": {
+    "officialZh": {
+      "id": "MorganaQ",
+      "name": "暗之禁锢",
+      "maxRank": 5,
+      "cooldownSeconds": [
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "manaCost": [
+        50,
+        55,
+        60,
+        65,
+        70
+      ],
+      "tooltip": "莫甘娜掷出一团星火来<status>禁锢</status>命中的第一个敌人{{ rootduration }}秒，并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}"
+    },
+    "officialEn": {
+      "id": "MorganaQ",
+      "name": "Dark Binding",
+      "maxRank": 5,
+      "cooldownSeconds": [
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "manaCost": [
+        50,
+        55,
+        60,
+        65,
+        70
+      ],
+      "tooltip": "Morgana hurls a blast of starfire that <status>Roots</status> the first enemy hit for {{ rootduration }} seconds and deals <magicDamage>{{ totaldamage }} magic damage</magicDamage>.{{ spellmodifierdescriptionappend }}"
+    },
+    "client": {
+      "damageRawValues": [
+        25,
+        80,
+        135,
+        190,
+        245,
+        300,
+        355
+      ],
+      "damageSelectedSourceIndices": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "damageSelectedValues": [
+        80,
+        135,
+        190,
+        245,
+        300
+      ],
+      "totalDamageParts": [
+        {
+          "kind": "NamedDataValueCalculationPart",
+          "mDataValue": "Damage"
+        },
+        {
+          "kind": "StatByCoefficientCalculationPart",
+          "mCoefficient": 0.8999999761581421
+        }
+      ],
+      "spellTags": [
+        "Trait_ImmobilizingCCSpell",
+        "Trait_DamageAbility",
+        "Trait_SignatureSpell"
+      ],
+      "mAffectsTypeFlags": 6154,
+      "boundTextKeys": {
+        "keyName": "Spell_MorganaQ_Name",
+        "keyTooltip": "Spell_MorganaQ_Tooltip",
+        "keySummary": "Spell_MorganaQ_Summary"
+      }
+    }
+  },
+  "interactionDecision": {
+    "conclusion": "可以在现有 magic_damage 公式之上独立补录一次实际命中魔法伤害；禁锢控制不是该伤害结果的前置条件。",
+    "dynamicInputs": {
+      "required": false,
+      "runtimeInputBindings": [],
+      "reason": "伤害只引用已经存在的 base_damage、ap_ratio 和 SOURCE 总法强；SKILL_HIT 事件只提供命中与当前目标，不为公式伪造等级、几何或角色状态输入。"
+    },
+    "target": {
+      "resultTarget": "TARGET",
+      "actionTargetContext": "CURRENT_TARGET",
+      "eventSourceSkillKey": "morgana_q",
+      "eventType": "SKILL_HIT",
+      "useKindInRequest": "省略；SKILL_HIT 请求契约不提交 useKind，回读可能规范化为 null。"
+    },
+    "targetCategoryCheck": {
+      "decision": "INCLUDE",
+      "conditionType": "TARGET_CATEGORY_CHECK",
+      "categories": [
+        "CHAMPION"
+      ],
+      "reason": "官方中英文只证明 first enemy hit，并未证明只能命中英雄；本轮明确要求唯一敌方英雄，因此用类别条件限定本候选的 1V1 英雄切片。它是本轮范围过滤，不把客户端原技能资格扩写为英雄专属。"
+    },
+    "damageInteraction": {
+      "resultType": "DAMAGE",
+      "damageTypeKey": "magic",
+      "deliveryKind": "SKILL",
+      "originKind": "DIRECT",
+      "spellShieldBlockScope": "SKILL",
+      "critical": {
+        "mode": "DISALLOWED",
+        "multiplierValue": null
+      },
+      "vampRules": [
+        {
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiencyValue": {
+            "kind": "FIXED",
+            "value": 1
+          }
+        }
+      ],
+      "contractReference": {
+        "candidatePath": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+        "candidateSha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+        "effectPointer": "requests[1].body",
+        "hitRulePointer": "requests[4].body",
+        "readbackPath": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/07-独立回读.json",
+        "readbackSha256": "f6e032a2808ef0bdb1fb55ec1821957ec22dd06c93f2c1ee7936af476462d695"
+      },
+      "boundary": "这些字段是现行管理契约的配置映射；不表示已经完成护盾阻挡、抗性、防御后伤害或吸血的战斗运行。"
+    }
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/morgana_q/effects",
+      "detailRoute": "/skills/morgana_q/effects/primary_hit",
+      "body": {
+        "effectKey": "primary_hit",
+        "name": "对当前目标命中伤害",
+        "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；禁锢控制、投射物几何和其他目标类别分支不在本效果内。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "magic_damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能 magic_damage 公式；结果只表示配置的直接技能伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "primary_hit",
+        "name": "对当前目标命中伤害",
+        "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；禁锢控制、投射物几何和其他目标类别分支不在本效果内。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "magic_damage",
+            "name": "魔法伤害",
+            "resultType": "DAMAGE",
+            "target": "TARGET",
+            "description": "引用同技能 magic_damage 公式；结果只表示配置的直接技能伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": "SKILL",
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "magic_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/morgana_q/trigger-rules",
+      "detailRoute": "/skills/morgana_q/trigger-rules/resolve_on_q_hit",
+      "body": {
+        "ruleKey": "resolve_on_q_hit",
+        "name": "Q实际命中结算",
+        "description": "仅消费宿主确认的 morgana_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行已有 primary_hit；规则本身不产生命中事件，也不创建禁锢控制。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "morgana_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "唯一敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行暗之禁锢命中伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "resolve_on_q_hit",
+        "name": "Q实际命中结算",
+        "description": "仅消费宿主确认的 morgana_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行已有 primary_hit；规则本身不产生命中事件，也不创建禁锢控制。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "morgana_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "唯一敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行暗之禁锢命中伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "scope": "复用现有magic_damage，新增一次实际命中伤害效果和规则；英雄类别是本轮范围筛选，不把原技能改写成英雄专属。",
+  "preserveExisting": "刚补齐的10000毫秒冷却、成本登记过程和主动入口，以及原参数、公式、法力效果、主体、图片和关系全部保护，不重复登记。",
+  "remaining": [
+    "禁锢状态种类与控制持续时间接线",
+    "莫甘娜被动实际伤害治疗分支另行处理",
+    "代表页面验收及现有过时说明整理"
+  ],
+  "runtimeBoundary": "只消费现行SKILL_HIT实际命中契约；不生产投射物、碰撞或首个目标选择，不执行抗性/护盾/吸血和战斗运行。"
+}

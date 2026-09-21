@@ -1,0 +1,89 @@
+{
+  "title": "七项后续使用的十处说明整理",
+  "at": "2026-09-19T03:10:58.743Z",
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项后续普通使用补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项后续普通使用补录/04-写入前现值.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项后续普通使用补录/07-独立回读.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项后续普通使用补录/09-证据清单.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项后续使用说明整理/00-说明差异与当前入口.json"
+    }
+  ],
+  "changes": [
+    {
+      "skillKey": "braum_q",
+      "kind": "parameter",
+      "route": "/skills/braum_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Braum.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "nautilus_q",
+      "kind": "parameter",
+      "route": "/skills/nautilus_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Nautilus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "nautilus_q",
+      "kind": "effect",
+      "route": "/skills/nautilus_q/effects/mana_cost",
+      "description": "本技能普通主动使用时消耗既有参数给出的基础法力；具体使用时点由引用本效果的过程定义。"
+    },
+    {
+      "skillKey": "ziggs_q",
+      "kind": "parameter",
+      "route": "/skills/ziggs_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Ziggs.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "zyra_q",
+      "kind": "parameter",
+      "route": "/skills/zyra_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Zyra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "zyra_e",
+      "kind": "parameter",
+      "route": "/skills/zyra_e/parameters/mana_cost",
+      "description": "DDragon16.17.1 Zyra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "leona_r",
+      "kind": "parameter",
+      "route": "/skills/leona_r/parameters/mana_cost",
+      "description": "DDragon16.17.1 Leona.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "leona_r",
+      "kind": "effect",
+      "route": "/skills/leona_r/effects/mana_cost",
+      "description": "本技能普通主动使用时消耗既有参数给出的基础法力；具体使用时点由引用本效果的过程定义。"
+    },
+    {
+      "skillKey": "malzahar_q",
+      "kind": "parameter",
+      "route": "/skills/malzahar_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "malzahar_q",
+      "kind": "effect",
+      "route": "/skills/malzahar_q/effects/mana_cost",
+      "description": "本技能普通主动使用时消耗既有参数给出的基础法力；具体使用时点由引用本效果的过程定义。"
+    }
+  ],
+  "scope": "7处法力参数与3处成本效果，只纠正普通使用已接线后的说明。"
+}

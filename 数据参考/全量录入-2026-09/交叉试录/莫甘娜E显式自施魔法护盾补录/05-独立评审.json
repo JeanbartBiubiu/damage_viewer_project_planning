@@ -1,0 +1,100 @@
+{
+  "status": "APPROVED",
+  "reviewer": "Cursor grok-4.6",
+  "reviewedAt": "2026-09-18T15:56:00Z",
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "approvedFiles": {
+    "批次执行.mjs": "035a2b94124dddd0acf717ba1ce90451f5aeac65355d2ee2e4fe3fe8bd664c83",
+    "01-来源方案.md": "180b6250717651fd5c5896bae2e78934b8e1e102a6b5a6a4d66b8a54349b4aa1",
+    "02-冻结请求.json": "10bfa63450db87bac9d169af75d6e14d1751099af69f4c0e8650c68c6d6c6a1a",
+    "03-来源快照.json": "bd2c37eb8d1c193d8965ce6b7568552617dc905b7a520c335d8c552c7ae3f3f5",
+    "04-写入前现值.json": "1d6ce56a3e8ef64cd1d1d93ae93fb5419846363b7f869e26008f85d41fcab608"
+  },
+  "sourceFindings": [
+    {
+      "finding": "允许自施有独立来源依据",
+      "evidence": "亲自读取规划工作树冻结官方16.17.1中英文 Morgana.json；data.Morgana.enemytips[2] 中文为“【E黑暗之盾】让莫甘娜免疫限制效果，但这个护盾可以被魔法伤害给灌爆。”，英文为“Black Shield makes Morgana immune to disabling effects, but can be broken with magic damage.”。该条独立支持本人可成为承受对象；完整 MorganaE 技能对象分别与03中official.spell结构相等。本批不据此接入控制免疫。",
+      "sha256": {
+        "zh_CN/champion/Morgana.json": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903",
+        "en_US/champion/Morgana.json": "ccee87151700b5aead65c5da0ceadf9285848137b6451fe6d2893c96ee6ecf69"
+      }
+    },
+    {
+      "finding": "客户端16.17魔法护盾数值、单位、目标与生命周期与现值一致",
+      "evidence": "亲自读取并解压冻结 Morgana.json.gz，核对 Characters/Morgana/Spells/MorganaEAbility/MorganaE 完整对象与03一致。ShieldStrength索引1至5为100/155/210/265/320；TotalShieldStrength系数为0.699999988079071，现值已归一为0.7来源总法强；ShieldDuration为5秒，现值为5000毫秒。现值 magic_shield 仅一个 NORMAL_SHIELD，吸收类型 magic、无衰减，结果目标与生命周期实例范围均为 SOURCE。未解码未证明的整数标记。",
+      "compressedSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+      "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913"
+    },
+    {
+      "finding": "技能来源索引指向同一客户端主对象",
+      "sha256": {
+        "技能公共参数实录/技能来源索引.json": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8"
+      },
+      "evidence": "索引中 MorganaE / 黑暗之盾 的 clientPath 为 Characters/Morgana/Spells/MorganaEAbility/MorganaE，与03摘录路径相同。"
+    }
+  ],
+  "checks": [
+    {
+      "name": "五文件原始字节摘要与绑定",
+      "status": "PASS",
+      "evidence": "分别用Get-FileHash与Node crypto重新计算五文件SHA256；02符合指定摘要10bfa63450db87bac9d169af75d6e14d1751099af69f4c0e8650c68c6d6c6a1a。02的sourceFileSha256与baselineFileSha256分别绑定03与04当前原始字节。"
+    },
+    {
+      "name": "冻结请求与执行器结构一致",
+      "status": "PASS",
+      "evidence": "独立提取执行器requestBody，与02中唯一请求完整一致。唯一写入为POST /skills/morgana_e/trigger-rules，规则键on_used_self_shield；SKILL_USED、sourceSkillKey=morgana_e、useKind=ACTIVE；唯一条件EXPLICIT_TARGET_IS_SOURCE且detail={}；唯一动作EXECUTE_EFFECT、CURRENT_TARGET、magic_shield。不修改旧效果、参数、公式、角色或关系。",
+      "references": [
+        "批次执行.mjs:24-34",
+        "02-冻结请求.json:4-53"
+      ]
+    },
+    {
+      "name": "实际护盾目标、公式、生命周期与魔法类型",
+      "status": "PASS",
+      "evidence": "冻结现值与当前GET均确认magic_shield只有一个NORMAL_SHIELD结果，target=SOURCE，detail为absorbedDamageTypeKey=magic且decayMode=NONE，取值为magic_shield_value；公式为base_shield + shield_ap_ratio * SOURCE的TOTAL ability_power。生命周期instanceScope=SOURCE、durationValue=shield_duration_ms、无周期；base_shield等级1至5为100/155/210/265/320，比例0.7，持续5000毫秒。",
+      "references": [
+        "GET /skills/morgana_e/effects/magic_shield",
+        "GET /skills/morgana_e/formulas/magic_shield_value",
+        "GET /skills/morgana_e/parameters/base_shield",
+        "GET /skills/morgana_e/parameters/shield_ap_ratio",
+        "GET /skills/morgana_e/parameters/shield_duration_ms"
+      ]
+    },
+    {
+      "name": "独立纯GET现值核对",
+      "status": "PASS",
+      "GETs": 22,
+      "protectedObjectsEqual": 21,
+      "businessWrites": 0,
+      "evidence": "全部21个冻结响应与当前GET响应结构相等。保护范围包含莫甘娜角色、属性、角色与技能挂载、角色及技能代表图、morgana_e本体与六类组成列表及详情。六类列表稳定键均唯一。规则列表为空，目标详情返回404；技能代表图启用。"
+    },
+    {
+      "name": "固定路径、摘要门禁与防重放",
+      "status": "PASS",
+      "evidence": "固定本地base；只有write模式允许固定route的一次POST且强制完整请求体相等。preflight和write均先验证05批准状态、五文件摘要、原始来源、完整冻结请求与受保护现值，再检查目标404。write额外要求DAMAGE_APPROVED_BATCH_SHA匹配，并在首写前以wx独占创建06，先持久化尝试次数，再提交唯一POST；异常保留结果文件并标记先查现值，阻止直接重放。审查结束时05与06均不存在。",
+      "references": [
+        "批次执行.mjs:13-16",
+        "批次执行.mjs:21",
+        "批次执行.mjs:58-70",
+        "批次执行.mjs:108-134"
+      ]
+    },
+    {
+      "name": "写后验证安排与范围",
+      "status": "PASS",
+      "evidence": "执行器要求POST返回201，立即GET详情并结构比较。01明确随后独立回读及代表页面重开属于主负责人验收，不把本批评审当作已写入。此次批准只覆盖唯一显式自施魔法护盾入口，不声称完整E、控制免疫、友军、资源、冷却或战斗完成。",
+      "references": [
+        "01-来源方案.md:1-11",
+        "批次执行.mjs:128-133"
+      ]
+    },
+    {
+      "name": "语法与凭据记录",
+      "status": "PASS",
+      "evidence": "node --check通过。03、04递归字段检查未发现凭据字段；执行器仅在内存生成临时非空令牌，审计只保存方法、路径和状态，不输出或保存请求头。"
+    }
+  ],
+  "issues": [],
+  "boundary": "本次证据为冻结文件审查与真实管理接口GET；未执行业务写入、数据库访问、浏览器验收或战斗运行验证，不证明宿主已提供显式目标快照，也不证明控制免疫或完整E。"
+}

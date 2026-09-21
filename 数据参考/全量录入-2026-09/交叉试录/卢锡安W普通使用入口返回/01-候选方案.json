@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "卢锡安W普通使用接入既有施放过程",
+  "generatedAt": "2026-09-21T03:33:57.001Z",
+  "targets": [
+    {
+      "skillKey": "lucian_w",
+      "ownerKey": "champion_lucian"
+    }
+  ],
+  "scope": "只新增一条普通主动使用入口；现有cast、参数、效果和实际命中保持。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/卢锡安共享组成接续核对/02-W固定来源与接续候选.json",
+      "sha256": "94fd9d8c366ad973cdf7368a0d2b30a639a0d8edac31002e3ac9480b8feb6823"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Lucian.json",
+      "sha256": "536572decf3b3085feb7c23c7f875d1a3e48c693c9697f0df5fe7dac6f071344"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lucian.json.gz",
+      "sha256": "426dec7ac0ea042d36cbadfe5117bd1faba7cafc73bd0dc6ca0919bf9d736fad"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/lucian_w/trigger-rules",
+      "detailRoute": "/skills/lucian_w/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "热诚烈弹主动使用入口",
+        "description": "本技能主动使用时启动已有cast过程，登记法力和普通冷却并保留已核定的250毫秒施法延迟；不把过程结束当成实际命中，不在此处直接施加伤害或标记。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lucian_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动已有施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "热诚烈弹主动使用入口",
+        "description": "本技能主动使用时启动已有cast过程，登记法力和普通冷却并保留已核定的250毫秒施法延迟；不把过程结束当成实际命中，不在此处直接施加伤害或标记。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "lucian_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动已有施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ]
+}

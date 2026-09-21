@@ -1,0 +1,959 @@
+{
+  "startedAt": "2026-09-19T05:36:07.434Z",
+  "status": "PASS",
+  "businessWritesAttempted": 4,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/ivern_q/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-19T05:36:08.212359Z",
+          "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限复用root_duration_ms；入口同时要求实际敌方英雄命中及同次命中明确未被法术护盾阻挡。已有实例时不执行，必填重施策略在本入口不可达，重施语义仍待核。",
+          "effectKey": "root_control",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "root_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE_TARGET",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "艾翁·根深敌固首次禁锢",
+          "results": [
+            {
+              "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+              "detail": {
+                "operation": "APPLY",
+                "statusKey": "root"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": null
+              },
+              "name": "艾翁·根深敌固禁锢",
+              "resultKey": "root",
+              "resultType": "STATUS_OPERATION",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": null
+            }
+          ],
+          "skillKey": "ivern_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-19T05:36:08.212359Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-19T05:36:08.212359Z",
+        "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限复用root_duration_ms；入口同时要求实际敌方英雄命中及同次命中明确未被法术护盾阻挡。已有实例时不执行，必填重施策略在本入口不可达，重施语义仍待核。",
+        "effectKey": "root_control",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "艾翁·根深敌固首次禁锢",
+        "results": [
+          {
+            "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "root"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "艾翁·根深敌固禁锢",
+            "resultKey": "root",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "ivern_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T05:36:08.212359Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ivern_q/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "apply_root",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "root_control"
+              },
+              "name": "施加本次禁锢",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "enemy_target",
+                  "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                  "detail": {},
+                  "sortOrder": 20
+                },
+                {
+                  "conditionKey": "not_spell_shield_blocked",
+                  "conditionType": "EVENT_VALUE_COMPARE",
+                  "detail": {
+                    "comparator": "EQ",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 0
+                    },
+                    "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                  },
+                  "sortOrder": 30
+                },
+                {
+                  "conditionKey": "own_root_absent",
+                  "conditionType": "LIFECYCLE_CHECK",
+                  "detail": {
+                    "checkKind": "ABSENT",
+                    "comparator": null,
+                    "comparisonValue": null,
+                    "effectKey": "root_control",
+                    "subject": "CURRENT_TARGET"
+                  },
+                  "sortOrder": 40
+                }
+              ],
+              "groupKey": "root_eligible",
+              "name": "本次禁锢可施加",
+              "sortOrder": 10
+            }
+          ],
+          "description": "只消费本技能实际敌方英雄命中，且同次护盾阻挡值为0、当前目标无本来源禁锢实例；缺失判定不能默认0。重施突进、友军突进和野怪冷却返还不进入本规则。已有实例的重复命中未录，原伤害与其他组成保持。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "ivern_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "艾翁·根深敌固未受阻挡首次禁锢",
+          "perTargetCooldown": null,
+          "ruleKey": "apply_root_on_unblocked_hit",
+          "sortOrder": 30
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "root_control"
+            },
+            "name": "施加本次禁锢",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                },
+                "sortOrder": 30
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "detail": {
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null,
+                  "effectKey": "root_control",
+                  "subject": "CURRENT_TARGET"
+                },
+                "sortOrder": 40
+              }
+            ],
+            "groupKey": "root_eligible",
+            "name": "本次禁锢可施加",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费本技能实际敌方英雄命中，且同次护盾阻挡值为0、当前目标无本来源禁锢实例；缺失判定不能默认0。重施突进、友军突进和野怪冷却返还不进入本规则。已有实例的重复命中未录，原伤害与其他组成保持。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "ivern_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "艾翁·根深敌固未受阻挡首次禁锢",
+        "perTargetCooldown": null,
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lux_q/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-19T05:36:11.414771Z",
+          "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限复用root_duration_ms；入口同时要求实际敌方英雄命中及同次命中明确未被法术护盾阻挡。已有实例时不执行，必填重施策略在本入口不可达，重施语义仍待核。",
+          "effectKey": "root_control",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "root_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE_TARGET",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "拉克丝·光之束缚首次禁锢",
+          "results": [
+            {
+              "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+              "detail": {
+                "operation": "APPLY",
+                "statusKey": "root"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": null
+              },
+              "name": "拉克丝·光之束缚禁锢",
+              "resultKey": "root",
+              "resultType": "STATUS_OPERATION",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": null
+            }
+          ],
+          "skillKey": "lux_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-19T05:36:11.414771Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-19T05:36:11.414771Z",
+        "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限复用root_duration_ms；入口同时要求实际敌方英雄命中及同次命中明确未被法术护盾阻挡。已有实例时不执行，必填重施策略在本入口不可达，重施语义仍待核。",
+        "effectKey": "root_control",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "拉克丝·光之束缚首次禁锢",
+        "results": [
+          {
+            "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "root"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "拉克丝·光之束缚禁锢",
+            "resultKey": "root",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "lux_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T05:36:11.414771Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lux_q/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "apply_root",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "root_control"
+              },
+              "name": "施加本次禁锢",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "enemy_target",
+                  "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                  "detail": {},
+                  "sortOrder": 20
+                },
+                {
+                  "conditionKey": "not_spell_shield_blocked",
+                  "conditionType": "EVENT_VALUE_COMPARE",
+                  "detail": {
+                    "comparator": "EQ",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 0
+                    },
+                    "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                  },
+                  "sortOrder": 30
+                },
+                {
+                  "conditionKey": "own_root_absent",
+                  "conditionType": "LIFECYCLE_CHECK",
+                  "detail": {
+                    "checkKind": "ABSENT",
+                    "comparator": null,
+                    "comparisonValue": null,
+                    "effectKey": "root_control",
+                    "subject": "CURRENT_TARGET"
+                  },
+                  "sortOrder": 40
+                }
+              ],
+              "groupKey": "root_eligible",
+              "name": "本次禁锢可施加",
+              "sortOrder": 10
+            }
+          ],
+          "description": "只消费本技能实际敌方英雄命中，且同次护盾阻挡值为0、当前目标无本来源禁锢实例；缺失判定不能默认0。前两目标选择与碰撞不由本规则生成；每次合法实际命中分别检查。已有实例的重复命中未录，原伤害与其他组成保持。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "lux_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "拉克丝·光之束缚未受阻挡首次禁锢",
+          "perTargetCooldown": null,
+          "ruleKey": "apply_root_on_unblocked_hit",
+          "sortOrder": 30
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "root_control"
+            },
+            "name": "施加本次禁锢",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                },
+                "sortOrder": 30
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "detail": {
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null,
+                  "effectKey": "root_control",
+                  "subject": "CURRENT_TARGET"
+                },
+                "sortOrder": 40
+              }
+            ],
+            "groupKey": "root_eligible",
+            "name": "本次禁锢可施加",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只消费本技能实际敌方英雄命中，且同次护盾阻挡值为0、当前目标无本来源禁锢实例；缺失判定不能默认0。前两目标选择与碰撞不由本规则生成；每次合法实际命中分别检查。已有实例的重复命中未录，原伤害与其他组成保持。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "lux_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "拉克丝·光之束缚未受阻挡首次禁锢",
+        "perTargetCooldown": null,
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "sortOrder": 30
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "1220e6f5340f9a3378ba05f560a971d821c2f9c14873c209dfe7ad5a9f539200",
+    "02-冻结请求.json": "ff071db801c8d74e55092ef0d20bd788c85d049b6cb56d26734c6c5c22667011",
+    "03-来源摘要.json": "38671f8470f141b5227f053c30fd8955f412e677bd366fd0696be1e6051d5880",
+    "04-写入前现值.json": "188fed82a95e5e4fd95e971b7da769759dbdb2b3ee1626953534ee9fc3a4a471"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T05:36:13.838Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ivern",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ivern/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ivern/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_ivern",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=ivern_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/dash_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/m_cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/spell_cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/cast_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/display_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/cast_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/missile_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/formulas/root_duration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lux",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lux/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lux/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_lux",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=lux_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/target_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/projectile_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects/light_binding_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/root",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/root_control",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects/root_control",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/root_control",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/ivern_q/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/root_control",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/ivern_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects/root_control",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/lux_q/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects/root_control",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/lux_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 200
+    }
+  ]
+}

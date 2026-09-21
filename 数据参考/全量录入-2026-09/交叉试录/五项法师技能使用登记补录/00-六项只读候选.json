@@ -1,0 +1,5215 @@
+{
+  "schemaVersion": 1,
+  "status": "READ_ONLY_CANDIDATE",
+  "title": "莫甘娜Q/W/R与拉克丝Q/W/R单次主动使用法力消耗及普通冷却候选报告",
+  "generatedAt": "2026-09-18T21:52:02.399Z",
+  "fixedSource": {
+    "versions": {
+      "client": "16.17",
+      "ddragon": "16.17.1"
+    },
+    "officialSource": "DDragon 16.17.1 中文原始英雄资料",
+    "clientSource": "CommunityDragon 16.17 客户端压缩原文（当前根绑定）",
+    "indexPath": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+    "indexSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+  },
+  "scope": {
+    "included": [
+      "morgana_q",
+      "morgana_w",
+      "morgana_r",
+      "lux_q",
+      "lux_w",
+      "lux_r"
+    ],
+    "excluded": [
+      {
+        "skillKey": "lux_e",
+        "reason": "Lux E存在再次施放语义，本候选明确不扩大名单。"
+      }
+    ],
+    "goal": "只判断一次成功ACTIVE使用的基础法力消耗与普通冷却能否准确登记；普通基础冷却与角色机制造成的后续冷却减少分开。",
+    "noBusinessWrites": true
+  },
+  "candidateCounts": {
+    "具体资料/结构待补": 1,
+    "READY": 4,
+    "已存在登记": 1
+  },
+  "candidates": [
+    {
+      "skillKey": "morgana_q",
+      "championId": "Morgana",
+      "slot": "Q",
+      "name": "莫甘娜·暗之禁锢",
+      "candidateStatus": "具体资料/结构待补",
+      "conclusion": "原始资料足以确定普通冷却，但当前管理参数列表缺少cooldown_ms；先补齐参数结构，再新增使用登记过程与入口。",
+      "sourceVersions": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "source": {
+        "sourceIndexSelector": "heroes[championId=Morgana].skills[slot=Q]",
+        "rootPath": "Characters/Morgana/CharacterRecords/Root",
+        "rootBinding": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+          "pointer": "Characters/Morgana/CharacterRecords/Root.spells[0]",
+          "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+          "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913",
+          "value": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ",
+          "matchesClientPath": true
+        },
+        "index": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "pointer": "heroes[championId=Morgana].skills[slot=Q]",
+          "rawSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+          "clientPath": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ",
+          "clientCooldown": null,
+          "clientMana": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "officialMaxRank": 5
+        },
+        "official": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+          "pointer": "data.Morgana.spells[0]",
+          "rawSha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903",
+          "fields": {
+            "id": "MorganaQ",
+            "name": "暗之禁锢",
+            "maxRank": 5,
+            "cooldownSeconds": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "manaCost": [
+              50,
+              55,
+              60,
+              65,
+              70
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        },
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+          "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+          "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913",
+          "objectPointer": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ",
+          "pointers": {
+            "mana": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.mana",
+            "manaValues": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.manaValues.values",
+            "cooldownTime": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.cooldownTime"
+          },
+          "fields": {
+            "mana": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              75
+            ],
+            "manaValues": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              75
+            ],
+            "cooldownTime": null
+          }
+        },
+        "rawValues": {
+          "officialManaCost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "officialCooldownSeconds": [
+            10,
+            10,
+            10,
+            10,
+            10
+          ],
+          "officialCooldownMs": [
+            10000,
+            10000,
+            10000,
+            10000,
+            10000
+          ],
+          "clientMana": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "clientManaValues": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "clientCooldownTime": null,
+          "levelStart": {
+            "mana": 0,
+            "cooldown": "客户端字段缺失，采用同版官方等级1起点"
+          },
+          "effectiveByLevel": {
+            "manaCost": [
+              50,
+              55,
+              60,
+              65,
+              70
+            ],
+            "cooldownSeconds": null,
+            "cooldownMs": [
+              10000,
+              10000,
+              10000,
+              10000,
+              10000
+            ]
+          }
+        },
+        "agreement": {
+          "officialVsClientMana": true,
+          "clientManaVsManaValues": true,
+          "officialVsClientCooldown": null,
+          "indexVsGzipMana": true,
+          "indexVsGzipCooldown": null,
+          "officialVsCurrentManaParameter": true,
+          "officialVsCurrentCooldownParameter": false,
+          "currentValuesConsistent": false,
+          "note": "主技能客户端没有cooldownTime；冷却采用同版DDragon官方值，缺失字段不解释为0。"
+        },
+        "sourceRefs": [
+          {
+            "role": "官方中文DDragon16.17.1",
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+            "pointer": "data.Morgana.spells[0].cost",
+            "rawSha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903"
+          },
+          {
+            "role": "官方中文DDragon16.17.1",
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+            "pointer": "data.Morgana.spells[0].cooldown",
+            "rawSha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+            "pointer": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.mana",
+            "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+            "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+            "pointer": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.manaValues.values",
+            "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+            "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+            "pointer": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ.mSpell.cooldownTime",
+            "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+            "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913"
+          },
+          {
+            "role": "技能来源索引",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+            "pointer": "heroes[championId=Morgana].skills[slot=Q]",
+            "rawSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+          }
+        ]
+      },
+      "currentManagement": {
+        "apiPaths": {
+          "skill": "/skills/morgana_q",
+          "parameters": "/skills/morgana_q/parameters",
+          "effects": "/skills/morgana_q/effects",
+          "manaEffect": "/skills/morgana_q/effects/mana_cost",
+          "processes": "/skills/morgana_q/processes",
+          "triggerRules": "/skills/morgana_q/trigger-rules"
+        },
+        "parameters": {
+          "manaCost": {
+            "createdAt": "2026-09-07T18:00:20.906959Z",
+            "description": "DDragon16.17.1 Morgana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 55,
+              "3": 60,
+              "4": 65,
+              "5": 70
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "morgana_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:20.906959Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          "cooldown": null,
+          "missingCooldownParameter": true
+        },
+        "parameterChecks": {
+          "manaMatchesSource": true,
+          "cooldownMatchesSource": false,
+          "fullCurrentValueCheck": false
+        },
+        "manaEffect": {
+          "summary": {
+            "createdAt": "2026-09-09T17:57:46.516614Z",
+            "description": "仅记录morgana_q的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "morgana_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T17:57:46.516614Z"
+          },
+          "detail": {
+            "createdAt": "2026-09-09T17:57:46.516614Z",
+            "description": "仅记录morgana_q的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "施放法力消耗",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                },
+                "lifecycleBehavior": null,
+                "name": "施放法力消耗",
+                "resultKey": "resource",
+                "resultType": "RESOURCE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  }
+                }
+              }
+            ],
+            "skillKey": "morgana_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T17:57:46.516614Z"
+          },
+          "validForReuse": true,
+          "checks": {
+            "resultTypeResourceChange": true,
+            "targetSource": true,
+            "attributeMana": true,
+            "operationConsume": true,
+            "parameterManaCost": true
+          }
+        },
+        "existingRegistration": {
+          "processSummaries": [],
+          "processDetails": {},
+          "costProcessKeys": [],
+          "triggerRuleSummaries": [],
+          "triggerRuleDetails": {},
+          "activeCostRuleKeys": [],
+          "hasCompleteActiveRegistration": false
+        }
+      },
+      "proposedObjects": {
+        "parameter": {
+          "method": "POST",
+          "route": "/skills/morgana_q/parameters",
+          "body": {
+            "parameterKey": "cooldown_ms",
+            "name": "基础冷却时间（毫秒）",
+            "description": "DDragon16.17.1 Morgana.spells[0].cooldown，等级1起索引0；客户端主技能未提供cooldownTime，不能把缺失字段当作0。只登记基础普通冷却，不计急速或其他技能修正；不表示过程与机制完成。",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER",
+            "fixedValue": 10000,
+            "levelValues": null,
+            "sortOrder": 100
+          }
+        },
+        "costEffect": {
+          "needed": false,
+          "reuse": true,
+          "reason": "六项mana_cost详情均为SOURCE资源消耗并引用同技能mana_cost参数。"
+        },
+        "process": {
+          "needed": true,
+          "draft": {
+            "method": "POST",
+            "route": "/skills/morgana_q/processes",
+            "detailRoute": "/skills/morgana_q/processes/use_cost_and_cooldown",
+            "body": {
+              "processKey": "use_cost_and_cooldown",
+              "name": "使用消耗与普通冷却",
+              "activationType": "ACTIVE",
+              "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。其他技能效果不在此过程执行。",
+              "sortOrder": 10,
+              "cooldown": {
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cooldown_ms"
+                },
+                "startMoment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                }
+              },
+              "steps": [
+                {
+                  "stepKey": "register_use",
+                  "name": "登记本次使用",
+                  "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+                  "sortOrder": 10,
+                  "stepType": "IMMEDIATE",
+                  "detail": {}
+                }
+              ],
+              "effectBindings": [
+                {
+                  "bindingKey": "mana_cost",
+                  "effectKey": "mana_cost",
+                  "moment": {
+                    "momentType": "PROCESS_START",
+                    "stepKey": null
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "stateOperations": []
+            }
+          }
+        },
+        "entryRule": {
+          "needed": true,
+          "draft": {
+            "method": "POST",
+            "route": "/skills/morgana_q/trigger-rules",
+            "detailRoute": "/skills/morgana_q/trigger-rules/on_used_cost_and_cooldown",
+            "body": {
+              "ruleKey": "on_used_cost_and_cooldown",
+              "name": "主动使用登记消耗与冷却",
+              "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+              "sortOrder": 5,
+              "eventSource": {
+                "eventType": "SKILL_USED",
+                "detail": {
+                  "sourceSkillKey": "morgana_q",
+                  "useKind": "ACTIVE"
+                }
+              },
+              "conditionGroups": [],
+              "actions": [
+                {
+                  "actionKey": "start_use_cost",
+                  "name": "启动使用过程",
+                  "actionType": "START_PROCESS",
+                  "sortOrder": 10,
+                  "targetContext": "CURRENT_TARGET",
+                  "detail": {
+                    "processKey": "use_cost_and_cooldown"
+                  },
+                  "runtimeInputBindings": [],
+                  "resultModifiers": []
+                }
+              ],
+              "perTargetCooldown": null,
+              "maxTriggersPerProcess": null
+            }
+          }
+        },
+        "duplicateProtection": "写入前仍需按固定请求逐笔GET，若现有过程或入口已出现则跳过对应新增，避免重复扣除。"
+      },
+      "laterCooldownMechanics": [],
+      "remainingSkillComposition": [
+        "只覆盖一次成功ACTIVE使用的基础法力消耗与普通冷却登记；不证明宿主已产生SKILL_USED、不证明实际扣法力或启动冷却，也不证明Wasm战斗结果。",
+        "不改写本技能已有伤害、治疗、护盾、控制、区域、命中和施法时序；过程立即步骤只表示登记，不表示完整施法时长为零。",
+        "不把客户端底层标记、额外数组位置或再施放描述推断成免费、第二次施放或自动重复使用。",
+        "剩余技能组成：命中与控制继续单独处理。"
+      ],
+      "checks": {
+        "skillStatus200": true,
+        "parameterListStatus200": true,
+        "effectListStatus200": true,
+        "processListStatus200": true,
+        "triggerRuleListStatus200": true,
+        "sourceValuesAgree": true,
+        "manaValuesShapeCorrect": true,
+        "currentValuesMatchSource": false,
+        "reusableManaEffect": true,
+        "existingProcessAlreadyRegistersCost": false,
+        "existingActiveEntryAlreadyStartsCostProcess": false,
+        "runtimeNotUsedAsBlocker": true
+      },
+      "detailRequestsSkipped": [
+        {
+          "route": "/skills/morgana_q/parameters/mana_cost",
+          "reason": "parameters列表已返回完整对象，未重复详情GET。"
+        },
+        {
+          "route": "/skills/morgana_q/parameters/cooldown_ms",
+          "reason": "parameters列表已完整返回现有参数集合且未包含该键；未额外发送404详情GET，结构缺口在候选中标记。"
+        }
+      ]
+    },
+    {
+      "skillKey": "morgana_w",
+      "championId": "Morgana",
+      "slot": "W",
+      "name": "莫甘娜·折磨之影",
+      "candidateStatus": "READY",
+      "conclusion": "来源、当前参数和可复用法力效果一致，可新增使用登记过程与SKILL_USED/ACTIVE入口草案。",
+      "sourceVersions": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "source": {
+        "sourceIndexSelector": "heroes[championId=Morgana].skills[slot=W]",
+        "rootPath": "Characters/Morgana/CharacterRecords/Root",
+        "rootBinding": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+          "pointer": "Characters/Morgana/CharacterRecords/Root.spells[1]",
+          "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+          "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913",
+          "value": "Characters/Morgana/Spells/MorganaWAbility/MorganaW",
+          "matchesClientPath": true
+        },
+        "index": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "pointer": "heroes[championId=Morgana].skills[slot=W]",
+          "rawSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+          "clientPath": "Characters/Morgana/Spells/MorganaWAbility/MorganaW",
+          "clientCooldown": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "clientMana": [
+            70,
+            80,
+            90,
+            100,
+            110,
+            120
+          ],
+          "officialMaxRank": 5
+        },
+        "official": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+          "pointer": "data.Morgana.spells[1]",
+          "rawSha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903",
+          "fields": {
+            "id": "MorganaW",
+            "name": "折磨之影",
+            "maxRank": 5,
+            "cooldownSeconds": [
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "manaCost": [
+              70,
+              80,
+              90,
+              100,
+              110
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        },
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+          "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+          "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913",
+          "objectPointer": "Characters/Morgana/Spells/MorganaWAbility/MorganaW",
+          "pointers": {
+            "mana": "Characters/Morgana/Spells/MorganaWAbility/MorganaW.mSpell.mana",
+            "manaValues": "Characters/Morgana/Spells/MorganaWAbility/MorganaW.mSpell.manaValues.values",
+            "cooldownTime": "Characters/Morgana/Spells/MorganaWAbility/MorganaW.mSpell.cooldownTime"
+          },
+          "fields": {
+            "mana": [
+              70,
+              80,
+              90,
+              100,
+              110,
+              120
+            ],
+            "manaValues": [
+              70,
+              80,
+              90,
+              100,
+              110,
+              120
+            ],
+            "cooldownTime": [
+              12,
+              12,
+              12,
+              12,
+              12,
+              12,
+              12
+            ]
+          }
+        },
+        "rawValues": {
+          "officialManaCost": [
+            70,
+            80,
+            90,
+            100,
+            110
+          ],
+          "officialCooldownSeconds": [
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "officialCooldownMs": [
+            12000,
+            12000,
+            12000,
+            12000,
+            12000
+          ],
+          "clientMana": [
+            70,
+            80,
+            90,
+            100,
+            110,
+            120
+          ],
+          "clientManaValues": [
+            70,
+            80,
+            90,
+            100,
+            110,
+            120
+          ],
+          "clientCooldownTime": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "levelStart": {
+            "mana": 0,
+            "cooldown": 1
+          },
+          "effectiveByLevel": {
+            "manaCost": [
+              70,
+              80,
+              90,
+              100,
+              110
+            ],
+            "cooldownSeconds": [
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "cooldownMs": [
+              12000,
+              12000,
+              12000,
+              12000,
+              12000
+            ]
+          }
+        },
+        "agreement": {
+          "officialVsClientMana": true,
+          "clientManaVsManaValues": true,
+          "officialVsClientCooldown": true,
+          "indexVsGzipMana": true,
+          "indexVsGzipCooldown": true,
+          "officialVsCurrentManaParameter": true,
+          "officialVsCurrentCooldownParameter": true,
+          "currentValuesConsistent": true,
+          "note": "冷却采用客户端cooldownTime索引1至maxLevel，并与同版官方秒值逐级一致。"
+        },
+        "sourceRefs": [
+          {
+            "role": "官方中文DDragon16.17.1",
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+            "pointer": "data.Morgana.spells[1].cost",
+            "rawSha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903"
+          },
+          {
+            "role": "官方中文DDragon16.17.1",
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+            "pointer": "data.Morgana.spells[1].cooldown",
+            "rawSha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+            "pointer": "Characters/Morgana/Spells/MorganaWAbility/MorganaW.mSpell.mana",
+            "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+            "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+            "pointer": "Characters/Morgana/Spells/MorganaWAbility/MorganaW.mSpell.manaValues.values",
+            "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+            "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+            "pointer": "Characters/Morgana/Spells/MorganaWAbility/MorganaW.mSpell.cooldownTime",
+            "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+            "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913"
+          },
+          {
+            "role": "技能来源索引",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+            "pointer": "heroes[championId=Morgana].skills[slot=W]",
+            "rawSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+          }
+        ]
+      },
+      "currentManagement": {
+        "apiPaths": {
+          "skill": "/skills/morgana_w",
+          "parameters": "/skills/morgana_w/parameters",
+          "effects": "/skills/morgana_w/effects",
+          "manaEffect": "/skills/morgana_w/effects/mana_cost",
+          "processes": "/skills/morgana_w/processes",
+          "triggerRules": "/skills/morgana_w/trigger-rules"
+        },
+        "parameters": {
+          "manaCost": {
+            "createdAt": "2026-09-07T18:00:21.741214Z",
+            "description": "DDragon16.17.1 Morgana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 70,
+              "2": 80,
+              "3": 90,
+              "4": 100,
+              "5": 110
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "morgana_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:21.741214Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          "cooldown": {
+            "createdAt": "2026-09-07T18:00:21.332198Z",
+            "description": "DDragon16.17.1 Morgana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 12000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "morgana_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:21.332198Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "missingCooldownParameter": false
+        },
+        "parameterChecks": {
+          "manaMatchesSource": true,
+          "cooldownMatchesSource": true,
+          "fullCurrentValueCheck": true
+        },
+        "manaEffect": {
+          "summary": {
+            "createdAt": "2026-09-09T17:57:59.638354Z",
+            "description": "仅记录morgana_w的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "morgana_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T17:57:59.638354Z"
+          },
+          "detail": {
+            "createdAt": "2026-09-09T17:57:59.638354Z",
+            "description": "仅记录morgana_w的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "施放法力消耗",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                },
+                "lifecycleBehavior": null,
+                "name": "施放法力消耗",
+                "resultKey": "resource",
+                "resultType": "RESOURCE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  }
+                }
+              }
+            ],
+            "skillKey": "morgana_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T17:57:59.638354Z"
+          },
+          "validForReuse": true,
+          "checks": {
+            "resultTypeResourceChange": true,
+            "targetSource": true,
+            "attributeMana": true,
+            "operationConsume": true,
+            "parameterManaCost": true
+          }
+        },
+        "existingRegistration": {
+          "processSummaries": [],
+          "processDetails": {},
+          "costProcessKeys": [],
+          "triggerRuleSummaries": [],
+          "triggerRuleDetails": {},
+          "activeCostRuleKeys": [],
+          "hasCompleteActiveRegistration": false
+        }
+      },
+      "proposedObjects": {
+        "parameter": null,
+        "costEffect": {
+          "needed": false,
+          "reuse": true,
+          "reason": "六项mana_cost详情均为SOURCE资源消耗并引用同技能mana_cost参数。"
+        },
+        "process": {
+          "needed": true,
+          "draft": {
+            "method": "POST",
+            "route": "/skills/morgana_w/processes",
+            "detailRoute": "/skills/morgana_w/processes/use_cost_and_cooldown",
+            "body": {
+              "processKey": "use_cost_and_cooldown",
+              "name": "使用消耗与普通冷却",
+              "activationType": "ACTIVE",
+              "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。其他技能效果不在此过程执行。",
+              "sortOrder": 10,
+              "cooldown": {
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cooldown_ms"
+                },
+                "startMoment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                }
+              },
+              "steps": [
+                {
+                  "stepKey": "register_use",
+                  "name": "登记本次使用",
+                  "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+                  "sortOrder": 10,
+                  "stepType": "IMMEDIATE",
+                  "detail": {}
+                }
+              ],
+              "effectBindings": [
+                {
+                  "bindingKey": "mana_cost",
+                  "effectKey": "mana_cost",
+                  "moment": {
+                    "momentType": "PROCESS_START",
+                    "stepKey": null
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "stateOperations": []
+            }
+          }
+        },
+        "entryRule": {
+          "needed": true,
+          "draft": {
+            "method": "POST",
+            "route": "/skills/morgana_w/trigger-rules",
+            "detailRoute": "/skills/morgana_w/trigger-rules/on_used_cost_and_cooldown",
+            "body": {
+              "ruleKey": "on_used_cost_and_cooldown",
+              "name": "主动使用登记消耗与冷却",
+              "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+              "sortOrder": 5,
+              "eventSource": {
+                "eventType": "SKILL_USED",
+                "detail": {
+                  "sourceSkillKey": "morgana_w",
+                  "useKind": "ACTIVE"
+                }
+              },
+              "conditionGroups": [],
+              "actions": [
+                {
+                  "actionKey": "start_use_cost",
+                  "name": "启动使用过程",
+                  "actionType": "START_PROCESS",
+                  "sortOrder": 10,
+                  "targetContext": "CURRENT_TARGET",
+                  "detail": {
+                    "processKey": "use_cost_and_cooldown"
+                  },
+                  "runtimeInputBindings": [],
+                  "resultModifiers": []
+                }
+              ],
+              "perTargetCooldown": null,
+              "maxTriggersPerProcess": null
+            }
+          }
+        },
+        "duplicateProtection": "写入前仍需按固定请求逐笔GET，若现有过程或入口已出现则跳过对应新增，避免重复扣除。"
+      },
+      "laterCooldownMechanics": [
+        {
+          "key": "morgana_w_passive_heal_cooldown_refund",
+          "kind": "角色机制造成的后续冷却减少",
+          "source": {
+            "official": {
+              "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+              "pointer": "data.Morgana.spells[1].tooltip",
+              "rawSha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903"
+            },
+            "client": {
+              "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+              "pointer": "Characters/Morgana/Spells/MorganaWAbility/MorganaW.mSpell.DataValues[name=CDRefundPercent].values",
+              "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+              "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913"
+            }
+          },
+          "rawValues": [
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806
+          ],
+          "existingParameter": {
+            "createdAt": "2026-09-09T17:57:54.189684Z",
+            "description": "当前正文明确莫甘娜被P治疗时W冷却减少5%；只保留条件参数，不创建无条件冷却效果。",
+            "fixedValue": 0.05,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "被动治疗后W冷却返还比例",
+            "parameterKey": "passive_heal_cooldown_refund_ratio",
+            "skillKey": "morgana_w",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-09T17:57:54.189684Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          "treatment": "与本次普通基础cooldown_ms分开记录，不并入普通冷却；本候选不新增该角色机制规则。"
+        }
+      ],
+      "remainingSkillComposition": [
+        "只覆盖一次成功ACTIVE使用的基础法力消耗与普通冷却登记；不证明宿主已产生SKILL_USED、不证明实际扣法力或启动冷却，也不证明Wasm战斗结果。",
+        "不改写本技能已有伤害、治疗、护盾、控制、区域、命中和施法时序；过程立即步骤只表示登记，不表示完整施法时长为零。",
+        "不把客户端底层标记、额外数组位置或再施放描述推断成免费、第二次施放或自动重复使用。",
+        "剩余技能组成：持续或护盾/区域继续单独处理。"
+      ],
+      "checks": {
+        "skillStatus200": true,
+        "parameterListStatus200": true,
+        "effectListStatus200": true,
+        "processListStatus200": true,
+        "triggerRuleListStatus200": true,
+        "sourceValuesAgree": true,
+        "manaValuesShapeCorrect": true,
+        "currentValuesMatchSource": true,
+        "reusableManaEffect": true,
+        "existingProcessAlreadyRegistersCost": false,
+        "existingActiveEntryAlreadyStartsCostProcess": false,
+        "runtimeNotUsedAsBlocker": true
+      },
+      "detailRequestsSkipped": [
+        {
+          "route": "/skills/morgana_w/parameters/mana_cost",
+          "reason": "parameters列表已返回完整对象，未重复详情GET。"
+        },
+        {
+          "route": "/skills/morgana_w/parameters/cooldown_ms",
+          "reason": "parameters列表已返回完整对象，未重复详情GET。"
+        }
+      ]
+    },
+    {
+      "skillKey": "morgana_r",
+      "championId": "Morgana",
+      "slot": "R",
+      "name": "莫甘娜·灵魂镣铐",
+      "candidateStatus": "READY",
+      "conclusion": "来源、当前参数和可复用法力效果一致，可新增使用登记过程与SKILL_USED/ACTIVE入口草案。",
+      "sourceVersions": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "source": {
+        "sourceIndexSelector": "heroes[championId=Morgana].skills[slot=R]",
+        "rootPath": "Characters/Morgana/CharacterRecords/Root",
+        "rootBinding": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+          "pointer": "Characters/Morgana/CharacterRecords/Root.spells[3]",
+          "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+          "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913",
+          "value": "Characters/Morgana/Spells/MorganaRAbility/MorganaR",
+          "matchesClientPath": true
+        },
+        "index": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "pointer": "heroes[championId=Morgana].skills[slot=R]",
+          "rawSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+          "clientPath": "Characters/Morgana/Spells/MorganaRAbility/MorganaR",
+          "clientCooldown": [
+            10,
+            120,
+            110,
+            100,
+            10,
+            10,
+            10
+          ],
+          "clientMana": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "officialMaxRank": 3
+        },
+        "official": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+          "pointer": "data.Morgana.spells[3]",
+          "rawSha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903",
+          "fields": {
+            "id": "MorganaR",
+            "name": "灵魂镣铐",
+            "maxRank": 3,
+            "cooldownSeconds": [
+              120,
+              110,
+              100
+            ],
+            "manaCost": [
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        },
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+          "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+          "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913",
+          "objectPointer": "Characters/Morgana/Spells/MorganaRAbility/MorganaR",
+          "pointers": {
+            "mana": "Characters/Morgana/Spells/MorganaRAbility/MorganaR.mSpell.mana",
+            "manaValues": "Characters/Morgana/Spells/MorganaRAbility/MorganaR.mSpell.manaValues.values",
+            "cooldownTime": "Characters/Morgana/Spells/MorganaRAbility/MorganaR.mSpell.cooldownTime"
+          },
+          "fields": {
+            "mana": [
+              100,
+              100,
+              100,
+              0,
+              0,
+              0
+            ],
+            "manaValues": [
+              100,
+              100,
+              100,
+              0,
+              0,
+              0
+            ],
+            "cooldownTime": [
+              10,
+              120,
+              110,
+              100,
+              10,
+              10,
+              10
+            ]
+          }
+        },
+        "rawValues": {
+          "officialManaCost": [
+            100,
+            100,
+            100
+          ],
+          "officialCooldownSeconds": [
+            120,
+            110,
+            100
+          ],
+          "officialCooldownMs": [
+            120000,
+            110000,
+            100000
+          ],
+          "clientMana": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "clientManaValues": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "clientCooldownTime": [
+            10,
+            120,
+            110,
+            100,
+            10,
+            10,
+            10
+          ],
+          "levelStart": {
+            "mana": 0,
+            "cooldown": 1
+          },
+          "effectiveByLevel": {
+            "manaCost": [
+              100,
+              100,
+              100
+            ],
+            "cooldownSeconds": [
+              120,
+              110,
+              100
+            ],
+            "cooldownMs": [
+              120000,
+              110000,
+              100000
+            ]
+          }
+        },
+        "agreement": {
+          "officialVsClientMana": true,
+          "clientManaVsManaValues": true,
+          "officialVsClientCooldown": true,
+          "indexVsGzipMana": true,
+          "indexVsGzipCooldown": true,
+          "officialVsCurrentManaParameter": true,
+          "officialVsCurrentCooldownParameter": true,
+          "currentValuesConsistent": true,
+          "note": "冷却采用客户端cooldownTime索引1至maxLevel，并与同版官方秒值逐级一致。"
+        },
+        "sourceRefs": [
+          {
+            "role": "官方中文DDragon16.17.1",
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+            "pointer": "data.Morgana.spells[3].cost",
+            "rawSha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903"
+          },
+          {
+            "role": "官方中文DDragon16.17.1",
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+            "pointer": "data.Morgana.spells[3].cooldown",
+            "rawSha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+            "pointer": "Characters/Morgana/Spells/MorganaRAbility/MorganaR.mSpell.mana",
+            "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+            "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+            "pointer": "Characters/Morgana/Spells/MorganaRAbility/MorganaR.mSpell.manaValues.values",
+            "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+            "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+            "pointer": "Characters/Morgana/Spells/MorganaRAbility/MorganaR.mSpell.cooldownTime",
+            "rawSha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+            "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913"
+          },
+          {
+            "role": "技能来源索引",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+            "pointer": "heroes[championId=Morgana].skills[slot=R]",
+            "rawSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+          }
+        ]
+      },
+      "currentManagement": {
+        "apiPaths": {
+          "skill": "/skills/morgana_r",
+          "parameters": "/skills/morgana_r/parameters",
+          "effects": "/skills/morgana_r/effects",
+          "manaEffect": "/skills/morgana_r/effects/mana_cost",
+          "processes": "/skills/morgana_r/processes",
+          "triggerRules": "/skills/morgana_r/trigger-rules"
+        },
+        "parameters": {
+          "manaCost": {
+            "createdAt": "2026-09-07T18:00:23.410983Z",
+            "description": "DDragon16.17.1 Morgana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "morgana_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:23.410983Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "cooldown": {
+            "createdAt": "2026-09-07T18:00:23.038382Z",
+            "description": "DDragon16.17.1 Morgana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 110000,
+              "3": 100000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "morgana_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:23.038382Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          "missingCooldownParameter": false
+        },
+        "parameterChecks": {
+          "manaMatchesSource": true,
+          "cooldownMatchesSource": true,
+          "fullCurrentValueCheck": true
+        },
+        "manaEffect": {
+          "summary": {
+            "createdAt": "2026-09-09T17:58:17.976954Z",
+            "description": "仅记录morgana_r的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "morgana_r",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T17:58:17.976954Z"
+          },
+          "detail": {
+            "createdAt": "2026-09-09T17:58:17.976954Z",
+            "description": "仅记录morgana_r的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "施放法力消耗",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                },
+                "lifecycleBehavior": null,
+                "name": "施放法力消耗",
+                "resultKey": "resource",
+                "resultType": "RESOURCE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  }
+                }
+              }
+            ],
+            "skillKey": "morgana_r",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T17:58:17.976954Z"
+          },
+          "validForReuse": true,
+          "checks": {
+            "resultTypeResourceChange": true,
+            "targetSource": true,
+            "attributeMana": true,
+            "operationConsume": true,
+            "parameterManaCost": true
+          }
+        },
+        "existingRegistration": {
+          "processSummaries": [],
+          "processDetails": {},
+          "costProcessKeys": [],
+          "triggerRuleSummaries": [],
+          "triggerRuleDetails": {},
+          "activeCostRuleKeys": [],
+          "hasCompleteActiveRegistration": false
+        }
+      },
+      "proposedObjects": {
+        "parameter": null,
+        "costEffect": {
+          "needed": false,
+          "reuse": true,
+          "reason": "六项mana_cost详情均为SOURCE资源消耗并引用同技能mana_cost参数。"
+        },
+        "process": {
+          "needed": true,
+          "draft": {
+            "method": "POST",
+            "route": "/skills/morgana_r/processes",
+            "detailRoute": "/skills/morgana_r/processes/use_cost_and_cooldown",
+            "body": {
+              "processKey": "use_cost_and_cooldown",
+              "name": "使用消耗与普通冷却",
+              "activationType": "ACTIVE",
+              "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。其他技能效果不在此过程执行。",
+              "sortOrder": 10,
+              "cooldown": {
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cooldown_ms"
+                },
+                "startMoment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                }
+              },
+              "steps": [
+                {
+                  "stepKey": "register_use",
+                  "name": "登记本次使用",
+                  "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+                  "sortOrder": 10,
+                  "stepType": "IMMEDIATE",
+                  "detail": {}
+                }
+              ],
+              "effectBindings": [
+                {
+                  "bindingKey": "mana_cost",
+                  "effectKey": "mana_cost",
+                  "moment": {
+                    "momentType": "PROCESS_START",
+                    "stepKey": null
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "stateOperations": []
+            }
+          }
+        },
+        "entryRule": {
+          "needed": true,
+          "draft": {
+            "method": "POST",
+            "route": "/skills/morgana_r/trigger-rules",
+            "detailRoute": "/skills/morgana_r/trigger-rules/on_used_cost_and_cooldown",
+            "body": {
+              "ruleKey": "on_used_cost_and_cooldown",
+              "name": "主动使用登记消耗与冷却",
+              "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+              "sortOrder": 5,
+              "eventSource": {
+                "eventType": "SKILL_USED",
+                "detail": {
+                  "sourceSkillKey": "morgana_r",
+                  "useKind": "ACTIVE"
+                }
+              },
+              "conditionGroups": [],
+              "actions": [
+                {
+                  "actionKey": "start_use_cost",
+                  "name": "启动使用过程",
+                  "actionType": "START_PROCESS",
+                  "sortOrder": 10,
+                  "targetContext": "CURRENT_TARGET",
+                  "detail": {
+                    "processKey": "use_cost_and_cooldown"
+                  },
+                  "runtimeInputBindings": [],
+                  "resultModifiers": []
+                }
+              ],
+              "perTargetCooldown": null,
+              "maxTriggersPerProcess": null
+            }
+          }
+        },
+        "duplicateProtection": "写入前仍需按固定请求逐笔GET，若现有过程或入口已出现则跳过对应新增，避免重复扣除。"
+      },
+      "laterCooldownMechanics": [],
+      "remainingSkillComposition": [
+        "只覆盖一次成功ACTIVE使用的基础法力消耗与普通冷却登记；不证明宿主已产生SKILL_USED、不证明实际扣法力或启动冷却，也不证明Wasm战斗结果。",
+        "不改写本技能已有伤害、治疗、护盾、控制、区域、命中和施法时序；过程立即步骤只表示登记，不表示完整施法时长为零。",
+        "不把客户端底层标记、额外数组位置或再施放描述推断成免费、第二次施放或自动重复使用。",
+        "剩余技能组成：后续命中、控制或角色专属冷却变化继续单独处理。"
+      ],
+      "checks": {
+        "skillStatus200": true,
+        "parameterListStatus200": true,
+        "effectListStatus200": true,
+        "processListStatus200": true,
+        "triggerRuleListStatus200": true,
+        "sourceValuesAgree": true,
+        "manaValuesShapeCorrect": true,
+        "currentValuesMatchSource": true,
+        "reusableManaEffect": true,
+        "existingProcessAlreadyRegistersCost": false,
+        "existingActiveEntryAlreadyStartsCostProcess": false,
+        "runtimeNotUsedAsBlocker": true
+      },
+      "detailRequestsSkipped": [
+        {
+          "route": "/skills/morgana_r/parameters/mana_cost",
+          "reason": "parameters列表已返回完整对象，未重复详情GET。"
+        },
+        {
+          "route": "/skills/morgana_r/parameters/cooldown_ms",
+          "reason": "parameters列表已返回完整对象，未重复详情GET。"
+        }
+      ]
+    },
+    {
+      "skillKey": "lux_q",
+      "championId": "Lux",
+      "slot": "Q",
+      "name": "拉克丝·光之束缚",
+      "candidateStatus": "READY",
+      "conclusion": "普通过程已存在但缺少SKILL_USED/ACTIVE入口，可只新增入口草案并复用现有过程与法力效果。",
+      "sourceVersions": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "source": {
+        "sourceIndexSelector": "heroes[championId=Lux].skills[slot=Q]",
+        "rootPath": "Characters/Lux/CharacterRecords/Root",
+        "rootBinding": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+          "pointer": "Characters/Lux/CharacterRecords/Root.spells[0]",
+          "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+          "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f",
+          "value": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding",
+          "matchesClientPath": true
+        },
+        "index": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "pointer": "heroes[championId=Lux].skills[slot=Q]",
+          "rawSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+          "clientPath": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding",
+          "clientCooldown": null,
+          "clientMana": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "officialMaxRank": 5
+        },
+        "official": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json",
+          "pointer": "data.Lux.spells[0]",
+          "rawSha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f",
+          "fields": {
+            "id": "LuxLightBinding",
+            "name": "光之束缚",
+            "maxRank": 5,
+            "cooldownSeconds": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "manaCost": [
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        },
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+          "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+          "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f",
+          "objectPointer": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding",
+          "pointers": {
+            "mana": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding.mSpell.mana",
+            "manaValues": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding.mSpell.manaValues.values",
+            "cooldownTime": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding.mSpell.cooldownTime"
+          },
+          "fields": {
+            "mana": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "manaValues": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "cooldownTime": null
+          }
+        },
+        "rawValues": {
+          "officialManaCost": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "officialCooldownSeconds": [
+            10,
+            10,
+            10,
+            10,
+            10
+          ],
+          "officialCooldownMs": [
+            10000,
+            10000,
+            10000,
+            10000,
+            10000
+          ],
+          "clientMana": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "clientManaValues": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "clientCooldownTime": null,
+          "levelStart": {
+            "mana": 0,
+            "cooldown": "客户端字段缺失，采用同版官方等级1起点"
+          },
+          "effectiveByLevel": {
+            "manaCost": [
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "cooldownSeconds": null,
+            "cooldownMs": [
+              10000,
+              10000,
+              10000,
+              10000,
+              10000
+            ]
+          }
+        },
+        "agreement": {
+          "officialVsClientMana": true,
+          "clientManaVsManaValues": true,
+          "officialVsClientCooldown": null,
+          "indexVsGzipMana": true,
+          "indexVsGzipCooldown": null,
+          "officialVsCurrentManaParameter": true,
+          "officialVsCurrentCooldownParameter": true,
+          "currentValuesConsistent": true,
+          "note": "主技能客户端没有cooldownTime；冷却采用同版DDragon官方值，缺失字段不解释为0。"
+        },
+        "sourceRefs": [
+          {
+            "role": "官方中文DDragon16.17.1",
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json",
+            "pointer": "data.Lux.spells[0].cost",
+            "rawSha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f"
+          },
+          {
+            "role": "官方中文DDragon16.17.1",
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json",
+            "pointer": "data.Lux.spells[0].cooldown",
+            "rawSha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+            "pointer": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding.mSpell.mana",
+            "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+            "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+            "pointer": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding.mSpell.manaValues.values",
+            "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+            "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+            "pointer": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding.mSpell.cooldownTime",
+            "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+            "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f"
+          },
+          {
+            "role": "技能来源索引",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+            "pointer": "heroes[championId=Lux].skills[slot=Q]",
+            "rawSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+          }
+        ]
+      },
+      "currentManagement": {
+        "apiPaths": {
+          "skill": "/skills/lux_q",
+          "parameters": "/skills/lux_q/parameters",
+          "effects": "/skills/lux_q/effects",
+          "manaEffect": "/skills/lux_q/effects/mana_cost",
+          "processes": "/skills/lux_q/processes",
+          "triggerRules": "/skills/lux_q/trigger-rules"
+        },
+        "parameters": {
+          "manaCost": {
+            "createdAt": "2026-09-07T14:45:43.697315Z",
+            "description": "客户端 mana 与 DDragon 16.17.1 cost 均为 50。",
+            "fixedValue": 50,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "lux_q",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T14:45:43.697315Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "cooldown": {
+            "createdAt": "2026-09-07T14:45:43.348191Z",
+            "description": "主技能 mSpell 无 Cooldown。DDragon 16.17.1 主动冷却 10 秒。弹体 LuxLightBindingMis 冷却 12 秒与主动资料冲突，不采用弹体值。",
+            "fixedValue": 10000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "lux_q",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T14:45:43.348191Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "missingCooldownParameter": false
+        },
+        "parameterChecks": {
+          "manaMatchesSource": true,
+          "cooldownMatchesSource": true,
+          "fullCurrentValueCheck": true
+        },
+        "manaEffect": {
+          "summary": {
+            "createdAt": "2026-09-07T14:45:45.416254Z",
+            "description": "施放时消耗对应技能等级的法力。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "lux_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:45:45.416254Z"
+          },
+          "detail": {
+            "createdAt": "2026-09-07T14:45:45.416254Z",
+            "description": "施放时消耗对应技能等级的法力。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "施放法力消耗",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                },
+                "lifecycleBehavior": null,
+                "name": "消耗法力",
+                "resultKey": "consume_mana",
+                "resultType": "RESOURCE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  }
+                }
+              }
+            ],
+            "skillKey": "lux_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:45:45.416254Z"
+          },
+          "validForReuse": true,
+          "checks": {
+            "resultTypeResourceChange": true,
+            "targetSource": true,
+            "attributeMana": true,
+            "operationConsume": true,
+            "parameterManaCost": true
+          }
+        },
+        "existingRegistration": {
+          "processSummaries": [
+            {
+              "activationType": "ACTIVE",
+              "createdAt": "2026-09-07T14:45:45.972873Z",
+              "description": "过程只负责法力、施法延迟和冷却；伤害由实际命中事件触发。弹体碰撞与双目标上限未表达。",
+              "effectBindingCount": 1,
+              "gameId": "lol",
+              "name": "施放光之束缚",
+              "processKey": "cast",
+              "skillKey": "lux_q",
+              "sortOrder": 10,
+              "stateOperationCount": 0,
+              "stepCount": 1,
+              "updatedAt": "2026-09-07T14:45:45.972873Z"
+            }
+          ],
+          "processDetails": {
+            "cast": {
+              "activationType": "ACTIVE",
+              "cooldown": {
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cooldown_ms"
+                },
+                "startMoment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                }
+              },
+              "createdAt": "2026-09-07T14:45:45.972873Z",
+              "description": "过程只负责法力、施法延迟和冷却；伤害由实际命中事件触发。弹体碰撞与双目标上限未表达。",
+              "effectBindings": [
+                {
+                  "bindingKey": "mana_cost",
+                  "effectKey": "mana_cost",
+                  "moment": {
+                    "momentType": "PROCESS_START",
+                    "stepKey": null
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "gameId": "lol",
+              "name": "施放光之束缚",
+              "processKey": "cast",
+              "skillKey": "lux_q",
+              "sortOrder": 10,
+              "stateOperations": [],
+              "steps": [
+                {
+                  "description": "主技能 spellCastTime，按毫秒录入。",
+                  "detail": {
+                    "delayValue": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "cast_time_ms"
+                    }
+                  },
+                  "name": "施法时间",
+                  "sortOrder": 10,
+                  "stepKey": "cast_time",
+                  "stepType": "DELAY"
+                }
+              ],
+              "updatedAt": "2026-09-07T14:45:45.972873Z"
+            }
+          },
+          "costProcessKeys": [
+            "cast"
+          ],
+          "triggerRuleSummaries": [
+            {
+              "actionCount": 1,
+              "conditionGroupCount": 0,
+              "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+              "eventType": "SKILL_HIT",
+              "maxTriggersPerProcessEnabled": false,
+              "name": "光之束缚实际命中结算",
+              "perTargetCooldownEnabled": false,
+              "ruleKey": "resolve_on_q_hit",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T14:45:46.385113Z"
+            }
+          ],
+          "triggerRuleDetails": {
+            "resolve_on_q_hit": {
+              "actions": [
+                {
+                  "actionKey": "resolve_hit",
+                  "actionType": "EXECUTE_EFFECT",
+                  "detail": {
+                    "effectKey": "light_binding_hit"
+                  },
+                  "name": "结算命中伤害",
+                  "resultModifiers": [],
+                  "runtimeInputBindings": [],
+                  "sortOrder": 10,
+                  "targetContext": "CURRENT_TARGET"
+                }
+              ],
+              "conditionGroups": [],
+              "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+              "eventSource": {
+                "detail": {
+                  "sourceSkillKey": "lux_q",
+                  "useKind": null
+                },
+                "eventType": "SKILL_HIT"
+              },
+              "maxTriggersPerProcess": null,
+              "name": "光之束缚实际命中结算",
+              "perTargetCooldown": null,
+              "ruleKey": "resolve_on_q_hit",
+              "sortOrder": 10
+            }
+          },
+          "activeCostRuleKeys": [],
+          "hasCompleteActiveRegistration": false
+        }
+      },
+      "proposedObjects": {
+        "parameter": null,
+        "costEffect": {
+          "needed": false,
+          "reuse": true,
+          "reason": "六项mana_cost详情均为SOURCE资源消耗并引用同技能mana_cost参数。"
+        },
+        "process": {
+          "needed": false,
+          "draft": null
+        },
+        "entryRule": {
+          "needed": true,
+          "draft": {
+            "method": "POST",
+            "route": "/skills/lux_q/trigger-rules",
+            "detailRoute": "/skills/lux_q/trigger-rules/on_used",
+            "body": {
+              "ruleKey": "on_used",
+              "name": "主动使用启动光之束缚施法过程",
+              "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+              "sortOrder": 20,
+              "eventSource": {
+                "eventType": "SKILL_USED",
+                "detail": {
+                  "sourceSkillKey": "lux_q",
+                  "useKind": "ACTIVE"
+                }
+              },
+              "conditionGroups": [],
+              "actions": [
+                {
+                  "actionKey": "start_cast",
+                  "name": "启动使用过程",
+                  "actionType": "START_PROCESS",
+                  "sortOrder": 10,
+                  "targetContext": "CURRENT_TARGET",
+                  "detail": {
+                    "processKey": "cast"
+                  },
+                  "runtimeInputBindings": [],
+                  "resultModifiers": []
+                }
+              ],
+              "perTargetCooldown": null,
+              "maxTriggersPerProcess": null
+            }
+          }
+        },
+        "duplicateProtection": "写入前仍需按固定请求逐笔GET，若现有过程或入口已出现则跳过对应新增，避免重复扣除。"
+      },
+      "laterCooldownMechanics": [],
+      "remainingSkillComposition": [
+        "只覆盖一次成功ACTIVE使用的基础法力消耗与普通冷却登记；不证明宿主已产生SKILL_USED、不证明实际扣法力或启动冷却，也不证明Wasm战斗结果。",
+        "不改写本技能已有伤害、治疗、护盾、控制、区域、命中和施法时序；过程立即步骤只表示登记，不表示完整施法时长为零。",
+        "不把客户端底层标记、额外数组位置或再施放描述推断成免费、第二次施放或自动重复使用。",
+        "剩余技能组成：命中与控制继续单独处理。"
+      ],
+      "checks": {
+        "skillStatus200": true,
+        "parameterListStatus200": true,
+        "effectListStatus200": true,
+        "processListStatus200": true,
+        "triggerRuleListStatus200": true,
+        "sourceValuesAgree": true,
+        "manaValuesShapeCorrect": true,
+        "currentValuesMatchSource": true,
+        "reusableManaEffect": true,
+        "existingProcessAlreadyRegistersCost": true,
+        "existingActiveEntryAlreadyStartsCostProcess": false,
+        "runtimeNotUsedAsBlocker": true
+      },
+      "detailRequestsSkipped": [
+        {
+          "route": "/skills/lux_q/parameters/mana_cost",
+          "reason": "parameters列表已返回完整对象，未重复详情GET。"
+        },
+        {
+          "route": "/skills/lux_q/parameters/cooldown_ms",
+          "reason": "parameters列表已返回完整对象，未重复详情GET。"
+        }
+      ]
+    },
+    {
+      "skillKey": "lux_w",
+      "championId": "Lux",
+      "slot": "W",
+      "name": "拉克丝·曲光屏障",
+      "candidateStatus": "已存在登记",
+      "conclusion": "现有主动过程已挂接可复用法力效果并引用普通冷却，且已有SKILL_USED/ACTIVE入口；不新增重复过程或入口。",
+      "sourceVersions": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "source": {
+        "sourceIndexSelector": "heroes[championId=Lux].skills[slot=W]",
+        "rootPath": "Characters/Lux/CharacterRecords/Root",
+        "rootBinding": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+          "pointer": "Characters/Lux/CharacterRecords/Root.spells[1]",
+          "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+          "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f",
+          "value": "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave",
+          "matchesClientPath": true
+        },
+        "index": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "pointer": "heroes[championId=Lux].skills[slot=W]",
+          "rawSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+          "clientPath": "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave",
+          "clientCooldown": [
+            12,
+            12,
+            11.5,
+            11,
+            10.5,
+            10,
+            9.5
+          ],
+          "clientMana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "officialMaxRank": 5
+        },
+        "official": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json",
+          "pointer": "data.Lux.spells[1]",
+          "rawSha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f",
+          "fields": {
+            "id": "LuxPrismaticWave",
+            "name": "曲光屏障",
+            "maxRank": 5,
+            "cooldownSeconds": [
+              12,
+              11.5,
+              11,
+              10.5,
+              10
+            ],
+            "manaCost": [
+              60,
+              65,
+              70,
+              75,
+              80
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        },
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+          "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+          "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f",
+          "objectPointer": "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave",
+          "pointers": {
+            "mana": "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave.mSpell.mana",
+            "manaValues": "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave.mSpell.manaValues.values",
+            "cooldownTime": "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave.mSpell.cooldownTime"
+          },
+          "fields": {
+            "mana": [
+              60,
+              65,
+              70,
+              75,
+              80,
+              85
+            ],
+            "manaValues": [
+              60,
+              65,
+              70,
+              75,
+              80,
+              85
+            ],
+            "cooldownTime": [
+              12,
+              12,
+              11.5,
+              11,
+              10.5,
+              10,
+              9.5
+            ]
+          }
+        },
+        "rawValues": {
+          "officialManaCost": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "officialCooldownSeconds": [
+            12,
+            11.5,
+            11,
+            10.5,
+            10
+          ],
+          "officialCooldownMs": [
+            12000,
+            11500,
+            11000,
+            10500,
+            10000
+          ],
+          "clientMana": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "clientManaValues": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "clientCooldownTime": [
+            12,
+            12,
+            11.5,
+            11,
+            10.5,
+            10,
+            9.5
+          ],
+          "levelStart": {
+            "mana": 0,
+            "cooldown": 1
+          },
+          "effectiveByLevel": {
+            "manaCost": [
+              60,
+              65,
+              70,
+              75,
+              80
+            ],
+            "cooldownSeconds": [
+              12,
+              11.5,
+              11,
+              10.5,
+              10
+            ],
+            "cooldownMs": [
+              12000,
+              11500,
+              11000,
+              10500,
+              10000
+            ]
+          }
+        },
+        "agreement": {
+          "officialVsClientMana": true,
+          "clientManaVsManaValues": true,
+          "officialVsClientCooldown": true,
+          "indexVsGzipMana": true,
+          "indexVsGzipCooldown": true,
+          "officialVsCurrentManaParameter": true,
+          "officialVsCurrentCooldownParameter": true,
+          "currentValuesConsistent": true,
+          "note": "冷却采用客户端cooldownTime索引1至maxLevel，并与同版官方秒值逐级一致。"
+        },
+        "sourceRefs": [
+          {
+            "role": "官方中文DDragon16.17.1",
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json",
+            "pointer": "data.Lux.spells[1].cost",
+            "rawSha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f"
+          },
+          {
+            "role": "官方中文DDragon16.17.1",
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json",
+            "pointer": "data.Lux.spells[1].cooldown",
+            "rawSha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+            "pointer": "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave.mSpell.mana",
+            "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+            "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+            "pointer": "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave.mSpell.manaValues.values",
+            "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+            "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+            "pointer": "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave.mSpell.cooldownTime",
+            "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+            "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f"
+          },
+          {
+            "role": "技能来源索引",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+            "pointer": "heroes[championId=Lux].skills[slot=W]",
+            "rawSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+          }
+        ]
+      },
+      "currentManagement": {
+        "apiPaths": {
+          "skill": "/skills/lux_w",
+          "parameters": "/skills/lux_w/parameters",
+          "effects": "/skills/lux_w/effects",
+          "manaEffect": "/skills/lux_w/effects/mana_cost",
+          "processes": "/skills/lux_w/processes",
+          "triggerRules": "/skills/lux_w/trigger-rules"
+        },
+        "parameters": {
+          "manaCost": {
+            "createdAt": "2026-09-07T14:45:48.455652Z",
+            "description": "客户端 mana 无 rank0 重复，前 5 项与 DDragon 一致。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "lux_w",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T14:45:48.455652Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          "cooldown": {
+            "createdAt": "2026-09-07T14:45:48.120785Z",
+            "description": "客户端 cooldownTime 含 rank0 重复 12；跳过 rank0 后与 DDragon 12/11.5/11/10.5/10 秒一致，按毫秒写入。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 12000,
+              "2": 11500,
+              "3": 11000,
+              "4": 10500,
+              "5": 10000
+            },
+            "name": "冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "lux_w",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T14:45:48.120785Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          "missingCooldownParameter": false
+        },
+        "parameterChecks": {
+          "manaMatchesSource": true,
+          "cooldownMatchesSource": true,
+          "fullCurrentValueCheck": true
+        },
+        "manaEffect": {
+          "summary": {
+            "createdAt": "2026-09-07T14:45:49.887812Z",
+            "description": "施放时消耗对应技能等级的法力。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "lux_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:45:49.887812Z"
+          },
+          "detail": {
+            "createdAt": "2026-09-07T14:45:49.887812Z",
+            "description": "施放时消耗对应技能等级的法力。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "施放法力消耗",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                },
+                "lifecycleBehavior": null,
+                "name": "消耗法力",
+                "resultKey": "consume_mana",
+                "resultType": "RESOURCE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  }
+                }
+              }
+            ],
+            "skillKey": "lux_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:45:49.887812Z"
+          },
+          "validForReuse": true,
+          "checks": {
+            "resultTypeResourceChange": true,
+            "targetSource": true,
+            "attributeMana": true,
+            "operationConsume": true,
+            "parameterManaCost": true
+          }
+        },
+        "existingRegistration": {
+          "processSummaries": [
+            {
+              "activationType": "ACTIVE",
+              "createdAt": "2026-09-07T14:45:50.622722Z",
+              "description": "过程只负责法力、施法延迟和冷却。独立自护盾效果不在此过程自动施加；施加时点与回程叠加未证实。",
+              "effectBindingCount": 1,
+              "gameId": "lol",
+              "name": "施放曲光屏障",
+              "processKey": "cast",
+              "skillKey": "lux_w",
+              "sortOrder": 10,
+              "stateOperationCount": 0,
+              "stepCount": 1,
+              "updatedAt": "2026-09-07T14:59:19.106287Z"
+            }
+          ],
+          "processDetails": {
+            "cast": {
+              "activationType": "ACTIVE",
+              "cooldown": {
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cooldown_ms"
+                },
+                "startMoment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                }
+              },
+              "createdAt": "2026-09-07T14:45:50.622722Z",
+              "description": "过程只负责法力、施法延迟和冷却。独立自护盾效果不在此过程自动施加；施加时点与回程叠加未证实。",
+              "effectBindings": [
+                {
+                  "bindingKey": "mana_cost",
+                  "effectKey": "mana_cost",
+                  "moment": {
+                    "momentType": "PROCESS_START",
+                    "stepKey": null
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "gameId": "lol",
+              "name": "施放曲光屏障",
+              "processKey": "cast",
+              "skillKey": "lux_w",
+              "sortOrder": 10,
+              "stateOperations": [],
+              "steps": [
+                {
+                  "description": "主技能 spellCastTime，按毫秒录入。",
+                  "detail": {
+                    "delayValue": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "cast_time_ms"
+                    }
+                  },
+                  "name": "施法时间",
+                  "sortOrder": 10,
+                  "stepKey": "cast_time",
+                  "stepType": "DELAY"
+                }
+              ],
+              "updatedAt": "2026-09-07T14:59:19.106287Z"
+            }
+          },
+          "costProcessKeys": [
+            "cast"
+          ],
+          "triggerRuleSummaries": [
+            {
+              "actionCount": 1,
+              "conditionGroupCount": 0,
+              "description": "接收lux_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；护盾施加时点、去程与回程命中、目标资格和护盾叠加继续暂缓。管理保存不证明宿主已生产该事件。",
+              "eventType": "SKILL_USED",
+              "maxTriggersPerProcessEnabled": false,
+              "name": "主动使用启动曲光屏障施法过程",
+              "perTargetCooldownEnabled": false,
+              "ruleKey": "on_used",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-13T13:46:30.972746Z"
+            }
+          ],
+          "triggerRuleDetails": {
+            "on_used": {
+              "actions": [
+                {
+                  "actionKey": "start_cast",
+                  "actionType": "START_PROCESS",
+                  "detail": {
+                    "processKey": "cast"
+                  },
+                  "name": "启动曲光屏障施法过程",
+                  "resultModifiers": [],
+                  "runtimeInputBindings": [],
+                  "sortOrder": 10,
+                  "targetContext": "CURRENT_TARGET"
+                }
+              ],
+              "conditionGroups": [],
+              "description": "接收lux_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；护盾施加时点、去程与回程命中、目标资格和护盾叠加继续暂缓。管理保存不证明宿主已生产该事件。",
+              "eventSource": {
+                "detail": {
+                  "sourceSkillKey": "lux_w",
+                  "useKind": "ACTIVE"
+                },
+                "eventType": "SKILL_USED"
+              },
+              "maxTriggersPerProcess": null,
+              "name": "主动使用启动曲光屏障施法过程",
+              "perTargetCooldown": null,
+              "ruleKey": "on_used",
+              "sortOrder": 10
+            }
+          },
+          "activeCostRuleKeys": [
+            "on_used"
+          ],
+          "hasCompleteActiveRegistration": true
+        }
+      },
+      "proposedObjects": {
+        "parameter": null,
+        "costEffect": {
+          "needed": false,
+          "reuse": true,
+          "reason": "六项mana_cost详情均为SOURCE资源消耗并引用同技能mana_cost参数。"
+        },
+        "process": {
+          "needed": false,
+          "draft": null
+        },
+        "entryRule": {
+          "needed": false,
+          "draft": null
+        },
+        "duplicateProtection": "写入前仍需按固定请求逐笔GET，若现有过程或入口已出现则跳过对应新增，避免重复扣除。"
+      },
+      "laterCooldownMechanics": [],
+      "remainingSkillComposition": [
+        "只覆盖一次成功ACTIVE使用的基础法力消耗与普通冷却登记；不证明宿主已产生SKILL_USED、不证明实际扣法力或启动冷却，也不证明Wasm战斗结果。",
+        "不改写本技能已有伤害、治疗、护盾、控制、区域、命中和施法时序；过程立即步骤只表示登记，不表示完整施法时长为零。",
+        "不把客户端底层标记、额外数组位置或再施放描述推断成免费、第二次施放或自动重复使用。",
+        "剩余技能组成：持续或护盾/区域继续单独处理。"
+      ],
+      "checks": {
+        "skillStatus200": true,
+        "parameterListStatus200": true,
+        "effectListStatus200": true,
+        "processListStatus200": true,
+        "triggerRuleListStatus200": true,
+        "sourceValuesAgree": true,
+        "manaValuesShapeCorrect": true,
+        "currentValuesMatchSource": true,
+        "reusableManaEffect": true,
+        "existingProcessAlreadyRegistersCost": true,
+        "existingActiveEntryAlreadyStartsCostProcess": true,
+        "runtimeNotUsedAsBlocker": true
+      },
+      "detailRequestsSkipped": [
+        {
+          "route": "/skills/lux_w/parameters/mana_cost",
+          "reason": "parameters列表已返回完整对象，未重复详情GET。"
+        },
+        {
+          "route": "/skills/lux_w/parameters/cooldown_ms",
+          "reason": "parameters列表已返回完整对象，未重复详情GET。"
+        }
+      ]
+    },
+    {
+      "skillKey": "lux_r",
+      "championId": "Lux",
+      "slot": "R",
+      "name": "拉克丝·终极闪光",
+      "candidateStatus": "READY",
+      "conclusion": "普通过程已存在但缺少SKILL_USED/ACTIVE入口，可只新增入口草案并复用现有过程与法力效果。",
+      "sourceVersions": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "source": {
+        "sourceIndexSelector": "heroes[championId=Lux].skills[slot=R]",
+        "rootPath": "Characters/Lux/CharacterRecords/Root",
+        "rootBinding": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+          "pointer": "Characters/Lux/CharacterRecords/Root.spells[3]",
+          "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+          "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f",
+          "value": "Characters/Lux/Spells/LuxRAbility/LuxR",
+          "matchesClientPath": true
+        },
+        "index": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "pointer": "heroes[championId=Lux].skills[slot=R]",
+          "rawSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+          "clientPath": "Characters/Lux/Spells/LuxRAbility/LuxR",
+          "clientCooldown": [
+            60,
+            60,
+            50,
+            40,
+            40,
+            40,
+            30
+          ],
+          "clientMana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "officialMaxRank": 3
+        },
+        "official": {
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json",
+          "pointer": "data.Lux.spells[3]",
+          "rawSha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f",
+          "fields": {
+            "id": "LuxR",
+            "name": "终极闪光",
+            "maxRank": 3,
+            "cooldownSeconds": [
+              60,
+              50,
+              40
+            ],
+            "manaCost": [
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        },
+        "client": {
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+          "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+          "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f",
+          "objectPointer": "Characters/Lux/Spells/LuxRAbility/LuxR",
+          "pointers": {
+            "mana": "Characters/Lux/Spells/LuxRAbility/LuxR.mSpell.mana",
+            "manaValues": "Characters/Lux/Spells/LuxRAbility/LuxR.mSpell.manaValues.values",
+            "cooldownTime": "Characters/Lux/Spells/LuxRAbility/LuxR.mSpell.cooldownTime"
+          },
+          "fields": {
+            "mana": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "manaValues": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "cooldownTime": [
+              60,
+              60,
+              50,
+              40,
+              40,
+              40,
+              30
+            ]
+          }
+        },
+        "rawValues": {
+          "officialManaCost": [
+            100,
+            100,
+            100
+          ],
+          "officialCooldownSeconds": [
+            60,
+            50,
+            40
+          ],
+          "officialCooldownMs": [
+            60000,
+            50000,
+            40000
+          ],
+          "clientMana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "clientManaValues": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "clientCooldownTime": [
+            60,
+            60,
+            50,
+            40,
+            40,
+            40,
+            30
+          ],
+          "levelStart": {
+            "mana": 0,
+            "cooldown": 1
+          },
+          "effectiveByLevel": {
+            "manaCost": [
+              100,
+              100,
+              100
+            ],
+            "cooldownSeconds": [
+              60,
+              50,
+              40
+            ],
+            "cooldownMs": [
+              60000,
+              50000,
+              40000
+            ]
+          }
+        },
+        "agreement": {
+          "officialVsClientMana": true,
+          "clientManaVsManaValues": true,
+          "officialVsClientCooldown": true,
+          "indexVsGzipMana": true,
+          "indexVsGzipCooldown": true,
+          "officialVsCurrentManaParameter": true,
+          "officialVsCurrentCooldownParameter": true,
+          "currentValuesConsistent": true,
+          "note": "冷却采用客户端cooldownTime索引1至maxLevel，并与同版官方秒值逐级一致。"
+        },
+        "sourceRefs": [
+          {
+            "role": "官方中文DDragon16.17.1",
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json",
+            "pointer": "data.Lux.spells[3].cost",
+            "rawSha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f"
+          },
+          {
+            "role": "官方中文DDragon16.17.1",
+            "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json",
+            "pointer": "data.Lux.spells[3].cooldown",
+            "rawSha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+            "pointer": "Characters/Lux/Spells/LuxRAbility/LuxR.mSpell.mana",
+            "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+            "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+            "pointer": "Characters/Lux/Spells/LuxRAbility/LuxR.mSpell.manaValues.values",
+            "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+            "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f"
+          },
+          {
+            "role": "客户端16.17压缩原文",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+            "pointer": "Characters/Lux/Spells/LuxRAbility/LuxR.mSpell.cooldownTime",
+            "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+            "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f"
+          },
+          {
+            "role": "技能来源索引",
+            "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+            "pointer": "heroes[championId=Lux].skills[slot=R]",
+            "rawSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+          }
+        ]
+      },
+      "currentManagement": {
+        "apiPaths": {
+          "skill": "/skills/lux_r",
+          "parameters": "/skills/lux_r/parameters",
+          "effects": "/skills/lux_r/effects",
+          "manaEffect": "/skills/lux_r/effects/mana_cost",
+          "processes": "/skills/lux_r/processes",
+          "triggerRules": "/skills/lux_r/trigger-rules"
+        },
+        "parameters": {
+          "manaCost": {
+            "createdAt": "2026-09-07T14:45:59.621113Z",
+            "description": "客户端 mana 与 DDragon cost 均为 100。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "lux_r",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T14:45:59.621113Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          "cooldown": {
+            "createdAt": "2026-09-07T14:45:58.091622Z",
+            "description": "客户端 cooldownTime 跳过 rank0 后前 3 项与 DDragon 60/50/40 秒一致。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60000,
+              "2": 50000,
+              "3": 40000
+            },
+            "name": "冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "lux_r",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T14:45:58.091622Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          "missingCooldownParameter": false
+        },
+        "parameterChecks": {
+          "manaMatchesSource": true,
+          "cooldownMatchesSource": true,
+          "fullCurrentValueCheck": true
+        },
+        "manaEffect": {
+          "summary": {
+            "createdAt": "2026-09-07T14:46:01.679736Z",
+            "description": "施放时消耗对应技能等级的法力。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "lux_r",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:46:01.679736Z"
+          },
+          "detail": {
+            "createdAt": "2026-09-07T14:46:01.679736Z",
+            "description": "施放时消耗对应技能等级的法力。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "施放法力消耗",
+            "results": [
+              {
+                "description": null,
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                },
+                "lifecycleBehavior": null,
+                "name": "消耗法力",
+                "resultKey": "consume_mana",
+                "resultType": "RESOURCE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  }
+                }
+              }
+            ],
+            "skillKey": "lux_r",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:46:01.679736Z"
+          },
+          "validForReuse": true,
+          "checks": {
+            "resultTypeResourceChange": true,
+            "targetSource": true,
+            "attributeMana": true,
+            "operationConsume": true,
+            "parameterManaCost": true
+          }
+        },
+        "existingRegistration": {
+          "processSummaries": [
+            {
+              "activationType": "ACTIVE",
+              "createdAt": "2026-09-07T14:46:02.37415Z",
+              "description": "过程只负责法力、1.375 秒蓄力延迟和冷却。通道取消与直线区域命中未完整表达。",
+              "effectBindingCount": 1,
+              "gameId": "lol",
+              "name": "施放终极闪光",
+              "processKey": "cast",
+              "skillKey": "lux_r",
+              "sortOrder": 10,
+              "stateOperationCount": 0,
+              "stepCount": 1,
+              "updatedAt": "2026-09-07T14:46:02.37415Z"
+            }
+          ],
+          "processDetails": {
+            "cast": {
+              "activationType": "ACTIVE",
+              "cooldown": {
+                "durationValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cooldown_ms"
+                },
+                "startMoment": {
+                  "momentType": "PROCESS_START",
+                  "stepKey": null
+                }
+              },
+              "createdAt": "2026-09-07T14:46:02.37415Z",
+              "description": "过程只负责法力、1.375 秒蓄力延迟和冷却。通道取消与直线区域命中未完整表达。",
+              "effectBindings": [
+                {
+                  "bindingKey": "mana_cost",
+                  "effectKey": "mana_cost",
+                  "moment": {
+                    "momentType": "PROCESS_START",
+                    "stepKey": null
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "gameId": "lol",
+              "name": "施放终极闪光",
+              "processKey": "cast",
+              "skillKey": "lux_r",
+              "sortOrder": 10,
+              "stateOperations": [],
+              "steps": [
+                {
+                  "description": "主技能 spellCastTime，按毫秒录入。",
+                  "detail": {
+                    "delayValue": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "cast_time_ms"
+                    }
+                  },
+                  "name": "施法时间",
+                  "sortOrder": 10,
+                  "stepKey": "cast_time",
+                  "stepType": "DELAY"
+                }
+              ],
+              "updatedAt": "2026-09-07T14:46:02.37415Z"
+            }
+          },
+          "costProcessKeys": [
+            "cast"
+          ],
+          "triggerRuleSummaries": [
+            {
+              "actionCount": 1,
+              "conditionGroupCount": 0,
+              "description": "监听 lux_r 实际命中后结算独立魔法伤害。不在此触发上猜测启明引爆或冷却返还。",
+              "eventType": "SKILL_HIT",
+              "maxTriggersPerProcessEnabled": false,
+              "name": "终极闪光实际命中结算",
+              "perTargetCooldownEnabled": false,
+              "ruleKey": "resolve_on_r_hit",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T14:46:02.721373Z"
+            }
+          ],
+          "triggerRuleDetails": {
+            "resolve_on_r_hit": {
+              "actions": [
+                {
+                  "actionKey": "resolve_hit",
+                  "actionType": "EXECUTE_EFFECT",
+                  "detail": {
+                    "effectKey": "final_spark_hit"
+                  },
+                  "name": "结算命中伤害",
+                  "resultModifiers": [],
+                  "runtimeInputBindings": [],
+                  "sortOrder": 10,
+                  "targetContext": "CURRENT_TARGET"
+                }
+              ],
+              "conditionGroups": [],
+              "description": "监听 lux_r 实际命中后结算独立魔法伤害。不在此触发上猜测启明引爆或冷却返还。",
+              "eventSource": {
+                "detail": {
+                  "sourceSkillKey": "lux_r",
+                  "useKind": null
+                },
+                "eventType": "SKILL_HIT"
+              },
+              "maxTriggersPerProcess": null,
+              "name": "终极闪光实际命中结算",
+              "perTargetCooldown": null,
+              "ruleKey": "resolve_on_r_hit",
+              "sortOrder": 10
+            }
+          },
+          "activeCostRuleKeys": [],
+          "hasCompleteActiveRegistration": false
+        }
+      },
+      "proposedObjects": {
+        "parameter": null,
+        "costEffect": {
+          "needed": false,
+          "reuse": true,
+          "reason": "六项mana_cost详情均为SOURCE资源消耗并引用同技能mana_cost参数。"
+        },
+        "process": {
+          "needed": false,
+          "draft": null
+        },
+        "entryRule": {
+          "needed": true,
+          "draft": {
+            "method": "POST",
+            "route": "/skills/lux_r/trigger-rules",
+            "detailRoute": "/skills/lux_r/trigger-rules/on_used",
+            "body": {
+              "ruleKey": "on_used",
+              "name": "主动使用启动终极闪光施法过程",
+              "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+              "sortOrder": 20,
+              "eventSource": {
+                "eventType": "SKILL_USED",
+                "detail": {
+                  "sourceSkillKey": "lux_r",
+                  "useKind": "ACTIVE"
+                }
+              },
+              "conditionGroups": [],
+              "actions": [
+                {
+                  "actionKey": "start_cast",
+                  "name": "启动使用过程",
+                  "actionType": "START_PROCESS",
+                  "sortOrder": 10,
+                  "targetContext": "CURRENT_TARGET",
+                  "detail": {
+                    "processKey": "cast"
+                  },
+                  "runtimeInputBindings": [],
+                  "resultModifiers": []
+                }
+              ],
+              "perTargetCooldown": null,
+              "maxTriggersPerProcess": null
+            }
+          }
+        },
+        "duplicateProtection": "写入前仍需按固定请求逐笔GET，若现有过程或入口已出现则跳过对应新增，避免重复扣除。"
+      },
+      "laterCooldownMechanics": [
+        {
+          "key": "lux_r_client_cooldown_reset_signal",
+          "kind": "角色机制造成的后续冷却减少信号",
+          "source": {
+            "client": {
+              "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+              "pointer": "Characters/Lux/Spells/LuxRAbility/LuxR.mSpell.DataValues[name=ResetPercent].values",
+              "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+              "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f"
+            },
+            "assistWindow": {
+              "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+              "pointer": "Characters/Lux/Spells/LuxRAbility/LuxR.mSpell.DataValues[name=ResetAssistWindow].values",
+              "rawSha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47",
+              "decompressedSha256": "0392e47047301da70724a536cd45ea38fe40d62eef0cce3590e85df926b0d75f"
+            }
+          },
+          "rawValues": {
+            "resetPercent": [
+              0.20000000298023224,
+              0.30000001192092896,
+              0.4000000059604645,
+              0.5,
+              0.6000000238418579,
+              0.699999988079071,
+              0.800000011920929
+            ],
+            "resetAssistWindowSeconds": [
+              1.75,
+              1.75,
+              1.75,
+              1.75,
+              1.75,
+              1.75,
+              1.75
+            ]
+          },
+          "treatment": "不把客户端ResetPercent信号拼进本次普通基础cooldown_ms；触发事件和等级对应另行核对。"
+        }
+      ],
+      "remainingSkillComposition": [
+        "只覆盖一次成功ACTIVE使用的基础法力消耗与普通冷却登记；不证明宿主已产生SKILL_USED、不证明实际扣法力或启动冷却，也不证明Wasm战斗结果。",
+        "不改写本技能已有伤害、治疗、护盾、控制、区域、命中和施法时序；过程立即步骤只表示登记，不表示完整施法时长为零。",
+        "不把客户端底层标记、额外数组位置或再施放描述推断成免费、第二次施放或自动重复使用。",
+        "剩余技能组成：后续命中、控制或角色专属冷却变化继续单独处理。"
+      ],
+      "checks": {
+        "skillStatus200": true,
+        "parameterListStatus200": true,
+        "effectListStatus200": true,
+        "processListStatus200": true,
+        "triggerRuleListStatus200": true,
+        "sourceValuesAgree": true,
+        "manaValuesShapeCorrect": true,
+        "currentValuesMatchSource": true,
+        "reusableManaEffect": true,
+        "existingProcessAlreadyRegistersCost": true,
+        "existingActiveEntryAlreadyStartsCostProcess": false,
+        "runtimeNotUsedAsBlocker": true
+      },
+      "detailRequestsSkipped": [
+        {
+          "route": "/skills/lux_r/parameters/mana_cost",
+          "reason": "parameters列表已返回完整对象，未重复详情GET。"
+        },
+        {
+          "route": "/skills/lux_r/parameters/cooldown_ms",
+          "reason": "parameters列表已返回完整对象，未重复详情GET。"
+        }
+      ]
+    }
+  ],
+  "api": {
+    "baseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+    "authorization": "临时随机非空Bearer，仅用于本次GET，未保存或输出。",
+    "methods": [
+      "GET"
+    ],
+    "completeGetResponses": true,
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q",
+        "status": 200,
+        "response": {
+          "createdAt": "2026-09-06T18:19:30.503855Z",
+          "description": "莫甘娜用黑暗魔法将一名敌人禁锢在原地，迫使其感受自己造成的痛苦并对其造成魔法伤害。 （来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "莫甘娜·暗之禁锢",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "morgana_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:30.503855Z"
+        },
+        "responseSha256": "64380539fd3cad8d94e0c62dc55d6de6d18262f8707d0a9be677da3ba8ddd386",
+        "responseBytes": 471
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/parameters",
+        "status": 200,
+        "response": [
+          {
+            "createdAt": "2026-09-09T17:57:41.409972Z",
+            "description": "客户端DataValues.Damage取索引1至5；索引0为旧占位25。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 80,
+              "2": 135,
+              "3": 190,
+              "4": 245,
+              "5": 300
+            },
+            "name": "基础魔法伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "morgana_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T17:57:41.409972Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T17:57:42.711376Z",
+            "description": "TotalDamage树的StatByCoefficient系数为0.9×来源总法强。",
+            "fixedValue": 0.9,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法强比例",
+            "parameterKey": "ap_ratio",
+            "skillKey": "morgana_q",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T17:57:42.711376Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T17:57:44.045248Z",
+            "description": "客户端RootDuration取索引1至5，单位秒转换为2000/2250/2500/2750/3000毫秒。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 2000,
+              "2": 2250,
+              "3": 2500,
+              "4": 2750,
+              "5": 3000
+            },
+            "name": "禁锢持续时间（毫秒）",
+            "parameterKey": "root_duration_ms",
+            "skillKey": "morgana_q",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T17:57:44.045248Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:20.906959Z",
+            "description": "DDragon16.17.1 Morgana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 55,
+              "3": 60,
+              "4": 65,
+              "5": 70
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "morgana_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:20.906959Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "responseSha256": "d213838cf97ae3ff35a1538a35f61dfe0ef1d27622c555921a9a4ecf6d170c10",
+        "responseBytes": 1772
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/effects",
+        "status": 200,
+        "response": [
+          {
+            "createdAt": "2026-09-09T17:57:46.516614Z",
+            "description": "仅记录morgana_q的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "morgana_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T17:57:46.516614Z"
+          }
+        ],
+        "responseSha256": "874b44f2da10891cc3fc4521f03467a498c0d9390ec6c2fdf739d9d465ecd407",
+        "responseBytes": 388
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/processes",
+        "status": 200,
+        "response": [],
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "responseBytes": 2
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/trigger-rules",
+        "status": 200,
+        "response": [],
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "responseBytes": 2
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/effects/mana_cost",
+        "status": 200,
+        "response": {
+          "createdAt": "2026-09-09T17:57:46.516614Z",
+          "description": "仅记录morgana_q的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "施放法力消耗",
+              "resultKey": "resource",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "morgana_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:57:46.516614Z"
+        },
+        "responseSha256": "0c391d3991e25f866bb3b4d3c81c8ea814c2ed06ac7ef5d3ae0c37040fa3f541",
+        "responseBytes": 748
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_w",
+        "status": 200,
+        "response": {
+          "createdAt": "2026-09-06T18:19:30.761855Z",
+          "description": "莫甘娜在一个区域施放一团诅咒之影，对胆敢站在她黑色环形之中的敌人造成伤害。敌人会持续受到魔法伤害，并且生命值越低受到伤害越高。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "莫甘娜·折磨之影",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "morgana_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:30.761855Z"
+        },
+        "responseSha256": "722b25e311a98990f95684cc1880859e57b5998a8684ba26d313652934181f48",
+        "responseBytes": 536
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_w/parameters",
+        "status": 200,
+        "response": [
+          {
+            "createdAt": "2026-09-09T17:57:47.759573Z",
+            "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位5。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 18,
+              "2": 31,
+              "3": 44,
+              "4": 57,
+              "5": 70
+            },
+            "name": "每秒基础魔法伤害",
+            "parameterKey": "base_damage_per_second",
+            "skillKey": "morgana_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T17:57:47.759573Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T17:57:49.015779Z",
+            "description": "客户端TotalMinDamage树消费BaseApRatio=0.2×来源总法强；字段大小写差异不改变绑定关系。",
+            "fixedValue": 0.2,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法强比例",
+            "parameterKey": "ap_ratio",
+            "skillKey": "morgana_w",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T17:57:49.015779Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T17:57:50.367812Z",
+            "description": "客户端TickRate为0.5秒，转换为500毫秒；每秒伤害与每跳结算仍分开。",
+            "fixedValue": 500,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "持续伤害间隔（毫秒）",
+            "parameterKey": "tick_interval_ms",
+            "skillKey": "morgana_w",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T17:57:50.367812Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T17:57:51.60208Z",
+            "description": "客户端TotalMaxDamage乘数为1+MissingHealthAmpPercent；实际目标缺失生命曲线无默认。",
+            "fixedValue": 1,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "最大缺失生命增幅比例",
+            "parameterKey": "maximum_missing_health_amplification_ratio",
+            "skillKey": "morgana_w",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-09T17:57:51.60208Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T17:57:52.887798Z",
+            "description": "客户端WDuration为5秒，转换为5000毫秒。",
+            "fixedValue": 5000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "区域持续时间（毫秒）",
+            "parameterKey": "duration_ms",
+            "skillKey": "morgana_w",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T17:57:52.887798Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T17:57:54.189684Z",
+            "description": "当前正文明确莫甘娜被P治疗时W冷却减少5%；只保留条件参数，不创建无条件冷却效果。",
+            "fixedValue": 0.05,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "被动治疗后W冷却返还比例",
+            "parameterKey": "passive_heal_cooldown_refund_ratio",
+            "skillKey": "morgana_w",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-09T17:57:54.189684Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T17:57:55.424832Z",
+            "description": "为1+MissingHealthAmpPercent提供固定二元叶子。",
+            "fixedValue": 1,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "完整倍率基准",
+            "parameterKey": "one_ratio",
+            "skillKey": "morgana_w",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-09T17:57:55.424832Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:21.332198Z",
+            "description": "DDragon16.17.1 Morgana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 12000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "morgana_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:21.332198Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:21.741214Z",
+            "description": "DDragon16.17.1 Morgana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 70,
+              "2": 80,
+              "3": 90,
+              "4": 100,
+              "5": 110
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "morgana_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:21.741214Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "responseSha256": "db9e52e8993b9896917388a358aec63972561363f2ea95b788182e58da4494aa",
+        "responseBytes": 3897
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_w/effects",
+        "status": 200,
+        "response": [
+          {
+            "createdAt": "2026-09-09T17:57:59.638354Z",
+            "description": "仅记录morgana_w的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "morgana_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T17:57:59.638354Z"
+          }
+        ],
+        "responseSha256": "fdc8dab7e250a3764915e4539679829a8b2315d0420c6df3bb87d0c9032c6a09",
+        "responseBytes": 388
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_w/processes",
+        "status": 200,
+        "response": [],
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "responseBytes": 2
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_w/trigger-rules",
+        "status": 200,
+        "response": [],
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "responseBytes": 2
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_w/effects/mana_cost",
+        "status": 200,
+        "response": {
+          "createdAt": "2026-09-09T17:57:59.638354Z",
+          "description": "仅记录morgana_w的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "施放法力消耗",
+              "resultKey": "resource",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "morgana_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:57:59.638354Z"
+        },
+        "responseSha256": "175d4bc8a3538083cbde8d294fcbe9699fa4e03b1d3875c568d17038d857034b",
+        "responseBytes": 748
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_r",
+        "status": 200,
+        "response": {
+          "createdAt": "2026-09-06T18:19:31.298385Z",
+          "description": "莫甘娜全力释放她的星界能量，与此同时，她的羽翼会解除束缚并且会悬浮在地面上。她将黑暗痛苦组成的锁链抽击到附近的敌方英雄身上，获得移动速度。锁链会减速并造成初段伤害，并在一段延迟后，晕眩那些未能挣脱的敌方英雄。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "莫甘娜·灵魂镣铐",
+          "skillCategoryKeys": [],
+          "skillKey": "morgana_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:31.298385Z"
+        },
+        "responseSha256": "9fa5cbcbd1c3238e8f5919ac1999b44635fec33f6828df384e5a8138faedd754",
+        "responseBytes": 651
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_r/parameters",
+        "status": 200,
+        "response": [
+          {
+            "createdAt": "2026-09-09T17:58:09.312327Z",
+            "description": "客户端DataValues.Damage取索引1至3；索引0为旧占位125。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 200,
+              "2": 275,
+              "3": 350
+            },
+            "name": "基础魔法伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "morgana_r",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T17:58:09.312327Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T17:58:10.640688Z",
+            "description": "TotalDamage树的StatByCoefficient系数为0.8×来源总法强。",
+            "fixedValue": 0.8,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法强比例",
+            "parameterKey": "ap_ratio",
+            "skillKey": "morgana_r",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T17:58:10.640688Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T17:58:11.873981Z",
+            "description": "客户端ChainDuration为3秒，转换为3000毫秒。",
+            "fixedValue": 3000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "锁链持续时间（毫秒）",
+            "parameterKey": "chain_duration_ms",
+            "skillKey": "morgana_r",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T17:58:11.873981Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T17:58:13.065657Z",
+            "description": "客户端StunDuration取索引1至3，单位秒转换为1500/1750/2000毫秒。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 1500,
+              "2": 1750,
+              "3": 2000
+            },
+            "name": "后续眩晕持续时间（毫秒）",
+            "parameterKey": "stun_duration_ms",
+            "skillKey": "morgana_r",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-09T17:58:13.065657Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T17:58:14.259419Z",
+            "description": "客户端SlowPercent为20；控制效果仅作来源参数。",
+            "fixedValue": 20,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "减速百分数点",
+            "parameterKey": "slow_percent_points",
+            "skillKey": "morgana_r",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T17:58:14.259419Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T17:58:15.48893Z",
+            "description": "客户端HastePercent取索引1至3，得到20/40/60；索引0为占位0。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 20,
+              "2": 40,
+              "3": 60
+            },
+            "name": "自身移速加成百分数点",
+            "parameterKey": "self_haste_percent_points",
+            "skillKey": "morgana_r",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-09T17:58:15.48893Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:23.038382Z",
+            "description": "DDragon16.17.1 Morgana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 110000,
+              "3": 100000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "morgana_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:23.038382Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:23.410983Z",
+            "description": "DDragon16.17.1 Morgana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "morgana_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:23.410983Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "responseSha256": "a7b3110c15de9c211add2ca03533943ea52d61db6dfec126459f1c6c89dbd735",
+        "responseBytes": 3406
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_r/effects",
+        "status": 200,
+        "response": [
+          {
+            "createdAt": "2026-09-09T17:58:17.976954Z",
+            "description": "仅记录morgana_r的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "morgana_r",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T17:58:17.976954Z"
+          }
+        ],
+        "responseSha256": "a023d1a22ae2736e1a6fecd84dc9d27acc103a36b100c2ffbf92cbd53ee9b2ce",
+        "responseBytes": 388
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_r/processes",
+        "status": 200,
+        "response": [],
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "responseBytes": 2
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_r/trigger-rules",
+        "status": 200,
+        "response": [],
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "responseBytes": 2
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_r/effects/mana_cost",
+        "status": 200,
+        "response": {
+          "createdAt": "2026-09-09T17:58:17.976954Z",
+          "description": "仅记录morgana_r的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "施放法力消耗",
+              "resultKey": "resource",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "morgana_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:58:17.976954Z"
+        },
+        "responseSha256": "71316076a56776f105d44c23847bce7ab445fbf63a83cb288400412046923ab7",
+        "responseBytes": 748
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q",
+        "status": 200,
+        "response": {
+          "createdAt": "2026-09-06T17:16:13.836026Z",
+          "description": "来源：官方静态资料16.17.1。原始说明：拉克丝释放一个光球，束缚并伤害最多两个敌方单位。 数值、机制及图片尚待录入与核对。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "拉克丝·光之束缚",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "lux_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T17:26:19.057524Z"
+        },
+        "responseSha256": "3d275d7e00fc1f801d9fc974b93c207f116f0254c35529b238341d54fe9fd94c",
+        "responseBytes": 419
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters",
+        "status": 200,
+        "response": [
+          {
+            "createdAt": "2026-09-07T14:42:03.845108Z",
+            "description": "浏览器试录：客户端 BaseDamage 跳过 rank0 后 80/120/160/200/240。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 80,
+              "2": 120,
+              "3": 160,
+              "4": 200,
+              "5": 240
+            },
+            "name": "基础魔法伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "lux_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:42:03.845108Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:03.841927Z",
+            "description": "浏览器试录：APRatio=0.75，比例 1=100%。",
+            "fixedValue": 0.75,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法术强度倍率",
+            "parameterKey": "ap_ratio",
+            "skillKey": "lux_q",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T14:45:03.841927Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:43.010808Z",
+            "description": "客户端 RootDuration=2 秒。当前状态目录仅有 vertigo/眩晕，不等于束缚，本批只录时长不声称控制已成立。",
+            "fixedValue": 2000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "束缚持续时间（毫秒）",
+            "parameterKey": "root_duration_ms",
+            "skillKey": "lux_q",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T14:45:43.010808Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:43.348191Z",
+            "description": "主技能 mSpell 无 Cooldown。DDragon 16.17.1 主动冷却 10 秒。弹体 LuxLightBindingMis 冷却 12 秒与主动资料冲突，不采用弹体值。",
+            "fixedValue": 10000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "lux_q",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T14:45:43.348191Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:43.697315Z",
+            "description": "客户端 mana 与 DDragon 16.17.1 cost 均为 50。",
+            "fixedValue": 50,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "lux_q",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T14:45:43.697315Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:44.291701Z",
+            "description": "客户端主技能 spellCastTime=0.25 秒。",
+            "fixedValue": 250,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法时间（毫秒）",
+            "parameterKey": "cast_time_ms",
+            "skillKey": "lux_q",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T14:45:44.291701Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:44.650565Z",
+            "description": "采用 castRangeDisplayOverride 与 DDragon range=1175。主技能 castRange=10000 为引擎值，不写入。",
+            "fixedValue": 1175,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "技能指示范围",
+            "parameterKey": "target_range",
+            "skillKey": "lux_q",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-07T14:45:44.650565Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:45.011386Z",
+            "description": "主技能与 LuxLightBindingMis 的 missileSpeed 均为 1200。",
+            "fixedValue": 1200,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "弹体速度",
+            "parameterKey": "projectile_speed",
+            "skillKey": "lux_q",
+            "sortOrder": 80,
+            "updatedAt": "2026-09-07T14:45:45.011386Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "responseSha256": "ab8d2495b2a804f912f5e8be72996a7f9f49ec94429fcc77ff8a2e51b72c03b4",
+        "responseBytes": 3049
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/effects",
+        "status": 200,
+        "response": [
+          {
+            "createdAt": "2026-09-07T14:45:45.416254Z",
+            "description": "施放时消耗对应技能等级的法力。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "lux_q",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:45:45.416254Z"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:14.699202Z",
+            "description": "浏览器试录：独立魔法伤害结果。",
+            "effectKey": "light_binding_hit",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "光球命中",
+            "resultCount": 1,
+            "skillKey": "lux_q",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T14:45:14.699202Z"
+          }
+        ],
+        "responseSha256": "59b27d32d2465b588e2d23dccf84dcc899ffbc279093e8fd6e4f57eddd65f9ea",
+        "responseBytes": 583
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/processes",
+        "status": 200,
+        "response": [
+          {
+            "activationType": "ACTIVE",
+            "createdAt": "2026-09-07T14:45:45.972873Z",
+            "description": "过程只负责法力、施法延迟和冷却；伤害由实际命中事件触发。弹体碰撞与双目标上限未表达。",
+            "effectBindingCount": 1,
+            "gameId": "lol",
+            "name": "施放光之束缚",
+            "processKey": "cast",
+            "skillKey": "lux_q",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1,
+            "updatedAt": "2026-09-07T14:45:45.972873Z"
+          }
+        ],
+        "responseSha256": "15aa5351fc67300218a706747e84e50f0d66dec88a4e84906209ef9b1b841b1f",
+        "responseBytes": 414
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/trigger-rules",
+        "status": 200,
+        "response": [
+          {
+            "actionCount": 1,
+            "conditionGroupCount": 0,
+            "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+            "eventType": "SKILL_HIT",
+            "maxTriggersPerProcessEnabled": false,
+            "name": "光之束缚实际命中结算",
+            "perTargetCooldownEnabled": false,
+            "ruleKey": "resolve_on_q_hit",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:45:46.385113Z"
+          }
+        ],
+        "responseSha256": "197b67765d3d41c7096d09fd58b79480a503dcd57df51a0a7ec97435b39a629a",
+        "responseBytes": 407
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/effects/mana_cost",
+        "status": 200,
+        "response": {
+          "createdAt": "2026-09-07T14:45:45.416254Z",
+          "description": "施放时消耗对应技能等级的法力。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "lux_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T14:45:45.416254Z"
+        },
+        "responseSha256": "35c715a02ad28d8b0587121d5bf229b30d38c9cbb0ade53e6f1b27916f582350",
+        "responseBytes": 649
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/processes/cast",
+        "status": 200,
+        "response": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-07T14:45:45.972873Z",
+          "description": "过程只负责法力、施法延迟和冷却；伤害由实际命中事件触发。弹体碰撞与双目标上限未表达。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "施放光之束缚",
+          "processKey": "cast",
+          "skillKey": "lux_q",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "主技能 spellCastTime，按毫秒录入。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法时间",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-07T14:45:45.972873Z"
+        },
+        "responseSha256": "d2ba726d17c04a594f3824f1b952214ff9841ffe1656d907391822080fdab322",
+        "responseBytes": 877
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/trigger-rules/resolve_on_q_hit",
+        "status": 200,
+        "response": {
+          "actions": [
+            {
+              "actionKey": "resolve_hit",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "light_binding_hit"
+              },
+              "name": "结算命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "lux_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "光之束缚实际命中结算",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_q_hit",
+          "sortOrder": 10
+        },
+        "responseSha256": "530d8bac2c801ad455d467e666fd596286fab933391b57b4adec3f418bfff64b",
+        "responseBytes": 631
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w",
+        "status": 200,
+        "response": {
+          "createdAt": "2026-09-06T17:16:33.894942Z",
+          "description": "来源：官方静态资料16.17.1。原始说明：拉克丝掷出她的魔杖，魔杖所触及的友方单位会有光环环绕，保护他们免受敌方伤害。 数值、机制及图片尚待录入与核对。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "拉克丝·曲光屏障",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "lux_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T17:38:27.157187Z"
+        },
+        "responseSha256": "378f44d3a641a6a422d81b0f5d5f57be3e1dbf615e5f55a6150244dbb49c1034",
+        "responseBytes": 461
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/parameters",
+        "status": 200,
+        "response": [
+          {
+            "createdAt": "2026-09-07T14:45:47.107438Z",
+            "description": "客户端 BaseShieldAmount 含 rank0=25；跳过 rank0 后 rank1-5=40/55/70/85/100。来源：社区提取 16.17 mSpell。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 40,
+              "2": 55,
+              "3": 70,
+              "4": 85,
+              "5": 100
+            },
+            "name": "基础护盾值",
+            "parameterKey": "base_shield",
+            "skillKey": "lux_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:45:47.107438Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:47.451613Z",
+            "description": "客户端 APRatio=0.4000000059604645，按设计值归一为 0.4。TotalShieldTT=BaseShieldAmount+AP×APRatio。未叠加治疗护盾强度。",
+            "fixedValue": 0.4,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法术强度倍率",
+            "parameterKey": "ap_ratio",
+            "skillKey": "lux_w",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T14:45:47.451613Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:47.747651Z",
+            "description": "客户端 ShieldDuration=2.5 秒。",
+            "fixedValue": 2500,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "护盾持续时间（毫秒）",
+            "parameterKey": "shield_duration_ms",
+            "skillKey": "lux_w",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-07T14:45:47.747651Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:48.120785Z",
+            "description": "客户端 cooldownTime 含 rank0 重复 12；跳过 rank0 后与 DDragon 12/11.5/11/10.5/10 秒一致，按毫秒写入。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 12000,
+              "2": 11500,
+              "3": 11000,
+              "4": 10500,
+              "5": 10000
+            },
+            "name": "冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "lux_w",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T14:45:48.120785Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:48.455652Z",
+            "description": "客户端 mana 无 rank0 重复，前 5 项与 DDragon 一致。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "lux_w",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T14:45:48.455652Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:48.795488Z",
+            "description": "客户端主技能 spellCastTime=0.25 秒。",
+            "fixedValue": 250,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法时间（毫秒）",
+            "parameterKey": "cast_time_ms",
+            "skillKey": "lux_w",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T14:45:48.795488Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:49.183767Z",
+            "description": "采用 castRangeDisplayOverride 与 DDragon range=1150。主技能 castRange=10000、返回弹体 25000 不写入。",
+            "fixedValue": 1150,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "技能指示范围",
+            "parameterKey": "target_range",
+            "skillKey": "lux_w",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-07T14:45:49.183767Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "responseSha256": "b457ac33fdb29a352d5eb7f2659637caf152de7d0ee93c870e61b6a828565dd4",
+        "responseBytes": 2809
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/effects",
+        "status": 200,
+        "response": [
+          {
+            "createdAt": "2026-09-07T14:45:49.887812Z",
+            "description": "施放时消耗对应技能等级的法力。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "lux_w",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:45:49.887812Z"
+          },
+          {
+            "createdAt": "2026-09-07T14:59:18.841674Z",
+            "description": "独立普通自护盾：结果目标与实例范围为施法者，本批按 1V1 范围保留自身部分。冻结客户端数值：单次 40/55/70/85/100 + 0.4 法术强度，持续 2500 毫秒。施加时点与回程叠加未证实，不挂过程。",
+            "effectKey": "prismatic_shield",
+            "gameId": "lol",
+            "lifecycleEnabled": true,
+            "name": "曲光屏障自我护盾",
+            "resultCount": 1,
+            "skillKey": "lux_w",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T15:26:50.650297Z"
+          }
+        ],
+        "responseSha256": "0c4532f0230058a1c56229692b13cbdefb943bf7d0843b8992d65c1732b8f86c",
+        "responseBytes": 798
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/processes",
+        "status": 200,
+        "response": [
+          {
+            "activationType": "ACTIVE",
+            "createdAt": "2026-09-07T14:45:50.622722Z",
+            "description": "过程只负责法力、施法延迟和冷却。独立自护盾效果不在此过程自动施加；施加时点与回程叠加未证实。",
+            "effectBindingCount": 1,
+            "gameId": "lol",
+            "name": "施放曲光屏障",
+            "processKey": "cast",
+            "skillKey": "lux_w",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1,
+            "updatedAt": "2026-09-07T14:59:19.106287Z"
+          }
+        ],
+        "responseSha256": "4cb4b9f8b3b8883ec08c27f0bab31ccd14d5550263eeb5314360d361d4e0db21",
+        "responseBytes": 426
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/trigger-rules",
+        "status": 200,
+        "response": [
+          {
+            "actionCount": 1,
+            "conditionGroupCount": 0,
+            "description": "接收lux_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；护盾施加时点、去程与回程命中、目标资格和护盾叠加继续暂缓。管理保存不证明宿主已生产该事件。",
+            "eventType": "SKILL_USED",
+            "maxTriggersPerProcessEnabled": false,
+            "name": "主动使用启动曲光屏障施法过程",
+            "perTargetCooldownEnabled": false,
+            "ruleKey": "on_used",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-13T13:46:30.972746Z"
+          }
+        ],
+        "responseSha256": "39761d8654a40aae4d66497800913f6f0c6d736ba26c1a493f66beaaeafdd7e2",
+        "responseBytes": 536
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/effects/mana_cost",
+        "status": 200,
+        "response": {
+          "createdAt": "2026-09-07T14:45:49.887812Z",
+          "description": "施放时消耗对应技能等级的法力。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "lux_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T14:45:49.887812Z"
+        },
+        "responseSha256": "deb8e64e653d38091d1a949429f4f181be19154ec67f66153e21f6aaa84f41b2",
+        "responseBytes": 649
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/processes/cast",
+        "status": 200,
+        "response": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-07T14:45:50.622722Z",
+          "description": "过程只负责法力、施法延迟和冷却。独立自护盾效果不在此过程自动施加；施加时点与回程叠加未证实。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "施放曲光屏障",
+          "processKey": "cast",
+          "skillKey": "lux_w",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "主技能 spellCastTime，按毫秒录入。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法时间",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-07T14:59:19.106287Z"
+        },
+        "responseSha256": "c57c332e64c966127524f31416e74a20cf85ced4b47bd36274cbea7d03a082f8",
+        "responseBytes": 889
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/trigger-rules/on_used",
+        "status": 200,
+        "response": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动曲光屏障施法过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收lux_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；护盾施加时点、去程与回程命中、目标资格和护盾叠加继续暂缓。管理保存不证明宿主已生产该事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "lux_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用启动曲光屏障施法过程",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 10
+        },
+        "responseSha256": "4112a7736384de0f21c393c95875fb396ca8bc0f3455e6fd37722780b8b8e114",
+        "responseBytes": 762
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r",
+        "status": 200,
+        "response": {
+          "createdAt": "2026-09-06T17:17:01.956979Z",
+          "description": "来源：官方静态资料16.17.1。原始说明：在积蓄能量之后，拉克丝发射一束光波，对该区域所有目标造成伤害。此外，该技能触发拉克丝的被动技能并刷新光芒四射减益的持续时间。 数值、机制及图片尚待录入与核对。",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "拉克丝·终极闪光",
+          "skillCategoryKeys": [],
+          "skillKey": "lux_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T17:41:25.711273Z"
+        },
+        "responseSha256": "cff7b62e228178d001f736432d0abb73883fb98ce0b04d295dafded8155cc11e",
+        "responseBytes": 525
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/parameters",
+        "status": 200,
+        "response": [
+          {
+            "createdAt": "2026-09-07T14:45:55.9332Z",
+            "description": "客户端 Damage 含 rank0=200；maxLevel=3，跳过 rank0 取 300/400/500。来源：社区提取 16.17 mSpell。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 300,
+              "2": 400,
+              "3": 500
+            },
+            "name": "基础魔法伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "lux_r",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:45:55.9332Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:56.234223Z",
+            "description": "客户端 TotalDamage 使用 mCoefficient=1.2000000476837158，归一为 1.2。",
+            "fixedValue": 1.2,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法术强度倍率",
+            "parameterKey": "ap_ratio",
+            "skillKey": "lux_r",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T14:45:56.234223Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:58.091622Z",
+            "description": "客户端 cooldownTime 跳过 rank0 后前 3 项与 DDragon 60/50/40 秒一致。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60000,
+              "2": 50000,
+              "3": 40000
+            },
+            "name": "冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "lux_r",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-07T14:45:58.091622Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:59.621113Z",
+            "description": "客户端 mana 与 DDragon cost 均为 100。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "lux_r",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-07T14:45:59.621113Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:45:59.946282Z",
+            "description": "客户端 spellCastTime=1.375 秒。按延迟步骤录入，不把通道打断/不可取消写成完整通道机制。",
+            "fixedValue": 1375,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "蓄力时间（毫秒）",
+            "parameterKey": "cast_time_ms",
+            "skillKey": "lux_r",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-07T14:45:59.946282Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:46:00.31429Z",
+            "description": "采用 castRangeDisplayOverride 与 DDragon range=3340。castRange=25000 不写入。",
+            "fixedValue": 3340,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "技能指示范围",
+            "parameterKey": "target_range",
+            "skillKey": "lux_r",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-07T14:46:00.31429Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:46:00.650479Z",
+            "description": "客户端主技能 mLineWidth=190，仅单来源，未与独立弹体交叉。",
+            "fixedValue": 190,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "光束宽度",
+            "parameterKey": "line_width",
+            "skillKey": "lux_r",
+            "sortOrder": 80,
+            "updatedAt": "2026-09-07T14:46:00.650479Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T14:46:01.000633Z",
+            "description": "客户端主技能 missileSpeed=3000。",
+            "fixedValue": 3000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "光束速度",
+            "parameterKey": "projectile_speed",
+            "skillKey": "lux_r",
+            "sortOrder": 81,
+            "updatedAt": "2026-09-07T14:46:01.000633Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "responseSha256": "7e66559896107868e6940ff9795041a6e8f0810fe69129643aed90eb1e9d9f0f",
+        "responseBytes": 2990
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/effects",
+        "status": 200,
+        "response": [
+          {
+            "createdAt": "2026-09-07T14:46:01.679736Z",
+            "description": "施放时消耗对应技能等级的法力。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "lux_r",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:46:01.679736Z"
+          },
+          {
+            "createdAt": "2026-09-07T14:46:01.992566Z",
+            "description": "独立直线魔法伤害。被动引爆/刷新启明、冷却返还未挂接。",
+            "effectKey": "final_spark_hit",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "终极闪光命中",
+            "resultCount": 1,
+            "skillKey": "lux_r",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T14:46:01.992566Z"
+          }
+        ],
+        "responseSha256": "d7cc84bb64ba0458dbf31a1ced62321a6b5c9e252f7a64299bb6d63eb3428fdc",
+        "responseBytes": 621
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/processes",
+        "status": 200,
+        "response": [
+          {
+            "activationType": "ACTIVE",
+            "createdAt": "2026-09-07T14:46:02.37415Z",
+            "description": "过程只负责法力、1.375 秒蓄力延迟和冷却。通道取消与直线区域命中未完整表达。",
+            "effectBindingCount": 1,
+            "gameId": "lol",
+            "name": "施放终极闪光",
+            "processKey": "cast",
+            "skillKey": "lux_r",
+            "sortOrder": 10,
+            "stateOperationCount": 0,
+            "stepCount": 1,
+            "updatedAt": "2026-09-07T14:46:02.37415Z"
+          }
+        ],
+        "responseSha256": "b80a66b7afbc0d156cc66e91edce3d4108f6554331585ca97c3ad54130d8e383",
+        "responseBytes": 394
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/trigger-rules",
+        "status": 200,
+        "response": [
+          {
+            "actionCount": 1,
+            "conditionGroupCount": 0,
+            "description": "监听 lux_r 实际命中后结算独立魔法伤害。不在此触发上猜测启明引爆或冷却返还。",
+            "eventType": "SKILL_HIT",
+            "maxTriggersPerProcessEnabled": false,
+            "name": "终极闪光实际命中结算",
+            "perTargetCooldownEnabled": false,
+            "ruleKey": "resolve_on_r_hit",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-07T14:46:02.721373Z"
+          }
+        ],
+        "responseSha256": "07b150805a00061fbbc4a560a2def58f2dec7c7b067575eddb032d4c98f62808",
+        "responseBytes": 389
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/effects/mana_cost",
+        "status": 200,
+        "response": {
+          "createdAt": "2026-09-07T14:46:01.679736Z",
+          "description": "施放时消耗对应技能等级的法力。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "lux_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T14:46:01.679736Z"
+        },
+        "responseSha256": "04ba05cded8ba139d81cb0f238732a9d70c547eb2d6c59f16ba502fe04d0611d",
+        "responseBytes": 649
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/processes/cast",
+        "status": 200,
+        "response": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-07T14:46:02.37415Z",
+          "description": "过程只负责法力、1.375 秒蓄力延迟和冷却。通道取消与直线区域命中未完整表达。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "施放终极闪光",
+          "processKey": "cast",
+          "skillKey": "lux_r",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "主技能 spellCastTime，按毫秒录入。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法时间",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-07T14:46:02.37415Z"
+        },
+        "responseSha256": "5553e97cc06746ea92c687d7d02ce72605fcb2cea28239471c3022aef3e92030",
+        "responseBytes": 857
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/trigger-rules/resolve_on_r_hit",
+        "status": 200,
+        "response": {
+          "actions": [
+            {
+              "actionKey": "resolve_hit",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "final_spark_hit"
+              },
+              "name": "结算命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "监听 lux_r 实际命中后结算独立魔法伤害。不在此触发上猜测启明引爆或冷却返还。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "lux_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "终极闪光实际命中结算",
+          "perTargetCooldown": null,
+          "ruleKey": "resolve_on_r_hit",
+          "sortOrder": 10
+        },
+        "responseSha256": "d2045e1aeb115c9be4de03a5bc81c796a1ec4c2fbd676141738f748c50e9ca4d",
+        "responseBytes": 611
+      }
+    ],
+    "requests": 42
+  },
+  "audit": {
+    "readOnly": true,
+    "databaseAccess": false,
+    "browserAccess": false,
+    "businessWrites": 0,
+    "httpMethods": [
+      "GET"
+    ],
+    "GETs": 42,
+    "uniqueRoutes": 42,
+    "duplicateRouteRequests": 0,
+    "allRouteStatus200": true,
+    "requestErrors": [],
+    "routeAudit": [
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q",
+        "status": 200,
+        "responseSha256": "64380539fd3cad8d94e0c62dc55d6de6d18262f8707d0a9be677da3ba8ddd386",
+        "responseBytes": 471
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/parameters",
+        "status": 200,
+        "responseSha256": "d213838cf97ae3ff35a1538a35f61dfe0ef1d27622c555921a9a4ecf6d170c10",
+        "responseBytes": 1772
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/effects",
+        "status": 200,
+        "responseSha256": "874b44f2da10891cc3fc4521f03467a498c0d9390ec6c2fdf739d9d465ecd407",
+        "responseBytes": 388
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/processes",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "responseBytes": 2
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/trigger-rules",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "responseBytes": 2
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_q/effects/mana_cost",
+        "status": 200,
+        "responseSha256": "0c391d3991e25f866bb3b4d3c81c8ea814c2ed06ac7ef5d3ae0c37040fa3f541",
+        "responseBytes": 748
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_w",
+        "status": 200,
+        "responseSha256": "722b25e311a98990f95684cc1880859e57b5998a8684ba26d313652934181f48",
+        "responseBytes": 536
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_w/parameters",
+        "status": 200,
+        "responseSha256": "db9e52e8993b9896917388a358aec63972561363f2ea95b788182e58da4494aa",
+        "responseBytes": 3897
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_w/effects",
+        "status": 200,
+        "responseSha256": "fdc8dab7e250a3764915e4539679829a8b2315d0420c6df3bb87d0c9032c6a09",
+        "responseBytes": 388
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_w/processes",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "responseBytes": 2
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_w/trigger-rules",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "responseBytes": 2
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_w/effects/mana_cost",
+        "status": 200,
+        "responseSha256": "175d4bc8a3538083cbde8d294fcbe9699fa4e03b1d3875c568d17038d857034b",
+        "responseBytes": 748
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_r",
+        "status": 200,
+        "responseSha256": "9fa5cbcbd1c3238e8f5919ac1999b44635fec33f6828df384e5a8138faedd754",
+        "responseBytes": 651
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_r/parameters",
+        "status": 200,
+        "responseSha256": "a7b3110c15de9c211add2ca03533943ea52d61db6dfec126459f1c6c89dbd735",
+        "responseBytes": 3406
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_r/effects",
+        "status": 200,
+        "responseSha256": "a023d1a22ae2736e1a6fecd84dc9d27acc103a36b100c2ffbf92cbd53ee9b2ce",
+        "responseBytes": 388
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_r/processes",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "responseBytes": 2
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_r/trigger-rules",
+        "status": 200,
+        "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "responseBytes": 2
+      },
+      {
+        "method": "GET",
+        "path": "/skills/morgana_r/effects/mana_cost",
+        "status": 200,
+        "responseSha256": "71316076a56776f105d44c23847bce7ab445fbf63a83cb288400412046923ab7",
+        "responseBytes": 748
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q",
+        "status": 200,
+        "responseSha256": "3d275d7e00fc1f801d9fc974b93c207f116f0254c35529b238341d54fe9fd94c",
+        "responseBytes": 419
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/parameters",
+        "status": 200,
+        "responseSha256": "ab8d2495b2a804f912f5e8be72996a7f9f49ec94429fcc77ff8a2e51b72c03b4",
+        "responseBytes": 3049
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/effects",
+        "status": 200,
+        "responseSha256": "59b27d32d2465b588e2d23dccf84dcc899ffbc279093e8fd6e4f57eddd65f9ea",
+        "responseBytes": 583
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/processes",
+        "status": 200,
+        "responseSha256": "15aa5351fc67300218a706747e84e50f0d66dec88a4e84906209ef9b1b841b1f",
+        "responseBytes": 414
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/trigger-rules",
+        "status": 200,
+        "responseSha256": "197b67765d3d41c7096d09fd58b79480a503dcd57df51a0a7ec97435b39a629a",
+        "responseBytes": 407
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/effects/mana_cost",
+        "status": 200,
+        "responseSha256": "35c715a02ad28d8b0587121d5bf229b30d38c9cbb0ade53e6f1b27916f582350",
+        "responseBytes": 649
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/processes/cast",
+        "status": 200,
+        "responseSha256": "d2ba726d17c04a594f3824f1b952214ff9841ffe1656d907391822080fdab322",
+        "responseBytes": 877
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_q/trigger-rules/resolve_on_q_hit",
+        "status": 200,
+        "responseSha256": "530d8bac2c801ad455d467e666fd596286fab933391b57b4adec3f418bfff64b",
+        "responseBytes": 631
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w",
+        "status": 200,
+        "responseSha256": "378f44d3a641a6a422d81b0f5d5f57be3e1dbf615e5f55a6150244dbb49c1034",
+        "responseBytes": 461
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/parameters",
+        "status": 200,
+        "responseSha256": "b457ac33fdb29a352d5eb7f2659637caf152de7d0ee93c870e61b6a828565dd4",
+        "responseBytes": 2809
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/effects",
+        "status": 200,
+        "responseSha256": "0c4532f0230058a1c56229692b13cbdefb943bf7d0843b8992d65c1732b8f86c",
+        "responseBytes": 798
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/processes",
+        "status": 200,
+        "responseSha256": "4cb4b9f8b3b8883ec08c27f0bab31ccd14d5550263eeb5314360d361d4e0db21",
+        "responseBytes": 426
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/trigger-rules",
+        "status": 200,
+        "responseSha256": "39761d8654a40aae4d66497800913f6f0c6d736ba26c1a493f66beaaeafdd7e2",
+        "responseBytes": 536
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/effects/mana_cost",
+        "status": 200,
+        "responseSha256": "deb8e64e653d38091d1a949429f4f181be19154ec67f66153e21f6aaa84f41b2",
+        "responseBytes": 649
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/processes/cast",
+        "status": 200,
+        "responseSha256": "c57c332e64c966127524f31416e74a20cf85ced4b47bd36274cbea7d03a082f8",
+        "responseBytes": 889
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_w/trigger-rules/on_used",
+        "status": 200,
+        "responseSha256": "4112a7736384de0f21c393c95875fb396ca8bc0f3455e6fd37722780b8b8e114",
+        "responseBytes": 762
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r",
+        "status": 200,
+        "responseSha256": "cff7b62e228178d001f736432d0abb73883fb98ce0b04d295dafded8155cc11e",
+        "responseBytes": 525
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/parameters",
+        "status": 200,
+        "responseSha256": "7e66559896107868e6940ff9795041a6e8f0810fe69129643aed90eb1e9d9f0f",
+        "responseBytes": 2990
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/effects",
+        "status": 200,
+        "responseSha256": "d7cc84bb64ba0458dbf31a1ced62321a6b5c9e252f7a64299bb6d63eb3428fdc",
+        "responseBytes": 621
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/processes",
+        "status": 200,
+        "responseSha256": "b80a66b7afbc0d156cc66e91edce3d4108f6554331585ca97c3ad54130d8e383",
+        "responseBytes": 394
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/trigger-rules",
+        "status": 200,
+        "responseSha256": "07b150805a00061fbbc4a560a2def58f2dec7c7b067575eddb032d4c98f62808",
+        "responseBytes": 389
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/effects/mana_cost",
+        "status": 200,
+        "responseSha256": "04ba05cded8ba139d81cb0f238732a9d70c547eb2d6c59f16ba502fe04d0611d",
+        "responseBytes": 649
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/processes/cast",
+        "status": 200,
+        "responseSha256": "5553e97cc06746ea92c687d7d02ce72605fcb2cea28239471c3022aef3e92030",
+        "responseBytes": 857
+      },
+      {
+        "method": "GET",
+        "path": "/skills/lux_r/trigger-rules/resolve_on_r_hit",
+        "status": 200,
+        "responseSha256": "d2045e1aeb115c9be4de03a5bc81c796a1ec4c2fbd676141738f748c50e9ca4d",
+        "responseBytes": 611
+      }
+    ],
+    "detailSkipped": [
+      {
+        "route": "/skills/morgana_q/parameters/mana_cost",
+        "reason": "parameters列表已返回完整对象，未重复详情GET。"
+      },
+      {
+        "route": "/skills/morgana_q/parameters/cooldown_ms",
+        "reason": "parameters列表已完整返回现有参数集合且未包含该键；未额外发送404详情GET，结构缺口在候选中标记。"
+      },
+      {
+        "route": "/skills/morgana_w/parameters/mana_cost",
+        "reason": "parameters列表已返回完整对象，未重复详情GET。"
+      },
+      {
+        "route": "/skills/morgana_w/parameters/cooldown_ms",
+        "reason": "parameters列表已返回完整对象，未重复详情GET。"
+      },
+      {
+        "route": "/skills/morgana_r/parameters/mana_cost",
+        "reason": "parameters列表已返回完整对象，未重复详情GET。"
+      },
+      {
+        "route": "/skills/morgana_r/parameters/cooldown_ms",
+        "reason": "parameters列表已返回完整对象，未重复详情GET。"
+      },
+      {
+        "route": "/skills/lux_q/parameters/mana_cost",
+        "reason": "parameters列表已返回完整对象，未重复详情GET。"
+      },
+      {
+        "route": "/skills/lux_q/parameters/cooldown_ms",
+        "reason": "parameters列表已返回完整对象，未重复详情GET。"
+      },
+      {
+        "route": "/skills/lux_w/parameters/mana_cost",
+        "reason": "parameters列表已返回完整对象，未重复详情GET。"
+      },
+      {
+        "route": "/skills/lux_w/parameters/cooldown_ms",
+        "reason": "parameters列表已返回完整对象，未重复详情GET。"
+      },
+      {
+        "route": "/skills/lux_r/parameters/mana_cost",
+        "reason": "parameters列表已返回完整对象，未重复详情GET。"
+      },
+      {
+        "route": "/skills/lux_r/parameters/cooldown_ms",
+        "reason": "parameters列表已返回完整对象，未重复详情GET。"
+      }
+    ],
+    "requestShape": {
+      "perSkillBaseCollections": 5,
+      "manaEffectDetails": 6,
+      "existingProcessDetails": 3,
+      "existingTriggerRuleDetails": 3,
+      "totalExpected": 42
+    }
+  },
+  "runtimeBoundary": "管理配置与GET证据不等于宿主事件生产、资源实际扣除、普通冷却调度、角色后续冷却机制执行或Wasm战斗运行证明。",
+  "reportSha256Basis": "除reportSha256字段外的规范JSON文本（字段插入顺序保持）",
+  "reportSha256": "3a7b53baec5c80d63dc40902a73b30905136e9109d6e2dcf278e5f85e9ceb7fa"
+}

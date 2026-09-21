@@ -1,0 +1,633 @@
+{
+  "schemaVersion": "damage.authoring.independent-review.v1",
+  "status": "APPROVED",
+  "title": "六项既有施法过程入口补录独立评审",
+  "reviewedAt": "2026-09-18T23:45:51.865Z",
+  "scope": {
+    "worktree": "C:\\project\\damage_web_dev",
+    "directory": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录",
+    "gameId": "lol",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "targets": [
+      "veigar_q",
+      "annie_q",
+      "brand_q",
+      "annie_w",
+      "malphite_q",
+      "diana_q"
+    ],
+    "preparedPOSTs": 6,
+    "apiCallsDuringReview": 0,
+    "databaseAccess": false,
+    "businessWritesDuringReview": 0,
+    "runtimeBoundary": "只核对管理配置；不证明浏览器、宿主/Wasm、实际使用事件、命中事件或战斗运行。"
+  },
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "4161dfdaee269f146e8abafd4b7584d1ea4e0c746dfa657fed4e57bc458b5534",
+    "02-冻结请求.json": "09196c3060b4bc499a1d2daac0b9e06b384678f838796312e3cec9515a748611",
+    "03-来源摘要.json": "0dcb77942511bd5aaa6eb281778eeca790c7288e3a661d6f611b4762929d0aba",
+    "04-写入前现值.json": "7a0c62fd6a1e10dc57e18473d61d3b3943d144211c9c277fd3fbcec53a11dece"
+  },
+  "toolBinding": {
+    "path": "tools/authoring/append-reviewed-skill-components-v3.mjs",
+    "sha256": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "expectedSha256": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "match": true,
+    "codeReviewBoundary": "工具已独立代码评审并完成离线检查；本评审只核对本批请求与来源，不重复故障测试。"
+  },
+  "fileBinding": {
+    "fileHashes": {
+      "baseline": "7a0c62fd6a1e10dc57e18473d61d3b3943d144211c9c277fd3fbcec53a11dece",
+      "plan": "4161dfdaee269f146e8abafd4b7584d1ea4e0c746dfa657fed4e57bc458b5534",
+      "frozen": "09196c3060b4bc499a1d2daac0b9e06b384678f838796312e3cec9515a748611",
+      "source": "0dcb77942511bd5aaa6eb281778eeca790c7288e3a661d6f611b4762929d0aba"
+    },
+    "freezeLinks": {
+      "sourceSha256Matches03": true,
+      "baselineSha256Matches04": true,
+      "expectedFrozenSha256": "09196c3060b4bc499a1d2daac0b9e06b384678f838796312e3cec9515a748611",
+      "frozenSha256": "09196c3060b4bc499a1d2daac0b9e06b384678f838796312e3cec9515a748611"
+    },
+    "sourceHashAudit": {
+      "count": 25,
+      "mismatchCount": 0,
+      "rows": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录/00-十二项只读候选.json",
+          "expectedSha256": "961042ceb1972116796b209864dde7909c63059269d0f3e6e4be0f801f948ab5",
+          "actualSha256": "961042ceb1972116796b209864dde7909c63059269d0f3e6e4be0f801f948ab5",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "expectedSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+          "actualSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+          "expectedSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+          "actualSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+          "expectedSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+          "actualSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/四项既有伤害吸血资格纠错/04-写入前现值.json",
+          "expectedSha256": "8c0c55215439a687d66450a0d436fdf41f7a38d1569645a61fd29cc3d66fe844",
+          "actualSha256": "8c0c55215439a687d66450a0d436fdf41f7a38d1569645a61fd29cc3d66fe844",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/04-写入前现值.json",
+          "expectedSha256": "bfb9b6670771d29a921e9c21cf652fb3837016fabf818999f1a2a7743a773ff4",
+          "actualSha256": "bfb9b6670771d29a921e9c21cf652fb3837016fabf818999f1a2a7743a773ff4",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Veigar.json",
+          "expectedSha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+          "actualSha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Veigar.json",
+          "expectedSha256": "71eed4440c741f187b3e36900a67e4544b188edb6aba4501ae3d981e494c28c2",
+          "actualSha256": "71eed4440c741f187b3e36900a67e4544b188edb6aba4501ae3d981e494c28c2",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz",
+          "expectedSha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc",
+          "actualSha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Annie.json",
+          "expectedSha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735",
+          "actualSha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Annie.json",
+          "expectedSha256": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4",
+          "actualSha256": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Annie.json.gz",
+          "expectedSha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38",
+          "actualSha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Brand.json",
+          "expectedSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+          "actualSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Brand.json",
+          "expectedSha256": "d1f7a34ee637918b864268464c39199eea9f53eb5a37101d403f544f5792a8dc",
+          "actualSha256": "d1f7a34ee637918b864268464c39199eea9f53eb5a37101d403f544f5792a8dc",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Brand.json.gz",
+          "expectedSha256": "0f205cb596ac4733d8588aec896f4a0121c71b66fa1ba1f6be924caaeac30dcd",
+          "actualSha256": "0f205cb596ac4733d8588aec896f4a0121c71b66fa1ba1f6be924caaeac30dcd",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Malphite.json",
+          "expectedSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7",
+          "actualSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Malphite.json",
+          "expectedSha256": "717e46ec145f0ccbd25237d32401d224c96e1a4727b72dcdf435729b1c60c707",
+          "actualSha256": "717e46ec145f0ccbd25237d32401d224c96e1a4727b72dcdf435729b1c60c707",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Malphite.json.gz",
+          "expectedSha256": "65865f9dbcbba50a11852301d6f516a21eb7ea88623980bb35ed7a825e7f6fdd",
+          "actualSha256": "65865f9dbcbba50a11852301d6f516a21eb7ea88623980bb35ed7a825e7f6fdd",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Diana.json",
+          "expectedSha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d",
+          "actualSha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Diana.json",
+          "expectedSha256": "06bba838083bb91b9d6c41f6c9f7395966d911719b9893be08734ba6425e8055",
+          "actualSha256": "06bba838083bb91b9d6c41f6c9f7395966d911719b9893be08734ba6425e8055",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Diana.json.gz",
+          "expectedSha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c",
+          "actualSha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillEffect.ts",
+          "expectedSha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34",
+          "actualSha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillProcess.ts",
+          "expectedSha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+          "actualSha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillTriggerRule.ts",
+          "expectedSha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615",
+          "actualSha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/写入响应审计修正/02-主负责人独立代码评审.json",
+          "expectedSha256": "caba1b87bd3f14f7131fa2c14e6b0664ef4661e4ab582f279dbb1e0867cf611c",
+          "actualSha256": "caba1b87bd3f14f7131fa2c14e6b0664ef4661e4ab582f279dbb1e0867cf611c",
+          "match": true
+        }
+      ]
+    }
+  },
+  "reviewItems": [
+    {
+      "id": "R1",
+      "name": "工具与01至04原始文件绑定",
+      "result": "PASS",
+      "evidence": "工具实际SHA等于锁定443202555；approvedFiles绑定工具、01候选、02冻结、03来源、04现值五项原始哈希。"
+    },
+    {
+      "id": "R2",
+      "name": "25项来源完整哈希",
+      "result": "PASS",
+      "evidence": "03来源摘要25项逐项重算，25/25一致，无漂移。"
+    },
+    {
+      "id": "R3",
+      "name": "6个POST请求边界",
+      "result": "PASS",
+      "evidence": {
+        "count": 6,
+        "rows": [
+          {
+            "method": "POST",
+            "route": "/skills/veigar_q/trigger-rules",
+            "detailRoute": "/skills/veigar_q/trigger-rules/on_used",
+            "ruleKey": "on_used",
+            "eventType": "SKILL_USED",
+            "sourceSkillKey": "veigar_q",
+            "useKind": "ACTIVE",
+            "conditionGroups": 0,
+            "actionType": "START_PROCESS",
+            "processKey": "cast",
+            "targetContext": "CURRENT_TARGET",
+            "runtimeBindings": 0,
+            "resultModifiers": 0,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "expectedUseKind": "ACTIVE"
+          },
+          {
+            "method": "POST",
+            "route": "/skills/annie_q/trigger-rules",
+            "detailRoute": "/skills/annie_q/trigger-rules/on_used",
+            "ruleKey": "on_used",
+            "eventType": "SKILL_USED",
+            "sourceSkillKey": "annie_q",
+            "useKind": "ACTIVE",
+            "conditionGroups": 0,
+            "actionType": "START_PROCESS",
+            "processKey": "cast",
+            "targetContext": "CURRENT_TARGET",
+            "runtimeBindings": 0,
+            "resultModifiers": 0,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "expectedUseKind": "ACTIVE"
+          },
+          {
+            "method": "POST",
+            "route": "/skills/brand_q/trigger-rules",
+            "detailRoute": "/skills/brand_q/trigger-rules/on_used",
+            "ruleKey": "on_used",
+            "eventType": "SKILL_USED",
+            "sourceSkillKey": "brand_q",
+            "useKind": "ACTIVE",
+            "conditionGroups": 0,
+            "actionType": "START_PROCESS",
+            "processKey": "cast",
+            "targetContext": "CURRENT_TARGET",
+            "runtimeBindings": 0,
+            "resultModifiers": 0,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "expectedUseKind": "ACTIVE"
+          },
+          {
+            "method": "POST",
+            "route": "/skills/annie_w/trigger-rules",
+            "detailRoute": "/skills/annie_w/trigger-rules/on_used",
+            "ruleKey": "on_used",
+            "eventType": "SKILL_USED",
+            "sourceSkillKey": "annie_w",
+            "useKind": "ACTIVE",
+            "conditionGroups": 0,
+            "actionType": "START_PROCESS",
+            "processKey": "cast",
+            "targetContext": "CURRENT_TARGET",
+            "runtimeBindings": 0,
+            "resultModifiers": 0,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "expectedUseKind": "ACTIVE"
+          },
+          {
+            "method": "POST",
+            "route": "/skills/malphite_q/trigger-rules",
+            "detailRoute": "/skills/malphite_q/trigger-rules/on_used",
+            "ruleKey": "on_used",
+            "eventType": "SKILL_USED",
+            "sourceSkillKey": "malphite_q",
+            "useKind": "ACTIVE",
+            "conditionGroups": 0,
+            "actionType": "START_PROCESS",
+            "processKey": "cast",
+            "targetContext": "CURRENT_TARGET",
+            "runtimeBindings": 0,
+            "resultModifiers": 0,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "expectedUseKind": "ACTIVE"
+          },
+          {
+            "method": "POST",
+            "route": "/skills/diana_q/trigger-rules",
+            "detailRoute": "/skills/diana_q/trigger-rules/on_used",
+            "ruleKey": "on_used",
+            "eventType": "SKILL_USED",
+            "sourceSkillKey": "diana_q",
+            "useKind": "ACTIVE",
+            "conditionGroups": 0,
+            "actionType": "START_PROCESS",
+            "processKey": "cast",
+            "targetContext": "CURRENT_TARGET",
+            "runtimeBindings": 0,
+            "resultModifiers": 0,
+            "perTargetCooldown": null,
+            "maxTriggersPerProcess": null,
+            "expectedUseKind": "ACTIVE"
+          }
+        ],
+        "invariant": "全部POST到trigger-rules，eventType=SKILL_USED，useKind=ACTIVE，conditionGroups为空，actionType=START_PROCESS，processKey=cast，runtimeInputBindings/resultModifiers为空，perTargetCooldown/maxTriggersPerProcess为null。",
+        "expectedReadback": "GET回读仍保留useKind=ACTIVE；不是SKILL_HIT的null规范化形状。"
+      }
+    },
+    {
+      "id": "R4",
+      "name": "既有cast过程与法力/冷却/施法时间",
+      "result": "PASS",
+      "evidence": {
+        "validationFile": {
+          "path": "数据参考/全量录入-2026-09/交叉试录/六项既有施法过程入口补录/配置数值与引用核对.json",
+          "sha256": "d0bf02f31c68667a3401c84125aabacd01ecbdb0bab1444361defcbe5a12187c",
+          "status": "PASS",
+          "caseCount": 90,
+          "HTTPRequests": 0,
+          "businessWrites": 0
+        },
+        "castEvidence": [
+          {
+            "skillKey": "veigar_q",
+            "mana": {
+              "mode": "SKILL_LEVEL",
+              "values": {
+                "1": 30,
+                "2": 35,
+                "3": 40,
+                "4": 45,
+                "5": 50
+              }
+            },
+            "cooldown": {
+              "mode": "SKILL_LEVEL",
+              "values": {
+                "1": 6000,
+                "2": 5500,
+                "3": 5000,
+                "4": 4500,
+                "5": 4000
+              }
+            },
+            "castTimeMs": 250,
+            "processKey": "cast",
+            "activationType": "ACTIVE",
+            "delayParameter": "cast_time_ms",
+            "effectBindings": [
+              "mana_cost"
+            ],
+            "stateOperations": [],
+            "actualHitRuleCount": 1,
+            "actualHitRule": "actual_hit"
+          },
+          {
+            "skillKey": "annie_q",
+            "mana": {
+              "mode": "SKILL_LEVEL",
+              "values": {
+                "1": 60,
+                "2": 65,
+                "3": 70,
+                "4": 75,
+                "5": 80
+              }
+            },
+            "cooldown": {
+              "mode": "FIXED",
+              "value": 4000
+            },
+            "castTimeMs": 250,
+            "processKey": "cast",
+            "activationType": "ACTIVE",
+            "delayParameter": "cast_time_ms",
+            "effectBindings": [
+              "mana_cost"
+            ],
+            "stateOperations": [],
+            "actualHitRuleCount": 1,
+            "actualHitRule": "actual_hit"
+          },
+          {
+            "skillKey": "brand_q",
+            "mana": {
+              "mode": "FIXED",
+              "value": 70
+            },
+            "cooldown": {
+              "mode": "SKILL_LEVEL",
+              "values": {
+                "1": 8000,
+                "2": 7500,
+                "3": 7000,
+                "4": 6500,
+                "5": 6000
+              }
+            },
+            "castTimeMs": 250,
+            "processKey": "cast",
+            "activationType": "ACTIVE",
+            "delayParameter": "cast_time_ms",
+            "effectBindings": [
+              "mana_cost"
+            ],
+            "stateOperations": [],
+            "actualHitRuleCount": 1,
+            "actualHitRule": "actual_hit"
+          },
+          {
+            "skillKey": "annie_w",
+            "mana": {
+              "mode": "SKILL_LEVEL",
+              "values": {
+                "1": 70,
+                "2": 75,
+                "3": 80,
+                "4": 85,
+                "5": 90
+              }
+            },
+            "cooldown": {
+              "mode": "FIXED",
+              "value": 7000
+            },
+            "castTimeMs": 250,
+            "processKey": "cast",
+            "activationType": "ACTIVE",
+            "delayParameter": "cast_time_ms",
+            "effectBindings": [
+              "mana_cost"
+            ],
+            "stateOperations": [],
+            "actualHitRuleCount": 1,
+            "actualHitRule": "actual_hit"
+          },
+          {
+            "skillKey": "malphite_q",
+            "mana": {
+              "mode": "SKILL_LEVEL",
+              "values": {
+                "1": 70,
+                "2": 75,
+                "3": 80,
+                "4": 85,
+                "5": 90
+              }
+            },
+            "cooldown": {
+              "mode": "FIXED",
+              "value": 8000
+            },
+            "castTimeMs": 250,
+            "processKey": "cast",
+            "activationType": "ACTIVE",
+            "delayParameter": "cast_time_ms",
+            "effectBindings": [
+              "mana_cost"
+            ],
+            "stateOperations": [],
+            "actualHitRuleCount": 1,
+            "actualHitRule": "actual_hit"
+          },
+          {
+            "skillKey": "diana_q",
+            "mana": {
+              "mode": "FIXED",
+              "value": 50
+            },
+            "cooldown": {
+              "mode": "SKILL_LEVEL",
+              "values": {
+                "1": 8000,
+                "2": 7500,
+                "3": 7000,
+                "4": 6500,
+                "5": 6000
+              }
+            },
+            "castTimeMs": 250,
+            "processKey": "cast",
+            "activationType": "ACTIVE",
+            "delayParameter": "cast_time_ms",
+            "effectBindings": [
+              "mana_cost"
+            ],
+            "stateOperations": [],
+            "actualHitRuleCount": 1,
+            "actualHitRule": "actual_hit"
+          }
+        ],
+        "invariant": "每个过程只有一个cast_time DELAY、一个PROCESS_START挂接mana_cost、普通冷却读取既有cooldown_ms、无stateOperations。"
+      }
+    },
+    {
+      "id": "R5",
+      "name": "实际命中与吸血保护",
+      "result": "PASS",
+      "evidence": {
+        "preservedActualHit": "六项原实际命中入口及伤害已存在，本批完整保护。",
+        "noHitRequests": "6个请求均只新增SKILL_USED入口，没有新增SKILL_HIT、DAMAGE结果或效果。",
+        "vampBoundary": "刚纠正的吸血资格不在本批请求中修改。"
+      }
+    },
+    {
+      "id": "R6",
+      "name": "范围纠正与剩余分支",
+      "result": "PASS",
+      "evidence": {
+        "sourceCorrection": "原只读候选把实际命中写成暂缓，01已改为既有命中受保护；remaining只列真实未处理被动、控制或联动。",
+        "excluded": [
+          "BrandW/VeigarR已有主动入口不重复",
+          "VeigarW/BrandE/MalphiteE/R缺过程另行准备",
+          "不新增事件生产和战斗运行"
+        ]
+      }
+    },
+    {
+      "id": "R7",
+      "name": "写前基线与新入口缺失",
+      "result": "PASS",
+      "evidence": {
+        "auditCount": 149,
+        "statusCounts": [
+          {
+            "status": 200,
+            "count": 143
+          },
+          {
+            "status": 404,
+            "count": 6
+          }
+        ],
+        "businessWrites": 0,
+        "responseCount": 143,
+        "newDetail404": [
+          "veigar_q/on_used",
+          "annie_q/on_used",
+          "brand_q/on_used",
+          "annie_w/on_used",
+          "malphite_q/on_used",
+          "diana_q/on_used"
+        ]
+      }
+    },
+    {
+      "id": "R8",
+      "name": "冻结散列与执行边界",
+      "result": "PASS",
+      "evidence": {
+        "freezeSourceSha256": "0dcb77942511bd5aaa6eb281778eeca790c7288e3a661d6f611b4762929d0aba",
+        "freezeBaselineSha256": "7a0c62fd6a1e10dc57e18473d61d3b3943d144211c9c277fd3fbcec53a11dece",
+        "frozenRequestSha256": "09196c3060b4bc499a1d2daac0b9e06b384678f838796312e3cec9515a748611",
+        "expectedFrozenRequestSha256": "09196c3060b4bc499a1d2daac0b9e06b384678f838796312e3cec9515a748611",
+        "nextExecution": "后续只能由主负责人按v3工具的批准哈希执行受保护POST、即时回读和最终独立回读。"
+      }
+    }
+  ],
+  "sourceAndRuntimeBoundary": {
+    "actualHit": "既有actual_hit规则保持不变；本批主动入口不等于宿主已经生成SKILL_USED。",
+    "castTime": "所有六项固定cast_time_ms为250毫秒，沿用来源和现值；不把spellTotalTime或施法延迟当作命中时点。",
+    "remaining": [
+      "VeigarQ击杀/被动层数",
+      "AnnieQ击杀退款/被动层数",
+      "BrandQ灼烧与晕眩",
+      "AnnieW被动层数",
+      "MalphiteQ移速偷取",
+      "DianaQ月光与E刷新"
+    ],
+    "browserRuntime": "未执行"
+  },
+  "conclusion": "APPROVED：六条SKILL_USED/ACTIVE到既有cast过程的入口请求具备静态独立评审通过条件；未发现阻塞项。"
+}
+

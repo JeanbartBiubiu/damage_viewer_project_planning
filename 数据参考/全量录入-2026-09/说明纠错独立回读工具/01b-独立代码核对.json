@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-19T01:03:41.611Z",
+  "reviewer": "主负责人独立于工具执行代理",
+  "status": "PASS",
+  "tool": {
+    "path": "tools/authoring/read-reviewed-description-updates.mjs",
+    "sha256": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994"
+  },
+  "businessHTTP": 0,
+  "checks": [
+    "固定本地API与GET方法，无写入接口或落库命令",
+    "锁定v2写入器及批准的01至04原字节，来源文件漂移先于GET停止",
+    "冻结请求只允许说明变化，06必须为完整成功写入且路径顺序吻合",
+    "目标只允许说明和更新时间变化，创建时间和嵌套数值保持",
+    "同一列表的多个目标、其余行、顺序与详情一致性逐项比较",
+    "原保护路径覆盖参数、公式、效果、过程、内部状态和规则详情",
+    "只接受HTTP200，响应体读取失败仍记录已知状态，报告不包含认证请求头"
+  ],
+  "fixedBeforeFirstRealUse": [
+    "改为当前写入器的127.0.0.1接口",
+    "批准绑定写入器文件而非回读器自身",
+    "补齐受保护组成的详情路径",
+    "HTTP201及正文读取失败保留准确失败审计"
+  ],
+  "offlineEvidence": "01-离线验证.json",
+  "originalScriptExecutionPath": "output/description-readback-helper/offline-verify.mjs",
+  "scriptNote": "01a保留执行时原字节及相对导入；复现时复制回原路径运行。预期拒绝输出是负面用例证据，不是未解决失败。"
+}

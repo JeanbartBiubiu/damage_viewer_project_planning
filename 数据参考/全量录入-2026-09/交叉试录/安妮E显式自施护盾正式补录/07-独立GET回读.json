@@ -1,0 +1,321 @@
+{
+  "status": "PASS",
+  "executor": "/root/annie_frozen_review",
+  "completedAt": "2026-09-18T13:56:29.224Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "GETs": 32,
+  "initialGETs": 28,
+  "followupGETs": 4,
+  "protectedObjectsRead": 27,
+  "protectedObjectsUnchangedIncludingTimestamps": 26,
+  "checks": {
+    "allHTTPResponses200": true,
+    "ruleListCount": 1,
+    "ruleListExpectedKeyOnly": true,
+    "ruleListSummaryMatchesDetail": true,
+    "ruleDetailEqualsFrozenBody": true,
+    "allSixComponentStableKeysUnique": true,
+    "otherFiveComponentListsAndEveryExistingDetailUnchanged": true,
+    "characterAttributesMountsImagesAndSkillUnchanged": true,
+    "eventSourceCorrect": true,
+    "explicitSelfConditionCorrect": true,
+    "onlyMoltenShieldAction": true,
+    "effectFormulaAndDurationReferencesPresentAndUnchanged": true,
+    "effectTargetAndLifecycleScopeAreSource": true,
+    "baselineComparedStructurallyIncludingTimestamps": true
+  },
+  "componentCounts": {
+    "parameters": {
+      "before": 9,
+      "after": 9,
+      "stableKeysUnique": true
+    },
+    "formulas": {
+      "before": 2,
+      "after": 2,
+      "stableKeysUnique": true
+    },
+    "effects": {
+      "before": 3,
+      "after": 3,
+      "stableKeysUnique": true
+    },
+    "processes": {
+      "before": 0,
+      "after": 0,
+      "stableKeysUnique": true
+    },
+    "internal-states": {
+      "before": 0,
+      "after": 0,
+      "stableKeysUnique": true
+    },
+    "trigger-rules": {
+      "before": 0,
+      "after": 1,
+      "stableKeysUnique": true
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/annie_e",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_annie",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_annie/attributes",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_annie",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=annie_e",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_annie/representative-image",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/representative-image",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/cooldown_ms",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/mana_cost",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/base_shield",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/shield_duration_ms",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/base_return_damage",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/shield_ap_ratio",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/return_ap_ratio",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/move_speed_duration_ms",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/parameters/move_speed_ratio",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/formulas",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/formulas/shield",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/formulas/return_damage",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/mana_cost",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/molten_shield",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/effects/return_damage",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/processes",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/internal-states",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules",
+      "status": 200,
+      "check": "ONLY_EXPECTED_RULE_ADDED"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules/on_used_self_shield",
+      "status": 200,
+      "check": "MATCHES_FROZEN_REQUEST"
+    }
+  ],
+  "followupAudit": [
+    {
+      "round": 1,
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "round": 1,
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules/on_used_self_shield",
+      "status": 200
+    },
+    {
+      "round": 2,
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "round": 2,
+      "method": "GET",
+      "path": "/skills/annie_e/trigger-rules/on_used_self_shield",
+      "status": 200
+    }
+  ],
+  "ruleList": [
+    {
+      "actionCount": 1,
+      "conditionGroupCount": 1,
+      "description": "安妮E主动使用且回退前的显式目标为来源对象时，执行已有自身护盾。无显式目标不匹配；队友、提伯斯、反伤、移速、资源及冷却不在本条规则内。",
+      "eventType": "SKILL_USED",
+      "maxTriggersPerProcessEnabled": false,
+      "name": "主动自施熔岩护盾",
+      "perTargetCooldownEnabled": false,
+      "ruleKey": "on_used_self_shield",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T13:53:50.932457Z"
+    }
+  ],
+  "newRule": {
+    "actions": [
+      {
+        "actionKey": "apply_self_shield",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "molten_shield"
+        },
+        "name": "执行熔岩自护盾",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET"
+      }
+    ],
+    "conditionGroups": [
+      {
+        "conditions": [
+          {
+            "conditionKey": "explicit_self",
+            "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+            "detail": {},
+            "sortOrder": 10
+          }
+        ],
+        "groupKey": "self_cast",
+        "name": "明确对自身施放",
+        "sortOrder": 10
+      }
+    ],
+    "description": "安妮E主动使用且回退前的显式目标为来源对象时，执行已有自身护盾。无显式目标不匹配；队友、提伯斯、反伤、移速、资源及冷却不在本条规则内。",
+    "eventSource": {
+      "detail": {
+        "sourceSkillKey": "annie_e",
+        "useKind": "ACTIVE"
+      },
+      "eventType": "SKILL_USED"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "主动自施熔岩护盾",
+    "perTargetCooldown": null,
+    "ruleKey": "on_used_self_shield",
+    "sortOrder": 10
+  },
+  "checkerCorrections": [
+    "首轮28次GET已完成26个保护响应含时间戳结构比较及规则详情请求体比较；随后多余断言要求详情必带gameId而退出，接口实际不返回此元数据。",
+    "第一次补读列表与详情2次，校验器误将列表actionCount等摘要字段按详情同名字段比较；第二次补读2次后按实际接口映射验证动作数、条件组数、事件类型与限制启用状态。累计32次GET；其他26个保护响应未重读，无写入或重放。"
+  ],
+  "sourceAndApprovedFileHashEvidence": "复用05-独立评审.json中本执行者刚完成的原始来源及五文件SHA256核对",
+  "boundary": "纯GET证明管理配置已持久化且受保护对象未变化；浏览器由主负责人另验，不证明宿主目标供值或战斗运行。"
+}

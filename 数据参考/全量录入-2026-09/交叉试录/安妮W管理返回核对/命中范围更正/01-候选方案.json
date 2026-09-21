@@ -1,0 +1,53 @@
+{
+  "executionMode": "BROWSER_UI_ONLY",
+  "skillKey": "annie_w",
+  "ruleKey": "actual_hit",
+  "conditionGroups": [
+    {
+      "groupKey": "champion_target",
+      "name": "本轮敌方英雄",
+      "sortOrder": 10,
+      "conditions": [
+        {
+          "conditionKey": "champion_target",
+          "conditionType": "TARGET_CATEGORY_CHECK",
+          "sortOrder": 10,
+          "detail": {
+            "categories": [
+              "CHAMPION"
+            ]
+          }
+        },
+        {
+          "conditionKey": "enemy_target",
+          "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+          "sortOrder": 20,
+          "detail": {}
+        }
+      ]
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Annie.json.gz",
+      "sha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Annie.json",
+      "sha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Annie.json",
+      "sha256": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4"
+    }
+  ],
+  "scope": "仅将既有无条件的W实际命中伤害限定为本轮明确敌方英雄；原事件、动作、数值与其他组成保持。",
+  "baselineReuse": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/安妮W管理返回核对/01-当前管理现值.json",
+    "sha256": "fd6ba412c00f77182a5e75a67c6906e27aa05bf155f3289b93f9528de6c2e715",
+    "reason": "复用刚完成的27GET完整基线，冻结所需技能组成，不重复prepare全量读取。"
+  }
+}

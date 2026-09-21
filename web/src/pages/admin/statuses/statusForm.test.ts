@@ -14,6 +14,7 @@ import {
 
 const STATUS: GameStatus = {
   gameId: 'demo',
+  statusKind: 'STUN',
   statusKey: 'stun',
   name: '眩晕',
   description: null,
@@ -25,6 +26,7 @@ const STATUS: GameStatus = {
 
 function validDraft(overrides: Partial<StatusDraft> = {}): StatusDraft {
   return {
+    statusKind: 'STUN',
     statusKey: 'stun',
     name: '眩晕',
     description: '',
@@ -36,6 +38,7 @@ function validDraft(overrides: Partial<StatusDraft> = {}): StatusDraft {
 describe('status form defaults and conversion', () => {
   it('creates the stable empty draft defaults', () => {
     expect(createEmptyStatusDraft()).toEqual({
+      statusKind: '',
       statusKey: '',
       name: '',
       description: '',
@@ -45,6 +48,7 @@ describe('status form defaults and conversion', () => {
 
   it('converts a GameStatus into an editable draft without exposing status', () => {
     expect(statusToDraft(STATUS)).toEqual({
+      statusKind: 'STUN',
       statusKey: 'stun',
       name: '眩晕',
       description: '',
@@ -68,6 +72,7 @@ describe('status form normalization', () => {
     expect(result).toEqual({
       ok: true,
       normalized: {
+        statusKind: 'STUN',
         statusKey: 'stun',
         name: '眩晕',
         description: null,
@@ -79,6 +84,7 @@ describe('status form normalization', () => {
   it('defaults create payload status to ENABLED and keeps sortOrder 0', () => {
     const result = validateStatusDraft(
       {
+        statusKind: 'MOVEMENT_SLOW',
         statusKey: 'slow',
         name: '减速',
         description: '',
@@ -91,6 +97,7 @@ describe('status form normalization', () => {
       throw new Error('expected valid draft');
     }
     expect(buildCreateStatusRequest(result.normalized)).toEqual({
+      statusKind: 'MOVEMENT_SLOW',
       statusKey: 'slow',
       name: '减速',
       description: null,
@@ -106,6 +113,7 @@ describe('status form normalization', () => {
       throw new Error('expected valid draft');
     }
     expect(buildUpdateStatusRequest(result.normalized, STATUS.status)).toEqual({
+      statusKind: 'STUN',
       name: '眩晕',
       description: null,
       status: 'DISABLED',
@@ -116,6 +124,31 @@ describe('status form normalization', () => {
 });
 
 describe('status form validation', () => {
+  it('新增必须显式选择种类，修改和启停请求保留原种类', () => {
+    expect(validateStatusDraft(validDraft({ statusKind: '' }), true).ok).toBe(false);
+    for (const statusKind of ['STUN', 'MOVEMENT_SLOW', 'ROOT', 'SILENCE', 'CHARM', 'AIRBORNE'] as const) {
+      const validation = validateStatusDraft(statusToDraft({ ...STATUS, statusKind }), false);
+      if (!validation.ok) throw new Error('expected valid status');
+      expect(buildUpdateStatusRequest(validation.normalized, 'DISABLED').statusKind).toBe(statusKind);
+      expect(buildCreateStatusRequest(validation.normalized).statusKind).toBe(statusKind);
+    }
+    expect(mapStatusFieldIssues({ fieldIssues: [{ field: 'statusKind', message: '状态种类不可更改' }] }))
+      .toMatchObject({ fieldErrors: { statusKind: '状态种类不可更改' } });
+  });
+
+  it('击飞校验错误保留种类和草稿，修正后创建请求不携带强度或期限', () => {
+    const draft = validDraft({ statusKind: 'AIRBORNE', statusKey: 'airborne', name: ' ', description: '击飞说明' });
+    const before = structuredClone(draft);
+    expect(validateStatusDraft(draft, true)).toEqual({ ok: false, fieldErrors: { name: '状态名称不能为空' } });
+    expect(draft).toEqual(before);
+    const validation = validateStatusDraft({ ...draft, name: '击飞' }, true);
+    if (!validation.ok) throw new Error('expected valid airborne status');
+    expect(buildCreateStatusRequest(validation.normalized)).toEqual({
+      statusKind: 'AIRBORNE', statusKey: 'airborne', name: '击飞', description: '击飞说明',
+      status: 'ENABLED', sortOrder: 10
+    });
+  });
+
   it('accepts only the frozen lowercase stable-key grammar on create', () => {
     expect(STATUS_KEY_PATTERN.test('stun')).toBe(true);
     expect(STATUS_KEY_PATTERN.test('s')).toBe(true);

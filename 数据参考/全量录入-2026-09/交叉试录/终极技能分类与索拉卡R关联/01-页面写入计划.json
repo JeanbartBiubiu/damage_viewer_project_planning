@@ -1,0 +1,32 @@
+{
+  "at": "2026-09-19T10:46:44.877Z",
+  "source": "客户端16.17 Characters/Soraka/Spells/SorakaRAbility/SorakaR.mSpell.mSpellTags 含 Trait_Ultimate；独立来源核对见../索拉卡R条件治疗首次页面/10-完整性后续核对.json。ultimate是本项目稳定标识。",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skill-categories",
+      "body": {
+        "skillCategoryKey": "ultimate",
+        "name": "终极技能",
+        "description": "用于已确认属于终极技能的技能分类。",
+        "status": "ENABLED",
+        "sortOrder": 0
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/soraka_r",
+      "body": {
+        "name": "索拉卡·祈愿",
+        "description": "索拉卡让友军充满希望，立刻使她和所有友方英雄回复生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "maxLevel": 3,
+        "status": "ENABLED",
+        "sortOrder": 4,
+        "skillCategoryKeys": [
+          "ultimate"
+        ]
+      }
+    }
+  ],
+  "scope": "仅新增终极技能分类与关联索拉卡R；保留原三个分类及技能所有其他字段。"
+}

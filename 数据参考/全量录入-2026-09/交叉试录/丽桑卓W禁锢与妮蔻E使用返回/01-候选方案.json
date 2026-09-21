@@ -1,0 +1,499 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "丽桑卓W明确未阻挡首次禁锢与妮蔻E普通使用返回",
+  "generatedAt": "2026-09-21T05:25:16.931Z",
+  "targets": [
+    {
+      "skillKey": "lissandra_w",
+      "ownerKey": "champion_lissandra"
+    },
+    {
+      "skillKey": "neeko_e",
+      "ownerKey": "champion_neeko"
+    }
+  ],
+  "scope": "丽桑卓W参数更正后返回明确未阻挡首次禁锢；妮蔻E只补已有来源支持的普通使用，首个与强化禁锢资格继续开放。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/独立禁锢分支候选续接/02-两项固定来源独立核对.json",
+      "sha256": "3a3bc66da42672573bb4084ea1d721c8547441c35c48401ac88312988ab825c2"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/独立禁锢分支候选续接/03-丽桑卓W明确精度与更正依据.json",
+      "sha256": "4c19ca2e4f73ebccadf54c84d035a0564d88662614ff4b12df057f19eab0a911"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/独立禁锢分支候选续接/04-妮蔻E普通使用与命中序号边界.json",
+      "sha256": "2284627d65bc5518492deb9da74eb27db1c086458c65d2fa52259505ca969740"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/独立禁锢分支候选续接/05-参数更正后的同类返回候选.json",
+      "sha256": "cadb332ba8a85765c2eeca2e3db495399a2f9d8666c30beb8a583b478e2eec30"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/丽桑卓W参数归一与名称返回/07-独立回读.json",
+      "sha256": "135cc2684d83516f26af2dfc5ef1d0c09ae17154edd66f1ac1b4ed6ebcd33854"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/崔丝塔娜R明确未阻挡首次眩晕返回/07-独立回读.json",
+      "sha256": "e67bb8060d0ed9566437d8bb0be1156352af773c7ff7dba4a551413c563a2b58"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/禁锢目录首次页面录入/09-证据清单.json",
+      "sha256": "7efcd1a8150f0117f26757d277411494a6a13e76502c9eb6616906af879ad92c"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lissandra.json.gz",
+      "sha256": "c8d18d8780596dd39d86415a5e7e75590a0c2fdff46d3c48c15c36a0e15fc88b"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Neeko.json.gz",
+      "sha256": "1f65e7a0cc866b9c65e0829c0355109afea3e09c0c427c5ad51ff23b9a2660fc"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Lissandra.json",
+      "sha256": "a5b34cb789b73129a5a3bba84989d0a3da735ed368589719c987027a2110acaf"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Neeko.json",
+      "sha256": "de6adfb1b9c6d0d31cf682d0f092993959f91f7bb0a77d6f17c89862f28b3ef0"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_w/effects",
+      "detailRoute": "/skills/lissandra_w/effects/first_hit_root",
+      "body": {
+        "description": "仅供本技能明确未被同次法术护盾判定阻挡、且目标没有本来源实例的敌方英雄实际命中入口使用；重复施加与阻挡分支分别待核。",
+        "effectKey": "first_hit_root",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "snare_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "冰霜之环首次禁锢",
+        "results": [
+          {
+            "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "root"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "本次冰霜之环禁锢",
+            "resultKey": "root",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "sortOrder": 30
+      },
+      "expectedReadback": {
+        "description": "仅供本技能明确未被同次法术护盾判定阻挡、且目标没有本来源实例的敌方英雄实际命中入口使用；重复施加与阻挡分支分别待核。",
+        "effectKey": "first_hit_root",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "snare_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "冰霜之环首次禁锢",
+        "results": [
+          {
+            "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "root"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "本次冰霜之环禁锢",
+            "resultKey": "root",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_w/trigger-rules",
+      "detailRoute": "/skills/lissandra_w/trigger-rules/apply_root_on_unblocked_hit",
+      "body": {
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "name": "明确未阻挡的首次禁锢",
+        "description": "只接收本技能实际命中；同组检查敌方英雄、同次法术护盾判定明确为0及当前目标无本来源禁锢实例。缺值不默认0；阻挡分支与已有实例重施继续待核。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "lissandra_w"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "root_eligible",
+            "name": "本次首次禁锢可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "first_hit_root",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "name": "施加本次禁锢",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "first_hit_root"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "name": "明确未阻挡的首次禁锢",
+        "description": "只接收本技能实际命中；同组检查敌方英雄、同次法术护盾判定明确为0及当前目标无本来源禁锢实例。缺值不默认0；阻挡分支与已有实例重施继续待核。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "lissandra_w",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "root_eligible",
+            "name": "本次首次禁锢可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "first_hit_root",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "name": "施加本次禁锢",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "first_hit_root"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/neeko_e/processes",
+      "detailRoute": "/skills/neeko_e/processes/cast",
+      "body": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "只登记本次施放法力、普通冷却及当前根字段支持的250毫秒施法延迟；不在过程结束时生成实际命中或禁锢。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "施放缠结倒刺",
+        "processKey": "cast",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "当前主技能spellCastTime为0.25秒；不表示弹道完成或命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ]
+      },
+      "expectedReadback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "只登记本次施放法力、普通冷却及当前根字段支持的250毫秒施法延迟；不在过程结束时生成实际命中或禁锢。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "施放缠结倒刺",
+        "processKey": "cast",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "当前主技能spellCastTime为0.25秒；不表示弹道完成或命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/neeko_e/trigger-rules",
+      "detailRoute": "/skills/neeko_e/trigger-rules/on_used",
+      "body": {
+        "ruleKey": "on_used",
+        "name": "缠结倒刺普通使用",
+        "description": "本技能主动使用时启动法力、普通冷却与施法延迟过程；实际命中独立接收，首个目标及强化禁锢资格继续单独核定。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "neeko_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动已有施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used",
+        "name": "缠结倒刺普通使用",
+        "description": "本技能主动使用时启动法力、普通冷却与施法延迟过程；实际命中独立接收，首个目标及强化禁锢资格继续单独核定。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "neeko_e",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动已有施法过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ]
+}

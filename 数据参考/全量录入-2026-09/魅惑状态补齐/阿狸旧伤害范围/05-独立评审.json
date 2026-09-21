@@ -1,0 +1,44 @@
+{
+  "at": "2026-09-20T00:58:36.755Z",
+  "status": "APPROVED",
+  "reviewer": "Cursor SDK独立只读评审，主负责人核对终态与日志后转录",
+  "approvedFiles": {
+    "tools/authoring/reviewed-hit-scope-ui.mjs": "b9dc44da5ac25728eeeaa13c8108dd6720f7ae70cd9ac4a8a9896f2715f2d287",
+    "01-候选方案.json": "78b7f2065c2e9a3f4e968c0139e6a7ff21d8b4c9a3173b3d99a441631a7e4822",
+    "02-冻结请求.json": "8fd849485e29359b5575b141b34e52a229c2f7216ed133647e11004feb537016",
+    "03-来源摘要.json": "548b193125560ac3c59627e37fefbb4d75af9a69d4bb31844b3125c84adffd20",
+    "04-写入前现值.json": "f9465e0a0652b79731a94133e8d21440ade11e74856729fb02b92ac140f1db1b"
+  },
+  "reviewedPlanRev": "8fd849485e29359b5575b141b34e52a229c2f7216ed133647e11004feb537016",
+  "scope": "仅ahri_e/actual_hit同组增加英雄类别与明确敌方，保留其余完整正文",
+  "cursor": {
+    "runId": "run-6b9059ef-1135-4409-82f6-2de61401863d",
+    "resultStatus": "finished",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "runDeltaCount": 0,
+    "logParsed": true,
+    "toolEventsTruncated": false,
+    "toolCalls": 27,
+    "readOnlyAudit": "PASS",
+    "sourceSummarySha256": "c6ae85b5d1d624b29627ef73f64006b7f46ffae96f32c5920b2d2d340a581e0d",
+    "sourceEventsSha256": "b530c03c80869849121899d723ecae2f94de864c6862f5f297f352c208a05aba",
+    "artifactDirectory": ".agents/artifacts/charm-hit-scope-review/run"
+  },
+  "notes": [
+    "独立评审额外执行22次HTTP GET，未遵循本次静态限定；无文件、业务或数据库写入，不纳入写后独立回读计数。",
+    "35条范围外现有脏改均来自运行前，运行差异为0。"
+  ],
+  "independentResult": "**VERDICT: READY**  \n**REVIEWED_PLAN_REV:** `8fd849485e29359b5575b141b34e52a229c2f7216ed133647e11004feb537016`\n\n未写 `05`，未改仓库，无业务写入。工作树 `C:\\project\\damage_web_dev`、`web/dev`；目标目录仍为未跟踪脏改，未回滚。\n\n## 阻塞\n\n无。\n\n`requestFrom(04.values)` 与冻结 `02.request` 一致：仅 `ahri_e/actual_hit` 由空 `conditionGroups` 收窄为同一组 `CHAMPION` + `SKILL_HIT_TARGET_IS_ENEMY`；动作仍执行 `charm_hit`，事件仍为 `SKILL_HIT`/`sourceSkillKey: ahri_e`。`expectedReadback` 保留 `ruleKey` 与 `eventSource.detail.useKind: null`；PUT `body` 已去掉这两项。技能主体、其余事件/动作/组成未改。\n\n22 条受保护路由闭合，且与实库只读 GET 逐条 `deepEqual` 一致。18 条复用母快照 `两技能首次施加返回/04`（磁盘 SHA `7611df60729370b303c898ea5c272db513344da342f1460308a4c3b911eaaa0f`）；两个变化列表 `/effects`、`/trigger-rules` 的现网原文 SHA 与 `04.audit.responseSha256` 相同；两处新详情与已通过 `07` 相同。母 `04` 列表仍只有旧两项、不含新详情，复用边界正确。`02.sourceSha256`/`baselineSha256` 分别绑定当前 `03`/`04`；`01/03` 来源指针与 `actualSha256` 均未漂移。`04a` 为 429 后未批准草稿修正记录，`newBusinessRequests=0`、`newGETs=0`，目录无 `05`/`06`。未重审魅惑身份。\n\n## 非阻塞建议\n\n1. `04.values` 把两处 `07` 详情放在末尾，键序不同于工具 `snapshot()` 插入序；`node:assert/strict` 不比较对象键序，当前 22 条现值已对齐，preflight 不因此失败。  \n2. 主负责人页面 PUT 必须原样使用冻结 `body`（仍不含 `ruleKey`/`useKind`）。\n\n## 核对 SHA\n\n| 对象 | SHA256 |\n| --- | --- |\n| `tools/authoring/reviewed-hit-scope-ui.mjs` | `b9dc44da5ac25728eeeaa13c8108dd6720f7ae70cd9ac4a8a9896f2715f2d287` |\n| `01-候选方案.json` | `78b7f2065c2e9a3f4e968c0139e6a7ff21d8b4c9a3173b3d99a441631a7e4822` |\n| `02-冻结请求.json` | `8fd849485e29359b5575b141b34e52a229c2f7216ed133647e11004feb537016` |\n| `03-来源摘要.json` | `548b193125560ac3c59627e37fefbb4d75af9a69d4bb31844b3125c84adffd20` |\n| `04-写入前现值.json` | `f9465e0a0652b79731a94133e8d21440ade11e74856729fb02b92ac140f1db1b` |\n| `04a-准备中断接手.json`（核对用，非工具 required） | `0b18a736f439aca24eafc316fbf9aedd02ab313513fb77117ce79c77a0ba9b9c` |"
+}

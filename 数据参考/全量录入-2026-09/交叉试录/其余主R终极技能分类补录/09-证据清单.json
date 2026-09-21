@@ -1,0 +1,67 @@
+{
+  "at": "2026-09-19T11:35:08.218Z",
+  "status": "PASS",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "updatedSkills": 161,
+  "prepareGETs": 162,
+  "writerGETs": 484,
+  "writes": 161,
+  "immediateReadbacks": 161,
+  "independentGETs": 162,
+  "archiveGETs": 0,
+  "independentStdoutBytes": 98485,
+  "independentStdoutSha256": "84d98797f70bff4be2b82581a022c531db596b8b0bb3984f96d6c64ac155f1a0",
+  "unchangedResponsesIncludingTimestamps": 1,
+  "browser": "PASS",
+  "scopeTotal": {
+    "sourceRSlots": 173,
+    "previouslyUpdated": 8,
+    "updatedThisBatch": 161,
+    "excludedSlots": 3,
+    "remainingWithoutUltimateTag": [
+      "udyr_r"
+    ]
+  },
+  "runtimeValidation": "未执行",
+  "files": [
+    {
+      "name": "01-分类计划.json",
+      "sha256": "6fac2e71d1e2fdb0786d12cd2f86c7b3fdc6e79ea46bf2b1aae3977c656e00a1"
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "14ff4577234be4a02a28bf9ffef6481e8422c51a89056dd71ace783467b73af4"
+    },
+    {
+      "name": "03-来源摘要.json",
+      "sha256": "f5d092a84dceab292ab316e9bc708289740ec52545c0227c347c6668d4983d82"
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "e68ce929c0805a870c256925e960b6f5f224ec3139110e49b7f5c324b29c4d3b"
+    },
+    {
+      "name": "05-独立评审.json",
+      "sha256": "990e4118302c0558667a068ef2473742269f727490e2ab941244d550b5f7db4f"
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "f72378f2599913c6ab61490ff8bf16e0b2782313cfa6cd83bf78327960e3da65"
+    },
+    {
+      "name": "07-独立回读.json",
+      "sha256": "84d98797f70bff4be2b82581a022c531db596b8b0bb3984f96d6c64ac155f1a0"
+    },
+    {
+      "name": "08-页面验收.json",
+      "sha256": "0eb890343505f837b8ad24e27600d3bab329db732211b79d71107fd3e99733ab"
+    },
+    {
+      "name": "README.md",
+      "sha256": "f6e2871a0bfd33c17dcc4d3f7829691ddc38b37157b894da5fa46dfabc95a4a5"
+    }
+  ]
+}

@@ -1,0 +1,1349 @@
+{
+  "at": "2026-09-21T09:23:09.611Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/chogath_q": {
+      "createdAt": "2026-09-06T18:18:04.662757Z",
+      "description": "使目标地面破裂，将敌人抛向空中，造成伤害并减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "科加斯·破裂",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "chogath_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:04.662757Z"
+    },
+    "/skills/chogath_q/parameters": [
+      {
+        "createdAt": "2026-09-09T12:47:19.608369Z",
+        "description": "客户端根DataValues.BaseDamage取索引1至5；与官方16.17.1等级数组对齐。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 135,
+          "3": 190,
+          "4": 245,
+          "5": 300
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "chogath_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:47:19.608369Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T12:47:20.649776Z",
+        "description": "TotalDamageTooltip的StatByCoefficientCalculationPart未显式给mStat，按同版窄口径取来源总法强；系数归一为1。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "chogath_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T12:47:20.649776Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T12:47:21.698155Z",
+        "description": "当前mEffectAmount第五项为1秒；秒转毫秒。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击飞持续（毫秒）",
+        "parameterKey": "knockup_duration_ms",
+        "skillKey": "chogath_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T12:47:21.698155Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T12:47:22.739561Z",
+        "description": "当前mEffectAmount第二项为百分数点；保留60，不再乘0.01。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 60,
+          "3": 60,
+          "4": 60,
+          "5": 60
+        },
+        "name": "减速百分数点",
+        "parameterKey": "slow_percent_points",
+        "skillKey": "chogath_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T12:47:22.739561Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T12:47:23.760764Z",
+        "description": "当前mEffectAmount第三项为秒，转毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1500,
+          "2": 1500,
+          "3": 1500,
+          "4": 1500,
+          "5": 1500
+        },
+        "name": "减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "chogath_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T12:47:23.760764Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:13.523272Z",
+        "description": "DDragon16.17.1 Chogath.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "chogath_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:13.523272Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:14.02081Z",
+        "description": "DDragon16.17.1 Chogath.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "chogath_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:14.02081Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/chogath_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T12:47:19.608369Z",
+      "description": "客户端根DataValues.BaseDamage取索引1至5；与官方16.17.1等级数组对齐。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 135,
+        "3": 190,
+        "4": 245,
+        "5": 300
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "chogath_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T12:47:19.608369Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T12:47:20.649776Z",
+      "description": "TotalDamageTooltip的StatByCoefficientCalculationPart未显式给mStat，按同版窄口径取来源总法强；系数归一为1。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "chogath_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T12:47:20.649776Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/chogath_q/parameters/knockup_duration_ms": {
+      "createdAt": "2026-09-09T12:47:21.698155Z",
+      "description": "当前mEffectAmount第五项为1秒；秒转毫秒。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击飞持续（毫秒）",
+      "parameterKey": "knockup_duration_ms",
+      "skillKey": "chogath_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T12:47:21.698155Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_q/parameters/slow_percent_points": {
+      "createdAt": "2026-09-09T12:47:22.739561Z",
+      "description": "当前mEffectAmount第二项为百分数点；保留60，不再乘0.01。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 60,
+        "3": 60,
+        "4": 60,
+        "5": 60
+      },
+      "name": "减速百分数点",
+      "parameterKey": "slow_percent_points",
+      "skillKey": "chogath_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T12:47:22.739561Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/chogath_q/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T12:47:23.760764Z",
+      "description": "当前mEffectAmount第三项为秒，转毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1500,
+        "2": 1500,
+        "3": 1500,
+        "4": 1500,
+        "5": 1500
+      },
+      "name": "减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "chogath_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T12:47:23.760764Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:36:13.523272Z",
+      "description": "DDragon16.17.1 Chogath.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 6000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "chogath_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:36:13.523272Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:36:14.02081Z",
+      "description": "DDragon16.17.1 Chogath.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 50,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "chogath_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:36:14.02081Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_q/formulas": [
+      {
+        "createdAt": "2026-09-09T12:47:24.832226Z",
+        "description": "TotalDamageTooltip=BaseDamage+1×来源总法强；只建立数值公式，不创建DAMAGE结果。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "破裂魔法伤害",
+        "skillKey": "chogath_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:47:24.832226Z"
+      }
+    ],
+    "/skills/chogath_q/formulas/magic_damage": {
+      "createdAt": "2026-09-09T12:47:24.832226Z",
+      "description": "TotalDamageTooltip=BaseDamage+1×来源总法强；只建立数值公式，不创建DAMAGE结果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "破裂魔法伤害",
+      "skillKey": "chogath_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T12:47:24.832226Z"
+    },
+    "/skills/chogath_q/effects": [
+      {
+        "createdAt": "2026-09-09T12:47:25.825733Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "chogath_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:47:25.825733Z"
+      }
+    ],
+    "/skills/chogath_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T12:47:25.825733Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "chogath_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T12:47:25.825733Z"
+    },
+    "/skills/chogath_q/processes": [],
+    "/skills/chogath_q/internal-states": [],
+    "/skills/chogath_q/trigger-rules": [],
+    "/skills/braum_r": {
+      "createdAt": "2026-09-06T18:17:58.712748Z",
+      "description": "布隆敲击地面，击飞他身边和前方一条直线上的所有敌人。此外，还会在前方的直线上留下一条能让敌方减速的裂隙。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "布隆·冰川裂隙",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "braum_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:28:29.846867Z"
+    },
+    "/skills/braum_r/parameters": [
+      {
+        "createdAt": "2026-09-09T19:29:34.224634Z",
+        "description": "客户端BaseDamage取技能等级索引1至3的150/250/350。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "name": "冰川裂隙基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "braum_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T19:29:34.224634Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T19:29:35.429572Z",
+        "description": "当前TotalDamage树的StatByCoefficient系数为0.6×来源总法强。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冰川裂隙法强比例",
+        "parameterKey": "ability_power_ratio",
+        "skillKey": "braum_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T19:29:35.429572Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T19:29:36.655336Z",
+        "description": "客户端MinKnockup=0.6秒；转换为600毫秒。",
+        "fixedValue": 600,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "首目标最短击飞时间（毫秒）",
+        "parameterKey": "minimum_knockup_ms",
+        "skillKey": "braum_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T19:29:36.655336Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T19:29:37.935322Z",
+        "description": "客户端MaxKnockup取索引1至3的1/1.5/2秒，转换为1000/1500/2000毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1000,
+          "2": 1500,
+          "3": 2000
+        },
+        "name": "首目标最长击飞时间（毫秒）",
+        "parameterKey": "maximum_knockup_ms",
+        "skillKey": "braum_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T19:29:37.935322Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T19:29:39.164844Z",
+        "description": "客户端SlowZoneDuration=4秒；按技能等级保存原始数组并转换为4000毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 4000,
+          "2": 4000,
+          "3": 4000
+        },
+        "name": "减速地带持续时间（毫秒）",
+        "parameterKey": "slow_zone_duration_ms",
+        "skillKey": "braum_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T19:29:39.164844Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T19:29:40.496361Z",
+        "description": "正文直接显示MoveSpeedMod%，取技能等级索引1至3的40/50/60百分数点。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 50,
+          "3": 60
+        },
+        "name": "减速地带百分数点",
+        "parameterKey": "slow_percent_points",
+        "skillKey": "braum_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T19:29:40.496361Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T19:29:41.720592Z",
+        "description": "客户端SlowDebuffDuration=0.25秒；转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "离开地带减速残留时间（毫秒）",
+        "parameterKey": "slow_debuff_duration_ms",
+        "skillKey": "braum_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T19:29:41.720592Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:08.770699Z",
+        "description": "DDragon16.17.1 Braum.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 130000,
+          "2": 115000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "braum_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:08.770699Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:09.252266Z",
+        "description": "DDragon16.17.1 Braum.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "braum_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:09.252266Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/braum_r/parameters/base_damage": {
+      "createdAt": "2026-09-09T19:29:34.224634Z",
+      "description": "客户端BaseDamage取技能等级索引1至3的150/250/350。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "name": "冰川裂隙基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "braum_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T19:29:34.224634Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/braum_r/parameters/ability_power_ratio": {
+      "createdAt": "2026-09-09T19:29:35.429572Z",
+      "description": "当前TotalDamage树的StatByCoefficient系数为0.6×来源总法强。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "冰川裂隙法强比例",
+      "parameterKey": "ability_power_ratio",
+      "skillKey": "braum_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T19:29:35.429572Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/braum_r/parameters/minimum_knockup_ms": {
+      "createdAt": "2026-09-09T19:29:36.655336Z",
+      "description": "客户端MinKnockup=0.6秒；转换为600毫秒。",
+      "fixedValue": 600,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "首目标最短击飞时间（毫秒）",
+      "parameterKey": "minimum_knockup_ms",
+      "skillKey": "braum_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T19:29:36.655336Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/braum_r/parameters/maximum_knockup_ms": {
+      "createdAt": "2026-09-09T19:29:37.935322Z",
+      "description": "客户端MaxKnockup取索引1至3的1/1.5/2秒，转换为1000/1500/2000毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1000,
+        "2": 1500,
+        "3": 2000
+      },
+      "name": "首目标最长击飞时间（毫秒）",
+      "parameterKey": "maximum_knockup_ms",
+      "skillKey": "braum_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T19:29:37.935322Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/braum_r/parameters/slow_zone_duration_ms": {
+      "createdAt": "2026-09-09T19:29:39.164844Z",
+      "description": "客户端SlowZoneDuration=4秒；按技能等级保存原始数组并转换为4000毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 4000,
+        "2": 4000,
+        "3": 4000
+      },
+      "name": "减速地带持续时间（毫秒）",
+      "parameterKey": "slow_zone_duration_ms",
+      "skillKey": "braum_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T19:29:39.164844Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/braum_r/parameters/slow_percent_points": {
+      "createdAt": "2026-09-09T19:29:40.496361Z",
+      "description": "正文直接显示MoveSpeedMod%，取技能等级索引1至3的40/50/60百分数点。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 40,
+        "2": 50,
+        "3": 60
+      },
+      "name": "减速地带百分数点",
+      "parameterKey": "slow_percent_points",
+      "skillKey": "braum_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T19:29:40.496361Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/braum_r/parameters/slow_debuff_duration_ms": {
+      "createdAt": "2026-09-09T19:29:41.720592Z",
+      "description": "客户端SlowDebuffDuration=0.25秒；转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "离开地带减速残留时间（毫秒）",
+      "parameterKey": "slow_debuff_duration_ms",
+      "skillKey": "braum_r",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T19:29:41.720592Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/braum_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:36:08.770699Z",
+      "description": "DDragon16.17.1 Braum.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 130000,
+        "2": 115000,
+        "3": 100000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "braum_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:36:08.770699Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/braum_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:36:09.252266Z",
+      "description": "DDragon16.17.1 Braum.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "braum_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:36:09.252266Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/braum_r/formulas": [
+      {
+        "createdAt": "2026-09-09T19:29:42.876513Z",
+        "description": "当前TotalDamage=BaseDamage+0.6×来源总法强；额外敌人击飞分支不建立伤害结果。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "冰川裂隙首目标魔法伤害",
+        "skillKey": "braum_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T19:29:42.876513Z"
+      }
+    ],
+    "/skills/braum_r/formulas/magic_damage": {
+      "createdAt": "2026-09-09T19:29:42.876513Z",
+      "description": "当前TotalDamage=BaseDamage+0.6×来源总法强；额外敌人击飞分支不建立伤害结果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "冰川裂隙首目标魔法伤害",
+      "skillKey": "braum_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T19:29:42.876513Z"
+    },
+    "/skills/braum_r/effects": [],
+    "/skills/braum_r/processes": [],
+    "/skills/braum_r/internal-states": [],
+    "/skills/braum_r/trigger-rules": [],
+    "/skills/maokai_r": {
+      "createdAt": "2026-09-06T18:19:21.814747Z",
+      "description": "茂凯召唤一道荆棘和尖刺灌木组成的巨墙缓慢向前行进，对沿途的敌人造成伤害和禁锢效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "茂凯·自然之握",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "maokai_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:29:18.716935Z"
+    },
+    "/skills/maokai_r/parameters": [
+      {
+        "createdAt": "2026-09-09T15:57:34.455461Z",
+        "description": "当前根DataValues.BaseDamage取技能等级1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 150,
+          "2": 225,
+          "3": 300
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "maokai_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:57:34.455461Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:57:35.473386Z",
+        "description": "当前根TotalDamage第二段StatByCoefficient为0.75。",
+        "fixedValue": 0.75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "maokai_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:57:35.473386Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T15:57:36.635535Z",
+        "description": "当前正文消费MinRootDuration，根值0.75秒；单位秒转毫秒，中间随距离变化未接线。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 750,
+          "2": 750,
+          "3": 750
+        },
+        "name": "最低禁锢持续（毫秒）",
+        "parameterKey": "minimum_root_duration_ms",
+        "skillKey": "maokai_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:57:36.635535Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:57:37.653971Z",
+        "description": "当前正文消费MaxRootDuration，根值2.25秒；单位秒转毫秒，中间随距离变化未接线。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 2250,
+          "2": 2250,
+          "3": 2250
+        },
+        "name": "最高禁锢持续（毫秒）",
+        "parameterKey": "maximum_root_duration_ms",
+        "skillKey": "maokai_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T15:57:37.653971Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:57:38.696496Z",
+        "description": "当前正文消费MoveHaste*100，根值0.4至0.6，录入为40至60百分数点；衰减过程未接线。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 50,
+          "3": 60
+        },
+        "name": "命中英雄后移动速度百分数点",
+        "parameterKey": "move_haste_percent_points",
+        "skillKey": "maokai_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T15:57:38.696496Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:57:39.867358Z",
+        "description": "当前正文消费HasteDuration，根值2秒；单位秒转毫秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "移动速度衰减持续（毫秒）",
+        "parameterKey": "haste_duration_ms",
+        "skillKey": "maokai_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T15:57:39.867358Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:02:48.38749Z",
+        "description": "DDragon16.17.1 Maokai.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 130000,
+          "2": 110000,
+          "3": 90000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "maokai_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:48.38749Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:02:49.143082Z",
+        "description": "DDragon16.17.1 Maokai.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "maokai_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:49.143082Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/maokai_r/parameters/base_damage": {
+      "createdAt": "2026-09-09T15:57:34.455461Z",
+      "description": "当前根DataValues.BaseDamage取技能等级1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 150,
+        "2": 225,
+        "3": 300
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "maokai_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:57:34.455461Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/maokai_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T15:57:35.473386Z",
+      "description": "当前根TotalDamage第二段StatByCoefficient为0.75。",
+      "fixedValue": 0.75,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "maokai_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T15:57:35.473386Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/maokai_r/parameters/minimum_root_duration_ms": {
+      "createdAt": "2026-09-09T15:57:36.635535Z",
+      "description": "当前正文消费MinRootDuration，根值0.75秒；单位秒转毫秒，中间随距离变化未接线。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 750,
+        "2": 750,
+        "3": 750
+      },
+      "name": "最低禁锢持续（毫秒）",
+      "parameterKey": "minimum_root_duration_ms",
+      "skillKey": "maokai_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T15:57:36.635535Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/maokai_r/parameters/maximum_root_duration_ms": {
+      "createdAt": "2026-09-09T15:57:37.653971Z",
+      "description": "当前正文消费MaxRootDuration，根值2.25秒；单位秒转毫秒，中间随距离变化未接线。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 2250,
+        "2": 2250,
+        "3": 2250
+      },
+      "name": "最高禁锢持续（毫秒）",
+      "parameterKey": "maximum_root_duration_ms",
+      "skillKey": "maokai_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T15:57:37.653971Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/maokai_r/parameters/move_haste_percent_points": {
+      "createdAt": "2026-09-09T15:57:38.696496Z",
+      "description": "当前正文消费MoveHaste*100，根值0.4至0.6，录入为40至60百分数点；衰减过程未接线。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 40,
+        "2": 50,
+        "3": 60
+      },
+      "name": "命中英雄后移动速度百分数点",
+      "parameterKey": "move_haste_percent_points",
+      "skillKey": "maokai_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T15:57:38.696496Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/maokai_r/parameters/haste_duration_ms": {
+      "createdAt": "2026-09-09T15:57:39.867358Z",
+      "description": "当前正文消费HasteDuration，根值2秒；单位秒转毫秒。",
+      "fixedValue": 2000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "移动速度衰减持续（毫秒）",
+      "parameterKey": "haste_duration_ms",
+      "skillKey": "maokai_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T15:57:39.867358Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/maokai_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:02:48.38749Z",
+      "description": "DDragon16.17.1 Maokai.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 130000,
+        "2": 110000,
+        "3": 90000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "maokai_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:02:48.38749Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/maokai_r/parameters/mana_cost": {
+      "createdAt": "2026-09-08T01:02:49.143082Z",
+      "description": "DDragon16.17.1 Maokai.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "maokai_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T01:02:49.143082Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/maokai_r/formulas": [
+      {
+        "createdAt": "2026-09-09T15:57:40.933241Z",
+        "description": "TotalDamage=BaseDamage+0.75×来源总法强；荆棘墙作为技能伤害载体保留。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "自然之握魔法伤害",
+        "skillKey": "maokai_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:57:40.933241Z"
+      }
+    ],
+    "/skills/maokai_r/formulas/magic_damage": {
+      "createdAt": "2026-09-09T15:57:40.933241Z",
+      "description": "TotalDamage=BaseDamage+0.75×来源总法强；荆棘墙作为技能伤害载体保留。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "自然之握魔法伤害",
+      "skillKey": "maokai_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:57:40.933241Z"
+    },
+    "/skills/maokai_r/effects": [
+      {
+        "createdAt": "2026-09-09T15:57:42.090811Z",
+        "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "maokai_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:57:42.090811Z"
+      }
+    ],
+    "/skills/maokai_r/effects/mana_cost": {
+      "createdAt": "2026-09-09T15:57:42.090811Z",
+      "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "mana_cost",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "maokai_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:57:42.090811Z"
+    },
+    "/skills/maokai_r/processes": [],
+    "/skills/maokai_r/internal-states": [],
+    "/skills/maokai_r/trigger-rules": []
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/knockup_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/minimum_knockup_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/maximum_knockup_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/slow_zone_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/slow_debuff_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/braum_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/minimum_root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/maximum_root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/move_haste_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/haste_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/trigger-rules",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

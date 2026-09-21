@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-20T11:45:11.155Z",
+  "status": "PASS",
+  "route": "/skills/drmundo_e/effects/passive_bonus_attack_damage",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "saveClicks": 1,
+  "reopenedAfterSave": true,
+  "observed": {
+    "description": "常驻自身攻击力，按当前已学E等级1至5与当时来源总生命持续重新读取既有公式；初始化仅建立单层实例。主动强化攻击、生命消耗与拍飞分支继续单列，不把等级或生命变化伪装成初始化事件。",
+    "valueReadMode": "到当前时点重新读取",
+    "stackValueMode": "整个实例共享数值",
+    "instanceScope": "按来源对象",
+    "expiryMode": "仅显式移除",
+    "resultTarget": "施法者",
+    "formula": "大力行医被动额外攻击力（passive_bonus_attack_damage）",
+    "attribute": "攻击力",
+    "reapplicationValueFieldAbsent": true
+  },
+  "diagnostics": [],
+  "runtimeValidation": "未执行"
+}

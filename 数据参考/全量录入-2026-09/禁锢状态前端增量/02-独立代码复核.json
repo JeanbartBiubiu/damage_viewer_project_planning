@@ -1,0 +1,56 @@
+{
+  "at": "2026-09-19T01:26:56.6864020Z",
+  "reviewer": "后端子代理，独立于前端作者",
+  "conclusion": "通过；五文件最终差异未发现阻塞问题。",
+  "files": [
+    {
+      "path": "web/src/types/status.ts",
+      "sha256": "c2280c528acfe1f8a9eab98432ce2e93763e0f4484fca10f08109825aa1e9314"
+    },
+    {
+      "path": "web/src/services/statusClient.test.ts",
+      "sha256": "7a80706c9e854bc4f286555f274cbd4bde345180c0eeb321c55737bf89610b3d"
+    },
+    {
+      "path": "web/src/pages/admin/statuses/statusForm.test.ts",
+      "sha256": "b6bf7542ad2cce2e2b061e054a6d0d43784e23873cf396f9217981204da7caf6"
+    },
+    {
+      "path": "web/src/pages/admin/skills/effects/movementSlow.test.ts",
+      "sha256": "8640bf19751c62e52409d876172738964242cd3688d955c80d7ef33224ad996e"
+    },
+    {
+      "path": "web/README.md",
+      "sha256": "310ecca72be8293f1c12b4cbc01bc8b7350d119998f6109653c92e1c02a0b83c"
+    }
+  ],
+  "checks": [
+    "生产变更只扩展StatusKind、中文标签与isStatusKind判定，客户端解析、目录下拉和只读种类展示继续走现有共同入口。",
+    "效果类型及表单通用生产逻辑未变；ROOT由状态目录解析，不从statusKey推断类型。只有MOVEMENT_SLOW/APPLY需要强度。",
+    "新增测试覆盖ROOT列表详情、创建与启停请求保留种类，以及有期限无值PERSISTENT结果保存/复制和四项数值模式为空。",
+    "减速切ROOT沿用clearHiddenResultFields清除隐藏强度；持续目标状态只提供RESULT选项，既有非法SKILL粒度清空为null，不放宽后端校验。",
+    "定点核对effectForm.ts及StatusEditorModal.tsx确认父报告的复用路径；未发现新增运行或Wasm语义。",
+    "五文件git diff --check通过。"
+  ],
+  "existingValidation": {
+    "lint": "通过",
+    "reviewedLogs": [
+      "output/root-status-web/targeted-test.log",
+      "output/root-status-web/full-test.log",
+      "output/root-status-web/lint.log",
+      "output/root-status-web/typecheck.log",
+      "output/root-status-web/build.log"
+    ],
+    "targeted": 42,
+    "build": "通过，仍有既有分包体积提示",
+    "full": 656,
+    "producer": "主负责人",
+    "typecheck": "通过"
+  },
+  "reranTests": false,
+  "businessWrites": 0,
+  "limits": [
+    "仅独立静态复核和已有日志核对，不替代真实浏览器。",
+    "浏览器认证恢复后的首次ROOT状态创建、原对象补录与独立回读仍未完成。"
+  ]
+}

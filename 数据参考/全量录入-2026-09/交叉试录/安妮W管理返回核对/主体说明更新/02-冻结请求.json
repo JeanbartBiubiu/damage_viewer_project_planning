@@ -1,0 +1,35 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/annie_w",
+      "body": {
+        "name": "安妮·焚烧",
+        "description": "安妮向锥形区域施放烈焰，对敌人造成魔法伤害。当前本轮1V1配置已连接敌方英雄实际命中的普通伤害，以及主动使用时的法力消耗、250毫秒施放登记和7000毫秒基础冷却。五级伤害为70/110/150/190/230加0.8倍来源总法强，法力消耗为70/75/80/85/90。嗜火被动的层数、消费和晕眩跨技能分支尚未配置；过程结束不自动生成命中。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "maxLevel": 5,
+        "status": "ENABLED",
+        "sortOrder": 2,
+        "skillCategoryKeys": [
+          "common"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:16:26.474863Z",
+        "description": "安妮向锥形区域施放烈焰，对敌人造成魔法伤害。当前本轮1V1配置已连接敌方英雄实际命中的普通伤害，以及主动使用时的法力消耗、250毫秒施放登记和7000毫秒基础冷却。五级伤害为70/110/150/190/230加0.8倍来源总法强，法力消耗为70/75/80/85/90。嗜火被动的层数、消费和晕眩跨技能分支尚未配置；过程结束不自动生成命中。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "安妮·焚烧",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "annie_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:26.474863Z"
+      }
+    }
+  ],
+  "sourceSha256": "e47339ec06c451b2cb8e0b39788e03ea6b783d9a98de89cca6de0d3e235afb69",
+  "baselineSha256": "9e5286d8700ba7c1df15e2a7691b624e31f4d642ab29cd37bc1aba5b05e3973a"
+}

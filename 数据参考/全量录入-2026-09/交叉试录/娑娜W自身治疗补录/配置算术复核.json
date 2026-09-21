@@ -1,0 +1,101 @@
+{
+  "at": "2026-09-18T20:54:08.964Z",
+  "status": "PASS",
+  "caseCount": 15,
+  "cases": [
+    {
+      "rank": 1,
+      "sourceTotalAbilityPower": 0,
+      "expected": 30,
+      "actual": 30
+    },
+    {
+      "rank": 1,
+      "sourceTotalAbilityPower": 100,
+      "expected": 60,
+      "actual": 60
+    },
+    {
+      "rank": 1,
+      "sourceTotalAbilityPower": 300,
+      "expected": 120,
+      "actual": 120
+    },
+    {
+      "rank": 2,
+      "sourceTotalAbilityPower": 0,
+      "expected": 45,
+      "actual": 45
+    },
+    {
+      "rank": 2,
+      "sourceTotalAbilityPower": 100,
+      "expected": 75,
+      "actual": 75
+    },
+    {
+      "rank": 2,
+      "sourceTotalAbilityPower": 300,
+      "expected": 135,
+      "actual": 135
+    },
+    {
+      "rank": 3,
+      "sourceTotalAbilityPower": 0,
+      "expected": 60,
+      "actual": 60
+    },
+    {
+      "rank": 3,
+      "sourceTotalAbilityPower": 100,
+      "expected": 90,
+      "actual": 90
+    },
+    {
+      "rank": 3,
+      "sourceTotalAbilityPower": 300,
+      "expected": 150,
+      "actual": 150
+    },
+    {
+      "rank": 4,
+      "sourceTotalAbilityPower": 0,
+      "expected": 75,
+      "actual": 75
+    },
+    {
+      "rank": 4,
+      "sourceTotalAbilityPower": 100,
+      "expected": 105,
+      "actual": 105
+    },
+    {
+      "rank": 4,
+      "sourceTotalAbilityPower": 300,
+      "expected": 165,
+      "actual": 165
+    },
+    {
+      "rank": 5,
+      "sourceTotalAbilityPower": 0,
+      "expected": 90,
+      "actual": 90
+    },
+    {
+      "rank": 5,
+      "sourceTotalAbilityPower": 100,
+      "expected": 120,
+      "actual": 120
+    },
+    {
+      "rank": 5,
+      "sourceTotalAbilityPower": 300,
+      "expected": 180,
+      "actual": 180
+    }
+  ],
+  "coefficientCheck": "现有0.3的单精度表示与固定客户端HealRatio一致；未改参数。",
+  "formulaSource": "36GET冻结现值的self_heal表达式",
+  "businessWrites": 0,
+  "runtime": "未执行真实治疗或Wasm"
+}

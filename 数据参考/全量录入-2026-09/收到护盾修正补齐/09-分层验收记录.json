@@ -1,0 +1,59 @@
+{
+  "at": "2026-09-19T12:54:31.401Z",
+  "backendCommit": "0062ddaa",
+  "frontendCommit": "5466fea1",
+  "checks": {
+    "backend": {
+      "command": "mvn -q test",
+      "tests": 999,
+      "suites": 107,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exitCode": 0
+    },
+    "frontend": {
+      "lintProductionFiles": 141,
+      "typecheck": "PASS",
+      "tests": 689,
+      "testFiles": 61,
+      "buildModules": 1292,
+      "build": "PASS",
+      "existingChunkSizeWarning": true
+    }
+  },
+  "database": {
+    "host": "192.168.5.6",
+    "database": "test0221",
+    "scriptExecutions": 1,
+    "sqlSha256": "81c994da52706530fdf75f648921a6f88376ca4e001362c69f268d883d4a05e4",
+    "independentReadOnlyQueries": 5,
+    "publicLogicalTables": 27,
+    "preMigrationCounts": {
+      "modifierZones": 7,
+      "skillEffects": 967,
+      "skillObjectReferences": 9315
+    },
+    "originalDataAndTimestampsUnchangedAtMigration": true
+  },
+  "review": {
+    "sharedContract": "独立批准，仅管理含义；批准时全文保留于约束迁移/00",
+    "finalImplementation": "独立复核通过；首轮提出客户端持续行为校验缺漏，修复后6类非法与3类合法策略核对通过",
+    "data": "首次页面/05与05A、说明整理/05、主体与旧规则说明/02"
+  },
+  "actualAuthoring": {
+    "newObjects": 3,
+    "initialBrowserSaves": 3,
+    "descriptionUpdates": 5,
+    "firstIndependentGETs": 21,
+    "descriptionIndependentGETs": 12,
+    "finalUIDescriptionIndependentGETs": 8,
+    "totalIndependentGETs": 41
+  },
+  "limits": {
+    "runtimeImplemented": false,
+    "wasmValidated": false,
+    "browserResponsesCaptured": false
+  },
+  "managementConclusion": "振奋盔甲当前1V1管理配置完整，4装备属性、唯一技能挂载、图片、分类、0.25参数、2效果及2初始化规则已核对；战斗运行未验证。"
+}

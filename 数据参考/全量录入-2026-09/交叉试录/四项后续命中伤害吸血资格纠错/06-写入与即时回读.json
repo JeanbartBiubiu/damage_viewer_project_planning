@@ -1,0 +1,910 @@
+{
+  "startedAt": "2026-09-19T00:05:48.836Z",
+  "status": "PASS",
+  "businessWritesAttempted": 4,
+  "operations": [
+    {
+      "route": "/skills/ivern_q/effects/damage",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-10T04:07:58.577602Z",
+          "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+          "effectKey": "damage",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "根深敌固魔法伤害",
+          "results": [
+            {
+              "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "根深敌固魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "magic_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "ivern_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-19T00:05:48.957112Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-10T04:07:58.577602Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "根深敌固魔法伤害",
+        "results": [
+          {
+            "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "根深敌固魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "ivern_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:05:48.957112Z"
+      }
+    },
+    {
+      "route": "/skills/ahri_e/effects/charm_hit",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:52:43.148014Z",
+          "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+          "effectKey": "charm_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "魅惑命中魔法伤害",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "魅惑命中魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "ahri_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-19T00:05:51.566451Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:52:43.148014Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "charm_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "魅惑命中魔法伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魅惑命中魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "ahri_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:05:51.566451Z"
+      }
+    },
+    {
+      "route": "/skills/diana_e/effects/lunar_rush_hit",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:53:50.245978Z",
+          "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+          "effectKey": "lunar_rush_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "月神冲刺命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "月神冲刺命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "diana_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-19T00:05:53.298295Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:53:50.245978Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "lunar_rush_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "月神冲刺命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "月神冲刺命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "diana_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:05:53.298295Z"
+      }
+    },
+    {
+      "route": "/skills/ashe_r/effects/hit_damage",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T14:35:30.04621Z",
+          "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+          "effectKey": "hit_damage",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "R 命中英雄魔法伤害",
+          "results": [
+            {
+              "description": "仅伤害数值组成，不加普通暴击倍率；减速或眩晕另行配置。旧 Wiki 明示可被法术护盾阻挡，本结果选择当前结果粒度。吸血留待游戏级规则，空列表不表示不吸血。",
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "一次命中伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 0,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": null,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "hit_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "ashe_r",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-19T00:05:55.099953Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T14:35:30.04621Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "hit_damage",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "R 命中英雄魔法伤害",
+        "results": [
+          {
+            "description": "仅伤害数值组成，不加普通暴击倍率；减速或眩晕另行配置。旧 Wiki 明示可被法术护盾阻挡，本结果选择当前结果粒度。吸血留待游戏级规则，空列表不表示不吸血。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "一次命中伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 0,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "hit_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "ashe_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-19T00:05:55.099953Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-damage-vamp.mjs": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "01-纠错计划.json": "1119c0bd13b221b53ee02e1ce90f5790cf700ea92aa1dc31fde2eaf769cdc0c1",
+    "02-冻结请求.json": "4eaaf1c34ff76073756f01326fab7e1fedaa4e57fde3d7528e49a9f83b2482a5",
+    "03-来源摘要.json": "a4a44965ac99ff18cc3d4be770ee02e6e69e1fb3c4f1edd1273bc7ab355ad3ed",
+    "04-写入前现值.json": "9e97cf5397b03d82ffc65d5396d773e2c029ec65ebf8f4551443e10005e0adb1"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T00:05:56.774Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/dash_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/m_cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/spell_cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/cast_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/display_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/cast_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/missile_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/formulas/root_duration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/charm_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/moonlight_reset_delay_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/lunar_rush_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/moonlight_cooldown_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/min_stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/max_stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/formulas/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/damage",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/ivern_q/effects/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/charm_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/ahri_e/effects/charm_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/charm_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/lunar_rush_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/diana_e/effects/lunar_rush_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/lunar_rush_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/ashe_r/effects/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/hit_damage",
+      "status": 200
+    }
+  ]
+}

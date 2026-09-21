@@ -1,0 +1,210 @@
+{
+  "toolExitCode": 0,
+  "executor": "主负责人另启只读进程，非独立代理",
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T08:34:08.887Z\",\"businessWrites\":0,\"GETs\":25,\"unchangedResponsesIncludingTimestamps\":21,\"expectedChangedCollections\":2,\"newObjects\":{\"/skills/katarina_q/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-19T08:29:58.680803Z\",\"description\":\"本技能无资源消耗，仅保存250毫秒基础施法时间和开始时普通冷却；效果挂接与内部状态操作为空。实际命中由已有入口处理，落地匕首与被动联动仍待核。\",\"effectBindings\":[],\"gameId\":\"lol\",\"name\":\"弹射之刃基础施放与冷却\",\"processKey\":\"cast\",\"skillKey\":\"katarina_q\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"固定来源spellCastTime为0.25秒，读取既有250毫秒参数；此步骤不代替实际命中。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"基础施法时间\",\"sortOrder\":10,\"stepKey\":\"cast_delay\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-19T08:29:58.680803Z\"},\"/skills/katarina_q/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动基础施放\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"本技能已成立的主动使用启动无资源消耗的基础施放与冷却过程；不以延迟结束伪造命中，匕首及被动联动单列待核。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"katarina_q\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"弹射之刃主动使用\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":5}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/katarina_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_katarina\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_katarina/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_katarina/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_katarina\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=katarina_q\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/parameters/bounce_offset\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/parameters/ap_ratio\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/formulas/magic_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/effects/primary_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/katarina_q/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/ability_power\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/magic\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T08:34:08.887Z",
+    "businessWrites": 0,
+    "GETs": 25,
+    "unchangedResponsesIncludingTimestamps": 21,
+    "expectedChangedCollections": 2,
+    "newObjects": {
+      "/skills/katarina_q/processes/cast": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T08:29:58.680803Z",
+        "description": "本技能无资源消耗，仅保存250毫秒基础施法时间和开始时普通冷却；效果挂接与内部状态操作为空。实际命中由已有入口处理，落地匕首与被动联动仍待核。",
+        "effectBindings": [],
+        "gameId": "lol",
+        "name": "弹射之刃基础施放与冷却",
+        "processKey": "cast",
+        "skillKey": "katarina_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "固定来源spellCastTime为0.25秒，读取既有250毫秒参数；此步骤不代替实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "基础施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_delay",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T08:29:58.680803Z"
+      },
+      "/skills/katarina_q/trigger-rules/on_used": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动基础施放",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本技能已成立的主动使用启动无资源消耗的基础施放与冷却过程；不以延迟结束伪造命中，匕首及被动联动单列待核。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "katarina_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "弹射之刃主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 5
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_katarina",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_katarina/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/characters/champion_katarina/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?characterKey=champion_katarina",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/character-skill-relations?skillKey=katarina_q",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/parameters/base_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/parameters/bounce_offset",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/parameters/ap_ratio",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/parameters/cast_time_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/parameters/cooldown_ms",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/formulas/magic_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/effects/primary_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/trigger-rules/on_used",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/skills/katarina_q/trigger-rules/actual_hit",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/attributes/ability_power",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/damage-types/magic",
+        "status": 200
+      }
+    ]
+  }
+}

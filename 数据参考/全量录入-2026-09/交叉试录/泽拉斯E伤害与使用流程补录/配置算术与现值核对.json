@@ -1,0 +1,206 @@
+{
+  "status": "PASS",
+  "at": "2026-09-18T23:11:07.011Z",
+  "caseCount": 30,
+  "cases": [
+    {
+      "kind": "mana_cost",
+      "rank": 1,
+      "actual": 60,
+      "expected": 60
+    },
+    {
+      "kind": "cooldown_ms",
+      "rank": 1,
+      "actual": 13000,
+      "expected": 13000
+    },
+    {
+      "kind": "cast_time_ms",
+      "rank": 1,
+      "actual": 250,
+      "expected": 250
+    },
+    {
+      "kind": "damage",
+      "rank": 1,
+      "sourceTotalAbilityPower": 0,
+      "actual": 70,
+      "expected": 70
+    },
+    {
+      "kind": "damage",
+      "rank": 1,
+      "sourceTotalAbilityPower": 100,
+      "actual": 115,
+      "expected": 115
+    },
+    {
+      "kind": "damage",
+      "rank": 1,
+      "sourceTotalAbilityPower": 300,
+      "actual": 205,
+      "expected": 205
+    },
+    {
+      "kind": "mana_cost",
+      "rank": 2,
+      "actual": 65,
+      "expected": 65
+    },
+    {
+      "kind": "cooldown_ms",
+      "rank": 2,
+      "actual": 12500,
+      "expected": 12500
+    },
+    {
+      "kind": "cast_time_ms",
+      "rank": 2,
+      "actual": 250,
+      "expected": 250
+    },
+    {
+      "kind": "damage",
+      "rank": 2,
+      "sourceTotalAbilityPower": 0,
+      "actual": 100,
+      "expected": 100
+    },
+    {
+      "kind": "damage",
+      "rank": 2,
+      "sourceTotalAbilityPower": 100,
+      "actual": 145,
+      "expected": 145
+    },
+    {
+      "kind": "damage",
+      "rank": 2,
+      "sourceTotalAbilityPower": 300,
+      "actual": 235,
+      "expected": 235
+    },
+    {
+      "kind": "mana_cost",
+      "rank": 3,
+      "actual": 70,
+      "expected": 70
+    },
+    {
+      "kind": "cooldown_ms",
+      "rank": 3,
+      "actual": 12000,
+      "expected": 12000
+    },
+    {
+      "kind": "cast_time_ms",
+      "rank": 3,
+      "actual": 250,
+      "expected": 250
+    },
+    {
+      "kind": "damage",
+      "rank": 3,
+      "sourceTotalAbilityPower": 0,
+      "actual": 130,
+      "expected": 130
+    },
+    {
+      "kind": "damage",
+      "rank": 3,
+      "sourceTotalAbilityPower": 100,
+      "actual": 175,
+      "expected": 175
+    },
+    {
+      "kind": "damage",
+      "rank": 3,
+      "sourceTotalAbilityPower": 300,
+      "actual": 265,
+      "expected": 265
+    },
+    {
+      "kind": "mana_cost",
+      "rank": 4,
+      "actual": 75,
+      "expected": 75
+    },
+    {
+      "kind": "cooldown_ms",
+      "rank": 4,
+      "actual": 11500,
+      "expected": 11500
+    },
+    {
+      "kind": "cast_time_ms",
+      "rank": 4,
+      "actual": 250,
+      "expected": 250
+    },
+    {
+      "kind": "damage",
+      "rank": 4,
+      "sourceTotalAbilityPower": 0,
+      "actual": 160,
+      "expected": 160
+    },
+    {
+      "kind": "damage",
+      "rank": 4,
+      "sourceTotalAbilityPower": 100,
+      "actual": 205,
+      "expected": 205
+    },
+    {
+      "kind": "damage",
+      "rank": 4,
+      "sourceTotalAbilityPower": 300,
+      "actual": 295,
+      "expected": 295
+    },
+    {
+      "kind": "mana_cost",
+      "rank": 5,
+      "actual": 80,
+      "expected": 80
+    },
+    {
+      "kind": "cooldown_ms",
+      "rank": 5,
+      "actual": 11000,
+      "expected": 11000
+    },
+    {
+      "kind": "cast_time_ms",
+      "rank": 5,
+      "actual": 250,
+      "expected": 250
+    },
+    {
+      "kind": "damage",
+      "rank": 5,
+      "sourceTotalAbilityPower": 0,
+      "actual": 190,
+      "expected": 190
+    },
+    {
+      "kind": "damage",
+      "rank": 5,
+      "sourceTotalAbilityPower": 100,
+      "actual": 235,
+      "expected": 235
+    },
+    {
+      "kind": "damage",
+      "rank": 5,
+      "sourceTotalAbilityPower": 300,
+      "actual": 325,
+      "expected": 325
+    }
+  ],
+  "referenceAndProcessChecks": "PASS",
+  "businessWrites": 0,
+  "HTTPRequests": 0,
+  "boundary": "只计算冻结配置和固定来源；未模拟命中、吸血、眩晕或冷却运行。"
+}

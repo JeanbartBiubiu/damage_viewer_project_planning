@@ -1,0 +1,103 @@
+{
+  "status": "OPEN_CROSS_SKILL_AND_RUNTIME_GAP",
+  "at": "2026-09-20",
+  "scope": "安妮W单一技能管理组成、固定16.17/16.17.1来源与嗜火P关联核对；不判定整技能完成",
+  "managementSnapshot": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/安妮W管理返回核对/01-当前管理现值.json",
+    "sha256": "fd6ba412c00f77182a5e75a67c6906e27aa05bf155f3289b93f9528de6c2e715",
+    "GETs": 27,
+    "businessWrites": 0,
+    "componentCounts": {
+      "parameters": 5,
+      "formulas": 1,
+      "effects": 2,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 2
+    },
+    "referencePaths": [
+      "/attributes/ability_power",
+      "/attributes/mana",
+      "/damage-types/magic"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Annie.json.gz",
+      "sha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38",
+      "rootObject": "Characters/Annie/Spells/AnnieWAbility/AnnieW"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Annie.json",
+      "sha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735",
+      "wObject": "data.Annie.spells[1]",
+      "passiveObject": "data.Annie.passive"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Annie.json",
+      "sha256": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4",
+      "wObject": "data.Annie.spells[1]",
+      "passiveObject": "data.Annie.passive"
+    }
+  ],
+  "wSelf": {
+    "client": {
+      "baseDamageRank1To5": [70, 110, 150, 190, 230],
+      "apRatioRank1To5": [0.8, 0.8, 0.8, 0.8, 0.8],
+      "mCoefficient": 0.85,
+      "mCoefficientUse": "未出现在TotalDamage计算树；不能覆盖DataValues.APRatio=0.8。",
+      "castTimeSeconds": 0.25,
+      "spellCastTimeSeconds": 0.25,
+      "spellTotalTimeSeconds": 1,
+      "cooldownSeconds": 7,
+      "manaRank1To5": [70, 75, 80, 85, 90],
+      "dataValuesModeOverride": "存在cherry竞技场覆盖：BaseDamage 20/60/100/140/180/220/260、APRatio 0.75；本批固定普通16.17不录。",
+      "targeting": "Cone；固定客户端requiredUnitTags存在但语义未映射。"
+    },
+    "official": {
+      "zhDescription": "向锥形区域施放一道烈焰，对区域内的所有敌人造成伤害。",
+      "enDescription": "Annie casts a blazing cone of fire, dealing damage to all enemies in the area.",
+      "passiveZh": "在施放4个技能后，安妮的下一次伤害类技能会对目标造成短暂晕眩；游戏开始和重生时满层。",
+      "wDoesNotSpecify": ["嗜火层数读取", "晕眩持续时间", "W专属额外资格", "命中后控制接线"]
+    },
+    "management": {
+      "formula": "damage = base_damage + ap_ratio * SOURCE total ability_power",
+      "effects": ["mana_cost", "spell_hit"],
+      "spellHitResult": {
+        "resultType": "DAMAGE",
+        "damageTypeKey": "magic",
+        "deliveryKind": "SKILL",
+        "originKind": "DIRECT",
+        "spellShieldBlockScope": "RESULT",
+        "target": "TARGET",
+        "vamp": "POST_DEFENSE_DAMAGE with OMNIVAMP efficiency 1"
+      },
+      "hitRule": "actual_hit: SKILL_HIT sourceSkillKey=annie_w, conditionGroups empty, EXECUTE_EFFECT spell_hit on CURRENT_TARGET",
+      "useRule": "on_used: SKILL_USED sourceSkillKey=annie_w/useKind=ACTIVE, START_PROCESS cast"
+    }
+  },
+  "passiveRelation": {
+    "clientObject": "Characters/Annie/Spells/AnniePassiveAbility/AnniePassive",
+    "clientFields": {
+      "MaxStacks": 4,
+      "StunBaseDurationSeconds": 1.25,
+      "StunDurationPerTierSeconds": 0.25,
+      "stunDurationCalculation": "1.25 at champion level 1; +0.25 at levels 6 and 11",
+      "cherryOverride": "StunBaseDuration=1 in DataValuesModeOverride.cherry"
+    },
+    "relationToW": "W是伤害类技能，因此官方P描述使W成为可能触发晕眩的下一次伤害技能；当前W管理组成没有P层数状态、P消费规则、晕眩状态结果或P来源事件。",
+    "completionBoundary": "不能把P移出W开放项后增加W整技能完成数；P层数/消费、下一次伤害技能资格和控制结果仍是跨技能运行缺口。"
+  },
+  "confirmedGaps": [
+    "W自身的基础伤害、0.8总法强倍率、冷却、法力、250毫秒施法时间、普通过程、直接魔法伤害和实际命中入口已有。",
+    "当前spell_hit结果的法术护盾粒度为RESULT、全能吸血效率为1；这是现有管理字段，不等于固定来源已证明该交互。",
+    "W官方描述只有区域内敌人伤害，没有W专属额外资格；锥形范围、实际命中、目标集合属于运行层，管理GET未证明。",
+    "P层数和晕眩持续时间来自固定客户端/官方被动资料，但没有接入W当前规则。",
+    "spellTotalTime=1秒与spellCastTime/mCastTime=250毫秒并存，当前W过程只保存250毫秒延迟，完整命中时序仍未证。"
+  ],
+  "minimumRecommendation": {
+    "w": "保留现有0.8公式与spell_hit/actual_hit，不把旧mCoefficient 0.85写回，也不录cherry覆盖。",
+    "p": "若继续补录，应单独建立P层数、消费及晕眩结果/触发资格，并以跨技能来源规则接入W伤害结果；未有运行事件证据前不把W标为完整。",
+    "doNotInfer": ["W额外控制资格", "P与W的宿主事件顺序", "锥形所有目标命中时点", "RESULT法术护盾粒度为固定来源事实", "全能吸血在游戏宿主中的实际生效"]
+  }
+}

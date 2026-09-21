@@ -1,0 +1,465 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/nasus_p",
+      "body": {
+        "name": "内瑟斯·吞噬灵魂",
+        "description": "内瑟斯获得额外生命偷取：1～6级10%，7～12级15%，13～18级20%。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:19:34.146368Z",
+        "description": "内瑟斯获得额外生命偷取：1～6级10%，7～12级15%，13～18级20%。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "内瑟斯·吞噬灵魂",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "nasus_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:34.146368Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/tristana_q",
+      "body": {
+        "name": "崔丝塔娜·急速射击",
+        "description": "崔丝塔娜急速射击，获得60/75/90/105/120%额外攻击速度，持续7秒。",
+        "maxLevel": 5,
+        "status": "ENABLED",
+        "sortOrder": 1,
+        "skillCategoryKeys": [
+          "common"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:40.726753Z",
+        "description": "崔丝塔娜急速射击，获得60/75/90/105/120%额外攻击速度，持续7秒。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "崔丝塔娜·急速射击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tristana_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:40.726753Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/tristana_q/parameters/mana_cost",
+      "body": {
+        "name": "法力消耗",
+        "description": "官方16.17.1 cost与客户端当前manaValues.values索引0～4一致：15/20/25/30/35点法力；旧mana字段不采用。",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 15,
+          "2": 20,
+          "3": 25,
+          "4": 30,
+          "5": 35
+        },
+        "sortOrder": 20
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T17:59:33.205948Z",
+        "description": "官方16.17.1 cost与客户端当前manaValues.values索引0～4一致：15/20/25/30/35点法力；旧mana字段不采用。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 15,
+          "2": 20,
+          "3": 25,
+          "4": 30,
+          "5": 35
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "tristana_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:59:33.205948Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/janna_e/effects/self_shield",
+      "body": {
+        "name": "风暴之眼自身护盾",
+        "description": "当前效果表达风暴之眼的自身护盾数值，持续4秒且不衰减；自施目标资格及触发入口仍待接线，攻击力增益独立处理。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "风暴之眼自身护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_shield",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T17:43:02.179374Z",
+        "description": "当前效果表达风暴之眼的自身护盾数值，持续4秒且不衰减；自施目标资格及触发入口仍待接线，攻击力增益独立处理。",
+        "effectKey": "self_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "风暴之眼自身护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "风暴之眼自身护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_shield",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "janna_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:43:02.179374Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/morgana_e/effects/magic_shield",
+      "body": {
+        "name": "黑暗之盾自身魔法护盾",
+        "description": "自身魔法护盾持续5秒，仅吸收魔法伤害且不衰减；显式自施入口已连接。控制免疫仍单独待配，不等同一次性法术护盾。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": "magic",
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "黑暗之盾自身魔法护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_shield_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T17:58:07.848746Z",
+        "description": "自身魔法护盾持续5秒，仅吸收魔法伤害且不衰减；显式自施入口已连接。控制免疫仍单独待配，不等同一次性法术护盾。",
+        "effectKey": "magic_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "黑暗之盾自身魔法护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": "magic",
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "黑暗之盾自身魔法护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_shield_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "morgana_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:58:07.848746Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/annie_e/effects/molten_shield",
+      "body": {
+        "name": "熔岩自护盾",
+        "description": "自身护盾持续3秒，结果目标与实例范围均为来源对象；显式自施入口已连接。反伤和移动速度独立处理。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "普通护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "shield",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T16:37:51.237187Z",
+        "description": "自身护盾持续3秒，结果目标与实例范围均为来源对象；显式自施入口已连接。反伤和移动速度独立处理。",
+        "effectKey": "molten_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "熔岩自护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "普通护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "shield",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "annie_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:51.237187Z"
+      }
+    }
+  ],
+  "sourceSha256": "1928f6e206bc3a16775e3be6c029ed5f0b1115312c37ec55bf8a2d19f56c0e49",
+  "baselineSha256": "02b0495766d63b8de449f8841728604aca60f6b49495456cba281ab21b446fa8"
+}

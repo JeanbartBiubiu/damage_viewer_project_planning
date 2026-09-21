@@ -1,0 +1,40 @@
+{
+  "startedAt": "2026-09-19T06:36:45.278Z",
+  "status": "PASS",
+  "executionMode": "BROWSER_UI_ONLY",
+  "approvedFiles": {
+    "tools/authoring/reviewed-status-ui.mjs": "3b509e846436dc84aca6d68f15876de8e53884bb7f9ac376842b79a5231f3ada",
+    "01-候选方案.json": "53f8ecd80862502704c92b6e8ab2e4137896f2fbd81f936586b0c60a52668fe1",
+    "02-冻结请求.json": "61d783b1de991325394836bfe1116f4791b4a149bfae8d1c4950e00d7fb9b93c",
+    "03-来源摘要.json": "435f7181e92f692cc27aca4dfc1f6f6515eafc1f1a5eaa7e92811189dc31f11b",
+    "04-写入前现值.json": "b17497d774ffbbbfb72ae95684d302df6d1e1d3ede7fa6e23205b8f068315350"
+  },
+  "businessWritesAttempted": 1,
+  "preflightGETs": 4,
+  "pendingRoute": null,
+  "postResponseCaptured": false,
+  "operations": [
+    {
+      "method": "BROWSER_FORM_SAVE",
+      "route": "/statuses",
+      "detailRoute": "/statuses/movement_slow",
+      "postResponseCaptured": false,
+      "readback": {
+        "method": "GET",
+        "status": 200,
+        "body": {
+          "createdAt": "2026-09-19T06:37:05.092208Z",
+          "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+          "gameId": "lol",
+          "name": "普通移动减速",
+          "sortOrder": 10,
+          "status": "ENABLED",
+          "statusKey": "movement_slow",
+          "statusKind": "MOVEMENT_SLOW",
+          "updatedAt": "2026-09-19T06:37:05.092208Z"
+        }
+      }
+    }
+  ],
+  "finishedAt": "2026-09-19T06:37:30.452Z"
+}

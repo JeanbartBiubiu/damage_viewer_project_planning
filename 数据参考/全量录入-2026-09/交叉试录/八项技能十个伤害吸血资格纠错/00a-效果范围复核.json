@@ -1,0 +1,4360 @@
+{
+  "reportVersion": "eight-direct-damage-audit-2026-09-19-v2",
+  "generatedAt": "2026-09-18T23:23:01.384Z",
+  "basedOn": "01-候选报告.json；不重复调用接口，保留其GET原件与请求审计。",
+  "boundary": "仅GET管理接口、固定客户端16.17与DDragon16.17.1来源及现值核对；不执行业务写入，不冻结批次，不证明浏览器、Wasm或战斗运行。",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "gameId": "lol",
+  "clientVersion": "16.17",
+  "ddragonVersion": "16.17.1",
+  "targets": [
+    "annie_w",
+    "brand_w",
+    "brand_e",
+    "malphite_q",
+    "malphite_e",
+    "malphite_r",
+    "diana_q",
+    "veigar_r"
+  ],
+  "businessWrites": 0,
+  "getCount": 78,
+  "requestAuditFile": "request-audit.json",
+  "getOriginalsDirectory": "gets/",
+  "referenceFiles": [
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+      "sha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+      "bytes": 238562
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/独立回读证据.json",
+      "sha256": "8702a7feed77a20e8e9612eb3dc037fa324d96d99ecdd159a22566f2daee48cc",
+      "bytes": 239595
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+      "sha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+      "bytes": 258594
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/最终独立回读证据.json",
+      "sha256": "411d252898d73a229409b88f3dcb2f0658ef3d5b53f1b5180c6ae9a67e49b385",
+      "bytes": 430472
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+      "sha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501",
+      "bytes": 1313
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+      "sha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+      "bytes": 40079
+    }
+  ],
+  "sourceConclusionReference": {
+    "file": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+    "semantic": "空vampRules不继承普通全能吸血；普通DIRECT/SKILL/magic伤害需明确OMNIVAMP、POST_DEFENSE_DAMAGE、效率1资格；该映射不是实际扣血或运行时证明。"
+  },
+  "qualificationRule": "专用纠错工具按每个目标效果逐项检查 results.length===1；不是按技能合计DAMAGE数。普通DIRECT/SKILL/magic且TARGET、critical DISALLOWED、lifecycle null、空vampRules的效果均可分别成为候选。",
+  "counts": {
+    "skills": 8,
+    "damageResults": 10,
+    "preparedCandidates": 10,
+    "explicitNonApplicable": 0,
+    "businessWrites": 0
+  },
+  "skills": [
+    {
+      "skillKey": "annie_w",
+      "skillName": "安妮·焚烧",
+      "subjectRoute": "/skills/annie_w",
+      "effectsListRoute": "/skills/annie_w/effects",
+      "triggerRulesListRoute": "/skills/annie_w/trigger-rules",
+      "counts": {
+        "effects": 2,
+        "triggerRules": 1,
+        "damageResults": 1
+      },
+      "subject": {
+        "createdAt": "2026-09-06T18:16:26.474863Z",
+        "description": "安妮向锥形区域施放一道烈焰，对区域内的所有敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "安妮·焚烧",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "annie_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:26.474863Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-07T16:37:44.81907Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "annie_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:44.81907Z"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:45.235264Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "spell_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "焚烧命中",
+          "resultCount": 1,
+          "skillKey": "annie_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:37:45.235264Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "焚烧实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:46.050718Z"
+        }
+      ],
+      "sourceEvidence": {
+        "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+        "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+        "hero": "Annie",
+        "rootPath": "Characters/Annie/CharacterRecords/Root",
+        "spellPath": "Characters/Annie/Spells/AnnieWAbility/AnnieW",
+        "clientSha256": "92318a3473f127db5b086cdf7a34743becb51ae95196df53911e83f0bd327961",
+        "officialSha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735",
+        "pending": [
+          {
+            "kind": "配置",
+            "component": "嗜火联动",
+            "reason": "待P合法累层与满层消费接入。"
+          }
+        ],
+        "status": "部分组成候选，须以独立GET确认保存，不是完整机制"
+      },
+      "damageResults": [
+        {
+          "skillKey": "annie_w",
+          "skillName": "安妮·焚烧",
+          "effectKey": "spell_hit",
+          "resultKey": "damage",
+          "effectRoute": "/skills/annie_w/effects/spell_hit",
+          "status": "准备候选",
+          "exception": [],
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "lifecycle": null,
+            "vampRules": []
+          },
+          "sourceValueCheck": {
+            "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+            "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+            "hero": "Annie",
+            "rootPath": "Characters/Annie/CharacterRecords/Root",
+            "spellPath": "Characters/Annie/Spells/AnnieWAbility/AnnieW",
+            "clientSha256": "92318a3473f127db5b086cdf7a34743becb51ae95196df53911e83f0bd327961",
+            "officialSha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735",
+            "proofs": [
+              {
+                "parameterKey": "base_damage",
+                "source": "DataValues.BaseDamage",
+                "raw": [
+                  30,
+                  70,
+                  110,
+                  150,
+                  190,
+                  230,
+                  270
+                ],
+                "offset": 1,
+                "values": [
+                  70,
+                  110,
+                  150,
+                  190,
+                  230
+                ],
+                "scale": 1
+              },
+              {
+                "parameterKey": "ap_ratio",
+                "source": "DataValues.APRatio",
+                "raw": [
+                  0.800000011920929,
+                  0.800000011920929,
+                  0.800000011920929,
+                  0.800000011920929,
+                  0.800000011920929,
+                  0.800000011920929,
+                  0.800000011920929
+                ],
+                "offset": 1,
+                "values": [
+                  0.8,
+                  0.8,
+                  0.8,
+                  0.8,
+                  0.8
+                ],
+                "scale": 1
+              }
+            ],
+            "formulaKey": "damage",
+            "parameterKeys": [
+              "ap_ratio",
+              "base_damage"
+            ],
+            "formulaMatchesFrozenCandidate": true,
+            "parameterMatchesFrozenCandidate": {
+              "ap_ratio": true,
+              "base_damage": true
+            },
+            "damageEffectMatchesFrozenCandidateBeforeVampPatch": true
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T16:37:45.235264Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "spell_hit",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "焚烧命中",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "焚烧命中",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "annie_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T16:37:45.235264Z"
+            },
+            "result": {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "焚烧命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            },
+            "formulaDetails": {
+              "damage": {
+                "createdAt": "2026-09-07T16:37:44.463454Z",
+                "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "焚烧伤害",
+                "skillKey": "annie_w",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T16:37:44.463454Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T16:37:44.063598Z",
+                "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+                "fixedValue": 0.8,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "法术强度倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "annie_w",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-07T16:37:44.063598Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T16:37:43.699473Z",
+                "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 70,
+                  "2": 110,
+                  "3": 150,
+                  "4": 190,
+                  "5": 230
+                },
+                "name": "基础伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "annie_w",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T16:37:43.699473Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "ad6ab41b083759e4c84314cc7c56c7dcd22ae65bdb5d709e89dc2387e8358a10",
+            "formulas": {
+              "/skills/annie_w/formulas/damage": "15c6392d65f80132fd885206ce6632f48d5f9aa20f8fc54313e07bb4033c51a7"
+            },
+            "parameters": {
+              "/skills/annie_w/parameters/ap_ratio": "e1c1f3c0271ffca94daae558a236195193f97b9055fe76db20e895316b51b422",
+              "/skills/annie_w/parameters/base_damage": "00ddcd82394dd3778a93b897f1459b495ed5786ed8b6b973fb5619cc4de1c77e"
+            }
+          },
+          "entryWiring": {
+            "triggerRuleListRoute": "/skills/annie_w/trigger-rules",
+            "relatedRuleRoutes": [
+              "/skills/annie_w/trigger-rules/actual_hit"
+            ],
+            "relatedRules": [
+              {
+                "actions": [
+                  {
+                    "actionKey": "damage",
+                    "actionType": "EXECUTE_EFFECT",
+                    "detail": {
+                      "effectKey": "spell_hit"
+                    },
+                    "name": "执行命中伤害",
+                    "resultModifiers": [],
+                    "runtimeInputBindings": [],
+                    "sortOrder": 10,
+                    "targetContext": "CURRENT_TARGET"
+                  }
+                ],
+                "conditionGroups": [],
+                "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+                "eventSource": {
+                  "detail": {
+                    "sourceSkillKey": "annie_w",
+                    "useKind": null
+                  },
+                  "eventType": "SKILL_HIT"
+                },
+                "maxTriggersPerProcess": null,
+                "name": "焚烧实际命中",
+                "perTargetCooldown": null,
+                "ruleKey": "actual_hit",
+                "sortOrder": 10
+              }
+            ],
+            "triggerRulesCount": 1,
+            "note": "存在规则动作执行该效果；仅证明管理配置入口已接线，不证明运行时/Wasm/战斗执行。"
+          },
+          "recommendation": {
+            "kind": "可按专用工具目标准备完整PUT",
+            "route": "/skills/annie_w/effects/spell_hit",
+            "constraints": [
+              "每个目标效果自身仅含一个DAMAGE结果",
+              "lifecycle为null",
+              "旧vampRules为空",
+              "保持原名称、说明结构、数值公式、暴击、法术护盾粒度、其他组成及入口不变",
+              "本候选不代表分支条件、施放/命中事件或战斗运行已完成"
+            ],
+            "body": {
+              "name": "焚烧命中",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。；补充明确全能吸血资格。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "焚烧命中",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skillKey": "brand_w",
+      "skillName": "布兰德·烈焰之柱",
+      "subjectRoute": "/skills/brand_w",
+      "effectsListRoute": "/skills/brand_w/effects",
+      "triggerRulesListRoute": "/skills/brand_w/trigger-rules",
+      "counts": {
+        "effects": 3,
+        "triggerRules": 1,
+        "damageResults": 2
+      },
+      "subject": {
+        "createdAt": "2026-09-06T18:17:56.763213Z",
+        "description": "在短暂的延迟后，布兰德会在目标区域创造一根烈焰之柱，来对范围内的敌方单位造成魔法伤害。带有【烈焰焚身】效果的单位会额外受到25%伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "布兰德·烈焰之柱",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "brand_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:56.763213Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-07T16:38:08.93939Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "brand_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:38:08.93939Z"
+        },
+        {
+          "createdAt": "2026-09-07T16:38:09.3779Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "normal_pillar",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "未灼烧烈焰之柱伤害",
+          "resultCount": 1,
+          "skillKey": "brand_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:38:09.3779Z"
+        },
+        {
+          "createdAt": "2026-09-07T16:38:09.785927Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "empowered_pillar",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "已灼烧烈焰之柱伤害",
+          "resultCount": 1,
+          "skillKey": "brand_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T16:38:09.785927Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收brand_w主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；火柱生成、实际命中、灼烧条件与强化伤害继续暂缓。管理保存不证明宿主已生产该事件。",
+          "eventType": "SKILL_USED",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "主动使用启动烈焰之柱施法过程",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "on_used",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-13T12:19:30.420541Z"
+        }
+      ],
+      "sourceEvidence": {
+        "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+        "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+        "hero": "Brand",
+        "rootPath": "Characters/Brand/CharacterRecords/Root",
+        "spellPath": "Characters/Brand/Spells/BrandWAbility/BrandW",
+        "clientSha256": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d",
+        "officialSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+        "pending": [
+          {
+            "kind": "配置",
+            "component": "火柱延迟与灼烧条件分支",
+            "reason": "两份独立效果需按命中前是否已灼烧互斥选择；不能两份都执行，也不能永远使用基础伤害。火柱生成延迟需要补证，不把施法结束当命中。"
+          }
+        ],
+        "status": "部分组成候选，须以独立GET确认保存，不是完整机制"
+      },
+      "damageResults": [
+        {
+          "skillKey": "brand_w",
+          "skillName": "布兰德·烈焰之柱",
+          "effectKey": "normal_pillar",
+          "resultKey": "damage",
+          "effectRoute": "/skills/brand_w/effects/normal_pillar",
+          "status": "准备候选",
+          "exception": [
+            "技能共有2个DAMAGE结果，专用工具单DAMAGE约束不适用",
+            "普通与强化两份效果需按命中前是否已灼烧互斥选择；当前规则只有SKILL_USED启动cast，没有火柱生成、实际命中和灼烧条件入口。吸血资格可对两个独立效果分别准备，不替代分支接线。"
+          ],
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "lifecycle": null,
+            "vampRules": []
+          },
+          "sourceValueCheck": {
+            "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+            "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+            "hero": "Brand",
+            "rootPath": "Characters/Brand/CharacterRecords/Root",
+            "spellPath": "Characters/Brand/Spells/BrandWAbility/BrandW",
+            "clientSha256": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d",
+            "officialSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+            "proofs": [
+              {
+                "parameterKey": "base_damage",
+                "source": "DataValues.BaseDamage",
+                "raw": [
+                  30,
+                  75,
+                  120,
+                  165,
+                  210,
+                  255,
+                  300
+                ],
+                "offset": 1,
+                "values": [
+                  75,
+                  120,
+                  165,
+                  210,
+                  255
+                ],
+                "scale": 1
+              },
+              {
+                "parameterKey": "ap_ratio",
+                "source": "DataValues.APRatio",
+                "raw": [
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071
+                ],
+                "offset": 1,
+                "values": [
+                  0.7,
+                  0.7,
+                  0.7,
+                  0.7,
+                  0.7
+                ],
+                "scale": 1
+              }
+            ],
+            "formulaKey": "damage",
+            "parameterKeys": [
+              "ap_ratio",
+              "base_damage"
+            ],
+            "formulaMatchesFrozenCandidate": true,
+            "parameterMatchesFrozenCandidate": {
+              "ap_ratio": true,
+              "base_damage": true
+            },
+            "damageEffectMatchesFrozenCandidateBeforeVampPatch": true
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T16:38:09.3779Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "normal_pillar",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "未灼烧烈焰之柱伤害",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "未灼烧烈焰之柱伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "brand_w",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T16:38:09.3779Z"
+            },
+            "result": {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "未灼烧烈焰之柱伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            },
+            "formulaDetails": {
+              "damage": {
+                "createdAt": "2026-09-07T16:38:07.852376Z",
+                "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "烈焰之柱伤害",
+                "skillKey": "brand_w",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T16:38:07.852376Z"
+              },
+              "empowered_damage": {
+                "createdAt": "2026-09-07T16:38:08.302384Z",
+                "description": "替换普通伤害，不是在普通伤害外再加整份强化伤害。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_damage"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "empowered_multiplier"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                "formulaKey": "empowered_damage",
+                "gameId": "lol",
+                "name": "已灼烧目标烈焰之柱伤害",
+                "skillKey": "brand_w",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-07T16:38:08.302384Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T16:38:07.095054Z",
+                "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+                "fixedValue": 0.7,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "法术强度倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "brand_w",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-07T16:38:07.095054Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T16:38:06.753326Z",
+                "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 75,
+                  "2": 120,
+                  "3": 165,
+                  "4": 210,
+                  "5": 255
+                },
+                "name": "基础伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "brand_w",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T16:38:06.753326Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "empowered_multiplier": {
+                "createdAt": "2026-09-07T16:38:07.493149Z",
+                "description": "当前EmpoweredDamage=TotalDamage×1.25，官方说明额外25%。",
+                "fixedValue": 1.25,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "已灼烧目标伤害倍率",
+                "parameterKey": "empowered_multiplier",
+                "skillKey": "brand_w",
+                "sortOrder": 60,
+                "updatedAt": "2026-09-07T16:38:07.493149Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "cfe5a02208fa3061126ea8b0e11dbac23b98b64f30a9aba3df9f60a0203d6d97",
+            "formulas": {
+              "/skills/brand_w/formulas/damage": "06b930aa4f99e883ed90ea9f10ed9772f0ff86fe34c5e1ed34ff097f1f28a803",
+              "/skills/brand_w/formulas/empowered_damage": "ba04db9f80be922311db05cb35ef69a8f4c9a71266fc0a6e91c2a81fd198e2ef"
+            },
+            "parameters": {
+              "/skills/brand_w/parameters/ap_ratio": "fa5f6939c50df31fb8bc4eae96a095d09673198b61785abca30a39dcd2d67149",
+              "/skills/brand_w/parameters/base_damage": "66fd7fb0ff2a763311c4ff38f5a6a6bcb3ba1ae0c4c5cdfdbda2623a541957fe",
+              "/skills/brand_w/parameters/empowered_multiplier": "e914cbfdbeb91606f5d5ff36f4fe553b32328a0fbd0a48aceb82db0fbf46f4e6"
+            }
+          },
+          "entryWiring": {
+            "triggerRuleListRoute": "/skills/brand_w/trigger-rules",
+            "relatedRuleRoutes": [],
+            "relatedRules": [],
+            "triggerRulesCount": 1,
+            "note": "当前未发现规则动作执行该效果；不把过程列表或配置存在误写成命中入口已接线。"
+          },
+          "recommendation": {
+            "kind": "可按专用工具目标准备完整PUT",
+            "route": "/skills/brand_w/effects/normal_pillar",
+            "constraints": [
+              "每个目标效果自身仅含一个DAMAGE结果",
+              "lifecycle为null",
+              "旧vampRules为空",
+              "保持原名称、说明结构、数值公式、暴击、法术护盾粒度、其他组成及入口不变",
+              "本候选不代表分支条件、施放/命中事件或战斗运行已完成"
+            ],
+            "body": {
+              "name": "未灼烧烈焰之柱伤害",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。；补充明确全能吸血资格。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "未灼烧烈焰之柱伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "skillKey": "brand_w",
+          "skillName": "布兰德·烈焰之柱",
+          "effectKey": "empowered_pillar",
+          "resultKey": "damage",
+          "effectRoute": "/skills/brand_w/effects/empowered_pillar",
+          "status": "准备候选",
+          "exception": [
+            "技能共有2个DAMAGE结果，专用工具单DAMAGE约束不适用",
+            "普通与强化两份效果需按命中前是否已灼烧互斥选择；当前规则只有SKILL_USED启动cast，没有火柱生成、实际命中和灼烧条件入口。吸血资格可对两个独立效果分别准备，不替代分支接线。"
+          ],
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "lifecycle": null,
+            "vampRules": []
+          },
+          "sourceValueCheck": {
+            "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+            "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+            "hero": "Brand",
+            "rootPath": "Characters/Brand/CharacterRecords/Root",
+            "spellPath": "Characters/Brand/Spells/BrandWAbility/BrandW",
+            "clientSha256": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d",
+            "officialSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+            "proofs": [
+              {
+                "parameterKey": "base_damage",
+                "source": "DataValues.BaseDamage",
+                "raw": [
+                  30,
+                  75,
+                  120,
+                  165,
+                  210,
+                  255,
+                  300
+                ],
+                "offset": 1,
+                "values": [
+                  75,
+                  120,
+                  165,
+                  210,
+                  255
+                ],
+                "scale": 1
+              },
+              {
+                "parameterKey": "ap_ratio",
+                "source": "DataValues.APRatio",
+                "raw": [
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071
+                ],
+                "offset": 1,
+                "values": [
+                  0.7,
+                  0.7,
+                  0.7,
+                  0.7,
+                  0.7
+                ],
+                "scale": 1
+              },
+              {
+                "parameterKey": "empowered_multiplier",
+                "source": "mSpellCalculations.EmpoweredDamage",
+                "values": [
+                  1.25
+                ]
+              }
+            ],
+            "formulaKey": "empowered_damage",
+            "parameterKeys": [
+              "ap_ratio",
+              "base_damage",
+              "empowered_multiplier"
+            ],
+            "formulaMatchesFrozenCandidate": true,
+            "parameterMatchesFrozenCandidate": {
+              "ap_ratio": true,
+              "base_damage": true,
+              "empowered_multiplier": true
+            },
+            "damageEffectMatchesFrozenCandidateBeforeVampPatch": true
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T16:38:09.785927Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "empowered_pillar",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "已灼烧烈焰之柱伤害",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "已灼烧烈焰之柱伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "empowered_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "brand_w",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-07T16:38:09.785927Z"
+            },
+            "result": {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "已灼烧烈焰之柱伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "empowered_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            },
+            "formulaDetails": {
+              "damage": {
+                "createdAt": "2026-09-07T16:38:07.852376Z",
+                "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "烈焰之柱伤害",
+                "skillKey": "brand_w",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T16:38:07.852376Z"
+              },
+              "empowered_damage": {
+                "createdAt": "2026-09-07T16:38:08.302384Z",
+                "description": "替换普通伤害，不是在普通伤害外再加整份强化伤害。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_damage"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "empowered_multiplier"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                "formulaKey": "empowered_damage",
+                "gameId": "lol",
+                "name": "已灼烧目标烈焰之柱伤害",
+                "skillKey": "brand_w",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-07T16:38:08.302384Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T16:38:07.095054Z",
+                "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+                "fixedValue": 0.7,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "法术强度倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "brand_w",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-07T16:38:07.095054Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T16:38:06.753326Z",
+                "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 75,
+                  "2": 120,
+                  "3": 165,
+                  "4": 210,
+                  "5": 255
+                },
+                "name": "基础伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "brand_w",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T16:38:06.753326Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "empowered_multiplier": {
+                "createdAt": "2026-09-07T16:38:07.493149Z",
+                "description": "当前EmpoweredDamage=TotalDamage×1.25，官方说明额外25%。",
+                "fixedValue": 1.25,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "已灼烧目标伤害倍率",
+                "parameterKey": "empowered_multiplier",
+                "skillKey": "brand_w",
+                "sortOrder": 60,
+                "updatedAt": "2026-09-07T16:38:07.493149Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "613e593631f630380de57334dd9dc7648c86c78a512dcbea382fe22db720be46",
+            "formulas": {
+              "/skills/brand_w/formulas/damage": "06b930aa4f99e883ed90ea9f10ed9772f0ff86fe34c5e1ed34ff097f1f28a803",
+              "/skills/brand_w/formulas/empowered_damage": "ba04db9f80be922311db05cb35ef69a8f4c9a71266fc0a6e91c2a81fd198e2ef"
+            },
+            "parameters": {
+              "/skills/brand_w/parameters/ap_ratio": "fa5f6939c50df31fb8bc4eae96a095d09673198b61785abca30a39dcd2d67149",
+              "/skills/brand_w/parameters/base_damage": "66fd7fb0ff2a763311c4ff38f5a6a6bcb3ba1ae0c4c5cdfdbda2623a541957fe",
+              "/skills/brand_w/parameters/empowered_multiplier": "e914cbfdbeb91606f5d5ff36f4fe553b32328a0fbd0a48aceb82db0fbf46f4e6"
+            }
+          },
+          "entryWiring": {
+            "triggerRuleListRoute": "/skills/brand_w/trigger-rules",
+            "relatedRuleRoutes": [],
+            "relatedRules": [],
+            "triggerRulesCount": 1,
+            "note": "当前未发现规则动作执行该效果；不把过程列表或配置存在误写成命中入口已接线。"
+          },
+          "recommendation": {
+            "kind": "可按专用工具目标准备完整PUT",
+            "route": "/skills/brand_w/effects/empowered_pillar",
+            "constraints": [
+              "每个目标效果自身仅含一个DAMAGE结果",
+              "lifecycle为null",
+              "旧vampRules为空",
+              "保持原名称、说明结构、数值公式、暴击、法术护盾粒度、其他组成及入口不变",
+              "本候选不代表分支条件、施放/命中事件或战斗运行已完成"
+            ],
+            "body": {
+              "name": "已灼烧烈焰之柱伤害",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。；补充明确全能吸血资格。",
+              "sortOrder": 30,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "已灼烧烈焰之柱伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "empowered_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skillKey": "brand_e",
+      "skillName": "布兰德·烈火燃烧",
+      "subjectRoute": "/skills/brand_e",
+      "effectsListRoute": "/skills/brand_e/effects",
+      "triggerRulesListRoute": "/skills/brand_e/trigger-rules",
+      "counts": {
+        "effects": 1,
+        "triggerRules": 1,
+        "damageResults": 1
+      },
+      "subject": {
+        "createdAt": "2026-09-06T18:17:57.053751Z",
+        "description": "布兰德在目标身上引发一阵强力的爆裂至附近的敌人处，造成魔法伤害。如果目标带有【烈焰焚身】效果，那么【E烈火燃烧】的扩散距离翻倍。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "布兰德·烈火燃烧",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "brand_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:57.053751Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-07T16:38:12.568002Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "conflagration_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "烈火燃烧直接伤害",
+          "resultCount": 1,
+          "skillKey": "brand_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:38:12.568002Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "烈火燃烧实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:38:12.964143Z"
+        }
+      ],
+      "sourceEvidence": {
+        "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+        "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+        "hero": "Brand",
+        "rootPath": "Characters/Brand/CharacterRecords/Root",
+        "spellPath": "Characters/Brand/Spells/BrandEAbility/BrandE",
+        "clientSha256": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d",
+        "officialSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+        "pending": [
+          {
+            "kind": "资料",
+            "component": "mana_cost",
+            "reason": "官方与客户端消耗不一致，禁止猜值与静默选边",
+            "official": [
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "client": [
+              70,
+              75,
+              80,
+              85,
+              90,
+              95
+            ]
+          },
+          {
+            "kind": "配置",
+            "component": "施放过程与P联动",
+            "reason": "法力来源冲突未解决，不创建消耗错误的施放过程；P应用仍待统一接线。"
+          }
+        ],
+        "status": "部分组成候选，须以独立GET确认保存，不是完整机制"
+      },
+      "damageResults": [
+        {
+          "skillKey": "brand_e",
+          "skillName": "布兰德·烈火燃烧",
+          "effectKey": "conflagration_hit",
+          "resultKey": "damage",
+          "effectRoute": "/skills/brand_e/effects/conflagration_hit",
+          "status": "准备候选",
+          "exception": [],
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "lifecycle": null,
+            "vampRules": []
+          },
+          "sourceValueCheck": {
+            "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+            "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+            "hero": "Brand",
+            "rootPath": "Characters/Brand/CharacterRecords/Root",
+            "spellPath": "Characters/Brand/Spells/BrandEAbility/BrandE",
+            "clientSha256": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d",
+            "officialSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+            "proofs": [
+              {
+                "parameterKey": "base_damage",
+                "source": "DataValues.BaseDamage",
+                "raw": [
+                  30,
+                  55,
+                  80,
+                  105,
+                  130,
+                  155,
+                  180
+                ],
+                "offset": 1,
+                "values": [
+                  55,
+                  80,
+                  105,
+                  130,
+                  155
+                ],
+                "scale": 1
+              },
+              {
+                "parameterKey": "ap_ratio",
+                "source": "DataValues.APRatio",
+                "raw": [
+                  0.6000000238418579,
+                  0.6000000238418579,
+                  0.6000000238418579,
+                  0.6000000238418579,
+                  0.6000000238418579,
+                  0.6000000238418579,
+                  0.6000000238418579
+                ],
+                "offset": 1,
+                "values": [
+                  0.6,
+                  0.6,
+                  0.6,
+                  0.6,
+                  0.6
+                ],
+                "scale": 1
+              }
+            ],
+            "formulaKey": "damage",
+            "parameterKeys": [
+              "ap_ratio",
+              "base_damage"
+            ],
+            "formulaMatchesFrozenCandidate": true,
+            "parameterMatchesFrozenCandidate": {
+              "ap_ratio": true,
+              "base_damage": true
+            },
+            "damageEffectMatchesFrozenCandidateBeforeVampPatch": true
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T16:38:12.568002Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "conflagration_hit",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "烈火燃烧直接伤害",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "烈火燃烧直接伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "brand_e",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-07T16:38:12.568002Z"
+            },
+            "result": {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "烈火燃烧直接伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            },
+            "formulaDetails": {
+              "damage": {
+                "createdAt": "2026-09-07T16:38:12.203978Z",
+                "description": "当前根技能 EDamageCalc：基础伤害+来源总法术强度×倍率。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "烈火燃烧伤害",
+                "skillKey": "brand_e",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T16:38:12.203978Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T16:38:11.771345Z",
+                "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+                "fixedValue": 0.6,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "法术强度倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "brand_e",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T16:38:11.771345Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T16:38:11.385058Z",
+                "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 55,
+                  "2": 80,
+                  "3": 105,
+                  "4": 130,
+                  "5": 155
+                },
+                "name": "基础伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "brand_e",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-07T16:38:11.385058Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "cfaf1095908f246dcd7d18b501993dae2f03a6cb804f2a15b8e95e2a153c7fba",
+            "formulas": {
+              "/skills/brand_e/formulas/damage": "8dd0f874fa95da8f911d03fd54186ccfb250dba3b7426e4661f12f88abe8e814"
+            },
+            "parameters": {
+              "/skills/brand_e/parameters/ap_ratio": "d8c16c677394f9f9ad0354ded0fd7649dcfbf0e2bef94b6139c272bcbfee769f",
+              "/skills/brand_e/parameters/base_damage": "8dbe211d6ad477965f376cfab994c49c3f35d84c9b990a02a1c66086cd263c50"
+            }
+          },
+          "entryWiring": {
+            "triggerRuleListRoute": "/skills/brand_e/trigger-rules",
+            "relatedRuleRoutes": [
+              "/skills/brand_e/trigger-rules/actual_hit"
+            ],
+            "relatedRules": [
+              {
+                "actions": [
+                  {
+                    "actionKey": "damage",
+                    "actionType": "EXECUTE_EFFECT",
+                    "detail": {
+                      "effectKey": "conflagration_hit"
+                    },
+                    "name": "执行命中伤害",
+                    "resultModifiers": [],
+                    "runtimeInputBindings": [],
+                    "sortOrder": 10,
+                    "targetContext": "CURRENT_TARGET"
+                  }
+                ],
+                "conditionGroups": [],
+                "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+                "eventSource": {
+                  "detail": {
+                    "sourceSkillKey": "brand_e",
+                    "useKind": null
+                  },
+                  "eventType": "SKILL_HIT"
+                },
+                "maxTriggersPerProcess": null,
+                "name": "烈火燃烧实际命中",
+                "perTargetCooldown": null,
+                "ruleKey": "actual_hit",
+                "sortOrder": 10
+              }
+            ],
+            "triggerRulesCount": 1,
+            "note": "存在规则动作执行该效果；仅证明管理配置入口已接线，不证明运行时/Wasm/战斗执行。"
+          },
+          "recommendation": {
+            "kind": "可按专用工具目标准备完整PUT",
+            "route": "/skills/brand_e/effects/conflagration_hit",
+            "constraints": [
+              "每个目标效果自身仅含一个DAMAGE结果",
+              "lifecycle为null",
+              "旧vampRules为空",
+              "保持原名称、说明结构、数值公式、暴击、法术护盾粒度、其他组成及入口不变",
+              "本候选不代表分支条件、施放/命中事件或战斗运行已完成"
+            ],
+            "body": {
+              "name": "烈火燃烧直接伤害",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。；补充明确全能吸血资格。",
+              "sortOrder": 10,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "烈火燃烧直接伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skillKey": "malphite_q",
+      "skillName": "墨菲特·地震碎片",
+      "subjectRoute": "/skills/malphite_q",
+      "effectsListRoute": "/skills/malphite_q/effects",
+      "triggerRulesListRoute": "/skills/malphite_q/trigger-rules",
+      "counts": {
+        "effects": 2,
+        "triggerRules": 1,
+        "damageResults": 1
+      },
+      "subject": {
+        "createdAt": "2026-09-06T18:19:18.301954Z",
+        "description": "墨菲特发出一块大地碎片穿过他敌人处的地面，在碰撞时造成伤害并且偷取移动速度3秒。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "墨菲特·地震碎片",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "malphite_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:18.301954Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-07T16:37:00.166994Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "malphite_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:00.166994Z"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:00.512024Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "shard_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "碎片命中魔法伤害",
+          "resultCount": 1,
+          "skillKey": "malphite_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:37:00.512024Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "地震碎片实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:01.281375Z"
+        }
+      ],
+      "sourceEvidence": {
+        "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+        "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+        "hero": "Malphite",
+        "rootPath": "Characters/Malphite/CharacterRecords/Root",
+        "spellPath": "Characters/Malphite/Spells/SeismicShardAbility/SeismicShard",
+        "clientSha256": "70dd954ff0fce089bd0d71148dbfaef72d1731c66768afe5aca2d3f4dabeb985",
+        "officialSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7",
+        "pending": [
+          {
+            "kind": "配置",
+            "component": "减速与窃取同额移动速度",
+            "reason": "目标减速后的实际点数需要提供给来源加速，不能把目标与来源都乘20%当同额窃取。"
+          }
+        ],
+        "status": "部分组成候选，须以独立GET确认保存，不是完整机制"
+      },
+      "damageResults": [
+        {
+          "skillKey": "malphite_q",
+          "skillName": "墨菲特·地震碎片",
+          "effectKey": "shard_hit",
+          "resultKey": "damage",
+          "effectRoute": "/skills/malphite_q/effects/shard_hit",
+          "status": "准备候选",
+          "exception": [],
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "lifecycle": null,
+            "vampRules": []
+          },
+          "sourceValueCheck": {
+            "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+            "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+            "hero": "Malphite",
+            "rootPath": "Characters/Malphite/CharacterRecords/Root",
+            "spellPath": "Characters/Malphite/Spells/SeismicShardAbility/SeismicShard",
+            "clientSha256": "70dd954ff0fce089bd0d71148dbfaef72d1731c66768afe5aca2d3f4dabeb985",
+            "officialSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7",
+            "proofs": [
+              {
+                "parameterKey": "base_damage",
+                "source": "DataValues.BaseDamage",
+                "raw": [
+                  20,
+                  70,
+                  120,
+                  170,
+                  220,
+                  270,
+                  320
+                ],
+                "offset": 1,
+                "values": [
+                  70,
+                  120,
+                  170,
+                  220,
+                  270
+                ],
+                "scale": 1
+              },
+              {
+                "parameterKey": "ap_ratio",
+                "source": "mSpellCalculations.QDamageCalc.mFormulaParts.1",
+                "values": [
+                  0.6
+                ]
+              }
+            ],
+            "formulaKey": "damage",
+            "parameterKeys": [
+              "ap_ratio",
+              "base_damage"
+            ],
+            "formulaMatchesFrozenCandidate": true,
+            "parameterMatchesFrozenCandidate": {
+              "ap_ratio": true,
+              "base_damage": true
+            },
+            "damageEffectMatchesFrozenCandidateBeforeVampPatch": true
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T16:37:00.512024Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "shard_hit",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "碎片命中魔法伤害",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "碎片命中魔法伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "malphite_q",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T16:37:00.512024Z"
+            },
+            "result": {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "碎片命中魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            },
+            "formulaDetails": {
+              "damage": {
+                "createdAt": "2026-09-07T16:36:59.770706Z",
+                "description": "当前根技能 QDamageCalc：基础伤害+来源总法术强度×倍率。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "地震碎片伤害",
+                "skillKey": "malphite_q",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T16:36:59.770706Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T16:36:58.617557Z",
+                "description": "客户端 QDamageCalc.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+                "fixedValue": 0.6,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "法术强度倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "malphite_q",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-07T16:36:58.617557Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T16:36:58.258924Z",
+                "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 70,
+                  "2": 120,
+                  "3": 170,
+                  "4": 220,
+                  "5": 270
+                },
+                "name": "基础伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "malphite_q",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T16:36:58.258924Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "fc13a94b5d54e0b6d666f9a9335134548c4b522131f30ae16d034d6c7c514277",
+            "formulas": {
+              "/skills/malphite_q/formulas/damage": "6961faa675b55c82f9a7f383950d94b57e91cda951954f55bcd00535094c30ce"
+            },
+            "parameters": {
+              "/skills/malphite_q/parameters/ap_ratio": "1b2cf7a53210d3a094e94ebf5885fd52948a52120899be1e43f666191a7611cd",
+              "/skills/malphite_q/parameters/base_damage": "1826ed16bc63566029b2967a48e04b07532556987d33378286e369fb8a9f180c"
+            }
+          },
+          "entryWiring": {
+            "triggerRuleListRoute": "/skills/malphite_q/trigger-rules",
+            "relatedRuleRoutes": [
+              "/skills/malphite_q/trigger-rules/actual_hit"
+            ],
+            "relatedRules": [
+              {
+                "actions": [
+                  {
+                    "actionKey": "damage",
+                    "actionType": "EXECUTE_EFFECT",
+                    "detail": {
+                      "effectKey": "shard_hit"
+                    },
+                    "name": "执行命中伤害",
+                    "resultModifiers": [],
+                    "runtimeInputBindings": [],
+                    "sortOrder": 10,
+                    "targetContext": "CURRENT_TARGET"
+                  }
+                ],
+                "conditionGroups": [],
+                "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+                "eventSource": {
+                  "detail": {
+                    "sourceSkillKey": "malphite_q",
+                    "useKind": null
+                  },
+                  "eventType": "SKILL_HIT"
+                },
+                "maxTriggersPerProcess": null,
+                "name": "地震碎片实际命中",
+                "perTargetCooldown": null,
+                "ruleKey": "actual_hit",
+                "sortOrder": 10
+              }
+            ],
+            "triggerRulesCount": 1,
+            "note": "存在规则动作执行该效果；仅证明管理配置入口已接线，不证明运行时/Wasm/战斗执行。"
+          },
+          "recommendation": {
+            "kind": "可按专用工具目标准备完整PUT",
+            "route": "/skills/malphite_q/effects/shard_hit",
+            "constraints": [
+              "每个目标效果自身仅含一个DAMAGE结果",
+              "lifecycle为null",
+              "旧vampRules为空",
+              "保持原名称、说明结构、数值公式、暴击、法术护盾粒度、其他组成及入口不变",
+              "本候选不代表分支条件、施放/命中事件或战斗运行已完成"
+            ],
+            "body": {
+              "name": "碎片命中魔法伤害",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。；补充明确全能吸血资格。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "碎片命中魔法伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skillKey": "malphite_e",
+      "skillName": "墨菲特·大地震颤",
+      "subjectRoute": "/skills/malphite_e",
+      "effectsListRoute": "/skills/malphite_e/effects",
+      "triggerRulesListRoute": "/skills/malphite_e/trigger-rules",
+      "counts": {
+        "effects": 2,
+        "triggerRules": 1,
+        "damageResults": 1
+      },
+      "subject": {
+        "createdAt": "2026-09-06T18:19:18.788954Z",
+        "description": "墨菲特锤击地面，放射出冲击波对目标造成基于他护甲值的魔法伤害，同时暂时降低目标攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "墨菲特·大地震颤",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "malphite_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:18.788954Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-07T16:37:11.446128Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "malphite_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:11.446128Z"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:11.906964Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "slam_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "震地命中",
+          "resultCount": 1,
+          "skillKey": "malphite_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:37:11.906964Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "大地震颤实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:12.315023Z"
+        }
+      ],
+      "sourceEvidence": {
+        "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+        "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+        "hero": "Malphite",
+        "rootPath": "Characters/Malphite/CharacterRecords/Root",
+        "spellPath": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+        "clientSha256": "70dd954ff0fce089bd0d71148dbfaef72d1731c66768afe5aca2d3f4dabeb985",
+        "officialSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7",
+        "pending": [
+          {
+            "kind": "配置",
+            "component": "施法与攻速削减",
+            "reason": "mCastTime约0.2419与spellCastTime0.25不同，先不自动选一项；攻速削减是最终攻速减幅，不能等同额外攻速属性减30个百分点。"
+          }
+        ],
+        "status": "部分组成候选，须以独立GET确认保存，不是完整机制"
+      },
+      "damageResults": [
+        {
+          "skillKey": "malphite_e",
+          "skillName": "墨菲特·大地震颤",
+          "effectKey": "slam_hit",
+          "resultKey": "damage",
+          "effectRoute": "/skills/malphite_e/effects/slam_hit",
+          "status": "准备候选",
+          "exception": [],
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "lifecycle": null,
+            "vampRules": []
+          },
+          "sourceValueCheck": {
+            "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+            "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+            "hero": "Malphite",
+            "rootPath": "Characters/Malphite/CharacterRecords/Root",
+            "spellPath": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+            "clientSha256": "70dd954ff0fce089bd0d71148dbfaef72d1731c66768afe5aca2d3f4dabeb985",
+            "officialSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7",
+            "proofs": [
+              {
+                "parameterKey": "base_damage",
+                "source": "DataValues.BaseDamage",
+                "raw": [
+                  25,
+                  60,
+                  95,
+                  130,
+                  165,
+                  200,
+                  235
+                ],
+                "offset": 1,
+                "values": [
+                  60,
+                  95,
+                  130,
+                  165,
+                  200
+                ],
+                "scale": 1
+              },
+              {
+                "parameterKey": "ap_ratio",
+                "source": "mSpellCalculations.EDamageCalc.mFormulaParts.2",
+                "values": [
+                  0.6
+                ]
+              },
+              {
+                "parameterKey": "armor_ratio",
+                "source": "mSpellCalculations.EDamageCalc.mFormulaParts.1",
+                "values": [
+                  0.4
+                ]
+              }
+            ],
+            "formulaKey": "damage",
+            "parameterKeys": [
+              "ap_ratio",
+              "armor_ratio",
+              "base_damage"
+            ],
+            "formulaMatchesFrozenCandidate": true,
+            "parameterMatchesFrozenCandidate": {
+              "ap_ratio": true,
+              "armor_ratio": true,
+              "base_damage": true
+            },
+            "damageEffectMatchesFrozenCandidateBeforeVampPatch": true
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T16:37:11.906964Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "slam_hit",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "震地命中",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "震地命中",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "malphite_e",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T16:37:11.906964Z"
+            },
+            "result": {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "震地命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            },
+            "formulaDetails": {
+              "damage": {
+                "createdAt": "2026-09-07T16:37:11.080824Z",
+                "description": "来源总护甲×0.4 +总法强×0.6 +基础。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_damage"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "armor_ratio"
+                        },
+                        {
+                          "attributeKey": "armor",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "大地震颤魔法伤害",
+                "skillKey": "malphite_e",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T16:37:11.080824Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T16:37:09.557953Z",
+                "description": "客户端 EDamageCalc.mFormulaParts[2] 默认法术强度系数；按当前浮点设计值归一。",
+                "fixedValue": 0.6,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "法术强度倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "malphite_e",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T16:37:09.557953Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "armor_ratio": {
+                "createdAt": "2026-09-07T16:37:09.91552Z",
+                "description": "EDamageCalc mStat=1 总护甲系数0.4。",
+                "fixedValue": 0.4,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "总护甲倍率",
+                "parameterKey": "armor_ratio",
+                "skillKey": "malphite_e",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-07T16:37:09.91552Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T16:37:09.200833Z",
+                "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 60,
+                  "2": 95,
+                  "3": 130,
+                  "4": 165,
+                  "5": 200
+                },
+                "name": "基础魔法伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "malphite_e",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-07T16:37:09.200833Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "2a3ea795d78e9b15132a3e759e458e6956148ed0d33600d3339b7a27fc2089f7",
+            "formulas": {
+              "/skills/malphite_e/formulas/damage": "71217a72e9b4eacf38423cff47cfb0b1f46786b18225b5ddc762bd33fb0403fe"
+            },
+            "parameters": {
+              "/skills/malphite_e/parameters/ap_ratio": "2b334a7b70951fe04fe08a19761d0655a755a4c51e20b6db4a0e34a960ea05bb",
+              "/skills/malphite_e/parameters/armor_ratio": "9df2696a6bb63d911348585ff583e57223ffdb9c2f0e06462fc78eb30d6638cb",
+              "/skills/malphite_e/parameters/base_damage": "afea74ccc66a1cc8e81a45f75044f7ab35b8cf42c8817838eb5bdb05599166ed"
+            }
+          },
+          "entryWiring": {
+            "triggerRuleListRoute": "/skills/malphite_e/trigger-rules",
+            "relatedRuleRoutes": [
+              "/skills/malphite_e/trigger-rules/actual_hit"
+            ],
+            "relatedRules": [
+              {
+                "actions": [
+                  {
+                    "actionKey": "damage",
+                    "actionType": "EXECUTE_EFFECT",
+                    "detail": {
+                      "effectKey": "slam_hit"
+                    },
+                    "name": "执行命中伤害",
+                    "resultModifiers": [],
+                    "runtimeInputBindings": [],
+                    "sortOrder": 10,
+                    "targetContext": "CURRENT_TARGET"
+                  }
+                ],
+                "conditionGroups": [],
+                "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+                "eventSource": {
+                  "detail": {
+                    "sourceSkillKey": "malphite_e",
+                    "useKind": null
+                  },
+                  "eventType": "SKILL_HIT"
+                },
+                "maxTriggersPerProcess": null,
+                "name": "大地震颤实际命中",
+                "perTargetCooldown": null,
+                "ruleKey": "actual_hit",
+                "sortOrder": 10
+              }
+            ],
+            "triggerRulesCount": 1,
+            "note": "存在规则动作执行该效果；仅证明管理配置入口已接线，不证明运行时/Wasm/战斗执行。"
+          },
+          "recommendation": {
+            "kind": "可按专用工具目标准备完整PUT",
+            "route": "/skills/malphite_e/effects/slam_hit",
+            "constraints": [
+              "每个目标效果自身仅含一个DAMAGE结果",
+              "lifecycle为null",
+              "旧vampRules为空",
+              "保持原名称、说明结构、数值公式、暴击、法术护盾粒度、其他组成及入口不变",
+              "本候选不代表分支条件、施放/命中事件或战斗运行已完成"
+            ],
+            "body": {
+              "name": "震地命中",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。；补充明确全能吸血资格。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "震地命中",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skillKey": "malphite_r",
+      "skillName": "墨菲特·势不可挡",
+      "subjectRoute": "/skills/malphite_r",
+      "effectsListRoute": "/skills/malphite_r/effects",
+      "triggerRulesListRoute": "/skills/malphite_r/trigger-rules",
+      "counts": {
+        "effects": 2,
+        "triggerRules": 1,
+        "damageResults": 1
+      },
+      "subject": {
+        "createdAt": "2026-09-06T18:19:19.075519Z",
+        "description": "墨菲特自身高速冲向一个区域，对区域内的敌人们造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "墨菲特·势不可挡",
+        "skillCategoryKeys": [],
+        "skillKey": "malphite_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:19.075519Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-07T16:37:15.205781Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "malphite_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:15.205781Z"
+        },
+        {
+          "createdAt": "2026-09-07T16:37:15.600204Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "impact_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "冲撞命中魔法伤害",
+          "resultCount": 1,
+          "skillKey": "malphite_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T16:37:15.600204Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "势不可挡实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:37:15.965633Z"
+        }
+      ],
+      "sourceEvidence": {
+        "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+        "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+        "hero": "Malphite",
+        "rootPath": "Characters/Malphite/CharacterRecords/Root",
+        "spellPath": "Characters/Malphite/Spells/UFSlashAbility/UFSlash",
+        "clientSha256": "70dd954ff0fce089bd0d71148dbfaef72d1731c66768afe5aca2d3f4dabeb985",
+        "officialSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7",
+        "pending": [
+          {
+            "kind": "配置",
+            "component": "击飞及不可阻挡",
+            "reason": "数值已存，控制与突进期间不可阻挡需准确语义，不使用眩晕代替击飞。"
+          }
+        ],
+        "status": "部分组成候选，须以独立GET确认保存，不是完整机制"
+      },
+      "damageResults": [
+        {
+          "skillKey": "malphite_r",
+          "skillName": "墨菲特·势不可挡",
+          "effectKey": "impact_hit",
+          "resultKey": "damage",
+          "effectRoute": "/skills/malphite_r/effects/impact_hit",
+          "status": "准备候选",
+          "exception": [],
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "lifecycle": null,
+            "vampRules": []
+          },
+          "sourceValueCheck": {
+            "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+            "sourcePathSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+            "hero": "Malphite",
+            "rootPath": "Characters/Malphite/CharacterRecords/Root",
+            "spellPath": "Characters/Malphite/Spells/UFSlashAbility/UFSlash",
+            "clientSha256": "70dd954ff0fce089bd0d71148dbfaef72d1731c66768afe5aca2d3f4dabeb985",
+            "officialSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7",
+            "proofs": [
+              {
+                "parameterKey": "base_damage",
+                "source": "DataValues.BaseDamage",
+                "raw": [
+                  100,
+                  200,
+                  300,
+                  400,
+                  500,
+                  600,
+                  700
+                ],
+                "offset": 1,
+                "values": [
+                  200,
+                  300,
+                  400
+                ],
+                "scale": 1
+              },
+              {
+                "parameterKey": "ap_ratio",
+                "source": "mSpellCalculations.TotalDamage.mFormulaParts.1",
+                "values": [
+                  0.9
+                ]
+              }
+            ],
+            "formulaKey": "damage",
+            "parameterKeys": [
+              "ap_ratio",
+              "base_damage"
+            ],
+            "formulaMatchesFrozenCandidate": true,
+            "parameterMatchesFrozenCandidate": {
+              "ap_ratio": true,
+              "base_damage": true
+            },
+            "damageEffectMatchesFrozenCandidateBeforeVampPatch": true
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T16:37:15.600204Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "impact_hit",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "冲撞命中魔法伤害",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "冲撞命中魔法伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "malphite_r",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T16:37:15.600204Z"
+            },
+            "result": {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "冲撞命中魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            },
+            "formulaDetails": {
+              "damage": {
+                "createdAt": "2026-09-07T16:37:14.816752Z",
+                "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "势不可挡伤害",
+                "skillKey": "malphite_r",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T16:37:14.816752Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T16:37:14.061814Z",
+                "description": "客户端 TotalDamage.mFormulaParts[1] 默认法术强度系数；按当前浮点设计值归一。",
+                "fixedValue": 0.9,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "法术强度倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "malphite_r",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T16:37:14.061814Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T16:37:13.720488Z",
+                "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 200,
+                  "2": 300,
+                  "3": 400
+                },
+                "name": "基础伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "malphite_r",
+                "sortOrder": 30,
+                "updatedAt": "2026-09-07T16:37:13.720488Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "3212c9ee0385a81517c865644561c8b9cadf6a3392a87779aca084d868121f77",
+            "formulas": {
+              "/skills/malphite_r/formulas/damage": "8ef4ade1925fe3b2b291df22dcd1a00dfb4d642542c548e82056be4a2d0126cb"
+            },
+            "parameters": {
+              "/skills/malphite_r/parameters/ap_ratio": "3b66549b4cc63d0785aa4be13f8cf4bf56bbf73a611503ffbf300186fd4fbd68",
+              "/skills/malphite_r/parameters/base_damage": "707df7640ddfeda5e2066559a357448da08520524f5a67df1ac0322d82272b88"
+            }
+          },
+          "entryWiring": {
+            "triggerRuleListRoute": "/skills/malphite_r/trigger-rules",
+            "relatedRuleRoutes": [
+              "/skills/malphite_r/trigger-rules/actual_hit"
+            ],
+            "relatedRules": [
+              {
+                "actions": [
+                  {
+                    "actionKey": "damage",
+                    "actionType": "EXECUTE_EFFECT",
+                    "detail": {
+                      "effectKey": "impact_hit"
+                    },
+                    "name": "执行命中伤害",
+                    "resultModifiers": [],
+                    "runtimeInputBindings": [],
+                    "sortOrder": 10,
+                    "targetContext": "CURRENT_TARGET"
+                  }
+                ],
+                "conditionGroups": [],
+                "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+                "eventSource": {
+                  "detail": {
+                    "sourceSkillKey": "malphite_r",
+                    "useKind": null
+                  },
+                  "eventType": "SKILL_HIT"
+                },
+                "maxTriggersPerProcess": null,
+                "name": "势不可挡实际命中",
+                "perTargetCooldown": null,
+                "ruleKey": "actual_hit",
+                "sortOrder": 10
+              }
+            ],
+            "triggerRulesCount": 1,
+            "note": "存在规则动作执行该效果；仅证明管理配置入口已接线，不证明运行时/Wasm/战斗执行。"
+          },
+          "recommendation": {
+            "kind": "可按专用工具目标准备完整PUT",
+            "route": "/skills/malphite_r/effects/impact_hit",
+            "constraints": [
+              "每个目标效果自身仅含一个DAMAGE结果",
+              "lifecycle为null",
+              "旧vampRules为空",
+              "保持原名称、说明结构、数值公式、暴击、法术护盾粒度、其他组成及入口不变",
+              "本候选不代表分支条件、施放/命中事件或战斗运行已完成"
+            ],
+            "body": {
+              "name": "冲撞命中魔法伤害",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。；补充明确全能吸血资格。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "冲撞命中魔法伤害",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skillKey": "diana_q",
+      "skillName": "黛安娜·新月打击",
+      "subjectRoute": "/skills/diana_q",
+      "effectsListRoute": "/skills/diana_q/effects",
+      "triggerRulesListRoute": "/skills/diana_q/trigger-rules",
+      "counts": {
+        "effects": 2,
+        "triggerRules": 1,
+        "damageResults": 1
+      },
+      "subject": {
+        "createdAt": "2026-09-06T18:18:08.734441Z",
+        "description": "释放一道月能光束，对弧形范围内的敌人造成伤害。<br><br>会对命中的敌人施加月光效果，如果中了月光效果的敌人不在潜行状态下，就会暴露在己方视野中3秒。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "黛安娜·新月打击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "diana_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:08.734441Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-07T18:53:36.342966Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "diana_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:53:36.342966Z"
+        },
+        {
+          "createdAt": "2026-09-07T18:53:36.94221Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "moon_arc_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "月能圆弧命中",
+          "resultCount": 1,
+          "skillKey": "diana_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:53:36.94221Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+          "eventType": "SKILL_HIT",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "新月打击实际命中",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "actual_hit",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:53:38.050068Z"
+        }
+      ],
+      "sourceEvidence": {
+        "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+        "sourcePathSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+        "hero": "Diana",
+        "rootPath": "Characters/Diana/CharacterRecords/Root",
+        "spellPath": "Characters/Diana/Spells/DianaQAbility/DianaQ",
+        "clientSha256": "ed46b24b345a284e7938db666ff6f354cd837f49e6e0e7ef544429addd817efa",
+        "officialSha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d",
+        "pending": [
+          {
+            "kind": "配置",
+            "component": "月光与E刷新",
+            "reason": "月光不是纯视野：同来源目标标记要供E命中前判断和正确消耗/清除，需要真实标记生命周期。"
+          }
+        ],
+        "status": "部分范围组成，保存以独立GET为准；待配不是机制完成"
+      },
+      "damageResults": [
+        {
+          "skillKey": "diana_q",
+          "skillName": "黛安娜·新月打击",
+          "effectKey": "moon_arc_hit",
+          "resultKey": "damage",
+          "effectRoute": "/skills/diana_q/effects/moon_arc_hit",
+          "status": "准备候选",
+          "exception": [],
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "lifecycle": null,
+            "vampRules": []
+          },
+          "sourceValueCheck": {
+            "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+            "sourcePathSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+            "hero": "Diana",
+            "rootPath": "Characters/Diana/CharacterRecords/Root",
+            "spellPath": "Characters/Diana/Spells/DianaQAbility/DianaQ",
+            "clientSha256": "ed46b24b345a284e7938db666ff6f354cd837f49e6e0e7ef544429addd817efa",
+            "officialSha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d",
+            "proofs": [
+              {
+                "parameterKey": "base_damage",
+                "source": "DataValues.BaseDamage",
+                "raw": [
+                  35,
+                  70,
+                  105,
+                  140,
+                  175,
+                  210,
+                  245
+                ],
+                "offset": 1,
+                "values": [
+                  70,
+                  105,
+                  140,
+                  175,
+                  210
+                ],
+                "scale": 1
+              },
+              {
+                "parameterKey": "ap_ratio",
+                "source": "DataValues.APRatio",
+                "raw": [
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071,
+                  0.699999988079071
+                ],
+                "offset": 1,
+                "values": [
+                  0.7,
+                  0.7,
+                  0.7,
+                  0.7,
+                  0.7
+                ],
+                "scale": 1
+              }
+            ],
+            "formulaKey": "damage",
+            "parameterKeys": [
+              "ap_ratio",
+              "base_damage"
+            ],
+            "formulaMatchesFrozenCandidate": true,
+            "parameterMatchesFrozenCandidate": {
+              "ap_ratio": true,
+              "base_damage": true
+            },
+            "damageEffectMatchesFrozenCandidateBeforeVampPatch": true
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T18:53:36.94221Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "moon_arc_hit",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "月能圆弧命中",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "月能圆弧命中",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "diana_q",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T18:53:36.94221Z"
+            },
+            "result": {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "月能圆弧命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            },
+            "formulaDetails": {
+              "damage": {
+                "createdAt": "2026-09-07T18:53:35.815927Z",
+                "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "新月打击基础伤害",
+                "skillKey": "diana_q",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T18:53:35.815927Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T18:53:34.558397Z",
+                "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+                "fixedValue": 0.7,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "法强倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "diana_q",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-07T18:53:34.558397Z",
+                "valueMode": "FIXED",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T18:53:33.898105Z",
+                "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 70,
+                  "2": 105,
+                  "3": 140,
+                  "4": 175,
+                  "5": 210
+                },
+                "name": "基础伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "diana_q",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T18:53:33.898105Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "63fd3b5de57820e206a5fb455c1e74ecf45e5264d46b2953242cd2fcc30e3c2a",
+            "formulas": {
+              "/skills/diana_q/formulas/damage": "2f83cb8bcd0f842e2d7cd7e989f374ce14fe67561b0caa52bdca20f7f8720c3b"
+            },
+            "parameters": {
+              "/skills/diana_q/parameters/ap_ratio": "28b0eeb150cace9ed4514b11bcb85d0c1164a38915f62bd0d25e1b22664c71fe",
+              "/skills/diana_q/parameters/base_damage": "45e7ee802a4d5ea9293d25de6950b44f3cb810f12f344ed3614569c14d25c58d"
+            }
+          },
+          "entryWiring": {
+            "triggerRuleListRoute": "/skills/diana_q/trigger-rules",
+            "relatedRuleRoutes": [
+              "/skills/diana_q/trigger-rules/actual_hit"
+            ],
+            "relatedRules": [
+              {
+                "actions": [
+                  {
+                    "actionKey": "damage",
+                    "actionType": "EXECUTE_EFFECT",
+                    "detail": {
+                      "effectKey": "moon_arc_hit"
+                    },
+                    "name": "执行命中伤害",
+                    "resultModifiers": [],
+                    "runtimeInputBindings": [],
+                    "sortOrder": 10,
+                    "targetContext": "CURRENT_TARGET"
+                  }
+                ],
+                "conditionGroups": [],
+                "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+                "eventSource": {
+                  "detail": {
+                    "sourceSkillKey": "diana_q",
+                    "useKind": null
+                  },
+                  "eventType": "SKILL_HIT"
+                },
+                "maxTriggersPerProcess": null,
+                "name": "新月打击实际命中",
+                "perTargetCooldown": null,
+                "ruleKey": "actual_hit",
+                "sortOrder": 10
+              }
+            ],
+            "triggerRulesCount": 1,
+            "note": "存在规则动作执行该效果；仅证明管理配置入口已接线，不证明运行时/Wasm/战斗执行。"
+          },
+          "recommendation": {
+            "kind": "可按专用工具目标准备完整PUT",
+            "route": "/skills/diana_q/effects/moon_arc_hit",
+            "constraints": [
+              "每个目标效果自身仅含一个DAMAGE结果",
+              "lifecycle为null",
+              "旧vampRules为空",
+              "保持原名称、说明结构、数值公式、暴击、法术护盾粒度、其他组成及入口不变",
+              "本候选不代表分支条件、施放/命中事件或战斗运行已完成"
+            ],
+            "body": {
+              "name": "月能圆弧命中",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。；补充明确全能吸血资格。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "月能圆弧命中",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skillKey": "veigar_r",
+      "skillName": "维迦·能量爆裂",
+      "subjectRoute": "/skills/veigar_r",
+      "effectsListRoute": "/skills/veigar_r/effects",
+      "triggerRulesListRoute": "/skills/veigar_r/trigger-rules",
+      "counts": {
+        "effects": 3,
+        "triggerRules": 1,
+        "damageResults": 2
+      },
+      "subject": {
+        "createdAt": "2026-09-06T18:20:55.654651Z",
+        "description": "引爆目标敌方英雄，造成大量魔法伤害，并基于目标已损失生命值提升伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "维迦·能量爆裂",
+        "skillCategoryKeys": [],
+        "skillKey": "veigar_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:55.654651Z"
+      },
+      "effectsList": [
+        {
+          "createdAt": "2026-09-07T18:54:23.218385Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "veigar_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T18:54:23.218385Z"
+        },
+        {
+          "createdAt": "2026-09-07T18:54:23.813661Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "minimum_burst",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "满生命基础魔法伤害组成",
+          "resultCount": 1,
+          "skillKey": "veigar_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T18:54:23.813661Z"
+        },
+        {
+          "createdAt": "2026-09-07T18:54:24.44278Z",
+          "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+          "effectKey": "maximum_burst",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "低生命上限魔法伤害组成",
+          "resultCount": 1,
+          "skillKey": "veigar_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T18:54:24.44278Z"
+        }
+      ],
+      "triggerList": [
+        {
+          "actionCount": 1,
+          "conditionGroupCount": 0,
+          "description": "接收veigar_r主动使用并启动已有cast过程，只处理已保存的法力消耗、基础冷却和施法延迟；目标当前或已损生命、连续伤害倍率、实际命中与伤害继续暂缓。管理保存不证明宿主已生产该事件。",
+          "eventType": "SKILL_USED",
+          "maxTriggersPerProcessEnabled": false,
+          "name": "主动使用启动能量爆裂施法过程",
+          "perTargetCooldownEnabled": false,
+          "ruleKey": "on_used",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-13T13:09:05.477627Z"
+        }
+      ],
+      "sourceEvidence": {
+        "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+        "sourcePathSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+        "hero": "Veigar",
+        "rootPath": "Characters/Veigar/CharacterRecords/Root",
+        "spellPath": "Characters/Veigar/Spells/VeigarRAbility/VeigarR",
+        "clientSha256": "2dbb6f22563ef94b230e24af998836e95d883bb7fd6d39e4f5cc273ad371af78",
+        "officialSha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+        "pending": [
+          {
+            "kind": "配置",
+            "component": "连续生命值伤害倍率",
+            "reason": "完整根只包含MinDamage/MaxDamage，33%说明不能单独证明连续关系1+1.5已损生命比例或精确阈值；需冻源补证后接当前生命完整伤害，不把上下限同时执行或永远用最大值。"
+          }
+        ],
+        "status": "部分范围组成，保存以独立GET为准；待配不是机制完成"
+      },
+      "damageResults": [
+        {
+          "skillKey": "veigar_r",
+          "skillName": "维迦·能量爆裂",
+          "effectKey": "minimum_burst",
+          "resultKey": "damage",
+          "effectRoute": "/skills/veigar_r/effects/minimum_burst",
+          "status": "准备候选",
+          "exception": [
+            "技能共有2个DAMAGE结果，专用工具单DAMAGE约束不适用",
+            "基础与低生命上限是生命值伤害分支的端点；当前规则只有SKILL_USED启动cast，没有实际命中、当前生命读取和连续倍率入口。两个吸血资格可分别准备，不把两个结果同时执行或把上限当常态。"
+          ],
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "lifecycle": null,
+            "vampRules": []
+          },
+          "sourceValueCheck": {
+            "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+            "sourcePathSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+            "hero": "Veigar",
+            "rootPath": "Characters/Veigar/CharacterRecords/Root",
+            "spellPath": "Characters/Veigar/Spells/VeigarRAbility/VeigarR",
+            "clientSha256": "2dbb6f22563ef94b230e24af998836e95d883bb7fd6d39e4f5cc273ad371af78",
+            "officialSha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+            "proofs": [
+              {
+                "parameterKey": "base_damage",
+                "source": "DataValues.BaseDamage",
+                "raw": [
+                  100,
+                  175,
+                  250,
+                  325,
+                  400,
+                  475,
+                  550
+                ],
+                "offset": 1,
+                "values": [
+                  175,
+                  250,
+                  325
+                ],
+                "scale": 1
+              },
+              {
+                "parameterKey": "ap_ratio",
+                "source": "DataValues.APRatio",
+                "raw": [
+                  0.6000000238418579,
+                  0.6499999761581421,
+                  0.699999988079071,
+                  0.75,
+                  0.800000011920929,
+                  0.8500000238418579,
+                  0.8999999761581421
+                ],
+                "offset": 1,
+                "values": [
+                  0.65,
+                  0.7,
+                  0.75
+                ],
+                "scale": 1
+              }
+            ],
+            "formulaKey": "damage",
+            "parameterKeys": [
+              "ap_ratio",
+              "base_damage"
+            ],
+            "formulaMatchesFrozenCandidate": true,
+            "parameterMatchesFrozenCandidate": {
+              "ap_ratio": true,
+              "base_damage": true
+            },
+            "damageEffectMatchesFrozenCandidateBeforeVampPatch": true
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T18:54:23.813661Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "minimum_burst",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "满生命基础魔法伤害组成",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "满生命基础魔法伤害组成",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "veigar_r",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-07T18:54:23.813661Z"
+            },
+            "result": {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "满生命基础魔法伤害组成",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            },
+            "formulaDetails": {
+              "damage": {
+                "createdAt": "2026-09-07T18:54:22.08032Z",
+                "description": "当前根MinDamage：基础伤害+法强倍率×总法强。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "能量爆裂基础伤害",
+                "skillKey": "veigar_r",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T18:54:22.08032Z"
+              },
+              "max_damage": {
+                "createdAt": "2026-09-07T18:54:22.621113Z",
+                "description": "MaxDamage完整修改树为MinDamage×2。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_damage"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "maximum_damage_multiplier"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                "formulaKey": "max_damage",
+                "gameId": "lol",
+                "name": "能量爆裂最大伤害",
+                "skillKey": "veigar_r",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-07T18:54:22.621113Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T18:54:20.347409Z",
+                "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 0.65,
+                  "2": 0.7,
+                  "3": 0.75
+                },
+                "name": "法强倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "veigar_r",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-07T18:54:20.347409Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T18:54:19.691855Z",
+                "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 175,
+                  "2": 250,
+                  "3": 325
+                },
+                "name": "基础伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "veigar_r",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T18:54:19.691855Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "maximum_damage_multiplier": {
+                "createdAt": "2026-09-07T18:54:20.894604Z",
+                "description": "客户端当前根绑定 DataValues.MaxExecuteMult 取索引1至3。",
+                "fixedValue": 2,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "低生命最大伤害倍率",
+                "parameterKey": "maximum_damage_multiplier",
+                "skillKey": "veigar_r",
+                "sortOrder": 60,
+                "updatedAt": "2026-09-07T18:54:20.894604Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "5f7728a1527e08f592f70360d96d407ec4c5ef1c7b19892e5eab2368e2259bbc",
+            "formulas": {
+              "/skills/veigar_r/formulas/damage": "868ece6e0a3072b7735a2ebec11b0cb42658597df90bacbdf98905dbf0424cb2",
+              "/skills/veigar_r/formulas/max_damage": "f72af66fd5f0e32c95b4ffbb31eeb56f402eb564a4b1827b67d1b82b10d47af3"
+            },
+            "parameters": {
+              "/skills/veigar_r/parameters/ap_ratio": "efeef43a135d0b9de172a0e52a2a076d985a491e7a1cbe920902f0815454d406",
+              "/skills/veigar_r/parameters/base_damage": "369051844db98350dafe8a6d2ec1064ef11120661fd523435f861293016530f3",
+              "/skills/veigar_r/parameters/maximum_damage_multiplier": "81758225065ba06b5f02f80d25addf2ac26cce197ddcaa14e63d37984a805a7f"
+            }
+          },
+          "entryWiring": {
+            "triggerRuleListRoute": "/skills/veigar_r/trigger-rules",
+            "relatedRuleRoutes": [],
+            "relatedRules": [],
+            "triggerRulesCount": 1,
+            "note": "当前未发现规则动作执行该效果；不把过程列表或配置存在误写成命中入口已接线。"
+          },
+          "recommendation": {
+            "kind": "可按专用工具目标准备完整PUT",
+            "route": "/skills/veigar_r/effects/minimum_burst",
+            "constraints": [
+              "每个目标效果自身仅含一个DAMAGE结果",
+              "lifecycle为null",
+              "旧vampRules为空",
+              "保持原名称、说明结构、数值公式、暴击、法术护盾粒度、其他组成及入口不变",
+              "本候选不代表分支条件、施放/命中事件或战斗运行已完成"
+            ],
+            "body": {
+              "name": "满生命基础魔法伤害组成",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。；补充明确全能吸血资格。",
+              "sortOrder": 20,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "满生命基础魔法伤害组成",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "skillKey": "veigar_r",
+          "skillName": "维迦·能量爆裂",
+          "effectKey": "maximum_burst",
+          "resultKey": "damage",
+          "effectRoute": "/skills/veigar_r/effects/maximum_burst",
+          "status": "准备候选",
+          "exception": [
+            "技能共有2个DAMAGE结果，专用工具单DAMAGE约束不适用",
+            "基础与低生命上限是生命值伤害分支的端点；当前规则只有SKILL_USED启动cast，没有实际命中、当前生命读取和连续倍率入口。两个吸血资格可分别准备，不把两个结果同时执行或把上限当常态。"
+          ],
+          "qualification": {
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "lifecycle": null,
+            "vampRules": []
+          },
+          "sourceValueCheck": {
+            "sourcePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+            "sourcePathSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+            "hero": "Veigar",
+            "rootPath": "Characters/Veigar/CharacterRecords/Root",
+            "spellPath": "Characters/Veigar/Spells/VeigarRAbility/VeigarR",
+            "clientSha256": "2dbb6f22563ef94b230e24af998836e95d883bb7fd6d39e4f5cc273ad371af78",
+            "officialSha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+            "proofs": [
+              {
+                "parameterKey": "base_damage",
+                "source": "DataValues.BaseDamage",
+                "raw": [
+                  100,
+                  175,
+                  250,
+                  325,
+                  400,
+                  475,
+                  550
+                ],
+                "offset": 1,
+                "values": [
+                  175,
+                  250,
+                  325
+                ],
+                "scale": 1
+              },
+              {
+                "parameterKey": "ap_ratio",
+                "source": "DataValues.APRatio",
+                "raw": [
+                  0.6000000238418579,
+                  0.6499999761581421,
+                  0.699999988079071,
+                  0.75,
+                  0.800000011920929,
+                  0.8500000238418579,
+                  0.8999999761581421
+                ],
+                "offset": 1,
+                "values": [
+                  0.65,
+                  0.7,
+                  0.75
+                ],
+                "scale": 1
+              },
+              {
+                "parameterKey": "maximum_damage_multiplier",
+                "source": "DataValues.MaxExecuteMult",
+                "raw": [
+                  2,
+                  2,
+                  2,
+                  2,
+                  2,
+                  2,
+                  2
+                ],
+                "offset": 1,
+                "values": [
+                  2,
+                  2,
+                  2
+                ],
+                "scale": 1
+              }
+            ],
+            "formulaKey": "max_damage",
+            "parameterKeys": [
+              "ap_ratio",
+              "base_damage",
+              "maximum_damage_multiplier"
+            ],
+            "formulaMatchesFrozenCandidate": true,
+            "parameterMatchesFrozenCandidate": {
+              "ap_ratio": true,
+              "base_damage": true,
+              "maximum_damage_multiplier": true
+            },
+            "damageEffectMatchesFrozenCandidateBeforeVampPatch": true
+          },
+          "currentValue": {
+            "effect": {
+              "createdAt": "2026-09-07T18:54:24.44278Z",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+              "effectKey": "maximum_burst",
+              "gameId": "lol",
+              "lifecycle": null,
+              "name": "低生命上限魔法伤害组成",
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": []
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "低生命上限魔法伤害组成",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "max_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ],
+              "skillKey": "veigar_r",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-07T18:54:24.44278Z"
+            },
+            "result": {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": []
+              },
+              "lifecycleBehavior": null,
+              "name": "低生命上限魔法伤害组成",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "max_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            },
+            "formulaDetails": {
+              "damage": {
+                "createdAt": "2026-09-07T18:54:22.08032Z",
+                "description": "当前根MinDamage：基础伤害+法强倍率×总法强。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                "formulaKey": "damage",
+                "gameId": "lol",
+                "name": "能量爆裂基础伤害",
+                "skillKey": "veigar_r",
+                "sortOrder": 10,
+                "updatedAt": "2026-09-07T18:54:22.08032Z"
+              },
+              "max_damage": {
+                "createdAt": "2026-09-07T18:54:22.621113Z",
+                "description": "MaxDamage完整修改树为MinDamage×2。",
+                "expression": {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_damage"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "maximum_damage_multiplier"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                "formulaKey": "max_damage",
+                "gameId": "lol",
+                "name": "能量爆裂最大伤害",
+                "skillKey": "veigar_r",
+                "sortOrder": 20,
+                "updatedAt": "2026-09-07T18:54:22.621113Z"
+              }
+            },
+            "parameterDetails": {
+              "ap_ratio": {
+                "createdAt": "2026-09-07T18:54:20.347409Z",
+                "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 0.65,
+                  "2": 0.7,
+                  "3": 0.75
+                },
+                "name": "法强倍率",
+                "parameterKey": "ap_ratio",
+                "skillKey": "veigar_r",
+                "sortOrder": 50,
+                "updatedAt": "2026-09-07T18:54:20.347409Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "DECIMAL"
+              },
+              "base_damage": {
+                "createdAt": "2026-09-07T18:54:19.691855Z",
+                "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 175,
+                  "2": 250,
+                  "3": 325
+                },
+                "name": "基础伤害",
+                "parameterKey": "base_damage",
+                "skillKey": "veigar_r",
+                "sortOrder": 40,
+                "updatedAt": "2026-09-07T18:54:19.691855Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "maximum_damage_multiplier": {
+                "createdAt": "2026-09-07T18:54:20.894604Z",
+                "description": "客户端当前根绑定 DataValues.MaxExecuteMult 取索引1至3。",
+                "fixedValue": 2,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "低生命最大伤害倍率",
+                "parameterKey": "maximum_damage_multiplier",
+                "skillKey": "veigar_r",
+                "sortOrder": 60,
+                "updatedAt": "2026-09-07T18:54:20.894604Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            }
+          },
+          "currentValueSha256": {
+            "effect": "8041c4410357621e880690b534113899f27fd9aada33092349c755c2d8fa2a51",
+            "formulas": {
+              "/skills/veigar_r/formulas/damage": "868ece6e0a3072b7735a2ebec11b0cb42658597df90bacbdf98905dbf0424cb2",
+              "/skills/veigar_r/formulas/max_damage": "f72af66fd5f0e32c95b4ffbb31eeb56f402eb564a4b1827b67d1b82b10d47af3"
+            },
+            "parameters": {
+              "/skills/veigar_r/parameters/ap_ratio": "efeef43a135d0b9de172a0e52a2a076d985a491e7a1cbe920902f0815454d406",
+              "/skills/veigar_r/parameters/base_damage": "369051844db98350dafe8a6d2ec1064ef11120661fd523435f861293016530f3",
+              "/skills/veigar_r/parameters/maximum_damage_multiplier": "81758225065ba06b5f02f80d25addf2ac26cce197ddcaa14e63d37984a805a7f"
+            }
+          },
+          "entryWiring": {
+            "triggerRuleListRoute": "/skills/veigar_r/trigger-rules",
+            "relatedRuleRoutes": [],
+            "relatedRules": [],
+            "triggerRulesCount": 1,
+            "note": "当前未发现规则动作执行该效果；不把过程列表或配置存在误写成命中入口已接线。"
+          },
+          "recommendation": {
+            "kind": "可按专用工具目标准备完整PUT",
+            "route": "/skills/veigar_r/effects/maximum_burst",
+            "constraints": [
+              "每个目标效果自身仅含一个DAMAGE结果",
+              "lifecycle为null",
+              "旧vampRules为空",
+              "保持原名称、说明结构、数值公式、暴击、法术护盾粒度、其他组成及入口不变",
+              "本候选不代表分支条件、施放/命中事件或战斗运行已完成"
+            ],
+            "body": {
+              "name": "低生命上限魔法伤害组成",
+              "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。；补充明确全能吸血资格。",
+              "sortOrder": 30,
+              "lifecycle": null,
+              "results": [
+                {
+                  "description": null,
+                  "detail": {
+                    "critical": {
+                      "mode": "DISALLOWED",
+                      "multiplierValue": null
+                    },
+                    "damageTypeKey": "magic",
+                    "deliveryKind": "SKILL",
+                    "originKind": "DIRECT",
+                    "vampRules": [
+                      {
+                        "vampType": "OMNIVAMP",
+                        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                        "efficiencyValue": {
+                          "kind": "FIXED",
+                          "value": 1
+                        }
+                      }
+                    ]
+                  },
+                  "lifecycleBehavior": null,
+                  "name": "低生命上限魔法伤害组成",
+                  "resultKey": "damage",
+                  "resultType": "DAMAGE",
+                  "sortOrder": 10,
+                  "spellShieldBlockScope": "RESULT",
+                  "target": "TARGET",
+                  "valueRule": {
+                    "fixedMaxValue": null,
+                    "fixedMinValue": 0,
+                    "fixedMultiplier": 1,
+                    "value": {
+                      "formulaKey": "max_damage",
+                      "kind": "FORMULA"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

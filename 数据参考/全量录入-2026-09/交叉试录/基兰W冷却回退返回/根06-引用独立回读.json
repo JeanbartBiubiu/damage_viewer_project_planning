@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "authoring.independent-readback.zilean-reference-v1",
+  "generatedAt": "2026-09-20T12:57:07.432Z",
+  "status": "PASS",
+  "endpoint": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requestMethod": "GET",
+  "methodsUsed": [
+    "GET"
+  ],
+  "requestAuth": "temporary_non_empty_bearer",
+  "businessWrites": 0,
+  "GETs": 4,
+  "source": {
+    "baselinePath": "02-引用技能与法力现值.json",
+    "baselineValuesCount": 5,
+    "requestedRoutes": [
+      "/skills/zilean_q",
+      "/skills/zilean_e",
+      "/skills/zilean_q/trigger-rules",
+      "/skills/zilean_e/trigger-rules"
+    ],
+    "excludedRoute": "/attributes/mana"
+  },
+  "values": {
+    "/skills/zilean_q": {
+      "createdAt": "2026-09-06T18:21:24.660613Z",
+      "description": "将一颗炸弹扔向目标区域，炸弹会附着在靠近它的单位身上（英雄优先）。炸弹会在3秒后爆炸，造成范围魔法伤害。如果炸弹被另一颗定时炸弹给提前引爆，那么还会使敌人晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "基兰·定时炸弹",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "zilean_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:21:24.660613Z"
+    },
+    "/skills/zilean_e": {
+      "createdAt": "2026-09-06T18:21:25.233966Z",
+      "description": "基兰扭曲任意单位的时光，短时间内提升友方单位移动速度或减少敌方单位移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "基兰·时光发条",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "zilean_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:21:25.233966Z"
+    },
+    "/skills/zilean_q/trigger-rules": [],
+    "/skills/zilean_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T20:26:14.013474Z"
+      }
+    ]
+  },
+  "audit": [
+    {
+      "requestIndex": 1,
+      "method": "GET",
+      "path": "/skills/zilean_q",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 581,
+      "responseSha256": "733a551987a818f8567801b70a1890daee7df2dab64d2178ac2d2bedb3435fbc"
+    },
+    {
+      "requestIndex": 2,
+      "method": "GET",
+      "path": "/skills/zilean_e",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 457,
+      "responseSha256": "7f59a299f8056fd313a395ca2e205130227ec6fabfcccc6a8034bc64e7d6c7fe"
+    },
+    {
+      "requestIndex": 3,
+      "method": "GET",
+      "path": "/skills/zilean_q/trigger-rules",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 2,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "requestIndex": 4,
+      "method": "GET",
+      "path": "/skills/zilean_e/trigger-rules",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 460,
+      "responseSha256": "b9eda474fb83ef3711929337c17edfb5e38613ec27dc25c5d6f616112a8835f4"
+    }
+  ],
+  "failures": [],
+  "checks": {
+    "requestedExactlyFour": true,
+    "manaDictionaryExcluded": true,
+    "GETs4": true,
+    "valuesComplete": true,
+    "audit4": true,
+    "allHTTP200": true,
+    "allFourValuesEqualBaselineIncludingTimestamps": true,
+    "failuresEmpty": true,
+    "businessWrites0": true
+  },
+  "comparison": {
+    "equalRoutes": [
+      "/skills/zilean_q",
+      "/skills/zilean_e",
+      "/skills/zilean_q/trigger-rules",
+      "/skills/zilean_e/trigger-rules"
+    ],
+    "mismatchedRoutes": [],
+    "statusCounts": {
+      "200": 4
+    }
+  }
+}

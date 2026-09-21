@@ -1,0 +1,47 @@
+{
+  "toolExitCode": 0,
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-19T06:38:20.746Z\",\"businessWrites\":0,\"GETs\":4,\"unchangedResponsesIncludingTimestamps\":2,\"expectedChangedCollections\":1,\"newObjects\":{\"/statuses/movement_slow\":{\"createdAt\":\"2026-09-19T06:37:05.092208Z\",\"description\":\"普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。\",\"gameId\":\"lol\",\"name\":\"普通移动减速\",\"sortOrder\":10,\"status\":\"ENABLED\",\"statusKey\":\"movement_slow\",\"statusKind\":\"MOVEMENT_SLOW\",\"updatedAt\":\"2026-09-19T06:37:05.092208Z\"}},\"audit\":[{\"method\":\"GET\",\"path\":\"/statuses\",\"status\":200},{\"method\":\"GET\",\"path\":\"/statuses/vertigo\",\"status\":200},{\"method\":\"GET\",\"path\":\"/statuses/movement_slow\",\"status\":200},{\"method\":\"GET\",\"path\":\"/statuses/root\",\"status\":200}]}\n",
+  "summary": {
+    "status": "PASS",
+    "at": "2026-09-19T06:38:20.746Z",
+    "businessWrites": 0,
+    "GETs": 4,
+    "unchangedResponsesIncludingTimestamps": 2,
+    "expectedChangedCollections": 1,
+    "newObjects": {
+      "/statuses/movement_slow": {
+        "createdAt": "2026-09-19T06:37:05.092208Z",
+        "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+        "gameId": "lol",
+        "name": "普通移动减速",
+        "sortOrder": 10,
+        "status": "ENABLED",
+        "statusKey": "movement_slow",
+        "statusKind": "MOVEMENT_SLOW",
+        "updatedAt": "2026-09-19T06:37:05.092208Z"
+      }
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/statuses",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/statuses/vertigo",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/statuses/movement_slow",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/statuses/root",
+        "status": 200
+      }
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "at": "2026-09-19T14:34:37.543Z",
+  "backend": {
+    "suites": 107,
+    "tests": 1003,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "backendCommand": "mvn -q test",
+  "backendExitCode": 0,
+  "frontend": {
+    "lintProductionFiles": 141,
+    "typecheck": "PASS",
+    "tests": 713,
+    "testFiles": 62,
+    "build": "PASS",
+    "buildModules": 1292,
+    "existingLargeChunkWarning": true,
+    "attackTimerResetTests": 24
+  },
+  "targeted": {
+    "backendTests": 75,
+    "frontendTests": 67,
+    "status": "PASS"
+  },
+  "notRuntimeProof": true,
+  "independentFinding": {
+    "issue": "客户端未拒绝未知时点、未知周期模式及生命周期行为多余字段",
+    "resolution": "严格校验五个字段、五种离散时点、两种周期模式及父首次周期时点；补充7项回归",
+    "frontendCommand": "npm run lint; npm run typecheck; npm test; npm run build",
+    "exitCode": 0
+  }
+}

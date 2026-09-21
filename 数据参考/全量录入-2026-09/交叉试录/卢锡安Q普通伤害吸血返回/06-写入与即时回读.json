@@ -1,0 +1,227 @@
+{
+  "startedAt": "2026-09-21T03:27:16.837Z",
+  "status": "PASS",
+  "businessWritesAttempted": 1,
+  "operations": [
+    {
+      "route": "/skills/lucian_q/effects/beam_hit",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:58:23.669849Z",
+          "description": "本轮实际命中敌方英雄时执行的普通物理技能伤害，已明确保存防御结算后伤害的全能吸血资格，效率为1。伤害数值、暴击和现有法术护盾粒度保持；法术护盾粒度的卢锡安Q专属来源及其他吸血类型仍待核。",
+          "effectKey": "beam_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "圣光命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "physics",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "圣光命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "lucian_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-21T03:27:18.544742Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:58:23.669849Z",
+        "description": "本轮实际命中敌方英雄时执行的普通物理技能伤害，已明确保存防御结算后伤害的全能吸血资格，效率为1。伤害数值、暴击和现有法术护盾粒度保持；法术护盾粒度的卢锡安Q专属来源及其他吸血类型仍待核。",
+        "effectKey": "beam_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "圣光命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "圣光命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lucian_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T03:27:18.544742Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-damage-vamp-v2.mjs": "c9d393c50673c49c5903ef0f77f84b537bfc52094d527be855a9e183e9fe8cfe",
+    "01-纠错计划.json": "c4270fd8ae868602ee8f6861d18643c914b604c457e37f3ffa24be63a69a40b2",
+    "02-冻结请求.json": "619d1e64515a7fa4335a5c437fa328ab4206d37265eb49d3fd52f30968a689d2",
+    "03-来源摘要.json": "fb40101b70ed7a0551dd8076187b6bd823c8f12ed8812f2825647e8286d487b8",
+    "04-写入前现值.json": "fdd230f8b69ac4075c5756e3b382fdbe35e48c4d41b8b107e3f2d25304c80639"
+  },
+  "pendingRoute": null,
+  "pendingResponseStatus": 200,
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/parameters/bonus_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/effects/beam_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/effects/beam_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/lucian_q/effects/beam_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lucian_q/effects/beam_hit",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-21T03:27:19.184Z"
+}

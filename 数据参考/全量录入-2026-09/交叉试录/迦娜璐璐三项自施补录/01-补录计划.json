@@ -1,0 +1,23 @@
+{
+  "scope": "迦娜E自身护盾、璐璐W自身移动速度与攻速、璐璐R自身最大生命三项分支；只复用既有效果，不称完整技能或战斗完成。",
+  "sourceVersion": "数值固定客户端16.17与官方16.17.1；端游指南只补证自施目标。",
+  "targets": [
+    {"ownerKey":"champion_janna","skillKey":"janna_e","ruleKey":"on_used_self_shield","ruleName":"主动自施风暴之眼护盾","description":"主动使用风暴之眼且回退前显式目标为本人时执行自身护盾；无显式目标不匹配。攻击力增益、控制返还冷却、法力和冷却入口另行配置。","effects":["self_shield"]},
+    {"ownerKey":"champion_lulu","skillKey":"lulu_w","ruleKey":"on_used_self_buffs","ruleName":"主动自施奇思妙想增益","description":"主动使用奇思妙想且回退前显式目标为本人时，同时施加自身移速和攻速增益；无显式目标不匹配，对敌变形不得触发该分支。法力和冷却入口另行配置。","effects":["self_move_speed","self_attack_speed"]},
+    {"ownerKey":"champion_lulu","skillKey":"lulu_r","ruleKey":"on_used_self_health","ruleName":"主动自施狂野生长最大生命","description":"主动使用狂野生长且回退前显式目标为本人时，仅施加已有最大生命属性增益；无显式目标不匹配。当前血量和到期处理、击飞、减速、法力与冷却入口均另行配置。","effects":["self_max_health"]}
+  ],
+  "effectDescriptions": [
+    {"skillKey":"janna_e","effectKey":"self_shield","description":"风暴之眼的自身护盾，持续4秒且不衰减；攻击力增益作为独立组成处理。"},
+    {"skillKey":"lulu_w","effectKey":"self_move_speed","description":"奇思妙想自施时的移动速度比例增益，与自身攻击速度增益同时施加；不包含对敌变形分支。"}
+  ],
+  "sourceFiles": [
+    {"root":"planning","path":"数据参考/全量录入-2026-09/四项自施来源复核/自施目标补证-2026-09-19.json"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Janna.json.gz"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lulu.json.gz"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Janna.json"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Janna.json"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lulu.json"},
+    {"root":"planning","path":"数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Lulu.json"}
+  ]
+}

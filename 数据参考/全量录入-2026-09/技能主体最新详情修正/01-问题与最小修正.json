@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-19T17:56:46.828Z",
+  "sourceEvidence": {
+    "commit": "92dae320",
+    "path": "数据参考/全量录入-2026-09/交叉试录/科加斯W伤害返回/两技能主体说明收敛/08-页面验收.json"
+  },
+  "issue": {
+    "operation": "API更新科加斯W主体说明后，在未刷新的旧列表上直接编辑",
+    "expected": "打开时读最新主体，不把旧说明带入可保存表单",
+    "actual": "原页面直接用列表行，显示旧说明；取消后查询刷新可恢复，没有旧值写回"
+  },
+  "fix": [
+    "查看和编辑每次读取对应game/key详情，读取完成前隐藏正文并禁止保存",
+    "读取失败显示重试；关闭/切换后不接受迟到详情",
+    "草稿基线、已有停用分类与缩小等级确认基线都来自新详情",
+    "启停先读最新主体，只改变状态；连接变化和卸载使等待中的旧请求失效"
+  ],
+  "scope": [
+    "SkillEditorModal.tsx",
+    "SkillManagementPage.tsx",
+    "focusedSkill.ts",
+    "non-wasm-pages.spec.ts",
+    "web/README.md"
+  ],
+  "notGuaranteed": "不提供跨客户端的服务端版本冲突检查；详情读到保存之间仍需单写入窗口",
+  "businessWrites": 0,
+  "backendChanged": false
+}

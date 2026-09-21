@@ -1,0 +1,47 @@
+{
+  "at": "2026-09-19T18:09:02.791Z",
+  "status": "PASS",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "skillKey": "chogath_w",
+  "businessWrites": 4,
+  "browserWrites": 0,
+  "protectedAPIWrites": 4,
+  "created": {
+    "processes": 1,
+    "triggerRules": 1
+  },
+  "updatedDescriptions": 2,
+  "independentGETs": 50,
+  "independentBatches": [
+    {
+      "path": "登记过程与入口/07-独立回读.json",
+      "GETs": 30
+    },
+    {
+      "path": "使用说明收敛/07-独立回读.json",
+      "GETs": 20
+    }
+  ],
+  "currentCounts": {
+    "parameters": 5,
+    "formulas": 1,
+    "effects": 3,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 3
+  },
+  "browser": "新过程和入口重开、旧列表上最新主体说明读取PASS",
+  "registrationOnly": true,
+  "scope": "普通主动使用的基础法力和普通冷却登记，立即步骤不表示零施放时长，不执行伤害或沉默",
+  "remaining": [
+    "沉默重施期限",
+    "完整施放时长来源"
+  ],
+  "managementComplete": false,
+  "runtimeValidation": "未执行",
+  "noMigration": true,
+  "goalComplete": false
+}

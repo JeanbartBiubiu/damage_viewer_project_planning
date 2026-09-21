@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-21T06:35:10.045Z",
+  "executionMode": "REVIEWED_API",
+  "skillKey": "zyra_e",
+  "ruleKey": "actual_hit",
+  "conditionGroups": [
+    {
+      "conditions": [
+        {
+          "conditionKey": "champion_target",
+          "conditionType": "TARGET_CATEGORY_CHECK",
+          "detail": {
+            "categories": [
+              "CHAMPION"
+            ]
+          },
+          "sortOrder": 10
+        },
+        {
+          "conditionKey": "enemy_target",
+          "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+          "sortOrder": 20,
+          "detail": {}
+        }
+      ],
+      "groupKey": "champion_target",
+      "name": "本轮英雄目标",
+      "sortOrder": 10
+    }
+  ],
+  "scope": "仅在原英雄条件组追加明确敌方；保留原组名、排序、条件及全部事件、动作、数值、限制和其他组成。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/婕拉E首次禁锢返回/04-固定来源主负责人核对.json",
+      "sha256": "8be5e4fbfcead01b184767555d2edf2a3434085dfd139b7769fae1082490a6bc"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/婕拉E首次禁锢返回/05-固定来源独立核对.json",
+      "sha256": "1aae7d7de8032a7a7b7e04a16e800e89edd0c05c260202a54e9bebf3c8a3d1f4"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/婕拉E首次禁锢返回/03-已有英雄组范围工具核对.json",
+      "sha256": "825fb110bd5a8f8333f219b300699bd76c14543ecf4ac00213c37010bf19229e"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/敌方命中范围/07-页面验收.json",
+      "sha256": "ac7fcd66e1c3be89b1de98f36b0eb8906ae7d9f381a4235dc4b4f5027accee98"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Zyra.json.gz",
+      "sha256": "94e23123ef2c5c00314b79d216fc055ac84411778f425924ce273e2a79c809ef"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Zyra.json",
+      "sha256": "4dea8c9a2d09d6cfb24bac8dec60651ac64b3745d561d2dca516f9951b284a57"
+    }
+  ]
+}

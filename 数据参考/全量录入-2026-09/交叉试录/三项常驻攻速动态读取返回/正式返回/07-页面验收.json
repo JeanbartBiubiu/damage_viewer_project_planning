@@ -1,0 +1,43 @@
+{
+  "at": "2026-09-20T10:16:33.291Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "businessSaves": 3,
+  "skillKeys": [
+    "kogmaw_q",
+    "jarvaniv_e",
+    "twistedfate_e"
+  ],
+  "checks": {
+    "eachEffectSavedOnce": true,
+    "eachEffectReopened": true,
+    "displayedReadMode": "到当前时点重新读取",
+    "displayedStackMode": "整个实例共享数值",
+    "displayedMoment": "持续生效",
+    "displayedTarget": "施法者",
+    "displayedAttribute": "bonus_attack_speed_percent",
+    "snapshotOnlyReapplicationControlsRemoved": true,
+    "otherLifecycleInputsUntouched": true,
+    "allDialogsClosed": true,
+    "consoleErrors": 0,
+    "consoleWarnings": 0
+  },
+  "toolingRecovery": [
+    {
+      "area": "嘉文详情关闭",
+      "behavior": "关闭动画尚未结束时通用关闭定位命中两个窗口；改为等查看效果窗口隐藏，再按父窗口名称定位关闭。",
+      "businessReplay": false
+    },
+    {
+      "area": "崔斯特结果草稿",
+      "behavior": "目录异步返回后旧可访问树文本节点失效，首次设置未生效；刷新状态后按编辑结果窗口及说明标签定位填写。",
+      "businessReplay": false
+    },
+    {
+      "area": "执行记录计数",
+      "behavior": "以文件中的两次保存和完整回读为准修正旧闭包覆盖的计数，保留05a原件；第三次写入及回读改从文件读取最新记录。",
+      "businessReplay": false
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

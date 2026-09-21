@@ -1,0 +1,20 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-21T03:14:37.513Z",
+  "reviewer": "/root/lucian_q_scope_tool_review",
+  "mode": "独立静态终审，未发HTTP或写文件",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-hit-scope.mjs": "909e4572b83c1ebc5f89f43b11fd92b5b532aee82972ddff0fad852c51efd049",
+    "01-候选方案.json": "71eeb6abe5f486d4de703bd9b2ee7a0b03120154d86a1db4c8dae3ea614dcffb",
+    "02-冻结请求.json": "cc99b051de8f2ec927b3f449df0b172da8e0ca79191f9e21ae9ce80de97ecbd3",
+    "03-来源摘要.json": "47179b5cdf1162262985229b85b4514b6f526876b8f084a76dc06999e62806ce",
+    "04-写入前现值.json": "b6c36c7a20d56c5b127cd72a2b2032fd8a2a9adab31d33e79dcd97618d1b5f60"
+  },
+  "checks": [
+    "原无条件本技能SKILL_HIT，唯一变化两个同组范围条件",
+    "完整冻结、来源和现值约束，准确批准散列",
+    "独占尝试日志阻止重放，响应状态先于解析保存",
+    "原只读工具字节未改，相同页面流程已有安妮W前例"
+  ],
+  "boundary": "本次代表页面未验；不支持任意规则或条件替换"
+}

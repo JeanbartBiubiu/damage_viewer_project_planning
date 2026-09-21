@@ -1,0 +1,41 @@
+{
+  "resultStatus": "finished",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "reviewedPlanRevision": 1,
+  "runEvidence": ".agents/artifacts/cursor-task-2026-09-18T15-56-39-471Z",
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "toolEvents": {
+    "parseable": true,
+    "calls": 38,
+    "allTerminalCallsCompleted": true,
+    "anyTruncated": false,
+    "mutationTools": 0,
+    "shellCommandsManuallyReviewedReadOnly": true
+  },
+  "acceptedAt": "2026-09-18T16:04:21.728Z",
+  "reviewTimestampNote": "reviewedAt为代理自报时间，运行起止以SDK事件ts为准",
+  "startedAt": "2026-09-18T15:56:39.610Z",
+  "finalEventAt": "2026-09-18T16:02:33.989Z"
+}

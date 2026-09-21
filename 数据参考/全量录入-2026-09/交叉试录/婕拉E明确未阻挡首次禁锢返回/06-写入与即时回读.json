@@ -1,0 +1,481 @@
+{
+  "startedAt": "2026-09-21T06:46:33.666Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/zyra_e/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-21T06:46:35.776236Z",
+          "description": "仅供婕拉E本体实际命中敌方英雄、同次法术护盾结果明确未阻挡且无本来源禁锢实例的入口；不表示首个沿途目标，不连接植物攻击、种子联动或已有实例重施。",
+          "effectKey": "first_hit_root",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "root_duration_ms"
+            },
+            "expiryMode": "ALL_AT_ONCE",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE_TARGET",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "缠绕之根首次施加禁锢",
+          "results": [
+            {
+              "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+              "detail": {
+                "operation": "APPLY",
+                "statusKey": "root"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": null,
+                "valueReadMode": null
+              },
+              "name": "本次缠绕之根禁锢",
+              "resultKey": "root",
+              "resultType": "STATUS_OPERATION",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": null
+            }
+          ],
+          "skillKey": "zyra_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-21T06:46:35.776236Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-21T06:46:35.776236Z",
+        "description": "仅供婕拉E本体实际命中敌方英雄、同次法术护盾结果明确未阻挡且无本来源禁锢实例的入口；不表示首个沿途目标，不连接植物攻击、种子联动或已有实例重施。",
+        "effectKey": "first_hit_root",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "缠绕之根首次施加禁锢",
+        "results": [
+          {
+            "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "root"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "本次缠绕之根禁锢",
+            "resultKey": "root",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "zyra_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-21T06:46:35.776236Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zyra_e/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "apply_root",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "first_hit_root"
+              },
+              "name": "施加本次禁锢",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "enemy_target",
+                  "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                  "detail": {},
+                  "sortOrder": 20
+                },
+                {
+                  "conditionKey": "not_spell_shield_blocked",
+                  "conditionType": "EVENT_VALUE_COMPARE",
+                  "detail": {
+                    "comparator": "EQ",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 0
+                    },
+                    "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                  },
+                  "sortOrder": 30
+                },
+                {
+                  "conditionKey": "own_root_absent",
+                  "conditionType": "LIFECYCLE_CHECK",
+                  "detail": {
+                    "checkKind": "ABSENT",
+                    "comparator": null,
+                    "comparisonValue": null,
+                    "effectKey": "first_hit_root",
+                    "subject": "CURRENT_TARGET"
+                  },
+                  "sortOrder": 40
+                }
+              ],
+              "groupKey": "root_eligible",
+              "name": "本体命中可首次施加",
+              "sortOrder": 10
+            }
+          ],
+          "description": "只接收zyra_e本体真实命中；同组要求敌方英雄、同次法术护盾阻挡明确为0以及无本来源禁锢实例。缺值不默认0，不要求首次沿途接触；植物、种子与已有实例重施单列。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "zyra_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "本体命中且无本来源实例时禁锢",
+          "perTargetCooldown": null,
+          "ruleKey": "apply_root_on_unblocked_hit",
+          "sortOrder": 30
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "first_hit_root"
+            },
+            "name": "施加本次禁锢",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                },
+                "sortOrder": 30
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "detail": {
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null,
+                  "effectKey": "first_hit_root",
+                  "subject": "CURRENT_TARGET"
+                },
+                "sortOrder": 40
+              }
+            ],
+            "groupKey": "root_eligible",
+            "name": "本体命中可首次施加",
+            "sortOrder": 10
+          }
+        ],
+        "description": "只接收zyra_e本体真实命中；同组要求敌方英雄、同次法术护盾阻挡明确为0以及无本来源禁锢实例。缺值不默认0，不要求首次沿途接触；植物、种子与已有实例重施单列。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "zyra_e",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "本体命中且无本来源实例时禁锢",
+        "perTargetCooldown": null,
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "sortOrder": 30
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "d6a5a34e053c6e464825446009e9f191a0913700a08d6bb53a15a7164732453f",
+    "02-冻结请求.json": "174929a8c8c9adfd8f98f977a522fa961f7a448bc27f35f44ee3740d87cf035a",
+    "03-来源摘要.json": "afacef8a332a981ba69fd22916891e2ee80d613e2f882e608cfdb98546553861",
+    "04-写入前现值.json": "121cf420e5296aef7c4b7eed28856fa94f02787c21d76c1037792e61f9202933"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-21T06:46:37.130Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_zyra",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_zyra/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_zyra/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_zyra",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=zyra_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/root",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/effects/first_hit_root",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/effects/first_hit_root",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/zyra_e/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/effects/first_hit_root",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/zyra_e/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 200
+    }
+  ]
+}

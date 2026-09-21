@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "damage.authoring.independent-review.v1",
+  "status": "APPROVED",
+  "at": "2026-09-20T14:32:08.100Z",
+  "reviewer": "/root/percent_penetration_contract_audit",
+  "scope": {
+    "skillKey": "tristana_w",
+    "effectKey": "landing_hit",
+    "apiCallsDuringReview": 0,
+    "networkRequestsDuringReview": 0,
+    "businessWritesDuringReview": 0,
+    "databaseAccess": false,
+    "runtimeBoundary": "本评审只核对冻结请求、写前现值、来源摘要和管理契约，不证明宿主/Wasm、吸血结算、护盾吸收或战斗运行。"
+  },
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-damage-vamp.mjs": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "01-纠错计划.json": "0081a03ffeb64862855fb5a51358bbb76ebdd0b553abd954f94372ba7a004422",
+    "02-冻结请求.json": "adc3db3a4f29e32e21bd5e094832ed1be5827de78b60c89146a3f6d1eb5d7ae4",
+    "03-来源摘要.json": "4c22b29592fe8be861480076435119f58a722a097b3e99b3cfedc5e0e668359b",
+    "04-写入前现值.json": "1f5db9d33befacf4c07a2255b128f05a81cb5662d41f26496d43af9e094cc6ad"
+  },
+  "fileBinding": {
+    "sha256Program": "node crypto.createHash(sha256)",
+    "sourceSha256Matches03": true,
+    "baselineSha256Matches04": true,
+    "sourcePathsMatch03": true,
+    "sourceHashesRecomputed": true
+  },
+  "reviewItems": [
+    {
+      "id": "R1",
+      "result": "PASS",
+      "evidence": "01只有一个变更，目标为 /skills/tristana_w/effects/landing_hit；02只有一个PUT，冻结文件与03、04绑定摘要一致。"
+    },
+    {
+      "id": "R2",
+      "result": "PASS",
+      "evidence": "04写前现值记录25次GET、businessWrites=0；原结果为DAMAGE/TARGET、magic、SKILL、DIRECT、DISALLOWED，法术护盾粒度为RESULT，原vampRules为空。"
+    },
+    {
+      "id": "R3",
+      "result": "PASS",
+      "evidence": "冻结请求仅新增OMNIVAMP、POST_DEFENSE_DAMAGE、固定效率1，并更新父说明；公式引用、伤害类型、目标、暴击、RESULT护盾粒度、排序、生命周期及其他字段保持。"
+    },
+    {
+      "id": "R4",
+      "result": "PASS",
+      "evidence": "04-来源与返回边界确认原技能根的落地伤害为GameCalculation普通魔法伤害；固定来源映射只支持普通对英雄技能伤害的该吸血资格，不把未证明例外扩成禁止普通魔法伤害。"
+    },
+    {
+      "id": "R5",
+      "result": "PASS",
+      "evidence": "本次评审未发业务HTTP、未访问SQL或真实数据库，只复算本地冻结文件和来源摘要SHA。"
+    }
+  ],
+  "conclusion": "APPROVED：崔丝塔娜W落地命中伤害的空吸血规则可按冻结请求补充全能吸血、POST_DEFENSE_DAMAGE和效率1；原伤害组成与结果边界保持。"
+}

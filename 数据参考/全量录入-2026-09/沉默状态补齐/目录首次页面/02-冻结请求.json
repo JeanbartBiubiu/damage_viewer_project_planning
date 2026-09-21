@@ -1,0 +1,19 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "executionMode": "BROWSER_UI_ONLY",
+  "request": {
+    "method": "POST",
+    "route": "/statuses",
+    "detailRoute": "/statuses/silence",
+    "body": {
+      "statusKey": "silence",
+      "statusKind": "SILENCE",
+      "name": "沉默",
+      "description": "沉默状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+      "status": "ENABLED",
+      "sortOrder": 30
+    }
+  },
+  "sourceSha256": "b94866b7f60a0eb9e5502eaa3d0e4d19c95d1c025cc5c69bdbb923fbdf3dcfc9",
+  "baselineSha256": "82c90c8c459d066255bc9d0d49ebc665fd62046eaae87e0bfc41c3881e3f9c1c"
+}

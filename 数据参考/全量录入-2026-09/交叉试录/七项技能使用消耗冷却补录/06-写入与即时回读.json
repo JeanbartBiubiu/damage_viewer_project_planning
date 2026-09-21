@@ -1,0 +1,2510 @@
+{
+  "startedAt": "2026-09-18T20:25:51.263Z",
+  "status": "PASS",
+  "businessWritesAttempted": 17,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/nami_q/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-18T20:25:50.951865Z",
+          "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用消耗与普通冷却",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "nami_q",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-18T20:25:50.951865Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-18T20:25:50.951865Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "nami_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-18T20:25:50.951865Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nami_q/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "nami_q",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用登记消耗与冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "nami_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nami_r/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-18T20:25:54.011108Z",
+          "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用消耗与普通冷却",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "nami_r",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-18T20:25:54.011108Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-18T20:25:54.011108Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "nami_r",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-18T20:25:54.011108Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nami_r/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "nami_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用登记消耗与冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "nami_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_q/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-18T20:25:56.869444Z",
+          "description": "施放时消耗对应技能等级的法力。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "sona_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-18T20:25:56.869444Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-18T20:25:56.869444Z",
+        "description": "施放时消耗对应技能等级的法力。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "sona_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T20:25:56.869444Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_q/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-18T20:25:58.167597Z",
+          "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用消耗与普通冷却",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "sona_q",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-18T20:25:58.167597Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-18T20:25:58.167597Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "sona_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-18T20:25:58.167597Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_q/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "sona_q",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用登记消耗与冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "sona_q",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_w/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-18T20:26:01.055552Z",
+          "description": "施放时消耗对应技能等级的法力。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "sona_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-18T20:26:01.055552Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-18T20:26:01.055552Z",
+        "description": "施放时消耗对应技能等级的法力。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "sona_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T20:26:01.055552Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_w/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-18T20:26:02.299689Z",
+          "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用消耗与普通冷却",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "sona_w",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-18T20:26:02.299689Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-18T20:26:02.299689Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "sona_w",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-18T20:26:02.299689Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/sona_w/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "sona_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用登记消耗与冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "sona_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-18T20:26:05.162212Z",
+          "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用消耗与普通冷却",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "orianna_w",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-18T20:26:05.162212Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-18T20:26:05.162212Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "orianna_w",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-18T20:26:05.162212Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_w/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "orianna_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用登记消耗与冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "orianna_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-18T20:26:08.109454Z",
+          "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用消耗与普通冷却",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "orianna_e",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-18T20:26:08.109454Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-18T20:26:08.109454Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "orianna_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-18T20:26:08.109454Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/orianna_e/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "orianna_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用登记消耗与冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "orianna_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zilean_e/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-18T20:26:11.216355Z",
+          "description": "施放时消耗对应技能等级的法力。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "zilean_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-18T20:26:11.216355Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-18T20:26:11.216355Z",
+        "description": "施放时消耗对应技能等级的法力。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "zilean_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T20:26:11.216355Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zilean_e/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-18T20:26:12.595423Z",
+          "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "使用消耗与普通冷却",
+          "processKey": "use_cost_and_cooldown",
+          "skillKey": "zilean_e",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+              "detail": {},
+              "name": "登记本次使用",
+              "sortOrder": 10,
+              "stepKey": "register_use",
+              "stepType": "IMMEDIATE"
+            }
+          ],
+          "updatedAt": "2026-09-18T20:26:12.595423Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-18T20:26:12.595423Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "zilean_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "detail": {},
+            "name": "登记本次使用",
+            "sortOrder": 10,
+            "stepKey": "register_use",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-18T20:26:12.595423Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zilean_e/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_use_cost",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "use_cost_and_cooldown"
+              },
+              "name": "启动消耗与冷却登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "zilean_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用登记消耗与冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_cost_and_cooldown",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "name": "启动消耗与冷却登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "zilean_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components.mjs": "80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a",
+    "01-候选方案.json": "6ca2aee92486f3519c07f1eb274fc3556cca89df05070bdb0f4ba7959f942b63",
+    "02-冻结请求.json": "699fee261c80aad32f557cf5981e4b1f303e14ee4d1c613ec2be9f6ac7846029",
+    "03-来源摘要.json": "1dfdfd098c081a3527a33eeb57b5de07255886c422b988f330dce2a9e7028dc6",
+    "04-写入前现值.json": "ffdf312a9902a5fe364e289e928b7215fd4d13e5facf1b848f61563d96ffc6af"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-18T20:26:16.038Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/nami_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_nami",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_nami/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_nami/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_nami",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=nami_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=nami_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/passive_update_area_length",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/knockup_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/min_slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/max_slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/distance_to_slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/slow_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_sona",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_sona/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_sona/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_sona",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=sona_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_attack_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_attack_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_aura_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_attack_window_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_interval_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/chord_character_level_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/chord_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas/melody_attack_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas/chord_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=sona_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/base_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/heal_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/aura_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/diminuendo_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/melody_interval_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/diminuendo_base_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/diminuendo_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/formulas/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/formulas/shield_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/formulas/diminuendo_damage_reduction_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_orianna",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_orianna/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_orianna/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_orianna",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=orianna_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/self_haste_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/field_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/slow_haste_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=orianna_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/shield_base_amount",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/defense_bonus",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/pass_through_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/calculation_constant_1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/calculation_constant_2",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/formulas/pass_through_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/formulas/shield_amount",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_zilean",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_zilean/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_zilean/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_zilean",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=zilean_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters/duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters/speed_percent_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters/cast_time_seconds",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/nami_q/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/nami_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/nami_r/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/nami_r/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/nami_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/sona_q/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/sona_q/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/sona_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/sona_w/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/sona_w/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/sona_w/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/orianna_w/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/orianna_w/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/orianna_e/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/orianna_e/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/orianna_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/zilean_e/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/processes/use_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/zilean_e/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/zilean_e/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zilean_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    }
+  ]
+}

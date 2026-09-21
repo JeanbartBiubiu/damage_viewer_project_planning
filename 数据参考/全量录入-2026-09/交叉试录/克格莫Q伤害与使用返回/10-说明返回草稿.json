@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-20T10:47:28.275Z",
+  "status": "DRAFT_NOT_FROZEN",
+  "dependsOn": "伤害与使用组成四项追加成功并独立回读之后，以当时现值生成冻结",
+  "changes": [
+    {
+      "kind": "skill",
+      "skillKey": "kogmaw_q",
+      "route": "/skills/kogmaw_q",
+      "description": "固定来源：客户端16.17、官方静态资料16.17.1。已登记按当前已学Q等级取值的常驻自身攻速、首个碰撞敌人为英雄时的直接魔法伤害，以及普通主动使用的40法力和7000毫秒基础冷却；伤害由独立实际命中入口执行。双抗削减及其与伤害的先后和重施规则、有效施法时长仍待核定，当前不计整技能管理配置完整。"
+    },
+    {
+      "kind": "parameter",
+      "skillKey": "kogmaw_q",
+      "route": "/skills/kogmaw_q/parameters/mana_cost",
+      "description": "官方静态资料16.17.1 KogMaw.spells[0].cost，等级1起索引0；与固定客户端根绑定字段逐级一致。普通主动使用消耗40法力，由使用登记过程开始时引用并扣除，不以命中为前提。仅基础成本，未计其他技能修正；不表示有效施法时长及整技能机制完成。"
+    },
+    {
+      "kind": "effect",
+      "skillKey": "kogmaw_q",
+      "route": "/skills/kogmaw_q/effects/mana_cost",
+      "description": "引用已有mana_cost参数，普通主动使用的登记过程开始时从来源对象消耗基础40法力，不以实际命中为前提；与伤害入口分开，未知有效施法时长继续补证。"
+    }
+  ]
+}

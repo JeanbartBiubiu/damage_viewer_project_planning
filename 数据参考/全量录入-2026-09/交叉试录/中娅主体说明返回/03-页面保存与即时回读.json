@@ -1,0 +1,89 @@
+{
+  "at": "2026-09-20T13:53:45.593Z",
+  "status": "PASS",
+  "businessUIClicks": 1,
+  "pendingRoute": null,
+  "frozenSHA256": "1d898fa6751e3c7a5354199c22ca86556f5a565d5f83a424ffa486d37a6cc1c8",
+  "preflightAudit": [
+    {
+      "method": "GET",
+      "path": "/equipment/item_3157",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment/item_3157/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/equipment-skill-relations?equipmentKey=item_3157",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/parameters/stasis_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/parameters/active_cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/effects/stasis_damage_immunity",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/processes/activate",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3157_active/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-20T13:54:19.408Z",
+  "immediateReadback": {
+    "method": "GET",
+    "path": "/equipment/item_3157",
+    "status": 200,
+    "body": {
+      "createdAt": "2026-09-06T18:11:00.538209Z",
+      "description": "来源：官方16.17.1装备3157。105法术强度、50护甲。已配置主动使用后的2.5秒全类型伤害免疫与120秒冷却，由挂载技能的过程和主动入口统一执行；凝滞的不可选取与行动限制仍待配置，战斗运行未验证。",
+      "equipmentKey": "item_3157",
+      "gameId": "lol",
+      "name": "中娅沙漏",
+      "updatedAt": "2026-09-20T13:53:57.383946Z"
+    }
+  },
+  "networkCapture": "未抓取浏览器PUT正文或响应状态；以保存行为、成功界面和独立即时GET核对实际落库。"
+}

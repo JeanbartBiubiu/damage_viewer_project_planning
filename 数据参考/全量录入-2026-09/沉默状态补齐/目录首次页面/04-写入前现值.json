@@ -1,0 +1,105 @@
+{
+  "at": "2026-09-19T16:38:31.094Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/statuses": {
+      "items": [
+        {
+          "createdAt": "2026-08-28T14:55:06.53067Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "眩晕",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "statusKey": "vertigo",
+          "statusKind": "STUN",
+          "updatedAt": "2026-08-28T14:55:06.53067Z"
+        },
+        {
+          "createdAt": "2026-09-19T06:37:05.092208Z",
+          "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+          "gameId": "lol",
+          "name": "普通移动减速",
+          "sortOrder": 10,
+          "status": "ENABLED",
+          "statusKey": "movement_slow",
+          "statusKind": "MOVEMENT_SLOW",
+          "updatedAt": "2026-09-19T08:22:48.378088Z"
+        },
+        {
+          "createdAt": "2026-09-19T04:52:01.232803Z",
+          "description": "禁锢状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+          "gameId": "lol",
+          "name": "禁锢",
+          "sortOrder": 20,
+          "status": "ENABLED",
+          "statusKey": "root",
+          "statusKind": "ROOT",
+          "updatedAt": "2026-09-19T04:52:01.232803Z"
+        }
+      ],
+      "total": 3
+    },
+    "/statuses/vertigo": {
+      "createdAt": "2026-08-28T14:55:06.53067Z",
+      "description": null,
+      "gameId": "lol",
+      "name": "眩晕",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "statusKey": "vertigo",
+      "statusKind": "STUN",
+      "updatedAt": "2026-08-28T14:55:06.53067Z"
+    },
+    "/statuses/movement_slow": {
+      "createdAt": "2026-09-19T06:37:05.092208Z",
+      "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+      "gameId": "lol",
+      "name": "普通移动减速",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "statusKey": "movement_slow",
+      "statusKind": "MOVEMENT_SLOW",
+      "updatedAt": "2026-09-19T08:22:48.378088Z"
+    },
+    "/statuses/root": {
+      "createdAt": "2026-09-19T04:52:01.232803Z",
+      "description": "禁锢状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+      "gameId": "lol",
+      "name": "禁锢",
+      "sortOrder": 20,
+      "status": "ENABLED",
+      "statusKey": "root",
+      "statusKind": "ROOT",
+      "updatedAt": "2026-09-19T04:52:01.232803Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/statuses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/vertigo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/movement_slow",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/root",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/silence",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

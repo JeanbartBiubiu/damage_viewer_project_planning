@@ -1,0 +1,78 @@
+{
+  "at": "2026-09-20T11:59:51.573Z",
+  "status": "MANAGEMENT_PASSIVE_BRANCH_RETURN_PASS",
+  "skillKey": "drmundo_e",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessSaves": 2,
+  "effectUISaves": 1,
+  "initializationPOSTs": 1,
+  "independentGETs": 63,
+  "effectIndependentGETs": 31,
+  "initializationIndependentGETs": 32,
+  "formulaArithmetic": {
+    "status": "PASS",
+    "cases": 15,
+    "parametersOrFormulaChanged": false,
+    "maxAbsoluteDifference": 0.000007674097901144705,
+    "tolerance": 0.0001
+  },
+  "currentComponentCounts": {
+    "parameters": 10,
+    "formulas": 3,
+    "effects": 2,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 1
+  },
+  "dynamicDependency": {
+    "formulaKey": "passive_bonus_attack_damage",
+    "parameterKeys": [
+      "health_to_ad_ratio",
+      "health_to_ad_scale"
+    ],
+    "attributeOwner": "SOURCE",
+    "attributeKey": "hp",
+    "attributeValueKind": "TOTAL",
+    "meaning": "按当前已学E等级与当时最大生命值读取",
+    "readMode": "MOMENT_EVALUATION",
+    "stackValueMode": "SHARED",
+    "reapplicationValueMode": null,
+    "learnedRanks": [
+      1,
+      5
+    ]
+  },
+  "browser": {
+    "status": "PASS",
+    "representativePages": [
+      "被动效果与结果",
+      "被动攻击力公式",
+      "初始化规则"
+    ],
+    "diagnosticWarningsOrErrors": 0
+  },
+  "cursorReview": {
+    "runId": "run-0eb914f3-3833-496c-bf94-0593fa93094b",
+    "status": "finished",
+    "verdict": "READY",
+    "runDeltaCount": 0,
+    "eventAudit": "PASS"
+  },
+  "auditNotes": [
+    "效果审批路径与散列抄写错误在业务保存前被拦截，修订前03a保留，修订版按真实文件复算。",
+    "Cursor一次内存核对语法错误已只读修复，无文件或业务写入。"
+  ],
+  "wholeSkillComplete": false,
+  "remaining": [
+    "主动强化攻击的伤害加成与已损失生命口径及时点",
+    "攻击覆盖、命中、击杀拍飞与范围资格",
+    "生命消耗、冷却与主动使用入口",
+    "未学习等级0的实际资格不补默认值，宿主事件与结算未执行"
+  ],
+  "newTables": 0,
+  "codeChanges": 0,
+  "runtimeValidation": "未执行"
+}

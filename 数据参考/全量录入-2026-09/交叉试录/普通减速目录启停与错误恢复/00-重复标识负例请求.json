@@ -1,0 +1,15 @@
+{
+  "at": "2026-09-19T08:04:49.185Z",
+  "method": "POST",
+  "path": "/statuses",
+  "body": {
+    "statusKind": "MOVEMENT_SLOW",
+    "statusKey": "movement_slow",
+    "name": "普通移动减速",
+    "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+    "status": "ENABLED",
+    "sortOrder": 10
+  },
+  "expected": "409.STATUS_KEY_EXISTS；拒绝新增，保留草稿与已有目录完整现值",
+  "uiOnly": true
+}

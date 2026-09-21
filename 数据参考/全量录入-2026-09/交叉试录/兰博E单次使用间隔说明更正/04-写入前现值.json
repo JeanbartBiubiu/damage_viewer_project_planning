@@ -1,0 +1,634 @@
+{
+  "at": "2026-09-21T09:08:52.474Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/rumble_e": {
+      "createdAt": "2026-09-06T18:20:07.347182Z",
+      "description": "兰博发射一把鱼叉，对敌人造成魔法伤害、减速效果和魔法抗性击碎效果。兰博可同时持有2发鱼叉。在危险温度时，兰博增加其伤害和减速百分比。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "兰博·电子鱼叉",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "rumble_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:07.347182Z"
+    },
+    "/skills/rumble_e/parameters": [
+      {
+        "createdAt": "2026-09-09T12:17:11.466017Z",
+        "description": "官方逐级冷却与当前根cooldownTime索引1至等级上限逐级一致；不含技能急速或其他技能修正。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "rumble_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:17:11.466017Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T12:17:12.47811Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "rumble_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:17:12.47811Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T12:17:13.457322Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 55,
+          "2": 80,
+          "3": 105,
+          "4": 130,
+          "5": 155
+        },
+        "name": "电子鱼叉基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "rumble_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T12:17:13.457322Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T12:17:14.517145Z",
+        "description": "客户端当前根绑定 DataValues.FirstCastHeatCost 取索引1至5",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "第一次鱼叉热量消耗",
+        "parameterKey": "first_cast_heat_cost",
+        "skillKey": "rumble_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T12:17:14.517145Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T12:17:15.517153Z",
+        "description": "客户端当前根绑定 DataValues.PercMagicPen 取索引1至5",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.1,
+          "2": 0.12,
+          "3": 0.14,
+          "4": 0.16,
+          "5": 0.18
+        },
+        "name": "普通鱼叉魔法穿透比例",
+        "parameterKey": "magic_penetration_ratio",
+        "skillKey": "rumble_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T12:17:15.517153Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T12:17:16.410838Z",
+        "description": "客户端当前根绑定 DataValues.EnhancedMagicPen 取索引1至5",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.24,
+          "3": 0.28,
+          "4": 0.32,
+          "5": 0.36
+        },
+        "name": "强化鱼叉魔法穿透比例",
+        "parameterKey": "enhanced_magic_penetration_ratio",
+        "skillKey": "rumble_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T12:17:16.410838Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T12:17:17.343356Z",
+        "description": "客户端当前根绑定 DataValues.ShredDuration 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "魔抗削减持续（毫秒）",
+        "parameterKey": "magic_resistance_shred_duration_ms",
+        "skillKey": "rumble_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T12:17:17.343356Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T12:17:18.377598Z",
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "rumble_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T12:17:18.377598Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T12:17:19.390792Z",
+        "description": "客户端当前根绑定 DataValues.BaseSlowAmount 取索引1至5；单位百分数点转比例；按来源单位换算为系统比例或毫秒",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.15,
+          "2": 0.2,
+          "3": 0.25,
+          "4": 0.3,
+          "5": 0.35
+        },
+        "name": "普通鱼叉减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "rumble_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T12:17:19.390792Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T12:17:20.35388Z",
+        "description": "客户端当前根绑定 DataValues.EmpoweredSlowAmount 取索引1至5；单位百分数点转比例；按来源单位换算为系统比例或毫秒",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.4,
+          "3": 0.5,
+          "4": 0.6,
+          "5": 0.7
+        },
+        "name": "强化鱼叉减速比例",
+        "parameterKey": "enhanced_slow_ratio",
+        "skillKey": "rumble_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T12:17:20.35388Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T12:17:21.370073Z",
+        "description": "当前根TotalDamage树明确的法强系数。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "电子鱼叉法强系数",
+        "parameterKey": "ap_ratio",
+        "skillKey": "rumble_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-09T12:17:21.370073Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T12:17:22.418668Z",
+        "description": "当前根EmpDamage树明确强化伤害为普通值1.5倍。",
+        "fixedValue": 1.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "强化电子鱼叉伤害倍率",
+        "parameterKey": "empowered_damage_multiplier",
+        "skillKey": "rumble_e",
+        "sortOrder": 120,
+        "updatedAt": "2026-09-09T12:17:22.418668Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/rumble_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-09T12:17:11.466017Z",
+      "description": "官方逐级冷却与当前根cooldownTime索引1至等级上限逐级一致；不含技能急速或其他技能修正。",
+      "fixedValue": 500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "rumble_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T12:17:11.466017Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/rumble_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T12:17:12.47811Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "rumble_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T12:17:12.47811Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/rumble_e/parameters/base_damage": {
+      "createdAt": "2026-09-09T12:17:13.457322Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 55,
+        "2": 80,
+        "3": 105,
+        "4": 130,
+        "5": 155
+      },
+      "name": "电子鱼叉基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "rumble_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T12:17:13.457322Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/rumble_e/parameters/first_cast_heat_cost": {
+      "createdAt": "2026-09-09T12:17:14.517145Z",
+      "description": "客户端当前根绑定 DataValues.FirstCastHeatCost 取索引1至5",
+      "fixedValue": 20,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "第一次鱼叉热量消耗",
+      "parameterKey": "first_cast_heat_cost",
+      "skillKey": "rumble_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T12:17:14.517145Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/rumble_e/parameters/magic_penetration_ratio": {
+      "createdAt": "2026-09-09T12:17:15.517153Z",
+      "description": "客户端当前根绑定 DataValues.PercMagicPen 取索引1至5",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.1,
+        "2": 0.12,
+        "3": 0.14,
+        "4": 0.16,
+        "5": 0.18
+      },
+      "name": "普通鱼叉魔法穿透比例",
+      "parameterKey": "magic_penetration_ratio",
+      "skillKey": "rumble_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T12:17:15.517153Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rumble_e/parameters/enhanced_magic_penetration_ratio": {
+      "createdAt": "2026-09-09T12:17:16.410838Z",
+      "description": "客户端当前根绑定 DataValues.EnhancedMagicPen 取索引1至5",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.24,
+        "3": 0.28,
+        "4": 0.32,
+        "5": 0.36
+      },
+      "name": "强化鱼叉魔法穿透比例",
+      "parameterKey": "enhanced_magic_penetration_ratio",
+      "skillKey": "rumble_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T12:17:16.410838Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rumble_e/parameters/magic_resistance_shred_duration_ms": {
+      "createdAt": "2026-09-09T12:17:17.343356Z",
+      "description": "客户端当前根绑定 DataValues.ShredDuration 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "魔抗削减持续（毫秒）",
+      "parameterKey": "magic_resistance_shred_duration_ms",
+      "skillKey": "rumble_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T12:17:17.343356Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/rumble_e/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-09T12:17:18.377598Z",
+      "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+      "fixedValue": 2000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "rumble_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T12:17:18.377598Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/rumble_e/parameters/slow_ratio": {
+      "createdAt": "2026-09-09T12:17:19.390792Z",
+      "description": "客户端当前根绑定 DataValues.BaseSlowAmount 取索引1至5；单位百分数点转比例；按来源单位换算为系统比例或毫秒",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.15,
+        "2": 0.2,
+        "3": 0.25,
+        "4": 0.3,
+        "5": 0.35
+      },
+      "name": "普通鱼叉减速比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "rumble_e",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T12:17:19.390792Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rumble_e/parameters/enhanced_slow_ratio": {
+      "createdAt": "2026-09-09T12:17:20.35388Z",
+      "description": "客户端当前根绑定 DataValues.EmpoweredSlowAmount 取索引1至5；单位百分数点转比例；按来源单位换算为系统比例或毫秒",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.3,
+        "2": 0.4,
+        "3": 0.5,
+        "4": 0.6,
+        "5": 0.7
+      },
+      "name": "强化鱼叉减速比例",
+      "parameterKey": "enhanced_slow_ratio",
+      "skillKey": "rumble_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-09T12:17:20.35388Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rumble_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T12:17:21.370073Z",
+      "description": "当前根TotalDamage树明确的法强系数。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "电子鱼叉法强系数",
+      "parameterKey": "ap_ratio",
+      "skillKey": "rumble_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-09T12:17:21.370073Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rumble_e/parameters/empowered_damage_multiplier": {
+      "createdAt": "2026-09-09T12:17:22.418668Z",
+      "description": "当前根EmpDamage树明确强化伤害为普通值1.5倍。",
+      "fixedValue": 1.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "强化电子鱼叉伤害倍率",
+      "parameterKey": "empowered_damage_multiplier",
+      "skillKey": "rumble_e",
+      "sortOrder": 120,
+      "updatedAt": "2026-09-09T12:17:22.418668Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rumble_e/formulas": [
+      {
+        "createdAt": "2026-09-09T12:17:23.438601Z",
+        "description": "TotalDamage = BaseDamage + 0.5×法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "电子鱼叉魔法伤害",
+        "skillKey": "rumble_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:17:23.438601Z"
+      },
+      {
+        "createdAt": "2026-09-09T12:17:24.507875Z",
+        "description": "EmpDamage = 1.5×TotalDamage；强化资格待接线。",
+        "formulaKey": "empowered_damage",
+        "gameId": "lol",
+        "name": "强化电子鱼叉魔法伤害",
+        "skillKey": "rumble_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:17:24.507875Z"
+      }
+    ],
+    "/skills/rumble_e/formulas/damage": {
+      "createdAt": "2026-09-09T12:17:23.438601Z",
+      "description": "TotalDamage = BaseDamage + 0.5×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "电子鱼叉魔法伤害",
+      "skillKey": "rumble_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T12:17:23.438601Z"
+    },
+    "/skills/rumble_e/formulas/empowered_damage": {
+      "createdAt": "2026-09-09T12:17:24.507875Z",
+      "description": "EmpDamage = 1.5×TotalDamage；强化资格待接线。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "empowered_damage_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "empowered_damage",
+      "gameId": "lol",
+      "name": "强化电子鱼叉魔法伤害",
+      "skillKey": "rumble_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T12:17:24.507875Z"
+    },
+    "/skills/rumble_e/effects": [],
+    "/skills/rumble_e/processes": [],
+    "/skills/rumble_e/internal-states": [],
+    "/skills/rumble_e/trigger-rules": []
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters/first_cast_heat_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters/magic_penetration_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters/enhanced_magic_penetration_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters/magic_resistance_shred_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters/enhanced_slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/parameters/empowered_damage_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/formulas/empowered_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/rumble_e/trigger-rules",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

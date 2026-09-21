@@ -1,0 +1,260 @@
+{
+  "startedAt": "2026-09-19T18:03:03.741Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "route": "/skills/chogath_w",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:04.921171Z",
+          "description": "科加斯向前方锥形区域发出声波，造成魔法伤害并沉默命中的敌人。已录入敌方英雄实际命中伤害、无本来源实例时的首次沉默，以及普通主动使用的法力消耗与基础冷却登记。五级伤害为80/130/180/230/280加0.7倍来源总法强，沉默1600/1700/1800/1900/2000毫秒。使用登记的立即步骤不表示零施放时长；完整施放时长和沉默重施仍待核。固定来源：客户端16.17、官方静态资料16.17.1。",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "科加斯·野性尖叫",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "chogath_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T18:03:04.184062Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:18:04.921171Z",
+        "description": "科加斯向前方锥形区域发出声波，造成魔法伤害并沉默命中的敌人。已录入敌方英雄实际命中伤害、无本来源实例时的首次沉默，以及普通主动使用的法力消耗与基础冷却登记。五级伤害为80/130/180/230/280加0.7倍来源总法强，沉默1600/1700/1800/1900/2000毫秒。使用登记的立即步骤不表示零施放时长；完整施放时长和沉默重施仍待核。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "科加斯·野性尖叫",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "chogath_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T18:03:04.184062Z"
+      }
+    },
+    {
+      "route": "/skills/chogath_w/effects/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T12:47:30.868461Z",
+          "description": "普通主动使用时的基础法力消耗，五级为70/75/80/85/90；使用登记过程在开始时引用本效果。实际施放资格与失败取消退款由对应分支另行处理。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "chogath_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T18:03:05.65631Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T12:47:30.868461Z",
+        "description": "普通主动使用时的基础法力消耗，五级为70/75/80/85/90；使用登记过程在开始时引用本效果。实际施放资格与失败取消退款由对应分支另行处理。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "chogath_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T18:03:05.65631Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "fdf10fcb5689868963922527d6efd2c63d9922f227afd583d2a2515cb6fb5c97",
+    "02-冻结请求.json": "a66e71f736e86f249d330bb85ce14f026a245c4479757bef494d355516c945bc",
+    "03-来源摘要.json": "84c8a2f8ca04db03b03ba16c0efada921d7f1726c59cfd54c402b2dc4317ba79",
+    "04-写入前现值.json": "f1bbeeb29d53104098f42a9ff0de6dee4411e66918f098ab2097c841526d7c94"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T18:03:07.032Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/silence_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/silence_first_application",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/chogath_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/chogath_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/mana_cost",
+      "status": 200
+    }
+  ]
+}

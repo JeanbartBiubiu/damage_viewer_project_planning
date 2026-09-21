@@ -1,0 +1,108 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/lucian_w/effects/flare_hit",
+      "body": {
+        "name": "热诚烈弹命中",
+        "description": "本轮实际命中敌方英雄时执行的普通魔法技能伤害，已明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；标记与加速、被动联动及专属法术护盾粒度来源仍待处理。",
+        "sortOrder": 30,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "热诚烈弹命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T17:58:30.580082Z",
+        "description": "本轮实际命中敌方英雄时执行的普通魔法技能伤害，已明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；标记与加速、被动联动及专属法术护盾粒度来源仍待处理。",
+        "effectKey": "flare_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "热诚烈弹命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "热诚烈弹命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lucian_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T17:58:30.580082Z"
+      }
+    }
+  ],
+  "sourceSha256": "0d1fbadb4c8d15f40fb400474dac5b0bb8d795bd01b488dc461fc81026f4e029",
+  "baselineSha256": "da3622986bd9049dbcd2e7642bda28c07e8bf5172c4fd6dccdea1a50dbdae5e2"
+}

@@ -1,0 +1,83 @@
+{
+  "title": "五项普通使用接线后的九处说明整理",
+  "at": "2026-09-19T02:17:37.909Z",
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项后续技能使用流程补录/01-候选方案.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项后续技能使用流程补录/04-写入前现值.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项后续技能使用流程补录/07-独立回读.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/六项后续技能使用流程补录/09-证据清单.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项普通使用说明整理/00-说明差异与入口依据.json"
+    }
+  ],
+  "changes": [
+    {
+      "skillKey": "teemo_q",
+      "kind": "parameter",
+      "route": "/skills/teemo_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Teemo.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "gragas_e",
+      "kind": "parameter",
+      "route": "/skills/gragas_e/parameters/mana_cost",
+      "description": "DDragon16.17.1 Gragas.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "gragas_e",
+      "kind": "effect",
+      "route": "/skills/gragas_e/effects/mana_cost",
+      "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。"
+    },
+    {
+      "skillKey": "gragas_r",
+      "kind": "parameter",
+      "route": "/skills/gragas_r/parameters/mana_cost",
+      "description": "DDragon16.17.1 Gragas.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "gragas_r",
+      "kind": "effect",
+      "route": "/skills/gragas_r/effects/mana_cost",
+      "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。"
+    },
+    {
+      "skillKey": "lissandra_q",
+      "kind": "parameter",
+      "route": "/skills/lissandra_q/parameters/mana_cost",
+      "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "lissandra_q",
+      "kind": "effect",
+      "route": "/skills/lissandra_q/effects/mana_cost",
+      "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。"
+    },
+    {
+      "skillKey": "lissandra_w",
+      "kind": "parameter",
+      "route": "/skills/lissandra_w/parameters/mana_cost",
+      "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。"
+    },
+    {
+      "skillKey": "lissandra_w",
+      "kind": "effect",
+      "route": "/skills/lissandra_w/effects/mana_cost",
+      "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。"
+    }
+  ],
+  "scope": "提莫Q、古拉加斯E/R、丽桑卓Q/W，5参数说明与4法力效果说明；仅description变化。"
+}

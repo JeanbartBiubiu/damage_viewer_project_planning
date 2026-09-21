@@ -1,0 +1,274 @@
+{
+  "status": "REVISE",
+  "at": "2026-09-19T03:34:58.609Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "approvalGranted": false,
+  "reviewedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "0d594d10e33cd49bafc96c53ceb13c2bc880f9ce63f365d5fd43cbc765b2d7e2",
+    "02-冻结请求.json": "bc92b20e394549a35ba63345dc46ed0e92b384f10d6ce7d81731daf809fa1f9d",
+    "03-来源摘要.json": "f668b34715e2f80a9ef090db4b819eab73076f658f4a62fac10543436804bc78",
+    "04-写入前现值.json": "510a3f881dcca00a8c3834f1c0765824311d17ceed34195b4b7b4b7b5d45afb5"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "decision": "原16请求不得写入。伤害数值和独立效果可保留，但三条同根多资格命中入口须补充有效敌方限定或明确足以排除友方命中的契约证据。",
+  "checks": {
+    "sourceHashes": 21,
+    "officialAndCompressedClientFiles": 12,
+    "rootBindings": 8,
+    "ranks": 36,
+    "arithmeticPoints": 108,
+    "tolerance": 0.0001,
+    "maxAbsoluteDifference": 0.000007152557373046875,
+    "preparationGETs": 202,
+    "protectedResponses": 186,
+    "newDetail404s": 16,
+    "duplicateKeys": 0,
+    "numericAndPayloadChecks": "PASS",
+    "eligibilityChecks": "REVISE"
+  },
+  "perSkill": [
+    {
+      "skillKey": "nami_q",
+      "rootSpell": "Characters/Nami/Spells/NamiQAbility/NamiQ",
+      "calculationName": "TotalDamageTT",
+      "damageTypeKey": "magic",
+      "rankCount": 5,
+      "formulaKey": "magic_damage"
+    },
+    {
+      "skillKey": "nami_r",
+      "rootSpell": "Characters/Nami/Spells/NamiRAbility/NamiR",
+      "calculationName": "TotalDamage",
+      "damageTypeKey": "magic",
+      "rankCount": 3,
+      "formulaKey": "magic_damage"
+    },
+    {
+      "skillKey": "soraka_q",
+      "rootSpell": "Characters/Soraka/Spells/SorakaQAbility/SorakaQ",
+      "calculationName": "TotalDamage",
+      "damageTypeKey": "magic",
+      "rankCount": 5,
+      "formulaKey": "magic_damage"
+    },
+    {
+      "skillKey": "neeko_e",
+      "rootSpell": "Characters/Neeko/Spells/NeekoEAbility/NeekoE",
+      "calculationName": "BaseDamage",
+      "damageTypeKey": "magic",
+      "rankCount": 5,
+      "formulaKey": "damage"
+    },
+    {
+      "skillKey": "orianna_w",
+      "rootSpell": "Characters/Orianna/Spells/OrianaDissonanceCommandAbility/OrianaDissonanceCommand",
+      "calculationName": "TotalDamage",
+      "damageTypeKey": "magic",
+      "rankCount": 5,
+      "formulaKey": "damage"
+    },
+    {
+      "skillKey": "orianna_r",
+      "rootSpell": "Characters/Orianna/Spells/OrianaDetonateCommandAbility/OrianaDetonateCommand",
+      "calculationName": "TotalDamage",
+      "damageTypeKey": "magic",
+      "rankCount": 3,
+      "formulaKey": "damage"
+    },
+    {
+      "skillKey": "jinx_w",
+      "rootSpell": "Characters/Jinx/Spells/JinxWAbility/JinxW",
+      "calculationName": "TotalDamage",
+      "damageTypeKey": "physics",
+      "rankCount": 5,
+      "formulaKey": "damage"
+    },
+    {
+      "skillKey": "quinn_q",
+      "rootSpell": "Characters/Quinn/Spells/QuinnQAbility/QuinnQ",
+      "calculationName": "TotalDamage",
+      "damageTypeKey": "physics",
+      "rankCount": 5,
+      "formulaKey": "physical_damage"
+    }
+  ],
+  "blockingFindings": [
+    {
+      "id": "HIT_RELATION_001",
+      "severity": "BLOCKING",
+      "skillKey": "nami_r",
+      "route": "/skills/nami_r/trigger-rules/actual_hit",
+      "confidence": "明确来源反例",
+      "evidence": [
+        "固定Nami官方R正文明确怒涛命中友方英雄带来被动双倍加速。",
+        "同一NamiRAbility内有NamiRPassive子对象；被动另有根不改变触发该收益的原始R命中。",
+        "共享SKILL_HIT只定义实际命中对象，未限定敌方；当前仅CHAMPION条件。"
+      ],
+      "impact": "友方英雄命中也满足现有规则形状，会被配置为执行目标伤害。1V1、敌方文字和未实现友军效果不能替代可执行资格条件。",
+      "required": "增加有效敌方命中限定后重新冻结；当前primary_hit效果本身可以另批保存。"
+    },
+    {
+      "id": "HIT_RELATION_002",
+      "severity": "BLOCKING_PENDING_EVIDENCE",
+      "skillKey": "nami_q",
+      "route": "/skills/nami_q/trigger-rules/actual_hit",
+      "confidence": "友方命中通道存在但Q专属事件生产未证",
+      "evidence": [
+        "固定Nami被动正文明确技能命中友方英雄触发加速。",
+        "Q直接伤害与P收益独立，但不能仅凭P有独立根断定Q的友方原始命中必定属于P事件。",
+        "Q正文未单独明确友方命中；客户端目标标志数字未在本次解码，不据此声称已证友方SKILL_HIT。"
+      ],
+      "impact": "现有冻结证据不足以证明通用Q根命中仅覆盖敌方；不把不确定通道直接配置为伤害。",
+      "required": "补敌方限定，或取得Q命中上下文明确定义排除友方的证据；伤害效果本身可保留。"
+    },
+    {
+      "id": "HIT_RELATION_003",
+      "severity": "BLOCKING_PENDING_EVIDENCE",
+      "skillKey": "orianna_w",
+      "route": "/skills/orianna_w/trigger-rules/actual_hit",
+      "confidence": "同根敌我分支已证，具体事件阶段未证",
+      "evidence": [
+        "官方W正文先定义对敌军的电脉冲伤害，再定义友军加速的能量场。",
+        "OrianaDissonanceAlly与OrianaDissonanceEnemy均属于同一OrianaDissonanceCommandAbility，不能按独立技能根过滤。",
+        "当前sourceSkillKey+CHAMPION没有敌我或子阶段筛选，冻结契约未保证友军能量场接触不会使用该根SKILL_HIT。"
+      ],
+      "impact": "不能把已区分的敌方伤害分支扩大到所有根技能英雄命中；不能用猜测的事件生产规则补足。",
+      "required": "补敌方限定或明确只针对敌方脉冲伤害的命中入口；效果本身可保留，球位置和能量场控制另列。"
+    }
+  ],
+  "retention": {
+    "damageEffectRoutes": [
+      "/skills/nami_q/effects/primary_hit",
+      "/skills/nami_r/effects/primary_hit",
+      "/skills/soraka_q/effects/primary_hit",
+      "/skills/neeko_e/effects/primary_hit",
+      "/skills/orianna_w/effects/primary_hit",
+      "/skills/orianna_r/effects/primary_hit",
+      "/skills/jinx_w/effects/primary_hit",
+      "/skills/quinn_q/effects/primary_hit"
+    ],
+    "eligibleRuleSkillKeys": [
+      "soraka_q",
+      "neeko_e",
+      "orianna_r",
+      "jinx_w",
+      "quinn_q"
+    ],
+    "heldRuleSkillKeys": [
+      "nami_q",
+      "nami_r",
+      "orianna_w"
+    ],
+    "proposal": "重新冻结8个已核定伤害效果和5条无同类歧义规则（13 POST），或先冻结5组成对伤害/规则；原02保持历史，不原位删项重放。",
+    "notApproved": "本REVISE不是对13个子请求的写入批准，修订仍须新prepare与摘要审查。"
+  },
+  "physicalDamageReview": {
+    "status": "PASS",
+    "physics": "实库冻结目录physics为启用的物理伤害；JinxW与QuinnQ官方physicalDamage标记、根计算和载荷一致，deliveryKind仍SKILL、originKind为DIRECT。",
+    "jinx_w": "mStat2且mStatFormula缺省总值，来源attack_damage.TOTAL，未取额外AD。",
+    "quinn_q": "mStat2/mStatFormula2明确额外AD，按等级ADRatio约0.8/0.85/0.9/0.95/1，另加0.5总AP；未使用TotalDamageMonster。",
+    "vamp": "已绑定通用来源的普通对英雄伤害全能吸血100%不限定魔法，故OMNIVAMP/POST_DEFENSE_DAMAGE/1适用于这两项直接物理技能。未因physics标签推成普攻、命中联动或新增生命偷取/物理吸血资格。",
+    "spellShield": "通用来源为阻挡敌方技能而非只挡魔法伤害，SKILL粒度与两项本体伤害相符。"
+  },
+  "remainingBoundaries": {
+    "soraka_q": "只执行敌人命中的星星伤害；回复目标是SOURCE，回复是同次敌方命中的后果，来源没有称为一次新的自身技能命中，不将持续治疗总量执行。",
+    "neeko_e": "官方强化改变宽度、速度和禁锢时长，没有伤害倍率变化；旧首目标禁锢公式不改，新规则无控制结果。",
+    "orianna_r": "官方仅对魔偶附近敌军造成直接伤害，未给同根友方伤害命中通道；仍不推定球位置或从使用生成命中。",
+    "nami_q": "本批没有新增STUN近似悬浮，旧stun_duration参数保留不等于状态语义已完成。"
+  },
+  "currentConditionGap": {
+    "presentTypes": [
+      "ATTRIBUTE_COMPARE",
+      "STATUS_CHECK",
+      "INTERNAL_STATE_CHECK",
+      "LIFECYCLE_CHECK",
+      "TARGET_CATEGORY_CHECK",
+      "EXPLICIT_TARGET_IS_SOURCE",
+      "EVENT_VALUE_COMPARE"
+    ],
+    "frontendAndBackendAligned": true,
+    "relationConditionPresent": false,
+    "categoryOnly": "TARGET_CATEGORY_CHECK明细只允许categories，未知字段拒绝；CHAMPION没有敌我含义。",
+    "selfConditionLimit": "EXPLICIT_TARGET_IS_SOURCE只允许SKILL_USED，不能挪用于SKILL_HIT，更不能以不是自身代替明确敌方。",
+    "codeEvidence": [
+      {
+        "path": "C:/project/damage_web_dev/web/src/types/skillTriggerRule.ts",
+        "lines": [
+          28,
+          36
+        ],
+        "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+      },
+      {
+        "path": "C:/project/damage_web_dev/web/src/services/skillTriggerRuleClient.ts",
+        "lines": [
+          45,
+          52,
+          265,
+          276
+        ],
+        "sha256": "54f9d35a5d6a6afefdffabefb20ba5b973cd7a52a5d0914f63c34024db9b12f5"
+      },
+      {
+        "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerConditionType.java",
+        "lines": [
+          3,
+          11
+        ],
+        "sha256": "79d8b164707e8a7d9052efe82ddc102756dbe0350b32cef219c3fd620eae0885"
+      },
+      {
+        "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerConditionDeserializer.java",
+        "lines": [
+          16,
+          27
+        ],
+        "sha256": "c93e152d4d128351f5eae8200489db899a8e93ef844a8e06f2dfcf0b080fe243"
+      },
+      {
+        "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillTargetCategoryConditionSemantics.java",
+        "lines": [
+          22,
+          34
+        ],
+        "sha256": "81547bcedf8b2276856f67093ebf92907dd841d0210b9a06973150a2bf7320a7"
+      },
+      {
+        "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillExplicitTargetIsSourceConditionSemantics.java",
+        "lines": [
+          28,
+          34
+        ],
+        "sha256": "35dd3fd95899228d3c5943f1f5e0af30e5071160751d8b7444d69a9e5eaf8969"
+      },
+      {
+        "path": "C:/project/damage_backend_dev/server/data_manage/README.md",
+        "lines": [
+          84,
+          94
+        ],
+        "sha256": "881107ab8879242713b423bd45e16770f3158f41230f85e3accc94581fd63458"
+      }
+    ],
+    "contractEvidence": {
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "lines": [
+        201,
+        235,
+        360,
+        367,
+        527
+      ]
+    }
+  },
+  "originalFrozenReadbackIfItWereApproved": {
+    "GETs": 202,
+    "newObjects": 16,
+    "expectedChangedCollections": 16,
+    "unchangedResponsesIncludingTimestamps": 170,
+    "businessWrites": 0
+  },
+  "validationLimits": "只读源码、固定来源与本地数学核对；无新HTTP、业务写入、页面、宿主/Wasm或战斗证明。backend/dev既有.idea/compiler.xml脏改未触碰。"
+}

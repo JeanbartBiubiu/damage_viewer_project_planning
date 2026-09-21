@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "阿木木Q已接受普通使用的独立法力登记",
+  "generatedAt": "2026-09-21T08:54:21.988Z",
+  "targets": [
+    {
+      "skillKey": "amumu_q",
+      "ownerKey": "champion_amumu"
+    }
+  ],
+  "scope": "只新增普通冷却为空的成本登记过程和根ACTIVE入口；不连接充能、静态冷却、牵引或施法前许可。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Amumu.json.gz",
+      "sha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Amumu.json",
+      "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q充能与使用续接/01-根字段与录入取舍.json",
+      "sha256": "147d119fe99ccdd02d95cee30d2943494fffd1dbf4b86057a444a6dda0598003"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q充能与使用续接/03-独立使用成本候选.json",
+      "sha256": "8f80f7493d15aad29a1a6a6048a46bccc8ab28df1f6a17573708484fbcce5419"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q充能与使用续接/07-独立成本语义核对.json",
+      "sha256": "833714031fcd68845f72f8b8e2e5d50985608519856cd1395862897a02d89a57"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/阿木木Q法力成本父子说明更正/07-独立回读.json",
+      "sha256": "56c2518295318de0f84344601695a22144aac643d3e9137ddc8395e16544f0eb"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/单项英雄施法过程入口补录第六批/09-页面验收.json",
+      "sha256": "9d737a4bef6d7045bd0778749df52af5d3c87d20b2cfc49b1c168a352c05c292"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/amumu_q/processes",
+      "detailRoute": "/skills/amumu_q/processes/use_cost_registration",
+      "body": {
+        "processKey": "use_cost_registration",
+        "name": "绷带牵引使用法力登记",
+        "activationType": "ACTIVE",
+        "description": "仅在已接受的根技能普通主动使用时登记50法力消耗；普通冷却为空，立即步骤只完成成本登记，不表示施法时间为零、不产生命中。三秒静态间隔、充能消费恢复、牵引和施法前资格继续单列。",
+        "sortOrder": 10,
+        "cooldown": null,
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "只登记本次根主动使用的法力成本，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_registration",
+        "name": "绷带牵引使用法力登记",
+        "activationType": "ACTIVE",
+        "description": "仅在已接受的根技能普通主动使用时登记50法力消耗；普通冷却为空，立即步骤只完成成本登记，不表示施法时间为零、不产生命中。三秒静态间隔、充能消费恢复、牵引和施法前资格继续单列。",
+        "sortOrder": 10,
+        "cooldown": null,
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "只登记本次根主动使用的法力成本，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_q/trigger-rules",
+      "detailRoute": "/skills/amumu_q/trigger-rules/on_used_cost",
+      "body": {
+        "ruleKey": "on_used_cost",
+        "name": "绷带普通使用登记法力",
+        "description": "只接收amumu_q一次已接受的根普通主动使用，启动成本登记过程；不把子条目或命中再视为普通使用，也不以事件后规则充当施法前许可。三秒静态冷却、弹药和牵引未接线。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "amumu_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "登记本次根使用法力",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_registration"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost",
+        "name": "绷带普通使用登记法力",
+        "description": "只接收amumu_q一次已接受的根普通主动使用，启动成本登记过程；不把子条目或命中再视为普通使用，也不以事件后规则充当施法前许可。三秒静态冷却、弹药和牵引未接线。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "amumu_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "登记本次根使用法力",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_registration"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,322 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "婕拉E本体明确未阻挡首次禁锢返回",
+  "generatedAt": "2026-09-21T06:41:50.796Z",
+  "targets": [
+    {
+      "skillKey": "zyra_e",
+      "ownerKey": "champion_zyra"
+    }
+  ],
+  "scope": "仅补当前目标无本来源实例的本体禁锢；沿用已核定期限，不接植物、不推定重施、不要求沿途首次接触。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Zyra.json.gz",
+      "sha256": "94e23123ef2c5c00314b79d216fc055ac84411778f425924ce273e2a79c809ef"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Zyra.json",
+      "sha256": "4dea8c9a2d09d6cfb24bac8dec60651ac64b3745d561d2dca516f9951b284a57"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/婕拉E首次禁锢返回/02-首次禁锢草稿.json",
+      "sha256": "642e8c06a23920d8837b42f785761df1050277fc6c6012d2ca4622921e6070cb"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/婕拉E首次禁锢返回/04-固定来源主负责人核对.json",
+      "sha256": "8be5e4fbfcead01b184767555d2edf2a3434085dfd139b7769fae1082490a6bc"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/婕拉E首次禁锢返回/05-固定来源独立核对.json",
+      "sha256": "1aae7d7de8032a7a7b7e04a16e800e89edd0c05c260202a54e9bebf3c8a3d1f4"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/婕拉E原命中范围返回/07-独立回读.json",
+      "sha256": "b4432abb64f2ef9654231b4d72f7ecc5e34afdbd41d31fbee99e334dc2df2e62"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/禁锢目录首次页面录入/09-证据清单.json",
+      "sha256": "7efcd1a8150f0117f26757d277411494a6a13e76502c9eb6616906af879ad92c"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/丽桑卓W禁锢与妮蔻E使用返回/07-独立回读.json",
+      "sha256": "7acac748bfa889fdcc8990a17f0ac03ed8be0bc0afea627b1851337e4c4f2b16"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/zyra_e/effects",
+      "detailRoute": "/skills/zyra_e/effects/first_hit_root",
+      "body": {
+        "description": "仅供婕拉E本体实际命中敌方英雄、同次法术护盾结果明确未阻挡且无本来源禁锢实例的入口；不表示首个沿途目标，不连接植物攻击、种子联动或已有实例重施。",
+        "effectKey": "first_hit_root",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "缠绕之根首次施加禁锢",
+        "results": [
+          {
+            "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "root"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "本次缠绕之根禁锢",
+            "resultKey": "root",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "sortOrder": 30
+      },
+      "expectedReadback": {
+        "description": "仅供婕拉E本体实际命中敌方英雄、同次法术护盾结果明确未阻挡且无本来源禁锢实例的入口；不表示首个沿途目标，不连接植物攻击、种子联动或已有实例重施。",
+        "effectKey": "first_hit_root",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "缠绕之根首次施加禁锢",
+        "results": [
+          {
+            "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "root"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "本次缠绕之根禁锢",
+            "resultKey": "root",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/zyra_e/trigger-rules",
+      "detailRoute": "/skills/zyra_e/trigger-rules/apply_root_on_unblocked_hit",
+      "body": {
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "name": "本体命中且无本来源实例时禁锢",
+        "description": "只接收zyra_e本体真实命中；同组要求敌方英雄、同次法术护盾阻挡明确为0以及无本来源禁锢实例。缺值不默认0，不要求首次沿途接触；植物、种子与已有实例重施单列。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "zyra_e"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "root_eligible",
+            "name": "本体命中可首次施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "first_hit_root",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "name": "施加本次禁锢",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "first_hit_root"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "name": "本体命中且无本来源实例时禁锢",
+        "description": "只接收zyra_e本体真实命中；同组要求敌方英雄、同次法术护盾阻挡明确为0以及无本来源禁锢实例。缺值不默认0，不要求首次沿途接触；植物、种子与已有实例重施单列。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "zyra_e",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "root_eligible",
+            "name": "本体命中可首次施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "first_hit_root",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "name": "施加本次禁锢",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "first_hit_root"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "at": "2026-09-19T09:13:06.104Z",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "ability": {
+    "mRootSpell": "Characters/Soraka/Spells/SorakaRAbility/SorakaR",
+    "mChildSpells": [
+      "Characters/Soraka/Spells/SorakaRAbility/SorakaR"
+    ],
+    "mName": "SorakaRAbility",
+    "mType": 2,
+    "AbilityTraits": 5,
+    "__type": "AbilityObject"
+  },
+  "rootSpell": "Characters/Soraka/Spells/SorakaRAbility/SorakaR",
+  "selfHealingDescription": "索拉卡让友军充满希望，立刻使她和所有友方英雄回复生命值。",
+  "tooltip": "索拉卡召唤神圣的能量，来为所有友方英雄回复<healing>{{ healingcalc }}生命值</healing>，无论相距多远。对生命值低于40%的友方英雄的回复效果提升至<healing>{{ ampedhealing }}</healing>。{{ spellmodifierdescriptionappend }}",
+  "baseHeal": [
+    150,
+    250,
+    350
+  ],
+  "normalCalculation": {
+    "mFormulaParts": [
+      {
+        "mDataValue": "BaseHeal",
+        "__type": "NamedDataValueCalculationPart"
+      },
+      {
+        "mCoefficient": 0.5,
+        "__type": "StatByCoefficientCalculationPart"
+      }
+    ],
+    "__type": "GameCalculation"
+  },
+  "lowHealthCalculation": {
+    "mMultiplier": {
+      "mSubparts": [
+        {
+          "mNumber": 1,
+          "__type": "NumberCalculationPart"
+        },
+        {
+          "mDataValue": "HealingAmpForLowHealthAllies",
+          "__type": "NamedDataValueCalculationPart"
+        }
+      ],
+      "__type": "SumOfSubPartsCalculationPart"
+    },
+    "mModifiedGameCalculation": "HealingCalc",
+    "__type": "GameCalculationModified"
+  },
+  "unusedLegacyCoefficient": 0.550000011920929,
+  "thresholdRatio": 0.4,
+  "lowHealthMultiplier": 1.5,
+  "contract": "同一来源对象同一技能一次事件先经触发保护筛选候选，再完整求条件形成匹配集合，然后执行；动作不重新选择本次分支。",
+  "scope": "自身治疗两效果与两条互斥入口；其他友军治疗排除，费用、冷却和基础施法另行登记；无宿主或Wasm实现。",
+  "priorCandidateUse": "只取已核来源及候选正文模板；本批通过新prepare读取完整实时基线，不复用历史现值或旧批准。"
+}

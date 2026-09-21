@@ -1,0 +1,119 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/olaf_w/effects",
+      "detailRoute": "/skills/olaf_w/effects/attack_timer_reset",
+      "body": {
+        "effectKey": "attack_timer_reset",
+        "name": "挺过去普攻计时重置",
+        "description": "固定16.17当前W绑定与官方26.6机制说明共同核对：每次已成立的主动使用重置自身普攻计时，前次增益仍在时也重新重置。独立于既有护盾、攻速和施放成本。",
+        "sortOrder": 40,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reset_attack_timer",
+            "name": "重置普攻计时",
+            "resultType": "ATTACK_TIMER_RESET",
+            "target": "SOURCE",
+            "description": "本次已成立主动使用时清零来源对象普通攻击间隔的剩余等待。",
+            "sortOrder": 10,
+            "valueRule": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "attack_timer_reset",
+        "name": "挺过去普攻计时重置",
+        "description": "固定16.17当前W绑定与官方26.6机制说明共同核对：每次已成立的主动使用重置自身普攻计时，前次增益仍在时也重新重置。独立于既有护盾、攻速和施放成本。",
+        "sortOrder": 40,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reset_attack_timer",
+            "name": "重置普攻计时",
+            "resultType": "ATTACK_TIMER_RESET",
+            "target": "SOURCE",
+            "description": "本次已成立主动使用时清零来源对象普通攻击间隔的剩余等待。",
+            "sortOrder": 10,
+            "valueRule": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/olaf_w/trigger-rules",
+      "detailRoute": "/skills/olaf_w/trigger-rules/on_used_attack_reset",
+      "body": {
+        "ruleKey": "on_used_attack_reset",
+        "name": "主动使用重置普攻计时",
+        "description": "奥拉夫W每次已成立主动使用执行独立普攻计时重置。前次增益仍在时不省略；护盾、攻速、成本和冷却继续由原施放过程处理。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "olaf_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "name": "执行普攻计时重置",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_timer_reset"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_attack_reset",
+        "name": "主动使用重置普攻计时",
+        "description": "奥拉夫W每次已成立主动使用执行独立普攻计时重置。前次增益仍在时不省略；护盾、攻速、成本和冷却继续由原施放过程处理。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "olaf_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "name": "执行普攻计时重置",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_timer_reset"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "1b9d83ca5d085e153fe23970bba2cc7ede8cf96101cd86f105dea84a9d356283",
+  "baselineSha256": "8b25eee26fb6a425d5da7b1e7e2a3064e71b9c41831b649d9bec31ce0a03ea58"
+}

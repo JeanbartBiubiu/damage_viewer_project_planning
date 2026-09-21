@@ -1,0 +1,57 @@
+{
+  "at": "2026-09-19T17:33:09.249Z",
+  "status": "PASS",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "skillKey": "chogath_w",
+  "created": {
+    "effects": 1,
+    "triggerRules": 1
+  },
+  "updated": {
+    "formulasDescription": 1,
+    "skillsDescription": 2
+  },
+  "businessWrites": 5,
+  "browserWrites": 1,
+  "protectedAPIWrites": 4,
+  "independentGETs": 95,
+  "independentBatches": [
+    {
+      "path": "伤害效果与入口/07-独立回读.json",
+      "GETs": 28
+    },
+    {
+      "path": "公式说明更正/06-独立回读.json",
+      "GETs": 28
+    },
+    {
+      "path": "两技能主体说明收敛/07-独立回读.json",
+      "GETs": 39
+    }
+  ],
+  "arithmeticCases": 15,
+  "browser": "伤害结果与入口、公式说明保存重开、刷新后两主体说明均PASS",
+  "consoleErrors": [],
+  "currentCounts": {
+    "parameters": 5,
+    "formulas": 1,
+    "effects": 3,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 2
+  },
+  "managementComplete": false,
+  "noCodeChange": true,
+  "noMigration": true,
+  "remaining": [
+    "沉默重施期限",
+    "未知施放时长不补零；继续独立核对普通使用登记",
+    "玛尔扎哈Q重施、刷新E及伤害结果子页"
+  ],
+  "newIssue": "API修改主体后，未刷新列表直接编辑仍显示旧说明；取消并刷新恢复，编辑前重新读取详情待检查",
+  "runtimeValidation": "未执行",
+  "goalComplete": false
+}

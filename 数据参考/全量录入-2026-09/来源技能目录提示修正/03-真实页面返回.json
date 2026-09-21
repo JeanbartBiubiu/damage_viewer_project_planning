@@ -1,0 +1,32 @@
+{
+  "at": "2026-09-20T07:31:37.196Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "serviceReloadedForFinalCode": true,
+  "subjects": [
+    {
+      "skillKey": "seraphine_r",
+      "rules": [
+        "actual_hit",
+        "on_used_cost_and_cooldown"
+      ],
+      "finalLabel": "萨勒芬妮·炫音返场（seraphine_r）",
+      "observation": "最终来源名正确；此处不声称真实服务捕获了加载失败"
+    },
+    {
+      "skillKey": "ahri_e",
+      "rules": [
+        "on_used"
+      ],
+      "firstObservedLabel": "ahri_e（目录加载中）",
+      "finalLabel": "阿狸·魅惑妖术（ahri_e）",
+      "observation": "真实服务捕获加载中到正确名称，未再误报缺失"
+    }
+  ],
+  "businessWrites": 0,
+  "allEditorsCancelled": true,
+  "errors": 0,
+  "warnings": 0,
+  "unverified": "真实服务未注入503；加载失败重试与真缺失由隔离页面检查覆盖",
+  "runtimeValidation": "未执行"
+}

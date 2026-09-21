@@ -1,0 +1,21 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-21T03:27:15.472Z",
+  "reviewer": "/root/lucian_q_vamp_tool_review",
+  "mode": "独立静态终审，未HTTP或文件写入",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-damage-vamp-v2.mjs": "c9d393c50673c49c5903ef0f77f84b537bfc52094d527be855a9e183e9fe8cfe",
+    "01-纠错计划.json": "c4270fd8ae868602ee8f6861d18643c914b604c457e37f3ffa24be63a69a40b2",
+    "02-冻结请求.json": "619d1e64515a7fa4335a5c437fa328ab4206d37265eb49d3fd52f30968a689d2",
+    "03-来源摘要.json": "fb40101b70ed7a0551dd8076187b6bd823c8f12ed8812f2825647e8286d487b8",
+    "04-写入前现值.json": "fdd230f8b69ac4075c5756e3b382fdbe35e48c4d41b8b107e3f2d25304c80639"
+  },
+  "checks": [
+    "范围已保存并独立回读，17GET新基线",
+    "仅父说明和OMNIVAMP规则变化，其余完整正文保持",
+    "单一普通物理直接技能伤害与唯一英雄命中入口",
+    "来源、冻结、现值和防重放限制有效",
+    "v1字节与HEAD一致；离线5项PASS"
+  ],
+  "boundary": "其他吸血类型、法术护盾粒度专属来源及代表页面未验"
+}

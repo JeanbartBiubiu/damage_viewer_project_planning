@@ -1,0 +1,658 @@
+{
+  "files": [
+    {
+      "root": "planning",
+      "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Annie.json",
+      "sha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735"
+    },
+    {
+      "root": "planning",
+      "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Annie.json",
+      "sha256": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4"
+    },
+    {
+      "root": "planning",
+      "relativePath": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Annie.json.gz",
+      "sha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38"
+    },
+    {
+      "root": "web",
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+      "sha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272"
+    },
+    {
+      "root": "web",
+      "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/来源冻结/annie-来源与哈希.json",
+      "sha256": "4dd3fdaa33ece9aba2c907d7342c977f5a0ea9cdfdc28ddc59e14ae29718f824"
+    }
+  ],
+  "official": [
+    {
+      "version": "16.17.1",
+      "spell": {
+        "id": "AnnieE",
+        "name": "熔岩护盾",
+        "description": "为安妮或一名友军提供一层护盾、一个爆发性的移动速度加成并且对任何用攻击或技能袭击她的敌人造成伤害。",
+        "tooltip": "安妮为一名友方英雄提供持续{{ shieldduration }}秒的<shield>{{ shieldblocktotal }}护盾值</shield>，以及在{{ movementspeedduration }}秒里持续衰减的<speed>{{ movespeedcalc }}移动速度</speed>。当护盾处于激活状态时，敌人用攻击或技能对护盾造成伤害时会受到<magicDamage>{{ damagereturn }}魔法伤害</magicDamage>，每个护盾受到一次伤害。<br /><br />提伯斯在被召唤出来时总会获得<spellName>熔岩护盾</spellName>的效果。{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "护盾值",
+            "伤害回敬",
+            "@AbilityResourceName@消耗"
+          ],
+          "effect": [
+            "{{ shieldamount }} -> {{ shieldamountNL }}",
+            "{{ damagereflection }} -> {{ damagereflectionNL }}",
+            "{{ cost }} -> {{ costNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "cooldownBurn": "10",
+        "cost": [
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "costBurn": "60/65/70/75/80",
+        "datavalues": {},
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "vars": [],
+        "costType": " {{ abilityresourcename }}",
+        "maxammo": "-1",
+        "range": [
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "rangeBurn": "800",
+        "image": {
+          "full": "AnnieE.png",
+          "sprite": "spell1.png",
+          "group": "spell",
+          "x": 384,
+          "y": 96,
+          "w": 48,
+          "h": 48
+        },
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      }
+    },
+    {
+      "version": "16.17.1",
+      "spell": {
+        "id": "AnnieE",
+        "name": "Molten Shield",
+        "description": "Grants Annie or an ally a shield, a burst of Move Speed, and damages enemies who strike her with attacks or spells.",
+        "tooltip": "Annie grants an ally champion <shield>{{ shieldblocktotal }} Shield</shield> for {{ shieldduration }} seconds and <speed>{{ movespeedcalc }} Decaying Move Speed</speed> for {{ movementspeedduration }} seconds. While the shield holds, enemies who hit the shielded ally with an Attack or Ability receive <magicDamage>{{ damagereturn }} magic damage</magicDamage> once per shield.<br /><br />Tibbers always gains the effects of <spellName>Molten Shield</spellName> when summoned.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Shield Health",
+            "Damage Reflection",
+            "@AbilityResourceName@ Cost"
+          ],
+          "effect": [
+            "{{ shieldamount }} -> {{ shieldamountNL }}",
+            "{{ damagereflection }} -> {{ damagereflectionNL }}",
+            "{{ cost }} -> {{ costNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          10,
+          10,
+          10,
+          10,
+          10
+        ],
+        "cooldownBurn": "10",
+        "cost": [
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "costBurn": "60/65/70/75/80",
+        "datavalues": {},
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "vars": [],
+        "costType": " {{ abilityresourcename }}",
+        "maxammo": "-1",
+        "range": [
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "rangeBurn": "800",
+        "image": {
+          "full": "AnnieE.png",
+          "sprite": "spell1.png",
+          "group": "spell",
+          "x": 384,
+          "y": 96,
+          "w": 48,
+          "h": 48
+        },
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      }
+    }
+  ],
+  "client": {
+    "objectPath": "Characters/Annie/Spells/AnnieEAbility/AnnieE",
+    "decompressedSha256": "92318a3473f127db5b086cdf7a34743becb51ae95196df53911e83f0bd327961",
+    "object": {
+      "ObjectName": "AnnieE",
+      "objectPath": "Characters/Annie/Spells/AnnieEAbility/AnnieE",
+      "mScriptName": "AnnieE",
+      "mSpell": {
+        "flags": 4,
+        "mAffectsTypeFlags": 1,
+        "mSpellTags": [
+          "PositiveEffect_Boon",
+          "Trait_DamageAbility",
+          "Trait_Shield",
+          "Trait_Target_Directional",
+          "Trait_AoE"
+        ],
+        "DataValues": [
+          {
+            "name": "ShieldDuration",
+            "values": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "DamageReduction",
+            "values": [
+              9,
+              13,
+              17,
+              21,
+              25,
+              29,
+              33
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "DamageReflection",
+            "values": [
+              15,
+              25,
+              35,
+              45,
+              55,
+              65,
+              75
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "MovementSpeed",
+            "values": [
+              0.10000000149011612,
+              0.15000000596046448,
+              0.20000000298023224,
+              0.25,
+              0.30000001192092896,
+              0.3499999940395355,
+              0.4000000059604645
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "MovementSpeedDuration",
+            "values": [
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "ShieldAmount",
+            "values": [
+              25,
+              60,
+              95,
+              130,
+              165,
+              200,
+              235
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "CastRangeGenerosity",
+            "values": [
+              225,
+              225,
+              225,
+              225,
+              225,
+              225,
+              225
+            ],
+            "__type": "SpellDataValue"
+          }
+        ],
+        "mSpellCalculations": {
+          "DamageReturn": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mDataValue": "DamageReflection",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mCoefficient": 0.4000000059604645,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "MoveSpeedCalc": {
+            "mFormulaParts": [
+              {
+                "mStartValue": 0.20000000298023224,
+                "mEndValue": 0.5,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          },
+          "ShieldBlockTotal": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "ShieldAmount",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mCoefficient": 0.4000000059604645,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mCoefficient": 0.20000000298023224,
+        "mAnimationName": "Spell3",
+        "mImgIconName": [
+          "ASSETS/Characters/Annie/HUD/Icons2D/Annie_E.dds"
+        ],
+        "mCantCancelWhileWindingUp": true,
+        "castRange": [
+          800,
+          800,
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "castRangeValues": {
+          "values": [
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800
+          ],
+          "{0a3e0478}": 800,
+          "__type": "{0a0eddc9}"
+        },
+        "mana": [
+          60,
+          65,
+          70,
+          75,
+          80,
+          85
+        ],
+        "manaValues": {
+          "values": [
+            60,
+            65,
+            70,
+            75,
+            80,
+            85
+          ],
+          "{0a3e0478}": 60,
+          "__type": "{630af303}"
+        },
+        "mTargetingTypeData": {
+          "__type": "TargetOrLocation"
+        },
+        "TargetingForgivenessDefinitions": [
+          {
+            "ForgivenessRange": 175,
+            "TargetForgivenessDefinitions": [
+              {
+                "mUnitTags": {
+                  "mObjectTagList": [
+                    "{ea595ca6}",
+                    "{c02a7870}"
+                  ],
+                  "__type": "ObjectTags"
+                },
+                "__type": "HasUnitTagsCastRequirement"
+              },
+              {
+                "__type": "SameTeamCastRequirement"
+              }
+            ],
+            "__type": "TargetingForgivenessDefinitions"
+          }
+        ],
+        "mSpellCooldownOrSealedQueueThreshold": 0.5,
+        "mClientData": {
+          "mTooltipData": {
+            "mObjectName": "AnnieE",
+            "mFormat": "{d7c27163}",
+            "mLocKeys": {
+              "keyName": "Spell_AnnieE_Name",
+              "keyTooltip": "Spell_AnnieE_Tooltip",
+              "keySummary": "Spell_AnnieE_Summary"
+            },
+            "mLists": {
+              "LevelUp": {
+                "levelCount": 5,
+                "Elements": [
+                  {
+                    "type": "ShieldAmount",
+                    "nameOverride": "Spell_ListType_ShieldHealth",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "DamageReflection",
+                    "nameOverride": "Spell_AnnieE_LevelUp_DamageReflection",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Cost",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceSpell"
+          },
+          "__type": "SpellDataResourceClient"
+        },
+        "__type": "SpellDataResource"
+      },
+      "mBuff": {
+        "mDescription": "game_buff_tooltip_Molten_Shield",
+        "__type": "BuffData"
+      },
+      "BotData": {
+        "DamageTag": 1,
+        "{6d548702}": {
+          "mFormulaParts": [
+            {
+              "mSpellCalculationKey": "DamageReturn",
+              "__type": "{f3cbe7b2}"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "{ec17e271}": [
+          {
+            "EffectTag": 262144,
+            "EffectCalculation": {
+              "mFormulaParts": [
+                {
+                  "mSpellCalculationKey": "ShieldBlockTotal",
+                  "__type": "{f3cbe7b2}"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "__type": "{b09016f6}"
+          },
+          {
+            "EffectTag": 524288,
+            "EffectCalculation": {
+              "mFormulaParts": [
+                {
+                  "mSpellCalculationKey": "ShieldBlockTotal",
+                  "__type": "{f3cbe7b2}"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "__type": "{b09016f6}"
+          },
+          {
+            "EffectTag": 2,
+            "EffectCalculation": {
+              "mFormulaParts": [
+                {
+                  "mSpellCalculationKey": "MoveSpeedCalc",
+                  "__type": "{f3cbe7b2}"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "__type": "{b09016f6}"
+          },
+          {
+            "EffectTag": 4,
+            "EffectCalculation": {
+              "mFormulaParts": [
+                {
+                  "mSpellCalculationKey": "MoveSpeedCalc",
+                  "__type": "{f3cbe7b2}"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "__type": "{b09016f6}"
+          }
+        ],
+        "__type": "BotsSpellData"
+      },
+      "__type": "SpellObject"
+    }
+  },
+  "boundary": "固定客户端16.17与官方16.17.1；本批只新增显式自施护盾入口，不证明宿主供值或战斗运行。"
+}

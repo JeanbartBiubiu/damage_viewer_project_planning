@@ -1,0 +1,72 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/talon_q/trigger-rules",
+      "detailRoute": "/skills/talon_q/trigger-rules/on_used_attack_reset",
+      "body": {
+        "ruleKey": "on_used_attack_reset",
+        "name": "主动使用重置普攻计时",
+        "description": "接收泰隆Q已成立的主动使用，执行独立普攻计时重置。近战与远程均适用；不以伤害命中或过程开始替代使用时点。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "talon_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "name": "执行普攻计时重置",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_timer_reset"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_attack_reset",
+        "name": "主动使用重置普攻计时",
+        "description": "接收泰隆Q已成立的主动使用，执行独立普攻计时重置。近战与远程均适用；不以伤害命中或过程开始替代使用时点。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "talon_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "name": "执行普攻计时重置",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "attack_timer_reset"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "67e865568d445eb986729d57413ab3b7177b8980a9875df49b379494fcb46fac",
+  "baselineSha256": "68bde3b5d2280a4462bd7aba2e951d1d725cfe918bc2d5454bf4a96f6e9c79f9"
+}

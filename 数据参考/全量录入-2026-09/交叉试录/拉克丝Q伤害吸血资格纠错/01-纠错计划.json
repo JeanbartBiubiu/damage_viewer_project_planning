@@ -1,0 +1,58 @@
+{
+  "title": "拉克丝Q普通英雄伤害的空吸血资格纠错",
+  "at": "2026-09-19T06:00:02.075Z",
+  "changes": [
+    {
+      "skillKey": "lux_q",
+      "effectKey": "light_binding_hit",
+      "resultKey": "magic_damage",
+      "route": "/skills/lux_q/effects/light_binding_hit",
+      "description": "本轮敌方英雄的一次普通直接魔法技能伤害；实际命中入口已限定英雄类别与明确敌方，并显式登记防御结算后伤害、效率为1的全能吸血资格。禁锢由独立受限入口维护，前两目标选择和碰撞事件生产另行验证。"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/伤害吸血通用来源复核/来源与未决口径.json"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/伤害与普通护盾交互基础详细设计.md"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/拉克丝Q原命中范围页面纠错/00-独立来源与顺序核对.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/拉克丝Q原命中范围页面纠错/07-独立回读.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/拉克丝Q原命中范围页面纠错/08-页面验收.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/拉克丝Q原命中范围页面纠错/09-证据清单.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts"
+    }
+  ],
+  "precondition": "原resolve_on_q_hit已通过页面改为同组英雄类别与明确敌方，独立回读通过；本批重新保护该现值及新禁锢组成。",
+  "preserve": "D 只改效果；原护盾 RESULT、公式 damage、数值、暴击、结果键、目标、生命周期、名称、排序、createdAt 保持，仅正常 updatedAt 可变化。新伤害条件组、root_control、禁锢规则、cast、on_used 和所有参数完整保护。",
+  "runtimeBoundary": "只修管理配置，不声明护盾、吸血或多目标运行已验证。"
+}

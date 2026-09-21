@@ -1,0 +1,60 @@
+{
+  "startedAt": "2026-09-19T14:40:22.827Z",
+  "status": "PARTIAL_SUCCESS_REMAINDER_SUPERSEDED",
+  "executionMode": "BROWSER_UI_ONLY",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "617a824be31883eb8d2c1e43765c0b9ffe8c0ec3fea2fc65cd39966de751e277",
+    "02-冻结请求.json": "7cb5f30c3f40a4db5d578e6385ac00744d96e9d2cfd11a2fb3dc586da3db3835",
+    "03-来源摘要.json": "67e865568d445eb986729d57413ab3b7177b8980a9875df49b379494fcb46fac",
+    "04-写入前现值.json": "4dacbc5ea95bcf69508e77771673d936fdd02c9f89e75b03b7bed42fb4677e35"
+  },
+  "businessWritesAttempted": 1,
+  "pendingRoute": null,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/talon_q/effects",
+      "via": "BROWSER_UI",
+      "responseCaptured": false,
+      "immediateReadbackAt": "2026-09-19T14:40:47.123Z",
+      "readback": {
+        "createdAt": "2026-09-19T14:40:32.065227Z",
+        "description": "固定16.17当前Q绑定与官方13.24机制说明共同确证：本次Q主动使用时重置来源对象的普攻计时。该独立结果不发动攻击，不代替Q伤害、跃斩或击杀返还。",
+        "effectKey": "attack_timer_reset",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "诺克萨斯式外交普攻计时重置",
+        "results": [
+          {
+            "description": "本次已成立主动使用时清零来源对象普通攻击间隔的剩余等待。",
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "重置普攻计时",
+            "resultKey": "reset_attack_timer",
+            "resultType": "ATTACK_TIMER_RESET",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "talon_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T14:40:32.065227Z"
+      }
+    }
+  ],
+  "responseCaptured": false,
+  "preflight": {
+    "GETs": 29,
+    "businessWrites": 0,
+    "status": "PASS"
+  },
+  "finishedAt": "2026-09-19T14:44:59.622Z",
+  "remainingRequest": {
+    "route": "/skills/talon_q/trigger-rules/on_used_attack_reset",
+    "attempted": false,
+    "reason": "SKILL_USED不提供EVENT_SOURCE动作上下文；新批次仅改CURRENT_TARGET，效果SOURCE保持施法者"
+  }
+}

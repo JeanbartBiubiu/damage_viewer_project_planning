@@ -1,0 +1,203 @@
+{
+  "at": "2026-09-20T09:02:51.930Z",
+  "status": "资料待核",
+  "skillKey": "kassadin_p",
+  "businessWrites": 0,
+  "baselineGETs": 14,
+  "catalogGETs": 2,
+  "sourceFiles": [
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kassadin.json.gz",
+      "sha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kassadin.json",
+      "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Kassadin.json",
+      "sha256": "9afd359ea6daacd81b2589692e7da653926ec55b0b63184a521d0e1b24edbd25"
+    }
+  ],
+  "root": "Characters/Kassadin/Spells/VoidStoneAbility/VoidStone",
+  "confirmed": {
+    "parameter": "magic_damage_reduction_ratio",
+    "value": 0.1,
+    "rawClientValue": 0.10000000149011612,
+    "direction": "TAKEN",
+    "operation": "DECREASE",
+    "damageTypeKey": "magic"
+  },
+  "currentComponentCounts": {
+    "parameters": 1,
+    "formulas": 0,
+    "effects": 0,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "existingContract": {
+    "path": "文档记录/详细设计/项目/乘区管理与修正结果补充详细设计.md",
+    "sha256": "64a802c3e748c6001050a2d26ba91a4cb1f7e05cd0147f83eb3c7802dd63c524",
+    "supports": [
+      "魔法类型过滤的受到伤害修正",
+      "无限单层来源实例",
+      "来源初始化入口",
+      "同区带符号加算、跨区相乘"
+    ],
+    "stageChoices": [
+      "DAMAGE_PRE_DEFENSE",
+      "DAMAGE_POST_DEFENSE"
+    ],
+    "boundary": "这些管理能力不能反向证明本技能的游戏阶段或叠加关系。"
+  },
+  "directorySnapshot": {
+    "modifierZones": {
+      "items": [
+        {
+          "applicationStage": "ATTRIBUTE_PERCENT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-08-31T05:44:18.601181Z",
+          "description": null,
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "attribute_percent_bonus",
+          "name": "属性百分比加成",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-31T05:44:18.601181Z"
+        },
+        {
+          "applicationStage": "ATTRIBUTE_FLAT",
+          "calculationMode": "FLAT_ADD",
+          "createdAt": "2026-09-06T16:50:52.756989Z",
+          "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "attribute_flat_add",
+          "name": "属性固定加算",
+          "sortOrder": 10,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T16:50:52.756989Z"
+        },
+        {
+          "applicationStage": "ATTRIBUTE_PERCENT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-08T02:16:34.032171Z",
+          "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "item_3071_armor_reduction",
+          "name": "黑色切割者护甲削减乘区",
+          "sortOrder": 200,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:34.032171Z"
+        },
+        {
+          "applicationStage": "ATTRIBUTE_PERCENT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-08T02:16:39.681338Z",
+          "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "item_8010_magic_resistance_reduction",
+          "name": "放血者的诅咒魔抗削减乘区",
+          "sortOrder": 210,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:39.681338Z"
+        },
+        {
+          "applicationStage": "DAMAGE_PRE_DEFENSE",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-12T05:42:45.604997Z",
+          "description": "铁板靴镀板的10%基础攻击伤害减免独立乘区；与其他来源分乘区相乘，避免在叠加规则未确认时直接相加。",
+          "domain": "DAMAGE",
+          "gameId": "lol",
+          "modifierZoneKey": "item_3047_basic_damage_reduction",
+          "name": "铁板靴基础攻击伤害减免",
+          "sortOrder": 220,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-12T05:42:45.604997Z"
+        },
+        {
+          "applicationStage": "DAMAGE_PRE_DEFENSE",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-12T05:42:47.402895Z",
+          "description": "兰顿之兆复原力的30%暴击伤害减免独立乘区；与其他来源分乘区相乘，避免在叠加规则未确认时直接相加。",
+          "domain": "DAMAGE",
+          "gameId": "lol",
+          "modifierZoneKey": "item_3143_critical_damage_reduction",
+          "name": "兰顿暴击伤害减免",
+          "sortOrder": 230,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-12T05:42:47.402895Z"
+        },
+        {
+          "applicationStage": "HEALING_RESULT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-16T17:07:18.885451Z",
+          "description": "振奋盔甲对来源对象受到治疗的25%提高使用独立治疗结果比例乘区；跨来源组合和战斗结算仍需运行验证。",
+          "domain": "HEALING",
+          "gameId": "lol",
+          "modifierZoneKey": "item_3065_received_healing_increase",
+          "name": "振奋盔甲受到治疗增幅",
+          "sortOrder": 240,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-16T17:07:18.885451Z"
+        },
+        {
+          "applicationStage": "SHIELD_RESULT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-19T12:30:25.533985Z",
+          "description": "振奋盔甲对持有者本次收到的普通护盾量提高25%使用独立护盾结果比例乘区；不修正已有剩余量、期限或法术护盾次数。",
+          "domain": "SHIELD",
+          "gameId": "lol",
+          "modifierZoneKey": "item_3065_received_shield_increase",
+          "name": "振奋盔甲收到护盾增幅",
+          "sortOrder": 250,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T12:30:25.533985Z"
+        }
+      ],
+      "total": 8
+    },
+    "magicDamageType": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/modifier-zones",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/damage-types/magic",
+        "status": 200
+      }
+    ]
+  },
+  "sourceReview": {
+    "reviewer": "zyra_q_scope_source",
+    "summary": "固定根和官方说明证明受到魔法伤害减少；未给防御前后阶段与跨来源叠加规则，不能用乘法可交换推断所有平减路径等价。",
+    "references": [
+      "https://www.leagueoflegends.com/en-us/champions/kassadin/",
+      "https://www.leagueoflegends.com/en-gb/news/game-updates/patch-11-24-notes/"
+    ],
+    "crossSkill": "静态节点未发现其他技能读取该被动数值；未把未找到引用写成完整运行无依赖证明。"
+  },
+  "collisionBoundary": "无视单位碰撞属于既定空间行为边界，本次保留原文，未新增或删除任何组成；不将其混入魔法减免。",
+  "remaining": [
+    "防御计算前或后的准确阶段",
+    "跨来源减免的乘区分组依据"
+  ],
+  "decision": "没有冻结或执行新增乘区、效果、规则请求；已有0.1参数保留，原系统暂缓改为具体资料待核，继续其他独立录入问题。",
+  "runtimeValidation": "未执行"
+}

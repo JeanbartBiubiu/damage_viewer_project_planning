@@ -1,0 +1,575 @@
+{
+  "files": [
+    {
+      "root": "planning",
+      "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Morgana.json",
+      "sha256": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903"
+    },
+    {
+      "root": "planning",
+      "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Morgana.json",
+      "sha256": "ccee87151700b5aead65c5da0ceadf9285848137b6451fe6d2893c96ee6ecf69"
+    },
+    {
+      "root": "planning",
+      "relativePath": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Morgana.json.gz",
+      "sha256": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5"
+    },
+    {
+      "root": "planning",
+      "relativePath": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+      "sha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8"
+    }
+  ],
+  "official": [
+    {
+      "version": "16.17.1",
+      "spell": {
+        "id": "MorganaE",
+        "name": "黑暗之盾",
+        "description": "莫甘娜为一名友方英雄涂上一层保护性的星火屏障，在被打破之前吸收魔法伤害和限制效果。",
+        "tooltip": "莫甘娜为一名友方英雄提供<shield>{{ totalshieldstrength }}魔法护盾</shield>，持续{{ shieldduration }}秒。护盾会阻挡<status>限制</status>和<status>定身</status>效果，直至被打破为止。{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "护盾值",
+            "冷却时间"
+          ],
+          "effect": [
+            "{{ shieldstrength }} -> {{ shieldstrengthNL }}",
+            "{{ cooldown }} -> {{ cooldownNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          26,
+          23.5,
+          21,
+          18.5,
+          16
+        ],
+        "cooldownBurn": "26/23.5/21/18.5/16",
+        "cost": [
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "costBurn": "80",
+        "datavalues": {},
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "vars": [],
+        "costType": " {{ abilityresourcename }}",
+        "maxammo": "-1",
+        "range": [
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "rangeBurn": "800",
+        "image": {
+          "full": "MorganaE.png",
+          "sprite": "spell9.png",
+          "group": "spell",
+          "x": 192,
+          "y": 96,
+          "w": 48,
+          "h": 48
+        },
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      },
+      "selfTargetEvidence": "【E黑暗之盾】让莫甘娜免疫限制效果，但这个护盾可以被魔法伤害给灌爆。"
+    },
+    {
+      "version": "16.17.1",
+      "spell": {
+        "id": "MorganaE",
+        "name": "Black Shield",
+        "description": "Morgana anoints an ally with a protective barrier of starfire, which absorbs magical damage and disabling effects until it is broken.",
+        "tooltip": "Morgana grants an ally champion <shield>{{ totalshieldstrength }} Magic Shield</shield> for {{ shieldduration }} seconds. The shield prevents <status>Disabling</status> and <status>Immobilizing</status> effects until it breaks.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Shield Amount",
+            "Cooldown"
+          ],
+          "effect": [
+            "{{ shieldstrength }} -> {{ shieldstrengthNL }}",
+            "{{ cooldown }} -> {{ cooldownNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          26,
+          23.5,
+          21,
+          18.5,
+          16
+        ],
+        "cooldownBurn": "26/23.5/21/18.5/16",
+        "cost": [
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "costBurn": "80",
+        "datavalues": {},
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "vars": [],
+        "costType": " {{ abilityresourcename }}",
+        "maxammo": "-1",
+        "range": [
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "rangeBurn": "800",
+        "image": {
+          "full": "MorganaE.png",
+          "sprite": "spell9.png",
+          "group": "spell",
+          "x": 192,
+          "y": 96,
+          "w": 48,
+          "h": 48
+        },
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      },
+      "selfTargetEvidence": "Black Shield makes Morgana immune to disabling effects, but can be broken with magic damage."
+    }
+  ],
+  "client": {
+    "objectPath": "Characters/Morgana/Spells/MorganaEAbility/MorganaE",
+    "decompressedSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913",
+    "object": {
+      "ObjectName": "MorganaE",
+      "objectPath": "Characters/Morgana/Spells/MorganaEAbility/MorganaE",
+      "mScriptName": "MorganaE",
+      "mSpell": {
+        "flags": 4,
+        "mAffectsTypeFlags": 1,
+        "mRequiredUnitTags": {
+          "mObjectTagList": [
+            "{ea595ca6}"
+          ],
+          "__type": "ObjectTags"
+        },
+        "mSpellTags": [
+          "PositiveEffect_Boon",
+          "Trait_Shield",
+          "Trait_CCImmune"
+        ],
+        "DataValues": [
+          {
+            "name": "ShieldStrength",
+            "values": [
+              45,
+              100,
+              155,
+              210,
+              265,
+              320,
+              375
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "ShieldDuration",
+            "values": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "__type": "SpellDataValue"
+          }
+        ],
+        "mSpellCalculations": {
+          "TotalShieldStrength": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mDataValue": "ShieldStrength",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mCoefficient": 0.699999988079071,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mAnimationName": "Spell3",
+        "mImgIconName": [
+          "ASSETS/Characters/Morgana/HUD/Icons2D/FallenAngel_BlackShield.dds"
+        ],
+        "spellCastTime": 0.515250027179718,
+        "spellTotalTime": 1.2666000127792358,
+        "cooldownTime": [
+          26,
+          26,
+          23.5,
+          21,
+          18.5,
+          16,
+          16
+        ],
+        "Cooldown": {
+          "values": [
+            26,
+            26,
+            23.5,
+            21,
+            18.5,
+            16,
+            16
+          ],
+          "__type": "{0a0eddc9}"
+        },
+        "mCantCancelWhileWindingUp": true,
+        "castRange": [
+          800,
+          800,
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "castRangeValues": {
+          "values": [
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800
+          ],
+          "{0a3e0478}": 800,
+          "__type": "{0a0eddc9}"
+        },
+        "castRadius": [
+          210,
+          210,
+          210,
+          210,
+          210,
+          210,
+          210
+        ],
+        "castConeDistance": 100,
+        "castFrame": 20.15999984741211,
+        "missileSpeed": 20,
+        "bHaveHitBone": true,
+        "mHitBoneName": "head",
+        "mana": [
+          80,
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "manaValues": {
+          "values": [
+            80,
+            80,
+            80,
+            80,
+            80,
+            80
+          ],
+          "{0a3e0478}": 80,
+          "__type": "{630af303}"
+        },
+        "selectionPriority": 2,
+        "TargetingForgivenessDefinitions": [
+          {
+            "ForgivenessRange": 175,
+            "TargetForgivenessDefinitions": [
+              {
+                "mUnitTags": {
+                  "mObjectTagList": [
+                    "{ea595ca6}",
+                    "{c02a7870}"
+                  ],
+                  "__type": "ObjectTags"
+                },
+                "__type": "HasUnitTagsCastRequirement"
+              }
+            ],
+            "__type": "TargetingForgivenessDefinitions"
+          }
+        ],
+        "mSpellCooldownOrSealedQueueThreshold": 0.5,
+        "mClientData": {
+          "mTooltipData": {
+            "mObjectName": "MorganaE",
+            "mFormat": "{d7c27163}",
+            "mLocKeys": {
+              "keyName": "Spell_MorganaE_Name",
+              "keySummary": "Spell_MorganaE_Summary",
+              "keyTooltip": "Spell_MorganaE_Tooltip"
+            },
+            "mLists": {
+              "LevelUp": {
+                "levelCount": 5,
+                "Elements": [
+                  {
+                    "type": "ShieldStrength",
+                    "nameOverride": "Spell_ListType_ShieldAmount",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Cooldown",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceSpell"
+          },
+          "mTargeterDefinitions": [
+            {
+              "__type": "TargeterDefinitionRange"
+            }
+          ],
+          "__type": "SpellDataResourceClient"
+        },
+        "__type": "SpellDataResource"
+      },
+      "mBuff": {
+        "mTooltipData": {
+          "mObjectName": "MorganaE",
+          "mFormat": "{b34f999a}",
+          "mLocKeys": {
+            "keyName": "Buff_MorganaE_Name",
+            "keyTooltip": "Buff_MorganaE_Tooltip"
+          },
+          "__type": "TooltipInstanceBuff"
+        },
+        "__type": "BuffData"
+      },
+      "BotData": {
+        "{ec17e271}": [
+          {
+            "EffectTag": 262144,
+            "EffectCalculation": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "ShieldStrength",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "__type": "{b09016f6}"
+          },
+          {
+            "EffectTag": 524288,
+            "EffectCalculation": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "ShieldStrength",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "__type": "{b09016f6}"
+          }
+        ],
+        "{38382c53}": [
+          {
+            "{e38f54f7}": 1,
+            "__type": "{150d1b92}"
+          }
+        ],
+        "__type": "BotsSpellData"
+      },
+      "__type": "SpellObject"
+    }
+  },
+  "boundary": "固定客户端16.17与官方16.17.1；本批只新增显式自施护盾入口，不证明宿主供值或战斗运行。"
+}

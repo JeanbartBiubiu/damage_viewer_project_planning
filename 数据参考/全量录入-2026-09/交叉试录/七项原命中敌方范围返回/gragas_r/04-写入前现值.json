@@ -1,0 +1,634 @@
+{
+  "at": "2026-09-21T10:40:40.146Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/gragas_r": {
+      "createdAt": "2026-09-06T18:18:27.224071Z",
+      "description": "古拉加斯向目标区域投掷他的酒桶，对爆炸范围内的所有敌人造成伤害和击退效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "古拉加斯·爆破酒桶",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "gragas_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:28:52.895346Z"
+    },
+    "/skills/gragas_r/parameters": [
+      {
+        "createdAt": "2026-09-09T15:06:21.994975Z",
+        "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "gragas_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:21.994975Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:23.097647Z",
+        "description": "当前根DataValues.BaseDamage取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 200,
+          "2": 300,
+          "3": 400
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "gragas_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:06:23.097647Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:24.188192Z",
+        "description": "当前根DataValues.APRatio取索引1至3。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "gragas_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:06:24.188192Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T15:06:25.294408Z",
+        "description": "当前根DataValues.KnockbackDistance取索引1至3。",
+        "fixedValue": 900,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击退距离",
+        "parameterKey": "knockback_distance",
+        "skillKey": "gragas_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T15:06:25.294408Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:40.903059Z",
+        "description": "DDragon16.17.1 Gragas.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 85000,
+          "3": 70000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "gragas_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:40.903059Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:41.26052Z",
+        "description": "DDragon16.17.1 Gragas.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "gragas_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T02:21:19.538305Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/gragas_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T15:06:21.994975Z",
+      "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "gragas_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:06:21.994975Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_r/parameters/base_damage": {
+      "createdAt": "2026-09-09T15:06:23.097647Z",
+      "description": "当前根DataValues.BaseDamage取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 200,
+        "2": 300,
+        "3": 400
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "gragas_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T15:06:23.097647Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T15:06:24.188192Z",
+      "description": "当前根DataValues.APRatio取索引1至3。",
+      "fixedValue": 0.8,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "gragas_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T15:06:24.188192Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/gragas_r/parameters/knockback_distance": {
+      "createdAt": "2026-09-09T15:06:25.294408Z",
+      "description": "当前根DataValues.KnockbackDistance取索引1至3。",
+      "fixedValue": 900,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击退距离",
+      "parameterKey": "knockback_distance",
+      "skillKey": "gragas_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T15:06:25.294408Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:40.903059Z",
+      "description": "DDragon16.17.1 Gragas.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 100000,
+        "2": 85000,
+        "3": 70000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "gragas_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:40.903059Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:41.26052Z",
+      "description": "DDragon16.17.1 Gragas.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "gragas_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-19T02:21:19.538305Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/gragas_r/formulas": [
+      {
+        "createdAt": "2026-09-09T15:06:26.447334Z",
+        "description": "DamageDone按当前根绑定。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "爆破酒桶魔法伤害",
+        "skillKey": "gragas_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:26.447334Z"
+      }
+    ],
+    "/skills/gragas_r/formulas/magic_damage": {
+      "createdAt": "2026-09-09T15:06:26.447334Z",
+      "description": "DamageDone按当前根绑定。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "爆破酒桶魔法伤害",
+      "skillKey": "gragas_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:06:26.447334Z"
+    },
+    "/skills/gragas_r/effects": [
+      {
+        "createdAt": "2026-09-09T15:06:27.494385Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "gragas_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:21:20.867843Z"
+      },
+      {
+        "createdAt": "2026-09-19T02:00:41.993984Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "古拉加斯·爆破酒桶命中伤害",
+        "resultCount": 1,
+        "skillKey": "gragas_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:41.993984Z"
+      }
+    ],
+    "/skills/gragas_r/effects/mana_cost": {
+      "createdAt": "2026-09-09T15:06:27.494385Z",
+      "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "mana_cost",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "gragas_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-19T02:21:20.867843Z"
+    },
+    "/skills/gragas_r/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:41.993984Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "古拉加斯·爆破酒桶命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 magic_damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "gragas_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:41.993984Z"
+    },
+    "/skills/gragas_r/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T02:11:28.900186Z",
+        "description": "登记本次普通主动使用的基础法力消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "古拉加斯·爆破酒桶施法登记",
+        "processKey": "cast",
+        "skillKey": "gragas_r",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T02:11:28.900186Z"
+      }
+    ],
+    "/skills/gragas_r/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T02:11:28.900186Z",
+      "description": "登记本次普通主动使用的基础法力消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "古拉加斯·爆破酒桶施法登记",
+      "processKey": "cast",
+      "skillKey": "gragas_r",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T02:11:28.900186Z"
+    },
+    "/skills/gragas_r/internal-states": [],
+    "/skills/gragas_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 gragas_r 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "古拉加斯·爆破酒桶实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:43.256621Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用gragas_r时启动cast过程，按既有参数登记法力、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "古拉加斯·爆破酒桶普通使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:11:30.237631Z"
+      }
+    ],
+    "/skills/gragas_r/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行古拉加斯·爆破酒桶伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 gragas_r 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "gragas_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "古拉加斯·爆破酒桶实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/gragas_r/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动古拉加斯·爆破酒桶施法登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用gragas_r时启动cast过程，按既有参数登记法力、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "gragas_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "古拉加斯·爆破酒桶普通使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/knockback_distance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

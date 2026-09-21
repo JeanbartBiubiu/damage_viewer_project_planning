@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-19T14:06:10.616Z",
+  "reviewer": "Luna Max / attack_reset_sources",
+  "model": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "decision": "可以独立新增主动使用后SOURCE普通攻击计时重置",
+  "skillKey": "talon_q",
+  "root": "Characters/Talon/Spells/TalonQAbility/TalonQ",
+  "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+  "clientCompressedSha256": "28864c5fc0de38b3e61e1dab57781b26d13d5c3ef300f61b9e8426662f937ff4",
+  "clientSha256": "94a23dece6d2dee4fcbca0fbfa35e9ee6fc2b059e8561d06f476c4f7e307d4b0",
+  "officialZhSha256": "4be5b2984f297a059fac079ad4c99b3e6f0072269da9d8ffbca72afbdbb5222a",
+  "officialEnSha256": "1504dbe1b9d6bcb58be3eecf6eadfee61c9422573063295ffbdbfe3075c2c550",
+  "tags": [
+    "Trait_AttackReset",
+    "Trait_DamageAbility",
+    "Trait_ActiveHeal",
+    "Trait_Strike"
+  ],
+  "branches": [
+    "TalonQAttack",
+    "TalonQDashAttack"
+  ],
+  "sourceBasis": "官方13.24明确远程施放重置并统一已有近战行为；固定16.17当前绑定与标签一致，未见部分重置、重置量或撤销行为字段。",
+  "expression": {
+    "eventType": "SKILL_USED",
+    "sourceSkillKey": "talon_q",
+    "useKind": "ACTIVE",
+    "target": "SOURCE",
+    "resultType": "ATTACK_TIMER_RESET",
+    "detail": {},
+    "valueRule": null,
+    "spellShieldBlockScope": null,
+    "lifecycle": null
+  },
+  "boundary": "不绑定到伤害、冲刺命中或PROCESS_START，不重建Q伤害/暴击/位移/击杀治疗/冷却返还。"
+}

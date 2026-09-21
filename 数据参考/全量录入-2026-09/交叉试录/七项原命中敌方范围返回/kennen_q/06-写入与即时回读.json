@@ -1,0 +1,284 @@
+{
+  "startedAt": "2026-09-21T10:57:26.666Z",
+  "status": "PASS",
+  "executionMode": "REVIEWED_API",
+  "businessWritesAttempted": 1,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+    "01-候选方案.json": "5f7c1077cb412c221375ac112727795cdd39ac3c243b0a92b3f44e40bc965af0",
+    "02-冻结请求.json": "29dfbfa0a3c6c57491c93e160911d780989593ce189f2d6801d00720dc1f8502",
+    "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+    "04-写入前现值.json": "eb63a9060628623199e67ea23aeb3b19acadd32f80fa05278dc5f40e2c7caf6e"
+  },
+  "request": {
+    "method": "PUT",
+    "route": "/skills/kennen_q/trigger-rules/actual_hit",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行凯南·奥义！千鸟伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 kennen_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "kennen_q"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "凯南·奥义！千鸟实际命中",
+      "perTargetCooldown": null,
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/energy_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/calculation_constant_1",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/effects/energy_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/kennen_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kennen_q/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "responseStatus": 200,
+  "response": {
+    "status": 200,
+    "data": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行凯南·奥义！千鸟伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 kennen_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "kennen_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "凯南·奥义！千鸟实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "readback": {
+    "actions": [
+      {
+        "actionKey": "execute_primary_hit",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "primary_hit"
+        },
+        "name": "执行凯南·奥义！千鸟伤害",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET"
+      }
+    ],
+    "conditionGroups": [
+      {
+        "conditions": [
+          {
+            "conditionKey": "champion_target",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            },
+            "sortOrder": 10
+          },
+          {
+            "conditionKey": "enemy_target",
+            "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+            "detail": {},
+            "sortOrder": 20
+          }
+        ],
+        "groupKey": "champion_target",
+        "name": "本轮英雄目标",
+        "sortOrder": 10
+      }
+    ],
+    "description": "只消费已确认的 kennen_q 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+    "eventSource": {
+      "detail": {
+        "sourceSkillKey": "kennen_q",
+        "useKind": null
+      },
+      "eventType": "SKILL_HIT"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "凯南·奥义！千鸟实际命中",
+    "perTargetCooldown": null,
+    "ruleKey": "actual_hit",
+    "sortOrder": 10
+  },
+  "finishedAt": "2026-09-21T10:57:29.027Z"
+}

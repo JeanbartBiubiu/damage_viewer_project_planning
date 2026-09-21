@@ -1,0 +1,245 @@
+{
+  "at": "2026-09-19T06:53:26.155Z",
+  "producer": "主负责人",
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "delegationRecovery": "原独立代理503且无落盘，新的Luna Max代理429且无落盘；主负责人定点读取固定源接手，后续完整候选另送Cursor只读评审。",
+  "official": {
+    "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Urgot.json",
+    "sha256": "0a081a1286923173fe0eeb855ce32d2b8658fe6ec040d5167f5d01551507943a",
+    "version": "16.17.1",
+    "spell": {
+      "id": "UrgotQ",
+      "name": "腐蚀电荷",
+      "description": "发射一个可爆炸的电荷至目标位置，对爆炸波及到的敌人造成物理伤害和减速效果。",
+      "tooltip": "厄加特发射一个爆炸性的电荷，对爆炸波及到的敌人造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>和持续{{ slowduration }}秒的{{ slowamount*100 }}%<status>减速</status>。{{ spellmodifierdescriptionappend }}",
+      "leveltip": {
+        "label": [
+          "冷却时间",
+          "伤害",
+          "减速"
+        ],
+        "effect": [
+          "{{ cooldown }} -> {{ cooldownNL }}",
+          "{{ basedamage }} -> {{ basedamageNL }}",
+          "{{ slowamount*100.000000 }}% -> {{ slowamountnl*100.000000 }}%"
+        ]
+      },
+      "maxrank": 5,
+      "cooldown": [
+        10,
+        9.5,
+        9,
+        8.5,
+        8
+      ],
+      "cooldownBurn": "10/9.5/9/8.5/8",
+      "cost": [
+        70,
+        70,
+        70,
+        70,
+        70
+      ],
+      "costBurn": "70",
+      "datavalues": {},
+      "effect": [
+        null,
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "effectBurn": [
+        null,
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "vars": [],
+      "costType": " {{ abilityresourcename }}",
+      "maxammo": "-1",
+      "range": [
+        800,
+        800,
+        800,
+        800,
+        800
+      ],
+      "rangeBurn": "800",
+      "image": {
+        "full": "UrgotQ.png",
+        "sprite": "spell15.png",
+        "group": "spell",
+        "x": 192,
+        "y": 48,
+        "w": 48,
+        "h": 48
+      },
+      "resource": "{{ cost }} {{ abilityresourcename }}"
+    }
+  },
+  "client": {
+    "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Urgot.json.gz",
+    "sha256": "e5bc358dfd88464470039ae479b3b921d161e6371e623c68ae3a545616b5d84c",
+    "version": "16.17",
+    "ability": {
+      "mRootSpell": "Characters/Urgot/Spells/UrgotQAbility/UrgotQ",
+      "mChildSpells": [
+        "Characters/Urgot/Spells/UrgotQAbility/UrgotQ",
+        "Characters/Urgot/Spells/UrgotQAbility/UrgotQMissile",
+        "Characters/Urgot/Spells/UrgotQAbility/UrgotQMissileExtraSkin03",
+        "Characters/Urgot/Spells/UrgotQAbility/UrgotQMissileSkin03"
+      ],
+      "mName": "UrgotQAbility",
+      "__type": "AbilityObject"
+    },
+    "spellPath": "Characters/Urgot/Spells/UrgotQAbility/UrgotQ",
+    "slowAmount": {
+      "name": "SlowAmount",
+      "values": [
+        0.4000000059604645,
+        0.44999998807907104,
+        0.5,
+        0.550000011920929,
+        0.6000000238418579,
+        0.6499999761581421,
+        0.699999988079071
+      ],
+      "__type": "SpellDataValue"
+    },
+    "slowDuration": {
+      "name": "SlowDuration",
+      "values": [
+        1.25,
+        1.25,
+        1.25,
+        1.25,
+        1.25,
+        1.25,
+        1.25
+      ],
+      "__type": "SpellDataValue"
+    },
+    "spellTags": [
+      "Trait_DamageAbility",
+      "Trait_Target_Area",
+      "Trait_Low_Damage",
+      "Trait_AoE"
+    ]
+  },
+  "mapping": {
+    "strengthParameterKey": "slow_percent_points",
+    "parameterValues": [
+      {
+        "rank": 1,
+        "value": 44.999998807907104,
+        "resultRatio": 0.44999998807907104
+      },
+      {
+        "rank": 2,
+        "value": 50,
+        "resultRatio": 0.5
+      },
+      {
+        "rank": 3,
+        "value": 55.000001192092896,
+        "resultRatio": 0.550000011920929
+      },
+      {
+        "rank": 4,
+        "value": 60.00000238418579,
+        "resultRatio": 0.6000000238418579
+      },
+      {
+        "rank": 5,
+        "value": 64.99999761581421,
+        "resultRatio": 0.6499999761581421
+      }
+    ],
+    "fixedMultiplier": 0.01,
+    "durationParameterKey": "slow_duration_ms",
+    "durationMilliseconds": 1250,
+    "sourceIndices": "等级1至5取索引1至5，保留原二进制浮点精度；没有把索引0作为一级。"
+  },
+  "scope": "只消费本技能对本轮敌方英雄的实际爆炸命中且同次法术护盾判定明确未阻挡；不从施法或弹体生成推定命中。",
+  "remaining": [
+    "本体物理伤害与原公式接线",
+    "法力、普通冷却和施法过程接线",
+    "与W等其他组成的相关性继续按原1V1范围核对"
+  ],
+  "runtimeValidation": "未执行"
+}

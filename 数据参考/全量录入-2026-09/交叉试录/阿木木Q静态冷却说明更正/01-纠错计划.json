@@ -1,0 +1,33 @@
+{
+  "at": "2026-09-21T08:29:51.589Z",
+  "title": "阿木木Q三秒静态冷却说明更正",
+  "scope": "只改已有cooldown_ms名称与说明；原INTEGER五级3000毫秒、键、模式、排序及所有组成保持",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Amumu.json.gz",
+      "sha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Amumu.json",
+      "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q充能与使用续接/01-根字段与录入取舍.json",
+      "sha256": "147d119fe99ccdd02d95cee30d2943494fffd1dbf4b86057a444a6dda0598003"
+    }
+  ],
+  "changes": [
+    {
+      "skillKey": "amumu_q",
+      "parameterKey": "cooldown_ms",
+      "route": "/skills/amumu_q/parameters/cooldown_ms",
+      "updates": {
+        "name": "基础静态冷却时间（毫秒）",
+        "description": "固定客户端16.17根BandageToss的cooldownTime与Cooldown.values各等级均为3秒，且mCooldownNotAffectedByCDR明确为true，表示该冷却不受冷却缩减影响。保留3000毫秒原值；这是静态冷却，不是16/15/14/13/12秒的弹药恢复时间，不据此建立未区分急速的普通冷却过程。"
+      }
+    }
+  ]
+}

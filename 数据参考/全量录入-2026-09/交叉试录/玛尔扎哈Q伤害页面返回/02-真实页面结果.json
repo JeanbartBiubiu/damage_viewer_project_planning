@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-19T18:16:17.904Z",
+  "status": "PASS",
+  "skillKey": "malzahar_q",
+  "effectKey": "primary_hit",
+  "businessWrites": 0,
+  "currentGETs": 2,
+  "priorEffectUnchanged": true,
+  "browserChecks": [
+    "父效果无生命周期，当前目标直接魔法技能伤害，不允许暴击",
+    "子结果引用同技能damage公式，固定倍率1，伤害类型magic",
+    "全能吸血按防御后伤害，固定效率1",
+    "法术护盾粒度为整个技能；与当前API详情一致",
+    "只取消退出，不更改字段或重复保存"
+  ],
+  "consoleErrors": [],
+  "remaining": [
+    "沉默重施期限",
+    "Q刷新E的关系及E持续效果、入口"
+  ],
+  "runtimeValidation": "未执行"
+}

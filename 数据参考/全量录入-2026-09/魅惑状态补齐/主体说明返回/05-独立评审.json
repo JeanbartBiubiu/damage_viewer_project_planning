@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-20T04:25:20.819Z",
+  "status": "APPROVED",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "aed364a5f098bc253da985169bd8d0729bfa4d2fd9b778fafbb4b5eb36d4caf3",
+    "02-冻结请求.json": "44cb847aab4a787927a52b8b8573d71bd125c657a4aa8d436973c2f6bd516b90",
+    "03-来源摘要.json": "de8c2cb5e6e244527407e9c193ade722a7d72e6390fa82f92d5c88799e5f9afd",
+    "04-写入前现值.json": "72ba9e7ebae1817a045e4e6c5fe2fcc25fe543c1b3357d6b59c16befac6710fc"
+  },
+  "reviewer": "Cursor SDK独立只读修订复核，主负责人按原始结果转录",
+  "reviewedPlanRev": "44cb847aab4a787927a52b8b8573d71bd125c657a4aa8d436973c2f6bd516b90",
+  "scope": "只更新两技能description，保留其余字段及37个组成响应",
+  "runId": "run-b8f4f78c-b467-4265-bb02-63370d644afb",
+  "resultStatus": "finished",
+  "runDeltaCount": 0,
+  "auditAvailable": true,
+  "toolEventsTruncated": false,
+  "summarySha256": "69473796db375a3c07fa3981fe9e8d4fd40dfc8576c2919f2a4fdd0757ee1402",
+  "eventsSha256": "869eeecb53a2f4bd60a9f38e4e89eb23f9dc7472e85ed183121c4d15391bbeec",
+  "previousReview": "05a-首次独立评审.json",
+  "revision": "05b-修订说明.json",
+  "independentResult": "**VERDICT: READY**  \n**REVIEWED_PLAN_REV:** `44cb847aab4a787927a52b8b8573d71bd125c657a4aa8d436973c2f6bd516b90`\n\n工作树 `C:\\project\\damage_web_dev`、`web/dev`。只读静态复核，未发 HTTP/SQL，未写任何文件（含 `05`），未重跑上一轮已通过的独立回读。\n\n## 阻塞\n\n无。上一轮唯一阻塞（`04.audit` 3 条 vs `04.values` 37 条）已消除：G 源码中的 `validateBaseline` 对当前 `04` 通过，路径数 37，audit 与 values 路径集合一致。G 的 `validateFrozen` 同样通过。\n\n## 摘要绑定\n\n| 文件 | 原字节 SHA-256 |\n| --- | --- |\n| F `tools/authoring/update-reviewed-descriptions-v2.mjs` | `f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517` |\n| G `tools/authoring/read-reviewed-description-updates.mjs` | `3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994` |\n| 01 | `aed364a5f098bc253da985169bd8d0729bfa4d2fd9b778fafbb4b5eb36d4caf3` |\n| 02（当前冻结，必须用此值） | `44cb847aab4a787927a52b8b8573d71bd125c657a4aa8d436973c2f6bd516b90` |\n| 03 | `de8c2cb5e6e244527407e9c193ade722a7d72e6390fa82f92d5c88799e5f9afd` |\n| 04 | `72ba9e7ebae1817a045e4e6c5fe2fcc25fe543c1b3357d6b59c16befac6710fc` |\n\nF、G、01、03 与 `05a` 锁核值相同。G 锁定写入器摘要等于当前 F。`02.sourceSha256` 绑定当前 03，`02.baselineSha256` 绑定当前 04。`05b` 的 `new02`/`new04` 与磁盘一致。\n\n将当前 02 仅把 `baselineSha256` 还原为旧 04 摘要 `b474e3ad28e963f96a1ff3ffda5a489ed3665a08162cdfe513edde6c00867a74` 后，原字节哈希回到 `05a` 的旧 02 `fa5a79a230b09a0219726f5fd59c8d6e05e084953e301ef0cd779386b01e1e28`。请求正文未被这次修订改动。\n\nF `makeRequests(04.values)` 与冻结 `02.requests` 结构全等：两条 PUT，`/skills/ahri_e`、`/skills/seraphine_r`。01 的 3 条 `sourceFiles` 与 03 条目及磁盘摘要一致。\n\n## 37 条现值与 04 来源\n\n`04.values` 仍为 37 路；`04.audit` 现为 37 条 GET 200，3 条 `origin=NEW_GET`（`ahri_e/trigger-rules`、`seraphine_r/effects`、`seraphine_r/trigger-rules`，与 `05a` 指出的三处新列表相同），34 条 `REUSED`。`businessWrites=0`。\n\n34 条复用均引用真实文件，所引 `sourceSha256` 与磁盘原字节一致；对应 `04.values` 与来源正文 `deepEqual`：母快照 `values` / `07.newObjects` 33 条，余下 `ahri_e/trigger-rules/actual_hit` 等于阿狸旧伤害范围 `06` 顶层 `readback`（该 `06` 是页面保存形态，不是 `operations[]`）。\n\n三条 NEW_GET 列表仍在 values 中，稳定键分别为 `actual_hit`/`on_used`/`apply_charm_on_unblocked_hit`、`charm_first_application`、`apply_charm_on_unblocked_hit`，与 `05a` 已核组成对齐。`05b` 记录 `additionalGETs=0`。本轮未重审英雄机制。"
+}

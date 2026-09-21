@@ -1,0 +1,235 @@
+{
+  "at": "2026-09-20T09:13:39.228Z",
+  "status": "PASS",
+  "sourceFiles": [
+    {
+      "path": "web/src/pages/admin/skills/parameterForm.ts",
+      "rawWorkingFileSha256": "f6e216e08e58056a49c901cd45390027911a71b5e2fbcbb42a4abceaf9175285",
+      "normalizedLFSha256": "3ef0bac68f894b75661acec85a743519a628f25bf50bc2143306ac013bf321e3"
+    },
+    {
+      "path": "web/src/pages/admin/skills/parameterForm.test.ts",
+      "rawWorkingFileSha256": "3ded919770ea22bb825f4d33d41f6a4a99b97e5961c17f4479983fbcfffca221",
+      "normalizedLFSha256": "c776e351a02aa31422ec112286fcf3da9be0e387b0964637273aca4b05adc589"
+    },
+    {
+      "path": "web/src/pages/admin/skills/SkillParameterEditorModal.tsx",
+      "rawWorkingFileSha256": "f55aa01a7d4e8d97f61d864fcb84c807b8b284cd2cd5913cf5fca9174163d413",
+      "normalizedLFSha256": "67cc7360557c74b4b6ea2b56f1d71dfe64473dff5b2f503fc30cf8167889a899"
+    },
+    {
+      "path": "web/tests/e2e/non-wasm-pages.spec.ts",
+      "rawWorkingFileSha256": "8c50e81e46f379b08ceacc677110ef103304695e45074be14ac4d59dd626b3bb",
+      "normalizedLFSha256": "8c50e81e46f379b08ceacc677110ef103304695e45074be14ac4d59dd626b3bb"
+    },
+    {
+      "path": "web/README.md",
+      "rawWorkingFileSha256": "9e23e70aec264d0759632ae61554aa97f2d1d218985258a6a2c7be703ed1654a",
+      "normalizedLFSha256": "9e23e70aec264d0759632ae61554aa97f2d1d218985258a6a2c7be703ed1654a"
+    }
+  ],
+  "checks": {
+    "lint": {
+      "status": "PASS",
+      "productionFiles": 141
+    },
+    "typecheck": {
+      "status": "PASS"
+    },
+    "unit": {
+      "status": "PASS",
+      "files": 62,
+      "tests": 728,
+      "affectedParameterTests": 18
+    },
+    "build": {
+      "status": "PASS",
+      "modules": 1292
+    },
+    "targetedProductionBrowser": {
+      "status": "PASS",
+      "tests": 3,
+      "seconds": 22,
+      "testFilter": "bulk level entry|manages skill parameters and formulas from the skills page entry",
+      "data": "隔离接口夹具，含保存、查看重开、失败原值保护、未应用保存阻止和清空草稿"
+    },
+    "fullNonWasmSuite": "本局部修正未重跑全量"
+  },
+  "liveBrowser": {
+    "url": "http://127.0.0.1:5173/#/skills",
+    "status": "PASS",
+    "subjects": [
+      {
+        "skillKey": "nasus_p",
+        "parameterKey": "life_steal_ratio",
+        "mode": "CHARACTER_LEVEL",
+        "levelCount": 18,
+        "verified": [
+          "Lv8空项被拒且原值保留",
+          "改整数后立即指出Lv1不是整数",
+          "恢复小数后整列应用成功",
+          "18级值逐项与现值一致",
+          "查看页无批量入口",
+          "真实截图确认入口和等级格未重叠"
+        ],
+        "save": "应用现值草稿后取消，未向业务API写入"
+      },
+      {
+        "skillKey": "zyra_q",
+        "parameterKey": "base_damage",
+        "mode": "SKILL_LEVEL",
+        "levelCount": 5,
+        "verified": [
+          "4项输入被拒，明确需要5项",
+          "5项制表符分隔数值应用成功",
+          "5级值逐项与现值一致"
+        ],
+        "save": "应用现值草稿后取消，未向业务API写入"
+      }
+    ],
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "businessWrites": 0
+  },
+  "postBrowserReadback": {
+    "status": "PASS",
+    "GETs": 2,
+    "audit": [
+      {
+        "method": "GET",
+        "path": "/skills/nasus_p/parameters",
+        "status": 200,
+        "includingTimestampsUnchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "/skills/zyra_q/parameters",
+        "status": 200,
+        "includingTimestampsUnchanged": true
+      }
+    ],
+    "values": {
+      "/skills/nasus_p/parameters": [
+        {
+          "createdAt": "2026-09-07T16:24:35.549089Z",
+          "description": "客户端 LifestealTooltip：1～6级10%，7～12级15%，13～18级20%；增加百分点。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.1,
+            "2": 0.1,
+            "3": 0.1,
+            "4": 0.1,
+            "5": 0.1,
+            "6": 0.1,
+            "7": 0.15,
+            "8": 0.15,
+            "9": 0.15,
+            "10": 0.15,
+            "11": 0.15,
+            "12": 0.15,
+            "13": 0.2,
+            "14": 0.2,
+            "15": 0.2,
+            "16": 0.2,
+            "17": 0.2,
+            "18": 0.2
+          },
+          "name": "生命偷取增加比例",
+          "parameterKey": "life_steal_ratio",
+          "skillKey": "nasus_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T16:24:35.549089Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "DECIMAL"
+        }
+      ],
+      "/skills/zyra_q/parameters": [
+        {
+          "createdAt": "2026-09-10T02:20:23.593184Z",
+          "description": "InitialDamage当前消费BaseDamage索引1至5为60/100/140/180/220；索引0虽为60但不作1级。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 100,
+            "3": 140,
+            "4": 180,
+            "5": 220
+          },
+          "name": "本体魔法伤害基础值",
+          "parameterKey": "base_damage",
+          "skillKey": "zyra_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-10T02:20:23.593184Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-10T02:20:25.141305Z",
+          "description": "InitialDamage当前消费的mCoefficient=0.65。",
+          "fixedValue": 0.649999976,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "zyra_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-10T02:20:25.141305Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-10T02:20:26.626823Z",
+          "description": "当前根spellCastTime=0.25秒。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "zyra_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-10T02:20:26.626823Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:41.556451Z",
+          "description": "DDragon16.17.1 Zyra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 7000,
+            "2": 6500,
+            "3": 6000,
+            "4": 5500,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zyra_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:41.556451Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:42.069075Z",
+          "description": "DDragon16.17.1 Zyra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 55,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "zyra_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T03:17:56.662939Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    }
+  },
+  "backendChanges": 0,
+  "runtimeValidation": "未执行"
+}

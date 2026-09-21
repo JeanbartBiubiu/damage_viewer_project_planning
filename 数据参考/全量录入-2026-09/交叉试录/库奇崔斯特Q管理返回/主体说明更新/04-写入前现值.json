@@ -1,0 +1,1355 @@
+{
+  "at": "2026-09-19T19:29:48.509Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/corki_q": {
+      "createdAt": "2026-09-06T18:18:05.999596Z",
+      "description": "库奇向目标区域发射一枚闪光弹，对范围内的敌人造成魔法伤害。这个技能还会暂时让目标区域附近的非隐形的单位和英雄现形。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "库奇·磷光炸弹",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "corki_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:05.999596Z"
+    },
+    "/skills/corki_q/parameters": [
+      {
+        "createdAt": "2026-09-09T17:29:08.707976Z",
+        "description": "客户端BaseDamage取技能等级1至5，当前TotalDamage树消费60/105/150/195/240。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 105,
+          "3": 150,
+          "4": 195,
+          "5": 240
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "corki_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:29:08.707976Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:29:09.844319Z",
+        "description": "当前TotalDamage树ADRatio带mStat2/mStatFormula2，按同版窄口径取来源额外攻击力；比例1代表100%。",
+        "fixedValue": 1.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外攻击力比例",
+        "parameterKey": "bonus_attack_damage_ratio",
+        "skillKey": "corki_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:29:09.844319Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:29:11.071842Z",
+        "description": "当前TotalDamage树APRatio省略统计选择器，按同版具名节点窄口径取来源总法强；比例1代表100%。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度比例",
+        "parameterKey": "ability_power_ratio",
+        "skillKey": "corki_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:29:11.071842Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:14.544394Z",
+        "description": "DDragon16.17.1 Corki.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8500,
+          "3": 8000,
+          "4": 7500,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "corki_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:14.544394Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:14.842177Z",
+        "description": "DDragon16.17.1 Corki.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "corki_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:14.842177Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:29:12.180284Z",
+        "description": "当前根spellCastTime；仅保存来源字段，不代表命中、位移或效果事件已接线。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "corki_q",
+        "sortOrder": 1000,
+        "updatedAt": "2026-09-09T17:29:12.180284Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/corki_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T17:29:08.707976Z",
+      "description": "客户端BaseDamage取技能等级1至5，当前TotalDamage树消费60/105/150/195/240。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 105,
+        "3": 150,
+        "4": 195,
+        "5": 240
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "corki_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:29:08.707976Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/corki_q/parameters/bonus_attack_damage_ratio": {
+      "createdAt": "2026-09-09T17:29:09.844319Z",
+      "description": "当前TotalDamage树ADRatio带mStat2/mStatFormula2，按同版窄口径取来源额外攻击力；比例1代表100%。",
+      "fixedValue": 1.25,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "额外攻击力比例",
+      "parameterKey": "bonus_attack_damage_ratio",
+      "skillKey": "corki_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:29:09.844319Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/corki_q/parameters/ability_power_ratio": {
+      "createdAt": "2026-09-09T17:29:11.071842Z",
+      "description": "当前TotalDamage树APRatio省略统计选择器，按同版具名节点窄口径取来源总法强；比例1代表100%。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度比例",
+      "parameterKey": "ability_power_ratio",
+      "skillKey": "corki_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:29:11.071842Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/corki_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:00:14.544394Z",
+      "description": "DDragon16.17.1 Corki.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 9000,
+        "2": 8500,
+        "3": 8000,
+        "4": 7500,
+        "5": 7000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "corki_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T16:00:14.544394Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/corki_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:00:14.842177Z",
+      "description": "DDragon16.17.1 Corki.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "corki_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T16:00:14.842177Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/corki_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T17:29:12.180284Z",
+      "description": "当前根spellCastTime；仅保存来源字段，不代表命中、位移或效果事件已接线。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "corki_q",
+      "sortOrder": 1000,
+      "updatedAt": "2026-09-09T17:29:12.180284Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/corki_q/formulas": [
+      {
+        "createdAt": "2026-09-09T17:29:13.407788Z",
+        "description": "当前TotalDamage=基础值+1.25×额外攻击力+1×法强；单一敌人范围保留，显形只作视野说明。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "磷光炸弹单一敌方魔法伤害",
+        "skillKey": "corki_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:29:13.407788Z"
+      }
+    ],
+    "/skills/corki_q/formulas/magic_damage": {
+      "createdAt": "2026-09-09T17:29:13.407788Z",
+      "description": "当前TotalDamage=基础值+1.25×额外攻击力+1×法强；单一敌人范围保留，显形只作视野说明。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "磷光炸弹单一敌方魔法伤害",
+      "skillKey": "corki_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:29:13.407788Z"
+    },
+    "/skills/corki_q/effects": [
+      {
+        "createdAt": "2026-09-18T19:05:51.086449Z",
+        "description": "施放时消耗对应技能等级的法力。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "corki_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T19:05:51.086449Z"
+      },
+      {
+        "createdAt": "2026-09-18T19:05:52.669613Z",
+        "description": "1V1范围内当前唯一敌方目标的一次实际命中魔法伤害；纯视野显形不在本效果内。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "对当前目标命中伤害",
+        "resultCount": 1,
+        "skillKey": "corki_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T19:05:52.669613Z"
+      }
+    ],
+    "/skills/corki_q/effects/mana_cost": {
+      "createdAt": "2026-09-18T19:05:51.086449Z",
+      "description": "施放时消耗对应技能等级的法力。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "corki_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T19:05:51.086449Z"
+    },
+    "/skills/corki_q/effects/primary_hit": {
+      "createdAt": "2026-09-18T19:05:52.669613Z",
+      "description": "1V1范围内当前唯一敌方目标的一次实际命中魔法伤害；纯视野显形不在本效果内。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "对当前目标命中伤害",
+      "results": [
+        {
+          "description": "引用同技能 magic_damage 公式。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "magic_damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "corki_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T19:05:52.669613Z"
+    },
+    "/skills/corki_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T19:05:53.933491Z",
+        "description": "负责法力消耗、施法延迟和基础冷却；命中效果由实际 SKILL_HIT 规则触发。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放磷光炸弹",
+        "processKey": "cast",
+        "skillKey": "corki_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T19:05:53.933491Z"
+      }
+    ],
+    "/skills/corki_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T19:05:53.933491Z",
+      "description": "负责法力消耗、施法延迟和基础冷却；命中效果由实际 SKILL_HIT 规则触发。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放磷光炸弹",
+      "processKey": "cast",
+      "skillKey": "corki_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能 250 毫秒施法参数。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法时间",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-18T19:05:53.933491Z"
+    },
+    "/skills/corki_q/internal-states": [],
+    "/skills/corki_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收库奇 Q 主动使用并启动已有 cast 过程；命中和区域几何由后续运行层事件提供。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动磷光炸弹施法过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T19:05:55.316101Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅监听当前技能对当前唯一敌方目标的一次实际 SKILL_HIT；规则本身不产生命中事件。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "Q实际命中结算",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "resolve_on_q_hit",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T19:23:46.512595Z"
+      }
+    ],
+    "/skills/corki_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动磷光炸弹施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收库奇 Q 主动使用并启动已有 cast 过程；命中和区域几何由后续运行层事件提供。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "corki_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动磷光炸弹施法过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/skills/corki_q/trigger-rules/resolve_on_q_hit": {
+      "actions": [
+        {
+          "actionKey": "action_1",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "对当前目标命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅监听当前技能对当前唯一敌方目标的一次实际 SKILL_HIT；规则本身不产生命中事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "corki_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "Q实际命中结算",
+      "perTargetCooldown": null,
+      "ruleKey": "resolve_on_q_hit",
+      "sortOrder": 20
+    },
+    "/skills/twistedfate_q": {
+      "createdAt": "2026-09-06T18:20:44.805513Z",
+      "description": "崔斯特扔出三张卡牌，卡牌会对沿途的每个敌方单位造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "崔斯特·万能牌",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "twistedfate_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:44.805513Z"
+    },
+    "/skills/twistedfate_q/parameters": [
+      {
+        "createdAt": "2026-09-09T21:20:41.597112Z",
+        "description": "当前DataValues.BaseDamage技能等级1至5为60/105/150/195/240；索引0的15不是一级。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 105,
+          "3": 150,
+          "4": 195,
+          "5": 240
+        },
+        "name": "万能牌基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:20:41.597112Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:20:43.850986Z",
+        "description": "当前TotalDamage的mStat2带formula2，按来源额外攻击力读取。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "万能牌额外攻击力伤害比例",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T21:20:43.850986Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T21:20:46.075061Z",
+        "description": "当前TotalDamage消费APRatio×来源总法强。",
+        "fixedValue": 0.85000002,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "万能牌法强伤害比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T21:20:46.075061Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T21:20:48.463771Z",
+        "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "万能牌施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T21:20:48.463771Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:18.350696Z",
+        "description": "DDragon16.17.1 TwistedFate.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 6000,
+          "2": 5750,
+          "3": 5500,
+          "4": 5250,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:18.350696Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:18.845633Z",
+        "description": "DDragon16.17.1 TwistedFate.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:18.845633Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/twistedfate_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T21:20:41.597112Z",
+      "description": "当前DataValues.BaseDamage技能等级1至5为60/105/150/195/240；索引0的15不是一级。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 105,
+        "3": 150,
+        "4": 195,
+        "5": 240
+      },
+      "name": "万能牌基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:20:41.597112Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/twistedfate_q/parameters/bonus_ad_ratio": {
+      "createdAt": "2026-09-09T21:20:43.850986Z",
+      "description": "当前TotalDamage的mStat2带formula2，按来源额外攻击力读取。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "万能牌额外攻击力伤害比例",
+      "parameterKey": "bonus_ad_ratio",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T21:20:43.850986Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/twistedfate_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T21:20:46.075061Z",
+      "description": "当前TotalDamage消费APRatio×来源总法强。",
+      "fixedValue": 0.85000002,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "万能牌法强伤害比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T21:20:46.075061Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/twistedfate_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T21:20:48.463771Z",
+      "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "万能牌施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T21:20:48.463771Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/twistedfate_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:05:18.350696Z",
+      "description": "DDragon16.17.1 TwistedFate.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 6000,
+        "2": 5750,
+        "3": 5500,
+        "4": 5250,
+        "5": 5000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:05:18.350696Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/twistedfate_q/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:05:18.845633Z",
+      "description": "DDragon16.17.1 TwistedFate.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:05:18.845633Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/twistedfate_q/formulas": [
+      {
+        "createdAt": "2026-09-09T21:20:50.772483Z",
+        "description": "当前TotalDamage=BaseDamage+0.5×来源额外攻击力+0.85×来源总法强；同一敌人只受一张牌伤害，不乘3。",
+        "formulaKey": "enemy_magic_damage",
+        "gameId": "lol",
+        "name": "万能牌单一敌人单张魔法伤害",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:20:50.772483Z"
+      }
+    ],
+    "/skills/twistedfate_q/formulas/enemy_magic_damage": {
+      "createdAt": "2026-09-09T21:20:50.772483Z",
+      "description": "当前TotalDamage=BaseDamage+0.5×来源额外攻击力+0.85×来源总法强；同一敌人只受一张牌伤害，不乘3。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "enemy_magic_damage",
+      "gameId": "lol",
+      "name": "万能牌单一敌人单张魔法伤害",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:20:50.772483Z"
+    },
+    "/skills/twistedfate_q/effects": [
+      {
+        "createdAt": "2026-09-09T21:20:53.056634Z",
+        "description": "twistedfate_q：只引用当前快照中已存在的基础法力参数；扣除时点与施放资格由后续事件层接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "twistedfate_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:20:53.056634Z"
+      },
+      {
+        "createdAt": "2026-09-18T19:05:58.779524Z",
+        "description": "1V1范围内同一敌方目标至多承受一张牌的实际命中魔法伤害，不乘三。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "对当前目标命中伤害",
+        "resultCount": 1,
+        "skillKey": "twistedfate_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T19:05:58.779524Z"
+      }
+    ],
+    "/skills/twistedfate_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T21:20:53.056634Z",
+      "description": "twistedfate_q：只引用当前快照中已存在的基础法力参数；扣除时点与施放资格由后续事件层接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "twistedfate_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:20:53.056634Z"
+    },
+    "/skills/twistedfate_q/effects/primary_hit": {
+      "createdAt": "2026-09-18T19:05:58.779524Z",
+      "description": "1V1范围内同一敌方目标至多承受一张牌的实际命中魔法伤害，不乘三。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "对当前目标命中伤害",
+      "results": [
+        {
+          "description": "引用同技能 enemy_magic_damage 公式；三条弹道空间分配不在本候选内。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "magic_damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "enemy_magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "twistedfate_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T19:05:58.779524Z"
+    },
+    "/skills/twistedfate_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T19:06:00.116669Z",
+        "description": "负责法力消耗、施法延迟和基础冷却；同一目标至多一张牌的命中效果由 SKILL_HIT 规则触发。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放万能牌",
+        "processKey": "cast",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T19:06:00.116669Z"
+      }
+    ],
+    "/skills/twistedfate_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T19:06:00.116669Z",
+      "description": "负责法力消耗、施法延迟和基础冷却；同一目标至多一张牌的命中效果由 SKILL_HIT 规则触发。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放万能牌",
+      "processKey": "cast",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能 250 毫秒施法参数。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法时间",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-18T19:06:00.116669Z"
+    },
+    "/skills/twistedfate_q/internal-states": [],
+    "/skills/twistedfate_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收崔斯特 Q 主动使用并启动已有 cast 过程；三条弹道空间分配由后续运行层事件提供。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动万能牌施法过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T19:06:01.652117Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅监听当前技能对当前唯一敌方目标的一次实际 SKILL_HIT；同一目标至多一张牌，不乘三，规则本身不产生命中事件。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "Q实际命中结算",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "resolve_on_q_hit",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T19:27:54.959189Z"
+      }
+    ],
+    "/skills/twistedfate_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动万能牌施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收崔斯特 Q 主动使用并启动已有 cast 过程；三条弹道空间分配由后续运行层事件提供。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "twistedfate_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动万能牌施法过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/skills/twistedfate_q/trigger-rules/resolve_on_q_hit": {
+      "actions": [
+        {
+          "actionKey": "action_1",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "对当前目标命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅监听当前技能对当前唯一敌方目标的一次实际 SKILL_HIT；同一目标至多一张牌，不乘三，规则本身不产生命中事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "twistedfate_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "Q实际命中结算",
+      "perTargetCooldown": null,
+      "ruleKey": "resolve_on_q_hit",
+      "sortOrder": 20
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/corki_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/bonus_attack_damage_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/bonus_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/formulas/enemy_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

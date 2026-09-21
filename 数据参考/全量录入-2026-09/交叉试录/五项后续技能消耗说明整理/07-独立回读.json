@@ -1,0 +1,4198 @@
+{
+  "schemaVersion": "authoring.independent-readback.v1",
+  "generatedAt": "2026-09-18T23:39:44.539Z",
+  "status": "PASS",
+  "endpoint": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requestMethod": "GET",
+  "methodsUsed": [
+    "GET"
+  ],
+  "businessWrites": 0,
+  "scriptPath": "数据参考/全量录入-2026-09/交叉试录/五项后续技能消耗说明整理/07a-独立回读.mjs",
+  "scriptSha256": "a7807aeb45e61f663b82f54a5664a67b05e70f95b2d87588b8be0bd9dc71f07b",
+  "preflight": {
+    "reviewStatus": "APPROVED",
+    "writeStatus": "PASS",
+    "writeBusinessWritesAttempted": 9,
+    "freezeSourceSha256Matches": true,
+    "freezeBaselineSha256Matches": true,
+    "approvedShaChecks": [
+      {
+        "path": "tools/authoring/update-reviewed-descriptions-v2.mjs",
+        "expectedSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+        "actualSha256": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+        "matches": true
+      },
+      {
+        "path": "01-纠错计划.json",
+        "expectedSha256": "47000d78934a4ca5c9b6edbe32abd0e15b230eeb5e90599ad85c8ee5bea966dd",
+        "actualSha256": "47000d78934a4ca5c9b6edbe32abd0e15b230eeb5e90599ad85c8ee5bea966dd",
+        "matches": true
+      },
+      {
+        "path": "02-冻结请求.json",
+        "expectedSha256": "ae9155e3210297baa2e624248d9d3ac7fa10651f422384e339ebf50241d290d5",
+        "actualSha256": "ae9155e3210297baa2e624248d9d3ac7fa10651f422384e339ebf50241d290d5",
+        "matches": true
+      },
+      {
+        "path": "03-来源摘要.json",
+        "expectedSha256": "aa1df1db10ed1275031e5fcb76a9b685f0bf40f7c77633333f31116e6e619eb4",
+        "actualSha256": "aa1df1db10ed1275031e5fcb76a9b685f0bf40f7c77633333f31116e6e619eb4",
+        "matches": true
+      },
+      {
+        "path": "04-写入前现值.json",
+        "expectedSha256": "9446fd1a8dadc5c0ef3a882008ff2fe662621d87ecc77885b4ffb95e866459a3",
+        "actualSha256": "9446fd1a8dadc5c0ef3a882008ff2fe662621d87ecc77885b4ffb95e866459a3",
+        "matches": true
+      }
+    ],
+    "sourceShaChecks": [
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/README.md",
+        "expectedSha256": "536cd8d3848959775da7b85e41f1a9a3a7ee6f790a6426406ef325eb9e183046",
+        "actualSha256": "536cd8d3848959775da7b85e41f1a9a3a7ee6f790a6426406ef325eb9e183046",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/01-候选方案.json",
+        "expectedSha256": "ca07bff5034699177c84e7aa61d6c8302464e7fd2e3dade520dee79a5cdf46d5",
+        "actualSha256": "ca07bff5034699177c84e7aa61d6c8302464e7fd2e3dade520dee79a5cdf46d5",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/README.md",
+        "expectedSha256": "858a5fbe5e717ca43210a488d88b0a37afa5bb436497f92bd5ae5467aa0b77a6",
+        "actualSha256": "858a5fbe5e717ca43210a488d88b0a37afa5bb436497f92bd5ae5467aa0b77a6",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/01-候选方案.json",
+        "expectedSha256": "afd5f1cc6f28da81f6e58a0ef6097864a39a7960a649773be3a0c97c04e1efa0",
+        "actualSha256": "afd5f1cc6f28da81f6e58a0ef6097864a39a7960a649773be3a0c97c04e1efa0",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/07-独立回读.json",
+        "expectedSha256": "00a498cd2b0e248da104fd8a8a3f9f733376eadc534d7485b88806571ace556a",
+        "actualSha256": "00a498cd2b0e248da104fd8a8a3f9f733376eadc534d7485b88806571ace556a",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/README.md",
+        "expectedSha256": "bcdfa68d3c9844489c24a451a947cc4c7ce525fbd17e839fa4a420dbd1a642aa",
+        "actualSha256": "bcdfa68d3c9844489c24a451a947cc4c7ce525fbd17e839fa4a420dbd1a642aa",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/01-候选方案.json",
+        "expectedSha256": "f35fda31fa0adf2de7ce700c9163c104c7f2ad0b6708e53f4b1a2462947fb9b9",
+        "actualSha256": "f35fda31fa0adf2de7ce700c9163c104c7f2ad0b6708e53f4b1a2462947fb9b9",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/07-独立回读.json",
+        "expectedSha256": "28725d332c3641d08c9c57d6010c512f9daea8f6b37d15ca01d25180c20f4f37",
+        "actualSha256": "28725d332c3641d08c9c57d6010c512f9daea8f6b37d15ca01d25180c20f4f37",
+        "matches": true
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/使用消耗登记续核/娑娜E使用语义续核.json",
+        "expectedSha256": "cad6930c79aebb9b426df56a39440b414945b399f11af19f583e7a855097c68e",
+        "actualSha256": "cad6930c79aebb9b426df56a39440b414945b399f11af19f583e7a855097c68e",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "web/src/types/skillParameter.ts",
+        "expectedSha256": "35de9ac58d29e440ac65ac03184f34ecd18507894bd146e801c807d63a5f3fa8",
+        "actualSha256": "35de9ac58d29e440ac65ac03184f34ecd18507894bd146e801c807d63a5f3fa8",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "web/src/types/skillProcess.ts",
+        "expectedSha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+        "actualSha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "web/src/types/skillTriggerRule.ts",
+        "expectedSha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615",
+        "actualSha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/五项后续技能消耗说明整理/00-只读候选.json",
+        "expectedSha256": "cd48590ab17ee91ba0a084b5dfd46a30be642cec3c5e96b25bc6d8cd8d0a9d5b",
+        "actualSha256": "cd48590ab17ee91ba0a084b5dfd46a30be642cec3c5e96b25bc6d8cd8d0a9d5b",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/五项后续技能消耗说明整理/00a-候选GET原件.json",
+        "expectedSha256": "13a36409943c4d3327ac98a71e906964b67df80d07ae60e4677cb9c52e32e337",
+        "actualSha256": "13a36409943c4d3327ac98a71e906964b67df80d07ae60e4677cb9c52e32e337",
+        "matches": true
+      }
+    ],
+    "baselinePathCount": 104,
+    "baselineAuditCount": 104
+  },
+  "counts": {
+    "requestedGETs": 104,
+    "completedGETs": 104,
+    "successfulJSONResponses": 104,
+    "statusCounts": {
+      "200": 104
+    },
+    "targetDetailPaths": 9,
+    "targetListPaths": 9,
+    "changedDetailPass": 9,
+    "changedListPass": 9,
+    "unchangedPathsExpected": 86,
+    "unchangedPathsPass": 86,
+    "failureCount": 0
+  },
+  "targetDetailEvidence": [
+    {
+      "path": "/skills/sona_e/parameters/mana_cost",
+      "stableKey": "mana_cost",
+      "descriptionMatchesApproved": true,
+      "createdAtUnchanged": true,
+      "updatedAtChanged": true,
+      "updatedAtValid": true,
+      "updatedAtAfterBaseline": true
+    },
+    {
+      "path": "/skills/morgana_q/parameters/mana_cost",
+      "stableKey": "mana_cost",
+      "descriptionMatchesApproved": true,
+      "createdAtUnchanged": true,
+      "updatedAtChanged": true,
+      "updatedAtValid": true,
+      "updatedAtAfterBaseline": true
+    },
+    {
+      "path": "/skills/morgana_q/effects/mana_cost",
+      "stableKey": "mana_cost",
+      "descriptionMatchesApproved": true,
+      "createdAtUnchanged": true,
+      "updatedAtChanged": true,
+      "updatedAtValid": true,
+      "updatedAtAfterBaseline": true
+    },
+    {
+      "path": "/skills/morgana_w/parameters/mana_cost",
+      "stableKey": "mana_cost",
+      "descriptionMatchesApproved": true,
+      "createdAtUnchanged": true,
+      "updatedAtChanged": true,
+      "updatedAtValid": true,
+      "updatedAtAfterBaseline": true
+    },
+    {
+      "path": "/skills/morgana_w/effects/mana_cost",
+      "stableKey": "mana_cost",
+      "descriptionMatchesApproved": true,
+      "createdAtUnchanged": true,
+      "updatedAtChanged": true,
+      "updatedAtValid": true,
+      "updatedAtAfterBaseline": true
+    },
+    {
+      "path": "/skills/morgana_r/parameters/mana_cost",
+      "stableKey": "mana_cost",
+      "descriptionMatchesApproved": true,
+      "createdAtUnchanged": true,
+      "updatedAtChanged": true,
+      "updatedAtValid": true,
+      "updatedAtAfterBaseline": true
+    },
+    {
+      "path": "/skills/morgana_r/effects/mana_cost",
+      "stableKey": "mana_cost",
+      "descriptionMatchesApproved": true,
+      "createdAtUnchanged": true,
+      "updatedAtChanged": true,
+      "updatedAtValid": true,
+      "updatedAtAfterBaseline": true
+    },
+    {
+      "path": "/skills/xerath_e/parameters/mana_cost",
+      "stableKey": "mana_cost",
+      "descriptionMatchesApproved": true,
+      "createdAtUnchanged": true,
+      "updatedAtChanged": true,
+      "updatedAtValid": true,
+      "updatedAtAfterBaseline": true
+    },
+    {
+      "path": "/skills/xerath_e/effects/mana_cost",
+      "stableKey": "mana_cost",
+      "descriptionMatchesApproved": true,
+      "createdAtUnchanged": true,
+      "updatedAtChanged": true,
+      "updatedAtValid": true,
+      "updatedAtAfterBaseline": true
+    }
+  ],
+  "targetListEvidence": [
+    {
+      "path": "/skills/sona_e/parameters",
+      "targets": [
+        {
+          "stableKey": "mana_cost",
+          "detailPath": "/skills/sona_e/parameters/mana_cost",
+          "descriptionMatchesDetail": true,
+          "updatedAtMatchesDetail": true
+        }
+      ]
+    },
+    {
+      "path": "/skills/morgana_q/parameters",
+      "targets": [
+        {
+          "stableKey": "mana_cost",
+          "detailPath": "/skills/morgana_q/parameters/mana_cost",
+          "descriptionMatchesDetail": true,
+          "updatedAtMatchesDetail": true
+        }
+      ]
+    },
+    {
+      "path": "/skills/morgana_q/effects",
+      "targets": [
+        {
+          "stableKey": "mana_cost",
+          "detailPath": "/skills/morgana_q/effects/mana_cost",
+          "descriptionMatchesDetail": true,
+          "updatedAtMatchesDetail": true
+        }
+      ]
+    },
+    {
+      "path": "/skills/morgana_w/parameters",
+      "targets": [
+        {
+          "stableKey": "mana_cost",
+          "detailPath": "/skills/morgana_w/parameters/mana_cost",
+          "descriptionMatchesDetail": true,
+          "updatedAtMatchesDetail": true
+        }
+      ]
+    },
+    {
+      "path": "/skills/morgana_w/effects",
+      "targets": [
+        {
+          "stableKey": "mana_cost",
+          "detailPath": "/skills/morgana_w/effects/mana_cost",
+          "descriptionMatchesDetail": true,
+          "updatedAtMatchesDetail": true
+        }
+      ]
+    },
+    {
+      "path": "/skills/morgana_r/parameters",
+      "targets": [
+        {
+          "stableKey": "mana_cost",
+          "detailPath": "/skills/morgana_r/parameters/mana_cost",
+          "descriptionMatchesDetail": true,
+          "updatedAtMatchesDetail": true
+        }
+      ]
+    },
+    {
+      "path": "/skills/morgana_r/effects",
+      "targets": [
+        {
+          "stableKey": "mana_cost",
+          "detailPath": "/skills/morgana_r/effects/mana_cost",
+          "descriptionMatchesDetail": true,
+          "updatedAtMatchesDetail": true
+        }
+      ]
+    },
+    {
+      "path": "/skills/xerath_e/parameters",
+      "targets": [
+        {
+          "stableKey": "mana_cost",
+          "detailPath": "/skills/xerath_e/parameters/mana_cost",
+          "descriptionMatchesDetail": true,
+          "updatedAtMatchesDetail": true
+        }
+      ]
+    },
+    {
+      "path": "/skills/xerath_e/effects",
+      "targets": [
+        {
+          "stableKey": "mana_cost",
+          "detailPath": "/skills/xerath_e/effects/mana_cost",
+          "descriptionMatchesDetail": true,
+          "updatedAtMatchesDetail": true
+        }
+      ]
+    }
+  ],
+  "unchangedPathCount": 86,
+  "failures": [],
+  "values": {
+    "/skills/sona_e": {
+      "createdAt": "2026-09-06T18:20:27.713657Z",
+      "description": "娑娜弹奏迅捷奏鸣曲，为她自己提供移动速度加成。娑娜会暂时获得一个光环，为进入区域的友方英雄提供移动速度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "娑娜·迅捷奏鸣曲",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "sona_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:27.713657Z"
+    },
+    "/skills/sona_e/parameters": [
+      {
+        "createdAt": "2026-09-09T18:37:03.8321Z",
+        "description": "当前SelfBaseMovementSpeed=0.2。",
+        "fixedValue": 0.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身移动速度比例",
+        "parameterKey": "self_move_speed_ratio",
+        "skillKey": "sona_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:37:03.8321Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:05.063018Z",
+        "description": "当前自身加速树法强系数为0.0002。",
+        "fixedValue": 0.0002,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身移动速度法强比例",
+        "parameterKey": "self_move_speed_ap_ratio",
+        "skillKey": "sona_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:37:05.063018Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:06.237692Z",
+        "description": "当前无受伤延长的最短3秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身加速最短时间",
+        "parameterKey": "self_move_speed_duration_min_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:37:06.237692Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:07.39074Z",
+        "description": "当前无受伤延长的最长7秒。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身加速最长时间",
+        "parameterKey": "self_move_speed_duration_max_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T18:37:07.39074Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:08.583693Z",
+        "description": "当前AuraDuration=3秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "迅捷奏鸣曲光环持续时间",
+        "parameterKey": "aura_duration_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T18:37:08.583693Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:09.821323Z",
+        "description": "当前BaseGlobalCD=0.5秒。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础技能公共间隔",
+        "parameterKey": "melody_interval_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T18:37:09.821323Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:35.333368Z",
+        "description": "DDragon16.17.1 Sona.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 14000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:35.333368Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:11.013814Z",
+        "description": "当前TotalTempoMoveSpeedSlow以0.5比例显示为50%。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "节奏减速基础比例",
+        "parameterKey": "tempo_slow_base_ratio",
+        "skillKey": "sona_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T18:37:11.013814Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:35.790305Z",
+        "description": "DDragon16.17.1 Sona.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sona_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T23:36:22.667414Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:12.198312Z",
+        "description": "当前TotalTempoMoveSpeedSlow法强系数为0.0004。",
+        "fixedValue": 0.0004,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "节奏减速法强比例",
+        "parameterKey": "tempo_slow_ap_ratio",
+        "skillKey": "sona_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-09T18:37:12.198312Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:13.309852Z",
+        "description": "当前TempoDuration=2秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "节奏减速持续时间",
+        "parameterKey": "tempo_duration_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 120,
+        "updatedAt": "2026-09-09T18:37:13.309852Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:14.394778Z",
+        "description": "当前spellCastTime=0.25秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础施法时间",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "sona_e",
+        "sortOrder": 130,
+        "updatedAt": "2026-09-09T18:37:14.394778Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/sona_e/parameters/self_move_speed_ratio": {
+      "createdAt": "2026-09-09T18:37:03.8321Z",
+      "description": "当前SelfBaseMovementSpeed=0.2。",
+      "fixedValue": 0.2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "自身移动速度比例",
+      "parameterKey": "self_move_speed_ratio",
+      "skillKey": "sona_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:37:03.8321Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sona_e/parameters/self_move_speed_ap_ratio": {
+      "createdAt": "2026-09-09T18:37:05.063018Z",
+      "description": "当前自身加速树法强系数为0.0002。",
+      "fixedValue": 0.0002,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "自身移动速度法强比例",
+      "parameterKey": "self_move_speed_ap_ratio",
+      "skillKey": "sona_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:37:05.063018Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sona_e/parameters/self_move_speed_duration_min_ms": {
+      "createdAt": "2026-09-09T18:37:06.237692Z",
+      "description": "当前无受伤延长的最短3秒。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "自身加速最短时间",
+      "parameterKey": "self_move_speed_duration_min_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:37:06.237692Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/self_move_speed_duration_max_ms": {
+      "createdAt": "2026-09-09T18:37:07.39074Z",
+      "description": "当前无受伤延长的最长7秒。",
+      "fixedValue": 7000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "自身加速最长时间",
+      "parameterKey": "self_move_speed_duration_max_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T18:37:07.39074Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/aura_duration_ms": {
+      "createdAt": "2026-09-09T18:37:08.583693Z",
+      "description": "当前AuraDuration=3秒。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "迅捷奏鸣曲光环持续时间",
+      "parameterKey": "aura_duration_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T18:37:08.583693Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/melody_interval_ms": {
+      "createdAt": "2026-09-09T18:37:09.821323Z",
+      "description": "当前BaseGlobalCD=0.5秒。",
+      "fixedValue": 500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础技能公共间隔",
+      "parameterKey": "melody_interval_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T18:37:09.821323Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:03:35.333368Z",
+      "description": "DDragon16.17.1 Sona.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 14000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:03:35.333368Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/tempo_slow_base_ratio": {
+      "createdAt": "2026-09-09T18:37:11.013814Z",
+      "description": "当前TotalTempoMoveSpeedSlow以0.5比例显示为50%。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "节奏减速基础比例",
+      "parameterKey": "tempo_slow_base_ratio",
+      "skillKey": "sona_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-09T18:37:11.013814Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sona_e/parameters/mana_cost": {
+      "createdAt": "2026-09-08T01:03:35.790305Z",
+      "description": "DDragon16.17.1 Sona.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 65,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "sona_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-18T23:36:22.667414Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/tempo_slow_ap_ratio": {
+      "createdAt": "2026-09-09T18:37:12.198312Z",
+      "description": "当前TotalTempoMoveSpeedSlow法强系数为0.0004。",
+      "fixedValue": 0.0004,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "节奏减速法强比例",
+      "parameterKey": "tempo_slow_ap_ratio",
+      "skillKey": "sona_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-09T18:37:12.198312Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sona_e/parameters/tempo_duration_ms": {
+      "createdAt": "2026-09-09T18:37:13.309852Z",
+      "description": "当前TempoDuration=2秒。",
+      "fixedValue": 2000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "节奏减速持续时间",
+      "parameterKey": "tempo_duration_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 120,
+      "updatedAt": "2026-09-09T18:37:13.309852Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:37:14.394778Z",
+      "description": "当前spellCastTime=0.25秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础施法时间",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "sona_e",
+      "sortOrder": 130,
+      "updatedAt": "2026-09-09T18:37:14.394778Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_e/formulas": [
+      {
+        "createdAt": "2026-09-09T18:37:15.525456Z",
+        "description": "自身加速按比例保存，未映射为move_speed_percent属性效果。",
+        "formulaKey": "self_move_speed_ratio_value",
+        "gameId": "lol",
+        "name": "自身移动速度加成比例",
+        "skillKey": "sona_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:37:15.525456Z"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:16.628155Z",
+        "description": "减速比例是数值组成，不自动创建减速事件。",
+        "formulaKey": "tempo_slow_ratio",
+        "gameId": "lol",
+        "name": "节奏减速比例",
+        "skillKey": "sona_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:37:16.628155Z"
+      }
+    ],
+    "/skills/sona_e/formulas/self_move_speed_ratio_value": {
+      "createdAt": "2026-09-09T18:37:15.525456Z",
+      "description": "自身加速按比例保存，未映射为move_speed_percent属性效果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_move_speed_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_move_speed_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "self_move_speed_ratio_value",
+      "gameId": "lol",
+      "name": "自身移动速度加成比例",
+      "skillKey": "sona_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:37:15.525456Z"
+    },
+    "/skills/sona_e/formulas/tempo_slow_ratio": {
+      "createdAt": "2026-09-09T18:37:16.628155Z",
+      "description": "减速比例是数值组成，不自动创建减速事件。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "tempo_slow_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "tempo_slow_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "tempo_slow_ratio",
+      "gameId": "lol",
+      "name": "节奏减速比例",
+      "skillKey": "sona_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:37:16.628155Z"
+    },
+    "/skills/sona_e/effects": [
+      {
+        "createdAt": "2026-09-18T21:18:41.210778Z",
+        "description": "每次主动使用迅捷奏鸣曲时消耗65点基础法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "sona_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T21:18:41.210778Z"
+      }
+    ],
+    "/skills/sona_e/effects/mana_cost": {
+      "createdAt": "2026-09-18T21:18:41.210778Z",
+      "description": "每次主动使用迅捷奏鸣曲时消耗65点基础法力；具体使用流程由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "sona_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T21:18:41.210778Z"
+    },
+    "/skills/sona_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T21:18:42.611497Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "sona_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T21:18:42.611497Z"
+      }
+    ],
+    "/skills/sona_e/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T21:18:42.611497Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "sona_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T21:18:42.611497Z"
+    },
+    "/skills/sona_e/internal-states": [],
+    "/skills/sona_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T21:18:43.945841Z"
+      }
+    ],
+    "/skills/sona_e/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动消耗与冷却登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "sona_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/morgana_q": {
+      "createdAt": "2026-09-06T18:19:30.503855Z",
+      "description": "莫甘娜用黑暗魔法将一名敌人禁锢在原地，迫使其感受自己造成的痛苦并对其造成魔法伤害。 （来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "莫甘娜·暗之禁锢",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "morgana_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:30.503855Z"
+    },
+    "/skills/morgana_q/parameters": [
+      {
+        "createdAt": "2026-09-09T17:57:41.409972Z",
+        "description": "客户端DataValues.Damage取索引1至5；索引0为旧占位25。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 135,
+          "3": 190,
+          "4": 245,
+          "5": 300
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "morgana_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:57:41.409972Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:42.711376Z",
+        "description": "TotalDamage树的StatByCoefficient系数为0.9×来源总法强。",
+        "fixedValue": 0.9,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "morgana_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:57:42.711376Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:44.045248Z",
+        "description": "客户端RootDuration取索引1至5，单位秒转换为2000/2250/2500/2750/3000毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 2000,
+          "2": 2250,
+          "3": 2500,
+          "4": 2750,
+          "5": 3000
+        },
+        "name": "禁锢持续时间（毫秒）",
+        "parameterKey": "root_duration_ms",
+        "skillKey": "morgana_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:57:44.045248Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-18T22:16:32.900581Z",
+        "description": "DDragon16.17.1 Morgana.spells[0].cooldown，等级1起索引0；客户端主技能未提供cooldownTime，不能把缺失字段当作0。只登记基础普通冷却，不计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "morgana_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-18T22:16:32.900581Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:20.906959Z",
+        "description": "DDragon16.17.1 Morgana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "morgana_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T23:36:24.04409Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/morgana_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T17:57:41.409972Z",
+      "description": "客户端DataValues.Damage取索引1至5；索引0为旧占位25。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 135,
+        "3": 190,
+        "4": 245,
+        "5": 300
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "morgana_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:57:41.409972Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T17:57:42.711376Z",
+      "description": "TotalDamage树的StatByCoefficient系数为0.9×来源总法强。",
+      "fixedValue": 0.9,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "morgana_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:57:42.711376Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/morgana_q/parameters/root_duration_ms": {
+      "createdAt": "2026-09-09T17:57:44.045248Z",
+      "description": "客户端RootDuration取索引1至5，单位秒转换为2000/2250/2500/2750/3000毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 2000,
+        "2": 2250,
+        "3": 2500,
+        "4": 2750,
+        "5": 3000
+      },
+      "name": "禁锢持续时间（毫秒）",
+      "parameterKey": "root_duration_ms",
+      "skillKey": "morgana_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:57:44.045248Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-18T22:16:32.900581Z",
+      "description": "DDragon16.17.1 Morgana.spells[0].cooldown，等级1起索引0；客户端主技能未提供cooldownTime，不能把缺失字段当作0。只登记基础普通冷却，不计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 10000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "morgana_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-18T22:16:32.900581Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:20.906959Z",
+      "description": "DDragon16.17.1 Morgana.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 55,
+        "3": 60,
+        "4": 65,
+        "5": 70
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "morgana_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-18T23:36:24.04409Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_q/formulas": [
+      {
+        "createdAt": "2026-09-09T17:57:45.246448Z",
+        "description": "TotalDamage = Damage + 0.9×来源总法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "暗之禁锢唯一敌人魔法伤害",
+        "skillKey": "morgana_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:57:45.246448Z"
+      }
+    ],
+    "/skills/morgana_q/formulas/magic_damage": {
+      "createdAt": "2026-09-09T17:57:45.246448Z",
+      "description": "TotalDamage = Damage + 0.9×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "暗之禁锢唯一敌人魔法伤害",
+      "skillKey": "morgana_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:57:45.246448Z"
+    },
+    "/skills/morgana_q/effects": [
+      {
+        "createdAt": "2026-09-09T17:57:46.516614Z",
+        "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "morgana_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T23:36:25.389715Z"
+      },
+      {
+        "createdAt": "2026-09-18T22:35:01.570726Z",
+        "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；禁锢控制、投射物几何和其他目标类别分支不在本效果内。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "对当前目标命中伤害",
+        "resultCount": 1,
+        "skillKey": "morgana_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T22:35:01.570726Z"
+      }
+    ],
+    "/skills/morgana_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T17:57:46.516614Z",
+      "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "morgana_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T23:36:25.389715Z"
+    },
+    "/skills/morgana_q/effects/primary_hit": {
+      "createdAt": "2026-09-18T22:35:01.570726Z",
+      "description": "1V1范围内当前唯一敌方英雄的一次实际命中魔法伤害；禁锢控制、投射物几何和其他目标类别分支不在本效果内。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "对当前目标命中伤害",
+      "results": [
+        {
+          "description": "引用同技能 magic_damage 公式；结果只表示配置的直接技能伤害。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "magic_damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "morgana_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T22:35:01.570726Z"
+    },
+    "/skills/morgana_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T22:16:34.443467Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。其他技能效果不在此过程执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "morgana_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T22:16:34.443467Z"
+      }
+    ],
+    "/skills/morgana_q/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T22:16:34.443467Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。其他技能效果不在此过程执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "morgana_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T22:16:34.443467Z"
+    },
+    "/skills/morgana_q/internal-states": [],
+    "/skills/morgana_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T22:16:35.721451Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅消费宿主确认的 morgana_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行已有 primary_hit；规则本身不产生命中事件，也不创建禁锢控制。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "Q实际命中结算",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "resolve_on_q_hit",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T22:35:03.236755Z"
+      }
+    ],
+    "/skills/morgana_q/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动使用过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "morgana_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/morgana_q/trigger-rules/resolve_on_q_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行暗之禁锢命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "唯一敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅消费宿主确认的 morgana_q 实际 SKILL_HIT，在当前唯一敌方英雄上执行已有 primary_hit；规则本身不产生命中事件，也不创建禁锢控制。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "morgana_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "Q实际命中结算",
+      "perTargetCooldown": null,
+      "ruleKey": "resolve_on_q_hit",
+      "sortOrder": 20
+    },
+    "/skills/morgana_w": {
+      "createdAt": "2026-09-06T18:19:30.761855Z",
+      "description": "莫甘娜在一个区域施放一团诅咒之影，对胆敢站在她黑色环形之中的敌人造成伤害。敌人会持续受到魔法伤害，并且生命值越低受到伤害越高。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "莫甘娜·折磨之影",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "morgana_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:30.761855Z"
+    },
+    "/skills/morgana_w/parameters": [
+      {
+        "createdAt": "2026-09-09T17:57:47.759573Z",
+        "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 18,
+          "2": 31,
+          "3": 44,
+          "4": 57,
+          "5": 70
+        },
+        "name": "每秒基础魔法伤害",
+        "parameterKey": "base_damage_per_second",
+        "skillKey": "morgana_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:57:47.759573Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:49.015779Z",
+        "description": "客户端TotalMinDamage树消费BaseApRatio=0.2×来源总法强；字段大小写差异不改变绑定关系。",
+        "fixedValue": 0.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "morgana_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:57:49.015779Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:50.367812Z",
+        "description": "客户端TickRate为0.5秒，转换为500毫秒；每秒伤害与每跳结算仍分开。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "持续伤害间隔（毫秒）",
+        "parameterKey": "tick_interval_ms",
+        "skillKey": "morgana_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:57:50.367812Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:51.60208Z",
+        "description": "客户端TotalMaxDamage乘数为1+MissingHealthAmpPercent；实际目标缺失生命曲线无默认。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最大缺失生命增幅比例",
+        "parameterKey": "maximum_missing_health_amplification_ratio",
+        "skillKey": "morgana_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T17:57:51.60208Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:52.887798Z",
+        "description": "客户端WDuration为5秒，转换为5000毫秒。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "区域持续时间（毫秒）",
+        "parameterKey": "duration_ms",
+        "skillKey": "morgana_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T17:57:52.887798Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:54.189684Z",
+        "description": "当前正文明确莫甘娜被P治疗时W冷却减少5%；只保留条件参数，不创建无条件冷却效果。",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "被动治疗后W冷却返还比例",
+        "parameterKey": "passive_heal_cooldown_refund_ratio",
+        "skillKey": "morgana_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T17:57:54.189684Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:55.424832Z",
+        "description": "为1+MissingHealthAmpPercent提供固定二元叶子。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "完整倍率基准",
+        "parameterKey": "one_ratio",
+        "skillKey": "morgana_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T17:57:55.424832Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:21.332198Z",
+        "description": "DDragon16.17.1 Morgana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "morgana_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:21.332198Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:21.741214Z",
+        "description": "DDragon16.17.1 Morgana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "morgana_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T23:36:26.910774Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/morgana_w/parameters/base_damage_per_second": {
+      "createdAt": "2026-09-09T17:57:47.759573Z",
+      "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 18,
+        "2": 31,
+        "3": 44,
+        "4": 57,
+        "5": 70
+      },
+      "name": "每秒基础魔法伤害",
+      "parameterKey": "base_damage_per_second",
+      "skillKey": "morgana_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:57:47.759573Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_w/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T17:57:49.015779Z",
+      "description": "客户端TotalMinDamage树消费BaseApRatio=0.2×来源总法强；字段大小写差异不改变绑定关系。",
+      "fixedValue": 0.2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "morgana_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:57:49.015779Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/morgana_w/parameters/tick_interval_ms": {
+      "createdAt": "2026-09-09T17:57:50.367812Z",
+      "description": "客户端TickRate为0.5秒，转换为500毫秒；每秒伤害与每跳结算仍分开。",
+      "fixedValue": 500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "持续伤害间隔（毫秒）",
+      "parameterKey": "tick_interval_ms",
+      "skillKey": "morgana_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:57:50.367812Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_w/parameters/maximum_missing_health_amplification_ratio": {
+      "createdAt": "2026-09-09T17:57:51.60208Z",
+      "description": "客户端TotalMaxDamage乘数为1+MissingHealthAmpPercent；实际目标缺失生命曲线无默认。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "最大缺失生命增幅比例",
+      "parameterKey": "maximum_missing_health_amplification_ratio",
+      "skillKey": "morgana_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T17:57:51.60208Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/morgana_w/parameters/duration_ms": {
+      "createdAt": "2026-09-09T17:57:52.887798Z",
+      "description": "客户端WDuration为5秒，转换为5000毫秒。",
+      "fixedValue": 5000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "区域持续时间（毫秒）",
+      "parameterKey": "duration_ms",
+      "skillKey": "morgana_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T17:57:52.887798Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_w/parameters/passive_heal_cooldown_refund_ratio": {
+      "createdAt": "2026-09-09T17:57:54.189684Z",
+      "description": "当前正文明确莫甘娜被P治疗时W冷却减少5%；只保留条件参数，不创建无条件冷却效果。",
+      "fixedValue": 0.05,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "被动治疗后W冷却返还比例",
+      "parameterKey": "passive_heal_cooldown_refund_ratio",
+      "skillKey": "morgana_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T17:57:54.189684Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/morgana_w/parameters/one_ratio": {
+      "createdAt": "2026-09-09T17:57:55.424832Z",
+      "description": "为1+MissingHealthAmpPercent提供固定二元叶子。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "完整倍率基准",
+      "parameterKey": "one_ratio",
+      "skillKey": "morgana_w",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T17:57:55.424832Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/morgana_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:21.332198Z",
+      "description": "DDragon16.17.1 Morgana.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 12000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "morgana_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:21.332198Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:21.741214Z",
+      "description": "DDragon16.17.1 Morgana.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 80,
+        "3": 90,
+        "4": 100,
+        "5": 110
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "morgana_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-18T23:36:26.910774Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_w/formulas": [
+      {
+        "createdAt": "2026-09-09T17:57:56.852137Z",
+        "description": "TotalMinDamage = BaseDamage + BaseApRatio×来源总法强。",
+        "formulaKey": "minimum_magic_damage_per_second",
+        "gameId": "lol",
+        "name": "折磨之影最低每秒魔法伤害",
+        "skillKey": "morgana_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:57:56.852137Z"
+      },
+      {
+        "createdAt": "2026-09-09T17:57:58.3217Z",
+        "description": "TotalMaxDamage = (1+MissingHealthAmpPercent)×TotalMinDamage；接口公式只能引用参数，故内联最低式；实际缺失生命曲线不当作默认最大值。",
+        "formulaKey": "maximum_magic_damage_per_second",
+        "gameId": "lol",
+        "name": "折磨之影最高每秒魔法伤害",
+        "skillKey": "morgana_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:57:58.3217Z"
+      }
+    ],
+    "/skills/morgana_w/formulas/minimum_magic_damage_per_second": {
+      "createdAt": "2026-09-09T17:57:56.852137Z",
+      "description": "TotalMinDamage = BaseDamage + BaseApRatio×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage_per_second"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "minimum_magic_damage_per_second",
+      "gameId": "lol",
+      "name": "折磨之影最低每秒魔法伤害",
+      "skillKey": "morgana_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:57:56.852137Z"
+    },
+    "/skills/morgana_w/formulas/maximum_magic_damage_per_second": {
+      "createdAt": "2026-09-09T17:57:58.3217Z",
+      "description": "TotalMaxDamage = (1+MissingHealthAmpPercent)×TotalMinDamage；接口公式只能引用参数，故内联最低式；实际缺失生命曲线不当作默认最大值。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage_per_second"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "maximum_missing_health_amplification_ratio"
+              }
+            ],
+            "operation": "ADD"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "maximum_magic_damage_per_second",
+      "gameId": "lol",
+      "name": "折磨之影最高每秒魔法伤害",
+      "skillKey": "morgana_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:57:58.3217Z"
+    },
+    "/skills/morgana_w/effects": [
+      {
+        "createdAt": "2026-09-09T17:57:59.638354Z",
+        "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "morgana_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T23:36:28.120321Z"
+      }
+    ],
+    "/skills/morgana_w/effects/mana_cost": {
+      "createdAt": "2026-09-09T17:57:59.638354Z",
+      "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "morgana_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T23:36:28.120321Z"
+    },
+    "/skills/morgana_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T22:16:37.262261Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。其他技能效果不在此过程执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "morgana_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T22:16:37.262261Z"
+      }
+    ],
+    "/skills/morgana_w/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T22:16:37.262261Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。其他技能效果不在此过程执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "morgana_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T22:16:37.262261Z"
+    },
+    "/skills/morgana_w/internal-states": [],
+    "/skills/morgana_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T22:16:38.787528Z"
+      }
+    ],
+    "/skills/morgana_w/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动使用过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "morgana_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/morgana_r": {
+      "createdAt": "2026-09-06T18:19:31.298385Z",
+      "description": "莫甘娜全力释放她的星界能量，与此同时，她的羽翼会解除束缚并且会悬浮在地面上。她将黑暗痛苦组成的锁链抽击到附近的敌方英雄身上，获得移动速度。锁链会减速并造成初段伤害，并在一段延迟后，晕眩那些未能挣脱的敌方英雄。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "莫甘娜·灵魂镣铐",
+      "skillCategoryKeys": [],
+      "skillKey": "morgana_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:31.298385Z"
+    },
+    "/skills/morgana_r/parameters": [
+      {
+        "createdAt": "2026-09-09T17:58:09.312327Z",
+        "description": "客户端DataValues.Damage取索引1至3；索引0为旧占位125。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 200,
+          "2": 275,
+          "3": 350
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "morgana_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:58:09.312327Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:58:10.640688Z",
+        "description": "TotalDamage树的StatByCoefficient系数为0.8×来源总法强。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "morgana_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:58:10.640688Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:58:11.873981Z",
+        "description": "客户端ChainDuration为3秒，转换为3000毫秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "锁链持续时间（毫秒）",
+        "parameterKey": "chain_duration_ms",
+        "skillKey": "morgana_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:58:11.873981Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:58:13.065657Z",
+        "description": "客户端StunDuration取索引1至3，单位秒转换为1500/1750/2000毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1500,
+          "2": 1750,
+          "3": 2000
+        },
+        "name": "后续眩晕持续时间（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "morgana_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T17:58:13.065657Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:58:14.259419Z",
+        "description": "客户端SlowPercent为20；控制效果仅作来源参数。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速百分数点",
+        "parameterKey": "slow_percent_points",
+        "skillKey": "morgana_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T17:58:14.259419Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:58:15.48893Z",
+        "description": "客户端HastePercent取索引1至3，得到20/40/60；索引0为占位0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20,
+          "2": 40,
+          "3": 60
+        },
+        "name": "自身移速加成百分数点",
+        "parameterKey": "self_haste_percent_points",
+        "skillKey": "morgana_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T17:58:15.48893Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:23.038382Z",
+        "description": "DDragon16.17.1 Morgana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 110000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "morgana_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:23.038382Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:23.410983Z",
+        "description": "DDragon16.17.1 Morgana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "morgana_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T23:36:29.64088Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/morgana_r/parameters/base_damage": {
+      "createdAt": "2026-09-09T17:58:09.312327Z",
+      "description": "客户端DataValues.Damage取索引1至3；索引0为旧占位125。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 200,
+        "2": 275,
+        "3": 350
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "morgana_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:58:09.312327Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T17:58:10.640688Z",
+      "description": "TotalDamage树的StatByCoefficient系数为0.8×来源总法强。",
+      "fixedValue": 0.8,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "morgana_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:58:10.640688Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/morgana_r/parameters/chain_duration_ms": {
+      "createdAt": "2026-09-09T17:58:11.873981Z",
+      "description": "客户端ChainDuration为3秒，转换为3000毫秒。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "锁链持续时间（毫秒）",
+      "parameterKey": "chain_duration_ms",
+      "skillKey": "morgana_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:58:11.873981Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_r/parameters/stun_duration_ms": {
+      "createdAt": "2026-09-09T17:58:13.065657Z",
+      "description": "客户端StunDuration取索引1至3，单位秒转换为1500/1750/2000毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1500,
+        "2": 1750,
+        "3": 2000
+      },
+      "name": "后续眩晕持续时间（毫秒）",
+      "parameterKey": "stun_duration_ms",
+      "skillKey": "morgana_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T17:58:13.065657Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_r/parameters/slow_percent_points": {
+      "createdAt": "2026-09-09T17:58:14.259419Z",
+      "description": "客户端SlowPercent为20；控制效果仅作来源参数。",
+      "fixedValue": 20,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速百分数点",
+      "parameterKey": "slow_percent_points",
+      "skillKey": "morgana_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T17:58:14.259419Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_r/parameters/self_haste_percent_points": {
+      "createdAt": "2026-09-09T17:58:15.48893Z",
+      "description": "客户端HastePercent取索引1至3，得到20/40/60；索引0为占位0。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 20,
+        "2": 40,
+        "3": 60
+      },
+      "name": "自身移速加成百分数点",
+      "parameterKey": "self_haste_percent_points",
+      "skillKey": "morgana_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T17:58:15.48893Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:23.038382Z",
+      "description": "DDragon16.17.1 Morgana.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 120000,
+        "2": 110000,
+        "3": 100000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "morgana_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:23.038382Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:23.410983Z",
+      "description": "DDragon16.17.1 Morgana.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "morgana_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-18T23:36:29.64088Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/morgana_r/formulas": [
+      {
+        "createdAt": "2026-09-09T17:58:16.683387Z",
+        "description": "TotalDamage = Damage + 0.8×来源总法强；同一锁链的后续命中仍由事件层决定是否再次消费。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "灵魂镣铐单次唯一敌人魔法伤害",
+        "skillKey": "morgana_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:58:16.683387Z"
+      }
+    ],
+    "/skills/morgana_r/formulas/magic_damage": {
+      "createdAt": "2026-09-09T17:58:16.683387Z",
+      "description": "TotalDamage = Damage + 0.8×来源总法强；同一锁链的后续命中仍由事件层决定是否再次消费。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "灵魂镣铐单次唯一敌人魔法伤害",
+      "skillKey": "morgana_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:58:16.683387Z"
+    },
+    "/skills/morgana_r/effects": [
+      {
+        "createdAt": "2026-09-09T17:58:17.976954Z",
+        "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "morgana_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T23:36:30.874718Z"
+      }
+    ],
+    "/skills/morgana_r/effects/mana_cost": {
+      "createdAt": "2026-09-09T17:58:17.976954Z",
+      "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "morgana_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T23:36:30.874718Z"
+    },
+    "/skills/morgana_r/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T22:16:40.553034Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。其他技能效果不在此过程执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "morgana_r",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T22:16:40.553034Z"
+      }
+    ],
+    "/skills/morgana_r/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T22:16:40.553034Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。其他技能效果不在此过程执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "morgana_r",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T22:16:40.553034Z"
+    },
+    "/skills/morgana_r/internal-states": [],
+    "/skills/morgana_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T22:16:41.967411Z"
+      }
+    ],
+    "/skills/morgana_r/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动使用过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "morgana_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/xerath_e": {
+      "createdAt": "2026-09-06T18:21:09.039377Z",
+      "description": "对单个敌人造成魔法伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "泽拉斯·冲击法球",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "xerath_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:21:09.039377Z"
+    },
+    "/skills/xerath_e/parameters": [
+      {
+        "createdAt": "2026-09-09T06:42:00.050082Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "xerath_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:42:00.050082Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T06:42:01.098014Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 100,
+          "3": 130,
+          "4": 160,
+          "5": 190
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "xerath_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:42:01.098014Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T06:42:02.207359Z",
+        "description": "客户端当前根绑定 DataValues.MinStunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 750,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "晕眩下限（毫秒）",
+        "parameterKey": "min_stun_ms",
+        "skillKey": "xerath_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:42:02.207359Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T06:42:03.196072Z",
+        "description": "客户端当前根绑定 DataValues.MaxStunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 2250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "晕眩上限（毫秒）",
+        "parameterKey": "max_stun_ms",
+        "skillKey": "xerath_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:42:03.196072Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T06:42:04.261018Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.45,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲击法球伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "xerath_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:42:04.261018Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T06:42:05.297289Z",
+        "description": "距离到时长的完整算法没有原计算树，实际已核毫秒数外供，不用字段名0.17和端点拼线性。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "实际距离对应晕眩时长（毫秒）",
+        "parameterKey": "confirmed_distance_stun_ms",
+        "skillKey": "xerath_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:42:05.297289Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T02:06:08.13438Z",
+        "description": "DDragon16.17.1 Xerath.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12500,
+          "3": 12000,
+          "4": 11500,
+          "5": 11000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "xerath_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:08.13438Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:06:08.600764Z",
+        "description": "DDragon16.17.1 Xerath.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "xerath_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T23:36:32.335041Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/xerath_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T06:42:00.050082Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "xerath_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T06:42:00.050082Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/xerath_e/parameters/base_damage": {
+      "createdAt": "2026-09-09T06:42:01.098014Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 100,
+        "3": 130,
+        "4": 160,
+        "5": 190
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "xerath_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T06:42:01.098014Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/xerath_e/parameters/min_stun_ms": {
+      "createdAt": "2026-09-09T06:42:02.207359Z",
+      "description": "客户端当前根绑定 DataValues.MinStunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 750,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "晕眩下限（毫秒）",
+      "parameterKey": "min_stun_ms",
+      "skillKey": "xerath_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T06:42:02.207359Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/xerath_e/parameters/max_stun_ms": {
+      "createdAt": "2026-09-09T06:42:03.196072Z",
+      "description": "客户端当前根绑定 DataValues.MaxStunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+      "fixedValue": 2250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "晕眩上限（毫秒）",
+      "parameterKey": "max_stun_ms",
+      "skillKey": "xerath_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T06:42:03.196072Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/xerath_e/parameters/calculation_constant_1": {
+      "createdAt": "2026-09-09T06:42:04.261018Z",
+      "description": "当前原计算树显式常数；只用于此数学表达式。",
+      "fixedValue": 0.45,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "冲击法球伤害固定系数",
+      "parameterKey": "calculation_constant_1",
+      "skillKey": "xerath_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T06:42:04.261018Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/xerath_e/parameters/confirmed_distance_stun_ms": {
+      "createdAt": "2026-09-09T06:42:05.297289Z",
+      "description": "距离到时长的完整算法没有原计算树，实际已核毫秒数外供，不用字段名0.17和端点拼线性。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "实际距离对应晕眩时长（毫秒）",
+      "parameterKey": "confirmed_distance_stun_ms",
+      "skillKey": "xerath_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T06:42:05.297289Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/skills/xerath_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:06:08.13438Z",
+      "description": "DDragon16.17.1 Xerath.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 13000,
+        "2": 12500,
+        "3": 12000,
+        "4": 11500,
+        "5": 11000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "xerath_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:06:08.13438Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/xerath_e/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:06:08.600764Z",
+      "description": "DDragon16.17.1 Xerath.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "xerath_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-18T23:36:32.335041Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/xerath_e/formulas": [
+      {
+        "createdAt": "2026-09-09T06:42:06.275076Z",
+        "description": "第一个实际命中目标。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "冲击法球伤害",
+        "skillKey": "xerath_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:42:06.275076Z"
+      },
+      {
+        "createdAt": "2026-09-09T06:42:07.359276Z",
+        "description": "当前正文至少0.75秒、至多2.25秒；最终夹限后用于后续控制配置。",
+        "formulaKey": "bounded_stun_ms",
+        "gameId": "lol",
+        "name": "含当前上下限的晕眩时长（毫秒）",
+        "skillKey": "xerath_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:42:07.359276Z"
+      }
+    ],
+    "/skills/xerath_e/formulas/damage": {
+      "createdAt": "2026-09-09T06:42:06.275076Z",
+      "description": "第一个实际命中目标。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "calculation_constant_1"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "冲击法球伤害",
+      "skillKey": "xerath_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T06:42:06.275076Z"
+    },
+    "/skills/xerath_e/formulas/bounded_stun_ms": {
+      "createdAt": "2026-09-09T06:42:07.359276Z",
+      "description": "当前正文至少0.75秒、至多2.25秒；最终夹限后用于后续控制配置。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "confirmed_distance_stun_ms"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "min_stun_ms"
+              }
+            ],
+            "operation": "MAX"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_stun_ms"
+          }
+        ],
+        "operation": "MIN"
+      },
+      "formulaKey": "bounded_stun_ms",
+      "gameId": "lol",
+      "name": "含当前上下限的晕眩时长（毫秒）",
+      "skillKey": "xerath_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T06:42:07.359276Z"
+    },
+    "/skills/xerath_e/effects": [
+      {
+        "createdAt": "2026-09-09T06:42:08.795678Z",
+        "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "xerath_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T23:36:33.589125Z"
+      },
+      {
+        "createdAt": "2026-09-18T23:15:19.833733Z",
+        "description": "本轮1V1唯一敌方英雄的一次实际命中直接魔法伤害；距离对应眩晕另行处理。",
+        "effectKey": "mage_spear_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "冲击法球实际命中魔法伤害",
+        "resultCount": 1,
+        "skillKey": "xerath_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:15:19.833733Z"
+      }
+    ],
+    "/skills/xerath_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T06:42:08.795678Z",
+      "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "xerath_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T23:36:33.589125Z"
+    },
+    "/skills/xerath_e/effects/mage_spear_hit": {
+      "createdAt": "2026-09-18T23:15:19.833733Z",
+      "description": "本轮1V1唯一敌方英雄的一次实际命中直接魔法伤害；距离对应眩晕另行处理。",
+      "effectKey": "mage_spear_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "冲击法球实际命中魔法伤害",
+      "results": [
+        {
+          "description": "引用同技能 damage 公式；不包含眩晕距离或时长。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "xerath_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T23:15:19.833733Z"
+    },
+    "/skills/xerath_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T23:15:21.142048Z",
+        "description": "登记法力、普通冷却与当前根明确的250毫秒施法延迟；伤害由独立实际命中入口处理，不能把施法结束当成投射物命中。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放冲击法球",
+        "processKey": "cast",
+        "skillKey": "xerath_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T23:15:21.142048Z"
+      }
+    ],
+    "/skills/xerath_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T23:15:21.142048Z",
+      "description": "登记法力、普通冷却与当前根明确的250毫秒施法延迟；伤害由独立实际命中入口处理，不能把施法结束当成投射物命中。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放冲击法球",
+      "processKey": "cast",
+      "skillKey": "xerath_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能 spellCastTime，按毫秒录入。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法时间",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-18T23:15:21.142048Z"
+    },
+    "/skills/xerath_e/internal-states": [],
+    "/skills/xerath_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收本技能主动使用，启动既有法力效果、普通冷却及250毫秒延迟的过程；不自动执行命中伤害或眩晕。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动冲击法球过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T23:15:22.459669Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅消费本技能对当前唯一敌方英雄的实际命中，执行直接伤害；规则不生产投射物、首个目标或眩晕事件。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "冲击法球实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:15:24.003784Z"
+      }
+    ],
+    "/skills/xerath_e/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动使用过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收本技能主动使用，启动既有法力效果、普通冷却及250毫秒延迟的过程；不自动执行命中伤害或眩晕。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "xerath_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动冲击法球过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 5
+    },
+    "/skills/xerath_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "mage_spear_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅消费本技能对当前唯一敌方英雄的实际命中，执行直接伤害；规则不生产投射物、首个目标或眩晕事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "xerath_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "冲击法球实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 20
+    }
+  },
+  "audit": [
+    {
+      "requestIndex": 1,
+      "method": "GET",
+      "path": "/skills/sona_e",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 506,
+      "responseSha256": "705fe340701038f7e0b636356e24a0b575f40342997f70662388468952a5269e"
+    },
+    {
+      "requestIndex": 2,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 4503,
+      "responseSha256": "65913c3aae70b7db5b877e52dcd94d16f86d1e5012ca216c631a55a32380f3eb"
+    },
+    {
+      "requestIndex": 3,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/self_move_speed_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 333,
+      "responseSha256": "ed6c7398deb4d43a643b09cf9fa744cef3c4a19053cfb8c1b2fbf029bac40473"
+    },
+    {
+      "requestIndex": 4,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/self_move_speed_ap_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 360,
+      "responseSha256": "af7bd7bf01302bedad7d12bb9278bfaeb292a14416d7301b3ec4fa86ae3cc7a4"
+    },
+    {
+      "requestIndex": 5,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/self_move_speed_duration_min_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 351,
+      "responseSha256": "5d7bfb271e52f56e1c4e0e2db60aa132207eb9912b11e86952542662af16b71d"
+    },
+    {
+      "requestIndex": 6,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/self_move_speed_duration_max_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 349,
+      "responseSha256": "61a38c70e20eb57a1dd60d0792fbc04b121bc90773b8ddb2601c7daea0224376"
+    },
+    {
+      "requestIndex": 7,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/aura_duration_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 334,
+      "responseSha256": "7512c7b01ae88be46bff76a94c4eec197a5b550c751440d5cbe5d5ee4100ddfc"
+    },
+    {
+      "requestIndex": 8,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/melody_interval_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 328,
+      "responseSha256": "e4e53e12484ca746e61f8bdeec705e72aa069ed2fe0126aac4e557b34e8144d9"
+    },
+    {
+      "requestIndex": 9,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/cooldown_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 529,
+      "responseSha256": "42020a042dafd7bdbcf1a5cca0c6ce00c241fb986d421a4599cf799a6bf0bcc5"
+    },
+    {
+      "requestIndex": 10,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/tempo_slow_base_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 360,
+      "responseSha256": "2d7359b3f1c5e78a82547d1230e59fde7d4a3cf5c9419b71adc2bf9cc9cdaa9a"
+    },
+    {
+      "requestIndex": 11,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 541,
+      "responseSha256": "ed07f526a0fd825bb7bc18764ae33062c9abd946eacdbc87bf73da18d4eda0f6"
+    },
+    {
+      "requestIndex": 12,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/tempo_slow_ap_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 358,
+      "responseSha256": "be815623594c86f93db531afef08bf69c0151bbf8b24557a9a4dda3610d9692d"
+    },
+    {
+      "requestIndex": 13,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/tempo_duration_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 328,
+      "responseSha256": "c97acf0c612f078e93e6f5f4f698066dcfbabd7c2044cdd7bbeac9a51f8ec938"
+    },
+    {
+      "requestIndex": 14,
+      "method": "GET",
+      "path": "/skills/sona_e/parameters/cast_time_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 319,
+      "responseSha256": "4f730785d58929a582f90ae37c2e27451e7b73a2f6b3d599edde7e448e7814fb"
+    },
+    {
+      "requestIndex": 15,
+      "method": "GET",
+      "path": "/skills/sona_e/formulas",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 585,
+      "responseSha256": "7407b1ac7582821f2536988642528a143ce1c17baadb5329a7d977a951a4c444"
+    },
+    {
+      "requestIndex": 16,
+      "method": "GET",
+      "path": "/skills/sona_e/formulas/self_move_speed_ratio_value",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 682,
+      "responseSha256": "c55f45e9aac2d557f1a481c256c06ddee5b8d938dbba61d8054c9135ac6e8b02"
+    },
+    {
+      "requestIndex": 17,
+      "method": "GET",
+      "path": "/skills/sona_e/formulas/tempo_slow_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 639,
+      "responseSha256": "87efe5d7948fc9049ef14f2a8275f35e0fff1d399310fd64bb08e83f54cbbf8c"
+    },
+    {
+      "requestIndex": 18,
+      "method": "GET",
+      "path": "/skills/sona_e/effects",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 363,
+      "responseSha256": "d23428aafcf96d15b4e9f62019a4f4b6d0606938e2ea0afb4ad827b45ed958e6"
+    },
+    {
+      "requestIndex": 19,
+      "method": "GET",
+      "path": "/skills/sona_e/effects/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 721,
+      "responseSha256": "f533c3bb7465e4360f353316ff02e69fcdb7bfcf78dd26d1aa21d84fa567bd2e"
+    },
+    {
+      "requestIndex": 20,
+      "method": "GET",
+      "path": "/skills/sona_e/processes",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 492,
+      "responseSha256": "f22bf267d1aa992444a4bf437bafcd648abdb3d322dbb25bedcd220ca4a755ae"
+    },
+    {
+      "requestIndex": 21,
+      "method": "GET",
+      "path": "/skills/sona_e/processes/use_cost_and_cooldown",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 930,
+      "responseSha256": "dfcdb60473accaf94d728fba33e9910e0a90f5f967b8bbacda92b2999a80f9d7"
+    },
+    {
+      "requestIndex": 22,
+      "method": "GET",
+      "path": "/skills/sona_e/internal-states",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 2,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "requestIndex": 23,
+      "method": "GET",
+      "path": "/skills/sona_e/trigger-rules",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 460,
+      "responseSha256": "fb6f22ed4d552b2b7c804c0bb55857adbf60c798a17294232b3895020b90d247"
+    },
+    {
+      "requestIndex": 24,
+      "method": "GET",
+      "path": "/skills/sona_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 705,
+      "responseSha256": "362ebdab0324406a48cc262f9d9f97307435ef2e0131ab034fd9d347c7c353e0"
+    },
+    {
+      "requestIndex": 25,
+      "method": "GET",
+      "path": "/skills/morgana_q",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 471,
+      "responseSha256": "64380539fd3cad8d94e0c62dc55d6de6d18262f8707d0a9be677da3ba8ddd386"
+    },
+    {
+      "requestIndex": 26,
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 2325,
+      "responseSha256": "89d82542e116dbc435bfaf8520b933e0a29578ccda7ad2d3e12a870d3badf1b8"
+    },
+    {
+      "requestIndex": 27,
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/base_damage",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 400,
+      "responseSha256": "3da2e25387ebf8b5c5d596374d168cc1a457071b38de0cc207de48ac34cb34cf"
+    },
+    {
+      "requestIndex": 28,
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/ap_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 347,
+      "responseSha256": "3d335b15be6f0674aa31023f0f8341f7f5b304aa35b92abe3ecc3fa2ead31b6d"
+    },
+    {
+      "requestIndex": 29,
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/root_duration_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 445,
+      "responseSha256": "e0b20fdd047db205d08d3bf74b10b7f64f45d0bb261093e22181f2229965baef"
+    },
+    {
+      "requestIndex": 30,
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/cooldown_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 541,
+      "responseSha256": "de85485156aaf514cb9441c1c2ed57e4b26bbd5b07c8dea6cd866102661579f1"
+    },
+    {
+      "requestIndex": 31,
+      "method": "GET",
+      "path": "/skills/morgana_q/parameters/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 586,
+      "responseSha256": "97400be0abfa8df48470904a38b81f9b9806db01d0f2db019c92256646b82704"
+    },
+    {
+      "requestIndex": 32,
+      "method": "GET",
+      "path": "/skills/morgana_q/formulas",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 277,
+      "responseSha256": "b7141ee76b8556a07f9ae9de57fcfab90c489c8da103e7beef1386568fef2cfa"
+    },
+    {
+      "requestIndex": 33,
+      "method": "GET",
+      "path": "/skills/morgana_q/formulas/magic_damage",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 621,
+      "responseSha256": "a3c8e9b0bc59694f2ec0f4b980778854b098e2f96df735fb74f06d39fec27327"
+    },
+    {
+      "requestIndex": 34,
+      "method": "GET",
+      "path": "/skills/morgana_q/effects",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 774,
+      "responseSha256": "7b0273f27f6327817334963865fc78b85c93264f8e31a4578b28c31c0e4e8607"
+    },
+    {
+      "requestIndex": 35,
+      "method": "GET",
+      "path": "/skills/morgana_q/effects/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 724,
+      "responseSha256": "8aa3b6704e075ab9ea109fc60adead63dc50aed4defdc57096775ffb3b32e744"
+    },
+    {
+      "requestIndex": 36,
+      "method": "GET",
+      "path": "/skills/morgana_q/effects/primary_hit",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 1047,
+      "responseSha256": "59acbca9255002391d6f2d2a84986578f0296f29a41a71c05eeb82ca3101795f"
+    },
+    {
+      "requestIndex": 37,
+      "method": "GET",
+      "path": "/skills/morgana_q/processes",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 468,
+      "responseSha256": "7ae1b71b41bf4f2979afdb6e09e7a833037f7454d41b7f95527bd7fa1ca4f137"
+    },
+    {
+      "requestIndex": 38,
+      "method": "GET",
+      "path": "/skills/morgana_q/processes/use_cost_and_cooldown",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 906,
+      "responseSha256": "e15b5d2e481c7585a3677cf7d9882c490fda440cd469ec557968831fb3565150"
+    },
+    {
+      "requestIndex": 39,
+      "method": "GET",
+      "path": "/skills/morgana_q/internal-states",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 2,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "requestIndex": 40,
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 866,
+      "responseSha256": "49fee440019406357da6cc0ce155204aef0da74dd8c4e481f79d8096bfd13b14"
+    },
+    {
+      "requestIndex": 41,
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 663,
+      "responseSha256": "de503e5fcf96d187de31cfc5afc1cb3b8c6c1b0fed2f6ddde0b1f4aa685a681b"
+    },
+    {
+      "requestIndex": 42,
+      "method": "GET",
+      "path": "/skills/morgana_q/trigger-rules/resolve_on_q_hit",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 900,
+      "responseSha256": "12e7b77c06cd2b1d3a266eda764748a8db55c8c1f5c9f4cb93a037eba5666d7a"
+    },
+    {
+      "requestIndex": 43,
+      "method": "GET",
+      "path": "/skills/morgana_w",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 536,
+      "responseSha256": "722b25e311a98990f95684cc1880859e57b5998a8684ba26d313652934181f48"
+    },
+    {
+      "requestIndex": 44,
+      "method": "GET",
+      "path": "/skills/morgana_w/parameters",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 3909,
+      "responseSha256": "da8cca783f0544ceb6052f27bf1916b59aa26e62967f589b17b8f1cd37f26179"
+    },
+    {
+      "requestIndex": 45,
+      "method": "GET",
+      "path": "/skills/morgana_w/parameters/base_damage_per_second",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 416,
+      "responseSha256": "32866838ae401de8de51f14f5f34ac37461b77ba4a95ae6e154e5b868755a2bf"
+    },
+    {
+      "requestIndex": 46,
+      "method": "GET",
+      "path": "/skills/morgana_w/parameters/ap_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 393,
+      "responseSha256": "da4ce9c015afbf145f5f24f9e54855cf2487bb884adf71c30e6377897c087a58"
+    },
+    {
+      "requestIndex": 47,
+      "method": "GET",
+      "path": "/skills/morgana_w/parameters/tick_interval_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 396,
+      "responseSha256": "0fd1640b19dc7368b19a2330997d37f5eac23bc4e93befae6f18955a297b82b7"
+    },
+    {
+      "requestIndex": 48,
+      "method": "GET",
+      "path": "/skills/morgana_w/parameters/maximum_missing_health_amplification_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 431,
+      "responseSha256": "c556791b436209321e525cb2c1357780891625aaba80927ddcfabb746893ef74"
+    },
+    {
+      "requestIndex": 49,
+      "method": "GET",
+      "path": "/skills/morgana_w/parameters/duration_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 353,
+      "responseSha256": "d743dfa765eec4430cd6537d14ee80958f8f0af09ec080ed5252ce028eff6168"
+    },
+    {
+      "requestIndex": 50,
+      "method": "GET",
+      "path": "/skills/morgana_w/parameters/passive_heal_cooldown_refund_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 445,
+      "responseSha256": "bb53d8d4ecd3394d526fd305f6a87f9d3e945fa3713743ffa564527944ce0c2f"
+    },
+    {
+      "requestIndex": 51,
+      "method": "GET",
+      "path": "/skills/morgana_w/parameters/one_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 341,
+      "responseSha256": "2e955ea281bd23eaee50a2c0bbe9adc10d3413df8fe1aa5f9ad06c75d6ef62a4"
+    },
+    {
+      "requestIndex": 52,
+      "method": "GET",
+      "path": "/skills/morgana_w/parameters/cooldown_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 535,
+      "responseSha256": "f57354dcb3eb46e4366e16e3f4617708ff8d8945499627d0adf60ca8a29ac6b0"
+    },
+    {
+      "requestIndex": 53,
+      "method": "GET",
+      "path": "/skills/morgana_w/parameters/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 589,
+      "responseSha256": "56981b575608edb84ca1c74ffb918d28fe6ce3a3a881d8c17d0aff6108c9a588"
+    },
+    {
+      "requestIndex": 54,
+      "method": "GET",
+      "path": "/skills/morgana_w/formulas",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 724,
+      "responseSha256": "2439182b220069c6ef59a1c5b32c581a0eb97ff834290172f622a07f21f828d5"
+    },
+    {
+      "requestIndex": 55,
+      "method": "GET",
+      "path": "/skills/morgana_w/formulas/minimum_magic_damage_per_second",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 666,
+      "responseSha256": "883805ddca158d992e9db76b77a16459c9266421a857ba36e9fd9913a96d2ac9"
+    },
+    {
+      "requestIndex": 56,
+      "method": "GET",
+      "path": "/skills/morgana_w/formulas/maximum_magic_damage_per_second",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 1023,
+      "responseSha256": "45cbf9fb458f9524978b5806f5714770849003b2430dcfd57668e218380c3662"
+    },
+    {
+      "requestIndex": 57,
+      "method": "GET",
+      "path": "/skills/morgana_w/effects",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 364,
+      "responseSha256": "7295070fdc396336fde3137ac565a346ba71f0937f95e5cab9adb7bd4755c417"
+    },
+    {
+      "requestIndex": 58,
+      "method": "GET",
+      "path": "/skills/morgana_w/effects/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 724,
+      "responseSha256": "c1e08a18e571871715b2600f2c5e9fe2384082d1bfc288651972c21c78f4d5f5"
+    },
+    {
+      "requestIndex": 59,
+      "method": "GET",
+      "path": "/skills/morgana_w/processes",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 468,
+      "responseSha256": "35af8cdb604b0b0e6b4f9328eb0af2c7ab6758385cd0c8632b6b8b3ad4a4bf13"
+    },
+    {
+      "requestIndex": 60,
+      "method": "GET",
+      "path": "/skills/morgana_w/processes/use_cost_and_cooldown",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 906,
+      "responseSha256": "fca83cfdc6e706793d2632ed60dd74f0859f13d5ef8438cb0603c81246cf417b"
+    },
+    {
+      "requestIndex": 61,
+      "method": "GET",
+      "path": "/skills/morgana_w/internal-states",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 2,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "requestIndex": 62,
+      "method": "GET",
+      "path": "/skills/morgana_w/trigger-rules",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 424,
+      "responseSha256": "89474299d69be5d0cb51dbec7dff797461a0e0f49cce7820003bd9abb1c53408"
+    },
+    {
+      "requestIndex": 63,
+      "method": "GET",
+      "path": "/skills/morgana_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 663,
+      "responseSha256": "c354bbd94a1d56ae0054664aca8b92997d8fbe9f2124515cc4b75a4458f6d861"
+    },
+    {
+      "requestIndex": 64,
+      "method": "GET",
+      "path": "/skills/morgana_r",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 651,
+      "responseSha256": "9fa5cbcbd1c3238e8f5919ac1999b44635fec33f6828df384e5a8138faedd754"
+    },
+    {
+      "requestIndex": 65,
+      "method": "GET",
+      "path": "/skills/morgana_r/parameters",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 3417,
+      "responseSha256": "e61b2df79461670d6f959771199b2d4923bde32e1d3e5e87e668281257312dd9"
+    },
+    {
+      "requestIndex": 66,
+      "method": "GET",
+      "path": "/skills/morgana_r/parameters/base_damage",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 386,
+      "responseSha256": "4176333482d2e4934edc40e3fa0d7e6ece53f9aa7632f6c4dec708e73b784c77"
+    },
+    {
+      "requestIndex": 67,
+      "method": "GET",
+      "path": "/skills/morgana_r/parameters/ap_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 347,
+      "responseSha256": "8fd138df35e02166ec8a2cf9a52c280006e3964e0e47d8ac773b2c0ac05127e8"
+    },
+    {
+      "requestIndex": 68,
+      "method": "GET",
+      "path": "/skills/morgana_r/parameters/chain_duration_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 363,
+      "responseSha256": "9ba210b0e77755468921118992e43d0e0a559e86b983cd924be9b2097f209f6b"
+    },
+    {
+      "requestIndex": 69,
+      "method": "GET",
+      "path": "/skills/morgana_r/parameters/stun_duration_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 423,
+      "responseSha256": "88c1fdb69ccc70232865b9ab1418ea45b6458ef8e12908685355fe41073b3ee7"
+    },
+    {
+      "requestIndex": 70,
+      "method": "GET",
+      "path": "/skills/morgana_r/parameters/slow_percent_points",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 358,
+      "responseSha256": "a65b558746a1e615a50dc2911657b1713f39ac8b7c0d4d746bebda39ef5aa733"
+    },
+    {
+      "requestIndex": 71,
+      "method": "GET",
+      "path": "/skills/morgana_r/parameters/self_haste_percent_points",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 414,
+      "responseSha256": "6f7519b48a58ef22e94dacc84f9800a1c51fe7ec3673594cff1fd54a0c353651"
+    },
+    {
+      "requestIndex": 72,
+      "method": "GET",
+      "path": "/skills/morgana_r/parameters/cooldown_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 570,
+      "responseSha256": "031a90009faad52a90d6d1fee11de25c4a3f678eb99d3c4fcf0578a1baf31377"
+    },
+    {
+      "requestIndex": 73,
+      "method": "GET",
+      "path": "/skills/morgana_r/parameters/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 547,
+      "responseSha256": "4a3201286062271c7a5636759e3508d7c2e391644b7f6ad04b66e192c0c27a62"
+    },
+    {
+      "requestIndex": 74,
+      "method": "GET",
+      "path": "/skills/morgana_r/formulas",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 352,
+      "responseSha256": "839b840cd5903f30330311c4f4fcaa2dfd17988dbdb5f5e6b1ffe235df3a9b74"
+    },
+    {
+      "requestIndex": 75,
+      "method": "GET",
+      "path": "/skills/morgana_r/formulas/magic_damage",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 696,
+      "responseSha256": "8151bd2e9e58f4ecf81f4e52bcce0ec54ccf4beef871de0c73197ed8f33feb81"
+    },
+    {
+      "requestIndex": 76,
+      "method": "GET",
+      "path": "/skills/morgana_r/effects",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 364,
+      "responseSha256": "282dabd0fcbc9b519047177b25db5d6893886445c1000788c918539000fe6898"
+    },
+    {
+      "requestIndex": 77,
+      "method": "GET",
+      "path": "/skills/morgana_r/effects/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 724,
+      "responseSha256": "e901bae87fbf7d3e23da3fb992caf5018156aabc984254028f67b704b01c80d3"
+    },
+    {
+      "requestIndex": 78,
+      "method": "GET",
+      "path": "/skills/morgana_r/processes",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 468,
+      "responseSha256": "4dfbe753ffb2d6b8d0ecbe3972649692fbf63c4b34398eacd823386cc72ed997"
+    },
+    {
+      "requestIndex": 79,
+      "method": "GET",
+      "path": "/skills/morgana_r/processes/use_cost_and_cooldown",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 906,
+      "responseSha256": "83d7c4eba3851e45bc4b23b97473521bff598b7adf9f6e6c8ee8eca1eb27412d"
+    },
+    {
+      "requestIndex": 80,
+      "method": "GET",
+      "path": "/skills/morgana_r/internal-states",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 2,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "requestIndex": 81,
+      "method": "GET",
+      "path": "/skills/morgana_r/trigger-rules",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 424,
+      "responseSha256": "f9a83749e63fca560a1fda461521b83830b8a1881ab259e552c348288d6fbf61"
+    },
+    {
+      "requestIndex": 82,
+      "method": "GET",
+      "path": "/skills/morgana_r/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 663,
+      "responseSha256": "774690ff7e415849a7b37c783ca20d7bdde4894d09e41e7045b1bb2b11339c1e"
+    },
+    {
+      "requestIndex": 83,
+      "method": "GET",
+      "path": "/skills/xerath_e",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 397,
+      "responseSha256": "01a2cb077803bac555d720bd4405e1399bb55e11264b728285b957a4910fe693"
+    },
+    {
+      "requestIndex": 84,
+      "method": "GET",
+      "path": "/skills/xerath_e/parameters",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 3615,
+      "responseSha256": "91f70d6383e741c75491897b2701f64d311d094fda4e9e8390bac70e29fbfda8"
+    },
+    {
+      "requestIndex": 85,
+      "method": "GET",
+      "path": "/skills/xerath_e/parameters/cast_time_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 381,
+      "responseSha256": "3be03f2559caf3f06be8d4c34badbe76d2690355b42f960d3e9ff955ce146251"
+    },
+    {
+      "requestIndex": 86,
+      "method": "GET",
+      "path": "/skills/xerath_e/parameters/base_damage",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 390,
+      "responseSha256": "949dc930f107ec023918c546fbda4c0c5fcd7536acd37ddce4c9cc7b22fe1296"
+    },
+    {
+      "requestIndex": 87,
+      "method": "GET",
+      "path": "/skills/xerath_e/parameters/min_stun_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 416,
+      "responseSha256": "3326195b3780c4aaab530319addc852ea647f529242dccf3ed1f04b06c15fe01"
+    },
+    {
+      "requestIndex": 88,
+      "method": "GET",
+      "path": "/skills/xerath_e/parameters/max_stun_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 417,
+      "responseSha256": "75faad6fae0e8b6bcddd2f6dc17de46058b158151f1c49d03567d0c16c329d3c"
+    },
+    {
+      "requestIndex": 89,
+      "method": "GET",
+      "path": "/skills/xerath_e/parameters/calculation_constant_1",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 376,
+      "responseSha256": "d7573587601d94b6c72010b5f05f2bc1dcbaa597f7148862ad31f920566b7663"
+    },
+    {
+      "requestIndex": 90,
+      "method": "GET",
+      "path": "/skills/xerath_e/parameters/confirmed_distance_stun_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 458,
+      "responseSha256": "66feee28720a635275ec6c39ea97eb9d7c78f77345dad6e659968cbfc5071876"
+    },
+    {
+      "requestIndex": 91,
+      "method": "GET",
+      "path": "/skills/xerath_e/parameters/cooldown_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 583,
+      "responseSha256": "11e1721d98a2802e313711ce924f1217346cb79474ddf78f8993175d4e858cf3"
+    },
+    {
+      "requestIndex": 92,
+      "method": "GET",
+      "path": "/skills/xerath_e/parameters/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 585,
+      "responseSha256": "a99a30bb0b7a24c367f4f60e876db11bbe6f4d3e4d63943ddec718b3e7140718"
+    },
+    {
+      "requestIndex": 93,
+      "method": "GET",
+      "path": "/skills/xerath_e/formulas",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 659,
+      "responseSha256": "ea771cd6107d4eeaeac45e3949c23fd63a1ab7f16b7d584e7a391cd00d453818"
+    },
+    {
+      "requestIndex": 94,
+      "method": "GET",
+      "path": "/skills/xerath_e/formulas/damage",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 690,
+      "responseSha256": "c28e587b5699f2338d5a7834fe7cc296e97bd6a96f1026612a5b608efc0899c3"
+    },
+    {
+      "requestIndex": 95,
+      "method": "GET",
+      "path": "/skills/xerath_e/formulas/bounded_stun_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 628,
+      "responseSha256": "7669ff36d21231eab585c7179d1b508c63d8eebddf28abf12b416d4fd2f24797"
+    },
+    {
+      "requestIndex": 96,
+      "method": "GET",
+      "path": "/skills/xerath_e/effects",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 736,
+      "responseSha256": "75a9f8bdae146a7631d72103230a2424e260ef8e5dd144e6b3a17d181c4bd6b3"
+    },
+    {
+      "requestIndex": 97,
+      "method": "GET",
+      "path": "/skills/xerath_e/effects/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 721,
+      "responseSha256": "5bb63fac08660bf495486dd51c1bd3e76aa6240e969f2d924b7ff82a451adc74"
+    },
+    {
+      "requestIndex": 98,
+      "method": "GET",
+      "path": "/skills/xerath_e/effects/mage_spear_hit",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 980,
+      "responseSha256": "ce5d48be7ceb37d6d07f935c8ca00e911382bef6dff7d112ce95b276707eee02"
+    },
+    {
+      "requestIndex": 99,
+      "method": "GET",
+      "path": "/skills/xerath_e/processes",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 450,
+      "responseSha256": "fa0f72c8e9e05ef57dbcb178de60905264d8ba8fc6ee072b5b26b72a81987905"
+    },
+    {
+      "requestIndex": 100,
+      "method": "GET",
+      "path": "/skills/xerath_e/processes/cast",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 913,
+      "responseSha256": "f57c95b71c635a38d0fa8f6d9f0c0d386c8ea60ec80640506ddbc01feabee08a"
+    },
+    {
+      "requestIndex": 101,
+      "method": "GET",
+      "path": "/skills/xerath_e/internal-states",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 2,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "requestIndex": 102,
+      "method": "GET",
+      "path": "/skills/xerath_e/trigger-rules",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 823,
+      "responseSha256": "07b7af6012d3e7f0a0671b65b9a0775dd23c9a0d035ec3d3e57bbd328fe24ebe"
+    },
+    {
+      "requestIndex": 103,
+      "method": "GET",
+      "path": "/skills/xerath_e/trigger-rules/on_used",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 632,
+      "responseSha256": "413849efe64cf1a5bd213a7d8bb1410819ba43b8cf99cf807bacad892ddce9c1"
+    },
+    {
+      "requestIndex": 104,
+      "method": "GET",
+      "path": "/skills/xerath_e/trigger-rules/actual_hit",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 843,
+      "responseSha256": "2223c045f324d577c84372e9c66ac24a7a787fcb4595cc08eaf3c65ff90e5974"
+    }
+  ]
+}

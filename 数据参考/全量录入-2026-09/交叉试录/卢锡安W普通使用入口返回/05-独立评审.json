@@ -1,0 +1,21 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-21T03:37:56.804Z",
+  "reviewer": "/root/lucian_w_use_review",
+  "mode": "静态只读独立审查",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "e9387908742729e91d7f1643793fd88e704cc5dd55bb6ce325c9d22273a959d6",
+    "02-冻结请求.json": "c61ad6cc53ef002e10fe26d4ffa0db90fe0de960067d240607ce22c2f2b9c432",
+    "03-来源摘要.json": "94101fc0b4b00fd8046be5946cdddf19b8deab60dc3f94f02e45f65d33d52e6c",
+    "04-写入前现值.json": "f3486d3edd353ad3db0d2f4f1593339059599d94c729383a54ffa55194d0ea44"
+  },
+  "checks": [
+    "仅1POST，无普通使用重复入口",
+    "SOURCE法力消耗、冷却参数和250ms延迟对应来源",
+    "明确本技能ACTIVE，START_PROCESS cast，不产生命中",
+    "33GET基线含32成功与1目标404",
+    "完整来源/冻结/现值/预期回读一致"
+  ],
+  "boundary": "代表页面和整技能、战斗仍未完成"
+}

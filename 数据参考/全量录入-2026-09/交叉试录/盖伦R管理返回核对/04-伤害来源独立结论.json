@@ -1,0 +1,35 @@
+{
+  "at": "2026-09-19T15:25:40.719Z",
+  "reviewer": "/root/attack_reset_sources",
+  "model": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "status": "APPROVED_SOURCE",
+  "clientCompressedSha256": "6cfa44116bbcfbb5edfe1573eedd2f3bb18d2d0092cde71ec76531933068de61",
+  "clientSha256": "dd48d09a3ca8c1db5a35a3f47993cb7e1afd25b92e8a30d7748a37fcc238767e",
+  "officialZhSha256": "9a0b86ecc2bb8311e76820adb50d90e1df055761809d664df107a345141ef65f",
+  "officialEnSha256": "084ab22eb9106290451fe02a2abd547591a9cb82f9e9956314965d8ddff2314a",
+  "findings": [
+    "单次DAMAGE、TARGET、real、SKILL、DIRECT、DISALLOWED，按命中时目标已损失生命取值；非直接处决",
+    "目标明确敌方英雄，现有CHAMPION类别应补SKILL_HIT_TARGET_IS_ENEMY",
+    "既有RESULT法术护盾粒度保持，固定根与DDragon无直接护盾文字，不声称为新独立强证",
+    "现有空吸血列表是旧未完成数据；复用已核定普通对英雄技能伤害全能吸血映射"
+  ],
+  "vampRule": {
+    "vampType": "OMNIVAMP",
+    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+    "efficiencyValue": {
+      "kind": "FIXED",
+      "value": 1
+    }
+  },
+  "notAdded": [
+    "SPELL_VAMP",
+    "LIFE_STEAL",
+    "PHYSICAL_VAMP"
+  ],
+  "officialSupplement": "https://www.leagueoflegends.com/en-sg/news/game-updates/patch-26-1-notes/",
+  "existingCommonSourceSha256": "b5ad7d6eb3d73f7db86e35744c6f39dfd67ad62c80806b80bb38ac4e08864f59",
+  "HTTPRequests": 0,
+  "businessWrites": 0,
+  "runtimeValidation": "未执行"
+}

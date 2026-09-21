@@ -1,0 +1,299 @@
+{
+  "startedAt": "2026-09-21T04:19:59.609Z",
+  "status": "PASS",
+  "executionMode": "REVIEWED_API",
+  "businessWritesAttempted": 1,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-hit-scope.mjs": "909e4572b83c1ebc5f89f43b11fd92b5b532aee82972ddff0fad852c51efd049",
+    "01-候选方案.json": "f6ea28645d0103e5d7dfc6f54fec275cc425729fb3720ea36da83a3aa170c93b",
+    "02-冻结请求.json": "f5aa778e40bf3dde68fdb4bb7989c54282eca27e9ce619b05dfa510a9f45c16f",
+    "03-来源摘要.json": "8f9dde0f5d7efa919040015adc2d047da97d7afbf9590a9079f9773e8dde2424",
+    "04-写入前现值.json": "dceb52b2af5dc37ec3ea5d6dc92597f4959bb311379d74a793689d4b0b55e666"
+  },
+  "request": {
+    "method": "PUT",
+    "route": "/skills/tristana_r/trigger-rules/actual_hit",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "cannon_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "tristana_r"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "毁灭射击实际命中",
+      "perTargetCooldown": null,
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/knockback_distance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects/cannon_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/tristana_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "responseStatus": 200,
+  "response": {
+    "status": 200,
+    "data": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "cannon_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "tristana_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "毁灭射击实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "readback": {
+    "actions": [
+      {
+        "actionKey": "damage",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "cannon_hit"
+        },
+        "name": "执行命中伤害",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET"
+      }
+    ],
+    "conditionGroups": [
+      {
+        "conditions": [
+          {
+            "conditionKey": "champion_target",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            },
+            "sortOrder": 10
+          },
+          {
+            "conditionKey": "enemy_target",
+            "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+            "detail": {},
+            "sortOrder": 20
+          }
+        ],
+        "groupKey": "champion_target",
+        "name": "本轮敌方英雄",
+        "sortOrder": 10
+      }
+    ],
+    "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+    "eventSource": {
+      "detail": {
+        "sourceSkillKey": "tristana_r",
+        "useKind": null
+      },
+      "eventType": "SKILL_HIT"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "毁灭射击实际命中",
+    "perTargetCooldown": null,
+    "ruleKey": "actual_hit",
+    "sortOrder": 10
+  },
+  "finishedAt": "2026-09-21T04:20:01.368Z"
+}

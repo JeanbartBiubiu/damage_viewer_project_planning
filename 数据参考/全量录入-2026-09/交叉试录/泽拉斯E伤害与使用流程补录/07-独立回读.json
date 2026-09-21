@@ -1,0 +1,1716 @@
+{
+  "stdout": "{\"status\":\"PASS\",\"at\":\"2026-09-18T23:15:59.190Z\",\"businessWrites\":0,\"GETs\":31,\"unchangedResponsesIncludingTimestamps\":24,\"expectedChangedCollections\":3,\"newObjects\":{\"/skills/xerath_e/effects/mage_spear_hit\":{\"createdAt\":\"2026-09-18T23:15:19.833733Z\",\"description\":\"本轮1V1唯一敌方英雄的一次实际命中直接魔法伤害；距离对应眩晕另行处理。\",\"effectKey\":\"mage_spear_hit\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"冲击法球实际命中魔法伤害\",\"results\":[{\"description\":\"引用同技能 damage 公式；不包含眩晕距离或时长。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"magic\",\"deliveryKind\":\"SKILL\",\"originKind\":\"DIRECT\",\"vampRules\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"vampType\":\"OMNIVAMP\"}]},\"lifecycleBehavior\":null,\"name\":\"魔法伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":\"SKILL\",\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"xerath_e\",\"sortOrder\":20,\"updatedAt\":\"2026-09-18T23:15:19.833733Z\"},\"/skills/xerath_e/processes/cast\":{\"activationType\":\"ACTIVE\",\"cooldown\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cooldown_ms\"},\"startMoment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null}},\"createdAt\":\"2026-09-18T23:15:21.142048Z\",\"description\":\"登记法力、普通冷却与当前根明确的250毫秒施法延迟；伤害由独立实际命中入口处理，不能把施法结束当成投射物命中。\",\"effectBindings\":[{\"bindingKey\":\"mana_cost\",\"effectKey\":\"mana_cost\",\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"施放冲击法球\",\"processKey\":\"cast\",\"skillKey\":\"xerath_e\",\"sortOrder\":10,\"stateOperations\":[],\"steps\":[{\"description\":\"主技能 spellCastTime，按毫秒录入。\",\"detail\":{\"delayValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"cast_time_ms\"}},\"name\":\"施法时间\",\"sortOrder\":10,\"stepKey\":\"cast_time\",\"stepType\":\"DELAY\"}],\"updatedAt\":\"2026-09-18T23:15:21.142048Z\"},\"/skills/xerath_e/trigger-rules/on_used\":{\"actions\":[{\"actionKey\":\"start_cast\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"cast\"},\"name\":\"启动使用过程\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[],\"description\":\"接收本技能主动使用，启动既有法力效果、普通冷却及250毫秒延迟的过程；不自动执行命中伤害或眩晕。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"xerath_e\",\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"主动使用启动冲击法球过程\",\"perTargetCooldown\":null,\"ruleKey\":\"on_used\",\"sortOrder\":5},\"/skills/xerath_e/trigger-rules/actual_hit\":{\"actions\":[{\"actionKey\":\"damage\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"mage_spear_hit\"},\"name\":\"执行命中伤害\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10}],\"groupKey\":\"champion_target\",\"name\":\"本轮英雄目标\",\"sortOrder\":10}],\"description\":\"仅消费本技能对当前唯一敌方英雄的实际命中，执行直接伤害；规则不生产投射物、首个目标或眩晕事件。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"xerath_e\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"冲击法球实际命中\",\"perTargetCooldown\":null,\"ruleKey\":\"actual_hit\",\"sortOrder\":20}},\"audit\":[{\"method\":\"GET\",\"path\":\"/skills/xerath_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_xerath\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_xerath/attributes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/characters/champion_xerath/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/representative-image\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?characterKey=champion_xerath\",\"status\":200},{\"method\":\"GET\",\"path\":\"/character-skill-relations?skillKey=xerath_e\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/parameters\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/parameters/cast_time_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/parameters/base_damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/parameters/min_stun_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/parameters/max_stun_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/parameters/calculation_constant_1\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/parameters/confirmed_distance_stun_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/parameters/cooldown_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/parameters/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/formulas\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/formulas/damage\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/formulas/bounded_stun_ms\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/effects\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/effects/mana_cost\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/effects/mage_spear_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/processes\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/processes/cast\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/internal-states\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/trigger-rules\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/trigger-rules/on_used\",\"status\":200},{\"method\":\"GET\",\"path\":\"/skills/xerath_e/trigger-rules/actual_hit\",\"status\":200},{\"method\":\"GET\",\"path\":\"/damage-types/magic\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/ability_power\",\"status\":200},{\"method\":\"GET\",\"path\":\"/attributes/mana\",\"status\":200}]}\n",
+  "toolExitCode": 0,
+  "summary": {
+    "schemaVersion": "damage.authoring.independent-readback.v1",
+    "status": "PASS",
+    "tool": {
+      "path": "tools/authoring/append-reviewed-skill-components-v2.mjs",
+      "sha256": "dc7af7426c1f3fcaa53a8c03738f649fc2f8236ba10090981a091ff1acc1a378",
+      "mode": "readback",
+      "approvedReview": {
+        "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/05-独立评审.json",
+        "sha256": "98070aa55c3dd648bc830168daf81eeedf7de75f281f7b7237045c39e23adbd2"
+      }
+    },
+    "actualGet": {
+      "count": 31,
+      "status": "PASS",
+      "businessWrites": 0,
+      "auditCount": 31,
+      "statusCounts": {
+        "200": 31
+      },
+      "audit": [
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/characters/champion_xerath",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/characters/champion_xerath/attributes",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/characters/champion_xerath/representative-image",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/representative-image",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/character-skill-relations?characterKey=champion_xerath",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/character-skill-relations?skillKey=xerath_e",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/cast_time_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/base_damage",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/min_stun_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/max_stun_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/calculation_constant_1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/confirmed_distance_stun_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/cooldown_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/mana_cost",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/formulas",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/formulas/damage",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/formulas/bounded_stun_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/effects",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/effects/mana_cost",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/effects/mage_spear_hit",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/processes",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/processes/cast",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/internal-states",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/trigger-rules",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/trigger-rules/on_used",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/trigger-rules/actual_hit",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/damage-types/magic",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/attributes/ability_power",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/attributes/mana",
+          "status": 200
+        }
+      ]
+    },
+    "unchangedResponsesIncludingTimestamps": 24,
+    "expectedChangedCollections": 3,
+    "baseline": {
+      "source": "04-写入前现值.json",
+      "businessWrites": 0,
+      "responseCount": 27,
+      "auditCount": 31,
+      "audit": [
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/characters/champion_xerath",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/characters/champion_xerath/attributes",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/characters/champion_xerath/representative-image",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/representative-image",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/character-skill-relations?characterKey=champion_xerath",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/character-skill-relations?skillKey=xerath_e",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/cast_time_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/base_damage",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/min_stun_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/max_stun_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/calculation_constant_1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/confirmed_distance_stun_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/cooldown_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/mana_cost",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/formulas",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/formulas/damage",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/formulas/bounded_stun_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/effects",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/effects/mana_cost",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/processes",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/internal-states",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/trigger-rules",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/damage-types/magic",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/attributes/ability_power",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/attributes/mana",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/effects/mage_spear_hit",
+          "status": 404
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/processes/cast",
+          "status": 404
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/trigger-rules/on_used",
+          "status": 404
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/trigger-rules/actual_hit",
+          "status": 404
+        }
+      ],
+      "oldResponses": {
+        "/skills/xerath_e": {
+          "createdAt": "2026-09-06T18:21:09.039377Z",
+          "description": "对单个敌人造成魔法伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "泽拉斯·冲击法球",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "xerath_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:09.039377Z"
+        },
+        "/characters/champion_xerath": {
+          "characterKey": "champion_xerath",
+          "createdAt": "2026-09-06T18:07:48.364681Z",
+          "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+          "gameId": "lol",
+          "name": "泽拉斯",
+          "updatedAt": "2026-09-06T18:07:48.364681Z"
+        },
+        "/characters/champion_xerath/attributes": {
+          "characterKey": "champion_xerath",
+          "levelValues": {
+            "1": {
+              "move_speed": 340,
+              "hp": 575,
+              "hp_regen": 5.5,
+              "mana": 400,
+              "mana_regen": 6.85,
+              "armor": 22,
+              "magic_resistance": 30,
+              "attack_damage": 55,
+              "attack_speed": 0.658,
+              "attack_range": 525
+            },
+            "2": {
+              "move_speed": 340,
+              "hp": 651.32,
+              "hp_regen": 5.896,
+              "mana": 415.84,
+              "mana_regen": 7.426,
+              "armor": 25.384,
+              "magic_resistance": 30.936,
+              "attack_damage": 57.16,
+              "attack_speed": 0.66412,
+              "attack_range": 525
+            },
+            "3": {
+              "move_speed": 340,
+              "hp": 731.35,
+              "hp_regen": 6.31125,
+              "mana": 432.45,
+              "mana_regen": 8.03,
+              "armor": 28.9325,
+              "magic_resistance": 31.9175,
+              "attack_damage": 59.425,
+              "attack_speed": 0.670538,
+              "attack_range": 525
+            },
+            "4": {
+              "move_speed": 340,
+              "hp": 815.09,
+              "hp_regen": 6.74575,
+              "mana": 449.83,
+              "mana_regen": 8.662,
+              "armor": 32.6455,
+              "magic_resistance": 32.9445,
+              "attack_damage": 61.795,
+              "attack_speed": 0.677253,
+              "attack_range": 525
+            },
+            "5": {
+              "move_speed": 340,
+              "hp": 902.54,
+              "hp_regen": 7.1995,
+              "mana": 467.98,
+              "mana_regen": 9.322,
+              "armor": 36.523,
+              "magic_resistance": 34.017,
+              "attack_damage": 64.27,
+              "attack_speed": 0.684265,
+              "attack_range": 525
+            },
+            "6": {
+              "move_speed": 340,
+              "hp": 993.7,
+              "hp_regen": 7.6725,
+              "mana": 486.9,
+              "mana_regen": 10.01,
+              "armor": 40.565,
+              "magic_resistance": 35.135,
+              "attack_damage": 66.85,
+              "attack_speed": 0.691575,
+              "attack_range": 525
+            },
+            "7": {
+              "move_speed": 340,
+              "hp": 1088.57,
+              "hp_regen": 8.16475,
+              "mana": 506.59,
+              "mana_regen": 10.726,
+              "armor": 44.7715,
+              "magic_resistance": 36.2985,
+              "attack_damage": 69.535,
+              "attack_speed": 0.699183,
+              "attack_range": 525
+            },
+            "8": {
+              "move_speed": 340,
+              "hp": 1187.15,
+              "hp_regen": 8.67625,
+              "mana": 527.05,
+              "mana_regen": 11.47,
+              "armor": 49.1425,
+              "magic_resistance": 37.5075,
+              "attack_damage": 72.325,
+              "attack_speed": 0.707088,
+              "attack_range": 525
+            },
+            "9": {
+              "move_speed": 340,
+              "hp": 1289.44,
+              "hp_regen": 9.207,
+              "mana": 548.28,
+              "mana_regen": 12.242,
+              "armor": 53.678,
+              "magic_resistance": 38.762,
+              "attack_damage": 75.22,
+              "attack_speed": 0.71529,
+              "attack_range": 525
+            },
+            "10": {
+              "move_speed": 340,
+              "hp": 1395.44,
+              "hp_regen": 9.757,
+              "mana": 570.28,
+              "mana_regen": 13.042,
+              "armor": 58.378,
+              "magic_resistance": 40.062,
+              "attack_damage": 78.22,
+              "attack_speed": 0.72379,
+              "attack_range": 525
+            },
+            "11": {
+              "move_speed": 340,
+              "hp": 1505.15,
+              "hp_regen": 10.32625,
+              "mana": 593.05,
+              "mana_regen": 13.87,
+              "armor": 63.2425,
+              "magic_resistance": 41.4075,
+              "attack_damage": 81.325,
+              "attack_speed": 0.732588,
+              "attack_range": 525
+            },
+            "12": {
+              "move_speed": 340,
+              "hp": 1618.57,
+              "hp_regen": 10.91475,
+              "mana": 616.59,
+              "mana_regen": 14.726,
+              "armor": 68.2715,
+              "magic_resistance": 42.7985,
+              "attack_damage": 84.535,
+              "attack_speed": 0.741683,
+              "attack_range": 525
+            },
+            "13": {
+              "move_speed": 340,
+              "hp": 1735.7,
+              "hp_regen": 11.5225,
+              "mana": 640.9,
+              "mana_regen": 15.61,
+              "armor": 73.465,
+              "magic_resistance": 44.235,
+              "attack_damage": 87.85,
+              "attack_speed": 0.751075,
+              "attack_range": 525
+            },
+            "14": {
+              "move_speed": 340,
+              "hp": 1856.54,
+              "hp_regen": 12.1495,
+              "mana": 665.98,
+              "mana_regen": 16.522,
+              "armor": 78.823,
+              "magic_resistance": 45.717,
+              "attack_damage": 91.27,
+              "attack_speed": 0.760765,
+              "attack_range": 525
+            },
+            "15": {
+              "move_speed": 340,
+              "hp": 1981.09,
+              "hp_regen": 12.79575,
+              "mana": 691.83,
+              "mana_regen": 17.462,
+              "armor": 84.3455,
+              "magic_resistance": 47.2445,
+              "attack_damage": 94.795,
+              "attack_speed": 0.770753,
+              "attack_range": 525
+            },
+            "16": {
+              "move_speed": 340,
+              "hp": 2109.35,
+              "hp_regen": 13.46125,
+              "mana": 718.45,
+              "mana_regen": 18.43,
+              "armor": 90.0325,
+              "magic_resistance": 48.8175,
+              "attack_damage": 98.425,
+              "attack_speed": 0.781038,
+              "attack_range": 525
+            },
+            "17": {
+              "move_speed": 340,
+              "hp": 2241.32,
+              "hp_regen": 14.146,
+              "mana": 745.84,
+              "mana_regen": 19.426,
+              "armor": 95.884,
+              "magic_resistance": 50.436,
+              "attack_damage": 102.16,
+              "attack_speed": 0.79162,
+              "attack_range": 525
+            },
+            "18": {
+              "move_speed": 340,
+              "hp": 2377,
+              "hp_regen": 14.85,
+              "mana": 774,
+              "mana_regen": 20.45,
+              "armor": 101.9,
+              "magic_resistance": 52.1,
+              "attack_damage": 106,
+              "attack_speed": 0.8025,
+              "attack_range": 525
+            }
+          },
+          "maxLevel": 18,
+          "minLevel": 1
+        },
+        "/characters/champion_xerath/representative-image": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_champion_xerath",
+            "name": "champion_xerath"
+          }
+        },
+        "/skills/xerath_e/representative-image": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_xerath_e",
+            "name": "xerath_e"
+          }
+        },
+        "/character-skill-relations?characterKey=champion_xerath": {
+          "items": [
+            {
+              "characterKey": "champion_xerath",
+              "characterName": "泽拉斯",
+              "gameId": "lol",
+              "skillKey": "xerath_p",
+              "skillName": "泽拉斯·法力澎湃",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_xerath",
+              "characterName": "泽拉斯",
+              "gameId": "lol",
+              "skillKey": "xerath_q",
+              "skillName": "泽拉斯·奥能脉冲",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_xerath",
+              "characterName": "泽拉斯",
+              "gameId": "lol",
+              "skillKey": "xerath_w",
+              "skillName": "泽拉斯·毁灭之眼",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_xerath",
+              "characterName": "泽拉斯",
+              "gameId": "lol",
+              "skillKey": "xerath_e",
+              "skillName": "泽拉斯·冲击法球",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_xerath",
+              "characterName": "泽拉斯",
+              "gameId": "lol",
+              "skillKey": "xerath_r",
+              "skillName": "泽拉斯·奥术仪式",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        },
+        "/character-skill-relations?skillKey=xerath_e": {
+          "items": [
+            {
+              "characterKey": "champion_xerath",
+              "characterName": "泽拉斯",
+              "gameId": "lol",
+              "skillKey": "xerath_e",
+              "skillName": "泽拉斯·冲击法球",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            }
+          ],
+          "total": 1
+        },
+        "/skills/xerath_e/parameters": [
+          {
+            "createdAt": "2026-09-09T06:42:00.050082Z",
+            "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+            "fixedValue": 250,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "施法时间（毫秒）",
+            "parameterKey": "cast_time_ms",
+            "skillKey": "xerath_e",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T06:42:00.050082Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T06:42:01.098014Z",
+            "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 70,
+              "2": 100,
+              "3": 130,
+              "4": 160,
+              "5": 190
+            },
+            "name": "基础伤害",
+            "parameterKey": "base_damage",
+            "skillKey": "xerath_e",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-09T06:42:01.098014Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T06:42:02.207359Z",
+            "description": "客户端当前根绑定 DataValues.MinStunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+            "fixedValue": 750,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "晕眩下限（毫秒）",
+            "parameterKey": "min_stun_ms",
+            "skillKey": "xerath_e",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T06:42:02.207359Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T06:42:03.196072Z",
+            "description": "客户端当前根绑定 DataValues.MaxStunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+            "fixedValue": 2250,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "晕眩上限（毫秒）",
+            "parameterKey": "max_stun_ms",
+            "skillKey": "xerath_e",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-09T06:42:03.196072Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-09T06:42:04.261018Z",
+            "description": "当前原计算树显式常数；只用于此数学表达式。",
+            "fixedValue": 0.45,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "冲击法球伤害固定系数",
+            "parameterKey": "calculation_constant_1",
+            "skillKey": "xerath_e",
+            "sortOrder": 70,
+            "updatedAt": "2026-09-09T06:42:04.261018Z",
+            "valueMode": "FIXED",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-09T06:42:05.297289Z",
+            "description": "距离到时长的完整算法没有原计算树，实际已核毫秒数外供，不用字段名0.17和端点拼线性。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "实际距离对应晕眩时长（毫秒）",
+            "parameterKey": "confirmed_distance_stun_ms",
+            "skillKey": "xerath_e",
+            "sortOrder": 80,
+            "updatedAt": "2026-09-09T06:42:05.297289Z",
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          },
+          {
+            "createdAt": "2026-09-08T02:06:08.13438Z",
+            "description": "DDragon16.17.1 Xerath.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 13000,
+              "2": 12500,
+              "3": 12000,
+              "4": 11500,
+              "5": 11000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "xerath_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:08.13438Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:06:08.600764Z",
+            "description": "DDragon16.17.1 Xerath.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "xerath_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:06:08.600764Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "/skills/xerath_e/parameters/cast_time_ms": {
+          "createdAt": "2026-09-09T06:42:00.050082Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "xerath_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T06:42:00.050082Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "/skills/xerath_e/parameters/base_damage": {
+          "createdAt": "2026-09-09T06:42:01.098014Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 100,
+            "3": 130,
+            "4": 160,
+            "5": 190
+          },
+          "name": "基础伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "xerath_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T06:42:01.098014Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "/skills/xerath_e/parameters/min_stun_ms": {
+          "createdAt": "2026-09-09T06:42:02.207359Z",
+          "description": "客户端当前根绑定 DataValues.MinStunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 750,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "晕眩下限（毫秒）",
+          "parameterKey": "min_stun_ms",
+          "skillKey": "xerath_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T06:42:02.207359Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "/skills/xerath_e/parameters/max_stun_ms": {
+          "createdAt": "2026-09-09T06:42:03.196072Z",
+          "description": "客户端当前根绑定 DataValues.MaxStunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 2250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "晕眩上限（毫秒）",
+          "parameterKey": "max_stun_ms",
+          "skillKey": "xerath_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T06:42:03.196072Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "/skills/xerath_e/parameters/calculation_constant_1": {
+          "createdAt": "2026-09-09T06:42:04.261018Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.45,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "冲击法球伤害固定系数",
+          "parameterKey": "calculation_constant_1",
+          "skillKey": "xerath_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T06:42:04.261018Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        "/skills/xerath_e/parameters/confirmed_distance_stun_ms": {
+          "createdAt": "2026-09-09T06:42:05.297289Z",
+          "description": "距离到时长的完整算法没有原计算树，实际已核毫秒数外供，不用字段名0.17和端点拼线性。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "实际距离对应晕眩时长（毫秒）",
+          "parameterKey": "confirmed_distance_stun_ms",
+          "skillKey": "xerath_e",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T06:42:05.297289Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "/skills/xerath_e/parameters/cooldown_ms": {
+          "createdAt": "2026-09-08T02:06:08.13438Z",
+          "description": "DDragon16.17.1 Xerath.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 13000,
+            "2": 12500,
+            "3": 12000,
+            "4": 11500,
+            "5": 11000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "xerath_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:08.13438Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "/skills/xerath_e/parameters/mana_cost": {
+          "createdAt": "2026-09-08T02:06:08.600764Z",
+          "description": "DDragon16.17.1 Xerath.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "xerath_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:06:08.600764Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "/skills/xerath_e/formulas": [
+          {
+            "createdAt": "2026-09-09T06:42:06.275076Z",
+            "description": "第一个实际命中目标。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+            "formulaKey": "damage",
+            "gameId": "lol",
+            "name": "冲击法球伤害",
+            "skillKey": "xerath_e",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T06:42:06.275076Z"
+          },
+          {
+            "createdAt": "2026-09-09T06:42:07.359276Z",
+            "description": "当前正文至少0.75秒、至多2.25秒；最终夹限后用于后续控制配置。",
+            "formulaKey": "bounded_stun_ms",
+            "gameId": "lol",
+            "name": "含当前上下限的晕眩时长（毫秒）",
+            "skillKey": "xerath_e",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T06:42:07.359276Z"
+          }
+        ],
+        "/skills/xerath_e/formulas/damage": {
+          "createdAt": "2026-09-09T06:42:06.275076Z",
+          "description": "第一个实际命中目标。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "calculation_constant_1"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "冲击法球伤害",
+          "skillKey": "xerath_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:42:06.275076Z"
+        },
+        "/skills/xerath_e/formulas/bounded_stun_ms": {
+          "createdAt": "2026-09-09T06:42:07.359276Z",
+          "description": "当前正文至少0.75秒、至多2.25秒；最终夹限后用于后续控制配置。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "confirmed_distance_stun_ms"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "min_stun_ms"
+                  }
+                ],
+                "operation": "MAX"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_stun_ms"
+              }
+            ],
+            "operation": "MIN"
+          },
+          "formulaKey": "bounded_stun_ms",
+          "gameId": "lol",
+          "name": "含当前上下限的晕眩时长（毫秒）",
+          "skillKey": "xerath_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T06:42:07.359276Z"
+        },
+        "/skills/xerath_e/effects": [
+          {
+            "createdAt": "2026-09-09T06:42:08.795678Z",
+            "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+            "effectKey": "mana_cost",
+            "gameId": "lol",
+            "lifecycleEnabled": false,
+            "name": "施放法力消耗",
+            "resultCount": 1,
+            "skillKey": "xerath_e",
+            "sortOrder": 10,
+            "updatedAt": "2026-09-09T06:42:08.795678Z"
+          }
+        ],
+        "/skills/xerath_e/effects/mana_cost": {
+          "createdAt": "2026-09-09T06:42:08.795678Z",
+          "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "xerath_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:42:08.795678Z"
+        },
+        "/skills/xerath_e/processes": [],
+        "/skills/xerath_e/internal-states": [],
+        "/skills/xerath_e/trigger-rules": [],
+        "/damage-types/magic": {
+          "createdAt": "2026-08-26T05:59:15.870937Z",
+          "damageTypeKey": "magic",
+          "description": null,
+          "gameId": "lol",
+          "name": "魔法伤害",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:15.870937Z"
+        },
+        "/attributes/ability_power": {
+          "attributeKey": "ability_power",
+          "createdAt": "2026-08-30T16:26:39.898635Z",
+          "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "法术强度",
+          "sortOrder": 510,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-30T16:26:39.898635Z",
+          "valueType": "DECIMAL"
+        },
+        "/attributes/mana": {
+          "attributeKey": "mana",
+          "createdAt": "2026-08-22T15:27:36.139767Z",
+          "description": null,
+          "gameId": "lol",
+          "maxValue": null,
+          "minValue": 0,
+          "name": "法力值",
+          "sortOrder": 310,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-22T15:27:36.139767Z",
+          "valueType": "DECIMAL"
+        }
+      },
+      "beforeCollectionCounts": {
+        "/skills/xerath_e/parameters": 8,
+        "/skills/xerath_e/formulas": 2,
+        "/skills/xerath_e/effects": 1,
+        "/skills/xerath_e/processes": 0,
+        "/skills/xerath_e/internal-states": 0,
+        "/skills/xerath_e/trigger-rules": 0
+      },
+      "newObjectDetail404": [
+        {
+          "path": "/skills/xerath_e/effects/mage_spear_hit",
+          "status": 404
+        },
+        {
+          "path": "/skills/xerath_e/processes/cast",
+          "status": 404
+        },
+        {
+          "path": "/skills/xerath_e/trigger-rules/on_used",
+          "status": 404
+        },
+        {
+          "path": "/skills/xerath_e/trigger-rules/actual_hit",
+          "status": 404
+        }
+      ]
+    },
+    "collectionCounts": {
+      "changedRoutes": [
+        "/skills/xerath_e/effects",
+        "/skills/xerath_e/processes",
+        "/skills/xerath_e/trigger-rules",
+        "/skills/xerath_e/internal-states"
+      ],
+      "before": {
+        "/skills/xerath_e/parameters": 8,
+        "/skills/xerath_e/formulas": 2,
+        "/skills/xerath_e/effects": 1,
+        "/skills/xerath_e/processes": 0,
+        "/skills/xerath_e/internal-states": 0,
+        "/skills/xerath_e/trigger-rules": 0
+      },
+      "after": {
+        "/skills/xerath_e/effects": 2,
+        "/skills/xerath_e/processes": 1,
+        "/skills/xerath_e/trigger-rules": 2,
+        "/skills/xerath_e/internal-states": 0
+      },
+      "delta": {
+        "/skills/xerath_e/effects": 1,
+        "/skills/xerath_e/processes": 1,
+        "/skills/xerath_e/trigger-rules": 2,
+        "/skills/xerath_e/internal-states": 0
+      },
+      "changedCollectionCount": 3
+    },
+    "newObjects": {
+      "count": 4,
+      "routes": [
+        "/skills/xerath_e/effects/mage_spear_hit",
+        "/skills/xerath_e/processes/cast",
+        "/skills/xerath_e/trigger-rules/on_used",
+        "/skills/xerath_e/trigger-rules/actual_hit"
+      ],
+      "objects": {
+        "/skills/xerath_e/effects/mage_spear_hit": {
+          "createdAt": "2026-09-18T23:15:19.833733Z",
+          "description": "本轮1V1唯一敌方英雄的一次实际命中直接魔法伤害；距离对应眩晕另行处理。",
+          "effectKey": "mage_spear_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "冲击法球实际命中魔法伤害",
+          "results": [
+            {
+              "description": "引用同技能 damage 公式；不包含眩晕距离或时长。",
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "SKILL",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "xerath_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T23:15:19.833733Z"
+        },
+        "/skills/xerath_e/processes/cast": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-18T23:15:21.142048Z",
+          "description": "登记法力、普通冷却与当前根明确的250毫秒施法延迟；伤害由独立实际命中入口处理，不能把施法结束当成投射物命中。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "施放冲击法球",
+          "processKey": "cast",
+          "skillKey": "xerath_e",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "主技能 spellCastTime，按毫秒录入。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法时间",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-18T23:15:21.142048Z"
+        },
+        "/skills/xerath_e/trigger-rules/on_used": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动使用过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收本技能主动使用，启动既有法力效果、普通冷却及250毫秒延迟的过程；不自动执行命中伤害或眩晕。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "xerath_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用启动冲击法球过程",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 5
+        },
+        "/skills/xerath_e/trigger-rules/actual_hit": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "mage_spear_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "本轮英雄目标",
+              "sortOrder": 10
+            }
+          ],
+          "description": "仅消费本技能对当前唯一敌方英雄的实际命中，执行直接伤害；规则不生产投射物、首个目标或眩晕事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "xerath_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "冲击法球实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 20
+        }
+      },
+      "byCollection": {
+        "effects": 1,
+        "processes": 1,
+        "triggerRules": 2
+      }
+    },
+    "toolSummary": {
+      "status": "PASS",
+      "at": "2026-09-18T23:15:59.190Z",
+      "businessWrites": 0,
+      "GETs": 31,
+      "unchangedResponsesIncludingTimestamps": 24,
+      "expectedChangedCollections": 3,
+      "newObjects": {
+        "/skills/xerath_e/effects/mage_spear_hit": {
+          "createdAt": "2026-09-18T23:15:19.833733Z",
+          "description": "本轮1V1唯一敌方英雄的一次实际命中直接魔法伤害；距离对应眩晕另行处理。",
+          "effectKey": "mage_spear_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "冲击法球实际命中魔法伤害",
+          "results": [
+            {
+              "description": "引用同技能 damage 公式；不包含眩晕距离或时长。",
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "SKILL",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "xerath_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T23:15:19.833733Z"
+        },
+        "/skills/xerath_e/processes/cast": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-18T23:15:21.142048Z",
+          "description": "登记法力、普通冷却与当前根明确的250毫秒施法延迟；伤害由独立实际命中入口处理，不能把施法结束当成投射物命中。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "施放冲击法球",
+          "processKey": "cast",
+          "skillKey": "xerath_e",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "主技能 spellCastTime，按毫秒录入。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法时间",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-18T23:15:21.142048Z"
+        },
+        "/skills/xerath_e/trigger-rules/on_used": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动使用过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "接收本技能主动使用，启动既有法力效果、普通冷却及250毫秒延迟的过程；不自动执行命中伤害或眩晕。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "xerath_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用启动冲击法球过程",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 5
+        },
+        "/skills/xerath_e/trigger-rules/actual_hit": {
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "mage_spear_hit"
+              },
+              "name": "执行命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "本轮英雄目标",
+              "sortOrder": 10
+            }
+          ],
+          "description": "仅消费本技能对当前唯一敌方英雄的实际命中，执行直接伤害；规则不生产投射物、首个目标或眩晕事件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "xerath_e",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "冲击法球实际命中",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_hit",
+          "sortOrder": 20
+        }
+      },
+      "audit": [
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/characters/champion_xerath",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/characters/champion_xerath/attributes",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/characters/champion_xerath/representative-image",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/representative-image",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/character-skill-relations?characterKey=champion_xerath",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/character-skill-relations?skillKey=xerath_e",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/cast_time_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/base_damage",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/min_stun_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/max_stun_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/calculation_constant_1",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/confirmed_distance_stun_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/cooldown_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/parameters/mana_cost",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/formulas",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/formulas/damage",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/formulas/bounded_stun_ms",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/effects",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/effects/mana_cost",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/effects/mage_spear_hit",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/processes",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/processes/cast",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/internal-states",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/trigger-rules",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/trigger-rules/on_used",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/skills/xerath_e/trigger-rules/actual_hit",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/damage-types/magic",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/attributes/ability_power",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/attributes/mana",
+          "status": 200
+        }
+      ]
+    },
+    "runtimeBoundary": {
+      "businessWrites": false,
+      "browserValidation": false,
+      "hostWasmValidation": false,
+      "actualEventProduction": false,
+      "note": "readback只证明管理接口当前回读与冻结请求一致，不证明战斗运行、命中事件生产、吸血或法术护盾实际结算。"
+    }
+  }
+}
+

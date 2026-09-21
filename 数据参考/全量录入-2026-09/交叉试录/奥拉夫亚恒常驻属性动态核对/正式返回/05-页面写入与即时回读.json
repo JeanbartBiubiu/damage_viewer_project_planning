@@ -1,0 +1,222 @@
+{
+  "startedAt": "2026-09-20T11:17:34.343Z",
+  "status": "PASS",
+  "businessWritesAttempted": 3,
+  "operations": [
+    {
+      "route": "/skills/olaf_r/effects/passive_armor",
+      "saveClicks": 1,
+      "putBodyCaptured": false,
+      "putResponseStatusCaptured": false,
+      "readback": {
+        "createdAt": "2026-09-08T17:38:22.86332Z",
+        "description": "常驻自身护甲，按当前已学R等级1至3持续重新读取passive_resist；由已有初始化入口建立单层实例，不把来源初始化当成升级事件。主动攻击力、净化免控、持续延长和朝向加速分别维护。",
+        "effectKey": "passive_armor",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "诸神黄昏被动护甲",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "armor",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "诸神黄昏被动护甲",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "passive_resist"
+              }
+            }
+          }
+        ],
+        "skillKey": "olaf_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-20T11:17:45.796527Z"
+      },
+      "audit": {
+        "method": "GET",
+        "path": "/skills/olaf_r/effects/passive_armor",
+        "status": 200
+      }
+    },
+    {
+      "route": "/skills/olaf_r/effects/passive_magic_resistance",
+      "saveClicks": 1,
+      "putBodyCaptured": false,
+      "putResponseStatusCaptured": false,
+      "readback": {
+        "createdAt": "2026-09-08T17:38:23.497186Z",
+        "description": "常驻自身魔法抗性，按当前已学R等级1至3持续重新读取passive_resist；由已有初始化入口建立单层实例，不把来源初始化当成升级事件。主动分支继续分别维护。",
+        "effectKey": "passive_magic_resistance",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "诸神黄昏被动魔抗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "magic_resistance",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "诸神黄昏被动魔抗",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "passive_resist"
+              }
+            }
+          }
+        ],
+        "skillKey": "olaf_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-20T11:19:11.613122Z"
+      },
+      "audit": {
+        "method": "GET",
+        "path": "/skills/olaf_r/effects/passive_magic_resistance",
+        "status": 200
+      }
+    },
+    {
+      "route": "/skills/zaahen_r/effects/armor_penetration",
+      "saveClicks": 1,
+      "putBodyCaptured": false,
+      "putResponseStatusCaptured": false,
+      "readback": {
+        "createdAt": "2026-09-10T02:39:26.195568Z",
+        "description": "常驻自身护甲穿透比例，按当前已学R等级1至3持续重新读取armor_penetration_ratio；已有初始化入口建立单层实例。主动伤害、治疗、施放减伤、位移和生存链继续单列。",
+        "effectKey": "armor_penetration",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "大赦常驻护甲穿透",
+        "results": [
+          {
+            "description": "已有来源初始化规则建立自身单层实例；常驻属性按当前已学R等级重新取值，原比例单位与乘区保留。",
+            "detail": {
+              "attributeKey": "armor_pen_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "大赦常驻护甲穿透",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "armor_penetration_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "zaahen_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-20T11:22:30.804131Z"
+      },
+      "audit": {
+        "method": "GET",
+        "path": "/skills/zaahen_r/effects/armor_penetration",
+        "status": 200
+      }
+    }
+  ],
+  "pendingRoute": null,
+  "reviewSHA": "5fe2c69c3d7f96a79048da0fff37e04d56897cfb55d01987fca044ea31f1233a",
+  "frozenSHA": "0daa671fa245b11e9ece40b90830a85173229d0b93d6cd1ed9786ffc93fe7f92",
+  "note": "每个父效果页面保存一次；子结果保存只应用草稿。未捕获实际PUT正文与响应状态，各次保存以完整GET即时核对。必须从此文件重读状态，不依赖闭包内旧计数。",
+  "finishedAt": "2026-09-20T11:22:46.244Z"
+}

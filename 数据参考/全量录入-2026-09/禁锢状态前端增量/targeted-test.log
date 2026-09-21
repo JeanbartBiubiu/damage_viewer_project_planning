@@ -1,0 +1,16 @@
+
+> damage-viewer-web@0.1.0 test
+> vitest run --config vitest.config.ts --run src/services/statusClient.test.ts src/pages/admin/statuses/statusForm.test.ts src/pages/admin/skills/effects/movementSlow.test.ts
+
+
+ RUN  v2.1.9 C:/project/damage_web_dev/web
+
+ ✓ src/pages/admin/statuses/statusForm.test.ts (10 tests) 4ms
+ ✓ src/services/statusClient.test.ts (12 tests) 20ms
+ ✓ src/pages/admin/skills/effects/movementSlow.test.ts (20 tests) 11ms
+
+ Test Files  3 passed (3)
+      Tests  42 passed (42)
+   Start at  09:18:02
+   Duration  443ms (transform 238ms, setup 0ms, collect 385ms, tests 35ms, environment 0ms, prepare 263ms)
+

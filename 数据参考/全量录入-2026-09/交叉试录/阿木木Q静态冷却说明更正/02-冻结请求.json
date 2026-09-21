@@ -1,0 +1,46 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/amumu_q/parameters/cooldown_ms",
+      "body": {
+        "name": "基础静态冷却时间（毫秒）",
+        "description": "固定客户端16.17根BandageToss的cooldownTime与Cooldown.values各等级均为3秒，且mCooldownNotAffectedByCDR明确为true，表示该冷却不受冷却缩减影响。保留3000毫秒原值；这是静态冷却，不是16/15/14/13/12秒的弹药恢复时间，不据此建立未区分急速的普通冷却过程。",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 3000,
+          "2": 3000,
+          "3": 3000,
+          "4": 3000,
+          "5": 3000
+        },
+        "sortOrder": 20
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T14:32:18.678728Z",
+        "description": "固定客户端16.17根BandageToss的cooldownTime与Cooldown.values各等级均为3秒，且mCooldownNotAffectedByCDR明确为true，表示该冷却不受冷却缩减影响。保留3000毫秒原值；这是静态冷却，不是16/15/14/13/12秒的弹药恢复时间，不据此建立未区分急速的普通冷却过程。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 3000,
+          "2": 3000,
+          "3": 3000,
+          "4": 3000,
+          "5": 3000
+        },
+        "name": "基础静态冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "amumu_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T14:32:18.678728Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "sourceSha256": "6e8a1bac32b54b84a8fc5a0cefd8e7a8f9b66867c63a41be773a118adf11fb9b",
+  "baselineSha256": "b01ab143554da7ee2a96cc2425c4d73e17fe3e1148232899e3647f6b570f2a60"
+}

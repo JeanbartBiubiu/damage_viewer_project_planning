@@ -1,0 +1,47 @@
+{
+  "status": "APPROVED",
+  "reviewer": "/root/amumu_er_composition_review",
+  "reviewScope": "冻结请求与受限管理组成的只读独立评审",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "a3a6423cc42c8c5dca8e76c86328955cda3c46c7416db68db6a7a23b0224dd4e",
+    "02-冻结请求.json": "8909c828387b1ece721d2684f407e6143be76cf1fd57ea58759a8e1b5942b313",
+    "03-来源摘要.json": "c0b71e477f15836f972357cb00e27a511c1e5ec845d5a760ac034973a840c5b6",
+    "04-写入前现值.json": "2db34a8973d6298814a1ed4bdc4d5fb96d9e4f077518d7bc12c91366dd87925c"
+  },
+  "checks": [
+    "02与01的10个请求逐字段一致；固定目标地址一致；02绑定03与04的散列准确；14项来源当前原字节均与01、03一致。",
+    "04包含52项GET 200保护响应及10项新目标GET 404，审计合计62次，业务写入为0；两个技能均已有成本效果，无既有过程或触发规则。",
+    "按请求顺序核对参数、公式、效果、过程和目录引用，无未解决引用；先创建过程再创建使用入口，先创建效果再创建命中入口及生命周期条件。",
+    "接受E即时使用登记：只处理已接受主动使用的基础法力和普通冷却，不以立即步骤宣称完整施法时间为零。",
+    "接受R基础250毫秒DELAY过程：引用现有250毫秒整数参数，只在过程开始登记成本和冷却，没有过程结束伤害或控制挂接。",
+    "接受E/R受限本体伤害：各自只有一个执行入口，明确来源技能，英雄类别、敌方及同次护盾阻挡值等于0在同一条件组；目标为实际命中对象，缺值不能补零，空护盾粒度不表示穿盾。",
+    "接受R首次眩晕：vertigo现值为启用的STUN，持续1500毫秒；SOURCE_TARGET实例配合CURRENT_TARGET及ABSENT，仅检查本技能本效果的自身来源实例；REFRESH_ALL为期限生命周期必填字段，不构成重施来源证据。",
+    "请求正文与预期回读仅有三条SKILL_HIT事件详情补useKind:null的正常差异，其余逐字段一致。",
+    "执行工具核对五文件散列、来源、冻结关系及写前完整现值；独占创建06，逐项POST后即时回读，异常保留待核状态，独立回读保护原响应及时间戳。"
+  ],
+  "evidence": [
+    "web:数据参考/全量录入-2026-09/交叉试录/阿木木ER普通使用与明确本体返回/01-候选方案.json:92、240、497、734、872、975",
+    "planning:文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md:34、44、229、331、385",
+    "planning:文档记录/详细设计/项目/系统精简实施说明.md:64、66、90、92",
+    "backend:server/data_manage/src/main/java/xyz/game/datamanage/service/skillprocess/SkillProcessService.java:488、493、634",
+    "backend:server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java:1211、1232、1762",
+    "backend:server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java:588、1700、1721",
+    "web:tools/authoring/append-reviewed-skill-components-v3.mjs:91、102、125、129、135",
+    "只读文件解析和SHA256核对结果：requestsEqual=true；sourceHashEqual=true；baselineHashEqual=true；sourceFailures=[]；unresolvedReferences=[]；newTarget404=10。"
+  ],
+  "executionPrerequisites": [
+    "主负责人须先取得公式说明2PUT的独立回读PASS，再按已授权执行流程进行写前核对和实际写入。"
+  ],
+  "boundaries": [
+    "本评审不执行或另行授权业务写入。",
+    "完整命中时序、E被动减伤及受击减冷却、R诅咒、重施和完整免控交互仍开放。",
+    "不计整技能完成，不证明宿主、Wasm或真实战斗执行。"
+  ],
+  "blockers": [],
+  "businessRequestsByReviewer": 0,
+  "filesModifiedByReviewer": false,
+  "testsRun": 0,
+  "browser": false,
+  "runtime": false
+}

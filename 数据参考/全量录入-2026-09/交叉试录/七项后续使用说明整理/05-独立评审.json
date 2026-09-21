@@ -1,0 +1,169 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T03:16:22.058Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "decision": "批准七项技能十处普通使用说明整理，只更新已不准确的未接时点文字，不改变任何数值或管理接线。",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "1e58cf70856ce2515f8f971f836d8785b2b613a9dc1dbe09fa963ab42120ad6f",
+    "02-冻结请求.json": "9b9d9ed0f9a44d05400b90c947af781637e08cc3f0b76d888d28795b0f16b4eb",
+    "03-来源摘要.json": "fefd0d8c1547746f28be51b43ba0c832db156087d15637ba2c4ca07b98958ff9",
+    "04-写入前现值.json": "9a9bea70bcdee550e93fe2bf67081df86c044dfc2e1e09486a89072890065afe"
+  },
+  "approvedIndependentReader": {
+    "path": "tools/authoring/read-reviewed-description-updates.mjs",
+    "sha256": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "checks": {
+    "sourceHashes": 5,
+    "preparationGETs": 133,
+    "protectedResponses": 133,
+    "changedDescriptions": 10,
+    "parameterDescriptions": 7,
+    "effectDescriptions": 3,
+    "priorUnchangedResponses": 103,
+    "priorNewObjectsPreserved": 15,
+    "priorChangedCollectionsVerified": 15,
+    "descriptionOnlyBodies": 10,
+    "createdAtPreserved": 10
+  },
+  "comparisons": [
+    {
+      "route": "/skills/braum_q/parameters/mana_cost",
+      "kind": "parameter",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtPreserved": true,
+      "otherWritableFieldsPreserved": true,
+      "processKey": "use_cost_and_cooldown",
+      "ruleKey": "on_used_cost_and_cooldown"
+    },
+    {
+      "route": "/skills/nautilus_q/parameters/mana_cost",
+      "kind": "parameter",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtPreserved": true,
+      "otherWritableFieldsPreserved": true,
+      "processKey": "cast",
+      "ruleKey": "on_used"
+    },
+    {
+      "route": "/skills/nautilus_q/effects/mana_cost",
+      "kind": "effect",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtPreserved": true,
+      "otherWritableFieldsPreserved": true,
+      "processKey": "cast",
+      "ruleKey": "on_used"
+    },
+    {
+      "route": "/skills/ziggs_q/parameters/mana_cost",
+      "kind": "parameter",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtPreserved": true,
+      "otherWritableFieldsPreserved": true,
+      "processKey": "use_cost_and_cooldown",
+      "ruleKey": "on_used_cost_and_cooldown"
+    },
+    {
+      "route": "/skills/zyra_q/parameters/mana_cost",
+      "kind": "parameter",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtPreserved": true,
+      "otherWritableFieldsPreserved": true,
+      "processKey": "cast",
+      "ruleKey": "on_used"
+    },
+    {
+      "route": "/skills/zyra_e/parameters/mana_cost",
+      "kind": "parameter",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtPreserved": true,
+      "otherWritableFieldsPreserved": true,
+      "processKey": "cast",
+      "ruleKey": "on_used"
+    },
+    {
+      "route": "/skills/leona_r/parameters/mana_cost",
+      "kind": "parameter",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtPreserved": true,
+      "otherWritableFieldsPreserved": true,
+      "processKey": "cast",
+      "ruleKey": "on_used"
+    },
+    {
+      "route": "/skills/leona_r/effects/mana_cost",
+      "kind": "effect",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtPreserved": true,
+      "otherWritableFieldsPreserved": true,
+      "processKey": "cast",
+      "ruleKey": "on_used"
+    },
+    {
+      "route": "/skills/malzahar_q/parameters/mana_cost",
+      "kind": "parameter",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtPreserved": true,
+      "otherWritableFieldsPreserved": true,
+      "processKey": "cast",
+      "ruleKey": "on_used"
+    },
+    {
+      "route": "/skills/malzahar_q/effects/mana_cost",
+      "kind": "effect",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtPreserved": true,
+      "otherWritableFieldsPreserved": true,
+      "processKey": "cast",
+      "ruleKey": "on_used"
+    }
+  ],
+  "semanticReview": {
+    "parameters": "七处仅将未接入实际扣除时点改为具体时点由引用过程定义，来源版本、等级、基础参数及未计修正边界均保留。",
+    "effects": "NautilusQ、LeonaR、MalzaharQ的成本效果改为引用既有基础法力和过程时点，现值确有普通使用规则到过程到mana_cost链。",
+    "registrationBoundary": "BraumQ/ZiggsQ仍是固定0登记过程，不改为真实零施法时长；其他五项既有250毫秒过程保持。",
+    "preserved": "Braum新成本、Ziggs/Zyra准确成本说明、全部伤害/命中/使用规则、参数数值、公式、嵌套结果、生命周期和创建时间均保持。",
+    "runtimeBoundary": "不据此声明资源不足处理、施法资格、冷却或资源运行已实现。"
+  },
+  "expectedIndependentReadback": {
+    "GETs": 133,
+    "changedDetails": 10,
+    "expectedChangedCollections": 10,
+    "unchangedResponsesIncludingTimestamps": 113,
+    "businessWrites": 0
+  },
+  "executionConditions": [
+    "writer、01至04及五份来源保持原字节；写前重核全部133现值及逐目标现值。",
+    "只执行冻结10PUT；06存在或结果不明先查落地，不重放。",
+    "成功后使用固定read-reviewed-description-updates.mjs只读回读，不使用说明写入工具的不存在readback模式；wx保存07。"
+  ],
+  "validationLimits": {
+    "HTTP": "本评审0HTTP，仅审冻结现值与前批回读",
+    "browser": "页面认证不可用，待验",
+    "runtime": "无宿主/Wasm/战斗运行证明"
+  },
+  "blockingFindings": []
+}

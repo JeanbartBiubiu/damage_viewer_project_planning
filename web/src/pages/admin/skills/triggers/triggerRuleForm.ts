@@ -1,5 +1,6 @@
 import { lifecycleConditionError, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
 import { allowsExplicitTargetIsSource, explicitTargetIsSourceError } from './explicitTargetCondition';
+import { allowsSkillHitEnemy, skillHitEnemyError } from './skillHitEnemyCondition';
 import { allowsSourceCastResourceCost, sourceCastResourceCostError } from './sourceCastResourceCost';
 import { allowsTargetCategoryCheck, targetCategoryConditionError, TARGET_CATEGORY_LABELS } from './targetCategoryCondition';
 import type { Attribute } from '../../../../types/attribute';
@@ -95,11 +96,13 @@ export const SKILL_TRIGGER_FAIL_PROCESS_LAST_MESSAGE = '令过程失败必须保
 export const SKILL_TRIGGER_CYCLE_MESSAGE = '当前关系形成没有保护的循环';
 export const SKILL_TRIGGER_CYCLE_HINT = '可增加每目标冷却、单次过程最大触发次数或调整关系。';
 export const SKILL_TRIGGER_RESULT_EVENT_GRAPH_HINT =
-  '斩杀结果可产生击杀/死亡事件；命中联动应用产生应用命中联动事件；攻击联动应用产生触发攻击联动事件。来源技能只缩小事件匹配范围。';
+  '伤害或斩杀结果可产生击杀、参与击杀和死亡事件；对来源对象自身的结果不产生参与击杀事件。命中联动应用产生应用命中联动事件；攻击联动应用产生触发攻击联动事件。来源技能只缩小事件匹配范围。';
 export const SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT =
   '空值表示任意技能；选择具体技能只缩小事件匹配范围。';
 export const SKILL_TRIGGER_SOURCE_INITIALIZED_HINT =
   '来源对象的基础属性、挂载技能与装备、初始内部状态准备完毕后触发一次；复活、装备变化或等级变化不会再次触发。该事件不提供事件数值。';
+export const SKILL_TRIGGER_TAKEDOWN_HINT =
+  '来源对象被正式记为本次死亡的击杀者或助攻参与者时触发，每次死亡至多一次；不能用最近造成过伤害代替。当前目标为死亡对象，不提供事件来源对象或事件数值。同一收益使用一个入口，避免与本人击杀规则重复。';
 export const SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT = '否 = 0，是 = 1';
 export const SKILL_TRIGGER_PRIOR_BOOLEAN_OUTPUT_HINT = '以 0/1 供值';
 export const SKILL_TRIGGER_SHAPE_IN_USE_MESSAGE = '该结构仍被条件与触发规则使用';
@@ -109,7 +112,7 @@ export const SKILL_TRIGGER_ADJUST_RULES_BEFORE_EFFECT_HINT = '请先调整条件
 export const SKILL_TRIGGER_SOURCE_EFFECT_LOAD_MESSAGE = '来源效果详情未加载，无法校验前序结果。请重试。';
 
 export const SKILL_TRIGGER_PRODUCED_EVENTS_BY_RESULT = {
-  EXECUTE: ['KILL', 'ENTITY_DIED'],
+  EXECUTE: ['KILL', 'TAKEDOWN', 'ENTITY_DIED'],
   HIT_LINK_APPLICATION: ['HIT_LINK_APPLIED'],
   ATTACK_LINK_APPLICATION: ['ATTACK_LINK_APPLIED']
 } as const;
@@ -219,6 +222,7 @@ export const SKILL_TRIGGER_EVENT_TYPES = [
   'ENTITY_DIED',
   'ENTITY_UNTARGETABLE',
   'KILL',
+  'TAKEDOWN',
   'PROCESS_CANCEL_REQUESTED',
   'SPELL_SHIELD_BLOCKED',
   'HIT_LINK_APPLIED',
@@ -231,6 +235,7 @@ export const SKILL_TRIGGER_CONDITION_TYPES = [
   'LIFECYCLE_CHECK',
   'TARGET_CATEGORY_CHECK',
   'EXPLICIT_TARGET_IS_SOURCE',
+  'SKILL_HIT_TARGET_IS_ENEMY',
   'INTERNAL_STATE_CHECK',
   'EVENT_VALUE_COMPARE'
 ] as const satisfies readonly SkillTriggerConditionType[];
@@ -262,6 +267,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_KEYS = [
   'CHARGE_DURATION_MS',
   'RECAST_COUNT',
   'HIT_INDEX',
+  'SKILL_HIT_FIRST_CONTACT',
   'SKILL_HIT_SPELL_SHIELD_BLOCKED',
   'LIFECYCLE_STACKS',
   'PERIOD_INDEX',
@@ -339,6 +345,7 @@ export const SKILL_TRIGGER_EVENT_TYPE_LABELS = {
   ENTITY_DIED: '指定对象死亡',
   ENTITY_UNTARGETABLE: '指定对象变为不可选取',
   KILL: '来源对象完成击杀',
+  TAKEDOWN: '来源对象参与击杀',
   PROCESS_CANCEL_REQUESTED: '指定过程收到主动取消请求',
   SPELL_SHIELD_BLOCKED: '法术护盾成功阻挡',
   HIT_LINK_APPLIED: '应用命中联动',
@@ -492,6 +499,14 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
     requiredCatalogs: [],
     detailFields: []
   },
+  TAKEDOWN: {
+    eventType: 'TAKEDOWN',
+    label: SKILL_TRIGGER_EVENT_TYPE_LABELS.TAKEDOWN,
+    currentTargetBinding: '本次死亡对象。',
+    hasEventSource: false,
+    requiredCatalogs: [],
+    detailFields: []
+  },
   PROCESS_CANCEL_REQUESTED: {
     eventType: 'PROCESS_CANCEL_REQUESTED',
     label: SKILL_TRIGGER_EVENT_TYPE_LABELS.PROCESS_CANCEL_REQUESTED,
@@ -531,6 +546,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_LABELS = {
   CHARGE_DURATION_MS: '实际蓄力毫秒数',
   RECAST_COUNT: '当前过程已重施次数',
   HIT_INDEX: '当前命中序号',
+  SKILL_HIT_FIRST_CONTACT: '本次使用首次目标接触',
   SKILL_HIT_SPELL_SHIELD_BLOCKED: '技能命中被法术护盾阻挡',
   LIFECYCLE_STACKS: '当前生命周期层数',
   PERIOD_INDEX: '当前周期序号',
@@ -558,6 +574,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_DOMAINS = {
   CHARGE_DURATION_MS: 'DECIMAL',
   RECAST_COUNT: 'INTEGER',
   HIT_INDEX: 'INTEGER',
+  SKILL_HIT_FIRST_CONTACT: 'INTEGER',
   SKILL_HIT_SPELL_SHIELD_BLOCKED: 'INTEGER',
   LIFECYCLE_STACKS: 'INTEGER',
   PERIOD_INDEX: 'INTEGER',
@@ -586,6 +603,7 @@ export const SKILL_TRIGGER_CONDITION_TYPE_LABELS = {
   LIFECYCLE_CHECK: '生命周期检查',
   TARGET_CATEGORY_CHECK: '事件对方类别',
   EXPLICIT_TARGET_IS_SOURCE: '显式目标为来源对象',
+  SKILL_HIT_TARGET_IS_ENEMY: '技能命中敌方对象',
   INTERNAL_STATE_CHECK: '技能内部状态检查',
   EVENT_VALUE_COMPARE: '事件值比较'
 } as const satisfies { [K in SkillTriggerConditionType]: string };
@@ -718,6 +736,11 @@ export type SkillTriggerExplicitTargetIsSourceConditionDraft = ConditionDraftBas
   detail: SkillTriggerEmptyDetail;
 };
 
+export type SkillTriggerSkillHitEnemyConditionDraft = ConditionDraftBase & {
+  conditionType: 'SKILL_HIT_TARGET_IS_ENEMY';
+  detail: SkillTriggerEmptyDetail;
+};
+
 export type SkillTriggerInternalStateCheckConditionDraft = ConditionDraftBase & {
   conditionType: 'INTERNAL_STATE_CHECK';
   detail: SkillTriggerInternalStateCheckDetail;
@@ -734,6 +757,7 @@ export type SkillTriggerConditionDraft =
   | SkillTriggerLifecycleCheckConditionDraft
   | SkillTriggerTargetCategoryCheckConditionDraft
   | SkillTriggerExplicitTargetIsSourceConditionDraft
+  | SkillTriggerSkillHitEnemyConditionDraft
   | SkillTriggerInternalStateCheckConditionDraft
   | SkillTriggerEventValueCompareConditionDraft;
 
@@ -967,6 +991,7 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
     case 'CONTROL_RECEIVED':
       return { eventType, detail: emptyEventDetail() };
     case 'KILL':
+    case 'TAKEDOWN':
       return { eventType, detail: emptyEventDetail() };
   }
 }
@@ -978,7 +1003,7 @@ export function createEmptyConditionDetail(
   conditionType: 'TARGET_CATEGORY_CHECK'
 ): SkillTriggerTargetCategoryCheckDetail;
 export function createEmptyConditionDetail(
-  conditionType: 'EXPLICIT_TARGET_IS_SOURCE'
+  conditionType: 'EXPLICIT_TARGET_IS_SOURCE' | 'SKILL_HIT_TARGET_IS_ENEMY'
 ): SkillTriggerEmptyDetail;
 export function createEmptyConditionDetail(
   conditionType: 'ATTRIBUTE_COMPARE'
@@ -1000,6 +1025,7 @@ export function createEmptyConditionDetail(
 ): SkillTriggerCondition['detail'] {
   switch (conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
       return {};
     case 'TARGET_CATEGORY_CHECK':
       return { categories: [] };
@@ -1127,6 +1153,10 @@ export function createEmptyConditionDraft(
 ): SkillTriggerExplicitTargetIsSourceConditionDraft;
 export function createEmptyConditionDraft(
   existingKeys: readonly string[],
+  conditionType: 'SKILL_HIT_TARGET_IS_ENEMY'
+): SkillTriggerSkillHitEnemyConditionDraft;
+export function createEmptyConditionDraft(
+  existingKeys: readonly string[],
   conditionType: 'LIFECYCLE_CHECK'
 ): SkillTriggerLifecycleCheckConditionDraft;
 export function createEmptyConditionDraft(
@@ -1160,6 +1190,8 @@ export function createEmptyConditionDraft(
   switch (conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
       return { ...base, conditionType, detail: createEmptyConditionDetail('EXPLICIT_TARGET_IS_SOURCE') };
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
+      return { ...base, conditionType, detail: createEmptyConditionDetail('SKILL_HIT_TARGET_IS_ENEMY') };
     case 'TARGET_CATEGORY_CHECK':
       return { ...base, conditionType, detail: createEmptyConditionDetail('TARGET_CATEGORY_CHECK') };
     case 'LIFECYCLE_CHECK':
@@ -1320,7 +1352,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
   SKILL_USED: [],
   BASIC_ATTACK_START: [],
   BASIC_ATTACK_HIT: ['HIT_INDEX'],
-  SKILL_HIT: ['HIT_INDEX', 'SKILL_HIT_SPELL_SHIELD_BLOCKED'],
+  SKILL_HIT: ['HIT_INDEX', 'SKILL_HIT_FIRST_CONTACT', 'SKILL_HIT_SPELL_SHIELD_BLOCKED'],
   PROCESS_MOMENT: [],
   RESULT_AVAILABLE: [],
   LIFECYCLE_MOMENT: ['LIFECYCLE_STACKS', 'REMAINING_MS'],
@@ -1350,6 +1382,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
   ENTITY_DIED: [],
   ENTITY_UNTARGETABLE: [],
   KILL: [],
+  TAKEDOWN: [],
   PROCESS_CANCEL_REQUESTED: [],
   SPELL_SHIELD_BLOCKED: [],
   HIT_LINK_APPLIED: ['LINK_INDEX', 'LINK_COUNT'],
@@ -1396,10 +1429,26 @@ export function eventValueDomain(key: SkillTriggerEventValueKey): SkillTriggerVa
 
 export function eventValueOptionLabel(key: SkillTriggerEventValueKey): string {
   const label = SKILL_TRIGGER_EVENT_VALUE_LABELS[key];
+  if (key === 'SKILL_HIT_FIRST_CONTACT') {
+    return `${label}（首次 = 1，已有前序接触 = 0）`;
+  }
   if (key === 'BLOCKED' || key === 'IMMUNE' || key === 'KILLED' || key === 'SKILL_HIT_SPELL_SHIELD_BLOCKED') {
     return `${label}（${SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT}）`;
   }
   return label;
+}
+
+export function eventValueHint(key: SkillTriggerEventValueKey): string | undefined {
+  if (key === 'HIT_INDEX') {
+    return '从 1 开始：单次命中为 1；重复步骤的命中沿用当前步骤执行序号，不表示目标接触先后。';
+  }
+  if (key === 'SKILL_HIT_FIRST_CONTACT') {
+    return '1 = 本次技能使用中首次符合目标资格的单位接触；0 = 此前已有这样的接触。按完整历史判断，不按筛选后的目标重新计数；零伤害、被阻挡或免疫的接触仍计入。不能用已有实例判断，也不表示已强化。所属使用、历史或真实先后不明时缺值，条件不匹配，动态绑定不能默认填 0 或 1。';
+  }
+  if (key === 'BLOCKED' || key === 'IMMUNE' || key === 'KILLED' || key === 'SKILL_HIT_SPELL_SHIELD_BLOCKED') {
+    return SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT;
+  }
+  return undefined;
 }
 
 export function priorResultOutputLabel(kind: SkillTriggerPriorResultOutputKind): string {
@@ -1875,6 +1924,8 @@ function conditionFromDetail(condition: SkillTriggerCondition): SkillTriggerCond
   switch (condition.conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
       return { conditionKey: condition.conditionKey, conditionType: 'EXPLICIT_TARGET_IS_SOURCE', sortOrder: String(condition.sortOrder), detail: {} };
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
+      return { conditionKey: condition.conditionKey, conditionType: 'SKILL_HIT_TARGET_IS_ENEMY', sortOrder: String(condition.sortOrder), detail: {} };
     case 'TARGET_CATEGORY_CHECK':
       return { conditionKey: condition.conditionKey, conditionType: 'TARGET_CATEGORY_CHECK', sortOrder: String(condition.sortOrder), detail: { categories: [...condition.detail.categories] } };
     case 'LIFECYCLE_CHECK':
@@ -1988,6 +2039,8 @@ function toCondition(condition: SkillTriggerConditionDraft, sortOrder: number): 
   switch (condition.conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
       return { conditionKey: condition.conditionKey.trim(), conditionType: 'EXPLICIT_TARGET_IS_SOURCE', sortOrder, detail: {} };
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
+      return { conditionKey: condition.conditionKey.trim(), conditionType: 'SKILL_HIT_TARGET_IS_ENEMY', sortOrder, detail: {} };
     case 'TARGET_CATEGORY_CHECK':
       return { conditionKey: condition.conditionKey.trim(), conditionType: 'TARGET_CATEGORY_CHECK', sortOrder, detail: { categories: [...condition.detail.categories] } };
     case 'LIFECYCLE_CHECK':
@@ -2182,6 +2235,9 @@ export function analyzeEventSwitchImpact(
   if (!allowsExplicitTargetIsSource(nextSource.eventType) && draft.conditionGroups.some((group) => group.conditions.some((condition) => condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE'))) {
     parts.push('当前事件不提供技能使用的显式目标身份，将清除显式自施条件；空条件组也会一并清除。');
   }
+  if (!allowsSkillHitEnemy(nextSource.eventType) && draft.conditionGroups.some((group) => group.conditions.some((condition) => condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY'))) {
+    parts.push('当前事件不是技能命中，将清除技能命中敌方对象条件；空条件组也会一并清除。');
+  }
   if (!allowsSourceCastResourceCost(nextSource) && draft.actions.some((action) => action.runtimeInputBindings.some((binding) => binding.sourceType === 'SOURCE_CAST_RESOURCE_COST'))) {
     parts.push('当前事件未明确技能命中来源，将清除来源施放资源消耗绑定。');
   }
@@ -2224,6 +2280,8 @@ function cleanupConditionForEventSwitch(
   switch (condition.conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
       return allowsExplicitTargetIsSource(nextSource.eventType) ? condition : null;
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
+      return allowsSkillHitEnemy(nextSource.eventType) ? condition : null;
     case 'TARGET_CATEGORY_CHECK':
       return allowsTargetCategoryCheck(nextSource.eventType) ? condition : null;
     case 'EVENT_VALUE_COMPARE': {
@@ -2413,6 +2471,8 @@ export function conditionSummary(condition: SkillTriggerConditionDraft): string 
   switch (condition.conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
       return SKILL_TRIGGER_CONDITION_TYPE_LABELS.EXPLICIT_TARGET_IS_SOURCE;
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
+      return SKILL_TRIGGER_CONDITION_TYPE_LABELS.SKILL_HIT_TARGET_IS_ENEMY;
     case 'TARGET_CATEGORY_CHECK':
       return `${SKILL_TRIGGER_CONDITION_TYPE_LABELS.TARGET_CATEGORY_CHECK} / ${condition.detail.categories.map((category) => TARGET_CATEGORY_LABELS[category]).join('、')}`;
     case 'ATTRIBUTE_COMPARE':
@@ -2681,6 +2741,20 @@ export function hasNumericValueRule(result: SkillEffectResult): boolean {
   return result.valueRule !== null;
 }
 
+export function canModifyResultValue(result: SkillEffectResult): boolean {
+  return result.resultType !== 'STATUS_OPERATION' && hasNumericValueRule(result);
+}
+
+export function resultModifierTargetError(effect: SkillEffect | null, resultKey: string): string | null {
+  if (!effect) return '效果详情尚未加载或加载失败，请重试。';
+  const result = effect.results.find((item) => item.resultKey === resultKey);
+  if (!result) return '所选结果不存在，请重新选择。';
+  if (result.resultType === 'STATUS_OPERATION') {
+    return '状态操作不接受额外结果修正；普通移动减速请在效果内调整减速比例。';
+  }
+  return canModifyResultValue(result) ? null : '所选结果没有可修正的数值。';
+}
+
 export function isImmediateResult(result: SkillEffectResult, hasLifecycle?: boolean): boolean {
   const scoped = hasLifecycle ?? result.lifecycleBehavior !== null;
   if (!scoped) return true;
@@ -2693,7 +2767,7 @@ export function isImmediateNumericResult(result: SkillEffectResult, hasLifecycle
 
 export function cooldownOperationOf(
   result: SkillEffectResult
-): 'REDUCE' | 'INCREASE' | 'RESET' | null {
+): Extract<SkillEffectResult, { resultType: 'COOLDOWN_CHANGE' }>['detail']['operation'] | null {
   return result.resultType === 'COOLDOWN_CHANGE' ? result.detail.operation : null;
 }
 
@@ -3176,6 +3250,10 @@ export function validateSkillTriggerDraft(
         const error = explicitTargetIsSourceError(draft.eventSource.eventType);
         if (error) pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail`, error);
       }
+      if (condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY') {
+        const error = skillHitEnemyError(draft.eventSource.eventType);
+        if (error) pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail`, error);
+      }
       if (condition.conditionType === 'EVENT_VALUE_COMPARE') {
         if (!allowedValues.includes(condition.detail.eventValueKey)) {
           pushError(
@@ -3293,6 +3371,12 @@ export function validateSkillTriggerDraft(
       const modifierKeys = new Set<string>();
       for (let modifierIndex = 0; modifierIndex < action.resultModifiers.length; modifierIndex += 1) {
         const modifier = action.resultModifiers[modifierIndex];
+        const targetResult = options.effectsByKey?.get(action.detail.effectKey)?.results
+          .find((result) => result.resultKey === modifier.resultKey);
+        if (targetResult?.resultType === 'STATUS_OPERATION') {
+          pushError(nestedErrors, `actions[${actionIndex}].resultModifiers[${modifierIndex}].resultKey`,
+            '状态操作不接受额外结果修正；普通移动减速请在效果内调整减速比例。');
+        }
         if (modifierKeys.has(modifier.resultKey)) {
           pushError(nestedErrors, `actions[${actionIndex}].resultModifiers[${modifierIndex}].resultKey`, '同一结果不能重复修正。');
         }
@@ -3375,7 +3459,8 @@ export function validateSkillTriggerDraft(
   };
   if (draft.eventSource.eventType === 'HEALTH_THRESHOLD_CROSSED') checkValue(draft.eventSource.detail.thresholdValue, 'eventSource.detail.thresholdValue');
   for (const [gi, group] of sortedGroups.entries()) for (const [ci, condition] of sortConditionDrafts(group.conditions).entries()) {
-    if (condition.conditionType === 'TARGET_CATEGORY_CHECK' || condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE') continue;
+    if (condition.conditionType === 'TARGET_CATEGORY_CHECK' || condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE'
+      || condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY') continue;
     const detail = condition.detail;
     if (detail.comparator !== null) checkValue(detail.comparisonValue, `conditionGroups[${gi}].conditions[${ci}].detail.comparisonValue`, condition.conditionType === 'LIFECYCLE_CHECK' ? { min: 0, integer: true } : {});
   }

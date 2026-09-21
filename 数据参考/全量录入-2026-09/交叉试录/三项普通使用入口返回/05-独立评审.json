@@ -1,0 +1,20 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-21T04:12:11.524Z",
+  "reviewer": "/root/sivir_tristana_xin_use_review",
+  "mode": "静态只读独立审查",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "90161076d9c563528a8971788eb89e127767061e098f1e3f08af2804f350b62e",
+    "02-冻结请求.json": "f3d71d4ea9f9d8da16853e4d2c43947f61abbcca26a01ac29ddef559a7c67400",
+    "03-来源摘要.json": "0a0f8928131f046043a2ec6ed3afd5d8290183d3576e172eb0352ed731aea29f",
+    "04-写入前现值.json": "33621678baebf34e49272c4bc3735e986f991ce20fa89be7db520651cd00f5bd"
+  },
+  "checks": [
+    "仅4POST；9份来源散列、冻结/基线散列及完整请求预期一致",
+    "98GET对应94份现值及4个新详情404",
+    "三个主动使用事件绑定自身技能，成本与冷却正确，无重复入口或伪造命中",
+    "希维尔Q仅登记成本；崔丝塔娜R延迟依据spellCastTime；赵信E即时步骤不表示冲锋完成"
+  ],
+  "boundary": "代表页面待验收；不代表整技能或战斗通过"
+}

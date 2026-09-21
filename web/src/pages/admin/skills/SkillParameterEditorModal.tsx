@@ -22,6 +22,7 @@ import type {
 } from '../../../types/skillParameter';
 import {
   applyValueModeReset,
+  applyPastedLevelValues,
   buildCreateParameterRequest,
   buildUpdateParameterRequest,
   createEmptyParameterDraft,
@@ -97,6 +98,8 @@ export function SkillParameterEditorModal({
   const [fillValue, setFillValue] = useState<number | undefined>(0);
   const [arithStart, setArithStart] = useState<number | undefined>(0);
   const [arithStep, setArithStep] = useState<number | undefined>(0);
+  const [bulkLevelText, setBulkLevelText] = useState('');
+  const [bulkLevelError, setBulkLevelError] = useState<string | null>(null);
   const readOnly = mode === 'view';
 
   const activeLevelRange = draft.valueMode === 'SKILL_LEVEL'
@@ -114,7 +117,9 @@ export function SkillParameterEditorModal({
     setFillValue(0);
     setArithStart(0);
     setArithStep(0);
-  }, [initial, visible]);
+    setBulkLevelText('');
+    setBulkLevelError(null);
+  }, [initial, mode, visible]);
 
   const patchDraft = <K extends keyof SkillParameterDraft>(
     field: K,
@@ -135,6 +140,25 @@ export function SkillParameterEditorModal({
     setDraft((current) => applyValueModeReset(current, nextMode, range));
     setErrors({});
     setSaveError(null);
+    setBulkLevelText('');
+    setBulkLevelError(null);
+  };
+
+  const changeValueType = (nextType: SkillParameterValueType) => {
+    patchDraft('valueType', nextType);
+    setErrors((current) => ({ ...current, levelValues: undefined }));
+    if (!bulkLevelText.trim() || !activeLevelRange) {
+      setBulkLevelError(null);
+      return;
+    }
+    const result = applyPastedLevelValues(
+      draft.levelValues,
+      bulkLevelText,
+      activeLevelRange.minLevel,
+      activeLevelRange.maxLevel,
+      nextType
+    );
+    setBulkLevelError(result.ok ? null : result.message);
   };
 
   const close = () => {
@@ -163,7 +187,33 @@ export function SkillParameterEditorModal({
     );
   };
 
+  const applyBulkLevelValues = () => {
+    if (!activeLevelRange) return;
+    const result = applyPastedLevelValues(
+      draft.levelValues,
+      bulkLevelText,
+      activeLevelRange.minLevel,
+      activeLevelRange.maxLevel,
+      draft.valueType
+    );
+    if (!result.ok) {
+      setErrors((current) => ({ ...current, levelValues: undefined }));
+      setBulkLevelError(result.message);
+      return;
+    }
+    patchDraft('levelValues', result.levelValues);
+    setBulkLevelText('');
+    setBulkLevelError(null);
+  };
+
   const save = async () => {
+    if (bulkLevelText.trim()) {
+      if (!bulkLevelError) {
+        setBulkLevelError('已填写整列等级数值但尚未应用，请先点击“应用整列数值”。');
+      }
+      setSaveError(null);
+      return;
+    }
     const rangeForValidation = draft.valueMode === 'SKILL_LEVEL'
       ? skillLevelRange
       : draft.valueMode === 'CHARACTER_LEVEL'
@@ -228,6 +278,7 @@ export function SkillParameterEditorModal({
       (_, index) => activeLevelRange.minLevel + index
     )
     : [];
+  const levelValuesError = errors.levelValues ?? bulkLevelError;
 
   return (
     <Modal
@@ -286,7 +337,7 @@ export function SkillParameterEditorModal({
               aria-label="数值类型"
               value={draft.valueType}
               disabled={readOnly || saving}
-              onChange={(value) => patchDraft('valueType', value as SkillParameterValueType)}
+              onChange={(value) => changeValueType(value as SkillParameterValueType)}
             >
               <Radio value="INTEGER">整数</Radio>
               <Radio value="DECIMAL">小数</Radio>
@@ -339,35 +390,54 @@ export function SkillParameterEditorModal({
             <Form.Item
               label="等级数值"
               required
-              validateStatus={errors.levelValues ? 'error' : undefined}
-              help={errors.levelValues}
+              validateStatus={levelValuesError ? 'error' : undefined}
+              help={levelValuesError}
             >
               {!activeLevelRange ? (
                 <Alert type="error" content={characterLevelUnavailableMessage} />
               ) : (
                 <Space direction="vertical" style={{ width: '100%' }}>
                   {!readOnly ? (
-                    <Space wrap>
-                      <InputNumber
-                        aria-label="固定填充值"
-                        value={fillValue}
+                    <Space direction="vertical" style={{ width: '100%' }}>
+                      <Typography.Text type="secondary">
+                        按 Lv{activeLevelRange.minLevel}～Lv{activeLevelRange.maxLevel} 顺序输入 {levels.length} 个数值，应用后再保存。
+                      </Typography.Text>
+                      <Input.TextArea
+                        aria-label="整列等级数值"
+                        value={bulkLevelText}
                         disabled={saving}
-                        onChange={setFillValue}
+                        placeholder="按当前等级从低到高粘贴，使用换行、制表符或逗号分隔"
+                        autoSize={{ minRows: 2, maxRows: 6 }}
+                        onChange={(value) => {
+                          setBulkLevelText(value);
+                          setBulkLevelError(null);
+                          setErrors((current) => ({ ...current, levelValues: undefined }));
+                          setSaveError(null);
+                        }}
                       />
-                      <Button onClick={applyFixedFill} disabled={saving}>固定填充</Button>
-                      <InputNumber
-                        aria-label="等差起始值"
-                        value={arithStart}
-                        disabled={saving}
-                        onChange={setArithStart}
-                      />
-                      <InputNumber
-                        aria-label="每级增加值"
-                        value={arithStep}
-                        disabled={saving}
-                        onChange={setArithStep}
-                      />
-                      <Button onClick={applyArithmeticFill} disabled={saving}>等差递增</Button>
+                      <Button onClick={applyBulkLevelValues} disabled={saving}>应用整列数值</Button>
+                      <Space wrap>
+                        <InputNumber
+                          aria-label="固定填充值"
+                          value={fillValue}
+                          disabled={saving}
+                          onChange={setFillValue}
+                        />
+                        <Button onClick={applyFixedFill} disabled={saving}>固定填充</Button>
+                        <InputNumber
+                          aria-label="等差起始值"
+                          value={arithStart}
+                          disabled={saving}
+                          onChange={setArithStart}
+                        />
+                        <InputNumber
+                          aria-label="每级增加值"
+                          value={arithStep}
+                          disabled={saving}
+                          onChange={setArithStep}
+                        />
+                        <Button onClick={applyArithmeticFill} disabled={saving}>等差递增</Button>
+                      </Space>
                     </Space>
                   ) : null}
                   <div style={{ overflowX: 'auto' }}>

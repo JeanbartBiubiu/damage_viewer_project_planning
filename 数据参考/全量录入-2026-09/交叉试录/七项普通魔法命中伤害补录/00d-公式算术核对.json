@@ -1,0 +1,902 @@
+{
+  "at": "2026-09-19T01:52:46.628Z",
+  "status": "PASS",
+  "casesCount": 99,
+  "tolerance": 0.0001,
+  "maxAbsoluteDifference": 0.000007152557373046875,
+  "reason": "仅容纳原配置小数规范化与客户端二进制浮点尾差；不修改现有参数或公式。所有基础等级值逐级与固定来源比较。",
+  "runtimeValidation": "未执行",
+  "cases": [
+    {
+      "skillKey": "kennen_q",
+      "rank": 1,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 75,
+      "actualConfiguredFormula": 75,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 1,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 150,
+      "actualConfiguredFormula": 150,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 1,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 300,
+      "actualConfiguredFormula": 300,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 2,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 125,
+      "actualConfiguredFormula": 125,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 2,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 200,
+      "actualConfiguredFormula": 200,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 2,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 350,
+      "actualConfiguredFormula": 350,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 3,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 175,
+      "actualConfiguredFormula": 175,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 3,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 250,
+      "actualConfiguredFormula": 250,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 3,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 400,
+      "actualConfiguredFormula": 400,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 4,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 225,
+      "actualConfiguredFormula": 225,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 4,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 300,
+      "actualConfiguredFormula": 300,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 4,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 450,
+      "actualConfiguredFormula": 450,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 5,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 275,
+      "actualConfiguredFormula": 275,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 5,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 350,
+      "actualConfiguredFormula": 350,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "kennen_q",
+      "rank": 5,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 500,
+      "actualConfiguredFormula": 500,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 1,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 80,
+      "actualConfiguredFormula": 80,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 1,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 149.9999988079071,
+      "actualConfiguredFormula": 149.99999880000001,
+      "absoluteDifference": 7.907090093794977e-9
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 1,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 289.9999964237213,
+      "actualConfiguredFormula": 289.9999964,
+      "absoluteDifference": 2.3721327124803793e-8
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 2,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 125,
+      "actualConfiguredFormula": 125,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 2,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 194.9999988079071,
+      "actualConfiguredFormula": 194.99999880000001,
+      "absoluteDifference": 7.907090093794977e-9
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 2,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 334.9999964237213,
+      "actualConfiguredFormula": 334.9999964,
+      "absoluteDifference": 2.3721327124803793e-8
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 3,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 170,
+      "actualConfiguredFormula": 170,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 3,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 239.9999988079071,
+      "actualConfiguredFormula": 239.99999880000001,
+      "absoluteDifference": 7.907090093794977e-9
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 3,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 379.9999964237213,
+      "actualConfiguredFormula": 379.9999964,
+      "absoluteDifference": 2.3721327124803793e-8
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 4,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 215,
+      "actualConfiguredFormula": 215,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 4,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 284.9999988079071,
+      "actualConfiguredFormula": 284.9999988,
+      "absoluteDifference": 7.907090093794977e-9
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 4,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 424.9999964237213,
+      "actualConfiguredFormula": 424.9999964,
+      "absoluteDifference": 2.3721327124803793e-8
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 5,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 260,
+      "actualConfiguredFormula": 260,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 5,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 329.9999988079071,
+      "actualConfiguredFormula": 329.9999988,
+      "absoluteDifference": 7.907090093794977e-9
+    },
+    {
+      "skillKey": "teemo_q",
+      "rank": 5,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 469.9999964237213,
+      "actualConfiguredFormula": 469.9999964,
+      "absoluteDifference": 2.3721327124803793e-8
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 1,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 80,
+      "actualConfiguredFormula": 80,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 1,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 140.0000023841858,
+      "actualConfiguredFormula": 140,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 1,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 260.0000071525574,
+      "actualConfiguredFormula": 260,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 2,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 125,
+      "actualConfiguredFormula": 125,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 2,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 185.0000023841858,
+      "actualConfiguredFormula": 185,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 2,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 305.0000071525574,
+      "actualConfiguredFormula": 305,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 3,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 170,
+      "actualConfiguredFormula": 170,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 3,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 230.0000023841858,
+      "actualConfiguredFormula": 230,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 3,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 350.0000071525574,
+      "actualConfiguredFormula": 350,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 4,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 215,
+      "actualConfiguredFormula": 215,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 4,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 275.0000023841858,
+      "actualConfiguredFormula": 275,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 4,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 395.0000071525574,
+      "actualConfiguredFormula": 395,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 5,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 260,
+      "actualConfiguredFormula": 260,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 5,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 320.0000023841858,
+      "actualConfiguredFormula": 320,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "gragas_e",
+      "rank": 5,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 440.0000071525574,
+      "actualConfiguredFormula": 440,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "gragas_r",
+      "rank": 1,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 200,
+      "actualConfiguredFormula": 200,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "gragas_r",
+      "rank": 1,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 280.0000011920929,
+      "actualConfiguredFormula": 280,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "gragas_r",
+      "rank": 1,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 440.0000035762787,
+      "actualConfiguredFormula": 440,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "gragas_r",
+      "rank": 2,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 300,
+      "actualConfiguredFormula": 300,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "gragas_r",
+      "rank": 2,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 380.0000011920929,
+      "actualConfiguredFormula": 380,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "gragas_r",
+      "rank": 2,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 540.0000035762787,
+      "actualConfiguredFormula": 540,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "gragas_r",
+      "rank": 3,
+      "sourceAbilityPower": 0,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 400,
+      "actualConfiguredFormula": 400,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "gragas_r",
+      "rank": 3,
+      "sourceAbilityPower": 100,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 480.0000011920929,
+      "actualConfiguredFormula": 480,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "gragas_r",
+      "rank": 3,
+      "sourceAbilityPower": 300,
+      "formulaKey": "magic_damage",
+      "expectedFromRawClient": 640.0000035762787,
+      "actualConfiguredFormula": 640,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 1,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 80,
+      "actualConfiguredFormula": 80,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 1,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 155,
+      "actualConfiguredFormula": 155,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 1,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 305,
+      "actualConfiguredFormula": 305,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 2,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 115,
+      "actualConfiguredFormula": 115,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 2,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 190,
+      "actualConfiguredFormula": 190,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 2,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 340,
+      "actualConfiguredFormula": 340,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 3,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 150,
+      "actualConfiguredFormula": 150,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 3,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 225,
+      "actualConfiguredFormula": 225,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 3,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 375,
+      "actualConfiguredFormula": 375,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 4,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 185,
+      "actualConfiguredFormula": 185,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 4,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 260,
+      "actualConfiguredFormula": 260,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 4,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 410,
+      "actualConfiguredFormula": 410,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 5,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 220,
+      "actualConfiguredFormula": 220,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 5,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 295,
+      "actualConfiguredFormula": 295,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_q",
+      "rank": 5,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 445,
+      "actualConfiguredFormula": 445,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 1,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 70,
+      "actualConfiguredFormula": 70,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 1,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 139.9999988079071,
+      "actualConfiguredFormula": 140,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 1,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 279.9999964237213,
+      "actualConfiguredFormula": 280,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 2,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 105,
+      "actualConfiguredFormula": 105,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 2,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 174.9999988079071,
+      "actualConfiguredFormula": 175,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 2,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 314.9999964237213,
+      "actualConfiguredFormula": 315,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 3,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 140,
+      "actualConfiguredFormula": 140,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 3,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 209.9999988079071,
+      "actualConfiguredFormula": 210,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 3,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 349.9999964237213,
+      "actualConfiguredFormula": 350,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 4,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 175,
+      "actualConfiguredFormula": 175,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 4,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 244.9999988079071,
+      "actualConfiguredFormula": 245,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 4,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 384.9999964237213,
+      "actualConfiguredFormula": 385,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 5,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 210,
+      "actualConfiguredFormula": 210,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 5,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 279.9999988079071,
+      "actualConfiguredFormula": 280,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "lissandra_w",
+      "rank": 5,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 419.9999964237213,
+      "actualConfiguredFormula": 420,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 1,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 70,
+      "actualConfiguredFormula": 70,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 1,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 130.0000023841858,
+      "actualConfiguredFormula": 130,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 1,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 250.00000715255737,
+      "actualConfiguredFormula": 250,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 2,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 105,
+      "actualConfiguredFormula": 105,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 2,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 165.0000023841858,
+      "actualConfiguredFormula": 165,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 2,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 285.0000071525574,
+      "actualConfiguredFormula": 285,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 3,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 140,
+      "actualConfiguredFormula": 140,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 3,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 200.0000023841858,
+      "actualConfiguredFormula": 200,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 3,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 320.0000071525574,
+      "actualConfiguredFormula": 320,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 4,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 175,
+      "actualConfiguredFormula": 175,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 4,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 235.0000023841858,
+      "actualConfiguredFormula": 235,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 4,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 355.0000071525574,
+      "actualConfiguredFormula": 355,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 5,
+      "sourceAbilityPower": 0,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 210,
+      "actualConfiguredFormula": 210,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 5,
+      "sourceAbilityPower": 100,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 270.0000023841858,
+      "actualConfiguredFormula": 270,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "lissandra_e",
+      "rank": 5,
+      "sourceAbilityPower": 300,
+      "formulaKey": "damage",
+      "expectedFromRawClient": 390.0000071525574,
+      "actualConfiguredFormula": 390,
+      "absoluteDifference": 0.000007152557373046875
+    }
+  ]
+}

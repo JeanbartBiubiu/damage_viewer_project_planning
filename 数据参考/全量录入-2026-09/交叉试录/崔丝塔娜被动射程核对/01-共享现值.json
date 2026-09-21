@@ -1,0 +1,403 @@
+{
+  "at": "2026-09-20T08:02:50.536Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/tristana_p": {
+      "createdAt": "2026-09-06T18:20:40.477706Z",
+      "description": "崔丝塔娜的射程随等级提升。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "崔丝塔娜·瞄准",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "tristana_p",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:40.477706Z"
+    },
+    "/characters/champion_tristana": {
+      "characterKey": "champion_tristana",
+      "createdAt": "2026-09-06T15:42:48.29848Z",
+      "description": "麦林炮手·崔丝塔娜。资料：官方静态资料16.17.1、同补丁客户端16.17.8104348。仅基础属性与1～18级自然成长；技能、被动叠层与图片尚待录入和核对。",
+      "gameId": "lol",
+      "name": "崔丝塔娜",
+      "updatedAt": "2026-09-06T15:42:48.29848Z"
+    },
+    "/characters/champion_tristana/attributes": {
+      "characterKey": "champion_tristana",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 640,
+          "hp_regen": 4,
+          "mana": 300,
+          "mana_regen": 7.2,
+          "armor": 30,
+          "magic_resistance": 33,
+          "attack_damage": 60,
+          "attack_speed": 0.656,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 713.44,
+          "hp_regen": 4.36,
+          "mana": 323.04,
+          "mana_regen": 7.524,
+          "armor": 32.88,
+          "magic_resistance": 33.792,
+          "attack_damage": 62.448,
+          "attack_speed": 0.663495,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 790.45,
+          "hp_regen": 4.7375,
+          "mana": 347.2,
+          "mana_regen": 7.86375,
+          "armor": 35.9,
+          "magic_resistance": 34.6225,
+          "attack_damage": 65.015,
+          "attack_speed": 0.671355,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 871.03,
+          "hp_regen": 5.1325,
+          "mana": 372.48,
+          "mana_regen": 8.21925,
+          "armor": 39.06,
+          "magic_resistance": 35.4915,
+          "attack_damage": 67.701,
+          "attack_speed": 0.679579,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 955.18,
+          "hp_regen": 5.545,
+          "mana": 398.88,
+          "mana_regen": 8.5905,
+          "armor": 42.36,
+          "magic_resistance": 36.399,
+          "attack_damage": 70.506,
+          "attack_speed": 0.688167,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 1042.9,
+          "hp_regen": 5.975,
+          "mana": 426.4,
+          "mana_regen": 8.9775,
+          "armor": 45.8,
+          "magic_resistance": 37.345,
+          "attack_damage": 73.43,
+          "attack_speed": 0.69712,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 1134.19,
+          "hp_regen": 6.4225,
+          "mana": 455.04,
+          "mana_regen": 9.38025,
+          "armor": 49.38,
+          "magic_resistance": 38.3295,
+          "attack_damage": 76.473,
+          "attack_speed": 0.706436,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1229.05,
+          "hp_regen": 6.8875,
+          "mana": 484.8,
+          "mana_regen": 9.79875,
+          "armor": 53.1,
+          "magic_resistance": 39.3525,
+          "attack_damage": 79.635,
+          "attack_speed": 0.716118,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1327.48,
+          "hp_regen": 7.37,
+          "mana": 515.68,
+          "mana_regen": 10.233,
+          "armor": 56.96,
+          "magic_resistance": 40.414,
+          "attack_damage": 82.916,
+          "attack_speed": 0.726163,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1429.48,
+          "hp_regen": 7.87,
+          "mana": 547.68,
+          "mana_regen": 10.683,
+          "armor": 60.96,
+          "magic_resistance": 41.514,
+          "attack_damage": 86.316,
+          "attack_speed": 0.736573,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1535.05,
+          "hp_regen": 8.3875,
+          "mana": 580.8,
+          "mana_regen": 11.14875,
+          "armor": 65.1,
+          "magic_resistance": 42.6525,
+          "attack_damage": 89.835,
+          "attack_speed": 0.747348,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1644.19,
+          "hp_regen": 8.9225,
+          "mana": 615.04,
+          "mana_regen": 11.63025,
+          "armor": 69.38,
+          "magic_resistance": 43.8295,
+          "attack_damage": 93.473,
+          "attack_speed": 0.758486,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1756.9,
+          "hp_regen": 9.475,
+          "mana": 650.4,
+          "mana_regen": 12.1275,
+          "armor": 73.8,
+          "magic_resistance": 45.045,
+          "attack_damage": 97.23,
+          "attack_speed": 0.769989,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1873.18,
+          "hp_regen": 10.045,
+          "mana": 686.88,
+          "mana_regen": 12.6405,
+          "armor": 78.36,
+          "magic_resistance": 46.299,
+          "attack_damage": 101.106,
+          "attack_speed": 0.781857,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 1993.03,
+          "hp_regen": 10.6325,
+          "mana": 724.48,
+          "mana_regen": 13.16925,
+          "armor": 83.06,
+          "magic_resistance": 47.5915,
+          "attack_damage": 105.101,
+          "attack_speed": 0.794089,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 2116.45,
+          "hp_regen": 11.2375,
+          "mana": 763.2,
+          "mana_regen": 13.71375,
+          "armor": 87.9,
+          "magic_resistance": 48.9225,
+          "attack_damage": 109.215,
+          "attack_speed": 0.806685,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 2243.44,
+          "hp_regen": 11.86,
+          "mana": 803.04,
+          "mana_regen": 14.274,
+          "armor": 92.88,
+          "magic_resistance": 50.292,
+          "attack_damage": 113.448,
+          "attack_speed": 0.819645,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2374,
+          "hp_regen": 12.5,
+          "mana": 844,
+          "mana_regen": 14.85,
+          "armor": 98,
+          "magic_resistance": 51.7,
+          "attack_damage": 117.8,
+          "attack_speed": 0.83297,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_tristana/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "image_d43a045f-f78d-461c-8bce-4f34ff472c4a",
+        "name": "崔丝塔娜代表图片_d43a045f-f78d-461c-8bce-4f34ff472c4a"
+      }
+    },
+    "/skills/tristana_p/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_tristana_p",
+        "name": "tristana_p"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_tristana": {
+      "items": [
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_p",
+          "skillName": "崔丝塔娜·瞄准",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_q",
+          "skillName": "崔丝塔娜·急速射击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_w",
+          "skillName": "崔丝塔娜·火箭跳跃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_e",
+          "skillName": "崔丝塔娜·爆炸火花",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_r",
+          "skillName": "崔丝塔娜·毁灭射击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=tristana_p": {
+      "items": [
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_p",
+          "skillName": "崔丝塔娜·瞄准",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "total": 1
+    },
+    "/skills/tristana_p/parameters": [],
+    "/skills/tristana_p/formulas": [],
+    "/skills/tristana_p/effects": [],
+    "/skills/tristana_p/processes": [],
+    "/skills/tristana_p/internal-states": [],
+    "/skills/tristana_p/trigger-rules": []
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/tristana_p",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_p/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_tristana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=tristana_p",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_p/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_p/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_p/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_p/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_p/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_p/trigger-rules",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

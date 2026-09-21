@@ -1,0 +1,75 @@
+{
+  "status": "APPROVED",
+  "reviewer": "/root/silence_sources",
+  "reviewedAt": "2026-09-19T19:32:47.836Z",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "dbcb22784ea25088db72956110c550c15345e5addc3f8d36b79adf423eb776d4",
+    "02-冻结请求.json": "2e194baa7651f8523b61fd749f2c243c22b792ac368a62fcc648273084535cc6",
+    "03-来源摘要.json": "011b4ba46fe47ebf8d4b199deddbdcc7cecb0161ddda75e085d03f96fd730780",
+    "04-写入前现值.json": "49ea9b2efe9a377429ec4999096056a0920fa95ef7783488c295042c0eeb4293"
+  },
+  "checks": [
+    {
+      "name": "工具与写入门槛",
+      "status": "PASS",
+      "evidence": "F-v2工具SHA已核对；工具仅允许prepare、preflight、write，PUT仅在write模式且目标路由属于计划、并提供DAMAGE_APPROVED_BATCH_SHA时允许；证据文件使用CREATE_NEW。"
+    },
+    {
+      "name": "两次请求范围",
+      "status": "PASS",
+      "evidence": "仅有/skills/corki_q与/skills/twistedfate_q两次PUT；请求字段只包含主体名称、说明、等级、状态、排序和类别，除description外均与写前现值一致。"
+    },
+    {
+      "name": "主体说明事实",
+      "status": "PASS",
+      "evidence": "库奇说明保留五级60/105/150/195/240、1.25倍来源额外攻击力和1倍来源总法强；崔斯特保留同基础值、0.5倍来源额外攻击力和0.85倍来源总法强，并明确同目标至多一张牌、不乘三。两份说明均保留250毫秒施放、法力、基础冷却、过程不自动生成命中和运行层边界。"
+    },
+    {
+      "name": "现值和组成保护",
+      "status": "PASS",
+      "evidence": "写前38个GET目标全部200且businessWrites=0；参数、公式、效果、过程、已更正命中条件、图片和其他已有字段均只作为预期回读保留。崔斯特法强参数仍为存储值0.85000002，没有按说明文字改动。"
+    },
+    {
+      "name": "固定来源与既有回读",
+      "status": "PASS",
+      "evidence": "03中的客户端16.17、官方16.17.1中文资料、两个命中范围独立回读和旧候选文件散列均与当前文件一致，未重做来源审查或全量GET。"
+    },
+    {
+      "name": "五文件散列",
+      "status": "PASS",
+      "evidence": "工具及01至04的实际SHA已写入approvedFiles并逐一核对。"
+    }
+  ],
+  "blockingIssues": [],
+  "businessWrites": 0,
+  "networkCalls": 0,
+  "operations": [
+    {
+      "route": "/skills/corki_q",
+      "changedFields": [
+        "description"
+      ],
+      "descriptionLength": 180
+    },
+    {
+      "route": "/skills/twistedfate_q",
+      "changedFields": [
+        "description"
+      ],
+      "descriptionLength": 195
+    }
+  ],
+  "baseline": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/主体说明更新/04-写入前现值.json",
+    "sha256": "49ea9b2efe9a377429ec4999096056a0920fa95ef7783488c295042c0eeb4293",
+    "GETs": 38,
+    "allStatus200": true,
+    "businessWrites": 0
+  },
+  "limitations": [
+    "本文件只批准两次主体说明PUT，未执行HTTP写入或回读。",
+    "说明中的已录入和运行层边界不等于Wasm或战斗运行证明。",
+    "区域显形、弹道几何和实际命中仍按冻结说明保留边界。"
+  ]
+}

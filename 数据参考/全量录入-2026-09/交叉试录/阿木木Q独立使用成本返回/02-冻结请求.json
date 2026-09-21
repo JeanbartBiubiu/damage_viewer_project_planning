@@ -1,0 +1,137 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/amumu_q/processes",
+      "detailRoute": "/skills/amumu_q/processes/use_cost_registration",
+      "body": {
+        "processKey": "use_cost_registration",
+        "name": "绷带牵引使用法力登记",
+        "activationType": "ACTIVE",
+        "description": "仅在已接受的根技能普通主动使用时登记50法力消耗；普通冷却为空，立即步骤只完成成本登记，不表示施法时间为零、不产生命中。三秒静态间隔、充能消费恢复、牵引和施法前资格继续单列。",
+        "sortOrder": 10,
+        "cooldown": null,
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "只登记本次根主动使用的法力成本，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_registration",
+        "name": "绷带牵引使用法力登记",
+        "activationType": "ACTIVE",
+        "description": "仅在已接受的根技能普通主动使用时登记50法力消耗；普通冷却为空，立即步骤只完成成本登记，不表示施法时间为零、不产生命中。三秒静态间隔、充能消费恢复、牵引和施法前资格继续单列。",
+        "sortOrder": 10,
+        "cooldown": null,
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "只登记本次根主动使用的法力成本，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_q/trigger-rules",
+      "detailRoute": "/skills/amumu_q/trigger-rules/on_used_cost",
+      "body": {
+        "ruleKey": "on_used_cost",
+        "name": "绷带普通使用登记法力",
+        "description": "只接收amumu_q一次已接受的根普通主动使用，启动成本登记过程；不把子条目或命中再视为普通使用，也不以事件后规则充当施法前许可。三秒静态冷却、弹药和牵引未接线。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "amumu_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "登记本次根使用法力",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_registration"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost",
+        "name": "绷带普通使用登记法力",
+        "description": "只接收amumu_q一次已接受的根普通主动使用，启动成本登记过程；不把子条目或命中再视为普通使用，也不以事件后规则充当施法前许可。三秒静态冷却、弹药和牵引未接线。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "amumu_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "登记本次根使用法力",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_registration"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "42dae6eff4d0f0f9ee2495a00bcbec3cab3f9221b4431443ef28b6b27d02e897",
+  "baselineSha256": "d770c907626d676ae6ccde5249e0b6eac4d78b84685dde90cfc89edf050b7632"
+}

@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-19T08:25:10.837Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/statuses",
+  "checks": [
+    "停用确认弹窗取消后仍启用",
+    "新增未选种类时明确补填并保留草稿",
+    "重复movement_slow标识单次保存返回409.STATUS_KEY_EXISTS并定位字段，完整草稿保留，随后取消",
+    "单次停用后列表显示停用，单次启用恢复；原种类名称说明排序保持",
+    "重开状态显示普通移动减速、启用、排序10，创建时间保持"
+  ],
+  "successfulPUTs": 2,
+  "rejectedPOSTs": 1,
+  "finalStatus": "ENABLED",
+  "runtimeValidation": "未执行",
+  "remaining": "目录加载失败后的重试与草稿恢复尚未验证，本批错误恢复证据仅覆盖必填和重复键。"
+}

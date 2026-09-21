@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-19T17:09:27.274Z",
+  "status": "PASS",
+  "GETs": 3,
+  "businessWrites": 0,
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/malzahar_q/effects/primary_hit",
+      "status": 200
+    }
+  ],
+  "protection": "独立回读刚验证的53项基线复用，只定点重查目标规则、规则列表与所执行伤害"
+}

@@ -1,0 +1,231 @@
+{
+  "startedAt": "2026-09-19T10:52:53.131Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "route": "/skills/soraka_r",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:29.366202Z",
+          "description": "索拉卡施放祈愿，使自身及所有友方英雄回复生命值。正常治疗量为150/250/350加50%总法术强度；本次施放前生命比例低于40%的受疗者获得完整治疗量的1.5倍。本轮1V1管理配置仅接入自身治疗，正常与低生命分支互斥；基础施法时间250毫秒，开始时消耗100法力并进入150/135/120秒普通冷却。其他友方英雄治疗不在本轮范围，战斗运行尚未验证。（来源：官方中文静态资料16.17.1及客户端16.17。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "索拉卡·祈愿",
+          "skillCategoryKeys": [
+            "ultimate"
+          ],
+          "skillKey": "soraka_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T10:52:52.722716Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-06T18:20:29.366202Z",
+        "description": "索拉卡施放祈愿，使自身及所有友方英雄回复生命值。正常治疗量为150/250/350加50%总法术强度；本次施放前生命比例低于40%的受疗者获得完整治疗量的1.5倍。本轮1V1管理配置仅接入自身治疗，正常与低生命分支互斥；基础施法时间250毫秒，开始时消耗100法力并进入150/135/120秒普通冷却。其他友方英雄治疗不在本轮范围，战斗运行尚未验证。（来源：官方中文静态资料16.17.1及客户端16.17。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "索拉卡·祈愿",
+        "skillCategoryKeys": [
+          "ultimate"
+        ],
+        "skillKey": "soraka_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T10:52:52.722716Z"
+      }
+    },
+    {
+      "route": "/skills/soraka_r/parameters/mana_cost",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T01:03:39.612347Z",
+          "description": "各技能等级均消耗100法力，官方中文静态资料16.17.1与客户端16.17根技能数值一致。基础施放过程在开始时引用本参数扣除法力；本参数保存基础消耗，不含其他消耗修正。管理配置已接入，实际战斗执行尚未验证。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "soraka_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-19T10:52:54.27459Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-08T01:03:39.612347Z",
+        "description": "各技能等级均消耗100法力，官方中文静态资料16.17.1与客户端16.17根技能数值一致。基础施放过程在开始时引用本参数扣除法力；本参数保存基础消耗，不含其他消耗修正。管理配置已接入，实际战斗执行尚未验证。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "soraka_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T10:52:54.27459Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "985ca33016db476a09e0458078897594c7f438633a5bd40ac600d2d9f7b347ce",
+    "02-冻结请求.json": "d2d5aa2638ac5560032fdccf3b356e6a0ac193e685ca92c1f480b6b02e56519f",
+    "03-来源摘要.json": "80f60bd51c7a45b644b7d88f4c024e19c49d6f8ac49ff35d0eaaf436440cedcb",
+    "04-写入前现值.json": "a323fb4c3ce713d0ee625b013c43738c2779b09067773d534e2eb3fc13b130e0"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T10:52:56.178Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/base_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/low_health_threshold_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/low_health_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/formulas/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/formulas/self_low_health_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/self_low_health_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used_self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used_self_low_health_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/soraka_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/soraka_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/mana_cost",
+      "status": 200
+    }
+  ]
+}

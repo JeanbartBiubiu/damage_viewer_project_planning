@@ -1,0 +1,170 @@
+{
+  "at": "2026-09-21T10:49:00.399Z",
+  "status": "APPROVED",
+  "reviewer": "/root/seven_hit_scope_review",
+  "tool": {
+    "path": "tools/authoring/update-reviewed-hit-scope-v2.mjs",
+    "sha256": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670"
+  },
+  "decision": "七项均批准一次性范围修正：只在既有单一CHAMPION条件组末尾追加SKILL_HIT_TARGET_IS_ENEMY；不改伤害数值、公式、吸血、法术护盾粒度、过程、控制或其他入口。",
+  "items": [
+    {
+      "skillKey": "kennen_q",
+      "decision": "APPROVED",
+      "reviewFile": "kennen_q/05-独立评审.json",
+      "reviewFileSha256": "03708c1280d0a5006df614acf0d1cd01121ad9cb81cbc3a63879b95f18c41dd4",
+      "approvedFiles": {
+        "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+        "01-候选方案.json": "5f7c1077cb412c221375ac112727795cdd39ac3c243b0a92b3f44e40bc965af0",
+        "02-冻结请求.json": "29dfbfa0a3c6c57491c93e160911d780989593ce189f2d6801d00720dc1f8502",
+        "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+        "04-写入前现值.json": "eb63a9060628623199e67ea23aeb3b19acadd32f80fa05278dc5f40e2c7caf6e"
+      },
+      "sourceFiles": 13,
+      "plannedGETs": 18,
+      "expectedUnchangedResponsesIncludingTimestamps": 16,
+      "plannedPUTs": 1,
+      "expectedChangedCollections": 1,
+      "expectedChangedDetails": 1,
+      "blockingFindings": []
+    },
+    {
+      "skillKey": "teemo_q",
+      "decision": "APPROVED",
+      "reviewFile": "teemo_q/05-独立评审.json",
+      "reviewFileSha256": "74e28f98eabb63d90f4043a77fe44702a94dd28991233aaf7bc43ed71d9b5425",
+      "approvedFiles": {
+        "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+        "01-候选方案.json": "a0c69e14906a78001375a772d572eb1f7542cffd3888c6e6d55e7e4069b8eef2",
+        "02-冻结请求.json": "1b2db76afd51575cd2b162b2fc8cee152c35a29d44b24e72ab86041c1a32c732",
+        "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+        "04-写入前现值.json": "c1e36cbdecd69438d7e4875f11c5904740184b10d63601dafae3a9765c9904d6"
+      },
+      "sourceFiles": 13,
+      "plannedGETs": 19,
+      "expectedUnchangedResponsesIncludingTimestamps": 17,
+      "plannedPUTs": 1,
+      "expectedChangedCollections": 1,
+      "expectedChangedDetails": 1,
+      "blockingFindings": []
+    },
+    {
+      "skillKey": "gragas_e",
+      "decision": "APPROVED",
+      "reviewFile": "gragas_e/05-独立评审.json",
+      "reviewFileSha256": "b4bf03b070d00003894f9d9d04c557dbdc2093e9b754d9653d4fd02b116456ac",
+      "approvedFiles": {
+        "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+        "01-候选方案.json": "b56798e7e536260bf8309a481599c42216fc9ca63f18220e2f7e7af1bc7c5435",
+        "02-冻结请求.json": "f3c918db51628eab9ec11833dc99b7f13effba061d254b401c2665087a6475ce",
+        "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+        "04-写入前现值.json": "a40d0465cdfcf87f03f1420038d8453793ef968e61ea234b7b465c1250bd0883"
+      },
+      "sourceFiles": 13,
+      "plannedGETs": 20,
+      "expectedUnchangedResponsesIncludingTimestamps": 18,
+      "plannedPUTs": 1,
+      "expectedChangedCollections": 1,
+      "expectedChangedDetails": 1,
+      "blockingFindings": []
+    },
+    {
+      "skillKey": "gragas_r",
+      "decision": "APPROVED",
+      "reviewFile": "gragas_r/05-独立评审.json",
+      "reviewFileSha256": "eb0020e7452897df5d5dd045a0acd85be867cbe352814c402122a19a943b0640",
+      "approvedFiles": {
+        "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+        "01-候选方案.json": "59ff91bd6fd071e42177bf5839ec2733d95b463e30ae4454ece2fe907167516e",
+        "02-冻结请求.json": "0a885615019729cce60b4487fd06f5579e03ca52c833102e0594643058693d27",
+        "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+        "04-写入前现值.json": "7bb5b4796dd67c5aa0b4dc738710534446d1a1357d0d5e6b045a0629087d3481"
+      },
+      "sourceFiles": 13,
+      "plannedGETs": 19,
+      "expectedUnchangedResponsesIncludingTimestamps": 17,
+      "plannedPUTs": 1,
+      "expectedChangedCollections": 1,
+      "expectedChangedDetails": 1,
+      "blockingFindings": []
+    },
+    {
+      "skillKey": "lissandra_q",
+      "decision": "APPROVED",
+      "reviewFile": "lissandra_q/05-独立评审.json",
+      "reviewFileSha256": "4047683387d7e431d11266067dc24d8cfcf7b58910e9d0ed080efd7b1923ca99",
+      "approvedFiles": {
+        "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+        "01-候选方案.json": "cd5507c54fae3f1680f9fda65c705f9b78cc2bf38bd9e8ca6929e994894c8daf",
+        "02-冻结请求.json": "e67416ca5da33e1b07a7a59f4fac45c65b640f891563c06784c36230299f405b",
+        "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+        "04-写入前现值.json": "9794b9d2ab4053f852c435e80f2800029583e8ce784bff72ef1ee98c3648fc99"
+      },
+      "sourceFiles": 13,
+      "plannedGETs": 20,
+      "expectedUnchangedResponsesIncludingTimestamps": 18,
+      "plannedPUTs": 1,
+      "expectedChangedCollections": 1,
+      "expectedChangedDetails": 1,
+      "blockingFindings": []
+    },
+    {
+      "skillKey": "lissandra_w",
+      "decision": "APPROVED",
+      "reviewFile": "lissandra_w/05-独立评审.json",
+      "reviewFileSha256": "d3c1682f74e9cb9ef50d148e7f6125c9965c3f7f1dfcfb009095663d7a315a33",
+      "approvedFiles": {
+        "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+        "01-候选方案.json": "0711d65f2a27acce4ca6f60987cc9ad4c06e64b4cd80e2e92d35683af637662d",
+        "02-冻结请求.json": "6d40e4d4cd117511e882c1f6731515de8635262a650810b48c7bf639fe7f0101",
+        "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+        "04-写入前现值.json": "c03a095a6df9a8b93e99123f167fb6b8d50e3dccf651974430eb719eb1394276"
+      },
+      "sourceFiles": 13,
+      "plannedGETs": 21,
+      "expectedUnchangedResponsesIncludingTimestamps": 19,
+      "plannedPUTs": 1,
+      "expectedChangedCollections": 1,
+      "expectedChangedDetails": 1,
+      "blockingFindings": []
+    },
+    {
+      "skillKey": "lissandra_e",
+      "decision": "APPROVED",
+      "reviewFile": "lissandra_e/05-独立评审.json",
+      "reviewFileSha256": "3df637bb971f76d985e841264c3a9d04d556363a52139f0cf626d372d76d825f",
+      "approvedFiles": {
+        "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+        "01-候选方案.json": "082745d20766fdc3f068245c50bce101b386818f02e62b4d51c5a9bb7ced4f44",
+        "02-冻结请求.json": "ac5c172d52cf7780031ffd582f2fb2f826e32753b410d7e78d8c847487f9f917",
+        "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+        "04-写入前现值.json": "0591e92f8213871fb73c685809e747c70475d5508b5f24e75ab884352cec6fe0"
+      },
+      "sourceFiles": 13,
+      "plannedGETs": 16,
+      "expectedUnchangedResponsesIncludingTimestamps": 14,
+      "plannedPUTs": 1,
+      "expectedChangedCollections": 1,
+      "expectedChangedDetails": 1,
+      "blockingFindings": []
+    }
+  ],
+  "totals": {
+    "items": 7,
+    "approved": 7,
+    "sourceHashesVerified": 91,
+    "plannedGETs": 133,
+    "expectedUnchangedResponsesIncludingTimestamps": 119,
+    "plannedPUTs": 7,
+    "expectedChangedCollections": 7,
+    "expectedChangedDetails": 7,
+    "businessWrites": 0,
+    "reviewerHTTPRequests": 0
+  },
+  "validationLimits": {
+    "http": "本评审未调用业务接口；各项GET与完整冻结基线来自对应04，后续工具仍须写前重新GET核对。",
+    "browser": "未执行七项页面验收。",
+    "runtime": "固定来源、冻结请求和管理回读边界不证明宿主、Wasm或战斗运行时已经生产SKILL_HIT。"
+  },
+  "blockingFindings": []
+}

@@ -1,0 +1,2530 @@
+{
+  "at": "2026-09-19T09:17:09.552Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/sett_q": {
+      "createdAt": "2026-09-06T18:20:14.903984Z",
+      "description": "瑟提的下两次攻击将基于目标的最大生命值来造成额外伤害。瑟提也会在朝着敌方英雄移动时获得移动速度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "瑟提·屈人之威",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "sett_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:14.903984Z"
+    },
+    "/characters/champion_sett": {
+      "characterKey": "champion_sett",
+      "createdAt": "2026-09-06T17:40:36.266913Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "瑟提",
+      "updatedAt": "2026-09-06T17:40:36.266913Z"
+    },
+    "/characters/champion_sett/attributes": {
+      "characterKey": "champion_sett",
+      "levelValues": {
+        "1": {
+          "move_speed": 340,
+          "hp": 670,
+          "hp_regen": 7,
+          "armor": 33,
+          "magic_resistance": 28,
+          "attack_damage": 60,
+          "attack_speed": 0.625,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 340,
+          "hp": 752.08,
+          "hp_regen": 7.36,
+          "armor": 36.384,
+          "magic_resistance": 29.476,
+          "attack_damage": 62.88,
+          "attack_speed": 0.632875,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 340,
+          "hp": 838.15,
+          "hp_regen": 7.7375,
+          "armor": 39.9325,
+          "magic_resistance": 31.02375,
+          "attack_damage": 65.9,
+          "attack_speed": 0.641133,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 340,
+          "hp": 928.21,
+          "hp_regen": 8.1325,
+          "armor": 43.6455,
+          "magic_resistance": 32.64325,
+          "attack_damage": 69.06,
+          "attack_speed": 0.649773,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 340,
+          "hp": 1022.26,
+          "hp_regen": 8.545,
+          "armor": 47.523,
+          "magic_resistance": 34.3345,
+          "attack_damage": 72.36,
+          "attack_speed": 0.658797,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 340,
+          "hp": 1120.3,
+          "hp_regen": 8.975,
+          "armor": 51.565,
+          "magic_resistance": 36.0975,
+          "attack_damage": 75.8,
+          "attack_speed": 0.668203,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 340,
+          "hp": 1222.33,
+          "hp_regen": 9.4225,
+          "armor": 55.7715,
+          "magic_resistance": 37.93225,
+          "attack_damage": 79.38,
+          "attack_speed": 0.677992,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 340,
+          "hp": 1328.35,
+          "hp_regen": 9.8875,
+          "armor": 60.1425,
+          "magic_resistance": 39.83875,
+          "attack_damage": 83.1,
+          "attack_speed": 0.688164,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 340,
+          "hp": 1438.36,
+          "hp_regen": 10.37,
+          "armor": 64.678,
+          "magic_resistance": 41.817,
+          "attack_damage": 86.96,
+          "attack_speed": 0.698719,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 340,
+          "hp": 1552.36,
+          "hp_regen": 10.87,
+          "armor": 69.378,
+          "magic_resistance": 43.867,
+          "attack_damage": 90.96,
+          "attack_speed": 0.709656,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 340,
+          "hp": 1670.35,
+          "hp_regen": 11.3875,
+          "armor": 74.2425,
+          "magic_resistance": 45.98875,
+          "attack_damage": 95.1,
+          "attack_speed": 0.720977,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 340,
+          "hp": 1792.33,
+          "hp_regen": 11.9225,
+          "armor": 79.2715,
+          "magic_resistance": 48.18225,
+          "attack_damage": 99.38,
+          "attack_speed": 0.73268,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 340,
+          "hp": 1918.3,
+          "hp_regen": 12.475,
+          "armor": 84.465,
+          "magic_resistance": 50.4475,
+          "attack_damage": 103.8,
+          "attack_speed": 0.744766,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 340,
+          "hp": 2048.26,
+          "hp_regen": 13.045,
+          "armor": 89.823,
+          "magic_resistance": 52.7845,
+          "attack_damage": 108.36,
+          "attack_speed": 0.757234,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 340,
+          "hp": 2182.21,
+          "hp_regen": 13.6325,
+          "armor": 95.3455,
+          "magic_resistance": 55.19325,
+          "attack_damage": 113.06,
+          "attack_speed": 0.770086,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 340,
+          "hp": 2320.15,
+          "hp_regen": 14.2375,
+          "armor": 101.0325,
+          "magic_resistance": 57.67375,
+          "attack_damage": 117.9,
+          "attack_speed": 0.78332,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 340,
+          "hp": 2462.08,
+          "hp_regen": 14.86,
+          "armor": 106.884,
+          "magic_resistance": 60.226,
+          "attack_damage": 122.88,
+          "attack_speed": 0.796937,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 340,
+          "hp": 2608,
+          "hp_regen": 15.5,
+          "armor": 112.9,
+          "magic_resistance": 62.85,
+          "attack_damage": 128,
+          "attack_speed": 0.810937,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_sett/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_sett",
+        "name": "champion_sett"
+      }
+    },
+    "/skills/sett_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_sett_q",
+        "name": "sett_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_sett": {
+      "items": [
+        {
+          "characterKey": "champion_sett",
+          "characterName": "瑟提",
+          "gameId": "lol",
+          "skillKey": "sett_p",
+          "skillName": "瑟提·沙场豪情",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_sett",
+          "characterName": "瑟提",
+          "gameId": "lol",
+          "skillKey": "sett_q",
+          "skillName": "瑟提·屈人之威",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_sett",
+          "characterName": "瑟提",
+          "gameId": "lol",
+          "skillKey": "sett_w",
+          "skillName": "瑟提·蓄意轰拳",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_sett",
+          "characterName": "瑟提",
+          "gameId": "lol",
+          "skillKey": "sett_e",
+          "skillName": "瑟提·强手裂颅",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_sett",
+          "characterName": "瑟提",
+          "gameId": "lol",
+          "skillKey": "sett_r",
+          "skillName": "瑟提·叹为观止",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=sett_q": {
+      "items": [
+        {
+          "characterKey": "champion_sett",
+          "characterName": "瑟提",
+          "gameId": "lol",
+          "skillKey": "sett_q",
+          "skillName": "瑟提·屈人之威",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/sett_q/parameters": [
+      {
+        "createdAt": "2026-09-08T14:37:16.619687Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10,
+          "2": 20,
+          "3": 30,
+          "4": 40,
+          "5": 50
+        },
+        "name": "每拳额外基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "sett_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T14:37:16.619687Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:17.249103Z",
+        "description": "客户端当前根绑定 DataValues.EnemyMaxHealthDamage 取索引1至5。",
+        "fixedValue": 0.01,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每拳目标最大生命基础倍率",
+        "parameterKey": "target_max_hp_base_ratio",
+        "skillKey": "sett_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T14:37:17.249103Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:17.932416Z",
+        "description": "客户端当前根绑定 DataValues.MaxHealthTADRatio 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.0001,
+          "2": 0.00015,
+          "3": 0.0002,
+          "4": 0.00025,
+          "5": 0.0003
+        },
+        "name": "每点总攻击力增加的目标生命倍率",
+        "parameterKey": "total_ad_to_target_hp_ratio",
+        "skillKey": "sett_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T14:37:17.932416Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:18.573883Z",
+        "description": "客户端当前根绑定 DataValues.Duration 取索引1至5。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "双拳强化窗口（毫秒）",
+        "parameterKey": "empowered_window_ms",
+        "skillKey": "sett_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T14:37:18.573883Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:19.183378Z",
+        "description": "客户端当前根绑定 DataValues.MSAmount 取索引1至5。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "朝英雄移动速度比例",
+        "parameterKey": "toward_champion_speed_ratio",
+        "skillKey": "sett_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-08T14:37:19.183378Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:19.786981Z",
+        "description": "客户端当前根绑定 DataValues.MSDuration 取索引1至5。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "朝英雄移速持续（毫秒）",
+        "parameterKey": "toward_champion_speed_duration_ms",
+        "skillKey": "sett_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-08T14:37:19.786981Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:20.422427Z",
+        "description": "当前官方和当前绑定说明明确下两次攻击。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "强化攻击次数",
+        "parameterKey": "empowered_attacks",
+        "skillKey": "sett_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-08T14:37:20.422427Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:18.569241Z",
+        "description": "DDragon16.17.1 Sett.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8000,
+          "3": 7000,
+          "4": 6000,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sett_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:18.569241Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/sett_q/parameters/base_damage": {
+      "createdAt": "2026-09-08T14:37:16.619687Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10,
+        "2": 20,
+        "3": 30,
+        "4": 40,
+        "5": 50
+      },
+      "name": "每拳额外基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "sett_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-08T14:37:16.619687Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_q/parameters/target_max_hp_base_ratio": {
+      "createdAt": "2026-09-08T14:37:17.249103Z",
+      "description": "客户端当前根绑定 DataValues.EnemyMaxHealthDamage 取索引1至5。",
+      "fixedValue": 0.01,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "每拳目标最大生命基础倍率",
+      "parameterKey": "target_max_hp_base_ratio",
+      "skillKey": "sett_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T14:37:17.249103Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sett_q/parameters/total_ad_to_target_hp_ratio": {
+      "createdAt": "2026-09-08T14:37:17.932416Z",
+      "description": "客户端当前根绑定 DataValues.MaxHealthTADRatio 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.0001,
+        "2": 0.00015,
+        "3": 0.0002,
+        "4": 0.00025,
+        "5": 0.0003
+      },
+      "name": "每点总攻击力增加的目标生命倍率",
+      "parameterKey": "total_ad_to_target_hp_ratio",
+      "skillKey": "sett_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-08T14:37:17.932416Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sett_q/parameters/empowered_window_ms": {
+      "createdAt": "2026-09-08T14:37:18.573883Z",
+      "description": "客户端当前根绑定 DataValues.Duration 取索引1至5。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "双拳强化窗口（毫秒）",
+      "parameterKey": "empowered_window_ms",
+      "skillKey": "sett_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-08T14:37:18.573883Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_q/parameters/toward_champion_speed_ratio": {
+      "createdAt": "2026-09-08T14:37:19.183378Z",
+      "description": "客户端当前根绑定 DataValues.MSAmount 取索引1至5。",
+      "fixedValue": 0.3,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "朝英雄移动速度比例",
+      "parameterKey": "toward_champion_speed_ratio",
+      "skillKey": "sett_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-08T14:37:19.183378Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sett_q/parameters/toward_champion_speed_duration_ms": {
+      "createdAt": "2026-09-08T14:37:19.786981Z",
+      "description": "客户端当前根绑定 DataValues.MSDuration 取索引1至5。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "朝英雄移速持续（毫秒）",
+      "parameterKey": "toward_champion_speed_duration_ms",
+      "skillKey": "sett_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-08T14:37:19.786981Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_q/parameters/empowered_attacks": {
+      "createdAt": "2026-09-08T14:37:20.422427Z",
+      "description": "当前官方和当前绑定说明明确下两次攻击。",
+      "fixedValue": 2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "强化攻击次数",
+      "parameterKey": "empowered_attacks",
+      "skillKey": "sett_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-08T14:37:20.422427Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:03:18.569241Z",
+      "description": "DDragon16.17.1 Sett.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 9000,
+        "2": 8000,
+        "3": 7000,
+        "4": 6000,
+        "5": 5000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "sett_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:03:18.569241Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_q/formulas": [
+      {
+        "createdAt": "2026-09-08T14:37:21.012542Z",
+        "description": "当前MaxHealthDamageCalc采用总攻击力；每拳基础10至50 + (1% + 每100总攻击力1/1.5/2/2.5/3%)目标最大生命。",
+        "formulaKey": "bonus_damage",
+        "gameId": "lol",
+        "name": "每次强化拳额外物理伤害",
+        "skillKey": "sett_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:21.012542Z"
+      }
+    ],
+    "/skills/sett_q/formulas/bonus_damage": {
+      "createdAt": "2026-09-08T14:37:21.012542Z",
+      "description": "当前MaxHealthDamageCalc采用总攻击力；每拳基础10至50 + (1% + 每100总攻击力1/1.5/2/2.5/3%)目标最大生命。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "target_max_hp_base_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "total_ad_to_target_hp_ratio"
+                      },
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "TARGET",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "bonus_damage",
+      "gameId": "lol",
+      "name": "每次强化拳额外物理伤害",
+      "skillKey": "sett_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T14:37:21.012542Z"
+    },
+    "/skills/sett_q/effects": [
+      {
+        "createdAt": "2026-09-08T14:37:21.64876Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "empowered_punch",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "每次强化拳独立额外伤害",
+        "resultCount": 1,
+        "skillKey": "sett_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:21.64876Z"
+      }
+    ],
+    "/skills/sett_q/effects/empowered_punch": {
+      "createdAt": "2026-09-08T14:37:21.64876Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "empowered_punch",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "每次强化拳独立额外伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "physics",
+            "deliveryKind": "BASIC_ATTACK",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "每次强化拳独立额外伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "bonus_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "sett_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T14:37:21.64876Z"
+    },
+    "/skills/sett_q/processes": [],
+    "/skills/sett_q/internal-states": [],
+    "/skills/sett_q/trigger-rules": [],
+    "/skills/sett_w": {
+      "createdAt": "2026-09-06T18:20:15.196274Z",
+      "description": "瑟提会被动地将他受到的伤害储存为豪意。在施放时，瑟提会释放所有已储存的豪意来提供一层护盾并且重击一个区域，在区域中心造成真实伤害并在区域边缘造成物理伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "瑟提·蓄意轰拳",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "sett_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:15.196274Z"
+    },
+    "/skills/sett_w/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_sett_w",
+        "name": "sett_w"
+      }
+    },
+    "/character-skill-relations?skillKey=sett_w": {
+      "items": [
+        {
+          "characterKey": "champion_sett",
+          "characterName": "瑟提",
+          "gameId": "lol",
+          "skillKey": "sett_w",
+          "skillName": "瑟提·蓄意轰拳",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        }
+      ],
+      "total": 1
+    },
+    "/skills/sett_w/parameters": [
+      {
+        "createdAt": "2026-09-08T14:37:22.51667Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 100,
+          "3": 120,
+          "4": 140,
+          "5": 160
+        },
+        "name": "轰拳基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "sett_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T14:37:22.51667Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:23.080444Z",
+        "description": "客户端当前根绑定 DataValues.DamageConversionBase 取索引1至5。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "豪意基础伤害转化倍率",
+        "parameterKey": "grit_damage_base_ratio",
+        "skillKey": "sett_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T14:37:23.080444Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:23.911115Z",
+        "description": "当前完整DamageConversion计算树的属性与总量/额外量已核对。",
+        "fixedValue": 0.0025,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外攻击力增加的豪意转化倍率",
+        "parameterKey": "bonus_ad_grit_ratio",
+        "skillKey": "sett_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T14:37:23.911115Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:24.575934Z",
+        "description": "客户端当前根绑定 DataValues.StoredHealth 取索引1至5。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "豪意上限占自身最大生命比例",
+        "parameterKey": "max_grit_hp_ratio",
+        "skillKey": "sett_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T14:37:24.575934Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:25.189571Z",
+        "description": "客户端当前根绑定 DataValues.ShieldConversion 取索引1至5。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "豪意转护盾倍率",
+        "parameterKey": "grit_shield_ratio",
+        "skillKey": "sett_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-08T14:37:25.189571Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:25.803386Z",
+        "description": "客户端当前根绑定 DataValues.DamageStored 取索引1至5。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "受到伤害储存豪意倍率",
+        "parameterKey": "incoming_damage_storage_ratio",
+        "skillKey": "sett_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-08T14:37:25.803386Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:26.318536Z",
+        "description": "客户端当前根绑定 DataValues.AdrenalineStorageWindow 取索引1至5。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "停止受伤后豪意衰减等待（毫秒）",
+        "parameterKey": "grit_decay_delay_ms",
+        "skillKey": "sett_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-08T14:37:26.318536Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:26.879267Z",
+        "description": "客户端当前根绑定 DataValues.ShieldMaxDuration 取索引1至5。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "衰减护盾最长持续（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "sett_w",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-08T14:37:26.879267Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:19.366627Z",
+        "description": "DDragon16.17.1 Sett.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 18000,
+          "2": 16500,
+          "3": 15000,
+          "4": 13500,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sett_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:19.366627Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:27.484136Z",
+        "description": "本次主动消耗前的真实非负豪意快照，在捕获时点验证不超过当时最大生命50%；不默认满豪意，也不能消费后重新读清零资源或用后来最大生命重截断。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次实际迸发豪意",
+        "parameterKey": "released_grit",
+        "skillKey": "sett_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T14:37:27.484136Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/sett_w/parameters/base_damage": {
+      "createdAt": "2026-09-08T14:37:22.51667Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 100,
+        "3": 120,
+        "4": 140,
+        "5": 160
+      },
+      "name": "轰拳基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "sett_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-08T14:37:22.51667Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_w/parameters/grit_damage_base_ratio": {
+      "createdAt": "2026-09-08T14:37:23.080444Z",
+      "description": "客户端当前根绑定 DataValues.DamageConversionBase 取索引1至5。",
+      "fixedValue": 0.25,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "豪意基础伤害转化倍率",
+      "parameterKey": "grit_damage_base_ratio",
+      "skillKey": "sett_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T14:37:23.080444Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sett_w/parameters/bonus_ad_grit_ratio": {
+      "createdAt": "2026-09-08T14:37:23.911115Z",
+      "description": "当前完整DamageConversion计算树的属性与总量/额外量已核对。",
+      "fixedValue": 0.0025,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "额外攻击力增加的豪意转化倍率",
+      "parameterKey": "bonus_ad_grit_ratio",
+      "skillKey": "sett_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-08T14:37:23.911115Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sett_w/parameters/max_grit_hp_ratio": {
+      "createdAt": "2026-09-08T14:37:24.575934Z",
+      "description": "客户端当前根绑定 DataValues.StoredHealth 取索引1至5。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "豪意上限占自身最大生命比例",
+      "parameterKey": "max_grit_hp_ratio",
+      "skillKey": "sett_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-08T14:37:24.575934Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sett_w/parameters/grit_shield_ratio": {
+      "createdAt": "2026-09-08T14:37:25.189571Z",
+      "description": "客户端当前根绑定 DataValues.ShieldConversion 取索引1至5。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "豪意转护盾倍率",
+      "parameterKey": "grit_shield_ratio",
+      "skillKey": "sett_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-08T14:37:25.189571Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_w/parameters/incoming_damage_storage_ratio": {
+      "createdAt": "2026-09-08T14:37:25.803386Z",
+      "description": "客户端当前根绑定 DataValues.DamageStored 取索引1至5。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "受到伤害储存豪意倍率",
+      "parameterKey": "incoming_damage_storage_ratio",
+      "skillKey": "sett_w",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-08T14:37:25.803386Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_w/parameters/grit_decay_delay_ms": {
+      "createdAt": "2026-09-08T14:37:26.318536Z",
+      "description": "客户端当前根绑定 DataValues.AdrenalineStorageWindow 取索引1至5。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "停止受伤后豪意衰减等待（毫秒）",
+      "parameterKey": "grit_decay_delay_ms",
+      "skillKey": "sett_w",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-08T14:37:26.318536Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_w/parameters/shield_duration_ms": {
+      "createdAt": "2026-09-08T14:37:26.879267Z",
+      "description": "客户端当前根绑定 DataValues.ShieldMaxDuration 取索引1至5。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "衰减护盾最长持续（毫秒）",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "sett_w",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-08T14:37:26.879267Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:03:19.366627Z",
+      "description": "DDragon16.17.1 Sett.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 18000,
+        "2": 16500,
+        "3": 15000,
+        "4": 13500,
+        "5": 12000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "sett_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:03:19.366627Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_w/parameters/released_grit": {
+      "createdAt": "2026-09-08T14:37:27.484136Z",
+      "description": "本次主动消耗前的真实非负豪意快照，在捕获时点验证不超过当时最大生命50%；不默认满豪意，也不能消费后重新读清零资源或用后来最大生命重截断。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "本次实际迸发豪意",
+      "parameterKey": "released_grit",
+      "skillKey": "sett_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T14:37:27.484136Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sett_w/formulas": [
+      {
+        "createdAt": "2026-09-08T14:37:28.083021Z",
+        "description": "自身总生命50%，只用于储存与捕获时点校验，不再截断已经消耗的豪意快照。",
+        "formulaKey": "max_grit",
+        "gameId": "lol",
+        "name": "当前豪意上限",
+        "skillKey": "sett_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:28.083021Z"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:28.698804Z",
+        "description": "已消耗真实豪意的100%初始护盾量，不按稍后最大生命重截断；公式不声明衰减曲线。",
+        "formulaKey": "released_grit_shield",
+        "gameId": "lol",
+        "name": "本次豪意初始护盾",
+        "skillKey": "sett_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T14:37:28.698804Z"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:29.318291Z",
+        "description": "当前DamageConversion为0.25+0.0025额外攻击力；使用已消费豪意快照，不按稍后最大生命重截断。未采用系数冲突的MaxDamage旧树。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "本次轰拳伤害",
+        "skillKey": "sett_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T14:37:29.318291Z"
+      }
+    ],
+    "/skills/sett_w/formulas/max_grit": {
+      "createdAt": "2026-09-08T14:37:28.083021Z",
+      "description": "自身总生命50%，只用于储存与捕获时点校验，不再截断已经消耗的豪意快照。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_grit_hp_ratio"
+          },
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "max_grit",
+      "gameId": "lol",
+      "name": "当前豪意上限",
+      "skillKey": "sett_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T14:37:28.083021Z"
+    },
+    "/skills/sett_w/formulas/released_grit_shield": {
+      "createdAt": "2026-09-08T14:37:28.698804Z",
+      "description": "已消耗真实豪意的100%初始护盾量，不按稍后最大生命重截断；公式不声明衰减曲线。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "released_grit"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "grit_shield_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "released_grit_shield",
+      "gameId": "lol",
+      "name": "本次豪意初始护盾",
+      "skillKey": "sett_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-08T14:37:28.698804Z"
+    },
+    "/skills/sett_w/formulas/damage": {
+      "createdAt": "2026-09-08T14:37:29.318291Z",
+      "description": "当前DamageConversion为0.25+0.0025额外攻击力；使用已消费豪意快照，不按稍后最大生命重截断。未采用系数冲突的MaxDamage旧树。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "released_grit"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "grit_damage_base_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_ad_grit_ratio"
+                      },
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "本次轰拳伤害",
+      "skillKey": "sett_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T14:37:29.318291Z"
+    },
+    "/skills/sett_w/effects": [
+      {
+        "createdAt": "2026-09-08T14:37:29.947408Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "central_punch",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "中央轰拳真实伤害",
+        "resultCount": 1,
+        "skillKey": "sett_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:29.947408Z"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:30.648143Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "outer_punch",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "边缘轰拳物理伤害",
+        "resultCount": 1,
+        "skillKey": "sett_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T14:37:30.648143Z"
+      }
+    ],
+    "/skills/sett_w/effects/central_punch": {
+      "createdAt": "2026-09-08T14:37:29.947408Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "central_punch",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "中央轰拳真实伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "real",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "中央轰拳真实伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "sett_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T14:37:29.947408Z"
+    },
+    "/skills/sett_w/effects/outer_punch": {
+      "createdAt": "2026-09-08T14:37:30.648143Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "outer_punch",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "边缘轰拳物理伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "边缘轰拳物理伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "sett_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-08T14:37:30.648143Z"
+    },
+    "/skills/sett_w/processes": [],
+    "/skills/sett_w/internal-states": [],
+    "/skills/sett_w/trigger-rules": [],
+    "/skills/sett_e": {
+      "createdAt": "2026-09-06T18:20:15.517179Z",
+      "description": "瑟提将他两侧的所有敌人猛撞到一起，对他们造成伤害和晕眩效果。如果敌人仅位于他的一侧，那么他们只会被减速而不会被晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "瑟提·强手裂颅",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "sett_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:15.517179Z"
+    },
+    "/skills/sett_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_sett_e",
+        "name": "sett_e"
+      }
+    },
+    "/character-skill-relations?skillKey=sett_e": {
+      "items": [
+        {
+          "characterKey": "champion_sett",
+          "characterName": "瑟提",
+          "gameId": "lol",
+          "skillKey": "sett_e",
+          "skillName": "瑟提·强手裂颅",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/sett_e/parameters": [
+      {
+        "createdAt": "2026-09-08T14:37:31.360827Z",
+        "description": "根spellCastTime；已排除与mCastTime冲突。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "sett_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T14:37:31.360827Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:31.962153Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 70,
+          "3": 90,
+          "4": 110,
+          "5": 130
+        },
+        "name": "裂颅基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "sett_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T14:37:31.962153Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:32.569398Z",
+        "description": "当前完整DamageCalc计算树的属性与总量/额外量已核对。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "裂颅总攻击力倍率",
+        "parameterKey": "total_ad_ratio",
+        "skillKey": "sett_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T14:37:32.569398Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:33.170519Z",
+        "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "单侧命中减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "sett_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T14:37:33.170519Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:33.755465Z",
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "sett_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-08T14:37:33.755465Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:20.169936Z",
+        "description": "DDragon16.17.1 Sett.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 14500,
+          "3": 13000,
+          "4": 11500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sett_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:20.169936Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/sett_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-08T14:37:31.360827Z",
+      "description": "根spellCastTime；已排除与mCastTime冲突。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "sett_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-08T14:37:31.360827Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_e/parameters/base_damage": {
+      "createdAt": "2026-09-08T14:37:31.962153Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 70,
+        "3": 90,
+        "4": 110,
+        "5": 130
+      },
+      "name": "裂颅基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "sett_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T14:37:31.962153Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_e/parameters/total_ad_ratio": {
+      "createdAt": "2026-09-08T14:37:32.569398Z",
+      "description": "当前完整DamageCalc计算树的属性与总量/额外量已核对。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "裂颅总攻击力倍率",
+      "parameterKey": "total_ad_ratio",
+      "skillKey": "sett_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-08T14:37:32.569398Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sett_e/parameters/slow_ratio": {
+      "createdAt": "2026-09-08T14:37:33.170519Z",
+      "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "单侧命中减速比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "sett_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-08T14:37:33.170519Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sett_e/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-08T14:37:33.755465Z",
+      "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5。",
+      "fixedValue": 500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "sett_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-08T14:37:33.755465Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:03:20.169936Z",
+      "description": "DDragon16.17.1 Sett.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 16000,
+        "2": 14500,
+        "3": 13000,
+        "4": 11500,
+        "5": 10000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "sett_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:03:20.169936Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_e/formulas": [
+      {
+        "createdAt": "2026-09-08T14:37:34.341571Z",
+        "description": "50至130 + 0.6总攻击力。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "强手裂颅伤害",
+        "skillKey": "sett_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:34.341571Z"
+      }
+    ],
+    "/skills/sett_e/formulas/damage": {
+      "createdAt": "2026-09-08T14:37:34.341571Z",
+      "description": "50至130 + 0.6总攻击力。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "强手裂颅伤害",
+      "skillKey": "sett_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T14:37:34.341571Z"
+    },
+    "/skills/sett_e/effects": [
+      {
+        "createdAt": "2026-09-08T14:37:35.012716Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "facebreaker_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "强手裂颅实际命中伤害",
+        "resultCount": 1,
+        "skillKey": "sett_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:35.012716Z"
+      }
+    ],
+    "/skills/sett_e/effects/facebreaker_hit": {
+      "createdAt": "2026-09-08T14:37:35.012716Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "facebreaker_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "强手裂颅实际命中伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "强手裂颅实际命中伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "sett_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T14:37:35.012716Z"
+    },
+    "/skills/sett_e/processes": [],
+    "/skills/sett_e/internal-states": [],
+    "/skills/sett_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "只接受所列真实事件；规则不自行生成命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "裂颅实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:42:34.181905Z"
+      }
+    ],
+    "/skills/sett_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "facebreaker_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "facebreaker_hit"
+          },
+          "name": "执行facebreaker_hit",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "只接受所列真实事件；规则不自行生成命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "sett_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "裂颅实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/sett_r": {
+      "createdAt": "2026-09-06T18:20:15.770625Z",
+      "description": "瑟提将一名敌方英雄带到空中，然后将其猛砸到地上，在该英雄着陆后对其附近的所有敌人造成伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "瑟提·叹为观止",
+      "skillCategoryKeys": [],
+      "skillKey": "sett_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:15.770625Z"
+    },
+    "/skills/sett_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_sett_r",
+        "name": "sett_r"
+      }
+    },
+    "/character-skill-relations?skillKey=sett_r": {
+      "items": [
+        {
+          "characterKey": "champion_sett",
+          "characterName": "瑟提",
+          "gameId": "lol",
+          "skillKey": "sett_r",
+          "skillName": "瑟提·叹为观止",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/sett_r/parameters": [
+      {
+        "createdAt": "2026-09-08T14:37:35.791492Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 200,
+          "2": 300,
+          "3": 400
+        },
+        "name": "摔击基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "sett_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-08T14:37:35.791492Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:36.389803Z",
+        "description": "当前完整DamageCalc计算树的属性与总量/额外量已核对。",
+        "fixedValue": 1.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "摔击额外攻击力倍率",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "sett_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T14:37:36.389803Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:36.949661Z",
+        "description": "客户端当前根绑定 DataValues.MaxHealthDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.4,
+          "2": 0.5,
+          "3": 0.6
+        },
+        "name": "被擒英雄额外生命伤害倍率",
+        "parameterKey": "captured_bonus_hp_ratio",
+        "skillKey": "sett_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T14:37:36.949661Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:37.546979Z",
+        "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至3。",
+        "fixedValue": 0.99,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "摔落减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "sett_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T14:37:37.546979Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T14:37:38.148306Z",
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至3。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "摔落减速持续（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "sett_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-08T14:37:38.148306Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:20.691089Z",
+        "description": "DDragon16.17.1 Sett.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sett_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:20.691089Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/sett_r/parameters/base_damage": {
+      "createdAt": "2026-09-08T14:37:35.791492Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 200,
+        "2": 300,
+        "3": 400
+      },
+      "name": "摔击基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "sett_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-08T14:37:35.791492Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_r/parameters/bonus_ad_ratio": {
+      "createdAt": "2026-09-08T14:37:36.389803Z",
+      "description": "当前完整DamageCalc计算树的属性与总量/额外量已核对。",
+      "fixedValue": 1.2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "摔击额外攻击力倍率",
+      "parameterKey": "bonus_ad_ratio",
+      "skillKey": "sett_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T14:37:36.389803Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sett_r/parameters/captured_bonus_hp_ratio": {
+      "createdAt": "2026-09-08T14:37:36.949661Z",
+      "description": "客户端当前根绑定 DataValues.MaxHealthDamage 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.4,
+        "2": 0.5,
+        "3": 0.6
+      },
+      "name": "被擒英雄额外生命伤害倍率",
+      "parameterKey": "captured_bonus_hp_ratio",
+      "skillKey": "sett_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-08T14:37:36.949661Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sett_r/parameters/slow_ratio": {
+      "createdAt": "2026-09-08T14:37:37.546979Z",
+      "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至3。",
+      "fixedValue": 0.99,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "摔落减速比例",
+      "parameterKey": "slow_ratio",
+      "skillKey": "sett_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-08T14:37:37.546979Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sett_r/parameters/slow_duration_ms": {
+      "createdAt": "2026-09-08T14:37:38.148306Z",
+      "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至3。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "摔落减速持续（毫秒）",
+      "parameterKey": "slow_duration_ms",
+      "skillKey": "sett_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-08T14:37:38.148306Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:03:20.691089Z",
+      "description": "DDragon16.17.1 Sett.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 120000,
+        "2": 100000,
+        "3": 80000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "sett_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:03:20.691089Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/sett_r/formulas": [
+      {
+        "createdAt": "2026-09-08T14:37:38.805943Z",
+        "description": "1V1中当前受击目标即被擒英雄；200/300/400+1.2额外攻击力+40/50/60%被擒英雄额外生命。不能用总生命或误取旁观受击者生命。",
+        "formulaKey": "captured_target_damage",
+        "gameId": "lol",
+        "name": "被擒英雄中心摔击伤害",
+        "skillKey": "sett_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:38.805943Z"
+      }
+    ],
+    "/skills/sett_r/formulas/captured_target_damage": {
+      "createdAt": "2026-09-08T14:37:38.805943Z",
+      "description": "1V1中当前受击目标即被擒英雄；200/300/400+1.2额外攻击力+40/50/60%被擒英雄额外生命。不能用总生命或误取旁观受击者生命。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "captured_bonus_hp_ratio"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "TARGET",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "captured_target_damage",
+      "gameId": "lol",
+      "name": "被擒英雄中心摔击伤害",
+      "skillKey": "sett_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T14:37:38.805943Z"
+    },
+    "/skills/sett_r/effects": [
+      {
+        "createdAt": "2026-09-08T14:37:39.413273Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "captured_target_landing",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "被擒英雄摔落中心伤害",
+        "resultCount": 1,
+        "skillKey": "sett_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T14:37:39.413273Z"
+      }
+    ],
+    "/skills/sett_r/effects/captured_target_landing": {
+      "createdAt": "2026-09-08T14:37:39.413273Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "captured_target_landing",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "被擒英雄摔落中心伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "physics",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "被擒英雄摔落中心伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "captured_target_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "sett_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T14:37:39.413273Z"
+    },
+    "/skills/sett_r/processes": [],
+    "/skills/sett_r/internal-states": [],
+    "/skills/sett_r/trigger-rules": [],
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/hp": {
+      "attributeKey": "hp",
+      "createdAt": "2026-08-22T15:27:36.051116Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "生命值",
+      "sortOrder": 300,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.051116Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/physics": {
+      "createdAt": "2026-08-26T05:59:09.635701Z",
+      "damageTypeKey": "physics",
+      "description": null,
+      "gameId": "lol",
+      "name": "物理伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:09.635701Z"
+    },
+    "/damage-types/real": {
+      "createdAt": "2026-08-26T05:58:49.612762Z",
+      "damageTypeKey": "real",
+      "description": null,
+      "gameId": "lol",
+      "name": "真实伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:58:49.612762Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/sett_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_sett",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_sett/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_sett/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_sett",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=sett_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/parameters/target_max_hp_base_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/parameters/total_ad_to_target_hp_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/parameters/empowered_window_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/parameters/toward_champion_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/parameters/toward_champion_speed_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/parameters/empowered_attacks",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/formulas/bonus_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/effects/empowered_punch",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=sett_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/parameters/grit_damage_base_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/parameters/bonus_ad_grit_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/parameters/max_grit_hp_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/parameters/grit_shield_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/parameters/incoming_damage_storage_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/parameters/grit_decay_delay_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/parameters/released_grit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/formulas/max_grit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/formulas/released_grit_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/effects/central_punch",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/effects/outer_punch",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=sett_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/parameters/total_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/effects/facebreaker_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=sett_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/parameters/bonus_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/parameters/captured_bonus_hp_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/formulas/captured_target_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/effects/captured_target_landing",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/hp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/physics",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/real",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_q/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_w/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_e/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sett_r/trigger-rules/on_used",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

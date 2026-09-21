@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-19T16:25:05.413Z",
+  "status": "APPROVED",
+  "reviewer": "/root/root_status_source_review",
+  "planSha256": "2b89a08a10b487dd5fb69726ea2737ce5c143e6a12cec8ca84adcf52c3409c17",
+  "migrationSha256": "4250939622c27508ed12fc6095bf5a8a8d9e112a8fa453a9cb408a6a6386c458",
+  "findings": [
+    "StatusService通用处理必填与种类不可变",
+    "SkillEffectService仅MOVEMENT_SLOW APPLY有数值，SILENCE直接复用无强度路径",
+    "前端类型、中文标签与严格种类判定同步扩展即可",
+    "SQL静态核对通过：当前目标、精确旧约束、三状态含时间戳、效果引用基线与事务内双向比较",
+    "执行方必须额外核主机与文件摘要，迁移不新增状态行"
+  ],
+  "HTTPRequests": 0,
+  "DBRequests": 0,
+  "businessWrites": 0
+}

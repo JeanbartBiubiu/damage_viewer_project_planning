@@ -1,0 +1,69 @@
+{
+  "at": "2026-09-19T08:38:27.709Z",
+  "status": "PASS",
+  "created": {
+    "processes": 1,
+    "triggerRules": 1
+  },
+  "prepareGETs": 25,
+  "preflightGETs": 25,
+  "browserWrites": 2,
+  "immediateReadbacks": 2,
+  "independentProgramGETs": 25,
+  "independentAgentGETs": 25,
+  "unchangedResponsesIncludingTimestamps": 21,
+  "expectedChangedCollections": 2,
+  "browser": "PASS",
+  "independentAgentReadback": {
+    "reviewer": "/root/urgot_core_frozen_fallback",
+    "status": "PASS",
+    "toolExitCode": 0,
+    "at": "2026-09-19T08:35:00.478Z",
+    "stdoutSha256": "e8bca6c2ec7bdc644f0b7d3155bf1275b43b51ccc05f047bcc48e2de7dc27177",
+    "stdoutBytes": 3719,
+    "rawStdoutArchived": false
+  },
+  "runtimeValidation": "未执行",
+  "files": [
+    {
+      "name": "00-页面保存核对工具.mjs",
+      "sha256": "8b6eb97ffd08f8040010adc6e4ebcee8934633833c6401c971fc354bec52b5c7"
+    },
+    {
+      "name": "01-候选方案.json",
+      "sha256": "dbfae3d870fda8d6358668cdba9540277776bee8bbb0bf415d1ca574fcb4579a"
+    },
+    {
+      "name": "02-冻结请求.json",
+      "sha256": "9f4915557c657681c91c5351bf08d415f59b436f5db8bebf3c94a8f5d3907cfe"
+    },
+    {
+      "name": "03-来源摘要.json",
+      "sha256": "485b2d1ce65947bc72bc92e0011da99ea312c0e608d741743ca3563b2b8485fe"
+    },
+    {
+      "name": "04-写入前现值.json",
+      "sha256": "523b1cc853ecf579f43d4cadc0feb1214f875028d17c554806a63c273b3e27e3"
+    },
+    {
+      "name": "05-独立评审.json",
+      "sha256": "34253dcb1d0dd8dd86f3f1894e29fcd74f29557259ce685b27cab5b37c0f0a02"
+    },
+    {
+      "name": "06-写入与即时回读.json",
+      "sha256": "023686dc3cbd7ec38c10f1539e5f5c2c236ed6063ba7e0d840f3b754be05d19f"
+    },
+    {
+      "name": "07-独立回读.json",
+      "sha256": "6cf091314035e59fb9abe6a125f46160b1951932a3fe2af7b447c2f13f89c604"
+    },
+    {
+      "name": "08-页面验收.json",
+      "sha256": "461119e986b444f2e34a0aa223f152e45bb279f026e7d96a4136fc4ec6e75f24"
+    },
+    {
+      "name": "README.md",
+      "sha256": "08f828bb85f2bfa373000cf257609ed25b887d4551bd22a4d4b8284b19190015"
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+{
+  "startedAt": "2026-09-20T10:01:31.018Z",
+  "status": "IN_PROGRESS",
+  "mode": "FROZEN_UI_PUT",
+  "businessWritesAttempted": 1,
+  "operations": [
+    {
+      "method": "PUT",
+      "route": "/skills/kogmaw_q/effects/passive_attack_speed",
+      "channel": "真实页面",
+      "saveClicks": 1,
+      "putResponseCaptured": false,
+      "responseStatus": null,
+      "immediateReadback": {
+        "method": "GET",
+        "status": 200,
+        "at": "2026-09-20T10:02:52.516Z",
+        "data": {
+          "createdAt": "2026-09-09T04:29:14.557374Z",
+          "description": "在已学习Q的1至5级范围内，持续按当前技能等级提供额外攻击速度；属性结算时重新读取passive_attack_speed_ratio，沿用单层按来源对象实例和已有初始化入口，不需要用重复初始化模拟升级。未学习时的资格不得补成默认等级；战斗运行未验证。",
+          "effectKey": "passive_attack_speed",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "腐蚀唾液被动额外攻速",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "bonus_attack_speed_percent",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "SHARED",
+                "valueReadMode": "MOMENT_EVALUATION"
+              },
+              "name": "腐蚀唾液被动额外攻速",
+              "resultKey": "attribute",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "passive_attack_speed_ratio"
+                }
+              }
+            }
+          ],
+          "skillKey": "kogmaw_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-20T10:02:33.820481Z"
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/jarvaniv_e/effects/self_attack_speed",
+      "channel": "真实页面",
+      "saveClicks": 1,
+      "putResponseCaptured": false,
+      "responseStatus": null,
+      "immediateReadback": {
+        "method": "GET",
+        "status": 200,
+        "at": "2026-09-20T10:08:05.354Z",
+        "data": {
+          "createdAt": "2026-09-09T20:32:50.445171Z",
+          "description": "德邦军旗被动按当前已学习的E等级提供自身攻击速度；单层常驻实例在属性结算时重新读取数值，不使用主动军旗8秒时长。主动军旗光环与其他联动独立维护，战斗运行未验证。",
+          "effectKey": "self_attack_speed",
+          "gameId": "lol",
+          "lifecycle": {
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "durationValue": null,
+            "expiryMode": "EXPLICIT_ONLY",
+            "firstPeriodicExecution": null,
+            "instanceScope": "SOURCE",
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "periodicIntervalValue": null,
+            "reapplicationDurationMode": null,
+            "reapplicationStackMode": "KEEP"
+          },
+          "name": "德邦军旗自身被动攻击速度",
+          "results": [
+            {
+              "description": "按当前已学E等级重新读取自身攻速比例；已有来源初始化入口建立实例。",
+              "detail": {
+                "attributeKey": "bonus_attack_speed_percent",
+                "modifierZoneKey": "attribute_flat_add",
+                "operation": "INCREASE"
+              },
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "periodicExecutionMode": null,
+                "reapplicationValueMode": null,
+                "stackValueMode": "SHARED",
+                "valueReadMode": "MOMENT_EVALUATION"
+              },
+              "name": "德邦军旗自身被动攻击速度",
+              "resultKey": "attribute",
+              "resultType": "ATTRIBUTE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "self_attack_speed_ratio"
+                }
+              }
+            }
+          ],
+          "skillKey": "jarvaniv_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-20T10:07:53.921992Z"
+        }
+      }
+    }
+  ],
+  "freezeSHA": "0b1e47d05f5204bf41206ecd95cf9a1a07aa668252324aa04f4c9961094a0af2",
+  "approvalSHA": "5d5eacf32242e4273faf39b7aefac7b46c018a24744770a651ae7408b629ccd5",
+  "preflightSHA": "9fdefa084e059657d768832d7b29edef1cc5e343c1cb4217040cd306b6309bbe",
+  "pendingRoute": null,
+  "lastTargetCheckAt": "2026-09-20T10:02:17.751Z"
+}

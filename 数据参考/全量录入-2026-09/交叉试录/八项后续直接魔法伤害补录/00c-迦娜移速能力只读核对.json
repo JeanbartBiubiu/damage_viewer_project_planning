@@ -1,0 +1,149 @@
+{
+  "status": "POINT_VALUE_CONTRACT_AVAILABLE_BINDING_AND_SOURCE_EQUIVALENCE_REMAIN",
+  "at": "2026-09-19T02:30:00.766Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "filesModified": [
+    "output/nine-next-magic/02-janna-bonus-speed-capability.json"
+  ],
+  "sources": [
+    {
+      "path": "C:/project/damage_web_dev/output/nine-next-magic/00-live-candidates.json",
+      "sha256": "70427f6541fabe09de66d62b89de2d0114b3b663bd78cce80896825e0df577d0"
+    },
+    {
+      "path": "C:/project/damage_web_dev/output/nine-next-magic/01-janna-speed-catalog.json",
+      "sha256": "960fba310d77d562a4c1407aed57e3d78a6ccffde01f8f8a2a71bd0f1fa2f0eb"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/技能参数与公式管理详细设计.md",
+      "sha256": "662a217cf6a6863c126407ff38dcecef51beaf9c99aa4e8e2ceb609ab6a00f6a"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "sha256": "ec07ed1bb2daccb0217c189a84b16f15a701dccefb82b3258cc8ea6425238331"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/types/skillFormula.ts",
+      "sha256": "63fcac156efce517fad42ba91962caa1aaf789322a9008e9adaa95e87569a9be"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/types/skillTriggerRule.ts",
+      "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "sha256": "7b1a1e0f4f868d2e96e40f95726a7065e6caf0f5468dc101c90279388c516db4"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/修订一/修订差异.json",
+      "sha256": "e7e2d434d38cb320a1302f89d900cebf369e3e4d90ecd2d5f94a7eb4c461980d"
+    },
+    {
+      "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/修订一/独立来源评审.md",
+      "sha256": "e77aa2dea849345914fc633d5ffb3fd0531fb6ec7b6c6bf92ca477c952f7fe4d"
+    }
+  ],
+  "conclusion": {
+    "existingFormulaCapability": "现行管理契约已能直接表达来源对象的移动速度加成点数：SOURCE + move_speed + BONUS。这里BONUS明确等于TOTAL减BASE，不限装备，也不是百分比。",
+    "existingRuntimeInputBinding": "保留当前actual_bonus_move_speed运行输入而只新增实际命中规则，目前没有可直接读取任意属性值的动态绑定来源；未发现已存在且合法的额外移动速度事件值。",
+    "currentBatchDisposition": "本报告不批准把迦娜W当作无动态输入公式直接追加普通命中规则，也不批准无来源依据地改旧公式。可复用的公式节点已经明确；是否改写现有W公式，应先把原mStat=7/mStatFormula=2与当前TOTAL−BASE及取值时点的等价口径收敛为来源决定。",
+    "notAGenericSchemaGap": "不能把有待核定的游戏取值语义说成系统缺少BONUS点数能力；也不需要为了读取TOTAL−BASE而新建额外移动速度属性。"
+  },
+  "confirmedFacts": [
+    {
+      "evidence": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/技能参数与公式管理详细设计.md",
+      "lineStart": 250,
+      "lineEnd": 258,
+      "fact": "BASE是选定等级、装备和后续效果前的属性；BONUS是最终与基础差额；TOTAL合并当前配置加成。所有属性共用这些值类型，但管理阶段不生产实际值。"
+    },
+    {
+      "evidence": "output/nine-next-magic/01-janna-speed-catalog.json",
+      "fact": "move_speed为启用DECIMAL面板移动速度；move_speed_percent为另一个启用DECIMAL比例属性；迦娜1至18级move_speed基础值均325。"
+    },
+    {
+      "evidence": "output/nine-next-magic/00-live-candidates.json",
+      "fact": "total_magic_damage含一次tailwind_bonus_damage_ratio × actual_bonus_move_speed，运行输入无固定值、无等级值；当前无触发规则或使用过程。"
+    },
+    {
+      "evidence": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十一批/修订一/修订差异.json",
+      "lineStart": 30,
+      "lineEnd": 36,
+      "fact": "旧修订删除的是未证的SOURCE.move_speed_percent.BONUS，理由是mStat=7/mStatFormula=2未证明百分比属性或当前取值。它没有否定move_speed.BONUS的点数契约。"
+    }
+  ],
+  "reusableFormulaPath": {
+    "nodeType": "ATTRIBUTE",
+    "attributeOwner": "SOURCE",
+    "attributeKey": "move_speed",
+    "attributeValueKind": "BONUS"
+  },
+  "managementMeaning": {
+    "units": "移动速度点数，与move_speed相同",
+    "expression": "SOURCE.move_speed.TOTAL - SOURCE.move_speed.BASE",
+    "baseForCurrentCharacterLevels": 325,
+    "includes": "已合并进TOTAL的当前配置加成；不是只加装备固定点数。",
+    "doesNotEstablish": [
+      "move_speed_percent如何折算并合并进最终move_speed。",
+      "游戏原字段在速度软上限、减速或其他修正前后如何取值。",
+      "W或P是在施放、命中或其他瞬间读取该差额。"
+    ],
+    "illustration": {
+      "hypothetical": true,
+      "base": 325,
+      "total": 400,
+      "bonus": 75,
+      "tailwindRatio": 0.3,
+      "tailwindDamage": 22.5,
+      "note": "只说明当前契约单位；不是实库当前移动速度，也没有推导软上限。"
+    }
+  },
+  "bindingAnalysis": {
+    "typeFile": "web/src/types/skillTriggerRule.ts",
+    "typeLines": [
+      565,
+      570
+    ],
+    "uiFile": "web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+    "sourceTypeLines": [
+      244,
+      250
+    ],
+    "skillHitCapabilityLines": [
+      1316,
+      1324
+    ],
+    "availableSources": [
+      "INTERNAL_STATE",
+      "COMBAT_STATUS",
+      "EVENT_VALUE",
+      "SOURCE_CAST_RESOURCE_COST",
+      "PRIOR_ACTION_RESULT"
+    ],
+    "skillHitEventValues": [
+      "HIT_INDEX",
+      "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+    ],
+    "contractFile": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+    "contractLines": [
+      427,
+      432
+    ],
+    "rule": "动作可达公式中的每个运行输入必须恰有一个绑定；来源定义不会保存实际快照。",
+    "rejectedSubstitutions": [
+      "用HIT_INDEX或护盾阻挡0/1当移动速度。",
+      "用SOURCE_CAST_RESOURCE_COST冒充移动速度；该来源是施放资源消耗快照。",
+      "用层数、持续时间或准备标记冒充移动速度点数。",
+      "为取得CONFIGURED_VALUE额外制造无业务意义的零伤害、零治疗或属性修改效果。",
+      "给actual_bonus_move_speed默认为0，或以固定325代替额外值。"
+    ],
+    "priorResultLimit": "前序结果来源必须是同规则更早执行的合法业务效果结果；当前没有这样的移动速度点数结果，不能凭空拿到属性值。"
+  },
+  "requiredSourceDecision": {
+    "minimum": "确认当前固定客户端选择器mStat=7/mStatFormula=2所指额外移动速度，与项目定义的最终面板移动速度减等级基础移动速度口径一致，并确认公式应在哪个已有计算上下文读取；若已有源文件明确给出即可直接引用，不要求先做战斗运行证明。",
+    "whyNotAlreadyProven": "此次可核材料给出了属性选择器、额外移动速度文字及项目内部TOTAL−BASE定义，未给出两者针对速度修正前后及读取时点的明确等价证据。当前移动速度实值缺失本身不是管理引用阻塞；不能把该缺值当0。",
+    "nextSmallestRoute": "若口径被固定来源确认，优先在独立公式纠正批次把W中的运行输入节点改为上述已有ATTRIBUTE节点，再按当前引用删除保护处理不再引用的参数；不需要新增属性种类、动态绑定协议或宿主功能。若需要保留明确早于命中取得的速度快照，则应另行核定该快照来源，当前绑定白名单未提供。"
+  },
+  "validationBoundary": "本次只读核契约、类型、冻结目录证据及两份必要旧修订记录；没有HTTP、数据库写入、公式修改或宿主/Wasm开发。"
+}

@@ -1,0 +1,192 @@
+{
+  "executionMode": "PROTECTED_API",
+  "targets": [
+    {
+      "skillKey": "malzahar_e",
+      "ownerKey": "champion_malzahar"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Malzahar.json.gz",
+      "sha256": "6e3f8020a3fb1e4e2f0c617cf493771bf2cda721353461d89c4af6d6b96622eb"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Malzahar.json",
+      "sha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Malzahar.json",
+      "sha256": "a03e55ea9ba72b12042c82c5f778ca7d54c60fc5833a91e3dc2f99969a55ac7e"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/玛尔扎哈E持续与刷新核对/02-固定来源核对.json",
+      "sha256": "084e8f04d14a01d213922611650019ed8ce21fd14abbcd044e0a6ae75d286c3f"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_e/processes",
+      "detailRoute": "/skills/malzahar_e/processes/cast",
+      "body": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "登记普通主动使用的基础法力消耗、既有250毫秒根施放延迟与普通冷却；延迟结束不表示持续伤害已施加，刷新和传播由各自分支处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "煞星幻象施放登记",
+        "processKey": "cast",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ]
+      },
+      "expectedReadback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "description": "登记普通主动使用的基础法力消耗、既有250毫秒根施放延迟与普通冷却；延迟结束不表示持续伤害已施加，刷新和传播由各自分支处理。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "煞星幻象施放登记",
+        "processKey": "cast",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法延迟",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_e/trigger-rules",
+      "detailRoute": "/skills/malzahar_e/trigger-rules/on_used",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动煞星幻象施放登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用malzahar_e时启动cast，登记基础法力、普通冷却和既有根施放延迟；不从过程结束生成实际命中或持续伤害。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "malzahar_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "煞星幻象普通主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      },
+      "expectedReadback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动煞星幻象施放登记",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "普通主动使用malzahar_e时启动cast，登记基础法力、普通冷却和既有根施放延迟；不从过程结束生成实际命中或持续伤害。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "malzahar_e",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "煞星幻象普通主动使用",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 20
+      }
+    }
+  ],
+  "scopeNote": "只录本技能普通使用入口与成本冷却、明确根施放时长；不写E持续伤害或Q/R刷新，不宣称整技能完成"
+}

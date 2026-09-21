@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-09-19",
+  "skillKey": "sona_e",
+  "fixedVersions": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "decision": "可采纳",
+  "decisionText": "在管理配置范围内，可以按每次 SKILL_USED 且 useKind=ACTIVE 登记 sona_e 的基础法力消耗 65 和普通冷却 14000 毫秒。客户端 mSpell.bIsToggleSpell=true 作为底层观察标记保留，但固定来源没有证明它是玩家可重复开关、再次施放或零消耗语义，因此它不阻止这个基本成本分支。",
+  "scope": {
+    "included": [
+      "SKILL_USED 事件",
+      "useKind=ACTIVE",
+      "每次主动使用的基础法力消耗",
+      "每次主动使用的基础普通冷却"
+    ],
+    "excluded": [
+      "自身移动速度",
+      "友方光环和光环持续时间",
+      "基础技能公共间隔",
+      "减速和能量和弦",
+      "完整施法时序",
+      "玩家再次施放、开关和重置语义",
+      "宿主事件生产、实际扣法力、冷却调度和 Wasm 战斗运行"
+    ],
+    "businessWrites": 0,
+    "networkRequests": 0
+  },
+  "registration": {
+    "eventSource": {
+      "eventType": "SKILL_USED",
+      "detail": {
+        "sourceSkillKey": "sona_e",
+        "useKind": "ACTIVE"
+      }
+    },
+    "manaCost": {
+      "parameterKey": "mana_cost",
+      "unit": "法力",
+      "valuesByRank": [65, 65, 65, 65, 65]
+    },
+    "ordinaryCooldown": {
+      "parameterKey": "cooldown_ms",
+      "unit": "毫秒",
+      "valuesByRank": [14000, 14000, 14000, 14000, 14000],
+      "sourceSecondsByRank": [14, 14, 14, 14, 14]
+    }
+  },
+  "facts": [
+    {
+      "id": "F1",
+      "claim": "官方中文静态资料将 SonaE 标为 5 级技能，基础冷却为 14 秒、每级法力消耗为 65，并记录 maxammo=-1。",
+      "observed": {
+        "id": "SonaE",
+        "maxrank": 5,
+        "cooldown": [14, 14, 14, 14, 14],
+        "cost": [65, 65, 65, 65, 65],
+        "maxammo": "-1",
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      },
+      "sourceRefs": ["S2"]
+    },
+    {
+      "id": "F2",
+      "claim": "官方英文静态资料在同一 SonaE 槽位给出相同的等级、冷却、法力和 maxammo 值。",
+      "observed": {
+        "id": "SonaE",
+        "maxrank": 5,
+        "cooldown": [14, 14, 14, 14, 14],
+        "cost": [65, 65, 65, 65, 65],
+        "maxammo": "-1"
+      },
+      "sourceRefs": ["S3"]
+    },
+    {
+      "id": "F3",
+      "claim": "两份官方说明都把 SonaE 的使用写成主动开始一段新的限时旋律；中文为“主动”和“开始一段新的旋律”，英文为“Active”和“begins a new Melody”，并说明旋律以持续时间存在的光环。",
+      "sourceRefs": ["S2", "S3"]
+    },
+    {
+      "id": "F4",
+      "claim": "客户端索引的 Sona E 当前技能绑定可用，槽位绑定到 Characters/Sona/Spells/SonaEAbility/SonaE，官方等级为 5，客户端冷却和法力数组的前五项分别与官方 14 秒和 65 法力逐级一致。",
+      "observed": {
+        "championId": "Sona",
+        "slot": "E",
+        "officialId": "SonaE",
+        "clientPath": "Characters/Sona/Spells/SonaEAbility/SonaE",
+        "bindingAvailable": true,
+        "officialMaxRank": 5,
+        "clientCooldown": [14, 14, 14, 14, 14, 14, 14],
+        "clientMana": [65, 65, 65, 65, 65, 65]
+      },
+      "sourceRefs": ["S5"]
+    },
+    {
+      "id": "F5",
+      "claim": "客户端 SonaE 根对象的冷却和法力字段保留了相同的基础值；冷却为 7 项 14，法力为 6 项 65。按官方 maxrank=5 只取与 5 个技能等级对应的前五项。",
+      "observed": {
+        "cooldownTime": [14, 14, 14, 14, 14, 14, 14],
+        "mana": [65, 65, 65, 65, 65, 65],
+        "manaValues.values": [65, 65, 65, 65, 65, 65]
+      },
+      "sourceRefs": ["S4"]
+    },
+    {
+      "id": "F6",
+      "claim": "客户端 SonaEAbility 明确列出根法术 SonaE、子法术 SonaEHaste 和 SonaESelfHaste；这证明子法术绑定存在，但不单独定义玩家再次施放或开关规则。",
+      "observed": {
+        "mRootSpell": "Characters/Sona/Spells/SonaEAbility/SonaE",
+        "mChildSpells": [
+          "Characters/Sona/Spells/SonaEAbility/SonaE",
+          "Characters/Sona/Spells/SonaEAbility/SonaEHaste",
+          "Characters/Sona/Spells/SonaEAbility/SonaESelfHaste"
+        ]
+      },
+      "sourceRefs": ["S4"]
+    },
+    {
+      "id": "F7",
+      "claim": "客户端底层确实记录 mSpell.bIsToggleSpell=true；同一根对象还记录 SonaE 的自身加速最短 3 秒、最长 7 秒及光环持续 3 秒。",
+      "observed": {
+        "bIsToggleSpell": true,
+        "SelfMovementSpeedDurationMin": [3, 3, 3, 3, 3, 3, 3],
+        "SelfMovementSpeedDurationMax": [7, 7, 7, 7, 7, 7, 7],
+        "AuraDuration": [3, 3, 3, 3, 3, 3, 3]
+      },
+      "sourceRefs": ["S4"]
+    }
+  ],
+  "inferences": [
+    {
+      "id": "I1",
+      "claim": "官方中英文值与客户端根绑定前五级一致，因此基础登记值可确定为每级 65 法力和 14 秒换算的 14000 毫秒普通冷却。",
+      "basis": ["F1", "F2", "F4", "F5"],
+      "result": {
+        "manaCost": [65, 65, 65, 65, 65],
+        "cooldownMs": [14000, 14000, 14000, 14000, 14000]
+      }
+    },
+    {
+      "id": "I2",
+      "claim": "bIsToggleSpell=true 只能作为固定客户端中观察到的底层标记保留。固定来源没有给出该标记的真实用途，也没有以它证明玩家有第二次使用、可切换开关或零消耗；官方主动说明反而明确一次使用开始新的限时旋律。因此不能用这个标记否定一次 ACTIVE 使用的基础成本登记，也不能把它改写成已经确认的开关语义。",
+      "basis": ["F3", "F6", "F7"],
+      "status": "需保留"
+    },
+    {
+      "id": "I3",
+      "claim": "可在管理配置层建立每次 SKILL_USED/useKind=ACTIVE 启动基础成本与普通冷却登记的语义；该结论不宣称完整技能效果、实际扣除时点或运行时调度已经实现。",
+      "basis": ["I1", "I2"],
+      "status": "可采纳"
+    }
+  ],
+  "preservedUncertainties": [
+    "bIsToggleSpell 的真实客户端用途未知，不据此断言玩家可开关或再次施放。",
+    "maxammo=-1 作为官方字段值被保留，不把它单独解释成完整的再施放语义证明。",
+    "本报告没有验证宿主是否产生 SKILL_USED、是否实际扣除法力或启动冷却，也没有验证 Wasm 战斗结果。",
+    "本报告不覆盖移速、光环、公共间隔、减速、能量和弦及其他子法术效果。"
+  ],
+  "sourceRefs": [
+    {
+      "id": "S1",
+      "role": "规划真源",
+      "worktree": "damage_viewer_project_planning",
+      "path": "数据参考/全量录入-2026-09/使用消耗登记续核/娑娜E使用语义续核.json",
+      "sha256": "cad6930c79aebb9b426df56a39440b414945b399f11af19f583e7a855097c68e",
+      "jsonPointers": ["/skillKey", "/facts", "/decision"]
+    },
+    {
+      "id": "S2",
+      "role": "官方中文静态资料",
+      "worktree": "damage_web_dev",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Sona.json",
+      "sha256": "ecdaf99377b60b32671ca9d30ebf79bdc91ea3689c50fd97d8d4bbda3f768311",
+      "jsonPointers": [
+        "/data/Sona/spells/2/id",
+        "/data/Sona/spells/2/name",
+        "/data/Sona/spells/2/maxrank",
+        "/data/Sona/spells/2/cooldown",
+        "/data/Sona/spells/2/cost",
+        "/data/Sona/spells/2/maxammo",
+        "/data/Sona/spells/2/resource",
+        "/data/Sona/spells/2/tooltip",
+        "/data/Sona/spells/2/description"
+      ]
+    },
+    {
+      "id": "S3",
+      "role": "官方英文静态资料",
+      "worktree": "damage_web_dev",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Sona.json",
+      "sha256": "d78dca0182dd1edf43adf92a7925245a84d95bb3c41f2dd5a9a0bae5efa34e70",
+      "jsonPointers": [
+        "/data/Sona/spells/2/id",
+        "/data/Sona/spells/2/name",
+        "/data/Sona/spells/2/maxrank",
+        "/data/Sona/spells/2/cooldown",
+        "/data/Sona/spells/2/cost",
+        "/data/Sona/spells/2/maxammo",
+        "/data/Sona/spells/2/resource",
+        "/data/Sona/spells/2/tooltip",
+        "/data/Sona/spells/2/description"
+      ]
+    },
+    {
+      "id": "S4",
+      "role": "客户端 16.17 原文",
+      "worktree": "damage_web_dev",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sona.json.gz",
+      "sha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b",
+      "decompressedSha256": "76a606c546f19929ac6e3300ffb136bdb0928a22d215f2f134dd36856261e154",
+      "jsonPointers": [
+        "/Characters~1Sona~1CharacterRecords~1Root/spells/2",
+        "/Characters~1Sona~1Spells~1SonaEAbility/mRootSpell",
+        "/Characters~1Sona~1Spells~1SonaEAbility/mChildSpells",
+        "/Characters~1Sona~1Spells~1SonaEAbility~1SonaE/mSpell/cooldownTime",
+        "/Characters~1Sona~1Spells~1SonaEAbility~1SonaE/mSpell/mana",
+        "/Characters~1Sona~1Spells~1SonaEAbility~1SonaE/mSpell/manaValues/values",
+        "/Characters~1Sona~1Spells~1SonaEAbility~1SonaE/mSpell/bIsToggleSpell",
+        "/Characters~1Sona~1Spells~1SonaEAbility~1SonaE/mSpell/DataValues/2/values",
+        "/Characters~1Sona~1Spells~1SonaEAbility~1SonaE/mSpell/DataValues/3/values",
+        "/Characters~1Sona~1Spells~1SonaEAbility~1SonaE/mSpell/DataValues/6/values"
+      ]
+    },
+    {
+      "id": "S5",
+      "role": "客户端技能绑定索引",
+      "worktree": "damage_web_dev",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+      "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+      "jsonPointers": [
+        "/heroes/127/skills/3",
+        "/heroes/127/skills/3/clientPath",
+        "/heroes/127/skills/3/clientCooldown",
+        "/heroes/127/skills/3/clientMana",
+        "/heroes/127/skills/3/officialMaxRank"
+      ],
+      "selector": "heroes[championId=Sona].skills[slot=E]"
+    }
+  ],
+  "relatedEvidence": [
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项技能使用消耗冷却补录/01-候选方案.json",
+      "sha256": "6ca2aee92486f3519c07f1eb274fc3556cca89df05070bdb0f4ba7959f942b63",
+      "jsonPointers": [
+        "/sourceFiles/4",
+        "/sourceFiles/5",
+        "/excluded/0"
+      ],
+      "use": "仅追溯先前候选保留原因，不用其业务现值替代原始固定来源。"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项技能使用消耗冷却补录/03-来源摘要.json",
+      "sha256": "1dfdfd098c081a3527a33eeb57b5de07255886c422b988f330dce2a9e7028dc6",
+      "jsonPointers": [
+        "/4",
+        "/5"
+      ],
+      "use": "仅追溯该批固定来源摘要中 Sona 中文原文和客户端压缩原文的位置。"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "executionMode": "BROWSER_UI_ONLY",
+  "skillKey": "corki_q",
+  "ruleKey": "resolve_on_q_hit",
+  "conditionGroups": [
+    {
+      "groupKey": "champion_target",
+      "name": "本轮敌方英雄",
+      "sortOrder": 10,
+      "conditions": [
+        {
+          "conditionKey": "champion_target",
+          "conditionType": "TARGET_CATEGORY_CHECK",
+          "sortOrder": 10,
+          "detail": {
+            "categories": [
+              "CHAMPION"
+            ]
+          }
+        },
+        {
+          "conditionKey": "enemy_target",
+          "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+          "sortOrder": 20,
+          "detail": {}
+        }
+      ]
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Corki.json.gz",
+      "sha256": "d4b53efbe620e28ab28c61ac60e314fbb6d9027b2ae2e47798c4117b10a2d2b8"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Corki.json",
+      "sha256": "01b2b48dcb7a979a5f94ee1983f5172f718861a0c34fd7e5da4f286c57376919"
+    }
+  ],
+  "scope": "仅将既有无条件的Q实际命中伤害限定为本轮明确敌方英雄，其他字段及组成保持。",
+  "baselineReuse": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/01-当前管理现值.json",
+    "sha256": "fe5ba57f5985708957d540f5158c1ac8bd62b0bc0c87e79689630ec2182bb2b0",
+    "reason": "复用本轮两技能54GET，冻结所需单技能组成，不重复prepare全量读取。"
+  }
+}

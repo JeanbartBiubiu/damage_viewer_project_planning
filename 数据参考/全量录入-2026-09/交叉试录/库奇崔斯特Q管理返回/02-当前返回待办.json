@@ -1,0 +1,190 @@
+{
+  "at": "2026-09-19T19:20:07.083Z",
+  "status": "CURRENT_SNAPSHOT_CONFIRMED_WITH_REVIEWED_SCOPE_GAP",
+  "scope": "只读复核库奇Q与崔斯特Q当前主体、六类组成及详情、角色和技能图片、角色技能关系与必要引用；复用旧批次来源与交互证据，不重做来源审查，不重放旧写入。",
+  "currentEvidence": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/01-当前管理现值.json",
+    "sha256": "FE5BA57F5985708957D540F5158C1AC8BD62B0BC0C87E79689630EC2182BB2B0",
+    "requestMethod": "GET",
+    "GETs": 54,
+    "auditResponses": 54,
+    "allResponsesStatus": 200,
+    "businessWrites": 0,
+    "referencePaths": [
+      "/attributes/ability_power",
+      "/attributes/attack_damage",
+      "/attributes/mana",
+      "/damage-types/magic"
+    ]
+  },
+  "compositionConclusion": {
+    "corki_q": {
+      "currentCounts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 2
+      },
+      "oldBatchAddedObjects": [
+        "/skills/corki_q/effects/mana_cost",
+        "/skills/corki_q/effects/primary_hit",
+        "/skills/corki_q/processes/cast",
+        "/skills/corki_q/trigger-rules/on_used",
+        "/skills/corki_q/trigger-rules/resolve_on_q_hit"
+      ],
+      "currentAddedObjectsPresent": [
+        "/skills/corki_q/effects/mana_cost",
+        "/skills/corki_q/effects/primary_hit",
+        "/skills/corki_q/processes/cast",
+        "/skills/corki_q/trigger-rules/on_used",
+        "/skills/corki_q/trigger-rules/resolve_on_q_hit"
+      ],
+      "missingComparedWithOldBatch": [],
+      "subjectDescription": {
+        "current": "库奇向目标区域发射一枚闪光弹，对范围内的敌人造成魔法伤害。这个技能还会暂时让目标区域附近的非隐形的单位和英雄现形。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "review": "主体仍保留官方的区域伤害和显形原文，但末尾仍写数值和机制待补证；当前参数、公式、伤害效果、施法过程和主动/命中规则已经存在，后续应收敛说明的已录范围与尚未运行验证的边界，不能把主体旧说明当作本轮组成缺失。"
+      }
+    },
+    "twistedfate_q": {
+      "currentCounts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 2
+      },
+      "oldBatchAddedObjects": [
+        "/skills/twistedfate_q/effects/primary_hit",
+        "/skills/twistedfate_q/processes/cast",
+        "/skills/twistedfate_q/trigger-rules/on_used",
+        "/skills/twistedfate_q/trigger-rules/resolve_on_q_hit"
+      ],
+      "currentAddedObjectsPresent": [
+        "/skills/twistedfate_q/effects/primary_hit",
+        "/skills/twistedfate_q/processes/cast",
+        "/skills/twistedfate_q/trigger-rules/on_used",
+        "/skills/twistedfate_q/trigger-rules/resolve_on_q_hit"
+      ],
+      "missingComparedWithOldBatch": [],
+      "subjectDescription": {
+        "current": "崔斯特扔出三张卡牌，卡牌会对沿途的每个敌方单位造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "review": "主体仍是官方的三条弹道和每个敌方单位表述，末尾仍写数值和机制待补证；当前管理伤害效果已明确同一目标至多一张牌，三条弹道空间分配仍由运行层提供。后续应收敛说明的已录范围与未运行边界，不能将主体旧说明遗漏，也不能将其当作组成缺失。"
+      }
+    },
+    "overall": "旧批次保存的9个新增对象在本轮现值中全部存在：库奇5个、崔斯特4个。两技能各有6参数、1公式、2效果、1过程、2规则；未发现旧批次对象丢失。"
+  },
+  "reviewedScopeGap": {
+    "scope": "两技能的 resolve_on_q_hit 命中规则",
+    "currentFinding": "两条详情均为 SKILL_HIT，eventSource.detail.sourceSkillKey 分别为 corki_q 与 twistedfate_q，动作均执行同技能 primary_hit、目标为 CURRENT_TARGET；但 conditionGroups 实际为空数组。规则描述已经写当前唯一敌方目标，空条件没有把敌方英雄范围落成可审查的管理条件。",
+    "requiredMinimalCorrection": {
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "preserve": [
+        "eventType=SKILL_HIT",
+        "eventSource.detail.sourceSkillKey",
+        "EXECUTE_EFFECT primary_hit",
+        "targetContext=CURRENT_TARGET",
+        "现有名称、说明、排序和其他规则字段"
+      ],
+      "boundary": "这是管理条件补齐，不是实际命中、伤害、三条弹道几何或战斗运行证明。"
+    },
+    "preparedEvidence": [
+      {
+        "skillKey": "corki_q",
+        "candidate": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/库奇Q命中范围更正/01-候选方案.json",
+        "frozenRequest": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/库奇Q命中范围更正/02-冻结请求.json",
+        "source": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/库奇Q命中范围更正/03-来源摘要.json",
+        "baseline": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/库奇Q命中范围更正/04-写入前现值.json"
+      },
+      {
+        "skillKey": "twistedfate_q",
+        "candidate": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/崔斯特Q命中范围更正/01-候选方案.json",
+        "frozenRequest": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/崔斯特Q命中范围更正/02-冻结请求.json",
+        "source": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/崔斯特Q命中范围更正/03-来源摘要.json",
+        "baseline": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q管理返回/崔斯特Q命中范围更正/04-写入前现值.json"
+      }
+    ]
+  },
+  "preservedCurrentFacts": {
+    "imagesAndRelations": "两技能主体图片、技能图片、角色主体、角色属性和角色技能关系均在54次全量只读返回中有200响应；当前快照保存了原始 values 与 audit。",
+    "damageAndInteraction": "两技能的 primary_hit 均为 TARGET 的魔法直接技能伤害，暴击禁止，法术护盾范围为 SKILL，并保存防御结算后伤害的全能吸血效率1；这些是管理字段与来源映射，不是战斗运行实测。",
+    "processes": "两技能 cast 过程均保留主动过程、法力消耗绑定、施法延迟和冷却绑定；崔斯特同一目标至多一张牌的限制在效果/过程/说明中保留。",
+    "sourceAndArithmetic": "固定16.17客户端与16.17.1官方资料、旧批次来源映射和20个静态配置算术样例沿用旧证据，不在本轮重复来源审查。"
+  },
+  "reusedEvidence": {
+    "oldBatch": {
+      "directory": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录",
+      "independentReadbackSha256": "f6e032a2808ef0bdb1fb55ec1821957ec22dd06c93f2c1ee7936af476462d695",
+      "sourceSummarySha256": "0e7e3b1e4fe91b50e8e5266796b83a0eb4701b39126ff5d6c5c6026202c870b1",
+      "interactionReviewSha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501",
+      "arithmeticReviewSha256": "b1c823a38da9efa26b038ec37039fc5ef2cc9afb7fdb15cfd9eba5331993ad35",
+      "oldReadback": {
+        "GETs": 54,
+        "unchangedResponsesIncludingTimestamps": 39,
+        "expectedChangedCollections": 6,
+        "newObjects": 9,
+        "businessWrites": 0,
+        "status": "PASS"
+      }
+    },
+    "fixedSources": [
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+        "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Corki.json.gz",
+        "sha256": "d4b53efbe620e28ab28c61ac60e314fbb6d9027b2ae2e47798c4117b10a2d2b8"
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/TwistedFate.json.gz",
+        "sha256": "9173c046ffc63b7075cf64d2f725c658808685a88539416e4d68df1bc3d23e59"
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Corki.json",
+        "sha256": "01b2b48dcb7a979a5f94ee1983f5172f718861a0c34fd7e5da4f286c57376919"
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/TwistedFate.json",
+        "sha256": "6163447fc01fa1a63c3d959b1a072aba58892f54fd3581b037f93b538f494429"
+      }
+    ]
+  },
+  "notProvenByThisAudit": [
+    "未运行浏览器页面、Wasm或战斗运行；旧批次页面仍待验收，旧批次运行状态为未运行。",
+    "未证明区域几何、三条弹道分配、实际伤害扣血、吸血结算或法术护盾实战行为。",
+    "未重放任何旧批次写入，也未调用本轮业务写接口。"
+  ],
+  "decision": "组成现值可复用且与旧9对象一致；两条命中规则各待补同组 CHAMPION + SKILL_HIT_TARGET_IS_ENEMY 条件。主体说明中的待补证旧表述也应后续收敛，但不应阻塞本次管理条件更正。"
+}

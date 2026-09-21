@@ -1,0 +1,211 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/amumu_e/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1 Amumu.spells[2].cost，等级1起索引0；与固定客户端根绑定法力值一致。仅保存基础法力成本，具体扣除时点由普通使用过程配置，命中、被动与其他分支分别处理。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 35,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T17:38:35.145698Z",
+        "description": "DDragon16.17.1 Amumu.spells[2].cost，等级1起索引0；与固定客户端根绑定法力值一致。仅保存基础法力成本，具体扣除时点由普通使用过程配置，命中、被动与其他分支分别处理。",
+        "fixedValue": 35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "amumu_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:35.145698Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/amumu_e/effects/mana_cost",
+      "body": {
+        "name": "施放法力消耗",
+        "description": "普通主动使用的基础法力消耗结果，引用本技能mana_cost参数；由已接受使用的过程按配置时点扣除来源对象法力，命中与被动另行处理。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": "按本技能mana_cost参数消耗来源对象法力；本结果不判定使用资格、目标命中或被动。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T14:32:56.676792Z",
+        "description": "普通主动使用的基础法力消耗结果，引用本技能mana_cost参数；由已接受使用的过程按配置时点扣除来源对象法力，命中与被动另行处理。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": "按本技能mana_cost参数消耗来源对象法力；本结果不判定使用资格、目标命中或被动。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "amumu_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:32:56.676792Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/amumu_r/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "DDragon16.17.1 Amumu.spells[3].cost，等级1起索引0；与固定客户端根绑定法力值一致。仅保存基础法力成本，具体扣除时点由普通使用过程配置，命中、被动与其他分支分别处理。",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 150,
+          "3": 200
+        },
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T17:38:35.996542Z",
+        "description": "DDragon16.17.1 Amumu.spells[3].cost，等级1起索引0；与固定客户端根绑定法力值一致。仅保存基础法力成本，具体扣除时点由普通使用过程配置，命中、被动与其他分支分别处理。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100,
+          "2": 150,
+          "3": 200
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "amumu_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:35.996542Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/amumu_r/effects/mana_cost",
+      "body": {
+        "name": "施放法力消耗",
+        "description": "普通主动使用的基础法力消耗结果，引用本技能mana_cost参数；由已接受使用的过程按配置时点扣除来源对象法力，命中与被动另行处理。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": "按本技能mana_cost参数消耗来源对象法力；本结果不判定使用资格、目标命中或被动。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T14:33:03.459356Z",
+        "description": "普通主动使用的基础法力消耗结果，引用本技能mana_cost参数；由已接受使用的过程按配置时点扣除来源对象法力，命中与被动另行处理。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": "按本技能mana_cost参数消耗来源对象法力；本结果不判定使用资格、目标命中或被动。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "amumu_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:33:03.459356Z"
+      }
+    }
+  ],
+  "sourceSha256": "75df789a3af1d463bca85840c9245e06e8e767532042f6762b56ba8bc736f769",
+  "baselineSha256": "120fca3a9137700ce95b4c2feeeac7194ad45e9489498a985ce9101000ca70df"
+}

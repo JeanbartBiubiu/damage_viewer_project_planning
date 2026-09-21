@@ -1,0 +1,84 @@
+{
+  "at": "2026-09-19T17:28:33.119Z",
+  "status": "READ_ONLY_CANDIDATE",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "root": "Characters/Chogath/Spells/FeralScreamAbility/FeralScream",
+  "sourceFiles": [
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Chogath.json.gz",
+      "sha256": "e098bd867debab64aa497e4ef7155677f7bdb6aeb881e41411b1515bd9736eac"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Chogath.json",
+      "sha256": "f4413f86c1c4c7074b433c703cf4e0cbb6c10a41b419e64f528dc2becfe96ff3"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Chogath.json",
+      "sha256": "a132ad9f7eba390af39efe75a61d2bce5d76ae03e33e047552d9612b482c6843"
+    }
+  ],
+  "raw": {
+    "mana": [
+      70,
+      75,
+      80,
+      85,
+      90,
+      95
+    ],
+    "manaValues": [
+      70,
+      75,
+      80,
+      85,
+      90,
+      95
+    ],
+    "cooldownTime": [
+      11,
+      11,
+      10.5,
+      10,
+      9.5,
+      9,
+      9
+    ],
+    "Cooldown": [
+      11,
+      11,
+      10.5,
+      10,
+      9.5,
+      9,
+      9
+    ],
+    "castFrame": 19.25
+  },
+  "official": {
+    "cost": [
+      70,
+      75,
+      80,
+      85,
+      90
+    ],
+    "cooldown": [
+      11,
+      10.5,
+      10,
+      9.5,
+      9
+    ],
+    "tooltip": "科加斯进行咆哮，<status>沉默</status>敌人{{ e2 }}秒并造成<magicDamage>{{ totaldamagetooltip }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}"
+  },
+  "conclusion": "已有法力70/75/80/85/90与冷却11000/10500/10000/9500/9000毫秒一致；未知施放时长不填零。现有SOP允许立即步骤仅登记基础成本冷却，是否有弹药/再次施放歧义仍需独立核对。",
+  "implementationReference": {
+    "worktree": "damage_viewer_project_planning",
+    "path": "文档记录/详细设计/项目/角色技能数据录入标准流程.md",
+    "line": 113
+  },
+  "businessWrites": 0
+}

@@ -1,0 +1,98 @@
+{
+  "at": "2026-09-19T09:17:05.869Z",
+  "reviewer": "/root/urgot_core_frozen_fallback",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "items": [
+    {
+      "skillKey": "sett_q",
+      "rootPath": "Characters/Sett/Spells/SettQAbility/SettQ",
+      "abilityRoot": "Characters/Sett/Spells/SettQAbility/SettQ",
+      "cooldownSeconds": [
+        9,
+        8,
+        7,
+        6,
+        5
+      ],
+      "clientRankStartIndex": 1,
+      "officialRankStartIndex": 0,
+      "description": "瑟提的下两次攻击将基于目标的最大生命值来造成额外伤害。瑟提也会在朝着敌方英雄移动时获得移动速度加成。",
+      "tooltip": "瑟提手痒难耐，渴望打架，在朝着敌方英雄移动时获得<speed>{{ msamount*100 }}%移动速度</speed>，持续{{ msduration }}秒。<br /><br />此外，瑟提的下两次攻击造成额外的<physicalDamage>{{ basedamage }}外加{{ maxhealthdamagecalc }}最大生命值的物理伤害</physicalDamage>。{{ spellmodifierdescriptionappend }}",
+      "costType": "无消耗",
+      "spellCastTime": null,
+      "mCastTime": 0.33000001311302185,
+      "scope": "仅登记已成立主动使用的普通冷却；立即步骤不表示零施法时间，也不产生命中。重置普攻、两拳共享窗口及移动加速另行处理。"
+    },
+    {
+      "skillKey": "sett_w",
+      "rootPath": "Characters/Sett/Spells/SettWAbility/SettW",
+      "abilityRoot": "Characters/Sett/Spells/SettWAbility/SettW",
+      "cooldownSeconds": [
+        18,
+        16.5,
+        15,
+        13.5,
+        12
+      ],
+      "clientRankStartIndex": 1,
+      "officialRankStartIndex": 0,
+      "description": "瑟提会被动地将他受到的伤害储存为豪意。在施放时，瑟提会释放所有已储存的豪意来提供一层护盾并且重击一个区域，在区域中心造成真实伤害并在区域边缘造成物理伤害。",
+      "tooltip": "<spellPassive>被动：</spellPassive>瑟提将受到的{{ damagestored*100 }}%伤害储存为<keywordMajor>豪意</keywordMajor>，储量上限为<keywordMajor>{{ maxgrit }}</keywordMajor>。<keywordMajor>豪意</keywordMajor>在停止受到伤害的{{ adrenalinestoragewindow }}秒后会快速衰减。<br /><br /><spellActive>主动：</spellActive>瑟提将所有<keywordMajor>豪意</keywordMajor>迸发出来，获得<shield>{{ shieldconversion*100 }}%迸发豪意值的护盾值</shield>，护盾值会在{{ shieldmaxduration }}秒里持续衰减。瑟提随后会轰出一记重拳，对中央的所有敌人造成<trueDamage>{{ damagecalc }}外加{{ damageconversion }}迸发豪意值的真实伤害</trueDamage>(最大伤害为<trueDamage>{{ f1 }}</trueDamage>)。不在中央的敌人会受到<physicalDamage>物理伤害</physicalDamage>作为替代。{{ spellmodifierdescriptionappend }}",
+      "costType": "无消耗",
+      "spellCastTime": 0,
+      "mCastTime": 0.75,
+      "scope": "仅登记已成立主动使用的普通冷却；释放全部豪意及其快照消费、护盾与伤害分支尚未接线，不表示完整施放或完全无成本。立即步骤不表示零施法时间。"
+    },
+    {
+      "skillKey": "sett_e",
+      "rootPath": "Characters/Sett/Spells/SettEAbility/SettE",
+      "abilityRoot": "Characters/Sett/Spells/SettEAbility/SettE",
+      "cooldownSeconds": [
+        16,
+        14.5,
+        13,
+        11.5,
+        10
+      ],
+      "clientRankStartIndex": 1,
+      "officialRankStartIndex": 0,
+      "description": "瑟提将他两侧的所有敌人猛撞到一起，对他们造成伤害和晕眩效果。如果敌人仅位于他的一侧，那么他们只会被减速而不会被晕眩。",
+      "tooltip": "瑟提将他两侧的敌人猛撞到一起，造成<physicalDamage>{{ damagecalc }}物理伤害</physicalDamage>并使他们<status>减速</status>{{ slowamount*100 }}%，持续{{ slowduration }}秒。如果瑟提在每侧都至少擒住了一名敌人，那么所有敌人还会被<status>晕眩</status>{{ stunduration }}秒。{{ spellmodifierdescriptionappend }}",
+      "costType": "无消耗",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.25,
+      "scope": "仅登记已成立主动使用的250毫秒基础施法和普通冷却；拉拽、减速、伤害与实际命中由相应分支分别处理，不从延迟结束生成命中。"
+    },
+    {
+      "skillKey": "sett_r",
+      "rootPath": "Characters/Sett/Spells/SettRAbility/SettR",
+      "abilityRoot": "Characters/Sett/Spells/SettRAbility/SettR",
+      "cooldownSeconds": [
+        120,
+        100,
+        80
+      ],
+      "clientRankStartIndex": 1,
+      "officialRankStartIndex": 0,
+      "description": "瑟提将一名敌方英雄带到空中，然后将其猛砸到地上，在该英雄着陆后对其附近的所有敌人造成伤害和减速效果。",
+      "tooltip": "瑟提擒住一名敌方英雄，并在扛着该英雄前行时将其<status>压制</status>，然后将该英雄猛摔到地上，对着陆点附近的所有敌人造成<physicalDamage>{{ damagecalc }}外加{{ maxhealthdamage*100 }}%被擒英雄的额外生命值的物理伤害</physicalDamage>和持续{{ slowduration }}秒的{{ slowamount*100 }}%<status>减速</status>。敌人离瑟提着陆的位置越远，受到的伤害越低。{{ spellmodifierdescriptionappend }}",
+      "costType": "无消耗",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "scope": "仅登记已成立主动使用的普通冷却；立即步骤不表示零施法时间。擒抱、压制、位移、落地命中及减速分别处理。"
+    }
+  ],
+  "sourceOnly": true,
+  "businessHTTP": 0,
+  "notes": [
+    "固定DDragon及两个客户端冷却字段逐级相符；历史404不替代当前不存在检查",
+    "Q旧HealthCost与BaseHealthCost未被当前绑定说明引用，不录生命或零法力成本",
+    "W释放全部豪意明确，不能称完全无成本；CDRefund没有values，不据此补0或编造退款",
+    "Q/W/R施法字段缺失或冲突，只有E的两个字段一致为250毫秒",
+    "历史本地化Q/W/E键后缀错位，按根对象绑定归属，不能按文本键后缀猜技能",
+    "本批沿既有已成立首次ACTIVE使用开始登记冷却；取消、失败和退款路径尚未被静态资料完整证明，不计全技能完成"
+  ]
+}

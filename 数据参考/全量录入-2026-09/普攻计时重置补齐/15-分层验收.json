@@ -1,0 +1,127 @@
+{
+  "at": "2026-09-19T15:08:39.279Z",
+  "status": "PASS",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "commits": {
+    "backend": "bbf3b52a",
+    "frontend": "6938a11c"
+  },
+  "resultType": "ATTACK_TIMER_RESET",
+  "newEffects": 2,
+  "newRules": 2,
+  "descriptionUpdates": 4,
+  "businessWrites": 8,
+  "browserWrites": 2,
+  "protectedAPIWrites": 6,
+  "independentGETs": 112,
+  "independentBatches": [
+    {
+      "path": "泰隆入口更正/07-独立回读.json",
+      "GETs": 29
+    },
+    {
+      "path": "奥拉夫同类返回/07-独立回读.json",
+      "GETs": 36
+    },
+    {
+      "path": "说明纠错/07-独立回读.json",
+      "GETs": 47
+    }
+  ],
+  "checks": {
+    "backendTests": 1003,
+    "frontendTests": 713,
+    "frontendLint": true,
+    "typecheck": true,
+    "build": true,
+    "olafArithmeticCases": 50
+  },
+  "managementConclusions": {
+    "olaf_w": {
+      "status": "管理配置完整",
+      "counts": {
+        "parameters": 9,
+        "formulas": 3,
+        "effects": 4,
+        "processes": 1,
+        "internalStates": 0,
+        "triggerRules": 2
+      },
+      "remainingManagementBranches": [],
+      "runtime": "失败、取消、退款及实际事件、计时、护盾结算未验证"
+    },
+    "talon_q": {
+      "status": "普攻重置分支完成，整技能资料待核",
+      "counts": {
+        "parameters": 9,
+        "formulas": 2,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 1
+      },
+      "remainingBranches": [
+        {
+          "kind": "来源",
+          "component": "等级插值求值：kill_heal_by_level",
+          "reason": "当前源仅给插值端点；起止等级、布尔选项和取整规则未证。实际等级值必须外供，不按1至18级线性展开，也不填默认值。"
+        },
+        {
+          "kind": "来源",
+          "component": "伤害结果资格：leap_hit",
+          "reason": "公式leap_damage只保留数学关系；当前冻结资料没有该分支的法术护盾、暴击、吸血及技能结果资格实证，不创建默认DAMAGE结果或SKILL_HIT触发。"
+        },
+        {
+          "kind": "来源",
+          "component": "伤害结果资格：critical_hit",
+          "reason": "公式critical_damage只保留数学关系；当前冻结资料没有该分支的法术护盾、暴击、吸血及技能结果资格实证，不创建默认DAMAGE结果或SKILL_HIT触发。"
+        },
+        {
+          "kind": "来源",
+          "component": "击杀治疗资格与等级值",
+          "reason": "当前原文明确Q击杀目标后回复生命；kill_heal_by_level为无默认实际等级治疗量输入，不是已生成公式。真实击杀归因和治疗时点未接线，不创建瞬时治疗结果。"
+        },
+        {
+          "kind": "配置",
+          "component": "远程/近战分支与P联动",
+          "reason": "近战范围内转为暴击，远程则跃向目标；两种伤害不能同时执行。Q命中是否给刀锋之末叠层和攻击事件归属待跨技能接线。"
+        },
+        {
+          "kind": "配置",
+          "component": "击杀治疗与冷却返还因果",
+          "reason": "官方明确只有本次Q击杀目标才回复生命和返还50%冷却；不连接任意击杀或施放事件。"
+        },
+        {
+          "kind": "系统",
+          "component": "击杀冷却返还单位",
+          "reason": "COOLDOWN_CHANGE只接收毫秒，不能直接消费0.5比例；返还基数及实际毫秒未核，当前只保留50%事实参数。"
+        },
+        {
+          "kind": "来源",
+          "component": "近战暴击属性枚举",
+          "reason": "mStat9/mStatFormula2未给属性名称；使用运行时输入并保留完整乘法树，缺失不填0。"
+        }
+      ]
+    }
+  },
+  "issues": [
+    {
+      "issue": "客户端生命周期行为非法值可能被强转接受",
+      "fix": "严格字段与枚举校验，新增7项回归，独立复核通过"
+    },
+    {
+      "issue": "冻结规则误用SKILL_USED没有提供的EVENT_SOURCE",
+      "fix": "真实页面提交前发现，仅重新冻结尚未执行的入口为CURRENT_TARGET；结果SOURCE保持；已保存效果不重放"
+    },
+    {
+      "issue": "巨型九头蛇及三原候选仅凭重置标签不足以确定完整重置时点",
+      "fix": "保留来源开放项，选择当前固定根与官方说明共同确证的泰隆Q、奥拉夫W返回"
+    }
+  ],
+  "storage": "复用skill_effects.results JSONB，没有新业务表、字段、约束或迁移",
+  "runtimeValidation": "未执行",
+  "goalComplete": false
+}

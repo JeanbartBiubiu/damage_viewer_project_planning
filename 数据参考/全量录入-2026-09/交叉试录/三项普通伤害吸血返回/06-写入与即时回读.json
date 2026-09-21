@@ -1,0 +1,743 @@
+{
+  "startedAt": "2026-09-21T04:25:11.958Z",
+  "status": "PASS",
+  "businessWritesAttempted": 3,
+  "operations": [
+    {
+      "route": "/skills/sivir_q/effects/boomerang_hit",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:58:49.648141Z",
+          "description": "本轮实际命中敌方英雄时执行的普通物理技能伤害，明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；其他吸血类型、具体法术护盾粒度及技能专属联动仍待核定。",
+          "effectKey": "boomerang_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "回旋之刃单次命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "physics",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "回旋之刃单次命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "sivir_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-21T04:25:13.780274Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T17:58:49.648141Z",
+        "description": "本轮实际命中敌方英雄时执行的普通物理技能伤害，明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；其他吸血类型、具体法术护盾粒度及技能专属联动仍待核定。",
+        "effectKey": "boomerang_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "回旋之刃单次命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "回旋之刃单次命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "sivir_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T04:25:13.780274Z"
+      }
+    },
+    {
+      "route": "/skills/tristana_r/effects/cannon_hit",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:02:28.264113Z",
+          "description": "本轮实际命中敌方英雄时执行的普通魔法技能伤害，明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；其他吸血类型、具体法术护盾粒度及技能专属联动仍待核定。",
+          "effectKey": "cannon_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "加农炮弹命中",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "加农炮弹命中",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "tristana_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-21T04:25:16.060969Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-07T18:02:28.264113Z",
+        "description": "本轮实际命中敌方英雄时执行的普通魔法技能伤害，明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；其他吸血类型、具体法术护盾粒度及技能专属联动仍待核定。",
+        "effectKey": "cannon_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "加农炮弹命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "加农炮弹命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "tristana_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T04:25:16.060969Z"
+      }
+    },
+    {
+      "route": "/skills/xinzhao_e/effects/charge_hit",
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T14:39:23.081979Z",
+          "description": "本轮实际命中敌方英雄时执行的普通魔法技能伤害，明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；其他吸血类型、具体法术护盾粒度及技能专属联动仍待核定。",
+          "effectKey": "charge_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "无畏冲锋独立命中魔法伤害",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "无畏冲锋独立命中魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": "RESULT",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "charge_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "xinzhao_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-21T04:25:17.972985Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-08T14:39:23.081979Z",
+        "description": "本轮实际命中敌方英雄时执行的普通魔法技能伤害，明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；其他吸血类型、具体法术护盾粒度及技能专属联动仍待核定。",
+        "effectKey": "charge_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "无畏冲锋独立命中魔法伤害",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "无畏冲锋独立命中魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "charge_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "xinzhao_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T04:25:17.972985Z"
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-damage-vamp-v2.mjs": "c9d393c50673c49c5903ef0f77f84b537bfc52094d527be855a9e183e9fe8cfe",
+    "01-纠错计划.json": "0fb8bb3d4cf197f5dac27feea2f665e69604cfd0ee254b5a2a54a97ed212d255",
+    "02-冻结请求.json": "8226258e08c0893f95557589c532cce98f4362a57650ec5258a1fc69cc9c1ee6",
+    "03-来源摘要.json": "628d60e9f9d40633457d013a1f87dafdded9154a87042728e70a2275f18d8366",
+    "04-写入前现值.json": "b1195d3597a9139c5d82563a386784bb59d9a2271509dad59ca399db8523c87a"
+  },
+  "pendingRoute": null,
+  "pendingResponseStatus": 200,
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/crit_scaling",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/one",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/base_cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/cast_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/parameters/cast_reduction_cap",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/formulas/precrit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/effects/boomerang_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/knockback_distance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects/cannon_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/base_attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/ap_attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/permanent_attack_speed_divisor",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/attack_speed_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/slow_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/parameters/permanent_bonus_attack_speed_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/formulas/charge_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/formulas/attack_speed_bonus",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/effects/charge_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/effects/charge_attack_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/trigger-rules/actual_charge_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/effects/boomerang_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/sivir_q/effects/boomerang_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sivir_q/effects/boomerang_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects/cannon_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/tristana_r/effects/cannon_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects/cannon_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/effects/charge_hit",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/xinzhao_e/effects/charge_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/xinzhao_e/effects/charge_hit",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-21T04:25:18.112Z"
+}

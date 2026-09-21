@@ -1,0 +1,620 @@
+{
+  "generatedAt": "2026-09-20T07:43:58.683Z",
+  "status": "PASS",
+  "scope": "仅核对现有 magic_damage 公式与固定客户端主Q InitialDamage树的数学结果；不测植物分支、施法时序、战斗运行或实际防御结算。",
+  "snapshot": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/01-共享现值.json",
+    "sha256": "85381519cf72c660a334c5af55db0357e4d10cff7ba6f22f238334579d8deffe",
+    "at": "2026-09-20T07:38:53.064Z",
+    "businessWrites": 0,
+    "valuesCount": 27,
+    "formulaRoute": "/skills/zyra_q/formulas/magic_damage",
+    "parameterRoutes": [
+      "/skills/zyra_q/parameters/base_damage",
+      "/skills/zyra_q/parameters/ap_ratio"
+    ],
+    "formulaValueSha256": "5cf708fd759c8c63e6e176b6a598ebf046ca647f56ac1876e26bcc0a119d53d6",
+    "expressionValueSha256": "a15a55facb9a1e13ff5ad6e8610d8a4a5e389f1384e36154a0e1779425a2baaa",
+    "baseParameterValueSha256": "1300a94775dcc6820dded9d4de537707c16382281dc1799e26fdcb821fb54fa5",
+    "ratioParameterValueSha256": "7055f100127d7993ca35795f65181cbba16f2a50a0814493a3e8e0991dc1c9fa"
+  },
+  "source": {
+    "clientVersion": "16.17",
+    "clientPath": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Zyra.json.gz",
+    "clientCompressedSha256": "94e23123ef2c5c00314b79d216fc055ac84411778f425924ce273e2a79c809ef",
+    "clientDecompressedSha256": "848a42397a39473b298d9a162fdb6cacbc6618d1990fc070e7f0f383f1ff98bc",
+    "objectPath": "Characters/Zyra/Spells/ZyraQAbility/ZyraQ",
+    "expectedFormulaPath": "Characters/Zyra/Spells/ZyraQAbility/ZyraQ/mSpell/mSpellCalculations/InitialDamage",
+    "expectedDataValuePath": "Characters/Zyra/Spells/ZyraQAbility/ZyraQ/mSpell/DataValues[name=BaseDamage]/values",
+    "originalBaseDamageValues": [
+      60,
+      60,
+      100,
+      140,
+      180,
+      220,
+      260
+    ],
+    "rawFormula": {
+      "mSimpleTooltipCalculationDisplay": 6,
+      "tooltipOnly": true,
+      "mFormulaParts": [
+        {
+          "mDataValue": "BaseDamage",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mCoefficient": 0.6499999761581421,
+          "__type": "StatByCoefficientCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "levelMapping": {
+      "skillLevels": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "rawArrayIndexBase": "1-based for this fixed binding",
+      "skillLevelToRawArrayIndex": {
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5
+      },
+      "note": "客户端数组下标0与下标1均为60；现有固定管理值按下标1至5对应技能等级1至5."
+    }
+  },
+  "actualSide": {
+    "expression": {
+      "nodeType": "OPERATION",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio"
+            },
+            {
+              "attributeKey": "ability_power",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "MULTIPLY"
+        }
+      ],
+      "operation": "ADD"
+    },
+    "parameterValues": {
+      "base_damage": {
+        "1": 60,
+        "2": 100,
+        "3": 140,
+        "4": 180,
+        "5": 220
+      },
+      "ap_ratio": 0.649999976
+    },
+    "attributeBinding": {
+      "owner": "SOURCE",
+      "key": "ability_power",
+      "valueKind": "TOTAL"
+    },
+    "expressionChecks": {
+      "rootOperationAdd": true,
+      "firstOperandBaseParameter": true,
+      "secondOperandMultiply": true,
+      "secondOperandRatioParameter": true,
+      "secondOperandSourceTotalAp": true
+    }
+  },
+  "expectedSide": {
+    "formula": "BaseDamage + mCoefficient × SOURCE.TOTAL ability_power",
+    "rawClientBaseDamage": [
+      60,
+      60,
+      100,
+      140,
+      180,
+      220,
+      260
+    ],
+    "rawClientCoefficient": 0.6499999761581421,
+    "normalizedLevelValues": {
+      "base_damage": {
+        "1": 60,
+        "2": 100,
+        "3": 140,
+        "4": 180,
+        "5": 220
+      }
+    }
+  },
+  "tolerance": {
+    "absolute": 0.00001,
+    "reason": "客户端mCoefficient原始浮点值与管理参数0.649999976存在极小表示差异."
+  },
+  "cases": [
+    {
+      "skillLevel": 1,
+      "rawClientArrayIndex": 1,
+      "sourceTotalAbilityPower": 0,
+      "actualInputs": {
+        "base_damage": 60,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 60,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "actualResult": 60,
+      "expectedResult": 60,
+      "absoluteDifference": 0,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 1,
+      "rawClientArrayIndex": 1,
+      "sourceTotalAbilityPower": 100,
+      "actualInputs": {
+        "base_damage": 60,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 60,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "actualResult": 124.9999976,
+      "expectedResult": 124.99999761581421,
+      "absoluteDifference": 1.5814208609299385e-8,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 1,
+      "rawClientArrayIndex": 1,
+      "sourceTotalAbilityPower": 500,
+      "actualInputs": {
+        "base_damage": 60,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 60,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "actualResult": 384.99998800000003,
+      "expectedResult": 384.99998807907104,
+      "absoluteDifference": 7.90710146247875e-8,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 2,
+      "rawClientArrayIndex": 2,
+      "sourceTotalAbilityPower": 0,
+      "actualInputs": {
+        "base_damage": 100,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 100,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "actualResult": 100,
+      "expectedResult": 100,
+      "absoluteDifference": 0,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 2,
+      "rawClientArrayIndex": 2,
+      "sourceTotalAbilityPower": 100,
+      "actualInputs": {
+        "base_damage": 100,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 100,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "actualResult": 164.9999976,
+      "expectedResult": 164.9999976158142,
+      "absoluteDifference": 1.5814208609299385e-8,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 2,
+      "rawClientArrayIndex": 2,
+      "sourceTotalAbilityPower": 500,
+      "actualInputs": {
+        "base_damage": 100,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 100,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "actualResult": 424.99998800000003,
+      "expectedResult": 424.99998807907104,
+      "absoluteDifference": 7.90710146247875e-8,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 3,
+      "rawClientArrayIndex": 3,
+      "sourceTotalAbilityPower": 0,
+      "actualInputs": {
+        "base_damage": 140,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 140,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "actualResult": 140,
+      "expectedResult": 140,
+      "absoluteDifference": 0,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 3,
+      "rawClientArrayIndex": 3,
+      "sourceTotalAbilityPower": 100,
+      "actualInputs": {
+        "base_damage": 140,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 140,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "actualResult": 204.9999976,
+      "expectedResult": 204.9999976158142,
+      "absoluteDifference": 1.5814208609299385e-8,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 3,
+      "rawClientArrayIndex": 3,
+      "sourceTotalAbilityPower": 500,
+      "actualInputs": {
+        "base_damage": 140,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 140,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "actualResult": 464.99998800000003,
+      "expectedResult": 464.99998807907104,
+      "absoluteDifference": 7.90710146247875e-8,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 4,
+      "rawClientArrayIndex": 4,
+      "sourceTotalAbilityPower": 0,
+      "actualInputs": {
+        "base_damage": 180,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 180,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "actualResult": 180,
+      "expectedResult": 180,
+      "absoluteDifference": 0,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 4,
+      "rawClientArrayIndex": 4,
+      "sourceTotalAbilityPower": 100,
+      "actualInputs": {
+        "base_damage": 180,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 180,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "actualResult": 244.9999976,
+      "expectedResult": 244.9999976158142,
+      "absoluteDifference": 1.5814208609299385e-8,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 4,
+      "rawClientArrayIndex": 4,
+      "sourceTotalAbilityPower": 500,
+      "actualInputs": {
+        "base_damage": 180,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 180,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "actualResult": 504.99998800000003,
+      "expectedResult": 504.99998807907104,
+      "absoluteDifference": 7.90710146247875e-8,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 5,
+      "rawClientArrayIndex": 5,
+      "sourceTotalAbilityPower": 0,
+      "actualInputs": {
+        "base_damage": 220,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 220,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 0
+        }
+      },
+      "actualResult": 220,
+      "expectedResult": 220,
+      "absoluteDifference": 0,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 5,
+      "rawClientArrayIndex": 5,
+      "sourceTotalAbilityPower": 100,
+      "actualInputs": {
+        "base_damage": 220,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 220,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 100
+        }
+      },
+      "actualResult": 284.99999760000003,
+      "expectedResult": 284.9999976158142,
+      "absoluteDifference": 1.5814180187589955e-8,
+      "withinAbsoluteTolerance": true
+    },
+    {
+      "skillLevel": 5,
+      "rawClientArrayIndex": 5,
+      "sourceTotalAbilityPower": 500,
+      "actualInputs": {
+        "base_damage": 220,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 220,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "actualResult": 544.999988,
+      "expectedResult": 544.999988079071,
+      "absoluteDifference": 7.90710146247875e-8,
+      "withinAbsoluteTolerance": true
+    }
+  ],
+  "summary": {
+    "totalCases": 15,
+    "passedCases": 15,
+    "maxAbsoluteDifference": 7.90710146247875e-8,
+    "maxDifferenceCase": {
+      "skillLevel": 5,
+      "rawClientArrayIndex": 5,
+      "sourceTotalAbilityPower": 500,
+      "actualInputs": {
+        "base_damage": 220,
+        "ap_ratio": 0.649999976,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "expectedInputs": {
+        "BaseDamage": 220,
+        "mCoefficient": 0.6499999761581421,
+        "attribute": {
+          "owner": "SOURCE",
+          "key": "ability_power",
+          "valueKind": "TOTAL",
+          "value": 500
+        }
+      },
+      "actualResult": 544.999988,
+      "expectedResult": 544.999988079071,
+      "absoluteDifference": 7.90710146247875e-8,
+      "withinAbsoluteTolerance": true
+    },
+    "formulaUsesSourceTotalAbilityPower": true
+  }
+}

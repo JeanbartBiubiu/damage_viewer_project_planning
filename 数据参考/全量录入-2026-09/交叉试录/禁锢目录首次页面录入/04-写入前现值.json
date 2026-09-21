@@ -1,0 +1,51 @@
+{
+  "at": "2026-09-19T04:44:30.596Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/statuses": {
+      "items": [
+        {
+          "createdAt": "2026-08-28T14:55:06.53067Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "眩晕",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "statusKey": "vertigo",
+          "statusKind": "STUN",
+          "updatedAt": "2026-08-28T14:55:06.53067Z"
+        }
+      ],
+      "total": 1
+    },
+    "/statuses/vertigo": {
+      "createdAt": "2026-08-28T14:55:06.53067Z",
+      "description": null,
+      "gameId": "lol",
+      "name": "眩晕",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "statusKey": "vertigo",
+      "statusKind": "STUN",
+      "updatedAt": "2026-08-28T14:55:06.53067Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/statuses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/vertigo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/root",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

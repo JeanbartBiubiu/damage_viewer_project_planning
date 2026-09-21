@@ -1,0 +1,472 @@
+{
+  "startedAt": "2026-09-19T10:08:42.178Z",
+  "status": "PASS",
+  "businessWritesAttempted": 3,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/soraka_r/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-19T10:08:41.675926Z",
+          "description": "本技能主动使用开始时消耗100法力，复用既有法力参数。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": null,
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "soraka_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-19T10:08:41.675926Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-19T10:08:41.675926Z",
+        "description": "本技能主动使用开始时消耗100法力，复用既有法力参数。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "soraka_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T10:08:41.675926Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/soraka_r/processes",
+      "response": {
+        "status": 201,
+        "data": {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-19T10:08:43.288393Z",
+          "description": "登记250毫秒基础施法，以及开始时100法力消耗和普通冷却；自身治疗仍由本次使用的正常与低生命互斥规则执行，不重复挂接治疗。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "祈愿基础施放与消耗冷却",
+          "processKey": "cast",
+          "skillKey": "soraka_r",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "客户端mCastTime为0.25秒，读取既有250毫秒参数；不从延迟结束再次执行治疗。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "基础施法时间",
+              "sortOrder": 10,
+              "stepKey": "cast_delay",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-19T10:08:43.288393Z"
+        }
+      },
+      "readback": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-19T10:08:43.288393Z",
+        "description": "登记250毫秒基础施法，以及开始时100法力消耗和普通冷却；自身治疗仍由本次使用的正常与低生命互斥规则执行，不重复挂接治疗。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "祈愿基础施放与消耗冷却",
+        "processKey": "cast",
+        "skillKey": "soraka_r",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "客户端mCastTime为0.25秒，读取既有250毫秒参数；不从延迟结束再次执行治疗。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "基础施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_delay",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-19T10:08:43.288393Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/soraka_r/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动基础施放",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "自身ACTIVE使用仅启动基础施放与消耗冷却过程；本次治疗匹配由两条原互斥规则独立负责，过程不重复治疗。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "soraka_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "祈愿主动使用登记消耗冷却",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used",
+          "sortOrder": 5
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "cast"
+            },
+            "name": "启动基础施放",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "自身ACTIVE使用仅启动基础施放与消耗冷却过程；本次治疗匹配由两条原互斥规则独立负责，过程不重复治疗。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "soraka_r",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "祈愿主动使用登记消耗冷却",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used",
+        "sortOrder": 5
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "2bcdd64d9554b01355b817d3f9ff95f4157d45404aaf569289322868b693d5ea",
+    "02-冻结请求.json": "cb95c32a511c8dd0c4ddfc1d267938725d8aade37679dc2d978e4f4bc37a55a6",
+    "03-来源摘要.json": "ea2b4f1843e329ab992ebd799c76bf9c1d9b52beaab18b5da929792c3b8badb1",
+    "04-写入前现值.json": "7dafecee9a916d471e74c0a1d4ef4154bd40750bb3fc480a6fa0b653fe58147e"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-19T10:08:46.949Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_soraka",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_soraka/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_soraka/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_soraka",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=soraka_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/base_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/low_health_threshold_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/low_health_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/formulas/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/formulas/self_low_health_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/self_low_health_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used_self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used_self_low_health_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/hp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/soraka_r/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/soraka_r/processes",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/soraka_r/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/soraka_r/trigger-rules/on_used",
+      "status": 200
+    }
+  ]
+}

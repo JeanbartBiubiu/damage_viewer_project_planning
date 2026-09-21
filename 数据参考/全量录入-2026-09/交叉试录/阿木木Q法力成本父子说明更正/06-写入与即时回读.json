@@ -1,0 +1,272 @@
+{
+  "startedAt": "2026-09-21T08:41:14.285Z",
+  "status": "PASS",
+  "businessWritesAttempted": 1,
+  "operations": [
+    {
+      "route": "/skills/amumu_q/effects/mana_cost",
+      "method": "PUT",
+      "responseStatus": 200,
+      "response": {
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T14:32:28.630199Z",
+          "description": "定义绷带牵引每次已接受根普通使用的50法力消耗；具体调用由使用登记过程决定，本效果不负责施法许可、三秒静态冷却或弹药恢复。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "施放法力消耗",
+          "results": [
+            {
+              "description": "被调用时按同技能mana_cost参数消耗来源对象法力；调用时点由过程挂接定义，不负责静态冷却、弹药或命中判断。",
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              },
+              "lifecycleBehavior": null,
+              "name": "消耗法力",
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              }
+            }
+          ],
+          "skillKey": "amumu_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T08:41:16.66754Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-09T14:32:28.630199Z",
+        "description": "定义绷带牵引每次已接受根普通使用的50法力消耗；具体调用由使用登记过程决定，本效果不负责施法许可、三秒静态冷却或弹药恢复。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": "被调用时按同技能mana_cost参数消耗来源对象法力；调用时点由过程挂接定义，不负责静态冷却、弹药或命中判断。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "amumu_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T08:41:16.66754Z"
+      },
+      "listRoute": "/skills/amumu_q/effects",
+      "listReadback": [
+        {
+          "createdAt": "2026-09-09T14:32:28.630199Z",
+          "description": "定义绷带牵引每次已接受根普通使用的50法力消耗；具体调用由使用登记过程决定，本效果不负责施法许可、三秒静态冷却或弹药恢复。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "amumu_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T08:41:16.66754Z"
+        },
+        {
+          "createdAt": "2026-09-21T07:15:39.198676Z",
+          "description": "专供同次amumu_q本体合资格命中法术护盾结果明确为0的敌方英雄入口；本结果不再次护盾判定，不表达穿盾或被阻挡时伤害。牵引、充能及被动另行处理。",
+          "effectKey": "primary_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "绷带明确未阻挡本体伤害",
+          "resultCount": 1,
+          "skillKey": "amumu_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-21T07:15:39.198676Z"
+        },
+        {
+          "createdAt": "2026-09-21T06:56:40.979917Z",
+          "description": "仅供阿木木Q本体合资格实际命中敌方英雄、同次法术护盾判定明确未阻挡且无本来源眩晕实例的入口；不实现牵引、充能消费恢复或被动结算。",
+          "effectKey": "first_hit_stun",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "绷带牵引首次施加眩晕",
+          "resultCount": 1,
+          "skillKey": "amumu_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-21T06:56:40.979917Z"
+        }
+      ]
+    }
+  ],
+  "pendingRoute": null,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v4.mjs": "6630730f1e794c64fd73711008e04a22effb1a75f210bf905747e01563794407",
+    "01-纠错计划.json": "0b1cafb5b61db172bae6a6f1c7eccabe8af6511bf4afcffb22b84a274e9b5650",
+    "02-冻结请求.json": "16460e3e0064e6f59d9b1b9479c848d5a7bb7581d9d55b904b406108e05398c7",
+    "03-来源摘要.json": "521b706c78645f475ef90508a89407eaae0bdb075eb393d175466c0950a8afb8",
+    "04-写入前现值.json": "2da65276cf4f10e0b69b77c472a1c2f8ea7d9b6fe3fb8e1bf23276493429f72e"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/max_charges",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/ammo_recharge_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/dash_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/formulas/total_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/first_hit_stun",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/actual_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/apply_stun_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/amumu_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects",
+      "status": 200
+    }
+  ],
+  "finishedAt": "2026-09-21T08:41:16.079Z"
+}

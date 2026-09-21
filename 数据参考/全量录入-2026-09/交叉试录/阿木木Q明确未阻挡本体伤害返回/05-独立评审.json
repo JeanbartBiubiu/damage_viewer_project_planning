@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-21T07:15:33.748Z",
+  "status": "APPROVED",
+  "reviewer": "/root/zyra_frozen_return_review",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "080bf70a71baa55874e6ae502896794f44c020b4f2d8e65c7ca6cac9d1cac4a6",
+    "02-冻结请求.json": "a5f8fac178f8eb037eac98dd458d6aa2700f43102162746f85a00781f912f2e2",
+    "03-来源摘要.json": "46c92410af1d68645ab1674b4914ae8a1ecdaff98542ee040c85bd44539e0fc2",
+    "04-写入前现值.json": "826f87a395274b0db685f0e799772b3a5125463789706985fa847a5132f8b0a7"
+  },
+  "checks": [
+    "10来源与30现值/2新404一致",
+    "新效果只有actual_unblocked_hit受限入口调用，无过程或原规则绕过",
+    "明确0且同技能敌方英雄命中执行；1及缺值不执行，不从结果null推定0",
+    "原参数公式与已保存首次眩晕全部保持，原RESULT批次仍REVISE且未写入"
+  ],
+  "businessRequestsByReviewer": 0,
+  "filesModifiedByReviewer": false,
+  "browser": false,
+  "runtime": false
+}

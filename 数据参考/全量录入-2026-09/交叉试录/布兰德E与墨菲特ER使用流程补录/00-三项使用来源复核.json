@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 1,
+  "status": "READ_ONLY_CANDIDATE",
+  "title": "Brand E与墨菲特E/R使用流程续核候选",
+  "generatedAt": "2026-09-19T07:44:53.152+08:00",
+  "fixedSource": {
+    "versions": {
+      "client": "16.17",
+      "ddragon": "16.17.1"
+    },
+    "index": {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+      "sha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9"
+    },
+    "candidateFiles": [
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+        "sha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272"
+      }
+    ],
+    "baselineFiles": [
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/四项既有伤害吸血资格纠错/04-写入前现值.json",
+        "sha256": "8c0c55215439a687d66450a0d436fdf41f7a38d1569645a61fd29cc3d66fe844",
+        "skillsUsed": []
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/04-写入前现值.json",
+        "sha256": "bfb9b6670771d29a921e9c21cf652fb3837016fabf818999f1a2a7743a773ff4",
+        "skillsUsed": ["brand_e", "malphite_e", "malphite_r"]
+      }
+    ],
+    "templateRefs": [
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/五项法师技能使用登记补录/01-候选方案.json",
+        "sha256": "afd5f1cc6f28da81f6e58a0ef6097864a39a7960a649773be3a0c97c04e1efa0",
+        "use": "ACTIVE使用入口与使用消耗/普通冷却登记过程结构"
+      },
+      {
+        "path": "数据参考/全量录入-2026-09/交叉试录/娑娜E使用消耗冷却补录/01-候选方案.json",
+        "sha256": "ca07bff5034699177c84e7aa61d6c8302464e7fd2e3dade520dee79a5cdf46d5",
+        "use": "cast时间未作为成本登记前提，普通冷却从PROCESS_START开始的边界"
+      }
+    ],
+    "heroFiles": {
+      "Brand": {
+        "officialZh": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Brand.json", "sha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20"},
+        "officialEn": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Brand.json", "sha256": "d1f7a34ee637918b864268464c39199eea9f53eb5a37101d403f544f5792a8dc"},
+        "clientGz": {"path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Brand.json.gz", "compressedSha256": "0f205cb596ac4733d8588aec896f4a0121c71b66fa1ba1f6be924caaeac30dcd", "decompressedSha256": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d"}
+      },
+      "Malphite": {
+        "officialZh": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Malphite.json", "sha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7"},
+        "officialEn": {"path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Malphite.json", "sha256": "717e46ec145f0ccbd25237d32401d224c96e1a4727b72dcdf435729b1c60c707"},
+        "clientGz": {"path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Malphite.json.gz", "compressedSha256": "65865f9dbcbba50a11852301d6f516a21eb7ea88623980bb35ed7a825e7f6fdd", "decompressedSha256": "70dd954ff0fce089bd0d71148dbfaef72d1731c66768afe5aca2d3f4dabeb985"}
+      }
+    }
+  },
+  "scope": {
+    "included": ["brand_e", "malphite_e", "malphite_r"],
+    "readMode": "只复用两份现有快照、第二批候选和固定原始资料；不重新GET，不写业务接口。",
+    "activeQualification": "三项均是对应英雄根对象spells中的主技能路径，使用事件固定为SKILL_USED且useKind=ACTIVE；不从bIsToggleSpell推导免费、关停或再次施放。",
+    "cooldownBoundary": "普通cooldown_ms均从登记过程PROCESS_START开始；不等待命中、过程完成或突进落点，也不据此宣称宿主已实际调度冷却。",
+    "rankPriority": "普通数值优先采用同版官方等级数组，并用当前根绑定的manaValues.values及cooldownTime按已确定等级索引交叉核对；类型元数据和超出技能maxLevel的尾项不录入。",
+    "runtimeBoundary": "候选只表达管理配置的消耗/普通冷却/登记入口；不等同实际事件生产、完整技能、宿主或Wasm战斗运行。"
+  },
+  "candidates": [
+    {
+      "skillKey": "brand_e",
+      "name": "烈火燃烧",
+      "source": {
+        "hero": "Brand",
+        "rootPath": "Characters/Brand/CharacterRecords/Root",
+        "rootSpellIndex": 2,
+        "spellPath": "Characters/Brand/Spells/BrandEAbility/BrandE",
+        "candidateSource": {"clientDecompressedSha256": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d", "officialZhSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20"}
+      },
+      "activeCostQualification": {
+        "rootSpell": true,
+        "eventSource": {"eventType": "SKILL_USED", "sourceSkillKey": "brand_e", "useKind": "ACTIVE"},
+        "bIsToggleSpell": "absent",
+        "evidence": "主技能根路径、伤害技能标签、官方cost及冷却数组共同支持普通主动使用；不依赖开关字段。"
+      },
+      "sourceValueResolution": {
+        "official": {"manaCostByRank": [90, 90, 90, 90, 90], "cooldownMsByRank": [13000, 12000, 11000, 10000, 9000]},
+        "clientRoot": {"manaValuesValues": [90, 90, 90, 90, 90, 90], "legacyMana": [70, 75, 80, 85, 90, 95], "cooldownTimeSeconds": [13, 13, 12, 11, 10, 9, 9], "spellCastTimeMs": 250},
+        "effectiveMapping": {"mana": "manaValues.values索引0至4，与官方90全等级一致；旧mSpell.mana不覆盖当前根绑定", "cooldown": "cooldownTime索引1至5为13/12/11/10/9秒，与官方等级数组一致", "castTime": "spellCastTime=250毫秒，当前cast_time_ms已固定250毫秒"},
+        "conclusion": "基础法力、普通冷却和施法延迟可以独立表达；旧客户端mana数组只保留为来源差异，不用于猜值。"
+      },
+      "currentSnapshot": {
+        "parameters": {"mana_cost": {"valueMode": "FIXED", "fixedValue": 90}, "cooldown_ms": {"valueMode": "SKILL_LEVEL", "levelValues": {"1": 13000, "2": 12000, "3": 11000, "4": 10000, "5": 9000}}, "cast_time_ms": {"valueMode": "FIXED", "fixedValue": 250}},
+        "manaCostEffect": {"exists": false, "route": "/skills/brand_e/effects/mana_cost"},
+        "process": {"exists": false, "processKey": "cast"},
+        "triggerRules": ["actual_hit"],
+        "existingDamageRuleRole": "actual_hit独立执行已有conflagration_hit；普通使用入口不替代该规则。"
+      },
+      "decision": "READY_CAST_AND_ENTRY_WITH_MANA_EFFECT_PREREQUISITE",
+      "requestPlan": {
+        "totalRequests": 3,
+        "castAndEntryRequests": 2,
+        "prerequisite": {
+          "method": "POST",
+          "route": "/skills/brand_e/effects",
+          "detailRoute": "/skills/brand_e/effects/mana_cost",
+          "reason": "当前只有mana_cost参数，没有可供cast绑定的mana_cost效果；不补效果就会出现只启动冷却/延迟而不登记法力的过程。",
+          "body": {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "本技能主动使用时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。当前官方16.17.1为全等级90。",
+            "sortOrder": 5,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {"value": {"kind": "PARAMETER", "parameterKey": "mana_cost"}, "fixedMultiplier": 1, "fixedMinValue": 0, "fixedMaxValue": null},
+                "detail": {"attributeKey": "mana", "operation": "CONSUME"}
+              }
+            ]
+          }
+        },
+        "requests": [
+          {
+            "method": "POST",
+            "route": "/skills/brand_e/processes",
+            "detailRoute": "/skills/brand_e/processes/cast",
+            "body": {
+              "processKey": "cast",
+              "name": "施放烈火燃烧",
+              "activationType": "ACTIVE",
+              "description": "绑定已核对的法力、普通冷却和250毫秒施法延迟；不在过程结束时自动造成伤害，实际命中由独立规则处理。",
+              "sortOrder": 10,
+              "cooldown": {"durationValue": {"kind": "PARAMETER", "parameterKey": "cooldown_ms"}, "startMoment": {"momentType": "PROCESS_START", "stepKey": null}},
+              "steps": [{"stepKey": "cast_time", "name": "施法延迟", "description": "主技能spellCastTime已核对为250毫秒。", "sortOrder": 10, "stepType": "DELAY", "detail": {"delayValue": {"kind": "PARAMETER", "parameterKey": "cast_time_ms"}}}],
+              "effectBindings": [{"bindingKey": "mana_cost", "effectKey": "mana_cost", "moment": {"momentType": "PROCESS_START", "stepKey": null}, "sortOrder": 10}],
+              "stateOperations": []
+            }
+          },
+          {
+            "method": "POST",
+            "route": "/skills/brand_e/trigger-rules",
+            "detailRoute": "/skills/brand_e/trigger-rules/on_used",
+            "body": {
+              "ruleKey": "on_used",
+              "name": "主动使用启动烈火燃烧施法过程",
+              "description": "接收brand_e主动使用并启动已有cast过程，只处理已保存的法力消耗、普通冷却和250毫秒施法延迟；实际命中由独立规则处理，扩散与被动联动继续另行维护。管理保存不证明宿主已生产该事件。",
+              "sortOrder": 10,
+              "eventSource": {"eventType": "SKILL_USED", "detail": {"sourceSkillKey": "brand_e", "useKind": "ACTIVE"}},
+              "conditionGroups": [],
+              "actions": [{"actionKey": "start_cast", "name": "启动烈火燃烧施法过程", "actionType": "START_PROCESS", "sortOrder": 10, "targetContext": "CURRENT_TARGET", "detail": {"processKey": "cast"}, "runtimeInputBindings": [], "resultModifiers": []}],
+              "perTargetCooldown": null,
+              "maxTriggersPerProcess": null
+            }
+          }
+        ]
+      },
+      "pending": [
+        "先新增并独立回读mana_cost效果，再按冻结顺序创建cast和on_used；三者均需写前确认不存在，不能把两请求草案跳过效果前置直接执行。",
+        "P应用、扩散、被动灼烧和实际命中保持各自规则边界；普通入口只负责启动该过程。"
+      ],
+      "remainingMechanismBoundary": "本候选不新增P联动、扩散命中或宿主事件生产；现有actual_hit继续承担已有伤害结果。"
+    },
+    {
+      "skillKey": "malphite_e",
+      "name": "大地震颤",
+      "source": {
+        "hero": "Malphite",
+        "rootPath": "Characters/Malphite/CharacterRecords/Root",
+        "rootSpellIndex": 2,
+        "spellPath": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+        "candidateSource": {"clientDecompressedSha256": "70dd954ff0fce089bd0d71148dbfaef72d1731c66768afe5aca2d3f4dabeb985", "officialZhSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7"}
+      },
+      "activeCostQualification": {
+        "rootSpell": true,
+        "eventSource": {"eventType": "SKILL_USED", "sourceSkillKey": "malphite_e", "useKind": "ACTIVE"},
+        "bIsToggleSpell": true,
+        "evidence": "bIsToggleSpell只记录客户端标记；同一根绑定仍有官方/当前mana与cooldown，不能解释成免费、关停或再次施放。"
+      },
+      "sourceValueResolution": {
+        "official": {"manaCostByRank": [50, 55, 60, 65, 70], "cooldownMsByRank": [7000, 7000, 7000, 7000, 7000]},
+        "clientRoot": {"manaValuesValues": [50, 55, 60, 65, 70, 75], "mana": [50, 55, 60, 65, 70, 75], "cooldownTimeSeconds": [7, 7, 7, 7, 7, 7, 7], "mCastTimeMs": 241.9, "spellCastTimeMs": 250},
+        "effectiveMapping": {"mana": "官方等级1至5与mana/manaValues索引0至4一致，使用50/55/60/65/70", "cooldown": "cooldownTime索引1至5仍为5级7秒，当前参数固定7000毫秒", "castTime": "mCastTime与spellCastTime数值不同仅表示施法语义待核，不武断定性为逻辑冲突"},
+        "conclusion": "基础主动成本和普通冷却可独立表达；施法时序不作为成本登记过程的事实前提。"
+      },
+      "currentSnapshot": {
+        "parameters": {"mana_cost": {"valueMode": "SKILL_LEVEL", "levelValues": {"1": 50, "2": 55, "3": 60, "4": 65, "5": 70}}, "cooldown_ms": {"valueMode": "FIXED", "fixedValue": 7000}},
+        "manaCostEffect": {"exists": true, "route": "/skills/malphite_e/effects/mana_cost", "valueReference": {"kind": "PARAMETER", "parameterKey": "mana_cost"}, "operation": "CONSUME", "target": "SOURCE"},
+        "process": {"exists": false},
+        "triggerRules": ["actual_hit"]
+      },
+      "decision": "READY_COST_ONLY_REGISTRATION",
+      "requestPlan": {
+        "totalRequests": 2,
+        "processKind": "use_cost_and_cooldown",
+        "processMeaning": "固定0延迟步骤只作登记步骤，不声称大地震颤技能施法时长为零；不选择mCastTime或spellCastTime作为真实施法时序。",
+        "requests": [
+          {
+            "method": "POST",
+            "route": "/skills/malphite_e/processes",
+            "detailRoute": "/skills/malphite_e/processes/use_cost_and_cooldown",
+            "body": {
+              "processKey": "use_cost_and_cooldown",
+              "name": "使用消耗与普通冷却",
+              "activationType": "ACTIVE",
+              "description": "只登记本次主动使用的法力消耗与普通冷却；固定0延迟步骤只作登记步骤，不表示技能施法时长为零；实际命中由独立规则处理。",
+              "sortOrder": 10,
+              "cooldown": {"durationValue": {"kind": "PARAMETER", "parameterKey": "cooldown_ms"}, "startMoment": {"momentType": "PROCESS_START", "stepKey": null}},
+              "steps": [{"stepKey": "register_use", "name": "登记本次使用", "description": "固定0延迟仅表示本登记过程不建模技能施法时序。", "sortOrder": 10, "stepType": "DELAY", "detail": {"delayValue": {"kind": "FIXED", "value": 0}}}],
+              "effectBindings": [{"bindingKey": "mana_cost", "effectKey": "mana_cost", "moment": {"momentType": "PROCESS_START", "stepKey": null}, "sortOrder": 10}],
+              "stateOperations": []
+            }
+          },
+          {
+            "method": "POST",
+            "route": "/skills/malphite_e/trigger-rules",
+            "detailRoute": "/skills/malphite_e/trigger-rules/on_used_cost_and_cooldown",
+            "body": {
+              "ruleKey": "on_used_cost_and_cooldown",
+              "name": "主动使用登记消耗与冷却",
+              "description": "每次malphite_e主动使用启动专门的消耗与普通冷却登记过程；不定义真实施法时长，实际命中由独立规则处理，攻速削减另行维护。管理保存不证明宿主已生产该事件。",
+              "sortOrder": 5,
+              "eventSource": {"eventType": "SKILL_USED", "detail": {"sourceSkillKey": "malphite_e", "useKind": "ACTIVE"}},
+              "conditionGroups": [],
+              "actions": [{"actionKey": "start_use_cost", "name": "启动消耗与冷却登记", "actionType": "START_PROCESS", "sortOrder": 10, "targetContext": "CURRENT_TARGET", "detail": {"processKey": "use_cost_and_cooldown"}, "runtimeInputBindings": [], "resultModifiers": []}],
+              "perTargetCooldown": null,
+              "maxTriggersPerProcess": null
+            }
+          }
+        ]
+      },
+      "pending": [
+        "mCastTime约241.9毫秒与spellCastTime250毫秒的差异只阻止真实施法时序选择，不阻止独立基础成本登记；后续若建完整cast需另行说明语义。",
+        "bIsToggleSpell不改变ACTIVE法力消耗和7000毫秒普通冷却；不接线开关关停、攻速削减或其他命中分支。"
+      ],
+      "remainingMechanismBoundary": "只登记法力、普通冷却和入口；现有actual_hit处理伤害，攻速削减及完整施法/战斗语义另行维护。"
+    },
+    {
+      "skillKey": "malphite_r",
+      "name": "势不可挡",
+      "source": {
+        "hero": "Malphite",
+        "rootPath": "Characters/Malphite/CharacterRecords/Root",
+        "rootSpellIndex": 3,
+        "spellPath": "Characters/Malphite/Spells/UFSlashAbility/UFSlash",
+        "candidateSource": {"clientDecompressedSha256": "70dd954ff0fce089bd0d71148dbfaef72d1731c66768afe5aca2d3f4dabeb985", "officialZhSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7"}
+      },
+      "activeCostQualification": {
+        "rootSpell": true,
+        "eventSource": {"eventType": "SKILL_USED", "sourceSkillKey": "malphite_r", "useKind": "ACTIVE"},
+        "bIsToggleSpell": "absent",
+        "evidence": "根对象主技能路径和官方cost/cooldown足以确认主动基础成本；客户端特殊标签不被扩展成控制或突进运行。"
+      },
+      "sourceValueResolution": {
+        "official": {"manaCostByRank": [100, 100, 100], "cooldownMsByRank": [130000, 115000, 100000]},
+        "clientRoot": {"manaValuesValues": [100, 100, 100, 0, 0, 0], "mana": [100, 100, 100, 0, 0, 0], "cooldownTimeSeconds": [130, 130, 115, 100, 100, 100, 100], "spellCastTimeMs": null, "spellTags": ["Trait_Ultimate", "Trait_ChannelSpell", "Trait_PlayerSelectedDashDirection", "Trait_DamageAbility"]},
+        "effectiveMapping": {"mana": "maxLevel=3，取mana/manaValues索引0至2的100/100/100，尾部0不属于技能等级", "cooldown": "cooldownTime索引1至3为130/115/100秒，与官方等级数组一致", "castTime": "根技能没有spellCastTime可绑定；特殊施放语义保持待核"},
+        "conclusion": "基础主动成本和普通冷却可以独立登记；R的突进/通道/击飞时序不作为本过程前提。"
+      },
+      "currentSnapshot": {
+        "parameters": {"mana_cost": {"valueMode": "FIXED", "fixedValue": 100}, "cooldown_ms": {"valueMode": "SKILL_LEVEL", "levelValues": {"1": 130000, "2": 115000, "3": 100000}}},
+        "manaCostEffect": {"exists": true, "route": "/skills/malphite_r/effects/mana_cost", "valueReference": {"kind": "PARAMETER", "parameterKey": "mana_cost"}, "operation": "CONSUME", "target": "SOURCE"},
+        "process": {"exists": false},
+        "triggerRules": ["actual_hit"]
+      },
+      "decision": "READY_COST_ONLY_REGISTRATION",
+      "requestPlan": {
+        "totalRequests": 2,
+        "processKind": "use_cost_and_cooldown",
+        "processMeaning": "固定0延迟步骤只作登记步骤，不声称势不可挡技能施法时长为零；不把突进、通道或击飞当成本登记过程。",
+        "requests": [
+          {
+            "method": "POST",
+            "route": "/skills/malphite_r/processes",
+            "detailRoute": "/skills/malphite_r/processes/use_cost_and_cooldown",
+            "body": {
+              "processKey": "use_cost_and_cooldown",
+              "name": "使用消耗与普通冷却",
+              "activationType": "ACTIVE",
+              "description": "只登记本次主动使用的法力消耗与普通冷却；固定0延迟步骤只作登记步骤，不表示技能施法时长为零；实际命中由独立规则处理。",
+              "sortOrder": 10,
+              "cooldown": {"durationValue": {"kind": "PARAMETER", "parameterKey": "cooldown_ms"}, "startMoment": {"momentType": "PROCESS_START", "stepKey": null}},
+              "steps": [{"stepKey": "register_use", "name": "登记本次使用", "description": "固定0延迟仅表示本登记过程不建模突进、通道或命中时序。", "sortOrder": 10, "stepType": "DELAY", "detail": {"delayValue": {"kind": "FIXED", "value": 0}}}],
+              "effectBindings": [{"bindingKey": "mana_cost", "effectKey": "mana_cost", "moment": {"momentType": "PROCESS_START", "stepKey": null}, "sortOrder": 10}],
+              "stateOperations": []
+            }
+          },
+          {
+            "method": "POST",
+            "route": "/skills/malphite_r/trigger-rules",
+            "detailRoute": "/skills/malphite_r/trigger-rules/on_used_cost_and_cooldown",
+            "body": {
+              "ruleKey": "on_used_cost_and_cooldown",
+              "name": "主动使用登记消耗与冷却",
+              "description": "每次malphite_r主动使用启动专门的消耗与普通冷却登记过程；不定义突进、通道、击飞或真实施法时长，实际命中由独立规则处理。管理保存不证明宿主已生产该事件。",
+              "sortOrder": 5,
+              "eventSource": {"eventType": "SKILL_USED", "detail": {"sourceSkillKey": "malphite_r", "useKind": "ACTIVE"}},
+              "conditionGroups": [],
+              "actions": [{"actionKey": "start_use_cost", "name": "启动消耗与冷却登记", "actionType": "START_PROCESS", "sortOrder": 10, "targetContext": "CURRENT_TARGET", "detail": {"processKey": "use_cost_and_cooldown"}, "runtimeInputBindings": [], "resultModifiers": []}],
+              "perTargetCooldown": null,
+              "maxTriggersPerProcess": null
+            }
+          }
+        ]
+      },
+      "pending": [
+        "根技能没有spellCastTime，客户端标签含通道与玩家选定突进方向；这些是完整施放时序的待核边界，不阻止基础法力/普通冷却登记。",
+        "不新增不可阻挡、击飞、突进或命中条件；不把普通入口当成完整R技能运行。"
+      ],
+      "remainingMechanismBoundary": "只登记法力、普通冷却和入口；现有actual_hit处理伤害，突进、通道、击飞和宿主运行另行维护。"
+    }
+  ],
+  "globalBoundary": [
+    "Brand E的基础字段足够建立真实cast形状，但现有快照缺mana_cost效果，因此两项cast/on_used请求必须以前置效果POST和独立回读为前提。",
+    "墨菲特E/R使用成熟的use_cost_and_cooldown形状；DELAY固定0只表示登记过程不建模技能施法时序，不表示技能施法时长为零。",
+    "三个过程的普通冷却都从PROCESS_START开始；入口仅启动管理过程，不能证明宿主产生SKILL_USED、实际扣法力或实际启动冷却。",
+    "不扩展Veigar W动态冷却，不修改01报告，不改变既有actual_hit规则或伤害、控制、突进与被动边界。"
+  ]
+}

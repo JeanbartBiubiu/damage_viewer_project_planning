@@ -1,0 +1,1427 @@
+{
+  "at": "2026-09-19T03:23:42.289Z",
+  "status": "READY_FOR_REVIEW",
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "decisions": [
+    {
+      "skillKey": "nami_q",
+      "formulaKey": "magic_damage",
+      "calculationName": "TotalDamageTT",
+      "damageTypeKey": "magic",
+      "sourceSlot": 0,
+      "abilityArrayIndex": 1,
+      "remaining": [
+        "悬浮控制的完整状态语义",
+        "施法时序",
+        "代表页面验收"
+      ],
+      "boundary": "伤害数值已独立明确；悬浮控制不直接用现有眩晕替代其完整语义。"
+    },
+    {
+      "skillKey": "nami_r",
+      "formulaKey": "magic_damage",
+      "calculationName": "TotalDamage",
+      "damageTypeKey": "magic",
+      "sourceSlot": 3,
+      "abilityArrayIndex": 0,
+      "remaining": [
+        "击飞与距离减速",
+        "被动加速范围和时序",
+        "代表页面验收"
+      ],
+      "boundary": "伤害与击飞、减速、被动分开，未假设距离或飞行事件。"
+    },
+    {
+      "skillKey": "soraka_q",
+      "formulaKey": "magic_damage",
+      "calculationName": "TotalDamage",
+      "damageTypeKey": "magic",
+      "sourceSlot": 0,
+      "abilityArrayIndex": 0,
+      "remaining": [
+        "命中后的持续治疗节拍",
+        "减速及衰减加速",
+        "普通使用",
+        "代表页面验收"
+      ],
+      "boundary": "只录流星伤害，不把持续治疗总量当作一次或每次治疗。"
+    },
+    {
+      "skillKey": "neeko_e",
+      "formulaKey": "damage",
+      "calculationName": "BaseDamage",
+      "damageTypeKey": "magic",
+      "sourceSlot": 2,
+      "abilityArrayIndex": 3,
+      "remaining": [
+        "首个与强化禁锢资格",
+        "普通使用",
+        "代表页面验收"
+      ],
+      "boundary": "本体伤害不随强化禁锢时长改变；旧首目标禁锢公式保持，未创建后续目标或强化控制事件。"
+    },
+    {
+      "skillKey": "orianna_w",
+      "formulaKey": "damage",
+      "calculationName": "TotalDamage",
+      "damageTypeKey": "magic",
+      "sourceSlot": 1,
+      "abilityArrayIndex": 1,
+      "remaining": [
+        "球位置与范围资格",
+        "减速与自身加速",
+        "施法时序",
+        "代表页面验收"
+      ],
+      "boundary": "只有来自相应技能的实际命中才消费，球位置不靠登记过程推定。"
+    },
+    {
+      "skillKey": "orianna_r",
+      "formulaKey": "damage",
+      "calculationName": "TotalDamage",
+      "damageTypeKey": "magic",
+      "sourceSlot": 3,
+      "abilityArrayIndex": 3,
+      "remaining": [
+        "球位置与范围资格",
+        "击飞",
+        "普通使用",
+        "代表页面验收"
+      ],
+      "boundary": "只有来自相应技能的实际命中才消费，球位置不靠登记过程推定。"
+    },
+    {
+      "skillKey": "jinx_w",
+      "formulaKey": "damage",
+      "calculationName": "TotalDamage",
+      "damageTypeKey": "physics",
+      "sourceSlot": 1,
+      "abilityArrayIndex": 3,
+      "remaining": [
+        "减速",
+        "攻速影响施法时间",
+        "普通使用",
+        "代表页面验收"
+      ],
+      "boundary": "来源总攻击力；物理伤害仍属于技能直接伤害，不登记普攻吸血或攻击特效。"
+    },
+    {
+      "skillKey": "quinn_q",
+      "formulaKey": "physical_damage",
+      "calculationName": "TotalDamage",
+      "damageTypeKey": "physics",
+      "sourceSlot": 0,
+      "abilityArrayIndex": 1,
+      "remaining": [
+        "侵扰标记",
+        "视野相关分支按原范围复核",
+        "普通使用",
+        "代表页面验收"
+      ],
+      "boundary": "来源额外攻击力与总法强，禁止换为总攻击力；对野怪修饰和标记不进入此效果。"
+    }
+  ],
+  "cases": [
+    {
+      "skillKey": "nami_q",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 90,
+      "actualStored": 90,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 140,
+      "actualStored": 140,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 240,
+      "actualStored": 240,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 145,
+      "actualStored": 145,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 195,
+      "actualStored": 195,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 295,
+      "actualStored": 295,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 200,
+      "actualStored": 200,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 250,
+      "actualStored": 250,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 350,
+      "actualStored": 350,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 255,
+      "actualStored": 255,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 305,
+      "actualStored": 305,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 405,
+      "actualStored": 405,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 310,
+      "actualStored": 310,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 360,
+      "actualStored": 360,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_q",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 460,
+      "actualStored": 460,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_r",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 150,
+      "actualStored": 150,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_r",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 210.0000023841858,
+      "actualStored": 210,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "nami_r",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 330.0000071525574,
+      "actualStored": 330,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "nami_r",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 250,
+      "actualStored": 250,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_r",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 310.0000023841858,
+      "actualStored": 310,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "nami_r",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 430.0000071525574,
+      "actualStored": 430,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "nami_r",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 350,
+      "actualStored": 350,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "nami_r",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 410.0000023841858,
+      "actualStored": 410,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "nami_r",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 530.0000071525574,
+      "actualStored": 530,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 85,
+      "actualStored": 85,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 119.99999940395355,
+      "actualStored": 120,
+      "absoluteDifference": 5.960464477539062e-7
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 189.99999821186066,
+      "actualStored": 190,
+      "absoluteDifference": 0.0000017881393432617188
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 120,
+      "actualStored": 120,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 154.99999940395355,
+      "actualStored": 155,
+      "absoluteDifference": 5.960464477539062e-7
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 224.99999821186066,
+      "actualStored": 225,
+      "absoluteDifference": 0.0000017881393432617188
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 155,
+      "actualStored": 155,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 189.99999940395355,
+      "actualStored": 190,
+      "absoluteDifference": 5.960464477539062e-7
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 259.99999821186066,
+      "actualStored": 260,
+      "absoluteDifference": 0.0000017881393432617188
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 190,
+      "actualStored": 190,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 224.99999940395355,
+      "actualStored": 225,
+      "absoluteDifference": 5.960464477539062e-7
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 294.99999821186066,
+      "actualStored": 295,
+      "absoluteDifference": 0.0000017881393432617188
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 225,
+      "actualStored": 225,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 259.99999940395355,
+      "actualStored": 260,
+      "absoluteDifference": 5.960464477539062e-7
+    },
+    {
+      "skillKey": "soraka_q",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 329.99999821186066,
+      "actualStored": 330,
+      "absoluteDifference": 0.0000017881393432617188
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 70,
+      "actualStored": 70,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 134.9999976158142,
+      "actualStored": 134.99999762,
+      "absoluteDifference": 4.18577883465332e-9
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 264.9999928474426,
+      "actualStored": 264.99999286,
+      "absoluteDifference": 1.255739334737882e-8
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 105,
+      "actualStored": 105,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 169.9999976158142,
+      "actualStored": 169.99999762,
+      "absoluteDifference": 4.18577883465332e-9
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 299.9999928474426,
+      "actualStored": 299.99999286,
+      "absoluteDifference": 1.255739334737882e-8
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 140,
+      "actualStored": 140,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 204.9999976158142,
+      "actualStored": 204.99999762,
+      "absoluteDifference": 4.18577883465332e-9
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 334.9999928474426,
+      "actualStored": 334.99999286,
+      "absoluteDifference": 1.255739334737882e-8
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 175,
+      "actualStored": 175,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 239.9999976158142,
+      "actualStored": 239.99999762,
+      "absoluteDifference": 4.18577883465332e-9
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 369.9999928474426,
+      "actualStored": 369.99999286,
+      "absoluteDifference": 1.255739334737882e-8
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 210,
+      "actualStored": 210,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 274.9999976158142,
+      "actualStored": 274.99999762,
+      "absoluteDifference": 4.18577883465332e-9
+    },
+    {
+      "skillKey": "neeko_e",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 404.9999928474426,
+      "actualStored": 404.99999286,
+      "absoluteDifference": 1.255739334737882e-8
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 70,
+      "actualStored": 70,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 150.0000011920929,
+      "actualStored": 150,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 310.0000035762787,
+      "actualStored": 310,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 110,
+      "actualStored": 110,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 190.0000011920929,
+      "actualStored": 190,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 350.0000035762787,
+      "actualStored": 350,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 150,
+      "actualStored": 150,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 230.0000011920929,
+      "actualStored": 230,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 390.0000035762787,
+      "actualStored": 390,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 190,
+      "actualStored": 190,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 270.0000011920929,
+      "actualStored": 270,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 430.0000035762787,
+      "actualStored": 430,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 230,
+      "actualStored": 230,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 310.0000011920929,
+      "actualStored": 310,
+      "absoluteDifference": 0.0000011920928955078125
+    },
+    {
+      "skillKey": "orianna_w",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 470.0000035762787,
+      "actualStored": 470,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "orianna_r",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 225,
+      "actualStored": 225,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "orianna_r",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 335.0000023841858,
+      "actualStored": 335,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "orianna_r",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 555.0000071525574,
+      "actualStored": 555,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "orianna_r",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 350,
+      "actualStored": 350,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "orianna_r",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 460.0000023841858,
+      "actualStored": 460,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "orianna_r",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 680.0000071525574,
+      "actualStored": 680,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "orianna_r",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 475,
+      "actualStored": 475,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "orianna_r",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 585.0000023841858,
+      "actualStored": 585,
+      "absoluteDifference": 0.000002384185791015625
+    },
+    {
+      "skillKey": "orianna_r",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 805.0000071525574,
+      "actualStored": 805,
+      "absoluteDifference": 0.000007152557373046875
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 121.99999809265137,
+      "actualStored": 122,
+      "absoluteDifference": 0.0000019073486328125
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 219.9999964237213,
+      "actualStored": 220,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 359.9999940395355,
+      "actualStored": 360,
+      "absoluteDifference": 0.0000059604644775390625
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 171.99999809265137,
+      "actualStored": 172,
+      "absoluteDifference": 0.0000019073486328125
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 269.9999964237213,
+      "actualStored": 270,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 409.9999940395355,
+      "actualStored": 410,
+      "absoluteDifference": 0.0000059604644775390625
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 221.99999809265137,
+      "actualStored": 222,
+      "absoluteDifference": 0.0000019073486328125
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 319.9999964237213,
+      "actualStored": 320,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 459.9999940395355,
+      "actualStored": 460,
+      "absoluteDifference": 0.0000059604644775390625
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 271.99999809265137,
+      "actualStored": 272,
+      "absoluteDifference": 0.0000019073486328125
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 369.9999964237213,
+      "actualStored": 370,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 509.9999940395355,
+      "actualStored": 510,
+      "absoluteDifference": 0.0000059604644775390625
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 321.99999809265137,
+      "actualStored": 322,
+      "absoluteDifference": 0.0000019073486328125
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 419.9999964237213,
+      "actualStored": 420,
+      "absoluteDifference": 0.0000035762786865234375
+    },
+    {
+      "skillKey": "jinx_w",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 559.9999940395355,
+      "actualStored": 560,
+      "absoluteDifference": 0.0000059604644775390625
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 65,
+      "actualStored": 65,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 155.00000059604645,
+      "actualStored": 155.0000006,
+      "absoluteDifference": 3.953545046897489e-9
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 1,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 319.00000154972076,
+      "actualStored": 319.00000156,
+      "absoluteDifference": 1.0279222806275357e-8
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 100,
+      "actualStored": 100,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 192.5000011920929,
+      "actualStored": 192.50000119999999,
+      "absoluteDifference": 7.907090093794977e-9
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 2,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 360.5000030994415,
+      "actualStored": 360.50000312,
+      "absoluteDifference": 2.0558445612550713e-8
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 135,
+      "actualStored": 135,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 229.9999988079071,
+      "actualStored": 229.99999880000001,
+      "absoluteDifference": 7.907090093794977e-9
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 3,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 401.9999969005585,
+      "actualStored": 401.99999688,
+      "absoluteDifference": 2.0558445612550713e-8
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 170,
+      "actualStored": 170,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 267.49999940395355,
+      "actualStored": 267.4999994,
+      "absoluteDifference": 3.953573468606919e-9
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 4,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 443.49999845027924,
+      "actualStored": 443.49999844,
+      "absoluteDifference": 1.0279222806275357e-8
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 80,
+        "attack_damage.BONUS": 0,
+        "ability_power.TOTAL": 0
+      },
+      "expectedFromClient": 205,
+      "actualStored": 205,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 150,
+        "attack_damage.BONUS": 50,
+        "ability_power.TOTAL": 100
+      },
+      "expectedFromClient": 305,
+      "actualStored": 305,
+      "absoluteDifference": 0
+    },
+    {
+      "skillKey": "quinn_q",
+      "rank": 5,
+      "sourceAttributes": {
+        "attack_damage.TOTAL": 250,
+        "attack_damage.BONUS": 130,
+        "ability_power.TOTAL": 300
+      },
+      "expectedFromClient": 485,
+      "actualStored": 485,
+      "absoluteDifference": 0
+    }
+  ],
+  "arithmeticCases": 108,
+  "tolerance": 0.0001,
+  "maxAbsoluteDifference": 0.000007152557373046875,
+  "boundary": "仅完成本体直接伤害，控制或其他来源不足分支不通过近似配置替代。"
+}

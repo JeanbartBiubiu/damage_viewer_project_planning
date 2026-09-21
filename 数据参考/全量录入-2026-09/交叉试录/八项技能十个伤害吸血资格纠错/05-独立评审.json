@@ -1,0 +1,565 @@
+{
+  "schemaVersion": "damage.authoring.independent-review.v1",
+  "status": "APPROVED",
+  "title": "八项技能十个已有伤害的空吸血资格纠错独立评审",
+  "reviewedAt": "2026-09-18T23:29:08.943Z",
+  "scope": {
+    "worktree": "C:\\project\\damage_web_dev",
+    "directory": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错",
+    "gameId": "lol",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "targetSkills": [
+      "annie_w",
+      "brand_w",
+      "brand_e",
+      "malphite_q",
+      "malphite_e",
+      "malphite_r",
+      "diana_q",
+      "veigar_r"
+    ],
+    "targetDamageResults": 10,
+    "preparedPUTs": 10,
+    "apiCallsDuringReview": 0,
+    "databaseAccess": false,
+    "businessWritesDuringReview": 0,
+    "runtimeBoundary": "只核对管理配置和固定来源，不证明浏览器、Wasm、战斗运行、吸血实际回收或法术护盾运行。"
+  },
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-damage-vamp.mjs": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "01-纠错计划.json": "66854ac8f2b7afdb0d114bcf7a19270fb99c6449c3ba987ebf8b3d105277d4cb",
+    "02-冻结请求.json": "59d733eac9e9bfb008643fd1005a5515a9f7ea90574f5bd834495892bc7b7e0d",
+    "03-来源摘要.json": "6bec286e073fb36b94b2a352e2b2ef6dfccb4b8036fabb168084151884ecb879",
+    "04-写入前现值.json": "bfb9b6670771d29a921e9c21cf652fb3837016fabf818999f1a2a7743a773ff4"
+  },
+  "toolBinding": {
+    "path": "tools/authoring/update-reviewed-damage-vamp.mjs",
+    "sha256": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "expectedSha256": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+    "match": true,
+    "reviewedMechanism": [
+      "只允许PUT且路由必须来自01纠错计划",
+      "每个目标效果必须已有单一DAMAGE结果",
+      "PUT只发送name、description、sortOrder、lifecycle、results",
+      "只替换该单一结果detail.vampRules并更新父说明",
+      "写入前保护现值、按冻结哈希执行、即时回读和最终readback"
+    ]
+  },
+  "fileBinding": {
+    "fileHashes": {
+      "plan": "66854ac8f2b7afdb0d114bcf7a19270fb99c6449c3ba987ebf8b3d105277d4cb",
+      "source": "6bec286e073fb36b94b2a352e2b2ef6dfccb4b8036fabb168084151884ecb879",
+      "baseline": "bfb9b6670771d29a921e9c21cf652fb3837016fabf818999f1a2a7743a773ff4",
+      "frozen": "59d733eac9e9bfb008643fd1005a5515a9f7ea90574f5bd834495892bc7b7e0d"
+    },
+    "freezeLinks": {
+      "sourceSha256Matches03": true,
+      "baselineSha256Matches04": true,
+      "expectedFrozenSha256": "59d733eac9e9bfb008643fd1005a5515a9f7ea90574f5bd834495892bc7b7e0d",
+      "frozenSha256": "59d733eac9e9bfb008643fd1005a5515a9f7ea90574f5bd834495892bc7b7e0d"
+    },
+    "sourceHashAudit": {
+      "count": 27,
+      "mismatchCount": 0,
+      "rows": [
+        {
+          "root": "planning",
+          "path": "数据参考/全量录入-2026-09/伤害吸血通用来源复核/来源与未决口径.json",
+          "expectedSha256": "b5ad7d6eb3d73f7db86e35744c6f39dfd67ad62c80806b80bb38ac4e08864f59",
+          "actualSha256": "b5ad7d6eb3d73f7db86e35744c6f39dfd67ad62c80806b80bb38ac4e08864f59",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+          "expectedSha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501",
+          "actualSha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+          "expectedSha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+          "actualSha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillEffect.ts",
+          "expectedSha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34",
+          "actualSha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34",
+          "match": true
+        },
+        {
+          "root": "planning",
+          "path": "文档记录/详细设计/项目/伤害与普通护盾交互基础详细设计.md",
+          "expectedSha256": "3370e1587ebbe93a055629d8f4c8bfebbfc30f5793af416992bcb6db4b55ee7b",
+          "actualSha256": "3370e1587ebbe93a055629d8f4c8bfebbfc30f5793af416992bcb6db4b55ee7b",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/00-首轮只读候选.json",
+          "expectedSha256": "45886938a8f81f2552a8bf508ea9bc7b46c79b9bafec6326db400529f006cf46",
+          "actualSha256": "45886938a8f81f2552a8bf508ea9bc7b46c79b9bafec6326db400529f006cf46",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/00a-效果范围复核.json",
+          "expectedSha256": "7445bde3544d7c8327852e2a564c29aa41a9b1baaf9d0a44ce381225fd1a9134",
+          "actualSha256": "7445bde3544d7c8327852e2a564c29aa41a9b1baaf9d0a44ce381225fd1a9134",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/八项技能十个伤害吸血资格纠错/00b-候选请求审计.json",
+          "expectedSha256": "544823af94ea276aff41fca5c8f07605b97f061fa8815c3d8d11d556ee668e48",
+          "actualSha256": "544823af94ea276aff41fca5c8f07605b97f061fa8815c3d8d11d556ee668e48",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/录入候选.json",
+          "expectedSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+          "actualSha256": "dab2c80a74f4b7d8ad00d6dc933dd05fb553f47f241487d649b4e8809482a272",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二批/独立回读证据.json",
+          "expectedSha256": "8702a7feed77a20e8e9612eb3dc037fa324d96d99ecdd159a22566f2daee48cc",
+          "actualSha256": "8702a7feed77a20e8e9612eb3dc037fa324d96d99ecdd159a22566f2daee48cc",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/录入候选.json",
+          "expectedSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+          "actualSha256": "4d79b512033733cb164cc20a02030fb17b0bf8bdecd4124c0b3162a664282034",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/最终独立回读证据.json",
+          "expectedSha256": "411d252898d73a229409b88f3dcb2f0658ef3d5b53f1b5180c6ae9a67e49b385",
+          "actualSha256": "411d252898d73a229409b88f3dcb2f0658ef3d5b53f1b5180c6ae9a67e49b385",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Annie.json.gz",
+          "expectedSha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38",
+          "actualSha256": "c6d06c60e39dd0cac0cabcc2f11dcbf9428471deb640eba172a4b4aef73d6f38",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Annie.json",
+          "expectedSha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735",
+          "actualSha256": "f85156d6973b65b85336f9789aed6fe7a2f106170e2130993e31c5b5ce546735",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Annie.json",
+          "expectedSha256": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4",
+          "actualSha256": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Brand.json.gz",
+          "expectedSha256": "0f205cb596ac4733d8588aec896f4a0121c71b66fa1ba1f6be924caaeac30dcd",
+          "actualSha256": "0f205cb596ac4733d8588aec896f4a0121c71b66fa1ba1f6be924caaeac30dcd",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Brand.json",
+          "expectedSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+          "actualSha256": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Brand.json",
+          "expectedSha256": "d1f7a34ee637918b864268464c39199eea9f53eb5a37101d403f544f5792a8dc",
+          "actualSha256": "d1f7a34ee637918b864268464c39199eea9f53eb5a37101d403f544f5792a8dc",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Malphite.json.gz",
+          "expectedSha256": "65865f9dbcbba50a11852301d6f516a21eb7ea88623980bb35ed7a825e7f6fdd",
+          "actualSha256": "65865f9dbcbba50a11852301d6f516a21eb7ea88623980bb35ed7a825e7f6fdd",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Malphite.json",
+          "expectedSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7",
+          "actualSha256": "cda7b95df866a1e9ba4843dedb619ecf7618ef6d46390f3ffa8eec35f2ed44e7",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Malphite.json",
+          "expectedSha256": "717e46ec145f0ccbd25237d32401d224c96e1a4727b72dcdf435729b1c60c707",
+          "actualSha256": "717e46ec145f0ccbd25237d32401d224c96e1a4727b72dcdf435729b1c60c707",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Diana.json.gz",
+          "expectedSha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c",
+          "actualSha256": "ab22fa97bbd90d4d738fd9502ea242b072d1097ac76f95708b04b3d5f94c5c5c",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Diana.json",
+          "expectedSha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d",
+          "actualSha256": "6f7990250417fffd6df771c9641c7519423e18d77a04c26d2c0c2e2d663da88d",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Diana.json",
+          "expectedSha256": "06bba838083bb91b9d6c41f6c9f7395966d911719b9893be08734ba6425e8055",
+          "actualSha256": "06bba838083bb91b9d6c41f6c9f7395966d911719b9893be08734ba6425e8055",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Veigar.json.gz",
+          "expectedSha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc",
+          "actualSha256": "0bc627d047d3df570c00af13e5f2ff4b09ae7f5ab032672176d54efddd2165dc",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Veigar.json",
+          "expectedSha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+          "actualSha256": "592296562a5b3760026265f64745ab952766be3bab7c3d01172e6d8ac1d1a0de",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Veigar.json",
+          "expectedSha256": "71eed4440c741f187b3e36900a67e4544b188edb6aba4501ae3d981e494c28c2",
+          "actualSha256": "71eed4440c741f187b3e36900a67e4544b188edb6aba4501ae3d981e494c28c2",
+          "match": true
+        }
+      ]
+    }
+  },
+  "reviewItems": [
+    {
+      "id": "R1",
+      "name": "工具与01至04原始文件绑定",
+      "result": "PASS",
+      "evidence": "工具实际SHA与锁定181c182b一致；approvedFiles包含工具、计划、冻结请求、来源摘要、写前现值五项原始哈希。"
+    },
+    {
+      "id": "R2",
+      "name": "27项来源完整性",
+      "result": "PASS",
+      "evidence": "03列出27项来源，实际重新计算27/27一致，无缺失或漂移。",
+      "counts": {
+        "sourceFiles": 27,
+        "mismatch": 0
+      }
+    },
+    {
+      "id": "R3",
+      "name": "普通直接魔法伤害资格",
+      "result": "PASS",
+      "evidence": {
+        "qualificationRule": "专用纠错工具按每个目标效果逐项检查 results.length===1；不是按技能合计DAMAGE数。普通DIRECT/SKILL/magic且TARGET、critical DISALLOWED、lifecycle null、空vampRules的效果均可分别成为候选。",
+        "skills": 8,
+        "damageResults": 10,
+        "preparedCandidates": 10,
+        "explicitNonApplicable": 0,
+        "allRows": [
+          {
+            "skillKey": "annie_w",
+            "effectKey": "spell_hit",
+            "resultKey": "damage",
+            "status": "准备候选",
+            "exception": [],
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "criticalMode": "DISALLOWED",
+            "lifecycle": null,
+            "vampRulesBefore": 0,
+            "resultsCount": 1,
+            "formulaKey": "damage"
+          },
+          {
+            "skillKey": "brand_w",
+            "effectKey": "normal_pillar",
+            "resultKey": "damage",
+            "status": "准备候选",
+            "exception": [
+              "技能共有2个DAMAGE结果，专用工具单DAMAGE约束不适用",
+              "普通与强化两份效果需按命中前是否已灼烧互斥选择；当前规则只有SKILL_USED启动cast，没有火柱生成、实际命中和灼烧条件入口。吸血资格可对两个独立效果分别准备，不替代分支接线。"
+            ],
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "criticalMode": "DISALLOWED",
+            "lifecycle": null,
+            "vampRulesBefore": 0,
+            "resultsCount": 1,
+            "formulaKey": "damage"
+          },
+          {
+            "skillKey": "brand_w",
+            "effectKey": "empowered_pillar",
+            "resultKey": "damage",
+            "status": "准备候选",
+            "exception": [
+              "技能共有2个DAMAGE结果，专用工具单DAMAGE约束不适用",
+              "普通与强化两份效果需按命中前是否已灼烧互斥选择；当前规则只有SKILL_USED启动cast，没有火柱生成、实际命中和灼烧条件入口。吸血资格可对两个独立效果分别准备，不替代分支接线。"
+            ],
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "criticalMode": "DISALLOWED",
+            "lifecycle": null,
+            "vampRulesBefore": 0,
+            "resultsCount": 1,
+            "formulaKey": "empowered_damage"
+          },
+          {
+            "skillKey": "brand_e",
+            "effectKey": "conflagration_hit",
+            "resultKey": "damage",
+            "status": "准备候选",
+            "exception": [],
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "criticalMode": "DISALLOWED",
+            "lifecycle": null,
+            "vampRulesBefore": 0,
+            "resultsCount": 1,
+            "formulaKey": "damage"
+          },
+          {
+            "skillKey": "malphite_q",
+            "effectKey": "shard_hit",
+            "resultKey": "damage",
+            "status": "准备候选",
+            "exception": [],
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "criticalMode": "DISALLOWED",
+            "lifecycle": null,
+            "vampRulesBefore": 0,
+            "resultsCount": 1,
+            "formulaKey": "damage"
+          },
+          {
+            "skillKey": "malphite_e",
+            "effectKey": "slam_hit",
+            "resultKey": "damage",
+            "status": "准备候选",
+            "exception": [],
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "criticalMode": "DISALLOWED",
+            "lifecycle": null,
+            "vampRulesBefore": 0,
+            "resultsCount": 1,
+            "formulaKey": "damage"
+          },
+          {
+            "skillKey": "malphite_r",
+            "effectKey": "impact_hit",
+            "resultKey": "damage",
+            "status": "准备候选",
+            "exception": [],
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "criticalMode": "DISALLOWED",
+            "lifecycle": null,
+            "vampRulesBefore": 0,
+            "resultsCount": 1,
+            "formulaKey": "damage"
+          },
+          {
+            "skillKey": "diana_q",
+            "effectKey": "moon_arc_hit",
+            "resultKey": "damage",
+            "status": "准备候选",
+            "exception": [],
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "criticalMode": "DISALLOWED",
+            "lifecycle": null,
+            "vampRulesBefore": 0,
+            "resultsCount": 1,
+            "formulaKey": "damage"
+          },
+          {
+            "skillKey": "veigar_r",
+            "effectKey": "minimum_burst",
+            "resultKey": "damage",
+            "status": "准备候选",
+            "exception": [
+              "技能共有2个DAMAGE结果，专用工具单DAMAGE约束不适用",
+              "基础与低生命上限是生命值伤害分支的端点；当前规则只有SKILL_USED启动cast，没有实际命中、当前生命读取和连续倍率入口。两个吸血资格可分别准备，不把两个结果同时执行或把上限当常态。"
+            ],
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "criticalMode": "DISALLOWED",
+            "lifecycle": null,
+            "vampRulesBefore": 0,
+            "resultsCount": 1,
+            "formulaKey": "damage"
+          },
+          {
+            "skillKey": "veigar_r",
+            "effectKey": "maximum_burst",
+            "resultKey": "damage",
+            "status": "准备候选",
+            "exception": [
+              "技能共有2个DAMAGE结果，专用工具单DAMAGE约束不适用",
+              "基础与低生命上限是生命值伤害分支的端点；当前规则只有SKILL_USED启动cast，没有实际命中、当前生命读取和连续倍率入口。两个吸血资格可分别准备，不把两个结果同时执行或把上限当常态。"
+            ],
+            "target": "TARGET",
+            "resultType": "DAMAGE",
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "criticalMode": "DISALLOWED",
+            "lifecycle": null,
+            "vampRulesBefore": 0,
+            "resultsCount": 1,
+            "formulaKey": "max_damage"
+          }
+        ]
+      }
+    },
+    {
+      "id": "R4",
+      "name": "00a纠正单结果范围",
+      "result": "PASS",
+      "evidence": "工具实际按每个effect.results.length===1检查；BrandW和VeigarR虽技能各有两个独立伤害效果，但每个目标效果自身均只有一个DAMAGE结果，分别纳入10项。"
+    },
+    {
+      "id": "R5",
+      "name": "10个PUT允许字段",
+      "result": "PASS",
+      "evidence": {
+        "requestCount": 10,
+        "routes": [
+          "/skills/annie_w/effects/spell_hit",
+          "/skills/brand_w/effects/normal_pillar",
+          "/skills/brand_w/effects/empowered_pillar",
+          "/skills/brand_e/effects/conflagration_hit",
+          "/skills/malphite_q/effects/shard_hit",
+          "/skills/malphite_e/effects/slam_hit",
+          "/skills/malphite_r/effects/impact_hit",
+          "/skills/diana_q/effects/moon_arc_hit",
+          "/skills/veigar_r/effects/minimum_burst",
+          "/skills/veigar_r/effects/maximum_burst"
+        ],
+        "allowedBodyKeys": [
+          "name",
+          "description",
+          "sortOrder",
+          "lifecycle",
+          "results"
+        ],
+        "resultInvariant": "每个PUT结果仍为原resultKey、DAMAGE、TARGET，原公式、数值、暴击和法术护盾粒度保持。",
+        "vampAfter": "每个目标结果恰有一条OMNIVAMP、POST_DEFENSE_DAMAGE、固定效率1。",
+        "parentDescription": "10个父说明均在原说明后补充明确全能吸血资格；没有创建新效果、公式、参数、规则或过程。"
+      }
+    },
+    {
+      "id": "R6",
+      "name": "数值、公式与既有接线保护",
+      "result": "PASS",
+      "evidence": {
+        "preserved": "伤害公式、等级数组、目标、deliveryKind、originKind、critical、spellShieldBlockScope、效果名称、排序和结果结构均从04现值复制，仅改说明和vampRules。",
+        "noNewEntrypoints": true,
+        "knownBranches": [
+          "BrandW普通与强化分支仍依赖灼烧状态互斥选择，未新增条件入口。",
+          "VeigarR基础与低生命上限分支仍保留生命比例关系和互斥入口未完成，不同时执行两个结果。",
+          "其他技能原有被动、控制和时序待办未被吸血纠错替代。"
+        ]
+      }
+    },
+    {
+      "id": "R7",
+      "name": "写前GET基线与业务写入边界",
+      "result": "PASS",
+      "evidence": {
+        "auditCount": 144,
+        "statusCounts": [
+          {
+            "status": 200,
+            "count": 144
+          }
+        ],
+        "responseCount": 144,
+        "businessWrites": 0,
+        "allPreparedTargetsAlreadyPresent": true,
+        "reviewCalls": 0
+      }
+    },
+    {
+      "id": "R8",
+      "name": "冻结请求与工具防重放边界",
+      "result": "PASS",
+      "evidence": {
+        "frozenRequestHash": "59d733eac9e9bfb008643fd1005a5515a9f7ea90574f5bd834495892bc7b7e0d",
+        "expectedFrozenRequestHash": "59d733eac9e9bfb008643fd1005a5515a9f7ea90574f5bd834495892bc7b7e0d",
+        "sourceHash": "6bec286e073fb36b94b2a352e2b2ef6dfccb4b8036fabb168084151884ecb879",
+        "baselineHash": "bfb9b6670771d29a921e9c21cf652fb3837016fabf818999f1a2a7743a773ff4",
+        "noBusinessApiDuringReview": true,
+        "nextExecutionBoundary": "后续仅由主负责人按工具锁定哈希执行受保护PUT、即时回读和最终独立回读。"
+      }
+    }
+  ],
+  "sourceCorrectionBoundary": {
+    "originalError": "00首轮把单结果限制误读成技能总伤害结果限制。",
+    "correction": "00a按每个目标效果逐项检查results.length===1；BrandW和VeigarR的两个效果分别可纠错。",
+    "notConnected": [
+      "条件命中入口",
+      "BrandW灼烧分支选择",
+      "VeigarR生命比例连续倍率和互斥分支",
+      "任何新事件、过程或状态"
+    ]
+  },
+  "conclusion": "APPROVED：10个已有普通直接魔法DAMAGE结果的空vampRules纠错具备静态独立评审通过条件；未发现阻塞项。"
+}
+

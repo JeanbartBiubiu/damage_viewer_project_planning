@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-19T17:00:44.055Z",
+  "status": "APPROVED",
+  "reviewer": "/root/silence_sources",
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "f3d833633c853bd5345f13a85a6c81fa792ab162ca11b012d5974566677754bc",
+    "02-冻结请求.json": "5952bb0e332193e6bf8be5d5f18454a0f32077d7c6b38674e05077e87f299e02",
+    "03-来源摘要.json": "7d35a21bd4d9d31e5d666e22719817f92ff98989f02ca20f6506322697e5364a",
+    "04-写入前现值.json": "586b4278e06c057080c07c3622c0476ee08bc72da6b2533fb6d35b10b20d23ba"
+  },
+  "findings": [
+    "2技能各效果与规则共4个POST，无费德提克E请求",
+    "来源6文件、53次预检GET及4个新详情404核对一致",
+    "首次施加限敌方英雄、同次明确未被法术护盾阻挡、当前目标本来源实例不存在",
+    "父期限引用已有silence_duration_ms；无强度沉默，随父期限结束",
+    "重施、玛尔扎哈Q刷新E仍开放；旧入口保持；不证明战斗运行"
+  ]
+}

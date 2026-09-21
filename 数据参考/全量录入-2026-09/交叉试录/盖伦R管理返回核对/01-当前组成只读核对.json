@@ -1,0 +1,465 @@
+{
+  "at": "2026-09-19T15:12:17.656Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/garen_r": {
+      "createdAt": "2026-09-06T15:35:07.212771Z",
+      "description": "R技能。对敌方英雄造成125/200/275+25/30/35%目标已损失生命值的真实伤害；冷却120/100/80秒。资料：16.17客户端及官方26.14补证。施法与实际命中、视野、失败和冷却边界待处理，图片待补。",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "盖伦·德玛西亚正义",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "garen_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:28:51.423188Z"
+    },
+    "/skills/garen_r/parameters": [
+      {
+        "createdAt": "2026-09-06T15:40:23.991105Z",
+        "description": "16.17客户端及已冻结盖伦技能补证。官方26.14与当前客户端确认。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 125,
+          "2": 200,
+          "3": 275
+        },
+        "name": "基础真实伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "garen_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T15:40:23.991105Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-06T15:40:25.439656Z",
+        "description": "16.17客户端及已冻结盖伦技能补证。25/30/35%，不是无条件处决。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.25,
+          "2": 0.3,
+          "3": 0.35
+        },
+        "name": "目标已损失生命系数",
+        "parameterKey": "missing_hp_ratio",
+        "skillKey": "garen_r",
+        "sortOrder": 1,
+        "updatedAt": "2026-09-06T15:40:25.439656Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-06T15:40:27.206893Z",
+        "description": "16.17客户端及已冻结盖伦技能补证。120/100/80秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "garen_r",
+        "sortOrder": 2,
+        "updatedAt": "2026-09-06T15:40:27.206893Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-06T15:40:28.614453Z",
+        "description": "16.17客户端及已冻结盖伦技能补证。客户端约0.435秒，Wiki常规施法时间补证；失败与无敌交互另列。",
+        "fixedValue": 435,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "garen_r",
+        "sortOrder": 3,
+        "updatedAt": "2026-09-06T15:40:28.614453Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-06T15:40:30.018167Z",
+        "description": "16.17客户端及已冻结盖伦技能补证。官方9.20及当前客户端RevealDuration。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "提供视野时长（毫秒）",
+        "parameterKey": "reveal_duration_ms",
+        "skillKey": "garen_r",
+        "sortOrder": 4,
+        "updatedAt": "2026-09-06T15:40:30.018167Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-06T15:40:31.41488Z",
+        "description": "16.17客户端及已冻结盖伦技能补证。官方静态资料400。",
+        "fixedValue": 400,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法距离",
+        "parameterKey": "cast_range",
+        "skillKey": "garen_r",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-06T15:40:31.41488Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/garen_r/parameters/base_damage": {
+      "createdAt": "2026-09-06T15:40:23.991105Z",
+      "description": "16.17客户端及已冻结盖伦技能补证。官方26.14与当前客户端确认。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 125,
+        "2": 200,
+        "3": 275
+      },
+      "name": "基础真实伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "garen_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-06T15:40:23.991105Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/garen_r/parameters/missing_hp_ratio": {
+      "createdAt": "2026-09-06T15:40:25.439656Z",
+      "description": "16.17客户端及已冻结盖伦技能补证。25/30/35%，不是无条件处决。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.25,
+        "2": 0.3,
+        "3": 0.35
+      },
+      "name": "目标已损失生命系数",
+      "parameterKey": "missing_hp_ratio",
+      "skillKey": "garen_r",
+      "sortOrder": 1,
+      "updatedAt": "2026-09-06T15:40:25.439656Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/garen_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-06T15:40:27.206893Z",
+      "description": "16.17客户端及已冻结盖伦技能补证。120/100/80秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 120000,
+        "2": 100000,
+        "3": 80000
+      },
+      "name": "基础冷却（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "garen_r",
+      "sortOrder": 2,
+      "updatedAt": "2026-09-06T15:40:27.206893Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/garen_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-06T15:40:28.614453Z",
+      "description": "16.17客户端及已冻结盖伦技能补证。客户端约0.435秒，Wiki常规施法时间补证；失败与无敌交互另列。",
+      "fixedValue": 435,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "garen_r",
+      "sortOrder": 3,
+      "updatedAt": "2026-09-06T15:40:28.614453Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/garen_r/parameters/reveal_duration_ms": {
+      "createdAt": "2026-09-06T15:40:30.018167Z",
+      "description": "16.17客户端及已冻结盖伦技能补证。官方9.20及当前客户端RevealDuration。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "提供视野时长（毫秒）",
+      "parameterKey": "reveal_duration_ms",
+      "skillKey": "garen_r",
+      "sortOrder": 4,
+      "updatedAt": "2026-09-06T15:40:30.018167Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/garen_r/parameters/cast_range": {
+      "createdAt": "2026-09-06T15:40:31.41488Z",
+      "description": "16.17客户端及已冻结盖伦技能补证。官方静态资料400。",
+      "fixedValue": 400,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法距离",
+      "parameterKey": "cast_range",
+      "skillKey": "garen_r",
+      "sortOrder": 5,
+      "updatedAt": "2026-09-06T15:40:31.41488Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/garen_r/formulas": [
+      {
+        "createdAt": "2026-09-06T15:59:37.797715Z",
+        "description": "命中时目标已损失生命；不用施法时快照替代命中时生命。来源：16.17固定资料。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "德玛西亚正义真实伤害",
+        "skillKey": "garen_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T15:59:37.797715Z"
+      }
+    ],
+    "/skills/garen_r/formulas/damage": {
+      "createdAt": "2026-09-06T15:59:37.797715Z",
+      "description": "命中时目标已损失生命；不用施法时快照替代命中时生命。来源：16.17固定资料。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "TARGET",
+                "attributeValueKind": "MISSING",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "missing_hp_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "德玛西亚正义真实伤害",
+      "skillKey": "garen_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-06T15:59:37.797715Z"
+    },
+    "/skills/garen_r/effects": [
+      {
+        "createdAt": "2026-09-06T16:05:27.00363Z",
+        "description": "普通伤害结果，仍服从护盾、免疫和生命下限，不使用直接处决。施法过程、命中时点、失效条件待补。",
+        "effectKey": "justice_damage",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "德玛西亚正义命中伤害",
+        "resultCount": 1,
+        "skillKey": "garen_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T16:05:27.00363Z"
+      }
+    ],
+    "/skills/garen_r/effects/justice_damage": {
+      "createdAt": "2026-09-06T16:05:27.00363Z",
+      "description": "普通伤害结果，仍服从护盾、免疫和生命下限，不使用直接处决。施法过程、命中时点、失效条件待补。",
+      "effectKey": "justice_damage",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "德玛西亚正义命中伤害",
+      "results": [
+        {
+          "description": "吸血结构暂不逐技能复制；须由游戏级吸血规则及必要例外补齐，空列表不表示该伤害不吸血。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "real",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "真实伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 0,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "garen_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-06T16:05:27.00363Z"
+    },
+    "/skills/garen_r/processes": [],
+    "/skills/garen_r/internal-states": [],
+    "/skills/garen_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "以实际 SKILL_HIT 为输入；施法与目标有效性由宿主确认，此规则本身不产生命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "德玛西亚正义实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_hit",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-12T12:02:38.862904Z"
+      }
+    ],
+    "/skills/garen_r/trigger-rules/on_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "justice_damage"
+          },
+          "name": "执行效果",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 0,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "category",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 0
+            }
+          ],
+          "groupKey": "allowed_target",
+          "name": "允许的命中目标",
+          "sortOrder": 0
+        }
+      ],
+      "description": "以实际 SKILL_HIT 为输入；施法与目标有效性由宿主确认，此规则本身不产生命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "garen_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "德玛西亚正义实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "on_hit",
+      "sortOrder": 0
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/garen_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/missing_hp_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/reveal_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/parameters/cast_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/effects/justice_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/trigger-rules/on_hit",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

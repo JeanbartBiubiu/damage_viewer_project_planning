@@ -1,0 +1,119 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/talon_q/effects",
+      "detailRoute": "/skills/talon_q/effects/attack_timer_reset",
+      "body": {
+        "effectKey": "attack_timer_reset",
+        "name": "诺克萨斯式外交普攻计时重置",
+        "description": "固定16.17当前Q绑定与官方13.24机制说明共同确证：本次Q主动使用时重置来源对象的普攻计时。该独立结果不发动攻击，不代替Q伤害、跃斩或击杀返还。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reset_attack_timer",
+            "name": "重置普攻计时",
+            "resultType": "ATTACK_TIMER_RESET",
+            "target": "SOURCE",
+            "description": "本次已成立主动使用时清零来源对象普通攻击间隔的剩余等待。",
+            "sortOrder": 10,
+            "valueRule": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "attack_timer_reset",
+        "name": "诺克萨斯式外交普攻计时重置",
+        "description": "固定16.17当前Q绑定与官方13.24机制说明共同确证：本次Q主动使用时重置来源对象的普攻计时。该独立结果不发动攻击，不代替Q伤害、跃斩或击杀返还。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "reset_attack_timer",
+            "name": "重置普攻计时",
+            "resultType": "ATTACK_TIMER_RESET",
+            "target": "SOURCE",
+            "description": "本次已成立主动使用时清零来源对象普通攻击间隔的剩余等待。",
+            "sortOrder": 10,
+            "valueRule": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/talon_q/trigger-rules",
+      "detailRoute": "/skills/talon_q/trigger-rules/on_used_attack_reset",
+      "body": {
+        "ruleKey": "on_used_attack_reset",
+        "name": "主动使用重置普攻计时",
+        "description": "接收泰隆Q已成立的主动使用，执行独立普攻计时重置。近战与远程均适用；不以伤害命中或过程开始替代使用时点。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "talon_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "name": "执行普攻计时重置",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "attack_timer_reset"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_attack_reset",
+        "name": "主动使用重置普攻计时",
+        "description": "接收泰隆Q已成立的主动使用，执行独立普攻计时重置。近战与远程均适用；不以伤害命中或过程开始替代使用时点。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "talon_q",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "name": "执行普攻计时重置",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE",
+            "detail": {
+              "effectKey": "attack_timer_reset"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "67e865568d445eb986729d57413ab3b7177b8980a9875df49b379494fcb46fac",
+  "baselineSha256": "4dacbc5ea95bcf69508e77771673d936fdd02c9f89e75b03b7bed42fb4677e35"
+}

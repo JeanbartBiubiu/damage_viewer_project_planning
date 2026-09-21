@@ -1,0 +1,463 @@
+{
+  "status": "READY_FOR_SEQUENTIAL_FREEZE",
+  "at": "2026-09-19T05:40:47.666Z",
+  "reviewer": "独立评审代理",
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "conclusion": "先通过真实页面更新原 resolve_on_q_hit 规则，仅新增英雄类别与明确敌方的同组条件；完成原值保护回读后再冻结 D 对 light_binding_hit 的空全能吸血纠错。无需新伤害入口；直接在当前无筛选入口补效率1会越过本轮已核英雄范围。",
+  "sources": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/艾翁拉克丝Q禁锢返回补录/04-写入前现值.json",
+      "sha256": "188fed82a95e5e4fd95e971b7da769759dbdb2b3ee1626953534ee9fc3a4a471"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/艾翁拉克丝Q禁锢返回补录/07-独立回读.json",
+      "sha256": "dd7006ded2a34574cb3c2b60be4d40f5c3b67a552df57008465dd28121e9ba06"
+    },
+    {
+      "root": "web",
+      "path": "output/seven-hit-review/ivern-lux-root-qualification.json",
+      "sha256": "8448d8975c19a24941c98f466f3437a141442072ab3621ba4e94b723bd8abcf4"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/伤害吸血通用来源复核/来源与未决口径.json",
+      "sha256": "b5ad7d6eb3d73f7db86e35744c6f39dfd67ad62c80806b80bb38ac4e08864f59"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+      "sha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/四项后续命中伤害吸血资格纠错/05-独立评审.json",
+      "sha256": "03edd6e5d7a97bf1795883c98e5bea456f2713d52f7cf1aea9183b645948310d"
+    },
+    {
+      "root": "web",
+      "path": "tools/authoring/update-reviewed-damage-vamp.mjs",
+      "sha256": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "b1af9f8d15671444be8e4c574dd20be8249dc3ad0c91e6ef5b005463a6bb283b"
+    },
+    {
+      "root": "web",
+      "path": "web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "sha256": "91fbba576225bc476492eb6c0a9e2ad2c10b187660d8667616958918b0f79064"
+    }
+  ],
+  "why": {
+    "generalSource": "已审通用来源支持普通对英雄技能伤害 OMNIVAMP 完整效率1；范围/持续/宠物对小兵存在33%分支。Lux Q 固定来源明确可命中敌方单位并非英雄专属，旧规则 conditionGroups=[]，故当前入口不能保证只应用英雄效率。",
+    "mapping": "复用已审 POST_DEFENSE_DAMAGE 管理映射，护盾和过量伤害的战斗运行仍未验证；不改为 ACTUAL_HP_LOSS，不从空数组推断自动继承。",
+    "ruleBoundary": "英雄与敌方条件只收窄本轮管理配置，不把原技能宣称为只能命中英雄。保留原 SKILL_HIT/lux_q 事件及 CURRENT_TARGET 唯一伤害动作，RESULT 护盾继续负责结果资格。",
+    "notAdded": "禁锢的同次未阻挡值和 ABSENT 条件不复制到伤害入口；尤其 ABSENT 会在已有禁锢实例时错误压掉伤害。"
+  },
+  "baseline": {
+    "reusedFrom": "数据参考/全量录入-2026-09/交叉试录/艾翁拉克丝Q禁锢返回补录/04-写入前现值.json",
+    "validatedUnchangedBy": "数据参考/全量录入-2026-09/交叉试录/艾翁拉克丝Q禁锢返回补录/07-独立回读.json",
+    "oldRule": {
+      "actions": [
+        {
+          "actionKey": "resolve_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "light_binding_hit"
+          },
+          "name": "结算命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lux_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "光之束缚实际命中结算",
+      "perTargetCooldown": null,
+      "ruleKey": "resolve_on_q_hit",
+      "sortOrder": 10
+    },
+    "oldEffect": {
+      "createdAt": "2026-09-07T14:45:14.699202Z",
+      "description": "浏览器试录：独立魔法伤害结果。",
+      "effectKey": "light_binding_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "光球命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "magic_damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "lux_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T14:45:14.699202Z"
+    },
+    "damageExecutionEntries": [
+      {
+        "route": "/skills/lux_q/trigger-rules/resolve_on_q_hit",
+        "actionKey": "resolve_hit"
+      }
+    ],
+    "currentNewRootEffect": {
+      "createdAt": "2026-09-19T05:36:11.414771Z",
+      "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限复用root_duration_ms；入口同时要求实际敌方英雄命中及同次命中明确未被法术护盾阻挡。已有实例时不执行，必填重施策略在本入口不可达，重施语义仍待核。",
+      "effectKey": "root_control",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "root_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE_TARGET",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "拉克丝·光之束缚首次禁锢",
+      "results": [
+        {
+          "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+          "detail": {
+            "operation": "APPLY",
+            "statusKey": "root"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": null,
+            "valueReadMode": null
+          },
+          "name": "拉克丝·光之束缚禁锢",
+          "resultKey": "root",
+          "resultType": "STATUS_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "lux_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-19T05:36:11.414771Z"
+    },
+    "currentNewRootRule": {
+      "actions": [
+        {
+          "actionKey": "apply_root",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "root_control"
+          },
+          "name": "施加本次禁锢",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            },
+            {
+              "conditionKey": "own_root_absent",
+              "conditionType": "LIFECYCLE_CHECK",
+              "detail": {
+                "checkKind": "ABSENT",
+                "comparator": null,
+                "comparisonValue": null,
+                "effectKey": "root_control",
+                "subject": "CURRENT_TARGET"
+              },
+              "sortOrder": 40
+            }
+          ],
+          "groupKey": "root_eligible",
+          "name": "本次禁锢可施加",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费本技能实际敌方英雄命中，且同次护盾阻挡值为0、当前目标无本来源禁锢实例；缺失判定不能默认0。前两目标选择与碰撞不由本规则生成；每次合法实际命中分别检查。已有实例的重复命中未录，原伤害与其他组成保持。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lux_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "拉克丝·光之束缚未受阻挡首次禁锢",
+      "perTargetCooldown": null,
+      "ruleKey": "apply_root_on_unblocked_hit",
+      "sortOrder": 30
+    }
+  },
+  "stageOne": {
+    "executionMode": "BROWSER_UI_ONLY",
+    "updateExisting": true,
+    "route": "/skills/lux_q/trigger-rules/resolve_on_q_hit",
+    "transportMethod": "PUT",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "resolve_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "light_binding_hit"
+          },
+          "name": "结算命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lux_q"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "光之束缚实际命中结算",
+      "perTargetCooldown": null,
+      "sortOrder": 10
+    },
+    "expectedReadback": {
+      "actions": [
+        {
+          "actionKey": "resolve_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "light_binding_hit"
+          },
+          "name": "结算命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lux_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "光之束缚实际命中结算",
+      "perTargetCooldown": null,
+      "ruleKey": "resolve_on_q_hit",
+      "sortOrder": 10
+    },
+    "onlySemanticChange": "conditionGroups 从空数组改为一个两条件 AND 组；名称、说明、事件、动作、所有排序与保护字段保持。SKILL_HIT 请求省略 useKind，回读保留原 null。",
+    "gate": "正式计划、来源与全量现值冻结并独立批准后，单次页面保存、完整即时 GET、关闭重开及独立回读；此次只给候选，不执行保存。"
+  },
+  "stageTwo": {
+    "dependsOn": "第一阶段已保存并独立回读通过，以新规则为新的 D prepare 基线；不可预先冻结旧基线再越过漂移检查。",
+    "tool": "tools/authoring/update-reviewed-damage-vamp.mjs",
+    "changes": [
+      {
+        "skillKey": "lux_q",
+        "effectKey": "light_binding_hit",
+        "resultKey": "magic_damage",
+        "route": "/skills/lux_q/effects/light_binding_hit",
+        "description": "本轮敌方英雄的一次普通直接魔法技能伤害；实际命中入口已限定英雄类别与明确敌方，并显式登记防御结算后伤害、效率为1的全能吸血资格。禁锢由独立受限入口维护，前两目标选择和碰撞事件生产另行验证。"
+      }
+    ],
+    "candidateRequest": {
+      "method": "PUT",
+      "route": "/skills/lux_q/effects/light_binding_hit",
+      "body": {
+        "name": "光球命中",
+        "description": "本轮敌方英雄的一次普通直接魔法技能伤害；实际命中入口已限定英雄类别与明确敌方，并显式登记防御结算后伤害、效率为1的全能吸血资格。禁锢由独立受限入口维护，前两目标选择和碰撞事件生产另行验证。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "magic_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "onlyAllowedChanges": [
+      "父效果 description",
+      "results[0].detail.vampRules 从 [] 改为一条 OMNIVAMP/POST_DEFENSE_DAMAGE/FIXED1"
+    ],
+    "preserve": "D 只改效果；原护盾 RESULT、公式 damage、数值、暴击、结果键、目标、生命周期、名称、排序、createdAt 保持，仅正常 updatedAt 可变化。新伤害条件组、root_control、禁锢规则、cast、on_used 和所有参数完整保护。",
+    "guardLimitation": "D 工具自身只验证单一普通魔法伤害形状，不验证命中入口一定有英雄/敌方条件；因此此次先完成入口范围修正，后续独立评审还须重核全部执行入口。"
+  },
+  "otherOpenItems": [
+    "root_duration_ms 旧说明的目录状态纠错另用 F，不能塞入 D 效果 PUT。",
+    "多目标碰撞、事件生产、护盾/吸血/免疫运行与禁锢重施仍不因此完成。"
+  ],
+  "noDuplicateEntry": true
+}

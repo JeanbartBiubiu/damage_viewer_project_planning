@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-19T14:37:06.419Z",
+  "reviewer": "/root/attack_reset_sources",
+  "model": "gpt-5.6-luna",
+  "reasoning": "max",
+  "status": "SOURCE_PENDING_NO_WRITE",
+  "skillKey": "item_3748_active",
+  "clientVersion": "16.17",
+  "clientFileSha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+  "itemRootSha256": "e73e9463f698a29632aa65faee40f6a5eeabeeae5bf3be570220f7fa946bc137",
+  "spellRootSha256": "ff9e320e699f96c6ce62185cb7520b5c33839054418d2b836994555ffe8ec833",
+  "findings": [
+    "固定客户端主动带Trait_AttackReset标签，自身目标、施放时间0、强化下一次攻击；仍缺完整重置和实际触发时点的直接证据",
+    "Riot14.1下一次攻击说明不直接确认重置时点；14.1及14.2攻击计时改动点名贪欲九头蛇与提亚马特，不能套用巨型九头蛇",
+    "保留原候选的下一次攻击消费与强化资格待处理，不据标签直接补写"
+  ],
+  "sources": [
+    "https://www.leagueoflegends.com/en-sg/news/game-updates/patch-14-1-notes/",
+    "https://www.leagueoflegends.com/en-us/news/game-updates/patch-14-2-notes/"
+  ],
+  "businessWrites": 0
+}

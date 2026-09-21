@@ -112,6 +112,53 @@ const persistentStatusDetail: SkillEffect = {
   results: [persistentStatusResult]
 };
 
+describe('仅记录生命周期的效果响应', () => {
+  it('保留合法空结果数组与生命周期，不生成结果占位项', () => {
+    const marker = { ...persistentStatusDetail, results: [] };
+    expect(parseSkillEffect(marker)).toEqual(marker);
+    expect(() => parseSkillEffect({ ...marker, results: null })).toThrow(SkillEffectProtocolError);
+    const { results: _results, ...missingResults } = marker;
+    expect(() => parseSkillEffect(missingResults)).toThrow(SkillEffectProtocolError);
+  });
+});
+
+describe('普通减速响应解析', () => {
+  function slowEffect(): SkillEffect {
+    return { ...structuredClone(persistentStatusDetail), results: [{ ...structuredClone(persistentStatusResult),
+      valueRule: { value: { kind: 'FIXED', value: 0.3 }, fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: 1 },
+      lifecycleBehavior: { moment: 'PERSISTENT', valueReadMode: 'APPLICATION_SNAPSHOT', stackValueMode: 'SHARED',
+        reapplicationValueMode: 'REPLACE', periodicExecutionMode: null }
+    }] };
+  }
+
+  it('读回普通减速的固定值、参数和公式规则，详情不扩充状态身份', () => {
+    for (const value of [{ kind: 'FIXED', value: 0 }, { kind: 'FIXED', value: 0.3 },
+      { kind: 'PARAMETER', parameterKey: 'slow_percent' }, { kind: 'FORMULA', formulaKey: 'slow_ratio' }]) {
+      const response = slowEffect();
+      Object.assign(response.results[0].valueRule!, { value, fixedMultiplier: value.kind === 'PARAMETER' ? 0.01 : 1 });
+      expect(parseSkillEffect(response)).toEqual(response);
+    }
+  });
+
+  it.each(['min', 'max', 'duration', 'lifecycle', 'operation', 'read', 'stack', 'reapply', 'periodic', 'detail'])(
+    '拒绝非法减速响应 %s', (field) => {
+      const response = slowEffect();
+      const result = response.results[0];
+      if (field === 'min') result.valueRule!.fixedMinValue = null;
+      if (field === 'max') result.valueRule!.fixedMaxValue = 100;
+      if (field === 'duration') response.lifecycle!.durationValue = null;
+      if (field === 'lifecycle') response.lifecycle = null;
+      if (field === 'operation') Object.assign(result.detail, { operation: 'REMOVE' });
+      if (field === 'read') result.lifecycleBehavior!.valueReadMode = 'MOMENT_EVALUATION';
+      if (field === 'stack') result.lifecycleBehavior!.stackValueMode = 'PER_STACK';
+      if (field === 'reapply') result.lifecycleBehavior!.reapplicationValueMode = 'ADD';
+      if (field === 'periodic') result.lifecycleBehavior!.periodicExecutionMode = 'ONCE_PER_INSTANCE';
+      if (field === 'detail') Object.assign(result.detail, { statusKind: 'MOVEMENT_SLOW' });
+      expect(() => parseSkillEffect(response)).toThrow(SkillEffectProtocolError);
+    }
+  );
+});
+
 const persistentStatusBody: CreateSkillEffectRequest = {
   effectKey: persistentStatusDetail.effectKey,
   name: persistentStatusDetail.name,

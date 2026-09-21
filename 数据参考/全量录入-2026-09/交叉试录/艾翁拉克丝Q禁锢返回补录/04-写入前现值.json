@@ -1,0 +1,2191 @@
+{
+  "at": "2026-09-19T05:32:56.454Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/ivern_q": {
+      "createdAt": "2026-09-06T18:18:37.484312Z",
+      "description": "艾翁召唤出一束荆棘，对命中的敌方单位造成伤害和禁锢效果。艾翁的友军可以突进到禁锢目标附近。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "艾翁·根深敌固",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "ivern_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:37.484312Z"
+    },
+    "/characters/champion_ivern": {
+      "characterKey": "champion_ivern",
+      "createdAt": "2026-09-06T17:14:19.529604Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "艾翁",
+      "updatedAt": "2026-09-06T17:14:19.529604Z"
+    },
+    "/characters/champion_ivern/attributes": {
+      "characterKey": "champion_ivern",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 630,
+          "hp_regen": 7,
+          "mana": 450,
+          "mana_regen": 6,
+          "armor": 27,
+          "magic_resistance": 30,
+          "attack_damage": 50,
+          "attack_speed": 0.644,
+          "attack_range": 475
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 701.28,
+          "hp_regen": 7.612,
+          "mana": 493.2,
+          "mana_regen": 6.54,
+          "armor": 30.384,
+          "magic_resistance": 30.936,
+          "attack_damage": 52.16,
+          "attack_speed": 0.659765,
+          "attack_range": 475
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 776.025,
+          "hp_regen": 8.25375,
+          "mana": 538.5,
+          "mana_regen": 7.10625,
+          "armor": 33.9325,
+          "magic_resistance": 31.9175,
+          "attack_damage": 54.425,
+          "attack_speed": 0.676297,
+          "attack_range": 475
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 854.235,
+          "hp_regen": 8.92525,
+          "mana": 585.9,
+          "mana_regen": 7.69875,
+          "armor": 37.6455,
+          "magic_resistance": 32.9445,
+          "attack_damage": 56.795,
+          "attack_speed": 0.693594,
+          "attack_range": 475
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 935.91,
+          "hp_regen": 9.6265,
+          "mana": 635.4,
+          "mana_regen": 8.3175,
+          "armor": 41.523,
+          "magic_resistance": 34.017,
+          "attack_damage": 59.27,
+          "attack_speed": 0.711659,
+          "attack_range": 475
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 1021.05,
+          "hp_regen": 10.3575,
+          "mana": 687,
+          "mana_regen": 8.9625,
+          "armor": 45.565,
+          "magic_resistance": 35.135,
+          "attack_damage": 61.85,
+          "attack_speed": 0.730489,
+          "attack_range": 475
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1109.655,
+          "hp_regen": 11.11825,
+          "mana": 740.7,
+          "mana_regen": 9.63375,
+          "armor": 49.7715,
+          "magic_resistance": 36.2985,
+          "attack_damage": 64.535,
+          "attack_speed": 0.750086,
+          "attack_range": 475
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1201.725,
+          "hp_regen": 11.90875,
+          "mana": 796.5,
+          "mana_regen": 10.33125,
+          "armor": 54.1425,
+          "magic_resistance": 37.5075,
+          "attack_damage": 67.325,
+          "attack_speed": 0.770449,
+          "attack_range": 475
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1297.26,
+          "hp_regen": 12.729,
+          "mana": 854.4,
+          "mana_regen": 11.055,
+          "armor": 58.678,
+          "magic_resistance": 38.762,
+          "attack_damage": 70.22,
+          "attack_speed": 0.791579,
+          "attack_range": 475
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1396.26,
+          "hp_regen": 13.579,
+          "mana": 914.4,
+          "mana_regen": 11.805,
+          "armor": 63.378,
+          "magic_resistance": 40.062,
+          "attack_damage": 73.22,
+          "attack_speed": 0.813475,
+          "attack_range": 475
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1498.725,
+          "hp_regen": 14.45875,
+          "mana": 976.5,
+          "mana_regen": 12.58125,
+          "armor": 68.2425,
+          "magic_resistance": 41.4075,
+          "attack_damage": 76.325,
+          "attack_speed": 0.836137,
+          "attack_range": 475
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1604.655,
+          "hp_regen": 15.36825,
+          "mana": 1040.7,
+          "mana_regen": 13.38375,
+          "armor": 73.2715,
+          "magic_resistance": 42.7985,
+          "attack_damage": 79.535,
+          "attack_speed": 0.859566,
+          "attack_range": 475
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1714.05,
+          "hp_regen": 16.3075,
+          "mana": 1107,
+          "mana_regen": 14.2125,
+          "armor": 78.465,
+          "magic_resistance": 44.235,
+          "attack_damage": 82.85,
+          "attack_speed": 0.883761,
+          "attack_range": 475
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 1826.91,
+          "hp_regen": 17.2765,
+          "mana": 1175.4,
+          "mana_regen": 15.0675,
+          "armor": 83.823,
+          "magic_resistance": 45.717,
+          "attack_damage": 86.27,
+          "attack_speed": 0.908723,
+          "attack_range": 475
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 1943.235,
+          "hp_regen": 18.27525,
+          "mana": 1245.9,
+          "mana_regen": 15.94875,
+          "armor": 89.3455,
+          "magic_resistance": 47.2445,
+          "attack_damage": 89.795,
+          "attack_speed": 0.93445,
+          "attack_range": 475
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2063.025,
+          "hp_regen": 19.30375,
+          "mana": 1318.5,
+          "mana_regen": 16.85625,
+          "armor": 95.0325,
+          "magic_resistance": 48.8175,
+          "attack_damage": 93.425,
+          "attack_speed": 0.960945,
+          "attack_range": 475
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2186.28,
+          "hp_regen": 20.362,
+          "mana": 1393.2,
+          "mana_regen": 17.79,
+          "armor": 100.884,
+          "magic_resistance": 50.436,
+          "attack_damage": 97.16,
+          "attack_speed": 0.988205,
+          "attack_range": 475
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2313,
+          "hp_regen": 21.45,
+          "mana": 1470,
+          "mana_regen": 18.75,
+          "armor": 106.9,
+          "magic_resistance": 52.1,
+          "attack_damage": 101,
+          "attack_speed": 1.016232,
+          "attack_range": 475
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_ivern/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_ivern",
+        "name": "champion_ivern"
+      }
+    },
+    "/skills/ivern_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_ivern_q",
+        "name": "ivern_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_ivern": {
+      "items": [
+        {
+          "characterKey": "champion_ivern",
+          "characterName": "艾翁",
+          "gameId": "lol",
+          "skillKey": "ivern_p",
+          "skillName": "艾翁·森林之友",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_ivern",
+          "characterName": "艾翁",
+          "gameId": "lol",
+          "skillKey": "ivern_q",
+          "skillName": "艾翁·根深敌固",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_ivern",
+          "characterName": "艾翁",
+          "gameId": "lol",
+          "skillKey": "ivern_w",
+          "skillName": "艾翁·揠苗助攻",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_ivern",
+          "characterName": "艾翁",
+          "gameId": "lol",
+          "skillKey": "ivern_e",
+          "skillName": "艾翁·种豆得瓜",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_ivern",
+          "characterName": "艾翁",
+          "gameId": "lol",
+          "skillKey": "ivern_r",
+          "skillName": "艾翁·小菊！",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=ivern_q": {
+      "items": [
+        {
+          "characterKey": "champion_ivern",
+          "characterName": "艾翁",
+          "gameId": "lol",
+          "skillKey": "ivern_q",
+          "skillName": "艾翁·根深敌固",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/ivern_q/parameters": [
+      {
+        "createdAt": "2026-09-10T04:00:54.626347Z",
+        "description": "当前根BaseDamage按保护最高等级从索引1开始映射；索引0为占位。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "name": "根深敌固基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ivern_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T04:00:54.626347Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:00:56.782724Z",
+        "description": "RootDuration源值为秒，逐等级精确转换为整数毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1600,
+          "2": 1700,
+          "3": 1800,
+          "4": 1900,
+          "5": 2000
+        },
+        "name": "禁锢持续时间（毫秒）",
+        "parameterKey": "root_duration_ms",
+        "skillKey": "ivern_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T04:00:56.782724Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:00:58.387241Z",
+        "description": "TotalDamage第二分支读取APRatio和来源总法强。",
+        "fixedValue": 0.699999988,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ivern_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T04:00:58.387241Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:43.364929Z",
+        "description": "再次施放冲向同一被禁锢敌人，DashSpeed固定1500。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "再次施放冲刺速度",
+        "parameterKey": "dash_speed",
+        "skillKey": "ivern_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-10T04:07:43.364929Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:45.236845Z",
+        "description": "当前根mCastTime=0.25秒，精确转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "mCastTime（毫秒）",
+        "parameterKey": "m_cast_time_ms",
+        "skillKey": "ivern_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-10T04:07:45.236845Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:46.903111Z",
+        "description": "当前根spellCastTime=0.25秒，精确转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "spellCastTime（毫秒）",
+        "parameterKey": "spell_cast_time_ms",
+        "skillKey": "ivern_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-10T04:07:46.903111Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:48.580146Z",
+        "description": "当前根castRange索引1为1150；不与显示距离混用。",
+        "fixedValue": 1150,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "实际施法距离",
+        "parameterKey": "cast_range",
+        "skillKey": "ivern_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-10T04:07:48.580146Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:50.138598Z",
+        "description": "当前根显示距离1125，单独保留。",
+        "fixedValue": 1125,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "显示距离",
+        "parameterKey": "display_range",
+        "skillKey": "ivern_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-10T04:07:50.138598Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:51.763114Z",
+        "description": "当前根castRadius=210。",
+        "fixedValue": 210,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "技能半径",
+        "parameterKey": "cast_radius",
+        "skillKey": "ivern_q",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-10T04:07:51.763114Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:35.397393Z",
+        "description": "DDragon16.17.1 Ivern.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ivern_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:35.397393Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:53.3106Z",
+        "description": "当前根missileSpeed=1300。",
+        "fixedValue": 1300,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "弹道速度",
+        "parameterKey": "missile_speed",
+        "skillKey": "ivern_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-10T04:07:53.3106Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:35.806769Z",
+        "description": "DDragon16.17.1 Ivern.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ivern_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:35.806769Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/ivern_q/parameters/base_damage": {
+      "createdAt": "2026-09-10T04:00:54.626347Z",
+      "description": "当前根BaseDamage按保护最高等级从索引1开始映射；索引0为占位。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "name": "根深敌固基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "ivern_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T04:00:54.626347Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/root_duration_ms": {
+      "createdAt": "2026-09-10T04:00:56.782724Z",
+      "description": "RootDuration源值为秒，逐等级精确转换为整数毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1600,
+        "2": 1700,
+        "3": 1800,
+        "4": 1900,
+        "5": 2000
+      },
+      "name": "禁锢持续时间（毫秒）",
+      "parameterKey": "root_duration_ms",
+      "skillKey": "ivern_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T04:00:56.782724Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-10T04:00:58.387241Z",
+      "description": "TotalDamage第二分支读取APRatio和来源总法强。",
+      "fixedValue": 0.699999988,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "ivern_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-10T04:00:58.387241Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ivern_q/parameters/dash_speed": {
+      "createdAt": "2026-09-10T04:07:43.364929Z",
+      "description": "再次施放冲向同一被禁锢敌人，DashSpeed固定1500。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "再次施放冲刺速度",
+      "parameterKey": "dash_speed",
+      "skillKey": "ivern_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-10T04:07:43.364929Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/m_cast_time_ms": {
+      "createdAt": "2026-09-10T04:07:45.236845Z",
+      "description": "当前根mCastTime=0.25秒，精确转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "mCastTime（毫秒）",
+      "parameterKey": "m_cast_time_ms",
+      "skillKey": "ivern_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-10T04:07:45.236845Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/spell_cast_time_ms": {
+      "createdAt": "2026-09-10T04:07:46.903111Z",
+      "description": "当前根spellCastTime=0.25秒，精确转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "spellCastTime（毫秒）",
+      "parameterKey": "spell_cast_time_ms",
+      "skillKey": "ivern_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-10T04:07:46.903111Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/cast_range": {
+      "createdAt": "2026-09-10T04:07:48.580146Z",
+      "description": "当前根castRange索引1为1150；不与显示距离混用。",
+      "fixedValue": 1150,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "实际施法距离",
+      "parameterKey": "cast_range",
+      "skillKey": "ivern_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-10T04:07:48.580146Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/display_range": {
+      "createdAt": "2026-09-10T04:07:50.138598Z",
+      "description": "当前根显示距离1125，单独保留。",
+      "fixedValue": 1125,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "显示距离",
+      "parameterKey": "display_range",
+      "skillKey": "ivern_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-10T04:07:50.138598Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/cast_radius": {
+      "createdAt": "2026-09-10T04:07:51.763114Z",
+      "description": "当前根castRadius=210。",
+      "fixedValue": 210,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "技能半径",
+      "parameterKey": "cast_radius",
+      "skillKey": "ivern_q",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-10T04:07:51.763114Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:36:35.397393Z",
+      "description": "DDragon16.17.1 Ivern.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 14000,
+        "2": 13000,
+        "3": 12000,
+        "4": 11000,
+        "5": 10000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "ivern_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:36:35.397393Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/missile_speed": {
+      "createdAt": "2026-09-10T04:07:53.3106Z",
+      "description": "当前根missileSpeed=1300。",
+      "fixedValue": 1300,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "弹道速度",
+      "parameterKey": "missile_speed",
+      "skillKey": "ivern_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-10T04:07:53.3106Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:36:35.806769Z",
+      "description": "DDragon16.17.1 Ivern.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "ivern_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:36:35.806769Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/formulas": [
+      {
+        "createdAt": "2026-09-10T04:07:55.285913Z",
+        "description": "TotalDamage=BaseDamage+APRatio×来源总法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "根深敌固魔法伤害",
+        "skillKey": "ivern_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T04:07:55.285913Z"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:56.968794Z",
+        "description": "RootDuration直接读取当前技能等级数组。",
+        "formulaKey": "root_duration",
+        "gameId": "lol",
+        "name": "根深敌固禁锢持续",
+        "skillKey": "ivern_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T04:07:56.968794Z"
+      }
+    ],
+    "/skills/ivern_q/formulas/magic_damage": {
+      "createdAt": "2026-09-10T04:07:55.285913Z",
+      "description": "TotalDamage=BaseDamage+APRatio×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "根深敌固魔法伤害",
+      "skillKey": "ivern_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T04:07:55.285913Z"
+    },
+    "/skills/ivern_q/formulas/root_duration": {
+      "createdAt": "2026-09-10T04:07:56.968794Z",
+      "description": "RootDuration直接读取当前技能等级数组。",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "root_duration_ms"
+      },
+      "formulaKey": "root_duration",
+      "gameId": "lol",
+      "name": "根深敌固禁锢持续",
+      "skillKey": "ivern_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T04:07:56.968794Z"
+    },
+    "/skills/ivern_q/effects": [
+      {
+        "createdAt": "2026-09-10T04:07:58.577602Z",
+        "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+        "effectKey": "damage",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "根深敌固魔法伤害",
+        "resultCount": 1,
+        "skillKey": "ivern_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T00:05:48.957112Z"
+      },
+      {
+        "createdAt": "2026-09-10T04:08:00.161969Z",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "ivern_q",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-10T04:08:00.161969Z"
+      }
+    ],
+    "/skills/ivern_q/effects/damage": {
+      "createdAt": "2026-09-10T04:07:58.577602Z",
+      "description": "本轮1V1敌方英雄的一次普通直接魔法技能伤害；实际命中入口已配置，并明确登记防御结算后伤害、效率为1的全能吸血资格。控制、施放和相关技能联动分别维护。",
+      "effectKey": "damage",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "根深敌固魔法伤害",
+      "results": [
+        {
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "根深敌固魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "ivern_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T00:05:48.957112Z"
+    },
+    "/skills/ivern_q/effects/mana_cost": {
+      "createdAt": "2026-09-10T04:08:00.161969Z",
+      "description": "复用冻结公共法力参数；仅记录基础消耗。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "ivern_q",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-10T04:08:00.161969Z"
+    },
+    "/skills/ivern_q/processes": [],
+    "/skills/ivern_q/internal-states": [],
+    "/skills/ivern_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅消费宿主确认的 ivern_q 实际英雄命中，并在当前目标上执行已有的 damage；禁锢、再次施放突进、友军与非史诗级野怪分支、法力消耗和冷却不在本条规则中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "命中英雄触发根深敌固伤害",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T16:39:56.117716Z"
+      }
+    ],
+    "/skills/ivern_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "damage"
+          },
+          "name": "执行根深敌固命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "命中对象为英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅消费宿主确认的 ivern_q 实际英雄命中，并在当前目标上执行已有的 damage；禁锢、再次施放突进、友军与非史诗级野怪分支、法力消耗和冷却不在本条规则中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ivern_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "命中英雄触发根深敌固伤害",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/lux_q": {
+      "createdAt": "2026-09-06T17:16:13.836026Z",
+      "description": "来源：官方静态资料16.17.1。原始说明：拉克丝释放一个光球，束缚并伤害最多两个敌方单位。 数值、机制及图片尚待录入与核对。",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "拉克丝·光之束缚",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "lux_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T17:26:19.057524Z"
+    },
+    "/characters/champion_lux": {
+      "characterKey": "champion_lux",
+      "createdAt": "2026-09-06T15:19:34.000528Z",
+      "description": "德玛西亚·光辉女郎。基础及等级属性采用官方静态资料 16.17.1，并以同补丁客户端资料补证；本批仅录入角色主体与有充分来源的1～18级基础属性，技能待录，图片待补。",
+      "gameId": "lol",
+      "name": "拉克丝",
+      "updatedAt": "2026-09-06T15:19:34.000528Z"
+    },
+    "/characters/champion_lux/attributes": {
+      "characterKey": "champion_lux",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 580,
+          "hp_regen": 5.5,
+          "mana": 440,
+          "mana_regen": 9,
+          "armor": 21,
+          "magic_resistance": 30,
+          "attack_damage": 54,
+          "attack_speed": 0.669,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 651.28,
+          "hp_regen": 5.896,
+          "mana": 456.92,
+          "mana_regen": 9.576,
+          "armor": 24.744,
+          "magic_resistance": 30.936,
+          "attack_damage": 56.376,
+          "attack_speed": 0.6825,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 726.025,
+          "hp_regen": 6.31125,
+          "mana": 474.6625,
+          "mana_regen": 10.18,
+          "armor": 28.67,
+          "magic_resistance": 31.9175,
+          "attack_damage": 58.8675,
+          "attack_speed": 0.696656,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 804.235,
+          "hp_regen": 6.74575,
+          "mana": 493.2275,
+          "mana_regen": 10.812,
+          "armor": 32.778,
+          "magic_resistance": 32.9445,
+          "attack_damage": 61.4745,
+          "attack_speed": 0.711469,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 885.91,
+          "hp_regen": 7.1995,
+          "mana": 512.615,
+          "mana_regen": 11.472,
+          "armor": 37.068,
+          "magic_resistance": 34.017,
+          "attack_damage": 64.197,
+          "attack_speed": 0.726938,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 971.05,
+          "hp_regen": 7.6725,
+          "mana": 532.825,
+          "mana_regen": 12.16,
+          "armor": 41.54,
+          "magic_resistance": 35.135,
+          "attack_damage": 67.035,
+          "attack_speed": 0.743063,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1059.655,
+          "hp_regen": 8.16475,
+          "mana": 553.8575,
+          "mana_regen": 12.876,
+          "armor": 46.194,
+          "magic_resistance": 36.2985,
+          "attack_damage": 69.9885,
+          "attack_speed": 0.759844,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1151.725,
+          "hp_regen": 8.67625,
+          "mana": 575.7125,
+          "mana_regen": 13.62,
+          "armor": 51.03,
+          "magic_resistance": 37.5075,
+          "attack_damage": 73.0575,
+          "attack_speed": 0.777281,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1247.26,
+          "hp_regen": 9.207,
+          "mana": 598.39,
+          "mana_regen": 14.392,
+          "armor": 56.048,
+          "magic_resistance": 38.762,
+          "attack_damage": 76.242,
+          "attack_speed": 0.795375,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1346.26,
+          "hp_regen": 9.757,
+          "mana": 621.89,
+          "mana_regen": 15.192,
+          "armor": 61.248,
+          "magic_resistance": 40.062,
+          "attack_damage": 79.542,
+          "attack_speed": 0.814125,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1448.725,
+          "hp_regen": 10.32625,
+          "mana": 646.2125,
+          "mana_regen": 16.02,
+          "armor": 66.63,
+          "magic_resistance": 41.4075,
+          "attack_damage": 82.9575,
+          "attack_speed": 0.833531,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1554.655,
+          "hp_regen": 10.91475,
+          "mana": 671.3575,
+          "mana_regen": 16.876,
+          "armor": 72.194,
+          "magic_resistance": 42.7985,
+          "attack_damage": 86.4885,
+          "attack_speed": 0.853594,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1664.05,
+          "hp_regen": 11.5225,
+          "mana": 697.325,
+          "mana_regen": 17.76,
+          "armor": 77.94,
+          "magic_resistance": 44.235,
+          "attack_damage": 90.135,
+          "attack_speed": 0.874313,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 1776.91,
+          "hp_regen": 12.1495,
+          "mana": 724.115,
+          "mana_regen": 18.672,
+          "armor": 83.868,
+          "magic_resistance": 45.717,
+          "attack_damage": 93.897,
+          "attack_speed": 0.895687,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 1893.235,
+          "hp_regen": 12.79575,
+          "mana": 751.7275,
+          "mana_regen": 19.612,
+          "armor": 89.978,
+          "magic_resistance": 47.2445,
+          "attack_damage": 97.7745,
+          "attack_speed": 0.917719,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2013.025,
+          "hp_regen": 13.46125,
+          "mana": 780.1625,
+          "mana_regen": 20.58,
+          "armor": 96.27,
+          "magic_resistance": 48.8175,
+          "attack_damage": 101.7675,
+          "attack_speed": 0.940406,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2136.28,
+          "hp_regen": 14.146,
+          "mana": 809.42,
+          "mana_regen": 21.576,
+          "armor": 102.744,
+          "magic_resistance": 50.436,
+          "attack_damage": 105.876,
+          "attack_speed": 0.96375,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2263,
+          "hp_regen": 14.85,
+          "mana": 839.5,
+          "mana_regen": 22.6,
+          "armor": 109.4,
+          "magic_resistance": 52.1,
+          "attack_damage": 110.1,
+          "attack_speed": 0.98775,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_lux/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "image_e1a212dd-8232-4b49-a2b6-0643ed26a7f3",
+        "name": "拉克丝代表图片_e1a212dd-8232-4b49-a2b6-0643ed26a7f3"
+      }
+    },
+    "/skills/lux_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_lux_q",
+        "name": "lux_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_lux": {
+      "items": [
+        {
+          "characterKey": "champion_lux",
+          "characterName": "拉克丝",
+          "gameId": "lol",
+          "skillKey": "lux_p",
+          "skillName": "拉克丝·光芒四射",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_lux",
+          "characterName": "拉克丝",
+          "gameId": "lol",
+          "skillKey": "lux_q",
+          "skillName": "拉克丝·光之束缚",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_lux",
+          "characterName": "拉克丝",
+          "gameId": "lol",
+          "skillKey": "lux_w",
+          "skillName": "拉克丝·曲光屏障",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_lux",
+          "characterName": "拉克丝",
+          "gameId": "lol",
+          "skillKey": "lux_e",
+          "skillName": "拉克丝·透光奇点",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_lux",
+          "characterName": "拉克丝",
+          "gameId": "lol",
+          "skillKey": "lux_r",
+          "skillName": "拉克丝·终极闪光",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=lux_q": {
+      "items": [
+        {
+          "characterKey": "champion_lux",
+          "characterName": "拉克丝",
+          "gameId": "lol",
+          "skillKey": "lux_q",
+          "skillName": "拉克丝·光之束缚",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/lux_q/parameters": [
+      {
+        "createdAt": "2026-09-07T14:42:03.845108Z",
+        "description": "浏览器试录：客户端 BaseDamage 跳过 rank0 后 80/120/160/200/240。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lux_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:42:03.845108Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:45:03.841927Z",
+        "description": "浏览器试录：APRatio=0.75，比例 1=100%。",
+        "fixedValue": 0.75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "lux_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:45:03.841927Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T14:45:43.010808Z",
+        "description": "客户端 RootDuration=2 秒。当前状态目录仅有 vertigo/眩晕，不等于束缚，本批只录时长不声称控制已成立。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "束缚持续时间（毫秒）",
+        "parameterKey": "root_duration_ms",
+        "skillKey": "lux_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T14:45:43.010808Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:45:43.348191Z",
+        "description": "主技能 mSpell 无 Cooldown。DDragon 16.17.1 主动冷却 10 秒。弹体 LuxLightBindingMis 冷却 12 秒与主动资料冲突，不采用弹体值。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lux_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T14:45:43.348191Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:45:43.697315Z",
+        "description": "客户端 mana 与 DDragon 16.17.1 cost 均为 50。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lux_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T14:45:43.697315Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:45:44.291701Z",
+        "description": "客户端主技能 spellCastTime=0.25 秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "lux_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T14:45:44.291701Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:45:44.650565Z",
+        "description": "采用 castRangeDisplayOverride 与 DDragon range=1175。主技能 castRange=10000 为引擎值，不写入。",
+        "fixedValue": 1175,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "技能指示范围",
+        "parameterKey": "target_range",
+        "skillKey": "lux_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T14:45:44.650565Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:45:45.011386Z",
+        "description": "主技能与 LuxLightBindingMis 的 missileSpeed 均为 1200。",
+        "fixedValue": 1200,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "弹体速度",
+        "parameterKey": "projectile_speed",
+        "skillKey": "lux_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-07T14:45:45.011386Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/lux_q/parameters/base_damage": {
+      "createdAt": "2026-09-07T14:42:03.845108Z",
+      "description": "浏览器试录：客户端 BaseDamage 跳过 rank0 后 80/120/160/200/240。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "lux_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T14:42:03.845108Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lux_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T14:45:03.841927Z",
+      "description": "浏览器试录：APRatio=0.75，比例 1=100%。",
+      "fixedValue": 0.75,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "lux_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T14:45:03.841927Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lux_q/parameters/root_duration_ms": {
+      "createdAt": "2026-09-07T14:45:43.010808Z",
+      "description": "客户端 RootDuration=2 秒。当前状态目录仅有 vertigo/眩晕，不等于束缚，本批只录时长不声称控制已成立。",
+      "fixedValue": 2000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "束缚持续时间（毫秒）",
+      "parameterKey": "root_duration_ms",
+      "skillKey": "lux_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T14:45:43.010808Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lux_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T14:45:43.348191Z",
+      "description": "主技能 mSpell 无 Cooldown。DDragon 16.17.1 主动冷却 10 秒。弹体 LuxLightBindingMis 冷却 12 秒与主动资料冲突，不采用弹体值。",
+      "fixedValue": 10000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "lux_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T14:45:43.348191Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lux_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T14:45:43.697315Z",
+      "description": "客户端 mana 与 DDragon 16.17.1 cost 均为 50。",
+      "fixedValue": 50,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "lux_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T14:45:43.697315Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lux_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T14:45:44.291701Z",
+      "description": "客户端主技能 spellCastTime=0.25 秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "lux_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T14:45:44.291701Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lux_q/parameters/target_range": {
+      "createdAt": "2026-09-07T14:45:44.650565Z",
+      "description": "采用 castRangeDisplayOverride 与 DDragon range=1175。主技能 castRange=10000 为引擎值，不写入。",
+      "fixedValue": 1175,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "技能指示范围",
+      "parameterKey": "target_range",
+      "skillKey": "lux_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T14:45:44.650565Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lux_q/parameters/projectile_speed": {
+      "createdAt": "2026-09-07T14:45:45.011386Z",
+      "description": "主技能与 LuxLightBindingMis 的 missileSpeed 均为 1200。",
+      "fixedValue": 1200,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "弹体速度",
+      "parameterKey": "projectile_speed",
+      "skillKey": "lux_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-07T14:45:45.011386Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lux_q/formulas": [
+      {
+        "createdAt": "2026-09-07T14:45:07.772308Z",
+        "description": "浏览器试录：BaseDamage + 法术强度×0.75。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "光之束缚魔法伤害",
+        "skillKey": "lux_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:07.772308Z"
+      }
+    ],
+    "/skills/lux_q/formulas/damage": {
+      "createdAt": "2026-09-07T14:45:07.772308Z",
+      "description": "浏览器试录：BaseDamage + 法术强度×0.75。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "光之束缚魔法伤害",
+      "skillKey": "lux_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T14:45:07.772308Z"
+    },
+    "/skills/lux_q/effects": [
+      {
+        "createdAt": "2026-09-07T14:45:45.416254Z",
+        "description": "施放时消耗对应技能等级的法力。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lux_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:45.416254Z"
+      },
+      {
+        "createdAt": "2026-09-07T14:45:14.699202Z",
+        "description": "浏览器试录：独立魔法伤害结果。",
+        "effectKey": "light_binding_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "光球命中",
+        "resultCount": 1,
+        "skillKey": "lux_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:45:14.699202Z"
+      }
+    ],
+    "/skills/lux_q/effects/mana_cost": {
+      "createdAt": "2026-09-07T14:45:45.416254Z",
+      "description": "施放时消耗对应技能等级的法力。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lux_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T14:45:45.416254Z"
+    },
+    "/skills/lux_q/effects/light_binding_hit": {
+      "createdAt": "2026-09-07T14:45:14.699202Z",
+      "description": "浏览器试录：独立魔法伤害结果。",
+      "effectKey": "light_binding_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "光球命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "magic_damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "lux_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T14:45:14.699202Z"
+    },
+    "/skills/lux_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T14:45:45.972873Z",
+        "description": "过程只负责法力、施法延迟和冷却；伤害由实际命中事件触发。弹体碰撞与双目标上限未表达。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放光之束缚",
+        "processKey": "cast",
+        "skillKey": "lux_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T14:45:45.972873Z"
+      }
+    ],
+    "/skills/lux_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T14:45:45.972873Z",
+      "description": "过程只负责法力、施法延迟和冷却；伤害由实际命中事件触发。弹体碰撞与双目标上限未表达。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放光之束缚",
+      "processKey": "cast",
+      "skillKey": "lux_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能 spellCastTime，按毫秒录入。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法时间",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T14:45:45.972873Z"
+    },
+    "/skills/lux_q/internal-states": [],
+    "/skills/lux_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "光之束缚实际命中结算",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "resolve_on_q_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:46.385113Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动光之束缚施法过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T22:16:43.583719Z"
+      }
+    ],
+    "/skills/lux_q/trigger-rules/resolve_on_q_hit": {
+      "actions": [
+        {
+          "actionKey": "resolve_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "light_binding_hit"
+          },
+          "name": "结算命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "监听 lux_q 实际命中后结算独立魔法伤害。不把命中事件写成束缚控制，也不表达第二目标筛选。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lux_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "光之束缚实际命中结算",
+      "perTargetCooldown": null,
+      "ruleKey": "resolve_on_q_hit",
+      "sortOrder": 10
+    },
+    "/skills/lux_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动使用过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动已有的使用过程；不定义完整施法时长，也不代替命中或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lux_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动光之束缚施法过程",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    },
+    "/statuses/root": {
+      "createdAt": "2026-09-19T04:52:01.232803Z",
+      "description": "禁锢状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+      "gameId": "lol",
+      "name": "禁锢",
+      "sortOrder": 20,
+      "status": "ENABLED",
+      "statusKey": "root",
+      "statusKind": "ROOT",
+      "updatedAt": "2026-09-19T04:52:01.232803Z"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ivern",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ivern/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_ivern/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_ivern",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=ivern_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/dash_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/m_cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/spell_cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/cast_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/display_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/cast_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/missile_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/formulas/root_duration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lux",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lux/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lux/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_lux",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=lux_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/target_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/parameters/projectile_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects/light_binding_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules/resolve_on_q_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/root",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/root_control",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/effects/root_control",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lux_q/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

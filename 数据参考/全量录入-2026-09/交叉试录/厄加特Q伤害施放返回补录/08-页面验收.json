@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-19T08:21:27.187Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "skillKey": "urgot_q",
+  "businessWrites": 0,
+  "checks": [
+    "效果列表3项：新法力、新物理伤害及旧普通减速",
+    "伤害结果名称物理伤害、类型physics、当前目标、整个技能护盾；公式physical_damage，倍率1最小0最大空；全能吸血防御后效率1，不暴击",
+    "法力结果作用施法者、mana、扣除、mana_cost参数",
+    "cast过程主动、1个cast_time_ms延迟步骤、普通冷却cooldown_ms过程开始、mana_cost挂接过程开始、0内部状态操作",
+    "规则列表3项；actual_hit重开为自身SKILL_HIT、英雄并且敌方同组、仅primary_hit；on_used重开自身ACTIVE仅START_PROCESS cast；未再次保存"
+  ],
+  "observation": "结果与过程详情初载短暂显示默认内容，法力结果曾短暂显示目录不完整，目录加载完成后恢复正确内容；仍需单列核对加载期间提示与关闭行为。",
+  "runtimeValidation": "未执行"
+}

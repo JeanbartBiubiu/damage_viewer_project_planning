@@ -1,0 +1,53 @@
+{
+  "at": "2026-09-20T07:31:37.195Z",
+  "before": {
+    "frontendCommit": "e7bda3a9",
+    "isolatedCases": 2,
+    "expectedFailures": 2,
+    "observed": "两个事件在目录请求被延迟时都将source_spell显示为目录缺失",
+    "actualAssertion": "预期目录加载中，实得目录缺失"
+  },
+  "after": {
+    "productionFilesChanged": 1,
+    "lint": {
+      "status": "PASS",
+      "files": 141
+    },
+    "typecheck": "PASS",
+    "unit": {
+      "status": "PASS",
+      "tests": 717,
+      "files": 62
+    },
+    "build": {
+      "status": "PASS",
+      "modules": 1292,
+      "existingWarning": "单块超过500KB"
+    },
+    "isolatedCases": {
+      "status": "PASS",
+      "tests": 2,
+      "durationSeconds": 9.4,
+      "coverage": [
+        "请求未返回",
+        "503加载失败",
+        "重试保留规则名称与来源键",
+        "成功恢复真实名称",
+        "成功返回后真实缺失",
+        "未完成和失败禁止保存",
+        "无业务写入"
+      ]
+    },
+    "linkEventRegression": {
+      "status": "PASS",
+      "tests": 1,
+      "durationSeconds": 12.6
+    },
+    "totalTargetedBrowserTests": 3,
+    "fullNonWasmSuite": "本单元未重跑；只执行三个受影响检查"
+  },
+  "runtimeValidation": "未执行",
+  "backendChanges": 0,
+  "businessWrites": 0,
+  "productionFileSha256": "3e267dd1cfeb015be3d798d67aaa30517e6190cfdbc661dd1ab6e19f0d6cd157"
+}

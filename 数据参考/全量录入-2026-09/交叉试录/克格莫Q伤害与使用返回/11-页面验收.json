@@ -1,0 +1,92 @@
+{
+  "at": "2026-09-20T10:53:10.017Z",
+  "status": "PASS",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "tool": "cua_repl",
+  "checks": [
+    {
+      "object": "actual_hit",
+      "status": "PASS",
+      "observed": {
+        "event": "技能命中",
+        "source": "克格莫·腐蚀唾液（kogmaw_q）",
+        "conditionGroup": "事件对方类别 / 英雄 并且 技能命中敌方对象",
+        "action": "执行效果 / 当前目标 / primary_hit / 绑定 0 / 修正 0"
+      },
+      "interaction": "重开编辑页，只读后取消"
+    },
+    {
+      "object": "on_used_cost_and_cooldown",
+      "status": "PASS",
+      "observed": {
+        "event": "技能被主动或消耗使用",
+        "useKind": "主动",
+        "source": "克格莫·腐蚀唾液（kogmaw_q）",
+        "conditions": 0,
+        "action": "启动过程 / 当前目标 / use_cost_and_cooldown / 绑定 0 / 修正 0"
+      },
+      "interaction": "重开编辑页，只读后取消"
+    },
+    {
+      "object": "use_cost_and_cooldown",
+      "status": "PASS",
+      "observed": {
+        "cooldownParameter": "cooldown_ms",
+        "cooldownMoment": "过程开始",
+        "step": "立即",
+        "effect": "mana_cost",
+        "effectMoment": "过程开始",
+        "castTimeBoundary": "立即步骤不表示零施放时长"
+      },
+      "interaction": "重开查看页后关闭"
+    },
+    {
+      "object": "primary_hit/damage",
+      "status": "PASS",
+      "observed": {
+        "lifecycle": false,
+        "target": "当前目标",
+        "formula": "腐蚀唾液魔法伤害（damage）",
+        "damageType": "魔法伤害",
+        "origin": "直接伤害",
+        "critical": "不允许暴击",
+        "vamp": "全能吸血",
+        "basis": "防御后伤害",
+        "efficiencyDOMValue": "1",
+        "spellShield": "整个技能"
+      },
+      "interaction": "重开查看效果及子结果，关闭，无保存"
+    },
+    {
+      "object": "kogmaw_q主体",
+      "status": "PASS",
+      "observed": {
+        "description": "固定来源：客户端16.17、官方静态资料16.17.1。已登记按当前已学Q等级取值的常驻自身攻速、首个碰撞敌人为英雄时的直接魔法伤害，以及普通主动使用的40法力和7000毫秒基础冷却；伤害由独立实际命中入口执行。双抗削减及其与伤害的先后和重施规则、有效施法时长仍待核定，当前不计整技能管理配置完整。",
+        "wholeSkillComplete": false
+      },
+      "interaction": "重开查看页，无保存"
+    },
+    {
+      "object": "initialize_passive_attack_speed",
+      "status": "PASS",
+      "observed": {
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有passive_attack_speed，建立单层常驻自身攻速；效果在属性结算时按当前已学Q等级重新取值，不把初始化事件当升级事件。主动使用与命中由各自入口维护，双抗削减和有效施放时长继续单列。",
+        "event": "来源对象初始化完成",
+        "action": "执行效果 / 事件来源对象 / passive_attack_speed / 绑定 0 / 修正 0",
+        "stableKey": "initialize_passive_attack_speed"
+      },
+      "interaction": "只修改说明，保存一次；关闭重开确认后取消"
+    }
+  ],
+  "browserBusinessWrites": 1,
+  "runtimeValidation": "未执行",
+  "finishedAt": "2026-09-20T11:03:41.817Z",
+  "logs": {
+    "levels": [
+      "error",
+      "warn"
+    ],
+    "entries": []
+  },
+  "evidenceBoundary": "页面观察和即时/独立HTTP分别记录；未捕获页面PUT原正文与响应，不将GET冒充PUT响应；未执行战斗运行。"
+}

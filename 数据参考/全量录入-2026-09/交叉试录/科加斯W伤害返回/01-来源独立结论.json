@@ -1,0 +1,80 @@
+{
+  "at": "2026-09-19T17:13:49.536Z",
+  "reviewer": "/root/silence_sources",
+  "status": "DAMAGE_BRANCH_READY_CAST_TIME_UNPROVEN",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "sourceFiles": [
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Chogath.json.gz",
+      "sha256": "e098bd867debab64aa497e4ef7155677f7bdb6aeb881e41411b1515bd9736eac"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Chogath.json",
+      "sha256": "f4413f86c1c4c7074b433c703cf4e0cbb6c10a41b419e64f528dc2becfe96ff3"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Chogath.json",
+      "sha256": "a132ad9f7eba390af39efe75a61d2bce5d76ae03e33e047552d9612b482c6843"
+    }
+  ],
+  "root": "Characters/Chogath/Spells/FeralScreamAbility/FeralScream",
+  "rootBinding": "Characters/Chogath/CharacterRecords/Root.spells[1]",
+  "damage": {
+    "clientField": "mSpell.mEffectAmount[0].value",
+    "raw": [
+      80,
+      80,
+      130,
+      180,
+      230,
+      280,
+      280
+    ],
+    "rank1to5": [
+      80,
+      130,
+      180,
+      230,
+      280
+    ],
+    "clientAPCoefficient": 0.699999988079071,
+    "authoredAPCoefficient": 0.7,
+    "formulaKey": "magic_damage",
+    "formula": "base_damage + ap_ratio * SOURCE ability_power(TOTAL)",
+    "sourceMatchesExisting": true
+  },
+  "recommendation": {
+    "effectKey": "primary_hit",
+    "damageTypeKey": "magic",
+    "deliveryKind": "SKILL",
+    "originKind": "DIRECT",
+    "criticalMode": "DISALLOWED",
+    "spellShieldBlockScope": "SKILL",
+    "vampType": "OMNIVAMP",
+    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+    "efficiency": 1,
+    "ruleKey": "actual_hit",
+    "conditions": [
+      "CHAMPION",
+      "SKILL_HIT_TARGET_IS_ENEMY"
+    ],
+    "silenceInstanceAbsentIsNotDamagePrerequisite": true
+  },
+  "castTime": {
+    "spellCastTime": "MISSING",
+    "mCastTime": "MISSING",
+    "spellTotalTime": "MISSING",
+    "castFrame": 19.25,
+    "conclusion": "没有帧率换算来源，不创建毫秒值"
+  },
+  "remaining": [
+    "主动使用与成本、冷却过程",
+    "沉默重施期限",
+    "其他范围及说明按本轮1V1边界核定"
+  ],
+  "businessWrites": 0,
+  "runtimeValidation": "未执行"
+}

@@ -1,0 +1,1170 @@
+{
+  "at": "2026-09-21T04:53:47.897Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/tristana_r": {
+      "createdAt": "2026-09-06T18:20:41.588696Z",
+      "description": "崔丝塔娜装填巨型加农炮弹攻击目标单位，造成巨大伤害并击退目标。如果目标携带着【爆炸火花】的炸弹，那么该炸弹的爆炸半径翻倍。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "崔丝塔娜·毁灭射击",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "tristana_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:29:53.791268Z"
+    },
+    "/characters/champion_tristana": {
+      "characterKey": "champion_tristana",
+      "createdAt": "2026-09-06T15:42:48.29848Z",
+      "description": "麦林炮手·崔丝塔娜。资料：官方静态资料16.17.1、同补丁客户端16.17.8104348。仅基础属性与1～18级自然成长；技能、被动叠层与图片尚待录入和核对。",
+      "gameId": "lol",
+      "name": "崔丝塔娜",
+      "updatedAt": "2026-09-06T15:42:48.29848Z"
+    },
+    "/characters/champion_tristana/attributes": {
+      "characterKey": "champion_tristana",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 640,
+          "hp_regen": 4,
+          "mana": 300,
+          "mana_regen": 7.2,
+          "armor": 30,
+          "magic_resistance": 33,
+          "attack_damage": 60,
+          "attack_speed": 0.656,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 713.44,
+          "hp_regen": 4.36,
+          "mana": 323.04,
+          "mana_regen": 7.524,
+          "armor": 32.88,
+          "magic_resistance": 33.792,
+          "attack_damage": 62.448,
+          "attack_speed": 0.663495,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 790.45,
+          "hp_regen": 4.7375,
+          "mana": 347.2,
+          "mana_regen": 7.86375,
+          "armor": 35.9,
+          "magic_resistance": 34.6225,
+          "attack_damage": 65.015,
+          "attack_speed": 0.671355,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 871.03,
+          "hp_regen": 5.1325,
+          "mana": 372.48,
+          "mana_regen": 8.21925,
+          "armor": 39.06,
+          "magic_resistance": 35.4915,
+          "attack_damage": 67.701,
+          "attack_speed": 0.679579,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 955.18,
+          "hp_regen": 5.545,
+          "mana": 398.88,
+          "mana_regen": 8.5905,
+          "armor": 42.36,
+          "magic_resistance": 36.399,
+          "attack_damage": 70.506,
+          "attack_speed": 0.688167,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 1042.9,
+          "hp_regen": 5.975,
+          "mana": 426.4,
+          "mana_regen": 8.9775,
+          "armor": 45.8,
+          "magic_resistance": 37.345,
+          "attack_damage": 73.43,
+          "attack_speed": 0.69712,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 1134.19,
+          "hp_regen": 6.4225,
+          "mana": 455.04,
+          "mana_regen": 9.38025,
+          "armor": 49.38,
+          "magic_resistance": 38.3295,
+          "attack_damage": 76.473,
+          "attack_speed": 0.706436,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1229.05,
+          "hp_regen": 6.8875,
+          "mana": 484.8,
+          "mana_regen": 9.79875,
+          "armor": 53.1,
+          "magic_resistance": 39.3525,
+          "attack_damage": 79.635,
+          "attack_speed": 0.716118,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1327.48,
+          "hp_regen": 7.37,
+          "mana": 515.68,
+          "mana_regen": 10.233,
+          "armor": 56.96,
+          "magic_resistance": 40.414,
+          "attack_damage": 82.916,
+          "attack_speed": 0.726163,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1429.48,
+          "hp_regen": 7.87,
+          "mana": 547.68,
+          "mana_regen": 10.683,
+          "armor": 60.96,
+          "magic_resistance": 41.514,
+          "attack_damage": 86.316,
+          "attack_speed": 0.736573,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1535.05,
+          "hp_regen": 8.3875,
+          "mana": 580.8,
+          "mana_regen": 11.14875,
+          "armor": 65.1,
+          "magic_resistance": 42.6525,
+          "attack_damage": 89.835,
+          "attack_speed": 0.747348,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1644.19,
+          "hp_regen": 8.9225,
+          "mana": 615.04,
+          "mana_regen": 11.63025,
+          "armor": 69.38,
+          "magic_resistance": 43.8295,
+          "attack_damage": 93.473,
+          "attack_speed": 0.758486,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1756.9,
+          "hp_regen": 9.475,
+          "mana": 650.4,
+          "mana_regen": 12.1275,
+          "armor": 73.8,
+          "magic_resistance": 45.045,
+          "attack_damage": 97.23,
+          "attack_speed": 0.769989,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1873.18,
+          "hp_regen": 10.045,
+          "mana": 686.88,
+          "mana_regen": 12.6405,
+          "armor": 78.36,
+          "magic_resistance": 46.299,
+          "attack_damage": 101.106,
+          "attack_speed": 0.781857,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 1993.03,
+          "hp_regen": 10.6325,
+          "mana": 724.48,
+          "mana_regen": 13.16925,
+          "armor": 83.06,
+          "magic_resistance": 47.5915,
+          "attack_damage": 105.101,
+          "attack_speed": 0.794089,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 2116.45,
+          "hp_regen": 11.2375,
+          "mana": 763.2,
+          "mana_regen": 13.71375,
+          "armor": 87.9,
+          "magic_resistance": 48.9225,
+          "attack_damage": 109.215,
+          "attack_speed": 0.806685,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 2243.44,
+          "hp_regen": 11.86,
+          "mana": 803.04,
+          "mana_regen": 14.274,
+          "armor": 92.88,
+          "magic_resistance": 50.292,
+          "attack_damage": 113.448,
+          "attack_speed": 0.819645,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2374,
+          "hp_regen": 12.5,
+          "mana": 844,
+          "mana_regen": 14.85,
+          "armor": 98,
+          "magic_resistance": 51.7,
+          "attack_damage": 117.8,
+          "attack_speed": 0.83297,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_tristana/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "image_d43a045f-f78d-461c-8bce-4f34ff472c4a",
+        "name": "崔丝塔娜代表图片_d43a045f-f78d-461c-8bce-4f34ff472c4a"
+      }
+    },
+    "/skills/tristana_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_tristana_r",
+        "name": "tristana_r"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_tristana": {
+      "items": [
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_p",
+          "skillName": "崔丝塔娜·瞄准",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_q",
+          "skillName": "崔丝塔娜·急速射击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_w",
+          "skillName": "崔丝塔娜·火箭跳跃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_e",
+          "skillName": "崔丝塔娜·爆炸火花",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_r",
+          "skillName": "崔丝塔娜·毁灭射击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=tristana_r": {
+      "items": [
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "tristana_r",
+          "skillName": "崔丝塔娜·毁灭射击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/tristana_r/parameters": [
+      {
+        "createdAt": "2026-09-07T18:02:23.890382Z",
+        "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+        "fixedValue": 100000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "tristana_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:02:23.890382Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:24.342576Z",
+        "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "tristana_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:02:24.342576Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:24.741974Z",
+        "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "tristana_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-21T04:30:24.810402Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:25.17468Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 225,
+          "2": 275,
+          "3": 325
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "tristana_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:02:25.17468Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:25.622567Z",
+        "description": "完整DamageCalc中明确攻击力系数。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "攻击力倍率",
+        "parameterKey": "ad_ratio",
+        "skillKey": "tristana_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:02:25.622567Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:26.056858Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "tristana_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:02:26.056858Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:26.479847Z",
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 400,
+          "2": 550,
+          "3": 700
+        },
+        "name": "命中眩晕时长（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "tristana_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T18:06:16.715027Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:26.969769Z",
+        "description": "客户端当前根绑定 DataValues.KnockbackDistance 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 600,
+          "2": 800,
+          "3": 1000
+        },
+        "name": "击退距离",
+        "parameterKey": "knockback_distance",
+        "skillKey": "tristana_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-07T18:02:26.969769Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/tristana_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:02:23.890382Z",
+      "description": "官方16.17.1与当前根对象cooldownTime索引1起一致。",
+      "fixedValue": 100000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "tristana_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:02:23.890382Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:02:24.342576Z",
+      "description": "官方cost与当前manaValues.values索引0起一致；明确0消耗保留。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "tristana_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:02:24.342576Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:02:24.741974Z",
+      "description": "固定客户端16.17当前角色根绑定的施法字段spellCastTime换算为250毫秒；该技能对象未提供可选施法字段mCastTime。此参数不代替命中或完整移动时长。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "tristana_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-21T04:30:24.810402Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_r/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:02:25.17468Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 225,
+        "2": 275,
+        "3": 325
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "tristana_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:02:25.17468Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_r/parameters/ad_ratio": {
+      "createdAt": "2026-09-07T18:02:25.622567Z",
+      "description": "完整DamageCalc中明确攻击力系数。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "攻击力倍率",
+      "parameterKey": "ad_ratio",
+      "skillKey": "tristana_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:02:25.622567Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/tristana_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:02:26.056858Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "tristana_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:02:26.056858Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_r/parameters/stun_duration_ms": {
+      "createdAt": "2026-09-07T18:02:26.479847Z",
+      "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 400,
+        "2": 550,
+        "3": 700
+      },
+      "name": "命中眩晕时长（毫秒）",
+      "parameterKey": "stun_duration_ms",
+      "skillKey": "tristana_r",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T18:06:16.715027Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_r/parameters/knockback_distance": {
+      "createdAt": "2026-09-07T18:02:26.969769Z",
+      "description": "客户端当前根绑定 DataValues.KnockbackDistance 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 600,
+        "2": 800,
+        "3": 1000
+      },
+      "name": "击退距离",
+      "parameterKey": "knockback_distance",
+      "skillKey": "tristana_r",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-07T18:02:26.969769Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/tristana_r/formulas": [
+      {
+        "createdAt": "2026-09-07T18:02:27.370387Z",
+        "description": "当前DamageCalc基础225/275/325+0.7额外AD+1AP。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "毁灭射击魔法伤害",
+        "skillKey": "tristana_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:02:27.370387Z"
+      }
+    ],
+    "/skills/tristana_r/formulas/damage": {
+      "createdAt": "2026-09-07T18:02:27.370387Z",
+      "description": "当前DamageCalc基础225/275/325+0.7额外AD+1AP。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "毁灭射击魔法伤害",
+      "skillKey": "tristana_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:02:27.370387Z"
+    },
+    "/skills/tristana_r/effects": [
+      {
+        "createdAt": "2026-09-07T18:02:27.78408Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "tristana_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:02:27.78408Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:02:28.264113Z",
+        "description": "本轮实际命中敌方英雄时执行的普通魔法技能伤害，明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；其他吸血类型、具体法术护盾粒度及技能专属联动仍待核定。",
+        "effectKey": "cannon_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "加农炮弹命中",
+        "resultCount": 1,
+        "skillKey": "tristana_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T04:25:16.060969Z"
+      }
+    ],
+    "/skills/tristana_r/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:02:27.78408Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "tristana_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:02:27.78408Z"
+    },
+    "/skills/tristana_r/effects/cannon_hit": {
+      "createdAt": "2026-09-07T18:02:28.264113Z",
+      "description": "本轮实际命中敌方英雄时执行的普通魔法技能伤害，明确保存防御结算后伤害的全能吸血资格，效率为1。伤害公式、数值、暴击和原法术护盾粒度保持；其他吸血类型、具体法术护盾粒度及技能专属联动仍待核定。",
+      "effectKey": "cannon_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "加农炮弹命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "加农炮弹命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "tristana_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-21T04:25:16.060969Z"
+    },
+    "/skills/tristana_r/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:02:30.002836Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放毁灭射击",
+        "processKey": "cast",
+        "skillKey": "tristana_r",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:02:30.002836Z"
+      }
+    ],
+    "/skills/tristana_r/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:02:30.002836Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放毁灭射击",
+      "processKey": "cast",
+      "skillKey": "tristana_r",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:02:30.002836Z"
+    },
+    "/skills/tristana_r/internal-states": [],
+    "/skills/tristana_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "本技能主动使用时启动现有施放过程，登记法力、普通冷却及已核定的施法延迟；本入口只启动过程，实际伤害与控制分别配置，不在过程结束时生成命中。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "毁灭射击主动使用入口",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-21T04:51:39.884311Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "毁灭射击实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T04:20:01.367763Z"
+      }
+    ],
+    "/skills/tristana_r/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动已有施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "本技能主动使用时启动现有施放过程，登记法力、普通冷却及已核定的施法延迟；本入口只启动过程，实际伤害与控制分别配置，不在过程结束时生成命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "tristana_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "毁灭射击主动使用入口",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 5
+    },
+    "/skills/tristana_r/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "cannon_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "tristana_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "毁灭射击实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/statuses/vertigo": {
+      "createdAt": "2026-08-28T14:55:06.53067Z",
+      "description": null,
+      "gameId": "lol",
+      "name": "眩晕",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "statusKey": "vertigo",
+      "statusKind": "STUN",
+      "updatedAt": "2026-08-28T14:55:06.53067Z"
+    },
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_tristana/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_tristana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=tristana_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/parameters/knockback_distance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects/cannon_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/vertigo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/effects/first_hit_stun",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/tristana_r/trigger-rules/apply_stun_on_unblocked_hit",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

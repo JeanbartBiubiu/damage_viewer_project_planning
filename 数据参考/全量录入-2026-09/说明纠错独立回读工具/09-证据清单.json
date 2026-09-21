@@ -1,0 +1,62 @@
+{
+  "at": "2026-09-19T01:04:46.113Z",
+  "status": "PASS",
+  "tool": {
+    "path": "tools/authoring/read-reviewed-description-updates.mjs",
+    "sha256": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994"
+  },
+  "files": [
+    {
+      "name": "01-离线验证.json",
+      "sha256": "5bc177e8971b7184358f2529416b2f7995325c202e76f2e2c84469c9c7053e99"
+    },
+    {
+      "name": "01a-原执行验证脚本.mjs",
+      "sha256": "9fe1a11ccff67e15a6a5e5168be20298d01bc261200968012470bc7560daf907"
+    },
+    {
+      "name": "01b-独立代码核对.json",
+      "sha256": "69029cee57582a25ebe75a5c56c8825edb384f33652afd544b276d66369f6709"
+    },
+    {
+      "name": "02-已完成批次对照回读.json",
+      "sha256": "ebf41bd6dbf0b810f569ec0e824b184ebbe23efcfd60d82020d3ff9445c1f022"
+    },
+    {
+      "name": "03-真实接口验收汇总.json",
+      "sha256": "5a7450265add9f46c7dc3e73762f521a353c017b17bf2483d4c36fc79cdb7795"
+    },
+    {
+      "name": "README.md",
+      "sha256": "b8a616a3dd85a4daa3ded4c442401b5bba9d892be193a8217fbf77e2df1c2c4f"
+    },
+    {
+      "name": "预期拒绝原始输出/bad-approval.json",
+      "sha256": "5e1c5fc81d1c376a124fda36678159725a2221d3d567bb959420cddae5ba3d80"
+    },
+    {
+      "name": "预期拒绝原始输出/bad-source-hash.json",
+      "sha256": "4d98ee0c6b5aeb73538abd8184689f33df07ed503a21674ce39deb6aa87d8d9a"
+    },
+    {
+      "name": "预期拒绝原始输出/body-read-error.json",
+      "sha256": "57c59e1a72587856edbfc2d20db34c7d6a1150ab2b6069de545844bb9ed3506c"
+    },
+    {
+      "name": "预期拒绝原始输出/createdAt-drift.json",
+      "sha256": "00c29cb191520a2893575e851d495db4ce7bf8e86137d527d2567fd064b99763"
+    },
+    {
+      "name": "预期拒绝原始输出/list-detail-mismatch.json",
+      "sha256": "be7787061208350696c6e55eaef462a08567675a8c39c0aa448b864f512fd01d"
+    },
+    {
+      "name": "预期拒绝原始输出/nested-numeric-drift.json",
+      "sha256": "0d0e7b806d22cd85b12a8288fa5d57479c8910d92d6d9e12b2478171ffb8fa41"
+    },
+    {
+      "name": "预期拒绝原始输出/status-201.json",
+      "sha256": "500ac458e9fd4d4b2bdd36bf13bb0a1765ccabc1c588b3c0422ba208260833ff"
+    }
+  ]
+}

@@ -1,0 +1,2503 @@
+{
+  "at": "2026-09-18T23:58:42.974Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/ivern_q": {
+      "createdAt": "2026-09-06T18:18:37.484312Z",
+      "description": "艾翁召唤出一束荆棘，对命中的敌方单位造成伤害和禁锢效果。艾翁的友军可以突进到禁锢目标附近。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "艾翁·根深敌固",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "ivern_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:37.484312Z"
+    },
+    "/skills/ivern_q/parameters": [
+      {
+        "createdAt": "2026-09-10T04:00:54.626347Z",
+        "description": "当前根BaseDamage按保护最高等级从索引1开始映射；索引0为占位。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "name": "根深敌固基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ivern_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T04:00:54.626347Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:00:56.782724Z",
+        "description": "RootDuration源值为秒，逐等级精确转换为整数毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1600,
+          "2": 1700,
+          "3": 1800,
+          "4": 1900,
+          "5": 2000
+        },
+        "name": "禁锢持续时间（毫秒）",
+        "parameterKey": "root_duration_ms",
+        "skillKey": "ivern_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T04:00:56.782724Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:00:58.387241Z",
+        "description": "TotalDamage第二分支读取APRatio和来源总法强。",
+        "fixedValue": 0.699999988,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ivern_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T04:00:58.387241Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:43.364929Z",
+        "description": "再次施放冲向同一被禁锢敌人，DashSpeed固定1500。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "再次施放冲刺速度",
+        "parameterKey": "dash_speed",
+        "skillKey": "ivern_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-10T04:07:43.364929Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:45.236845Z",
+        "description": "当前根mCastTime=0.25秒，精确转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "mCastTime（毫秒）",
+        "parameterKey": "m_cast_time_ms",
+        "skillKey": "ivern_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-10T04:07:45.236845Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:46.903111Z",
+        "description": "当前根spellCastTime=0.25秒，精确转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "spellCastTime（毫秒）",
+        "parameterKey": "spell_cast_time_ms",
+        "skillKey": "ivern_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-10T04:07:46.903111Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:48.580146Z",
+        "description": "当前根castRange索引1为1150；不与显示距离混用。",
+        "fixedValue": 1150,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "实际施法距离",
+        "parameterKey": "cast_range",
+        "skillKey": "ivern_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-10T04:07:48.580146Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:50.138598Z",
+        "description": "当前根显示距离1125，单独保留。",
+        "fixedValue": 1125,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "显示距离",
+        "parameterKey": "display_range",
+        "skillKey": "ivern_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-10T04:07:50.138598Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:51.763114Z",
+        "description": "当前根castRadius=210。",
+        "fixedValue": 210,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "技能半径",
+        "parameterKey": "cast_radius",
+        "skillKey": "ivern_q",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-10T04:07:51.763114Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:35.397393Z",
+        "description": "DDragon16.17.1 Ivern.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ivern_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:35.397393Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:53.3106Z",
+        "description": "当前根missileSpeed=1300。",
+        "fixedValue": 1300,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "弹道速度",
+        "parameterKey": "missile_speed",
+        "skillKey": "ivern_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-10T04:07:53.3106Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:35.806769Z",
+        "description": "DDragon16.17.1 Ivern.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ivern_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:35.806769Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/ivern_q/parameters/base_damage": {
+      "createdAt": "2026-09-10T04:00:54.626347Z",
+      "description": "当前根BaseDamage按保护最高等级从索引1开始映射；索引0为占位。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "name": "根深敌固基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "ivern_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T04:00:54.626347Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/root_duration_ms": {
+      "createdAt": "2026-09-10T04:00:56.782724Z",
+      "description": "RootDuration源值为秒，逐等级精确转换为整数毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1600,
+        "2": 1700,
+        "3": 1800,
+        "4": 1900,
+        "5": 2000
+      },
+      "name": "禁锢持续时间（毫秒）",
+      "parameterKey": "root_duration_ms",
+      "skillKey": "ivern_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T04:00:56.782724Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-10T04:00:58.387241Z",
+      "description": "TotalDamage第二分支读取APRatio和来源总法强。",
+      "fixedValue": 0.699999988,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "ivern_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-10T04:00:58.387241Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ivern_q/parameters/dash_speed": {
+      "createdAt": "2026-09-10T04:07:43.364929Z",
+      "description": "再次施放冲向同一被禁锢敌人，DashSpeed固定1500。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "再次施放冲刺速度",
+      "parameterKey": "dash_speed",
+      "skillKey": "ivern_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-10T04:07:43.364929Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/m_cast_time_ms": {
+      "createdAt": "2026-09-10T04:07:45.236845Z",
+      "description": "当前根mCastTime=0.25秒，精确转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "mCastTime（毫秒）",
+      "parameterKey": "m_cast_time_ms",
+      "skillKey": "ivern_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-10T04:07:45.236845Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/spell_cast_time_ms": {
+      "createdAt": "2026-09-10T04:07:46.903111Z",
+      "description": "当前根spellCastTime=0.25秒，精确转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "spellCastTime（毫秒）",
+      "parameterKey": "spell_cast_time_ms",
+      "skillKey": "ivern_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-10T04:07:46.903111Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/cast_range": {
+      "createdAt": "2026-09-10T04:07:48.580146Z",
+      "description": "当前根castRange索引1为1150；不与显示距离混用。",
+      "fixedValue": 1150,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "实际施法距离",
+      "parameterKey": "cast_range",
+      "skillKey": "ivern_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-10T04:07:48.580146Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/display_range": {
+      "createdAt": "2026-09-10T04:07:50.138598Z",
+      "description": "当前根显示距离1125，单独保留。",
+      "fixedValue": 1125,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "显示距离",
+      "parameterKey": "display_range",
+      "skillKey": "ivern_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-10T04:07:50.138598Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/cast_radius": {
+      "createdAt": "2026-09-10T04:07:51.763114Z",
+      "description": "当前根castRadius=210。",
+      "fixedValue": 210,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "技能半径",
+      "parameterKey": "cast_radius",
+      "skillKey": "ivern_q",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-10T04:07:51.763114Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:36:35.397393Z",
+      "description": "DDragon16.17.1 Ivern.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 14000,
+        "2": 13000,
+        "3": 12000,
+        "4": 11000,
+        "5": 10000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "ivern_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:36:35.397393Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/missile_speed": {
+      "createdAt": "2026-09-10T04:07:53.3106Z",
+      "description": "当前根missileSpeed=1300。",
+      "fixedValue": 1300,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "弹道速度",
+      "parameterKey": "missile_speed",
+      "skillKey": "ivern_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-10T04:07:53.3106Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:36:35.806769Z",
+      "description": "DDragon16.17.1 Ivern.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "ivern_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:36:35.806769Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ivern_q/formulas": [
+      {
+        "createdAt": "2026-09-10T04:07:55.285913Z",
+        "description": "TotalDamage=BaseDamage+APRatio×来源总法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "根深敌固魔法伤害",
+        "skillKey": "ivern_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T04:07:55.285913Z"
+      },
+      {
+        "createdAt": "2026-09-10T04:07:56.968794Z",
+        "description": "RootDuration直接读取当前技能等级数组。",
+        "formulaKey": "root_duration",
+        "gameId": "lol",
+        "name": "根深敌固禁锢持续",
+        "skillKey": "ivern_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T04:07:56.968794Z"
+      }
+    ],
+    "/skills/ivern_q/formulas/magic_damage": {
+      "createdAt": "2026-09-10T04:07:55.285913Z",
+      "description": "TotalDamage=BaseDamage+APRatio×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "根深敌固魔法伤害",
+      "skillKey": "ivern_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T04:07:55.285913Z"
+    },
+    "/skills/ivern_q/formulas/root_duration": {
+      "createdAt": "2026-09-10T04:07:56.968794Z",
+      "description": "RootDuration直接读取当前技能等级数组。",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "root_duration_ms"
+      },
+      "formulaKey": "root_duration",
+      "gameId": "lol",
+      "name": "根深敌固禁锢持续",
+      "skillKey": "ivern_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T04:07:56.968794Z"
+    },
+    "/skills/ivern_q/effects": [
+      {
+        "createdAt": "2026-09-10T04:07:58.577602Z",
+        "description": "唯一敌人本体伤害；禁锢与再次施放冲刺的同一目标条件由事件层接线。",
+        "effectKey": "damage",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "根深敌固魔法伤害",
+        "resultCount": 1,
+        "skillKey": "ivern_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T04:07:58.577602Z"
+      },
+      {
+        "createdAt": "2026-09-10T04:08:00.161969Z",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "ivern_q",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-10T04:08:00.161969Z"
+      }
+    ],
+    "/skills/ivern_q/effects/damage": {
+      "createdAt": "2026-09-10T04:07:58.577602Z",
+      "description": "唯一敌人本体伤害；禁锢与再次施放冲刺的同一目标条件由事件层接线。",
+      "effectKey": "damage",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "根深敌固魔法伤害",
+      "results": [
+        {
+          "description": "一次技能伤害结果；事件接线与伤害树分开记录。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "根深敌固魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "ivern_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T04:07:58.577602Z"
+    },
+    "/skills/ivern_q/effects/mana_cost": {
+      "createdAt": "2026-09-10T04:08:00.161969Z",
+      "description": "复用冻结公共法力参数；仅记录基础消耗。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "ivern_q",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-10T04:08:00.161969Z"
+    },
+    "/skills/ivern_q/processes": [],
+    "/skills/ivern_q/internal-states": [],
+    "/skills/ivern_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅消费宿主确认的 ivern_q 实际英雄命中，并在当前目标上执行已有的 damage；禁锢、再次施放突进、友军与非史诗级野怪分支、法力消耗和冷却不在本条规则中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "命中英雄触发根深敌固伤害",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T16:39:56.117716Z"
+      }
+    ],
+    "/skills/ivern_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "damage"
+          },
+          "name": "执行根深敌固命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "命中对象为英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅消费宿主确认的 ivern_q 实际英雄命中，并在当前目标上执行已有的 damage；禁锢、再次施放突进、友军与非史诗级野怪分支、法力消耗和冷却不在本条规则中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ivern_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "命中英雄触发根深敌固伤害",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/ahri_e": {
+      "createdAt": "2026-09-06T18:16:14.427185Z",
+      "description": "阿狸献出红唇热吻，对命中的第一个敌人造成伤害并将目标魅惑，并且立刻终止目标的移动技能并使目标无恶意地走向她。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "阿狸·魅惑妖术",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:14.427185Z"
+    },
+    "/skills/ahri_e/parameters": [
+      {
+        "createdAt": "2026-09-07T18:52:38.797791Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "ahri_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:52:38.797791Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:39.367241Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ahri_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:52:39.367241Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:39.90728Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.85,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ahri_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:52:39.90728Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:40.538547Z",
+        "description": "客户端当前根绑定 DataValues.CharmDuration 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1200,
+          "2": 1350,
+          "3": 1500,
+          "4": 1650,
+          "5": 1800
+        },
+        "name": "魅惑时长（毫秒）",
+        "parameterKey": "charm_duration_ms",
+        "skillKey": "ahri_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:52:40.538547Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:41.142232Z",
+        "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5。",
+        "fixedValue": 0.65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "魅惑期间移速降低比例",
+        "parameterKey": "charm_slow_ratio",
+        "skillKey": "ahri_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-07T18:52:41.142232Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:05.508573Z",
+        "description": "DDragon16.17.1 Ahri.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ahri_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:05.508573Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:05.845251Z",
+        "description": "DDragon16.17.1 Ahri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ahri_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:05.845251Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/ahri_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:52:38.797791Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "ahri_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:52:38.797791Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:52:39.367241Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "ahri_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:52:39.367241Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:52:39.90728Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.85,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "ahri_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:52:39.90728Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ahri_e/parameters/charm_duration_ms": {
+      "createdAt": "2026-09-07T18:52:40.538547Z",
+      "description": "客户端当前根绑定 DataValues.CharmDuration 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1200,
+        "2": 1350,
+        "3": 1500,
+        "4": 1650,
+        "5": 1800
+      },
+      "name": "魅惑时长（毫秒）",
+      "parameterKey": "charm_duration_ms",
+      "skillKey": "ahri_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:52:40.538547Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/charm_slow_ratio": {
+      "createdAt": "2026-09-07T18:52:41.142232Z",
+      "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5。",
+      "fixedValue": 0.65,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "魅惑期间移速降低比例",
+      "parameterKey": "charm_slow_ratio",
+      "skillKey": "ahri_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-07T18:52:41.142232Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ahri_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:00:05.508573Z",
+      "description": "DDragon16.17.1 Ahri.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 12000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "ahri_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T16:00:05.508573Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:00:05.845251Z",
+      "description": "DDragon16.17.1 Ahri.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 60,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "ahri_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T16:00:05.845251Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ahri_e/formulas": [
+      {
+        "createdAt": "2026-09-07T18:52:41.871095Z",
+        "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "魅惑妖术基础伤害",
+        "skillKey": "ahri_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:41.871095Z"
+      }
+    ],
+    "/skills/ahri_e/formulas/damage": {
+      "createdAt": "2026-09-07T18:52:41.871095Z",
+      "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "魅惑妖术基础伤害",
+      "skillKey": "ahri_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:52:41.871095Z"
+    },
+    "/skills/ahri_e/effects": [
+      {
+        "createdAt": "2026-09-07T18:52:42.496789Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "ahri_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:42.496789Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:52:43.148014Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "charm_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "魅惑命中魔法伤害",
+        "resultCount": 1,
+        "skillKey": "ahri_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:52:43.148014Z"
+      }
+    ],
+    "/skills/ahri_e/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:52:42.496789Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:52:42.496789Z"
+    },
+    "/skills/ahri_e/effects/charm_hit": {
+      "createdAt": "2026-09-07T18:52:43.148014Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "charm_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "魅惑命中魔法伤害",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "魅惑命中魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "ahri_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:52:43.148014Z"
+    },
+    "/skills/ahri_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:52:43.677738Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放魅惑妖术",
+        "processKey": "cast",
+        "skillKey": "ahri_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:52:43.677738Z"
+      }
+    ],
+    "/skills/ahri_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:52:43.677738Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放魅惑妖术",
+      "processKey": "cast",
+      "skillKey": "ahri_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:52:43.677738Z"
+    },
+    "/skills/ahri_e/internal-states": [],
+    "/skills/ahri_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "魅惑妖术实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:52:44.23608Z"
+      }
+    ],
+    "/skills/ahri_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "charm_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ahri_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "魅惑妖术实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/diana_e": {
+      "createdAt": "2026-09-06T18:18:09.313429Z",
+      "description": "成为复仇之月的活化身，冲向一名敌人并造成魔法伤害。<br>【月神冲刺】在冲达一名被施加了【月光】效果的敌人时，会没有冷却时间。所有其它的敌人都将移除掉身上的【月光】效果，无论他们是否是【月神冲刺】的目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "黛安娜·月神冲刺",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "diana_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:09.313429Z"
+    },
+    "/skills/diana_e/parameters": [
+      {
+        "createdAt": "2026-09-07T18:53:46.86388Z",
+        "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "diana_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:53:46.86388Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:47.37083Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 70,
+          "3": 90,
+          "4": 110,
+          "5": 130
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "diana_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T18:53:47.37083Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:47.872189Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "diana_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T18:53:47.872189Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:48.447067Z",
+        "description": "客户端当前根绑定 DataValues.CDResetTime 取索引1至5。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "月光冷却刷新延迟原值（毫秒）",
+        "parameterKey": "moonlight_reset_delay_ms",
+        "skillKey": "diana_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T18:53:48.447067Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:19.459508Z",
+        "description": "DDragon16.17.1 Diana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 22000,
+          "2": 20000,
+          "3": 18000,
+          "4": 16000,
+          "5": 14000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "diana_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:19.459508Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:19.744223Z",
+        "description": "DDragon16.17.1 Diana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "diana_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:19.744223Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/diana_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T18:53:46.86388Z",
+      "description": "当前spellCastTime与已有mCastTime一致；不代替命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "diana_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:53:46.86388Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/parameters/base_damage": {
+      "createdAt": "2026-09-07T18:53:47.37083Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 70,
+        "3": 90,
+        "4": 110,
+        "5": 130
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "diana_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T18:53:47.37083Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T18:53:47.872189Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "diana_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T18:53:47.872189Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/diana_e/parameters/moonlight_reset_delay_ms": {
+      "createdAt": "2026-09-07T18:53:48.447067Z",
+      "description": "客户端当前根绑定 DataValues.CDResetTime 取索引1至5。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "月光冷却刷新延迟原值（毫秒）",
+      "parameterKey": "moonlight_reset_delay_ms",
+      "skillKey": "diana_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T18:53:48.447067Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:00:19.459508Z",
+      "description": "DDragon16.17.1 Diana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 22000,
+        "2": 20000,
+        "3": 18000,
+        "4": 16000,
+        "5": 14000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "diana_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T16:00:19.459508Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:00:19.744223Z",
+      "description": "DDragon16.17.1 Diana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 40,
+        "2": 45,
+        "3": 50,
+        "4": 55,
+        "5": 60
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "diana_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T16:00:19.744223Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/diana_e/formulas": [
+      {
+        "createdAt": "2026-09-07T18:53:48.982208Z",
+        "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "月神冲刺基础伤害",
+        "skillKey": "diana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:48.982208Z"
+      }
+    ],
+    "/skills/diana_e/formulas/damage": {
+      "createdAt": "2026-09-07T18:53:48.982208Z",
+      "description": "当前根TotalDamage：基础伤害+法强倍率×总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "月神冲刺基础伤害",
+      "skillKey": "diana_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:53:48.982208Z"
+    },
+    "/skills/diana_e/effects": [
+      {
+        "createdAt": "2026-09-07T18:53:49.670451Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "diana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:49.670451Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:50.245978Z",
+        "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+        "effectKey": "lunar_rush_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "月神冲刺命中",
+        "resultCount": 1,
+        "skillKey": "diana_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T18:53:50.245978Z"
+      },
+      {
+        "createdAt": "2026-09-07T18:53:50.9611Z",
+        "description": null,
+        "effectKey": "moonlight_cooldown_reset",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "命中已有月光目标重置冲刺",
+        "resultCount": 1,
+        "skillKey": "diana_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T18:53:50.9611Z"
+      }
+    ],
+    "/skills/diana_e/effects/mana_cost": {
+      "createdAt": "2026-09-07T18:53:49.670451Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "diana_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T18:53:49.670451Z"
+    },
+    "/skills/diana_e/effects/lunar_rush_hit": {
+      "createdAt": "2026-09-07T18:53:50.245978Z",
+      "description": "独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。",
+      "effectKey": "lunar_rush_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "月神冲刺命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "月神冲刺命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "diana_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T18:53:50.245978Z"
+    },
+    "/skills/diana_e/effects/moonlight_cooldown_reset": {
+      "createdAt": "2026-09-07T18:53:50.9611Z",
+      "description": null,
+      "effectKey": "moonlight_cooldown_reset",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "命中已有月光目标重置冲刺",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "affectedSkillScope": {
+              "mode": "SKILLS",
+              "skillCategoryKeys": [],
+              "skillKeys": [
+                "diana_e"
+              ]
+            },
+            "operation": "RESET"
+          },
+          "lifecycleBehavior": null,
+          "name": "命中已有月光目标重置冲刺",
+          "resultKey": "cooldown",
+          "resultType": "COOLDOWN_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "diana_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T18:53:50.9611Z"
+    },
+    "/skills/diana_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-07T18:53:51.536851Z",
+        "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放月神冲刺",
+        "processKey": "cast",
+        "skillKey": "diana_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-07T18:53:51.536851Z"
+      }
+    ],
+    "/skills/diana_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T18:53:51.536851Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放月神冲刺",
+      "processKey": "cast",
+      "skillKey": "diana_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T18:53:51.536851Z"
+    },
+    "/skills/diana_e/internal-states": [],
+    "/skills/diana_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "月神冲刺实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T18:53:52.088523Z"
+      }
+    ],
+    "/skills/diana_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "lunar_rush_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "diana_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "月神冲刺实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/ashe_r": {
+      "createdAt": "2026-09-06T17:14:17.927699Z",
+      "description": "来源：官方静态资料16.17.1。原始说明：艾希射出一支沿直线飞行的魔法水晶箭。如果水晶箭命中了一名敌方英雄，那么它会对该英雄造成伤害和晕眩效果，晕眩时长取决于水晶箭的飞行距离。此外，该英雄附近的敌方单位会受到伤害和减速效果。 数值、机制及图片尚待录入与核对。",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "艾希·魔法水晶箭",
+      "skillCategoryKeys": [],
+      "skillKey": "ashe_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T17:14:17.927699Z"
+    },
+    "/skills/ashe_r/parameters": [
+      {
+        "createdAt": "2026-09-07T14:35:26.731135Z",
+        "description": "客户端 RBaseDamage 索引 1～3，与冻结 Wiki 一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 200,
+          "2": 400,
+          "3": 600
+        },
+        "name": "R 基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ashe_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-07T14:35:26.731135Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:27.155772Z",
+        "description": "客户端 RMainDamage.APRatio 原浮点 1.2000000476837158 按 1.2 归一，与冻结 Wiki 120%一致。",
+        "fixedValue": 1.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 法术强度比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ashe_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:35:27.155772Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:27.851876Z",
+        "description": "客户端 cooldownTime 索引 1～3，秒转毫秒；与 DDragon 16.17.1 一致。仅参数，尚未挂接施法过程。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 80000,
+          "3": 60000
+        },
+        "name": "R 冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T14:35:27.851876Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:28.216248Z",
+        "description": "客户端 mana 索引 0～2 均为 100；与 DDragon 16.17.1 一致。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ashe_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T14:35:28.216248Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:28.611689Z",
+        "description": "客户端 MinStunDuration=1 秒；仅上下界参数，不表示已有眩晕效果。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 最短眩晕时间（毫秒）",
+        "parameterKey": "min_stun_duration_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T14:35:28.611689Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:28.987787Z",
+        "description": "客户端 MaxStunDuration=3.5 秒；距离换算与控制行为待接线。",
+        "fixedValue": 3500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 最长眩晕时间（毫秒）",
+        "parameterKey": "max_stun_duration_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T14:35:28.987787Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:29.317405Z",
+        "description": "客户端 spellCastTime=0.25 秒，与冻结 Wiki 一致；施法过程尚未配置。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "R 施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "ashe_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T14:35:29.317405Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/ashe_r/parameters/base_damage": {
+      "createdAt": "2026-09-07T14:35:26.731135Z",
+      "description": "客户端 RBaseDamage 索引 1～3，与冻结 Wiki 一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 200,
+        "2": 400,
+        "3": 600
+      },
+      "name": "R 基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "ashe_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-07T14:35:26.731135Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T14:35:27.155772Z",
+      "description": "客户端 RMainDamage.APRatio 原浮点 1.2000000476837158 按 1.2 归一，与冻结 Wiki 120%一致。",
+      "fixedValue": 1.2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 法术强度比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "ashe_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T14:35:27.155772Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/ashe_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T14:35:27.851876Z",
+      "description": "客户端 cooldownTime 索引 1～3，秒转毫秒；与 DDragon 16.17.1 一致。仅参数，尚未挂接施法过程。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 100000,
+        "2": 80000,
+        "3": 60000
+      },
+      "name": "R 冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "ashe_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T14:35:27.851876Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T14:35:28.216248Z",
+      "description": "客户端 mana 索引 0～2 均为 100；与 DDragon 16.17.1 一致。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "ashe_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T14:35:28.216248Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/min_stun_duration_ms": {
+      "createdAt": "2026-09-07T14:35:28.611689Z",
+      "description": "客户端 MinStunDuration=1 秒；仅上下界参数，不表示已有眩晕效果。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 最短眩晕时间（毫秒）",
+      "parameterKey": "min_stun_duration_ms",
+      "skillKey": "ashe_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T14:35:28.611689Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/max_stun_duration_ms": {
+      "createdAt": "2026-09-07T14:35:28.987787Z",
+      "description": "客户端 MaxStunDuration=3.5 秒；距离换算与控制行为待接线。",
+      "fixedValue": 3500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 最长眩晕时间（毫秒）",
+      "parameterKey": "max_stun_duration_ms",
+      "skillKey": "ashe_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T14:35:28.987787Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T14:35:29.317405Z",
+      "description": "客户端 spellCastTime=0.25 秒，与冻结 Wiki 一致；施法过程尚未配置。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "R 施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "ashe_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T14:35:29.317405Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/ashe_r/formulas": [
+      {
+        "createdAt": "2026-09-07T14:35:29.71371Z",
+        "description": "基础伤害 + 120%法术强度；对应 RMainDamage，未建立附近目标选择。",
+        "formulaKey": "hit_damage",
+        "gameId": "lol",
+        "name": "R 命中英雄魔法伤害",
+        "skillKey": "ashe_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-07T14:35:29.71371Z"
+      }
+    ],
+    "/skills/ashe_r/formulas/hit_damage": {
+      "createdAt": "2026-09-07T14:35:29.71371Z",
+      "description": "基础伤害 + 120%法术强度；对应 RMainDamage，未建立附近目标选择。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "hit_damage",
+      "gameId": "lol",
+      "name": "R 命中英雄魔法伤害",
+      "skillKey": "ashe_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-07T14:35:29.71371Z"
+    },
+    "/skills/ashe_r/effects": [
+      {
+        "createdAt": "2026-09-07T14:35:30.04621Z",
+        "description": "仅直接命中英雄的伤害组成；眩晕、附近目标伤害及减速、视野和弹道待补，不默认命中。",
+        "effectKey": "hit_damage",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "R 命中英雄魔法伤害",
+        "resultCount": 1,
+        "skillKey": "ashe_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-07T14:35:30.04621Z"
+      },
+      {
+        "createdAt": "2026-09-07T14:35:30.429327Z",
+        "description": "明确的施放法力消耗组成；当前尚未挂接施法过程，不表示已经自动消耗。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "R 施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "ashe_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:35:30.429327Z"
+      }
+    ],
+    "/skills/ashe_r/effects/hit_damage": {
+      "createdAt": "2026-09-07T14:35:30.04621Z",
+      "description": "仅直接命中英雄的伤害组成；眩晕、附近目标伤害及减速、视野和弹道待补，不默认命中。",
+      "effectKey": "hit_damage",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "R 命中英雄魔法伤害",
+      "results": [
+        {
+          "description": "仅伤害数值组成，不加普通暴击倍率；减速或眩晕另行配置。旧 Wiki 明示可被法术护盾阻挡，本结果选择当前结果粒度。吸血留待游戏级规则，空列表不表示不吸血。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": []
+          },
+          "lifecycleBehavior": null,
+          "name": "一次命中伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 0,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "hit_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "ashe_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-07T14:35:30.04621Z"
+    },
+    "/skills/ashe_r/effects/mana_cost": {
+      "createdAt": "2026-09-07T14:35:30.429327Z",
+      "description": "明确的施放法力消耗组成；当前尚未挂接施法过程，不表示已经自动消耗。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "R 施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 0,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "ashe_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T14:35:30.429327Z"
+    },
+    "/skills/ashe_r/processes": [],
+    "/skills/ashe_r/internal-states": [],
+    "/skills/ashe_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "仅在运行时确认 ashe_r 已命中英雄后，在当前目标上执行已有的 hit_damage；眩晕、距离换算、附近目标伤害、减速、弹道、视野、消耗与冷却不在本条规则中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "命中英雄触发水晶箭伤害",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T15:21:11.140365Z"
+      }
+    ],
+    "/skills/ashe_r/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_hit_damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "hit_damage"
+          },
+          "name": "执行水晶箭命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "命中对象为英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "仅在运行时确认 ashe_r 已命中英雄后，在当前目标上执行已有的 hit_damage；眩晕、距离换算、附近目标伤害、减速、弹道、视野、消耗与冷却不在本条规则中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "ashe_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "命中英雄触发水晶箭伤害",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/dash_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/m_cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/spell_cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/cast_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/display_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/cast_radius",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/missile_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/formulas/root_duration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ivern_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/charm_slow_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/effects/charm_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ahri_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/moonlight_reset_delay_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/lunar_rush_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/effects/moonlight_cooldown_reset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/diana_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/min_stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/max_stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/formulas/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/hit_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/ashe_r/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

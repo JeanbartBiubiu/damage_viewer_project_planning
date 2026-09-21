@@ -36,6 +36,7 @@ const EVENT_TYPES = new Set<SkillTriggerEventType>([
   'ENTITY_DIED',
   'ENTITY_UNTARGETABLE',
   'KILL',
+  'TAKEDOWN',
   'PROCESS_CANCEL_REQUESTED',
   'SPELL_SHIELD_BLOCKED',
   'HIT_LINK_APPLIED',
@@ -48,6 +49,7 @@ const CONDITION_TYPES = new Set([
   'LIFECYCLE_CHECK',
   'TARGET_CATEGORY_CHECK',
   'EXPLICIT_TARGET_IS_SOURCE',
+  'SKILL_HIT_TARGET_IS_ENEMY',
   'INTERNAL_STATE_CHECK',
   'EVENT_VALUE_COMPARE'
 ]);
@@ -67,6 +69,7 @@ const EVENT_VALUE_KEYS = new Set([
   'CHARGE_DURATION_MS',
   'RECAST_COUNT',
   'HIT_INDEX',
+  'SKILL_HIT_FIRST_CONTACT',
   'SKILL_HIT_SPELL_SHIELD_BLOCKED',
   'LIFECYCLE_STACKS',
   'PERIOD_INDEX',
@@ -161,6 +164,7 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
   const detail = value.detail;
   switch (eventType) {
     case 'SOURCE_INITIALIZED':
+    case 'TAKEDOWN':
       if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
       break;
     case 'SKILL_USED':
@@ -269,6 +273,7 @@ function assertCondition(value: unknown, path: string): SkillTriggerCondition {
   const detail = value.detail;
   switch (conditionType) {
     case 'EXPLICIT_TARGET_IS_SOURCE':
+    case 'SKILL_HIT_TARGET_IS_ENEMY':
       if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
       break;
     case 'TARGET_CATEGORY_CHECK':
@@ -436,6 +441,11 @@ export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDet
   const conditionGroups = value.conditionGroups.map((item, index) => (
     assertGroup(item, `detail.conditionGroups[${index}]`)
   ));
+  conditionGroups.forEach((group, groupIndex) => group.conditions.forEach((condition, conditionIndex) => {
+    if (condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY' && eventSource.eventType !== 'SKILL_HIT') {
+      protocolError(`detail.conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail`);
+    }
+  }));
   const actions = value.actions.map((item, index) => assertAction(item, `detail.actions[${index}]`));
   return {
     ruleKey: assertString(value.ruleKey, 'detail.ruleKey'),

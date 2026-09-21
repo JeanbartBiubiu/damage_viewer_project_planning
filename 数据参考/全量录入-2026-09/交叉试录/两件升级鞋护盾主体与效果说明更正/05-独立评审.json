@@ -1,0 +1,281 @@
+{
+  "status": "APPROVED",
+  "reviewer": "/root/upgraded_boot_shield_curve",
+  "reviewedAt": "2026-09-21T14:38:25.1383997Z",
+  "businessWrites": 0,
+  "httpRequests": 0,
+  "sqlRequests": 0,
+  "testsRun": 0,
+  "fileWrites": 1,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v4.mjs": "6630730f1e794c64fd73711008e04a22effb1a75f210bf905747e01563794407",
+    "01-纠错计划.json": "1760d9ab3866529380444ac6407cd20842d1c4c74cf4a41868adb7782db059c4",
+    "02-冻结请求.json": "2d0d47efa13f1434dc8556422722b3b6a1da5118854677c687f01c9ccbbe80fd",
+    "03-来源摘要.json": "e241a11063a8c83367cdfd3e796b97607eb9048de8bc5d44da685e81f27a9279",
+    "04-写入前现值.json": "0ac412b3b54c10fba067c87a59cf47dbece45e2d5ff5f047fd57ac702a3c9810"
+  },
+  "scope": {
+    "requestCount": 4,
+    "methods": [
+      "PUT"
+    ],
+    "routes": [
+      "/skills/item_3173_passive",
+      "/skills/item_3173_passive/effects/lifeline_magic_shield",
+      "/skills/item_3174_passive",
+      "/skills/item_3174_passive/effects/lifeline_physical_shield"
+    ],
+    "onlyChangedField": "description",
+    "protectedOutsideScope": [
+      "参数、公式、效果结果、生命周期、公式引用",
+      "过程、内部状态、触发规则",
+      "原属性12、公式2的无默认外供"
+    ]
+  },
+  "requestAudit": {
+    "base": "http://127.0.0.1:8080/api/admin/games/lol",
+    "sourceSha256": "e241a11063a8c83367cdfd3e796b97607eb9048de8bc5d44da685e81f27a9279",
+    "baselineSha256": "0ac412b3b54c10fba067c87a59cf47dbece45e2d5ff5f047fd57ac702a3c9810",
+    "sourceShaMatchesApprovedFile": true,
+    "baselineShaMatchesApprovedFile": true,
+    "routesMatchPlan": true,
+    "requests": [
+      {
+        "method": "PUT",
+        "route": "/skills/item_3173_passive",
+        "kind": "skill",
+        "descriptionChanged": true,
+        "editableFieldsOutsideDescriptionPreserved": true,
+        "expectedReadbackOutsideDescriptionPreserved": true,
+        "name": "带链碾碎者·诺克萨斯的不懈",
+        "status": "ENABLED",
+        "maxLevel": 1,
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "descriptionBoundary": "魔法伤害、完整角色等级基础护盾、无默认原属性12/公式2外供、结果已保存且触发和冷却待接线；无低生命断言。"
+      },
+      {
+        "method": "PUT",
+        "route": "/skills/item_3173_passive/effects/lifeline_magic_shield",
+        "kind": "effect",
+        "descriptionChanged": true,
+        "editableFieldsOutsideDescriptionPreserved": true,
+        "expectedReadbackOutsideDescriptionPreserved": true,
+        "name": "诺克萨斯不懈魔法护盾",
+        "sortOrder": 10,
+        "lifecyclePreserved": true,
+        "resultsPreserved": true,
+        "formulaReference": "magic_shield_value",
+        "descriptionBoundary": "角色等级基础段和原属性12/公式2外供公式、持续时间引用、正式魔法伤害来源；触发和冷却待接线。"
+      },
+      {
+        "method": "PUT",
+        "route": "/skills/item_3174_passive",
+        "kind": "skill",
+        "descriptionChanged": true,
+        "editableFieldsOutsideDescriptionPreserved": true,
+        "expectedReadbackOutsideDescriptionPreserved": true,
+        "name": "装甲战靴·镀板与耐久",
+        "status": "ENABLED",
+        "maxLevel": 1,
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "descriptionBoundary": "保留镀板待接线，物理伤害、完整角色等级基础护盾、无默认原属性12/公式2外供、结果已保存且触发和冷却待接线；无低生命断言。"
+      },
+      {
+        "method": "PUT",
+        "route": "/skills/item_3174_passive/effects/lifeline_physical_shield",
+        "kind": "effect",
+        "descriptionChanged": true,
+        "editableFieldsOutsideDescriptionPreserved": true,
+        "expectedReadbackOutsideDescriptionPreserved": true,
+        "name": "诺克萨斯耐久物理护盾",
+        "sortOrder": 10,
+        "lifecyclePreserved": true,
+        "resultsPreserved": true,
+        "formulaReference": "physical_shield_value",
+        "descriptionBoundary": "角色等级基础段和原属性12/公式2外供公式、持续时间引用、正式物理伤害来源；触发和冷却待接线。"
+      }
+    ]
+  },
+  "sourceAudit": {
+    "summaryPath": "03-来源摘要.json",
+    "sourceCount": 10,
+    "planSourceListMatchesSummary": true,
+    "allDeclaredSourceHashesMatchActual": true,
+    "hashChecks": [
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+        "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+        "matches": true
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+        "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20",
+        "matches": true
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+        "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+        "matches": true
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+        "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+        "matches": true
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/装备技能实录/第二十批升级鞋/冻结来源.json",
+        "sha256": "3861cdd2d66da43deb99aca9c085c894258f58a21bfdfc967b9feaa71203e649",
+        "matches": true
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/01-两项固定曲线独立核对.json",
+        "sha256": "4e20db7b39a5c91ebee2e01bc77b535eca1e36185c720a09ad92f6497ea5652e",
+        "matches": true
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/04-角色等级参数实际返回.json",
+        "sha256": "a90017cfca6aab6590318be9e78d299cb1209fda2f293f385757b8c257914922",
+        "matches": true
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/05-公式说明与实值核算返回.json",
+        "sha256": "e6804845389bc0160f015fbe159c9721d008351fad6abd29508dc160dd20a7f9",
+        "matches": true
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/06-同批护盾触发说明核对.json",
+        "sha256": "d9bfff326af435a79591dfa1faf30de909db28c288b86a18ca26644e9884eea8",
+        "matches": true
+      },
+      {
+        "root": "web",
+        "path": "数据参考/全量录入-2026-09/交叉试录/两件升级鞋护盾公式说明更正/07-独立回读.json",
+        "sha256": "3e66e6a1fc0bda2e0e4c30c056c8abcdaf47fb6c061d39c116fb0eb35dcd061a",
+        "matches": true
+      }
+    ],
+    "formalBindingAudit": {
+      "sourceVersion": {
+        "client": "16.17",
+        "ddragon": "16.17.1"
+      },
+      "item_3173_passive": {
+        "tooltipPath": "mItemDataClient.mTooltipData.mLocKeys.keyTooltip",
+        "tooltipKey": "Item_3173_Tooltip",
+        "formalDamageTrigger": "来自英雄的魔法伤害",
+        "existingRuleCount": 0
+      },
+      "item_3174_passive": {
+        "tooltipPath": "mItemDataClient.mTooltipData.mLocKeys.keyTooltip",
+        "tooltipKey": "Item_3174_Tooltip",
+        "formalDamageTrigger": "来自英雄的物理伤害",
+        "existingRuleCount": 0
+      },
+      "peerAuditPath": "数据参考/全量录入-2026-09/升级鞋护盾等级曲线补证/06-同批护盾触发说明核对.json",
+      "peerAuditStatus": "READY_FOR_DESCRIPTION_ONLY_REPAIR",
+      "peerAuditGETs": 7,
+      "peerAuditBusinessWrites": 0
+    }
+  },
+  "baselineAudit": {
+    "path": "04-写入前现值.json",
+    "sha256": "0ac412b3b54c10fba067c87a59cf47dbece45e2d5ff5f047fd57ac702a3c9810",
+    "valueCount": 31,
+    "auditCount": 31,
+    "auditMethods": [
+      "GET"
+    ],
+    "statusCounts": {
+      "200": 31
+    },
+    "businessWrites": 0,
+    "targetRootAndEffectDetails": [
+      "/skills/item_3173_passive",
+      "/skills/item_3173_passive/effects/lifeline_magic_shield",
+      "/skills/item_3174_passive",
+      "/skills/item_3174_passive/effects/lifeline_physical_shield"
+    ],
+    "formulaAndParameterProtectionReads": true,
+    "processStateRuleProtectionReads": true,
+    "fourRequestDescriptionsOnly": true,
+    "effectLifecycleAndResultsProtected": true,
+    "formulaReferencesProtected": [
+      "magic_shield_value",
+      "physical_shield_value"
+    ],
+    "sourceInputsRemainUnknown": {
+      "item_3173_passive": {
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "valueType": "DECIMAL"
+      },
+      "item_3174_passive": {
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "valueType": "DECIMAL"
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "冻结请求范围唯一",
+      "status": "PASS",
+      "evidence": "02仅含4笔PUT，恰为两项技能主体和两项既有效果；路由集合与01完全一致，没有新增参数、公式或触发规则请求。"
+    },
+    {
+      "name": "四笔请求仅更正说明",
+      "status": "PASS",
+      "evidence": "主体请求的名称、等级、状态、排序和分类保持写前值；效果请求的名称、排序、生命周期和完整结果保持写前值，四项均只有description变化。"
+    },
+    {
+      "name": "正式来源文字闭合",
+      "status": "PASS",
+      "evidence": "固定客户端16.17与DDragon16.17.1绑定分别写明受到来自英雄的魔法或物理伤害后获得护盾；新说明同步角色等级基础段、持续时间和无默认12/2外供边界，并移除无来源的低生命说法。"
+    },
+    {
+      "name": "结果生命周期与引用保护",
+      "status": "PASS",
+      "evidence": "04中的31项GET包含两棵公式、两项护盾效果、结果类型、护盾种类、生命周期和引用；请求体及预期回读逐项保持这些字段。"
+    },
+    {
+      "name": "10项来源散列闭合",
+      "status": "PASS",
+      "evidence": "03与01来源列表完全一致，10项原始字节SHA全部存在且匹配；02.sourceSha256等于03实际SHA，02.baselineSha256等于04实际SHA。"
+    },
+    {
+      "name": "写前基线与触发规则边界",
+      "status": "PASS",
+      "evidence": "04为31项GET、31项200、businessWrites=0；两项当前规则数量均为0，06同类核对另有7项GET且businessWrites=0，因此说明更正不宣称已删除或接入错误触发逻辑。"
+    },
+    {
+      "name": "工具锁定",
+      "status": "PASS",
+      "evidence": "v4工具原始字节SHA为6630730f...94407；工具只沿用既有说明纠错契约，本评审未改工具或重复运行测试。"
+    }
+  ],
+  "findings": [],
+  "conclusion": "APPROVED。该批四笔PUT仅更正两项升级鞋主体和护盾效果的description，撤去无来源的低生命触发说法，同步已确证的角色等级基础段，并保留主体字段、护盾结果、生命周期、公式引用、参数、过程、内部状态和规则边界。正式来源仍只证明受到英雄魔法或物理伤害后的护盾说明；当前规则为0，未宣称已删除错误逻辑或已完成触发接线。",
+  "evidenceBoundary": [
+    "本评审只读取01至04、10项来源、规划中的同批触发说明核对和v4工具字节，未执行HTTP、SQL或测试。",
+    "本次唯一文件写入是05-独立评审.json，业务写入数为0。",
+    "原属性12、公式2仍是无默认外供，未映射为总生命或其它属性；0.08系数和公式树不在本批修改范围。",
+    "触发事件、冷却登记、镀板合资格攻击分量、代表页面和战斗运行仍未由本批说明评审证明。"
+  ]
+}

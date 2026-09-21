@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-20T11:32:57.962Z",
+  "status": "DRAFT_NOT_FROZEN",
+  "dependsOn": "效果改为动态读取并独立回读通过",
+  "request": {
+    "method": "POST",
+    "route": "/skills/drmundo_e/trigger-rules",
+    "detailRoute": "/skills/drmundo_e/trigger-rules/initialize_passive_bonus_attack_damage",
+    "body": {
+      "ruleKey": "initialize_passive_bonus_attack_damage",
+      "name": "初始化大力行医被动攻击力",
+      "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有passive_bonus_attack_damage建立单层自身攻击力实例；公式在属性结算时按当前已学E等级和当时来源总生命重新读取。此入口不代表等级或生命变化事件，不处理主动强化攻击、费用及拍飞。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SOURCE_INITIALIZED",
+        "detail": {}
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "execute_passive_bonus_attack_damage",
+          "name": "建立大力行医被动攻击力",
+          "actionType": "EXECUTE_EFFECT",
+          "targetContext": "EVENT_SOURCE",
+          "detail": {
+            "effectKey": "passive_bonus_attack_damage"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": [],
+          "sortOrder": 10
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "expectedReadback": {
+      "ruleKey": "initialize_passive_bonus_attack_damage",
+      "name": "初始化大力行医被动攻击力",
+      "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有passive_bonus_attack_damage建立单层自身攻击力实例；公式在属性结算时按当前已学E等级和当时来源总生命重新读取。此入口不代表等级或生命变化事件，不处理主动强化攻击、费用及拍飞。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SOURCE_INITIALIZED",
+        "detail": {}
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "execute_passive_bonus_attack_damage",
+          "name": "建立大力行医被动攻击力",
+          "actionType": "EXECUTE_EFFECT",
+          "targetContext": "EVENT_SOURCE",
+          "detail": {
+            "effectKey": "passive_bonus_attack_damage"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": [],
+          "sortOrder": 10
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    }
+  }
+}

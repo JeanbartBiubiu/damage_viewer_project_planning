@@ -1,0 +1,36 @@
+{
+  "kind": "BROWSER_OBSERVATIONS",
+  "observedAt": "2026-09-19T18:49:19.323Z",
+  "skillKey": "malzahar_e",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "businessWrites": 0,
+  "subject": {
+    "listWasNotRefreshed": true,
+    "listUpdatedAt": "2026/9/7 02:19:20",
+    "detailUpdatedAt": "2026-09-19T18:47:48.246006Z",
+    "description": "玛尔扎哈对目标施加煞星幻象，持续造成魔法伤害。已录入基础参数与总伤害公式，并连接普通主动使用的法力消耗、250毫秒施放登记与基础冷却。总伤害五级为80/115/150/185/220加0.8倍来源总法强，持续4000毫秒；固定客户端给出250毫秒周期，首次结算时点仍待核。施放登记结束不等于幻象已施加；持续伤害、Q或R伤害刷新、死亡传播与回蓝等相关组成尚未连接。固定来源：客户端16.17、官方静态资料16.17.1。",
+    "status": "PASS"
+  },
+  "cost": {
+    "effectKey": "mana_cost",
+    "description": "普通主动使用时的基础法力消耗，五级为60/70/80/90/100；施放登记过程在开始时引用本效果。实际施放资格与失败取消退款由对应分支另行处理。",
+    "lifecycle": false,
+    "result": {
+      "key": "consume_mana",
+      "type": "资源变化",
+      "target": "施法者",
+      "source": "技能参数",
+      "parameter": "mana_cost",
+      "multiplier": 1,
+      "attribute": "法力值",
+      "operation": "扣除"
+    },
+    "status": "PASS"
+  },
+  "limits": "页面重开核对，未再次保存；战斗运行未执行。",
+  "diagnostics": {
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "observedAt": "2026-09-19T18:50:30.107Z"
+  }
+}

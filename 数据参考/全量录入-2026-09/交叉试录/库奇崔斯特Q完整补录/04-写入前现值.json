@@ -1,0 +1,1583 @@
+{
+  "at": "2026-09-18T18:33:09.937Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/corki_q": {
+      "createdAt": "2026-09-06T18:18:05.999596Z",
+      "description": "库奇向目标区域发射一枚闪光弹，对范围内的敌人造成魔法伤害。这个技能还会暂时让目标区域附近的非隐形的单位和英雄现形。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "库奇·磷光炸弹",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "corki_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:05.999596Z"
+    },
+    "/characters/champion_corki": {
+      "characterKey": "champion_corki",
+      "createdAt": "2026-09-06T16:22:03.746707Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "库奇",
+      "updatedAt": "2026-09-06T16:22:03.746707Z"
+    },
+    "/characters/champion_corki/attributes": {
+      "characterKey": "champion_corki",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 610,
+          "hp_regen": 5.5,
+          "mana": 350,
+          "mana_regen": 7.4,
+          "armor": 27,
+          "magic_resistance": 33,
+          "attack_damage": 52,
+          "attack_speed": 0.644,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 682,
+          "hp_regen": 5.896,
+          "mana": 378.8,
+          "mana_regen": 7.904,
+          "armor": 30.24,
+          "magic_resistance": 33.792,
+          "attack_damage": 53.8,
+          "attack_speed": 0.656983,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 757.5,
+          "hp_regen": 6.31125,
+          "mana": 409,
+          "mana_regen": 8.4325,
+          "armor": 33.6375,
+          "magic_resistance": 34.6225,
+          "attack_damage": 55.6875,
+          "attack_speed": 0.670597,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 836.5,
+          "hp_regen": 6.74575,
+          "mana": 440.6,
+          "mana_regen": 8.9855,
+          "armor": 37.1925,
+          "magic_resistance": 35.4915,
+          "attack_damage": 57.6625,
+          "attack_speed": 0.684842,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 919,
+          "hp_regen": 7.1995,
+          "mana": 473.6,
+          "mana_regen": 9.563,
+          "armor": 40.905,
+          "magic_resistance": 36.399,
+          "attack_damage": 59.725,
+          "attack_speed": 0.699719,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 1005,
+          "hp_regen": 7.6725,
+          "mana": 508,
+          "mana_regen": 10.165,
+          "armor": 44.775,
+          "magic_resistance": 37.345,
+          "attack_damage": 61.875,
+          "attack_speed": 0.715226,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 1094.5,
+          "hp_regen": 8.16475,
+          "mana": 543.8,
+          "mana_regen": 10.7915,
+          "armor": 48.8025,
+          "magic_resistance": 38.3295,
+          "attack_damage": 64.1125,
+          "attack_speed": 0.731365,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1187.5,
+          "hp_regen": 8.67625,
+          "mana": 581,
+          "mana_regen": 11.4425,
+          "armor": 52.9875,
+          "magic_resistance": 39.3525,
+          "attack_damage": 66.4375,
+          "attack_speed": 0.748135,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1284,
+          "hp_regen": 9.207,
+          "mana": 619.6,
+          "mana_regen": 12.118,
+          "armor": 57.33,
+          "magic_resistance": 40.414,
+          "attack_damage": 68.85,
+          "attack_speed": 0.765536,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1384,
+          "hp_regen": 9.757,
+          "mana": 659.6,
+          "mana_regen": 12.818,
+          "armor": 61.83,
+          "magic_resistance": 41.514,
+          "attack_damage": 71.35,
+          "attack_speed": 0.783568,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1487.5,
+          "hp_regen": 10.32625,
+          "mana": 701,
+          "mana_regen": 13.5425,
+          "armor": 66.4875,
+          "magic_resistance": 42.6525,
+          "attack_damage": 73.9375,
+          "attack_speed": 0.802231,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1594.5,
+          "hp_regen": 10.91475,
+          "mana": 743.8,
+          "mana_regen": 14.2915,
+          "armor": 71.3025,
+          "magic_resistance": 43.8295,
+          "attack_damage": 76.6125,
+          "attack_speed": 0.821525,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1705,
+          "hp_regen": 11.5225,
+          "mana": 788,
+          "mana_regen": 15.065,
+          "armor": 76.275,
+          "magic_resistance": 45.045,
+          "attack_damage": 79.375,
+          "attack_speed": 0.84145,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1819,
+          "hp_regen": 12.1495,
+          "mana": 833.6,
+          "mana_regen": 15.863,
+          "armor": 81.405,
+          "magic_resistance": 46.299,
+          "attack_damage": 82.225,
+          "attack_speed": 0.862007,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 1936.5,
+          "hp_regen": 12.79575,
+          "mana": 880.6,
+          "mana_regen": 16.6855,
+          "armor": 86.6925,
+          "magic_resistance": 47.5915,
+          "attack_damage": 85.1625,
+          "attack_speed": 0.883194,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 2057.5,
+          "hp_regen": 13.46125,
+          "mana": 929,
+          "mana_regen": 17.5325,
+          "armor": 92.1375,
+          "magic_resistance": 48.9225,
+          "attack_damage": 88.1875,
+          "attack_speed": 0.905013,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 2182,
+          "hp_regen": 14.146,
+          "mana": 978.8,
+          "mana_regen": 18.404,
+          "armor": 97.74,
+          "magic_resistance": 50.292,
+          "attack_damage": 91.3,
+          "attack_speed": 0.927463,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2310,
+          "hp_regen": 14.85,
+          "mana": 1030,
+          "mana_regen": 19.3,
+          "armor": 103.5,
+          "magic_resistance": 51.7,
+          "attack_damage": 94.5,
+          "attack_speed": 0.950544,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_corki/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_corki",
+        "name": "champion_corki"
+      }
+    },
+    "/skills/corki_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_corki_q",
+        "name": "corki_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_corki": {
+      "items": [
+        {
+          "characterKey": "champion_corki",
+          "characterName": "库奇",
+          "gameId": "lol",
+          "skillKey": "corki_p",
+          "skillName": "库奇·海克斯科技军备",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_corki",
+          "characterName": "库奇",
+          "gameId": "lol",
+          "skillKey": "corki_q",
+          "skillName": "库奇·磷光炸弹",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_corki",
+          "characterName": "库奇",
+          "gameId": "lol",
+          "skillKey": "corki_w",
+          "skillName": "库奇·瓦尔基里俯冲",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_corki",
+          "characterName": "库奇",
+          "gameId": "lol",
+          "skillKey": "corki_e",
+          "skillName": "库奇·格林机枪",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_corki",
+          "characterName": "库奇",
+          "gameId": "lol",
+          "skillKey": "corki_r",
+          "skillName": "库奇·火箭轰击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=corki_q": {
+      "items": [
+        {
+          "characterKey": "champion_corki",
+          "characterName": "库奇",
+          "gameId": "lol",
+          "skillKey": "corki_q",
+          "skillName": "库奇·磷光炸弹",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/corki_q/parameters": [
+      {
+        "createdAt": "2026-09-09T17:29:08.707976Z",
+        "description": "客户端BaseDamage取技能等级1至5，当前TotalDamage树消费60/105/150/195/240。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 105,
+          "3": 150,
+          "4": 195,
+          "5": 240
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "corki_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:29:08.707976Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:29:09.844319Z",
+        "description": "当前TotalDamage树ADRatio带mStat2/mStatFormula2，按同版窄口径取来源额外攻击力；比例1代表100%。",
+        "fixedValue": 1.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外攻击力比例",
+        "parameterKey": "bonus_attack_damage_ratio",
+        "skillKey": "corki_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:29:09.844319Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:29:11.071842Z",
+        "description": "当前TotalDamage树APRatio省略统计选择器，按同版具名节点窄口径取来源总法强；比例1代表100%。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度比例",
+        "parameterKey": "ability_power_ratio",
+        "skillKey": "corki_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:29:11.071842Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:14.544394Z",
+        "description": "DDragon16.17.1 Corki.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8500,
+          "3": 8000,
+          "4": 7500,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "corki_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:14.544394Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:00:14.842177Z",
+        "description": "DDragon16.17.1 Corki.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "corki_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:14.842177Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:29:12.180284Z",
+        "description": "当前根spellCastTime；仅保存来源字段，不代表命中、位移或效果事件已接线。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "corki_q",
+        "sortOrder": 1000,
+        "updatedAt": "2026-09-09T17:29:12.180284Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/corki_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T17:29:08.707976Z",
+      "description": "客户端BaseDamage取技能等级1至5，当前TotalDamage树消费60/105/150/195/240。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 105,
+        "3": 150,
+        "4": 195,
+        "5": 240
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "corki_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:29:08.707976Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/corki_q/parameters/bonus_attack_damage_ratio": {
+      "createdAt": "2026-09-09T17:29:09.844319Z",
+      "description": "当前TotalDamage树ADRatio带mStat2/mStatFormula2，按同版窄口径取来源额外攻击力；比例1代表100%。",
+      "fixedValue": 1.25,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "额外攻击力比例",
+      "parameterKey": "bonus_attack_damage_ratio",
+      "skillKey": "corki_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:29:09.844319Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/corki_q/parameters/ability_power_ratio": {
+      "createdAt": "2026-09-09T17:29:11.071842Z",
+      "description": "当前TotalDamage树APRatio省略统计选择器，按同版具名节点窄口径取来源总法强；比例1代表100%。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度比例",
+      "parameterKey": "ability_power_ratio",
+      "skillKey": "corki_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:29:11.071842Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/corki_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:00:14.544394Z",
+      "description": "DDragon16.17.1 Corki.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 9000,
+        "2": 8500,
+        "3": 8000,
+        "4": 7500,
+        "5": 7000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "corki_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T16:00:14.544394Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/corki_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:00:14.842177Z",
+      "description": "DDragon16.17.1 Corki.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "corki_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T16:00:14.842177Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/corki_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T17:29:12.180284Z",
+      "description": "当前根spellCastTime；仅保存来源字段，不代表命中、位移或效果事件已接线。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "corki_q",
+      "sortOrder": 1000,
+      "updatedAt": "2026-09-09T17:29:12.180284Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/corki_q/formulas": [
+      {
+        "createdAt": "2026-09-09T17:29:13.407788Z",
+        "description": "当前TotalDamage=基础值+1.25×额外攻击力+1×法强；单一敌人范围保留，显形只作视野说明。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "磷光炸弹单一敌方魔法伤害",
+        "skillKey": "corki_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:29:13.407788Z"
+      }
+    ],
+    "/skills/corki_q/formulas/magic_damage": {
+      "createdAt": "2026-09-09T17:29:13.407788Z",
+      "description": "当前TotalDamage=基础值+1.25×额外攻击力+1×法强；单一敌人范围保留，显形只作视野说明。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "磷光炸弹单一敌方魔法伤害",
+      "skillKey": "corki_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:29:13.407788Z"
+    },
+    "/skills/corki_q/effects": [],
+    "/skills/corki_q/processes": [],
+    "/skills/corki_q/internal-states": [],
+    "/skills/corki_q/trigger-rules": [],
+    "/skills/twistedfate_q": {
+      "createdAt": "2026-09-06T18:20:44.805513Z",
+      "description": "崔斯特扔出三张卡牌，卡牌会对沿途的每个敌方单位造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "崔斯特·万能牌",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "twistedfate_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:44.805513Z"
+    },
+    "/characters/champion_twistedfate": {
+      "characterKey": "champion_twistedfate",
+      "createdAt": "2026-09-06T17:59:42.447286Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "崔斯特",
+      "updatedAt": "2026-09-06T17:59:42.447286Z"
+    },
+    "/characters/champion_twistedfate/attributes": {
+      "characterKey": "champion_twistedfate",
+      "levelValues": {
+        "1": {
+          "move_speed": 330,
+          "hp": 604,
+          "hp_regen": 5.5,
+          "mana": 333,
+          "mana_regen": 8,
+          "armor": 24,
+          "magic_resistance": 30,
+          "attack_damage": 52,
+          "attack_speed": 0.625,
+          "attack_range": 525
+        },
+        "2": {
+          "move_speed": 330,
+          "hp": 681.76,
+          "hp_regen": 5.932,
+          "mana": 361.08,
+          "mana_regen": 8.576,
+          "armor": 27.132,
+          "magic_resistance": 30.936,
+          "attack_damage": 53.8,
+          "attack_speed": 0.636718,
+          "attack_range": 525
+        },
+        "3": {
+          "move_speed": 330,
+          "hp": 763.3,
+          "hp_regen": 6.385,
+          "mana": 390.525,
+          "mana_regen": 9.18,
+          "armor": 30.41625,
+          "magic_resistance": 31.9175,
+          "attack_damage": 55.6875,
+          "attack_speed": 0.649006,
+          "attack_range": 525
+        },
+        "4": {
+          "move_speed": 330,
+          "hp": 848.62,
+          "hp_regen": 6.859,
+          "mana": 421.335,
+          "mana_regen": 9.812,
+          "armor": 33.85275,
+          "magic_resistance": 32.9445,
+          "attack_damage": 57.6625,
+          "attack_speed": 0.661863,
+          "attack_range": 525
+        },
+        "5": {
+          "move_speed": 330,
+          "hp": 937.72,
+          "hp_regen": 7.354,
+          "mana": 453.51,
+          "mana_regen": 10.472,
+          "armor": 37.4415,
+          "magic_resistance": 34.017,
+          "attack_damage": 59.725,
+          "attack_speed": 0.67529,
+          "attack_range": 525
+        },
+        "6": {
+          "move_speed": 330,
+          "hp": 1030.6,
+          "hp_regen": 7.87,
+          "mana": 487.05,
+          "mana_regen": 11.16,
+          "armor": 41.1825,
+          "magic_resistance": 35.135,
+          "attack_damage": 61.875,
+          "attack_speed": 0.689286,
+          "attack_range": 525
+        },
+        "7": {
+          "move_speed": 330,
+          "hp": 1127.26,
+          "hp_regen": 8.407,
+          "mana": 521.955,
+          "mana_regen": 11.876,
+          "armor": 45.07575,
+          "magic_resistance": 36.2985,
+          "attack_damage": 64.1125,
+          "attack_speed": 0.703852,
+          "attack_range": 525
+        },
+        "8": {
+          "move_speed": 330,
+          "hp": 1227.7,
+          "hp_regen": 8.965,
+          "mana": 558.225,
+          "mana_regen": 12.62,
+          "armor": 49.12125,
+          "magic_resistance": 37.5075,
+          "attack_damage": 66.4375,
+          "attack_speed": 0.718988,
+          "attack_range": 525
+        },
+        "9": {
+          "move_speed": 330,
+          "hp": 1331.92,
+          "hp_regen": 9.544,
+          "mana": 595.86,
+          "mana_regen": 13.392,
+          "armor": 53.319,
+          "magic_resistance": 38.762,
+          "attack_damage": 68.85,
+          "attack_speed": 0.734693,
+          "attack_range": 525
+        },
+        "10": {
+          "move_speed": 330,
+          "hp": 1439.92,
+          "hp_regen": 10.144,
+          "mana": 634.86,
+          "mana_regen": 14.192,
+          "armor": 57.669,
+          "magic_resistance": 40.062,
+          "attack_damage": 71.35,
+          "attack_speed": 0.750969,
+          "attack_range": 525
+        },
+        "11": {
+          "move_speed": 330,
+          "hp": 1551.7,
+          "hp_regen": 10.765,
+          "mana": 675.225,
+          "mana_regen": 15.02,
+          "armor": 62.17125,
+          "magic_resistance": 41.4075,
+          "attack_damage": 73.9375,
+          "attack_speed": 0.767813,
+          "attack_range": 525
+        },
+        "12": {
+          "move_speed": 330,
+          "hp": 1667.26,
+          "hp_regen": 11.407,
+          "mana": 716.955,
+          "mana_regen": 15.876,
+          "armor": 66.82575,
+          "magic_resistance": 42.7985,
+          "attack_damage": 76.6125,
+          "attack_speed": 0.785227,
+          "attack_range": 525
+        },
+        "13": {
+          "move_speed": 330,
+          "hp": 1786.6,
+          "hp_regen": 12.07,
+          "mana": 760.05,
+          "mana_regen": 16.76,
+          "armor": 71.6325,
+          "magic_resistance": 44.235,
+          "attack_damage": 79.375,
+          "attack_speed": 0.803211,
+          "attack_range": 525
+        },
+        "14": {
+          "move_speed": 330,
+          "hp": 1909.72,
+          "hp_regen": 12.754,
+          "mana": 804.51,
+          "mana_regen": 17.672,
+          "armor": 76.5915,
+          "magic_resistance": 45.717,
+          "attack_damage": 82.225,
+          "attack_speed": 0.821765,
+          "attack_range": 525
+        },
+        "15": {
+          "move_speed": 330,
+          "hp": 2036.62,
+          "hp_regen": 13.459,
+          "mana": 850.335,
+          "mana_regen": 18.612,
+          "armor": 81.70275,
+          "magic_resistance": 47.2445,
+          "attack_damage": 85.1625,
+          "attack_speed": 0.840888,
+          "attack_range": 525
+        },
+        "16": {
+          "move_speed": 330,
+          "hp": 2167.3,
+          "hp_regen": 14.185,
+          "mana": 897.525,
+          "mana_regen": 19.58,
+          "armor": 86.96625,
+          "magic_resistance": 48.8175,
+          "attack_damage": 88.1875,
+          "attack_speed": 0.860581,
+          "attack_range": 525
+        },
+        "17": {
+          "move_speed": 330,
+          "hp": 2301.76,
+          "hp_regen": 14.932,
+          "mana": 946.08,
+          "mana_regen": 20.576,
+          "armor": 92.382,
+          "magic_resistance": 50.436,
+          "attack_damage": 91.3,
+          "attack_speed": 0.880843,
+          "attack_range": 525
+        },
+        "18": {
+          "move_speed": 330,
+          "hp": 2440,
+          "hp_regen": 15.7,
+          "mana": 996,
+          "mana_regen": 21.6,
+          "armor": 97.95,
+          "magic_resistance": 52.1,
+          "attack_damage": 94.5,
+          "attack_speed": 0.901675,
+          "attack_range": 525
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_twistedfate/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_twistedfate",
+        "name": "champion_twistedfate"
+      }
+    },
+    "/skills/twistedfate_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_twistedfate_q",
+        "name": "twistedfate_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_twistedfate": {
+      "items": [
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "twistedfate_p",
+          "skillName": "崔斯特·灌铅骰子",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "twistedfate_q",
+          "skillName": "崔斯特·万能牌",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "twistedfate_w",
+          "skillName": "崔斯特·选牌",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "twistedfate_e",
+          "skillName": "崔斯特·卡牌骗术",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "twistedfate_r",
+          "skillName": "崔斯特·命运",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=twistedfate_q": {
+      "items": [
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "twistedfate_q",
+          "skillName": "崔斯特·万能牌",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/twistedfate_q/parameters": [
+      {
+        "createdAt": "2026-09-09T21:20:41.597112Z",
+        "description": "当前DataValues.BaseDamage技能等级1至5为60/105/150/195/240；索引0的15不是一级。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 105,
+          "3": 150,
+          "4": 195,
+          "5": 240
+        },
+        "name": "万能牌基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:20:41.597112Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T21:20:43.850986Z",
+        "description": "当前TotalDamage的mStat2带formula2，按来源额外攻击力读取。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "万能牌额外攻击力伤害比例",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T21:20:43.850986Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T21:20:46.075061Z",
+        "description": "当前TotalDamage消费APRatio×来源总法强。",
+        "fixedValue": 0.85000002,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "万能牌法强伤害比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T21:20:46.075061Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T21:20:48.463771Z",
+        "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "万能牌施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T21:20:48.463771Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:18.350696Z",
+        "description": "DDragon16.17.1 TwistedFate.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 6000,
+          "2": 5750,
+          "3": 5500,
+          "4": 5250,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:18.350696Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:05:18.845633Z",
+        "description": "DDragon16.17.1 TwistedFate.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:18.845633Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/twistedfate_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T21:20:41.597112Z",
+      "description": "当前DataValues.BaseDamage技能等级1至5为60/105/150/195/240；索引0的15不是一级。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 105,
+        "3": 150,
+        "4": 195,
+        "5": 240
+      },
+      "name": "万能牌基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:20:41.597112Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/twistedfate_q/parameters/bonus_ad_ratio": {
+      "createdAt": "2026-09-09T21:20:43.850986Z",
+      "description": "当前TotalDamage的mStat2带formula2，按来源额外攻击力读取。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "万能牌额外攻击力伤害比例",
+      "parameterKey": "bonus_ad_ratio",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T21:20:43.850986Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/twistedfate_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T21:20:46.075061Z",
+      "description": "当前TotalDamage消费APRatio×来源总法强。",
+      "fixedValue": 0.85000002,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "万能牌法强伤害比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T21:20:46.075061Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/twistedfate_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T21:20:48.463771Z",
+      "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "万能牌施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T21:20:48.463771Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/twistedfate_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:05:18.350696Z",
+      "description": "DDragon16.17.1 TwistedFate.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 6000,
+        "2": 5750,
+        "3": 5500,
+        "4": 5250,
+        "5": 5000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:05:18.350696Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/twistedfate_q/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:05:18.845633Z",
+      "description": "DDragon16.17.1 TwistedFate.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:05:18.845633Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/twistedfate_q/formulas": [
+      {
+        "createdAt": "2026-09-09T21:20:50.772483Z",
+        "description": "当前TotalDamage=BaseDamage+0.5×来源额外攻击力+0.85×来源总法强；同一敌人只受一张牌伤害，不乘3。",
+        "formulaKey": "enemy_magic_damage",
+        "gameId": "lol",
+        "name": "万能牌单一敌人单张魔法伤害",
+        "skillKey": "twistedfate_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:20:50.772483Z"
+      }
+    ],
+    "/skills/twistedfate_q/formulas/enemy_magic_damage": {
+      "createdAt": "2026-09-09T21:20:50.772483Z",
+      "description": "当前TotalDamage=BaseDamage+0.5×来源额外攻击力+0.85×来源总法强；同一敌人只受一张牌伤害，不乘3。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "enemy_magic_damage",
+      "gameId": "lol",
+      "name": "万能牌单一敌人单张魔法伤害",
+      "skillKey": "twistedfate_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:20:50.772483Z"
+    },
+    "/skills/twistedfate_q/effects": [
+      {
+        "createdAt": "2026-09-09T21:20:53.056634Z",
+        "description": "twistedfate_q：只引用当前快照中已存在的基础法力参数；扣除时点与施放资格由后续事件层接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "twistedfate_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:20:53.056634Z"
+      }
+    ],
+    "/skills/twistedfate_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T21:20:53.056634Z",
+      "description": "twistedfate_q：只引用当前快照中已存在的基础法力参数；扣除时点与施放资格由后续事件层接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "twistedfate_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T21:20:53.056634Z"
+    },
+    "/skills/twistedfate_q/processes": [],
+    "/skills/twistedfate_q/internal-states": [],
+    "/skills/twistedfate_q/trigger-rules": [],
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    },
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/corki_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_corki",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_corki/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_corki/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_corki",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=corki_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/bonus_attack_damage_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_twistedfate",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_twistedfate/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_twistedfate/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_twistedfate",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=twistedfate_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/bonus_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/formulas/enemy_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects/mana_cost",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/corki_q/trigger-rules/resolve_on_q_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules/on_used",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/twistedfate_q/trigger-rules/resolve_on_q_hit",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

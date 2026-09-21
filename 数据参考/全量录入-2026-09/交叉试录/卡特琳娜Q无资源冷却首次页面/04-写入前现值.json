@@ -1,0 +1,787 @@
+{
+  "at": "2026-09-19T08:18:26.854Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/katarina_q": {
+      "createdAt": "2026-09-06T18:18:54.415377Z",
+      "description": "卡特琳娜朝敌人扔出一把<font color='#FFF673'>匕首</font>，<font color='#FFF673'>匕首</font>会弹射到附近敌人身上，然后落到地面上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "卡特琳娜·弹射之刃",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "katarina_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:54.415377Z"
+    },
+    "/characters/champion_katarina": {
+      "characterKey": "champion_katarina",
+      "createdAt": "2026-09-06T17:24:21.055735Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "卡特琳娜",
+      "updatedAt": "2026-09-06T17:24:21.055735Z"
+    },
+    "/characters/champion_katarina/attributes": {
+      "characterKey": "champion_katarina",
+      "levelValues": {
+        "1": {
+          "move_speed": 335,
+          "hp": 672,
+          "hp_regen": 7.5,
+          "armor": 32,
+          "magic_resistance": 32,
+          "attack_damage": 58,
+          "attack_speed": 0.658,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 335,
+          "hp": 749.76,
+          "hp_regen": 8.004,
+          "armor": 35.384,
+          "magic_resistance": 33.476,
+          "attack_damage": 60.304,
+          "attack_speed": 0.670981,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 335,
+          "hp": 831.3,
+          "hp_regen": 8.5325,
+          "armor": 38.9325,
+          "magic_resistance": 35.02375,
+          "attack_damage": 62.72,
+          "attack_speed": 0.684593,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 335,
+          "hp": 916.62,
+          "hp_regen": 9.0855,
+          "armor": 42.6455,
+          "magic_resistance": 36.64325,
+          "attack_damage": 65.248,
+          "attack_speed": 0.698836,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 335,
+          "hp": 1005.72,
+          "hp_regen": 9.663,
+          "armor": 46.523,
+          "magic_resistance": 38.3345,
+          "attack_damage": 67.888,
+          "attack_speed": 0.71371,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 335,
+          "hp": 1098.6,
+          "hp_regen": 10.265,
+          "armor": 50.565,
+          "magic_resistance": 40.0975,
+          "attack_damage": 70.64,
+          "attack_speed": 0.729215,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 335,
+          "hp": 1195.26,
+          "hp_regen": 10.8915,
+          "armor": 54.7715,
+          "magic_resistance": 41.93225,
+          "attack_damage": 73.504,
+          "attack_speed": 0.745351,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 335,
+          "hp": 1295.7,
+          "hp_regen": 11.5425,
+          "armor": 59.1425,
+          "magic_resistance": 43.83875,
+          "attack_damage": 76.48,
+          "attack_speed": 0.762119,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 335,
+          "hp": 1399.92,
+          "hp_regen": 12.218,
+          "armor": 63.678,
+          "magic_resistance": 45.817,
+          "attack_damage": 79.568,
+          "attack_speed": 0.779517,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 335,
+          "hp": 1507.92,
+          "hp_regen": 12.918,
+          "armor": 68.378,
+          "magic_resistance": 47.867,
+          "attack_damage": 82.768,
+          "attack_speed": 0.797546,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 335,
+          "hp": 1619.7,
+          "hp_regen": 13.6425,
+          "armor": 73.2425,
+          "magic_resistance": 49.98875,
+          "attack_damage": 86.08,
+          "attack_speed": 0.816206,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 335,
+          "hp": 1735.26,
+          "hp_regen": 14.3915,
+          "armor": 78.2715,
+          "magic_resistance": 52.18225,
+          "attack_damage": 89.504,
+          "attack_speed": 0.835497,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 335,
+          "hp": 1854.6,
+          "hp_regen": 15.165,
+          "armor": 83.465,
+          "magic_resistance": 54.4475,
+          "attack_damage": 93.04,
+          "attack_speed": 0.85542,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 335,
+          "hp": 1977.72,
+          "hp_regen": 15.963,
+          "armor": 88.823,
+          "magic_resistance": 56.7845,
+          "attack_damage": 96.688,
+          "attack_speed": 0.875973,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 335,
+          "hp": 2104.62,
+          "hp_regen": 16.7855,
+          "armor": 94.3455,
+          "magic_resistance": 59.19325,
+          "attack_damage": 100.448,
+          "attack_speed": 0.897157,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 335,
+          "hp": 2235.3,
+          "hp_regen": 17.6325,
+          "armor": 100.0325,
+          "magic_resistance": 61.67375,
+          "attack_damage": 104.32,
+          "attack_speed": 0.918973,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 335,
+          "hp": 2369.76,
+          "hp_regen": 18.504,
+          "armor": 105.884,
+          "magic_resistance": 64.226,
+          "attack_damage": 108.304,
+          "attack_speed": 0.941419,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 335,
+          "hp": 2508,
+          "hp_regen": 19.4,
+          "armor": 111.9,
+          "magic_resistance": 66.85,
+          "attack_damage": 112.4,
+          "attack_speed": 0.964496,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_katarina/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_katarina",
+        "name": "champion_katarina"
+      }
+    },
+    "/skills/katarina_q/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_katarina_q",
+        "name": "katarina_q"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_katarina": {
+      "items": [
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "katarina_p",
+          "skillName": "卡特琳娜·贪婪",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "katarina_q",
+          "skillName": "卡特琳娜·弹射之刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "katarina_w",
+          "skillName": "卡特琳娜·伺机待发",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "katarina_e",
+          "skillName": "卡特琳娜·瞬步",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "katarina_r",
+          "skillName": "卡特琳娜·死亡莲华",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=katarina_q": {
+      "items": [
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "katarina_q",
+          "skillName": "卡特琳娜·弹射之刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/katarina_q/parameters": [
+      {
+        "createdAt": "2026-09-09T18:44:42.888056Z",
+        "description": "客户端BaseDamage取索引1至5；索引0的45不是技能等级1。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 115,
+          "3": 150,
+          "4": 185,
+          "5": 220
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "katarina_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:44:42.888056Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:44:44.094063Z",
+        "description": "客户端BounceOffset取索引1；仅保留弹射几何参数。",
+        "fixedValue": 350,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "弹射偏移距离",
+        "parameterKey": "bounce_offset",
+        "skillKey": "katarina_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:44:44.094063Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:44:45.237029Z",
+        "description": "TotalDamage树的QAPRatio项读取来源总法强。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强比例",
+        "parameterKey": "ap_ratio",
+        "skillKey": "katarina_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:44:45.237029Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:44:46.362246Z",
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "katarina_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T18:44:46.362246Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:02:34.766053Z",
+        "description": "DDragon16.17.1 Katarina.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "katarina_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:34.766053Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/katarina_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T18:44:42.888056Z",
+      "description": "客户端BaseDamage取索引1至5；索引0的45不是技能等级1。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 115,
+        "3": 150,
+        "4": 185,
+        "5": 220
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "katarina_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:44:42.888056Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/katarina_q/parameters/bounce_offset": {
+      "createdAt": "2026-09-09T18:44:44.094063Z",
+      "description": "客户端BounceOffset取索引1；仅保留弹射几何参数。",
+      "fixedValue": 350,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "弹射偏移距离",
+      "parameterKey": "bounce_offset",
+      "skillKey": "katarina_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:44:44.094063Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/katarina_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T18:44:45.237029Z",
+      "description": "TotalDamage树的QAPRatio项读取来源总法强。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强比例",
+      "parameterKey": "ap_ratio",
+      "skillKey": "katarina_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:44:45.237029Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/katarina_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:44:46.362246Z",
+      "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "katarina_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T18:44:46.362246Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/katarina_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:02:34.766053Z",
+      "description": "DDragon16.17.1 Katarina.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 11000,
+        "2": 10000,
+        "3": 9000,
+        "4": 8000,
+        "5": 7000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "katarina_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:02:34.766053Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/katarina_q/formulas": [
+      {
+        "createdAt": "2026-09-09T18:44:47.548225Z",
+        "description": "TotalDamage = BaseDamage + QAPRatio×来源总法强；只表示唯一敌人单次载体。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "弹射之刃魔法伤害",
+        "skillKey": "katarina_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:44:47.548225Z"
+      }
+    ],
+    "/skills/katarina_q/formulas/magic_damage": {
+      "createdAt": "2026-09-09T18:44:47.548225Z",
+      "description": "TotalDamage = BaseDamage + QAPRatio×来源总法强；只表示唯一敌人单次载体。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "弹射之刃魔法伤害",
+      "skillKey": "katarina_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:44:47.548225Z"
+    },
+    "/skills/katarina_q/effects": [
+      {
+        "createdAt": "2026-09-19T03:15:14.898165Z",
+        "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "卡特琳娜·弹射之刃本体直接伤害",
+        "resultCount": 1,
+        "skillKey": "katarina_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:15:14.898165Z"
+      }
+    ],
+    "/skills/katarina_q/effects/primary_hit": {
+      "createdAt": "2026-09-19T03:15:14.898165Z",
+      "description": "根技能本体实际命中本轮敌方英雄的直接魔法伤害；引用已有完整公式，其他被动、印记、控制或场上对象联动单列。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "卡特琳娜·弹射之刃本体直接伤害",
+      "results": [
+        {
+          "description": "引用同技能magic_damage，只取本体直接伤害。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "katarina_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T03:15:14.898165Z"
+    },
+    "/skills/katarina_q/processes": [],
+    "/skills/katarina_q/internal-states": [],
+    "/skills/katarina_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "消费katarina_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "卡特琳娜·弹射之刃本体实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T03:15:16.251119Z"
+      }
+    ],
+    "/skills/katarina_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行卡特琳娜·弹射之刃本体伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "消费katarina_q根技能本体的合法实际英雄命中，执行primary_hit；不从使用、飞行变化、弹跳、捡起匕首或后续法球操纵生成同一次本体命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "katarina_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "卡特琳娜·弹射之刃本体实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_katarina",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_katarina/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_katarina/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_katarina",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=katarina_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/parameters/bounce_offset",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/katarina_q/trigger-rules/on_used",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

@@ -1,0 +1,175 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T02:20:01.474Z",
+  "reviewer": "/root/seven_hit_frozen_review",
+  "decision": "批准九处说明更新；措辞与已保存的普通使用过程和入口一致，只纠正未接时点的过时表述。",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v2.mjs": "f4c052309203d0c6cda9c5efb8dbc477888ebc6e239d90979617231cf1922517",
+    "01-纠错计划.json": "44561c5bec33dc6d4c3f31c3f44daf232200d6fdda2f3424ef823288d1b6c917",
+    "02-冻结请求.json": "9f0c4a2d7e72bdd7c1959cffb856a30055221f809872c366bf6de2a986a8a97c",
+    "03-来源摘要.json": "6a2be13c8d32711f68474f1838c9cea6a7a8cc0e1bcab073cdf088fa92614568",
+    "04-写入前现值.json": "314d6f7d2e9dc4e9aef46e857d0bf27d64c37419165d3b81fea870222c453f1a"
+  },
+  "approvedIndependentReader": {
+    "path": "tools/authoring/read-reviewed-description-updates.mjs",
+    "sha256": "3b9c5c9e391f63175fdaec238a88b482b05c7e76dc00f2acc0eb2cd6eebcb994"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "checks": {
+    "sourceHashes": 5,
+    "preparationGETs": 97,
+    "protectedResponses": 97,
+    "changes": 9,
+    "parameterDescriptions": 5,
+    "effectDescriptions": 4,
+    "priorOriginalResponsesUnchanged": 77,
+    "priorNewProcessesAndUseRulesPreserved": 10,
+    "priorCollectionChangesVerified": 10,
+    "descriptionOnlyRequests": 9,
+    "createdAtPreserved": 9
+  },
+  "comparisons": [
+    {
+      "route": "/skills/teemo_q/parameters/mana_cost",
+      "kind": "parameter",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtUnchanged": true,
+      "otherWritableFieldsUnchanged": true,
+      "process": "cast",
+      "useRule": "on_used",
+      "resourceTarget": "SOURCE",
+      "resourceAttribute": "mana"
+    },
+    {
+      "route": "/skills/gragas_e/parameters/mana_cost",
+      "kind": "parameter",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtUnchanged": true,
+      "otherWritableFieldsUnchanged": true,
+      "process": "cast",
+      "useRule": "on_used",
+      "resourceTarget": "SOURCE",
+      "resourceAttribute": "mana"
+    },
+    {
+      "route": "/skills/gragas_e/effects/mana_cost",
+      "kind": "effect",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtUnchanged": true,
+      "otherWritableFieldsUnchanged": true,
+      "process": "cast",
+      "useRule": "on_used",
+      "resourceTarget": "SOURCE",
+      "resourceAttribute": "mana"
+    },
+    {
+      "route": "/skills/gragas_r/parameters/mana_cost",
+      "kind": "parameter",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtUnchanged": true,
+      "otherWritableFieldsUnchanged": true,
+      "process": "cast",
+      "useRule": "on_used",
+      "resourceTarget": "SOURCE",
+      "resourceAttribute": "mana"
+    },
+    {
+      "route": "/skills/gragas_r/effects/mana_cost",
+      "kind": "effect",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtUnchanged": true,
+      "otherWritableFieldsUnchanged": true,
+      "process": "cast",
+      "useRule": "on_used",
+      "resourceTarget": "SOURCE",
+      "resourceAttribute": "mana"
+    },
+    {
+      "route": "/skills/lissandra_q/parameters/mana_cost",
+      "kind": "parameter",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtUnchanged": true,
+      "otherWritableFieldsUnchanged": true,
+      "process": "cast",
+      "useRule": "on_used",
+      "resourceTarget": "SOURCE",
+      "resourceAttribute": "mana"
+    },
+    {
+      "route": "/skills/lissandra_q/effects/mana_cost",
+      "kind": "effect",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtUnchanged": true,
+      "otherWritableFieldsUnchanged": true,
+      "process": "cast",
+      "useRule": "on_used",
+      "resourceTarget": "SOURCE",
+      "resourceAttribute": "mana"
+    },
+    {
+      "route": "/skills/lissandra_w/parameters/mana_cost",
+      "kind": "parameter",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtUnchanged": true,
+      "otherWritableFieldsUnchanged": true,
+      "process": "cast",
+      "useRule": "on_used",
+      "resourceTarget": "SOURCE",
+      "resourceAttribute": "mana"
+    },
+    {
+      "route": "/skills/lissandra_w/effects/mana_cost",
+      "kind": "effect",
+      "changedFields": [
+        "description"
+      ],
+      "createdAtUnchanged": true,
+      "otherWritableFieldsUnchanged": true,
+      "process": "cast",
+      "useRule": "on_used",
+      "resourceTarget": "SOURCE",
+      "resourceAttribute": "mana"
+    }
+  ],
+  "semanticReview": {
+    "parameters": "五个参数仅把未接扣除时点改为由引用过程定义，来源、等级索引、基础数值和未计其他修正边界保留。",
+    "effects": "四个效果说明描述来源对象的普通主动法力消耗，具体时点仍归引用过程；当前cast确实在PROCESS_START引用mana_cost，on_used确实由SKILL_USED/ACTIVE启动cast。",
+    "unsupportedClaims": "没有新增来源结论、取消规则、免消耗资格、控制、命中退款或战斗运行已完成的声明。",
+    "preservation": "参数值、效果results及lifecycle、公式、技能主体、实际命中规则、普通使用规则、施法过程和所有创建时间均不变；仅九个目标及其九个列表行允许description/updatedAt变化。"
+  },
+  "expectedIndependentReadback": {
+    "GETs": 97,
+    "changedDetails": 9,
+    "expectedChangedCollections": 9,
+    "unchangedResponsesIncludingTimestamps": 79,
+    "businessWrites": 0
+  },
+  "executionConditions": [
+    "工具和01至04及五份来源均须保持获批原字节；写前重新核对97份现值及逐目标现值。",
+    "仅执行冻结9个PUT；06存在或结果不明时先查落地，不重复写入。",
+    "写后使用已绑定只读回读器核全部97个响应，独占保存07。"
+  ],
+  "validationLimits": {
+    "HTTP": "本评审0HTTP，仅审冻结现值与已通过的独立回读证据",
+    "browser": "页面未验",
+    "runtime": "无宿主/Wasm/战斗运行证明"
+  },
+  "blockingFindings": []
+}

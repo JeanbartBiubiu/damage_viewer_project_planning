@@ -1,0 +1,76 @@
+{
+  "status": "APPROVED",
+  "at": "2026-09-19T05:55:05.658Z",
+  "reviewer": "独立评审代理",
+  "executionMode": "BROWSER_UI_ONLY",
+  "approvedFiles": {
+    "tools/authoring/reviewed-hit-scope-ui.mjs": "b9dc44da5ac25728eeeaa13c8108dd6720f7ae70cd9ac4a8a9896f2715f2d287",
+    "01-候选方案.json": "c79b2ebbcd986b21d55f33c59652bcfdb46265d980e811b5890074a83dab884e",
+    "02-冻结请求.json": "90cf046052e50992704723ccb5ce7b5bc72658045c69d73a6ca8cc8e0aa1e101",
+    "03-来源摘要.json": "ed035cca84e6561b25cfc7faf9149117a7af2fd40eb767e3a92457d99de2fda8",
+    "04-写入前现值.json": "9fa380a7221e6e7752c7e8d8de3f2315f593ef79d1325630c67b99aaf191bc53"
+  },
+  "businessHTTP": 0,
+  "businessWrites": 0,
+  "sourceFilesVerified": 9,
+  "blockingFindings": [],
+  "checks": [
+    {
+      "name": "工具和冻结摘要",
+      "result": "PASS",
+      "detail": "当前只读工具及 01 至 04 原字节摘要已绑定，全部 9 来源一致；02 请求正文及 expectedReadback 与本代理先前候选完全一致。"
+    },
+    {
+      "name": "最小业务变化",
+      "result": "PASS",
+      "detail": "仅更新原 resolve_on_q_hit 的空 conditionGroups 为一个英雄与明确敌方两条件 AND 组。原键、名称、说明、事件、动作、所有排序及限制保持；PUT 不发送 ruleKey，SKILL_HIT 请求省略 useKind，回读保留 null。未新增伤害入口，也未把禁锢 ABSENT 复制到伤害。"
+    },
+    {
+      "name": "完整原值保护",
+      "result": "PASS",
+      "detail": "23 个 GET 基线覆盖技能与六类全部组成。21 个非目标列表响应与前批原值/新禁锢回读逐字段一致；原效果/规则列表的既有行保持。light_binding_hit 吸血仍为空、RESULT 护盾保持，root_control 与四条件禁锢入口保持。"
+    },
+    {
+      "name": "只读工具边界",
+      "result": "PASS",
+      "detail": "只有 prepare/preflight/readback，所有网络请求固定 GET 并拒绝跳转；prepare 以 wx 写证据。固定只允许自身 SKILL_HIT 且原空条件组，通过原完整详情推导请求，只替换条件组，不提供 HTTP 写入模式。"
+    },
+    {
+      "name": "读回校验",
+      "result": "PASS",
+      "detail": "目标列表与详情的键/名称/说明/排序/事件/动作和条件计数/限制标志一致；目标完整规则严格等于预期。仅目标列表 conditionGroupCount=1 与不倒退的 updatedAt 可变化，其他行、其他对象含时间戳和完整路由集合保持；06 必须 PASS/BROWSER_UI_ONLY/尝试1且 approvedFiles 一致。"
+    },
+    {
+      "name": "离线执行",
+      "result": "PASS",
+      "detail": "原工具源码配内存文件与 fetch 替身执行 18 场景。正常 prepare/preflight/readback 通过；旧值漂移、动作/事件修改、条件或组、列表详情不一致、其他列表项变化、时间倒退、未批准摘要、write 模式、未完成/非页面/重复次数/错误批准写入记录均拒绝。无真实 HTTP。"
+    }
+  ],
+  "offlineEvidence": {
+    "path": "output/seven-hit-review/lux-hit-scope-offline.json",
+    "sha256": "3be4aa727661d099d2b1dce1b5e29fd0a18b17d4a2712b301cef713cb16f59f5",
+    "script": "output/seven-hit-review/lux-hit-scope-offline.mjs",
+    "scriptSha256": "0e63b6149eb55bbd7dbd75ef3a5d2e5ca280e9ddafb507dfce561558e7cd62c3",
+    "cases": 18
+  },
+  "expectedReadback": {
+    "GETs": 23,
+    "changedDetails": 1,
+    "expectedChangedCollections": 1,
+    "unchangedResponsesIncludingTimestamps": 21
+  },
+  "browserProtocol": {
+    "allowedSaves": 1,
+    "apiWriteAllowed": false,
+    "requirements": [
+      "先运行只读 preflight 确认完整旧值；以 wx 建立 06 STARTED，记录批准文件摘要。",
+      "仅在原规则编辑页单次保存，两条件在一个条件组；如实记录页面操作，不伪造未捕获的 PUT 响应。",
+      "即时 GET 严格核完整预期；未知结果先只读确认，不重复保存。完成后独立 readback 并关闭重开检查。"
+    ]
+  },
+  "boundaries": [
+    "本批准只覆盖本轮英雄对英雄管理范围；不把原技能宣称为只能命中英雄。",
+    "此次不补吸血、不改父效果说明或参数；原规则页面保存与独立回读完成后，再用新现值单独冻结 D。",
+    "管理范围限制不证明碰撞、多目标事件或护盾/吸血/Wasm 战斗运行完成。"
+  ]
+}

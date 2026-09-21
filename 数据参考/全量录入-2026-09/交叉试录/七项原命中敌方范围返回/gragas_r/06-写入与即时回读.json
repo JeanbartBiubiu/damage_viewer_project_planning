@@ -1,0 +1,289 @@
+{
+  "startedAt": "2026-09-21T10:57:38.206Z",
+  "status": "PASS",
+  "executionMode": "REVIEWED_API",
+  "businessWritesAttempted": 1,
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-hit-scope-v2.mjs": "9b1a8fa46a08a417d513223292557e547308a3dc1c3251f02a45eabfb73c1670",
+    "01-候选方案.json": "59ff91bd6fd071e42177bf5839ec2733d95b463e30ae4454ece2fe907167516e",
+    "02-冻结请求.json": "0a885615019729cce60b4487fd06f5579e03ca52c833102e0594643058693d27",
+    "03-来源摘要.json": "22ea45d22b39b6303aa0f04df2f3e0a022aa5abf8a59ea0c42272fda7fb8aa69",
+    "04-写入前现值.json": "7bb5b4796dd67c5aa0b4dc738710534446d1a1357d0d5e6b045a0629087d3481"
+  },
+  "request": {
+    "method": "PUT",
+    "route": "/skills/gragas_r/trigger-rules/actual_hit",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行古拉加斯·爆破酒桶伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 gragas_r 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "gragas_r"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "古拉加斯·爆破酒桶实际命中",
+      "perTargetCooldown": null,
+      "sortOrder": 10
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/knockback_distance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "PUT",
+      "path": "/skills/gragas_r/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/gragas_r/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "responseStatus": 200,
+  "response": {
+    "status": 200,
+    "data": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行古拉加斯·爆破酒桶伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 gragas_r 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "gragas_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "古拉加斯·爆破酒桶实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "readback": {
+    "actions": [
+      {
+        "actionKey": "execute_primary_hit",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "primary_hit"
+        },
+        "name": "执行古拉加斯·爆破酒桶伤害",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET"
+      }
+    ],
+    "conditionGroups": [
+      {
+        "conditions": [
+          {
+            "conditionKey": "champion_target",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            },
+            "sortOrder": 10
+          },
+          {
+            "conditionKey": "enemy_target",
+            "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+            "detail": {},
+            "sortOrder": 20
+          }
+        ],
+        "groupKey": "champion_target",
+        "name": "本轮英雄目标",
+        "sortOrder": 10
+      }
+    ],
+    "description": "只消费已确认的 gragas_r 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+    "eventSource": {
+      "detail": {
+        "sourceSkillKey": "gragas_r",
+        "useKind": null
+      },
+      "eventType": "SKILL_HIT"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "古拉加斯·爆破酒桶实际命中",
+    "perTargetCooldown": null,
+    "ruleKey": "actual_hit",
+    "sortOrder": 10
+  },
+  "finishedAt": "2026-09-21T10:57:39.866Z"
+}

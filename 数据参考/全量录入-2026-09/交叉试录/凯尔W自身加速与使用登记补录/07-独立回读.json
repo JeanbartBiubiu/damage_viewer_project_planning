@@ -1,0 +1,369 @@
+{
+  "status": "PASS",
+  "at": "2026-09-18T22:04:43.547Z",
+  "businessWrites": 0,
+  "GETs": 33,
+  "unchangedResponsesIncludingTimestamps": 26,
+  "expectedChangedCollections": 3,
+  "newObjects": {
+    "/skills/kayle_w/effects/self_move_speed": {
+      "createdAt": "2026-09-18T21:58:48.278605Z",
+      "description": "每次主动使用时为凯尔自身提供持续2秒的移动速度比例增益；不包含其他友军收益。",
+      "effectKey": "self_move_speed",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "haste_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "星界恩典自身移动速度",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "自身移动速度增加",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "haste_ratio",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "kayle_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-18T21:58:48.278605Z"
+    },
+    "/skills/kayle_w/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T21:58:49.853312Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示完整施法时长为零。自身治疗和加速由独立主动入口执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "kayle_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T21:58:49.853312Z"
+    },
+    "/skills/kayle_w/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动消耗与冷却登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动消耗与普通冷却登记；不重复执行另行接入的自身治疗和加速。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "kayle_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/kayle_w/trigger-rules/on_used_self_move_speed": {
+      "actions": [
+        {
+          "actionKey": "gain_self_move_speed",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_move_speed"
+          },
+          "name": "执行自身移动速度增益",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "官方明确每次使用同时使凯尔自身加速；不要求显式选中自身。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "kayle_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用增加自身移动速度",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_move_speed",
+      "sortOrder": 20
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kayle",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kayle/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kayle/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_kayle",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=kayle_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/base_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/heal_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/haste_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/haste_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/haste_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/formulas/heal_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/formulas/haste_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/effects/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/effects/self_move_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/trigger-rules/on_used_self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/trigger-rules/on_used_self_move_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/move_speed_percent",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    }
+  ],
+  "requestedModel": "gpt-5.6-luna",
+  "reasoningEffort": "max",
+  "reviewer": "/root/kayle_w_remaining_components",
+  "actualTask": "/root/kayle_w_remaining_components",
+  "actualTool": {
+    "command": "node tools/authoring/append-reviewed-skill-components.mjs readback 数据参考\\全量录入-2026-09\\交叉试录\\凯尔W自身加速与使用登记补录",
+    "mode": "readback",
+    "processExitCode": 0,
+    "businessMethods": [
+      "GET"
+    ],
+    "businessWrites": 0,
+    "GETs": 33,
+    "actualModelReported": null,
+    "actualReasoningReported": null,
+    "captureStatus": "PASS;完整工具JSON已在本地封装前返回，未再次访问接口。"
+  },
+  "finalByteSha256": {
+    "tools/authoring/append-reviewed-skill-components.mjs": "80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a",
+    "01-候选方案.json": "aa30a790819d4604f8a10bf9e00f389e8b24e28f658ed144d6e0c80207db7841",
+    "02-冻结请求.json": "ee4911f49bb599cc25f0a46b0dd21d4a757fcaf298add74aba86713e13f72764",
+    "03-来源摘要.json": "1213fa1c0ef226f8206233f2166be07e88b577bfcacd66e9441e6045ab12121c",
+    "04-写入前现值.json": "28a353767cbb479c7c56a78e824192b6103079fbfdf0b5e371ecdca014174ab8",
+    "05-独立评审.json": "c0924a52731e0310d4ff5dee580ba8d90c2342e65b7d187f678176bbb8d97a34",
+    "06-写入与即时回读.json": "7d25fac379cd1e88bd2731a99a30fd914685e01d6ed9905fecc5e35b2e2977a0"
+  },
+  "hashNote": "以上仅报告列出文件的最终落盘字节SHA-256，不混用接口响应原始字节摘要；本文件自身不嵌入自引用摘要。"
+}

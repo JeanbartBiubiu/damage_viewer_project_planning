@@ -1,0 +1,2755 @@
+{
+  "schemaVersion": "authoring.independent-readback.persistent-attributes.v1",
+  "generatedAt": "2026-09-20T11:26:16.734Z",
+  "status": "PASS",
+  "endpoint": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requestMethod": "GET",
+  "methodsUsed": [
+    "GET"
+  ],
+  "requestAuth": "temporary_non_empty_bearer",
+  "businessWrites": 0,
+  "GETs": 63,
+  "preflight": {
+    "reviewStatus": "APPROVED",
+    "reviewBusinessWrites": 0,
+    "writerStatus": "PASS",
+    "writerBusinessWritesAttempted": 3,
+    "writerOperations": 3,
+    "writerPendingRoute": null,
+    "frozenSha256": "0daa671fa245b11e9ece40b90830a85173229d0b93d6cd1ed9786ffc93fe7f92",
+    "baselineSha256": "0d331cfadcc3fa2b38bde2684bf2a8bf71ec922240935a8d3c2b07b618da7fbe",
+    "reviewSha256": "5fe2c69c3d7f96a79048da0fff37e04d56897cfb55d01987fca044ea31f1233a",
+    "sourceReportSha256": "dfe7596a71598261343e59ed9f93e87f6b6d741a44e0e3c7cb08720e6e2339a6",
+    "approvedShaChecks": [
+      {
+        "path": "正式返回/01-冻结请求与允许差异.json",
+        "expectedSha256": "0daa671fa245b11e9ece40b90830a85173229d0b93d6cd1ed9786ffc93fe7f92",
+        "actualSha256": "0daa671fa245b11e9ece40b90830a85173229d0b93d6cd1ed9786ffc93fe7f92",
+        "matches": true
+      },
+      {
+        "path": "正式返回/02-写前保护现值.json",
+        "expectedSha256": "0d331cfadcc3fa2b38bde2684bf2a8bf71ec922240935a8d3c2b07b618da7fbe",
+        "actualSha256": "0d331cfadcc3fa2b38bde2684bf2a8bf71ec922240935a8d3c2b07b618da7fbe",
+        "matches": true
+      },
+      {
+        "path": "02-来源与最小修正.json",
+        "expectedSha256": "dfe7596a71598261343e59ed9f93e87f6b6d741a44e0e3c7cb08720e6e2339a6",
+        "actualSha256": "dfe7596a71598261343e59ed9f93e87f6b6d741a44e0e3c7cb08720e6e2339a6",
+        "matches": true
+      },
+      {
+        "path": "技能公共参数实录/客户端原文/Olaf.json.gz",
+        "expectedSha256": "fb882e8483021bf24d0506a494a8cb5f731fcf1a86a0c9dcde47503938428820",
+        "actualSha256": "fb882e8483021bf24d0506a494a8cb5f731fcf1a86a0c9dcde47503938428820",
+        "matches": true
+      },
+      {
+        "path": "英雄/原始资料/zh_CN/champion/Olaf.json",
+        "expectedSha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5",
+        "actualSha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5",
+        "matches": true
+      },
+      {
+        "path": "技能公共参数实录/客户端原文/Zaahen.json.gz",
+        "expectedSha256": "cb025c3ea4217a668ad390e83570a615d6a7be358b22542485e99bbf3d8acff2",
+        "actualSha256": "cb025c3ea4217a668ad390e83570a615d6a7be358b22542485e99bbf3d8acff2",
+        "matches": true
+      },
+      {
+        "path": "英雄/原始资料/zh_CN/champion/Zaahen.json",
+        "expectedSha256": "8695912927630edc5c975b908633a99f5e1ce4ef7b133ab101c7439f364e6524",
+        "actualSha256": "8695912927630edc5c975b908633a99f5e1ce4ef7b133ab101c7439f364e6524",
+        "matches": true
+      }
+    ],
+    "baselinePathCount": 63,
+    "baselineAuditCount": 63,
+    "actualGETsAcrossSharedSources": 65,
+    "uniqueProtectedGETs": 63,
+    "newGETs": 0
+  },
+  "counts": {
+    "requestedGETs": 63,
+    "completedGETs": 63,
+    "successfulJSONResponses": 63,
+    "targetDetailPaths": 3,
+    "targetListPaths": 2,
+    "changedDetailPass": 3,
+    "changedListPass": 2,
+    "changedResponses": 5,
+    "unchangedPathsExpected": 58,
+    "unchangedResponsesIncludingTimestamps": 58,
+    "failureCount": 0,
+    "statusCounts": {
+      "200": 63
+    }
+  },
+  "values": {
+    "/skills/olaf_r": {
+      "createdAt": "2026-09-06T18:19:44.745208Z",
+      "description": "奥拉夫被动获得护甲和魔法抗性提升。他可以激活这个技能来变得免疫控制效果，并且会在他保持攻击时一直持续。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "奥拉夫·诸神黄昏",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "olaf_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:29:25.581721Z"
+    },
+    "/characters/champion_olaf": {
+      "characterKey": "champion_olaf",
+      "createdAt": "2026-09-06T16:29:00.8357Z",
+      "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+      "gameId": "lol",
+      "name": "奥拉夫",
+      "updatedAt": "2026-09-06T16:29:00.8357Z"
+    },
+    "/characters/champion_olaf/attributes": {
+      "characterKey": "champion_olaf",
+      "levelValues": {
+        "1": {
+          "move_speed": 350,
+          "hp": 645,
+          "hp_regen": 6.5,
+          "mana": 316,
+          "mana_regen": 7.5,
+          "armor": 35,
+          "magic_resistance": 32,
+          "attack_damage": 68,
+          "attack_speed": 0.72,
+          "attack_range": 125
+        },
+        "2": {
+          "move_speed": 350,
+          "hp": 730.68,
+          "hp_regen": 6.932,
+          "mana": 352,
+          "mana_regen": 7.932,
+          "armor": 38.024,
+          "magic_resistance": 33.476,
+          "attack_damage": 71.384,
+          "attack_speed": 0.733491,
+          "attack_range": 125
+        },
+        "3": {
+          "move_speed": 350,
+          "hp": 820.525,
+          "hp_regen": 7.385,
+          "mana": 389.75,
+          "mana_regen": 8.385,
+          "armor": 41.195,
+          "magic_resistance": 35.02375,
+          "attack_damage": 74.9325,
+          "attack_speed": 0.747639,
+          "attack_range": 125
+        },
+        "4": {
+          "move_speed": 350,
+          "hp": 914.535,
+          "hp_regen": 7.859,
+          "mana": 429.25,
+          "mana_regen": 8.859,
+          "armor": 44.513,
+          "magic_resistance": 36.64325,
+          "attack_damage": 78.6455,
+          "attack_speed": 0.762442,
+          "attack_range": 125
+        },
+        "5": {
+          "move_speed": 350,
+          "hp": 1012.71,
+          "hp_regen": 8.354,
+          "mana": 470.5,
+          "mana_regen": 9.354,
+          "armor": 47.978,
+          "magic_resistance": 38.3345,
+          "attack_damage": 82.523,
+          "attack_speed": 0.7779,
+          "attack_range": 125
+        },
+        "6": {
+          "move_speed": 350,
+          "hp": 1115.05,
+          "hp_regen": 8.87,
+          "mana": 513.5,
+          "mana_regen": 9.87,
+          "armor": 51.59,
+          "magic_resistance": 40.0975,
+          "attack_damage": 86.565,
+          "attack_speed": 0.794015,
+          "attack_range": 125
+        },
+        "7": {
+          "move_speed": 350,
+          "hp": 1221.555,
+          "hp_regen": 9.407,
+          "mana": 558.25,
+          "mana_regen": 10.407,
+          "armor": 55.349,
+          "magic_resistance": 41.93225,
+          "attack_damage": 90.7715,
+          "attack_speed": 0.810786,
+          "attack_range": 125
+        },
+        "8": {
+          "move_speed": 350,
+          "hp": 1332.225,
+          "hp_regen": 9.965,
+          "mana": 604.75,
+          "mana_regen": 10.965,
+          "armor": 59.255,
+          "magic_resistance": 43.83875,
+          "attack_damage": 95.1425,
+          "attack_speed": 0.828212,
+          "attack_range": 125
+        },
+        "9": {
+          "move_speed": 350,
+          "hp": 1447.06,
+          "hp_regen": 10.544,
+          "mana": 653,
+          "mana_regen": 11.544,
+          "armor": 63.308,
+          "magic_resistance": 45.817,
+          "attack_damage": 99.678,
+          "attack_speed": 0.846294,
+          "attack_range": 125
+        },
+        "10": {
+          "move_speed": 350,
+          "hp": 1566.06,
+          "hp_regen": 11.144,
+          "mana": 703,
+          "mana_regen": 12.144,
+          "armor": 67.508,
+          "magic_resistance": 47.867,
+          "attack_damage": 104.378,
+          "attack_speed": 0.865032,
+          "attack_range": 125
+        },
+        "11": {
+          "move_speed": 350,
+          "hp": 1689.225,
+          "hp_regen": 11.765,
+          "mana": 754.75,
+          "mana_regen": 12.765,
+          "armor": 71.855,
+          "magic_resistance": 49.98875,
+          "attack_damage": 109.2425,
+          "attack_speed": 0.884426,
+          "attack_range": 125
+        },
+        "12": {
+          "move_speed": 350,
+          "hp": 1816.555,
+          "hp_regen": 12.407,
+          "mana": 808.25,
+          "mana_regen": 13.407,
+          "armor": 76.349,
+          "magic_resistance": 52.18225,
+          "attack_damage": 114.2715,
+          "attack_speed": 0.904476,
+          "attack_range": 125
+        },
+        "13": {
+          "move_speed": 350,
+          "hp": 1948.05,
+          "hp_regen": 13.07,
+          "mana": 863.5,
+          "mana_regen": 14.07,
+          "armor": 80.99,
+          "magic_resistance": 54.4475,
+          "attack_damage": 119.465,
+          "attack_speed": 0.925181,
+          "attack_range": 125
+        },
+        "14": {
+          "move_speed": 350,
+          "hp": 2083.71,
+          "hp_regen": 13.754,
+          "mana": 920.5,
+          "mana_regen": 14.754,
+          "armor": 85.778,
+          "magic_resistance": 56.7845,
+          "attack_damage": 124.823,
+          "attack_speed": 0.946542,
+          "attack_range": 125
+        },
+        "15": {
+          "move_speed": 350,
+          "hp": 2223.535,
+          "hp_regen": 14.459,
+          "mana": 979.25,
+          "mana_regen": 15.459,
+          "armor": 90.713,
+          "magic_resistance": 59.19325,
+          "attack_damage": 130.3455,
+          "attack_speed": 0.96856,
+          "attack_range": 125
+        },
+        "16": {
+          "move_speed": 350,
+          "hp": 2367.525,
+          "hp_regen": 15.185,
+          "mana": 1039.75,
+          "mana_regen": 16.185,
+          "armor": 95.795,
+          "magic_resistance": 61.67375,
+          "attack_damage": 136.0325,
+          "attack_speed": 0.991233,
+          "attack_range": 125
+        },
+        "17": {
+          "move_speed": 350,
+          "hp": 2515.68,
+          "hp_regen": 15.932,
+          "mana": 1102,
+          "mana_regen": 16.932,
+          "armor": 101.024,
+          "magic_resistance": 64.226,
+          "attack_damage": 141.884,
+          "attack_speed": 1.014561,
+          "attack_range": 125
+        },
+        "18": {
+          "move_speed": 350,
+          "hp": 2668,
+          "hp_regen": 16.7,
+          "mana": 1166,
+          "mana_regen": 17.7,
+          "armor": 106.4,
+          "magic_resistance": 66.85,
+          "attack_damage": 147.9,
+          "attack_speed": 1.038546,
+          "attack_range": 125
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_olaf/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_olaf",
+        "name": "champion_olaf"
+      }
+    },
+    "/skills/olaf_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_olaf_r",
+        "name": "olaf_r"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_olaf": {
+      "items": [
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "olaf_p",
+          "skillName": "奥拉夫·狂战之怒",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "olaf_q",
+          "skillName": "奥拉夫·逆流投掷",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "olaf_w",
+          "skillName": "奥拉夫·挺过去",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "olaf_e",
+          "skillName": "奥拉夫·鲁莽挥击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "olaf_r",
+          "skillName": "奥拉夫·诸神黄昏",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=olaf_r": {
+      "items": [
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "olaf_r",
+          "skillName": "奥拉夫·诸神黄昏",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/olaf_r/parameters": [
+      {
+        "createdAt": "2026-09-08T17:38:16.916343Z",
+        "description": "客户端当前根绑定 DataValues.Resists 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10,
+          "2": 15,
+          "3": 20
+        },
+        "name": "被动双抗",
+        "parameterKey": "passive_resist",
+        "skillKey": "olaf_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-08T17:38:16.916343Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:17.519644Z",
+        "description": "客户端当前根绑定 DataValues.FlatAD 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10,
+          "2": 20,
+          "3": 30
+        },
+        "name": "主动基础攻击力",
+        "parameterKey": "base_attack_damage",
+        "skillKey": "olaf_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-08T17:38:17.519644Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:18.271288Z",
+        "description": "客户端当前根绑定 DataValues.PercentTotalADAmp 取索引1至3。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "主动总攻击力加成系数",
+        "parameterKey": "total_ad_ratio",
+        "skillKey": "olaf_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-08T17:38:18.271288Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:18.872909Z",
+        "description": "客户端当前根绑定 DataValues.Duration 取索引1至3。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "主动基础持续（毫秒）",
+        "parameterKey": "active_duration_ms",
+        "skillKey": "olaf_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-08T17:38:18.872909Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:19.597537Z",
+        "description": "客户端当前根绑定 DataValues.DurationExtension 取索引1至3。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "英雄攻击或鲁莽挥击延长（毫秒）",
+        "parameterKey": "champion_hit_extension_ms",
+        "skillKey": "olaf_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-08T17:38:19.597537Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:20.174298Z",
+        "description": "客户端当前根绑定 DataValues.Haste 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.45,
+          "3": 0.7
+        },
+        "name": "朝向敌方英雄加速比例",
+        "parameterKey": "move_speed_ratio",
+        "skillKey": "olaf_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-08T17:38:20.174298Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:20.842161Z",
+        "description": "客户端当前根绑定 DataValues.HasteDuration 取索引1至3。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "朝向加速持续（毫秒）",
+        "parameterKey": "move_speed_duration_ms",
+        "skillKey": "olaf_r",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-08T17:38:20.842161Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:28.447949Z",
+        "description": "DDragon16.17.1 Olaf.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 90000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "olaf_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:28.447949Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:28.805571Z",
+        "description": "DDragon16.17.1 Olaf.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "olaf_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:28.805571Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/olaf_r/parameters/passive_resist": {
+      "createdAt": "2026-09-08T17:38:16.916343Z",
+      "description": "客户端当前根绑定 DataValues.Resists 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20
+      },
+      "name": "被动双抗",
+      "parameterKey": "passive_resist",
+      "skillKey": "olaf_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-08T17:38:16.916343Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_r/parameters/base_attack_damage": {
+      "createdAt": "2026-09-08T17:38:17.519644Z",
+      "description": "客户端当前根绑定 DataValues.FlatAD 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10,
+        "2": 20,
+        "3": 30
+      },
+      "name": "主动基础攻击力",
+      "parameterKey": "base_attack_damage",
+      "skillKey": "olaf_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-08T17:38:17.519644Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_r/parameters/total_ad_ratio": {
+      "createdAt": "2026-09-08T17:38:18.271288Z",
+      "description": "客户端当前根绑定 DataValues.PercentTotalADAmp 取索引1至3。",
+      "fixedValue": 0.25,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "主动总攻击力加成系数",
+      "parameterKey": "total_ad_ratio",
+      "skillKey": "olaf_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-08T17:38:18.271288Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/olaf_r/parameters/active_duration_ms": {
+      "createdAt": "2026-09-08T17:38:18.872909Z",
+      "description": "客户端当前根绑定 DataValues.Duration 取索引1至3。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "主动基础持续（毫秒）",
+      "parameterKey": "active_duration_ms",
+      "skillKey": "olaf_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-08T17:38:18.872909Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_r/parameters/champion_hit_extension_ms": {
+      "createdAt": "2026-09-08T17:38:19.597537Z",
+      "description": "客户端当前根绑定 DataValues.DurationExtension 取索引1至3。",
+      "fixedValue": 2500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "英雄攻击或鲁莽挥击延长（毫秒）",
+      "parameterKey": "champion_hit_extension_ms",
+      "skillKey": "olaf_r",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-08T17:38:19.597537Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_r/parameters/move_speed_ratio": {
+      "createdAt": "2026-09-08T17:38:20.174298Z",
+      "description": "客户端当前根绑定 DataValues.Haste 取索引1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.45,
+        "3": 0.7
+      },
+      "name": "朝向敌方英雄加速比例",
+      "parameterKey": "move_speed_ratio",
+      "skillKey": "olaf_r",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-08T17:38:20.174298Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/olaf_r/parameters/move_speed_duration_ms": {
+      "createdAt": "2026-09-08T17:38:20.842161Z",
+      "description": "客户端当前根绑定 DataValues.HasteDuration 取索引1至3。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "朝向加速持续（毫秒）",
+      "parameterKey": "move_speed_duration_ms",
+      "skillKey": "olaf_r",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-08T17:38:20.842161Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:28.447949Z",
+      "description": "DDragon16.17.1 Olaf.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 100000,
+        "2": 90000,
+        "3": 80000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "olaf_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:28.447949Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:28.805571Z",
+      "description": "DDragon16.17.1 Olaf.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "olaf_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:00:28.805571Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/olaf_r/formulas": [
+      {
+        "createdAt": "2026-09-08T17:38:21.485264Z",
+        "description": "10/20/30 + .25总攻击力的独立算术；读取时点与排除自身增益的口径尚未确证，不据此指定快照或持续读取。",
+        "formulaKey": "active_attack_damage",
+        "gameId": "lol",
+        "name": "主动获得的攻击力",
+        "skillKey": "olaf_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:38:21.485264Z"
+      }
+    ],
+    "/skills/olaf_r/formulas/active_attack_damage": {
+      "createdAt": "2026-09-08T17:38:21.485264Z",
+      "description": "10/20/30 + .25总攻击力的独立算术；读取时点与排除自身增益的口径尚未确证，不据此指定快照或持续读取。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_attack_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "active_attack_damage",
+      "gameId": "lol",
+      "name": "主动获得的攻击力",
+      "skillKey": "olaf_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T17:38:21.485264Z"
+    },
+    "/skills/olaf_r/effects": [
+      {
+        "createdAt": "2026-09-08T17:38:22.182332Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "olaf_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:38:22.182332Z"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:22.86332Z",
+        "description": "常驻自身护甲，按当前已学R等级1至3持续重新读取passive_resist；由已有初始化入口建立单层实例，不把来源初始化当成升级事件。主动攻击力、净化免控、持续延长和朝向加速分别维护。",
+        "effectKey": "passive_armor",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "诸神黄昏被动护甲",
+        "resultCount": 1,
+        "skillKey": "olaf_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-20T11:17:45.796527Z"
+      },
+      {
+        "createdAt": "2026-09-08T17:38:23.497186Z",
+        "description": "常驻自身魔法抗性，按当前已学R等级1至3持续重新读取passive_resist；由已有初始化入口建立单层实例，不把来源初始化当成升级事件。主动分支继续分别维护。",
+        "effectKey": "passive_magic_resistance",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "诸神黄昏被动魔抗",
+        "resultCount": 1,
+        "skillKey": "olaf_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-20T11:19:11.613122Z"
+      }
+    ],
+    "/skills/olaf_r/effects/mana_cost": {
+      "createdAt": "2026-09-08T17:38:22.182332Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "olaf_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-08T17:38:22.182332Z"
+    },
+    "/skills/olaf_r/effects/passive_armor": {
+      "createdAt": "2026-09-08T17:38:22.86332Z",
+      "description": "常驻自身护甲，按当前已学R等级1至3持续重新读取passive_resist；由已有初始化入口建立单层实例，不把来源初始化当成升级事件。主动攻击力、净化免控、持续延长和朝向加速分别维护。",
+      "effectKey": "passive_armor",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "诸神黄昏被动护甲",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "armor",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "name": "诸神黄昏被动护甲",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "passive_resist"
+            }
+          }
+        }
+      ],
+      "skillKey": "olaf_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-20T11:17:45.796527Z"
+    },
+    "/skills/olaf_r/effects/passive_magic_resistance": {
+      "createdAt": "2026-09-08T17:38:23.497186Z",
+      "description": "常驻自身魔法抗性，按当前已学R等级1至3持续重新读取passive_resist；由已有初始化入口建立单层实例，不把来源初始化当成升级事件。主动分支继续分别维护。",
+      "effectKey": "passive_magic_resistance",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "诸神黄昏被动魔抗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "magic_resistance",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "name": "诸神黄昏被动魔抗",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "passive_resist"
+            }
+          }
+        }
+      ],
+      "skillKey": "olaf_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-20T11:19:11.613122Z"
+    },
+    "/skills/olaf_r/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-08T17:38:24.194634Z",
+        "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放诸神黄昏",
+        "processKey": "cast",
+        "skillKey": "olaf_r",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-08T17:38:24.194634Z"
+      }
+    ],
+    "/skills/olaf_r/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-08T17:38:24.194634Z",
+      "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放诸神黄昏",
+      "processKey": "cast",
+      "skillKey": "olaf_r",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": null,
+          "detail": {},
+          "name": "施放开始",
+          "sortOrder": 10,
+          "stepKey": "start",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-08T17:38:24.194634Z"
+    },
+    "/skills/olaf_r/internal-states": [],
+    "/skills/olaf_r/trigger-rules": [
+      {
+        "actionCount": 2,
+        "conditionGroupCount": 0,
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，按固定顺序执行已有 passive_armor 与 passive_magic_resistance，建立当前技能等级对应的单层常驻自身双抗；来源初始化不表示后续技能升级，主动攻击力、净化免控、持续延长、朝向加速和战斗命中继续暂缓。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化诸神黄昏被动双抗",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_passive_resists",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-13T11:43:05.746447Z"
+      }
+    ],
+    "/skills/olaf_r/trigger-rules/initialize_passive_resists": {
+      "actions": [
+        {
+          "actionKey": "execute_passive_armor",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "passive_armor"
+          },
+          "name": "执行诸神黄昏被动护甲",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        },
+        {
+          "actionKey": "execute_passive_magic_resistance",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "passive_magic_resistance"
+          },
+          "name": "执行诸神黄昏被动魔抗",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 20,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，按固定顺序执行已有 passive_armor 与 passive_magic_resistance，建立当前技能等级对应的单层常驻自身双抗；来源初始化不表示后续技能升级，主动攻击力、净化免控、持续延长、朝向加速和战斗命中继续暂缓。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化诸神黄昏被动双抗",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_passive_resists",
+      "sortOrder": 10
+    },
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/armor": {
+      "attributeKey": "armor",
+      "createdAt": "2026-08-30T16:27:55.143372Z",
+      "description": "角色面板护甲",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "护甲",
+      "sortOrder": 400,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:27:55.143372Z",
+      "valueType": "DECIMAL"
+    },
+    "/modifier-zones/attribute_flat_add": {
+      "applicationStage": "ATTRIBUTE_FLAT",
+      "calculationMode": "FLAT_ADD",
+      "createdAt": "2026-09-06T16:50:52.756989Z",
+      "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+      "domain": "ATTRIBUTE",
+      "gameId": "lol",
+      "modifierZoneKey": "attribute_flat_add",
+      "name": "属性固定加算",
+      "sortOrder": 10,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T16:50:52.756989Z"
+    },
+    "/attributes/magic_resistance": {
+      "attributeKey": "magic_resistance",
+      "createdAt": "2026-08-30T16:27:55.24073Z",
+      "description": "角色面板魔法抗性",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "魔法抗性",
+      "sortOrder": 410,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:27:55.24073Z",
+      "valueType": "DECIMAL"
+    },
+    "/skills/zaahen_r": {
+      "createdAt": "2026-09-06T18:21:18.675855Z",
+      "description": "亚恒升空然后向下戳刺，对敌人造成伤害并治疗自身相当于一部分该造成伤害值的生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "亚恒·大赦",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "zaahen_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:30:11.762372Z"
+    },
+    "/characters/champion_zaahen": {
+      "characterKey": "champion_zaahen",
+      "createdAt": "2026-09-06T18:11:27.194926Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "亚恒",
+      "updatedAt": "2026-09-06T18:11:27.194926Z"
+    },
+    "/characters/champion_zaahen/attributes": {
+      "characterKey": "champion_zaahen",
+      "levelValues": {
+        "1": {
+          "move_speed": 345,
+          "hp": 640,
+          "hp_regen": 7.5,
+          "mana": 350,
+          "mana_regen": 8.15,
+          "armor": 36,
+          "magic_resistance": 32,
+          "attack_damage": 63,
+          "attack_speed": 0.625,
+          "attack_range": 175
+        },
+        "2": {
+          "move_speed": 345,
+          "hp": 722.08,
+          "hp_regen": 8.076,
+          "mana": 389.6,
+          "mana_regen": 8.69,
+          "armor": 39.6,
+          "magic_resistance": 33.476,
+          "attack_damage": 65.88,
+          "attack_speed": 0.63625,
+          "attack_range": 175
+        },
+        "3": {
+          "move_speed": 345,
+          "hp": 808.15,
+          "hp_regen": 8.68,
+          "mana": 431.125,
+          "mana_regen": 9.25625,
+          "armor": 43.375,
+          "magic_resistance": 35.02375,
+          "attack_damage": 68.9,
+          "attack_speed": 0.648047,
+          "attack_range": 175
+        },
+        "4": {
+          "move_speed": 345,
+          "hp": 898.21,
+          "hp_regen": 9.312,
+          "mana": 474.575,
+          "mana_regen": 9.84875,
+          "armor": 47.325,
+          "magic_resistance": 36.64325,
+          "attack_damage": 72.06,
+          "attack_speed": 0.660391,
+          "attack_range": 175
+        },
+        "5": {
+          "move_speed": 345,
+          "hp": 992.26,
+          "hp_regen": 9.972,
+          "mana": 519.95,
+          "mana_regen": 10.4675,
+          "armor": 51.45,
+          "magic_resistance": 38.3345,
+          "attack_damage": 75.36,
+          "attack_speed": 0.673281,
+          "attack_range": 175
+        },
+        "6": {
+          "move_speed": 345,
+          "hp": 1090.3,
+          "hp_regen": 10.66,
+          "mana": 567.25,
+          "mana_regen": 11.1125,
+          "armor": 55.75,
+          "magic_resistance": 40.0975,
+          "attack_damage": 78.8,
+          "attack_speed": 0.686719,
+          "attack_range": 175
+        },
+        "7": {
+          "move_speed": 345,
+          "hp": 1192.33,
+          "hp_regen": 11.376,
+          "mana": 616.475,
+          "mana_regen": 11.78375,
+          "armor": 60.225,
+          "magic_resistance": 41.93225,
+          "attack_damage": 82.38,
+          "attack_speed": 0.700703,
+          "attack_range": 175
+        },
+        "8": {
+          "move_speed": 345,
+          "hp": 1298.35,
+          "hp_regen": 12.12,
+          "mana": 667.625,
+          "mana_regen": 12.48125,
+          "armor": 64.875,
+          "magic_resistance": 43.83875,
+          "attack_damage": 86.1,
+          "attack_speed": 0.715234,
+          "attack_range": 175
+        },
+        "9": {
+          "move_speed": 345,
+          "hp": 1408.36,
+          "hp_regen": 12.892,
+          "mana": 720.7,
+          "mana_regen": 13.205,
+          "armor": 69.7,
+          "magic_resistance": 45.817,
+          "attack_damage": 89.96,
+          "attack_speed": 0.730313,
+          "attack_range": 175
+        },
+        "10": {
+          "move_speed": 345,
+          "hp": 1522.36,
+          "hp_regen": 13.692,
+          "mana": 775.7,
+          "mana_regen": 13.955,
+          "armor": 74.7,
+          "magic_resistance": 47.867,
+          "attack_damage": 93.96,
+          "attack_speed": 0.745938,
+          "attack_range": 175
+        },
+        "11": {
+          "move_speed": 345,
+          "hp": 1640.35,
+          "hp_regen": 14.52,
+          "mana": 832.625,
+          "mana_regen": 14.73125,
+          "armor": 79.875,
+          "magic_resistance": 49.98875,
+          "attack_damage": 98.1,
+          "attack_speed": 0.762109,
+          "attack_range": 175
+        },
+        "12": {
+          "move_speed": 345,
+          "hp": 1762.33,
+          "hp_regen": 15.376,
+          "mana": 891.475,
+          "mana_regen": 15.53375,
+          "armor": 85.225,
+          "magic_resistance": 52.18225,
+          "attack_damage": 102.38,
+          "attack_speed": 0.778828,
+          "attack_range": 175
+        },
+        "13": {
+          "move_speed": 345,
+          "hp": 1888.3,
+          "hp_regen": 16.26,
+          "mana": 952.25,
+          "mana_regen": 16.3625,
+          "armor": 90.75,
+          "magic_resistance": 54.4475,
+          "attack_damage": 106.8,
+          "attack_speed": 0.796094,
+          "attack_range": 175
+        },
+        "14": {
+          "move_speed": 345,
+          "hp": 2018.26,
+          "hp_regen": 17.172,
+          "mana": 1014.95,
+          "mana_regen": 17.2175,
+          "armor": 96.45,
+          "magic_resistance": 56.7845,
+          "attack_damage": 111.36,
+          "attack_speed": 0.813906,
+          "attack_range": 175
+        },
+        "15": {
+          "move_speed": 345,
+          "hp": 2152.21,
+          "hp_regen": 18.112,
+          "mana": 1079.575,
+          "mana_regen": 18.09875,
+          "armor": 102.325,
+          "magic_resistance": 59.19325,
+          "attack_damage": 116.06,
+          "attack_speed": 0.832266,
+          "attack_range": 175
+        },
+        "16": {
+          "move_speed": 345,
+          "hp": 2290.15,
+          "hp_regen": 19.08,
+          "mana": 1146.125,
+          "mana_regen": 19.00625,
+          "armor": 108.375,
+          "magic_resistance": 61.67375,
+          "attack_damage": 120.9,
+          "attack_speed": 0.851172,
+          "attack_range": 175
+        },
+        "17": {
+          "move_speed": 345,
+          "hp": 2432.08,
+          "hp_regen": 20.076,
+          "mana": 1214.6,
+          "mana_regen": 19.94,
+          "armor": 114.6,
+          "magic_resistance": 64.226,
+          "attack_damage": 125.88,
+          "attack_speed": 0.870625,
+          "attack_range": 175
+        },
+        "18": {
+          "move_speed": 345,
+          "hp": 2578,
+          "hp_regen": 21.1,
+          "mana": 1285,
+          "mana_regen": 20.9,
+          "armor": 121,
+          "magic_resistance": 66.85,
+          "attack_damage": 131,
+          "attack_speed": 0.890625,
+          "attack_range": 175
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_zaahen/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_zaahen",
+        "name": "champion_zaahen"
+      }
+    },
+    "/skills/zaahen_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_zaahen_r",
+        "name": "zaahen_r"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_zaahen": {
+      "items": [
+        {
+          "characterKey": "champion_zaahen",
+          "characterName": "亚恒",
+          "gameId": "lol",
+          "skillKey": "zaahen_p",
+          "skillName": "亚恒·不落之志",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_zaahen",
+          "characterName": "亚恒",
+          "gameId": "lol",
+          "skillKey": "zaahen_q",
+          "skillName": "亚恒·暗裔长刀",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_zaahen",
+          "characterName": "亚恒",
+          "gameId": "lol",
+          "skillKey": "zaahen_w",
+          "skillName": "亚恒·厄影回锋",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_zaahen",
+          "characterName": "亚恒",
+          "gameId": "lol",
+          "skillKey": "zaahen_e",
+          "skillName": "亚恒·赤金突袭",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_zaahen",
+          "characterName": "亚恒",
+          "gameId": "lol",
+          "skillKey": "zaahen_r",
+          "skillName": "亚恒·大赦",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=zaahen_r": {
+      "items": [
+        {
+          "characterKey": "champion_zaahen",
+          "characterName": "亚恒",
+          "gameId": "lol",
+          "skillKey": "zaahen_r",
+          "skillName": "亚恒·大赦",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/zaahen_r/parameters": [
+      {
+        "createdAt": "2026-09-10T02:39:05.933519Z",
+        "description": "终结伤害250/400/550。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 250,
+          "2": 400,
+          "3": 550
+        },
+        "name": "终结基础物理伤害",
+        "parameterKey": "end_damage_base",
+        "skillKey": "zaahen_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:39:05.933519Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:39:07.558445Z",
+        "description": "DamageEndCalc系数2×来源额外攻击力。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "终结额外攻击力倍率",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "zaahen_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:39:07.558445Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:39:09.230804Z",
+        "description": "治疗比例33%，按当前敌方英雄合资格实际伤害计算。",
+        "fixedValue": 0.330000013,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "实际伤害治疗比例",
+        "parameterKey": "actual_damage_heal_ratio",
+        "skillKey": "zaahen_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T02:39:09.230804Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:39:10.834147Z",
+        "description": "护甲穿透10/20/30%，比例单位。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.100000001,
+          "2": 0.200000003,
+          "3": 0.300000012
+        },
+        "name": "常驻护甲穿透比例",
+        "parameterKey": "armor_penetration_ratio",
+        "skillKey": "zaahen_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-10T02:39:10.834147Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:39:12.584262Z",
+        "description": "施放期间50%减伤。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施放期间伤害减免比例",
+        "parameterKey": "damage_reduction_ratio",
+        "skillKey": "zaahen_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-10T02:39:12.584262Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:39:14.210112Z",
+        "description": "最大位移600。",
+        "fixedValue": 600,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最大升空位移距离",
+        "parameterKey": "dash_max_distance",
+        "skillKey": "zaahen_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-10T02:39:14.210112Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:39:15.853429Z",
+        "description": "升空速度2800。",
+        "fixedValue": 2800,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "升空速度",
+        "parameterKey": "dash_speed",
+        "skillKey": "zaahen_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-10T02:39:15.853429Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:39:17.51348Z",
+        "description": "范围550。",
+        "fixedValue": 550,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "终结范围",
+        "parameterKey": "aoe_size",
+        "skillKey": "zaahen_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-10T02:39:17.51348Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:39:19.193672Z",
+        "description": "治疗基准折前/折后未证，运行层提供对当前敌方英雄合资格实际伤害，不设默认。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "当前合资格实际伤害",
+        "parameterKey": "actual_eligible_damage",
+        "skillKey": "zaahen_r",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-10T02:39:19.193672Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T02:41:26.698468Z",
+        "description": "DDragon16.17.1 Zaahen.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 110000,
+          "2": 95000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zaahen_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:26.698468Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:39:21.034716Z",
+        "description": "mCastTime=0.5秒，与spellCastTime=0并列。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "客户端mCastTime（毫秒）",
+        "parameterKey": "m_cast_time_ms",
+        "skillKey": "zaahen_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-10T02:39:21.034716Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:41:27.259783Z",
+        "description": "DDragon16.17.1 Zaahen.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zaahen_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:27.259783Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/zaahen_r/parameters/end_damage_base": {
+      "createdAt": "2026-09-10T02:39:05.933519Z",
+      "description": "终结伤害250/400/550。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 250,
+        "2": 400,
+        "3": 550
+      },
+      "name": "终结基础物理伤害",
+      "parameterKey": "end_damage_base",
+      "skillKey": "zaahen_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:39:05.933519Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/zaahen_r/parameters/bonus_ad_ratio": {
+      "createdAt": "2026-09-10T02:39:07.558445Z",
+      "description": "DamageEndCalc系数2×来源额外攻击力。",
+      "fixedValue": 2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "终结额外攻击力倍率",
+      "parameterKey": "bonus_ad_ratio",
+      "skillKey": "zaahen_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T02:39:07.558445Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/zaahen_r/parameters/actual_damage_heal_ratio": {
+      "createdAt": "2026-09-10T02:39:09.230804Z",
+      "description": "治疗比例33%，按当前敌方英雄合资格实际伤害计算。",
+      "fixedValue": 0.330000013,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "实际伤害治疗比例",
+      "parameterKey": "actual_damage_heal_ratio",
+      "skillKey": "zaahen_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-10T02:39:09.230804Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/zaahen_r/parameters/armor_penetration_ratio": {
+      "createdAt": "2026-09-10T02:39:10.834147Z",
+      "description": "护甲穿透10/20/30%，比例单位。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.100000001,
+        "2": 0.200000003,
+        "3": 0.300000012
+      },
+      "name": "常驻护甲穿透比例",
+      "parameterKey": "armor_penetration_ratio",
+      "skillKey": "zaahen_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-10T02:39:10.834147Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/zaahen_r/parameters/damage_reduction_ratio": {
+      "createdAt": "2026-09-10T02:39:12.584262Z",
+      "description": "施放期间50%减伤。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施放期间伤害减免比例",
+      "parameterKey": "damage_reduction_ratio",
+      "skillKey": "zaahen_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-10T02:39:12.584262Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/zaahen_r/parameters/dash_max_distance": {
+      "createdAt": "2026-09-10T02:39:14.210112Z",
+      "description": "最大位移600。",
+      "fixedValue": 600,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "最大升空位移距离",
+      "parameterKey": "dash_max_distance",
+      "skillKey": "zaahen_r",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-10T02:39:14.210112Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/zaahen_r/parameters/dash_speed": {
+      "createdAt": "2026-09-10T02:39:15.853429Z",
+      "description": "升空速度2800。",
+      "fixedValue": 2800,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "升空速度",
+      "parameterKey": "dash_speed",
+      "skillKey": "zaahen_r",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-10T02:39:15.853429Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/zaahen_r/parameters/aoe_size": {
+      "createdAt": "2026-09-10T02:39:17.51348Z",
+      "description": "范围550。",
+      "fixedValue": 550,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "终结范围",
+      "parameterKey": "aoe_size",
+      "skillKey": "zaahen_r",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-10T02:39:17.51348Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/zaahen_r/parameters/actual_eligible_damage": {
+      "createdAt": "2026-09-10T02:39:19.193672Z",
+      "description": "治疗基准折前/折后未证，运行层提供对当前敌方英雄合资格实际伤害，不设默认。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "当前合资格实际伤害",
+      "parameterKey": "actual_eligible_damage",
+      "skillKey": "zaahen_r",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-10T02:39:19.193672Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/skills/zaahen_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:41:26.698468Z",
+      "description": "DDragon16.17.1 Zaahen.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 110000,
+        "2": 95000,
+        "3": 80000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "zaahen_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:41:26.698468Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/zaahen_r/parameters/m_cast_time_ms": {
+      "createdAt": "2026-09-10T02:39:21.034716Z",
+      "description": "mCastTime=0.5秒，与spellCastTime=0并列。",
+      "fixedValue": 500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "客户端mCastTime（毫秒）",
+      "parameterKey": "m_cast_time_ms",
+      "skillKey": "zaahen_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-10T02:39:21.034716Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/zaahen_r/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:41:27.259783Z",
+      "description": "DDragon16.17.1 Zaahen.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "zaahen_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:41:27.259783Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/zaahen_r/formulas": [
+      {
+        "createdAt": "2026-09-10T02:39:22.677559Z",
+        "description": "终结=250/400/550+2×额外攻击力。",
+        "formulaKey": "end_physical_damage",
+        "gameId": "lol",
+        "name": "大赦终结物理伤害",
+        "skillKey": "zaahen_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-10T02:39:22.677559Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:39:24.338137Z",
+        "description": "治疗=33%×当前敌方英雄合资格实际伤害，不把原始伤害树直接当治疗基准。",
+        "formulaKey": "self_healing_from_actual_damage",
+        "gameId": "lol",
+        "name": "大赦自身实际伤害治疗",
+        "skillKey": "zaahen_r",
+        "sortOrder": 120,
+        "updatedAt": "2026-09-10T02:39:24.338137Z"
+      }
+    ],
+    "/skills/zaahen_r/formulas/end_physical_damage": {
+      "createdAt": "2026-09-10T02:39:22.677559Z",
+      "description": "终结=250/400/550+2×额外攻击力。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "end_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "end_physical_damage",
+      "gameId": "lol",
+      "name": "大赦终结物理伤害",
+      "skillKey": "zaahen_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-10T02:39:22.677559Z"
+    },
+    "/skills/zaahen_r/formulas/self_healing_from_actual_damage": {
+      "createdAt": "2026-09-10T02:39:24.338137Z",
+      "description": "治疗=33%×当前敌方英雄合资格实际伤害，不把原始伤害树直接当治疗基准。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_damage_heal_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_eligible_damage"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "self_healing_from_actual_damage",
+      "gameId": "lol",
+      "name": "大赦自身实际伤害治疗",
+      "skillKey": "zaahen_r",
+      "sortOrder": 120,
+      "updatedAt": "2026-09-10T02:39:24.338137Z"
+    },
+    "/skills/zaahen_r/effects": [
+      {
+        "createdAt": "2026-09-10T02:39:26.195568Z",
+        "description": "常驻自身护甲穿透比例，按当前已学R等级1至3持续重新读取armor_penetration_ratio；已有初始化入口建立单层实例。主动伤害、治疗、施放减伤、位移和生存链继续单列。",
+        "effectKey": "armor_penetration",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "大赦常驻护甲穿透",
+        "resultCount": 1,
+        "skillKey": "zaahen_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-20T11:22:30.804131Z"
+      }
+    ],
+    "/skills/zaahen_r/effects/armor_penetration": {
+      "createdAt": "2026-09-10T02:39:26.195568Z",
+      "description": "常驻自身护甲穿透比例，按当前已学R等级1至3持续重新读取armor_penetration_ratio；已有初始化入口建立单层实例。主动伤害、治疗、施放减伤、位移和生存链继续单列。",
+      "effectKey": "armor_penetration",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "大赦常驻护甲穿透",
+      "results": [
+        {
+          "description": "已有来源初始化规则建立自身单层实例；常驻属性按当前已学R等级重新取值，原比例单位与乘区保留。",
+          "detail": {
+            "attributeKey": "armor_pen_percent",
+            "modifierZoneKey": "attribute_flat_add",
+            "operation": "INCREASE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "name": "大赦常驻护甲穿透",
+          "resultKey": "attribute",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "armor_penetration_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "zaahen_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-20T11:22:30.804131Z"
+    },
+    "/skills/zaahen_r/processes": [],
+    "/skills/zaahen_r/internal-states": [],
+    "/skills/zaahen_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有 armor_penetration，建立当前技能等级对应的单层常驻自身护甲穿透；来源初始化不表示后续技能升级，主动伤害、实际伤害治疗、施放减伤、位移和生存链继续暂缓。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化大赦常驻护甲穿透",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_armor_penetration",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-13T11:43:07.465288Z"
+      }
+    ],
+    "/skills/zaahen_r/trigger-rules/initialize_armor_penetration": {
+      "actions": [
+        {
+          "actionKey": "execute_armor_penetration",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "armor_penetration"
+          },
+          "name": "执行大赦常驻护甲穿透",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象的基础属性、技能与装备挂载及初始状态准备完成后，执行已有 armor_penetration，建立当前技能等级对应的单层常驻自身护甲穿透；来源初始化不表示后续技能升级，主动伤害、实际伤害治疗、施放减伤、位移和生存链继续暂缓。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化大赦常驻护甲穿透",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_armor_penetration",
+      "sortOrder": 10
+    },
+    "/attributes/armor_pen_percent": {
+      "attributeKey": "armor_pen_percent",
+      "createdAt": "2026-08-22T15:27:35.951829Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "百分比护甲穿透",
+      "sortOrder": 210,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:35.951829Z",
+      "valueType": "DECIMAL"
+    }
+  },
+  "audit": [
+    {
+      "requestIndex": 1,
+      "method": "GET",
+      "path": "/skills/olaf_r",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 499,
+      "responseSha256": "12f7b9144c720eff962ec005e9bd2a77ebcc85264fbcbba5d6cc60ec57eb4642"
+    },
+    {
+      "requestIndex": 2,
+      "method": "GET",
+      "path": "/characters/champion_olaf",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 507,
+      "responseSha256": "72bd12b3b1e440e5bd9d76a39971757bc450ada301c86ee72df1b4426a02759a"
+    },
+    {
+      "requestIndex": 3,
+      "method": "GET",
+      "path": "/characters/champion_olaf/attributes",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 3560,
+      "responseSha256": "bcf39e075a307fe987ea763d7e7eb2bde521912faac7ffe437beeb74e0a3c9db"
+    },
+    {
+      "requestIndex": 4,
+      "method": "GET",
+      "path": "/characters/champion_olaf/representative-image",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 88,
+      "responseSha256": "22431372b32f7f6894d98c34b34237e798870ef41007e4a8c2170aabf2a5e363"
+    },
+    {
+      "requestIndex": 5,
+      "method": "GET",
+      "path": "/skills/olaf_r/representative-image",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 74,
+      "responseSha256": "125156926a5ec27a8364370cfa62c543d314b6a6faa476dae6044695e1895dc4"
+    },
+    {
+      "requestIndex": 6,
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_olaf",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 878,
+      "responseSha256": "008ad513feed48ae019d044769f3b775a29b76889986f3149a42872e9f850a54"
+    },
+    {
+      "requestIndex": 7,
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=olaf_r",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 193,
+      "responseSha256": "769f2fc6a6294c654e3f30b5f9c5d4e730fe3c38be9d064280b89ca87d95a095"
+    },
+    {
+      "requestIndex": 8,
+      "method": "GET",
+      "path": "/skills/olaf_r/parameters",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 3767,
+      "responseSha256": "f6ce4f03984e9eafea951e334954fa528298b1c413711be66cd31775bf7adba9"
+    },
+    {
+      "requestIndex": 9,
+      "method": "GET",
+      "path": "/skills/olaf_r/parameters/passive_resist",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 370,
+      "responseSha256": "e2185b812aff3c4cbc7d2b13518f138f8ff5f75f8acf4f923ccc45822a7dd5ee"
+    },
+    {
+      "requestIndex": 10,
+      "method": "GET",
+      "path": "/skills/olaf_r/parameters/base_attack_damage",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 382,
+      "responseSha256": "3552c07ed248acb17a73d2d69e72b9d8bce79536aa762a4eb8368f5632dc96a6"
+    },
+    {
+      "requestIndex": 11,
+      "method": "GET",
+      "path": "/skills/olaf_r/parameters/total_ad_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 374,
+      "responseSha256": "c1c5a90ea4b72e6533800abe37fbc3523440c37bf2c6183799f22f93543f0e1b"
+    },
+    {
+      "requestIndex": 12,
+      "method": "GET",
+      "path": "/skills/olaf_r/parameters/active_duration_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 369,
+      "responseSha256": "0759a91ea451fd4c0933de78397f0447b13e0de4fe55bc606942442474b1eb2d"
+    },
+    {
+      "requestIndex": 13,
+      "method": "GET",
+      "path": "/skills/olaf_r/parameters/champion_hit_extension_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 400,
+      "responseSha256": "b9a6f5dd776c30d253f075608ac4f37c31f2827f6f3aefd98f0ba96082955597"
+    },
+    {
+      "requestIndex": 14,
+      "method": "GET",
+      "path": "/skills/olaf_r/parameters/move_speed_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 392,
+      "responseSha256": "4360bd930968898697f12b4c6e2785299a7bf8413164e5dbda14374905d5e76f"
+    },
+    {
+      "requestIndex": 15,
+      "method": "GET",
+      "path": "/skills/olaf_r/parameters/move_speed_duration_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 378,
+      "responseSha256": "95544a201cefe8cff92e4c3dbf5d2d6d8559162d5364cbb9435723c08a0726c5"
+    },
+    {
+      "requestIndex": 16,
+      "method": "GET",
+      "path": "/skills/olaf_r/parameters/cooldown_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 562,
+      "responseSha256": "60f1f65eee9e1edd30a97aa834e0a7f85dcfe66c5093ff733d5caa25a673cd68"
+    },
+    {
+      "requestIndex": 17,
+      "method": "GET",
+      "path": "/skills/olaf_r/parameters/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 530,
+      "responseSha256": "a7305dabe74a6e655d65114fc5254ce3c0b79654fbe0c9f1d576f62b341606d6"
+    },
+    {
+      "requestIndex": 18,
+      "method": "GET",
+      "path": "/skills/olaf_r/formulas",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 364,
+      "responseSha256": "c176fb03fd62cfea086d1ddaa8b89a5c0aa6c49893f7d816ff8cb53eb2ed3e0b"
+    },
+    {
+      "requestIndex": 19,
+      "method": "GET",
+      "path": "/skills/olaf_r/formulas/active_attack_damage",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 721,
+      "responseSha256": "f936198002fe333089b2f0052761905cb6cd57a79d96059fa08c57166fcfd778"
+    },
+    {
+      "requestIndex": 20,
+      "method": "GET",
+      "path": "/skills/olaf_r/effects",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 1272,
+      "responseSha256": "51a2130a155fc0febff36f6da87bfec50ae9f636950665433b5a9925ac7b9cc3"
+    },
+    {
+      "requestIndex": 21,
+      "method": "GET",
+      "path": "/skills/olaf_r/effects/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 656,
+      "responseSha256": "56c1e2fd29192ba8c71a7751903fc8c9a0e88606006431264e9f23abb0c8eb40"
+    },
+    {
+      "requestIndex": 22,
+      "method": "GET",
+      "path": "/skills/olaf_r/effects/passive_armor",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 1347,
+      "responseSha256": "599f9b139f85acbf57a552fe031460eda50a8201c4105d49ee0bfedbd434fa16"
+    },
+    {
+      "requestIndex": 23,
+      "method": "GET",
+      "path": "/skills/olaf_r/effects/passive_magic_resistance",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 1334,
+      "responseSha256": "bd57cf0dd2113aa2cc6a8caba540dde3ca90c7ace3ccb66cddf208ac7d3b8411"
+    },
+    {
+      "requestIndex": 24,
+      "method": "GET",
+      "path": "/skills/olaf_r/processes",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 367,
+      "responseSha256": "fe34a81b7a52bd92723b947c0b161e871edc53410fbec64d11537a999af052e0"
+    },
+    {
+      "requestIndex": 25,
+      "method": "GET",
+      "path": "/skills/olaf_r/processes/cast",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 725,
+      "responseSha256": "7474f30c42f0e5bd6da3dc5d075b21a60784351a0d96c7a2fc657dcb4db3a98c"
+    },
+    {
+      "requestIndex": 26,
+      "method": "GET",
+      "path": "/skills/olaf_r/internal-states",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 2,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "requestIndex": 27,
+      "method": "GET",
+      "path": "/skills/olaf_r/trigger-rules",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 654,
+      "responseSha256": "d2816a6d2df4348f255f44b4e1c4b9ce89797ac690656a770995921dd4647353"
+    },
+    {
+      "requestIndex": 28,
+      "method": "GET",
+      "path": "/skills/olaf_r/trigger-rules/initialize_passive_resists",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 1117,
+      "responseSha256": "3e8f8ec7545d45d63e2ea8afef948cff5f80c24af2ce40ae9e56a432bc597f82"
+    },
+    {
+      "requestIndex": 29,
+      "method": "GET",
+      "path": "/attributes/attack_damage",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 325,
+      "responseSha256": "f83a821d6f09e223b06581b7f5d3c495956cbc1ded7e560dd3354a57ea59cd97"
+    },
+    {
+      "requestIndex": 30,
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 246,
+      "responseSha256": "5d0550a4d7aa5a30a709b5d6f3b4d728c606bbbdb980ce60c1674c45b9d8d5ba"
+    },
+    {
+      "requestIndex": 31,
+      "method": "GET",
+      "path": "/attributes/armor",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 263,
+      "responseSha256": "c2e55aa28374b2301f8c4a6f41cb1b28c3230bbe6458a57fe00f98bfe7fe483b"
+    },
+    {
+      "requestIndex": 32,
+      "method": "GET",
+      "path": "/modifier-zones/attribute_flat_add",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 536,
+      "responseSha256": "9bb35ed383ee556064304c8243e4dc24bc653f9e8e3a25eb5fff6cef459ff4b2"
+    },
+    {
+      "requestIndex": 33,
+      "method": "GET",
+      "path": "/attributes/magic_resistance",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 284,
+      "responseSha256": "355ded744ed5ac9068ff809e43f5bf3a671488dd834865e78365de8c151cf70d"
+    },
+    {
+      "requestIndex": 34,
+      "method": "GET",
+      "path": "/skills/zaahen_r",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 459,
+      "responseSha256": "67be5f6c14302630a1160afdf2bd7f7cfe03d7a17ab68d7d26b976c5ee811182"
+    },
+    {
+      "requestIndex": 35,
+      "method": "GET",
+      "path": "/characters/champion_zaahen",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 365,
+      "responseSha256": "56ca6bb1da0f82aec1920af1afd91fc30ffb8a519f25e28de002879dc9b5b92a"
+    },
+    {
+      "requestIndex": 36,
+      "method": "GET",
+      "path": "/characters/champion_zaahen/attributes",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 3554,
+      "responseSha256": "543b8dcfa198c7069da8a7f24ccf19b168c6a4790d920b45985a5f27ea6a250a"
+    },
+    {
+      "requestIndex": 37,
+      "method": "GET",
+      "path": "/characters/champion_zaahen/representative-image",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 92,
+      "responseSha256": "aaef03493fbeee1f3cbea518349aa4c1d3cc479d3ee8f69c89fce4f5b5483bd9"
+    },
+    {
+      "requestIndex": 38,
+      "method": "GET",
+      "path": "/skills/zaahen_r/representative-image",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 78,
+      "responseSha256": "c867920370bb0b0b4b4c7887276061a0c05af4271fcc97d547f0e839057ea8a9"
+    },
+    {
+      "requestIndex": 39,
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_zaahen",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 865,
+      "responseSha256": "7fff67ecc5ad40dc4941a597e39dcdecf926a634cbe8bacaf18c646d0cbad891"
+    },
+    {
+      "requestIndex": 40,
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=zaahen_r",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 185,
+      "responseSha256": "43d5c7fe400deebdf907435179e9e7d2e0b04d4152db0489bcf29422f2fda50d"
+    },
+    {
+      "requestIndex": 41,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 4619,
+      "responseSha256": "3a1f20007a866bef0b431a0bb12b75fb81c56c58918f6be3c1fbf93ddddd2988"
+    },
+    {
+      "requestIndex": 42,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/end_damage_base",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 353,
+      "responseSha256": "c90f4222456eb3431d4e4458ff32a1b1c07a65c884e14791d61bef63964c9c7f"
+    },
+    {
+      "requestIndex": 43,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/bonus_ad_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 345,
+      "responseSha256": "2d121d21b503ed52185b160bd6b63c1918fdbd10316f190d0420d6b8ce906a5c"
+    },
+    {
+      "requestIndex": 44,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/actual_damage_heal_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 385,
+      "responseSha256": "5311f2b6db2545bf5213303671dd909effe12f76bb6bee1392a8f14a25005147"
+    },
+    {
+      "requestIndex": 45,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/armor_penetration_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 398,
+      "responseSha256": "4c695eeeab6e77c714a524367c0bcdef245ecbde130313d7df88cccda17cdbd7"
+    },
+    {
+      "requestIndex": 46,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/damage_reduction_ratio",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 336,
+      "responseSha256": "4708d1e05114f3952a41501e0ae412f4bbd1c35ee372348e18d68ef510e4fdc6"
+    },
+    {
+      "requestIndex": 47,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/dash_max_distance",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 319,
+      "responseSha256": "c751344bd3d1c95aa4193309ffcab2d87c7a4e0662ca0d50dbd928d5da00422e"
+    },
+    {
+      "requestIndex": 48,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/dash_speed",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 302,
+      "responseSha256": "0b109bb9350550a609363b5280b21b53d88f64b62a413cfaf7dd89b69de65908"
+    },
+    {
+      "requestIndex": 49,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/aoe_size",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 290,
+      "responseSha256": "59ff2bc358076ec08bf6798f34a203342c35e86900764a5b5d6254f8d5a594b2"
+    },
+    {
+      "requestIndex": 50,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/actual_eligible_damage",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 427,
+      "responseSha256": "81c686bec72609da27f3daafa48ef78b23d72fb86f6c0758a4f4441c068b6f27"
+    },
+    {
+      "requestIndex": 51,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/cooldown_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 566,
+      "responseSha256": "62f172b6435e0c56ec9e0afdf636ead68edc245f59e5649708140114b1a22436"
+    },
+    {
+      "requestIndex": 52,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/m_cast_time_ms",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 351,
+      "responseSha256": "ab1ccbca651230c8640fbb10dc9499511b9cafa10144f246c6b938fa1940f378"
+    },
+    {
+      "requestIndex": 53,
+      "method": "GET",
+      "path": "/skills/zaahen_r/parameters/mana_cost",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 534,
+      "responseSha256": "ba0e2fb49f53f0bebd82d8dd0023584763d8abf51579f012a03060b5e1452d44"
+    },
+    {
+      "requestIndex": 54,
+      "method": "GET",
+      "path": "/skills/zaahen_r/formulas",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 608,
+      "responseSha256": "c8481f567f3554b4a92f3c110371378e1664ccffbe67bdef1ad57004e39f6c29"
+    },
+    {
+      "requestIndex": 55,
+      "method": "GET",
+      "path": "/skills/zaahen_r/formulas/end_physical_damage",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 620,
+      "responseSha256": "9c32c8d4d5bc15b4b46f796e42c3a9ed9fef832278b5da98040a2d21451786b3"
+    },
+    {
+      "requestIndex": 56,
+      "method": "GET",
+      "path": "/skills/zaahen_r/formulas/self_healing_from_actual_damage",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 547,
+      "responseSha256": "a22a0cbd9f1508263eb95a448163b60a423f6153ea536e1eac105988c2e44fea"
+    },
+    {
+      "requestIndex": 57,
+      "method": "GET",
+      "path": "/skills/zaahen_r/effects",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 480,
+      "responseSha256": "bdbb4b16bf5d2c2237e8a86ae1b932058a8b568b6561d697071c32a13c03a506"
+    },
+    {
+      "requestIndex": 58,
+      "method": "GET",
+      "path": "/skills/zaahen_r/effects/armor_penetration",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 1482,
+      "responseSha256": "2bd9bbf7426f4757c10e819090c1c88fb6365f40bc0dc03ad69c25c02e77f246"
+    },
+    {
+      "requestIndex": 59,
+      "method": "GET",
+      "path": "/skills/zaahen_r/processes",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 2,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "requestIndex": 60,
+      "method": "GET",
+      "path": "/skills/zaahen_r/internal-states",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 2,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "requestIndex": 61,
+      "method": "GET",
+      "path": "/skills/zaahen_r/trigger-rules",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 616,
+      "responseSha256": "5d64ead8d502ec86a4b5770d5e05f81d728c232466124f12d7ef4fd5e7d2eb8e"
+    },
+    {
+      "requestIndex": 62,
+      "method": "GET",
+      "path": "/skills/zaahen_r/trigger-rules/initialize_armor_penetration",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 825,
+      "responseSha256": "ea5efb247342998ca8899c4d2ce00be111cb04f58f15358d7795c0e169f01094"
+    },
+    {
+      "requestIndex": 63,
+      "method": "GET",
+      "path": "/attributes/armor_pen_percent",
+      "status": 200,
+      "contentType": "application/json",
+      "ok": true,
+      "rawBodyLength": 271,
+      "responseSha256": "c9a1a9fae42208a35413806b928db51f29a6fcb39bac0259ce4e20c2a88e4042"
+    }
+  ],
+  "failures": [],
+  "detailEvidence": [
+    {
+      "path": "/skills/olaf_r/effects/passive_armor",
+      "effectKey": "passive_armor",
+      "pass": true,
+      "expectedReadbackAllOtherFieldsEqual": true,
+      "updatedAtValid": true,
+      "updatedAtMatches05Immediate": true
+    },
+    {
+      "path": "/skills/olaf_r/effects/passive_magic_resistance",
+      "effectKey": "passive_magic_resistance",
+      "pass": true,
+      "expectedReadbackAllOtherFieldsEqual": true,
+      "updatedAtValid": true,
+      "updatedAtMatches05Immediate": true
+    },
+    {
+      "path": "/skills/zaahen_r/effects/armor_penetration",
+      "effectKey": "armor_penetration",
+      "pass": true,
+      "expectedReadbackAllOtherFieldsEqual": true,
+      "updatedAtValid": true,
+      "updatedAtMatches05Immediate": true
+    }
+  ],
+  "collectionEvidence": [
+    {
+      "path": "/skills/olaf_r/effects",
+      "targetEffectKeys": [
+        "passive_armor",
+        "passive_magic_resistance"
+      ],
+      "listRows": 3,
+      "pass": true,
+      "nonTargetRowsUnchanged": true
+    },
+    {
+      "path": "/skills/zaahen_r/effects",
+      "targetEffectKeys": [
+        "armor_penetration"
+      ],
+      "listRows": 1,
+      "pass": true,
+      "nonTargetRowsUnchanged": true
+    }
+  ],
+  "unchangedPaths": [
+    "/skills/olaf_r",
+    "/characters/champion_olaf",
+    "/characters/champion_olaf/attributes",
+    "/characters/champion_olaf/representative-image",
+    "/skills/olaf_r/representative-image",
+    "/character-skill-relations?characterKey=champion_olaf",
+    "/character-skill-relations?skillKey=olaf_r",
+    "/skills/olaf_r/parameters",
+    "/skills/olaf_r/parameters/passive_resist",
+    "/skills/olaf_r/parameters/base_attack_damage",
+    "/skills/olaf_r/parameters/total_ad_ratio",
+    "/skills/olaf_r/parameters/active_duration_ms",
+    "/skills/olaf_r/parameters/champion_hit_extension_ms",
+    "/skills/olaf_r/parameters/move_speed_ratio",
+    "/skills/olaf_r/parameters/move_speed_duration_ms",
+    "/skills/olaf_r/parameters/cooldown_ms",
+    "/skills/olaf_r/parameters/mana_cost",
+    "/skills/olaf_r/formulas",
+    "/skills/olaf_r/formulas/active_attack_damage",
+    "/skills/olaf_r/effects/mana_cost",
+    "/skills/olaf_r/processes",
+    "/skills/olaf_r/processes/cast",
+    "/skills/olaf_r/internal-states",
+    "/skills/olaf_r/trigger-rules",
+    "/skills/olaf_r/trigger-rules/initialize_passive_resists",
+    "/attributes/attack_damage",
+    "/attributes/mana",
+    "/attributes/armor",
+    "/modifier-zones/attribute_flat_add",
+    "/attributes/magic_resistance",
+    "/skills/zaahen_r",
+    "/characters/champion_zaahen",
+    "/characters/champion_zaahen/attributes",
+    "/characters/champion_zaahen/representative-image",
+    "/skills/zaahen_r/representative-image",
+    "/character-skill-relations?characterKey=champion_zaahen",
+    "/character-skill-relations?skillKey=zaahen_r",
+    "/skills/zaahen_r/parameters",
+    "/skills/zaahen_r/parameters/end_damage_base",
+    "/skills/zaahen_r/parameters/bonus_ad_ratio",
+    "/skills/zaahen_r/parameters/actual_damage_heal_ratio",
+    "/skills/zaahen_r/parameters/armor_penetration_ratio",
+    "/skills/zaahen_r/parameters/damage_reduction_ratio",
+    "/skills/zaahen_r/parameters/dash_max_distance",
+    "/skills/zaahen_r/parameters/dash_speed",
+    "/skills/zaahen_r/parameters/aoe_size",
+    "/skills/zaahen_r/parameters/actual_eligible_damage",
+    "/skills/zaahen_r/parameters/cooldown_ms",
+    "/skills/zaahen_r/parameters/m_cast_time_ms",
+    "/skills/zaahen_r/parameters/mana_cost",
+    "/skills/zaahen_r/formulas",
+    "/skills/zaahen_r/formulas/end_physical_damage",
+    "/skills/zaahen_r/formulas/self_healing_from_actual_damage",
+    "/skills/zaahen_r/processes",
+    "/skills/zaahen_r/internal-states",
+    "/skills/zaahen_r/trigger-rules",
+    "/skills/zaahen_r/trigger-rules/initialize_armor_penetration",
+    "/attributes/armor_pen_percent"
+  ]
+}

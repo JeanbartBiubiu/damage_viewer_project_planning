@@ -1,0 +1,1990 @@
+{
+  "at": "2026-09-21T05:25:19.577Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/lissandra_w": {
+      "createdAt": "2026-09-06T18:19:12.755851Z",
+      "description": "将周围的敌人冻在原地，造成魔法伤害和束缚效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "丽桑卓·冰霜之环",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "lissandra_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:12.755851Z"
+    },
+    "/characters/champion_lissandra": {
+      "characterKey": "champion_lissandra",
+      "createdAt": "2026-09-06T17:21:20.505939Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "丽桑卓",
+      "updatedAt": "2026-09-06T17:21:20.505939Z"
+    },
+    "/characters/champion_lissandra/attributes": {
+      "characterKey": "champion_lissandra",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 620,
+          "hp_regen": 7,
+          "mana": 475,
+          "mana_regen": 8,
+          "armor": 22,
+          "magic_resistance": 30,
+          "attack_damage": 55,
+          "attack_speed": 0.656,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 699.2,
+          "hp_regen": 7.396,
+          "mana": 496.6,
+          "mana_regen": 8.288,
+          "armor": 25.024,
+          "magic_resistance": 30.936,
+          "attack_damage": 56.944,
+          "attack_speed": 0.66275,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 782.25,
+          "hp_regen": 7.81125,
+          "mana": 519.25,
+          "mana_regen": 8.59,
+          "armor": 28.195,
+          "magic_resistance": 31.9175,
+          "attack_damage": 58.9825,
+          "attack_speed": 0.669828,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 869.15,
+          "hp_regen": 8.24575,
+          "mana": 542.95,
+          "mana_regen": 8.906,
+          "armor": 31.513,
+          "magic_resistance": 32.9445,
+          "attack_damage": 61.1155,
+          "attack_speed": 0.677234,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 959.9,
+          "hp_regen": 8.6995,
+          "mana": 567.7,
+          "mana_regen": 9.236,
+          "armor": 34.978,
+          "magic_resistance": 34.017,
+          "attack_damage": 63.343,
+          "attack_speed": 0.684969,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 1054.5,
+          "hp_regen": 9.1725,
+          "mana": 593.5,
+          "mana_regen": 9.58,
+          "armor": 38.59,
+          "magic_resistance": 35.135,
+          "attack_damage": 65.665,
+          "attack_speed": 0.693031,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 1152.95,
+          "hp_regen": 9.66475,
+          "mana": 620.35,
+          "mana_regen": 9.938,
+          "armor": 42.349,
+          "magic_resistance": 36.2985,
+          "attack_damage": 68.0815,
+          "attack_speed": 0.701422,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1255.25,
+          "hp_regen": 10.17625,
+          "mana": 648.25,
+          "mana_regen": 10.31,
+          "armor": 46.255,
+          "magic_resistance": 37.5075,
+          "attack_damage": 70.5925,
+          "attack_speed": 0.710141,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1361.4,
+          "hp_regen": 10.707,
+          "mana": 677.2,
+          "mana_regen": 10.696,
+          "armor": 50.308,
+          "magic_resistance": 38.762,
+          "attack_damage": 73.198,
+          "attack_speed": 0.719187,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1471.4,
+          "hp_regen": 11.257,
+          "mana": 707.2,
+          "mana_regen": 11.096,
+          "armor": 54.508,
+          "magic_resistance": 40.062,
+          "attack_damage": 75.898,
+          "attack_speed": 0.728563,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1585.25,
+          "hp_regen": 11.82625,
+          "mana": 738.25,
+          "mana_regen": 11.51,
+          "armor": 58.855,
+          "magic_resistance": 41.4075,
+          "attack_damage": 78.6925,
+          "attack_speed": 0.738266,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1702.95,
+          "hp_regen": 12.41475,
+          "mana": 770.35,
+          "mana_regen": 11.938,
+          "armor": 63.349,
+          "magic_resistance": 42.7985,
+          "attack_damage": 81.5815,
+          "attack_speed": 0.748297,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1824.5,
+          "hp_regen": 13.0225,
+          "mana": 803.5,
+          "mana_regen": 12.38,
+          "armor": 67.99,
+          "magic_resistance": 44.235,
+          "attack_damage": 84.565,
+          "attack_speed": 0.758656,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1949.9,
+          "hp_regen": 13.6495,
+          "mana": 837.7,
+          "mana_regen": 12.836,
+          "armor": 72.778,
+          "magic_resistance": 45.717,
+          "attack_damage": 87.643,
+          "attack_speed": 0.769344,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 2079.15,
+          "hp_regen": 14.29575,
+          "mana": 872.95,
+          "mana_regen": 13.306,
+          "armor": 77.713,
+          "magic_resistance": 47.2445,
+          "attack_damage": 90.8155,
+          "attack_speed": 0.780359,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 2212.25,
+          "hp_regen": 14.96125,
+          "mana": 909.25,
+          "mana_regen": 13.79,
+          "armor": 82.795,
+          "magic_resistance": 48.8175,
+          "attack_damage": 94.0825,
+          "attack_speed": 0.791703,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 2349.2,
+          "hp_regen": 15.646,
+          "mana": 946.6,
+          "mana_regen": 14.288,
+          "armor": 88.024,
+          "magic_resistance": 50.436,
+          "attack_damage": 97.444,
+          "attack_speed": 0.803375,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2490,
+          "hp_regen": 16.35,
+          "mana": 985,
+          "mana_regen": 14.8,
+          "armor": 93.4,
+          "magic_resistance": 52.1,
+          "attack_damage": 100.9,
+          "attack_speed": 0.815375,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_lissandra/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_lissandra",
+        "name": "champion_lissandra"
+      }
+    },
+    "/skills/lissandra_w/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_lissandra_w",
+        "name": "lissandra_w"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_lissandra": {
+      "items": [
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_p",
+          "skillName": "丽桑卓·冰脉驱役",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_q",
+          "skillName": "丽桑卓·寒冰碎片",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_w",
+          "skillName": "丽桑卓·冰霜之环",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_e",
+          "skillName": "丽桑卓·冰川之径",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_r",
+          "skillName": "丽桑卓·冰封陵墓",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=lissandra_w": {
+      "items": [
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "lissandra_w",
+          "skillName": "丽桑卓·冰霜之环",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        }
+      ],
+      "total": 1
+    },
+    "/skills/lissandra_w/parameters": [
+      {
+        "createdAt": "2026-09-09T10:36:33.074555Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "lissandra_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T10:36:33.074555Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:34.068488Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "冰霜之环基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lissandra_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-21T05:22:35.226572Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:35.119537Z",
+        "description": "官方16.17.1 W的effect[2]明确为1.25/1.35/1.45/1.55/1.65秒，与客户端16.17当前根SnareDuration索引1至5的单精度值一致；按官方精度换算为整数毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1250,
+          "2": 1350,
+          "3": 1450,
+          "4": 1550,
+          "5": 1650
+        },
+        "name": "禁锢持续（毫秒）",
+        "parameterKey": "snare_duration_ms",
+        "skillKey": "lissandra_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-21T05:22:33.651268Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T10:36:36.122585Z",
+        "description": "TotalDamage树直接给出0.7。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio_constant",
+        "skillKey": "lissandra_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T10:36:36.122585Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:48.652975Z",
+        "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "lissandra_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:48.652975Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:48.964763Z",
+        "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "lissandra_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T02:21:25.413748Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/lissandra_w/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T10:36:33.074555Z",
+      "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "lissandra_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T10:36:33.074555Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/parameters/base_damage": {
+      "createdAt": "2026-09-09T10:36:34.068488Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 105,
+        "3": 140,
+        "4": 175,
+        "5": 210
+      },
+      "name": "冰霜之环基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "lissandra_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-21T05:22:35.226572Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/parameters/snare_duration_ms": {
+      "createdAt": "2026-09-09T10:36:35.119537Z",
+      "description": "官方16.17.1 W的effect[2]明确为1.25/1.35/1.45/1.55/1.65秒，与客户端16.17当前根SnareDuration索引1至5的单精度值一致；按官方精度换算为整数毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1250,
+        "2": 1350,
+        "3": 1450,
+        "4": 1550,
+        "5": 1650
+      },
+      "name": "禁锢持续（毫秒）",
+      "parameterKey": "snare_duration_ms",
+      "skillKey": "lissandra_w",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-21T05:22:33.651268Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/parameters/ap_ratio_constant": {
+      "createdAt": "2026-09-09T10:36:36.122585Z",
+      "description": "TotalDamage树直接给出0.7。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio_constant",
+      "skillKey": "lissandra_w",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T10:36:36.122585Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/lissandra_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:48.652975Z",
+      "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10000,
+        "2": 9500,
+        "3": 9000,
+        "4": 8500,
+        "5": 8000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "lissandra_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:48.652975Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:48.964763Z",
+      "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 40,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "lissandra_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-19T02:21:25.413748Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/lissandra_w/formulas": [
+      {
+        "createdAt": "2026-09-09T10:36:37.272625Z",
+        "description": "TotalDamage = BaseDamage + 0.7×法强。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "冰脉驱役魔法伤害",
+        "skillKey": "lissandra_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T10:36:37.272625Z"
+      }
+    ],
+    "/skills/lissandra_w/formulas/damage": {
+      "createdAt": "2026-09-09T10:36:37.272625Z",
+      "description": "TotalDamage = BaseDamage + 0.7×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio_constant"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "冰脉驱役魔法伤害",
+      "skillKey": "lissandra_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T10:36:37.272625Z"
+    },
+    "/skills/lissandra_w/effects": [
+      {
+        "createdAt": "2026-09-09T10:36:38.399957Z",
+        "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "lissandra_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:21:26.684445Z"
+      },
+      {
+        "createdAt": "2026-09-19T02:00:48.189279Z",
+        "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "丽桑卓·冰霜之环命中伤害",
+        "resultCount": 1,
+        "skillKey": "lissandra_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:00:48.189279Z"
+      }
+    ],
+    "/skills/lissandra_w/effects/mana_cost": {
+      "createdAt": "2026-09-09T10:36:38.399957Z",
+      "description": "本技能普通主动使用时消耗对应技能等级的法力；具体使用时点由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-19T02:21:26.684445Z"
+    },
+    "/skills/lissandra_w/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:00:48.189279Z",
+      "description": "本轮1V1实际命中敌方英雄的一次普通直接魔法技能伤害；仅引用已有伤害公式，不连接控制、位移或其他独立分支。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "丽桑卓·冰霜之环命中伤害",
+      "results": [
+        {
+          "description": "引用当前技能的 damage 公式；基础数值和法强加成保持现有配置。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "lissandra_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:00:48.189279Z"
+    },
+    "/skills/lissandra_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T02:11:34.990965Z",
+        "description": "登记本次普通主动使用的基础法力消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "丽桑卓·冰霜之环施法登记",
+        "processKey": "cast",
+        "skillKey": "lissandra_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T02:11:34.990965Z"
+      }
+    ],
+    "/skills/lissandra_w/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T02:11:34.990965Z",
+      "description": "登记本次普通主动使用的基础法力消耗、施法延迟和普通冷却；伤害由独立实际命中规则处理，控制和其他联动另行配置。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "丽桑卓·冰霜之环施法登记",
+      "processKey": "cast",
+      "skillKey": "lissandra_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T02:11:34.990965Z"
+    },
+    "/skills/lissandra_w/internal-states": [],
+    "/skills/lissandra_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 lissandra_w 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "丽桑卓·冰霜之环实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:00:49.498082Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用lissandra_w时启动cast过程，按既有参数登记法力、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "丽桑卓·冰霜之环普通使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:11:36.32498Z"
+      }
+    ],
+    "/skills/lissandra_w/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行丽桑卓·冰霜之环伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 lissandra_w 实际命中事件，对事件中的英雄目标执行primary_hit；不从技能使用或过程结束产生命中。目标类别只筛本轮范围，不产生目标资格。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·冰霜之环实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/lissandra_w/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动丽桑卓·冰霜之环施法登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用lissandra_w时启动cast过程，按既有参数登记法力、基础冷却和施法延迟。实际命中、控制、返还及其他联动不由此入口生成。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "lissandra_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "丽桑卓·冰霜之环普通使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    },
+    "/skills/neeko_e": {
+      "createdAt": "2026-09-06T18:19:37.686699Z",
+      "description": "妮蔻投出一团倒刺，对它沿途的所有东西造成伤害和禁锢效果。如果倒刺击杀了一个敌人或穿过了一名英雄，就会变得更大、更快并且禁锢时间更长。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "妮蔻·缠结倒刺",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "neeko_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:37.686699Z"
+    },
+    "/characters/champion_neeko": {
+      "characterKey": "champion_neeko",
+      "createdAt": "2026-09-06T17:16:24.11477Z",
+      "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。",
+      "gameId": "lol",
+      "name": "妮蔻",
+      "updatedAt": "2026-09-06T17:16:24.11477Z"
+    },
+    "/characters/champion_neeko/attributes": {
+      "characterKey": "champion_neeko",
+      "levelValues": {
+        "1": {
+          "move_speed": 340,
+          "hp": 610,
+          "hp_regen": 7.5,
+          "mana": 450,
+          "mana_regen": 7,
+          "armor": 21,
+          "magic_resistance": 30,
+          "attack_damage": 48,
+          "attack_speed": 0.625,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 340,
+          "hp": 684.88,
+          "hp_regen": 8.04,
+          "mana": 471.6,
+          "mana_regen": 7.504,
+          "armor": 24.744,
+          "magic_resistance": 30.936,
+          "attack_damage": 49.8,
+          "attack_speed": 0.641884,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 340,
+          "hp": 763.4,
+          "hp_regen": 8.60625,
+          "mana": 494.25,
+          "mana_regen": 8.0325,
+          "armor": 28.67,
+          "magic_resistance": 31.9175,
+          "attack_damage": 51.6875,
+          "attack_speed": 0.659589,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 340,
+          "hp": 845.56,
+          "hp_regen": 9.19875,
+          "mana": 517.95,
+          "mana_regen": 8.5855,
+          "armor": 32.778,
+          "magic_resistance": 32.9445,
+          "attack_damage": 53.6625,
+          "attack_speed": 0.678114,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 340,
+          "hp": 931.36,
+          "hp_regen": 9.8175,
+          "mana": 542.7,
+          "mana_regen": 9.163,
+          "armor": 37.068,
+          "magic_resistance": 34.017,
+          "attack_damage": 55.725,
+          "attack_speed": 0.697461,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 340,
+          "hp": 1020.8,
+          "hp_regen": 10.4625,
+          "mana": 568.5,
+          "mana_regen": 9.765,
+          "armor": 41.54,
+          "magic_resistance": 35.135,
+          "attack_damage": 57.875,
+          "attack_speed": 0.717627,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 340,
+          "hp": 1113.88,
+          "hp_regen": 11.13375,
+          "mana": 595.35,
+          "mana_regen": 10.3915,
+          "armor": 46.194,
+          "magic_resistance": 36.2985,
+          "attack_damage": 60.1125,
+          "attack_speed": 0.738615,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 340,
+          "hp": 1210.6,
+          "hp_regen": 11.83125,
+          "mana": 623.25,
+          "mana_regen": 11.0425,
+          "armor": 51.03,
+          "magic_resistance": 37.5075,
+          "attack_damage": 62.4375,
+          "attack_speed": 0.760424,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 340,
+          "hp": 1310.96,
+          "hp_regen": 12.555,
+          "mana": 652.2,
+          "mana_regen": 11.718,
+          "armor": 56.048,
+          "magic_resistance": 38.762,
+          "attack_damage": 64.85,
+          "attack_speed": 0.783053,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 340,
+          "hp": 1414.96,
+          "hp_regen": 13.305,
+          "mana": 682.2,
+          "mana_regen": 12.418,
+          "armor": 61.248,
+          "magic_resistance": 40.062,
+          "attack_damage": 67.35,
+          "attack_speed": 0.806503,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 340,
+          "hp": 1522.6,
+          "hp_regen": 14.08125,
+          "mana": 713.25,
+          "mana_regen": 13.1425,
+          "armor": 66.63,
+          "magic_resistance": 41.4075,
+          "attack_damage": 69.9375,
+          "attack_speed": 0.830774,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 340,
+          "hp": 1633.88,
+          "hp_regen": 14.88375,
+          "mana": 745.35,
+          "mana_regen": 13.8915,
+          "armor": 72.194,
+          "magic_resistance": 42.7985,
+          "attack_damage": 72.6125,
+          "attack_speed": 0.855865,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 340,
+          "hp": 1748.8,
+          "hp_regen": 15.7125,
+          "mana": 778.5,
+          "mana_regen": 14.665,
+          "armor": 77.94,
+          "magic_resistance": 44.235,
+          "attack_damage": 75.375,
+          "attack_speed": 0.881778,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 340,
+          "hp": 1867.36,
+          "hp_regen": 16.5675,
+          "mana": 812.7,
+          "mana_regen": 15.463,
+          "armor": 83.868,
+          "magic_resistance": 45.717,
+          "attack_damage": 78.225,
+          "attack_speed": 0.90851,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 340,
+          "hp": 1989.56,
+          "hp_regen": 17.44875,
+          "mana": 847.95,
+          "mana_regen": 16.2855,
+          "armor": 89.978,
+          "magic_resistance": 47.2445,
+          "attack_damage": 81.1625,
+          "attack_speed": 0.936064,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 340,
+          "hp": 2115.4,
+          "hp_regen": 18.35625,
+          "mana": 884.25,
+          "mana_regen": 17.1325,
+          "armor": 96.27,
+          "magic_resistance": 48.8175,
+          "attack_damage": 84.1875,
+          "attack_speed": 0.964439,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 340,
+          "hp": 2244.88,
+          "hp_regen": 19.29,
+          "mana": 921.6,
+          "mana_regen": 18.004,
+          "armor": 102.744,
+          "magic_resistance": 50.436,
+          "attack_damage": 87.3,
+          "attack_speed": 0.993634,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 340,
+          "hp": 2378,
+          "hp_regen": 20.25,
+          "mana": 960,
+          "mana_regen": 18.9,
+          "armor": 109.4,
+          "magic_resistance": 52.1,
+          "attack_damage": 90.5,
+          "attack_speed": 1.02365,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_neeko/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_neeko",
+        "name": "champion_neeko"
+      }
+    },
+    "/skills/neeko_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_neeko_e",
+        "name": "neeko_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_neeko": {
+      "items": [
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_p",
+          "skillName": "妮蔻·天生幻魅",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_q",
+          "skillName": "妮蔻·盛开花种",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_w",
+          "skillName": "妮蔻·两生花影",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_e",
+          "skillName": "妮蔻·缠结倒刺",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_r",
+          "skillName": "妮蔻·怒放",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=neeko_e": {
+      "items": [
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_e",
+          "skillName": "妮蔻·缠结倒刺",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/neeko_e/parameters": [
+      {
+        "createdAt": "2026-09-10T02:04:49.362356Z",
+        "description": "来源70/105/140/175/210。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "首个目标基础魔法伤害",
+        "parameterKey": "damage_base",
+        "skillKey": "neeko_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:04:49.362356Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:51.124215Z",
+        "description": "当前树系数0.65。",
+        "fixedValue": 0.6499999762,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "neeko_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:04:51.124215Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:52.746604Z",
+        "description": "当前正文首个目标为0.7/0.9/1.1/1.3/1.5秒，转为毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 700,
+          "2": 900,
+          "3": 1100,
+          "4": 1300,
+          "5": 1500
+        },
+        "name": "首个目标禁锢持续（毫秒）",
+        "parameterKey": "min_root_duration_ms",
+        "skillKey": "neeko_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T02:04:52.746604Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:54.397258Z",
+        "description": "根spellCastTime为0.25秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "根施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "neeko_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-10T02:04:54.397258Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:40:51.535042Z",
+        "description": "DDragon16.17.1 Neeko.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "neeko_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:51.535042Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:40:51.965249Z",
+        "description": "DDragon16.17.1 Neeko.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "neeko_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:51.965249Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/neeko_e/parameters/damage_base": {
+      "createdAt": "2026-09-10T02:04:49.362356Z",
+      "description": "来源70/105/140/175/210。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 105,
+        "3": 140,
+        "4": 175,
+        "5": 210
+      },
+      "name": "首个目标基础魔法伤害",
+      "parameterKey": "damage_base",
+      "skillKey": "neeko_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:04:49.362356Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-10T02:04:51.124215Z",
+      "description": "当前树系数0.65。",
+      "fixedValue": 0.6499999762,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "neeko_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T02:04:51.124215Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/neeko_e/parameters/min_root_duration_ms": {
+      "createdAt": "2026-09-10T02:04:52.746604Z",
+      "description": "当前正文首个目标为0.7/0.9/1.1/1.3/1.5秒，转为毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 700,
+        "2": 900,
+        "3": 1100,
+        "4": 1300,
+        "5": 1500
+      },
+      "name": "首个目标禁锢持续（毫秒）",
+      "parameterKey": "min_root_duration_ms",
+      "skillKey": "neeko_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-10T02:04:52.746604Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-10T02:04:54.397258Z",
+      "description": "根spellCastTime为0.25秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "根施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "neeko_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-10T02:04:54.397258Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:40:51.535042Z",
+      "description": "DDragon16.17.1 Neeko.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 12000,
+        "2": 11500,
+        "3": 11000,
+        "4": 10500,
+        "5": 10000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "neeko_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:40:51.535042Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:40:51.965249Z",
+      "description": "DDragon16.17.1 Neeko.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "neeko_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:40:51.965249Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/formulas": [
+      {
+        "createdAt": "2026-09-10T02:04:55.953888Z",
+        "description": "对应BaseDamage；本轮只保留首个目标。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "缠结倒刺本体魔法伤害",
+        "skillKey": "neeko_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:04:55.953888Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:57.463316Z",
+        "description": "首个目标第一次命中使用最小禁锢；强化后续目标需要额外敌人，排除。",
+        "formulaKey": "first_target_root_duration",
+        "gameId": "lol",
+        "name": "缠结倒刺首个目标禁锢",
+        "skillKey": "neeko_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:04:57.463316Z"
+      }
+    ],
+    "/skills/neeko_e/formulas/damage": {
+      "createdAt": "2026-09-10T02:04:55.953888Z",
+      "description": "对应BaseDamage；本轮只保留首个目标。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "缠结倒刺本体魔法伤害",
+      "skillKey": "neeko_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:04:55.953888Z"
+    },
+    "/skills/neeko_e/formulas/first_target_root_duration": {
+      "createdAt": "2026-09-10T02:04:57.463316Z",
+      "description": "首个目标第一次命中使用最小禁锢；强化后续目标需要额外敌人，排除。",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "min_root_duration_ms"
+      },
+      "formulaKey": "first_target_root_duration",
+      "gameId": "lol",
+      "name": "缠结倒刺首个目标禁锢",
+      "skillKey": "neeko_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T02:04:57.463316Z"
+    },
+    "/skills/neeko_e/effects": [
+      {
+        "createdAt": "2026-09-19T03:40:18.95223Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "妮蔻·缠结倒刺本体直接伤害",
+        "resultCount": 1,
+        "skillKey": "neeko_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:40:18.95223Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:59.071785Z",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "neeko_e",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-10T02:04:59.071785Z"
+      }
+    ],
+    "/skills/neeko_e/effects/primary_hit": {
+      "createdAt": "2026-09-19T03:40:18.95223Z",
+      "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "妮蔻·缠结倒刺本体直接伤害",
+      "results": [
+        {
+          "description": "引用同技能damage，保留已有属性口径和等级系数。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "neeko_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T03:40:18.95223Z"
+    },
+    "/skills/neeko_e/effects/mana_cost": {
+      "createdAt": "2026-09-10T02:04:59.071785Z",
+      "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放资源消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "neeko_e",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-10T02:04:59.071785Z"
+    },
+    "/skills/neeko_e/processes": [],
+    "/skills/neeko_e/internal-states": [],
+    "/skills/neeko_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "消费neeko_e根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "妮蔻·缠结倒刺本体实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T03:40:20.336026Z"
+      }
+    ],
+    "/skills/neeko_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行妮蔻·缠结倒刺直接伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "消费neeko_e根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "neeko_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "妮蔻·缠结倒刺本体实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/statuses/root": {
+      "createdAt": "2026-09-19T04:52:01.232803Z",
+      "description": "禁锢状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+      "gameId": "lol",
+      "name": "禁锢",
+      "sortOrder": 20,
+      "status": "ENABLED",
+      "statusKey": "root",
+      "statusKind": "ROOT",
+      "updatedAt": "2026-09-19T04:52:01.232803Z"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/magic": {
+      "createdAt": "2026-08-26T05:59:15.870937Z",
+      "damageTypeKey": "magic",
+      "description": null,
+      "gameId": "lol",
+      "name": "魔法伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:15.870937Z"
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lissandra",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lissandra/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_lissandra/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_lissandra",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=lissandra_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/snare_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/ap_ratio_constant",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_neeko",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_neeko/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_neeko/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_neeko",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=neeko_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/damage_base",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/min_root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/formulas/first_target_root_duration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/root",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/effects/first_hit_root",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/lissandra_w/trigger-rules/apply_root_on_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/processes/cast",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/neeko_e/trigger-rules/on_used",
+      "status": 404
+    }
+  ],
+  "businessWrites": 0
+}

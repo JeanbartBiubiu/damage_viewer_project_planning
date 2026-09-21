@@ -1,0 +1,108 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/lucian_q/effects/beam_hit",
+      "body": {
+        "name": "圣光命中",
+        "description": "本轮实际命中敌方英雄时执行的普通物理技能伤害，已明确保存防御结算后伤害的全能吸血资格，效率为1。伤害数值、暴击和现有法术护盾粒度保持；法术护盾粒度的卢锡安Q专属来源及其他吸血类型仍待核。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "圣光命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-07T17:58:23.669849Z",
+        "description": "本轮实际命中敌方英雄时执行的普通物理技能伤害，已明确保存防御结算后伤害的全能吸血资格，效率为1。伤害数值、暴击和现有法术护盾粒度保持；法术护盾粒度的卢锡安Q专属来源及其他吸血类型仍待核。",
+        "effectKey": "beam_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "圣光命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "vampType": "OMNIVAMP",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "圣光命中",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": "RESULT",
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "lucian_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T17:58:23.669849Z"
+      }
+    }
+  ],
+  "sourceSha256": "fb40101b70ed7a0551dd8076187b6bd823c8f12ed8812f2825647e8286d487b8",
+  "baselineSha256": "fdd230f8b69ac4075c5756e3b382fdbe35e48c4d41b8b107e3f2d25304c80639"
+}

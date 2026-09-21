@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-19",
+  "status": "PARTIAL",
+  "executor": "主负责人，CUA真实页面",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "businessWrites": 0,
+  "checks": {
+    "janna_e": {
+      "status": "PASS",
+      "ruleKey": "on_used_self_shield",
+      "observed": ["正式规则列表只有预期一项", "来源为迦娜E、使用种类主动", "条件明确提示无显式目标不匹配", "动作执行self_shield，当前目标，无动态输入或结果修正", "重新加载页面后规则仍存在"]
+    },
+    "lulu_w": {
+      "status": "PARTIAL",
+      "ruleKey": "on_used_self_buffs",
+      "observed": ["正式规则只有预期一项", "来源为璐璐W、主动、显式自施条件", "移速与攻速动作顺序为10和20", "分别打开两项动作，效果引用和当前目标均正确，无绑定和修正"],
+      "remaining": "在不受键盘输入干扰的页面重新打开核对完整规则。"
+    },
+    "lulu_r": {
+      "status": "NOT_RUN",
+      "remaining": "正式规则及最大生命动作页面核对。"
+    }
+  },
+  "interruption": {
+    "observed": "规则名称框连续出现本次操作之外的文字输入；未点击保存。",
+    "verification": "另一次定点GET返回200，璐璐W正式名称仍为主动自施奇思妙想增益。",
+    "extraGETs": 1,
+    "action": "保留未保存页面，暂停浏览器操作并询问是否与用户键盘操作冲突；其他工作继续。",
+    "cause": "尚未确认，不归因于业务数据或表单实现。"
+  },
+  "boundary": "未完成项如实保留；不把独立HTTP回读替代剩余浏览器验收，未执行战斗运行。"
+}

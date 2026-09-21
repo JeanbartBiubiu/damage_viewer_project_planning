@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-21T03:23:34.647Z",
+  "status": "PASS",
+  "command": "node --test tools/authoring/update-reviewed-damage-vamp-v2.test.mjs",
+  "tests": 5,
+  "failures": 0,
+  "network": "全量fetch替换，业务请求0",
+  "coverage": [
+    "魔法和物理两类仅补全能吸血与说明，其他字段完整保持",
+    "缺范围、额外直接规则、过程挂接拒绝",
+    "类型与计划不符、来源散列变化拒绝",
+    "响应损坏实际状态先保存且禁止重放"
+  ],
+  "oldToolSha256": "181c182b32fbfc0b28ba91cab5aea9b4c86bdedf0d184d56e519a9db4b5c830a",
+  "newToolSha256": "c9d393c50673c49c5903ef0f77f84b537bfc52094d527be855a9e183e9fe8cfe"
+}

@@ -1,0 +1,268 @@
+{
+  "status": "PASS",
+  "executor": "主负责人/Cursor独立GET回读",
+  "startedAt": "2026-09-18T16:09:01.798Z",
+  "completedAt": "2026-09-18T16:09:02.682Z",
+  "localNow": "Sat Sep 19 2026 00:09:02 GMT+0800 (中国标准时间)",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "businessWrites": 0,
+  "fileWrites": 0,
+  "GETs": 22,
+  "protectedObjectsUnchangedIncludingTimestamps": 20,
+  "checks": {
+    "allHTTPResponses200": true,
+    "oldResponsesUnchangedIncludingTimestamps": true,
+    "ruleListCount": 1,
+    "ruleListExpectedKeyOnly": true,
+    "ruleListIsSummaryNotDetailShape": true,
+    "actionCount": 1,
+    "conditionGroupCount": 1,
+    "eventType": "SKILL_USED",
+    "perTargetCooldownEnabled": false,
+    "maxTriggersPerProcessEnabled": false,
+    "ruleDetailEqualsFrozenBodyAfterOptionalMetaStrip": true,
+    "uniqueConditionExplicitTargetIsSourceEmptyDetail": true,
+    "uniqueActionExecuteEffectCurrentTargetMagicShield": true,
+    "allSixComponentStableKeysUnique": true,
+    "effectFormulaParameterRefsPresentAndConsistentWithOld": true
+  },
+  "componentCounts": {
+    "parameters": {
+      "before": 5,
+      "after": 5,
+      "stableKeysUnique": true
+    },
+    "formulas": {
+      "before": 1,
+      "after": 1,
+      "stableKeysUnique": true
+    },
+    "effects": {
+      "before": 2,
+      "after": 2,
+      "stableKeysUnique": true
+    },
+    "processes": {
+      "before": 0,
+      "after": 0,
+      "stableKeysUnique": true
+    },
+    "internal-states": {
+      "before": 0,
+      "after": 0,
+      "stableKeysUnique": true
+    },
+    "trigger-rules": {
+      "before": 0,
+      "after": 1,
+      "stableKeysUnique": true
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana/attributes",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_morgana",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=morgana_e",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_morgana/representative-image",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/representative-image",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/base_shield",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/shield_duration_ms",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/shield_ap_ratio",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/cooldown_ms",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/parameters/mana_cost",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/formulas",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/formulas/magic_shield_value",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects/mana_cost",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/effects/magic_shield",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/processes",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/internal-states",
+      "status": 200,
+      "check": "UNCHANGED_INCLUDING_TIMESTAMPS"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/trigger-rules",
+      "status": 200,
+      "check": "ONLY_EXPECTED_RULE_ADDED"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/morgana_e/trigger-rules/on_used_self_shield",
+      "status": 200,
+      "check": "MATCHES_FROZEN_REQUEST"
+    }
+  ],
+  "ruleList": [
+    {
+      "actionCount": 1,
+      "conditionGroupCount": 1,
+      "description": "莫甘娜E主动使用且回退前的显式目标为来源对象时，执行已有自身护盾。无显式目标不匹配；仅录魔法伤害吸收，控制免疫、队友、资源及冷却不在本条规则内。",
+      "eventType": "SKILL_USED",
+      "maxTriggersPerProcessEnabled": false,
+      "name": "主动自施黑暗护盾",
+      "perTargetCooldownEnabled": false,
+      "ruleKey": "on_used_self_shield",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T16:04:35.084283Z"
+    }
+  ],
+  "newRule": {
+    "actions": [
+      {
+        "actionKey": "apply_self_shield",
+        "actionType": "EXECUTE_EFFECT",
+        "detail": {
+          "effectKey": "magic_shield"
+        },
+        "name": "执行黑暗自护盾",
+        "resultModifiers": [],
+        "runtimeInputBindings": [],
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET"
+      }
+    ],
+    "conditionGroups": [
+      {
+        "conditions": [
+          {
+            "conditionKey": "explicit_self",
+            "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+            "detail": {},
+            "sortOrder": 10
+          }
+        ],
+        "groupKey": "self_cast",
+        "name": "明确对自身施放",
+        "sortOrder": 10
+      }
+    ],
+    "description": "莫甘娜E主动使用且回退前的显式目标为来源对象时，执行已有自身护盾。无显式目标不匹配；仅录魔法伤害吸收，控制免疫、队友、资源及冷却不在本条规则内。",
+    "eventSource": {
+      "detail": {
+        "sourceSkillKey": "morgana_e",
+        "useKind": "ACTIVE"
+      },
+      "eventType": "SKILL_USED"
+    },
+    "maxTriggersPerProcess": null,
+    "name": "主动自施黑暗护盾",
+    "perTargetCooldown": null,
+    "ruleKey": "on_used_self_shield",
+    "sortOrder": 10
+  },
+  "referencedKeys": {
+    "effectKeys": [
+      "magic_shield"
+    ],
+    "formulaKeys": [
+      "magic_shield_value"
+    ],
+    "parameterKeys": [
+      "shield_duration_ms",
+      "base_shield",
+      "shield_ap_ratio"
+    ]
+  },
+  "mismatches": [],
+  "boundary": "纯GET证明管理配置已持久化且受保护对象未变化；浏览器另验页面回显，不证明宿主或战斗运行。"
+}

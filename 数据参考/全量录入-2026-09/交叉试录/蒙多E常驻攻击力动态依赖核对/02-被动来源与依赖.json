@@ -1,0 +1,131 @@
+{
+  "at": "2026-09-20T11:32:01.002Z",
+  "status": "PASS_FOR_LEARNED_PASSIVE_BRANCH",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "scope": "已学E等级1至5的常驻自身攻击力分支；主动攻击和费用等原开放分支保留",
+  "sources": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/DrMundo.json.gz",
+      "sha256": "2cb1ceb70e889b28545546926e7f76afe0844d7606c01b616cb815aa947a91f0"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/DrMundo.json",
+      "sha256": "e7d38d995841cf424c81a225d88446e2a69054405f464bb2bf55e8736824b34b"
+    }
+  ],
+  "binding": {
+    "characterRoot": "Characters/DrMundo/CharacterRecords/Root",
+    "spellsIndex": 2,
+    "ability": "Characters/DrMundo/Spells/DrMundoEAbility",
+    "abilityRootSpell": "Characters/DrMundo/Spells/DrMundoEAbility/DrMundoE"
+  },
+  "official": {
+    "description": "被动 - 蒙多医生获得额外攻击力，数额会基于他的最大生命值而提升。<br><br>主动 - 蒙多医生用他的“医用”手提包猛砸一个敌人，造成基于他已损失生命值的额外伤害。如果这个敌人被击杀，那么还会被拍飞，对途经的所有敌人造成伤害。",
+    "tooltip": "<spellPassive>被动：</spellPassive>蒙多医生获得<physicalDamage>{{ passivebonusad }}攻击力</physicalDamage>。<br /><br /><spellActive>主动：</spellActive>蒙多医生粗暴地挥舞他的“医用”手提包，使他的下次攻击造成额外的<physicalDamage>{{ additionaldamage }}物理伤害</physicalDamage>，基于他的已损失生命值至多提升至{{ maxdamageamptooltip }}。如果击杀了目标敌人，蒙多还会将其拍飞，对其途经的所有敌人造成<physicalDamage>{{ additionaldamage }}物理伤害</physicalDamage>。{{ spellmodifierdescriptionappend }}"
+  },
+  "clientCalculation": {
+    "path": "Characters/DrMundo/Spells/DrMundoEAbility/DrMundoE.mSpell.mSpellCalculations.PassiveBonusAD",
+    "calculation": {
+      "mMultiplier": {
+        "mNumber": 0.009999999776482582,
+        "__type": "NumberCalculationPart"
+      },
+      "mFormulaParts": [
+        {
+          "mStat": 12,
+          "mDataValue": "HealthToADRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "ratioData": {
+      "name": "HealthToADRatio",
+      "values": [
+        1.7000000476837158,
+        2,
+        2.299999952316284,
+        2.5999999046325684,
+        2.9000000953674316,
+        3.200000047683716,
+        3.5
+      ],
+      "__type": "SpellDataValue"
+    },
+    "learnedRankIndices": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "savedFormula": {
+    "nodeType": "OPERATION",
+    "operands": [
+      {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "health_to_ad_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "health_to_ad_scale"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      {
+        "attributeKey": "hp",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL",
+        "nodeType": "ATTRIBUTE"
+      }
+    ],
+    "operation": "MULTIPLY"
+  },
+  "closure": {
+    "parameterKeys": [
+      "health_to_ad_ratio",
+      "health_to_ad_scale"
+    ],
+    "runtimeInputParameters": [],
+    "attributeReads": [
+      {
+        "owner": "SOURCE",
+        "key": "hp",
+        "kind": "TOTAL",
+        "meaning": "当时最大生命值"
+      }
+    ],
+    "outputAttribute": "attack_damage",
+    "selfDependency": false
+  },
+  "contract": {
+    "root": "planning",
+    "path": "文档记录/概要设计/项目/技能参数公式与效果引用边界.md",
+    "sha256": "55cf5c1de21c4018ec60dda69d4ab909786e2155cddab89eb50689f555d9882c",
+    "line": 67,
+    "meaning": "生命值最终值对应最大生命值，区别于当前或已损失生命值"
+  },
+  "gap": "当前效果使用施加快照且没有规则；已有动态读取可表达等级或总生命改变后的属性值，无需新增升级/生命变化事件。",
+  "minimumReturn": [
+    "将现有效果改为持续当前时点读取、共享实例值、重复值方式为空，并同步效果说明",
+    "新增来源初始化入口，只执行本技能的现有被动攻击力效果，事件来源对象为动作上下文"
+  ],
+  "keepOpen": [
+    "主动强化攻击的伤害加成与已损失生命口径及时点",
+    "攻击覆盖、命中、击杀拍飞与范围资格",
+    "生命消耗、冷却与主动使用入口",
+    "未学习等级0的实际资格不补默认值，宿主事件与结算未执行"
+  ],
+  "wholeSkillComplete": false,
+  "businessWrites": 0
+}

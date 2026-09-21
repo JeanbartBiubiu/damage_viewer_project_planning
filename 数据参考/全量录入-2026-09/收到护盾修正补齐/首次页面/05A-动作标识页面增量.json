@@ -1,0 +1,45 @@
+{
+  "status": "APPROVED",
+  "reviewer": "/root/urgot_core_frozen_fallback",
+  "at": "2026-09-19T12:37:39.805Z",
+  "originalFrozenSha256": "8bb4ac39381229dc4b9c567e3bd3fbd753e2955c45d0e089cd389bcebf95a453",
+  "onlyChange": {
+    "path": "/requests/2/body/actions/0/actionKey",
+    "from": "execute_received_shield_increase",
+    "to": "action_1"
+  },
+  "reason": "页面初始动作标识只读；规则内只有一个动作且无前序结果引用，执行含义不变。",
+  "effectiveRequest": {
+    "method": "POST",
+    "route": "/skills/item_3065_passive/trigger-rules",
+    "detailRoute": "/skills/item_3065_passive/trigger-rules/initialize_received_shield_increase",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "action_1",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "received_shield_increase"
+          },
+          "name": "执行无拘活力收到护盾增幅",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象初始化完成后建立25%收到普通护盾增幅；管理配置不代表战斗运行已执行。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化无拘活力收到护盾增幅",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_received_shield_increase",
+      "sortOrder": 20
+    }
+  },
+  "businessWrites": 0
+}

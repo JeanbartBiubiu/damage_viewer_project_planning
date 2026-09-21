@@ -1,0 +1,654 @@
+{
+  "at": "2026-09-21T06:35:11.085Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/zyra_e": {
+      "createdAt": "2026-09-06T18:21:27.99569Z",
+      "description": "婕拉朝前方放出贯穿地面的藤蔓来诱捕她的目标，藤蔓经过的敌人会受到伤害和束缚效果。如果在一颗种子附近施放，那么【E缠绕之根】就会让种子长成一株藤蔓鞭击者，可进行短程攻击并降低敌人的移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "婕拉·缠绕之根",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "zyra_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:21:27.99569Z"
+    },
+    "/skills/zyra_e/parameters": [
+      {
+        "createdAt": "2026-09-10T02:20:31.20683Z",
+        "description": "TotalDamage当前消费BaseDamage索引1至5为60/95/130/165/200；索引0=25。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 95,
+          "3": 130,
+          "4": 165,
+          "5": 200
+        },
+        "name": "本体魔法伤害基础值",
+        "parameterKey": "base_damage",
+        "skillKey": "zyra_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:20:31.20683Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:20:32.684414Z",
+        "description": "TotalDamage当前消费的mCoefficient=0.6。",
+        "fixedValue": 0.600000024,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "zyra_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:20:32.684414Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:20:34.778917Z",
+        "description": "RootDuration索引1至5为1/1.25/1.5/1.75/2秒；索引0=0.75不作1级。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1000,
+          "2": 1250,
+          "3": 1500,
+          "4": 1750,
+          "5": 2000
+        },
+        "name": "禁锢持续时间（毫秒）",
+        "parameterKey": "root_duration_ms",
+        "skillKey": "zyra_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T02:20:34.778917Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:20:37.704316Z",
+        "description": "当前根spellCastTime=0.25秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "zyra_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-10T02:20:37.704316Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:41:42.542567Z",
+        "description": "DDragon16.17.1 Zyra.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 11000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zyra_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:42.542567Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:41:43.077188Z",
+        "description": "DDragon16.17.1 Zyra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zyra_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T03:17:58.100936Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/zyra_e/parameters/base_damage": {
+      "createdAt": "2026-09-10T02:20:31.20683Z",
+      "description": "TotalDamage当前消费BaseDamage索引1至5为60/95/130/165/200；索引0=25。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 95,
+        "3": 130,
+        "4": 165,
+        "5": 200
+      },
+      "name": "本体魔法伤害基础值",
+      "parameterKey": "base_damage",
+      "skillKey": "zyra_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:20:31.20683Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/zyra_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-10T02:20:32.684414Z",
+      "description": "TotalDamage当前消费的mCoefficient=0.6。",
+      "fixedValue": 0.600000024,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "zyra_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T02:20:32.684414Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/zyra_e/parameters/root_duration_ms": {
+      "createdAt": "2026-09-10T02:20:34.778917Z",
+      "description": "RootDuration索引1至5为1/1.25/1.5/1.75/2秒；索引0=0.75不作1级。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1000,
+        "2": 1250,
+        "3": 1500,
+        "4": 1750,
+        "5": 2000
+      },
+      "name": "禁锢持续时间（毫秒）",
+      "parameterKey": "root_duration_ms",
+      "skillKey": "zyra_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-10T02:20:34.778917Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/zyra_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-10T02:20:37.704316Z",
+      "description": "当前根spellCastTime=0.25秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "zyra_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-10T02:20:37.704316Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/zyra_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:41:42.542567Z",
+      "description": "DDragon16.17.1 Zyra.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 11000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "zyra_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:41:42.542567Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/zyra_e/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:41:43.077188Z",
+      "description": "DDragon16.17.1 Zyra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "zyra_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-19T03:17:58.100936Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/zyra_e/formulas": [
+      {
+        "createdAt": "2026-09-10T02:20:39.169778Z",
+        "description": "当前正文消费TotalDamage=基础值+0.6×法强。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "缠绕之根本体魔法伤害",
+        "skillKey": "zyra_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:20:39.169778Z"
+      }
+    ],
+    "/skills/zyra_e/formulas/magic_damage": {
+      "createdAt": "2026-09-10T02:20:39.169778Z",
+      "description": "当前正文消费TotalDamage=基础值+0.6×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "缠绕之根本体魔法伤害",
+      "skillKey": "zyra_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:20:39.169778Z"
+    },
+    "/skills/zyra_e/effects": [
+      {
+        "createdAt": "2026-09-19T02:59:11.191676Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；本效果不计算植物攻击，种子和植物沿既有范围结论另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "婕拉·缠绕之根命中伤害",
+        "resultCount": 1,
+        "skillKey": "zyra_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T02:59:11.191676Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:20:40.656876Z",
+        "description": "复用冻结公共法力参数；仅记录基础消耗。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "zyra_e",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-10T02:20:40.656876Z"
+      }
+    ],
+    "/skills/zyra_e/effects/primary_hit": {
+      "createdAt": "2026-09-19T02:59:11.191676Z",
+      "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；本效果不计算植物攻击，种子和植物沿既有范围结论另行处理。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "婕拉·缠绕之根命中伤害",
+      "results": [
+        {
+          "description": "引用同技能 magic_damage 公式，保持现有基础值及属性加成口径。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "zyra_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T02:59:11.191676Z"
+    },
+    "/skills/zyra_e/effects/mana_cost": {
+      "createdAt": "2026-09-10T02:20:40.656876Z",
+      "description": "复用冻结公共法力参数；仅记录基础消耗。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放资源消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "zyra_e",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-10T02:20:40.656876Z"
+    },
+    "/skills/zyra_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T03:08:07.529485Z",
+        "description": "登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "婕拉·缠绕之根施法登记",
+        "processKey": "cast",
+        "skillKey": "zyra_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T03:08:07.529485Z"
+      }
+    ],
+    "/skills/zyra_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T03:08:07.529485Z",
+      "description": "登记普通主动使用的基础法力消耗、已有250毫秒根施法延迟与普通冷却；延迟结束不产生命中，控制与其他联动单列。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "婕拉·缠绕之根施法登记",
+      "processKey": "cast",
+      "skillKey": "zyra_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "读取当前技能既有施法时间参数；延迟结束不表示发生实际命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T03:08:07.529485Z"
+    },
+    "/skills/zyra_e/internal-states": [],
+    "/skills/zyra_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费已确认的 zyra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "婕拉·缠绕之根实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T02:59:12.480757Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "普通主动使用zyra_e时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "婕拉·缠绕之根普通使用",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:08:08.932191Z"
+      }
+    ],
+    "/skills/zyra_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行婕拉·缠绕之根伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 zyra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "zyra_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "婕拉·缠绕之根实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/zyra_e/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动婕拉·缠绕之根使用登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "普通主动使用zyra_e时启动cast，登记基础法力和普通冷却；过程使用既有根施法参数。实际命中、返还、控制和联动由各自入口处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "zyra_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "婕拉·缠绕之根普通使用",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 20
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters/root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/zyra_e/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

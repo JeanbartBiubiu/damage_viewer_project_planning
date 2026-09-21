@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-09-20T11:40:00.000Z",
+  "status": "APPROVED",
+  "reviewer": "drmundo_e_passive_attack_damage_independent_review",
+  "methodPolicy": "LOCAL_FILES_ONLY_NO_HTTP_SQL_UI",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessWrites": 0,
+  "reviewerHTTPRequests": 0,
+  "reviewerSQLRequests": 0,
+  "approvedFiles": {
+    "正式返回/01-冻结请求与允许差异.json": "192b353de9997f02e9d79d5f7f48bf81493f8e5ddcc5cf91c86aa28701fa7df4",
+    "正式返回/02-写前保护现值.json": "ffe943720dd3f91d3ab8926601ae22c234e5f7fb3fad7fdddb9bd1394cd2d84fc",
+    "02-被动来源与依赖.json": "0870471520d275d8148d311b643884381d1abb49c12c21f22efebe031207191c",
+    "03-公式算术.json": "a00819cdb07b4e15ec5746b965d7409880da1b9a88c98ad34774858b93cb097a",
+    "客户端原文/DrMundo.json.gz": "2cb1ceb70e889b28545546926e7f76afe0844d7606c01b616cb815aa947a91f0",
+    "原始资料/zh_CN/champion/DrMundo.json": "e7d38d995841cf424c81a225d88446e2a69054405f464bb2bf55e8736824b34b"
+  },
+  "sourceChecks": {
+    "sourceReportShaMatches": true,
+    "formulaReportShaMatches": true,
+    "sourceFileShaMatches": true,
+    "rootBinding": {
+      "characterRoot": "Characters/DrMundo/CharacterRecords/Root",
+      "ability": "Characters/DrMundo/Spells/DrMundoEAbility",
+      "rootSpell": "Characters/DrMundo/Spells/DrMundoEAbility/DrMundoE",
+      "calculation": "mSpell.mSpellCalculations.PassiveBonusAD"
+    },
+    "officialBoundary": "官方中文说明明确被动额外攻击力基于最大生命值；主动强化攻击、生命消耗与拍飞另行维护。"
+  },
+  "formulaAndClosure": {
+    "formula": "0.01 × health_to_ad_ratio × SOURCE.TOTAL hp",
+    "parameterKeys": [
+      "health_to_ad_ratio",
+      "health_to_ad_scale"
+    ],
+    "healthToAdRatioRanks": {
+      "1": 2,
+      "2": 2.3,
+      "3": 2.6,
+      "4": 2.9,
+      "5": 3.2
+    },
+    "healthToAdScale": 0.01,
+    "attributeOwner": "SOURCE",
+    "attributeKey": "hp",
+    "attributeValueKind": "TOTAL",
+    "unit": "最大生命值；不是当前生命值、已损失生命值或额外生命值",
+    "runtimeInputParameters": [],
+    "selfAttackDamageDependency": false,
+    "arithmetic": {
+      "status": "PASS",
+      "cases": 15,
+      "declaredAbsoluteTolerance": 0.0001,
+      "maxAbsoluteDifference": 0.000007674097901144705,
+      "allWithinTolerance": true,
+      "parameterChanges": 0
+    }
+  },
+  "protectedBaseline": {
+    "path": "正式返回/02-写前保护现值.json",
+    "sha256": "ffe943720dd3f91d3ab8926601ae22c234e5f7fb3fad7fdddb9bd1394cd2d84fc",
+    "businessWrites": 0,
+    "targetRoute": "/skills/drmundo_e/effects/passive_bonus_attack_damage",
+    "targetPresent": true,
+    "currentReadMode": "APPLICATION_SNAPSHOT",
+    "currentReapplicationValueMode": "REPLACE"
+  },
+  "requestReview": {
+    "method": "PUT",
+    "route": "/skills/drmundo_e/effects/passive_bonus_attack_damage",
+    "bodyFields": [
+      "name",
+      "description",
+      "sortOrder",
+      "lifecycle",
+      "results"
+    ],
+    "effectKeyInBody": false,
+    "effectKeyInExpectedReadback": true,
+    "allowedChanges": [
+      "description",
+      "results[0].lifecycleBehavior.valueReadMode",
+      "results[0].lifecycleBehavior.reapplicationValueMode",
+      "updatedAt"
+    ],
+    "proposedReadMode": "MOMENT_EVALUATION",
+    "proposedReapplicationValueMode": null,
+    "unchanged": [
+      "parameterKey=health_to_ad_ratio/health_to_ad_scale",
+      "formulaKey=passive_bonus_attack_damage",
+      "result target SOURCE",
+      "attributeKey attack_damage",
+      "modifierZoneKey attribute_flat_add",
+      "operation INCREASE",
+      "PERSISTENT/SOURCE/单层无限/SHARED 生命周期"
+    ],
+    "descriptionConsistency": "按当前E等级1至5与当时来源总生命重新读取既有公式；主动强化攻击、生命消耗与拍飞继续单列；不把等级或生命变化伪装成初始化事件。"
+  },
+  "scope": {
+    "included": "只批准被动效果的动态读取与说明修正。",
+    "notApproved": "04-初始化候选草稿.json 中的 SOURCE_INITIALIZED/{} → EVENT_SOURCE 初始化规则 POST 尚未批准。",
+    "open": [
+      "等级0资格",
+      "主动攻击与已损失生命分支",
+      "生命消耗、冷却、拍飞和实际运行结算"
+    ]
+  },
+  "checks": {
+    "frozenRequestCount": 1,
+    "bodyShapeExact": true,
+    "onlyDynamicReadAndDescriptionChanged": true,
+    "sourceFormulaClosurePass": true,
+    "actualMaxArithmeticDifferenceWithinTolerance": true,
+    "noNewParameterOrFormula": true,
+    "noInitializationPostApproved": true,
+    "reviewerHTTP0": true,
+    "reviewerSQL0": true,
+    "reviewerBusinessWrites0": true
+  },
+  "decision": "APPROVED：蒙多E被动额外攻击力来源树、闭包、单位和总生命口径正确；冻结效果PUT只改description、MOMENT_EVALUATION和reapplicationValueMode=null。后续初始化规则另待效果独立回读PASS后处理。",
+  "runtimeValidation": "未执行",
+  "wholeSkillComplete": false
+}
+

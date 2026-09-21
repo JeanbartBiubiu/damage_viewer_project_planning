@@ -1,0 +1,340 @@
+{
+  "at": "2026-09-19T17:28:08.927Z",
+  "status": "PASS",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "businessWrites": 0,
+  "GETs": 28,
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_chogath",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_chogath/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_chogath/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_chogath",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=chogath_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/silence_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/silence_first_application",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/silence",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/chogath_w/trigger-rules/actual_hit",
+      "status": 200
+    }
+  ],
+  "changed": {
+    "targetRoute": "/skills/chogath_w/formulas/magic_damage",
+    "before": {
+      "createdAt": "2026-09-09T12:47:29.842217Z",
+      "description": "TotalDamageTooltip=BaseDamage+0.7×来源总法强；只建立数值公式，不创建DAMAGE结果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "野性尖叫魔法伤害",
+      "skillKey": "chogath_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T12:47:29.842217Z"
+    },
+    "expectedReadback": {
+      "createdAt": "2026-09-09T12:47:29.842217Z",
+      "description": "基础伤害加来源总法强的0.7倍；已有命中伤害效果引用本公式，五级基础值及属性取值口径保持。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "野性尖叫魔法伤害",
+      "skillKey": "chogath_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T12:47:29.842217Z"
+    },
+    "actualReadback": {
+      "createdAt": "2026-09-09T12:47:29.842217Z",
+      "description": "基础伤害加来源总法强的0.7倍；已有命中伤害效果引用本公式，五级基础值及属性取值口径保持。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "野性尖叫魔法伤害",
+      "skillKey": "chogath_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-19T17:25:02.536765Z"
+    },
+    "changedFields": [
+      "description",
+      "updatedAt"
+    ],
+    "formulaListRoute": "/skills/chogath_w/formulas",
+    "formulaListCountBefore": 1,
+    "formulaListCountAfter": 1,
+    "changedRows": [
+      {
+        "formulaKey": "magic_damage",
+        "changedFields": [
+          "description",
+          "updatedAt"
+        ],
+        "beforeDescription": "TotalDamageTooltip=BaseDamage+0.7×来源总法强；只建立数值公式，不创建DAMAGE结果。",
+        "afterDescription": "基础伤害加来源总法强的0.7倍；已有命中伤害效果引用本公式，五级基础值及属性取值口径保持。",
+        "beforeUpdatedAt": "2026-09-09T12:47:29.842217Z",
+        "afterUpdatedAt": "2026-09-19T17:25:02.536765Z"
+      }
+    ],
+    "expressionSha256": "a15a55facb9a1e13ff5ad6e8610d8a4a5e389f1384e36154a0e1779425a2baaa"
+  },
+  "unchanged": {
+    "responseCount": 26,
+    "responsePaths": [
+      "/skills/chogath_w",
+      "/characters/champion_chogath",
+      "/characters/champion_chogath/attributes",
+      "/characters/champion_chogath/representative-image",
+      "/skills/chogath_w/representative-image",
+      "/character-skill-relations?characterKey=champion_chogath",
+      "/character-skill-relations?skillKey=chogath_w",
+      "/skills/chogath_w/parameters",
+      "/skills/chogath_w/parameters/base_damage",
+      "/skills/chogath_w/parameters/ap_ratio",
+      "/skills/chogath_w/parameters/silence_duration_ms",
+      "/skills/chogath_w/parameters/cooldown_ms",
+      "/skills/chogath_w/parameters/mana_cost",
+      "/skills/chogath_w/effects",
+      "/skills/chogath_w/effects/mana_cost",
+      "/skills/chogath_w/effects/silence_first_application",
+      "/skills/chogath_w/processes",
+      "/skills/chogath_w/internal-states",
+      "/skills/chogath_w/trigger-rules",
+      "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit",
+      "/damage-types/magic",
+      "/attributes/ability_power",
+      "/attributes/mana",
+      "/statuses/silence",
+      "/skills/chogath_w/effects/primary_hit",
+      "/skills/chogath_w/trigger-rules/actual_hit"
+    ],
+    "responseSha256": {
+      "/skills/chogath_w": "ae3181886a412bb3c4d3b44f6db4a5240fdc77b5781b8325fdfdaaff409840ff",
+      "/characters/champion_chogath": "9b9071af7ea48f86dfd1a726b85243029f1aa2600a62eeb100065a98d789a83b",
+      "/characters/champion_chogath/attributes": "6715aff29b6a6622a365c9f06cb017fb4d6a6ada45c26cc6d07586e01bd599be",
+      "/characters/champion_chogath/representative-image": "badfcec0e62cbe4db6607f6ebc5d07d5fa86982b42d81ceb8e9188b6225fb485",
+      "/skills/chogath_w/representative-image": "904a22f7f08759e2555dbb751f2f35c106eb5214e5d7eb44d8cd035ac817d539",
+      "/character-skill-relations?characterKey=champion_chogath": "016bced2ef00b0fbe2322fa89ac8c9240238a5b36fd37188042229afed2e65f4",
+      "/character-skill-relations?skillKey=chogath_w": "f4b217feace0ab5bb3598f763a6fc158564a1b8c4a53678fb71bda55b0f22c4f",
+      "/skills/chogath_w/parameters": "ecfe5569a39417d2c1c870730ef6c10273325a2b0246c78a26cdd8a15795f196",
+      "/skills/chogath_w/parameters/base_damage": "6f07e5de9e2ddc41ddfa885a465f467474740055727914b4de48c62cefe4415c",
+      "/skills/chogath_w/parameters/ap_ratio": "2633ed7c12ed9d8b4d2560268cfe4f27b277c8c35d08a0b0a1c2057f38fcc262",
+      "/skills/chogath_w/parameters/silence_duration_ms": "e2bed6c984c8ffd61d3b5422f8466521d8100d664bf09409f0e7ee2de98e5a2f",
+      "/skills/chogath_w/parameters/cooldown_ms": "1ab1ebbd9e9d66b6b2d5ee4b75ccc0e064eff0d0acb67c42d6b176a8fca3a25b",
+      "/skills/chogath_w/parameters/mana_cost": "146759e9b058dcb6939f094e12b798b4ee5bb596e1705f3b95655dabd63494f8",
+      "/skills/chogath_w/effects": "0a053c1a9271888cd1c927458fdefc5e45a87a5d36b3be0a47dd0f8a75080578",
+      "/skills/chogath_w/effects/mana_cost": "0dd7aa8ab08a273561a0020f2321c27db713cd1b81000dffc26e47285150b07c",
+      "/skills/chogath_w/effects/silence_first_application": "0421923d39355bec8a14084777c789391af1ffb726020106f302454280270e0e",
+      "/skills/chogath_w/processes": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "/skills/chogath_w/internal-states": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "/skills/chogath_w/trigger-rules": "acb4459e807f2be254de4efa2d60f0bde720547c357d8bb538faaa110e8e6a33",
+      "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit": "2e4a573b673c1ad27e67e86b645b3d19fb9ffb823ea9e0f0e77351f65845a685",
+      "/damage-types/magic": "d16fd7ba55924d751972678b085706a2fcbf5ca98cbf657fa8ffa91c8baa1def",
+      "/attributes/ability_power": "cc9f82769fcfbe2174661b6586e6c642cb0b21efb16ddbce205fde42b6a5c563",
+      "/attributes/mana": "5d0550a4d7aa5a30a709b5d6f3b4d728c606bbbdb980ce60c1674c45b9d8d5ba",
+      "/statuses/silence": "10c5d85c6654d6015478eb1a6fb5500de8290eeeedb5dde0d4ef7eb3054acbc8",
+      "/skills/chogath_w/effects/primary_hit": "ed0c5502adbfd4126dbeb681ffbdd7a0a5a87a38d5115eeef0c998835aa296bb",
+      "/skills/chogath_w/trigger-rules/actual_hit": "dfcf3c14f9386b1941c75d9d62da42af8ad6ed3446e0d582b2af232b5b78f628"
+    }
+  }
+}

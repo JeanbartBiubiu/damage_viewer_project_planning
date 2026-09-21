@@ -1,0 +1,428 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "凯尔W自身加速与使用消耗冷却补录",
+  "generatedAt": "2026-09-18T21:50:44.276Z",
+  "targets": [
+    {
+      "skillKey": "kayle_w",
+      "ownerKey": "champion_kayle"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身加速与使用登记补录/00-独立来源续核.json",
+      "sha256": "87cebd5f220dc2274a8a2a5e7a2413e03f670459de0f4b4dcb41b4587d6709c2"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/五项自施技能消耗冷却补录/04-写入前现值.json",
+      "sha256": "060fd86e7f4cb4d5a825145cc57c42b91ae3888b7ff0c95ade9d583e6dfd55ef"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/凯尔W自身治疗补录/07-独立回读.json",
+      "sha256": "af2ccdde1db05b1ef1ec6864d1c52d2253bc2ba41e3335493fdbde438d5b5300"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kayle.json",
+      "sha256": "5d4fa068b8f088e199e62fa9eed0c7b77476f4791e03d44993b9ecb876ed4b93"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Kayle.json",
+      "sha256": "a22f0a67f0092f2538e188d9a538cb69c5005d3e4a70f058d7a2e63d6a60dff7"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kayle.json.gz",
+      "sha256": "5966ef540c2e882ca33d3ba320c12e7a8de50909318a8cf3bd3bfd4c03023ce7"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/完整候选.json",
+      "sha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/独立来源评审.md",
+      "sha256": "217e111879bf20d136e58255e442cef070c94091fa7c935480cbd70e34240398"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/七项技能使用消耗冷却补录/01-候选方案.json",
+      "sha256": "6ca2aee92486f3519c07f1eb274fc3556cca89df05070bdb0f4ba7959f942b63"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts",
+      "sha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillProcess.ts",
+      "sha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615"
+    }
+  ],
+  "sourceEvidence": {
+    "versions": {
+      "client": "16.17",
+      "ddragon": "16.17.1"
+    },
+    "selfBranch": "官方明确每次使用使自己及另一友军得到加速。",
+    "moveSpeed": "复用现有haste_ratio公式及haste_duration_ms=2000；保持已保存浮点参数，不重新按显示值取整。",
+    "cost": "复用mana_cost效果、mana_cost及cooldown_ms参数，登记当前基础法力70/75/80/85/90及15000毫秒普通冷却。",
+    "clientFlags": "底层禁止默认消耗标记保留；当前官方明确资源和冷却不为零，不据未解释标记反向生成免费或额外使用。"
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/kayle_w/effects",
+      "detailRoute": "/skills/kayle_w/effects/self_move_speed",
+      "body": {
+        "description": "每次主动使用时为凯尔自身提供持续2秒的移动速度比例增益；不包含其他友军收益。",
+        "effectKey": "self_move_speed",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "haste_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "星界恩典自身移动速度",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "自身移动速度增加",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "haste_ratio",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 30
+      },
+      "expectedReadback": {
+        "description": "每次主动使用时为凯尔自身提供持续2秒的移动速度比例增益；不包含其他友军收益。",
+        "effectKey": "self_move_speed",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "haste_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "星界恩典自身移动速度",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "自身移动速度增加",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "haste_ratio",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/kayle_w/processes",
+      "detailRoute": "/skills/kayle_w/processes/use_cost_and_cooldown",
+      "body": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示完整施法时长为零。自身治疗和加速由独立主动入口执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "use_cost_and_cooldown",
+        "name": "使用消耗与普通冷却",
+        "activationType": "ACTIVE",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示完整施法时长为零。自身治疗和加速由独立主动入口执行。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "register_use",
+            "name": "登记本次使用",
+            "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/kayle_w/trigger-rules",
+      "detailRoute": "/skills/kayle_w/trigger-rules/on_used_cost_and_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动消耗与普通冷却登记；不重复执行另行接入的自身治疗和加速。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "kayle_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_and_cooldown",
+        "name": "主动使用登记消耗与冷却",
+        "description": "每次本技能主动使用启动消耗与普通冷却登记；不重复执行另行接入的自身治疗和加速。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "kayle_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_use_cost",
+            "name": "启动消耗与冷却登记",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "use_cost_and_cooldown"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/kayle_w/trigger-rules",
+      "detailRoute": "/skills/kayle_w/trigger-rules/on_used_self_move_speed",
+      "body": {
+        "ruleKey": "on_used_self_move_speed",
+        "name": "主动使用增加自身移动速度",
+        "description": "官方明确每次使用同时使凯尔自身加速；不要求显式选中自身。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "kayle_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "gain_self_move_speed",
+            "name": "执行自身移动速度增益",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_move_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_self_move_speed",
+        "name": "主动使用增加自身移动速度",
+        "description": "官方明确每次使用同时使凯尔自身加速；不要求显式选中自身。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "kayle_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "gain_self_move_speed",
+            "name": "执行自身移动速度增益",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "self_move_speed"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "preserveExisting": "原治疗效果与入口完整不变；参数、公式、旧法力效果和所有已有主体关系受保护。",
+  "scope": "新增自身加速效果、使用登记过程和两个对应入口；治疗不重复执行，第三友军分支明确排除。",
+  "remaining": [
+    "当前施法时间字段的准确含义与是否影响本轮1V1时间计算",
+    "代表页面验收",
+    "旧参数与法力效果说明中的进度文字整理"
+  ],
+  "runtimeBoundary": "管理配置，不执行实际事件、属性聚合、扣法力或Wasm。"
+}

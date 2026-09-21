@@ -1,0 +1,213 @@
+{
+  "at": "2026-09-20T11:05:57.286Z",
+  "status": "THREE_RESULTS_REQUIRE_DYNAMIC_READ",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessWrites": 0,
+  "HTTPGETsAlreadyShared": 65,
+  "targets": [
+    {
+      "skillKey": "olaf_r",
+      "sourceFiles": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Olaf.json.gz",
+          "sha256": "fb882e8483021bf24d0506a494a8cb5f731fcf1a86a0c9dcde47503938428820"
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Olaf.json",
+          "sha256": "9fed79e8e0031423229e7a3f4d3b65a93e5b51dc607535b598e5b3190c5dd7d5"
+        }
+      ],
+      "rootBinding": {
+        "characterPath": "Characters/Olaf/CharacterRecords/Root",
+        "spellsIndex": 3,
+        "spellPath": "Characters/Olaf/Spells/OlafRagnarokAbility/OlafRagnarok",
+        "abilityRootSpell": "Characters/Olaf/Spells/OlafRagnarokAbility/OlafRagnarok"
+      },
+      "officialEvidence": {
+        "tooltip": "<spellPassive>被动：</spellPassive>奥拉夫获得<scaleArmor>{{ resists }}护甲</scaleArmor>和<scaleMR>{{ resists }}魔法抗性</scaleMR>。<br /><br /><spellActive>主动：</spellActive>奥拉夫净化掉他身上的所有<status>定身</status>和<status>限制</status>效果并且在接下来的{{ duration }}秒内免疫这些效果。在激活时，奥拉夫获得<scaleAD>{{ ad }}攻击力</scaleAD>。用一次攻击或<spellName>鲁莽挥击</spellName>命中一名英雄时，会使持续时间延长{{ durationextension }}秒。<br /><br />此外，奥拉夫会在朝着敌方英雄时获得<speed>{{ haste*100 }}%移动速度</speed>，持续{{ hasteduration }}秒。{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "护甲和魔法抗性",
+            "攻击力",
+            "移动速度",
+            "冷却时间"
+          ],
+          "effect": [
+            "{{ resists }} -> {{ resistsNL }}",
+            "{{ flatad }} -> {{ flatadNL }}",
+            "{{ haste*100.000000 }} -> {{ hastenl*100.000000 }}",
+            "{{ cooldown }} -> {{ cooldownNL }}"
+          ]
+        }
+      },
+      "dataValue": {
+        "path": "Characters/Olaf/Spells/OlafRagnarokAbility/OlafRagnarok.mSpell.DataValues.Resists",
+        "rawValues": [
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35
+        ],
+        "learnedRankIndices": [
+          1,
+          2,
+          3
+        ],
+        "savedParameterKey": "passive_resist",
+        "savedLevelValues": {
+          "1": 10,
+          "2": 15,
+          "3": 20
+        },
+        "unit": "护甲/魔抗点数"
+      },
+      "effects": [
+        {
+          "effectKey": "passive_armor",
+          "resultKey": "attribute",
+          "current": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "proposed": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "parameterAndUnitsUnchanged": true
+        },
+        {
+          "effectKey": "passive_magic_resistance",
+          "resultKey": "attribute",
+          "current": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "proposed": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "parameterAndUnitsUnchanged": true
+        }
+      ],
+      "wholeSkillComplete": false,
+      "openBoundaries": [
+        "主动攻击力取值时点",
+        "净化与免控",
+        "命中延长",
+        "朝向加速",
+        "普通使用与资源",
+        "未学习0级资格及实际结算未验证"
+      ]
+    },
+    {
+      "skillKey": "zaahen_r",
+      "sourceFiles": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Zaahen.json.gz",
+          "sha256": "cb025c3ea4217a668ad390e83570a615d6a7be358b22542485e99bbf3d8acff2"
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Zaahen.json",
+          "sha256": "8695912927630edc5c975b908633a99f5e1ce4ef7b133ab101c7439f364e6524"
+        }
+      ],
+      "rootBinding": {
+        "characterPath": "Characters/Zaahen/CharacterRecords/Root",
+        "spellsIndex": 3,
+        "spellPath": "Characters/Zaahen/Spells/ZaahenRAbility/ZaahenR",
+        "abilityRootSpell": "Characters/Zaahen/Spells/ZaahenRAbility/ZaahenR"
+      },
+      "officialEvidence": {
+        "tooltip": "<spellPassive>被动</spellPassive>：亚恒获得<armorPen>{{ armorpen*100 }}% %i:scaleAPen%护甲穿透</armorPen>。<br /><br /><spellActive>主动</spellActive>：亚恒升空，在施放状态下获得{{ damagereduction*100 }}%伤害减免。<br /><br />随后亚恒向下戳刺，造成<physicalDamage>{{ damageendcalc }}物理伤害</physicalDamage>并回复相当于<healing>{{ healpercent*100 }}%对敌方英雄们造成伤害值的生命值</healing>。{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "冷却时间",
+            "伤害",
+            "护甲穿透"
+          ],
+          "effect": [
+            "{{ cooldown }} -> {{ cooldownNL }}",
+            "{{ enddamage }} -> {{ enddamageNL }}",
+            "{{ armorpen*100.000000 }}% -> {{ armorpennl*100.000000 }}%"
+          ]
+        }
+      },
+      "dataValue": {
+        "path": "Characters/Zaahen/Spells/ZaahenRAbility/ZaahenR.mSpell.DataValues.ArmorPen",
+        "rawValues": [
+          0,
+          0.10000000149011612,
+          0.20000000298023224,
+          0.30000001192092896,
+          0.4000000059604645,
+          0.5,
+          0.6000000238418579
+        ],
+        "learnedRankIndices": [
+          1,
+          2,
+          3
+        ],
+        "savedParameterKey": "armor_penetration_ratio",
+        "savedLevelValues": {
+          "1": 0.100000001,
+          "2": 0.200000003,
+          "3": 0.300000012
+        },
+        "unit": "比例，1表示100%"
+      },
+      "effects": [
+        {
+          "effectKey": "armor_penetration",
+          "resultKey": "attribute",
+          "current": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "proposed": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "parameterAndUnitsUnchanged": true
+        }
+      ],
+      "wholeSkillComplete": false,
+      "openBoundaries": [
+        "主动伤害与实际伤害治疗",
+        "施放期间减伤",
+        "有效施放时长与位移",
+        "生存链与普通使用资源",
+        "其他穿透来源的合并规则不因本次读取方式修正而视为已验",
+        "未学习0级资格及实际结算未验证"
+      ]
+    }
+  ]
+}

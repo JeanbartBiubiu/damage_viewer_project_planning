@@ -1,0 +1,346 @@
+{
+  "schemaVersion": "damage.authoring.independent-review.v1",
+  "status": "APPROVED",
+  "title": "卡萨丁Q伤害与使用流程补录独立评审",
+  "reviewedAt": "2026-09-19T00:14:54.110Z",
+  "reviewer": "/root/three_use_frozen_review",
+  "scope": {
+    "worktree": "C:\\project\\damage_web_dev",
+    "directory": "数据参考/全量录入-2026-09/交叉试录/卡萨丁Q伤害与使用流程补录",
+    "gameId": "lol",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "targets": [
+      "kassadin_q"
+    ],
+    "owner": "champion_kassadin",
+    "preparedPOSTs": 4,
+    "apiCallsDuringReview": 0,
+    "networkRequestsDuringReview": 0,
+    "databaseAccess": false,
+    "businessWritesDuringReview": 0,
+    "runtimeBoundary": "本评审只核对冻结文件、固定来源和管理配置请求；不证明浏览器、宿主/Wasm、实际使用事件、命中事件、护盾采样或战斗运行。"
+  },
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "9548a17e75a800e758b9faf061e163e666264acddb399f9005c6a72c111cff88",
+    "02-冻结请求.json": "e083e744b8d180486a1c28c731f0087b0055aedf19865069e42b6560a2a59a08",
+    "03-来源摘要.json": "c435de053f0adaee2453f4f143bbc1303c548937462edef5315cbd2914bf4709",
+    "04-写入前现值.json": "bffe2e578b7200ed982b4c7469e5d8ada661c428f53558118ff565f3861d1e60"
+  },
+  "toolBinding": {
+    "path": "tools/authoring/append-reviewed-skill-components-v3.mjs",
+    "sha256": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "expectedSha256": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "match": true,
+    "codeReviewBoundary": "工具实际字节散列等于锁定值；本评审只核对本批冻结请求、来源和引用，不重复工具完整故障测试。"
+  },
+  "fileBinding": {
+    "fileHashes": {
+      "baseline": "bffe2e578b7200ed982b4c7469e5d8ada661c428f53558118ff565f3861d1e60",
+      "plan": "9548a17e75a800e758b9faf061e163e666264acddb399f9005c6a72c111cff88",
+      "frozen": "e083e744b8d180486a1c28c731f0087b0055aedf19865069e42b6560a2a59a08",
+      "source": "c435de053f0adaee2453f4f143bbc1303c548937462edef5315cbd2914bf4709"
+    },
+    "freezeLinks": {
+      "sourceSha256Matches03": true,
+      "baselineSha256Matches04": true,
+      "expectedFrozenSha256": "e083e744b8d180486a1c28c731f0087b0055aedf19865069e42b6560a2a59a08",
+      "frozenSha256": "e083e744b8d180486a1c28c731f0087b0055aedf19865069e42b6560a2a59a08",
+      "candidateAndFrozenPOSTsStructurallyEqual": true,
+      "sourceFilesEqualSourceSummary": true
+    },
+    "sourceHashAudit": {
+      "count": 17,
+      "mismatchCount": 0,
+      "rows": [
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/卡萨丁Q伤害与使用流程补录/00-伤害与使用来源候选.json",
+          "expectedSha256": "77e7a3b4222fbe498aafc1a6fd1306bec8a008db09c55bfb0c06ec54f410ec17",
+          "actualSha256": "77e7a3b4222fbe498aafc1a6fd1306bec8a008db09c55bfb0c06ec54f410ec17",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/卡萨丁Q伤害与使用流程补录/00a-补充GET审计.json",
+          "expectedSha256": "f634ccfd2b094b869129c69423b227770d04c45fb116883c3edcf10a068fed39",
+          "actualSha256": "f634ccfd2b094b869129c69423b227770d04c45fb116883c3edcf10a068fed39",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/卡萨丁Q伤害与使用流程补录/00b-参数公式过程现值.json",
+          "expectedSha256": "4028e8ab1f9518466181091b111171e62c43842f3d5d8ec179fa1dc03da9770e",
+          "actualSha256": "4028e8ab1f9518466181091b111171e62c43842f3d5d8ec179fa1dc03da9770e",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kassadin.json",
+          "expectedSha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29",
+          "actualSha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Kassadin.json",
+          "expectedSha256": "9afd359ea6daacd81b2589692e7da653926ec55b0b63184a521d0e1b24edbd25",
+          "actualSha256": "9afd359ea6daacd81b2589692e7da653926ec55b0b63184a521d0e1b24edbd25",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Kassadin.json.gz",
+          "expectedSha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+          "actualSha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+          "expectedSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+          "actualSha256": "509017d379d3676147a1b5a0732023dfd95baa2039f24966b3a1801a28842bf9",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/交互来源核定.json",
+          "expectedSha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501",
+          "actualSha256": "e3bb3619af36e0212d4eacc35e5ec4aa31c0e6882cf7f32df031ee30ef2ea501",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/库奇崔斯特Q完整补录/01-候选方案.json",
+          "expectedSha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+          "actualSha256": "05245a8d21afa790d568ba0197f03c8b58ac847ab49b8357cfe10711c61e0dc9",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q实际命中伤害补录/01-候选方案.json",
+          "expectedSha256": "7a3d78bd90b738317b825c4a1e007413ef94438b73ce9d27d4cfd8c855056e41",
+          "actualSha256": "7a3d78bd90b738317b825c4a1e007413ef94438b73ce9d27d4cfd8c855056e41",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十三批/完整候选.json",
+          "expectedSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+          "actualSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/四项后续命中伤害吸血资格纠错/00-六项只读候选.json",
+          "expectedSha256": "2354b86ca08072f00c5131adb6e19858096ef6f660342ad72dc7412b945dd8ed",
+          "actualSha256": "2354b86ca08072f00c5131adb6e19858096ef6f660342ad72dc7412b945dd8ed",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/四项后续命中伤害吸血资格纠错/00a-候选请求审计.json",
+          "expectedSha256": "aadd72aece7f40a72d7ddc5a37ffe43b3aa5b275107acc88efd2cc04e31de9a4",
+          "actualSha256": "aadd72aece7f40a72d7ddc5a37ffe43b3aa5b275107acc88efd2cc04e31de9a4",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillEffect.ts",
+          "expectedSha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34",
+          "actualSha256": "6a71ae4038c4641558aee593fb24be077e67851f50322ae2ff1c0c5da668ac34",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillProcess.ts",
+          "expectedSha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+          "actualSha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "web/src/types/skillTriggerRule.ts",
+          "expectedSha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615",
+          "actualSha256": "db1021ad59bf8cfee862603c2e7dcde6c618da85d235f36de941c6a205852615",
+          "match": true
+        },
+        {
+          "root": "web",
+          "path": "数据参考/全量录入-2026-09/交叉试录/泽拉斯E伤害与使用流程补录/01-候选方案.json",
+          "expectedSha256": "f35fda31fa0adf2de7ce700c9163c104c7f2ad0b6708e53f4b1a2462947fb9b9",
+          "actualSha256": "f35fda31fa0adf2de7ce700c9163c104c7f2ad0b6708e53f4b1a2462947fb9b9",
+          "match": true
+        }
+      ]
+    }
+  },
+  "reviewItems": [
+    {
+      "id": "R1",
+      "name": "工具与01至04原始文件绑定",
+      "result": "PASS",
+      "evidence": "append-reviewed-skill-components-v3.mjs实际SHA-256等于锁定443202555；approvedFiles绑定01候选、02冻结、03来源和04现值的原始字节散列。"
+    },
+    {
+      "id": "R2",
+      "name": "17项来源散列与旧阶段映射",
+      "result": "PASS",
+      "evidence": "03-来源摘要声明17项来源，逐项重算后17/17一致，无漂移；01.sourceFiles与03逐项一致。旧Web阶段输出已在sourceInputRemap中映射到当前正式交叉试录文件，不作为当前事实来源。"
+    },
+    {
+      "id": "R3",
+      "name": "等级起点、伤害参数与公式",
+      "result": "PASS",
+      "evidence": {
+        "official": "NullLance官方16.17.1等级1至5法力为60/65/70/75/80，普通冷却为9/8.5/8/7.5/7秒；官方effectBurn伤害为65/95/125/155/185。",
+        "clientRoot": "NullLance当前根mana/manaValues索引0至4为60/65/70/75/80，cooldownTime索引1至5为9/8.5/8/7.5/7秒，spellCastTime=250毫秒；额外尾项不进入管理等级。",
+        "management": "当前8项参数和2项公式已存在；base_damage等级1至5为65/95/125/155/185，damage公式为base_damage+SOURCE总法术强度×calculation_constant_1，calculation_constant_1=0.7，客户端0.699999988079071在1e-6内一致。"
+      }
+    },
+    {
+      "id": "R4",
+      "name": "普通主动使用资格与既有护盾入口",
+      "result": "PASS",
+      "evidence": "目标为卡萨丁Q当前根技能，官方cost/cooldown和现有SKILL_USED/ACTIVE的on_used共同支持普通主动使用；现有on_used唯一动作是EXECUTE_EFFECT到magic_shield，护盾目标为SOURCE且只吸收magic，不把该入口误当作伤害入口。"
+    },
+    {
+      "id": "R5",
+      "name": "4个POST完整引用与顺序",
+      "result": "PASS",
+      "evidence": {
+        "candidateFrozenEquality": "01.requests与02.requests结构化逐项相等，共4项；顺序为primary_hit效果、cast过程、resolve_on_q_hit实际命中规则、on_used_cast主动使用入口。",
+        "requests": [
+          {
+            "index": 1,
+            "method": "POST",
+            "route": "/skills/kassadin_q/effects",
+            "detailRoute": "/skills/kassadin_q/effects/primary_hit",
+            "assertions": ["唯一结果DAMAGE/TARGET", "公式引用damage", "magic/SKILL/DIRECT", "critical=DISALLOWED", "spellShieldBlockScope=SKILL", "OMNIVAMP基于POST_DEFENSE_DAMAGE且效率1"]
+          },
+          {
+            "index": 2,
+            "method": "POST",
+            "route": "/skills/kassadin_q/processes",
+            "detailRoute": "/skills/kassadin_q/processes/cast",
+            "assertions": ["processKey=cast", "activationType=ACTIVE", "cooldown引用cooldown_ms", "cooldown从PROCESS_START开始", "唯一延迟引用cast_time_ms", "mana_cost在PROCESS_START绑定", "stateOperations为空"]
+          },
+          {
+            "index": 3,
+            "method": "POST",
+            "route": "/skills/kassadin_q/trigger-rules",
+            "detailRoute": "/skills/kassadin_q/trigger-rules/resolve_on_q_hit",
+            "assertions": ["SKILL_HIT/kassadin_q", "唯一TARGET_CATEGORY_CHECK=CHAMPION", "唯一动作EXECUTE_EFFECT到primary_hit", "runtimeInputBindings/resultModifiers为空", "perTargetCooldown和maxTriggersPerProcess为null", "请求useKind省略，expectedReadback为null"]
+          },
+          {
+            "index": 4,
+            "method": "POST",
+            "route": "/skills/kassadin_q/trigger-rules",
+            "detailRoute": "/skills/kassadin_q/trigger-rules/on_used_cast",
+            "assertions": ["SKILL_USED/kassadin_q/ACTIVE", "唯一动作START_PROCESS到cast", "conditionGroups/runtimeInputBindings/resultModifiers为空", "perTargetCooldown和maxTriggersPerProcess为null", "不执行magic_shield或primary_hit"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "R6",
+      "name": "expectedReadback与接口字段边界",
+      "result": "PASS",
+      "evidence": "4个expectedReadback均只保留管理接口可回读字段，不含gameId、skillKey、createdAt或updatedAt；SKILL_HIT规则的expectedReadback明确useKind=null，主动入口保持useKind=ACTIVE。"
+    },
+    {
+      "id": "R7",
+      "name": "写前基线与新详情缺失",
+      "result": "PASS",
+      "evidence": {
+        "auditCount": 33,
+        "statusCounts": {
+          "200": 29,
+          "404": 4
+        },
+        "businessWrites": 0,
+        "newDetail404": [
+          "/skills/kassadin_q/effects/primary_hit",
+          "/skills/kassadin_q/processes/cast",
+          "/skills/kassadin_q/trigger-rules/resolve_on_q_hit",
+          "/skills/kassadin_q/trigger-rules/on_used_cast"
+        ]
+      }
+    },
+    {
+      "id": "R8",
+      "name": "已有对象、参数、公式和关系保护",
+      "result": "PASS",
+      "evidence": {
+        "existingEffects": ["/skills/kassadin_q/effects/mana_cost", "/skills/kassadin_q/effects/magic_shield"],
+        "existingTrigger": "/skills/kassadin_q/trigger-rules/on_used仅执行magic_shield",
+        "existingProcesses": "/skills/kassadin_q/processes当前为空，新增cast不覆盖旧过程",
+        "relations": ["/character-skill-relations?characterKey=champion_kassadin", "/character-skill-relations?skillKey=kassadin_q"],
+        "preservedDamageAndVamp": "本批新增primary_hit只表达卡萨丁Q新直接伤害，不改既有护盾、法力、公式、参数、关系或其他对象；未声明运行时吸血已执行。"
+      }
+    },
+    {
+      "id": "R9",
+      "name": "未知机制与运行边界",
+      "result": "PASS",
+      "evidence": "引导打断保持独立待办，不借用眩晕或其他控制；SKILL_HIT规则只消费宿主确认的实际命中，不生产投射物、碰撞或命中事件；护盾采样、抗性、防御后伤害、吸血、浏览器、宿主/Wasm和战斗运行均未虚构。"
+    },
+    {
+      "id": "R10",
+      "name": "本次评审执行边界",
+      "result": "PASS",
+      "evidence": "本次只读取本地冻结资料、来源和正式原始文件并重算散列，未访问业务API、数据库或浏览器；后续写入只能使用批准散列和冻结顺序。"
+    }
+  ],
+  "valueChecks": {
+    "skillKey": "kassadin_q",
+    "maxLevel": 5,
+    "manaCostRank1To5": [60, 65, 70, 75, 80],
+    "cooldownMsRank1To5": [9000, 8500, 8000, 7500, 7000],
+    "baseDamageRank1To5": [65, 95, 125, 155, 185],
+    "damageFormula": "base_damage + SOURCE总法术强度 × calculation_constant_1",
+    "damageCoefficient": 0.7,
+    "castTimeMs": 250,
+    "shieldPreserved": {
+      "baseMagicShieldRank1To5": [80, 110, 140, 170, 200],
+      "shieldCoefficient": 0.3,
+      "durationMs": 1500
+    }
+  },
+  "preflightBoundary": {
+    "expectedGETs": 33,
+    "expectedGETStatusCounts": {
+      "200": 29,
+      "404": 4
+    },
+    "expectedPOSTs": 4,
+    "newDetailRoutes": [
+      "/skills/kassadin_q/effects/primary_hit",
+      "/skills/kassadin_q/processes/cast",
+      "/skills/kassadin_q/trigger-rules/resolve_on_q_hit",
+      "/skills/kassadin_q/trigger-rules/on_used_cast"
+    ],
+    "order": [
+      "先新增primary_hit伤害效果",
+      "再新增cast过程并绑定既有mana_cost、cooldown_ms和cast_time_ms",
+      "再新增英雄实际命中resolve_on_q_hit",
+      "最后新增独立on_used_cast入口；既有on_used继续只执行magic_shield"
+    ]
+  },
+  "sourceAndRuntimeBoundary": {
+    "officialAndClient": "官方16.17.1与客户端16.17当前根绑定共同支持法力、普通冷却、伤害等级和250毫秒参数；等级起点已按官方数组0起、客户端管理数组1起核对。",
+    "shield": "已有magic_shield及on_used保持不变；本批新增入口不重复执行护盾。",
+    "hit": "新增resolve_on_q_hit只在CHAMPION目标上执行primary_hit，不生产SKILL_HIT。",
+    "control": "引导打断仍是独立待办，不借用眩晕。",
+    "browserRuntime": "未执行",
+    "wasmRuntime": "未执行",
+    "battleRuntime": "未执行"
+  },
+  "businessWritesDuringReview": 0,
+  "networkRequestsDuringReview": 0,
+  "fileWritesDuringReview": [
+    "仅新建本文件"
+  ],
+  "conclusion": "APPROVED：卡萨丁Q的17项来源散列、4个POST及其顺序和引用、官方与当前根数值等级起点、直接魔法伤害形状、SKILL_HIT英雄限定、普通施放过程、既有护盾单次入口和现值保护均通过静态独立核对；未发现实质阻塞项。"
+}

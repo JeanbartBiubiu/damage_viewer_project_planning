@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-19T11:09:22.586Z",
+  "status": "PASS",
+  "uiSaveCount": 1,
+  "writeResponseCaptured": false,
+  "actual": {
+    "createdAt": "2026-09-06T18:20:51.514142Z",
+    "description": "厄加特发射一个化学钻头，刺穿命中的第一个敌方英雄。如果该英雄的生命值低于一定阈值，那么厄加特就会将该英雄评判为弱者并将其处决。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+    "gameId": "lol",
+    "maxLevel": 3,
+    "name": "厄加特·超越死亡的恐惧",
+    "skillCategoryKeys": [
+      "ultimate"
+    ],
+    "skillKey": "urgot_r",
+    "sortOrder": 4,
+    "status": "ENABLED",
+    "updatedAt": "2026-09-19T11:09:13.620561Z"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/urgot_r",
+      "status": 200
+    }
+  ]
+}

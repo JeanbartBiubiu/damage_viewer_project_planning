@@ -1,0 +1,101 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/zilean_w",
+      "body": {
+        "name": "基兰·穿梭未来",
+        "description": "基兰为未来的对抗做准备，减少他所有其它基础技能的冷却时间。已配置普通主动使用入口、35法力、自身14/12/10/8/6秒基础冷却，以及自身Q与E当前冷却各减少10秒。范围内不包含W自身或终极技能；原始施放字段保留秒单位，有效施放时间与非整数毫秒精度仍待核定。来源：官方中文静态资料16.17.1与客户端16.17。",
+        "maxLevel": 5,
+        "status": "ENABLED",
+        "sortOrder": 2,
+        "skillCategoryKeys": [
+          "common"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:21:24.989992Z",
+        "description": "基兰为未来的对抗做准备，减少他所有其它基础技能的冷却时间。已配置普通主动使用入口、35法力、自身14/12/10/8/6秒基础冷却，以及自身Q与E当前冷却各减少10秒。范围内不包含W自身或终极技能；原始施放字段保留秒单位，有效施放时间与非整数毫秒精度仍待核定。来源：官方中文静态资料16.17.1与客户端16.17。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "基兰·穿梭未来",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zilean_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:24.989992Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/zilean_w/parameters/mana_cost",
+      "body": {
+        "name": "基础法力消耗",
+        "description": "官方静态资料16.17.1的等级1至5法力消耗均为35，与客户端命名数值ManaCost及mana字段一致。已由普通使用登记过程开始时从来源对象消耗一次；客户端自动扣费标志不作为零成本依据。有效施放时间仍待核定。",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 35,
+        "levelValues": null,
+        "sortOrder": 110
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-08T02:41:35.300583Z",
+        "description": "官方静态资料16.17.1的等级1至5法力消耗均为35，与客户端命名数值ManaCost及mana字段一致。已由普通使用登记过程开始时从来源对象消耗一次；客户端自动扣费标志不作为零成本依据。有效施放时间仍待核定。",
+        "fixedValue": 35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zilean_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:35.300583Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/zilean_w/parameters/cooldown_ms",
+      "body": {
+        "name": "基础冷却时间（毫秒）",
+        "description": "官方静态资料16.17.1等级1至5基础冷却为14/12/10/8/6秒，与客户端根字段索引1至5一致，按毫秒保存。已接入普通使用登记过程的自身冷却；未计技能急速等修正，有效施放时间仍待核定。",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 14000,
+          "2": 12000,
+          "3": 10000,
+          "4": 8000,
+          "5": 6000
+        },
+        "sortOrder": 100
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-08T02:41:34.836265Z",
+        "description": "官方静态资料16.17.1等级1至5基础冷却为14/12/10/8/6秒，与客户端根字段索引1至5一致，按毫秒保存。已接入普通使用登记过程的自身冷却；未计技能急速等修正，有效施放时间仍待核定。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 12000,
+          "3": 10000,
+          "4": 8000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zilean_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:34.836265Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "sourceSha256": "60367a822983adefe97f1c2fede2e2166a232e1b36c0833124787f9bfc28f2d4",
+  "baselineSha256": "4a01f7d9a13f49d536ea150f2a1d7674d9aacb4b6fea465b9a86c41745dcf462"
+}

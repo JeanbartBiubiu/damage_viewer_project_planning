@@ -1,0 +1,978 @@
+{
+  "at": "2026-09-21T13:28:11.968Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/level-config": {
+      "gameId": "lol",
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/skills/sona_q": {
+      "createdAt": "2026-09-06T18:20:27.17387Z",
+      "description": "娑娜弹奏英勇赞美诗，弹出音波，对附近的两名敌人造成魔法伤害，优先选取英雄和野怪为目标。娑娜会暂时获得一个光环，为附近友军的下一次攻击提供额外魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "娑娜·英勇赞美诗",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "sona_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:20:27.17387Z"
+    },
+    "/skills/sona_q/parameters": [
+      {
+        "createdAt": "2026-09-09T18:36:30.198756Z",
+        "description": "当前BaseDamage技能等级1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 85,
+          "3": 120,
+          "4": 155,
+          "5": 190
+        },
+        "name": "英勇赞美诗基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "sona_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:36:30.198756Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:36:31.428725Z",
+        "description": "当前TotalDamage树使用0.4×来源总法强。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础魔法伤害法强比例",
+        "parameterKey": "ability_power_ratio",
+        "skillKey": "sona_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:36:31.428725Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:36:32.633768Z",
+        "description": "当前BaseOnHitDamage技能等级1至5；是下次攻击额外组成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10,
+          "2": 15,
+          "3": 20,
+          "4": 25,
+          "5": 30
+        },
+        "name": "乐曲强化普攻基础魔法伤害",
+        "parameterKey": "melody_attack_base_damage",
+        "skillKey": "sona_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:36:32.633768Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:36:33.83667Z",
+        "description": "当前TotalOnHitDamage树使用0.1×来源总法强。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "乐曲强化普攻法强比例",
+        "parameterKey": "melody_attack_ap_ratio",
+        "skillKey": "sona_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T18:36:33.83667Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:36:35.041564Z",
+        "description": "当前AuraDuration=3秒，转换为3000毫秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "英勇赞美诗乐曲持续时间",
+        "parameterKey": "melody_aura_duration_ms",
+        "skillKey": "sona_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:36:35.041564Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:36:36.210358Z",
+        "description": "当前OnHitDuration=5秒，转换为5000毫秒。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "强化普攻窗口",
+        "parameterKey": "melody_attack_window_ms",
+        "skillKey": "sona_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T18:36:36.210358Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:36:37.353959Z",
+        "description": "当前BaseGlobalCD=0.5秒，区别于8秒公共冷却。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础技能公共间隔",
+        "parameterKey": "melody_interval_ms",
+        "skillKey": "sona_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T18:36:37.353959Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:36:38.574575Z",
+        "description": "TotalStaccatoDamage有等级断点，完整等级曲线未证，按当前等级值外供。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "Q能量和弦等级基础伤害",
+        "parameterKey": "chord_character_level_base_damage",
+        "skillKey": "sona_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T18:36:38.574575Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:36:39.753608Z",
+        "description": "当前TotalStaccatoDamage树AP比例为0.3。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "Q能量和弦法强比例",
+        "parameterKey": "chord_ap_ratio",
+        "skillKey": "sona_q",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T18:36:39.753608Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:33.391909Z",
+        "description": "DDragon16.17.1 Sona.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sona_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:33.391909Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:36:40.959485Z",
+        "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础施法时间",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "sona_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T18:36:40.959485Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:34.12898Z",
+        "description": "DDragon16.17.1 Sona.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sona_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T21:13:04.306606Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/sona_q/parameters/base_damage": {
+      "createdAt": "2026-09-09T18:36:30.198756Z",
+      "description": "当前BaseDamage技能等级1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 85,
+        "3": 120,
+        "4": 155,
+        "5": 190
+      },
+      "name": "英勇赞美诗基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "sona_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:36:30.198756Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_q/parameters/ability_power_ratio": {
+      "createdAt": "2026-09-09T18:36:31.428725Z",
+      "description": "当前TotalDamage树使用0.4×来源总法强。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础魔法伤害法强比例",
+      "parameterKey": "ability_power_ratio",
+      "skillKey": "sona_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:36:31.428725Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sona_q/parameters/melody_attack_base_damage": {
+      "createdAt": "2026-09-09T18:36:32.633768Z",
+      "description": "当前BaseOnHitDamage技能等级1至5；是下次攻击额外组成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "name": "乐曲强化普攻基础魔法伤害",
+      "parameterKey": "melody_attack_base_damage",
+      "skillKey": "sona_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:36:32.633768Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_q/parameters/melody_attack_ap_ratio": {
+      "createdAt": "2026-09-09T18:36:33.83667Z",
+      "description": "当前TotalOnHitDamage树使用0.1×来源总法强。",
+      "fixedValue": 0.1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "乐曲强化普攻法强比例",
+      "parameterKey": "melody_attack_ap_ratio",
+      "skillKey": "sona_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T18:36:33.83667Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sona_q/parameters/melody_aura_duration_ms": {
+      "createdAt": "2026-09-09T18:36:35.041564Z",
+      "description": "当前AuraDuration=3秒，转换为3000毫秒。",
+      "fixedValue": 3000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "英勇赞美诗乐曲持续时间",
+      "parameterKey": "melody_aura_duration_ms",
+      "skillKey": "sona_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:36:35.041564Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_q/parameters/melody_attack_window_ms": {
+      "createdAt": "2026-09-09T18:36:36.210358Z",
+      "description": "当前OnHitDuration=5秒，转换为5000毫秒。",
+      "fixedValue": 5000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "强化普攻窗口",
+      "parameterKey": "melody_attack_window_ms",
+      "skillKey": "sona_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T18:36:36.210358Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_q/parameters/melody_interval_ms": {
+      "createdAt": "2026-09-09T18:36:37.353959Z",
+      "description": "当前BaseGlobalCD=0.5秒，区别于8秒公共冷却。",
+      "fixedValue": 500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础技能公共间隔",
+      "parameterKey": "melody_interval_ms",
+      "skillKey": "sona_q",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T18:36:37.353959Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_q/parameters/chord_character_level_base_damage": {
+      "createdAt": "2026-09-09T18:36:38.574575Z",
+      "description": "TotalStaccatoDamage有等级断点，完整等级曲线未证，按当前等级值外供。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "Q能量和弦等级基础伤害",
+      "parameterKey": "chord_character_level_base_damage",
+      "skillKey": "sona_q",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T18:36:38.574575Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sona_q/parameters/chord_ap_ratio": {
+      "createdAt": "2026-09-09T18:36:39.753608Z",
+      "description": "当前TotalStaccatoDamage树AP比例为0.3。",
+      "fixedValue": 0.3,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "Q能量和弦法强比例",
+      "parameterKey": "chord_ap_ratio",
+      "skillKey": "sona_q",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T18:36:39.753608Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/sona_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:03:33.391909Z",
+      "description": "DDragon16.17.1 Sona.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 8000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "sona_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:03:33.391909Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:36:40.959485Z",
+      "description": "当前spellCastTime=0.25秒，转换为250毫秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础施法时间",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "sona_q",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-09T18:36:40.959485Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_q/parameters/mana_cost": {
+      "createdAt": "2026-09-08T01:03:34.12898Z",
+      "description": "DDragon16.17.1 Sona.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 50,
+        "2": 55,
+        "3": 60,
+        "4": 65,
+        "5": 70
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "sona_q",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-18T21:13:04.306606Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/sona_q/formulas": [
+      {
+        "createdAt": "2026-09-09T18:36:42.155083Z",
+        "description": "只保留唯一敌方命中，未把第二目标或命中顺序建成结果。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "英勇赞美诗单一敌方魔法伤害",
+        "skillKey": "sona_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:36:42.155083Z"
+      },
+      {
+        "createdAt": "2026-09-09T18:36:43.391438Z",
+        "description": "强化普攻窗口内的额外组成，不等于自动普攻事件。",
+        "formulaKey": "melody_attack_magic_damage",
+        "gameId": "lol",
+        "name": "乐曲强化普攻额外魔法伤害",
+        "skillKey": "sona_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:36:43.391438Z"
+      },
+      {
+        "createdAt": "2026-09-09T18:36:44.660681Z",
+        "description": "TotalStaccatoDamage等级基础值外供，再加0.3×法强。",
+        "formulaKey": "chord_magic_damage",
+        "gameId": "lol",
+        "name": "Q能量和弦魔法伤害",
+        "skillKey": "sona_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:36:44.660681Z"
+      }
+    ],
+    "/skills/sona_q/formulas/magic_damage": {
+      "createdAt": "2026-09-09T18:36:42.155083Z",
+      "description": "只保留唯一敌方命中，未把第二目标或命中顺序建成结果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "英勇赞美诗单一敌方魔法伤害",
+      "skillKey": "sona_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:36:42.155083Z"
+    },
+    "/skills/sona_q/formulas/melody_attack_magic_damage": {
+      "createdAt": "2026-09-09T18:36:43.391438Z",
+      "description": "强化普攻窗口内的额外组成，不等于自动普攻事件。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "melody_attack_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "melody_attack_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "melody_attack_magic_damage",
+      "gameId": "lol",
+      "name": "乐曲强化普攻额外魔法伤害",
+      "skillKey": "sona_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:36:43.391438Z"
+    },
+    "/skills/sona_q/formulas/chord_magic_damage": {
+      "createdAt": "2026-09-09T18:36:44.660681Z",
+      "description": "TotalStaccatoDamage等级基础值外供，再加0.3×法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "chord_character_level_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "chord_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "chord_magic_damage",
+      "gameId": "lol",
+      "name": "Q能量和弦魔法伤害",
+      "skillKey": "sona_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:36:44.660681Z"
+    },
+    "/skills/sona_q/effects": [
+      {
+        "createdAt": "2026-09-18T20:25:56.869444Z",
+        "description": "施放时消耗对应技能等级的法力。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "sona_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T20:25:56.869444Z"
+      },
+      {
+        "createdAt": "2026-09-21T13:08:55.806433Z",
+        "description": "专供娑娜Q主动最初音波对本轮唯一敌方英雄的一次合资格实际命中，且同次法术护盾阻挡值明确为0；只结算本体魔法伤害，不重复判定法术护盾。乐曲下一次攻击附伤和能量和弦另外处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "英勇赞美诗明确未阻挡本体伤害",
+        "resultCount": 1,
+        "skillKey": "sona_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T13:08:55.806433Z"
+      }
+    ],
+    "/skills/sona_q/effects/mana_cost": {
+      "createdAt": "2026-09-18T20:25:56.869444Z",
+      "description": "施放时消耗对应技能等级的法力。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "sona_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T20:25:56.869444Z"
+    },
+    "/skills/sona_q/effects/primary_hit": {
+      "createdAt": "2026-09-21T13:08:55.806433Z",
+      "description": "专供娑娜Q主动最初音波对本轮唯一敌方英雄的一次合资格实际命中，且同次法术护盾阻挡值明确为0；只结算本体魔法伤害，不重复判定法术护盾。乐曲下一次攻击附伤和能量和弦另外处理。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "英勇赞美诗明确未阻挡本体伤害",
+      "results": [
+        {
+          "description": "引用本技能magic_damage公式，目标为本次主动音波命中对象；本结果不生成命中，不结算乐曲附伤或能量和弦。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampRules": [
+              {
+                "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                "efficiencyValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "vampType": "OMNIVAMP"
+              }
+            ]
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "sona_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-21T13:08:55.806433Z"
+    },
+    "/skills/sona_q/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T20:25:58.167597Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "sona_q",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T20:25:58.167597Z"
+      }
+    ],
+    "/skills/sona_q/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T20:25:58.167597Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零。伤害、治疗、护盾、球及其他机制不在此过程执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "sona_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T20:25:58.167597Z"
+    },
+    "/skills/sona_q/internal-states": [],
+    "/skills/sona_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T20:25:59.511811Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "同组要求sona_q主动最初音波的合资格实际命中敌方英雄且同次法术护盾阻挡值为0；缺值或1均不执行。不从使用、普通攻击附伤或任意伤害结算生成本体命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "明确未阻挡英勇赞美诗本体命中伤害",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_unblocked_hit",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T13:08:57.448513Z"
+      }
+    ],
+    "/skills/sona_q/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动消耗与冷却登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动专门的消耗与冷却登记过程；不定义完整施法时长，不代替命中、治疗、护盾、球或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "sona_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    },
+    "/skills/sona_q/trigger-rules/actual_unblocked_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行英勇赞美诗本体伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮明确未阻挡敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "同组要求sona_q主动最初音波的合资格实际命中敌方英雄且同次法术护盾阻挡值为0；缺值或1均不执行。不从使用、普通攻击附伤或任意伤害结算生成本体命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "sona_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "明确未阻挡英勇赞美诗本体命中伤害",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_unblocked_hit",
+      "sortOrder": 20
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/level-config",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_attack_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_attack_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_aura_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_attack_window_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/melody_interval_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/chord_character_level_base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/chord_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas/melody_attack_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/formulas/chord_magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/sona_q/trigger-rules/actual_unblocked_hit",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

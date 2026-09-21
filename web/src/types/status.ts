@@ -1,6 +1,21 @@
 export type StatusRecordStatus = 'ENABLED' | 'DISABLED';
+export type StatusKind = 'STUN' | 'MOVEMENT_SLOW' | 'ROOT' | 'SILENCE' | 'CHARM' | 'AIRBORNE';
+
+export const STATUS_KIND_LABELS: Record<StatusKind, string> = {
+  STUN: '眩晕',
+  MOVEMENT_SLOW: '普通移动减速',
+  ROOT: '禁锢',
+  SILENCE: '沉默',
+  CHARM: '魅惑',
+  AIRBORNE: '击飞'
+};
+
+export function isStatusKind(value: unknown): value is StatusKind {
+  return value === 'STUN' || value === 'MOVEMENT_SLOW' || value === 'ROOT' || value === 'SILENCE' || value === 'CHARM' || value === 'AIRBORNE';
+}
 
 export type GameStatus = {
+  statusKind: StatusKind;
   gameId: string;
   statusKey: string;
   name: string;
@@ -22,6 +37,7 @@ export type StatusListQuery = {
 };
 
 export type CreateStatusRequest = {
+  statusKind: StatusKind;
   statusKey: string;
   name: string;
   description: string | null;

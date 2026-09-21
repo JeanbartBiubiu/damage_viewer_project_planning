@@ -1,0 +1,150 @@
+{
+  "at": "2026-09-19T18:29:11.445Z",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Malzahar.json.gz",
+      "sha256": "6e3f8020a3fb1e4e2f0c617cf493771bf2cda721353461d89c4af6d6b96622eb"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Malzahar.json",
+      "sha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Malzahar.json",
+      "sha256": "a03e55ea9ba72b12042c82c5f778ca7d54c60fc5833a91e3dc2f99969a55ac7e"
+    }
+  ],
+  "rootBinding": "Characters/Malzahar/CharacterRecords/Root.spells[2]",
+  "root": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+  "rawFields": {
+    "spellCastTime": 0.25,
+    "spellTotalTime": 1,
+    "mCastTime": "MISSING",
+    "castFrame": 7.5,
+    "cooldownTime": [
+      11,
+      11,
+      10,
+      9,
+      8,
+      7,
+      7
+    ],
+    "mana": [
+      60,
+      70,
+      80,
+      90,
+      100,
+      110
+    ],
+    "DataValues": [
+      {
+        "name": "BaseDamage",
+        "values": [
+          45,
+          80,
+          115,
+          150,
+          185,
+          220,
+          255
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "SecondsPerTick",
+        "values": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "Duration",
+        "values": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "UnnamedEffectAmount2",
+        "__type": "SpellDataValue"
+      }
+    ],
+    "totalDamageAPCoefficient": 0.800000011920929
+  },
+  "normalized": {
+    "castMilliseconds": 250,
+    "cooldownMilliseconds": [
+      11000,
+      10000,
+      9000,
+      8000,
+      7000
+    ],
+    "mana": [
+      60,
+      70,
+      80,
+      90,
+      100
+    ],
+    "durationMilliseconds": 4000,
+    "periodMilliseconds": 250,
+    "baseDamage": [
+      80,
+      115,
+      150,
+      185,
+      220
+    ],
+    "APCoefficient": 0.8
+  },
+  "official": {
+    "cost": [
+      60,
+      70,
+      80,
+      90,
+      100
+    ],
+    "cooldown": [
+      11,
+      10,
+      9,
+      8,
+      7
+    ],
+    "maxammo": "-1"
+  },
+  "corroboration": {
+    "url": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-13-16-notes/",
+    "fact": "13.16将E伤害间隔从0.5秒改为0.25秒，与16.17固定客户端相符；没有给出首跳相位。"
+  },
+  "knownUseBranch": "普通主动施放，既有250毫秒根施放参数可登记；成本与冷却一致，无弹药结构证据。实际持续伤害、刷新、目标有效性和取消处理独立。",
+  "notApproved": [
+    "不把spellTotalTime1000毫秒当作施法时长",
+    "不从castFrame推算首跳",
+    "不把历史运行方案16跳当成本轮完整游戏来源"
+  ],
+  "businessWrites": 0
+}

@@ -1,0 +1,645 @@
+{
+  "title": "艾翁与拉克丝Q禁锢同类返回补录",
+  "at": "2026-09-19T05:32:41.898Z",
+  "targets": [
+    {
+      "skillKey": "ivern_q",
+      "ownerKey": "champion_ivern"
+    },
+    {
+      "skillKey": "lux_q",
+      "ownerKey": "champion_lux"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/ivern_q/effects",
+      "detailRoute": "/skills/ivern_q/effects/root_control",
+      "body": {
+        "effectKey": "root_control",
+        "name": "艾翁·根深敌固首次禁锢",
+        "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限复用root_duration_ms；入口同时要求实际敌方英雄命中及同次命中明确未被法术护盾阻挡。已有实例时不执行，必填重施策略在本入口不可达，重施语义仍待核。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "root",
+            "name": "艾翁·根深敌固禁锢",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": null,
+            "detail": {
+              "statusKey": "root",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "root_control",
+        "name": "艾翁·根深敌固首次禁锢",
+        "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限复用root_duration_ms；入口同时要求实际敌方英雄命中及同次命中明确未被法术护盾阻挡。已有实例时不执行，必填重施策略在本入口不可达，重施语义仍待核。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "root",
+            "name": "艾翁·根深敌固禁锢",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": null,
+            "detail": {
+              "statusKey": "root",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ivern_q/trigger-rules",
+      "detailRoute": "/skills/ivern_q/trigger-rules/apply_root_on_unblocked_hit",
+      "body": {
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "name": "艾翁·根深敌固未受阻挡首次禁锢",
+        "description": "只消费本技能实际敌方英雄命中，且同次护盾阻挡值为0、当前目标无本来源禁锢实例；缺失判定不能默认0。重施突进、友军突进和野怪冷却返还不进入本规则。已有实例的重复命中未录，原伤害与其他组成保持。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "ivern_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "root_eligible",
+            "name": "本次禁锢可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "root_control",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "name": "施加本次禁锢",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "root_control"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "name": "艾翁·根深敌固未受阻挡首次禁锢",
+        "description": "只消费本技能实际敌方英雄命中，且同次护盾阻挡值为0、当前目标无本来源禁锢实例；缺失判定不能默认0。重施突进、友军突进和野怪冷却返还不进入本规则。已有实例的重复命中未录，原伤害与其他组成保持。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "ivern_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "root_eligible",
+            "name": "本次禁锢可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "root_control",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "name": "施加本次禁锢",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "root_control"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lux_q/effects",
+      "detailRoute": "/skills/lux_q/effects/root_control",
+      "body": {
+        "effectKey": "root_control",
+        "name": "拉克丝·光之束缚首次禁锢",
+        "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限复用root_duration_ms；入口同时要求实际敌方英雄命中及同次命中明确未被法术护盾阻挡。已有实例时不执行，必填重施策略在本入口不可达，重施语义仍待核。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "root",
+            "name": "拉克丝·光之束缚禁锢",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": null,
+            "detail": {
+              "statusKey": "root",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      },
+      "expectedReadback": {
+        "effectKey": "root_control",
+        "name": "拉克丝·光之束缚首次禁锢",
+        "description": "本来源当前目标无本禁锢实例时施加一次禁锢，期限复用root_duration_ms；入口同时要求实际敌方英雄命中及同次命中明确未被法术护盾阻挡。已有实例时不执行，必填重施策略在本入口不可达，重施语义仍待核。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "root_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "root",
+            "name": "拉克丝·光之束缚禁锢",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "施加无强度禁锢并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": "RESULT",
+            "valueRule": null,
+            "detail": {
+              "statusKey": "root",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lux_q/trigger-rules",
+      "detailRoute": "/skills/lux_q/trigger-rules/apply_root_on_unblocked_hit",
+      "body": {
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "name": "拉克丝·光之束缚未受阻挡首次禁锢",
+        "description": "只消费本技能实际敌方英雄命中，且同次护盾阻挡值为0、当前目标无本来源禁锢实例；缺失判定不能默认0。前两目标选择与碰撞不由本规则生成；每次合法实际命中分别检查。已有实例的重复命中未录，原伤害与其他组成保持。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "lux_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "root_eligible",
+            "name": "本次禁锢可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "root_control",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "name": "施加本次禁锢",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "root_control"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "apply_root_on_unblocked_hit",
+        "name": "拉克丝·光之束缚未受阻挡首次禁锢",
+        "description": "只消费本技能实际敌方英雄命中，且同次护盾阻挡值为0、当前目标无本来源禁锢实例；缺失判定不能默认0。前两目标选择与碰撞不由本规则生成；每次合法实际命中分别检查。已有实例的重复命中未录，原伤害与其他组成保持。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "lux_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "root_eligible",
+            "name": "本次禁锢可施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 40,
+                "detail": {
+                  "effectKey": "root_control",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "name": "施加本次禁锢",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "root_control"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceFiles": [
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/艾翁拉克丝Q禁锢返回补录/00-独立来源与资格核对.json",
+      "sha256": "8448d8975c19a24941c98f466f3437a141442072ab3621ba4e94b723bd8abcf4"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q禁锢首次页面补录/01-候选方案.json",
+      "sha256": "9753bdbf5026437df3facc6487903439c08fc1c70688e3799f8c5e7294d76c49"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q禁锢首次页面补录/07-独立回读.json",
+      "sha256": "a5267cc512ab7a7ce7753d0f8833f0ea31dc85ec6cd58db4a2a7d49813858e28"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q禁锢首次页面补录/08-页面验收.json",
+      "sha256": "9044f885c2a03a4a2cfec033bef8ba84e52bc5acb762be199de7a37da86fb904"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/莫甘娜Q禁锢首次页面补录/09-证据清单.json",
+      "sha256": "d7ce7ebfab3e483fcf289605c003ad2ab7826a53e992f00fed8bef5b3df47fe5"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillEffect.ts",
+      "sha256": "0c1c6bec64b26f4b5d9a721eba0989d1fbee8deefc87105304e96fe92cfa2ed5"
+    },
+    {
+      "root": "web",
+      "path": "web/src/pages/admin/skills/effects/effectForm.ts",
+      "sha256": "ffff5aab07fc90d5886e0fa3dd37693e98405ff8b5abfdad15df084177ba2e14"
+    },
+    {
+      "root": "web",
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "b1af9f8d15671444be8e4c574dd20be8249dc3ad0c91e6ef5b005463a6bb283b"
+    },
+    {
+      "root": "web",
+      "path": "web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "sha256": "91fbba576225bc476492eb6c0a9e2ad2c10b187660d8667616958918b0f79064"
+    },
+    {
+      "root": "web",
+      "path": "web/src/pages/admin/skills/triggers/lifecycleCondition.ts",
+      "sha256": "afdb81f57a55ea2c178a696ebe4a0850f7cbc42b08d73ba90515f7cbd8887e5f"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Ivern.json",
+      "sha256": "944b848a16ce275abfe73bff480a001eafdf014df9f849b436cba47231a95be3"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Ivern.json.gz",
+      "sha256": "3e21fdf20084ca37263d8bc86ea2eb040cabba152161021e8e89054548948196"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Lux.json",
+      "sha256": "61c06ce0893ff509453ed9a00903d9be172deff81559ec858a2297526561e46f"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Lux.json.gz",
+      "sha256": "2a85df897c85fcf958ec45ed153fe292e65cb40d0a812fd9fae78b0e5c928c47"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/法术护盾闭环详细设计.md",
+      "sha256": "f71a2697b3e1966d948058b94fcbec9f71570e3eeb63259172402564fd1e60e1"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/效果与状态生命周期管理详细设计.md",
+      "sha256": "9c411d817f8eb01501160411d18e844c54988758976e4fe5f0aa0d3913e349fd"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/系统精简实施说明.md",
+      "sha256": "5207fa95ff662545edafaa737df6fa17603dcb0aa858f701cef86b4aa5e51458"
+    },
+    {
+      "root": "planning",
+      "path": "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md",
+      "sha256": "ca2d715880e939f634e35e585bd3fc7ebcd6d42705f87f07c187201c1a8db4e7"
+    }
+  ],
+  "scope": "复用已通过莫甘娜Q首次页面的持续禁锢及四同组条件结构；只新增2效果2规则，完整保护原组成。",
+  "remaining": [
+    "两技能禁锢实例尚存时重施",
+    "艾翁Q使用过程与突进资格",
+    "拉克丝Q旧吸血配置、旧入口范围及参数说明整理"
+  ],
+  "runtimeValidation": "未执行"
+}

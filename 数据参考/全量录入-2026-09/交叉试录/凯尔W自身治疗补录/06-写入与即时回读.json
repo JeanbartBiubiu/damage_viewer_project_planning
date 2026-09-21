@@ -1,0 +1,323 @@
+{
+  "startedAt": "2026-09-18T21:41:25.602Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/kayle_w/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-18T21:41:25.441789Z",
+          "description": "主动使用时为凯尔自身回复生命值；不包含最近友军治疗和移动速度。",
+          "effectKey": "self_heal",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "星界恩典自身治疗",
+          "results": [
+            {
+              "description": null,
+              "detail": {},
+              "lifecycleBehavior": null,
+              "name": "自身回复生命值",
+              "resultKey": "heal",
+              "resultType": "DIRECT_HEAL",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "heal_value",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "kayle_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-18T21:41:25.441789Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-18T21:41:25.441789Z",
+        "description": "主动使用时为凯尔自身回复生命值；不包含最近友军治疗和移动速度。",
+        "effectKey": "self_heal",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "星界恩典自身治疗",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "自身回复生命值",
+            "resultKey": "heal",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "heal_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "kayle_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T21:41:25.441789Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/kayle_w/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "heal_self",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "self_heal"
+              },
+              "name": "执行自身治疗",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [],
+          "description": "官方说明明确每次主动使用治疗自身；不依赖友军目标，不添加显式自施条件。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "kayle_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "主动使用回复自身生命",
+          "perTargetCooldown": null,
+          "ruleKey": "on_used_self_heal",
+          "sortOrder": 10
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "heal_self",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "self_heal"
+            },
+            "name": "执行自身治疗",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "官方说明明确每次主动使用治疗自身；不依赖友军目标，不添加显式自施条件。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "kayle_w",
+            "useKind": "ACTIVE"
+          },
+          "eventType": "SKILL_USED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "主动使用回复自身生命",
+        "perTargetCooldown": null,
+        "ruleKey": "on_used_self_heal",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components.mjs": "80a18af8cf0232cf78541c15b988f544140492f9d2c559184678f60bf1817a9a",
+    "01-候选方案.json": "0fccf85da61a90d6d0b59fc640eb7e374cd24f20fe58c9349a723012957ab7d5",
+    "02-冻结请求.json": "4a65f6917e21d593dba0f994a3a39de18e82c499a273a0bf0b39f6da0c905e90",
+    "03-来源摘要.json": "bddbe8924694cdadae214c8a81f0bf56e90843361364e44b130a3d4a69b96bf2",
+    "04-写入前现值.json": "42994168da89d53e0f01070b0e101dbe952eac250650a2989d08a4e6e2410b2d"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-18T21:41:29.386Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kayle",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kayle/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_kayle/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_kayle",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=kayle_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/base_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/heal_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/haste_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/haste_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/haste_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/formulas/heal_value",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/formulas/haste_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/effects/self_heal",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/trigger-rules/on_used_self_heal",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/effects/self_heal",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/kayle_w/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/effects/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/trigger-rules/on_used_self_heal",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/kayle_w/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/kayle_w/trigger-rules/on_used_self_heal",
+      "status": 200
+    }
+  ]
+}

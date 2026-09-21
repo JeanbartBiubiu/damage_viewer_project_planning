@@ -1,0 +1,120 @@
+{
+  "at": "2026-09-19T15:19:32.133Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/characters/champion_garen": {
+      "characterKey": "champion_garen",
+      "createdAt": "2026-09-06T15:21:31.997798Z",
+      "description": "德玛西亚之力·盖伦。资料：官方静态资料16.17.1、同补丁客户端16.17.8104348。仅基础属性与1～18级自然成长；技能、被动叠层与图片尚待录入和核对。",
+      "gameId": "lol",
+      "name": "盖伦",
+      "updatedAt": "2026-09-06T15:21:31.997798Z"
+    },
+    "/characters/champion_garen/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "image_64b2a9e8-a4bc-4093-884d-4d2b2d967b2e",
+        "name": "盖伦代表图片_64b2a9e8-a4bc-4093-884d-4d2b2d967b2e"
+      }
+    },
+    "/skills/garen_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "image_8d466315-5f6e-42da-9e9c-e8f2a7a916c4",
+        "name": "盖伦·德玛西亚正义代表图片_8d466315-5f6e-42da-9e9c-e8f2a7a916c4"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_garen": {
+      "items": [
+        {
+          "characterKey": "champion_garen",
+          "characterName": "盖伦",
+          "gameId": "lol",
+          "skillKey": "garen_p",
+          "skillName": "盖伦·坚韧",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_garen",
+          "characterName": "盖伦",
+          "gameId": "lol",
+          "skillKey": "garen_q",
+          "skillName": "盖伦·致命打击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_garen",
+          "characterName": "盖伦",
+          "gameId": "lol",
+          "skillKey": "garen_w",
+          "skillName": "盖伦·勇气",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_garen",
+          "characterName": "盖伦",
+          "gameId": "lol",
+          "skillKey": "garen_e",
+          "skillName": "盖伦·审判",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_garen",
+          "characterName": "盖伦",
+          "gameId": "lol",
+          "skillKey": "garen_r",
+          "skillName": "盖伦·德玛西亚正义",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 5
+    },
+    "/character-skill-relations?skillKey=garen_r": {
+      "items": [
+        {
+          "characterKey": "champion_garen",
+          "characterName": "盖伦",
+          "gameId": "lol",
+          "skillKey": "garen_r",
+          "skillName": "盖伦·德玛西亚正义",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    }
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/characters/champion_garen",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_garen/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/garen_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_garen",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=garen_r",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

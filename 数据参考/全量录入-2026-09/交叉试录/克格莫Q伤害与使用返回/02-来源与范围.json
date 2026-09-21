@@ -1,0 +1,357 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-20T09:39:20.5368170Z",
+  "status": "需修",
+  "reviewer": "kogmaw_q独立来源与范围核对",
+  "methodPolicy": "LOCAL_FILES_AND_SHARED_GET_BASELINE_ONLY",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "businessWrites": 0,
+  "httpRequests": 0,
+  "sqlRequests": 0,
+  "baseline": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/克格莫Q伤害与使用返回/01-共享现值.json",
+    "sha256": "673c2f518e726db4db12922e425c5dfefcdef4497e4013633a50289e45f55ffc",
+    "businessWrites": 0,
+    "auditGETCount": 28,
+    "observedExisting": {
+      "parameterCount": 7,
+      "formulaCount": 1,
+      "effectKeys": [
+        "mana_cost",
+        "passive_attack_speed"
+      ],
+      "processCount": 0,
+      "internalStateCount": 0,
+      "triggerRuleKeys": [
+        "initialize_passive_attack_speed"
+      ]
+    }
+  },
+  "sourceFiles": [
+    {
+      "kind": "客户端技能公共参数原文",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/KogMaw.json.gz",
+      "byteSize": 8425,
+      "sha256": "5eafce97815062a4cc8ef819967257c625a487ff560347eeb4dc810a859e8c5c",
+      "decompressedByteSize": 59135,
+      "decompressedSha256": "a9f72b07de44dcad18624d61daa4dcaaabe7d4990103c0c7dbc3a7b36026749a"
+    },
+    {
+      "kind": "官方中文原始资料",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/KogMaw.json",
+      "byteSize": 13986,
+      "sha256": "0b3108e708beef63649ff526f6539c2575598f7f19c8e85553d4397bc67ed8ed"
+    },
+    {
+      "kind": "官方英文原始资料",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/KogMaw.json",
+      "byteSize": 13337,
+      "sha256": "5b6abbf6b34516b9d057ce5c2fdbbe99bc615b6630d29a77d9b65dd837338f37"
+    }
+  ],
+  "rootBinding": {
+    "clientAbilityPath": "Characters/KogMaw/Spells/KogMawQAbility",
+    "clientRootPath": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
+    "clientAbilityRootField": "mRootSpell",
+    "clientAbilityRootValue": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
+    "clientChildSpells": [
+      "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
+      "Characters/KogMaw/Spells/KogMawQAbility/KogMawQMis",
+      "Characters/KogMaw/Spells/KogMawQAbility/KogMawCausticSpittle",
+      "Characters/KogMaw/Spells/KogMawQAbility/KogMawCausticSpittleCharged"
+    ],
+    "officialZhPath": "data.KogMaw.spells[0]",
+    "officialEnPath": "data.KogMaw.spells[0]",
+    "officialId": "KogMawQ",
+    "skillKey": "kogmaw_q",
+    "formulaKey": "damage",
+    "formulaClientPath": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ/mSpell/mSpellCalculations/TotalDamage"
+  },
+  "rootAndChildReview": {
+    "root": {
+      "status": "PASS",
+      "evidence": [
+        "主根 ObjectName=KogMawQ，mSpellCalculations.TotalDamage 的两个计算片段为 BaseDamage 与 APRatio 的法强计算片段。",
+        "主根 mSpell.mMissileSpec.behaviors 含 CastOnHit，且 bHaveHitEffect=true；实际命中规则消费外部 SKILL_HIT，不把过程完成当命中。",
+        "主根 mTargetingTypeData 为 Direction，范围与弹道字段属于命中生产的外部运行边界。"
+      ]
+    },
+    "kogMawQMis": {
+      "status": "排除",
+      "path": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQMis",
+      "reason": "它是主根的子弹子对象，未发现 mSpellCalculations.TotalDamage；不另建公式、伤害效果或命中规则。"
+    },
+    "kogMawCausticSpittle": {
+      "status": "排除",
+      "path": "Characters/KogMaw/Spells/KogMawQAbility/KogMawCausticSpittle",
+      "reason": "它是同能力下的旧/备用子对象，含另一套 mCoefficient 与 mEffectAmount，但不属于当前主根 TotalDamage；不得用它替换主根已有公式。"
+    },
+    "kogMawCausticSpittleCharged": {
+      "status": "排除",
+      "path": "Characters/KogMaw/Spells/KogMawQAbility/KogMawCausticSpittleCharged",
+      "reason": "仅有增益说明对象，没有可供本轮直接伤害求值的 mSpell 计算树。"
+    }
+  },
+  "sourceFacts": {
+    "clientRootDataValues": {
+      "AttackSpeedRaw": [
+        0,
+        0.05000000074505806,
+        0.10000000149011612,
+        0.15000000596046448,
+        0.20000000298023224,
+        0.25,
+        0.30000001192092896
+      ],
+      "BaseDamageRaw": [
+        35,
+        80,
+        125,
+        170,
+        215,
+        260,
+        305
+      ],
+      "APRatioRaw": [
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421,
+        0.8999999761581421
+      ],
+      "ShredAmountRaw": [
+        12,
+        16,
+        20,
+        24,
+        28,
+        32,
+        36
+      ],
+      "ShredDurationRawSeconds": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "spellCastTimeSeconds": 0.25,
+      "spellTotalTimeSeconds": 1,
+      "cooldownTimeSeconds": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "mana": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "mUseAutoattackCastTimeData": {
+        "present": true,
+        "objectType": "UseAutoattackCastTimeData",
+        "fields": {}
+      },
+      "castTimeInterpretation": "spellCastTime=0.25 与 mUseAutoattackCastTimeData={} 同时存在；没有足够来源定义有效普通施法时长，本轮不创建 cast_time_ms，不把0立即步骤解释成0施放时长。"
+    },
+    "clientCalculation": {
+      "path": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ/mSpell/mSpellCalculations/TotalDamage",
+      "formulaParts": [
+        {
+          "mDataValue": "BaseDamage",
+          "type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mDataValue": "APRatio",
+          "type": "StatByNamedDataValueCalculationPart"
+        }
+      ],
+      "meaning": "BaseDamage + APRatio × SOURCE.TOTAL ability_power"
+    },
+    "officialZh": {
+      "path": "data.KogMaw.spells[0]",
+      "id": "KogMawQ",
+      "maxrank": 5,
+      "cost": [40, 40, 40, 40, 40],
+      "cooldown": [7, 7, 7, 7, 7],
+      "descriptionEvidence": "对目标造成魔法伤害并腐蚀护甲和魔法抗性；技能提示为命中的第一个敌人。"
+    },
+    "officialEn": {
+      "path": "data.KogMaw.spells[0]",
+      "id": "KogMawQ",
+      "maxrank": 5,
+      "cost": [40, 40, 40, 40, 40],
+      "cooldown": [7, 7, 7, 7, 7],
+      "descriptionEvidence": "Deals magic damage to the first enemy hit and shreds Armor and Magic Resist; the passive grants Attack Speed."
+    },
+    "officialNumericBoundary": "官方中英文文件没有直接展开 TotalDamage 的基础伤害与法强系数；数值公式只由固定客户端主根计算树和现有管理参数共同确证。"
+  },
+  "existingValuesReview": {
+    "status": "PASS_WITH_ONE_REQUIRED_SHAPE_REPAIR",
+    "reuseWithoutRerecording": [
+      "base_damage=80/125/170/215/260",
+      "ap_ratio=0.9",
+      "passive_attack_speed_ratio=0.05/0.10/0.15/0.20/0.25",
+      "resistance_shred_ratio=0.16/0.20/0.24/0.28/0.32",
+      "shred_duration_ms=4000",
+      "cooldown_ms=7000",
+      "mana_cost=40",
+      "formula damage",
+      "effect mana_cost",
+      "effect passive_attack_speed",
+      "trigger initialize_passive_attack_speed"
+    ],
+    "passiveInitialization": {
+      "existingEffect": {
+        "effectKey": "passive_attack_speed",
+        "instanceScope": "SOURCE",
+        "maxStacks": 1,
+        "resultKey": "attribute",
+        "target": "SOURCE",
+        "moment": "PERSISTENT",
+        "attributeKey": "bonus_attack_speed_percent",
+        "currentValueReadMode": "APPLICATION_SNAPSHOT",
+        "currentStackValueMode": "SHARED",
+        "currentReapplicationValueMode": "REPLACE"
+      },
+      "requiredRepair": {
+        "valueReadMode": "MOMENT_EVALUATION",
+        "stackValueMode": "SHARED",
+        "reapplicationValueMode": null,
+        "periodicExecutionMode": null
+      },
+      "conclusion": "PASS_FOR_RANKS_1_TO_5_AFTER_SHAPE_REPAIR",
+      "whyNoUpgradeEvent": "现有乘区契约规定 MOMENT_EVALUATION 在属性进入乘区时重新读取公式；该参数是 SKILL_LEVEL，持续实例只需保留一次 SOURCE_INITIALIZED 挂载，后续当前已学等级变化由持续属性重算读取。",
+      "unlearnedRank0Boundary": "项目参数域只有技能等级1至5，不为未学习Q编造0值；未学习时的挂载/初始化资格仍属未知运行边界，不用新增升级事件或默认值掩盖。"
+    }
+  },
+  "scopeDecisions": [
+    {
+      "item": "主根直接伤害效果 primary_hit",
+      "status": "PASS",
+      "basis": "引用现有 damage 公式，DAMAGE/TARGET/magic/SKILL/DIRECT，critical DISALLOWED；Q主根官方提示与客户端 DamageTag/TotalDamage 均支持。"
+    },
+    {
+      "item": "实际命中入口 actual_hit",
+      "status": "PASS",
+      "basis": "SKILL_HIT(sourceSkillKey=kogmaw_q) + TARGET_CATEGORY_CHECK(CHAMPION) + SKILL_HIT_TARGET_IS_ENEMY，动作 CURRENT_TARGET 执行 primary_hit；这里表示根Q第一个碰撞目标同时是敌方英雄时才执行，不穿过小兵寻找后续英雄；无每目标冷却，命中由外部事件生产。"
+    },
+    {
+      "item": "法术护盾与吸血",
+      "status": "PASS",
+      "basis": "DAMAGE 结果使用 spellShieldBlockScope=SKILL；OMNIVAMP 以 POST_DEFENSE_DAMAGE 为基准且 efficiencyValue=1。该粒度覆盖根Q的一次技能命中，不把实际护盾阻挡或治疗结算误称为已验证。"
+    },
+    {
+      "item": "40法力与7000毫秒普通冷却",
+      "status": "PASS",
+      "basis": "已有 mana_cost 效果在 PROCESS_START 绑定；新增过程只登记 cooldown_ms，立即步骤使用空明细；SKILL_USED(useKind=ACTIVE) 启动过程。费用不依赖命中，实际命中另有入口。"
+    },
+    {
+      "item": "有效施法时长",
+      "status": "PASS_AS_EXCLUDED",
+      "basis": "spellCastTime=0.25 与 mUseAutoattackCastTimeData={} 冲突关系未定义；立即登记步骤不解释为0秒施法，本轮不新增 cast_time_ms、不把 spellTotalTime/castFrame/飞行速度当施放时长。"
+    },
+    {
+      "item": "双抗削减",
+      "status": "待补",
+      "basis": "现有 resistance_shred_ratio 与 shred_duration_ms 只登记参数；本轮不创建削减效果、目标属性乘区、先后顺序或重施策略。"
+    }
+  ],
+  "genericContractEvidence": [
+    {
+      "path": "web/src/types/skillEffect.ts",
+      "sha256": "f7f05d48b273b810d3d136fe8a32913e0c75da4de75691f89df4659976002696",
+      "lineRanges": ["32", "44-45", "64-68", "89-91", "121-127", "226-232"],
+      "evidence": "当前效果契约允许 SKILL 护盾阻挡范围、OMNIVAMP、POST_DEFENSE_DAMAGE、固定效率值、不可暴击和完整伤害明细。"
+    },
+    {
+      "path": "web/src/types/skillTriggerRule.ts",
+      "sha256": "b1af9f8d15671444be8e4c574dd20be8249dc3ad0c91e6ef5b005463a6bb283b",
+      "lineRanges": ["5-38", "51-60", "115", "144-151", "460-492", "590-645"],
+      "evidence": "当前触发契约允许 SKILL_HIT、TARGET_CATEGORY_CHECK、SKILL_HIT_TARGET_IS_ENEMY、CURRENT_TARGET，以及 SKILL_USED 的 ACTIVE 使用类别。"
+    },
+    {
+      "path": "web/src/types/skillProcess.ts",
+      "sha256": "6fa0232b4ab6c1bbf44488f0e0a2eb41b8dfd1b23ac9db99a935a74ada0fb85b",
+      "lineRanges": ["4-14", "34-41", "94-110", "124-130"],
+      "evidence": "当前过程契约允许 ACTIVE、IMMEDIATE 空明细步骤、PROCESS_START 冷却和 PROCESS_START 效果绑定，支持登记过程而不虚构施法时长。"
+    },
+    {
+      "path": "文档记录/详细设计/项目/乘区管理与修正结果补充详细设计.md",
+      "sha256": "64a802c3e748c6001050a2d26ba91a4cb1f7e05cd0147f83eb3c7802dd63c524",
+      "lineRanges": ["252-270", "359-363"],
+      "evidence": "MOMENT_EVALUATION 在对应属性结算时重新读取公式；持续属性可用 SHARED 且重复施加值必须为 null，动态读取不需为技能升级另造事件。"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/内瑟斯技能实录第一批/录入候选.json",
+      "sha256": "819963452059cb0fd48b5ab35db2245014376e2de75162036824723a28164cd3",
+      "lineRanges": ["650-730"],
+      "evidence": "已存在同类当前等级常驻属性样本：技能等级/角色等级参数通过 MOMENT_EVALUATION + SHARED + null 重复施加值挂载，初始化仍是一次性 SOURCE_INITIALIZED。"
+    }
+  ],
+  "pendingBranches": [
+    {
+      "branch": "双抗削减效果、目标属性修改区、先后顺序与重施",
+      "status": "未知",
+      "managementBlocking": false
+    },
+    {
+      "branch": "Q第一碰撞、弹道到 SKILL_HIT 事件的生产与运行时目标解析",
+      "status": "未知",
+      "managementBlocking": false
+    },
+    {
+      "branch": "法术护盾实际阻挡、伤害防御结算与全能吸血实际治疗",
+      "status": "未知",
+      "managementBlocking": false
+    },
+    {
+      "branch": "SKILL_USED 事件、法力实际扣除时点与普通冷却运行结算",
+      "status": "未知",
+      "managementBlocking": false
+    },
+    {
+      "branch": "spellCastTime 与 mUseAutoattackCastTimeData 的有效施法时长关系",
+      "status": "未知",
+      "managementBlocking": false
+    },
+    {
+      "branch": "未学习Q时等级0的技能挂载与 SOURCE_INITIALIZED 资格",
+      "status": "未知；无默认值",
+      "managementBlocking": false
+    },
+    {
+      "branch": "P/W/E/R 或其他技能对Q运行链路的跨技能依赖",
+      "status": "未知",
+      "managementBlocking": false,
+      "note": "主根静态计算树未引用其他技能，但静态无引用不能证明绝无跨技能依赖；本报告不作绝对断言。"
+    }
+  ],
+  "modeBoundary": {
+    "status": "待补",
+    "note": "客户端主根含 cherry 与 ARAM DataValuesModeOverride；本报告按默认主根数组核对，不把模式覆盖值混入现有普通管理参数，当前契约没有模式输入。"
+  },
+  "decision": "主根公式、直接魔法伤害、敌方英雄实际命中、SKILL粒度护盾、效率1防御后全能吸血，以及40法力/7000毫秒普通主动登记均充分，可按草稿冻结；但现有 passive_attack_speed 结果必须先从 APPLICATION_SNAPSHOT + REPLACE 修正为 MOMENT_EVALUATION + SHARED + null。双抗、真实运行与未学习0级继续逐项保留未知，不作为本轮管理阻塞。",
+  "risk": [
+    "本报告只使用本地固定来源与01共享现值，未进行HTTP、数据库、浏览器或战斗运行验证。",
+    "DDragon中英文只提供技能说明、消耗、冷却和等级上限；直接伤害数值与法强系数来自客户端主根TotalDamage，不应从官方占位字段猜值。",
+    "主根数据值存在模式覆盖和原始浮点表示；公式算术文件单独记录默认模式与有限精度差异。",
+    "SKILL_HIT目标事件及防御、法术护盾、吸血结算仍由运行时生产，当前管理契约通过字段表达不等于运行证明。"
+  ],
+  "runtimeValidation": "未执行",
+  "goalComplete": false
+}

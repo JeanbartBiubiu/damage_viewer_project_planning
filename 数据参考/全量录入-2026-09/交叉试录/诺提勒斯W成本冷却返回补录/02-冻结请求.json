@@ -1,0 +1,155 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/processes",
+      "detailRoute": "/skills/nautilus_w/processes/cast",
+      "body": {
+        "processKey": "cast",
+        "name": "泰坦之怒使用成本与冷却登记",
+        "activationType": "ACTIVE",
+        "description": "仅登记已成立主动使用时60法力消耗与12秒普通冷却；原on_used规则继续施加自身护盾，不重复挂接。立即步骤只表示登记，不表示零施法时间或攻击重置已实现。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "登记本次使用",
+            "description": "仅登记本次使用成本与普通冷却，不改变已有护盾入口时点。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      },
+      "expectedReadback": {
+        "processKey": "cast",
+        "name": "泰坦之怒使用成本与冷却登记",
+        "activationType": "ACTIVE",
+        "description": "仅登记已成立主动使用时60法力消耗与12秒普通冷却；原on_used规则继续施加自身护盾，不重复挂接。立即步骤只表示登记，不表示零施法时间或攻击重置已实现。",
+        "sortOrder": 10,
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "steps": [
+          {
+            "stepKey": "start",
+            "name": "登记本次使用",
+            "description": "仅登记本次使用成本与普通冷却，不改变已有护盾入口时点。",
+            "sortOrder": 10,
+            "stepType": "IMMEDIATE",
+            "detail": {}
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": []
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/trigger-rules",
+      "detailRoute": "/skills/nautilus_w/trigger-rules/on_used_cost_cooldown",
+      "body": {
+        "ruleKey": "on_used_cost_cooldown",
+        "name": "泰坦之怒使用成本冷却登记",
+        "description": "仅登记已成立主动使用时60法力消耗与12秒普通冷却；原on_used规则继续施加自身护盾，不重复挂接。立即步骤只表示登记，不表示零施法时间或攻击重置已实现。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "nautilus_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用登记过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "on_used_cost_cooldown",
+        "name": "泰坦之怒使用成本冷却登记",
+        "description": "仅登记已成立主动使用时60法力消耗与12秒普通冷却；原on_used规则继续施加自身护盾，不重复挂接。立即步骤只表示登记，不表示零施法时间或攻击重置已实现。",
+        "sortOrder": 5,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": "nautilus_w",
+            "useKind": "ACTIVE"
+          }
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "start_cast",
+            "name": "启动使用登记过程",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "cast"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ],
+  "sourceSha256": "8a2423c00e7d3281f934f4c355b80f10d157825bc24f52eedfebb8caf919ab12",
+  "baselineSha256": "8e60c58b5232db1f9aa76e2b4126656a84b3fb94f960efd4c20511848c73caae"
+}

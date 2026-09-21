@@ -1,0 +1,149 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/amumu_e/formulas/tantrum_damage",
+      "body": {
+        "name": "阿木木的愤怒主动魔法伤害",
+        "description": "主动本体魔法伤害：BaseDamage + 0.5×来源总法强；65/95/125/155/185基础值与固定客户端16.17一致。被动物理减伤、受击减冷却与诅咒不属于本公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "sortOrder": 40
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T14:32:55.566466Z",
+        "description": "主动本体魔法伤害：BaseDamage + 0.5×来源总法强；65/95/125/155/185基础值与固定客户端16.17一致。被动物理减伤、受击减冷却与诅咒不属于本公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "tantrum_damage",
+        "gameId": "lol",
+        "name": "阿木木的愤怒主动魔法伤害",
+        "skillKey": "amumu_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T14:32:55.566466Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/amumu_r/formulas/damage",
+      "body": {
+        "name": "木乃伊之咒魔法伤害",
+        "description": "木乃伊之咒本体魔法伤害：RDamage + 0.8×来源总法强；200/300/400基础值与固定客户端16.17一致。眩晕和诅咒分别由相应组成表达，不属于本公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "sortOrder": 10
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T14:33:02.353343Z",
+        "description": "木乃伊之咒本体魔法伤害：RDamage + 0.8×来源总法强；200/300/400基础值与固定客户端16.17一致。眩晕和诅咒分别由相应组成表达，不属于本公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "木乃伊之咒魔法伤害",
+        "skillKey": "amumu_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:33:02.353343Z"
+      }
+    }
+  ],
+  "sourceSha256": "7506e7c93e776ef5d61ae3a0f25e4088e3e2230334464032a43e93dc0b4a0ded",
+  "baselineSha256": "38da1e68e2365bee615b9a7c1e25fc74cf62b0654731ee39990a3a15c20a5676"
+}

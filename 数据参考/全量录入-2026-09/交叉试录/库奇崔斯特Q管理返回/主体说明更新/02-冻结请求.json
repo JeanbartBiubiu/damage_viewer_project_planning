@@ -1,0 +1,63 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/corki_q",
+      "body": {
+        "name": "库奇·磷光炸弹",
+        "description": "库奇向目标区域发射磷光炸弹，造成魔法伤害。本轮1V1已录入敌方英雄实际命中伤害，五级基础值为60/105/150/195/240，加1.25倍来源额外攻击力与1倍来源总法强。主动使用已连接法力、250毫秒施放登记和基础冷却；过程结束不自动生成命中。纯显形按本轮范围排除，区域几何与实际命中另由运行层提供。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "maxLevel": 5,
+        "status": "ENABLED",
+        "sortOrder": 1,
+        "skillCategoryKeys": [
+          "common"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:18:05.999596Z",
+        "description": "库奇向目标区域发射磷光炸弹，造成魔法伤害。本轮1V1已录入敌方英雄实际命中伤害，五级基础值为60/105/150/195/240，加1.25倍来源额外攻击力与1倍来源总法强。主动使用已连接法力、250毫秒施放登记和基础冷却；过程结束不自动生成命中。纯显形按本轮范围排除，区域几何与实际命中另由运行层提供。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "库奇·磷光炸弹",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "corki_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:05.999596Z"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/twistedfate_q",
+      "body": {
+        "name": "崔斯特·万能牌",
+        "description": "崔斯特扔出三张卡牌，对沿途敌人造成魔法伤害；同一目标至多受到一张牌的伤害。本轮1V1已录入敌方英雄实际命中伤害，五级基础值为60/105/150/195/240，加0.5倍来源额外攻击力与0.85倍来源总法强。主动使用已连接法力、250毫秒施放登记和基础冷却；过程结束不自动生成命中，也不将伤害乘三。弹道几何与实际命中另由运行层提供。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "maxLevel": 5,
+        "status": "ENABLED",
+        "sortOrder": 1,
+        "skillCategoryKeys": [
+          "common"
+        ]
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-06T18:20:44.805513Z",
+        "description": "崔斯特扔出三张卡牌，对沿途敌人造成魔法伤害；同一目标至多受到一张牌的伤害。本轮1V1已录入敌方英雄实际命中伤害，五级基础值为60/105/150/195/240，加0.5倍来源额外攻击力与0.85倍来源总法强。主动使用已连接法力、250毫秒施放登记和基础冷却；过程结束不自动生成命中，也不将伤害乘三。弹道几何与实际命中另由运行层提供。固定来源：客户端16.17、官方静态资料16.17.1。",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "崔斯特·万能牌",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "twistedfate_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:44.805513Z"
+      }
+    }
+  ],
+  "sourceSha256": "011b4ba46fe47ebf8d4b199deddbdcc7cecb0161ddda75e085d03f96fd730780",
+  "baselineSha256": "49ea9b2efe9a377429ec4999096056a0920fa95ef7783488c295042c0eeb4293"
+}

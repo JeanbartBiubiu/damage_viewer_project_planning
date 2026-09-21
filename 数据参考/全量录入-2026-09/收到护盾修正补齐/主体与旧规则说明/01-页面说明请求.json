@@ -1,0 +1,83 @@
+{
+  "at": "2026-09-19T12:39:47.129Z",
+  "executionMode": "BROWSER_UI_ONLY",
+  "onlyAllowedChange": "description",
+  "before": {
+    "/equipment/item_3065": {
+      "createdAt": "2026-09-06T17:17:27.677427Z",
+      "description": "来源：官方16.17.1装备3065。 原始说明：400生命值 50魔法抗性 10技能急速 100%基础生命回复 无拘活力 你身上的治疗和护盾效果提升25%。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_3065",
+      "gameId": "lol",
+      "name": "振奋盔甲",
+      "updatedAt": "2026-09-06T17:17:27.677427Z"
+    },
+    "/skills/item_3065_passive/trigger-rules/initialize_received_healing_increase": {
+      "actions": [
+        {
+          "actionKey": "execute_received_healing_increase",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "received_healing_increase"
+          },
+          "name": "执行无拘活力受到治疗增幅",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "EVENT_SOURCE"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "来源对象初始化完成后建立25%受到治疗增幅；护盾增幅和战斗运行仍未验证。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化无拘活力受到治疗增幅",
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_received_healing_increase",
+      "sortOrder": 10
+    }
+  },
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/equipment/item_3065",
+      "body": {
+        "name": "振奋盔甲",
+        "description": "来源：官方16.17.1装备3065。400生命值、50魔法抗性、10技能急速、100%基础生命回复。无拘活力：持有者受到的治疗和普通护盾量提高25%；两个常驻修正及来源初始化入口已在挂载被动技能中配置，战斗运行未验证。"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3065_passive/trigger-rules/initialize_received_healing_increase",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "execute_received_healing_increase",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "received_healing_increase"
+            },
+            "name": "执行无拘活力受到治疗增幅",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "来源对象初始化完成后建立25%受到治疗增幅；收到普通护盾增幅由独立初始化规则建立，战斗运行未验证。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化无拘活力受到治疗增幅",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_received_healing_increase",
+        "sortOrder": 10
+      }
+    }
+  ]
+}

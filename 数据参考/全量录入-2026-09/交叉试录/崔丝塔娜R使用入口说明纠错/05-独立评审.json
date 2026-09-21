@@ -1,0 +1,18 @@
+{
+  "at": "2026-09-21T04:51:36.902Z",
+  "status": "APPROVED",
+  "reviewer": "/root/cast_field_description_review",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v3.mjs": "f6f947b11179b087f9fd4ea9e8fbb35973ba20f3f04b0f097fc5dcdb473125ae",
+    "01-纠错计划.json": "8bd0e7d49dadb12276de7eaf64ce736d903db0a00d3549db7a6c39955c283c08",
+    "02-冻结请求.json": "1c3ea9bd23b939c985cf6232a4fb072cb54f52ecd55100b129d5d8ee08aea4d3",
+    "03-来源摘要.json": "b0153704dab355d1555a6eb95ba46fee3ecae98a5d9669098a4d889c1fea5afc",
+    "04-写入前现值.json": "f739188b400e2fefa3f2eaf85640b126f37ff25a8faad431166fb757fa64f19e"
+  },
+  "checks": [
+    "3份来源与21GET完整基线一致",
+    "仅改description，SKILL_USED ACTIVE、来源技能、cast动作、条件及触发限制全部保留",
+    "v3完整规则/列表/时间戳、解析前状态持久化与禁止重放保护有效"
+  ],
+  "scope": "只批准一条规则说明纠错，不包括眩晕数据"
+}
