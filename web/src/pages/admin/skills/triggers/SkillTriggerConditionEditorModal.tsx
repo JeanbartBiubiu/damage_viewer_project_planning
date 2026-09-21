@@ -37,13 +37,13 @@ import {
   SKILL_TRIGGER_COMPARATORS,
   SKILL_TRIGGER_CONDITION_TYPE_LABELS,
   SKILL_TRIGGER_CONDITION_TYPES,
-  SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT,
   SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS,
   SKILL_TRIGGER_STATUS_CHECK_LABELS,
   SKILL_TRIGGER_SUBJECT_LABELS,
   allowedEventValuesFor,
   attributeValueKinds,
   createEmptyConditionDraft,
+  eventValueHint,
   eventValueOptionLabel,
   patchAttributeCompareDetail,
   patchEventValueCompareDetail,
@@ -612,14 +612,7 @@ export function SkillTriggerConditionEditorModal({
                 <Form.Item
                   label="事件值"
                   required
-                  extra={
-                    current.detail.eventValueKey === 'BLOCKED'
-                    || current.detail.eventValueKey === 'SKILL_HIT_SPELL_SHIELD_BLOCKED'
-                    || current.detail.eventValueKey === 'IMMUNE'
-                    || current.detail.eventValueKey === 'KILLED'
-                      ? SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT
-                      : undefined
-                  }
+                  extra={eventValueHint(current.detail.eventValueKey)}
                 >
                   <Select
                     aria-label="事件值"

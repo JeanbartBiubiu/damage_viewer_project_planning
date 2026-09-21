@@ -681,6 +681,57 @@ describe('技能命中敌方对象响应', () => {
   });
 });
 
+describe('首次目标接触事件值响应', () => {
+  const valueKey = 'SKILL_HIT_FIRST_CONTACT';
+  const conditionDetail = { eventValueKey: valueKey, comparator: 'EQ', comparisonValue: { kind: 'FIXED', value: 1 } };
+  const response = (condition: unknown = conditionDetail, binding: unknown = { eventValueKey: valueKey }) => ({
+    ...detail,
+    eventSource: { eventType: 'SKILL_HIT', detail: { sourceSkillKey: 'contact_skill' } },
+    conditionGroups: [{ groupKey: 'contact', name: '首次接触', sortOrder: 0, conditions: [{
+      conditionKey: 'first', conditionType: 'EVENT_VALUE_COMPARE', sortOrder: 0, detail: condition
+    }] }],
+    actions: [{ ...detail.actions[0], runtimeInputBindings: [{
+      bindingKey: 'contact', parameterKey: 'first_contact', sourceType: 'EVENT_VALUE', detail: binding
+    }] }]
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it('创建、更新与读取时保留条件和动态绑定', async () => {
+    const parsed = parseSkillTriggerRuleDetail(response());
+    const calls: unknown[] = [];
+    vi.stubGlobal('fetch', vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+      calls.push(init?.body ? JSON.parse(String(init.body)) : null);
+      return jsonResponse(init?.method === 'POST' ? 201 : 200, parsed);
+    }));
+    const { ruleKey, ...update } = parsed;
+    const created = await createSkillTriggerRule('http://localhost:8080', 'demo', 'contact_skill', 'test-token', parsed);
+    const updated = await updateSkillTriggerRule('http://localhost:8080', 'demo', 'contact_skill', ruleKey, 'test-token', update);
+    const loaded = await getSkillTriggerRule('http://localhost:8080', 'demo', 'contact_skill', ruleKey, 'test-token');
+    expect(calls).toEqual([parsed, update, null]);
+    for (const result of [created, updated, loaded]) {
+      expect(result.data.conditionGroups[0].conditions[0].detail).toEqual(conditionDetail);
+      expect(result.data.actions[0].runtimeInputBindings[0].detail).toEqual({ eventValueKey: valueKey });
+    }
+  });
+
+  it.each([undefined, null, 1, [valueKey], 'SKILL_HIT_FIRST', 'skill_hit_first_contact'])('双路径拒绝非法事件值 %j', (eventValueKey) => {
+    expect(() => parseSkillTriggerRuleDetail(response({ ...conditionDetail, eventValueKey }))).toThrow(SkillTriggerRuleProtocolError);
+    expect(() => parseSkillTriggerRuleDetail(response(conditionDetail, { eventValueKey }))).toThrow(SkillTriggerRuleProtocolError);
+  });
+
+  it('拒绝客户端自填实际值或缺省值，缺少比较取值时不补 0 或 1', () => {
+    for (const extra of [{ value: 1 }, { defaultValue: 0 }]) {
+      expect(() => parseSkillTriggerRuleDetail(response({ ...conditionDetail, ...extra }))).toThrow(SkillTriggerRuleProtocolError);
+      expect(() => parseSkillTriggerRuleDetail(response(conditionDetail, { eventValueKey: valueKey, ...extra }))).toThrow(SkillTriggerRuleProtocolError);
+    }
+    expect(() => parseSkillTriggerRuleDetail(response({ eventValueKey: valueKey, comparator: 'EQ' }))).toThrow(SkillTriggerRuleProtocolError);
+  });
+});
+
 describe('技能命中法术护盾事件值响应', () => {
   const valueKey = 'SKILL_HIT_SPELL_SHIELD_BLOCKED';
   const conditionDetail = { eventValueKey: valueKey, comparator: 'EQ', comparisonValue: { kind: 'FIXED', value: 0.5 } };

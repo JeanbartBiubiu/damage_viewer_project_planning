@@ -267,6 +267,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_KEYS = [
   'CHARGE_DURATION_MS',
   'RECAST_COUNT',
   'HIT_INDEX',
+  'SKILL_HIT_FIRST_CONTACT',
   'SKILL_HIT_SPELL_SHIELD_BLOCKED',
   'LIFECYCLE_STACKS',
   'PERIOD_INDEX',
@@ -545,6 +546,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_LABELS = {
   CHARGE_DURATION_MS: '实际蓄力毫秒数',
   RECAST_COUNT: '当前过程已重施次数',
   HIT_INDEX: '当前命中序号',
+  SKILL_HIT_FIRST_CONTACT: '本次使用首次目标接触',
   SKILL_HIT_SPELL_SHIELD_BLOCKED: '技能命中被法术护盾阻挡',
   LIFECYCLE_STACKS: '当前生命周期层数',
   PERIOD_INDEX: '当前周期序号',
@@ -572,6 +574,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_DOMAINS = {
   CHARGE_DURATION_MS: 'DECIMAL',
   RECAST_COUNT: 'INTEGER',
   HIT_INDEX: 'INTEGER',
+  SKILL_HIT_FIRST_CONTACT: 'INTEGER',
   SKILL_HIT_SPELL_SHIELD_BLOCKED: 'INTEGER',
   LIFECYCLE_STACKS: 'INTEGER',
   PERIOD_INDEX: 'INTEGER',
@@ -1349,7 +1352,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
   SKILL_USED: [],
   BASIC_ATTACK_START: [],
   BASIC_ATTACK_HIT: ['HIT_INDEX'],
-  SKILL_HIT: ['HIT_INDEX', 'SKILL_HIT_SPELL_SHIELD_BLOCKED'],
+  SKILL_HIT: ['HIT_INDEX', 'SKILL_HIT_FIRST_CONTACT', 'SKILL_HIT_SPELL_SHIELD_BLOCKED'],
   PROCESS_MOMENT: [],
   RESULT_AVAILABLE: [],
   LIFECYCLE_MOMENT: ['LIFECYCLE_STACKS', 'REMAINING_MS'],
@@ -1426,10 +1429,26 @@ export function eventValueDomain(key: SkillTriggerEventValueKey): SkillTriggerVa
 
 export function eventValueOptionLabel(key: SkillTriggerEventValueKey): string {
   const label = SKILL_TRIGGER_EVENT_VALUE_LABELS[key];
+  if (key === 'SKILL_HIT_FIRST_CONTACT') {
+    return `${label}（首次 = 1，已有前序接触 = 0）`;
+  }
   if (key === 'BLOCKED' || key === 'IMMUNE' || key === 'KILLED' || key === 'SKILL_HIT_SPELL_SHIELD_BLOCKED') {
     return `${label}（${SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT}）`;
   }
   return label;
+}
+
+export function eventValueHint(key: SkillTriggerEventValueKey): string | undefined {
+  if (key === 'HIT_INDEX') {
+    return '从 1 开始：单次命中为 1；重复步骤的命中沿用当前步骤执行序号，不表示目标接触先后。';
+  }
+  if (key === 'SKILL_HIT_FIRST_CONTACT') {
+    return '1 = 本次技能使用中首次符合目标资格的单位接触；0 = 此前已有这样的接触。按完整历史判断，不按筛选后的目标重新计数；零伤害、被阻挡或免疫的接触仍计入。不能用已有实例判断，也不表示已强化。所属使用、历史或真实先后不明时缺值，条件不匹配，动态绑定不能默认填 0 或 1。';
+  }
+  if (key === 'BLOCKED' || key === 'IMMUNE' || key === 'KILLED' || key === 'SKILL_HIT_SPELL_SHIELD_BLOCKED') {
+    return SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT;
+  }
+  return undefined;
 }
 
 export function priorResultOutputLabel(kind: SkillTriggerPriorResultOutputKind): string {

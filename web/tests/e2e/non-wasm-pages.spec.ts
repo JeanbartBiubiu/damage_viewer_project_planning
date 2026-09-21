@@ -7583,6 +7583,118 @@ test('skill hit spell shield value saves condition and binding and confirms inva
   diagnostics.assertClean('skill hit spell shield value round trip and cleanup');
 });
 
+test('skill hit first contact saves and reopens both paths with missing-value guidance and event cleanup', async ({ page }) => {
+  const mock = new MockApi();
+  seedSkillTriggerCatalog(mock, 'contact_skill', '首次接触样例');
+  const diagnostics = await prepare(page, mock);
+  const valueLabel = '本次使用首次目标接触（首次 = 1，已有前序接触 = 0）';
+  const card = (modal: Locator) => modal.locator('.arco-card').filter({ has: page.getByLabel('条件组名称', { exact: true }) });
+  const expectContactHelp = async (modal: Locator) => {
+    await expect(modal.getByText(/1 = 本次技能使用中首次符合目标资格/)).toBeVisible();
+    await expect(modal.getByText(/不按筛选后的目标重新计数/)).toBeVisible();
+    await expect(modal.getByText(/零伤害、被阻挡或免疫的接触仍计入/)).toBeVisible();
+    await expect(modal.getByText(/不能用已有实例判断，也不表示已强化/)).toBeVisible();
+    await expect(modal.getByText(/所属使用、历史或真实先后不明时缺值/)).toBeVisible();
+    await expect(modal.getByText(/动态绑定不能默认填 0 或 1/)).toBeVisible();
+  };
+  await openSkills(page);
+  const shell = await openSkillTriggers(page, 'contact_skill', '首次接触样例');
+  await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+  const create = visibleModal(page, '新增规则');
+  await create.getByLabel('规则标识', { exact: true }).fill('first_contact');
+  await create.getByLabel('规则名称', { exact: true }).fill('首次接触判定');
+  await chooseTriggerEventType(page, create, '技能命中');
+  await create.getByRole('button', { name: '编辑', exact: true }).first().click();
+  const action = visibleModal(page, '编辑动作');
+  await action.getByLabel('动作名称', { exact: true }).fill('读取首次接触');
+  await chooseSelectOption(page, action, '目标效果', '追加伤害');
+  await action.getByRole('button', { name: '新增绑定', exact: true }).click();
+  const binding = visibleModal(page, '新增绑定');
+  await chooseSelectOption(page, binding, '绑定参数', '前序命中值（prior_hit_value / 小数）');
+  await chooseSelectOption(page, binding, '来源种类', '当前事件值');
+  await expect(binding.getByText(/从 1 开始：单次命中为 1/)).toBeVisible();
+  await chooseSelectOption(page, binding, '绑定事件值', valueLabel);
+  await expectContactHelp(binding);
+  await binding.getByRole('button', { name: '确定', exact: true }).click();
+  await action.getByRole('button', { name: '确定', exact: true }).click();
+  await create.getByRole('button', { name: '新增条件组', exact: true }).click();
+  await create.getByLabel('条件组名称', { exact: true }).fill('接触判定');
+  await card(create).getByRole('button', { name: '编辑', exact: true }).click();
+  const condition = visibleModal(page, '编辑条件');
+  await chooseSelectOption(page, condition, '条件种类', '事件值比较');
+  await expect(condition.getByText(/重复步骤的命中沿用当前步骤执行序号，不表示目标接触先后/)).toBeVisible();
+  await expect(condition.getByLabel('事件值比较取值固定数值', { exact: true })).toHaveValue('');
+  await chooseSelectOption(page, condition, '事件值', valueLabel);
+  await expectContactHelp(condition);
+  await expect(condition.getByLabel('事件值比较取值固定数值', { exact: true })).toHaveValue('');
+  await condition.getByRole('button', { name: '确定', exact: true }).click();
+  await expect(condition).toBeVisible();
+  expect(mock.writes).toHaveLength(0);
+  await condition.getByLabel('事件值比较取值固定数值', { exact: true }).fill('1');
+  await condition.getByRole('button', { name: '确定', exact: true }).click();
+  await saveOpenModal(create);
+  const saved = () => mock.skillTriggerRules.find((item) => item.ruleKey === 'first_contact')!;
+  expect(saved().conditionGroups[0].conditions[0].detail).toEqual({
+    eventValueKey: 'SKILL_HIT_FIRST_CONTACT', comparator: 'EQ', comparisonValue: { kind: 'FIXED', value: 1 }
+  });
+  expect(saved().actions[0].runtimeInputBindings).toEqual([{
+    bindingKey: 'bind_1', parameterKey: 'prior_hit_value', sourceType: 'EVENT_VALUE',
+    detail: { eventValueKey: 'SKILL_HIT_FIRST_CONTACT' }
+  }]);
+
+  await shell.locator('tr', { hasText: 'first_contact' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const edit = visibleModal(page, '编辑规则');
+  await card(edit).getByRole('button', { name: '编辑', exact: true }).click();
+  const editCondition = visibleModal(page, '编辑条件');
+  await expect(editCondition.getByLabel('事件值', { exact: true })).toContainText(valueLabel);
+  await expect(editCondition.getByLabel('事件值比较取值固定数值', { exact: true })).toHaveValue('1');
+  await expectContactHelp(editCondition);
+  await editCondition.getByLabel('事件值比较取值固定数值', { exact: true }).fill('0');
+  await editCondition.getByRole('button', { name: '确定', exact: true }).click();
+  await saveOpenModal(edit);
+  expect(saved().conditionGroups[0].conditions[0].detail.comparisonValue).toEqual({ kind: 'FIXED', value: 0 });
+  expect(mock.writes.map((write) => write.method)).toEqual(['POST', 'PUT']);
+  await shell.locator('tr', { hasText: 'first_contact' }).getByRole('button', { name: '编辑', exact: true }).click();
+  await card(edit).getByRole('button', { name: '编辑', exact: true }).click();
+  await expect(editCondition.getByLabel('事件值比较取值固定数值', { exact: true })).toHaveValue('0');
+  await editCondition.getByRole('button', { name: '取消', exact: true }).click();
+  const actionCard = edit.locator('.arco-card').filter({ hasText: '1. 读取首次接触' });
+  await actionCard.getByRole('button', { name: '编辑', exact: true }).click();
+  const editAction = visibleModal(page, '编辑动作');
+  await editAction.locator('tr', { hasText: '当前事件值 / 本次使用首次目标接触' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const editBinding = visibleModal(page, '编辑绑定');
+  await expect(editBinding.getByLabel('绑定事件值', { exact: true })).toContainText(valueLabel);
+  await expectContactHelp(editBinding);
+  await editBinding.getByRole('button', { name: '取消', exact: true }).click();
+  await editAction.getByRole('button', { name: '取消', exact: true }).click();
+  await chooseSelectOption(page, edit, '事件类型', '普通攻击命中');
+  const cleanup = page.getByRole('dialog').filter({ hasText: '将清除不再可用的事件值：本次使用首次目标接触' });
+  await cleanup.getByRole('button', { name: '取消', exact: true }).click();
+  await expect(edit.getByLabel('事件类型', { exact: true })).toContainText('技能命中');
+  await expect(card(edit).locator('span').filter({ hasText: /事件值比较 \/ 本次使用首次目标接触/ })).toBeVisible();
+  await chooseSelectOption(page, edit, '事件类型', '普通攻击命中');
+  await cleanup.getByRole('button', { name: '确定', exact: true }).click();
+  await expect(card(edit)).toHaveCount(0);
+  await edit.getByRole('button', { name: '新增条件组', exact: true }).click();
+  await card(edit).getByRole('button', { name: '新增条件', exact: true }).click();
+  const nextCondition = visibleModal(page, '新增条件');
+  await chooseSelectOption(page, nextCondition, '条件种类', '事件值比较');
+  await nextCondition.getByLabel('事件值', { exact: true }).click();
+  await expect(page.getByRole('option', { name: valueLabel, exact: true })).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await nextCondition.getByRole('button', { name: '取消', exact: true }).click();
+  await actionCard.getByRole('button', { name: '编辑', exact: true }).click();
+  await expect(editAction.locator('tr', { hasText: '当前事件值 / 本次使用首次目标接触' })).toHaveCount(0);
+  await editAction.getByRole('button', { name: '新增绑定', exact: true }).click();
+  const nextBinding = visibleModal(page, '新增绑定');
+  await chooseSelectOption(page, nextBinding, '来源种类', '当前事件值');
+  await nextBinding.getByLabel('绑定事件值', { exact: true }).click();
+  await expect(page.getByRole('option', { name: valueLabel, exact: true })).toHaveCount(0);
+  await expect(page.getByRole('option', { name: '当前命中序号', exact: true })).toBeVisible();
+  expect(mock.writes).toHaveLength(2);
+  diagnostics.assertClean('first contact condition and binding round trip and cleanup');
+});
+
 test('condition group key typing keeps focus and identity through equal-order rename and reorder', async ({ page }) => {
   const mock = new MockApi();
   seedSkillTriggerCatalog(mock);
