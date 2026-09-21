@@ -1,0 +1,40 @@
+{
+  "at": "2026-09-21T11:03:18.879Z",
+  "status": "READ_ONLY_AUDIT_COMPLETE",
+  "backendReviewer": "/root/airborne_contract_audit",
+  "frontendReviewer": "/root",
+  "currentStatusKinds": [
+    "STUN",
+    "MOVEMENT_SLOW",
+    "ROOT",
+    "SILENCE",
+    "CHARM"
+  ],
+  "httpCatalogCount": 5,
+  "backend": {
+    "enum": "server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java",
+    "constraint": "db/game_manage/schema.sql:396 ck_statuses_kind",
+    "storage": "status_kind varchar(32) NOT NULL，无默认值；已有库需扩大检查约束，实库结构尚未另查。",
+    "service": "SkillEffectService只对MOVEMENT_SLOW+APPLY采用强度规则；其他状态施加和全部移除禁止valueRule。非减速状态没有类型级强制期限。",
+    "references": "按statusKey复用状态引用、STATUS_CHANGED与循环校验；动作额外数值修正对所有STATUS_OPERATION禁止。"
+  },
+  "frontend": {
+    "type": "web/src/types/status.ts",
+    "editor": "web/src/pages/admin/statuses/StatusEditorModal.tsx",
+    "finding": "当前Web树的种类选项由STATUS_KIND_LABELS生成；更新联合类型、标签和守卫后，既有无强度分支及编辑种类只读可复用。"
+  },
+  "sourceExample": {
+    "skillKey": "chogath_q",
+    "officialVersion": "16.17.1",
+    "file": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Chogath.json",
+    "sha256": "a132ad9f7eba390af39efe75a61d2bce5d76ae03e33e047552d9612b482c6843",
+    "meaning": "当前官方Q明确击飞，e5五级均1秒；现有knockup_duration_ms=1000已保存。"
+  },
+  "guard": [
+    "不用Gragas的StunDuration名称推定STUN；其tooltip写Knocking Up，组合细节另核。",
+    "不用后端树的旧web副本推断前端；前端判断以damage_web_dev当前文件为准。",
+    "仅管理身份与数据，不新增位移、坐标、韧性或执行算法。"
+  ],
+  "businessWrites": 0,
+  "liveDBQueries": 0
+}

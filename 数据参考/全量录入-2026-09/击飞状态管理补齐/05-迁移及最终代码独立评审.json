@@ -1,0 +1,102 @@
+{
+  "status": "APPROVED",
+  "reviewer": "/root/airborne_contract_audit",
+  "at": "2026-09-21T11:45:09.6843638Z",
+  "scope": "前后端最终差异及冻结迁移候选的独立静态审查；未发现正确性或数据安全阻塞项。",
+  "freezeSha256": "514740ccf46975969c89279d5ae71cd1e30b24d88cd0ec0a26a62cf83d38ca8c",
+  "planSha256": "02da2ac6196a5acf180fffc4f52a26e8701663a5f7f5d2fcadc28e31ac86bd62",
+  "approvedFiles": {
+    "db/game_manage/migrations/add_airborne_status_kind.sql": "ed0852b458be7970dd49543dbb7762c643bb44db8e0cf6afefe4f0c656bbd6de",
+    "tools/authoring/ApplyAirborneStatusKind.java": "deca4b84bf6a70a25397dade44770e748254cc7baa45dd18b68839f54b861dba",
+    "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/击飞状态管理补齐/03-实库迁移前快照.json": "d7c6cb17e8ba736c90b6ab95705376069a1a7bcb7d8e074809190c5af8b76c36",
+    "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/击飞状态管理补齐/InspectAirborneStatusKind.java": "e71b94cea5070b158dbe7993c47a1cc5a9d8e2be136498e5c69df5d88ab020bf"
+  },
+  "finalCodeFiles": {
+    "C:/project/damage_backend_dev/db/game_manage/migrations/.gitattributes": "be9c5f5b0e0d77525e363c5db8df8cf47b9790c1154f03e20f2680058bd7ae59",
+    "C:/project/damage_backend_dev/db/game_manage/schema.sql": "886bfe320f3845afcd4505d7511886f2264efd97997d7986158b7af7f057960e",
+    "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java": "179dee6aa27836881d0f2c897f066dc12df5612384c7dc01f065e501307e041e",
+    "C:/project/damage_backend_dev/server/data_manage/src/test/java/xyz/game/datamanage/controller/adminapi/status/StatusAdminControllerTest.java": "de4eb6c3a846d0d79bed7c190ecae7d18cab2c2f1c8c28d8dcb3c29acfb28008",
+    "C:/project/damage_backend_dev/server/data_manage/src/test/java/xyz/game/datamanage/db/status/StatusBasicManagementSchemaSqlTest.java": "a3d3ae3cd8776998e1c8e721293ea023f0df795456866775fd47a8401fe4f4ae",
+    "C:/project/damage_backend_dev/server/data_manage/src/test/java/xyz/game/datamanage/service/skilleffect/SkillMovementSlowServiceTest.java": "93f06ed4a871e51f53cbf1ee4c2fea16ce370435ce2137b51354b0bc82538db4",
+    "C:/project/damage_backend_dev/server/data_manage/src/test/java/xyz/game/datamanage/service/status/StatusServiceTest.java": "741321f4c786fc507b7b76515c705d1044cfe36a54b740257c65a8a88522ac25",
+    "C:/project/damage_backend_dev/tools/authoring/.gitattributes": "e2832aa924d94b3a2f80bb8887d584589f7ab1b9007cc4b5711e46f61fec7365",
+    "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/movementSlow.test.ts": "0ffd691e29f65fb21d4bd9a675a0a6d8c9c8eb820a0f1fb7abfbfd8b9fcbad23",
+    "C:/project/damage_web_dev/web/src/pages/admin/statuses/statusForm.test.ts": "ce6491a9fa5200b4bc605da53d3435918a5c85c4d556489766ebc6e09abd90a5",
+    "C:/project/damage_web_dev/web/src/services/statusClient.test.ts": "b12a2dfa0450a8130ce0ac74942e8d5836238b34aa4bf7d11c8bf727d5b8bdde",
+    "C:/project/damage_web_dev/web/src/types/status.ts": "c029dfcde687b5adcf98dfa28063dea2104d7c8d2d6b8a9506d314fe2dd342d0",
+    "C:/project/damage_web_dev/web/tests/e2e/non-wasm-pages.spec.ts": "c0f944cdec079762650e65b79c8cd97e76a0c25f77ba00aef44530c98c9c0de5"
+  },
+  "checks": [
+    {
+      "item": "冻结文件一致性",
+      "result": "PASS",
+      "conclusion": "04 中四个文件的当前 SHA256 全部匹配；迁移内嵌五条状态与03快照逐字段一致，时间戳按同一时点比较一致。"
+    },
+    {
+      "item": "目标与前置保护",
+      "result": "PASS",
+      "evidence": "ApplyAirborneStatusKind.java:75-109；迁移 SQL 的 guard 块",
+      "conclusion": "执行器要求明确 --apply、APPROVED 独立报告和四文件散列匹配，固定主机192.168.5.6、端口5432、数据库test0221；执行前以只读可重复读事务比较完整冻结快照。SQL另核数据库名、种类列、旧约束、注释、状态正文以及效果和引用数量。"
+    },
+    {
+      "item": "事务与数据保持",
+      "result": "PASS",
+      "evidence": "add_airborne_status_kind.sql；ApplyAirborneStatusKind.java:111-134",
+      "conclusion": "SQL自行持有BEGIN/COMMIT，在锁表后仅替换种类检查约束和列注释；原状态、效果与引用分别使用双向EXCEPT ALL比较，包含原时间戳。没有业务INSERT、UPDATE或DELETE。执行器提交后立即比较快照并验证新约束及注释。"
+    },
+    {
+      "item": "失败后禁止重放",
+      "result": "PASS",
+      "evidence": "ApplyAirborneStatusKind.java:34-38、99-100、113-138",
+      "conclusion": "固定流水文件通过CREATE_NEW建立，已有尝试即拒绝；阶段记录强制刷新，SQL仅提交一次。提交后异常标记需要独立恢复，不自动重试；连接关闭使未提交事务结束。"
+    },
+    {
+      "item": "独立读回入口",
+      "result": "PASS",
+      "evidence": "InspectAirborneStatusKind.java:50-72",
+      "conclusion": "固定同一连接目标，只运行内置SELECT；采用只读可重复读事务并回滚，不接受SQL参数。输出限定于核定目录的03或08文件，使用CREATE_NEW防止覆盖。"
+    },
+    {
+      "item": "后端契约",
+      "result": "PASS",
+      "conclusion": "生产Java仅追加AIRBORNE，schema仅扩大种类检查约束并更新注释。沿用无强度状态规则、不可修改种类、现有引用与事件结构；测试明确覆盖施加和移除拒绝强度，以及不新增类型级强制期限。未改变运行算法。"
+    },
+    {
+      "item": "前端契约",
+      "result": "PASS",
+      "evidence": "web/src/types/status.ts:2-14；StatusEditorModal.tsx:162-165；effectForm.ts:998-1018",
+      "conclusion": "联合类型、中文标签和响应守卫一致追加AIRBORNE/击飞，旧种类保留。现有选择项由标签生成，创建后种类保持只读；无强度分支和减速切换清理逻辑可复用。新增测试覆盖请求回读、草稿保留、强度清理及隔离页面操作。"
+    },
+    {
+      "item": "差异范围与冻结字节",
+      "result": "PASS",
+      "conclusion": "已审查两树任务相关全部差异及新增迁移文件，忽略既有.idea改动。两份.gitattributes仅为本次SQL和执行器关闭文本转换，git check-attr确认text为unset。"
+    }
+  ],
+  "validationEvidence": {
+    "independentlyPerformed": [
+      "读取最终差异与相关源码",
+      "核对冻结文件及最终代码SHA256",
+      "离线比较迁移内嵌状态与03快照",
+      "核对迁移文件的Git文本转换属性"
+    ],
+    "reportedByLeadNotRerun": {
+      "backendTestsPassed": 1101,
+      "webTestsPassed": 818,
+      "webLintTypecheckBuild": "PASS",
+      "isolatedFullyMockedPageTestsPassed": 2,
+      "executorCompileOnly": "PASS"
+    },
+    "sqlExecutions": 0,
+    "httpRequests": 0,
+    "fileWrites": 0,
+    "testsExecuted": 0
+  },
+  "blockers": [],
+  "remainingAcceptance": [
+    "迁移尚未执行，本报告不表示实库已包含AIRBORNE约束。",
+    "执行后仍须独立只读获取08快照并确认约束、注释和原数据保持。",
+    "首次正式击飞状态创建及科加斯Q返回仍待真实浏览器连接恢复；必须真实页面保存、重开并独立回读，不以API预置替代。",
+    "隔离模拟页面证据不等于真实服务页面验收；管理配置不等于战斗控制、位移、韧性或解除机制已经执行。"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-21T11:42:40.660Z",
+  "status": "PENDING_INDEPENDENT_REVIEW",
+  "target": {
+    "host": "192.168.5.6",
+    "database": "test0221"
+  },
+  "change": "仅扩充 statuses.status_kind 约束并同步中文注释，业务行不变",
+  "approvedFiles": {
+    "db/game_manage/migrations/add_airborne_status_kind.sql": "ed0852b458be7970dd49543dbb7762c643bb44db8e0cf6afefe4f0c656bbd6de",
+    "tools/authoring/ApplyAirborneStatusKind.java": "deca4b84bf6a70a25397dade44770e748254cc7baa45dd18b68839f54b861dba",
+    "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/击飞状态管理补齐/03-实库迁移前快照.json": "d7c6cb17e8ba736c90b6ab95705376069a1a7bcb7d8e074809190c5af8b76c36",
+    "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/击飞状态管理补齐/InspectAirborneStatusKind.java": "e71b94cea5070b158dbe7993c47a1cc5a9d8e2be136498e5c69df5d88ab020bf"
+  },
+  "planSha256": "02da2ac6196a5acf180fffc4f52a26e8701663a5f7f5d2fcadc28e31ac86bd62",
+  "expected": {
+    "statusRows": 5,
+    "effectRows": 993,
+    "referenceRows": 9489,
+    "oldConstraint": "CHECK (((status_kind)::text = ANY ((ARRAY['STUN'::character varying, 'MOVEMENT_SLOW'::character varying, 'ROOT'::character varying, 'SILENCE'::character varying, 'CHARM'::character varying])::text[])))",
+    "newConstraint": "CHECK (((status_kind)::text = ANY ((ARRAY['STUN'::character varying, 'MOVEMENT_SLOW'::character varying, 'ROOT'::character varying, 'SILENCE'::character varying, 'CHARM'::character varying, 'AIRBORNE'::character varying])::text[])))",
+    "newComment": "状态行为身份：眩晕、普通移动减速、禁锢、沉默、魅惑或击飞；创建后不可改"
+  },
+  "firstRealUi": "连接恢复后由真实状态管理页创建击飞，再返回科加斯Q；不以 API 预置替代"
+}
