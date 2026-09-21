@@ -1,0 +1,104 @@
+{
+  "at": "2026-09-21T10:11:42.003Z",
+  "reviewer": "/root/three_control_damage_source",
+  "status": "DIRECT_UNBLOCKED_COMPONENT_READY",
+  "businessWrites": 0,
+  "httpRequests": 0,
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Chogath.json.gz",
+      "sha256": "e098bd867debab64aa497e4ef7155677f7bdb6aeb881e41411b1515bd9736eac"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Chogath.json",
+      "sha256": "a132ad9f7eba390af39efe75a61d2bce5d76ae03e33e047552d9612b482c6843"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Braum.json.gz",
+      "sha256": "d861f1ffc21236bbfebaf767d61abc5edc89be50ff2c46ae567809094978176e"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Braum.json",
+      "sha256": "12fe6bcad701ca3685a4a97b15df77c7c4ba69f64bbd5e670418174311b9b4c2"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Maokai.json.gz",
+      "sha256": "3143c85ebf03a62e2a54faab748af1f7c3a27572eb1254aaa855c8bd2dd7b1c4"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Maokai.json",
+      "sha256": "d39d6bed91e3f28eedff223f19b002d864f19c7f9cfe71440eb274c97a3a5697"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十五批/输入包/参考资料/属性默认与边界.json",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6"
+    }
+  ],
+  "existingFormulaSnapshot": {
+    "root": "web",
+    "path": "数据参考/全量录入-2026-09/交叉试录/三项控制技能普通使用返回/04-写入前现值.json",
+    "sha256": "06a9a3e519dd5b674d6dad0196f66c45ed0012713e72e266b9e0366f944666c2"
+  },
+  "targets": [
+    {
+      "skillKey": "chogath_q",
+      "ability": "Characters/Chogath/Spells/RuptureAbility",
+      "root": "Characters/Chogath/Spells/RuptureAbility/Rupture",
+      "calculation": "TotalDamageTooltip",
+      "bases": [
+        80,
+        135,
+        190,
+        245,
+        300
+      ],
+      "sourceTotalAPRatio": 1,
+      "kind": "magic",
+      "finding": "官方正文明确本体魔法伤害；根公式为BaseDamage加StatByCoefficient1，子技能集合只有根自身；未发现周期伤害结构。",
+      "labelCorrection": "公式说明删除只建立公式不创建伤害结果的阶段性表述。"
+    },
+    {
+      "skillKey": "braum_r",
+      "ability": "Characters/Braum/Spells/BraumRWrapperAbility",
+      "root": "Characters/Braum/Spells/BraumRWrapperAbility/BraumRWrapper",
+      "calculation": "TotalDamage",
+      "bases": [
+        150,
+        250,
+        350
+      ],
+      "sourceTotalAPRatio": 0.6,
+      "kind": "magic",
+      "finding": "官方正文对路径和附近敌人同样造成魔法伤害，首目标与其余目标区别只在击飞时长；根仅一个TotalDamage，BraumRMissile无独立伤害公式。",
+      "labelCorrection": "首目标伤害名称误导；改为冰川裂隙魔法伤害，公式本身保持。"
+    },
+    {
+      "skillKey": "maokai_r",
+      "ability": "Characters/Maokai/Spells/MaokaiRAbility",
+      "root": "Characters/Maokai/Spells/MaokaiRAbility/MaokaiR",
+      "calculation": "TotalDamage",
+      "bases": [
+        150,
+        225,
+        300
+      ],
+      "sourceTotalAPRatio": 0.75,
+      "kind": "magic",
+      "finding": "官方正文明确本体魔法伤害；子对象无另一伤害公式或周期结算条目，不把荆棘墙推进视为持续跳伤害。",
+      "labelCorrection": "现有名称说明无须修改。"
+    }
+  ],
+  "boundary": [
+    "省略mStat仅使用已批准同版StatByCoefficient窄口径总法强映射，不推广全局枚举。",
+    "仅连接实际同次SKILL_HIT明确敌方英雄且SKILL_HIT_SPELL_SHIELD_BLOCKED为0的分支，1或缺失不执行；空护盾粒度不能推成无视法盾。",
+    "同一目标重复碰撞和宿主去重细节未提供运行证明，管理入口不伪造命中、重复步骤或去重冷却。",
+    "原快照在普通使用追加前，因此布隆当时无效果；当前已新增成本效果，此结论只引用未改的伤害公式与参数。"
+  ]
+}

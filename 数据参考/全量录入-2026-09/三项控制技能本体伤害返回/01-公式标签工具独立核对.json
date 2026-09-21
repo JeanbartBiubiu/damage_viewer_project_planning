@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-21T10:09:56.583Z",
+  "status": "PASS",
+  "author": "/root/formula_labels_tool",
+  "reviewer": "/root",
+  "tool": "tools/authoring/update-reviewed-formula-labels.mjs",
+  "toolSha256": "73ecbb48cf02032e31afc0e1a39c407c4559e2bffbc6d27d2dbef8dec69b4eb9",
+  "testSha256": "89ecd161b8be0fcdcb1cf460a175d0a1984b558d3d8e7a006c4e1d182d155adb",
+  "commit": "a3aad8da48f2f2c0b349c2e2a45a1b4ff846f5eb",
+  "offlineTests": 25,
+  "realHTTPRequests": 0,
+  "findings": [
+    "更新白名单仅名称和说明，完整复制表达式、引用和顺序。",
+    "公式列表按详情移除expression比较全部字段；改名仅容许本行在排序值一致范围移动，其他行顺序和字段不变。",
+    "只有description变化不允许重排；原详情与列表即时及独立比较保护时间戳。",
+    "完整来源摘要、批准冻结、写前基线、06独占与防重放保持；HTTP状态在解析前持久化。",
+    "25项全模拟检查覆盖真实错误边界，根复核最终字节与测试版本一致；未因文档与字节规则变更重复整套检查。"
+  ],
+  "browser": "底层公式编辑为已有管理操作，当前代表页面待验；工具不代替页面首次流程要求。"
+}

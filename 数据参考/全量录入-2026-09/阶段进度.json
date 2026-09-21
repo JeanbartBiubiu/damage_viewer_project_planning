@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T10:12:56.630Z",
+  "generatedAt": "2026-09-21T10:29:27.101Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13824,6 +13824,60 @@
       "browser": false,
       "wholeSkillComplete": false,
       "runtime": false
+    },
+    "threeControlUnblockedDamageReturn": {
+      "status": "公式标签更正及三项明确未阻挡本体伤害已保存并独立回读，代表页面待验",
+      "skills": [
+        "chogath_q",
+        "braum_r",
+        "maokai_r"
+      ],
+      "successfulSaves": 8,
+      "formulaLabelUpdates": 2,
+      "created": {
+        "effects": 3,
+        "triggerRules": 3
+      },
+      "independentGets": 122,
+      "offlineToolTests": 25,
+      "formulaArithmeticCases": 33,
+      "numericChanges": 0,
+      "expressionChanges": 0,
+      "commits": {
+        "formulaTool": "a3aad8da48f2f2c0b349c2e2a45a1b4ff846f5eb",
+        "labels": "eced4c80ac899e9f0520490693ac55de5a31cfd2",
+        "damage": "b8415079c65e500686912558357211332ddb9436"
+      },
+      "currentCounts": {
+        "chogath_q": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "braum_r": {
+          "parameters": 9,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        },
+        "maokai_r": {
+          "parameters": 8,
+          "formulas": 1,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 2
+        }
+      },
+      "evidence": "三项控制技能本体伤害返回/05-受限本体伤害独立返回.json",
+      "browser": false,
+      "wholeSkillComplete": false,
+      "runtime": false
     }
   },
   "runtimeValidation": "未执行",
@@ -19709,7 +19763,7 @@
         "name": "布隆·冰川裂隙",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已按固定来源补齐普通主动使用的基础法力与冷却登记，成本说明已整理，保存及独立回读通过；完整施法时序、伤害控制及原候选未决项、代表页面继续核对，不计整技能管理完成。",
+        "reason": "普通使用成本冷却及明确未被法术护盾阻挡的本体魔法伤害已保存并独立回读，原数学表达式和引用保持；控制、重复碰撞资格、被挡或缺值分支、完整施法时序及代表页面继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -19722,7 +19776,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "remainingUltimateCategoryBackfill",
-          "threeControlOrdinaryUseReturn"
+          "threeControlOrdinaryUseReturn",
+          "threeControlUnblockedDamageReturn"
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联"
@@ -19730,10 +19785,10 @@
         "currentComponentCounts": {
           "parameters": 9,
           "formulas": 1,
-          "effects": 1,
+          "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "authoredUseEntry": {
           "processKey": "use_cost_and_cooldown",
@@ -19744,12 +19799,24 @@
           "browser": "待验"
         },
         "remainingBranches": [
-          "本体伤害入口",
+          "法术护盾被阻挡或判定缺失的本体伤害分支",
           "首目标及其他目标的击飞时长与距离映射",
           "减速区及其持续逻辑",
           "完整施法时序及特殊取消失败情形",
-          "代表页面验收"
-        ]
+          "代表页面验收",
+          "重复碰撞是否构成新的合资格命中"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_unblocked_hit",
+          "httpReadback": "PASS",
+          "requiresConfirmedUnblockedHit": true,
+          "spellShieldBlockScope": null,
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Briar",
@@ -20259,7 +20326,7 @@
         "name": "科加斯·破裂",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已按固定来源补齐普通主动使用的基础法力与冷却登记，成本说明已整理，保存及独立回读通过；完整施法时序、伤害控制及原候选未决项、代表页面继续核对，不计整技能管理完成。",
+        "reason": "普通使用成本冷却及明确未被法术护盾阻挡的本体魔法伤害已保存并独立回读，原数学表达式和引用保持；控制、重复碰撞资格、被挡或缺值分支、完整施法时序及代表页面继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -20271,15 +20338,16 @@
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
-          "threeControlOrdinaryUseReturn"
+          "threeControlOrdinaryUseReturn",
+          "threeControlUnblockedDamageReturn"
         ],
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 1,
-          "effects": 1,
+          "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "authoredUseEntry": {
           "processKey": "use_cost_and_cooldown",
@@ -20290,12 +20358,24 @@
           "browser": "待验"
         },
         "remainingBranches": [
-          "本体伤害入口",
+          "法术护盾被阻挡或判定缺失的本体伤害分支",
           "击飞和减速",
           "完整施法时序及特殊取消失败情形",
           "代表页面验收",
-          "原候选其余未决项逐项核对"
-        ]
+          "原候选其余未决项逐项核对",
+          "重复碰撞是否构成新的合资格命中"
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_unblocked_hit",
+          "httpReadback": "PASS",
+          "requiresConfirmedUnblockedHit": true,
+          "spellShieldBlockScope": null,
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Chogath",
@@ -28314,7 +28394,7 @@
         "name": "茂凯·自然之握",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已按固定来源补齐普通主动使用的基础法力与冷却登记，成本说明已整理，保存及独立回读通过；完整施法时序、伤害控制及原候选未决项、代表页面继续核对，不计整技能管理完成。",
+        "reason": "普通使用成本冷却及明确未被法术护盾阻挡的本体魔法伤害已保存并独立回读，原数学表达式和引用保持；控制、重复碰撞资格、被挡或缺值分支、完整施法时序及代表页面继续处理，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -28327,7 +28407,8 @@
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
           "remainingUltimateCategoryBackfill",
-          "threeControlOrdinaryUseReturn"
+          "threeControlOrdinaryUseReturn",
+          "threeControlUnblockedDamageReturn"
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联"
@@ -28335,10 +28416,10 @@
         "currentComponentCounts": {
           "parameters": 8,
           "formulas": 1,
-          "effects": 1,
+          "effects": 2,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 1
+          "triggerRules": 2
         },
         "authoredUseEntry": {
           "processKey": "use_cost_and_cooldown",
@@ -28349,13 +28430,24 @@
           "browser": "待验"
         },
         "remainingBranches": [
-          "本体伤害入口",
+          "法术护盾被阻挡或判定缺失的本体伤害分支",
           "禁锢随行进距离变化",
           "命中英雄后的移速衰减",
           "同一目标重复碰撞资格",
           "完整施法时序及特殊取消失败情形",
           "代表页面验收"
-        ]
+        ],
+        "authoredDirectHit": {
+          "effectKey": "primary_hit",
+          "ruleKey": "actual_unblocked_hit",
+          "httpReadback": "PASS",
+          "requiresConfirmedUnblockedHit": true,
+          "spellShieldBlockScope": null,
+          "vampType": "OMNIVAMP",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "efficiency": 1,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "MasterYi",

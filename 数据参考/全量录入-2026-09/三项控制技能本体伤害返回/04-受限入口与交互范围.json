@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-21T10:18:44.318Z",
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "skills": [
+    "chogath_q",
+    "braum_r",
+    "maokai_r"
+  ],
+  "sourceScope": "客户端16.17与官方16.17.1本体魔法伤害，已核基础值和来源总法强；本轮只对敌方英雄合法实际命中。",
+  "conditions": [
+    "TARGET_CATEGORY_CHECK=CHAMPION",
+    "SKILL_HIT_TARGET_IS_ENEMY={}",
+    "SKILL_HIT_SPELL_SHIELD_BLOCKED EQ FIXED0，三条件同组"
+  ],
+  "effectScope": "primary_hit仅由本次actual_unblocked_hit受限入口调用；瞬时DAMAGE，magic/SKILL/DIRECT，不允许普通暴击，引用同技能magic_damage；明确未阻挡后不重复法盾判断，spellShieldBlockScope为空不代表技能穿盾。",
+  "vamp": {
+    "type": "OMNIVAMP",
+    "basis": "POST_DEFENSE_DAMAGE",
+    "efficiency": 1,
+    "evidence": "数据参考/全量录入-2026-09/卢锡安Q实际命中返回/02-普通物理技能伤害交互核对.json",
+    "meaning": "普通技能伤害对英雄使用既有100%全能吸血管理映射，不添加其他未证吸血类型。"
+  },
+  "preserve": [
+    "全部参数值、公式表达式、来源属性引用",
+    "刚返回的成本效果、普通使用过程和入口",
+    "其他所有原技能组成、图片和关联"
+  ],
+  "pending": [
+    "法术护盾判定为1或缺失的分支",
+    "击飞、减速区、禁锢随距离和命中移速衰减",
+    "重复碰撞是否构成新的合资格命中及宿主去重",
+    "完整施法时序和特殊取消失败情形",
+    "代表页面验收"
+  ],
+  "runtime": "不实现宿主或Wasm，不生成实际命中，不以逐目标冷却或新状态近似未知资格。",
+  "browser": "复用已验证的标准伤害效果、同组命中条件和受限未阻挡入口；本批代表页面待验。"
+}
