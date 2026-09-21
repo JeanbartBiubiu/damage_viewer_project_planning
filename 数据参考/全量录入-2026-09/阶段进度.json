@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T02:41:17.884Z",
+  "generatedAt": "2026-09-21T02:57:07.738Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13164,6 +13164,31 @@
         "relativePath": "数据参考/全量录入-2026-09/希维尔E法术护盾返回准备/07-证据清单.json",
         "sha256": "4365af71eb35ac986a1f8ff9d5d87bc4f359dbaf4c9d9866f27ef28d0b4fb309"
       }
+    },
+    "annieQKillRefundAudit": {
+      "at": "2026-09-21T02:57:07.737Z",
+      "status": "退款基数及指定结果供值待核，不写近似入口",
+      "sourceVersion": {
+        "client": "16.17",
+        "official": "16.17.1"
+      },
+      "businessWrites": 0,
+      "persistedGETs": 6,
+      "unpreservedWorkerReportedGETs": 20,
+      "evidence": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/安妮Q击杀退款返回准备/03-证据清单.json",
+        "sha256": "c77506c7fe1e996c93be66605ae289b27a5efeb6d134d887b335944d943745cb"
+      },
+      "sourcePending": [
+        "50%返还按基础冷却、施放后完整有效冷却还是执行时剩余冷却计算。",
+        "文字中的法力消耗究竟精确返还本次实际消耗快照还是基础等级成本；不能以当前基础值近似。"
+      ],
+      "expressionGaps": [
+        "RESULT_AVAILABLE不提供KILLED",
+        "实际施放消耗只供明确来源技能的SKILL_HIT；尚无同一准确结果上下文"
+      ],
+      "next": "先核定法力和冷却返还基数，指定结果供值缺口归入共享表达；其他成熟流程继续录入。"
     }
   },
   "runtimeValidation": "未执行",
@@ -13928,6 +13953,11 @@
         "worktree": "damage_viewer_project_planning",
         "relativePath": "数据参考/全量录入-2026-09/希维尔E法术护盾返回准备/07-证据清单.json",
         "sha256": "4365af71eb35ac986a1f8ff9d5d87bc4f359dbaf4c9d9866f27ef28d0b4fb309"
+      },
+      "annieQKillRefundAudit": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/安妮Q击杀退款返回准备/03-证据清单.json",
+        "sha256": "c77506c7fe1e996c93be66605ae289b27a5efeb6d134d887b335944d943745cb"
       }
     },
     "coverage": {
@@ -17352,20 +17382,15 @@
         "name": "安妮·碎裂之火",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "普通使用入口已启动既有施法过程，既有实际命中与纠正后的吸血资格保留并独立回读；击杀退款与被动层数及代表页面待续，不计整技能管理完成。",
-        "pendingCounts": {
-          "source": 0,
-          "system": 0,
-          "configuration": 2,
-          "other": 0
-        },
+        "reason": "普通使用与实际命中保留；原未接线法力返还效果使用基础等级成本。固定资料未明确实际法力/冷却返还基数，且当前指定结果事件无法读取击杀与原始消耗快照；不得近似接退款。被动层数与代表页面仍待续。",
         "batchKey": "heroSecondBatch",
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
           "fourExistingDamageVampCorrection",
-          "sixExistingCastUseEntryBackfill"
+          "sixExistingCastUseEntryBackfill",
+          "annieQKillRefundAudit"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -17384,15 +17409,24 @@
           "browser": "待验"
         },
         "remainingBranches": [
-          "击杀退款与被动层数",
-          "代表页面验收"
+          "法力及冷却返还基数来源",
+          "指定Q结果导致击杀与消耗快照的准确管理表达",
+          "退款规则接线",
+          "被动层数与代表页面验收"
         ],
         "authoredUseEntry": {
           "ruleKey": "on_used",
           "processKey": "cast",
           "httpReadback": "PASS",
           "browser": "待验"
-        }
+        },
+        "historicalPendingCounts": {
+          "source": 0,
+          "system": 0,
+          "configuration": 2,
+          "other": 0
+        },
+        "remainingBranchesBoundary": "旧配置计数不代表本次核实的资料和表达缺口，保持整技能未完成。"
       },
       {
         "sourceChampionId": "Annie",

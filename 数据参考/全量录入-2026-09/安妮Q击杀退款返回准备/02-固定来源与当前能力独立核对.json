@@ -1,0 +1,109 @@
+{
+  "at": "2026-09-21T02:50:03.598Z",
+  "status": "SOURCE_AND_EVENT_INPUT_HOLD",
+  "reviewer": "主负责人独立核对",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "official": {
+    "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Annie.json",
+    "sha256": "28803e672dcf429b1f10423c301f8c03831ad10987cb9b32cb6f7d8f117cd2f4",
+    "description": "Annie hurls a Mana infused fireball, dealing damage and refunding the Mana cost if it destroys the target.",
+    "tooltip": "Annie hurls a fireball, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage>. If the target dies, Annie refunds the Mana cost and reduces the Cooldown by 50%.{{ spellmodifierdescriptionappend }}",
+    "cooldownSeconds": [
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "cost": [
+      60,
+      65,
+      70,
+      75,
+      80
+    ]
+  },
+  "client": {
+    "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Annie.json.gz",
+    "decompressedSha256": "92318a3473f127db5b086cdf7a34743becb51ae95196df53911e83f0bd327961",
+    "currentRootBinding": "Characters/Annie/Spells/AnnieQAbility/AnnieQ",
+    "dataValues": [
+      {
+        "name": "BaseDamage",
+        "values": [
+          35,
+          80,
+          125,
+          170,
+          215,
+          260,
+          305
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "APRatio",
+        "values": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ],
+        "__type": "SpellDataValue"
+      }
+    ],
+    "cooldownTime": [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "manaValues": [
+      60,
+      65,
+      70,
+      75,
+      80,
+      85
+    ]
+  },
+  "supportedFacts": [
+    "本Q击杀其目标时返还法力消耗并减少50%冷却。",
+    "当前Q基础冷却4秒，五级法力成本60/65/70/75/80。"
+  ],
+  "notEstablished": [
+    "50%返还按基础冷却、施放后完整有效冷却还是执行时剩余冷却计算。",
+    "文字中的法力消耗究竟精确返还本次实际消耗快照还是基础等级成本；不能以当前基础值近似。"
+  ],
+  "currentCapability": {
+    "resultAvailable": {
+      "eventValueKilled": false,
+      "specificResultIdentity": true
+    },
+    "damageDealt": {
+      "eventValueKilled": true,
+      "explicitSourceSkillFilter": false
+    },
+    "sourceCastResourceCost": {
+      "allowedEvent": "SKILL_HIT",
+      "requiresExplicitSourceSkill": true,
+      "availableOnResultEvent": false
+    }
+  },
+  "sourcePaths": [
+    "server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventCapabilities.java",
+    "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java",
+    "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillNumericSemantics.java"
+  ],
+  "decision": "不创建近似退款或冷却效果，不使用RESULT_AVAILABLE+KILLED的当前非法组合，不用DAMAGE_DEALT宽事件替代指定Q结果资格。先明确消费口径；结果事件读取结算输出是可复用表达缺口。",
+  "businessWrites": 0
+}

@@ -1,0 +1,304 @@
+{
+  "at": "2026-09-21T02:51:57.787Z",
+  "mode": "GET-only root handoff recovery",
+  "priorWorker": {
+    "reportedGETs": 20,
+    "rawSnapshotPersisted": false,
+    "note": "原始响应未落盘，代理确认无法恢复；这些报告数不算独立回读证明。"
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/annie_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/effects/kill_mana_refund",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/annie_q/trigger-rules",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/annie_q": {
+      "createdAt": "2026-09-06T18:16:26.185014Z",
+      "description": "安妮向目标投出注入了法力值的火球，对目标造成魔法伤害。如果目标死于碎裂之火，则碎裂之火消耗的法力值会返还给安妮，且碎裂之火的冷却时间减半。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "安妮·碎裂之火",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "annie_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:26.185014Z"
+    },
+    "/skills/annie_q/parameters": [
+      {
+        "createdAt": "2026-09-07T16:37:37.370399Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "annie_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:37.370399Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:37.697231Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "annie_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:37.697231Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:38.104236Z",
+        "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "annie_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:38.104236Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:38.711728Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "annie_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:37:38.711728Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:39.175526Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "annie_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:37:39.175526Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:39.570449Z",
+        "description": "官方Q说明目标阵亡返还法力并缩短50%冷却。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击杀冷却缩短比例",
+        "parameterKey": "kill_cooldown_refund_ratio",
+        "skillKey": "annie_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T16:37:39.570449Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/annie_q/effects": [
+      {
+        "createdAt": "2026-09-07T16:37:40.326971Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "annie_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:40.326971Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:40.698135Z",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，并显式登记防御结算后伤害、效率为1的全能吸血资格。其他控制、被动和目标分支分别维护。",
+        "effectKey": "spell_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "碎裂之火命中",
+        "resultCount": 1,
+        "skillKey": "annie_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T23:09:40.933832Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:41.030486Z",
+        "description": "仅Q导致目标阵亡时使用；未挂任意击杀事件。",
+        "effectKey": "kill_mana_refund",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "Q击杀返还法力",
+        "resultCount": 1,
+        "skillKey": "annie_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:41.030486Z"
+      }
+    ],
+    "/skills/annie_q/effects/kill_mana_refund": {
+      "createdAt": "2026-09-07T16:37:41.030486Z",
+      "description": "仅Q导致目标阵亡时使用；未挂任意击杀事件。",
+      "effectKey": "kill_mana_refund",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "Q击杀返还法力",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "REFUND"
+          },
+          "lifecycleBehavior": null,
+          "name": "返还施放法力",
+          "resultKey": "refund_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:41.030486Z"
+    },
+    "/skills/annie_q/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-07T16:37:41.475423Z",
+      "description": "只绑定法力、基础冷却及施法延迟；不在过程结束时自动造成伤害。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放碎裂之火",
+      "processKey": "cast",
+      "skillKey": "annie_q",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "主技能已核对的施法时间。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-07T16:37:41.475423Z"
+    },
+    "/skills/annie_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "碎裂之火实际命中",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:41.869179Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "主动使用时启动本技能施法过程；法力消耗、普通冷却及施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动碎裂之火施法过程",
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T23:47:00.375837Z"
+      }
+    ]
+  },
+  "businessWrites": 0
+}

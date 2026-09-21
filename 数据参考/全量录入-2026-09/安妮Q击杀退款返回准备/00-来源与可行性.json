@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-21T02:52:32.401Z",
+  "status": "NOT_READY_FOR_REFUND_RULE",
+  "scope": "Q击杀退款与冷却返还",
+  "current": {
+    "rules": [
+      "actual_hit",
+      "on_used"
+    ],
+    "refundEffect": "kill_mana_refund",
+    "refundValue": {
+      "kind": "PARAMETER",
+      "parameterKey": "mana_cost"
+    },
+    "ratioParameter": 0.5
+  },
+  "factsFile": "02-固定来源与当前能力独立核对.json",
+  "currentFile": "01-共享现值.json",
+  "reads": {
+    "workerReportedNotPersisted": 20,
+    "rootPersistedTargeted": 6
+  },
+  "formalWrites": 0,
+  "decision": "保留原未接线退款效果及原参数，不把基础法力近似成实际快照，也不把50%未经核定改成剩余冷却操作。",
+  "next": [
+    "寻找固定版本的返还消费口径证据",
+    "收敛指定伤害结果的击杀判定与实际施放消耗供值",
+    "在不依赖新流程的其他开放技能继续真实录入"
+  ]
+}
