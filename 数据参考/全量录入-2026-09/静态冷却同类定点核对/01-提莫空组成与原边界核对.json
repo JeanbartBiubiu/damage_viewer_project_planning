@@ -1,0 +1,43 @@
+{
+  "at": "2026-09-21T09:05:40.522Z",
+  "skillKey": "teemo_r",
+  "status": "EMPTY_COMPONENTS_MATCH_PREVIOUS_SCOPE_NOT_AUTO_BACKFILL",
+  "subjectGet": {
+    "status": 200,
+    "body": {
+      "createdAt": "2026-09-06T18:20:38.815419Z",
+      "description": "提莫投掷一个可爆炸的毒性陷阱，需要消耗提莫背包里的一个蘑菇。陷阱会在被敌方踩中时爆炸，释放出一团毒云，对附近的敌人造成减速效果和持续伤害。如果提莫把一个蘑菇扔到另一个蘑菇上，那么这个蘑菇会进行弹跳，获得额外的距离。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "提莫·种蘑菇",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "teemo_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:29:50.920928Z"
+    }
+  },
+  "sourceCandidate": {
+    "root": "web",
+    "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十五批/完整候选.json",
+    "sha256": "5851644084d10eb6822740d42d55b5bc1c8d64a6f44ab8c92854382e08013a50"
+  },
+  "previousWrite": {
+    "parameters": [],
+    "formulas": [],
+    "effects": [],
+    "processes": [],
+    "internalStates": [],
+    "triggerRules": []
+  },
+  "previousExcluded": [
+    "蘑菇陷阱、触发爆炸、持续伤害、减速、弹跳和充能链全部按范围排除。"
+  ],
+  "previousPending": [
+    "只保留公共参数之外的本体施放接线待主负责人决定；不造陷阱对象。"
+  ],
+  "decision": "本次空列表与原候选一致，不作为漏录补空配置；仅本体施放待决范围另核，当前结论不自行改成完整或扩大排除。",
+  "businessWrites": 0
+}

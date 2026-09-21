@@ -1,0 +1,301 @@
+{
+  "at": "2026-09-21T09:08:51.416Z",
+  "reviewer": "/root/static_cooldown_peer_source",
+  "delivery": "只读代理报告；主负责人复算全部固定文件摘要及根字段",
+  "version": "客户端16.17 / DDragon16.17.1",
+  "cases": [
+    {
+      "skillKey": "vi_e",
+      "slotIndex": 2,
+      "spellPath": "Characters/Vi/Spells/ViEAbility/ViE",
+      "files": [
+        {
+          "root": "planning",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Vi.json.gz",
+          "sha256": "88df744509f0873b2df9d2eefeece0d1766c170ccc8fd758f07b3cc1352c9569"
+        },
+        {
+          "root": "planning",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Vi.json",
+          "sha256": "fefe9cbecbe9065df9b0d0eedd086e64526fdaa92127a848df0d441c9fa7713a"
+        }
+      ],
+      "cooldownTime": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "cooldownValues": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "maxAmmo": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "ammoRecharge": [
+        12,
+        12,
+        11,
+        10,
+        9,
+        8,
+        8
+      ],
+      "staticCooldownNamedDataValue": {
+        "name": "StaticCooldown",
+        "values": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "__type": "SpellDataValue"
+      },
+      "cooldownNotAffectedByCdr": {
+        "present": false,
+        "value": null,
+        "missingMeaning": "缺失不推定false或不受急速"
+      },
+      "official": {
+        "id": "ViE",
+        "cooldown": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "maxammo": "2"
+      },
+      "decision": "现有区分准确，本次保持。"
+    },
+    {
+      "skillKey": "corki_r",
+      "slotIndex": 3,
+      "spellPath": "Characters/Corki/Spells/MissileBarrageAbility/MissileBarrage",
+      "files": [
+        {
+          "root": "planning",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Corki.json.gz",
+          "sha256": "d4b53efbe620e28ab28c61ac60e314fbb6d9027b2ae2e47798c4117b10a2d2b8"
+        },
+        {
+          "root": "planning",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Corki.json",
+          "sha256": "649b51b45506b7329d21a67b7a420f290bd7d234ab74b83185f3ee48dd656941"
+        }
+      ],
+      "cooldownTime": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "cooldownValues": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "maxAmmo": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "ammoRecharge": [
+        20,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "staticCooldownNamedDataValue": null,
+      "cooldownNotAffectedByCdr": {
+        "present": false,
+        "value": null,
+        "missingMeaning": "缺失不推定false或不受急速"
+      },
+      "official": {
+        "id": "MissileBarrage",
+        "cooldown": [
+          2,
+          2,
+          2
+        ],
+        "maxammo": "4"
+      },
+      "decision": "现有区分准确，本次保持。"
+    },
+    {
+      "skillKey": "teemo_r",
+      "slotIndex": 3,
+      "spellPath": "Characters/Teemo/Spells/TeemoRAbility/TeemoR",
+      "files": [
+        {
+          "root": "planning",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Teemo.json.gz",
+          "sha256": "279230eea2e755d24f55f1dce0f4f22a71df113696ae85df8c54ba23ea8a7abe"
+        },
+        {
+          "root": "planning",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Teemo.json",
+          "sha256": "d925320feef190dbf5923ec83cf7129cb11a174e3982915360e7928edc1276ea"
+        }
+      ],
+      "cooldownTime": [
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "cooldownValues": [
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "maxAmmo": [
+        3,
+        3,
+        4,
+        5,
+        3,
+        3,
+        3
+      ],
+      "ammoRecharge": [
+        0,
+        35,
+        30,
+        25,
+        0,
+        0,
+        0
+      ],
+      "staticCooldownNamedDataValue": null,
+      "cooldownNotAffectedByCdr": {
+        "present": false,
+        "value": null,
+        "missingMeaning": "缺失不推定false或不受急速"
+      },
+      "official": {
+        "id": "TeemoR",
+        "cooldown": [
+          0.25,
+          0.25,
+          0.25
+        ],
+        "maxammo": "3"
+      },
+      "decision": "仅对照，原排除与本体待决保持，不新建。"
+    },
+    {
+      "skillKey": "rumble_e",
+      "slotIndex": 2,
+      "spellPath": "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenade",
+      "files": [
+        {
+          "root": "planning",
+          "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Rumble.json.gz",
+          "sha256": "71a308589d8be6ebdd5c620c63911318c6ebe1421009d2cc39db36211bf364eb"
+        },
+        {
+          "root": "planning",
+          "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Rumble.json",
+          "sha256": "74f97a533b393e3cb11331f8f7557ae990d6896255fc2595c3ad93f3656d04a1"
+        }
+      ],
+      "cooldownTime": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "cooldownValues": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "maxAmmo": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "ammoRecharge": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6
+      ],
+      "staticCooldownNamedDataValue": null,
+      "cooldownNotAffectedByCdr": {
+        "present": false,
+        "value": null,
+        "missingMeaning": "缺失不推定false或不受急速"
+      },
+      "official": {
+        "id": "RumbleGrenade",
+        "cooldown": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "maxammo": "2"
+      },
+      "decision": "仅更正500毫秒参数名称与说明，区分6秒恢复；不改数值、键，不推定急速或弹药初值。"
+    }
+  ],
+  "businessWrites": 0
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T09:02:54.005Z",
+  "generatedAt": "2026-09-21T09:21:48.408Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13762,6 +13762,18 @@
       "browser": false,
       "wholeSkillComplete": false,
       "runtime": false
+    },
+    "staticCooldownPeerReturn": {
+      "status": "四项定点核对，兰博E说明更正已保存并独立回读",
+      "successfulSaves": 1,
+      "independentGets": 21,
+      "numericChanges": 0,
+      "componentsCreated": 0,
+      "commit": "c307cc2763752943b6b984c7ad0bd6f034b24c45",
+      "evidence": "静态冷却同类定点核对/03-兰博说明更正返回.json",
+      "browser": false,
+      "runtime": false,
+      "wholeSkillComplete": false
     }
   },
   "runtimeValidation": "未执行",
@@ -32630,7 +32642,7 @@
         "name": "兰博·电子鱼叉",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。",
+        "reason": "已保存明确组成；仍有5个待处理分支，其中来源或资料缺口3个、系统缺口0个、配置缺口2个。 本次已将500毫秒明确为单次使用间隔，与6秒弹药恢复分开；仅名称说明更正，未推定急速、未接线充能热量，代表页面待验。",
         "pendingCounts": {
           "source": 3,
           "system": 0,
@@ -32641,8 +32653,15 @@
         "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
-        ]
+          "heroSourceInventory",
+          "staticCooldownPeerReturn"
+        ],
+        "parameterDescriptionReturn": {
+          "httpReadback": "PASS",
+          "changedParameters": 1,
+          "numericChanges": 0,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Rumble",

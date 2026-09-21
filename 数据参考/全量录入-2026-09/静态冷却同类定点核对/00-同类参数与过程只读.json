@@ -1,0 +1,635 @@
+{
+  "at": "2026-09-21T08:56:50.358Z",
+  "targets": [
+    {
+      "skillKey": "vi_e",
+      "champion": "Vi",
+      "slotIndex": 2,
+      "rows": [
+        {
+          "route": "/skills/vi_e/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-08T17:37:31.4777Z",
+              "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 10,
+                "2": 30,
+                "3": 50,
+                "4": 70,
+                "5": 90
+              },
+              "name": "透体之劲基础物理伤害",
+              "parameterKey": "base_damage",
+              "skillKey": "vi_e",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-08T17:37:31.4777Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T17:37:32.080321Z",
+              "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至5。",
+              "fixedValue": 1.1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "总攻击力系数",
+              "parameterKey": "total_ad_ratio",
+              "skillKey": "vi_e",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-08T17:37:32.080321Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-08T17:37:32.685023Z",
+              "description": "客户端当前根绑定 DataValues.AttackBuffDuration 取索引1至5。",
+              "fixedValue": 6000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "强化攻击保留时长（毫秒）",
+              "parameterKey": "attack_window_ms",
+              "skillKey": "vi_e",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-08T17:37:32.685023Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T17:37:33.379469Z",
+              "description": "客户端当前根绑定 DataValues.StaticCooldown 取索引1至5。",
+              "fixedValue": 1000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "充能之间静态冷却（毫秒）",
+              "parameterKey": "static_cooldown_ms",
+              "skillKey": "vi_e",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-08T17:37:33.379469Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T17:37:34.031825Z",
+              "description": "客户端当前根绑定 DataValues.BonusRange 取索引1至5。",
+              "fixedValue": 50,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外攻击距离字段",
+              "parameterKey": "bonus_range",
+              "skillKey": "vi_e",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-08T17:37:34.031825Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T17:37:34.902354Z",
+              "description": "当前根mMaxAmmo全级为2，与说明2层一致。",
+              "fixedValue": 2,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "最大充能层数",
+              "parameterKey": "max_ammo",
+              "skillKey": "vi_e",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-08T17:37:34.902354Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T17:37:35.483111Z",
+              "description": "当前根mAmmoRechargeTime索引1至5为12/11/10/9/8秒；与StaticCooldown=1秒及官方显示冷却分开。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 12000,
+                "2": 11000,
+                "3": 10000,
+                "4": 9000,
+                "5": 8000
+              },
+              "name": "充能恢复时间（毫秒）",
+              "parameterKey": "ammo_recharge_ms",
+              "skillKey": "vi_e",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-08T17:37:35.483111Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T17:37:35.958802Z",
+              "description": "第三项StatByCoefficientCalculationPart仅有mCoefficient=1，未写mStat；不默认作法强。",
+              "fixedValue": 1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "省略属性枚举节点系数",
+              "parameterKey": "omitted_stat_coefficient",
+              "skillKey": "vi_e",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-08T17:37:35.958802Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T17:37:36.767268Z",
+              "description": "须提供该省略枚举节点经证实的属性取值；缺失不填零，不把默认法强或0当作已证。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "省略属性节点的已核数值",
+              "parameterKey": "omitted_stat_value",
+              "skillKey": "vi_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-08T17:37:36.767268Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-08T02:05:43.702181Z",
+              "description": "DDragon16.17.1 Vi.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 26,
+                "2": 32,
+                "3": 38,
+                "4": 44,
+                "5": 50
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "vi_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-08T02:05:43.702181Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        {
+          "route": "/skills/vi_e/processes",
+          "status": 200,
+          "data": [
+            {
+              "activationType": "ACTIVE",
+              "createdAt": "2026-09-08T17:37:38.672324Z",
+              "description": "仅已确证的施放成本、冷却与独立自益；不生成敌人命中。",
+              "effectBindingCount": 1,
+              "gameId": "lol",
+              "name": "施放透体之劲",
+              "processKey": "cast",
+              "skillKey": "vi_e",
+              "sortOrder": 10,
+              "stateOperationCount": 0,
+              "stepCount": 1,
+              "updatedAt": "2026-09-08T17:37:38.672324Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "skillKey": "corki_r",
+      "champion": "Corki",
+      "slotIndex": 3,
+      "rows": [
+        {
+          "route": "/skills/corki_r/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T17:29:38.528185Z",
+              "description": "客户端RSmallMissileDamage树BaseDamage取技能等级1至3，为90/170/250。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 90,
+                "2": 170,
+                "3": 250
+              },
+              "name": "小导弹基础物理伤害",
+              "parameterKey": "base_damage",
+              "skillKey": "corki_r",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T17:29:38.528185Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T17:29:39.659248Z",
+              "description": "当前RSmallMissileDamage树ADRatio带mStat2/mStatFormula2，取来源额外攻击力。",
+              "fixedValue": 0.8500000238418579,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "额外攻击力比例",
+              "parameterKey": "bonus_attack_damage_ratio",
+              "skillKey": "corki_r",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T17:29:39.659248Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T17:29:41.14459Z",
+              "description": "当前RBigMissileDamage是小导弹完整树乘2。",
+              "fixedValue": 2,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "超级导弹倍率",
+              "parameterKey": "big_missile_multiplier",
+              "skillKey": "corki_r",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T17:29:41.14459Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T17:29:42.404885Z",
+              "description": "当前同版公共单发冷却为2秒；与充能20秒分别保存。",
+              "fixedValue": 2000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "单发公共冷却（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "corki_r",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T17:29:42.404885Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T17:29:43.550139Z",
+              "description": "当前mAmmoRechargeTime数组为20秒；该字段来自根原始字段，候选固定为20000毫秒。",
+              "fixedValue": 20000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "弹药充能时间（毫秒）",
+              "parameterKey": "ammo_recharge_ms",
+              "skillKey": "corki_r",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T17:29:43.550139Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T17:29:44.785272Z",
+              "description": "当前根mMaxAmmo和正文消费均为4；不采用主体旧摘要7。",
+              "fixedValue": 4,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "最大弹药数",
+              "parameterKey": "max_ammo",
+              "skillKey": "corki_r",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T17:29:44.785272Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T17:29:46.127829Z",
+              "description": "当前DataValues.AmmoWhenLearned=2。",
+              "fixedValue": 2,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "学习时弹药数",
+              "parameterKey": "ammo_when_learned",
+              "skillKey": "corki_r",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T17:29:46.127829Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T17:29:47.386833Z",
+              "description": "当前AttackRefund的mMultiplier来自CDReductionOnHit=2秒；不将它误作固定最终值。",
+              "fixedValue": 2,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "命中普攻基础回充缩短（秒）",
+              "parameterKey": "attack_refund_base_seconds",
+              "skillKey": "corki_r",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T17:29:47.386833Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T17:29:48.683296Z",
+              "description": "当前AttackRefund树为2×(1+2×mStat8)；2是树中mCoefficient，不是显示精度。",
+              "fixedValue": 2,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "回充公式mStat8系数",
+              "parameterKey": "attack_refund_mstat8_coefficient",
+              "skillKey": "corki_r",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-09T17:29:48.683296Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T17:29:49.902081Z",
+              "description": "当前AttackRefund使用mStat8，属性编号和应用阶段未窄证；真实值由运行输入提供，不默认为0。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "回充公式mStat8实际值",
+              "parameterKey": "attack_refund_mstat8_value",
+              "skillKey": "corki_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-09T17:29:49.902081Z",
+              "valueMode": "RUNTIME_INPUT",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T17:29:51.15451Z",
+              "description": "当前AttackRefund树的NumberCalculationPart=1。",
+              "fixedValue": 1,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "回充公式单位常数",
+              "parameterKey": "attack_refund_unit",
+              "skillKey": "corki_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-09T17:29:51.15451Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-07T16:00:16.265855Z",
+              "description": "DDragon16.17.1 Corki.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 35,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "corki_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T16:00:16.265855Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T17:29:52.396557Z",
+              "description": "当前根spellCastTime；仅保存来源字段，不代表命中、位移或效果事件已接线。",
+              "fixedValue": 250,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础施法时间（毫秒）",
+              "parameterKey": "cast_time_ms",
+              "skillKey": "corki_r",
+              "sortOrder": 1000,
+              "updatedAt": "2026-09-09T17:29:52.396557Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ]
+        },
+        {
+          "route": "/skills/corki_r/processes",
+          "status": 200,
+          "data": []
+        }
+      ]
+    },
+    {
+      "skillKey": "teemo_r",
+      "champion": "Teemo",
+      "slotIndex": 3,
+      "rows": [
+        {
+          "route": "/skills/teemo_r/parameters",
+          "status": 200,
+          "data": []
+        },
+        {
+          "route": "/skills/teemo_r/processes",
+          "status": 200,
+          "data": []
+        }
+      ]
+    },
+    {
+      "skillKey": "rumble_e",
+      "champion": "Rumble",
+      "slotIndex": 2,
+      "rows": [
+        {
+          "route": "/skills/rumble_e/parameters",
+          "status": 200,
+          "data": [
+            {
+              "createdAt": "2026-09-09T12:17:11.466017Z",
+              "description": "官方逐级冷却与当前根cooldownTime索引1至等级上限逐级一致；不含技能急速或其他技能修正。",
+              "fixedValue": 500,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "rumble_e",
+              "sortOrder": 10,
+              "updatedAt": "2026-09-09T12:17:11.466017Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T12:17:12.47811Z",
+              "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+              "fixedValue": 250,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "施法时间（毫秒）",
+              "parameterKey": "cast_time_ms",
+              "skillKey": "rumble_e",
+              "sortOrder": 20,
+              "updatedAt": "2026-09-09T12:17:12.47811Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T12:17:13.457322Z",
+              "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 55,
+                "2": 80,
+                "3": 105,
+                "4": 130,
+                "5": 155
+              },
+              "name": "电子鱼叉基础魔法伤害",
+              "parameterKey": "base_damage",
+              "skillKey": "rumble_e",
+              "sortOrder": 30,
+              "updatedAt": "2026-09-09T12:17:13.457322Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T12:17:14.517145Z",
+              "description": "客户端当前根绑定 DataValues.FirstCastHeatCost 取索引1至5",
+              "fixedValue": 20,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "第一次鱼叉热量消耗",
+              "parameterKey": "first_cast_heat_cost",
+              "skillKey": "rumble_e",
+              "sortOrder": 40,
+              "updatedAt": "2026-09-09T12:17:14.517145Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T12:17:15.517153Z",
+              "description": "客户端当前根绑定 DataValues.PercMagicPen 取索引1至5",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.1,
+                "2": 0.12,
+                "3": 0.14,
+                "4": 0.16,
+                "5": 0.18
+              },
+              "name": "普通鱼叉魔法穿透比例",
+              "parameterKey": "magic_penetration_ratio",
+              "skillKey": "rumble_e",
+              "sortOrder": 50,
+              "updatedAt": "2026-09-09T12:17:15.517153Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T12:17:16.410838Z",
+              "description": "客户端当前根绑定 DataValues.EnhancedMagicPen 取索引1至5",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.2,
+                "2": 0.24,
+                "3": 0.28,
+                "4": 0.32,
+                "5": 0.36
+              },
+              "name": "强化鱼叉魔法穿透比例",
+              "parameterKey": "enhanced_magic_penetration_ratio",
+              "skillKey": "rumble_e",
+              "sortOrder": 60,
+              "updatedAt": "2026-09-09T12:17:16.410838Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T12:17:17.343356Z",
+              "description": "客户端当前根绑定 DataValues.ShredDuration 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+              "fixedValue": 4000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "魔抗削减持续（毫秒）",
+              "parameterKey": "magic_resistance_shred_duration_ms",
+              "skillKey": "rumble_e",
+              "sortOrder": 70,
+              "updatedAt": "2026-09-09T12:17:17.343356Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T12:17:18.377598Z",
+              "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+              "fixedValue": 2000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "减速持续（毫秒）",
+              "parameterKey": "slow_duration_ms",
+              "skillKey": "rumble_e",
+              "sortOrder": 80,
+              "updatedAt": "2026-09-09T12:17:18.377598Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-09T12:17:19.390792Z",
+              "description": "客户端当前根绑定 DataValues.BaseSlowAmount 取索引1至5；单位百分数点转比例；按来源单位换算为系统比例或毫秒",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.15,
+                "2": 0.2,
+                "3": 0.25,
+                "4": 0.3,
+                "5": 0.35
+              },
+              "name": "普通鱼叉减速比例",
+              "parameterKey": "slow_ratio",
+              "skillKey": "rumble_e",
+              "sortOrder": 90,
+              "updatedAt": "2026-09-09T12:17:19.390792Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T12:17:20.35388Z",
+              "description": "客户端当前根绑定 DataValues.EmpoweredSlowAmount 取索引1至5；单位百分数点转比例；按来源单位换算为系统比例或毫秒",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 0.3,
+                "2": 0.4,
+                "3": 0.5,
+                "4": 0.6,
+                "5": 0.7
+              },
+              "name": "强化鱼叉减速比例",
+              "parameterKey": "enhanced_slow_ratio",
+              "skillKey": "rumble_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-09T12:17:20.35388Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T12:17:21.370073Z",
+              "description": "当前根TotalDamage树明确的法强系数。",
+              "fixedValue": 0.5,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "电子鱼叉法强系数",
+              "parameterKey": "ap_ratio",
+              "skillKey": "rumble_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-09T12:17:21.370073Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            },
+            {
+              "createdAt": "2026-09-09T12:17:22.418668Z",
+              "description": "当前根EmpDamage树明确强化伤害为普通值1.5倍。",
+              "fixedValue": 1.5,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "强化电子鱼叉伤害倍率",
+              "parameterKey": "empowered_damage_multiplier",
+              "skillKey": "rumble_e",
+              "sortOrder": 120,
+              "updatedAt": "2026-09-09T12:17:22.418668Z",
+              "valueMode": "FIXED",
+              "valueType": "DECIMAL"
+            }
+          ]
+        },
+        {
+          "route": "/skills/rumble_e/processes",
+          "status": 200,
+          "data": []
+        }
+      ]
+    }
+  ],
+  "getCount": 8,
+  "businessWrites": 0
+}
