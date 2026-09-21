@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "阿木木ER成本说明整理",
+  "generatedAt": "2026-09-21T12:04:51.150Z",
+  "scope": "只更正既有法力参数和成本效果的父子说明；不改参数值、资源操作、引用、排序或其他机制。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Amumu.json.gz",
+      "sha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Amumu.json",
+      "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/00-当前组成一次只读.json",
+      "sha256": "5a949102ae3c311729b7a589fd1cc0fab8465f40262b1cebc2ae73308b72453d"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/01-固定原文直接核对.json",
+      "sha256": "e366d439e2e06e367f786196baf3cf7b474502d4cd2cbda30f68733c65ea38c3"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/02-公式现值核算.json",
+      "sha256": "44a8b5e4a96d5362e14cd2936d48cb4f37f8b802aee6ba104fc7d56e9c1052ac"
+    }
+  ],
+  "changes": [
+    {
+      "kind": "parameter",
+      "skillKey": "amumu_e",
+      "route": "/skills/amumu_e/parameters/mana_cost",
+      "description": "DDragon16.17.1 Amumu.spells[2].cost，等级1起索引0；与固定客户端根绑定法力值一致。仅保存基础法力成本，具体扣除时点由普通使用过程配置，命中、被动与其他分支分别处理。"
+    },
+    {
+      "kind": "effect",
+      "skillKey": "amumu_e",
+      "route": "/skills/amumu_e/effects/mana_cost",
+      "description": "普通主动使用的基础法力消耗结果，引用本技能mana_cost参数；由已接受使用的过程按配置时点扣除来源对象法力，命中与被动另行处理。",
+      "resultDescriptions": [
+        {
+          "resultKey": "consume_mana",
+          "description": "按本技能mana_cost参数消耗来源对象法力；本结果不判定使用资格、目标命中或被动。"
+        }
+      ]
+    },
+    {
+      "kind": "parameter",
+      "skillKey": "amumu_r",
+      "route": "/skills/amumu_r/parameters/mana_cost",
+      "description": "DDragon16.17.1 Amumu.spells[3].cost，等级1起索引0；与固定客户端根绑定法力值一致。仅保存基础法力成本，具体扣除时点由普通使用过程配置，命中、被动与其他分支分别处理。"
+    },
+    {
+      "kind": "effect",
+      "skillKey": "amumu_r",
+      "route": "/skills/amumu_r/effects/mana_cost",
+      "description": "普通主动使用的基础法力消耗结果，引用本技能mana_cost参数；由已接受使用的过程按配置时点扣除来源对象法力，命中与被动另行处理。",
+      "resultDescriptions": [
+        {
+          "resultKey": "consume_mana",
+          "description": "按本技能mana_cost参数消耗来源对象法力；本结果不判定使用资格、目标命中或被动。"
+        }
+      ]
+    }
+  ]
+}

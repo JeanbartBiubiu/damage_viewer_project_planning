@@ -1,0 +1,1247 @@
+{
+  "at": "2026-09-21T12:04:53.467Z",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "values": {
+    "/skills/amumu_e": {
+      "createdAt": "2026-09-06T18:16:23.378121Z",
+      "description": "永久减少阿木木所受的物理伤害。主动施放时，阿木木可以发泄他的怒火，对周围的敌人造成伤害。阿木木每被攻击一次，该技能的冷却时间就会缩短。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "阿木木·阿木木的愤怒",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "amumu_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:23.378121Z"
+    },
+    "/skills/amumu_e/parameters": [
+      {
+        "createdAt": "2026-09-09T14:32:39.808708Z",
+        "description": "客户端根绑定 spellCastTime=0.25秒，按毫秒录入；不表示主动伤害命中时点。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "amumu_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T14:32:39.808708Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:40.930889Z",
+        "description": "客户端根绑定 DataValues.BaseDamage 取原始数组索引1至5，录入65/95/125/155/185。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 65,
+          "2": 95,
+          "3": 125,
+          "4": 155,
+          "5": 185
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "amumu_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T14:32:40.930889Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:42.05287Z",
+        "description": "TantrumDamage 第二项 StatByCoefficient 原始mCoefficient=0.5，按窄口径映射来源总法强。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "主动法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "amumu_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T14:32:42.05287Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:43.189516Z",
+        "description": "客户端根绑定 DataValues.BaseDamageReduction 取原始数组索引1至5，录入5/7/9/11/13固定点数。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 5,
+          "2": 7,
+          "3": 9,
+          "4": 11,
+          "5": 13
+        },
+        "name": "基础物理伤害减免点数",
+        "parameterKey": "base_damage_reduction_points",
+        "skillKey": "amumu_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T14:32:43.189516Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:44.304715Z",
+        "description": "DamageReduction的mStat=1、mStatFormula=2项原始系数0.03；属性枚举未窄证，倍率保留，输入另行外供。",
+        "fixedValue": 0.03,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外护甲减免倍率",
+        "parameterKey": "bonus_armor_ratio",
+        "skillKey": "amumu_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T14:32:44.304715Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:45.460367Z",
+        "description": "DamageReduction的mStat=6、mStatFormula=2项原始系数0.03；属性枚举未窄证，倍率保留，输入另行外供。",
+        "fixedValue": 0.03,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外魔抗减免倍率",
+        "parameterKey": "bonus_magic_resistance_ratio",
+        "skillKey": "amumu_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T14:32:45.460367Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:46.684685Z",
+        "description": "客户端根绑定 DataValues.FlatDamageReductionMax 原始数组索引1取0.5；正文说明减伤不能将伤害降至50%以下。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "物理伤害减免上限比例",
+        "parameterKey": "reduction_cap_ratio",
+        "skillKey": "amumu_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T14:32:46.684685Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:34.303912Z",
+        "description": "DDragon16.17.1 Amumu.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8000,
+          "3": 7000,
+          "4": 6000,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "amumu_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:34.303912Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:47.801225Z",
+        "description": "上限公式需要本次物理伤害输入；来源只证明减免量不超过伤害的一半，不设置默认值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次承受物理伤害",
+        "parameterKey": "incoming_physical_damage",
+        "skillKey": "amumu_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T14:32:47.801225Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:35.145698Z",
+        "description": "DDragon16.17.1 Amumu.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "amumu_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:35.145698Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:48.927054Z",
+        "description": "mStat=1、mStatFormula=2的具体属性选择器未在当前窄口径证实，不猜枚举，使用无默认运行输入。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "来源额外护甲",
+        "parameterKey": "source_bonus_armor",
+        "skillKey": "amumu_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-09T14:32:48.927054Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:50.050159Z",
+        "description": "mStat=6、mStatFormula=2的具体属性选择器未在当前窄口径证实，不猜枚举，使用无默认运行输入。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "来源额外魔法抗性",
+        "parameterKey": "source_bonus_magic_resistance",
+        "skillKey": "amumu_e",
+        "sortOrder": 120,
+        "updatedAt": "2026-09-09T14:32:50.050159Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:51.166413Z",
+        "description": "客户端根绑定 DataValues.CDROnHit 原始数组索引1取0.75秒，按毫秒录入；不创建受击事件。",
+        "fixedValue": 750,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "受击后冷却缩短（毫秒）",
+        "parameterKey": "cooldown_reduction_on_hit_ms",
+        "skillKey": "amumu_e",
+        "sortOrder": 130,
+        "updatedAt": "2026-09-09T14:32:51.166413Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/amumu_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T14:32:39.808708Z",
+      "description": "客户端根绑定 spellCastTime=0.25秒，按毫秒录入；不表示主动伤害命中时点。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "amumu_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T14:32:39.808708Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_e/parameters/base_damage": {
+      "createdAt": "2026-09-09T14:32:40.930889Z",
+      "description": "客户端根绑定 DataValues.BaseDamage 取原始数组索引1至5，录入65/95/125/155/185。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 65,
+        "2": 95,
+        "3": 125,
+        "4": 155,
+        "5": 185
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "amumu_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T14:32:40.930889Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T14:32:42.05287Z",
+      "description": "TantrumDamage 第二项 StatByCoefficient 原始mCoefficient=0.5，按窄口径映射来源总法强。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "主动法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "amumu_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T14:32:42.05287Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/amumu_e/parameters/base_damage_reduction_points": {
+      "createdAt": "2026-09-09T14:32:43.189516Z",
+      "description": "客户端根绑定 DataValues.BaseDamageReduction 取原始数组索引1至5，录入5/7/9/11/13固定点数。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 5,
+        "2": 7,
+        "3": 9,
+        "4": 11,
+        "5": 13
+      },
+      "name": "基础物理伤害减免点数",
+      "parameterKey": "base_damage_reduction_points",
+      "skillKey": "amumu_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T14:32:43.189516Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_e/parameters/bonus_armor_ratio": {
+      "createdAt": "2026-09-09T14:32:44.304715Z",
+      "description": "DamageReduction的mStat=1、mStatFormula=2项原始系数0.03；属性枚举未窄证，倍率保留，输入另行外供。",
+      "fixedValue": 0.03,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "额外护甲减免倍率",
+      "parameterKey": "bonus_armor_ratio",
+      "skillKey": "amumu_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T14:32:44.304715Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/amumu_e/parameters/bonus_magic_resistance_ratio": {
+      "createdAt": "2026-09-09T14:32:45.460367Z",
+      "description": "DamageReduction的mStat=6、mStatFormula=2项原始系数0.03；属性枚举未窄证，倍率保留，输入另行外供。",
+      "fixedValue": 0.03,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "额外魔抗减免倍率",
+      "parameterKey": "bonus_magic_resistance_ratio",
+      "skillKey": "amumu_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T14:32:45.460367Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/amumu_e/parameters/reduction_cap_ratio": {
+      "createdAt": "2026-09-09T14:32:46.684685Z",
+      "description": "客户端根绑定 DataValues.FlatDamageReductionMax 原始数组索引1取0.5；正文说明减伤不能将伤害降至50%以下。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "物理伤害减免上限比例",
+      "parameterKey": "reduction_cap_ratio",
+      "skillKey": "amumu_e",
+      "sortOrder": 90,
+      "updatedAt": "2026-09-09T14:32:46.684685Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/amumu_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:34.303912Z",
+      "description": "DDragon16.17.1 Amumu.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 9000,
+        "2": 8000,
+        "3": 7000,
+        "4": 6000,
+        "5": 5000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "amumu_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:34.303912Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_e/parameters/incoming_physical_damage": {
+      "createdAt": "2026-09-09T14:32:47.801225Z",
+      "description": "上限公式需要本次物理伤害输入；来源只证明减免量不超过伤害的一半，不设置默认值。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "本次承受物理伤害",
+      "parameterKey": "incoming_physical_damage",
+      "skillKey": "amumu_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-09T14:32:47.801225Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/skills/amumu_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:35.145698Z",
+      "description": "DDragon16.17.1 Amumu.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": 35,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "amumu_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:35.145698Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_e/parameters/source_bonus_armor": {
+      "createdAt": "2026-09-09T14:32:48.927054Z",
+      "description": "mStat=1、mStatFormula=2的具体属性选择器未在当前窄口径证实，不猜枚举，使用无默认运行输入。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "来源额外护甲",
+      "parameterKey": "source_bonus_armor",
+      "skillKey": "amumu_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-09T14:32:48.927054Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/skills/amumu_e/parameters/source_bonus_magic_resistance": {
+      "createdAt": "2026-09-09T14:32:50.050159Z",
+      "description": "mStat=6、mStatFormula=2的具体属性选择器未在当前窄口径证实，不猜枚举，使用无默认运行输入。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "来源额外魔法抗性",
+      "parameterKey": "source_bonus_magic_resistance",
+      "skillKey": "amumu_e",
+      "sortOrder": 120,
+      "updatedAt": "2026-09-09T14:32:50.050159Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/skills/amumu_e/parameters/cooldown_reduction_on_hit_ms": {
+      "createdAt": "2026-09-09T14:32:51.166413Z",
+      "description": "客户端根绑定 DataValues.CDROnHit 原始数组索引1取0.75秒，按毫秒录入；不创建受击事件。",
+      "fixedValue": 750,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "受击后冷却缩短（毫秒）",
+      "parameterKey": "cooldown_reduction_on_hit_ms",
+      "skillKey": "amumu_e",
+      "sortOrder": 130,
+      "updatedAt": "2026-09-09T14:32:51.166413Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_e/formulas": [
+      {
+        "createdAt": "2026-09-09T14:32:52.267543Z",
+        "description": "DamageReduction = BaseDamageReduction + 0.03×来源额外护甲 + 0.03×来源额外魔抗；输出是固定物理减免点数，不乘0.01。",
+        "formulaKey": "damage_reduction_points",
+        "gameId": "lol",
+        "name": "物理伤害减免点数",
+        "skillKey": "amumu_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:32:52.267543Z"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:53.396525Z",
+        "description": "封顶前结果沿用固定物理减免点数；不能按百分比或本次伤害先行换算。",
+        "formulaKey": "raw_physical_damage_reduction",
+        "gameId": "lol",
+        "name": "封顶前物理伤害减免点数",
+        "skillKey": "amumu_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T14:32:53.396525Z"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:54.442337Z",
+        "description": "最终减免量 = MIN(固定减免点数, 0.5×本次承受物理伤害)；保留50%最低承伤边界。",
+        "formulaKey": "capped_physical_damage_reduction",
+        "gameId": "lol",
+        "name": "封顶后物理伤害减免量",
+        "skillKey": "amumu_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T14:32:54.442337Z"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:55.566466Z",
+        "description": "TantrumDamage = BaseDamage + 0.5×来源总法强；只保留公式，不创建主动命中伤害结果。",
+        "formulaKey": "tantrum_damage",
+        "gameId": "lol",
+        "name": "阿木木的愤怒主动魔法伤害",
+        "skillKey": "amumu_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T14:32:55.566466Z"
+      }
+    ],
+    "/skills/amumu_e/formulas/damage_reduction_points": {
+      "createdAt": "2026-09-09T14:32:52.267543Z",
+      "description": "DamageReduction = BaseDamageReduction + 0.03×来源额外护甲 + 0.03×来源额外魔抗；输出是固定物理减免点数，不乘0.01。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage_reduction_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_armor_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "source_bonus_armor"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_magic_resistance_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_bonus_magic_resistance"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage_reduction_points",
+      "gameId": "lol",
+      "name": "物理伤害减免点数",
+      "skillKey": "amumu_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T14:32:52.267543Z"
+    },
+    "/skills/amumu_e/formulas/raw_physical_damage_reduction": {
+      "createdAt": "2026-09-09T14:32:53.396525Z",
+      "description": "封顶前结果沿用固定物理减免点数；不能按百分比或本次伤害先行换算。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage_reduction_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_armor_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "source_bonus_armor"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_magic_resistance_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_bonus_magic_resistance"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "raw_physical_damage_reduction",
+      "gameId": "lol",
+      "name": "封顶前物理伤害减免点数",
+      "skillKey": "amumu_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T14:32:53.396525Z"
+    },
+    "/skills/amumu_e/formulas/capped_physical_damage_reduction": {
+      "createdAt": "2026-09-09T14:32:54.442337Z",
+      "description": "最终减免量 = MIN(固定减免点数, 0.5×本次承受物理伤害)；保留50%最低承伤边界。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage_reduction_points"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_armor_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "source_bonus_armor"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_magic_resistance_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "source_bonus_magic_resistance"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "reduction_cap_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "incoming_physical_damage"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "MIN"
+      },
+      "formulaKey": "capped_physical_damage_reduction",
+      "gameId": "lol",
+      "name": "封顶后物理伤害减免量",
+      "skillKey": "amumu_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T14:32:54.442337Z"
+    },
+    "/skills/amumu_e/formulas/tantrum_damage": {
+      "createdAt": "2026-09-09T14:32:55.566466Z",
+      "description": "TantrumDamage = BaseDamage + 0.5×来源总法强；只保留公式，不创建主动命中伤害结果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "tantrum_damage",
+      "gameId": "lol",
+      "name": "阿木木的愤怒主动魔法伤害",
+      "skillKey": "amumu_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T14:32:55.566466Z"
+    },
+    "/skills/amumu_e/effects": [
+      {
+        "createdAt": "2026-09-09T14:32:56.676792Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "amumu_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:32:56.676792Z"
+      }
+    ],
+    "/skills/amumu_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T14:32:56.676792Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "候选只记录资源变化载荷，实际扣除时点和施放资格未接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "amumu_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T14:32:56.676792Z"
+    },
+    "/skills/amumu_e/processes": [],
+    "/skills/amumu_e/internal-states": [],
+    "/skills/amumu_e/trigger-rules": [],
+    "/skills/amumu_r": {
+      "createdAt": "2026-09-06T18:16:23.74202Z",
+      "description": "阿木木用绷带将附近敌方单位通通缠住，对他们施加<keywordMajor>诅咒</keywordMajor>效果，并造成伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "阿木木·木乃伊之咒",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "amumu_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T11:28:19.929795Z"
+    },
+    "/skills/amumu_r/parameters": [
+      {
+        "createdAt": "2026-09-09T14:32:57.852865Z",
+        "description": "客户端根绑定 spellCastTime=0.25秒，按毫秒录入；不表示区域命中时点。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "amumu_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T14:32:57.852865Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:32:58.977829Z",
+        "description": "客户端根绑定 DataValues.RDamage 取原始数组索引1至3，录入200/300/400。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 200,
+          "2": 300,
+          "3": 400
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "amumu_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T14:32:58.977829Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T14:33:00.084464Z",
+        "description": "RCalculatedDamage的StatByNamedDataValue引用RCoefficient，原始值0.8000000119，按窄口径映射来源总法强并归一为0.8。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "amumu_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T14:33:00.084464Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T14:33:01.270176Z",
+        "description": "客户端根绑定 DataValues.RDuration 原始数组索引1取1.5秒，按毫秒录入。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "眩晕持续（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "amumu_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T14:33:01.270176Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:35.579875Z",
+        "description": "DDragon16.17.1 Amumu.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 150000,
+          "2": 125000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "amumu_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:35.579875Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T17:38:35.996542Z",
+        "description": "DDragon16.17.1 Amumu.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100,
+          "2": 150,
+          "3": 200
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "amumu_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:38:35.996542Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/amumu_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T14:32:57.852865Z",
+      "description": "客户端根绑定 spellCastTime=0.25秒，按毫秒录入；不表示区域命中时点。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "amumu_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T14:32:57.852865Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_r/parameters/base_damage": {
+      "createdAt": "2026-09-09T14:32:58.977829Z",
+      "description": "客户端根绑定 DataValues.RDamage 取原始数组索引1至3，录入200/300/400。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 200,
+        "2": 300,
+        "3": 400
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "amumu_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T14:32:58.977829Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_r/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T14:33:00.084464Z",
+      "description": "RCalculatedDamage的StatByNamedDataValue引用RCoefficient，原始值0.8000000119，按窄口径映射来源总法强并归一为0.8。",
+      "fixedValue": 0.8,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "amumu_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T14:33:00.084464Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/amumu_r/parameters/stun_duration_ms": {
+      "createdAt": "2026-09-09T14:33:01.270176Z",
+      "description": "客户端根绑定 DataValues.RDuration 原始数组索引1取1.5秒，按毫秒录入。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "眩晕持续（毫秒）",
+      "parameterKey": "stun_duration_ms",
+      "skillKey": "amumu_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T14:33:01.270176Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T17:38:35.579875Z",
+      "description": "DDragon16.17.1 Amumu.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 150000,
+        "2": 125000,
+        "3": 100000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "amumu_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T17:38:35.579875Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_r/parameters/mana_cost": {
+      "createdAt": "2026-09-07T17:38:35.996542Z",
+      "description": "DDragon16.17.1 Amumu.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 100,
+        "2": 150,
+        "3": 200
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "amumu_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T17:38:35.996542Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/amumu_r/formulas": [
+      {
+        "createdAt": "2026-09-09T14:33:02.353343Z",
+        "description": "RCalculatedDamage = RDamage + RCoefficient×来源总法强；只记录区域伤害数值，不创建命中、诅咒或晕眩结果。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "木乃伊之咒魔法伤害",
+        "skillKey": "amumu_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:33:02.353343Z"
+      }
+    ],
+    "/skills/amumu_r/formulas/damage": {
+      "createdAt": "2026-09-09T14:33:02.353343Z",
+      "description": "RCalculatedDamage = RDamage + RCoefficient×来源总法强；只记录区域伤害数值，不创建命中、诅咒或晕眩结果。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "木乃伊之咒魔法伤害",
+      "skillKey": "amumu_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T14:33:02.353343Z"
+    },
+    "/skills/amumu_r/effects": [
+      {
+        "createdAt": "2026-09-09T14:33:03.459356Z",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "amumu_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:33:03.459356Z"
+      }
+    ],
+    "/skills/amumu_r/effects/mana_cost": {
+      "createdAt": "2026-09-09T14:33:03.459356Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "候选只记录资源变化载荷，实际扣除时点和施放资格未接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "amumu_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T14:33:03.459356Z"
+    },
+    "/skills/amumu_r/processes": [],
+    "/skills/amumu_r/internal-states": [],
+    "/skills/amumu_r/trigger-rules": []
+  },
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/base_damage_reduction_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/bonus_armor_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/bonus_magic_resistance_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/reduction_cap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/incoming_physical_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/source_bonus_armor",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/source_bonus_magic_resistance",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/parameters/cooldown_reduction_on_hit_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas/damage_reduction_points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas/raw_physical_damage_reduction",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas/capped_physical_damage_reduction",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/formulas/tantrum_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_r/trigger-rules",
+      "status": 200
+    }
+  ],
+  "businessWrites": 0
+}

@@ -1,0 +1,215 @@
+{
+  "at": "2026-09-21T12:16:26.263Z",
+  "status": "APPROVED",
+  "reviewer": "/root/seven_hit_scope_review",
+  "decision": "批准四个说明更正请求；仅允许后续按冻结请求执行四次PUT，本评审不执行业务HTTP。",
+  "scope": "仅修改amumu_e与amumu_r的mana_cost参数说明、成本效果父说明及consume_mana子结果说明；不修改参数值、资源操作、引用、结果数、排序、生命周期或其他机制。",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-descriptions-v4.mjs": "6630730f1e794c64fd73711008e04a22effb1a75f210bf905747e01563794407",
+    "01-纠错计划.json": "985700dcda73955a8ef4546b558b0f450dfaf2d395593c75933558784d3bc0be",
+    "02-冻结请求.json": "42e556f188d3456bfa96a01243bf26ed6812b812253053cdad9f816bd02a6a7c",
+    "03-来源摘要.json": "75df789a3af1d463bca85840c9245e06e8e767532042f6762b56ba8bc736f769",
+    "04-写入前现值.json": "120fca3a9137700ce95b4c2feeeac7194ad45e9489498a985ce9101000ca70df"
+  },
+  "hashes": {
+    "toolSha256": "6630730f1e794c64fd73711008e04a22effb1a75f210bf905747e01563794407",
+    "planSha256": "985700dcda73955a8ef4546b558b0f450dfaf2d395593c75933558784d3bc0be",
+    "frozenSha256": "42e556f188d3456bfa96a01243bf26ed6812b812253053cdad9f816bd02a6a7c",
+    "sourceSummarySha256": "75df789a3af1d463bca85840c9245e06e8e767532042f6762b56ba8bc736f769",
+    "baselineSha256": "120fca3a9137700ce95b4c2feeeac7194ad45e9489498a985ce9101000ca70df"
+  },
+  "checks": {
+    "requestCount": 4,
+    "plannedPUTs": 4,
+    "sourceCount": 5,
+    "sourceHashesMatchPlanAndDisk": true,
+    "frozenSourceShaMatchesSourceSummary": true,
+    "frozenBaselineShaMatchesBaseline": true,
+    "baselineGETs": 40,
+    "baselineAllGET200": true,
+    "baselineBusinessWrites": 0,
+    "baselineProtectedValues": 40,
+    "allTargetsPass": true,
+    "targets": [
+      {
+        "skillKey": "amumu_e",
+        "kind": "parameter",
+        "route": "/skills/amumu_e/parameters/mana_cost",
+        "descriptionBefore": "DDragon16.17.1 Amumu.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "descriptionAfter": "DDragon16.17.1 Amumu.spells[2].cost，等级1起索引0；与固定客户端根绑定法力值一致。仅保存基础法力成本，具体扣除时点由普通使用过程配置，命中、被动与其他分支分别处理。",
+        "resultDescriptionChanges": [],
+        "bodyFields": [
+          "description",
+          "fixedValue",
+          "levelValues",
+          "name",
+          "sortOrder",
+          "valueMode",
+          "valueType"
+        ],
+        "checks": {
+          "bodyAllowedFields": true,
+          "bodyMatchesExpectedEditableFields": true,
+          "completeExpectedReadback": true,
+          "baselineIdentity": true,
+          "nonDescriptionFieldsUnchanged": true,
+          "createdAtPreserved": true,
+          "sortOrderPreserved": true,
+          "resultCountPreserved": null,
+          "resultOrderPreserved": null,
+          "resultNonDescriptionFieldsPreserved": null,
+          "valueAndReferenceFieldsUnchanged": true
+        }
+      },
+      {
+        "skillKey": "amumu_e",
+        "kind": "effect",
+        "route": "/skills/amumu_e/effects/mana_cost",
+        "descriptionBefore": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "descriptionAfter": "普通主动使用的基础法力消耗结果，引用本技能mana_cost参数；由已接受使用的过程按配置时点扣除来源对象法力，命中与被动另行处理。",
+        "resultDescriptionChanges": [
+          {
+            "resultKey": "consume_mana",
+            "before": "候选只记录资源变化载荷，实际扣除时点和施放资格未接线。",
+            "after": "按本技能mana_cost参数消耗来源对象法力；本结果不判定使用资格、目标命中或被动。",
+            "changed": true
+          }
+        ],
+        "bodyFields": [
+          "description",
+          "lifecycle",
+          "name",
+          "results",
+          "sortOrder"
+        ],
+        "checks": {
+          "bodyAllowedFields": true,
+          "bodyMatchesExpectedEditableFields": true,
+          "completeExpectedReadback": true,
+          "baselineIdentity": true,
+          "nonDescriptionFieldsUnchanged": true,
+          "createdAtPreserved": true,
+          "sortOrderPreserved": true,
+          "resultCountPreserved": true,
+          "resultOrderPreserved": true,
+          "resultNonDescriptionFieldsPreserved": true,
+          "valueAndReferenceFieldsUnchanged": true
+        }
+      },
+      {
+        "skillKey": "amumu_r",
+        "kind": "parameter",
+        "route": "/skills/amumu_r/parameters/mana_cost",
+        "descriptionBefore": "DDragon16.17.1 Amumu.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "descriptionAfter": "DDragon16.17.1 Amumu.spells[3].cost，等级1起索引0；与固定客户端根绑定法力值一致。仅保存基础法力成本，具体扣除时点由普通使用过程配置，命中、被动与其他分支分别处理。",
+        "resultDescriptionChanges": [],
+        "bodyFields": [
+          "description",
+          "fixedValue",
+          "levelValues",
+          "name",
+          "sortOrder",
+          "valueMode",
+          "valueType"
+        ],
+        "checks": {
+          "bodyAllowedFields": true,
+          "bodyMatchesExpectedEditableFields": true,
+          "completeExpectedReadback": true,
+          "baselineIdentity": true,
+          "nonDescriptionFieldsUnchanged": true,
+          "createdAtPreserved": true,
+          "sortOrderPreserved": true,
+          "resultCountPreserved": null,
+          "resultOrderPreserved": null,
+          "resultNonDescriptionFieldsPreserved": null,
+          "valueAndReferenceFieldsUnchanged": true
+        }
+      },
+      {
+        "skillKey": "amumu_r",
+        "kind": "effect",
+        "route": "/skills/amumu_r/effects/mana_cost",
+        "descriptionBefore": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "descriptionAfter": "普通主动使用的基础法力消耗结果，引用本技能mana_cost参数；由已接受使用的过程按配置时点扣除来源对象法力，命中与被动另行处理。",
+        "resultDescriptionChanges": [
+          {
+            "resultKey": "consume_mana",
+            "before": "候选只记录资源变化载荷，实际扣除时点和施放资格未接线。",
+            "after": "按本技能mana_cost参数消耗来源对象法力；本结果不判定使用资格、目标命中或被动。",
+            "changed": true
+          }
+        ],
+        "bodyFields": [
+          "description",
+          "lifecycle",
+          "name",
+          "results",
+          "sortOrder"
+        ],
+        "checks": {
+          "bodyAllowedFields": true,
+          "bodyMatchesExpectedEditableFields": true,
+          "completeExpectedReadback": true,
+          "baselineIdentity": true,
+          "nonDescriptionFieldsUnchanged": true,
+          "createdAtPreserved": true,
+          "sortOrderPreserved": true,
+          "resultCountPreserved": true,
+          "resultOrderPreserved": true,
+          "resultNonDescriptionFieldsPreserved": true,
+          "valueAndReferenceFieldsUnchanged": true
+        }
+      }
+    ]
+  },
+  "sourceEvidence": {
+    "currentCompositionReadbackFile": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/00-当前组成一次只读.json",
+    "currentCompositionGETs": 21,
+    "currentCompositionBusinessWrites": 0,
+    "fixedSourceFile": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/01-固定原文直接核对.json",
+    "fixedSourceBusinessWrites": 0,
+    "officialCostMatchesBaseline": true,
+    "formulaCasesFile": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/02-公式现值核算.json",
+    "formulaCases": 24,
+    "formulaCasesStatus": "PASS",
+    "formulaCasesBusinessWrites": 0,
+    "files": [
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Amumu.json.gz",
+        "sha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175",
+        "actualSha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175"
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Amumu.json",
+        "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c",
+        "actualSha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/00-当前组成一次只读.json",
+        "sha256": "5a949102ae3c311729b7a589fd1cc0fab8465f40262b1cebc2ae73308b72453d",
+        "actualSha256": "5a949102ae3c311729b7a589fd1cc0fab8465f40262b1cebc2ae73308b72453d"
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/01-固定原文直接核对.json",
+        "sha256": "e366d439e2e06e367f786196baf3cf7b474502d4cd2cbda30f68733c65ea38c3",
+        "actualSha256": "e366d439e2e06e367f786196baf3cf7b474502d4cd2cbda30f68733c65ea38c3"
+      },
+      {
+        "root": "planning",
+        "path": "数据参考/全量录入-2026-09/阿木木ER普通使用与本体返回/02-公式现值核算.json",
+        "sha256": "44a8b5e4a96d5362e14cd2936d48cb4f37f8b802aee6ba104fc7d56e9c1052ac",
+        "actualSha256": "44a8b5e4a96d5362e14cd2936d48cb4f37f8b802aee6ba104fc7d56e9c1052ac"
+      }
+    ]
+  },
+  "validationBoundary": {
+    "configurationTimeOnly": "说明按配置时点表达，不宣称普通使用过程、后续写入或战斗运行已经完成。",
+    "excluded": "本体/施法来源的并行独立核对不属于本次说明更正批准范围；本评审未执行HTTP、write、readback或测试。"
+  },
+  "blockingFindings": []
+}
