@@ -1,0 +1,85 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/lissandra_w/parameters/snare_duration_ms",
+      "body": {
+        "name": "禁锢持续（毫秒）",
+        "description": "官方16.17.1 W的effect[2]明确为1.25/1.35/1.45/1.55/1.65秒，与客户端16.17当前根SnareDuration索引1至5的单精度值一致；按官方精度换算为整数毫秒。",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1250,
+          "2": 1350,
+          "3": 1450,
+          "4": 1550,
+          "5": 1650
+        },
+        "sortOrder": 50
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T10:36:35.119537Z",
+        "description": "官方16.17.1 W的effect[2]明确为1.25/1.35/1.45/1.55/1.65秒，与客户端16.17当前根SnareDuration索引1至5的单精度值一致；按官方精度换算为整数毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1250,
+          "2": 1350,
+          "3": 1450,
+          "4": 1550,
+          "5": 1650
+        },
+        "name": "禁锢持续（毫秒）",
+        "parameterKey": "snare_duration_ms",
+        "skillKey": "lissandra_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T10:36:35.119537Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/lissandra_w/parameters/base_damage",
+      "body": {
+        "name": "冰霜之环基础魔法伤害",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "sortOrder": 40
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T10:36:34.068488Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "冰霜之环基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "lissandra_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T10:36:34.068488Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "sourceSha256": "895703b459c851416a3d8bb099d9652ba8402c95ae350599a1397466dc1360c8",
+  "baselineSha256": "c5559e648cd9b55345797660d18ffe725b7f74d9de26e346b37be9c87c2e23d4"
+}

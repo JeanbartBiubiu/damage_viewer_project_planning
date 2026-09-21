@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-21T05:22:30.758Z",
+  "status": "APPROVED",
+  "reviewer": "/root/lissandra_parameter_frozen_review",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-parameters.mjs": "fe93cb1a81488714fb2fd43c67c18b3383142c886cd3769bbb3114cbd6265997",
+    "01-纠错计划.json": "c39e9b547b7f404bb2f6a607859d2d940306b26d022db263e3a14a2cf47dd731",
+    "02-冻结请求.json": "b78ec3c97f2cf123d57e534b9a91cccc293f0c2479285628b03470270934c7f2",
+    "03-来源摘要.json": "895703b459c851416a3d8bb099d9652ba8402c95ae350599a1397466dc1360c8",
+    "04-写入前现值.json": "c5559e648cd9b55345797660d18ffe725b7f74d9de26e346b37be9c87c2e23d4"
+  },
+  "checks": [
+    "5份来源散列一致；官方秒数的单精度与客户端数组逐项一致",
+    "禁锢只改description/levelValues/valueType；伤害只改name，原伤害数值保持",
+    "19项保护现值，当前其他组成无期限参数引用，实时由后端复核",
+    "完整列表、创建时间、其他状态、防漂移和未知响应防重放保护有效"
+  ],
+  "httpRequests": 0,
+  "businessWrites": 0,
+  "boundary": "不代表页面或战斗通过，不收紧通用小数期限"
+}
