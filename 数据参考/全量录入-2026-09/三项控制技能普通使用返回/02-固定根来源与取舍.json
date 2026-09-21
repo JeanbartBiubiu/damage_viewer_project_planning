@@ -1,0 +1,322 @@
+{
+  "at": "2026-09-21T09:28:25.360Z",
+  "businessWrites": 0,
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Chogath.json.gz",
+      "sha256": "e098bd867debab64aa497e4ef7155677f7bdb6aeb881e41411b1515bd9736eac"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Chogath.json",
+      "sha256": "a132ad9f7eba390af39efe75a61d2bce5d76ae03e33e047552d9612b482c6843"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Braum.json.gz",
+      "sha256": "d861f1ffc21236bbfebaf767d61abc5edc89be50ff2c46ae567809094978176e"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Braum.json",
+      "sha256": "12fe6bcad701ca3685a4a97b15df77c7c4ba69f64bbd5e670418174311b9b4c2"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Maokai.json.gz",
+      "sha256": "3143c85ebf03a62e2a54faab748af1f7c3a27572eb1254aaa855c8bd2dd7b1c4"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Maokai.json",
+      "sha256": "d39d6bed91e3f28eedff223f19b002d864f19c7f9cfe71440eb274c97a3a5697"
+    }
+  ],
+  "targets": [
+    {
+      "skillKey": "chogath_q",
+      "officialVersion": "16.17.1",
+      "slot": 0,
+      "official": {
+        "id": "Rupture",
+        "maxrank": 5,
+        "cost": [
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "cooldown": [
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "root": {
+        "champion": "Chogath",
+        "binding": "Characters/Chogath/Spells/RuptureAbility/Rupture",
+        "entryKeys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "mBuff",
+          "BotData",
+          "__type"
+        ],
+        "spellKeys": [
+          "cooldownTime",
+          "Cooldown",
+          "castRange",
+          "castRangeValues",
+          "castRadius",
+          "castConeDistance",
+          "castFrame",
+          "mana",
+          "manaValues",
+          "mCastingBreaksStealth"
+        ],
+        "fields": {
+          "mSpellTags": [
+            "Trait_ImmobilizingCCSpell",
+            "Trait_DamageAbility",
+            "Trait_SignatureSpell",
+            "Trait_Target_Area",
+            "Trait_Ranged_Zone",
+            "Trait_AoE",
+            "Trait_AoE"
+          ],
+          "cooldownTime": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "Cooldown": {
+            "values": [
+              6,
+              6,
+              6,
+              6,
+              6,
+              6,
+              6
+            ],
+            "{0a3e0478}": 6,
+            "__type": "{0a0eddc9}"
+          },
+          "mana": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ]
+        }
+      },
+      "abilities": [
+        {
+          "path": "Characters/Chogath/Spells/RuptureAbility",
+          "mRootSpell": "Characters/Chogath/Spells/RuptureAbility/Rupture"
+        }
+      ],
+      "decision": "本批只登记已接受普通使用的已证基础成本和冷却，不依据省略字段推算施法时长，不添加伤害控制或弹药机制。"
+    },
+    {
+      "skillKey": "braum_r",
+      "officialVersion": "16.17.1",
+      "slot": 3,
+      "official": {
+        "id": "BraumRWrapper",
+        "maxrank": 3,
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "cooldown": [
+          130,
+          115,
+          100
+        ]
+      },
+      "root": {
+        "champion": "Braum",
+        "binding": "Characters/Braum/Spells/BraumRWrapperAbility/BraumRWrapper",
+        "entryKeys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "BotData",
+          "__type"
+        ],
+        "spellKeys": [
+          "mCastTime",
+          "spellCastTime",
+          "cooldownTime",
+          "Cooldown",
+          "castRange",
+          "castRangeValues",
+          "castRangeDisplayOverride",
+          "castRadius",
+          "castConeDistance",
+          "mana",
+          "manaValues",
+          "mCastingBreaksStealth"
+        ],
+        "fields": {
+          "mSpellTags": [
+            "Trait_Ultimate",
+            "Trait_ImmobilizingCCSpell",
+            "Trait_DamageAbility",
+            "Trait_AoE"
+          ],
+          "mCastTime": 0.5,
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            130,
+            130,
+            115,
+            100,
+            85,
+            85,
+            85
+          ],
+          "Cooldown": {
+            "values": [
+              130,
+              130,
+              115,
+              100,
+              85,
+              85,
+              85
+            ],
+            "__type": "{0a0eddc9}"
+          },
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        }
+      },
+      "abilities": [
+        {
+          "path": "Characters/Braum/Spells/BraumRWrapperAbility",
+          "mRootSpell": "Characters/Braum/Spells/BraumRWrapperAbility/BraumRWrapper"
+        }
+      ],
+      "decision": "本批只登记已接受普通使用的已证基础成本和冷却，不依据省略字段推算施法时长，不添加伤害控制或弹药机制。"
+    },
+    {
+      "skillKey": "maokai_r",
+      "officialVersion": "16.17.1",
+      "slot": 3,
+      "official": {
+        "id": "MaokaiR",
+        "maxrank": 3,
+        "cost": [
+          100,
+          100,
+          100
+        ],
+        "cooldown": [
+          130,
+          110,
+          90
+        ]
+      },
+      "root": {
+        "champion": "Maokai",
+        "binding": "Characters/Maokai/Spells/MaokaiRAbility/MaokaiR",
+        "entryKeys": [
+          "ObjectName",
+          "objectPath",
+          "mScriptName",
+          "mSpell",
+          "mBuff",
+          "BotData",
+          "__type"
+        ],
+        "spellKeys": [
+          "cooldownTime",
+          "Cooldown",
+          "mProjectTargetToCastRange",
+          "castRange",
+          "castRangeValues",
+          "castRangeDisplayOverride",
+          "castRadius",
+          "castRadiusSecondary",
+          "castConeDistance",
+          "castFrame",
+          "mana",
+          "manaValues",
+          "mCastingBreaksStealth"
+        ],
+        "fields": {
+          "mSpellTags": [
+            "Trait_Ultimate",
+            "Trait_ImmobilizingCCSpell",
+            "Trait_DamageAbility",
+            "Trait_AoE"
+          ],
+          "cooldownTime": [
+            130,
+            130,
+            110,
+            90,
+            90,
+            90,
+            90
+          ],
+          "Cooldown": {
+            "values": [
+              130,
+              130,
+              110,
+              90,
+              90,
+              90,
+              90
+            ],
+            "__type": "{0a0eddc9}"
+          },
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        }
+      },
+      "abilities": [
+        {
+          "path": "Characters/Maokai/Spells/MaokaiRAbility",
+          "mRootSpell": "Characters/Maokai/Spells/MaokaiRAbility/MaokaiR"
+        }
+      ],
+      "decision": "本批只登记已接受普通使用的已证基础成本和冷却，不依据省略字段推算施法时长，不添加伤害控制或弹药机制。"
+    }
+  ],
+  "boundaries": [
+    "布隆R根mCastTime=0.5、spellCastTime=0.25；本批不任选一个作为完整施法时长。",
+    "科加斯Q与茂凯R根未直接给出这两个施法字段；不由castFrame等字段推导默认时间。",
+    "普通使用登记仅复用已经真实页面验证的成本冷却模式；不生成命中、伤害、控制结果，不充当施法前资格。",
+    "根缺少弹药及冷却开关只记缺失；需要结合普通根技能绑定与官方技能语义排除弹药及再次施放，不用缺失值代替false。"
+  ]
+}

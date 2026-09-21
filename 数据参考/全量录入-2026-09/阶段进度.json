@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T09:21:48.408Z",
+  "generatedAt": "2026-09-21T10:12:56.630Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13774,6 +13774,56 @@
       "browser": false,
       "runtime": false,
       "wholeSkillComplete": false
+    },
+    "threeControlOrdinaryUseReturn": {
+      "status": "三项普通使用成本冷却入口及过时成本说明已保存并独立回读",
+      "skills": [
+        "chogath_q",
+        "braum_r",
+        "maokai_r"
+      ],
+      "successfulSaves": 12,
+      "descriptionUpdates": 5,
+      "created": {
+        "effects": 1,
+        "processes": 3,
+        "triggerRules": 3
+      },
+      "independentGets": 127,
+      "commits": {
+        "descriptions": "cdb8483cf795386a6f5b6df002c2672ed70228ab",
+        "useEntries": "7902c53be6e9eee6b2c31e8e11623cec71fcdfae"
+      },
+      "currentCounts": {
+        "chogath_q": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "braum_r": {
+          "parameters": 9,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "maokai_r": {
+          "parameters": 8,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        }
+      },
+      "evidence": "三项控制技能普通使用返回/05-普通使用独立返回.json",
+      "browser": false,
+      "wholeSkillComplete": false,
+      "runtime": false
     }
   },
   "runtimeValidation": "未执行",
@@ -19659,7 +19709,7 @@
         "name": "布隆·冰川裂隙",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口0个。",
+        "reason": "已按固定来源补齐普通主动使用的基础法力与冷却登记，成本说明已整理，保存及独立回读通过；完整施法时序、伤害控制及原候选未决项、代表页面继续核对，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -19671,10 +19721,34 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "remainingUltimateCategoryBackfill"
+          "remainingUltimateCategoryBackfill",
+          "threeControlOrdinaryUseReturn"
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联"
+        ],
+        "currentComponentCounts": {
+          "parameters": 9,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "authoredUseEntry": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": true,
+          "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "本体伤害入口",
+          "首目标及其他目标的击飞时长与距离映射",
+          "减速区及其持续逻辑",
+          "完整施法时序及特殊取消失败情形",
+          "代表页面验收"
         ]
       },
       {
@@ -20185,7 +20259,7 @@
         "name": "科加斯·破裂",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口0个。",
+        "reason": "已按固定来源补齐普通主动使用的基础法力与冷却登记，成本说明已整理，保存及独立回读通过；完整施法时序、伤害控制及原候选未决项、代表页面继续核对，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -20196,7 +20270,31 @@
         "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
         "evidenceRefs": [
           "skillSecondStageCurrentReadback",
-          "heroSourceInventory"
+          "heroSourceInventory",
+          "threeControlOrdinaryUseReturn"
+        ],
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "authoredUseEntry": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": true,
+          "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "本体伤害入口",
+          "击飞和减速",
+          "完整施法时序及特殊取消失败情形",
+          "代表页面验收",
+          "原候选其余未决项逐项核对"
         ]
       },
       {
@@ -28216,7 +28314,7 @@
         "name": "茂凯·自然之握",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，其中来源或资料缺口1个、系统缺口0个、配置缺口0个。",
+        "reason": "已按固定来源补齐普通主动使用的基础法力与冷却登记，成本说明已整理，保存及独立回读通过；完整施法时序、伤害控制及原候选未决项、代表页面继续核对，不计整技能管理完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -28228,10 +28326,35 @@
         "evidenceRefs": [
           "skillFirstStageCurrentReadback",
           "heroSourceInventory",
-          "remainingUltimateCategoryBackfill"
+          "remainingUltimateCategoryBackfill",
+          "threeControlOrdinaryUseReturn"
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联"
+        ],
+        "currentComponentCounts": {
+          "parameters": 8,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "authoredUseEntry": {
+          "processKey": "use_cost_and_cooldown",
+          "ruleKey": "on_used_cost_and_cooldown",
+          "costEffectKey": "mana_cost",
+          "registrationOnly": true,
+          "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "remainingBranches": [
+          "本体伤害入口",
+          "禁锢随行进距离变化",
+          "命中英雄后的移速衰减",
+          "同一目标重复碰撞资格",
+          "完整施法时序及特殊取消失败情形",
+          "代表页面验收"
         ]
       },
       {

@@ -1,0 +1,90 @@
+{
+  "at": "2026-09-21T09:18:47.285Z",
+  "businessWrites": 0,
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/chogath_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/maokai_r/effects/mana_cost",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/chogath_q/effects/mana_cost": {
+      "createdAt": "2026-09-09T12:47:25.825733Z",
+      "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "chogath_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T12:47:25.825733Z"
+    },
+    "/skills/maokai_r/effects/mana_cost": {
+      "createdAt": "2026-09-09T15:57:42.090811Z",
+      "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "mana_cost",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "maokai_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T15:57:42.090811Z"
+    }
+  }
+}
