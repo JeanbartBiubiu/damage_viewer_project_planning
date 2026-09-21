@@ -1,0 +1,78 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/sona_q/formulas/chord_magic_damage",
+      "body": {
+        "name": "Q能量和弦魔法伤害",
+        "description": "Q能量和弦魔法伤害为来源角色等级基础值加0.3倍来源总法强；基础值由本技能完整角色等级参数维护。Q主动初始音波和乐曲下一次攻击附加伤害分别处理，不属于本公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "chord_character_level_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "chord_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "sortOrder": 30
+      },
+      "expectedReadback": {
+        "createdAt": "2026-09-09T18:36:44.660681Z",
+        "description": "Q能量和弦魔法伤害为来源角色等级基础值加0.3倍来源总法强；基础值由本技能完整角色等级参数维护。Q主动初始音波和乐曲下一次攻击附加伤害分别处理，不属于本公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "chord_character_level_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "chord_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "chord_magic_damage",
+        "gameId": "lol",
+        "name": "Q能量和弦魔法伤害",
+        "skillKey": "sona_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:36:44.660681Z"
+      }
+    }
+  ],
+  "sourceSha256": "f3ed184b979a2f9b2f546a013573178ab78e33f997a65b1043d172a88760a1ca",
+  "baselineSha256": "eb298a0143f9f767782a78a6cbdf9eef1e5446b4c7e93ca5bc0868518745013b"
+}

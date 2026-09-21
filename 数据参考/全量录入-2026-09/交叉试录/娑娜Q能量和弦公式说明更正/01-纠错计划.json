@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "娑娜Q能量和弦公式说明更正",
+  "generatedAt": "2026-09-21T13:29:45.780Z",
+  "scope": "等级参数实际返回后，只更新原公式过时的外供说明；表达式、名称、排序和引用保持。",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sona.json.gz",
+      "sha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/00-旧外供参数与现有能力核对.json",
+      "sha256": "e1f296e77a6f5f70110ea243c5fb332e52e8d4ddea34f2796b86e7258dea0cae"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/01-当前游戏等级设置.json",
+      "sha256": "575c89deaf313edb6f3a4d9fdaa39b03424c20a1010bbe01b7d1980ded6e7570"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/02-断点曲线独立核对.json",
+      "sha256": "09dee8d5786c5c67c0257e15de3ddef469feaf6acfec096477b7563c1047f27d"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/03-最小工具修正说明.md",
+      "sha256": "3653b2ecf41e8f65e02ecedeb24c427cbda5f82ef0df645fbbf7b1865e203826"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/娑娜Q能量和弦等级补证/04-同类参数转换验收先例.json",
+      "sha256": "1c1361379bc6f0dd39a905385c4affcec00e961f9d0faac88c14332f094e3f40"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/装备技能实录/Luna第九批/海妖逐等级核算.json",
+      "sha256": "dd5f7ef1eafad86a7319d46cec758a1928403340c571501fdc34a188f0a6b130"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/约里克Q来源补证与18级治疗补录/独立复核/来源与计划独立复核.md",
+      "sha256": "1392eb9da2c22a705025dce91128db60e168c87ae8b2fae802a8666dcd750abe"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/class-Breakpoint.json",
+      "sha256": "313c6134de8febd0911eb0b63126b1bbb2b7c922d7057806e3ef778c1e523f14"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/class-ByCharLevelBreakpointsCalculationPart.json",
+      "sha256": "0a45050e2ac7a930e0f69b285c3df8cd5d6a3f072182de86541433fb401f6300"
+    }
+  ],
+  "changes": [
+    {
+      "skillKey": "sona_q",
+      "formulaKey": "chord_magic_damage",
+      "route": "/skills/sona_q/formulas/chord_magic_damage",
+      "updates": {
+        "description": "Q能量和弦魔法伤害为来源角色等级基础值加0.3倍来源总法强；基础值由本技能完整角色等级参数维护。Q主动初始音波和乐曲下一次攻击附加伤害分别处理，不属于本公式。"
+      }
+    }
+  ]
+}
