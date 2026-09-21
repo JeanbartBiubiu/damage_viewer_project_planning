@@ -1,0 +1,116 @@
+{
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "executionMode": "REVIEWED_API",
+  "request": {
+    "method": "PUT",
+    "route": "/skills/zyra_e/trigger-rules/actual_hit",
+    "body": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行婕拉·缠绕之根伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 zyra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "zyra_e"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "婕拉·缠绕之根实际命中",
+      "perTargetCooldown": null,
+      "sortOrder": 10
+    },
+    "expectedReadback": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行婕拉·缠绕之根伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费已确认的 zyra_e 实际命中事件，对事件中的英雄目标执行primary_hit；不从使用、再次施放、弹跳步骤或过程结束生成命中。英雄类别仅限定本轮范围。 只对根技能本体命中生效，不把植物攻击等同于本次根技能事件。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "zyra_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "婕拉·缠绕之根实际命中",
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  },
+  "sourceSha256": "c6827bd4e9e49da5db19d620752643294bb26b0a96e27d8e218cfe702158905b",
+  "baselineSha256": "ac351a3c3d91f8f3ab37c0cf42a40e237ad7efdb8fbd1fa5b45364b4ab7cf5bb"
+}
