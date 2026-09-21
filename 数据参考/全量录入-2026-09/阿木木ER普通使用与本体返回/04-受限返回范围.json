@@ -1,0 +1,41 @@
+{
+  "at": "2026-09-21T12:10:35.910Z",
+  "status": "DRAFT_FOR_FROZEN_REVIEW",
+  "scope": "E普通已接受使用登记与R基础250毫秒施法过程，E/R明确未阻挡本体魔法伤害，以及R明确未阻挡且本来源实例不存在时的首次眩晕。",
+  "ordinaryUse": {
+    "amumu_e": "复用即时登记成本与基础冷却；不将0.25秒参数或1秒spellTotalTime近似为完整施法流程",
+    "amumu_r": "明确spellCastTime及spellTotalTime均0.25秒，只绑定基础施法延迟；过程不执行伤害或控制，命中由真实事件另行供应"
+  },
+  "damage": "3同组条件：英雄、敌方、同次法术护盾未阻挡0；每个本体效果只有对应规则一个调用入口。DAMAGE magic/SKILL/DIRECT，不允许普通暴击，OMNIVAMP按POST_DEFENSE_DAMAGE效率1。没有把法术护盾缺值当0，也没有配置穿盾。",
+  "stun": "R沿用1500毫秒参数与STUN目录vertigo；SOURCE_TARGET实例，持续状态无强度，入口再加本来源实例ABSENT。必填REFRESH_ALL只用于结构完整，现规则不允许已有实例重施，故不据此推断重施策略。",
+  "remaining": [
+    "E被动物理减伤与抗性选择器",
+    "E被攻击后减冷却",
+    "E完整施法时序",
+    "R诅咒与P联动",
+    "R重施及完整免控交互",
+    "各对象代表页面",
+    "宿主实际命中和供值（本轮不开发）"
+  ],
+  "plannedPOSTs": 10,
+  "expectedFinalCounts": {
+    "amumu_e": {
+      "parameters": 13,
+      "formulas": 4,
+      "effects": 2,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 2
+    },
+    "amumu_r": {
+      "parameters": 6,
+      "formulas": 1,
+      "effects": 3,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 3
+    }
+  },
+  "businessWrites": 0,
+  "wholeSkillsComplete": false
+}

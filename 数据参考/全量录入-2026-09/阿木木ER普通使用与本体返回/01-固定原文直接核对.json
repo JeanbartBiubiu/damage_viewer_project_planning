@@ -1,0 +1,472 @@
+{
+  "at": "2026-09-21T12:04:51.148Z",
+  "reviewer": "/root",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "files": [
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Amumu.json.gz",
+      "sha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Amumu.json",
+      "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+    }
+  ],
+  "skills": {
+    "amumu_e": {
+      "root": "Characters/Amumu/Spells/TantrumAbility/Tantrum",
+      "spellCastTime": 0.25,
+      "spellTotalTime": 1,
+      "dataValues": [
+        {
+          "name": "FlatDamageReductionMax",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            35,
+            65,
+            95,
+            125,
+            155,
+            185,
+            215
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseDamageReduction",
+          "values": [
+            0,
+            5,
+            7,
+            9,
+            11,
+            13,
+            15
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "CDROnHit",
+          "values": [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PassiveScaling",
+          "values": [
+            0.029999999329447746,
+            0.029999999329447746,
+            0.029999999329447746,
+            0.029999999329447746,
+            0.029999999329447746,
+            0.029999999329447746,
+            0.029999999329447746
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "damageCalculation": {
+        "mFormulaParts": [
+          {
+            "mDataValue": "BaseDamage",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          {
+            "mCoefficient": 0.5,
+            "__type": "StatByCoefficientCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "cooldownTime": [
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4
+      ],
+      "mana": [
+        35,
+        35,
+        35,
+        35,
+        35,
+        35
+      ],
+      "targeting": {
+        "__type": "SelfAoe"
+      },
+      "official": {
+        "id": "Tantrum",
+        "name": "Tantrum",
+        "description": "Permanently reduces the physical damage Amumu would take. Amumu can unleash his rage, dealing damage to surrounding enemies. Each time Amumu is hit, the cooldown on Tantrum is reduced.",
+        "tooltip": "<spellPassive>Passive:</spellPassive> Amumu takes {{ damagereduction }} reduced physical damage. Additionally, when Amumu is hit by an Attack, this Ability's Cooldown is reduced by {{ cdronhit }} seconds.<br /><br /><spellActive>Active:</spellActive> Amumu throws a tantrum, dealing <magicDamage>{{ tantrumdamage }} magic damage</magicDamage> to nearby enemies.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "Damage Reduced",
+            "Cooldown",
+            "Damage"
+          ],
+          "effect": [
+            "{{ basedamagereduction }} -> {{ basedamagereductionNL }}",
+            "{{ cooldown }} -> {{ cooldownNL }}",
+            "{{ basedamage }} -> {{ basedamageNL }}"
+          ]
+        },
+        "maxrank": 5,
+        "cooldown": [
+          9,
+          8,
+          7,
+          6,
+          5
+        ],
+        "cooldownBurn": "9/8/7/6/5",
+        "cost": [
+          35,
+          35,
+          35,
+          35,
+          35
+        ],
+        "costBurn": "35",
+        "datavalues": {},
+        "effect": [
+          null,
+          [
+            5,
+            7,
+            9,
+            11,
+            13
+          ],
+          [
+            65,
+            95,
+            125,
+            155,
+            185
+          ],
+          [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0.03,
+            0.03,
+            0.03,
+            0.03,
+            0.03
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "5/7/9/11/13",
+          "65/95/125/155/185",
+          "0.75",
+          "0",
+          "0",
+          "0",
+          "0.03",
+          "0",
+          "0",
+          "0"
+        ],
+        "vars": [],
+        "costType": " {{ abilityresourcename }}",
+        "maxammo": "-1",
+        "range": [
+          350,
+          350,
+          350,
+          350,
+          350
+        ],
+        "rangeBurn": "350",
+        "image": {
+          "full": "Tantrum.png",
+          "sprite": "spell1.png",
+          "group": "spell",
+          "x": 0,
+          "y": 96,
+          "w": 48,
+          "h": 48
+        },
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      }
+    },
+    "amumu_r": {
+      "root": "Characters/Amumu/Spells/CurseoftheSadMummyAbility/CurseoftheSadMummy",
+      "spellCastTime": 0.25,
+      "spellTotalTime": 0.25,
+      "dataValues": [
+        {
+          "name": "RDamage",
+          "values": [
+            100,
+            200,
+            300,
+            400,
+            500,
+            600,
+            700
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "RDuration",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "RCoefficient",
+          "values": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "damageCalculation": {
+        "mFormulaParts": [
+          {
+            "mDataValue": "RDamage",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          {
+            "mDataValue": "RCoefficient",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "cooldownTime": [
+        150,
+        150,
+        125,
+        100,
+        100,
+        100,
+        100
+      ],
+      "mana": [
+        100,
+        150,
+        200,
+        80,
+        80,
+        0
+      ],
+      "targeting": {
+        "__type": "SelfAoe"
+      },
+      "official": {
+        "id": "CurseoftheSadMummy",
+        "name": "Curse of the Sad Mummy",
+        "description": "Amumu entangles surrounding enemy units in bandages, applying his <keywordMajor>Curse</keywordMajor>, damaging and stunning them.",
+        "tooltip": "Amumu flares out his bandages, <status>Stunning</status> for {{ rduration }} seconds, dealing <magicDamage>{{ rcalculateddamage }} magic damage</magicDamage> and applying <keywordMajor>Curse</keywordMajor>.{{ spellmodifierdescriptionappend }}",
+        "leveltip": {
+          "label": [
+            "@AbilityResourceName@ Cost",
+            "Cooldown",
+            "Damage"
+          ],
+          "effect": [
+            "{{ cost }} -> {{ costNL }}",
+            "{{ cooldown }} -> {{ cooldownNL }}",
+            "{{ rdamage }} -> {{ rdamageNL }}"
+          ]
+        },
+        "maxrank": 3,
+        "cooldown": [
+          150,
+          125,
+          100
+        ],
+        "cooldownBurn": "150/125/100",
+        "cost": [
+          100,
+          150,
+          200
+        ],
+        "costBurn": "100/150/200",
+        "datavalues": {},
+        "effect": [
+          null,
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "effectBurn": [
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "vars": [],
+        "costType": " {{ abilityresourcename }}",
+        "maxammo": "-1",
+        "range": [
+          550,
+          550,
+          550
+        ],
+        "rangeBurn": "550",
+        "image": {
+          "full": "CurseoftheSadMummy.png",
+          "sprite": "spell1.png",
+          "group": "spell",
+          "x": 48,
+          "y": 96,
+          "w": 48,
+          "h": 48
+        },
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      }
+    }
+  },
+  "directFindings": [
+    "E/R官方法力和普通冷却与21GET基线一致",
+    "E主动为范围魔法伤害，与被动物理减伤及被普攻命中后的冷却减少分开",
+    "R正文与tooltip均明确眩晕，不以绷带缠住的文字误录禁锢",
+    "spellCastTime两者为0.25秒；E的spellTotalTime为1秒，R为0.25秒，基础施法延迟不等于全部动作或实际命中时点"
+  ],
+  "independentSourceReview": "另见03；本文件仅保存主负责人已定点读取的固定原文与直接比对",
+  "businessWrites": 0
+}

@@ -1,0 +1,97 @@
+{
+  "at": "2026-09-21T12:06:53.226Z",
+  "reviewer": "/root/amumu_er_source",
+  "mode": "只读固定来源核对",
+  "status": "SOURCE_NUMBERS_CONFIRMED_WITH_RUNTIME_BOUNDARIES",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "priorBatch": "heroTwentyThirdBatch",
+  "priorCandidateSha256": "772528a5abd0ec24285f4db64f7cb03b5c6415a106aa83fbb7ffe40b651d3358",
+  "sources": [
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Amumu.json.gz",
+      "sha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Amumu.json",
+      "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Amumu.json",
+      "sha256": "1ec70c09d774c7bd7605c2803e098699d5c42df8ceb22bc9c7ae6f4b7de956c5"
+    }
+  ],
+  "confirmed": {
+    "amumu_e": {
+      "maxLevel": 5,
+      "cooldownSeconds": [
+        9,
+        8,
+        7,
+        6,
+        5
+      ],
+      "mana": 35,
+      "baseDamage": [
+        65,
+        95,
+        125,
+        155,
+        185
+      ],
+      "abilityPowerRatio": 0.5,
+      "damageType": "magic",
+      "sourcePath": "Characters/Amumu/Spells/TantrumAbility/Tantrum.mSpell",
+      "spellCastTime": 0.25,
+      "spellTotalTime": 1,
+      "targeting": "SelfAoe",
+      "radius": 350
+    },
+    "amumu_r": {
+      "maxLevel": 3,
+      "cooldownSeconds": [
+        150,
+        125,
+        100
+      ],
+      "mana": [
+        100,
+        150,
+        200
+      ],
+      "baseDamage": [
+        200,
+        300,
+        400
+      ],
+      "abilityPowerRatio": 0.8,
+      "damageType": "magic",
+      "sourcePath": "Characters/Amumu/Spells/CurseoftheSadMummyAbility/CurseoftheSadMummy.mSpell",
+      "spellCastTime": 0.25,
+      "spellTotalTime": 0.25,
+      "stunMilliseconds": 1500,
+      "controlKind": "STUN",
+      "targeting": "SelfAoe",
+      "radius": 550
+    }
+  },
+  "scope": "1V1敌方英雄范围为项目限制，原文为附近敌人；不据此声称只命中英雄。施法参数不代表实际命中或眩晕时点。R控制身份由官方晕眩/Stunning文字证明，而不是数字效果标签。",
+  "remaining": {
+    "amumu_e": [
+      "额外抗性选择器及被动物理减伤",
+      "被普攻命中后0.75秒减冷却的事件接线",
+      "完整施法时序"
+    ],
+    "amumu_r": [
+      "诅咒与P联动",
+      "重复施加与免控/阻挡完整交互",
+      "完整命中时序和事件生产"
+    ]
+  },
+  "sourceReviewerBoundary": "来源核对确认数值、身份及受限组成；没有批准具体冻结触发请求，也没有证明宿主已有相应事件。具体请求由独立批次评审核对成熟事件契约。",
+  "businessWrites": 0,
+  "httpRequests": 0,
+  "tests": 0
+}
