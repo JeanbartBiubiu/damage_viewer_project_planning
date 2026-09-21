@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T03:47:27.779Z",
+  "generatedAt": "2026-09-21T03:51:26.524Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13337,6 +13337,26 @@
       },
       "browser": false,
       "wholeSkillComplete": false
+    },
+    "lucianWDamageVampReturn": {
+      "at": "2026-09-21T03:51:26.524Z",
+      "status": "普通魔法伤害全能吸血资格已保存并独立回读，页面待验",
+      "skillKey": "lucian_w",
+      "successfulSaves": 1,
+      "independentGets": 22,
+      "unchangedRoutes": 20,
+      "sourceVersion": {
+        "client": "16.17",
+        "official": "16.17.1"
+      },
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/卢锡安W普通伤害吸血返回/09-证据清单.json",
+        "sha256": "48642233ab59edae8029316bb065ac8077177ccdf4f893b311438fa9f0c7d5ce",
+        "commit": "f841714160898a13092040210600343e293a07ea"
+      },
+      "browser": false,
+      "wholeSkillComplete": false
     }
   },
   "runtimeValidation": "未执行",
@@ -14136,6 +14156,12 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/卢锡安W实际命中范围返回/09-证据清单.json",
         "sha256": "8c3bca7c3b57a35e2fb05584933a51f1a4465653fe1f44f1c99b550ade7d3aa2",
         "commit": "d1772a70bf71735d1745bf21a04a0f0671693d1c"
+      },
+      "lucianWDamageVampReturn": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/卢锡安W普通伤害吸血返回/09-证据清单.json",
+        "sha256": "48642233ab59edae8029316bb065ac8077177ccdf4f893b311438fa9f0c7d5ce",
+        "commit": "f841714160898a13092040210600343e293a07ea"
       }
     },
     "coverage": {
@@ -26670,14 +26696,15 @@
         "name": "卢锡安·热诚烈弹",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "普通使用已启动原施法过程；actual_hit已补同组敌方英雄范围，1次保存与22次独立GET通过，原伤害和其他组成保持。全能吸血、6秒标记加速、被动联动和代表页面仍开放。",
+        "reason": "普通使用入口、同组敌方英雄实际命中范围和全能吸血资格已分别保存，3次保存、三轮共77次独立GET通过，原数值公式及其他组成保持；标记加速、被动联动、其他伤害交互来源和代表页面仍未完成。",
         "batchKey": "heroThirdBatch",
         "candidateSha256": null,
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
           "lucianWUseEntryReturn",
-          "lucianWHitScopeReturn"
+          "lucianWHitScopeReturn",
+          "lucianWDamageVampReturn"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -26694,14 +26721,15 @@
           "triggerRules": 2
         },
         "remainingBranches": [
-          "普通魔法伤害全能吸血资格",
           "6秒标记与本人伤害后的1秒移速联动及初次伤害时序",
           "被动圣光银弹联动",
-          "代表页面验收"
+          "其他吸血类型及专属法术护盾粒度来源",
+          "普通使用、范围与吸血修正的代表页面"
         ],
         "completedBranches": [
           "普通使用接入原法力、冷却和施法延迟过程（接口回读通过，页面待验）",
-          "本轮敌方英雄实际命中范围（接口回读通过，页面待验）"
+          "本轮敌方英雄实际命中范围（接口回读通过，页面待验）",
+          "敌方英雄普通魔法伤害全能吸血资格（接口回读通过，页面待验）"
         ]
       },
       {
