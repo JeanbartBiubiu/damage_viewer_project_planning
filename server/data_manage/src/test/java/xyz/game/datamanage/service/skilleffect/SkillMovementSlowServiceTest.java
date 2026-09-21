@@ -119,7 +119,8 @@ class SkillMovementSlowServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"STUN,APPLY", "ROOT,APPLY", "SILENCE,APPLY", "CHARM,APPLY", "STUN,REMOVE", "ROOT,REMOVE", "SILENCE,REMOVE", "CHARM,REMOVE", "MOVEMENT_SLOW,REMOVE"})
+    @CsvSource({"STUN,APPLY", "ROOT,APPLY", "SILENCE,APPLY", "CHARM,APPLY", "AIRBORNE,APPLY",
+        "STUN,REMOVE", "ROOT,REMOVE", "SILENCE,REMOVE", "CHARM,REMOVE", "AIRBORNE,REMOVE", "MOVEMENT_SLOW,REMOVE"})
     void keepsNonSlowApplicationAndAllRemovalValueless(StatusKind kind, String operation) {
         ObjectNode body = body();
         useKind(kind);
@@ -135,7 +136,7 @@ class SkillMovementSlowServiceTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = StatusKind.class, names = {"ROOT", "SILENCE", "CHARM"})
+    @EnumSource(value = StatusKind.class, names = {"ROOT", "SILENCE", "CHARM", "AIRBORNE"})
     void roundTripsValuelessControlWithDurationAndNoValueModes(StatusKind kind) {
         useKind(kind);
         ObjectNode body = valuelessBody();
@@ -161,12 +162,41 @@ class SkillMovementSlowServiceTest {
     @CsvSource({"valueReadMode,APPLICATION_SNAPSHOT", "stackValueMode,SHARED",
         "reapplicationValueMode,REPLACE", "periodicExecutionMode,ONCE_PER_INSTANCE"})
     void rejectsValuelessControlValueModes(String field, String value) {
-        for (StatusKind kind : List.of(StatusKind.ROOT, StatusKind.SILENCE, StatusKind.CHARM)) {
+        for (StatusKind kind : List.of(StatusKind.ROOT, StatusKind.SILENCE, StatusKind.CHARM, StatusKind.AIRBORNE)) {
             useKind(kind);
             ObjectNode body = valuelessBody();
             ((ObjectNode) result(body).get("lifecycleBehavior")).put(field, value);
             assertThrows(ApiException.class, () -> create(body));
             verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void airborneDoesNotRequireTypeSpecificDuration(boolean persistent) {
+        useKind(StatusKind.AIRBORNE);
+        ObjectNode body = valuelessBody();
+        if (persistent) {
+            ObjectNode lifecycle = (ObjectNode) body.get("lifecycle");
+            lifecycle.putNull("durationValue");
+            lifecycle.putNull("reapplicationDurationMode");
+            lifecycle.put("expiryMode", "EXPLICIT_ONLY");
+        } else {
+            body.putNull("lifecycle");
+            result(body).putNull("lifecycleBehavior");
+        }
+
+        var created = create(body);
+        var read = service.get("lol", "skill", "slow");
+        assertEquals(created, read);
+        assertNull(read.results().getFirst().valueRule());
+        if (persistent) {
+            assertNull(read.lifecycle().durationValue());
+            assertEquals(SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY, read.lifecycle().expiryMode());
+            assertEquals(SkillEffectLifecycleMoment.PERSISTENT, read.results().getFirst().lifecycleBehavior().moment());
+        } else {
+            assertNull(read.lifecycle());
+            assertNull(read.results().getFirst().lifecycleBehavior());
         }
     }
 

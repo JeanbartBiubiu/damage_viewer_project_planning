@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -264,12 +265,13 @@ class StatusServiceTest {
         verifyNoInteractions(mapper);
     }
 
-    @Test
-    void triggerRuleProtectsStatusDeleteBeforeMapperDeleteWithLongConstructor() {
+    @ParameterizedTest
+    @EnumSource(StatusKind.class)
+    void triggerRuleProtectsStatusDeleteBeforeMapperDeleteWithLongConstructor(StatusKind kind) {
         xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService triggerRuleService =
             org.mockito.Mockito.mock(xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService.class);
         StatusService guarded = new StatusService(gamesMapper, mapper, triggerRuleService, imageRelationMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
-        when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(status());
+        when(mapper.findByIdForUpdate(GAME_ID, KEY)).thenReturn(status(kind));
         org.mockito.Mockito.doThrow(new ApiException(
             org.springframework.http.HttpStatus.CONFLICT,
             "409.STATUS_IN_USE",
@@ -303,8 +305,8 @@ class StatusServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"MOVEMENT_SLOW,减速", "ROOT,禁锢", "SILENCE,沉默", "CHARM,魅惑"})
-    void createsAndReadsExplicitKind(StatusKind kind, String name) {
+    @CsvSource({"MOVEMENT_SLOW,减速", "ROOT,禁锢", "SILENCE,沉默", "CHARM,魅惑", "AIRBORNE,击飞"})
+    void createsListsReadsAndUpdatesExplicitKind(StatusKind kind, String name) {
         StatusResponse stored = new StatusResponse(GAME_ID, "control", name, null,
             kind, StatusRecordStatus.ENABLED, 0, status().createdAt(), status().updatedAt());
         when(mapper.findById(GAME_ID, "control")).thenReturn(stored);
@@ -312,16 +314,27 @@ class StatusServiceTest {
             new StatusCreateRequest("control", name, null, kind, StatusRecordStatus.ENABLED, 0)));
         assertEquals(stored, service.get(GAME_ID, "control"));
         verify(mapper).insert(GAME_ID, "control", name, null, kind.name(), "ENABLED", 0);
+        when(mapper.list(GAME_ID, null, null)).thenReturn(List.of(stored));
+        assertEquals(List.of(stored), service.list(GAME_ID, new StatusListQuery(null, null)).items());
+        when(mapper.findByIdForUpdate(GAME_ID, "control")).thenReturn(stored);
+        when(mapper.update(GAME_ID, "control", name, null, "ENABLED", 0)).thenReturn(1);
+        assertEquals(stored, service.update(GAME_ID, "control",
+            new StatusUpdateRequest(null, name, null, kind, StatusRecordStatus.ENABLED, 0)));
+        verify(mapper).update(GAME_ID, "control", name, null, "ENABLED", 0);
     }
 
     private static StatusResponse status() {
+        return status(StatusKind.STUN);
+    }
+
+    private static StatusResponse status(StatusKind kind) {
         OffsetDateTime timestamp = OffsetDateTime.parse("2026-08-27T00:00:00Z");
         return new StatusResponse(
             GAME_ID,
             KEY,
             "中毒",
             null,
-            StatusKind.STUN,
+            kind,
             StatusRecordStatus.ENABLED,
             10,
             timestamp,

@@ -19,6 +19,8 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
@@ -57,26 +59,29 @@ class StatusAdminControllerTest {
             .thenReturn(new AuthContext("admin@example.com", true, true));
     }
 
-    @Test
-    void listsGetsCreatesUpdatesAndDeletesWithFullResponseAndEditLogs() throws Exception {
-        StatusResponse response = response();
+    @ParameterizedTest
+    @CsvSource({"STUN,poison,中毒", "AIRBORNE,airborne,击飞"})
+    void listsGetsCreatesUpdatesAndDeletesWithFullResponseAndEditLogs(StatusKind kind, String key, String name) throws Exception {
+        StatusResponse response = response(kind, key, name);
         when(service.list(eq("lol"), any(StatusListQuery.class)))
             .thenReturn(new StatusListResponse(List.of(response), 1));
-        when(service.get("lol", "poison")).thenReturn(response);
+        when(service.get("lol", key)).thenReturn(response);
         when(service.create(eq("lol"), any(StatusCreateRequest.class))).thenReturn(response);
-        when(service.update(eq("lol"), eq("poison"), any(StatusUpdateRequest.class))).thenReturn(response);
+        when(service.update(eq("lol"), eq(key), any(StatusUpdateRequest.class))).thenReturn(response);
 
         mockMvc.perform(get(BASE_PATH).queryParam("status", "ENABLED"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.total").value(1))
-            .andExpect(jsonPath("$.items[0].statusKey").value("poison"))
+            .andExpect(jsonPath("$.items[0].statusKey").value(key))
+            .andExpect(jsonPath("$.items[0].statusKind").value(kind.name()))
             .andExpect(jsonPath("$.items[0].status").value("ENABLED"));
 
-        mockMvc.perform(get(BASE_PATH + "/poison"))
+        mockMvc.perform(get(BASE_PATH + "/" + key))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.gameId").value("lol"))
-            .andExpect(jsonPath("$.statusKey").value("poison"))
-            .andExpect(jsonPath("$.name").value("中毒"))
+            .andExpect(jsonPath("$.statusKey").value(key))
+            .andExpect(jsonPath("$.statusKind").value(kind.name()))
+            .andExpect(jsonPath("$.name").value(name))
             .andExpect(jsonPath("$.description").value(nullValue()))
             .andExpect(jsonPath("$.status").value("ENABLED"))
             .andExpect(jsonPath("$.sortOrder").value(10));
@@ -84,23 +89,28 @@ class StatusAdminControllerTest {
         mockMvc.perform(post(BASE_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"statusKey":"poison","name":"中毒","description":null,"statusKind":"STUN","status":"ENABLED","sortOrder":10}
-                    """))
+                    {"statusKey":"%s","name":"%s","description":null,"statusKind":"%s","status":"ENABLED","sortOrder":10}
+                    """.formatted(key, name, kind.name())))
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.statusKey").value("poison"))
+            .andExpect(jsonPath("$.statusKey").value(key))
+            .andExpect(jsonPath("$.statusKind").value(kind.name()))
             .andExpect(jsonPath("$.status").value("ENABLED"));
 
-        mockMvc.perform(put(BASE_PATH + "/poison")
+        mockMvc.perform(put(BASE_PATH + "/" + key)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"name":"中毒","description":null,"statusKind":"STUN","status":"ENABLED","sortOrder":10}
-                    """))
+                    {"name":"%s","description":null,"statusKind":"%s","status":"ENABLED","sortOrder":10}
+                    """.formatted(name, kind.name())))
             .andExpect(status().isOk())
+            .andExpect(jsonPath("$.statusKind").value(kind.name()))
             .andExpect(jsonPath("$.status").value("ENABLED"));
 
-        mockMvc.perform(delete(BASE_PATH + "/poison"))
+        mockMvc.perform(delete(BASE_PATH + "/" + key))
             .andExpect(status().isNoContent());
 
+        verify(service).create("lol", new StatusCreateRequest(key, name, null, kind, StatusRecordStatus.ENABLED, 10));
+        verify(service).update("lol", key, new StatusUpdateRequest(null, name, null, kind, StatusRecordStatus.ENABLED, 10));
+        verify(service).delete("lol", key);
         verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(201));
         verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(200));
         verify(logHelper).log(any(AuthContext.class), any(), any(JsonNode.class), eq(204));
@@ -150,10 +160,10 @@ class StatusAdminControllerTest {
         verify(service, never()).create(any(), any());
     }
 
-    private static StatusResponse response() {
+    private static StatusResponse response(StatusKind kind, String key, String name) {
         OffsetDateTime timestamp = OffsetDateTime.parse("2026-08-27T00:00:00Z");
         return new StatusResponse(
-            "lol", "poison", "中毒", null, StatusKind.STUN, StatusRecordStatus.ENABLED, 10, timestamp, timestamp
+            "lol", key, name, null, kind, StatusRecordStatus.ENABLED, 10, timestamp, timestamp
         );
     }
 }
