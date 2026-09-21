@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T10:29:27.101Z",
+  "generatedAt": "2026-09-21T11:44:56.109Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13878,6 +13878,28 @@
       "browser": false,
       "wholeSkillComplete": false,
       "runtime": false
+    },
+    "sevenOriginalHitEnemyScopeReturn": {
+      "status": "七项原命中规则补齐同组敌方条件，受保护保存及独立回读通过，代表页面待验",
+      "skills": [
+        "kennen_q",
+        "teemo_q",
+        "gragas_e",
+        "gragas_r",
+        "lissandra_q",
+        "lissandra_w",
+        "lissandra_e"
+      ],
+      "successfulSaves": 7,
+      "independentGets": 133,
+      "unchangedResponsesIncludingTimestamps": 119,
+      "componentsCreated": 0,
+      "numericChanges": 0,
+      "commit": "693451e0bb389635041cf1e03f528341ca670dba",
+      "evidence": "古拉加斯E命中冷却返还核对/05-七项命中范围返回.json",
+      "browser": false,
+      "runtime": false,
+      "wholeSkillComplete": false
     }
   },
   "runtimeValidation": "未执行",
@@ -22634,7 +22656,7 @@
         "name": "古拉加斯·肉弹冲击",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "普通使用过程和入口已接通基础资源、冷却及施法延迟，原直接伤害与实际命中完整保留并独立回读；位移、击退及眩晕、命中冷却返还、代表页面验收继续处理，不计整技能管理完成。",
+        "reason": "普通使用过程、成本与冷却、既有伤害及实际命中已保存；原命中规则已补同组敌方条件并独立回读。击退与击飞/眩晕文字差异、碰撞资格及单次冷却返还、代表页面继续核对，不计整技能管理完成。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -22648,7 +22670,8 @@
           "heroSourceInventory",
           "sevenDirectMagicHitBackfill",
           "sixFollowupUseProcessBackfill",
-          "fiveOrdinaryUseDescriptionCleanup"
+          "fiveOrdinaryUseDescriptionCleanup",
+          "sevenOriginalHitEnemyScopeReturn"
         ],
         "currentComponentCounts": {
           "parameters": 7,
@@ -22659,8 +22682,8 @@
           "triggerRules": 2
         },
         "remainingBranches": [
-          "位移、击退及眩晕",
-          "命中冷却返还",
+          "位移、击退与击飞/眩晕文字差异",
+          "命中冷却返还的碰撞资格及单次性",
           "代表页面验收"
         ],
         "authoredDirectHit": {
@@ -22684,6 +22707,16 @@
           "status": "PASS",
           "changedDescriptions": 2,
           "numericAndProcessChanges": 0,
+          "browser": "待验"
+        },
+        "originalHitEnemyScopeReturn": {
+          "ruleKey": "actual_hit",
+          "conditions": [
+            "TARGET_CATEGORY_CHECK:CHAMPION",
+            "SKILL_HIT_TARGET_IS_ENEMY"
+          ],
+          "httpReadback": "PASS",
+          "otherRuleFieldsPreserved": true,
           "browser": "待验"
         }
       },
@@ -22711,7 +22744,8 @@
           "sevenDirectMagicHitBackfill",
           "sixFollowupUseProcessBackfill",
           "fiveOrdinaryUseDescriptionCleanup",
-          "remainingUltimateCategoryBackfill"
+          "remainingUltimateCategoryBackfill",
+          "sevenOriginalHitEnemyScopeReturn"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -22750,7 +22784,17 @@
         },
         "completedBranches": [
           "固定来源主R终极技能分类关联"
-        ]
+        ],
+        "originalHitEnemyScopeReturn": {
+          "ruleKey": "actual_hit",
+          "conditions": [
+            "TARGET_CATEGORY_CHECK:CHAMPION",
+            "SKILL_HIT_TARGET_IS_ENEMY"
+          ],
+          "httpReadback": "PASS",
+          "otherRuleFieldsPreserved": true,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Graves",
@@ -25688,7 +25732,8 @@
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
           "sevenDirectMagicHitBackfill",
-          "sixFollowupUseProcessBackfill"
+          "sixFollowupUseProcessBackfill",
+          "sevenOriginalHitEnemyScopeReturn"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -25718,6 +25763,16 @@
           "ruleKey": "on_used",
           "costEffectKey": "energy_cost",
           "httpReadback": "PASS",
+          "browser": "待验"
+        },
+        "originalHitEnemyScopeReturn": {
+          "ruleKey": "actual_hit",
+          "conditions": [
+            "TARGET_CATEGORY_CHECK:CHAMPION",
+            "SKILL_HIT_TARGET_IS_ENEMY"
+          ],
+          "httpReadback": "PASS",
+          "otherRuleFieldsPreserved": true,
           "browser": "待验"
         }
       },
@@ -27024,7 +27079,8 @@
           "heroSourceInventory",
           "sevenDirectMagicHitBackfill",
           "sixFollowupUseProcessBackfill",
-          "fiveOrdinaryUseDescriptionCleanup"
+          "fiveOrdinaryUseDescriptionCleanup",
+          "sevenOriginalHitEnemyScopeReturn"
         ],
         "currentComponentCounts": {
           "parameters": 7,
@@ -27060,6 +27116,16 @@
           "changedDescriptions": 2,
           "numericAndProcessChanges": 0,
           "browser": "待验"
+        },
+        "originalHitEnemyScopeReturn": {
+          "ruleKey": "actual_hit",
+          "conditions": [
+            "TARGET_CATEGORY_CHECK:CHAMPION",
+            "SKILL_HIT_TARGET_IS_ENEMY"
+          ],
+          "httpReadback": "PASS",
+          "otherRuleFieldsPreserved": true,
+          "browser": "待验"
         }
       },
       {
@@ -27081,7 +27147,8 @@
           "sixFollowupUseProcessBackfill",
           "fiveOrdinaryUseDescriptionCleanup",
           "lissandraWParameterNormalizationReturn",
-          "lissandraRootNeekoUseReturn"
+          "lissandraRootNeekoUseReturn",
+          "sevenOriginalHitEnemyScopeReturn"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -27130,7 +27197,17 @@
         "completedBranches": [
           "官方明确精度的禁锢期限归一与伤害参数名称纠错",
           "明确同次未阻挡且无本来源实例的敌方英雄首次禁锢"
-        ]
+        ],
+        "originalHitEnemyScopeReturn": {
+          "ruleKey": "actual_hit",
+          "conditions": [
+            "TARGET_CATEGORY_CHECK:CHAMPION",
+            "SKILL_HIT_TARGET_IS_ENEMY"
+          ],
+          "httpReadback": "PASS",
+          "otherRuleFieldsPreserved": true,
+          "browser": "待验"
+        }
       },
       {
         "sourceChampionId": "Lissandra",
@@ -27154,7 +27231,8 @@
           "skillSecondStageCurrentReadback",
           "heroSourceInventory",
           "sevenDirectMagicHitBackfill",
-          "sixFollowupUseProcessBackfill"
+          "sixFollowupUseProcessBackfill",
+          "sevenOriginalHitEnemyScopeReturn"
         ],
         "currentComponentCounts": {
           "parameters": 5,
@@ -27183,6 +27261,16 @@
         "useRegistrationDeferred": {
           "reason": "再次施放传送的资源和冷却阶段资格另核，避免重复收费；直接飞爪伤害已独立补录。",
           "evidence": "sixFollowupUseProcessBackfill"
+        },
+        "originalHitEnemyScopeReturn": {
+          "ruleKey": "actual_hit",
+          "conditions": [
+            "TARGET_CATEGORY_CHECK:CHAMPION",
+            "SKILL_HIT_TARGET_IS_ENEMY"
+          ],
+          "httpReadback": "PASS",
+          "otherRuleFieldsPreserved": true,
+          "browser": "待验"
         }
       },
       {
@@ -36042,7 +36130,8 @@
           "heroSourceInventory",
           "sevenDirectMagicHitBackfill",
           "sixFollowupUseProcessBackfill",
-          "fiveOrdinaryUseDescriptionCleanup"
+          "fiveOrdinaryUseDescriptionCleanup",
+          "sevenOriginalHitEnemyScopeReturn"
         ],
         "currentComponentCounts": {
           "parameters": 6,
@@ -36077,6 +36166,16 @@
           "status": "PASS",
           "changedDescriptions": 1,
           "numericAndProcessChanges": 0,
+          "browser": "待验"
+        },
+        "originalHitEnemyScopeReturn": {
+          "ruleKey": "actual_hit",
+          "conditions": [
+            "TARGET_CATEGORY_CHECK:CHAMPION",
+            "SKILL_HIT_TARGET_IS_ENEMY"
+          ],
+          "httpReadback": "PASS",
+          "otherRuleFieldsPreserved": true,
           "browser": "待验"
         }
       },

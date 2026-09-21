@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-21T10:40:36.478Z",
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "skills": [
+    "kennen_q",
+    "teemo_q",
+    "gragas_e",
+    "gragas_r",
+    "lissandra_q",
+    "lissandra_w",
+    "lissandra_e"
+  ],
+  "problem": "当前7条本体伤害actual_hit仅英雄类别条件，没有明确敌方；原效果说明及本轮目标均为敌方英雄。",
+  "change": "仅在原单一英雄条件组末尾追加SKILL_HIT_TARGET_IS_ENEMY，保留组标识、组名、排序、原条件、事件、动作及所有其他组成。",
+  "sourceBoundary": "复用原固定来源与原实际命中边界，不改变伤害、吸血、法盾粒度、过程或控制，不重新生成命中。",
+  "sameClassProof": {
+    "root": "web",
+    "path": "数据参考/全量录入-2026-09/交叉试录/婕拉Q管理返回/敌方命中范围/07-页面验收.json",
+    "sha256": "ac7fcd66e1c3be89b1de98f36b0eb8906ae7d9f381a4235dc4b4f5027accee98"
+  },
+  "browser": "既有同组敌方条件页面流程已验收；本批代表页面待连接恢复。",
+  "businessWrites": 0
+}

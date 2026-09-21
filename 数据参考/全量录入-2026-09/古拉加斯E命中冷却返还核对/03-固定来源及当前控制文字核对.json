@@ -1,0 +1,50 @@
+{
+  "at": "2026-09-21T10:49:09.151Z",
+  "reviewer": "/root/gragas_body_slam_source",
+  "businessWrites": 0,
+  "httpRequestsByReviewer": 0,
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Gragas.json.gz",
+      "sha256": "00ab98ea8c5af40d605ad574ccbf8a385ad25a81adda79540b554943388c071e"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Gragas.json",
+      "sha256": "7b4225a4717dd889c8d9f703b85192675b4fa03a20c7ae12a23978f0ce509a4d"
+    }
+  ],
+  "clientRawSha256": "77dbdc69e266d50decc9d117692070f8513593ae44b1de4c3e6b726b2eab1c28",
+  "root": "Characters/Gragas/Spells/GragasEAbility/GragasE",
+  "ability": "Characters/Gragas/Spells/GragasEAbility",
+  "defaultRefundRatio": 0.4,
+  "excludedModeOverrides": {
+    "cherry": 0.25,
+    "URF": 0.25
+  },
+  "ordinaryCooldownMs": [
+    14000,
+    13500,
+    13000,
+    12500,
+    12000
+  ],
+  "mana": 50,
+  "rootStunDurationMs": 1000,
+  "officialDescription": "Gragas charges to a location and collides with the first enemy unit he comes across, dealing damage to all nearby enemy units and stunning them.",
+  "officialTooltip": "Gragas charges forward, colliding with the first enemy, <status>Knocking Up</status> nearby enemies for {{ stunduration }} second and dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> to them.<br /><br />This Ability's Cooldown is reduced by {{ cooldownrefund*100 }}% if Gragas collides with an enemy.{{ spellmodifierdescriptionappend }}",
+  "findings": [
+    "固定文件证明比例0.4，但没有单独写出总冷却或剩余冷却基数。",
+    "Root.spells[2]和mRootSpell同指GragasE；子技能为GragasE和GragasEStun。",
+    "官方描述为碰撞首个敌方单位并影响周围敌人；不能把所有命中目标视作独立碰撞退款。",
+    "默认模式不套用cherry或URF的0.25。",
+    "根字段StunDuration=1秒，但官方tooltip写Knocking Up；在控制类型未核清前，不能只凭字段名配置STUN。"
+  ],
+  "unresolved": [
+    "返还基数依赖历史官方补证的连续性判断",
+    "碰撞与命中事件在严格1V1下的对应及重复触发",
+    "法盾阻挡分支",
+    "击飞与眩晕的具体组成差别"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-21T10:49:09.152Z",
+  "sourceUrl": "https://www.leagueoflegends.com/en-gb/news/game-updates/patch-13-22-notes/",
+  "title": "Patch 13.22 Notes",
+  "publishedAt": "2023-11-07T18:00:00.000Z",
+  "section": "Gragas / E - Body Slam",
+  "captureMode": "主负责人使用网页工具实际读取后的短摘录及结构化说明，非完整HTTP原文字节",
+  "quote": "Cooldown Refund on Hit: 3 ⇒ 40% of remaining cooldown",
+  "numericExample": [
+    5.6,
+    5.4,
+    5.2,
+    5,
+    4.8
+  ],
+  "meaning": "官方历史定义明确按剩余冷却返还，并说明举例随技能急速缩放；不是按当前基础毫秒直接减少。",
+  "versionBoundary": "这是13.22历史官方口径。当前16.17客户端默认比例与16.17.1正文仍为40%，据此评估连续性；不能声称当前固定文件本身明确写出remaining。",
+  "managementAvailable": {
+    "operation": "REDUCE_REMAINING_RATIO",
+    "meaning": "各目标技能分别取执行前剩余普通冷却t，得到t*(1-p)。",
+    "source": "规划/文档记录/详细设计/项目/系统精简实施说明.md 剩余冷却比例减少增量；当前backend/dev枚举与README一致。"
+  },
+  "businessWrites": 0
+}
