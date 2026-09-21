@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-21T06:50:02.954Z",
+  "status": "PASS",
+  "skillKey": "zyra_e",
+  "successfulSaves": 2,
+  "independentGets": 31,
+  "unchangedResponsesIncludingTimestamps": 27,
+  "expectedChangedCollections": 2,
+  "newDetails": 2,
+  "currentCounts": {
+    "parameters": 6,
+    "formulas": 1,
+    "effects": 3,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 3
+  },
+  "rootDurationMs": [
+    1000,
+    1250,
+    1500,
+    1750,
+    2000
+  ],
+  "tool": "tools/authoring/append-reviewed-skill-components-v3.mjs",
+  "toolSha256": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+  "files": {
+    "01-候选方案.json": "d6a5a34e053c6e464825446009e9f191a0913700a08d6bb53a15a7164732453f",
+    "02-冻结请求.json": "174929a8c8c9adfd8f98f977a522fa961f7a448bc27f35f44ee3740d87cf035a",
+    "03-来源摘要.json": "afacef8a332a981ba69fd22916891e2ee80d613e2f882e608cfdb98546553861",
+    "04-写入前现值.json": "121cf420e5296aef7c4b7eed28856fa94f02787c21d76c1037792e61f9202933",
+    "05-独立评审.json": "721d59846996dcabffc04f23f16f0103f3756c3defa011c5f3627fadb3d49692",
+    "06-写入与即时回读.json": "e239d18fb1f9447cb53d79a8fe73acfb49e88849b069a20e17bfe6cd48c8b5b8",
+    "07-独立回读.json": "00bd6c0b28512dc037187afd963a190a8000f63f43085cfbbae84dac530e4b86"
+  },
+  "browser": false,
+  "wholeSkillComplete": false,
+  "runtime": false
+}
