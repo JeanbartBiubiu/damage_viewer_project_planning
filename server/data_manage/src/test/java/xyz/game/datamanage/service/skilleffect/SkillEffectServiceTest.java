@@ -168,6 +168,159 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void shieldReceivedModifierPersistsItsDistinctDetailAndLifecycle() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow("shield_ratio", ModifierZoneDomain.SHIELD, ModifierZoneStatus.ENABLED)
+        ));
+        SkillEffectResultRequest result = shieldReceivedModifierResult();
+        SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+            EFFECT_KEY, "收到护盾增幅", null, 10, timedLifecycle(), List.of(result)
+        ));
+        assertEquals(SkillEffectResultType.SHIELD_RECEIVED_MODIFIER, saved.results().getFirst().resultType());
+        var detail = assertInstanceOf(
+            xyz.game.datamanage.model.skilleffect.SkillEffectShieldReceivedModifierDetail.class,
+            saved.results().getFirst().detail()
+        );
+        assertEquals("shield_ratio", detail.modifierZoneKey());
+        assertEquals(SkillEffectModifierOperation.INCREASE, detail.operation());
+        assertEquals(AggregateJson.tree(AggregateJson.write(result.valueRule())),
+            AggregateJson.tree(AggregateJson.write(saved.results().getFirst().valueRule())));
+        assertEquals(AggregateJson.tree(AggregateJson.write(result.lifecycleBehavior())),
+            AggregateJson.tree(AggregateJson.write(saved.results().getFirst().lifecycleBehavior())));
+    }
+
+    @Test
+    void attackTimerResetRoundTripsEmptyDetailAndBothSubjectsWithoutNumericOutput() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        for (SkillEffectTarget target : SkillEffectTarget.values()) {
+            SkillEffectResultRequest reset = attackTimerResetResult(target, null);
+            var parsed = AggregateJson.read(AggregateJson.write(reset), SkillEffectResultRequest.class);
+            assertInstanceOf(xyz.game.datamanage.model.skilleffect.SkillEffectAttackTimerResetDetail.class, parsed.detail());
+            assertTrue(parsed.detail().unknownFields().isEmpty());
+            SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+                EFFECT_KEY, "普攻计时重置", null, 10, null, List.of(parsed)
+            ));
+            assertEquals(target, saved.results().getFirst().target());
+            assertNull(saved.results().getFirst().valueRule());
+            assertNull(saved.results().getFirst().lifecycleBehavior());
+            assertEquals(AggregateJson.tree("{}"), AggregateJson.tree(AggregateJson.write(saved.results().getFirst().detail())));
+            assertTrue(xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputs.available(
+                xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputs.Shape.from(parsed, false)).isEmpty());
+        }
+    }
+
+    @Test
+    void attackTimerResetPreservesLegalDiscreteLifecycleMoments() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        for (SkillEffectLifecycleMoment moment : SkillEffectLifecycleMoment.values()) {
+            if (moment == SkillEffectLifecycleMoment.PERSISTENT) continue;
+            var behavior = new SkillEffectResultLifecycleBehaviorRequest(moment, null, null, null,
+                moment == SkillEffectLifecycleMoment.PERIODIC ? SkillEffectLifecyclePeriodicExecutionMode.ONCE_PER_INSTANCE : null);
+            var lifecycle = timedLifecycle();
+            if (moment == SkillEffectLifecycleMoment.PERIODIC) {
+                lifecycle = new SkillEffectLifecycleRequest(lifecycle.durationValue(), lifecycle.maxStacksValue(),
+                    lifecycle.applicationStacksValue(), lifecycle.instanceScope(), lifecycle.reapplicationStackMode(),
+                    lifecycle.reapplicationDurationMode(), lifecycle.expiryMode(), SkillNumericValue.fixed(new BigDecimal("100")),
+                    SkillEffectLifecycleFirstPeriodicExecution.AFTER_INTERVAL);
+            }
+            SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+                EFFECT_KEY, "普攻计时重置", null, 10, lifecycle,
+                List.of(attackTimerResetResult(SkillEffectTarget.SOURCE, behavior))
+            ));
+            assertEquals(moment, saved.results().getFirst().lifecycleBehavior().moment());
+            assertNull(saved.results().getFirst().lifecycleBehavior().valueReadMode());
+        }
+    }
+
+    @Test
+    void attackTimerResetRejectsExtraDetailNumericRulesAndInvalidBehaviorBeforeSaving() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        SkillEffectResultRequest reset = attackTimerResetResult(SkillEffectTarget.SOURCE, null);
+        for (String field : List.of("operation", "modifierZoneKey", "affectedSkillScope", "ratio")) {
+            ObjectNode encoded = (ObjectNode) AggregateJson.tree(AggregateJson.write(reset));
+            ((ObjectNode) encoded.path("detail")).putNull(field);
+            SkillEffectResultRequest extra = AggregateJson.read(encoded.toString(), SkillEffectResultRequest.class);
+            ApiException error = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "重置", null, 10, null, List.of(extra))));
+            assertField(error, "results[0].detail." + field, "UNKNOWN_FIELD");
+        }
+        SkillEffectResultRequest numeric = new SkillEffectResultRequest(reset.resultKey(), reset.name(),
+            reset.resultType(), reset.target(), null, 10, valueRule(), reset.detail(), null);
+        assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "重置", null, 10, null, List.of(numeric))));
+        SkillEffectResultRequest blocking = new SkillEffectResultRequest(reset.resultKey(), reset.name(),
+            reset.resultType(), SkillEffectTarget.TARGET, null, 10, null, reset.detail(), null, SkillEffectSpellShieldBlockScope.RESULT);
+        assertField(assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "重置", null, 10, null, List.of(blocking)))),
+            "results[0].spellShieldBlockScope", "INVALID_SPELL_SHIELD_SCOPE");
+        for (var behavior : List.of(
+            new SkillEffectResultLifecycleBehaviorRequest(SkillEffectLifecycleMoment.PERSISTENT, null, null, null, null),
+            new SkillEffectResultLifecycleBehaviorRequest(SkillEffectLifecycleMoment.APPLICATION, SkillEffectLifecycleValueReadMode.APPLICATION_SNAPSHOT, null, null, null),
+            new SkillEffectResultLifecycleBehaviorRequest(SkillEffectLifecycleMoment.APPLICATION, null, SkillEffectLifecycleStackValueMode.SHARED, null, null),
+            new SkillEffectResultLifecycleBehaviorRequest(SkillEffectLifecycleMoment.APPLICATION, null, null, SkillEffectLifecycleReapplicationValueMode.KEEP, null),
+            new SkillEffectResultLifecycleBehaviorRequest(SkillEffectLifecycleMoment.APPLICATION, null, null, null, SkillEffectLifecyclePeriodicExecutionMode.ONCE_PER_INSTANCE)
+        )) {
+            assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "重置", null, 10, timedLifecycle(),
+                    List.of(attackTimerResetResult(SkillEffectTarget.SOURCE, behavior)))));
+        }
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    private static SkillEffectResultRequest attackTimerResetResult(
+        SkillEffectTarget target, SkillEffectResultLifecycleBehaviorRequest behavior
+    ) {
+        return new SkillEffectResultRequest("attack_reset", "普攻计时重置", SkillEffectResultType.ATTACK_TIMER_RESET,
+            target, null, 10, null, new xyz.game.datamanage.model.skilleffect.SkillEffectAttackTimerResetDetail(), behavior);
+    }
+
+    @Test
+    void shieldReceivedModifierRejectsWrongDomainMissingValueAndDiscretePlacement() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        SkillEffectResultRequest result = shieldReceivedModifierResult();
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow("shield_ratio", ModifierZoneDomain.HEALING, ModifierZoneStatus.ENABLED)
+        ));
+        ApiException wrongDomain = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "护盾修正", null, 10, timedLifecycle(), List.of(result))));
+        assertField(wrongDomain, "results[0].detail.modifierZoneKey", "MODIFIER_ZONE_DOMAIN_MISMATCH");
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow("shield_ratio", ModifierZoneDomain.SHIELD, ModifierZoneStatus.ENABLED)
+        ));
+        ApiException noLifecycle = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "护盾修正", null, 10, null, List.of(result))));
+        assertField(noLifecycle, "results[0].lifecycleBehavior", "SPECIAL_RESULT_REQUIRES_PERSISTENT");
+        SkillEffectResultRequest noValue = new SkillEffectResultRequest(result.resultKey(), result.name(),
+            result.resultType(), result.target(), result.description(), result.sortOrder(), null,
+            result.detail(), result.lifecycleBehavior());
+        assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "护盾修正", null, 10, timedLifecycle(), List.of(noValue))));
+        SkillEffectResultRequest foreign = new SkillEffectResultRequest(result.resultKey(), result.name(),
+            result.resultType(), result.target(), result.description(), result.sortOrder(), result.valueRule(),
+            new xyz.game.datamanage.model.skilleffect.SkillEffectShieldReceivedModifierDetail(
+                "shield_ratio", SkillEffectModifierOperation.INCREASE, Set.of(), Set.of("direction")),
+            result.lifecycleBehavior());
+        assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "护盾修正", null, 10, timedLifecycle(), List.of(foreign))));
+    }
+
+    private static SkillEffectResultRequest shieldReceivedModifierResult() {
+        return new SkillEffectResultRequest("shield_received", "收到护盾提高",
+            SkillEffectResultType.SHIELD_RECEIVED_MODIFIER, SkillEffectTarget.SOURCE, null, 1, valueRule(),
+            new xyz.game.datamanage.model.skilleffect.SkillEffectShieldReceivedModifierDetail(
+                "shield_ratio", SkillEffectModifierOperation.INCREASE), persistentShared());
+    }
+
+    @Test
     void listsRequiresParentAndReturnsSummaries() {
         when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.listSummaries(GAME_ID, SKILL_KEY)).thenReturn(List.of(summary()));
@@ -930,6 +1083,7 @@ class SkillEffectServiceTest {
 
     @Test
     void rejectsInvalidValueRules() {
+        stubEnabledCatalogs();
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
 
         ApiException missing = assertThrows(
@@ -2076,6 +2230,97 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void extendDurationRequiresTimedAllAtOnceTargetAndReadsBack() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.lockEffects(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(TARGET_EFFECT_KEY));
+        when(mapper.lockLifecycles(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(lifecycleRowFor(TARGET_EFFECT_KEY, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE)));
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+
+        SkillEffectDetailResponse created = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY,
+                "延长剩余时长",
+                null,
+                10,
+                timedLifecycle(),
+                List.of(lifecycleOpResult(
+                    "extend_mark",
+                    SkillEffectLifecycleOperation.EXTEND_DURATION,
+                    TARGET_EFFECT_KEY,
+                    valueRule(),
+                    applicationSnapshot()
+                ))
+            )
+        );
+
+        assertEquals(SkillEffectLifecycleOperation.EXTEND_DURATION,
+            ((SkillEffectLifecycleOperationDetail) created.results().getFirst().detail()).operation());
+        assertEquals(TARGET_EFFECT_KEY,
+            ((SkillEffectLifecycleOperationDetail) created.results().getFirst().detail()).targetEffectKey());
+
+        when(mapper.lockLifecycles(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(lifecycleRowWithoutDuration(TARGET_EFFECT_KEY)));
+        ApiException noDuration = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    "extend_no_duration",
+                    "延长剩余时长",
+                    null,
+                    10,
+                    timedLifecycle(),
+                    List.of(lifecycleOpResult(
+                        "extend_mark",
+                        SkillEffectLifecycleOperation.EXTEND_DURATION,
+                        TARGET_EFFECT_KEY,
+                        valueRule(),
+                        applicationSnapshot()
+                    ))
+                )
+            )
+        );
+        assertEquals("400.INVALID_SKILL_EFFECT_REFERENCE", noDuration.getCode());
+        assertField(noDuration, "results[0].detail.targetEffectKey", "TARGET_EFFECT_HAS_NO_DURATION");
+
+        when(mapper.lockLifecycles(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
+            .thenReturn(List.of(lifecycleRowFor(TARGET_EFFECT_KEY, SkillEffectLifecycleExpiryMode.ONE_BY_ONE)));
+        ApiException wrongExpiry = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    "extend_wrong_expiry",
+                    "延长剩余时长",
+                    null,
+                    10,
+                    timedLifecycle(),
+                    List.of(lifecycleOpResult(
+                        "extend_mark",
+                        SkillEffectLifecycleOperation.EXTEND_DURATION,
+                        TARGET_EFFECT_KEY,
+                        valueRule(),
+                        applicationSnapshot()
+                    ))
+                )
+            )
+        );
+        assertEquals("400.INVALID_SKILL_EFFECT_REFERENCE", wrongExpiry.getCode());
+        assertField(
+            wrongExpiry,
+            "results[0].detail.targetEffectKey",
+            "TARGET_EFFECT_EXPIRY_MODE_UNSUPPORTED"
+        );
+    }
+
+    @Test
     void deletePrefersProcessBindingOverLifecycleReference() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
@@ -2146,6 +2391,77 @@ class SkillEffectServiceTest {
         );
         assertEquals("409.SKILL_EFFECT_LIFECYCLE_IN_USE", refresh.getCode());
         assertField(refresh, "lifecycle.durationValue", "REFRESH_OPERATION_IN_USE");
+    }
+
+    @Test
+    void extendDurationProtectsTargetDurationAndExpiryOnReverseUpdate() {
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> fixtureRow(true));
+        fixture.put("listResultsForUpdate", List.of(
+            resultRow("physical_hit", SkillEffectResultType.DAMAGE)
+        ));
+        fixture.put("findLifecycleForUpdate", lifecycleRow());
+        when(mapper.countLifecycleOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
+        when(mapper.countRefreshOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);
+        when(mapper.countExtendDurationOperationReferences(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(1L);
+
+        ApiException duration = assertThrows(
+            ApiException.class,
+            () -> service.update(
+                GAME_ID,
+                SKILL_KEY,
+                EFFECT_KEY,
+                new SkillEffectUpdateRequest(
+                    null,
+                    "命中结果",
+                    null,
+                    10,
+                    new SkillEffectLifecycleRequest(
+                        null,
+                        SkillNumericValue.formula(MAX_STACKS_FORMULA),
+                        SkillNumericValue.formula(APP_STACKS_FORMULA),
+                        SkillEffectLifecycleInstanceScope.TARGET,
+                        SkillEffectLifecycleReapplicationStackMode.KEEP,
+                        null,
+                        SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY,
+                        null,
+                        null
+                    ),
+                    List.of(damageResult("physical_hit"))
+                )
+            )
+        );
+        assertEquals("409.SKILL_EFFECT_LIFECYCLE_IN_USE", duration.getCode());
+        assertField(duration, "lifecycle.durationValue", "EXTEND_DURATION_OPERATION_IN_USE");
+
+        ApiException expiry = assertThrows(
+            ApiException.class,
+            () -> service.update(
+                GAME_ID,
+                SKILL_KEY,
+                EFFECT_KEY,
+                new SkillEffectUpdateRequest(
+                    null,
+                    "命中结果",
+                    null,
+                    10,
+                    new SkillEffectLifecycleRequest(
+                        SkillNumericValue.formula(DURATION_FORMULA),
+                        SkillNumericValue.formula(MAX_STACKS_FORMULA),
+                        SkillNumericValue.formula(APP_STACKS_FORMULA),
+                        SkillEffectLifecycleInstanceScope.TARGET,
+                        SkillEffectLifecycleReapplicationStackMode.KEEP,
+                        SkillEffectLifecycleReapplicationDurationMode.KEEP_REMAINING,
+                        SkillEffectLifecycleExpiryMode.ONE_BY_ONE,
+                        null,
+                        null
+                    ),
+                    List.of(damageResult("physical_hit"))
+                )
+            )
+        );
+        assertEquals("409.SKILL_EFFECT_LIFECYCLE_IN_USE", expiry.getCode());
+        assertField(expiry, "lifecycle.expiryMode", "EXTEND_DURATION_OPERATION_IN_USE");
     }
 
     @Test
@@ -2457,6 +2773,116 @@ class SkillEffectServiceTest {
         verify(mapper).updateEffect(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), eq("命中结果"), eq(null), eq(10), any(), any());
     }
 
+    @Test
+    void lifecycleOnlyEffectCreatesReadsAndUpdatesWithoutInventingResults() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+
+        SkillEffectDetailResponse created = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+            EFFECT_KEY, "资格窗口", null, 10, timedLifecycle(), List.of()
+        ));
+        assertEquals("[]", savedEffect.results());
+        assertTrue(created.results().isEmpty());
+        assertEquals(DURATION_FORMULA, created.lifecycle().durationValue().formulaKey());
+        assertEquals(created, service.get(GAME_ID, SKILL_KEY, EFFECT_KEY));
+
+        SkillEffectDetailResponse updated = service.update(GAME_ID, SKILL_KEY, EFFECT_KEY,
+            new SkillEffectUpdateRequest(null, "更新资格窗口", null, 20, timedLifecycle(), List.of()));
+        assertTrue(updated.results().isEmpty());
+        assertEquals(created.lifecycle(), updated.lifecycle());
+        assertEquals("更新资格窗口", updated.name());
+        assertEquals(updated, service.get(GAME_ID, SKILL_KEY, EFFECT_KEY));
+        verify(mapper, org.mockito.Mockito.atLeastOnce()).lockFormulas(eq(GAME_ID), eq(SKILL_KEY),
+            org.mockito.ArgumentMatchers.argThat(keys -> keys.size() == 3
+                && keys.containsAll(Set.of(DURATION_FORMULA, MAX_STACKS_FORMULA, APP_STACKS_FORMULA))));
+    }
+
+    @Test
+    void lifecycleOnlyEffectMayHaveNoNaturalDuration() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        SkillEffectLifecycleRequest lifecycle = new SkillEffectLifecycleRequest(
+            null, SkillNumericValue.formula(MAX_STACKS_FORMULA), SkillNumericValue.formula(APP_STACKS_FORMULA),
+            SkillEffectLifecycleInstanceScope.SOURCE_TARGET, SkillEffectLifecycleReapplicationStackMode.KEEP,
+            null, SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY, null, null);
+        SkillEffectDetailResponse created = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+            EFFECT_KEY, "持续资格", null, 10, lifecycle, List.of()));
+        assertNull(created.lifecycle().durationValue());
+        assertEquals(SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY, created.lifecycle().expiryMode());
+        assertTrue(created.results().isEmpty());
+    }
+
+    @Test
+    void nullResultsAreRejectedByBothServiceEntrypointsEvenWithLifecycle() {
+        for (SkillEffectLifecycleRequest lifecycle : java.util.Arrays.asList(null, timedLifecycle())) {
+            ApiException create = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "资格窗口", null, 10, lifecycle, null)));
+            assertField(create, "results", "REQUIRED");
+            ApiException update = assertThrows(ApiException.class, () -> service.update(GAME_ID, SKILL_KEY, EFFECT_KEY,
+                new SkillEffectUpdateRequest(null, "资格窗口", null, 10, lifecycle, null)));
+            assertField(update, "results", "REQUIRED");
+        }
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+        verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void lifecycleOnlyEffectStillRejectsRemovingLifecycleInvalidLifecycleAndUnusedPeriodicSettings() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+            EFFECT_KEY, "资格窗口", null, 10, timedLifecycle(), List.of()));
+        SkillEffectRow before = savedEffect;
+        ApiException empty = assertThrows(ApiException.class, () -> service.update(GAME_ID, SKILL_KEY, EFFECT_KEY,
+            new SkillEffectUpdateRequest(null, "资格窗口", null, 10, null, List.of())));
+        assertField(empty, "results", "REQUIRED");
+
+        SkillEffectLifecycleRequest valid = timedLifecycle();
+        SkillEffectLifecycleRequest invalid = new SkillEffectLifecycleRequest(
+            valid.durationValue(), valid.maxStacksValue(), valid.applicationStacksValue(), null,
+            valid.reapplicationStackMode(), valid.reapplicationDurationMode(), valid.expiryMode(), null, null);
+        SkillEffectLifecycleRequest periodic = new SkillEffectLifecycleRequest(
+            valid.durationValue(), valid.maxStacksValue(), valid.applicationStacksValue(), valid.instanceScope(),
+            valid.reapplicationStackMode(), valid.reapplicationDurationMode(), valid.expiryMode(),
+            SkillNumericValue.formula(PERIODIC_FORMULA), SkillEffectLifecycleFirstPeriodicExecution.AFTER_INTERVAL);
+        for (SkillEffectLifecycleRequest lifecycle : List.of(invalid, periodic)) {
+            String field = lifecycle == invalid ? "lifecycle.instanceScope" : "lifecycle.periodicIntervalValue";
+            ApiException create = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "资格窗口", null, 10, lifecycle, List.of())));
+            assertTrue(fieldIssues(create).stream().anyMatch(issue -> field.equals(issue.get("field"))));
+            ApiException update = assertThrows(ApiException.class, () -> service.update(GAME_ID, SKILL_KEY, EFFECT_KEY,
+                new SkillEffectUpdateRequest(null, "资格窗口", null, 10, lifecycle, List.of())));
+            assertTrue(fieldIssues(update).stream().anyMatch(issue -> field.equals(issue.get("field"))));
+        }
+        assertEquals(before, savedEffect);
+        verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void removingLastReferencedResultToKeepOnlyLifecycleIsRejectedBeforeWrite() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(EFFECT_KEY, "伤害窗口", null, 10,
+            timedLifecycle(), List.of(damageResultWithBehavior("physical_hit", applicationSnapshot()))));
+        SkillEffectRow before = savedEffect;
+        org.mockito.Mockito.doThrow(new ApiException(org.springframework.http.HttpStatus.CONFLICT,
+            "409.SKILL_EFFECT_IN_USE", "结果仍被引用", Map.of()))
+            .when(triggerRuleService).assertEffectUpdate(eq(GAME_ID), eq(SKILL_KEY), eq(EFFECT_KEY), any(),
+                eq(timedLifecycle()), eq(List.of()), eq(List.of("physical_hit")));
+        assertCode("409.SKILL_EFFECT_IN_USE", () -> service.update(GAME_ID, SKILL_KEY, EFFECT_KEY,
+            new SkillEffectUpdateRequest(null, "资格窗口", null, 10, timedLifecycle(), List.of())));
+        assertEquals(before, savedEffect);
+        verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
     private int saveAggregate(org.mockito.invocation.InvocationOnMock invocation) {
         savedEffect = new SkillEffectRow(invocation.getArgument(0), invocation.getArgument(1), invocation.getArgument(2),
             invocation.getArgument(3), invocation.getArgument(4), invocation.getArgument(5),
@@ -2585,7 +3011,11 @@ class SkillEffectServiceTest {
         when(mapper.lockAttributes(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
         when(mapper.lockSkills(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
         when(mapper.lockSkillCategories(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
-        when(mapper.lockStatuses(eq(GAME_ID), anyCollection())).thenAnswer(this::enabledLocks);
+        when(mapper.lockStatuses(eq(GAME_ID), anyCollection())).thenAnswer(invocation -> {
+            Collection<String> keys = invocation.getArgument(1);
+            return keys.stream().map(key -> new xyz.game.datamanage.model.skilleffect.SkillEffectStatusLockRow(
+                key, "ENABLED", xyz.game.datamanage.model.status.StatusKind.STUN)).toList();
+        });
         when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenAnswer(invocation -> {
             @SuppressWarnings("unchecked")
             Collection<String> keys = (Collection<String>) invocation.getArgument(1);
@@ -3125,17 +3555,24 @@ class SkillEffectServiceTest {
     }
 
     private static SkillEffectLifecycleRow lifecycleRow() {
+        return lifecycleRowFor(EFFECT_KEY, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE);
+    }
+
+    private static SkillEffectLifecycleRow lifecycleRowFor(
+        String effectKey,
+        SkillEffectLifecycleExpiryMode expiryMode
+    ) {
         return new SkillEffectLifecycleRow(
             GAME_ID,
             SKILL_KEY,
-            EFFECT_KEY,
+            effectKey,
             SkillNumericValue.formula(DURATION_FORMULA),
             SkillNumericValue.formula(MAX_STACKS_FORMULA),
             SkillNumericValue.formula(APP_STACKS_FORMULA),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.INCREASE,
             SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
-            SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
+            expiryMode,
             null,
             null
         );

@@ -31,7 +31,7 @@ public final class SkillTriggerEventSourceDeserializer extends JsonDeserializer<
                 case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN -> SkillTriggerDamageEventDetail.class;
                 case SPELL_SHIELD_BLOCKED -> SkillTriggerSpellShieldBlockedEventDetail.class;
                 case HIT_LINK_APPLIED, ATTACK_LINK_APPLIED -> SkillTriggerLinkEventDetail.class;
-                case SOURCE_INITIALIZED, BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, KILL ->
+                case SOURCE_INITIALIZED, BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, KILL, TAKEDOWN ->
                     SkillTriggerEmptyEventDetail.class;
             };
             detail = codec.treeToValue(detailNode, detailClass);

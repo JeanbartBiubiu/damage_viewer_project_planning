@@ -16,6 +16,7 @@ import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.status.StatusMapper;
 import xyz.game.datamanage.model.status.StatusCreateRequest;
+import xyz.game.datamanage.model.status.StatusKind;
 import xyz.game.datamanage.model.status.StatusListQuery;
 import xyz.game.datamanage.model.status.StatusListResponse;
 import xyz.game.datamanage.model.status.StatusRecordStatus;
@@ -94,6 +95,7 @@ public class StatusService {
                 request.statusKey(),
                 request.name(),
                 request.description(),
+                request.statusKind().name(),
                 request.status().name(),
                 request.sortOrder()
             );
@@ -112,8 +114,12 @@ public class StatusService {
         configurationWrites.begin(gameId);
         requireGame(gameId);
         validateUpdate(request);
-        if (mapper.findByIdForUpdate(gameId, statusKey) == null) {
+        StatusResponse existing = mapper.findByIdForUpdate(gameId, statusKey);
+        if (existing == null) {
             throw notFound(statusKey);
+        }
+        if (existing.statusKind() != request.statusKind()) {
+            throwIfInvalid(List.of(fieldIssue("statusKind", "IMMUTABLE", "状态种类不能修改")));
         }
         if (mapper.countByNormalizedName(gameId, request.name(), statusKey) > 0) {
             throw nameExists();
@@ -190,6 +196,7 @@ public class StatusService {
                 request.name(),
                 request.description(),
                 request.status(),
+                request.statusKind(),
                 request.sortOrder(),
                 issues
             );
@@ -209,6 +216,7 @@ public class StatusService {
                 request.name(),
                 request.description(),
                 request.status(),
+                request.statusKind(),
                 request.sortOrder(),
                 issues
             );
@@ -228,6 +236,7 @@ public class StatusService {
         String name,
         String description,
         StatusRecordStatus status,
+        StatusKind statusKind,
         Integer sortOrder,
         List<Map<String, String>> issues
     ) {
@@ -241,6 +250,9 @@ public class StatusService {
         }
         if (status == null) {
             issues.add(fieldIssue("status", "REQUIRED", "状态不能为空"));
+        }
+        if (statusKind == null) {
+            issues.add(fieldIssue("statusKind", "REQUIRED", "状态种类不能为空"));
         }
         if (sortOrder == null) {
             issues.add(fieldIssue("sortOrder", "REQUIRED", "排序不能为空"));

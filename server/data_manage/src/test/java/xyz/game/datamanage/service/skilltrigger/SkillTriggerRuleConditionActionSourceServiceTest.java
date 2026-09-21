@@ -170,6 +170,18 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
         ));
         assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", unavailable.getCode());
         assertField(unavailable, "conditionGroups[0].conditions[0].detail.eventValueKey", "EVENT_VALUE_NOT_AVAILABLE");
+
+        ApiException takedownValue = thrown(() -> service.create(
+            GAME_ID,
+            SKILL_KEY,
+            withGroupsOn(
+                "takedown_value_bad",
+                new SkillTriggerEventSource(SkillTriggerEventType.TAKEDOWN, new SkillTriggerEmptyEventDetail()),
+                List.of(hitIndex)
+            )
+        ));
+        assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", takedownValue.getCode());
+        assertField(takedownValue, "conditionGroups[0].conditions[0].detail.eventValueKey", "EVENT_VALUE_NOT_AVAILABLE");
     }
 
     @Test

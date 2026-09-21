@@ -198,8 +198,16 @@
         FOR UPDATE
     </select>
 
-    <select id="lockStatuses" resultMap="catalogLock">
-        SELECT status_key AS ref_key, status
+    <resultMap id="statusLock" type="xyz.game.datamanage.model.skilleffect.SkillEffectStatusLockRow">
+        <constructor>
+            <arg column="ref_key" javaType="java.lang.String"/>
+            <arg column="status" javaType="java.lang.String"/>
+            <arg column="status_kind" javaType="xyz.game.datamanage.model.status.StatusKind"/>
+        </constructor>
+    </resultMap>
+
+    <select id="lockStatuses" resultMap="statusLock">
+        SELECT status_key AS ref_key, status, status_kind
         FROM public.statuses
         WHERE game_id = #{gameId}
           AND status_key IN
@@ -254,6 +262,16 @@
           AND r ->> 'resultType' = 'LIFECYCLE_OPERATION'
           AND r #>> '{detail,targetEffectKey}' = #{targetEffectKey}
           AND r #>> '{detail,operation}' = 'REFRESH'
+    </select>
+
+    <select id="countExtendDurationOperationReferences" resultType="long">
+        SELECT COUNT(1)
+        FROM public.skill_effects e
+        CROSS JOIN LATERAL jsonb_array_elements(e.results) r
+        WHERE e.game_id = #{gameId} AND e.skill_key = #{skillKey}
+          AND r ->> 'resultType' = 'LIFECYCLE_OPERATION'
+          AND r #>> '{detail,targetEffectKey}' = #{targetEffectKey}
+          AND r #>> '{detail,operation}' = 'EXTEND_DURATION'
     </select>
 
     <select id="lockEffects" resultType="string">

@@ -13,13 +13,15 @@ public sealed interface SkillEffectResultDetail
         SkillEffectLifecycleOperationDetail,
         SkillEffectDamageModifierDetail,
         SkillEffectHealingModifierDetail,
+        SkillEffectShieldReceivedModifierDetail,
         SkillEffectDamageImmunityDetail,
         SkillEffectHealthFloorDetail,
         SkillEffectSpellShieldDetail,
         SkillEffectExecuteDetail,
         SkillEffectHitLinkApplicationDetail,
         SkillEffectAttackLinkApplicationDetail,
-        SkillEffectHasteModifierDetail {
+        SkillEffectHasteModifierDetail,
+        SkillEffectAttackTimerResetDetail {
 
     Set<String> foreignFields();
 

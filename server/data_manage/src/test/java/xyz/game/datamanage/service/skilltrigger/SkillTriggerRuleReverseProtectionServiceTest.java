@@ -117,7 +117,7 @@ class SkillTriggerRuleReverseProtectionServiceTest {
             new SkillTriggerReferenceHit("on_hit", "results", RESULT_REMOVED, "in use")
         ));
         ApiException result = thrown(() -> service.assertEffectUpdate(
-            GAME_ID, SKILL_KEY, EFFECT_KEY, lifecycleRow(), lifecycleRequest(), List.of(damageResult()), List.of(RESULT_REMOVED)
+            GAME_ID, SKILL_KEY, EFFECT_KEY, lifecycleRow(), lifecycleRequest(), List.of(), List.of(RESULT_REMOVED)
         ));
         assertEquals("409.SKILL_EFFECT_IN_USE", result.getCode());
         assertField(result, "results", "TRIGGER_RULE_RESULT_IN_USE");
@@ -154,6 +154,24 @@ class SkillTriggerRuleReverseProtectionServiceTest {
 
         service.deleteAllForSkill(GAME_ID, SKILL_KEY);
         verify(mapper).deleteAllForSkill(GAME_ID, SKILL_KEY);
+    }
+
+    @Test
+    void valuedStatusCannotPreserveAnExistingOuterResultModifier() {
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(SkillTriggerRuleTestSupport.ruleRow(
+            "slow", "减速", xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType.BASIC_ATTACK_HIT)));
+        when(mapper.listModifiers(GAME_ID, SKILL_KEY, "slow")).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerResultModifierRow(
+                GAME_ID, SKILL_KEY, "slow", "apply", "strength", EFFECT_KEY, java.math.BigDecimal.ONE, null, null)));
+        SkillEffectResultRequest result = new SkillEffectResultRequest(
+            "strength", "减速", SkillEffectResultType.STATUS_OPERATION, SkillEffectTarget.TARGET, null, 0,
+            new SkillEffectValueRuleRequest(SkillNumericValue.fixed(new java.math.BigDecimal("0.3")),
+                java.math.BigDecimal.ONE, java.math.BigDecimal.ZERO, java.math.BigDecimal.ONE),
+            new xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail("slow",
+                xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation.APPLY), null);
+        ApiException error = thrown(() -> service.assertEffectUpdate(
+            GAME_ID, SKILL_KEY, EFFECT_KEY, lifecycleRow(), lifecycleRequest(), List.of(result), List.of()));
+        assertField(error, "results[0].valueRule", "TRIGGER_RULE_SHAPE_IN_USE");
     }
 
     private static final String RESULT_REMOVED = "old_hit";

@@ -401,6 +401,7 @@ public class SkillTriggerCycleValidator {
                     ));
                     produced.add(ProducedEvent.health(SkillTriggerSubject.CURRENT_TARGET, SkillTriggerHealthDirection.DOWNWARD, null));
                     produced.add(ProducedEvent.wide(SkillTriggerEventType.KILL));
+                    produced.add(ProducedEvent.wide(SkillTriggerEventType.TAKEDOWN));
                     produced.add(ProducedEvent.entityDied(SkillTriggerSubject.CURRENT_TARGET));
                 } else if (row.target() == SkillEffectTarget.SOURCE) {
                     produced.add(ProducedEvent.damage(
@@ -450,7 +451,9 @@ public class SkillTriggerCycleValidator {
             }
             case LIFECYCLE_OPERATION -> {
                 if (row.lifecycleTargetEffectKey() != null && row.lifecycleOperation() != null) {
-                    if (row.lifecycleOperation() == SkillEffectLifecycleOperation.INCREASE
+                    if (row.lifecycleOperation() == SkillEffectLifecycleOperation.EXTEND_DURATION) {
+                        // 延长剩余时长只改变现有实例期限，不产生满层或提前移除事件。
+                    } else if (row.lifecycleOperation() == SkillEffectLifecycleOperation.INCREASE
                         || row.lifecycleOperation() == SkillEffectLifecycleOperation.SET) {
                         produced.add(ProducedEvent.lifecycle(
                             row.lifecycleTargetEffectKey(),
@@ -470,6 +473,9 @@ public class SkillTriggerCycleValidator {
             }
             case EXECUTE -> {
                 produced.add(ProducedEvent.wide(SkillTriggerEventType.KILL));
+                if (row.target() == SkillEffectTarget.TARGET) {
+                    produced.add(ProducedEvent.wide(SkillTriggerEventType.TAKEDOWN));
+                }
                 if (subject != null) {
                     produced.add(ProducedEvent.entityDied(subject));
                 }
@@ -481,8 +487,8 @@ public class SkillTriggerCycleValidator {
                     produced.add(ProducedEvent.lifecycle(row.effectKey(), SkillTriggerLifecycleEventMoment.EARLY_REMOVE));
                 }
             }
-            case RESOURCE_CHANGE, COOLDOWN_CHANGE, DAMAGE_MODIFIER, HEALING_MODIFIER,
-                DAMAGE_IMMUNITY, HEALTH_FLOOR, SPELL_SHIELD, SKILL_HASTE_MODIFIER -> {
+            case RESOURCE_CHANGE, COOLDOWN_CHANGE, DAMAGE_MODIFIER, HEALING_MODIFIER, SHIELD_RECEIVED_MODIFIER,
+                DAMAGE_IMMUNITY, HEALTH_FLOOR, SPELL_SHIELD, SKILL_HASTE_MODIFIER, ATTACK_TIMER_RESET -> {
             }
             }
         }
@@ -514,6 +520,7 @@ public class SkillTriggerCycleValidator {
             case ENTITY_DIED -> produced.subject() == filter.subject();
             case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN -> damageMatches(produced.damage(), filter.damage());
             case KILL -> true;
+            case TAKEDOWN -> true;
             case SPELL_SHIELD_BLOCKED -> true;
             case HIT_LINK_APPLIED, ATTACK_LINK_APPLIED -> filter.hasSourceSkillFilter()
                 && (filter.sourceSkillKey() == null

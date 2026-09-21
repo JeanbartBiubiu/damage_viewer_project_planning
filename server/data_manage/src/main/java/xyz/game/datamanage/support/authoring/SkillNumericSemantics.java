@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
+import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputKind;
@@ -75,8 +76,21 @@ public final class SkillNumericSemantics {
                         String path = "results[" + i++ + "]";
                         boolean current = "PERSISTENT".equals(text(r.path("lifecycleBehavior"), "moment"))
                             && "MOMENT_EVALUATION".equals(text(r.path("lifecycleBehavior"), "valueReadMode"));
-                        use(a, r.path("valueRule"), path + ".valueRule", "value",
-                            "LIFECYCLE_OPERATION".equals(text(r, "resultType")) ? Bound.INTEGER : Bound.ANY, current);
+                        String lifecycleOperation = text(r.path("detail"), "operation");
+                        boolean extendDuration = "LIFECYCLE_OPERATION".equals(text(r, "resultType"))
+                            && "EXTEND_DURATION".equals(lifecycleOperation);
+                        Use valueUse = use(a, r.path("valueRule"), path + ".valueRule", "value",
+                            "LIFECYCLE_OPERATION".equals(text(r, "resultType")) && !extendDuration
+                                ? Bound.INTEGER : Bound.ANY,
+                            current);
+                        if (extendDuration) {
+                            validateExtendedDuration(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
+                        }
+                        if ("COOLDOWN_CHANGE".equals(text(r, "resultType"))
+                            && SkillEffectCooldownChangeOperation.REDUCE_REMAINING_RATIO.name()
+                                .equals(text(r.path("detail"), "operation"))) {
+                            validateRemainingCooldownRatio(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
+                        }
                         if ("DAMAGE".equals(text(r, "resultType"))) {
                             JsonNode detail = r.path("detail");
                             use(a, detail.path("critical"), path + ".detail.critical", "multiplierValue", Bound.ANY, false);
@@ -144,7 +158,7 @@ public final class SkillNumericSemantics {
                         int c = 0;
                         for (JsonNode condition : group.path("conditions")) {
                             if ("EVENT_VALUE_COMPARE".equals(text(condition, "conditionType"))) {
-                                validateSkillHitShieldValue(a, condition.path("detail"), "conditionGroups[" + g + "].conditions[" + c + "].detail");
+                                validateSkillHitEventValue(a, condition.path("detail"), "conditionGroups[" + g + "].conditions[" + c + "].detail");
                             }
                             switch (text(condition, "conditionType")) {
                                 case "ATTRIBUTE_COMPARE", "STATUS_CHECK", "INTERNAL_STATE_CHECK", "EVENT_VALUE_COMPARE" ->
@@ -279,7 +293,11 @@ public final class SkillNumericSemantics {
             for (JsonNode action : rule.data().path("actions")) {
                 Set<String> required = new LinkedHashSet<>();
                 String type = text(action, "actionType");
-                if ("EXECUTE_EFFECT".equals(type)) dependencies(new Id(rule.skillKey(), SourceType.EFFECT, text(action.path("detail"), "effectKey")), required, new LinkedHashSet<>());
+                if ("EXECUTE_EFFECT".equals(type)) {
+                    String effectKey = text(action.path("detail"), "effectKey");
+                    dependencies(new Id(rule.skillKey(), SourceType.EFFECT, effectKey), required, new LinkedHashSet<>());
+                    validateResultModifiers(rule, action, i, effectKey);
+                }
                 if ("START_PROCESS".equals(type)) dependencies(new Id(rule.skillKey(), SourceType.PROCESS, text(action.path("detail"), "processKey")), required, new LinkedHashSet<>());
                 Set<String> bound = new LinkedHashSet<>();
                 int j = 0;
@@ -289,7 +307,7 @@ public final class SkillNumericSemantics {
                     Parameter p = parameters.get(rule.skillKey() + "/" + key);
                     if (!bound.add(key)) throw invalid(rule, path, "BINDING_DUPLICATE", "同一参数不能重复绑定");
                     if (p == null || !"RUNTIME_INPUT".equals(p.valueMode()) || !required.contains(key)) throw invalid(rule, path, "BINDING_EXTRA", "绑定参数不是该动作需要的计算时输入");
-                    if ("EVENT_VALUE".equals(text(binding, "sourceType"))) validateSkillHitShieldValue(rule, binding.path("detail"), path + ".detail");
+                    if ("EVENT_VALUE".equals(text(binding, "sourceType"))) validateSkillHitEventValue(rule, binding.path("detail"), path + ".detail");
                     if ("SOURCE_CAST_RESOURCE_COST".equals(text(binding, "sourceType"))) {
                         JsonNode detail = binding.path("detail");
                         if (!detail.isObject() || detail.size() != 1 || !detail.path("attributeKey").isTextual()
@@ -310,10 +328,144 @@ public final class SkillNumericSemantics {
             }
         }
 
-        private void validateSkillHitShieldValue(Aggregate rule, JsonNode detail, String path) {
-            if ("SKILL_HIT_SPELL_SHIELD_BLOCKED".equals(text(detail, "eventValueKey"))
-                && !"SKILL_HIT".equals(text(rule.data().path("eventSource"), "eventType"))) {
-                throw invalid(rule, path + ".eventValueKey", "EVENT_VALUE_NOT_AVAILABLE", "技能命中护盾结果只适用于技能命中事件");
+        private void validateResultModifiers(Aggregate rule, JsonNode action, int actionIndex, String effectKey) {
+            Aggregate effect = objects.get(new Id(rule.skillKey(), SourceType.EFFECT, effectKey));
+            if (effect == null) return; // 引用存在性由统一引用校验保护。
+            int modifierIndex = 0;
+            for (JsonNode modifier : action.path("resultModifiers")) {
+                String resultKey = text(modifier, "resultKey");
+                JsonNode result = null;
+                int resultIndex = 0;
+                for (JsonNode candidate : effect.data().path("results")) {
+                    if (resultKey.equals(text(candidate, "resultKey"))) {
+                        result = candidate;
+                        break;
+                    }
+                    resultIndex++;
+                }
+                if (result != null
+                    && "COOLDOWN_CHANGE".equals(text(result, "resultType"))
+                    && SkillEffectCooldownChangeOperation.REDUCE_REMAINING_RATIO.name()
+                        .equals(text(result.path("detail"), "operation"))) {
+                    String valuePath = "results[" + resultIndex + "].valueRule.value";
+                    Use valueUse = findUse(effect, valuePath);
+                    validateRemainingCooldownRatio(
+                        rule,
+                        valueUse,
+                        result.path("valueRule"),
+                        modifier,
+                        "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]"
+                    );
+                }
+                if (result != null
+                    && "LIFECYCLE_OPERATION".equals(text(result, "resultType"))
+                    && "EXTEND_DURATION".equals(text(result.path("detail"), "operation"))) {
+                    String valuePath = "results[" + resultIndex + "].valueRule.value";
+                    Use valueUse = findUse(effect, valuePath);
+                    validateExtendedDuration(
+                        rule,
+                        valueUse,
+                        result.path("valueRule"),
+                        modifier,
+                        "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]"
+                    );
+                }
+                modifierIndex++;
+            }
+        }
+
+        private Use findUse(Aggregate source, String path) {
+            for (Use use : uses.getOrDefault(id(source), List.of())) {
+                if (use.path().equals(path)) return use;
+            }
+            return null;
+        }
+
+        private void validateRemainingCooldownRatio(
+            Aggregate source,
+            Use valueUse,
+            JsonNode valueRule,
+            String errorPath
+        ) {
+            validateRemainingCooldownRatio(source, valueUse, valueRule, null, errorPath);
+        }
+
+        private void validateRemainingCooldownRatio(
+            Aggregate source,
+            Use valueUse,
+            JsonNode valueRule,
+            JsonNode modifier,
+            String errorPath
+        ) {
+            StaticValues known = known(valueUse);
+            if (known == null) return; // 具名公式和计算时传入值留给执行时验证。
+            for (BigDecimal value : known.values().values()) {
+                BigDecimal effective = applyFixedRule(value, valueRule);
+                if (modifier != null) effective = applyFixedRule(effective, modifier);
+                if (effective.compareTo(BigDecimal.ZERO) < 0 || effective.compareTo(BigDecimal.ONE) > 0) {
+                    throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "按比例减少剩余冷却的有效比例必须在0到1之间");
+                }
+            }
+        }
+
+        private void validateExtendedDuration(
+            Aggregate source,
+            Use valueUse,
+            JsonNode valueRule,
+            String errorPath
+        ) {
+            validateExtendedDuration(source, valueUse, valueRule, null, errorPath);
+        }
+
+        private void validateExtendedDuration(
+            Aggregate source,
+            Use valueUse,
+            JsonNode valueRule,
+            JsonNode modifier,
+            String errorPath
+        ) {
+            StaticValues known = known(valueUse);
+            if (known == null) return; // 具名公式和计算时传入值留给执行时验证。
+            for (BigDecimal value : known.values().values()) {
+                BigDecimal effective = applyFixedRule(value, valueRule);
+                if (modifier != null) effective = applyFixedRule(effective, modifier);
+                if (!Double.isFinite(effective.doubleValue())) {
+                    throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "延长剩余时长的有效增加毫秒数超出可保存范围");
+                }
+                if (effective.signum() < 0) {
+                    throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "延长剩余时长的有效增加毫秒数不能小于零");
+                }
+                if (effective.stripTrailingZeros().scale() > 0) {
+                    throw invalid(source, errorPath, "VALUE_TYPE_MISMATCH", "延长剩余时长的有效增加毫秒数必须为整数");
+                }
+            }
+        }
+
+        private static BigDecimal applyFixedRule(BigDecimal value, JsonNode rule) {
+            if (rule == null || !rule.isObject()) return value;
+            BigDecimal multiplier = decimal(rule, "fixedMultiplier");
+            BigDecimal effective = multiplier == null ? value : value.multiply(multiplier);
+            BigDecimal minimum = decimal(rule, "fixedMinValue");
+            if (minimum != null && effective.compareTo(minimum) < 0) effective = minimum;
+            BigDecimal maximum = decimal(rule, "fixedMaxValue");
+            if (maximum != null && effective.compareTo(maximum) > 0) effective = maximum;
+            return effective;
+        }
+
+        private static BigDecimal decimal(JsonNode parent, String field) {
+            JsonNode value = parent.get(field);
+            return value != null && value.isNumber() ? value.decimalValue() : null;
+        }
+
+        private void validateSkillHitEventValue(Aggregate rule, JsonNode detail, String path) {
+            String valueKey = text(detail, "eventValueKey");
+            String label = switch (valueKey) {
+                case "SKILL_HIT_SPELL_SHIELD_BLOCKED" -> "技能命中护盾结果";
+                case "SKILL_HIT_FIRST_CONTACT" -> "本次使用首次目标接触";
+                default -> null;
+            };
+            if (label != null && !"SKILL_HIT".equals(text(rule.data().path("eventSource"), "eventType"))) {
+                throw invalid(rule, path + ".eventValueKey", "EVENT_VALUE_NOT_AVAILABLE", label + "只适用于技能命中事件");
             }
         }
 

@@ -119,6 +119,8 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerValueDomain;
 import xyz.game.datamanage.support.error.ApiException;
 import xyz.game.datamanage.support.authoring.SkillExplicitTargetIsSourceConditionSemantics;
+import xyz.game.datamanage.support.authoring.SkillHitTargetIsEnemyConditionSemantics;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillHitTargetIsEnemyConditionDetail;
 import xyz.game.datamanage.support.authoring.SkillLifecycleConditionSemantics;
 import xyz.game.datamanage.support.authoring.SkillTargetCategoryConditionSemantics;
 
@@ -1137,7 +1139,7 @@ public class SkillTriggerRuleService {
                     issues.add(fieldIssue("eventSource.detail", "TYPE_MISMATCH", "联动事件明细形状不合法"));
                 }
             }
-            case SOURCE_INITIALIZED, BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, KILL -> {
+            case SOURCE_INITIALIZED, BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, KILL, TAKEDOWN -> {
                 if (!(detail instanceof SkillTriggerEmptyEventDetail)) {
                     issues.add(fieldIssue("eventSource.detail", "TYPE_MISMATCH", "该事件明细必须为空对象"));
                 }
@@ -1226,6 +1228,13 @@ public class SkillTriggerRuleService {
                     return;
                 }
                 issues.addAll(SkillExplicitTargetIsSourceConditionSemantics.shapeIssues(detail, prefix + ".detail"));
+            }
+            case SKILL_HIT_TARGET_IS_ENEMY -> {
+                if (!(condition.detail() instanceof SkillTriggerSkillHitTargetIsEnemyConditionDetail detail)) {
+                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "技能命中敌方对象条件明细形状不合法"));
+                    return;
+                }
+                issues.addAll(SkillHitTargetIsEnemyConditionSemantics.shapeIssues(detail, prefix + ".detail"));
             }
             case INTERNAL_STATE_CHECK -> {
                 if (!(condition.detail() instanceof SkillTriggerInternalStateConditionDetail detail)) {
@@ -1745,6 +1754,11 @@ public class SkillTriggerRuleService {
                 eventSource.eventType(), prefix + ".detail"
             ));
         }
+        if (condition.conditionType() == SkillTriggerConditionType.SKILL_HIT_TARGET_IS_ENEMY) {
+            issues.addAll(SkillHitTargetIsEnemyConditionSemantics.eventIssues(
+                eventSource.eventType(), prefix + ".detail"
+            ));
+        }
         if (condition.conditionType() == SkillTriggerConditionType.LIFECYCLE_CHECK
             && condition.detail() instanceof SkillTriggerLifecycleConditionDetail detail) {
             issues.addAll(SkillLifecycleConditionSemantics.subjectIssues(detail,
@@ -1900,6 +1914,12 @@ public class SkillTriggerRuleService {
                         modifierPath(actionIndex, m, "resultKey"),
                         "UNKNOWN_RESULT",
                         "修正结果不存在或不属于目标效果"
+                    ));
+                } else if (shape.resultType() == SkillEffectResultType.STATUS_OPERATION) {
+                    referenceIssues.add(fieldIssue(
+                        modifierPath(actionIndex, m, "resultKey"),
+                        "REFERENCE_TYPE_MISMATCH",
+                        "状态结果不能接受额外固定修正，减速强度须在效果数值规则中调整"
                     ));
                 } else if (!shape.hasValueRule()) {
                     referenceIssues.add(fieldIssue(
@@ -2325,6 +2345,7 @@ public class SkillTriggerRuleService {
             }
             case TARGET_CATEGORY_CHECK -> { /* 固定类别不引用技能目录或执行对象。 */ }
             case EXPLICIT_TARGET_IS_SOURCE -> { /* 显式目标身份检查不引用技能目录或执行对象。 */ }
+            case SKILL_HIT_TARGET_IS_ENEMY -> { /* 命中对象敌我关系检查不引用目录或执行对象。 */ }
             case INTERNAL_STATE_CHECK -> {
                 SkillTriggerInternalStateConditionDetail detail =
                     (SkillTriggerInternalStateConditionDetail) condition.detail();
@@ -2542,11 +2563,11 @@ public class SkillTriggerRuleService {
                 if (result == null || index == null) {
                     continue;
                 }
-                if (result.valueRule() == null) {
+                if (result.valueRule() == null || result.resultType() == SkillEffectResultType.STATUS_OPERATION) {
                     issues.add(fieldIssue(
                         resultPath(index, "valueRule"),
                         "TRIGGER_RULE_SHAPE_IN_USE",
-                        "结果不再具有数值规则"
+                        "结果不支持已有触发动作的额外固定修正"
                     ));
                 }
             }
@@ -2629,8 +2650,11 @@ public class SkillTriggerRuleService {
         String effectKey,
         String resultKey
     ) {
+        if (resultKey == null) {
+            return null;
+        }
         for (SkillTriggerEffectShapeRow row : effectShapes.getOrDefault(effectKey, List.of())) {
-            if (Objects.equals(row.resultKey(), resultKey)) {
+            if (row.resultKey() != null && row.resultKey().equals(resultKey)) {
                 return row;
             }
         }

@@ -347,13 +347,13 @@ CREATE TABLE public.modifier_zones (
     CONSTRAINT ck_modifier_zones_name
         CHECK (btrim(name) <> ''),
     CONSTRAINT ck_modifier_zones_domain
-        CHECK (domain IN ('ATTRIBUTE', 'DAMAGE', 'HEALING')),
+        CHECK (domain IN ('ATTRIBUTE', 'DAMAGE', 'HEALING', 'SHIELD')),
     CONSTRAINT ck_modifier_zones_calculation_mode
         CHECK (calculation_mode IN ('FLAT_ADD', 'RATIO_ADD')),
     CONSTRAINT ck_modifier_zones_application_stage
         CHECK (application_stage IN (
             'ATTRIBUTE_FLAT', 'ATTRIBUTE_PERCENT',
-            'DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE', 'HEALING_RESULT'
+            'DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE', 'HEALING_RESULT', 'SHIELD_RESULT'
         )),
     CONSTRAINT ck_modifier_zones_combination
         CHECK (
@@ -365,6 +365,8 @@ CREATE TABLE public.modifier_zones (
                 AND application_stage IN ('DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'))
             OR (domain = 'HEALING' AND calculation_mode = 'RATIO_ADD'
                 AND application_stage = 'HEALING_RESULT')
+            OR (domain = 'SHIELD' AND calculation_mode = 'RATIO_ADD'
+                AND application_stage = 'SHIELD_RESULT')
         ),
     CONSTRAINT ck_modifier_zones_status
         CHECK (status IN ('ENABLED', 'DISABLED')),
@@ -375,11 +377,12 @@ CREATE TABLE public.modifier_zones (
 CREATE UNIQUE INDEX uq_modifier_zones_name
     ON public.modifier_zones (game_id, lower(btrim(name)));
 
-COMMENT ON TABLE public.modifier_zones IS '属性、伤害与治疗修正乘区';
+COMMENT ON TABLE public.modifier_zones IS '属性、伤害、治疗与收到护盾修正乘区';
 
 CREATE TABLE public.statuses (
     game_id varchar(64) NOT NULL,
     status_key varchar(64) NOT NULL,
+    status_kind varchar(32) NOT NULL,
     name varchar(100) NOT NULL,
     description varchar(2000),
     status varchar(16) NOT NULL DEFAULT 'ENABLED',
@@ -390,6 +393,7 @@ CREATE TABLE public.statuses (
     CONSTRAINT fk_statuses_game FOREIGN KEY (game_id) REFERENCES public.games (game_id),
     CONSTRAINT ck_statuses_key CHECK (status_key ~ '^[a-z][a-z0-9_]{0,63}$'),
     CONSTRAINT ck_statuses_name CHECK (btrim(name) <> ''),
+    CONSTRAINT ck_statuses_kind CHECK (status_kind IN ('STUN', 'MOVEMENT_SLOW', 'ROOT', 'SILENCE', 'CHARM', 'AIRBORNE')),
     CONSTRAINT ck_statuses_status CHECK (status IN ('ENABLED', 'DISABLED')),
     CONSTRAINT ck_statuses_sort_order CHECK (sort_order >= 0)
 );
@@ -398,6 +402,7 @@ CREATE UNIQUE INDEX uq_statuses_name
     ON public.statuses (game_id, lower(btrim(name)));
 
 COMMENT ON TABLE public.statuses IS '状态';
+COMMENT ON COLUMN public.statuses.status_kind IS '状态行为身份：眩晕、普通移动减速、禁锢、沉默、魅惑或击飞；创建后不可改';
 
 CREATE TABLE public.skill_effects (
     results jsonb NOT NULL DEFAULT '[]'::jsonb,
@@ -532,7 +537,7 @@ CREATE TABLE public.skill_trigger_rules (
             'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN', 'STATUS_CHANGED',
             'HEALTH_THRESHOLD_CROSSED', 'INTERNAL_STATE_CHANGED',
             'CONTROL_RECEIVED', 'ENTITY_DIED', 'ENTITY_UNTARGETABLE',
-            'KILL', 'PROCESS_CANCEL_REQUESTED', 'SPELL_SHIELD_BLOCKED',
+            'KILL', 'TAKEDOWN', 'PROCESS_CANCEL_REQUESTED', 'SPELL_SHIELD_BLOCKED',
             'HIT_LINK_APPLIED', 'ATTACK_LINK_APPLIED'
         ))
 );

@@ -558,6 +558,51 @@ class SkillEffectAdminControllerTest {
         verify(logHelper, never()).log(any(), any(), any(), anyInt());
     }
 
+    @Test
+    void lifecycleOnlyRequestsReachCreateAndUpdateWithEmptyResults() throws Exception {
+        when(service.create(eq("lol"), eq("ezreal_q"), any(SkillEffectCreateRequest.class))).thenReturn(detail());
+        when(service.update(eq("lol"), eq("ezreal_q"), eq("on_hit_results"), any(SkillEffectUpdateRequest.class)))
+            .thenReturn(detail());
+        String lifecycle = """
+            "lifecycle": {
+              "durationValue":{"kind":"FORMULA","formulaKey":"duration_f"},
+              "maxStacksValue":{"kind":"FORMULA","formulaKey":"max_stacks_f"},
+              "applicationStacksValue":{"kind":"FORMULA","formulaKey":"app_stacks_f"},
+              "instanceScope":"SOURCE_TARGET", "reapplicationStackMode":"KEEP",
+              "reapplicationDurationMode":"REFRESH_ALL", "expiryMode":"ALL_AT_ONCE"
+            }, "results":[]
+            """;
+        mockMvc.perform(post(BASE_PATH).contentType(MediaType.APPLICATION_JSON)
+                .content("{\"effectKey\":\"on_hit_results\",\"name\":\"资格窗口\",\"sortOrder\":0," + lifecycle + "}"))
+            .andExpect(status().isCreated());
+        mockMvc.perform(put(BASE_PATH + "/on_hit_results").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"资格窗口\",\"sortOrder\":0," + lifecycle + "}"))
+            .andExpect(status().isOk());
+        ArgumentCaptor<SkillEffectCreateRequest> create = ArgumentCaptor.forClass(SkillEffectCreateRequest.class);
+        ArgumentCaptor<SkillEffectUpdateRequest> update = ArgumentCaptor.forClass(SkillEffectUpdateRequest.class);
+        verify(service).create(eq("lol"), eq("ezreal_q"), create.capture());
+        verify(service).update(eq("lol"), eq("ezreal_q"), eq("on_hit_results"), update.capture());
+        assertEquals(List.of(), create.getValue().results());
+        assertEquals(List.of(), update.getValue().results());
+        assertEquals(create.getValue().lifecycle(), update.getValue().lifecycle());
+    }
+
+    @Test
+    void omittedAndNullResultsRemainRequiredForCreateAndUpdate() throws Exception {
+        for (String results : List.of("", ",\"results\":null")) {
+            mockMvc.perform(post(BASE_PATH).contentType(MediaType.APPLICATION_JSON)
+                    .content("{\"effectKey\":\"on_hit_results\",\"name\":\"资格窗口\",\"sortOrder\":0" + results + "}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("results"));
+            mockMvc.perform(put(BASE_PATH + "/on_hit_results").contentType(MediaType.APPLICATION_JSON)
+                    .content("{\"name\":\"资格窗口\",\"sortOrder\":0" + results + "}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("results"));
+        }
+        verify(service, never()).create(any(), any(), any());
+        verify(service, never()).update(any(), any(), any(), any());
+    }
+
     private static String createJson() {
         return """
             {

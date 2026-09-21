@@ -39,7 +39,7 @@ class SkillTriggerTargetCategoryConditionServiceTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = SkillTriggerEventType.class, names = {"SKILL_HIT", "BASIC_ATTACK_HIT", "KILL", "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN"})
+    @EnumSource(value = SkillTriggerEventType.class, names = {"SKILL_HIT", "BASIC_ATTACK_HIT", "KILL", "TAKEDOWN", "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN"})
     void allFiveOpponentCategoriesSurviveParentRequestStorageAndReadBack(SkillTriggerEventType event) {
         List<SkillTriggerTargetCategory> categories = List.of(SkillTriggerTargetCategory.STRUCTURE,
             SkillTriggerTargetCategory.CHAMPION, SkillTriggerTargetCategory.EPIC_MONSTER,
