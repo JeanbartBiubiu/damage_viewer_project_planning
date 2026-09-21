@@ -28,33 +28,34 @@
     "priorityScope": {
       "selectedAt": "2026-09-21T16:04:46.411Z",
       "decisionDate": "2026-09-22",
-      "status": "已选定40名优先英雄；数据录入保持暂停，功能迭代后按用户明确恢复继续",
-      "purpose": "从已有录入中收敛代表样本，先将40名英雄范围内数据补齐，不再横向铺开其余英雄",
+      "status": "已选定50名优先英雄（原40名与特殊机制补充10名）；数据录入保持暂停，功能迭代后按用户明确恢复继续",
+      "purpose": "从已有录入中收敛代表样本，先将50名英雄范围内数据补齐，不再横向铺开其余英雄",
       "sourceLedgerGeneratedAt": "2026-09-21T14:53:14.771Z",
       "selectionCriteria": [
         "复用已保存与独立回读的主体、属性、参数、公式及组成",
         "包含现有8个已达到管理完整的技能所属英雄，形成返回原英雄补全的起点",
         "覆盖普通伤害、攻击强化、条件控制、资源消费、施放阶段、护盾治疗和跨技能联动",
-        "保留少量能暴露共性缺口的进阶英雄，不引入完整变形或独立召唤物作为新范围"
+        "保留少量能暴露共性缺口的进阶英雄，不引入完整变形或独立召唤物作为新范围",
+        "追加10名仅用于补齐原40尚未充分覆盖的关键结算与管理场景；机制不同不等于必须新增专用结构"
       ],
       "completionBoundary": "每名英雄本轮1V1范围内的主体、完整等级属性、关系、图片及P/Q/W/E/R相关分支完成管理配置、独立回读和适当页面验收；原明确排除分支保留依据。战斗运行单独计，不在本轮新增宿主或Wasm。",
       "nonSelectedPolicy": "未入选英雄暂时后置，保留原数据、逐项结论及来源；不批量删除，不改为明确排除。装备和符文原清单保持，本次只收敛英雄优先范围。",
       "progressRule": "后续进度按此处稳定英雄标识筛选inventoryConclusions.skills及characters实时统计；下方selectionSnapshot仅为选定当日快照，不另设累计进度真源。",
       "selectionSnapshot": {
         "ledgerGeneratedAt": "2026-09-21T14:53:14.771Z",
-        "heroCount": 40,
-        "sourceSkillSlots": 200,
+        "heroCount": 50,
+        "sourceSkillSlots": 250,
         "conclusions": {
-          "系统暂缓": 102,
-          "资料待核": 84,
+          "系统暂缓": 126,
+          "资料待核": 110,
           "明确排除": 6,
           "已录入": 8
         },
         "wholeHeroManagementComplete": 0,
-        "openSkillSlots": 186,
+        "openSkillSlots": 236,
         "scopeReviewNote": "账本当前已有6个整槽排除，其余历史支路排除仍按各对象证据执行。恢复前定点校准基兰P、泰隆E、婕拉植物等旧聚合结论，不由本次选择直接改分类。"
       },
-      "executionRule": "每次集中完成一名或少量相互关联英雄；遇到共性阻塞时仅切换同批独立分支，不同时重新展开40名。批次是建议顺序，具体先后按依赖调整。",
+      "executionRule": "每次集中完成一名或少量相互关联英雄；遇到共性阻塞时仅切换同批独立分支，不同时重新展开50名。批次是建议顺序，具体先后按依赖调整。补充批不要求等原40全部结束才验证关键机制；对应功能迭代时可提前选其中的关键技能，但不自动展开全部50名。",
       "batches": [
         {
           "order": 1,
@@ -759,8 +760,258 @@
               ]
             }
           ]
+        },
+        {
+          "order": 5,
+          "name": "关键特殊机制补充",
+          "heroes": [
+            {
+              "sourceChampionId": "Tryndamere",
+              "characterKey": "champion_tryndamere",
+              "name": "泰达米尔",
+              "representativeMechanisms": "生命下限与无法死亡",
+              "coverageGap": "受伤、生命扣减、致死保护是独立判断；原40的护盾、减伤、复活不能完整检验它。",
+              "selectionBasis": "第二十五批已有明确组成与回读；R生命应用阶段和来源仍待补证。",
+              "scopeBoundary": "保留怒气与治疗等1V1相关组成；不把无法死亡当成完全免伤。",
+              "skillKeys": [
+                "tryndamere_p",
+                "tryndamere_q",
+                "tryndamere_w",
+                "tryndamere_e",
+                "tryndamere_r"
+              ],
+              "sourceBatchKeys": [
+                "heroTwentyFifthBatch"
+              ],
+              "sourceEvidence": {
+                "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Tryndamere.json",
+                "sha256": "78def14678945c4197c0d5f56ecc9ca78271ae86361cf7e013dedc2b5f10d957",
+                "version": "16.17.1"
+              }
+            },
+            {
+              "sourceChampionId": "Kayle",
+              "characterKey": "champion_kayle",
+              "name": "凯尔",
+              "representativeMechanisms": "等级阶段改变攻击行为、独立伤害免疫",
+              "coverageGap": "等级变化不只是数字成长，还会改变攻击形式；伤害免疫也需与凝滞、不可选取分别核对。",
+              "selectionBasis": "第三十八批已有组成，W自身治疗已返回；P阶段与R免疫仍开放。",
+              "scopeBoundary": "沿原自身收益及目标资格边界处理，不据友军描述自动认定允许自施。",
+              "skillKeys": [
+                "kayle_p",
+                "kayle_q",
+                "kayle_w",
+                "kayle_e",
+                "kayle_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirtyEighthBatch"
+              ],
+              "sourceEvidence": {
+                "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Kayle.json",
+                "sha256": "5d4fa068b8f088e199e62fa9eed0c7b77476f4791e03d44993b9ecb876ed4b93",
+                "version": "16.17.1"
+              }
+            },
+            {
+              "sourceChampionId": "Pyke",
+              "characterKey": "champion_pyke",
+              "name": "派克",
+              "representativeMechanisms": "真正阈值斩杀、额外生命转攻击力",
+              "coverageGap": "需要处决判断与普通伤害分别表达；属性转换还要防止同时保留原额外生命收益。",
+              "selectionBasis": "第四十批已有确定组成；R阈值与执行资格待核。",
+              "scopeBoundary": "R金币奖励沿原范围排除，战斗斩杀与再施放关系保留。",
+              "skillKeys": [
+                "pyke_p",
+                "pyke_q",
+                "pyke_w",
+                "pyke_e",
+                "pyke_r"
+              ],
+              "sourceBatchKeys": [
+                "heroFortiethBatch"
+              ],
+              "sourceEvidence": {
+                "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Pyke.json",
+                "sha256": "a4b3cdce641278cf1d7fb9a6a594fb1534e573bd683920133a0c98f7282719d5",
+                "version": "16.17.1"
+              }
+            },
+            {
+              "sourceChampionId": "Malzahar",
+              "characterKey": "champion_malzahar",
+              "name": "玛尔扎哈",
+              "representativeMechanisms": "持续压制、按伤害来源技能刷新另一技能",
+              "coverageGap": "引导与目标持续控制互相约束；Q/R伤害刷新E已暴露伤害事件缺来源技能筛选的真实问题。",
+              "selectionBasis": "Q沉默与E使用登记已有返回；系统-33已记录跨技能伤害刷新缺口。",
+              "scopeBoundary": "独立虚灵链沿原范围后置；持续伤害、控制与本体联动保留。",
+              "skillKeys": [
+                "malzahar_p",
+                "malzahar_q",
+                "malzahar_w",
+                "malzahar_e",
+                "malzahar_r"
+              ],
+              "sourceBatchKeys": [
+                "heroSixteenthBatch"
+              ],
+              "sourceEvidence": {
+                "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Malzahar.json",
+                "sha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac",
+                "version": "16.17.1"
+              }
+            },
+            {
+              "sourceChampionId": "Teemo",
+              "characterKey": "champion_teemo",
+              "name": "提莫",
+              "representativeMechanisms": "致盲与普通攻击命中资格",
+              "coverageGap": "致盲影响攻击能否有效命中，需要区别于单纯降低攻击伤害、闪避或护盾吸收。",
+              "selectionBasis": "Q本体伤害和使用已返回，致盲仍明确待补。",
+              "scopeBoundary": "独立陷阱及视野执行沿原边界，不为补致盲扩大场景模拟。",
+              "skillKeys": [
+                "teemo_p",
+                "teemo_q",
+                "teemo_w",
+                "teemo_e",
+                "teemo_r"
+              ],
+              "sourceBatchKeys": [
+                "heroFortyFifthBatch"
+              ],
+              "sourceEvidence": {
+                "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Teemo.json",
+                "sha256": "23a031a4c7ed02785986d4f8243913df34487c1b4c1057e28af0fb2cf6a2dd51",
+                "version": "16.17.1"
+              }
+            },
+            {
+              "sourceChampionId": "Fiora",
+              "characterKey": "champion_fiora",
+              "name": "菲奥娜",
+              "representativeMechanisms": "招架伤害和控制、根据成功招架内容反制",
+              "coverageGap": "不能只保存一个免伤效果；还要保留本次是否挡到定身类控制，再决定反击的减速或眩晕分支。",
+              "selectionBasis": "第十一批明确组成已保存；W资格和交互仍资料待核。",
+              "scopeBoundary": "保存准确破绽、招架与反击资格；方位和位移的实际执行继续后置。",
+              "skillKeys": [
+                "fiora_p",
+                "fiora_q",
+                "fiora_w",
+                "fiora_e",
+                "fiora_r"
+              ],
+              "sourceBatchKeys": [
+                "heroEleventhBatch"
+              ],
+              "sourceEvidence": {
+                "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Fiora.json",
+                "sha256": "212601130bfe3723ffeb58f8818e5c5466395c41f9c32e76c30761f67f509688",
+                "version": "16.17.1"
+              }
+            },
+            {
+              "sourceChampionId": "Rengar",
+              "characterKey": "champion_rengar",
+              "name": "雷恩加尔",
+              "representativeMechanisms": "近期所受伤害累计治疗、强化净化",
+              "coverageGap": "明确时间窗中的伤害累计不同于当前缺失生命；清除已有控制也不同于阻止未来控制。",
+              "selectionBasis": "第十九批明确组成已保存；W近期伤害供值和强化净化继续待核。",
+              "scopeBoundary": "净化种类、取样时点和残暴消费按来源核定，不概括成任意控制均可移除。",
+              "skillKeys": [
+                "rengar_p",
+                "rengar_q",
+                "rengar_w",
+                "rengar_e",
+                "rengar_r"
+              ],
+              "sourceBatchKeys": [
+                "heroNineteenthBatch"
+              ],
+              "sourceEvidence": {
+                "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Rengar.json",
+                "sha256": "7d02438c643ff741f003c5e7a9ff010715a07b09570c2f4ed7cf6dfd2dbd49d2",
+                "version": "16.17.1"
+              }
+            },
+            {
+              "sourceChampionId": "Jhin",
+              "characterKey": "champion_jhin",
+              "name": "烬",
+              "representativeMechanisms": "固定攻击节奏、四发装填与末发强制暴击",
+              "coverageGap": "原名单的技能充能不能替代普通攻击装填循环；需同时核对攻击许可、装填与第几发的伤害资格。",
+              "selectionBasis": "第八批已有组成；P装填与攻击节奏、R分段发射仍开放。",
+              "scopeBoundary": "只处理1V1相关射击与标记；陷阱沿原边界。原文的斩杀伤害措辞不能直接等同派克的处决。",
+              "skillKeys": [
+                "jhin_p",
+                "jhin_q",
+                "jhin_w",
+                "jhin_e",
+                "jhin_r"
+              ],
+              "sourceBatchKeys": [
+                "heroEighthBatch"
+              ],
+              "sourceEvidence": {
+                "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Jhin.json",
+                "sha256": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15",
+                "version": "16.17.1"
+              }
+            },
+            {
+              "sourceChampionId": "Braum",
+              "characterKey": "champion_braum",
+              "name": "布隆",
+              "representativeMechanisms": "方向性防护、飞行道具拦截、首次与后续伤害差异",
+              "coverageGap": "被命中、飞行道具终止和伤害是否生效必须区分，不能统一成普通护盾或固定减伤。",
+              "selectionBasis": "Q/R伤害与使用已返回；E拦截及P叠层仍开放。",
+              "scopeBoundary": "先表达防护方向与结果资格，实际弹道拦截执行不加入本轮宿主开发。",
+              "skillKeys": [
+                "braum_p",
+                "braum_q",
+                "braum_w",
+                "braum_e",
+                "braum_r"
+              ],
+              "sourceBatchKeys": [
+                "heroThirtyFifthBatch"
+              ],
+              "sourceEvidence": {
+                "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Braum.json",
+                "sha256": "2d8d2b7536fae05266ee2aa92ff6a67ea44f56d44e71cb1846a20767b6867d7d",
+                "version": "16.17.1"
+              }
+            },
+            {
+              "sourceChampionId": "Trundle",
+              "characterKey": "champion_trundle",
+              "name": "特朗德尔",
+              "representativeMechanisms": "双向属性偷取、逐步累计及到期返还",
+              "coverageGap": "来源增益与目标减益需要共享明确的取样依据和期限，尤其要核对中途属性变化与结束返还。",
+              "selectionBasis": "Q/W/E/R使用过程已有返回；R双抗快照、累计与返还已列资料待核。",
+              "scopeBoundary": "自身与目标的战斗属性保留，冰柱地形实际执行仍后置。",
+              "skillKeys": [
+                "trundle_p",
+                "trundle_q",
+                "trundle_w",
+                "trundle_e",
+                "trundle_r"
+              ],
+              "sourceBatchKeys": [
+                "heroNinthBatch"
+              ],
+              "sourceEvidence": {
+                "relativePath": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Trundle.json",
+                "sha256": "fd892e4b81b95aefe6c478d1ea1a75e09942b596b77984820f4199b259656e8e",
+                "version": "16.17.1"
+              }
+            }
+          ]
         }
-      ]
+      ],
+      "updatedAt": "2026-09-21T16:17:02.585Z",
+      "originalHeroCount": 40,
+      "supplementHeroCount": 10,
+      "supplementBoundary": "赛拉斯、厄斐琉斯及既定完整变形、独立召唤物边界保持，本次不新增排除范围；没有声称50名覆盖游戏全部机制。其余控制身份和组合行为仍需真实语义与交互核对，先按专项用例检验，不仅为增加状态名就扩整名英雄。"
     }
   },
   "skills": {
