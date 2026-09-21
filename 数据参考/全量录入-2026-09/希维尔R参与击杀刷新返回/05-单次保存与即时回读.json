@@ -1,0 +1,95 @@
+{
+  "at": "2026-09-21T01:28:49.353Z",
+  "frozenSha256": "3b0067279716f91b081e9d719f9a005d7c00fda875b4b895e89259f87350fd5b",
+  "method": "POST",
+  "path": "/skills/sivir_r/effects",
+  "state": "SAVED_AND_READBACK_MATCHED",
+  "requestBody": {
+    "effectKey": "refresh_on_the_hunt",
+    "name": "刷新狩猎完整持续时间",
+    "description": "只将来源对象仍存在的狩猎自身移速实例刷新为完整持续时间，不增加层数或重新施加属性数值。仅保存刷新组成；最近3秒本人伤害资格与参与击杀入口尚未配置，本效果未接入触发。",
+    "sortOrder": 40,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "refresh",
+        "name": "刷新狩猎完整持续时间",
+        "resultType": "LIFECYCLE_OPERATION",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": null,
+        "detail": {
+          "targetEffectKey": "on_the_hunt",
+          "operation": "REFRESH"
+        }
+      }
+    ]
+  },
+  "status": 201,
+  "response": {
+    "createdAt": "2026-09-21T01:28:50.810908Z",
+    "description": "只将来源对象仍存在的狩猎自身移速实例刷新为完整持续时间，不增加层数或重新施加属性数值。仅保存刷新组成；最近3秒本人伤害资格与参与击杀入口尚未配置，本效果未接入触发。",
+    "effectKey": "refresh_on_the_hunt",
+    "gameId": "lol",
+    "lifecycle": null,
+    "name": "刷新狩猎完整持续时间",
+    "results": [
+      {
+        "description": null,
+        "detail": {
+          "operation": "REFRESH",
+          "targetEffectKey": "on_the_hunt"
+        },
+        "lifecycleBehavior": null,
+        "name": "刷新狩猎完整持续时间",
+        "resultKey": "refresh",
+        "resultType": "LIFECYCLE_OPERATION",
+        "sortOrder": 10,
+        "spellShieldBlockScope": null,
+        "target": "SOURCE",
+        "valueRule": null
+      }
+    ],
+    "skillKey": "sivir_r",
+    "sortOrder": 40,
+    "updatedAt": "2026-09-21T01:28:50.810908Z"
+  },
+  "immediateRead": {
+    "at": "2026-09-21T01:28:51.330Z",
+    "method": "GET",
+    "path": "/skills/sivir_r/effects/refresh_on_the_hunt",
+    "status": 200,
+    "body": {
+      "createdAt": "2026-09-21T01:28:50.810908Z",
+      "description": "只将来源对象仍存在的狩猎自身移速实例刷新为完整持续时间，不增加层数或重新施加属性数值。仅保存刷新组成；最近3秒本人伤害资格与参与击杀入口尚未配置，本效果未接入触发。",
+      "effectKey": "refresh_on_the_hunt",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "刷新狩猎完整持续时间",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "operation": "REFRESH",
+            "targetEffectKey": "on_the_hunt"
+          },
+          "lifecycleBehavior": null,
+          "name": "刷新狩猎完整持续时间",
+          "resultKey": "refresh",
+          "resultType": "LIFECYCLE_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "sivir_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-21T01:28:50.810908Z"
+    }
+  },
+  "businessWrites": 1
+}

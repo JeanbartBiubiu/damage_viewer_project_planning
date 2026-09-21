@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T01:06:34.603Z",
+  "generatedAt": "2026-09-21T01:33:32.366Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
@@ -13012,6 +13012,75 @@
         "relativePath": "数据参考/全量录入-2026-09/易大师R持续延长核对/14-实现检查点.json",
         "sha256": "406b033271042e72f800aa78abc5152046192e7e86e0d189adb81020a5d2627f"
       }
+    },
+    "sivirRRefreshComponentReturn": {
+      "at": "2026-09-21T01:33:32.357Z",
+      "status": "准确刷新组成已保存，资格接线与代表页面仍开放",
+      "sourceVersion": {
+        "client": "16.17",
+        "official": "16.17.1"
+      },
+      "skillKey": "sivir_r",
+      "successfulApiSaves": 1,
+      "createdEffect": "refresh_on_the_hunt",
+      "newRules": 0,
+      "reads": {
+        "sourceWorkerReportedGets": 27,
+        "persistedSharedSnapshotGets": 13,
+        "additionalRuleAbsenceCheck": 1,
+        "writePreflightGets": 4,
+        "immediateReadbacks": 1,
+        "independentGets": 14
+      },
+      "validation": {
+        "independentUnchangedRoutes": 12,
+        "newTargets": 1,
+        "changedCollections": 1,
+        "counts": {
+          "parameters": 7,
+          "formulas": 0,
+          "effects": 4,
+          "processes": 1,
+          "internal-states": 0,
+          "trigger-rules": 1
+        },
+        "sourceTargetReference": true
+      },
+      "preserved": [
+        "7参数与其完整等级值",
+        "原3效果含时间戳",
+        "cast过程及绑定",
+        "active_attack_refund规则",
+        "技能主体和角色关联"
+      ],
+      "remaining": [
+        "最近3秒同来源同目标伤害资格记录与条件",
+        "使用真正刷新辅助结果的参与击杀规则",
+        "普通R使用到既有cast过程的入口",
+        "新效果的代表页面验收"
+      ],
+      "boundary": [
+        "500毫秒普攻冷却减少已在原效果与规则中，不重建。",
+        "最近3秒参数不是已经存在的资格状态；不以一般助攻时间或任意参与击杀代替。",
+        "刷新完整时长不是重新施加原属性效果；辅助效果不改变原层数或属性结果。",
+        "没有证据证明所有现有过程/状态方案均不可行，空结果效果被拒绝只作为一条表达限制，另作有界方案核对。"
+      ],
+      "browser": {
+        "verified": false,
+        "reason": "Codex浏览器工具连接凭据不可用，本次复核仍失败；沿用已发出的恢复请求，不重复要求用户确认写入。"
+      },
+      "runtime": {
+        "host": false,
+        "wasm": false,
+        "battle": false
+      },
+      "wholeSkillComplete": false,
+      "next": "核对现有过程、内部状态或纯生命周期标记能否准确记录同来源同目标最近伤害窗口；浏览器恢复后完成已保存效果页面验收。",
+      "evidence": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/希维尔R参与击杀刷新返回/09-证据清单.json",
+        "sha256": "595f0680222df820c329594c9485843bad539d9eb220f24e68acb51422546ffa"
+      }
     }
   },
   "runtimeValidation": "未执行",
@@ -13766,6 +13835,11 @@
         "sourceEvidence": "数据参考/全量录入-2026-09/易大师R持续延长核对/01-独立能力与固定来源核对.json",
         "planPath": "数据参考/全量录入-2026-09/易大师R持续延长核对/02-最小修正方案.md",
         "planSha256": "bf11d6eae65e8b24f5a52e375efdcb6066b83f3e2f578b59e46c270df09bfd70"
+      },
+      "sivirRRefreshComponentReturn": {
+        "worktree": "damage_viewer_project_planning",
+        "relativePath": "数据参考/全量录入-2026-09/希维尔R参与击杀刷新返回/09-证据清单.json",
+        "sha256": "595f0680222df820c329594c9485843bad539d9eb220f24e68acb51422546ffa"
       }
     },
     "coverage": {
@@ -33175,7 +33249,7 @@
         "name": "希维尔·狩猎",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已保存明确组成；仍有1个待处理分支，主要属于事件、状态、时序或配置接线，不能用近似规则补齐。",
+        "reason": "准确刷新辅助效果已新增，1次API保存、14次独立GET通过，原普攻返还保持；最近3秒本人对同一目标伤害资格及参与击杀接线仍未完成，普通R使用入口和代表页面亦待补，不计整技能管理完整。",
         "pendingCounts": {
           "source": 0,
           "system": 0,
@@ -33187,10 +33261,12 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "remainingUltimateCategoryBackfill"
+          "remainingUltimateCategoryBackfill",
+          "sivirRRefreshComponentReturn"
         ],
         "completedBranches": [
-          "固定来源主R终极技能分类关联"
+          "固定来源主R终极技能分类关联",
+          "独立生命周期刷新辅助效果（接口保存与独立回读通过，页面待验，未接触发）"
         ]
       },
       {

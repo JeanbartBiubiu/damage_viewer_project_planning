@@ -1,0 +1,260 @@
+{
+  "at": "2026-09-21T01:14:50.177Z",
+  "status": "HOLD",
+  "gameId": "lol",
+  "skillKey": "sivir_r",
+  "sourceHeroKey": "champion_sivir",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "scope": "只核对希维尔R在正式参与英雄击杀时刷新自身狩猎持续时间的来源、当前组件和一条可按成熟接口流程执行的新增触发候选。普通攻击缩短基础技能冷却、队友增益和其他分支不在本次候选内。",
+  "getAccounting": {
+    "totalActualGetsThisSubtask": 27,
+    "snapshotGetCount": 13,
+    "uniqueRoutes": 14,
+    "maxAllowedGets": 35,
+    "businessWrites": 0,
+    "tokenStored": false,
+    "snapshotEvidence": "01-共享现值.json"
+  },
+  "fixedSources": [
+    {
+      "kind": "official-static",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Sivir.json",
+      "sha256": "0D958A138BFB8750EE6C7100E5E5F376E4D4AD7538919FBBCE4F4E82E637AFDC",
+      "version": "16.17.1",
+      "pointer": "data.Sivir.spells[id=SivirR]",
+      "shortEvidence": "tooltip 明确写出 Takedowns on recently damaged enemies refreshes the duration of the hunt；同一技能基础冷却为120/100/80秒，持续时间变量仍由客户端绑定。"
+    },
+    {
+      "kind": "client-original",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sivir.json.gz",
+      "sha256": "F8048BA433C2931222180255FC86B1A202361539B69880E6D19E294FF4D8F445",
+      "version": "16.17",
+      "pointer": "Characters/Sivir/Spells/SivirRAbility/SivirR.mSpell.DataValues",
+      "shortEvidence": "DataValues 原数组含 UltDuration=[6,8,10,12,14,16,18]、BuffExtension=[6,8,10,12,14,16,18]，按R等级取索引1至3后均为8/10/12秒；DamagedMarkerDuration=[3,3,3,3,3,3,3]，根绑定 mScriptName 为 SivirR。"
+    },
+    {
+      "kind": "client-stringtable",
+      "path": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "DBB43F1174C48CECB8E014972C198AD6A80D515903AA52DA8FE6B6D54BC7AF5E",
+      "version": "16.17",
+      "pointer": "entries.generatedtip_spell_sivirr_tooltip",
+      "shortEvidence": "在【狩猎】激活期间，希维尔对英雄进行的攻击会使基础技能冷却缩短；参与击杀近期造成过伤害的敌人会刷新【狩猎】的持续时长。"
+    }
+  ],
+  "planningReferences": [
+    {
+      "path": "数据参考/全量录入-2026-09/阶段进度.json",
+      "sha256": "2F458B67F7633142DB1B212A154FEEA38D0D51D5D8F8818F0F787BBBB74AE7B3",
+      "pointer": "inventoryConclusions.skills[629]",
+      "value": "sivir_r 当前结论为系统暂缓，配置缺口1；固定来源主R终极技能分类关联已完成。"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/技能来源索引.json",
+      "sha256": "2FBC14396FCC4E75B8755BB51DA5A039ED8BD5ED7780E6140D3AC35ECDB5FBA8",
+      "pointer": "heroes[124].skills[4]",
+      "value": "官方ID SivirR，客户端路径 Characters/Sivir/Spells/SivirRAbility/SivirR，绑定可用，等级3；已有参数候选沿该路径。"
+    }
+  ],
+  "historicalPendingEvidence": {
+    "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三批/英雄候选.mjs",
+    "sha256": "5E2724D01B566F92A21E9DA2EDBDED21D8BCD05209C3C79E1D9F69E1D77A56EA",
+    "pointer": "sivir_r candidate builder",
+    "shortEvidence": "原候选明确保留 recent_damage_ms=3000，并将“参与击杀刷新狩猎”列为待处理：需要最近3秒本人对目标伤害与参与击杀因果条件，不能任意死亡都刷新。"
+  },
+  "currentReadConclusion": {
+    "root": {
+      "path": "/skills/sivir_r",
+      "status": 200,
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "maxLevel": 3
+    },
+    "mount": {
+      "path": "/character-skill-relations?skillKey=sivir_r",
+      "status": 200,
+      "characterKey": "champion_sivir",
+      "characterName": "希维尔",
+      "skillStatus": "ENABLED"
+    },
+    "existingTriggerRules": [
+      "active_attack_refund"
+    ],
+    "existingTriggerRuleEvents": [
+      "BASIC_ATTACK_HIT"
+    ],
+    "oldKillRulePresent": false,
+    "oldTakedownRulePresent": false,
+    "candidateRuleKeyPresent": false,
+    "candidateRuleDetailGet": {
+      "path": "/skills/sivir_r/trigger-rules/takedown_refresh",
+      "status": 404
+    },
+    "formulas": [],
+    "internalStates": [],
+    "protectedExistingRule": "active_attack_refund",
+    "protectedExistingEffect": "attack_basic_refund",
+    "ordinaryUseEntry": {
+      "processKey": "cast",
+      "processDetailPath": "/skills/sivir_r/processes/cast",
+      "processPresent": true,
+      "skillUsedStartProcessRulePresent": false,
+      "conclusion": "当前确实没有 SKILL_USED -> START_PROCESS 的普通R使用入口；processKey=cast 已存在并绑定法力与自身狩猎效果，但当前唯一触发规则是 BASIC_ATTACK_HIT/active_attack_refund。"
+    },
+    "recentDamageQualification": {
+      "parameterPath": "/skills/sivir_r/parameters/recent_damage_ms",
+      "value": 3000,
+      "sourceField": "DataValues.DamagedMarkerDuration",
+      "currentManagementState": "参数已保存，但当前effects、processes、internal-states和trigger-rules中没有近期伤害标记实例、消费条件或因果引用。"
+    }
+  },
+  "reusableExistingEffect": {
+    "effectKey": "on_the_hunt",
+    "detailPath": "/skills/sivir_r/effects/on_the_hunt",
+    "lifecycle": {
+      "instanceScope": "SOURCE",
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "buff_duration_ms"
+      },
+      "expiryMode": "ALL_AT_ONCE",
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "reapplicationStackMode": "KEEP"
+    },
+    "result": {
+      "resultType": "ATTRIBUTE_CHANGE",
+      "target": "SOURCE",
+      "attributeKey": "move_speed_percent",
+      "value": {
+        "kind": "PARAMETER",
+        "parameterKey": "move_speed_ratio"
+      }
+    },
+    "reuseDecision": "不能直接把 on_the_hunt 作为 EXECUTE_EFFECT 动作；那会重新施加效果，可能创建实例或按普通重施语义处理。必须新增独立辅助效果，以 LIFECYCLE_OPERATION/REFRESH 指向 on_the_hunt，并由规则动作引用该辅助效果。"
+  },
+  "candidate": {
+    "operation": "DRAFT_ONLY",
+    "requiredOperationsWhenUnblocked": [
+      {
+        "operation": "POST",
+        "path": "/skills/sivir_r/effects",
+        "purpose": "先创建真正的生命周期刷新辅助效果"
+      },
+      {
+        "operation": "POST",
+        "path": "/skills/sivir_r/trigger-rules",
+        "purpose": "再创建TAKEDOWN规则并引用刷新辅助效果"
+      }
+    ],
+    "countWhenUnblocked": 2,
+    "ruleKey": "takedown_refresh",
+    "helperEffectDraft": {
+      "status": "UNBUILT",
+      "effectKey": "refresh_on_the_hunt",
+      "name": "刷新狩猎生命周期",
+      "description": "只对来源对象当前已存在且自然到期的on_the_hunt实例执行刷新；不创建实例，不改变属性数值。",
+      "sortOrder": 30,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "refresh",
+          "name": "刷新狩猎持续时间",
+          "resultType": "LIFECYCLE_OPERATION",
+          "target": "SOURCE",
+          "description": "只刷新同技能已有on_the_hunt自然到期实例。",
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": null,
+          "detail": {
+            "targetEffectKey": "on_the_hunt",
+            "operation": "REFRESH"
+          }
+        }
+      ]
+    },
+    "body": {
+      "ruleKey": "takedown_refresh",
+      "name": "参与击杀英雄刷新狩猎",
+      "description": "来源对象被正式记为近期造成过伤害的敌方英雄死亡的击杀者或助攻参与者时，若自身狩猎效果仍存在且尚未自然到期，则刷新该效果的完整持续时间；不创建新效果，不改动普攻返还或其他分支。",
+      "sortOrder": 20,
+      "eventSource": {
+        "eventType": "TAKEDOWN",
+        "detail": {}
+      },
+      "conditionGroups": [
+        {
+          "groupKey": "required",
+          "name": "被击杀英雄且狩猎仍在持续",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "hunt_active",
+              "conditionType": "LIFECYCLE_CHECK",
+              "sortOrder": 20,
+              "detail": {
+                "checkKind": "PRESENT",
+                "comparator": null,
+                "comparisonValue": null,
+                "effectKey": "on_the_hunt",
+                "subject": null
+              }
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "actionKey": "refresh_hunt",
+          "name": "刷新狩猎持续时间",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "refresh_on_the_hunt"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null
+    },
+    "candidateStatus": "BLOCKED_MISSING_RECENT_DAMAGE_QUALIFICATION_AND_REFRESH_HELPER",
+    "executable": false,
+    "whyThisShape": "TAKEDOWN 的当前目标是死亡对象，目标类别条件可筛英雄；动作目标沿成熟事件形状写 CURRENT_TARGET，但被执行的 on_the_hunt 结果范围仍由效果本身的 SOURCE 生命周期决定。该形状仍缺少可核验的“来源对象在最近3秒对该死亡对象造成过伤害”条件，因此只能作为候选形状，不能直接提交。",
+    "requiredClosure": "同时完成两项闭合：确认TAKEDOWN事件生产本身已经严格携带该来源对象与死亡对象的近期伤害匹配，或确认现有管理条件/标记模型可以引用 recent_damage_ms=3000；并先创建真正的LIFECYCLE_OPERATION/REFRESH辅助效果，再让规则引用它。在此之前不把任意TAKEDOWN当作希维尔R刷新，也不能只补最近伤害条件后执行原EXECUTE_EFFECT形状。"
+  },
+  "writeGuards": [
+    "在近期伤害资格闭合前不执行写入。闭合后才重新GET /skills/sivir_r/trigger-rules，确认仍只有 active_attack_refund 且 takedown_refresh 仍为404。",
+    "闭合并冻结请求后只POST一次；不PUT既有 active_attack_refund，不修改参数、公式、效果、过程或内部状态。",
+    "写入后立即GET新规则详情，并独立GET验证规则、on_the_hunt效果和active_attack_refund均未发生非预期变化；不在未知响应时重放。"
+  ],
+  "unknownsAndBoundary": [
+    "固定资料给出近期伤害窗口参数3秒，当前参数 recent_damage_ms=3000；当前管理配置只保存参数，没有近期伤害标记或规则引用。正式 TAKEDOWN 事件是否已经按该窗口和同一死亡对象匹配产生，当前没有本技能管理证据。",
+    "资料没有给出刷新次数封顶或同一死亡事件的额外限制；本候选不猜封顶，保留现有每目标冷却和事件生产约束。",
+    "管理接口候选、来源文件和实时GET不证明战斗运行时已经产生或执行 TAKEDOWN，也不证明近期伤害匹配或刷新后的实际剩余窗口。",
+    "官方文字同时描述基础技能冷却返还和附近友军加速；这些已有或其他分支不属于本次写入候选。"
+  ],
+  "proposedBusinessWrites": 0,
+  "candidateBusinessWritesWhenUnblocked": 2,
+  "browserEvidence": false,
+  "runtimeValidation": "未执行"
+}

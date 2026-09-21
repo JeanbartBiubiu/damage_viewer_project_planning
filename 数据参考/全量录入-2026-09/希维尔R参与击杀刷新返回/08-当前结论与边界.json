@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-21T01:33:32.357Z",
+  "status": "准确刷新组成已保存，资格接线与代表页面仍开放",
+  "sourceVersion": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "skillKey": "sivir_r",
+  "successfulApiSaves": 1,
+  "createdEffect": "refresh_on_the_hunt",
+  "newRules": 0,
+  "reads": {
+    "sourceWorkerReportedGets": 27,
+    "persistedSharedSnapshotGets": 13,
+    "additionalRuleAbsenceCheck": 1,
+    "writePreflightGets": 4,
+    "immediateReadbacks": 1,
+    "independentGets": 14
+  },
+  "validation": {
+    "independentUnchangedRoutes": 12,
+    "newTargets": 1,
+    "changedCollections": 1,
+    "counts": {
+      "parameters": 7,
+      "formulas": 0,
+      "effects": 4,
+      "processes": 1,
+      "internal-states": 0,
+      "trigger-rules": 1
+    },
+    "sourceTargetReference": true
+  },
+  "preserved": [
+    "7参数与其完整等级值",
+    "原3效果含时间戳",
+    "cast过程及绑定",
+    "active_attack_refund规则",
+    "技能主体和角色关联"
+  ],
+  "remaining": [
+    "最近3秒同来源同目标伤害资格记录与条件",
+    "使用真正刷新辅助结果的参与击杀规则",
+    "普通R使用到既有cast过程的入口",
+    "新效果的代表页面验收"
+  ],
+  "boundary": [
+    "500毫秒普攻冷却减少已在原效果与规则中，不重建。",
+    "最近3秒参数不是已经存在的资格状态；不以一般助攻时间或任意参与击杀代替。",
+    "刷新完整时长不是重新施加原属性效果；辅助效果不改变原层数或属性结果。",
+    "没有证据证明所有现有过程/状态方案均不可行，空结果效果被拒绝只作为一条表达限制，另作有界方案核对。"
+  ],
+  "browser": {
+    "verified": false,
+    "reason": "Codex浏览器工具连接凭据不可用，本次复核仍失败；沿用已发出的恢复请求，不重复要求用户确认写入。"
+  },
+  "runtime": {
+    "host": false,
+    "wasm": false,
+    "battle": false
+  },
+  "wholeSkillComplete": false,
+  "next": "核对现有过程、内部状态或纯生命周期标记能否准确记录同来源同目标最近伤害窗口；浏览器恢复后完成已保存效果页面验收。"
+}

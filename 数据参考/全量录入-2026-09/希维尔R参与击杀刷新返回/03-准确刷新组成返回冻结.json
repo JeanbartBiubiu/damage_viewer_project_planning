@@ -1,0 +1,98 @@
+{
+  "at": "2026-09-21T01:28:05.323Z",
+  "mode": "已稳定效果接口的准确组成返回",
+  "sourceEvidence": [
+    {
+      "path": "00-来源与候选.json",
+      "sha256": "3adc2770ddf0e86b170c929a087e4f32063685f9d6784c1e4cd4cc0b01678e63"
+    },
+    {
+      "path": "02-冷却减少与最近伤害窗口补查.json",
+      "sha256": "eba3fc5a3ae9b7980bf826bc9d776cd6a64e7873db6a2130367025bbd12e8aa1"
+    }
+  ],
+  "baseline": {
+    "path": "01-共享现值.json",
+    "sha256": "1d022c38b0c2d942b258206d2b26635e755046143c2f427e1073b943e9fc8ab2"
+  },
+  "decision": "00中完整刷新入口仍HOLD；仅保存独立刷新辅助效果，未把该草稿规则或重新施加原效果视为已批准。该操作沿用已有REFRESH结果和成熟效果保存接口，不涉及新EXTEND_DURATION流程。",
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/skills/sivir_r/effects",
+      "detailPath": "/skills/sivir_r/effects/refresh_on_the_hunt",
+      "expectedAbsent": true,
+      "body": {
+        "effectKey": "refresh_on_the_hunt",
+        "name": "刷新狩猎完整持续时间",
+        "description": "只将来源对象仍存在的狩猎自身移速实例刷新为完整持续时间，不增加层数或重新施加属性数值。仅保存刷新组成；最近3秒本人伤害资格与参与击杀入口尚未配置，本效果未接入触发。",
+        "sortOrder": 40,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "refresh",
+            "name": "刷新狩猎完整持续时间",
+            "resultType": "LIFECYCLE_OPERATION",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": null,
+            "detail": {
+              "targetEffectKey": "on_the_hunt",
+              "operation": "REFRESH"
+            }
+          }
+        ]
+      },
+      "expected": {
+        "effectKey": "refresh_on_the_hunt",
+        "name": "刷新狩猎完整持续时间",
+        "description": "只将来源对象仍存在的狩猎自身移速实例刷新为完整持续时间，不增加层数或重新施加属性数值。仅保存刷新组成；最近3秒本人伤害资格与参与击杀入口尚未配置，本效果未接入触发。",
+        "sortOrder": 40,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "refresh",
+            "name": "刷新狩猎完整持续时间",
+            "resultType": "LIFECYCLE_OPERATION",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": null,
+            "detail": {
+              "targetEffectKey": "on_the_hunt",
+              "operation": "REFRESH"
+            }
+          }
+        ]
+      },
+      "serverManagedFields": [
+        "gameId",
+        "skillKey",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  ],
+  "protected": {
+    "originalParameters": 7,
+    "originalEffects": 3,
+    "originalProcess": "cast",
+    "originalRule": "active_attack_refund",
+    "newTriggerRules": 0
+  },
+  "expectedCounts": {
+    "parameters": 7,
+    "formulas": 0,
+    "effects": 4,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 1
+  },
+  "representativeBrowser": "浏览器连接不可用，代表页面待补；不记整个技能或批次验收完成。",
+  "businessWrites": 0
+}

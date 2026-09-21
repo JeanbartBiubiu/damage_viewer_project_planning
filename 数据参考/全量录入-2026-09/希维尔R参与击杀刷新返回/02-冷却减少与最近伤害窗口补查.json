@@ -1,0 +1,81 @@
+{
+  "at": "2026-09-21T01:21:22.909Z",
+  "reviewer": "主负责人独立定点核对",
+  "scope": "R普攻冷却减少组成与刚发现的最近伤害窗口，不发送HTTP或写业务数据",
+  "official": {
+    "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Sivir.json",
+    "sha256": "0d958a138bfb8750ee6c7100e5e5f376e4d4ad7538919fbbce4f4e82e637afdc",
+    "version": "16.17.1",
+    "spellId": "SivirR",
+    "tooltip": "Sivir rallies her nearby allies, granting them <speed>{{ maxms*100 }}% Move Speed</speed> for {{ ultduration }} seconds.<br /><br />Sivir's attacks against champions while On The Hunt reduce the cooldown of her basic abilities by {{ attackcooldownrefund }} seconds.<br /><br />Takedowns on recently damaged enemies refreshes the duration of the hunt.{{ spellmodifierdescriptionappend }}"
+  },
+  "client": {
+    "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Sivir.json.gz",
+    "decompressedSha256": "907ed34214d296da277036ba3c96e73dfa1d4d7f9031aac76715073639a8bbee",
+    "rootPath": "Characters/Sivir/CharacterRecords/Root",
+    "rootRBinding": "Characters/Sivir/Spells/SivirRAbility/SivirR",
+    "spellPath": "Characters/Sivir/Spells/SivirRAbility/SivirR",
+    "dataValues": [
+      {
+        "name": "UltDuration",
+        "values": [
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "BuffExtension",
+        "values": [
+          6,
+          8,
+          10,
+          12,
+          14,
+          16,
+          18
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "DamagedMarkerDuration",
+        "values": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "AttackCooldownRefund",
+        "values": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "__type": "SpellDataValue"
+      }
+    ]
+  },
+  "findings": [
+    "攻击英雄且狩猎有效期间，每次减少基础技能0.5秒冷却，换算500毫秒；不是按剩余比例减少。",
+    "刷新原文另外要求最近被希维尔造成伤害的敌人参与击杀；当前根DamagedMarkerDuration为3秒，不能仅用一般参与击杀资格代替。",
+    "仅有DataValues名称不代表每项都参与当前机制，未把HuntAttackSpeed、MinMS等未被当前提示绑定的值新增为收益。",
+    "实际已有参数、效果和规则仍以01共享现值核对为准，不从本地来源推断尚未录入。"
+  ],
+  "businessWrites": 0,
+  "httpReads": 0
+}
