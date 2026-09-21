@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "status": "APPROVED",
+  "reviewedAt": "2026-09-21T20:37:29.0762401+08:00",
+  "title": "阿木木ER公式说明整理独立评审",
+  "scope": "仅批准两个既有公式的说明文字更新；不批准成本、施法过程、命中结果、被动减伤、受击减冷却或诅咒联动变更。",
+  "approvedFiles": {
+    "tools/authoring/update-reviewed-formula-labels.mjs": "73ecbb48cf02032e31afc0e1a39c407c4559e2bffbc6d27d2dbef8dec69b4eb9",
+    "01-纠错计划.json": "b6b8f51a3ddc5b74f62469fbe1056733aa4bdece7dd4e88e6fd654df54f77a56",
+    "02-冻结请求.json": "68af93fc50764d1583da761d242f7f1768ebf7cd9f929885bfe7bb9d40256fea",
+    "03-来源摘要.json": "7506e7c93e776ef5d61ae3a0f25e4088e3e2230334464032a43e93dc0b4a0ded",
+    "04-写入前现值.json": "38da1e68e2365bee615b9a7c1e25fc74cf62b0654731ee39990a3a15c20a5676"
+  },
+  "requests": [
+    {
+      "route": "/skills/amumu_e/formulas/tantrum_damage",
+      "skillKey": "amumu_e",
+      "formulaKey": "tantrum_damage",
+      "approved": true,
+      "description": "主动本体魔法伤害：BaseDamage + 0.5×来源总法强；65/95/125/155/185基础值与固定客户端16.17一致。被动物理减伤、受击减冷却与诅咒不属于本公式。",
+      "checks": {
+        "onlyDescriptionChanged": true,
+        "namePreserved": true,
+        "expressionPreserved": true,
+        "sortOrderPreserved": true,
+        "formulaAndSkillReferencesPreserved": true,
+        "legacyNotCreatedWordingRemoved": true,
+        "sourceValues": "65/95/125/155/185 + 0.5×来源总法强"
+      },
+      "expressionReferences": [
+        "base_damage",
+        "ap_ratio",
+        "ability_power[SOURCE,TOTAL]"
+      ]
+    },
+    {
+      "route": "/skills/amumu_r/formulas/damage",
+      "skillKey": "amumu_r",
+      "formulaKey": "damage",
+      "approved": true,
+      "description": "木乃伊之咒本体魔法伤害：RDamage + 0.8×来源总法强；200/300/400基础值与固定客户端16.17一致。眩晕和诅咒分别由相应组成表达，不属于本公式。",
+      "checks": {
+        "onlyDescriptionChanged": true,
+        "namePreserved": true,
+        "expressionPreserved": true,
+        "sortOrderPreserved": true,
+        "formulaAndSkillReferencesPreserved": true,
+        "legacyNotCreatedWordingRemoved": true,
+        "sourceValues": "200/300/400 + 0.8×来源总法强"
+      },
+      "expressionReferences": [
+        "base_damage",
+        "ap_ratio",
+        "ability_power[SOURCE,TOTAL]"
+      ]
+    }
+  ],
+  "staticChecks": {
+    "plannedPUTs": 2,
+    "allFiveApprovedFileHashesVerified": true,
+    "sourceHashesVerified": true,
+    "frozenSourceHashMatches": true,
+    "frozenBaselineHashMatches": true,
+    "businessWritesByReview": 0,
+    "httpAccess": false,
+    "databaseAccess": false,
+    "testExecution": false
+  },
+  "blockingIssues": []
+}
