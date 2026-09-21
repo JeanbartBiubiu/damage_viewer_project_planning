@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+  "title": "阿木木Q明确未阻挡本体伤害返回",
+  "generatedAt": "2026-09-21T07:12:07.864Z",
+  "targets": [
+    {
+      "skillKey": "amumu_q",
+      "ownerKey": "champion_amumu"
+    }
+  ],
+  "scope": "仅明确未阻挡本体伤害，不对被阻挡和缺值分支作断言",
+  "sourceFiles": [
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Amumu.json.gz",
+      "sha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Amumu.json",
+      "sha256": "7c0160c4a6815044235fe9e91d4dd176d21986ed587baeb8dad3d4b23f08c09c"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q首次眩晕返回/04-既有法强窄映射复核.json",
+      "sha256": "bc091a1631bf4f5ceb874a0906abd35993e70f23696ed424647efa74fc41caad"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十五批/输入包/参考资料/属性默认与边界.json",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十三批/Cursor输入版本.json",
+      "sha256": "0ab4777628d9facd5f4e86745767157b63e2f0cec626cc07ba48b5194e5863d2"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/卢锡安Q实际命中返回/02-普通物理技能伤害交互核对.json",
+      "sha256": "da9a9179b08cc0a30d659a9da6b494d99e0f9a50c53cbda4eb589dbbac0f8ac3"
+    },
+    {
+      "root": "web",
+      "path": "数据参考/全量录入-2026-09/交叉试录/阿木木Q明确未阻挡首次眩晕返回/07-独立回读.json",
+      "sha256": "99dda078aff79f49a50dc1529397aae1f6843110d0df033b7cb251fbb8ca21b0"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q首次眩晕返回/08-伤害阻挡补证与原候选暂缓.json",
+      "sha256": "37b18c1c658d38d291a58ab6bd4a103108fec0864fb05f8e03a8c66f23968e77"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q首次眩晕返回/09-明确未阻挡伤害候选.json",
+      "sha256": "2776c47a85aa82bad9f8e7d022d9de774a84ccf6b0286018b30e03fc017ed24d"
+    },
+    {
+      "root": "planning",
+      "path": "数据参考/全量录入-2026-09/阿木木Q首次眩晕返回/10-收窄分支独立语义核对.json",
+      "sha256": "92dc4ada89a1d28947021069255bd37de8c7fbcfb38be3d4178fc5dbad0aaa99"
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/amumu_q/effects",
+      "detailRoute": "/skills/amumu_q/effects/primary_hit",
+      "body": {
+        "description": "专供同次amumu_q本体合资格命中法术护盾结果明确为0的敌方英雄入口；本结果不再次护盾判定，不表达穿盾或被阻挡时伤害。牵引、充能及被动另行处理。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "绷带明确未阻挡本体伤害",
+        "results": [
+          {
+            "description": "仅在受限入口已确认同次命中未阻挡时，引用total_damage；不从空护盾粒度反推未阻挡。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      },
+      "expectedReadback": {
+        "description": "专供同次amumu_q本体合资格命中法术护盾结果明确为0的敌方英雄入口；本结果不再次护盾判定，不表达穿盾或被阻挡时伤害。牵引、充能及被动另行处理。",
+        "effectKey": "primary_hit",
+        "lifecycle": null,
+        "name": "绷带明确未阻挡本体伤害",
+        "results": [
+          {
+            "description": "仅在受限入口已确认同次命中未阻挡时，引用total_damage；不从空护盾粒度反推未阻挡。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_q/trigger-rules",
+      "detailRoute": "/skills/amumu_q/trigger-rules/actual_unblocked_hit",
+      "body": {
+        "ruleKey": "actual_unblocked_hit",
+        "name": "明确未阻挡绷带本体命中伤害",
+        "description": "同组要求amumu_q本体合资格实际命中敌方英雄且同次法术护盾判定明确为0；缺值或1均不执行，不从本结果空护盾粒度、零伤害或当前护盾状态推定0。不生成命中，不包含牵引、充能与被动。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "amumu_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮明确未阻挡敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行绷带本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      },
+      "expectedReadback": {
+        "ruleKey": "actual_unblocked_hit",
+        "name": "明确未阻挡绷带本体命中伤害",
+        "description": "同组要求amumu_q本体合资格实际命中敌方英雄且同次法术护盾判定明确为0；缺值或1均不执行，不从本结果空护盾粒度、零伤害或当前护盾状态推定0。不生成命中，不包含牵引、充能与被动。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "amumu_q",
+            "useKind": null
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮明确未阻挡敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "name": "执行绷带本体伤害",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null
+      }
+    }
+  ]
+}

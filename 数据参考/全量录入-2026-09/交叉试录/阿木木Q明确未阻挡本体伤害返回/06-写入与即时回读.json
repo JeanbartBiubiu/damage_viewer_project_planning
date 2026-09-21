@@ -1,0 +1,458 @@
+{
+  "startedAt": "2026-09-21T07:15:37.030Z",
+  "status": "PASS",
+  "businessWritesAttempted": 2,
+  "operations": [
+    {
+      "method": "POST",
+      "route": "/skills/amumu_q/effects",
+      "response": {
+        "status": 201,
+        "data": {
+          "createdAt": "2026-09-21T07:15:39.198676Z",
+          "description": "专供同次amumu_q本体合资格命中法术护盾结果明确为0的敌方英雄入口；本结果不再次护盾判定，不表达穿盾或被阻挡时伤害。牵引、充能及被动另行处理。",
+          "effectKey": "primary_hit",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "绷带明确未阻挡本体伤害",
+          "results": [
+            {
+              "description": "仅在受限入口已确认同次命中未阻挡时，引用total_damage；不从空护盾粒度反推未阻挡。",
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampRules": [
+                  {
+                    "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                    "efficiencyValue": {
+                      "kind": "FIXED",
+                      "value": 1
+                    },
+                    "vampType": "OMNIVAMP"
+                  }
+                ]
+              },
+              "lifecycleBehavior": null,
+              "name": "魔法伤害",
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "total_damage",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "amumu_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-21T07:15:39.198676Z"
+        }
+      },
+      "readback": {
+        "createdAt": "2026-09-21T07:15:39.198676Z",
+        "description": "专供同次amumu_q本体合资格命中法术护盾结果明确为0的敌方英雄入口；本结果不再次护盾判定，不表达穿盾或被阻挡时伤害。牵引、充能及被动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "绷带明确未阻挡本体伤害",
+        "results": [
+          {
+            "description": "仅在受限入口已确认同次命中未阻挡时，引用total_damage；不从空护盾粒度反推未阻挡。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "magic",
+              "deliveryKind": "SKILL",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "魔法伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "amumu_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T07:15:39.198676Z"
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/amumu_q/trigger-rules",
+      "response": {
+        "status": 201,
+        "data": {
+          "actions": [
+            {
+              "actionKey": "execute_primary_hit",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "primary_hit"
+              },
+              "name": "执行绷带本体伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ],
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "enemy_target",
+                  "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                  "detail": {},
+                  "sortOrder": 20
+                },
+                {
+                  "conditionKey": "not_spell_shield_blocked",
+                  "conditionType": "EVENT_VALUE_COMPARE",
+                  "detail": {
+                    "comparator": "EQ",
+                    "comparisonValue": {
+                      "kind": "FIXED",
+                      "value": 0
+                    },
+                    "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                  },
+                  "sortOrder": 30
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "本轮明确未阻挡敌方英雄",
+              "sortOrder": 10
+            }
+          ],
+          "description": "同组要求amumu_q本体合资格实际命中敌方英雄且同次法术护盾判定明确为0；缺值或1均不执行，不从本结果空护盾粒度、零伤害或当前护盾状态推定0。不生成命中，不包含牵引、充能与被动。",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "amumu_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "maxTriggersPerProcess": null,
+          "name": "明确未阻挡绷带本体命中伤害",
+          "perTargetCooldown": null,
+          "ruleKey": "actual_unblocked_hit",
+          "sortOrder": 10
+        }
+      },
+      "readback": {
+        "actions": [
+          {
+            "actionKey": "execute_primary_hit",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "primary_hit"
+            },
+            "name": "执行绷带本体伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                },
+                "sortOrder": 30
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮明确未阻挡敌方英雄",
+            "sortOrder": 10
+          }
+        ],
+        "description": "同组要求amumu_q本体合资格实际命中敌方英雄且同次法术护盾判定明确为0；缺值或1均不执行，不从本结果空护盾粒度、零伤害或当前护盾状态推定0。不生成命中，不包含牵引、充能与被动。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "amumu_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "明确未阻挡绷带本体命中伤害",
+        "perTargetCooldown": null,
+        "ruleKey": "actual_unblocked_hit",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "approvedFiles": {
+    "tools/authoring/append-reviewed-skill-components-v3.mjs": "443202555c93fee7d7bbf5eb69dc76dc66a909e52b60be6c2c0cefeb75d90cdf",
+    "01-候选方案.json": "080bf70a71baa55874e6ae502896794f44c020b4f2d8e65c7ca6cac9d1cac4a6",
+    "02-冻结请求.json": "a5f8fac178f8eb037eac98dd458d6aa2700f43102162746f85a00781f912f2e2",
+    "03-来源摘要.json": "46c92410af1d68645ab1674b4914ae8a1ecdaff98542ee040c85bd44539e0fc2",
+    "04-写入前现值.json": "826f87a395274b0db685f0e799772b3a5125463789706985fa847a5132f8b0a7"
+  },
+  "pendingRoute": null,
+  "finishedAt": "2026-09-21T07:15:40.816Z",
+  "audit": [
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_amumu",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_amumu/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/characters/champion_amumu/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?characterKey=champion_amumu",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/character-skill-relations?skillKey=amumu_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/stun_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/max_charges",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/ammo_recharge_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/dash_speed",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/formulas/total_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/first_hit_stun",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/apply_stun_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/damage-types/magic",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/vertigo",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/actual_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/primary_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/amumu_q/effects",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/actual_unblocked_hit",
+      "status": 404
+    },
+    {
+      "method": "POST",
+      "path": "/skills/amumu_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/skills/amumu_q/trigger-rules/actual_unblocked_hit",
+      "status": 200
+    }
+  ]
+}
