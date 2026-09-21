@@ -16,11 +16,11 @@ function jsonResponse(status: number, body: unknown): Response {
 }
 
 describe('statusClient', () => {
-  it.each([undefined, null, 'UNKNOWN', 'stun'])('拒绝缺失或未知状态种类 %s', (statusKind) => {
+  it.each([undefined, null, 'UNKNOWN', 'stun', 'airborne', '击飞'])('拒绝缺失或未知状态种类 %s', (statusKind) => {
     expect(() => parseStatus({ statusKey: 'slow', statusKind })).toThrow('状态种类');
   });
 
-  it.each(['STUN', 'MOVEMENT_SLOW', 'ROOT', 'SILENCE', 'CHARM'])('列表和详情保留显式种类 %s', async (statusKind) => {
+  it.each(['STUN', 'MOVEMENT_SLOW', 'ROOT', 'SILENCE', 'CHARM', 'AIRBORNE'])('列表和详情保留显式种类 %s', async (statusKind) => {
     const row = { statusKey: 'arbitrary_key', statusKind, status: 'DISABLED' };
     vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => jsonResponse(200,
       String(input).endsWith('/statuses') ? { items: [row], total: 1 } : row)));
@@ -79,6 +79,26 @@ describe('statusClient', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
     await getStatus('http://localhost:8080', 'demo', 'stun/control', 'token');
+  });
+
+  it('击飞创建与更新请求保留种类，响应可再次解析', async () => {
+    const createBody = {
+      statusKey: 'airborne', statusKind: 'AIRBORNE' as const, name: '击飞',
+      description: null, status: 'ENABLED' as const, sortOrder: 0
+    };
+    const updateBody = { statusKind: 'AIRBORNE' as const, name: '击飞改',
+      description: null, status: 'DISABLED' as const, sortOrder: 10 };
+    const calls: Array<{ method: string; body: unknown }> = [];
+    vi.stubGlobal('fetch', vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+      const body = JSON.parse(String(init?.body));
+      calls.push({ method: init?.method ?? 'GET', body });
+      return jsonResponse(init?.method === 'POST' ? 201 : 200, { ...body, statusKey: 'airborne' });
+    }));
+
+    expect((await createStatus('http://localhost:8080', 'demo', 'token', createBody)).data).toEqual(createBody);
+    expect((await updateStatus('http://localhost:8080', 'demo', 'airborne', 'token', updateBody)).data)
+      .toEqual({ ...updateBody, statusKey: 'airborne' });
+    expect(calls).toEqual([{ method: 'POST', body: createBody }, { method: 'PUT', body: updateBody }]);
   });
 
   it('sends POST, full PUT without the stable key, and DELETE', async () => {

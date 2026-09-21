@@ -165,7 +165,7 @@ type ModifierZoneRow = {
 };
 
 type StatusRow = {
-  statusKind: 'STUN' | 'MOVEMENT_SLOW';
+  statusKind: 'STUN' | 'MOVEMENT_SLOW' | 'AIRBORNE';
   gameId: string;
   statusKey: string;
   name: string;
@@ -3586,6 +3586,65 @@ test.describe('skill category and damage type management without Wasm', () => {
 });
 
 test.describe('status management without Wasm', () => {
+  test('AIRBORNE retains failed drafts and keeps the kind read-only after creation', async ({ page }) => {
+    const mock = new MockApi();
+    const diagnostics = await prepare(page, mock);
+    await openStatuses(page);
+    await page.getByRole('button', { name: '新增状态', exact: true }).click();
+    const createModal = visibleModal(page, '新增状态');
+    await chooseSelectOption(page, createModal, '状态种类', '击飞');
+    await createModal.getByLabel('状态标识', { exact: true }).fill('airborne');
+    await createModal.getByLabel('状态名称', { exact: true }).fill('击飞草稿');
+    await createModal.getByLabel('说明', { exact: true }).fill('隔离状态样例');
+    mock.statusWriteFailure = 'validation';
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal.getByText('服务端状态名称校验失败')).toBeVisible();
+    await expect(createModal.getByLabel('状态种类', { exact: true })).toContainText('击飞');
+    await expect(createModal.getByLabel('状态标识', { exact: true })).toHaveValue('airborne');
+    await expect(createModal.getByLabel('状态名称', { exact: true })).toHaveValue('击飞草稿');
+    await expect(createModal.getByLabel('说明', { exact: true })).toHaveValue('隔离状态样例');
+    expect(mock.statuses).toHaveLength(0);
+    mock.statusWriteFailure = null;
+    await createModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(createModal).toBeHidden();
+    expect(mock.writes[1]).toEqual({ method: 'POST', path: `/api/admin/games/${GAME_ID}/statuses`, body: {
+      statusKind: 'AIRBORNE', statusKey: 'airborne', name: '击飞草稿', description: '隔离状态样例',
+      status: 'ENABLED', sortOrder: 0
+    } });
+    const row = statusRow(page, 'airborne');
+    await expect(row.getByRole('cell', { name: '击飞', exact: true })).toBeVisible();
+    await row.getByRole('button', { name: '查看', exact: true }).click();
+    const viewModal = visibleModal(page, '查看状态');
+    await expect(viewModal.getByLabel('状态种类', { exact: true })).toContainText('击飞');
+    await expect(viewModal.getByLabel('状态种类', { exact: true })).toHaveClass(/arco-select-disabled/);
+    await viewModal.getByRole('button', { name: '关闭', exact: true }).click();
+
+    await row.getByRole('button', { name: '编辑', exact: true }).click();
+    const editModal = visibleModal(page, '编辑状态');
+    await expect(editModal.getByLabel('状态种类', { exact: true })).toContainText('击飞');
+    await expect(editModal.getByLabel('状态种类', { exact: true })).toHaveClass(/arco-select-disabled/);
+    await editModal.getByLabel('状态名称', { exact: true }).fill('击飞已编辑');
+    await editModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(editModal).toBeHidden();
+    expect(mock.writes.at(-1)?.body).toEqual({
+      statusKind: 'AIRBORNE', name: '击飞已编辑', description: '隔离状态样例', status: 'ENABLED', sortOrder: 0
+    });
+    await row.getByRole('button', { name: '停用', exact: true }).click();
+    const disableModal = visibleModal(page, '停用状态');
+    await disableModal.getByRole('button', { name: '停用', exact: true }).click();
+    await expect(disableModal).toBeHidden();
+    await expect(row).toContainText('停用');
+    expect(mock.writes.at(-1)?.body).toMatchObject({ statusKind: 'AIRBORNE', status: 'DISABLED' });
+    await row.getByRole('button', { name: '编辑', exact: true }).click();
+    const reopened = visibleModal(page, '编辑状态');
+    await expect(reopened.getByLabel('状态种类', { exact: true })).toContainText('击飞');
+    await expect(reopened.getByLabel('状态种类', { exact: true })).toHaveClass(/arco-select-disabled/);
+    await expect(reopened.getByLabel('状态名称', { exact: true })).toHaveValue('击飞已编辑');
+    await reopened.getByRole('button', { name: '取消', exact: true }).click();
+    expect(mock.writes).toHaveLength(4);
+    diagnostics.assertClean('AIRBORNE status management');
+  });
+
   test('manages flat statuses with stable filtering, refresh and retained drafts', async ({ page }, testInfo) => {
     const mock = new MockApi();
     const diagnostics = await prepare(page, mock);
