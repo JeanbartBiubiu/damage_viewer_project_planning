@@ -717,6 +717,12 @@ func TestGenericRunProviderExpireRemovesOwningProviderStateBag(t *testing.T) {
 		},
 	}
 	// Unrelated bags must survive cleanup of the expired mount only.
+	// The unrelated bag belongs to a real persistent mount, not an orphan snapshot key.
+	compileReq.SharedProviders = append(compileReq.SharedProviders, model.ProviderDefinition{
+		ProviderKey: "other:keep", Kind: "item", StableID: "other_keep",
+		InitialStateSchema: map[string]interface{}{"marker": map[string]interface{}{"defaultValue": float64(0), "maxValue": float64(99), "durationMs": float64(0)}},
+	})
+	compileReq.Combatants[1].Providers = append(compileReq.Combatants[1].Providers, model.CombatantProviderMount{ProviderRef: "other:keep#1", DefinitionRef: "other:keep"})
 	for i := range runReq.InitialSnapshot.Combatants {
 		c := &runReq.InitialSnapshot.Combatants[i]
 		switch c.Key {
@@ -727,6 +733,7 @@ func TestGenericRunProviderExpireRemovesOwningProviderStateBag(t *testing.T) {
 				},
 			}
 		case model.SelectorTarget:
+			c.Providers = append(c.Providers, model.CombatantProviderSnapshot{ProviderRef: "other:keep#1", DefinitionRef: "other:keep", Source: "target", Owner: "target", Stacks: 1, State: map[string]interface{}{}})
 			c.ProviderState = map[string]interface{}{
 				"other:keep#1": map[string]interface{}{
 					"state": map[string]interface{}{"marker": float64(9)},

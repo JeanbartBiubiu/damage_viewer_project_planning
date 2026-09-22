@@ -2494,7 +2494,10 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 		if !s.allowPerCastThrottle(listenerIndex, listener.OwnerCombatantKey, listener.OwnerProviderRef, castID, listener.PerCastThrottleMs) {
 			continue
 		}
-		oncePerUse := listener.HasOncePerUse && listenerIndex < compiledCount
+		if listener.HasOncePerUse && listenerIndex >= compiledCount {
+			return s.skillHitErr(model.GenericErrUnknownRef, "dynamic listeners do not support oncePerUse", "listeners["+listener.ListenerKey+"].oncePerUse", listener.OncePerUseGroup)
+		}
+		oncePerUse := listener.HasOncePerUse
 		reserved := false
 		if oncePerUse {
 			didReserve, skip, err := s.reserveOncePerUse(listener, ev)

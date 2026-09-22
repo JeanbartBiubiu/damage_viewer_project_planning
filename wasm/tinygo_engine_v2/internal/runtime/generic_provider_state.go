@@ -640,6 +640,9 @@ func (s *genericRunState) restoreProviderStateTimers(snapshot model.Snapshot) *m
 			continue
 		}
 		base := "initialSnapshot.combatants[" + itoa(uint32(i)) + "].providerState"
+		if err := s.validateRawProviderState(snap.ProviderState, rt, base); err != nil {
+			return err
+		}
 		for providerRef, bag := range rt.providerState {
 			if bag == nil {
 				continue
