@@ -1,12 +1,59 @@
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
+import { isLegalModifierZoneCombination } from '../types/modifierZone';
 import type {
   CreateModifierZoneRequest,
   ModifierZone,
+  ModifierZoneApplicationStage,
+  ModifierZoneCalculationMode,
+  ModifierZoneDomain,
   ModifierZoneListQuery,
   ModifierZoneListResponse,
+  ModifierZoneStatus,
   UpdateModifierZoneRequest
 } from '../types/modifierZone';
+
+const DOMAINS = new Set<ModifierZoneDomain>(['ATTRIBUTE', 'DAMAGE', 'HEALING', 'SHIELD']);
+const CALCULATION_MODES = new Set<ModifierZoneCalculationMode>(['FLAT_ADD', 'RATIO_ADD', 'RATIO_MAX']);
+const APPLICATION_STAGES = new Set<ModifierZoneApplicationStage>([
+  'ATTRIBUTE_FLAT', 'ATTRIBUTE_PERCENT', 'DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE', 'HEALING_RESULT', 'SHIELD_RESULT'
+]);
+const STATUSES = new Set<ModifierZoneStatus>(['ENABLED', 'DISABLED']);
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+export function parseModifierZone(value: unknown): ModifierZone {
+  if (!isRecord(value)) throw new Error('乘区响应不完整。');
+  const domain = value.domain;
+  const calculationMode = value.calculationMode;
+  const applicationStage = value.applicationStage;
+  const status = value.status;
+  if (typeof value.modifierZoneKey !== 'string' || typeof value.name !== 'string'
+    || typeof value.gameId !== 'string'
+    || !DOMAINS.has(domain as ModifierZoneDomain)
+    || !CALCULATION_MODES.has(calculationMode as ModifierZoneCalculationMode)
+    || !APPLICATION_STAGES.has(applicationStage as ModifierZoneApplicationStage)
+    || !STATUSES.has(status as ModifierZoneStatus)
+    || (value.description !== null && typeof value.description !== 'string')
+    || typeof value.sortOrder !== 'number' || !Number.isInteger(value.sortOrder)
+    || typeof value.createdAt !== 'string' || typeof value.updatedAt !== 'string') {
+    throw new Error('乘区响应缺少合法的作用域、计算方式或应用阶段。');
+  }
+  if (!isLegalModifierZoneCombination(
+    domain as ModifierZoneDomain,
+    calculationMode as ModifierZoneCalculationMode,
+    applicationStage as ModifierZoneApplicationStage
+  )) {
+    throw new Error('乘区响应的作用域、计算方式和应用阶段组合不合法。');
+  }
+  return value as ModifierZone;
+}
+
+function parseModifierZoneResult(result: ApiResult<unknown>): ApiResult<ModifierZone> {
+  return { ...result, data: parseModifierZone(result.data) };
+}
 
 function modifierZonesPath(gameId: string, modifierZoneKey?: string): string {
   const base = `/api/admin/games/${encodePathSegment(gameId)}/modifier-zones`;
@@ -29,7 +76,15 @@ export function listModifierZones(
   token: string,
   query: ModifierZoneListQuery = {}
 ): Promise<ApiResult<ModifierZoneListResponse>> {
-  return requestJson<ModifierZoneListResponse>(apiBaseUrl, withQuery(modifierZonesPath(gameId), query), { token });
+  return requestJson<unknown>(apiBaseUrl, withQuery(modifierZonesPath(gameId), query), { token }).then((result) => {
+    if (!isRecord(result.data) || !Array.isArray(result.data.items) || typeof result.data.total !== 'number') {
+      throw new Error('乘区目录响应不完整。');
+    }
+    return {
+      ...result,
+      data: { items: result.data.items.map(parseModifierZone), total: result.data.total }
+    };
+  });
 }
 
 export function getModifierZone(
@@ -38,7 +93,7 @@ export function getModifierZone(
   modifierZoneKey: string,
   token: string
 ): Promise<ApiResult<ModifierZone>> {
-  return requestJson<ModifierZone>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey), { token });
+  return requestJson<unknown>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey), { token }).then(parseModifierZoneResult);
 }
 
 export function createModifierZone(
@@ -47,9 +102,9 @@ export function createModifierZone(
   token: string,
   body: CreateModifierZoneRequest
 ): Promise<ApiResult<ModifierZone>> {
-  return requestJson<ModifierZone>(apiBaseUrl, modifierZonesPath(gameId), {
+  return requestJson<unknown>(apiBaseUrl, modifierZonesPath(gameId), {
     method: 'POST', token, body: JSON.stringify(body)
-  });
+  }).then(parseModifierZoneResult);
 }
 
 export function updateModifierZone(
@@ -59,9 +114,9 @@ export function updateModifierZone(
   token: string,
   body: UpdateModifierZoneRequest
 ): Promise<ApiResult<ModifierZone>> {
-  return requestJson<ModifierZone>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey), {
+  return requestJson<unknown>(apiBaseUrl, modifierZonesPath(gameId, modifierZoneKey), {
     method: 'PUT', token, body: JSON.stringify(body)
-  });
+  }).then(parseModifierZoneResult);
 }
 
 export function deleteModifierZone(

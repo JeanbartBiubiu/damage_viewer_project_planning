@@ -106,6 +106,7 @@ import {
   applyStackValueModeChange,
   clearHiddenLifecycleBehaviorFields,
   cooldownChangeAmountHint,
+  healingModifierAmountHint,
   isCatalogOptionSelectable,
   isFixedPersistentSnapshotResult,
   isModifierZoneRequired,
@@ -661,6 +662,7 @@ export function SkillEffectResultEditorModal({
     skillCategories,
     statuses
   }), [attributes, damageTypes, effectSummaries, formulas, modifierZones, parentDraft.effectKey, parentSkill.skillKey, skillCategories, skills, statuses]);
+  const healingRatioMaxHint = healingModifierAmountHint(draft, catalog);
 
   const validationCatalogState = useMemo<EffectCatalogLoadState>(() => ({
     ...catalogLoadState,
@@ -1314,6 +1316,7 @@ export function SkillEffectResultEditorModal({
           {showValueRule ? (
             <>
               {ratioCooldown && cooldownHint ? <Alert type="info" content={cooldownHint} /> : null}
+              {healingRatioMaxHint ? <Alert type="info" content={healingRatioMaxHint} /> : null}
               {draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'EXTEND_DURATION'
                 ? <Alert type="info" content={LIFECYCLE_EXTENSION_HINT} /> : null}
               {slowApply ? <Alert type="info" content="0.3 表示 30% 减速；百分数点参数使用固定倍率 0.01。上下界固定为 0 和 1。" /> : null}
