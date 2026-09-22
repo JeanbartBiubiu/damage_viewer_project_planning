@@ -78,6 +78,7 @@ import type {
   SkillTriggerTargetContext,
   SkillTriggerTargetCategoryCheckDetail,
   SkillTriggerValueDomain,
+  SkillTriggerOncePerUseScope,
   UpdateSkillTriggerRuleRequest
 } from '../../../../types/skillTriggerRule';
 import { FORMULA_ATTRIBUTE_VALUE_KINDS, attributeValueKindLabel } from '../formulaExpression';
@@ -131,6 +132,26 @@ export const MISSING_CATALOG_LABEL = '目录缺失';
 export const INCOMPLETE_CATALOG_MESSAGE = '缺少当前表单必需目录，无法保存。';
 export const RESULT_MODIFIER_ORDER_HINT = '应用在效果基础修正之后';
 export const MAX_TRIGGERS_SCOPE_HINT = '只保存次数取值，不执行计数。';
+export const SKILL_TRIGGER_ONCE_PER_USE_LABEL = '同次使用仅触发一次';
+export const SKILL_TRIGGER_ONCE_PER_USE_HINT =
+  '同一共享限制键的规则共用一次额度；同技能同键的范围必须一致。';
+export const SKILL_TRIGGER_ONCE_PER_USE_EVENT_MESSAGE =
+  '同次使用限制只允许用于技能命中、普通攻击命中或普通攻击开始。';
+export const SKILL_TRIGGER_ONCE_PER_USE_CLEAR_MESSAGE =
+  '同次使用限制只允许用于技能命中、普通攻击命中或普通攻击开始，将关闭该限制。';
+export const SKILL_TRIGGER_ONCE_PER_USE_EVENTS = [
+  'SKILL_HIT',
+  'BASIC_ATTACK_HIT',
+  'BASIC_ATTACK_START'
+] as const satisfies readonly SkillTriggerEventType[];
+export const SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS = {
+  SKILL: '整个技能使用',
+  TARGET: '每个目标'
+} as const satisfies { [K in SkillTriggerOncePerUseScope]: string };
+
+export function allowsOncePerUse(eventType: SkillTriggerEventType): boolean {
+  return (SKILL_TRIGGER_ONCE_PER_USE_EVENTS as readonly SkillTriggerEventType[]).includes(eventType);
+}
 
 export const SKILL_TRIGGER_PRIOR_RESULT_OUTPUT_KINDS = [
   'CONFIGURED_VALUE',
@@ -847,6 +868,9 @@ export type SkillTriggerRuleDraft = {
   perTargetCooldownTargetContext: SkillTriggerTargetContext;
   maxTriggersPerProcessEnabled: boolean;
   maxTriggersLimitValue: NumericValue | null;
+  oncePerUseEnabled: boolean;
+  oncePerUseGroupKey: string;
+  oncePerUseScope: SkillTriggerOncePerUseScope;
 };
 
 export type SkillTriggerDraftField =
@@ -858,7 +882,8 @@ export type SkillTriggerDraftField =
   | 'conditionGroups'
   | 'actions'
   | 'perTargetCooldown'
-  | 'maxTriggersPerProcess';
+  | 'maxTriggersPerProcess'
+  | 'oncePerUse';
 
 export type SkillTriggerDraftErrors = Partial<Record<SkillTriggerDraftField, string>>;
 
@@ -896,6 +921,7 @@ export type EventSwitchImpact = {
   clearsEventValues: boolean;
   clearsEventSourceRefs: boolean;
   clearsProcessLimit: boolean;
+  clearsOncePerUse: boolean;
 };
 
 export type SourceActionCleanupImpact = {
@@ -1374,7 +1400,10 @@ export function createEmptyRuleDraft(): SkillTriggerRuleDraft {
     perTargetCooldownDurationValue: null,
     perTargetCooldownTargetContext: 'CURRENT_TARGET',
     maxTriggersPerProcessEnabled: false,
-    maxTriggersLimitValue: null
+    maxTriggersLimitValue: null,
+    oncePerUseEnabled: false,
+    oncePerUseGroupKey: '',
+    oncePerUseScope: 'SKILL'
   };
 }
 
@@ -2076,7 +2105,10 @@ export function fromDetail(detail: SkillTriggerRuleDetail): SkillTriggerRuleDraf
     perTargetCooldownDurationValue: detail.perTargetCooldown?.durationValue ?? null,
     perTargetCooldownTargetContext: detail.perTargetCooldown?.targetContext ?? 'CURRENT_TARGET',
     maxTriggersPerProcessEnabled: detail.maxTriggersPerProcess !== null,
-    maxTriggersLimitValue: detail.maxTriggersPerProcess?.limitValue ?? null
+    maxTriggersLimitValue: detail.maxTriggersPerProcess?.limitValue ?? null,
+    oncePerUseEnabled: detail.oncePerUse !== null,
+    oncePerUseGroupKey: detail.oncePerUse?.groupKey ?? '',
+    oncePerUseScope: detail.oncePerUse?.scope ?? 'SKILL'
   };
 }
 
@@ -2264,7 +2296,7 @@ function toActions(actions: SkillTriggerActionDraft[]): SkillTriggerAction[] {
 
 function protectionsFromDraft(draft: SkillTriggerRuleDraft): Pick<
   CreateSkillTriggerRuleRequest,
-  'perTargetCooldown' | 'maxTriggersPerProcess'
+  'perTargetCooldown' | 'maxTriggersPerProcess' | 'oncePerUse'
 > {
   const processKey = draft.eventSource.eventType === 'PROCESS_MOMENT'
     ? draft.eventSource.detail.processKey
@@ -2281,6 +2313,12 @@ function protectionsFromDraft(draft: SkillTriggerRuleDraft): Pick<
           processKey,
           limitValue: draft.maxTriggersLimitValue!
         }
+      : null,
+    oncePerUse: draft.oncePerUseEnabled
+      ? {
+          groupKey: draft.oncePerUseGroupKey.trim(),
+          scope: draft.oncePerUseScope
+        }
       : null
   };
 }
@@ -2296,7 +2334,8 @@ export function toCreateRequest(draft: SkillTriggerRuleDraft): CreateSkillTrigge
     conditionGroups: toConditionGroups(draft.conditionGroups),
     actions: toActions(draft.actions),
     perTargetCooldown: protections.perTargetCooldown,
-    maxTriggersPerProcess: protections.maxTriggersPerProcess
+    maxTriggersPerProcess: protections.maxTriggersPerProcess,
+    oncePerUse: protections.oncePerUse
   };
 }
 
@@ -2344,6 +2383,7 @@ export function analyzeEventSwitchImpact(
   ));
   const clearsEventSourceRefs = usesEventSourceSubject(draft) && !eventHasEventSource(nextSource.eventType);
   const clearsProcessLimit = draft.maxTriggersPerProcessEnabled && nextSource.eventType !== 'PROCESS_MOMENT';
+  const clearsOncePerUse = draft.oncePerUseEnabled && !allowsOncePerUse(nextSource.eventType);
   const parts: string[] = [];
   if (!allowsTargetCategoryCheck(nextSource.eventType) && draft.conditionGroups.some((group) => group.conditions.some((condition) => condition.conditionType === 'TARGET_CATEGORY_CHECK'))) {
     parts.push('当前事件不提供事件对方类别，将清除事件对方类别条件。');
@@ -2366,11 +2406,15 @@ export function analyzeEventSwitchImpact(
   if (clearsProcessLimit) {
     parts.push('单次过程最大触发次数仅用于过程时点事件，将关闭该保护。');
   }
+  if (clearsOncePerUse) {
+    parts.push(SKILL_TRIGGER_ONCE_PER_USE_CLEAR_MESSAGE);
+  }
   return {
     summary: parts.join(' '),
     clearsEventValues: staleValues.length > 0,
     clearsEventSourceRefs,
-    clearsProcessLimit
+    clearsProcessLimit,
+    clearsOncePerUse
   };
 }
 
@@ -2499,7 +2543,8 @@ export function applyEventSwitchCleanup(
       : false,
     maxTriggersLimitValue: nextSource.eventType === 'PROCESS_MOMENT'
       ? draft.maxTriggersLimitValue
-      : null
+      : null,
+    oncePerUseEnabled: allowsOncePerUse(nextSource.eventType) ? draft.oncePerUseEnabled : false
   };
 }
 
@@ -3622,6 +3667,14 @@ export function validateSkillTriggerDraft(
       fieldErrors.maxTriggersPerProcess = '次数取值不能为空。';
     }
   }
+  if (draft.oncePerUseEnabled) {
+    if (!allowsOncePerUse(draft.eventSource.eventType)) {
+      fieldErrors.oncePerUse = SKILL_TRIGGER_ONCE_PER_USE_EVENT_MESSAGE;
+    } else {
+      const keyError = validateKey(draft.oncePerUseGroupKey, '共享限制键');
+      if (keyError) fieldErrors.oncePerUse = keyError;
+    }
+  }
 
   const checkValue = (value: NumericValue | null, path: string, limits: { min?: number; integer?: boolean; exclusiveMin?: boolean } = {}) => {
     const error = numericValueError(value, { parameters: options.parameters, formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined }, { ...limits, allowRuntimeInput: false,
@@ -3661,9 +3714,13 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function issueMessage(raw: Record<string, unknown>): string {
-  return typeof raw.message === 'string' && raw.message.trim()
+  const message = typeof raw.message === 'string' && raw.message.trim()
     ? raw.message.trim()
     : '字段值不合法。';
+  if (typeof raw.conflictingRuleKey === 'string' && raw.conflictingRuleKey.trim()) {
+    return `${message}（冲突规则：${raw.conflictingRuleKey.trim()}）`;
+  }
+  return message;
 }
 
 function assignBasicField(
@@ -3689,6 +3746,10 @@ function assignBasicField(
   }
   if (field.startsWith('maxTriggersPerProcess')) {
     fieldErrors.maxTriggersPerProcess = message;
+    return true;
+  }
+  if (field.startsWith('oncePerUse')) {
+    fieldErrors.oncePerUse = message;
     return true;
   }
   if (field.startsWith('eventSource')) {
@@ -3747,9 +3808,12 @@ export function mapTriggerFieldIssues(source: unknown): MappedTriggerFieldIssues
       unmappedMessages.push(message);
       continue;
     }
-    if (assignBasicField(fieldErrors, field, message)) continue;
+    if (assignBasicField(fieldErrors, field, message)) {
+      if (field.startsWith('oncePerUse')) nestedErrors.push({ path: field, message });
+      continue;
+    }
     if (
-      /^(eventSource|conditionGroups\[\d+\]|actions\[\d+\]|perTargetCooldown|maxTriggersPerProcess)/.test(field)
+      /^(eventSource|conditionGroups\[\d+\]|actions\[\d+\]|perTargetCooldown|maxTriggersPerProcess|oncePerUse)/.test(field)
     ) {
       nestedErrors.push({ path: field, message });
       continue;

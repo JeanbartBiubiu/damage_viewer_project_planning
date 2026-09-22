@@ -111,6 +111,19 @@ describe('authoring location resolution against fresh saved details', () => {
       { kind: 'KEYED_CHILD', collection: 'options', keyField: 'optionKey', key: 'open' }
     ], { editor: 'INTERNAL_STATE', objectType: 'STATE' }), state).reason).toBe('NODE_MISSING');
   });
+  it('walks flattened oncePerUse fields from API detail rather than storage limits wrapper', () => {
+    const focus = location([
+      { kind: 'FIELD', field: 'oncePerUse' }, { kind: 'FIELD', field: 'scope' }
+    ], {
+      skillKey: 'q', objectType: 'TRIGGER', objectKey: 'hit', editor: 'TRIGGER_RULE',
+      fieldPath: 'limits.oncePerUse.scope'
+    });
+    expect(resolveAuthoringLocation(focus, {
+      oncePerUse: { groupKey: 'eclipse', scope: 'SKILL' }
+    })).toMatchObject({ precision: 'FIELD', path: ['oncePerUse', 'scope'] });
+    expect(resolveAuthoringLocation(focus, { oncePerUse: null }))
+      .toMatchObject({ precision: 'OBJECT', reason: 'NODE_MISSING', path: ['oncePerUse'] });
+  });
 });
 
 describe('formula structural slots', () => {

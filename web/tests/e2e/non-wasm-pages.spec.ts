@@ -325,6 +325,7 @@ type SkillTriggerRuleStored = {
   actions: Json[];
   perTargetCooldown: Json | null;
   maxTriggersPerProcess: Json | null;
+  oncePerUse?: Json | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -2307,6 +2308,7 @@ class MockApi {
       actionCount: row.actions.length,
       perTargetCooldownEnabled: row.perTargetCooldown !== null,
       maxTriggersPerProcessEnabled: row.maxTriggersPerProcess !== null,
+      oncePerUseEnabled: row.oncePerUse != null,
       sortOrder: row.sortOrder,
       updatedAt: row.updatedAt
     };
@@ -2322,7 +2324,8 @@ class MockApi {
       conditionGroups: this.cloneJson(row.conditionGroups),
       actions: this.cloneJson(row.actions),
       perTargetCooldown: this.cloneJson(row.perTargetCooldown),
-      maxTriggersPerProcess: this.cloneJson(row.maxTriggersPerProcess)
+      maxTriggersPerProcess: this.cloneJson(row.maxTriggersPerProcess),
+      oncePerUse: this.cloneJson(row.oncePerUse ?? null)
     };
   }
 
@@ -2349,6 +2352,9 @@ class MockApi {
         : null,
       maxTriggersPerProcess: body.maxTriggersPerProcess && typeof body.maxTriggersPerProcess === 'object'
         ? body.maxTriggersPerProcess as Json
+        : null,
+      oncePerUse: body.oncePerUse && typeof body.oncePerUse === 'object'
+        ? body.oncePerUse as Json
         : null,
       createdAt: existing?.createdAt ?? CREATED_AT,
       updatedAt: existing ? '2026-08-30T12:00:00Z' : UPDATED_AT

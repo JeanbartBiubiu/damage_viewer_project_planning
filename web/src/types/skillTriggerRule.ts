@@ -656,6 +656,13 @@ export type SkillTriggerProcessLimit = {
   limitValue: NumericValue;
 };
 
+export type SkillTriggerOncePerUseScope = 'SKILL' | 'TARGET';
+
+export type SkillTriggerOncePerUse = {
+  groupKey: string;
+  scope: SkillTriggerOncePerUseScope;
+};
+
 export type SkillTriggerRuleSummary = {
   ruleKey: string;
   name: string;
@@ -665,6 +672,7 @@ export type SkillTriggerRuleSummary = {
   actionCount: number;
   perTargetCooldownEnabled: boolean;
   maxTriggersPerProcessEnabled: boolean;
+  oncePerUseEnabled: boolean;
   sortOrder: number;
   updatedAt: string;
 };
@@ -679,6 +687,7 @@ export type SkillTriggerRuleDetail = {
   actions: SkillTriggerAction[];
   perTargetCooldown: SkillTriggerPerTargetCooldown | null;
   maxTriggersPerProcess: SkillTriggerProcessLimit | null;
+  oncePerUse: SkillTriggerOncePerUse | null;
 };
 
 export type CreateSkillTriggerRuleRequest = {
@@ -691,6 +700,7 @@ export type CreateSkillTriggerRuleRequest = {
   actions: SkillTriggerAction[];
   perTargetCooldown: SkillTriggerPerTargetCooldown | null;
   maxTriggersPerProcess: SkillTriggerProcessLimit | null;
+  oncePerUse: SkillTriggerOncePerUse | null;
 };
 
 export type UpdateSkillTriggerRuleRequest = {
@@ -702,4 +712,5 @@ export type UpdateSkillTriggerRuleRequest = {
   actions: SkillTriggerAction[];
   perTargetCooldown: SkillTriggerPerTargetCooldown | null;
   maxTriggersPerProcess: SkillTriggerProcessLimit | null;
+  oncePerUse: SkillTriggerOncePerUse | null;
 };

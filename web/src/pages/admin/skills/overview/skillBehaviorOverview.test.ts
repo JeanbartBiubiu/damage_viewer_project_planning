@@ -25,7 +25,7 @@ function process(partial: Partial<SkillProcess> & Pick<SkillProcess, 'processKey
 function rule(partial: Partial<SkillTriggerRuleDetail> & Pick<SkillTriggerRuleDetail, 'ruleKey' | 'name' | 'eventSource'>): SkillTriggerRuleDetail {
   return {
     description: null, sortOrder: 0, conditionGroups: [], actions: [],
-    perTargetCooldown: null, maxTriggersPerProcess: null, ...partial
+    perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null, ...partial
   };
 }
 

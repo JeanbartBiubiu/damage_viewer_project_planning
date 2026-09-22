@@ -421,7 +421,8 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
     durationValue: formulaValue("per_target_cooldown_ms"),
     targetContext: 'CURRENT_TARGET'
   },
-  maxTriggersPerProcess: null
+  maxTriggersPerProcess: null,
+  oncePerUse: null
 };
 
 describe('trigger event member set and capability table', () => {
@@ -955,6 +956,7 @@ describe('detail to draft create/update round-trip', () => {
     expect(updated.actions).toEqual(created.actions);
     expect(updated.perTargetCooldown).toEqual(created.perTargetCooldown);
     expect(updated.maxTriggersPerProcess).toBeNull();
+    expect(updated.oncePerUse).toBeNull();
   });
 
   it('round-trips PROCESS_MOMENT process-limit protection and copies processKey from the event', () => {
@@ -987,7 +989,8 @@ describe('detail to draft create/update round-trip', () => {
       maxTriggersPerProcess: {
         processKey: 'charge_cast',
         limitValue: formulaValue("max_triggers")
-      }
+      },
+      oncePerUse: null
     };
     const created = toCreateRequest(fromDetail(detail));
     expect(created.ruleKey).toBe('charge_cap');

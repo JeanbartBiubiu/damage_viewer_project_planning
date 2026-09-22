@@ -162,7 +162,7 @@ function rules(): Json[] {
         actionKey: 'start', name: '启动', actionType: 'START_PROCESS', sortOrder: 0, targetContext: 'CURRENT_TARGET',
         detail: { processKey: 'cast' }, runtimeInputBindings: [], resultModifiers: []
       }],
-      perTargetCooldown: null, maxTriggersPerProcess: null
+      perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null
     },
     {
       ruleKey: 'on_hit', name: '技能命中', description: null, sortOrder: 1,
@@ -180,12 +180,12 @@ function rules(): Json[] {
         }],
         resultModifiers: []
       }],
-      perTargetCooldown: null, maxTriggersPerProcess: null
+      perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null
     },
     {
       ruleKey: 'on_init', name: '初始化', description: null, sortOrder: 2,
       eventSource: { eventType: 'SOURCE_INITIALIZED', detail: {} },
-      conditionGroups: [], actions: [], perTargetCooldown: null, maxTriggersPerProcess: null
+      conditionGroups: [], actions: [], perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null
     }
   ];
 }
@@ -639,7 +639,7 @@ class AuthoringP8Api {
           ruleKey: item.ruleKey, name: item.name, description: item.description, eventType: (item.eventSource as Json).eventType,
           conditionGroupCount: Array.isArray(item.conditionGroups) ? item.conditionGroups.length : 0,
           actionCount: Array.isArray(item.actions) ? item.actions.length : 0,
-          perTargetCooldownEnabled: false, maxTriggersPerProcessEnabled: false,
+          perTargetCooldownEnabled: false, maxTriggersPerProcessEnabled: false, oncePerUseEnabled: false,
           sortOrder: item.sortOrder, updatedAt: NOW
         })));
         return;
