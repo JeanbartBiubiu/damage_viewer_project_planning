@@ -43,13 +43,21 @@ export function catalogReferenceItems(
   });
 }
 
+export function collapsedItems<T>(
+  items: readonly T[],
+  expanded: boolean,
+  limit = COLLAPSED_REFERENCE_LIMIT
+): readonly T[] {
+  if (expanded || items.length <= limit) return items;
+  return items.slice(0, limit);
+}
+
 export function visibleReferenceItems(
   items: readonly ReferenceItem[],
   expanded: boolean,
   limit = COLLAPSED_REFERENCE_LIMIT
 ): readonly ReferenceItem[] {
-  if (expanded || items.length <= limit) return items;
-  return items.slice(0, limit);
+  return collapsedItems(items, expanded, limit);
 }
 
 export function referenceListNeedsToggle(itemCount: number, limit = COLLAPSED_REFERENCE_LIMIT): boolean {

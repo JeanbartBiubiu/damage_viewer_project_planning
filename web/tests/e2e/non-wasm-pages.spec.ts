@@ -3295,6 +3295,16 @@ async function closeVisibleDialog(dialog: Locator): Promise<void> {
   await expect(dialog).toBeHidden();
 }
 
+async function confirmDraftClose(page: Page, action: () => Promise<unknown>, accept = true): Promise<void> {
+  const confirmation = page.waitForEvent('dialog').then(async dialog => {
+    expect(dialog.message()).toContain('未保存');
+    if (accept) await dialog.accept();
+    else await dialog.dismiss();
+  });
+  await action();
+  await confirmation;
+}
+
 async function fillValueRule(
   page: Page,
   modal: Locator,
@@ -5048,7 +5058,7 @@ test.describe('skill management without Wasm', () => {
     await expect(resultModal.getByLabel('数值', { exact: true })).toHaveCount(0);
     await expect(resultModal.getByLabel('固定倍率', { exact: true })).toHaveCount(0);
     await expect(resultModal.getByLabel('伤害类型', { exact: true })).toHaveCount(0);
-    await resultModal.getByRole('button', { name: '取消', exact: true }).click();
+    await confirmDraftClose(page, () => resultModal.getByRole('button', { name: '取消', exact: true }).click());
     await expect(resultModal).toBeHidden();
 
     await createModal.getByRole('button', { name: '新增结果', exact: true }).click();
@@ -5387,7 +5397,7 @@ test.describe('skill management without Wasm', () => {
     await expect(page.getByRole('option', { name: '退役技能', exact: true })).toHaveCount(0);
     await expect(page.getByRole('option', { name: '退役技能（已停用）', exact: true })).toHaveCount(0);
     await page.getByRole('option', { name: '其他技能', exact: true }).click();
-    await createDamage.getByRole('button', { name: '取消', exact: true }).click();
+    await confirmDraftClose(page, () => createDamage.getByRole('button', { name: '取消', exact: true }).click());
     await expect(createDamage).toBeHidden();
 
     mock.damageTypeListFailure = true;
@@ -5408,7 +5418,7 @@ test.describe('skill management without Wasm', () => {
     await fillValueRule(page, blockedDamage, '治疗公式');
     await saveOpenModal(blockedDamage);
     await expect(createModal.locator('tr', { hasText: 'local_heal' })).toBeVisible();
-    await createModal.getByRole('button', { name: '取消', exact: true }).click();
+    await confirmDraftClose(page, () => createModal.getByRole('button', { name: '取消', exact: true }).click());
     diagnostics.assertClean('disabled catalog refs and local catalog failure');
   });
 
@@ -5470,13 +5480,15 @@ test.describe('skill management without Wasm', () => {
     await discardEffect.getByRole('button', { name: '新增结果', exact: true }).click();
     const discardResult = visibleModal(page, '新增结果');
     await discardResult.getByLabel('结果名称', { exact: true }).fill('将被丢弃的结果');
-    await page.keyboard.press('Escape');
+    await confirmDraftClose(page, () => page.keyboard.press('Escape'), false);
+    await expect(discardResult.getByLabel('结果名称', { exact: true })).toHaveValue('将被丢弃的结果');
+    await confirmDraftClose(page, () => page.keyboard.press('Escape'));
     await expect(discardResult).toBeHidden();
     await expect(discardEffect).toBeVisible();
     await expect(discardEffect.getByText('暂无结果', { exact: true })).toBeVisible();
     await expect(discardEffect.getByLabel('效果名称', { exact: true })).toHaveValue('将被丢弃的效果');
 
-    await closeEditorByOutsideOrEscape(page, testInfo);
+    await confirmDraftClose(page, () => closeEditorByOutsideOrEscape(page, testInfo));
     await expect(discardEffect).toBeHidden();
     expect(mock.skillEffects).toHaveLength(1);
 
@@ -6229,7 +6241,7 @@ test.describe('skill management without Wasm', () => {
     expect(mock.skillProcesses).toHaveLength(0);
 
     mock.processWriteFailure = null;
-    await createModal.getByRole('button', { name: '取消', exact: true }).click();
+    await confirmDraftClose(page, () => createModal.getByRole('button', { name: '取消', exact: true }).click());
     await expect(createModal).toBeHidden();
 
     mock.skillFormulaListFailure = true;
@@ -6274,7 +6286,7 @@ test.describe('skill management without Wasm', () => {
     await expect(blockedCounter.getByLabel('内部状态名称', { exact: true })).toHaveValue('被阻断计数');
     await expect(blockedCounter.getByLabel('上限取值固定数值', { exact: true })).toHaveValue('3');
     expect(mock.skillInternalStates.some(state => state.stateKey === 'blocked_counter')).toBe(false);
-    await closeEditorByOutsideOrEscape(page, testInfo);
+    await confirmDraftClose(page, () => closeEditorByOutsideOrEscape(page, testInfo));
     diagnostics.assertClean('referenced step block, retained draft and catalog isolation');
   });
 
@@ -6603,7 +6615,7 @@ test.describe('skill management without Wasm', () => {
     await expect(page.getByRole('option', { name: '总次数（从 1 开始）', exact: true })).toBeVisible();
     await expect(page.getByRole('option', { name: '当前命中序号', exact: true })).toHaveCount(0);
     await page.getByRole('option', { name: '总次数（从 1 开始）', exact: true }).click();
-    await conditionModal.getByRole('button', { name: '取消', exact: true }).click();
+    await confirmDraftClose(page, () => conditionModal.getByRole('button', { name: '取消', exact: true }).click());
     await expect(conditionModal).toBeHidden();
 
     await chooseTriggerEventType(page, createModal, '触发攻击联动');
@@ -6957,7 +6969,7 @@ test.describe('skill management without Wasm', () => {
     await expect(page.getByRole('option', { name: /是否形成击杀/ })).toBeVisible();
     await expect(page.getByRole('option', { name: '受伤前生命', exact: true })).toHaveCount(0);
     await page.getByRole('option', { name: /是否形成击杀/ }).click();
-    await conditionModal.getByRole('button', { name: '取消', exact: true }).click();
+    await confirmDraftClose(page, () => conditionModal.getByRole('button', { name: '取消', exact: true }).click());
     await createModal.getByRole('button', { name: '取消', exact: true }).click();
     const leaveConfirm = page.getByRole('dialog').filter({ hasText: '当前修改尚未保存，确定要离开吗？' });
     await leaveConfirm.getByRole('button', { name: '确定', exact: true }).click();
@@ -7121,7 +7133,7 @@ test.describe('skill management without Wasm', () => {
     await chooseSelectOption(page, bindingModal, '结果输出', '基础配置值');
     await bindingModal.getByRole('button', { name: '确定', exact: true }).click();
     await expect(secondAction.getByText('更早动作结果 / action_1 / damage / 基础配置值')).toBeVisible();
-    await secondAction.getByRole('button', { name: '取消', exact: true }).click();
+    await confirmDraftClose(page, () => secondAction.getByRole('button', { name: '取消', exact: true }).click());
     await createModal.getByRole('button', { name: '取消', exact: true }).click();
     const leaveConfirm = page.getByRole('dialog').filter({ hasText: '当前修改尚未保存，确定要离开吗？' });
     await leaveConfirm.getByRole('button', { name: '确定', exact: true }).click();
@@ -8244,7 +8256,7 @@ test('skill hit spell shield value saves condition and binding and confirms inva
   await nextCondition.getByLabel('事件值', { exact: true }).click();
   await expect(page.getByRole('option', { name: valueLabel, exact: true })).toHaveCount(0);
   await page.keyboard.press('Escape');
-  await nextCondition.getByRole('button', { name: '取消', exact: true }).click();
+  await confirmDraftClose(page, () => nextCondition.getByRole('button', { name: '取消', exact: true }).click());
   await edit.locator('.arco-card').filter({ hasText: '1. 读取阻挡值' }).getByRole('button', { name: '编辑', exact: true }).click();
   await expect(editAction.locator('tr', { hasText: '当前事件值 / 技能命中被法术护盾阻挡' })).toHaveCount(0);
   await editAction.getByRole('button', { name: '新增绑定', exact: true }).click();
@@ -8355,7 +8367,7 @@ test('skill hit first contact saves and reopens both paths with missing-value gu
   await nextCondition.getByLabel('事件值', { exact: true }).click();
   await expect(page.getByRole('option', { name: valueLabel, exact: true })).toHaveCount(0);
   await page.keyboard.press('Escape');
-  await nextCondition.getByRole('button', { name: '取消', exact: true }).click();
+  await confirmDraftClose(page, () => nextCondition.getByRole('button', { name: '取消', exact: true }).click());
   await actionCard.getByRole('button', { name: '编辑', exact: true }).click();
   await expect(editAction.locator('tr', { hasText: '当前事件值 / 本次使用首次目标接触' })).toHaveCount(0);
   await editAction.getByRole('button', { name: '新增绑定', exact: true }).click();

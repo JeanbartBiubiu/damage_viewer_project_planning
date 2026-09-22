@@ -1,5 +1,7 @@
 import type { SkillParameter } from '../../../../types/skillParameter';
 import { NumericValueField } from '../NumericValueField';
+import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
 import {
   Alert,
   Button,
@@ -67,6 +69,8 @@ type SkillProcessStateOperationEditorModalProps = {
   onOpenParameterFormula?: () => void;
   onClose: () => void;
   onConfirm: (draft: SkillProcessStateOperationDraft) => void;
+  focusField?: string | null;
+  locateMessage?: string | null;
 };
 
 function titleFor(mode: SkillProcessStateOperationEditorMode): string {
@@ -95,7 +99,9 @@ export function SkillProcessStateOperationEditorModal({
   adminToken,
   onOpenParameterFormula,
   onClose,
-  onConfirm
+  onConfirm,
+  focusField = null,
+  locateMessage = null
 }: SkillProcessStateOperationEditorModalProps) {
   const [draft, setDraft] = useState<SkillProcessStateOperationDraft>(operationDraft);
   const [errors, setErrors] = useState<SkillProcessStateOperationDraftErrors>(fieldErrors);
@@ -244,19 +250,24 @@ export function SkillProcessStateOperationEditorModal({
     onConfirm(draft);
   };
 
+  const close = () => {
+    if (!readOnly && JSON.stringify(draft) !== JSON.stringify(operationDraft) && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
+    onClose();
+  };
+
   return (
     <Modal
       title={titleFor(mode)}
       visible={visible}
       maskClosable
-      onCancel={onClose}
+      onCancel={close}
       style={{ width: 'calc(100vw - 80px)', maxWidth: 960 }}
       footer={
         <Space>
           {!readOnly ? (
             <Button onClick={onOpenParameterFormula}>参数与公式</Button>
           ) : null}
-          <Button onClick={onClose}>{readOnly ? '关闭' : '取消'}</Button>
+          <Button onClick={close}>{readOnly ? '关闭' : '取消'}</Button>
           {!readOnly ? (
             <Button type="primary" onClick={save}>保存</Button>
           ) : null}
@@ -265,6 +276,7 @@ export function SkillProcessStateOperationEditorModal({
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
         {saveError ? <Alert type="error" content={saveError} /> : null}
+        {locateMessage ? <Alert type="warning" content={locateMessage} /> : null}
         {internalStatesLoadState === 'failed' ? (
           <Alert type="error" content={INCOMPLETE_CATALOG_MESSAGE} />
         ) : null}
@@ -282,6 +294,7 @@ export function SkillProcessStateOperationEditorModal({
             validateStatus={errors.operationKey ? 'error' : undefined}
             help={errors.operationKey}
           >
+            <AuthoringFieldAnchor field="operationKey" active={focusField === 'operationKey'}>
             <Input
               aria-label="操作标识"
               value={draft.operationKey}
@@ -289,6 +302,7 @@ export function SkillProcessStateOperationEditorModal({
               maxLength={64}
               onChange={(value) => patchDraft({ ...draft, operationKey: value })}
             />
+            </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
             label="操作名称"

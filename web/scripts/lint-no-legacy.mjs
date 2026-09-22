@@ -10,8 +10,20 @@ const ROOT = join(process.cwd(), 'src');
 /** Exact approved independent skill-management lines; `/skills` stays forbidden elsewhere. */
 const APPROVED_INDEPENDENT_SKILL_LINES = [
   {
+    file: 'src/pages/admin/characters/authoringReferenceNames.ts',
+    text: "import { mapWithConcurrency } from '../skills/overview/mapWithConcurrency';"
+  },
+  {
     file: 'src/pages/admin/characters/CharacterManagementPage.tsx',
     text: "import { SkillManagementPage } from '../skills/SkillManagementPage';"
+  },
+  {
+    file: 'src/pages/admin/characters/CharacterManagementPage.tsx',
+    text: "import { createAuthoringNavigationRequest, type AuthoringNavigationRequest } from '../skills/authoringFocus';"
+  },
+  {
+    file: 'src/pages/admin/characters/CharacterAuthoringCheckModal.tsx',
+    text: "import { authoringLocationFor } from '../skills/authoringFocus';"
   },
   {
     file: 'src/pages/admin/equipment/EquipmentManagementPage.tsx',

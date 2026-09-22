@@ -28,6 +28,9 @@ import {
   SkillTriggerRuleEditorModal,
   type SkillTriggerRuleEditorMode
 } from './SkillTriggerRuleEditorModal';
+import type { AuthoringLocation } from '../../../../types/authoringLocation';
+import type { AuthoringNavigationRequest } from '../authoringFocus';
+import { useAuthoringListFocus } from '../useAuthoringListFocus';
 
 type SkillTriggerRuleManagementModalProps = {
   visible: boolean;
@@ -38,6 +41,7 @@ type SkillTriggerRuleManagementModalProps = {
   onClose: () => void;
   onSkillMissing: () => void;
   onDirtyChange: (dirty: boolean) => void;
+  authoringFocus?: AuthoringNavigationRequest | null;
 };
 
 type EditorState = {
@@ -58,17 +62,19 @@ export function SkillTriggerRuleManagementModal({
   adminToken,
   onClose,
   onSkillMissing,
-  onDirtyChange
+  onDirtyChange,
+  authoringFocus
 }: SkillTriggerRuleManagementModalProps) {
   const [items, setItems] = useState<SkillTriggerRuleSummary[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [editor, setEditor] = useState<EditorState | null>(null);
-  const [editorDirty, setEditorDirty] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<SkillTriggerRuleSummary | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [locateNotice, setLocateNotice] = useState<string | null>(null);
+  const [focusedLocation, setFocusedLocation] = useState<AuthoringLocation | null>(null);
   const listSerial = useRef(0);
   const openSkillKey = skill?.skillKey ?? null;
   const openGameId = selectedGameId;
@@ -76,14 +82,15 @@ export function SkillTriggerRuleManagementModal({
   const resetState = useCallback(() => {
     listSerial.current += 1;
     setItems([]);
-    setLoading(false);
+    setLoading(true);
     setLoadError(null);
     setNotice(null);
     setEditor(null);
-    setEditorDirty(false);
     setDeleteTarget(null);
     setDeleteError(null);
     setDeleting(false);
+    setLocateNotice(null);
+    setFocusedLocation(null);
   }, []);
 
   const loadRules = useCallback(async () => {
@@ -129,8 +136,7 @@ export function SkillTriggerRuleManagementModal({
   }, [loadRules, resetState, skill, visible]);
 
   const close = () => {
-    if (deleting) return;
-    if (editor && editorDirty) return;
+    if (deleting || editor) return;
     resetState();
     onClose();
   };
@@ -140,14 +146,29 @@ export function SkillTriggerRuleManagementModal({
     onSkillMissing();
   }, [onSkillMissing, resetState]);
 
+  const handleFound = useCallback((item: SkillTriggerRuleSummary, location: AuthoringLocation) => {
+    setLocateNotice(null);
+    setFocusedLocation(location);
+    setEditor({ mode: 'edit', rule: item });
+  }, []);
+  const handleMissing = useCallback((message: string) => {
+    setLocateNotice(message);
+  }, []);
+  useAuthoringListFocus(
+    authoringFocus,
+    items,
+    (item) => item.ruleKey,
+    visible && !loading && loadError === null,
+    handleFound,
+    handleMissing
+  );
+
   const handleEditorDirtyChange = useCallback((dirty: boolean) => {
-    setEditorDirty(dirty);
     onDirtyChange(dirty);
   }, [onDirtyChange]);
 
   const handleRuleMissing = useCallback(() => {
     setEditor(null);
-    setEditorDirty(false);
     setNotice('规则已被其他会话删除。');
     void loadRules();
   }, [loadRules]);
@@ -253,7 +274,7 @@ export function SkillTriggerRuleManagementModal({
       <Modal
         title={skill ? skillTriggerManagementTitle(skill.name) : SKILL_TRIGGER_ENTRY_LABEL}
         visible={visible && skill !== null}
-        maskClosable={!editorDirty}
+        maskClosable={!editor}
         onCancel={close}
         style={{ width: 'calc(100vw - 80px)', maxWidth: 1800 }}
         footer={
@@ -289,6 +310,7 @@ export function SkillTriggerRuleManagementModal({
           />
         ) : null}
         {notice ? <Alert type="success" content={notice} style={{ marginBottom: 12 }} /> : null}
+        {locateNotice ? <Alert type="warning" content={locateNotice} style={{ marginBottom: 12 }} /> : null}
         <Table
           className="data-table-shell"
           loading={loading}
@@ -312,11 +334,9 @@ export function SkillTriggerRuleManagementModal({
           adminToken={adminToken}
           onClose={() => {
             setEditor(null);
-            setEditorDirty(false);
           }}
           onSaved={async (saved: SkillTriggerRuleDetail) => {
             setEditor(null);
-            setEditorDirty(false);
             setNotice(`规则「${saved.name}」已保存。`);
             onDirtyChange(false);
             await loadRules();
@@ -324,6 +344,7 @@ export function SkillTriggerRuleManagementModal({
           onSkillMissing={handleSkillMissing}
           onRuleMissing={handleRuleMissing}
           onDirtyChange={handleEditorDirtyChange}
+          authoringLocation={focusedLocation}
         />
       ) : null}
 

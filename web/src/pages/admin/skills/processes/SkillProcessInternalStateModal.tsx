@@ -34,6 +34,10 @@ import {
 } from './internalStateForm';
 import { SKILL_PROCESS_ACTIVATION_TYPE_LABELS } from './processForm';
 import { SKILL_TRIGGER_INTERNAL_STATE_IN_USE_MESSAGE } from '../triggers/triggerRuleForm';
+import type { AuthoringLocation } from '../../../../types/authoringLocation';
+import type { AuthoringNavigationRequest } from '../authoringFocus';
+import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
+import { useAuthoringListFocus } from '../useAuthoringListFocus';
 
 type ContentManager = 'parameter-formula' | 'effects' | null;
 
@@ -46,6 +50,7 @@ type SkillProcessInternalStateModalProps = {
   onClose: () => void;
   onSkillMissing: () => void;
   onDirtyChange: (dirty: boolean) => void;
+  authoringFocus?: AuthoringNavigationRequest | null;
 };
 
 type ProcessEditorState = {
@@ -75,13 +80,14 @@ export function SkillProcessInternalStateModal({
   adminToken,
   onClose,
   onSkillMissing,
-  onDirtyChange
+  onDirtyChange,
+  authoringFocus
 }: SkillProcessInternalStateModalProps) {
   const [activeTab, setActiveTab] = useState('processes');
   const [processes, setProcesses] = useState<SkillProcessSummary[]>([]);
   const [internalStates, setInternalStates] = useState<SkillInternalStateSummary[]>([]);
-  const [processesLoading, setProcessesLoading] = useState(false);
-  const [internalStatesLoading, setInternalStatesLoading] = useState(false);
+  const [processesLoading, setProcessesLoading] = useState(true);
+  const [internalStatesLoading, setInternalStatesLoading] = useState(true);
   const [processesError, setProcessesError] = useState<string | null>(null);
   const [internalStatesError, setInternalStatesError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -95,6 +101,8 @@ export function SkillProcessInternalStateModal({
   const [catalogRevision, setCatalogRevision] = useState(0);
   const [processEditorDirty, setProcessEditorDirty] = useState(false);
   const [contentEditorDirty, setContentEditorDirty] = useState(false);
+  const [locateNotice, setLocateNotice] = useState<string | null>(null);
+  const [focusedLocation, setFocusedLocation] = useState<AuthoringLocation | null>(null);
   const processSerial = useRef(0);
   const internalStateSerial = useRef(0);
   const openSkillKey = skill?.skillKey ?? null;
@@ -132,8 +140,8 @@ export function SkillProcessInternalStateModal({
     setActiveTab('processes');
     setProcesses([]);
     setInternalStates([]);
-    setProcessesLoading(false);
-    setInternalStatesLoading(false);
+    setProcessesLoading(true);
+    setInternalStatesLoading(true);
     setProcessesError(null);
     setInternalStatesError(null);
     setNotice(null);
@@ -147,6 +155,8 @@ export function SkillProcessInternalStateModal({
     setCatalogRevision(0);
     setProcessEditorDirty(false);
     setContentEditorDirty(false);
+    setLocateNotice(null);
+    setFocusedLocation(null);
   }, []);
 
   const loadProcesses = useCallback(async () => {
@@ -225,10 +235,43 @@ export function SkillProcessInternalStateModal({
   }, [loadInternalStates, loadProcesses, resetState, skill, visible]);
 
   const close = () => {
-    if (deleting) return;
+    if (deleting || processEditor || internalStateEditor || contentManager) return;
+    if ((processEditorDirty || contentEditorDirty) && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
     resetState();
     onClose();
   };
+
+  const handleFoundProcess = useCallback((item: SkillProcessSummary, location: AuthoringLocation) => {
+    setLocateNotice(null);
+    setFocusedLocation(location);
+    setActiveTab('processes');
+    setProcessEditor({ mode: 'edit', process: item });
+  }, []);
+  const handleFoundInternalState = useCallback((item: SkillInternalStateSummary, location: AuthoringLocation) => {
+    setLocateNotice(null);
+    setFocusedLocation(location);
+    setActiveTab('internal-states');
+    setInternalStateEditor({ mode: 'edit', internalState: item });
+  }, []);
+  const handleMissing = useCallback((message: string) => {
+    setLocateNotice(message);
+  }, []);
+  useAuthoringListFocus(
+    authoringFocus?.location.editor === 'PROCESS' ? authoringFocus : null,
+    processes,
+    (item) => item.processKey,
+    visible && !processesLoading && processesError === null,
+    handleFoundProcess,
+    handleMissing
+  );
+  useAuthoringListFocus(
+    authoringFocus?.location.editor === 'INTERNAL_STATE' ? authoringFocus : null,
+    internalStates,
+    (item) => item.stateKey,
+    visible && !internalStatesLoading && internalStatesError === null,
+    handleFoundInternalState,
+    handleMissing
+  );
 
   const handleSkillMissing = useCallback(() => {
     resetState();
@@ -398,18 +441,19 @@ export function SkillProcessInternalStateModal({
       <Modal
         title={skill ? `过程与内部状态 - ${skill.name}` : '过程与内部状态'}
         visible={visible && skill !== null}
-        maskClosable
+        maskClosable={!processEditor && !internalStateEditor && !contentManager}
         onCancel={close}
         style={{ width: 'calc(100vw - 80px)', maxWidth: 1800 }}
         footer={
           <Space>
             <Button onClick={openParameterFormula} disabled={deleting}>参数与公式</Button>
             <Button onClick={openEffects} disabled={deleting}>效果与结果</Button>
-            <Button onClick={close} disabled={deleting}>关闭</Button>
+            <Button onClick={close} disabled={deleting || Boolean(processEditor || internalStateEditor || contentManager)}>关闭</Button>
           </Space>
         }
       >
         {notice ? <Alert type="success" content={notice} style={{ marginBottom: 12 }} /> : null}
+        {locateNotice ? <Alert type="warning" content={locateNotice} style={{ marginBottom: 12 }} /> : null}
         <Tabs activeTab={activeTab} onChange={setActiveTab}>
           <Tabs.TabPane key="processes" title="技能过程">
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginBottom: 16 }}>
@@ -513,6 +557,7 @@ export function SkillProcessInternalStateModal({
           }}
           onSkillMissing={handleSkillMissing}
           onDirtyChange={handleProcessEditorDirty}
+          authoringLocation={focusedLocation?.editor === 'PROCESS' ? focusedLocation : null}
         />
       ) : null}
 
@@ -536,6 +581,7 @@ export function SkillProcessInternalStateModal({
           }}
           onSkillMissing={handleSkillMissing}
           onDirtyChange={handleProcessEditorDirty}
+          authoringLocation={focusedLocation?.editor === 'INTERNAL_STATE' ? focusedLocation : null}
         />
       ) : null}
 

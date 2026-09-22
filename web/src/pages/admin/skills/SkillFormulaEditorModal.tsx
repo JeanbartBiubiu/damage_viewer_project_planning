@@ -16,6 +16,16 @@ import { listSkillParameters } from '../../../services/skillParameterClient';
 import type { Attribute } from '../../../types/attribute';
 import type { SkillFormula, SkillFormulaSummary } from '../../../types/skillFormula';
 import type { SkillParameter } from '../../../types/skillParameter';
+import type { AuthoringLocation } from '../../../types/authoringLocation';
+import { AuthoringFieldAnchor } from './AuthoringFieldAnchor';
+import { resolveAuthoringLocation } from './authoringLocation';
+import {
+  AUTHORING_UNSAVED_CONFIRM,
+  authoringLocateMessage,
+  formulaNodePathFromResolved,
+  lastFieldName,
+  shouldDegradeUnsupportedAnchor
+} from './authoringFocus';
 import { FormulaExpressionEditor } from './FormulaExpressionEditor';
 import {
   buildCreateFormulaRequest,
@@ -45,6 +55,7 @@ type SkillFormulaEditorModalProps = {
   onClose: () => void;
   onSaved: () => void | Promise<void>;
   onSkillMissing: () => void;
+  authoringLocation?: AuthoringLocation | null;
 };
 
 function titleFor(mode: SkillFormulaEditorMode): string {
@@ -67,9 +78,14 @@ export function SkillFormulaEditorModal({
   adminToken,
   onClose,
   onSaved,
-  onSkillMissing
+  onSkillMissing,
+  authoringLocation
 }: SkillFormulaEditorModalProps) {
   const [draft, setDraft] = useState<SkillFormulaDraft>(createEmptyFormulaDraft());
+  const [baseline, setBaseline] = useState<SkillFormulaDraft>(createEmptyFormulaDraft());
+  const [locateNotice, setLocateNotice] = useState<string | null>(null);
+  const [focusPath, setFocusPath] = useState<string | null>(null);
+  const [focusField, setFocusField] = useState<string | null>(null);
   const [errors, setErrors] = useState<SkillFormulaDraftErrors>({});
   const [nodeIssues, setNodeIssues] = useState<FormulaNodeIssue[]>([]);
   const [parameters, setParameters] = useState<SkillParameter[]>([]);
@@ -234,7 +250,34 @@ export function SkillFormulaEditorModal({
       }
 
       setDraft(nextDraft);
+      setBaseline(nextDraft);
       setDetailReady(true);
+      if (authoringLocation) {
+        const resolved = resolveAuthoringLocation(authoringLocation, detail);
+        const unsupported = shouldDegradeUnsupportedAnchor(authoringLocation.editor, resolved.matchedSegments, resolved.precision);
+        if (resolved.precision !== 'FIELD' || unsupported || resolved.reason) {
+          setLocateNotice(authoringLocateMessage({
+            originalFieldPath: resolved.originalFieldPath,
+            reason: resolved.reason,
+            unsupportedAnchor: unsupported,
+            reportChanged: resolved.reportChanged
+          }));
+          setFocusPath(null);
+          setFocusField(null);
+        } else if (resolved.path[0] === 'expression') {
+          setLocateNotice(null);
+          setFocusPath(formulaNodePathFromResolved(resolved.path));
+          setFocusField(null);
+        } else {
+          setLocateNotice(null);
+          setFocusPath(null);
+          setFocusField(lastFieldName(resolved.matchedSegments));
+        }
+      } else {
+        setLocateNotice(null);
+        setFocusPath(null);
+        setFocusField(null);
+      }
       setParameters(nextParameters);
       setAttributes(nextAttributes);
       setRetainedDisabledAttributeKeys(retained);
@@ -248,10 +291,12 @@ export function SkillFormulaEditorModal({
       if (!cancelled) setLoading(false);
     });
     return () => { cancelled = true; };
-  }, [adminToken, apiBaseUrl, formula, mode, onSkillMissing, selectedGameId, skillKey, visible]);
+  }, [adminToken, apiBaseUrl, formula, mode, onSkillMissing, selectedGameId, skillKey, visible, authoringLocation]);
 
   const close = () => {
     if (saving) return;
+    if (mode !== 'view' && JSON.stringify(draft) !== JSON.stringify(baseline)
+      && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
     onClose();
   };
 
@@ -337,10 +382,12 @@ export function SkillFormulaEditorModal({
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
         {loadError ? <Alert type="error" content={loadError} /> : null}
         {catalogError ? <Alert type="error" content={catalogError} /> : null}
+        {locateNotice ? <Alert type="warning" content={locateNotice} /> : null}
         {saveError ? <Alert type="error" content={saveError} /> : null}
         {loading ? <Typography.Text type="secondary">加载中…</Typography.Text> : null}
         {!loading ? (
           <Form layout="vertical">
+            <AuthoringFieldAnchor field="formulaKey" active={focusField === 'formulaKey'}>
             <Form.Item
               label="稳定标识"
               required
@@ -355,6 +402,8 @@ export function SkillFormulaEditorModal({
                 onChange={(value) => patchField('formulaKey', value)}
               />
             </Form.Item>
+            </AuthoringFieldAnchor>
+            <AuthoringFieldAnchor field="name" active={focusField === 'name'}>
             <Form.Item
               label="公式名称"
               required
@@ -369,6 +418,8 @@ export function SkillFormulaEditorModal({
                 onChange={(value) => patchField('name', value)}
               />
             </Form.Item>
+            </AuthoringFieldAnchor>
+            <AuthoringFieldAnchor field="description" active={focusField === 'description'}>
             <Form.Item
               label="说明"
               validateStatus={errors.description ? 'error' : undefined}
@@ -384,6 +435,8 @@ export function SkillFormulaEditorModal({
                 onChange={(value) => patchField('description', value)}
               />
             </Form.Item>
+            </AuthoringFieldAnchor>
+            <AuthoringFieldAnchor field="sortOrder" active={focusField === 'sortOrder'}>
             <Form.Item
               label="排序"
               required
@@ -400,6 +453,8 @@ export function SkillFormulaEditorModal({
                 onChange={(value) => patchField('sortOrder', value === undefined ? '' : String(value))}
               />
             </Form.Item>
+            </AuthoringFieldAnchor>
+            <AuthoringFieldAnchor field="expression" active={focusField === 'expression' && !focusPath}>
             <Form.Item
               label="公式结构"
               validateStatus={errors.expression ? 'error' : undefined}
@@ -416,6 +471,7 @@ export function SkillFormulaEditorModal({
                   attributes={attributes}
                   retainedDisabledAttributeKeys={retainedDisabledAttributeKeys}
                   nodeIssues={nodeIssues}
+                  focusPath={focusPath}
                   updateAtPath={(path, next) => {
                     setDraft((current) => ({
                       ...current,
@@ -441,6 +497,7 @@ export function SkillFormulaEditorModal({
                 />
               )}
             </Form.Item>
+            </AuthoringFieldAnchor>
             <Form.Item label="中文预览">
               <Typography.Paragraph style={{ marginBottom: 0 }}>
                 {previewSegments.map((segment, index) => (

@@ -93,6 +93,24 @@ describe('authoring location resolution against fresh saved details', () => {
     resolveAuthoringLocation(focus, detail);
     expect(JSON.stringify({ focus, detail })).toBe(before);
   });
+  it('reaches mode options through the saved detail object rather than treating options as a root collection', () => {
+    const focus = location([
+      { kind: 'FIELD', field: 'detail' },
+      { kind: 'KEYED_CHILD', collection: 'options', keyField: 'optionKey', key: 'open' },
+      { kind: 'FIELD', field: 'optionKey' }
+    ], { editor: 'INTERNAL_STATE', objectType: 'STATE', objectKey: 'stance', fieldPath: 'detail.options[optionKey=open].optionKey' });
+    const state = {
+      stateKey: 'stance',
+      stateType: 'MODE',
+      detail: { options: [{ optionKey: 'closed' }, { optionKey: 'open' }] }
+    };
+    expect(resolveAuthoringLocation(focus, state)).toMatchObject({
+      precision: 'FIELD', path: ['detail', 'options', 1, 'optionKey']
+    });
+    expect(resolveAuthoringLocation(location([
+      { kind: 'KEYED_CHILD', collection: 'options', keyField: 'optionKey', key: 'open' }
+    ], { editor: 'INTERNAL_STATE', objectType: 'STATE' }), state).reason).toBe('NODE_MISSING');
+  });
 });
 
 describe('formula structural slots', () => {

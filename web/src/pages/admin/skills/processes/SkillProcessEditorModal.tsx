@@ -26,6 +26,16 @@ import type { SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type { SkillInternalStateSummary } from '../../../../types/skillInternalState';
 import type { SkillProcess, SkillProcessActivationType, SkillProcessSummary } from '../../../../types/skillProcess';
+import type { AuthoringLocation } from '../../../../types/authoringLocation';
+import { resolveAuthoringLocation } from '../authoringLocation';
+import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import {
+  AUTHORING_UNSAVED_CONFIRM,
+  authoringLocateMessage,
+  keyedChildKey,
+  lastFieldName,
+  shouldDegradeUnsupportedAnchor
+} from '../authoringFocus';
 import {
   SkillProcessEffectBindingEditorModal,
   type SkillProcessEffectBindingEditorMode
@@ -91,6 +101,7 @@ type SkillProcessEditorModalProps = {
   catalogRevision: number;
   onOpenParameterFormula?: () => void;
   onOpenEffects?: () => void;
+  authoringLocation?: AuthoringLocation | null;
 };
 
 type StepEditorState = {
@@ -98,6 +109,8 @@ type StepEditorState = {
   index: number | null;
   draft: SkillProcessStepDraft;
   fieldErrors: SkillProcessStepDraftErrors;
+  focusField?: string | null;
+  locateMessage?: string | null;
 };
 
 type BindingEditorState = {
@@ -105,6 +118,8 @@ type BindingEditorState = {
   index: number | null;
   draft: SkillProcessEffectBindingDraft;
   fieldErrors: SkillProcessEffectBindingDraftErrors;
+  focusField?: string | null;
+  locateMessage?: string | null;
 };
 
 type OperationEditorState = {
@@ -112,6 +127,8 @@ type OperationEditorState = {
   index: number | null;
   draft: SkillProcessStateOperationDraft;
   fieldErrors: SkillProcessStateOperationDraftErrors;
+  focusField?: string | null;
+  locateMessage?: string | null;
 };
 
 const EMPTY_STEP = createEmptyStepDraft();
@@ -169,7 +186,8 @@ export function SkillProcessEditorModal({
   onDirtyChange,
   catalogRevision,
   onOpenParameterFormula,
-  onOpenEffects
+  onOpenEffects,
+  authoringLocation
 }: SkillProcessEditorModalProps) {
   const [draft, setDraft] = useState<SkillProcessDraft>(createEmptyProcessDraft());
   const [baseline, setBaseline] = useState<SkillProcessDraft>(createEmptyProcessDraft());
@@ -197,6 +215,8 @@ export function SkillProcessEditorModal({
   const [bindingEditor, setBindingEditor] = useState<BindingEditorState | null>(null);
   const [operationEditor, setOperationEditor] = useState<OperationEditorState | null>(null);
   const [stepDeleteError, setStepDeleteError] = useState<string | null>(null);
+  const [locateNotice, setLocateNotice] = useState<string | null>(null);
+  const [focusField, setFocusField] = useState<string | null>(null);
   const detailSerial = useRef(0);
   const formulaSerial = useRef(0);
   const effectSerial = useRef(0);
@@ -239,6 +259,8 @@ export function SkillProcessEditorModal({
     setBindingEditor(null);
     setOperationEditor(null);
     setStepDeleteError(null);
+    setLocateNotice(null);
+    setFocusField(null);
   }, [mode]);
 
   const loadFormulas = useCallback(async () => {
@@ -343,6 +365,78 @@ export function SkillProcessEditorModal({
     }
   }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
 
+  const applyAuthoringLocation = useCallback((detail: SkillProcess, nextDraft: SkillProcessDraft) => {
+    if (!authoringLocation) {
+      setLocateNotice(null);
+      setFocusField(null);
+      return;
+    }
+    const resolved = resolveAuthoringLocation(authoringLocation, detail);
+    const unsupported = shouldDegradeUnsupportedAnchor(authoringLocation.editor, resolved.matchedSegments, resolved.precision);
+    const stepKey = keyedChildKey(resolved.matchedSegments, 'steps');
+    const bindingKey = keyedChildKey(resolved.matchedSegments, 'effectBindings');
+    const operationKey = keyedChildKey(resolved.matchedSegments, 'stateOperations');
+    const field = lastFieldName(resolved.matchedSegments);
+    const notice = (resolved.precision !== 'FIELD' || unsupported || resolved.reason)
+      ? authoringLocateMessage({
+        originalFieldPath: resolved.originalFieldPath,
+        reason: resolved.reason,
+        unsupportedAnchor: unsupported,
+        reportChanged: resolved.reportChanged
+      })
+      : null;
+    setLocateNotice(notice);
+    setFocusField(stepKey || bindingKey || operationKey ? null : field);
+    const childNotice = notice;
+    if (stepKey) {
+      const index = nextDraft.steps.findIndex((item) => item.stepKey === stepKey);
+      if (index < 0) {
+        setLocateNotice(authoringLocateMessage({ originalFieldPath: resolved.originalFieldPath, reason: 'MISSING_KEY' }));
+        return;
+      }
+      setStepEditor({
+        mode: 'edit',
+        index,
+        draft: nextDraft.steps[index]!,
+        fieldErrors: {},
+        focusField: resolved.precision === 'FIELD' && !unsupported ? field : null,
+        locateMessage: childNotice
+      });
+      return;
+    }
+    if (bindingKey) {
+      const index = nextDraft.effectBindings.findIndex((item) => item.bindingKey === bindingKey);
+      if (index < 0) {
+        setLocateNotice(authoringLocateMessage({ originalFieldPath: resolved.originalFieldPath, reason: 'MISSING_KEY' }));
+        return;
+      }
+      setBindingEditor({
+        mode: 'edit',
+        index,
+        draft: nextDraft.effectBindings[index]!,
+        fieldErrors: {},
+        focusField: resolved.precision === 'FIELD' && !unsupported ? field : null,
+        locateMessage: childNotice
+      });
+      return;
+    }
+    if (operationKey) {
+      const index = nextDraft.stateOperations.findIndex((item) => item.operationKey === operationKey);
+      if (index < 0) {
+        setLocateNotice(authoringLocateMessage({ originalFieldPath: resolved.originalFieldPath, reason: 'MISSING_KEY' }));
+        return;
+      }
+      setOperationEditor({
+        mode: 'edit',
+        index,
+        draft: nextDraft.stateOperations[index]!,
+        fieldErrors: {},
+        focusField: resolved.precision === 'FIELD' && !unsupported ? field : null,
+        locateMessage: childNotice
+      });
+    }
+  }, [authoringLocation]);
+
   const loadDetail = useCallback(async () => {
     const serial = detailSerial.current + 1;
     detailSerial.current = serial;
@@ -390,6 +484,7 @@ export function SkillProcessEditorModal({
       setBaseline(next);
       setDetailReady(true);
       onDirtyChange(false);
+      applyAuthoringLocation(result.data, next);
     } catch (error) {
       if (detailSerial.current !== serial) return;
       if (isSkillNotFound(error)) {
@@ -398,6 +493,12 @@ export function SkillProcessEditorModal({
       }
       setDetailReady(false);
       setLoadError(getErrorMessage(error));
+      if (authoringLocation) {
+        setLocateNotice(authoringLocateMessage({
+          originalFieldPath: authoringLocation.fieldPath,
+          reason: 'OBJECT_MISSING'
+        }));
+      }
     } finally {
       if (detailSerial.current === serial) setLoadingDetail(false);
     }
@@ -410,7 +511,9 @@ export function SkillProcessEditorModal({
     process,
     selectedGameId,
     skill.skillKey,
-    visible
+    visible,
+    applyAuthoringLocation,
+    authoringLocation
   ]);
 
   useEffect(() => {
@@ -462,7 +565,9 @@ export function SkillProcessEditorModal({
   };
 
   const close = () => {
-    if (closeBlocked) return;
+    if (closeBlocked || stepEditor || bindingEditor || operationEditor) return;
+    const dirty = JSON.stringify(draft) !== JSON.stringify(baseline);
+    if (!readOnly && dirty && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
     onDirtyChange(false);
     onClose();
   };
@@ -843,7 +948,7 @@ export function SkillProcessEditorModal({
       <Modal
         title={titleFor(mode)}
         visible={visible}
-        maskClosable
+        maskClosable={!stepEditor && !bindingEditor && !operationEditor}
         onCancel={close}
         style={{ width: 'calc(100vw - 80px)', maxWidth: 1800 }}
         footer={
@@ -854,7 +959,7 @@ export function SkillProcessEditorModal({
                 <Button onClick={onOpenEffects}>效果与结果</Button>
               </>
             ) : null}
-            <Button onClick={close} disabled={closeBlocked}>{readOnly ? '关闭' : '取消'}</Button>
+            <Button onClick={close} disabled={closeBlocked || Boolean(stepEditor || bindingEditor || operationEditor)}>{readOnly ? '关闭' : '取消'}</Button>
             {!readOnly ? (
               <Button
                 type="primary"
@@ -877,6 +982,7 @@ export function SkillProcessEditorModal({
               action={<Button size="mini" loading={loadingDetail} onClick={() => void loadDetail()}>重试</Button>}
             />
           ) : null}
+          {locateNotice ? <Alert type="warning" content={locateNotice} /> : null}
           {formulasError ? (
             <Alert
               type="error"
@@ -909,6 +1015,7 @@ export function SkillProcessEditorModal({
               validateStatus={errors.processKey ? 'error' : undefined}
               help={errors.processKey}
             >
+              <AuthoringFieldAnchor field="processKey" active={focusField === 'processKey'}>
               <Input
                 aria-label="过程标识"
                 value={draft.processKey}
@@ -916,6 +1023,7 @@ export function SkillProcessEditorModal({
                 maxLength={64}
                 onChange={(value) => patchDraft({ ...draft, processKey: value })}
               />
+              </AuthoringFieldAnchor>
             </Form.Item>
             <Form.Item
               label="过程名称"
@@ -923,6 +1031,7 @@ export function SkillProcessEditorModal({
               validateStatus={errors.name ? 'error' : undefined}
               help={errors.name}
             >
+              <AuthoringFieldAnchor field="name" active={focusField === 'name'}>
               <Input
                 aria-label="过程名称"
                 value={draft.name}
@@ -930,6 +1039,7 @@ export function SkillProcessEditorModal({
                 maxLength={100}
                 onChange={(value) => patchDraft({ ...draft, name: value })}
               />
+              </AuthoringFieldAnchor>
             </Form.Item>
             <Form.Item
               label="启动方式"
@@ -980,6 +1090,7 @@ export function SkillProcessEditorModal({
               />
             </Form.Item>
             <Form.Item label="普通冷却" required>
+              <AuthoringFieldAnchor field="cooldown" active={focusField === 'cooldown'}>
               <Radio.Group
                 aria-label="普通冷却"
                 value={draft.cooldownEnabled ? 'configured' : 'none'}
@@ -996,6 +1107,7 @@ export function SkillProcessEditorModal({
                 <Radio value="none">无普通冷却</Radio>
                 <Radio value="configured">配置普通冷却</Radio>
               </Radio.Group>
+              </AuthoringFieldAnchor>
             </Form.Item>
             {draft.cooldownEnabled ? (
               <>
@@ -1006,6 +1118,7 @@ export function SkillProcessEditorModal({
                   validateStatus={errors.cooldownDurationValue ? 'error' : undefined}
                   help={errors.cooldownDurationValue}
                 >
+                  <AuthoringFieldAnchor field="durationValue" active={focusField === 'durationValue' || focusField === 'value'}>
                   <NumericValueField aria-label="冷却时长取值"
                   value={draft.cooldownDurationValue}
                   onChange={(value) => patchDraft({ ...draft, cooldownDurationValue: value! })}
@@ -1013,6 +1126,7 @@ export function SkillProcessEditorModal({
                   parametersLoadState={parametersLoadState}
                   formulas={formulas}
                   disabled={readOnly || saving} />
+                  </AuthoringFieldAnchor>
                 </Form.Item>
                 <SkillProcessMomentFields
                   momentType={draft.cooldownMomentType}
@@ -1155,6 +1269,8 @@ export function SkillProcessEditorModal({
         formulasLoadState={formulasLoadState}
         onOpenParameterFormula={onOpenParameterFormula}
         onClose={() => setStepEditor(null)}
+        focusField={stepEditor?.focusField ?? null}
+        locateMessage={stepEditor?.locateMessage ?? null}
         onConfirm={(nextStep) => {
           if (!stepEditor) return;
           if (stepEditor.index === null) {
@@ -1187,6 +1303,8 @@ export function SkillProcessEditorModal({
         effectsLoadState={effectsLoadState}
         onOpenEffects={onOpenEffects}
         onClose={() => setBindingEditor(null)}
+        focusField={bindingEditor?.focusField ?? null}
+        locateMessage={bindingEditor?.locateMessage ?? null}
         onConfirm={(nextBinding) => {
           if (!bindingEditor) return;
           if (bindingEditor.index === null) {
@@ -1230,6 +1348,8 @@ export function SkillProcessEditorModal({
         adminToken={adminToken}
         onOpenParameterFormula={onOpenParameterFormula}
         onClose={() => setOperationEditor(null)}
+        focusField={operationEditor?.focusField ?? null}
+        locateMessage={operationEditor?.locateMessage ?? null}
         onConfirm={(nextOperation) => {
           if (!operationEditor) return;
           if (operationEditor.index === null) {

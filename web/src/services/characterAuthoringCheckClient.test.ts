@@ -1,12 +1,31 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { getCharacterAuthoringCheck, parseCharacterAuthoringCheck } from './characterAuthoringCheckClient';
 import type { CharacterAuthoringCheck } from '../types/characterAuthoringCheck';
+import type { AuthoringEditor, AuthoringLocation } from '../types/authoringLocation';
+
+function location(
+  identity: Pick<AuthoringLocation, 'skillKey' | 'objectType' | 'objectKey' | 'fieldPath'>,
+  editor: AuthoringEditor = 'CHARACTER_RELATIONS'
+): AuthoringLocation {
+  return {
+    ...identity,
+    editor,
+    precision: 'FIELD',
+    degradeReason: null,
+    segments: [{ kind: 'FIELD', field: identity.fieldPath.split('[')[0] ?? identity.fieldPath }],
+    formulaSnapshot: null
+  };
+}
 
 const report: CharacterAuthoringCheck = {
   gameId: 'lol', characterKey: 'ez', characterName: '伊泽瑞尔', checkedAt: '2026-09-06T12:00:00Z',
   conclusions: { structure: 'NO_ERRORS', mechanics: 'NOT_CHECKED', runtime: 'NOT_RUN' },
   summary: { attachedSkillCount: 0, configuredAttributeCount: 0, errorCount: 0, reviewCount: 1 },
-  skills: [], references: [], issues: [{ code: 'NO_ATTACHED_SKILL', severity: 'REVIEW', message: '没有挂载技能', skillKey: null, objectType: 'CHARACTER', objectKey: 'ez', fieldPath: 'skills' }]
+  skills: [], references: [], issues: [{
+    code: 'NO_ATTACHED_SKILL', severity: 'REVIEW', message: '没有挂载技能', skillKey: null,
+    objectType: 'CHARACTER', objectKey: 'ez', fieldPath: 'skills',
+    location: location({ skillKey: null, objectType: 'CHARACTER', objectKey: 'ez', fieldPath: 'skills' })
+  }]
 };
 
 describe('character authoring check', () => {
@@ -31,7 +50,15 @@ describe('character authoring check', () => {
       conclusions: { ...report.conclusions, structure: 'HAS_ERRORS' },
       summary: { ...report.summary, attachedSkillCount: 1, errorCount: 1, reviewCount: 0 },
       skills: [{ skillKey: 'missing', name: null, status: null, maxLevel: null, sortOrder: 10, effectCount: 0, processCount: 0, triggerRuleCount: 0 }],
-      issues: [{ code: 'ATTACHED_SKILL_MISSING', severity: 'ERROR', message: '技能缺失', skillKey: 'missing', objectType: 'SKILL', objectKey: 'missing', fieldPath: 'skills' }]
+      issues: [{
+        code: 'ATTACHED_SKILL_MISSING', severity: 'ERROR', message: '技能缺失', skillKey: 'missing',
+        objectType: 'SKILL', objectKey: 'missing', fieldPath: 'skills',
+        location: {
+          skillKey: 'missing', objectType: 'SKILL', objectKey: 'missing', fieldPath: 'skills',
+          editor: 'CHARACTER_RELATIONS', precision: 'OBJECT', degradeReason: 'OBJECT_MISSING',
+          segments: [], formulaSnapshot: null
+        }
+      }]
     };
     expect(parseCharacterAuthoringCheck(missing, 'lol', 'ez')).toEqual(missing);
   });
@@ -49,9 +76,32 @@ describe('character authoring check', () => {
       conclusions: { ...report.conclusions, structure: 'HAS_ERRORS' },
       summary: { ...report.summary, attachedSkillCount: 1, errorCount: 1, reviewCount: 0 },
       skills: [{ skillKey: 'ez_q', name: '', status: 'UNKNOWN', maxLevel: 0, sortOrder: -1, effectCount: 0, processCount: 0, triggerRuleCount: 0 }],
-      issues: [{ code: 'BASIC_FIELD_INVALID', severity: 'ERROR', message: '基础字段无效', skillKey: 'ez_q', objectType: 'SKILL', objectKey: 'ez_q', fieldPath: 'name' }]
+      issues: [{
+        code: 'BASIC_FIELD_INVALID', severity: 'ERROR', message: '基础字段无效', skillKey: 'ez_q',
+        objectType: 'SKILL', objectKey: 'ez_q', fieldPath: 'name',
+        location: location({ skillKey: 'ez_q', objectType: 'SKILL', objectKey: 'ez_q', fieldPath: 'name' }, 'SKILL_BASIC')
+      }]
     };
     expect(parseCharacterAuthoringCheck(invalidBasics, 'lol', 'ez')).toEqual(invalidBasics);
+  });
+  it('rejects missing or mismatched location instead of falling back to fieldPath indexes', () => {
+    const issue = report.issues[0]!;
+    expect(() => parseCharacterAuthoringCheck({
+      ...report, issues: [{ ...issue, location: undefined }]
+    }, 'lol', 'ez')).toThrow('定位信息不完整');
+    expect(() => parseCharacterAuthoringCheck({
+      ...report, issues: [{ ...issue, location: { ...issue.location, objectKey: 'other' } }]
+    }, 'lol', 'ez')).toThrow('定位信息不完整');
+    expect(() => parseCharacterAuthoringCheck({
+      ...report,
+      summary: { ...report.summary, reviewCount: 0, errorCount: 0 },
+      conclusions: { ...report.conclusions, structure: 'NO_ERRORS' },
+      issues: [],
+      references: [{
+        sourceSkillKey: 'ez_q', sourceType: 'EFFECT', sourceKey: 'hit', fieldPath: 'results[0].attributeKey',
+        targetType: 'ATTRIBUTE', targetSkillKey: null, targetKey: 'ad', targetSubKey: null
+      }]
+    }, 'lol', 'ez')).toThrow('定位信息不完整');
   });
   it('propagates server failures without creating an empty passing report', async () => {
     vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ error: { code: '500.ERROR', message: '检查读取失败' } }), { status: 500 })));
