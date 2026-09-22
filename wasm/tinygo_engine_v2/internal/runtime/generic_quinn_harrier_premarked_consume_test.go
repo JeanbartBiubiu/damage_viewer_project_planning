@@ -11,7 +11,6 @@ import (
 	"strings"
 	"testing"
 
-	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -291,7 +290,7 @@ func loadQuinnHarrierFixture(t *testing.T, opts quinnHarrierFixtureOpts) (model.
 
 func runQuinnHarrier(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -310,6 +309,7 @@ type quinnHarrierRunBundle struct {
 
 func runQuinnHarrierFrames(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) quinnHarrierRunBundle {
 	t.Helper()
+	prepareNativeBasicAttackHits(&compileReq, &runReq)
 	session := NewSession()
 	session.ClearOutbox()
 	if code := session.CompileFrame(encodeGenericFrame(model.FrameKindGenericCompile, compileReq)); code != 0 {

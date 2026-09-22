@@ -326,7 +326,7 @@ func firmamentAttachProbe(compileReq *model.CompileRequest) {
 
 func firmamentRun(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -409,7 +409,7 @@ func firmamentDamageData(t *testing.T, done model.DoneResult) map[string]interfa
 // TestGenericFirmament6699SchemaCompiled: charge untimed max100; lethality max1/4000/refresh_on_write.
 func TestGenericFirmament6699SchemaCompiled(t *testing.T) {
 	compileReq, _ := firmamentLoadFixture(t)
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, nil)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -632,7 +632,8 @@ func TestGenericFirmament6699PhantomDoesNotExtraConsume(t *testing.T) {
 		}
 		runReq.InitialSnapshot.Combatants[i].ProviderState = map[string]interface{}{
 			firmamentChampionRef: map[string]interface{}{
-				"state": map[string]interface{}{guinsooStackKey: float64(3)},
+				"state":    map[string]interface{}{guinsooStackKey: float64(3)},
+				"expireAt": map[string]interface{}{guinsooStackKey: float64(10000)},
 			},
 			firmamentProviderRef: map[string]interface{}{
 				"state": map[string]interface{}{firmamentChargeKey: float64(firmamentChargeMax)},

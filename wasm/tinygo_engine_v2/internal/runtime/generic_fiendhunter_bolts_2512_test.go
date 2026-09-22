@@ -472,7 +472,7 @@ func ob2512LoadFixture(t *testing.T, critChance float64) (model.CompileRequest, 
 
 func ob2512Compile(t *testing.T, compileReq model.CompileRequest) compile.GenericCompileResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, nil)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -481,7 +481,10 @@ func ob2512Compile(t *testing.T, compileReq model.CompileRequest) compile.Generi
 
 func ob2512Run(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := ob2512Compile(t, compileReq)
+	result := compileMigrated(&compileReq, &runReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
 	done, err := RunGeneric(result.Session, runReq)
 	if err != nil {
 		t.Fatal(err)

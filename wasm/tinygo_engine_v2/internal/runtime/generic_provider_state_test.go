@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"encoding/json"
+	"math"
 	"strings"
 	"testing"
 
@@ -606,6 +607,13 @@ func TestGenericRunTrueDamageIgnoresArmorMRAttrs(t *testing.T) {
 func TestGenericRunProviderStateSnapshotShapeAndHydrationResume(t *testing.T) {
 	compileReq, runReq := loadBasicFixture(t)
 	two := 2.0
+	compileReq.SharedProviders[0].InitialStateSchema = map[string]interface{}{
+		"hits": map[string]interface{}{
+			"defaultValue": float64(0),
+			"maxValue":     float64(99),
+			"durationMs":   float64(0),
+		},
+	}
 	compileReq.SharedProviders[0].Abilities[0].Operations = []model.OperationDefinition{
 		{
 			Operation:   "state_change",
@@ -690,6 +698,14 @@ func TestGenericRunProviderStateSnapshotShapeAndHydrationResume(t *testing.T) {
 func TestGenericRunProviderExpireRemovesOwningProviderStateBag(t *testing.T) {
 	compileReq, runReq := loadFixedTickProviderFixture(t)
 	one := 1.0
+	if compileReq.SharedProviders[0].InitialStateSchema == nil {
+		compileReq.SharedProviders[0].InitialStateSchema = map[string]interface{}{}
+	}
+	compileReq.SharedProviders[0].InitialStateSchema["marker"] = map[string]interface{}{
+		"defaultValue": float64(0),
+		"maxValue":     float64(99),
+		"durationMs":   float64(0),
+	}
 	compileReq.SharedProviders[1].Abilities[0].TickSpec.OnTick = []model.OperationDefinition{
 		{
 			Operation:   "state_change",
@@ -701,6 +717,12 @@ func TestGenericRunProviderExpireRemovesOwningProviderStateBag(t *testing.T) {
 		},
 	}
 	// Unrelated bags must survive cleanup of the expired mount only.
+	// The unrelated bag belongs to a real persistent mount, not an orphan snapshot key.
+	compileReq.SharedProviders = append(compileReq.SharedProviders, model.ProviderDefinition{
+		ProviderKey: "other:keep", Kind: "item", StableID: "other_keep",
+		InitialStateSchema: map[string]interface{}{"marker": map[string]interface{}{"defaultValue": float64(0), "maxValue": float64(99), "durationMs": float64(0)}},
+	})
+	compileReq.Combatants[1].Providers = append(compileReq.Combatants[1].Providers, model.CombatantProviderMount{ProviderRef: "other:keep#1", DefinitionRef: "other:keep"})
 	for i := range runReq.InitialSnapshot.Combatants {
 		c := &runReq.InitialSnapshot.Combatants[i]
 		switch c.Key {
@@ -711,6 +733,7 @@ func TestGenericRunProviderExpireRemovesOwningProviderStateBag(t *testing.T) {
 				},
 			}
 		case model.SelectorTarget:
+			c.Providers = append(c.Providers, model.CombatantProviderSnapshot{ProviderRef: "other:keep#1", DefinitionRef: "other:keep", Source: "target", Owner: "target", Stacks: 1, State: map[string]interface{}{}})
 			c.ProviderState = map[string]interface{}{
 				"other:keep#1": map[string]interface{}{
 					"state": map[string]interface{}{"marker": float64(9)},
@@ -867,13 +890,16 @@ func TestGenericRunTimedCappedProviderStateClampAndLazyExpire(t *testing.T) {
 	if stacks, _ := state["stacks"].(float64); stacks != 1 {
 		t.Fatalf("stacks after lazy-expire write=%v want 1", stacks)
 	}
-	// Snapshot must keep numeric shape only (no expireAt leak).
 	bag := sourceProviderState(t, done.FinalSnapshot, "champion:source_demo")
-	if _, has := bag["expireAt"]; has {
-		t.Fatalf("snapshot must not emit expireAt: %+v", bag)
-	}
 	if _, has := bag["state"].(map[string]interface{})["expireAt"]; has {
 		t.Fatalf("state must stay numeric shape: %+v", bag["state"])
+	}
+	expireAt, _ := bag["expireAt"].(map[string]interface{})
+	if expireAt == nil {
+		t.Fatalf("snapshot must emit expireAt map: %+v", bag)
+	}
+	if stacksExp, _ := expireAt["stacks"].(float64); stacksExp != 8000 {
+		t.Fatalf("expireAt.stacks=%v want 8000", stacksExp)
 	}
 }
 
@@ -1060,6 +1086,30 @@ func TestProviderStateBagLazyExpireAndRefreshExpireAt(t *testing.T) {
 	}
 }
 
+func TestProviderStateStartOnFirstWriteDoesNotRefresh(t *testing.T) {
+	bag := &providerStateBag{
+		state:    map[string]float64{"hits": 1},
+		expireAt: map[string]int64{},
+		fieldDefs: map[string]providerStateFieldDef{
+			"hits": {defaultValue: 0, durationMs: 2000, refreshPolicy: model.ProviderStateRefreshStartOnFirstWrite},
+		},
+	}
+	if !bag.refreshExpireAtOnWrite("hits", 1000) || bag.expireAt["hits"] != 3000 {
+		t.Fatalf("first write expireAt=%d want 3000", bag.expireAt["hits"])
+	}
+	bag.state["hits"] = 4
+	if !bag.refreshExpireAtOnWrite("hits", 1500) || bag.expireAt["hits"] != 3000 {
+		t.Fatalf("later write must keep expireAt=3000, got %d", bag.expireAt["hits"])
+	}
+	bag.state["hits"] = 0
+	if !bag.refreshExpireAtOnWrite("hits", 1600) || bag.expireAt["hits"] != 0 {
+		t.Fatalf("default write must clear expireAt, got %d", bag.expireAt["hits"])
+	}
+	if _, ok := addDuration(math.MaxInt64-1, 10); ok {
+		t.Fatal("overflow must fail")
+	}
+}
+
 func TestProviderTargetStateBagCapDurationRefreshAndClear(t *testing.T) {
 	bag := &providerStateBag{
 		state:    map[string]float64{},
@@ -1081,18 +1131,18 @@ func TestProviderTargetStateBagCapDurationRefreshAndClear(t *testing.T) {
 	if bag.targetValues["carve_stacks"] != 5 {
 		t.Fatalf("cap=%v want 5", bag.targetValues["carve_stacks"])
 	}
-	exp := bag.refreshTargetExpireAtOnWrite("carve_stacks", 1000)
-	if exp != 7000 || bag.targetExpireAt["carve_stacks"] != 7000 {
-		t.Fatalf("expireAt=%d want 7000", bag.targetExpireAt["carve_stacks"])
+	exp, ok := bag.refreshTargetExpireAtOnWrite("carve_stacks", 1000)
+	if !ok || exp != 7000 || bag.targetExpireAt["carve_stacks"] != 7000 {
+		t.Fatalf("expireAt=%d ok=%v want 7000", bag.targetExpireAt["carve_stacks"], ok)
 	}
 	// Cap write still refreshes.
 	bag.targetValues["carve_stacks"] = bag.clampProviderStateValue("carve_stacks", bag.targetValues["carve_stacks"]+1)
-	exp2 := bag.refreshTargetExpireAtOnWrite("carve_stacks", 2500)
+	exp2, ok := bag.refreshTargetExpireAtOnWrite("carve_stacks", 2500)
 	if bag.targetValues["carve_stacks"] != 5 {
 		t.Fatalf("at-cap value=%v want 5", bag.targetValues["carve_stacks"])
 	}
-	if exp2 != 8500 {
-		t.Fatalf("refresh expireAt=%d want 8500", exp2)
+	if !ok || exp2 != 8500 {
+		t.Fatalf("refresh expireAt=%d ok=%v want 8500", exp2, ok)
 	}
 	bag.lazyExpireProviderTargetState(8499)
 	if bag.targetValues["carve_stacks"] != 5 {

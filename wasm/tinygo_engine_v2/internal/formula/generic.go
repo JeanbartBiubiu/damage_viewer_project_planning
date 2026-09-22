@@ -41,6 +41,8 @@ const (
 	ReadEventDamage
 	// ReadEventSkillHit 读取 event.skill_hit.firstContact|blocked；缺值必须报路径。
 	ReadEventSkillHit
+	// ReadOperationOutput 读取 operation.output.<ref>.<kind>；仅同帧已结算伤害。
+	ReadOperationOutput
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -222,6 +224,9 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 	if path == "" {
 		return 0, "", false
 	}
+	if strings.HasPrefix(path, "operation.output.") {
+		return parseOperationOutputPath(path)
+	}
 	if strings.HasPrefix(path, "history.") {
 		return 0, "", false
 	}
@@ -336,6 +341,26 @@ var EventDamageSnapshotFields = map[string]struct{}{
 	"normalPart":            {},
 	"critPart":              {},
 	"naturalBranchRawAmount": {},
+}
+
+func parseOperationOutputPath(path string) (GenericReadKind, string, bool) {
+	rest := strings.TrimPrefix(path, "operation.output.")
+	if rest == "" || strings.HasPrefix(rest, ".") {
+		return 0, "", false
+	}
+	dot := strings.IndexByte(rest, '.')
+	if dot <= 0 || dot == len(rest)-1 {
+		return 0, "", false
+	}
+	ref := rest[:dot]
+	kind := rest[dot+1:]
+	if ref == "" || strings.Contains(ref, ".") {
+		return 0, "", false
+	}
+	if _, ok := model.ValidOperationOutputKind[kind]; !ok {
+		return 0, "", false
+	}
+	return ReadOperationOutput, rest, true
 }
 
 func parseEventReadPath(path string) (GenericReadKind, string, bool) {

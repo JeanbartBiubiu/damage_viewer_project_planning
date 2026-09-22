@@ -441,7 +441,7 @@ func loadSivirBBFOHFixture(t *testing.T, opts sivirBBFOHFixtureOpts) (model.Comp
 
 func runSivirBBFOH(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}

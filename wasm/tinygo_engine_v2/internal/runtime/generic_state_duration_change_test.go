@@ -235,7 +235,7 @@ func sdcLoad(t *testing.T, scope string, subtractAmount float64, armOnDamage boo
 
 func sdcRun(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}

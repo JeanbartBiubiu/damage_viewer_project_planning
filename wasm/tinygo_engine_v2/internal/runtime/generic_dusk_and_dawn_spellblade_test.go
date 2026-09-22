@@ -597,7 +597,8 @@ func TestDuskAndDawnPhantomDoesNotCopyOrConsume(t *testing.T) {
 		}
 		runReq.InitialSnapshot.Combatants[i].ProviderState = map[string]interface{}{
 			spellbladeChampionRef: map[string]interface{}{
-				"state": map[string]interface{}{guinsooStackKey: float64(3)},
+				"state":    map[string]interface{}{guinsooStackKey: float64(3)},
+				"expireAt": map[string]interface{}{guinsooStackKey: float64(10000)},
 			},
 		}
 	}

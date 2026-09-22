@@ -4,7 +4,6 @@ import (
 	"math"
 	"testing"
 
-	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -314,7 +313,7 @@ func twitchDVSetDriverHits(runReq *model.RunRequest, times []int64) {
 
 func twitchDVRun(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}

@@ -542,7 +542,7 @@ func TestGenericTerminusJuxtapositionPPCrossCheck(t *testing.T) {
 
 func TestGenericTerminusJuxtapositionSchemaCompiled(t *testing.T) {
 	compileReq, _ := tjLoadFixture(t, 1)
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, nil)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -861,7 +861,8 @@ func TestGenericTerminusJuxtapositionShadowRemainsAndPhantomDoesNotDoubleAdvance
 		}
 		runReq.InitialSnapshot.Combatants[i].ProviderState = map[string]interface{}{
 			gcohChampionRef: map[string]interface{}{
-				"state": map[string]interface{}{guinsooStackKey: float64(3)},
+				"state":    map[string]interface{}{guinsooStackKey: float64(3)},
+				"expireAt": map[string]interface{}{guinsooStackKey: float64(10000)},
 			},
 		}
 	}

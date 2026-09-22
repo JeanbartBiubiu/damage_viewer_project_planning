@@ -10,7 +10,6 @@ import (
 	"strings"
 	"testing"
 
-	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -415,7 +414,7 @@ func loadVayneTumbleFixture(t *testing.T) (model.CompileRequest, model.RunReques
 
 func runVayneTumble(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -435,6 +434,7 @@ type vayneTumbleFrameBundle struct {
 
 func runVayneTumbleFrames(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) vayneTumbleFrameBundle {
 	t.Helper()
+	prepareNativeBasicAttackHits(&compileReq, &runReq)
 	session := NewSession()
 	session.ClearOutbox()
 	if code := session.CompileFrame(encodeGenericFrame(model.FrameKindGenericCompile, compileReq)); code != 0 {
@@ -1079,7 +1079,7 @@ func TestGenericVayneTumbleProviderShapeAndIdleDefault0(t *testing.T) {
 	compileReq, runReq := loadVayneTumbleFixture(t)
 	assertVayneTumbleProviderShape(t, compileReq)
 
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}

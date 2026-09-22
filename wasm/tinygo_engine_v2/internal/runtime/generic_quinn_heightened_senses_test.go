@@ -4,7 +4,6 @@ import (
 	"math"
 	"testing"
 
-	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -283,7 +282,7 @@ func loadQuinnHSFixture(t *testing.T) (model.CompileRequest, model.RunRequest) {
 
 func runQuinnHS(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -561,7 +560,8 @@ func TestGenericQuinnHeightenedSensesPhantomDoesNotRefresh(t *testing.T) {
 		}
 		runReq.InitialSnapshot.Combatants[i].ProviderState = map[string]interface{}{
 			quinnHSProviderRef: map[string]interface{}{
-				"state": map[string]interface{}{guinsooStackKey: float64(3)},
+				"state":    map[string]interface{}{guinsooStackKey: float64(3)},
+				"expireAt": map[string]interface{}{guinsooStackKey: float64(10000)},
 				"targetState": map[string]interface{}{
 					"target": model.SelectorTarget,
 					"values": map[string]interface{}{quinnHSVulnerableKey: float64(1)},

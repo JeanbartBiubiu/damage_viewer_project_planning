@@ -141,7 +141,7 @@ func loadPipelineDamageFixture(t *testing.T, raw float64, armor float64) (model.
 
 func runPipelineFixture(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}

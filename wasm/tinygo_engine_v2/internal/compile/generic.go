@@ -92,6 +92,11 @@ type CompiledListener struct {
 	SourceAbilityIndex  int    // >=0 when compiled from passive_listener ability ops
 	OperationStart      uint16
 	OperationCount      uint16
+	HasCondition        bool
+	ConditionProgram    formula.GenericProgramID
+	HasOncePerUse       bool
+	OncePerUseGroup     string
+	OncePerUseScope     string
 }
 
 // CompiledProviderLifecycle 是 compile 后的 provider 生命周期。
@@ -194,6 +199,8 @@ type CompiledAbility struct {
 	OperationCount       uint16
 	HasSkillHit          bool
 	SkillHitSkillKey     string
+	SkillKey             string
+	IsBasicAttack        bool
 }
 
 // CompiledOperation 是 compile 后的 operation 定义。
@@ -230,6 +237,7 @@ type CompiledOperation struct {
 	Threshold             float64
 	ProviderRefFromEvent  bool
 	SkillHit              *CompiledSkillHit
+	OutputRef             string
 }
 
 // CompiledSkillHit 是 resolve_skill_hit 的编译计划。
@@ -240,20 +248,20 @@ type CompiledSkillHit struct {
 
 // CompiledSkillHitCandidate 保存资格、条件程序与候选操作区间。
 type CompiledSkillHitCandidate struct {
-	CandidateKey           string
-	EffectOccurrenceKey    string
-	EffectKey              string
-	ResultKey              string
-	Semantic               model.SkillHitSemantic
-	BlockScope             string // empty = null
-	HasBlockScope          bool
-	InboundBlockEligible   bool
-	ParticipationProgram   formula.GenericProgramID
-	HasParticipation       bool
-	EventValueConds        []CompiledSkillHitValueCond
-	OperationStart         uint16
-	OperationCount         uint16
-	Path                   string
+	CandidateKey         string
+	EffectOccurrenceKey  string
+	EffectKey            string
+	ResultKey            string
+	Semantic             model.SkillHitSemantic
+	BlockScope           string // empty = null
+	HasBlockScope        bool
+	InboundBlockEligible bool
+	ParticipationProgram formula.GenericProgramID
+	HasParticipation     bool
+	EventValueConds      []CompiledSkillHitValueCond
+	OperationStart       uint16
+	OperationCount       uint16
+	Path                 string
 }
 
 // CompiledSkillHitValueCond 是编译后的 first_contact/blocked 比较。
@@ -283,6 +291,9 @@ type genericCompileContext struct {
 	providerAbilityIndex map[uint16]map[string]uint16
 	healGroupModes       map[string]healGroupModeSeen
 	currentListener      *model.ListenerDefinition
+	outputUnitRefs       map[string]int
+	outputUnitIndex      int
+	compilingBasicAttack bool
 }
 
 type healGroupModeSeen struct {
@@ -575,6 +586,10 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 	}
 	compiled.TypeSet = typeset.ValidateTypeKeys(ability.Types, typeset.EntityAbility, session.Types, path+".types", collector.addError)
 	typeset.ValidateTypeKeys(ability.Tags, typeset.EntityAbility, session.Types, path+".tags", collector.addError)
+	if id, ok := session.Types.Registry.Lookup(model.AbilityTypeBasicAttack); ok && compiled.TypeSet.Contains(id) {
+		compiled.IsBasicAttack = true
+	}
+	compiled.SkillKey = strings.TrimSpace(ability.SkillKey)
 	if ability.Cost != nil {
 		if ability.Cost.ResourceKey == "" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".cost.resourceKey", "cost resourceKey is required", ability.AbilityKey)
@@ -629,14 +644,22 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			compiled.OperationCount = 1
 			compiled.HasSkillHit = true
 			compiled.SkillHitSkillKey = skillHitOp.SkillHit.SkillKey
+			if compiled.SkillKey == "" {
+				compiled.SkillKey = compiled.SkillHitSkillKey
+			} else if compiled.SkillKey != compiled.SkillHitSkillKey {
+				collector.addError(model.GenericErrUnknownRef, path+".skillKey", "ability.skillKey must equal skillHit.skillKey", ability.AbilityKey)
+			}
 		}
 	} else {
+		ctx.beginOutputUnit()
 		for k, op := range ability.Operations {
 			if op.Operation == model.OperationKindResolveSkillHit {
 				collector.addError(model.GenericErrUnknownRef, path+".operations["+itoa(k)+"]", "resolve_skill_hit must be the unique operation on an active hit ability", ability.AbilityKey)
 			}
 			compileOperation(op, path+".operations["+itoa(k)+"]", int(providerIndex), ctx)
+			ctx.outputUnitIndex++
 		}
+		ctx.endOutputUnit()
 		compiled.OperationCount = uint16(len(session.Operations)) - compiled.OperationStart
 	}
 	if ability.TickSpec != nil {
@@ -649,9 +672,12 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			StartDelayMs: ts.StartDelayMs,
 			OnTickStart:  uint16(len(session.Operations)),
 		}
+		ctx.beginOutputUnit()
 		for k, op := range ts.OnTick {
 			compileOperation(op, path+".tickSpec.onTick["+itoa(k)+"]", int(providerIndex), ctx)
+			ctx.outputUnitIndex++
 		}
+		ctx.endOutputUnit()
 		tickSpec.OnTickCount = uint16(len(session.Operations)) - tickSpec.OnTickStart
 		// Anchor pair validation must run before ordinary startDelayMs defaulting.
 		anchorScope := ts.AnchorScope
@@ -703,6 +729,9 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			spec.ListenerKey = ability.AbilityKey
 		}
 		// Inline passive_listener: execution target is this ability's operations.
+		if spec.OncePerUse != nil && len(spec.Operations) == 0 {
+			validateOncePerUseOperations(ability.Operations, path+".operations", ctx)
+		}
 		inline := compileListenerDefinition(spec, path+".listenerSpec", "", "", abilityIndex, int(providerIndex), ctx)
 		if ability.Kind == "passive_listener" && inline.OperationCount == 0 && compiled.OperationCount > 0 {
 			inline.OperationStart = compiled.OperationStart
@@ -718,12 +747,15 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 func compileRulesOperations(rules model.RulesContainer, ctx *genericCompileContext) {
 	collector := ctx.collector
 	session := ctx.session
+	ctx.beginOutputUnit()
 	for i, op := range rules.Operations {
 		if len(session.VampRules) > 0 && op.Operation == "damage" {
 			collector.addError(model.GenericErrMissingRequiredField, "rules.operations["+itoa(i)+"]", "vamp damage requires a declared owning ability", op.Ref)
 		}
 		compileOperation(op, "rules.operations["+itoa(i)+"]", -1, ctx)
+		ctx.outputUnitIndex++
 	}
+	ctx.endOutputUnit()
 	for i, modifier := range rules.Modifiers {
 		path := "rules.modifiers[" + itoa(i) + "]"
 		compiled := compileModifierDefinition(modifier, path, ctx)
@@ -934,12 +966,18 @@ func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCom
 	prevListener := ctx.currentListener
 	listenerCopy := listener
 	ctx.currentListener = &listenerCopy
+	validateOncePerUse(listener, path, ownerProviderIndex, ctx)
+	compileListenerCondition(listener, path, &compiled, ctx)
+	compileOncePerUse(listener, &compiled)
+	ctx.beginOutputUnit()
 	for i, op := range listener.Operations {
 		if len(ctx.session.VampRules) > 0 && sourceAbilityIndex < 0 && op.Operation == "damage" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".operations["+itoa(i)+"]", "vamp damage requires a declared owning ability", op.Ref)
 		}
 		compileOperation(op, path+".operations["+itoa(i)+"]", ownerProviderIndex, ctx)
+		ctx.outputUnitIndex++
 	}
+	ctx.endOutputUnit()
 	ctx.currentListener = prevListener
 	compiled.OperationCount = uint16(len(ctx.session.Operations)) - compiled.OperationStart
 	return compiled
@@ -965,6 +1003,7 @@ func compileListener(listener model.ListenerDefinition, path string, ctx *generi
 }
 
 func (ctx *genericCompileContext) registerFormula(key string, instr []formula.GenericInstr) formula.GenericProgramID {
+	validateOperationOutputReads(instr, key, ctx)
 	session := ctx.session
 	if id, exists := session.Formulas.Index[key]; exists {
 		return id
@@ -999,6 +1038,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	if op.CritEligible && op.Operation != "damage" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".critEligible", "critEligible is only supported on damage operations", op.Operation)
 	}
+	validateOutputRef(op, path, ctx)
 	if op.RepeatDelayMs < 0 {
 		collector.addError(model.GenericErrMissingRequiredField, path+".repeatDelayMs", "repeatDelayMs must be >= 0", itoa(op.RepeatDelayMs))
 	}
@@ -1137,6 +1177,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	if compiled.Ref == "" {
 		compiled.Ref = op.EventType
 	}
+	compiled.OutputRef = op.OutputRef
 	session.Operations = append(session.Operations, compiled)
 }
 
@@ -1214,6 +1255,28 @@ func finalizeListenerIndex(ctx *genericCompileContext) {
 				session.Listeners = append(session.Listeners, bound)
 			}
 		}
+	}
+	validateOncePerUseGroups(session, ctx)
+}
+
+func validateOncePerUseGroups(session *CompiledSession, ctx *genericCompileContext) {
+	type groupID struct {
+		owner string
+		pref  string
+		group string
+	}
+	seen := map[groupID]string{}
+	for i := range session.Listeners {
+		listener := session.Listeners[i]
+		if !listener.HasOncePerUse {
+			continue
+		}
+		id := groupID{owner: listener.OwnerCombatantKey, pref: listener.OwnerProviderRef, group: listener.OncePerUseGroup}
+		if prev, ok := seen[id]; ok && prev != listener.OncePerUseScope {
+			ctx.collector.addError(model.GenericErrUnknownRef, "listeners.oncePerUse.scope", "same oncePerUse groupKey must share one scope", listener.ListenerKey+" conflicts with "+prev)
+			continue
+		}
+		seen[id] = listener.OncePerUseScope
 	}
 }
 

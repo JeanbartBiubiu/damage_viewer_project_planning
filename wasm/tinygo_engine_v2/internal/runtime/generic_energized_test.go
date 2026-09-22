@@ -218,7 +218,7 @@ func setEnergizedDriverHits(runReq *model.RunRequest, hits int) {
 
 func runEnergized(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -412,7 +412,8 @@ func TestEnergizedGuinsooPhantomDoesNotTriggerConsumeOrCharge(t *testing.T) {
 		}
 		runReq.InitialSnapshot.Combatants[i].ProviderState = map[string]interface{}{
 			energizedChampionRef: map[string]interface{}{
-				"state": map[string]interface{}{guinsooStackKey: float64(3)},
+				"state":    map[string]interface{}{guinsooStackKey: float64(3)},
+				"expireAt": map[string]interface{}{guinsooStackKey: float64(10000)},
 			},
 			energizedProviderRef: map[string]interface{}{
 				"state": map[string]interface{}{energizedChargeKey: float64(100)},
@@ -539,7 +540,7 @@ func TestEnergizedNoBasicAttackHitNoPanic(t *testing.T) {
 // runtime behavior proves max clamp.
 func TestEnergizedUntimedCappedStructuredSchemaCompileSuccess(t *testing.T) {
 	compileReq, runReq := loadEnergizedFixture(t)
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
