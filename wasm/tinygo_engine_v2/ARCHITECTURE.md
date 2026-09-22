@@ -97,7 +97,7 @@ graph LR
 | --- | --- |
 | `CompiledSession` | 只读规则快照：schema/rules hash、combatants、providers、abilities、operations、formulas、settings、abilityRefIndex |
 | `CompiledCombatant` | combatant 模板与 provider mounts |
-| `CompiledProvider` / `CompiledAbility` | capability 与 ability 定义 |
+| `CompiledProvider` / `CompiledAbility` | capability 与 ability 定义；含 `instanceScope`、`statusContributions` 与治疗组计算方式 |
 | `CompiledOperation` | 执行期 operation IR |
 | `formula.GenericRegistry` | 已编译公式程序 |
 | `typeset.CatalogResult` | flat type key / matcher 输入 |

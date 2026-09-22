@@ -11,22 +11,23 @@ import (
 // MountedDamageModifier is a provider/rules pipeline damage modifier mounted on a combatant.
 // OwnerCombatantKey + ProviderRef identify the mounted provider for formula provenance.
 type MountedDamageModifier struct {
-	OwnerCombatantKey string
-	ProviderRef       string
-	ModifierKey       string
-	Command           string
-	Channel           string
-	Bucket            string
-	Stage             string
-	Priority          int
-	HealDirection     string
-	HealCategory      string
-	HealGroupKey      string
-	ValuePolicy       string
-	ValueProgram      formula.GenericProgramID
-	HasValue          bool
-	HasCondition      bool
-	ConditionProg     formula.GenericProgramID
+	OwnerCombatantKey        string
+	ProviderRef              string
+	ModifierKey              string
+	Command                  string
+	Channel                  string
+	Bucket                   string
+	Stage                    string
+	Priority                 int
+	HealDirection            string
+	HealCategory             string
+	HealGroupKey             string
+	HealGroupCalculationMode string
+	ValuePolicy              string
+	ValueProgram             formula.GenericProgramID
+	HasValue                 bool
+	HasCondition             bool
+	ConditionProg            formula.GenericProgramID
 }
 
 // DamageModifierResolver aggregates pipeline damage modifiers on one combatant.
@@ -47,22 +48,23 @@ func (r *DamageModifierResolver) MountCompiledModifierOwned(ownerCombatantKey, p
 		return
 	}
 	r.mounts = append(r.mounts, MountedDamageModifier{
-		OwnerCombatantKey: ownerCombatantKey,
-		ProviderRef:       providerRef,
-		ModifierKey:       mod.ModifierKey,
-		Command:           mod.Command,
-		Channel:           mod.Channel,
-		Bucket:            mod.Bucket,
-		Stage:             mod.Stage,
-		Priority:          mod.Priority,
-		HealDirection:     mod.HealDirection,
-		HealCategory:      mod.HealCategory,
-		HealGroupKey:      mod.HealGroupKey,
-		ValuePolicy:       mod.ValuePolicy,
-		ValueProgram:      mod.ValueProgram,
-		HasValue:          mod.HasValue,
-		HasCondition:      mod.HasCondition,
-		ConditionProg:     mod.ConditionProg,
+		OwnerCombatantKey:        ownerCombatantKey,
+		ProviderRef:              providerRef,
+		ModifierKey:              mod.ModifierKey,
+		Command:                  mod.Command,
+		Channel:                  mod.Channel,
+		Bucket:                   mod.Bucket,
+		Stage:                    mod.Stage,
+		Priority:                 mod.Priority,
+		HealDirection:            mod.HealDirection,
+		HealCategory:             mod.HealCategory,
+		HealGroupKey:             mod.HealGroupKey,
+		HealGroupCalculationMode: mod.HealGroupCalculationMode,
+		ValuePolicy:              mod.ValuePolicy,
+		ValueProgram:             mod.ValueProgram,
+		HasValue:                 mod.HasValue,
+		HasCondition:             mod.HasCondition,
+		ConditionProg:            mod.ConditionProg,
 	})
 }
 
