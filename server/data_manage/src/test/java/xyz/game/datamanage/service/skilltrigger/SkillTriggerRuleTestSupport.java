@@ -26,6 +26,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
+import xyz.game.datamanage.model.skillprocess.SkillProcessActivationType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMoment;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationKind;
@@ -33,12 +34,15 @@ import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAction;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerAdvanceProcessActionDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCatalogLockRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventUseKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerExecuteEffectActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerFailProcessActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthDirection;
@@ -55,6 +59,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerResultEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleCreateRequest;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleUpdateRequest;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerStartProcessActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
@@ -143,6 +148,8 @@ final class SkillTriggerRuleTestSupport {
             .thenAnswer(invocation -> List.copyOf(invocation.getArgument(2)));
         lenient().when(mapper.lockProcesses(eq(GAME_ID), eq(SKILL_KEY), anyCollection()))
             .thenAnswer(invocation -> List.copyOf(invocation.getArgument(2)));
+        lenient().when(mapper.lockSteps(eq(GAME_ID), eq(SKILL_KEY), anyString(), any()))
+            .thenAnswer(invocation -> List.copyOf(invocation.getArgument(3)));
         lenient().when(mapper.lockInternalStates(eq(GAME_ID), eq(SKILL_KEY), anyCollection())).thenReturn(List.of());
         lenient().when(mapper.lockSkills(eq(GAME_ID), anyCollection())).thenAnswer(invocation -> {
             Collection<String> keys = invocation.getArgument(1);
@@ -237,6 +244,50 @@ final class SkillTriggerRuleTestSupport {
         );
     }
 
+    static SkillTriggerAction advanceProcessAction(String actionKey, String processKey, String stepKey) {
+        return new SkillTriggerAction(
+            actionKey,
+            "推进过程",
+            SkillTriggerActionType.ADVANCE_PROCESS,
+            10,
+            null,
+            new SkillTriggerAdvanceProcessActionDetail(processKey, stepKey),
+            List.of(),
+            List.of()
+        );
+    }
+
+    static SkillTriggerEventSource skillUsed(SkillTriggerCastPhase phase) {
+        return new SkillTriggerEventSource(
+            SkillTriggerEventType.SKILL_USED,
+            new SkillTriggerSkillEventDetail(SKILL_KEY, SkillTriggerEventUseKind.ACTIVE, phase)
+        );
+    }
+
+    static SkillTriggerProcessShapeRow recastStep(String processKey, String stepKey) {
+        return new SkillTriggerProcessShapeRow(
+            processKey, null, null, null, null, null, stepKey, SkillProcessStepType.RECAST,
+            null, null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null, null, null, null, null, SkillProcessActivationType.ACTIVE
+        );
+    }
+
+    static SkillTriggerProcessShapeRow chargeStep(String processKey, String stepKey) {
+        return new SkillTriggerProcessShapeRow(
+            processKey, null, null, null, null, null, stepKey, SkillProcessStepType.CHARGE,
+            null, null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null, null, null, null, null, SkillProcessActivationType.ACTIVE
+        );
+    }
+
+    static SkillTriggerProcessShapeRow processActivation(String processKey, SkillProcessActivationType activationType) {
+        return new SkillTriggerProcessShapeRow(
+            processKey, null, null, null, null, null, null, null,
+            null, null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null, null, null, null, null, activationType
+        );
+    }
+
     static SkillTriggerEventSource healthDown() {
         return new SkillTriggerEventSource(
             SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED,
@@ -254,9 +305,17 @@ final class SkillTriggerRuleTestSupport {
     }
 
     static SkillTriggerEventSource processStart(String processKey) {
+        return processMoment(processKey, SkillProcessMomentType.PROCESS_START, null);
+    }
+
+    static SkillTriggerEventSource processMoment(
+        String processKey,
+        SkillProcessMomentType momentType,
+        SkillTriggerProcessFailureReason failureReason
+    ) {
         return new SkillTriggerEventSource(
             SkillTriggerEventType.PROCESS_MOMENT,
-            new SkillTriggerProcessEventDetail(processKey, new SkillProcessMoment(SkillProcessMomentType.PROCESS_START, null))
+            new SkillTriggerProcessEventDetail(processKey, new SkillProcessMoment(momentType, null, failureReason))
         );
     }
 
@@ -339,7 +398,7 @@ final class SkillTriggerRuleTestSupport {
         return new SkillTriggerProcessShapeRow(
             processKey, bindingEffectKey, operationStateKey, operation, null, stateType, stepKey, stepType,
             null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, null, null, null, null
+            null, null, null, null, null, null, null, null
         );
     }
 
@@ -377,7 +436,31 @@ final class SkillTriggerRuleTestSupport {
     }
 
     static SkillTriggerProcessActionRow processActionRow(String ruleKey, String actionKey, String processKey) {
-        return new SkillTriggerProcessActionRow(GAME_ID, SKILL_KEY, ruleKey, actionKey, processKey, null);
+        return new SkillTriggerProcessActionRow(
+            GAME_ID, SKILL_KEY, ruleKey, actionKey, SkillTriggerActionType.START_PROCESS, processKey, null, null
+        );
+    }
+
+    static SkillTriggerProcessActionRow failProcessActionRow(
+        String ruleKey,
+        String actionKey,
+        String processKey,
+        SkillTriggerProcessFailureReason reason
+    ) {
+        return new SkillTriggerProcessActionRow(
+            GAME_ID, SKILL_KEY, ruleKey, actionKey, SkillTriggerActionType.FAIL_PROCESS, processKey, null, reason
+        );
+    }
+
+    static SkillTriggerProcessActionRow advanceProcessActionRow(
+        String ruleKey,
+        String actionKey,
+        String processKey,
+        String stepKey
+    ) {
+        return new SkillTriggerProcessActionRow(
+            GAME_ID, SKILL_KEY, ruleKey, actionKey, SkillTriggerActionType.ADVANCE_PROCESS, processKey, stepKey, null
+        );
     }
 
     static SkillRow skill() {

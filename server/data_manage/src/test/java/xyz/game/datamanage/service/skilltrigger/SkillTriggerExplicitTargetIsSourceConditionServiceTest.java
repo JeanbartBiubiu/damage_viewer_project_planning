@@ -142,7 +142,7 @@ class SkillTriggerExplicitTargetIsSourceConditionServiceTest {
         SkillTriggerEventType eventType
     ) {
         SkillTriggerEventDetail eventDetail = switch (eventType) {
-            case SKILL_USED -> new SkillTriggerSkillEventDetail(null, SkillTriggerEventUseKind.ANY);
+            case SKILL_USED -> new SkillTriggerSkillEventDetail(null, SkillTriggerEventUseKind.ANY, xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase.INITIAL);
             case SKILL_HIT -> new SkillTriggerSkillEventDetail(null, null);
             default -> new SkillTriggerEmptyEventDetail();
         };

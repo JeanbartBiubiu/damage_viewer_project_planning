@@ -323,6 +323,10 @@ public final class SkillObjectReferences {
                     effectKey = text(detail, "effectKey");
                 }
                 case "START_PROCESS", "FAIL_PROCESS" -> local(detail, path + ".detail", "processKey", TargetType.PROCESS);
+                case "ADVANCE_PROCESS" -> {
+                    local(detail, path + ".detail", "processKey", TargetType.PROCESS);
+                    child(detail, path + ".detail", "stepKey", TargetType.STEP, text(detail, "processKey"));
+                }
                 default -> throw shape(path, "未知触发动作类型");
             }
             JsonNode bindings = array(action, "runtimeInputBindings");

@@ -113,7 +113,7 @@ class SkillTriggerRuleCycleServiceTest {
             ruleRow("proc", "proc", SkillTriggerEventType.PROCESS_MOMENT)
         ));
         when(mapper.listProcessEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
-            new SkillTriggerProcessEventRow(GAME_ID, SKILL_KEY, "proc", PROCESS_KEY, "PROCESS_START", null)
+            new SkillTriggerProcessEventRow(GAME_ID, SKILL_KEY, "proc", PROCESS_KEY, "PROCESS_START", null, null)
         ));
         when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             SkillTriggerRuleTestSupport.startActionRow("proc", "start")
@@ -346,7 +346,8 @@ class SkillTriggerRuleCycleServiceTest {
                 new SkillTriggerEventSource(
                     SkillTriggerEventType.SKILL_USED,
                     new xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillEventDetail(
-                        SKILL_KEY, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventUseKind.ACTIVE
+                        SKILL_KEY, xyz.game.datamanage.model.skilltrigger.SkillTriggerEventUseKind.ACTIVE,
+                        xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase.INITIAL
                     )
                 ),
                 List.of(executeAction("deal", EFFECT_KEY))

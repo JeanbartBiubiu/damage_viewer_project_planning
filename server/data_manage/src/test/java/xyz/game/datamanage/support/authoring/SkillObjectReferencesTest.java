@@ -138,6 +138,7 @@ class SkillObjectReferencesTest {
             actions[1].runtimeInputBindings[2].detail.sourceEffectKey actions[1].runtimeInputBindings[2].detail.sourceResultKey
             actions[1].runtimeInputBindings[3].parameterKey actions[1].runtimeInputBindings[3].detail.sourceActionKey
             actions[1].runtimeInputBindings[3].detail.sourceResultKey actions[2].detail.processKey actions[3].detail.processKey
+            actions[4].detail.processKey actions[4].detail.stepKey
             limits.perTargetCooldown.durationValue.formulaKey limits.maxTriggersPerProcess.processKey limits.maxTriggersPerProcess.limitValue.formulaKey
             """);
         for (SkillTriggerEventType type : SkillTriggerEventType.values()) {
@@ -338,7 +339,8 @@ class SkillObjectReferencesTest {
                     {"parameterKey":"p","sourceType":"COMBAT_STATUS","detail":{"statusKey":"poison","sourceEffectKey":"effects","sourceResultKey":"status"}},
                     {"parameterKey":"p","sourceType":"PRIOR_ACTION_RESULT","detail":{"sourceActionKey":"first","sourceResultKey":"damage"}}]},
                 {"actionKey":"start","actionType":"START_PROCESS","detail":{"processKey":"process"}},
-                {"actionKey":"fail","actionType":"FAIL_PROCESS","detail":{"processKey":"process"}}],
+                {"actionKey":"fail","actionType":"FAIL_PROCESS","detail":{"processKey":"process"}},
+                {"actionKey":"advance","actionType":"ADVANCE_PROCESS","detail":{"processKey":"process","stepKey":"recast"}}],
              "limits":{"perTargetCooldown":{"durationValue":{"kind":"FORMULA","formulaKey":"f"}},"maxTriggersPerProcess":{"processKey":"process","limitValue":{"kind":"FORMULA","formulaKey":"f"}}}}
             """));
         Map<String, String> details = Map.ofEntries(

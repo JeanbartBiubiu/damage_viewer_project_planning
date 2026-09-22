@@ -4,5 +4,6 @@ public enum SkillEffectCooldownChangeOperation {
     REDUCE,
     REDUCE_REMAINING_RATIO,
     INCREASE,
-    RESET
+    RESET,
+    SET_REMAINING
 }

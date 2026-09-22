@@ -228,6 +228,9 @@ public class CharacterAuthoringCheckService {
                         } else if ("START_PROCESS".equals(type)) {
                             String target = requiredText(action.path("detail"), "processKey", row, path + ".detail.processKey", issues);
                             if (target != null) startedProcesses.add(objectKey(row.skillKey(), target));
+                        } else if ("ADVANCE_PROCESS".equals(type)) {
+                            requiredText(action.path("detail"), "processKey", row, path + ".detail.processKey", issues);
+                            requiredText(action.path("detail"), "stepKey", row, path + ".detail.stepKey", issues);
                         } else if (!"FAIL_PROCESS".equals(type) && type != null) objectIssue(issues, row, path + ".actionType", "动作种类不合法");
                     }
                 }

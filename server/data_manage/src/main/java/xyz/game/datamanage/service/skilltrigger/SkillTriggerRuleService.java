@@ -45,13 +45,16 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectVampOverride;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
+import xyz.game.datamanage.model.skillprocess.SkillProcessActivationType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMoment;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAction;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerAdvanceProcessActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAttributeConditionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCancelProcessEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCatalogLockRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusBindingRow;
@@ -443,7 +446,7 @@ public class SkillTriggerRuleService {
                     SkillTriggerProcessActionRow row = processActions.get(compositeKey);
                     yield row == null ? null : row.processKey();
                 }
-                case FAIL_PROCESS -> null;
+                case FAIL_PROCESS, ADVANCE_PROCESS -> null;
             };
             if (targetKey == null) {
                 continue;
@@ -558,7 +561,7 @@ public class SkillTriggerRuleService {
                     SkillTriggerEffectActionRow detail = effectActions.get(compositeKey);
                     yield detail != null && Objects.equals(detail.effectKey(), effectKey);
                 }
-                case START_PROCESS -> {
+                case START_PROCESS, ADVANCE_PROCESS -> {
                     SkillTriggerProcessActionRow detail = processActions.get(compositeKey);
                     yield detail != null && processShapes.getOrDefault(detail.processKey(), List.of()).stream()
                         .anyMatch(row -> Objects.equals(row.bindingEffectKey(), effectKey));
@@ -1010,6 +1013,8 @@ public class SkillTriggerRuleService {
                 }
                 if (process.moment() == null || process.moment().momentType() == null) {
                     issues.add(fieldIssue("eventSource.detail.moment.momentType", "REQUIRED", "过程时点种类不能为空"));
+                } else {
+                    collectMomentNoise(issues, "eventSource.detail.moment", process.moment());
                 }
             }
             case PROCESS_CANCEL_REQUESTED -> {
@@ -1029,6 +1034,9 @@ public class SkillTriggerRuleService {
                 if (skill.useKind() == null) {
                     issues.add(fieldIssue("eventSource.detail.useKind", "REQUIRED", "技能使用种类不能为空"));
                 }
+                if (skill.castPhase() == null) {
+                    issues.add(fieldIssue("eventSource.detail.castPhase", "REQUIRED", "技能使用阶段不能为空"));
+                }
             }
             case SKILL_HIT -> {
                 if (!(detail instanceof SkillTriggerSkillEventDetail skill)) {
@@ -1037,6 +1045,9 @@ public class SkillTriggerRuleService {
                 }
                 if (skill.useKind() != null) {
                     issues.add(fieldIssue("eventSource.detail.useKind", "FORBIDDEN", "技能命中事件不能提供使用种类"));
+                }
+                if (skill.castPhase() != null) {
+                    issues.add(fieldIssue("eventSource.detail.castPhase", "FORBIDDEN", "技能命中事件不能提供使用阶段"));
                 }
             }
             case RESULT_AVAILABLE -> {
@@ -1309,6 +1320,13 @@ public class SkillTriggerRuleService {
                 if (action.resultModifiers() != null && !action.resultModifiers().isEmpty()) {
                     issues.add(fieldIssue(prefix + ".resultModifiers", "FORBIDDEN", "启动过程不能保存结果修正"));
                 }
+                if (eventSource != null
+                    && eventSource.eventType() == SkillTriggerEventType.SKILL_USED
+                    && eventSource.detail() instanceof SkillTriggerSkillEventDetail skill
+                    && skill.castPhase() != null
+                    && skill.castPhase() != SkillTriggerCastPhase.INITIAL) {
+                    issues.add(fieldIssue(prefix + ".actionType", "REFERENCE_TYPE_MISMATCH", "已核定使用阶段的技能使用事件只能在首次阶段启动过程"));
+                }
             }
             case FAIL_PROCESS -> {
                 if (!(action.detail() instanceof SkillTriggerFailProcessActionDetail detail)) {
@@ -1319,14 +1337,30 @@ public class SkillTriggerRuleService {
                 if (detail.failureReason() == null) {
                     issues.add(fieldIssue(prefix + ".detail.failureReason", "REQUIRED", "失败原因不能为空"));
                 }
-                if (action.targetContext() != null) {
-                    issues.add(fieldIssue(prefix + ".targetContext", "FORBIDDEN", "令过程失败不能指定目标对象"));
+                rejectProcessControlShell(action, prefix, "令过程失败", issues);
+            }
+            case ADVANCE_PROCESS -> {
+                if (!(action.detail() instanceof SkillTriggerAdvanceProcessActionDetail detail)) {
+                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "推进过程动作明细形状不合法"));
+                    return;
                 }
-                if (action.runtimeInputBindings() != null && !action.runtimeInputBindings().isEmpty()) {
-                    issues.add(fieldIssue(prefix + ".runtimeInputBindings", "FORBIDDEN", "令过程失败不能保存动态输入绑定"));
+                require(detail.processKey(), prefix + ".detail.processKey", "过程标识不能为空", issues);
+                require(detail.stepKey(), prefix + ".detail.stepKey", "步骤标识不能为空", issues);
+                rejectProcessControlShell(action, prefix, "推进过程", issues);
+                if (eventSource == null || eventSource.eventType() != SkillTriggerEventType.SKILL_USED) {
+                    issues.add(fieldIssue(prefix + ".actionType", "EVENT_VALUE_NOT_AVAILABLE", "推进过程只允许用于技能使用事件"));
+                    return;
                 }
-                if (action.resultModifiers() != null && !action.resultModifiers().isEmpty()) {
-                    issues.add(fieldIssue(prefix + ".resultModifiers", "FORBIDDEN", "令过程失败不能保存结果修正"));
+                if (!(eventSource.detail() instanceof SkillTriggerSkillEventDetail skill)) {
+                    return;
+                }
+                if (skill.sourceSkillKey() == null) {
+                    issues.add(fieldIssue("eventSource.detail.sourceSkillKey", "REQUIRED", "推进过程必须明确来源技能"));
+                }
+                if (skill.castPhase() == null) {
+                    issues.add(fieldIssue("eventSource.detail.castPhase", "REQUIRED", "推进过程必须核定使用阶段"));
+                } else if (skill.castPhase() == SkillTriggerCastPhase.INITIAL) {
+                    issues.add(fieldIssue("eventSource.detail.castPhase", "REFERENCE_TYPE_MISMATCH", "首次阶段不能推进已有过程"));
                 }
             }
         }
@@ -1622,6 +1656,7 @@ public class SkillTriggerRuleService {
             validateActionCatalog(
                 gameId,
                 skillKey,
+                values.eventSource(),
                 action,
                 actionPath(i, null),
                 effectShapes,
@@ -1815,6 +1850,7 @@ public class SkillTriggerRuleService {
     private void validateActionCatalog(
         String gameId,
         String skillKey,
+        SkillTriggerEventSource eventSource,
         SkillTriggerAction action,
         String prefix,
         Map<String, List<SkillTriggerEffectShapeRow>> effectShapes,
@@ -1822,11 +1858,42 @@ public class SkillTriggerRuleService {
         Map<String, SkillTriggerInternalStateLockRow> states,
         List<Map<String, String>> issues
     ) {
-        if (action.actionType() == SkillTriggerActionType.START_PROCESS
-            && action.detail() instanceof SkillTriggerStartProcessActionDetail detail
-            && !processShapes.containsKey(detail.processKey())
-            && issues.stream().noneMatch(issue -> prefix.concat(".detail.processKey").equals(issue.get("field")))) {
-            // process existence already reported via refs.processes
+        if (action.actionType() != SkillTriggerActionType.ADVANCE_PROCESS
+            || !(action.detail() instanceof SkillTriggerAdvanceProcessActionDetail detail)) {
+            return;
+        }
+        if (eventSource != null
+            && eventSource.detail() instanceof SkillTriggerSkillEventDetail skill
+            && skill.sourceSkillKey() != null
+            && !skill.sourceSkillKey().equals(skillKey)) {
+            issues.add(fieldIssue("eventSource.detail.sourceSkillKey", "REFERENCE_TYPE_MISMATCH", "推进过程只能引用当前技能"));
+        }
+        if (detail.processKey() == null) {
+            return;
+        }
+        List<SkillTriggerProcessShapeRow> shapes = processShapes.getOrDefault(detail.processKey(), List.of());
+        if (shapes.isEmpty()) {
+            return;
+        }
+        if (processActivation(shapes) == SkillProcessActivationType.PASSIVE) {
+            issues.add(fieldIssue(prefix + ".detail.processKey", "REFERENCE_TYPE_MISMATCH", "推进过程不能指向被动过程"));
+        }
+        if (detail.stepKey() == null) {
+            return;
+        }
+        List<String> locked = mapper.lockSteps(gameId, skillKey, detail.processKey(), List.of(detail.stepKey()));
+        if (locked == null || locked.isEmpty()) {
+            issues.add(fieldIssue(prefix + ".detail.stepKey", "UNKNOWN_STEP", "步骤不存在或不属于当前过程"));
+            return;
+        }
+        SkillProcessStepType stepType = processStepType(shapes, detail.stepKey());
+        SkillTriggerCastPhase phase = eventSource != null
+            && eventSource.detail() instanceof SkillTriggerSkillEventDetail skill
+            ? skill.castPhase() : null;
+        if (phase == SkillTriggerCastPhase.RECAST && stepType != SkillProcessStepType.RECAST) {
+            issues.add(fieldIssue(prefix + ".detail.stepKey", "REFERENCE_TYPE_MISMATCH", "再次施放只能推进再次施放步骤"));
+        } else if (phase == SkillTriggerCastPhase.CHARGE_RELEASE && stepType != SkillProcessStepType.CHARGE) {
+            issues.add(fieldIssue(prefix + ".detail.stepKey", "REFERENCE_TYPE_MISMATCH", "蓄力释放只能推进蓄力步骤"));
         }
     }
 
@@ -1883,6 +1950,7 @@ public class SkillTriggerRuleService {
                 b,
                 parameter.valueType(),
                 effectShapes,
+                processShapes,
                 states,
                 bindingIssues,
                 referenceIssues
@@ -1948,6 +2016,7 @@ public class SkillTriggerRuleService {
         int bindingIndex,
         SkillParameterValueType parameterType,
         Map<String, List<SkillTriggerEffectShapeRow>> effectShapes,
+        Map<String, List<SkillTriggerProcessShapeRow>> processShapes,
         Map<String, SkillTriggerInternalStateLockRow> states,
         List<Map<String, String>> bindingIssues,
         List<Map<String, String>> referenceIssues
@@ -2064,10 +2133,10 @@ public class SkillTriggerRuleService {
                     bindingIssues.add(fieldIssue(bindingPath(actionIndex, bindingIndex, "detail.attributeKey"),
                         "REQUIRED", "资源属性不能为空"));
                 }
-                String sourceSkill = eventSource.detail() instanceof SkillTriggerSkillEventDetail skillEvent ? skillEvent.sourceSkillKey() : null;
-                if (!SkillTriggerEventCapabilities.sourceCastResourceCostAvailable(eventSource.eventType(), sourceSkill)) {
+                if (!sourceCastResourceCostAllowed(eventSource, skillKey, processShapes)) {
                     referenceIssues.add(fieldIssue(bindingPath(actionIndex, bindingIndex, "sourceType"),
-                        "EVENT_VALUE_NOT_AVAILABLE", "来源施放消耗仅适用于明确来源技能的技能命中事件"));
+                        "EVENT_VALUE_NOT_AVAILABLE",
+                        "来源施放消耗仅适用于明确来源技能的技能命中，或当前技能非被动过程的完成与失败时点"));
                 }
                 sourceDomain = SkillTriggerValueDomain.DECIMAL;
             }
@@ -2141,6 +2210,9 @@ public class SkillTriggerRuleService {
     ) {
         if (moment == null || moment.momentType() == null) {
             return;
+        }
+        if (moment.failureReason() != null && moment.momentType() != SkillProcessMomentType.PROCESS_FAILURE) {
+            issues.add(fieldIssue(prefix + ".moment.failureReason", "FORBIDDEN", "失败原因筛选只能用于过程失败时点"));
         }
         if (PROCESS_MOMENTS.contains(moment.momentType())) {
             if (moment.stepKey() != null) {
@@ -2387,6 +2459,10 @@ public class SkillTriggerRuleService {
                 SkillTriggerFailProcessActionDetail detail = (SkillTriggerFailProcessActionDetail) action.detail();
                 refs.addProcess(new CatalogRef(prefix + ".detail.processKey", detail.processKey()));
             }
+            case ADVANCE_PROCESS -> {
+                SkillTriggerAdvanceProcessActionDetail detail = (SkillTriggerAdvanceProcessActionDetail) action.detail();
+                refs.addProcess(new CatalogRef(prefix + ".detail.processKey", detail.processKey()));
+            }
         }
         rejectUnavailableTargetContext(
             eventSource == null ? null : eventSource.eventType(),
@@ -2601,6 +2677,7 @@ public class SkillTriggerRuleService {
             case EXECUTE_EFFECT -> ((SkillTriggerExecuteEffectActionDetail) action.detail()).effectKey();
             case START_PROCESS -> ((SkillTriggerStartProcessActionDetail) action.detail()).processKey();
             case FAIL_PROCESS -> ((SkillTriggerFailProcessActionDetail) action.detail()).processKey();
+            case ADVANCE_PROCESS -> ((SkillTriggerAdvanceProcessActionDetail) action.detail()).processKey();
         };
     }
 
@@ -2686,6 +2763,11 @@ public class SkillTriggerRuleService {
                 case EXECUTE_EFFECT -> action.detail() instanceof SkillTriggerExecuteEffectActionDetail detail
                     && effectContainsReflectedDamage(detail.effectKey(), effectShapes);
                 case START_PROCESS -> action.detail() instanceof SkillTriggerStartProcessActionDetail detail
+                    && processShapes.getOrDefault(detail.processKey(), List.of()).stream()
+                        .map(SkillTriggerProcessShapeRow::bindingEffectKey)
+                        .filter(Objects::nonNull)
+                        .anyMatch(effectKey -> effectContainsReflectedDamage(effectKey, effectShapes));
+                case ADVANCE_PROCESS -> action.detail() instanceof SkillTriggerAdvanceProcessActionDetail detail
                     && processShapes.getOrDefault(detail.processKey(), List.of()).stream()
                         .map(SkillTriggerProcessShapeRow::bindingEffectKey)
                         .filter(Objects::nonNull)
@@ -2794,6 +2876,81 @@ public class SkillTriggerRuleService {
         if (value == null || (value instanceof String text && text.isBlank())) {
             issues.add(fieldIssue(field, "REQUIRED", message));
         }
+    }
+
+    private static void rejectProcessControlShell(
+        SkillTriggerAction action,
+        String prefix,
+        String label,
+        List<Map<String, String>> issues
+    ) {
+        if (action.targetContext() != null) {
+            issues.add(fieldIssue(prefix + ".targetContext", "FORBIDDEN", label + "不能指定目标对象"));
+        }
+        if (action.runtimeInputBindings() != null && !action.runtimeInputBindings().isEmpty()) {
+            issues.add(fieldIssue(prefix + ".runtimeInputBindings", "FORBIDDEN", label + "不能保存动态输入绑定"));
+        }
+        if (action.resultModifiers() != null && !action.resultModifiers().isEmpty()) {
+            issues.add(fieldIssue(prefix + ".resultModifiers", "FORBIDDEN", label + "不能保存结果修正"));
+        }
+    }
+
+    private static void collectMomentNoise(List<Map<String, String>> issues, String prefix, SkillProcessMoment moment) {
+        if (moment == null) {
+            return;
+        }
+        for (String field : nullToEmptySet(moment.unknownFields())) {
+            issues.add(fieldIssue(prefix + "." + field, "UNKNOWN_FIELD", "过程时点包含未知字段"));
+        }
+        if (moment.failureReason() != null && moment.momentType() != SkillProcessMomentType.PROCESS_FAILURE) {
+            issues.add(fieldIssue(prefix + ".failureReason", "FORBIDDEN", "失败原因筛选只能用于过程失败时点"));
+        }
+    }
+
+    private static boolean sourceCastResourceCostAllowed(
+        SkillTriggerEventSource eventSource,
+        String skillKey,
+        Map<String, List<SkillTriggerProcessShapeRow>> processShapes
+    ) {
+        if (eventSource == null || eventSource.eventType() == null) {
+            return false;
+        }
+        if (eventSource.detail() instanceof SkillTriggerSkillEventDetail skillEvent) {
+            return SkillTriggerEventCapabilities.sourceCastResourceCostAvailable(
+                eventSource.eventType(), skillEvent.sourceSkillKey());
+        }
+        if (!(eventSource.detail() instanceof SkillTriggerProcessEventDetail process)
+            || process.moment() == null) {
+            return false;
+        }
+        boolean currentSkillNonPassive = process.processKey() != null
+            && processActivation(processShapes.getOrDefault(process.processKey(), List.of()))
+                != SkillProcessActivationType.PASSIVE
+            && processShapes.containsKey(process.processKey());
+        return SkillTriggerEventCapabilities.sourceCastResourceCostAvailable(
+            eventSource.eventType(),
+            null,
+            process.moment().momentType(),
+            currentSkillNonPassive
+        );
+    }
+
+    private static SkillProcessActivationType processActivation(List<SkillTriggerProcessShapeRow> rows) {
+        for (SkillTriggerProcessShapeRow row : nullToEmpty(rows)) {
+            if (row.activationType() != null) {
+                return row.activationType();
+            }
+        }
+        return null;
+    }
+
+    private static SkillProcessStepType processStepType(List<SkillTriggerProcessShapeRow> rows, String stepKey) {
+        for (SkillTriggerProcessShapeRow row : nullToEmpty(rows)) {
+            if (stepKey.equals(row.stepKey()) && row.stepType() != null) {
+                return row.stepType();
+            }
+        }
+        return null;
     }
 
     private static void collectDetailNoise(
