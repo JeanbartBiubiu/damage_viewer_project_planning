@@ -114,6 +114,9 @@ type genericRunState struct {
 	skillHitLedger           map[string]*frozenSkillHitContext
 	skillHitOccurrenceCount  uint64
 	runtimeListeners         []compilebundle.CompiledListener
+	attackStartFacts         map[string]model.AttackStartFact
+	useTriggerLedger         map[useTriggerKey]*useTriggerRecord
+	useTriggerReserving      int
 }
 
 // RunGeneric 执行单次 generic deterministic run，返回 DoneResult。
@@ -212,6 +215,12 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 		return nil, err
 	}
 	if err := state.initSkillHitState(); err != nil {
+		return nil, err
+	}
+	if err := state.restoreProviderStateTimers(req.InitialSnapshot); err != nil {
+		return nil, err
+	}
+	if err := state.initUseTriggerState(); err != nil {
 		return nil, err
 	}
 	return state, nil
@@ -700,14 +709,18 @@ func (s *genericRunState) statFor(abilityRef string) *abilityStatAcc {
 
 func (s *genericRunState) handleAbilityAttempt(ev scheduler.GenericEvent) *model.EngineError {
 	entry := s.req.DriverPlan.Entries[ev.DriverEntryIndex]
-	s.abilityAttemptCount++
-	s.entryAttemptCounts[ev.DriverEntryIndex]++
+	if !isNativeHitFollowUp(entry.EntryKey) {
+		s.abilityAttemptCount++
+		s.entryAttemptCounts[ev.DriverEntryIndex]++
+	}
 
 	sourceKey, _ := s.resolveCombatantKey(entry.Source, entry.Source, entry.Target)
 	targetKey, _ := s.resolveCombatantKey(entry.Target, entry.Source, entry.Target)
 	statRef := normalizeAbilityRef(entry.AbilityRef, sourceKey, targetKey)
 	acc := s.statFor(statRef)
-	acc.attemptCount++
+	if !isNativeHitFollowUp(entry.EntryKey) {
+		acc.attemptCount++
+	}
 
 	gate := s.checkAttemptGate(entry, ev.DriverEntryIndex)
 	if gate.skipped {
@@ -999,6 +1012,18 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 			snapshot.Combatants[i].Vars = map[string]interface{}{}
 		}
 	}
+	s.lazyExpireAllProviderState()
+	for i, c := range snapshot.Combatants {
+		rt, ok := s.combatants[c.Key]
+		if !ok {
+			continue
+		}
+		snapshot.Combatants[i].ProviderState = providerStateToSnapshot(rt.providerState)
+	}
+	snapshot.UseTriggerLedger = s.snapshotUseTriggerLedger()
+	if snapshot.UseTriggerLedger == nil {
+		snapshot.UseTriggerLedger = []model.UseTriggerLedgerEntry{}
+	}
 	return snapshot
 }
 
@@ -1120,6 +1145,11 @@ func cloneSnapshot(src model.Snapshot) model.Snapshot {
 		if c.Resources != nil {
 			dst.Combatants[i].Resources = cloneResourceMap(c.Resources)
 		}
+	}
+	if src.UseTriggerLedger != nil {
+		dst.UseTriggerLedger = append([]model.UseTriggerLedgerEntry(nil), src.UseTriggerLedger...)
+	} else {
+		dst.UseTriggerLedger = []model.UseTriggerLedgerEntry{}
 	}
 	return dst
 }

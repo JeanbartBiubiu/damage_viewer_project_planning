@@ -76,6 +76,7 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 | 通用吸血 | 已接入 | 游戏规则与伤害例外；普通、复制伤害共用末尾吸血结算；治疗修正与逐次证据 |
 | 跨来源状态合并与重施 | 已接入 | `source_target` 单层重施、普通减速取强快照、`effectiveStatuses`、治疗组 `ratio_max` |
 | 命中供值与法术护盾 | 已接入 | `resolve_skill_hit` 单次 driver、`skillUses`/`skillHitFacts`、四档阻挡与 `event/spell_shield_blocked` |
+| 同次使用、固定时间窗与普攻原生事件 | 已接入 | `listener.condition` 冻结、`oncePerUse` 专用账本、`start_on_first_write`、`operation.outputRef`、`event/basic_attack_*` |
 | Canonical fixture | 已接入 | `generic_p0_basic_damage.json`（targetFinalHp=900） |
 | Node smoke | 已接入 | 真实 compile/run/release round-trip |
 | Node / Go bench | 已接入 | `--mode generic-run` / `go run ./cmd/bench` 默认 generic |
@@ -290,3 +291,23 @@ node .\scripts\skill-hit-smoke-node.mjs
 ```
 
 原生与 Node 结果证明通用机制；Web 复制最终 dist 与浏览器 Worker 验证由父任务或后续 Web 负责。
+
+### 同次使用限制、固定时间窗与前序伤害供值
+
+方案唯一来源为规划工作树的《管理页面与共性机制迭代计划》第6项 `authoring-p6-r3`。本模块不实现 DELAY/EMPOWERED 过程执行器，也不按英雄或装备名分支。
+
+- 分发任何监听动作前，先按 `nowMs` 惰性到期相关状态，再用 owner-relative 上下文和原事件快照冻结全部匹配规则的 `listener.condition`。
+- `oncePerUse` 只接受 `skill_hit` / `basic_attack_hit` / `basic_attack_start` 三种真实 use 事件；组键含 owner、provider、group、useSource、useKey 及可选 target，全组共享，不含 listenerIndex。
+- `Snapshot.useTriggerLedger` 是专用额度账本，与第5项 SKILL 账本和 `MaxEvents` 分开；空起始快照不继承上次 run。
+- `start_on_first_write` 只在默认值变为非默认且无活动期限时开窗，后续写含封顶不续期；快照逐键保存 `expireAt`。
+- `operation.outputRef` 只导出同帧真实 `pipeline.DamageOutcome` 的 `POST_DEFENSE_DAMAGE` / `SHIELD_ABSORBED` / `ACTUAL_HP_LOSS`。
+- 普通攻击 `resolve_skill_hit` 只发 `event/basic_attack_hit`；空 operations 的 `attackStartFacts` 开始 driver 只发 `event/basic_attack_start`。`emit_event` 不能伪造这两种原生事件。
+
+专项验证使用独立构造的 `internal/testkit/fixtures/generic_p6.json`，不修改或复制原基准样例。最终构建后运行：
+
+```powershell
+go test -count=1 ./internal/compile ./internal/runtime ./internal/formula ./internal/model -run 'P6|OncePerUse|BasicAttack|OutputRef|StartOnFirstWrite'
+node .\scripts\p6-smoke-node.mjs
+```
+
+原生与 Node 结果证明通用机制；浏览器 Worker 真实验证由父任务结合最终产物提供，不能拿 Node 代替。

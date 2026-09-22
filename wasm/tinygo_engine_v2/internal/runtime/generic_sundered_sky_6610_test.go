@@ -273,7 +273,7 @@ func ss6610LoadFixture(t *testing.T, critChance, critDamage float64) (model.Comp
 
 func ss6610Compile(t *testing.T, compileReq model.CompileRequest) compile.GenericCompileResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, nil)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -282,7 +282,10 @@ func ss6610Compile(t *testing.T, compileReq model.CompileRequest) compile.Generi
 
 func ss6610Run(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := ss6610Compile(t, compileReq)
+	result := compileMigrated(&compileReq, &runReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
 	done, err := RunGeneric(result.Session, runReq)
 	if err != nil {
 		t.Fatal(err)

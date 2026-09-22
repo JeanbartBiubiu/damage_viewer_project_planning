@@ -4,7 +4,6 @@ import (
 	"math"
 	"testing"
 
-	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -326,7 +325,7 @@ func loadXayahDPFixture(t *testing.T) (model.CompileRequest, model.RunRequest) {
 
 func runXayahDP(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -908,6 +907,10 @@ func TestGenericXayahDeadlyPlumagePhantomDoesNotReplayBaseOrRerunMul(t *testing.
 				"state": map[string]interface{}{
 					guinsooStackKey:  float64(3),
 					xayahDPActiveKey: float64(1),
+				},
+				"expireAt": map[string]interface{}{
+					guinsooStackKey:  float64(10000),
+					xayahDPActiveKey: float64(xayahDPASBuffDurMs),
 				},
 			},
 		}

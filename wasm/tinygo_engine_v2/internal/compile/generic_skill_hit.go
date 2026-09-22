@@ -41,7 +41,14 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 	if op.Target != model.SelectorTarget {
 		collector.addError(model.GenericErrOperationTargetMissing, opPath+".target", "resolve_skill_hit must address the actual driver target", ability.AbilityKey)
 	}
-	requireCatalogType(ctx, model.EventTypeSkillHit, opPath+".skillHit", "resolve_skill_hit requires event/skill_hit in typeCatalog")
+	wasBasic := ctx.compilingBasicAttack
+	ctx.compilingBasicAttack = abilityIsBasicAttack(ability, ctx)
+	defer func() { ctx.compilingBasicAttack = wasBasic }()
+	if ctx.compilingBasicAttack {
+		requireCatalogType(ctx, model.EventTypeBasicAttackHit, opPath+".skillHit", "basic attack resolve_skill_hit requires event/basic_attack_hit in typeCatalog")
+	} else {
+		requireCatalogType(ctx, model.EventTypeSkillHit, opPath+".skillHit", "resolve_skill_hit requires event/skill_hit in typeCatalog")
+	}
 
 	seenCandidate := map[string]int{}
 	plan := &CompiledSkillHit{SkillKey: op.SkillHit.SkillKey}
@@ -129,6 +136,9 @@ func compileSkillHitCandidate(cand model.SkillHitCandidate, path string, ownerPr
 		if cond.Key != model.SkillHitValueFirstContact && cond.Key != model.SkillHitValueBlocked {
 			collector.addError(model.GenericErrUnknownRef, cpath+".key", "eventValueConditions key must be first_contact or blocked", cond.Key)
 		}
+		if ctx.compilingBasicAttack && cond.Key == model.SkillHitValueFirstContact {
+			collector.addError(model.GenericErrUnknownRef, cpath+".key", "basic_attack_hit cannot use firstContact eventValueConditions", cond.Key)
+		}
 		if _, ok := model.ValidSkillHitComparator[cond.Comparator]; !ok {
 			collector.addError(model.GenericErrUnknownRef, cpath+".comparator", "unsupported eventValueConditions comparator", cond.Comparator)
 		}
@@ -149,16 +159,20 @@ func compileSkillHitCandidate(cand model.SkillHitCandidate, path string, ownerPr
 	}
 	out.OperationStart = uint16(len(ctx.session.Operations))
 	damageCount := 0
+	ctx.beginOutputUnit()
 	for k, cop := range cand.Operations {
 		if cop.Operation == model.OperationKindResolveSkillHit {
 			collector.addError(model.GenericErrUnknownRef, path+".operations["+itoa(k)+"].operation", "candidate operations cannot recurse resolve_skill_hit", cand.CandidateKey)
+			ctx.outputUnitIndex++
 			continue
 		}
 		if cop.Operation == "damage" {
 			damageCount++
 		}
 		compileOperation(cop, path+".operations["+itoa(k)+"]", ownerProviderIndex, ctx)
+		ctx.outputUnitIndex++
 	}
+	ctx.endOutputUnit()
 	if cand.Semantic.ResultType == model.SkillHitResultDamage && damageCount > 1 {
 		collector.addError(model.GenericErrUnknownRef, path+".operations", "a damage candidate allows exactly one damage operation", cand.CandidateKey)
 	}
@@ -305,7 +319,7 @@ func operationsMatchSemantic(ops []model.OperationDefinition, sem model.SkillHit
 		if op.Operation == "shield" {
 			return "numeric shield operations are not spell_shield and cannot stand in for this semantic"
 		}
-		if op.Operation == "emit_event" && (op.EventType == model.EventTypeSkillHit || op.EventType == model.EventTypeSpellShieldBlocked || op.Ref == model.EventTypeSkillHit || op.Ref == model.EventTypeSpellShieldBlocked) {
+		if op.Operation == "emit_event" && (model.IsEngineProducedEvent(op.EventType) || model.IsEngineProducedEvent(op.Ref)) {
 			return "candidate operations cannot forge engine skill hit events"
 		}
 	}
@@ -437,7 +451,7 @@ func validateEmitEventNotForged(op model.OperationDefinition, path string, ctx *
 	if eventType == "" {
 		eventType = op.Ref
 	}
-	if eventType == model.EventTypeSkillHit || eventType == model.EventTypeSpellShieldBlocked {
+	if model.IsEngineProducedEvent(eventType) {
 		ctx.collector.addError(model.GenericErrUnknownRef, path+".eventType", "emit_event cannot forge engine-produced skill hit events", eventType)
 	}
 }

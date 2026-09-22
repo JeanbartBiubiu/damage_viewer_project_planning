@@ -190,7 +190,7 @@ func pscgLoadFixture(t *testing.T, mana float64) (model.CompileRequest, model.Ru
 
 func pscgRun(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -260,7 +260,8 @@ func pscgSeedStacks(runReq *model.RunRequest, stacks float64) {
 			runReq.InitialSnapshot.Combatants[i].ProviderState = map[string]interface{}{}
 		}
 		runReq.InitialSnapshot.Combatants[i].ProviderState[pscgProviderRef] = map[string]interface{}{
-			"state": map[string]interface{}{pscgStacksKey: stacks},
+			"state":    map[string]interface{}{pscgStacksKey: stacks},
+			"expireAt": map[string]interface{}{pscgStacksKey: pscgDurationMs},
 		}
 	}
 }

@@ -257,15 +257,19 @@ func TestGenericRunGuinsooHExpireRestoresCadenceAndSnapshotShape(t *testing.T) {
 		t.Fatalf("attack_speed.resolved=%v want 1 after expire (probe does not re-stack)", as)
 	}
 	bag := sourceProviderState(t, done.FinalSnapshot, guinsooProviderRef)
-	if _, has := bag["expireAt"]; has {
-		t.Fatalf("snapshot must not emit expireAt: %+v", bag)
-	}
 	state, _ := bag["state"].(map[string]interface{})
 	if state == nil {
 		t.Fatalf("state missing: %+v", bag)
 	}
 	if _, has := state["expireAt"]; has {
 		t.Fatalf("state must stay numeric shape: %+v", state)
+	}
+	expireAt, _ := bag["expireAt"].(map[string]interface{})
+	if expireAt == nil {
+		t.Fatalf("snapshot must emit expireAt map: %+v", bag)
+	}
+	if stacksExp, has := expireAt[guinsooStackKey]; has && stacksExp != nil && stacksExp != 0.0 {
+		t.Fatalf("expired default stacks must not keep positive expireAt: %+v", expireAt)
 	}
 	if stacks, _ := state[guinsooStackKey].(float64); stacks != 0 {
 		t.Fatalf("stacks after expire=%v want 0", stacks)

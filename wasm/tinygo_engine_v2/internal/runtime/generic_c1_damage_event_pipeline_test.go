@@ -26,7 +26,7 @@ func ensureC1CatalogTypes(req *model.CompileRequest, keys ...model.TypeCatalogEn
 
 func c1Run(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}

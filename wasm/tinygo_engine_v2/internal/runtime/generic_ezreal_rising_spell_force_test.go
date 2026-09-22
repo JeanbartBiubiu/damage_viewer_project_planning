@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"testing"
 
-	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -238,7 +237,7 @@ func loadEzrealRSFFixture(t *testing.T) (model.CompileRequest, model.RunRequest)
 
 func runEzrealRSF(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -377,12 +376,12 @@ func TestGenericEzrealRisingSpellForceSingleSpellHitAddsOneStack(t *testing.T) {
 		t.Fatalf("abilityCastCount=%d want 1", done.Summary.AbilityCastCount)
 	}
 	bag := sourceProviderState(t, done.FinalSnapshot, ezrealRSFProviderRef)
-	if _, has := bag["expireAt"]; has {
-		t.Fatalf("snapshot must not emit expireAt: %+v", bag)
-	}
 	state, _ := bag["state"].(map[string]interface{})
 	if _, has := state["expireAt"]; has {
 		t.Fatalf("state must stay numeric shape: %+v", state)
+	}
+	if _, has := bag["expireAt"]; !has {
+		t.Fatalf("snapshot must emit expireAt map: %+v", bag)
 	}
 }
 

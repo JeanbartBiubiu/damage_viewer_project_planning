@@ -26,12 +26,13 @@ type providerStateFieldDef struct {
 //
 //	providerState[providerRef] = {
 //	  "state": { "<key>": <number> },
-//	  "targetState": { "target": "<combatantKey>", "values": { "<key>": <number> } }
+//	  "expireAt": { "<key>": <int64> },
+//	  "targetState": { "target": "<combatantKey>", "values": { "<key>": <number> }, "expireAt": { "<key>": <int64> } }
 //	}
 //
 // targetState is single-active-target: writing a key for a new target clears prior target values
-// and per-key targetExpireAt timers. Timed metadata (expireAt / targetExpireAt) is runtime-only
-// and not emitted in snapshots. Field schema (defaultValue/maxValue/durationMs/refresh_on_write)
+// and per-key targetExpireAt timers. Timed metadata is part of the snapshot contract.
+// Field schema (defaultValue/maxValue/durationMs/refresh_on_write|start_on_first_write)
 // applies to both provider-scope and provider_target writes.
 type providerStateBag struct {
 	state          map[string]float64
@@ -169,6 +170,15 @@ func materializeProviderState(raw map[string]interface{}) map[string]*providerSt
 				}
 			}
 		}
+		if expObj, ok := obj["expireAt"].(map[string]interface{}); ok {
+			for k, v := range expObj {
+				if n, ok := asInt64Strict(v); ok {
+					bag.expireAt[k] = n
+				} else {
+					bag.expireAt[k] = math.MinInt64
+				}
+			}
+		}
 		if tsObj, ok := obj["targetState"].(map[string]interface{}); ok {
 			if t, ok := tsObj["target"].(string); ok {
 				bag.targetKey = t
@@ -177,6 +187,15 @@ func materializeProviderState(raw map[string]interface{}) map[string]*providerSt
 				for k, v := range values {
 					if n, ok := asFloat64(v); ok {
 						bag.targetValues[k] = n
+					}
+				}
+			}
+			if expObj, ok := tsObj["expireAt"].(map[string]interface{}); ok {
+				for k, v := range expObj {
+					if n, ok := asInt64Strict(v); ok {
+						bag.targetExpireAt[k] = n
+					} else {
+						bag.targetExpireAt[k] = math.MinInt64
 					}
 				}
 			}
@@ -199,22 +218,54 @@ func providerStateToSnapshot(bags map[string]*providerStateBag) map[string]inter
 		for k, v := range bag.state {
 			stateObj[k] = v
 		}
+		expireObj := map[string]interface{}{}
+		for k, v := range bag.expireAt {
+			if v > 0 {
+				expireObj[k] = float64(v)
+			}
+		}
 		entry := map[string]interface{}{
-			"state": stateObj,
+			"state":    stateObj,
+			"expireAt": expireObj,
 		}
 		if bag.targetKey != "" || len(bag.targetValues) > 0 {
 			valuesObj := map[string]interface{}{}
 			for k, v := range bag.targetValues {
 				valuesObj[k] = v
 			}
+			targetExpire := map[string]interface{}{}
+			for k, v := range bag.targetExpireAt {
+				if v > 0 {
+					targetExpire[k] = float64(v)
+				}
+			}
 			entry["targetState"] = map[string]interface{}{
-				"target": bag.targetKey,
-				"values": valuesObj,
+				"target":   bag.targetKey,
+				"values":   valuesObj,
+				"expireAt": targetExpire,
 			}
 		}
 		out[providerRef] = entry
 	}
 	return out
+}
+
+func asInt64Strict(v interface{}) (int64, bool) {
+	switch n := v.(type) {
+	case float64:
+		if math.IsNaN(n) || math.IsInf(n, 0) || n != math.Trunc(n) {
+			return 0, false
+		}
+		return int64(n), true
+	case int:
+		return int64(n), true
+	case int64:
+		return n, true
+	case int32:
+		return int64(n), true
+	default:
+		return 0, false
+	}
 }
 
 func asFloat64(v interface{}) (float64, bool) {
@@ -457,38 +508,76 @@ func (b *providerStateBag) clampProviderStateValue(key string, value float64) fl
 	return value
 }
 
-func (b *providerStateBag) refreshExpireAtOnWrite(key string, nowMs int64) {
+func (b *providerStateBag) refreshExpireAtOnWrite(key string, nowMs int64) bool {
 	if b == nil {
-		return
+		return true
 	}
 	def, ok := b.fieldDefs[key]
 	if !ok || def.durationMs <= 0 {
-		return
-	}
-	if def.refreshPolicy != model.ProviderStateRefreshOnWrite {
-		return
+		return true
 	}
 	b.ensure()
-	b.expireAt[key] = nowMs + def.durationMs
+	switch def.refreshPolicy {
+	case model.ProviderStateRefreshOnWrite:
+		exp, ok := addDuration(nowMs, def.durationMs)
+		if !ok {
+			return false
+		}
+		b.expireAt[key] = exp
+		return true
+	case model.ProviderStateRefreshStartOnFirstWrite:
+		return b.applyStartOnFirstWrite(key, nowMs, b.state[key], def, false)
+	default:
+		return true
+	}
 }
 
-// refreshTargetExpireAtOnWrite refreshes provider_target duration on every qualifying write,
-// including cap-clamped writes that leave the numeric value unchanged.
-func (b *providerStateBag) refreshTargetExpireAtOnWrite(key string, nowMs int64) int64 {
+func (b *providerStateBag) refreshTargetExpireAtOnWrite(key string, nowMs int64) (int64, bool) {
 	if b == nil {
-		return 0
+		return 0, true
 	}
 	def, ok := b.fieldDefs[key]
 	if !ok || def.durationMs <= 0 {
-		return 0
-	}
-	if def.refreshPolicy != model.ProviderStateRefreshOnWrite {
-		return 0
+		return 0, true
 	}
 	b.ensure()
-	exp := nowMs + def.durationMs
-	b.targetExpireAt[key] = exp
-	return exp
+	switch def.refreshPolicy {
+	case model.ProviderStateRefreshOnWrite:
+		exp, ok := addDuration(nowMs, def.durationMs)
+		if !ok {
+			return 0, false
+		}
+		b.targetExpireAt[key] = exp
+		return exp, true
+	case model.ProviderStateRefreshStartOnFirstWrite:
+		if !b.applyStartOnFirstWrite(key, nowMs, b.targetValues[key], def, true) {
+			return 0, false
+		}
+		return b.targetExpireAt[key], true
+	default:
+		return 0, true
+	}
+}
+
+func (b *providerStateBag) applyStartOnFirstWrite(key string, nowMs int64, next float64, def providerStateFieldDef, target bool) bool {
+	expire := b.expireAt
+	if target {
+		expire = b.targetExpireAt
+	}
+	if next == def.defaultValue {
+		expire[key] = 0
+		return true
+	}
+	current := expire[key]
+	if current > nowMs {
+		return true
+	}
+	exp, ok := addDuration(nowMs, def.durationMs)
+	if !ok {
+		return false
+	}
+	expire[key] = exp
+	return true
 }
 
 // subtractProviderExpireAt shortens a provider-scope timer without mutating state value or
@@ -538,4 +627,137 @@ func (b *providerStateBag) subtractTargetExpireAt(key string, nowMs, deltaMs int
 	}
 	b.targetExpireAt[key] = next
 	return true, false, next
+}
+
+func (s *genericRunState) restoreProviderStateTimers(snapshot model.Snapshot) *model.EngineError {
+	combatantKeys := map[string]bool{}
+	for _, c := range snapshot.Combatants {
+		combatantKeys[c.Key] = true
+	}
+	for i, snap := range snapshot.Combatants {
+		rt, ok := s.combatants[snap.Key]
+		if !ok {
+			continue
+		}
+		base := "initialSnapshot.combatants[" + itoa(uint32(i)) + "].providerState"
+		for providerRef, bag := range rt.providerState {
+			if bag == nil {
+				continue
+			}
+			defs := s.resolveProviderStateFieldDefs(snap.Key, providerRef, rt.providers)
+			if defs == nil {
+				continue
+			}
+			bag.bindFieldDefs(defs)
+			path := base + "[" + providerRef + "]"
+			if err := restoreBagTimers(bag, snapshot.TimeMs, combatantKeys, path, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID); err != nil {
+				return err
+			}
+		}
+		s.combatants[snap.Key] = rt
+	}
+	return nil
+}
+
+func restoreBagTimers(bag *providerStateBag, snapshotTime int64, combatantKeys map[string]bool, path, schemaHash, rulesHash, sessionID string) *model.EngineError {
+	if bag == nil {
+		return nil
+	}
+	bag.ensure()
+	if bag.targetKey != "" && !combatantKeys[bag.targetKey] {
+		return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "providerState target is unknown", path+".targetState.target", bag.targetKey, schemaHash, rulesHash, sessionID)
+	}
+	for key, value := range bag.state {
+		def, ok := bag.fieldDefs[key]
+		if !ok {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown providerState key", path+".state."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		if !finiteState(value) {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "providerState value must be finite", path+".state."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		if def.hasCap && value > def.maxValue {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "providerState value exceeds maxValue", path+".state."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		exp, hasExp := bag.expireAt[key]
+		if hasExp && exp == math.MinInt64 {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "providerState expireAt must be a finite integer", path+".expireAt."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		if err := restoreTimedValue(&bag.state, bag.expireAt, key, def, snapshotTime, path, schemaHash, rulesHash, sessionID); err != nil {
+			return err
+		}
+	}
+	for key, exp := range bag.expireAt {
+		if _, ok := bag.state[key]; ok {
+			continue
+		}
+		if _, ok := bag.fieldDefs[key]; !ok {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown providerState expireAt key", path+".expireAt."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		if exp == math.MinInt64 {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "providerState expireAt must be a finite integer", path+".expireAt."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		if exp > 0 {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "default providerState cannot carry a positive expireAt", path+".expireAt."+key, key, schemaHash, rulesHash, sessionID)
+		}
+	}
+	for key, value := range bag.targetValues {
+		def, ok := bag.fieldDefs[key]
+		if !ok {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown provider targetState key", path+".targetState.values."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		if !finiteState(value) {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "provider targetState value must be finite", path+".targetState.values."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		if def.hasCap && value > def.maxValue {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "provider targetState value exceeds maxValue", path+".targetState.values."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		if exp, hasExp := bag.targetExpireAt[key]; hasExp && exp == math.MinInt64 {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "provider targetState expireAt must be a finite integer", path+".targetState.expireAt."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		if err := restoreTimedValue(&bag.targetValues, bag.targetExpireAt, key, def, snapshotTime, path+".targetState", schemaHash, rulesHash, sessionID); err != nil {
+			return err
+		}
+	}
+	for key, exp := range bag.targetExpireAt {
+		if _, ok := bag.targetValues[key]; ok {
+			continue
+		}
+		if _, ok := bag.fieldDefs[key]; !ok {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown provider targetState expireAt key", path+".targetState.expireAt."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		if exp == math.MinInt64 {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "provider targetState expireAt must be a finite integer", path+".targetState.expireAt."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		if exp > 0 {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "default provider targetState cannot carry a positive expireAt", path+".targetState.expireAt."+key, key, schemaHash, rulesHash, sessionID)
+		}
+	}
+	return nil
+}
+
+func restoreTimedValue(values *map[string]float64, expire map[string]int64, key string, def providerStateFieldDef, snapshotTime int64, path, schemaHash, rulesHash, sessionID string) *model.EngineError {
+	value := (*values)[key]
+	exp, hasExp := expire[key]
+	if def.durationMs <= 0 {
+		if hasExp && exp > 0 {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "untimed providerState cannot carry expireAt", path+".expireAt."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		return nil
+	}
+	if value == def.defaultValue {
+		if hasExp && exp > 0 {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "default providerState cannot carry a positive expireAt", path+".expireAt."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		expire[key] = 0
+		return nil
+	}
+	if !hasExp || exp <= 0 {
+		return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "timed non-default providerState requires expireAt", path+".expireAt."+key, key, schemaHash, rulesHash, sessionID)
+	}
+	if exp <= snapshotTime {
+		(*values)[key] = def.defaultValue
+		expire[key] = 0
+		return nil
+	}
+	return nil
 }

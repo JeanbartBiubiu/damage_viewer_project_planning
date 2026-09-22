@@ -58,6 +58,17 @@ type GenericEvalContext struct {
 	SkillHitFirstContact       float64
 	HasSkillHitBlocked         bool
 	SkillHitBlocked            float64
+
+	// Operation output reads require the current execution frame after a real damage settlement.
+	HasOperationOutputs bool
+	OperationOutputs    map[string]OperationOutputValues
+}
+
+// OperationOutputValues 保存一次真实伤害管道的封闭口径。
+type OperationOutputValues struct {
+	PostDefenseDamage float64
+	ShieldAbsorbed    float64
+	ActualHPLoss      float64
 }
 
 // EventDamageSnapshot is the immutable numeric freeze under event.damage.*.
@@ -341,6 +352,8 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 		default:
 			return 0, errors.New("unknown event.skill_hit field")
 		}
+	case ReadOperationOutput:
+		return readOperationOutput(key, ctx)
 	case ReadEventDamage:
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
@@ -351,6 +364,33 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 		return readEventDamageField(ctx.EventDamage, key)
 	default:
 		return 0, errors.New("unknown read kind")
+	}
+}
+
+func readOperationOutput(key string, ctx GenericEvalContext) (float64, error) {
+	path := "operation.output." + key
+	if !ctx.HasOperationOutputs {
+		return 0, errors.New(path + " is not available")
+	}
+	dot := strings.IndexByte(key, '.')
+	if dot <= 0 || dot == len(key)-1 {
+		return 0, errors.New(path + " is not available")
+	}
+	ref := key[:dot]
+	kind := key[dot+1:]
+	vals, ok := ctx.OperationOutputs[ref]
+	if !ok {
+		return 0, errors.New(path + " is not available")
+	}
+	switch kind {
+	case model.OutputKindPostDefenseDamage:
+		return vals.PostDefenseDamage, nil
+	case model.OutputKindShieldAbsorbed:
+		return vals.ShieldAbsorbed, nil
+	case model.OutputKindActualHPLoss:
+		return vals.ActualHPLoss, nil
+	default:
+		return 0, errors.New(path + " is not available")
 	}
 }
 
