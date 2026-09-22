@@ -57,23 +57,25 @@ type CompiledProviderMount struct {
 }
 
 // CompiledModifier 是 compile 后的 provider / rule modifier。
+// CompiledModifier 是 compile 后的 provider / rule modifier。
 type CompiledModifier struct {
-	ModifierKey   string
-	Kind          string
-	Target        string
-	Command       string
-	Channel       string
-	Bucket        string
-	Stage         string
-	Priority      int
-	HealDirection string
-	HealCategory  string
-	HealGroupKey  string
-	ValuePolicy   string
-	ValueProgram  formula.GenericProgramID
-	HasValue      bool
-	HasCondition  bool
-	ConditionProg formula.GenericProgramID
+	ModifierKey              string
+	Kind                     string
+	Target                   string
+	Command                  string
+	Channel                  string
+	Bucket                   string
+	Stage                    string
+	Priority                 int
+	HealDirection            string
+	HealCategory             string
+	HealGroupKey             string
+	HealGroupCalculationMode string
+	ValuePolicy              string
+	ValueProgram             formula.GenericProgramID
+	HasValue                 bool
+	HasCondition             bool
+	ConditionProg            formula.GenericProgramID
 }
 
 // CompiledListener 是 compile 后的 listener（provider / rules / inline listenerSpec）。
@@ -93,12 +95,30 @@ type CompiledListener struct {
 }
 
 // CompiledProviderLifecycle 是 compile 后的 provider 生命周期。
+// CompiledProviderLifecycle 是 compile 后的 provider 生命周期。
 type CompiledProviderLifecycle struct {
 	DurationProgram formula.GenericProgramID
 	HasDuration     bool
 	MaxStacks       int
 	RefreshPolicy   string
 	TickIntervalMs  int64
+	InstanceScope   string
+	DurationPath    string
+}
+
+// AllowsSourceTargetReuse 报告是否按 definitionRef+source+owner 复用实例。
+func (lc *CompiledProviderLifecycle) AllowsSourceTargetReuse() bool {
+	return lc != nil && lc.InstanceScope == model.InstanceScopeSourceTarget
+}
+
+// CompiledStatusContribution 是 compile 后的普通减速能力。
+type CompiledStatusContribution struct {
+	ResultRef       string
+	StatusKey       string
+	StatusKind      string
+	StrengthProgram formula.GenericProgramID
+	HasStrength     bool
+	Path            string
 }
 
 // CompiledProviderStateField 是 initialStateSchema 规范化后的 provider-scope 字段定义（Gate H1）。
@@ -112,16 +132,17 @@ type CompiledProviderStateField struct {
 
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
-	ProviderKey  string
-	Kind         string
-	StableID     string
-	TypeSet      typeset.TypeSet
-	AbilityStart uint16
-	AbilityCount uint16
-	Modifiers    []CompiledModifier
-	Listeners    []CompiledListener
-	Lifecycle    *CompiledProviderLifecycle
-	StateFields  map[string]CompiledProviderStateField
+	ProviderKey         string
+	Kind                string
+	StableID            string
+	TypeSet             typeset.TypeSet
+	AbilityStart        uint16
+	AbilityCount        uint16
+	Modifiers           []CompiledModifier
+	Listeners           []CompiledListener
+	Lifecycle           *CompiledProviderLifecycle
+	StateFields         map[string]CompiledProviderStateField
+	StatusContributions []CompiledStatusContribution
 }
 
 // CompiledAbilityCost 是 compile 后的 ability 资源消耗。
@@ -171,6 +192,8 @@ type CompiledAbility struct {
 	ProviderIndex        uint16
 	OperationStart       uint16
 	OperationCount       uint16
+	HasSkillHit          bool
+	SkillHitSkillKey     string
 }
 
 // CompiledOperation 是 compile 后的 operation 定义。
@@ -205,6 +228,41 @@ type CompiledOperation struct {
 	RepeatDelayMs         int
 	TriggerStateKey       string
 	Threshold             float64
+	ProviderRefFromEvent  bool
+	SkillHit              *CompiledSkillHit
+}
+
+// CompiledSkillHit 是 resolve_skill_hit 的编译计划。
+type CompiledSkillHit struct {
+	SkillKey   string
+	Candidates []CompiledSkillHitCandidate
+}
+
+// CompiledSkillHitCandidate 保存资格、条件程序与候选操作区间。
+type CompiledSkillHitCandidate struct {
+	CandidateKey           string
+	EffectOccurrenceKey    string
+	EffectKey              string
+	ResultKey              string
+	Semantic               model.SkillHitSemantic
+	BlockScope             string // empty = null
+	HasBlockScope          bool
+	InboundBlockEligible   bool
+	ParticipationProgram   formula.GenericProgramID
+	HasParticipation       bool
+	EventValueConds        []CompiledSkillHitValueCond
+	OperationStart         uint16
+	OperationCount         uint16
+	Path                   string
+}
+
+// CompiledSkillHitValueCond 是编译后的 first_contact/blocked 比较。
+type CompiledSkillHitValueCond struct {
+	Key        string
+	Comparator string
+	ValueProg  formula.GenericProgramID
+	HasValue   bool
+	Path       string
 }
 
 // GenericCompileResult 是 CompileGeneric 的返回值。
@@ -223,6 +281,13 @@ type genericCompileContext struct {
 	combatantByKey       map[string]uint8
 	providerMounts       map[string]map[string]uint16
 	providerAbilityIndex map[uint16]map[string]uint16
+	healGroupModes       map[string]healGroupModeSeen
+	currentListener      *model.ListenerDefinition
+}
+
+type healGroupModeSeen struct {
+	mode string
+	path string
 }
 
 var abilityRefPattern = regexp.MustCompile(`^(source|target|self|opponent)\.provider\[([^\]]+)\]\.ability\[([^\]]+)\]$`)
@@ -262,6 +327,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		catalog:          catalog,
 		namedFormulas:    buildNamedFormulaMap(req.Formulas, collector),
 		providerKeyIndex: make(map[string]uint16),
+		healGroupModes:   make(map[string]healGroupModeSeen),
 	}
 
 	compileVampRules(req.Rules.VampRules, req.Combatants, ctx)
@@ -457,6 +523,8 @@ func compileProviderDefinition(provider model.ProviderDefinition, path string, c
 	if provider.Lifecycle != nil {
 		compiled.Lifecycle = compileProviderLifecycle(*provider.Lifecycle, path+".lifecycle", ctx)
 	}
+	compiled.StatusContributions = compileStatusContributions(provider.StatusContributions, path+".statusContributions", ctx)
+	validateProviderStatusLifecycle(provider, compiled, path, collector)
 	compiled.StateFields = compileInitialStateSchema(provider.InitialStateSchema, path+".initialStateSchema", collector)
 	session.Providers = append(session.Providers, compiled)
 }
@@ -544,10 +612,33 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			compiled.HasCastCondition = true
 		}
 	}
-	for k, op := range ability.Operations {
-		compileOperation(op, path+".operations["+itoa(k)+"]", int(providerIndex), ctx)
+	compiled.OperationStart = uint16(len(session.Operations))
+	if skillHitOp, ok := uniqueResolveSkillHit(ability.Operations); ok {
+		if ability.Kind != "active" {
+			collector.addError(model.GenericErrUnknownRef, path+".kind", "resolve_skill_hit requires an active ability", ability.AbilityKey)
+		}
+		if len(ability.Operations) != 1 {
+			collector.addError(model.GenericErrUnknownRef, path+".operations", "hit ability operations must be exactly one resolve_skill_hit", ability.AbilityKey)
+		}
+		if ability.TickSpec != nil {
+			collector.addError(model.GenericErrUnknownRef, path+".tickSpec", "resolve_skill_hit cannot mix tickSpec", ability.AbilityKey)
+		}
+		compileSkillHitAbility(ability, skillHitOp, path, int(providerIndex), ctx)
+		if idx := lastSkillHitOperationIndex(session); idx >= 0 {
+			compiled.OperationStart = uint16(idx)
+			compiled.OperationCount = 1
+			compiled.HasSkillHit = true
+			compiled.SkillHitSkillKey = skillHitOp.SkillHit.SkillKey
+		}
+	} else {
+		for k, op := range ability.Operations {
+			if op.Operation == model.OperationKindResolveSkillHit {
+				collector.addError(model.GenericErrUnknownRef, path+".operations["+itoa(k)+"]", "resolve_skill_hit must be the unique operation on an active hit ability", ability.AbilityKey)
+			}
+			compileOperation(op, path+".operations["+itoa(k)+"]", int(providerIndex), ctx)
+		}
+		compiled.OperationCount = uint16(len(session.Operations)) - compiled.OperationStart
 	}
-	compiled.OperationCount = uint16(len(session.Operations)) - compiled.OperationStart
 	if ability.TickSpec != nil {
 		ts := ability.TickSpec
 		if ts.IntervalMs <= 0 {
@@ -661,18 +752,19 @@ func compileRulesOperations(rules model.RulesContainer, ctx *genericCompileConte
 func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *genericCompileContext) CompiledModifier {
 	collector := ctx.collector
 	compiled := CompiledModifier{
-		ModifierKey:   mod.ModifierKey,
-		Kind:          mod.Kind,
-		Target:        mod.Target,
-		Command:       mod.Command,
-		Channel:       mod.Channel,
-		Bucket:        mod.Bucket,
-		Stage:         mod.Stage,
-		Priority:      mod.Priority,
-		ValuePolicy:   mod.ValuePolicy,
-		HealDirection: mod.HealDirection,
-		HealCategory:  mod.HealCategory,
-		HealGroupKey:  mod.HealGroupKey,
+		ModifierKey:              mod.ModifierKey,
+		Kind:                     mod.Kind,
+		Target:                   mod.Target,
+		Command:                  mod.Command,
+		Channel:                  mod.Channel,
+		Bucket:                   mod.Bucket,
+		Stage:                    mod.Stage,
+		Priority:                 mod.Priority,
+		ValuePolicy:              mod.ValuePolicy,
+		HealDirection:            mod.HealDirection,
+		HealCategory:             mod.HealCategory,
+		HealGroupKey:             mod.HealGroupKey,
+		HealGroupCalculationMode: mod.HealGroupCalculationMode,
 	}
 	if mod.ModifierKey == "" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".modifierKey", "modifierKey is required", "")
@@ -698,7 +790,15 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 	}
 	if compiled.Kind == "pipeline" {
 		validatePipelineModifier(compiled, path, collector)
-	} else if mod.HealDirection != "" || mod.HealCategory != "" || mod.HealGroupKey != "" {
+		if compiled.Command == "heal" {
+			compiled.HealGroupCalculationMode = normalizeHealGroupMode(compiled.HealGroupCalculationMode)
+			if compiled.HealGroupCalculationMode == model.HealGroupRatioAdd || compiled.HealGroupCalculationMode == model.HealGroupRatioMax {
+				ctx.noteHealGroupMode(compiled.HealGroupKey, compiled.HealGroupCalculationMode, path)
+			}
+		} else if compiled.HealGroupCalculationMode != "" {
+			collector.addError(model.GenericErrUnknownRef, path+".healGroupCalculationMode", "healGroupCalculationMode requires command=heal", mod.ModifierKey)
+		}
+	} else if mod.HealDirection != "" || mod.HealCategory != "" || mod.HealGroupKey != "" || mod.HealGroupCalculationMode != "" {
 		collector.addError(model.GenericErrUnknownRef, path, "heal fields require kind=pipeline and command=heal", mod.ModifierKey)
 	}
 	return compiled
@@ -713,7 +813,7 @@ func validatePipelineModifier(mod CompiledModifier, path string, collector *gene
 		validateHealPipelineModifier(mod, path, collector)
 		return
 	}
-	if mod.HealDirection != "" || mod.HealCategory != "" || mod.HealGroupKey != "" {
+	if mod.HealDirection != "" || mod.HealCategory != "" || mod.HealGroupKey != "" || mod.HealGroupCalculationMode != "" {
 		collector.addError(model.GenericErrUnknownRef, path, "heal fields require command=heal", mod.ModifierKey)
 	}
 	switch mod.Channel {
@@ -777,6 +877,8 @@ func compileProviderLifecycle(lc model.ProviderLifecycle, path string, ctx *gene
 		MaxStacks:      lc.MaxStacks,
 		RefreshPolicy:  lc.RefreshPolicy,
 		TickIntervalMs: lc.TickIntervalMs,
+		InstanceScope:  lc.InstanceScope,
+		DurationPath:   path + ".durationMs",
 	}
 	if lc.DurationMs != nil {
 		instr := formula.CompileGenericFormula(*lc.DurationMs, path+".durationMs", ctx.namedFormulas, map[string]bool{}, collector.addError)
@@ -787,7 +889,10 @@ func compileProviderLifecycle(lc model.ProviderLifecycle, path string, ctx *gene
 		}
 	}
 	if out.RefreshPolicy == "" {
-		out.RefreshPolicy = "replace"
+		out.RefreshPolicy = model.RefreshPolicyReplace
+	}
+	if out.InstanceScope != "" && out.InstanceScope != model.InstanceScopeSourceTarget {
+		collector.addError(model.GenericErrUnknownRef, path+".instanceScope", "unsupported provider instanceScope", out.InstanceScope)
 	}
 	_ = collector
 	return out
@@ -826,12 +931,16 @@ func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCom
 		compiled.HasAbilityRef = true
 		compiled.AbilityRef = listener.AbilityRef
 	}
+	prevListener := ctx.currentListener
+	listenerCopy := listener
+	ctx.currentListener = &listenerCopy
 	for i, op := range listener.Operations {
 		if len(ctx.session.VampRules) > 0 && sourceAbilityIndex < 0 && op.Operation == "damage" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".operations["+itoa(i)+"]", "vamp damage requires a declared owning ability", op.Ref)
 		}
 		compileOperation(op, path+".operations["+itoa(i)+"]", ownerProviderIndex, ctx)
 	}
+	ctx.currentListener = prevListener
 	compiled.OperationCount = uint16(len(ctx.session.Operations)) - compiled.OperationStart
 	return compiled
 }
@@ -896,6 +1005,13 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	if op.RepeatDelayMs != 0 && op.Operation != model.OperationKindRepeat {
 		collector.addError(model.GenericErrMissingRequiredField, path+".repeatDelayMs", "repeatDelayMs is only supported on repeat operations", op.Operation)
 	}
+	if op.Operation == model.OperationKindResolveSkillHit {
+		collector.addError(model.GenericErrUnknownRef, path+".operation", "resolve_skill_hit is only allowed as the unique operation on an active hit ability", op.Operation)
+		return
+	}
+	if op.ProviderRefFromEvent && op.Operation != "expire_provider" {
+		collector.addError(model.GenericErrUnknownRef, path+".providerRefFromEvent", "providerRefFromEvent is only allowed on expire_provider", op.Operation)
+	}
 	switch op.Operation {
 	case "damage":
 		if op.DamageType == "" {
@@ -919,10 +1035,21 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		if op.ProviderDefinitionRef == "" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".providerDefinitionRef", "apply_provider requires providerDefinitionRef", "")
 		}
-	case "refresh_provider", "expire_provider":
+	case "refresh_provider":
 		if op.ProviderRef == "" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".providerRef", op.Operation+" requires providerRef", "")
 		}
+		if op.ProviderRefFromEvent {
+			collector.addError(model.GenericErrUnknownRef, path+".providerRefFromEvent", "providerRefFromEvent is only allowed on expire_provider", op.Operation)
+		}
+	case "expire_provider":
+		if op.ProviderRefFromEvent {
+			validateProviderRefFromEvent(op, path, ownerProviderIndex, ctx.currentListener, ctx)
+		} else if op.ProviderRef == "" {
+			collector.addError(model.GenericErrMissingRequiredField, path+".providerRef", op.Operation+" requires providerRef", "")
+		}
+	case "emit_event":
+		validateEmitEventNotForged(op, path, ctx)
 	case "cooldown_change":
 		if op.AbilityRef == "" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".abilityRef", "cooldown_change requires abilityRef", "")
@@ -969,6 +1096,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		RepeatDelayMs:         op.RepeatDelayMs,
 		TriggerStateKey:       op.TriggerStateKey,
 		Threshold:             op.Threshold,
+		ProviderRefFromEvent:  op.ProviderRefFromEvent,
 	}
 	if op.Operation == "damage" {
 		compiled.Types = normalizeDamageTraitTypes(op.Types, catalog)

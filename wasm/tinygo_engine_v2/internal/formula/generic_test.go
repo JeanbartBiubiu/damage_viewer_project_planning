@@ -157,6 +157,8 @@ func TestCompileGenericFormulaAllowsEventSnapshotPaths(t *testing.T) {
 		{"event.target.attr.hp.max", ReadEventTargetAttr},
 		{"event.source.resource.mana", ReadEventSourceResource},
 		{"event.target.resource.mana.max", ReadEventTargetResource},
+		{"event.skill_hit.firstContact", ReadEventSkillHit},
+		{"event.skill_hit.blocked", ReadEventSkillHit},
 		{"damage.amount", ReadDamageAmount},
 	}
 	for _, tc := range paths {

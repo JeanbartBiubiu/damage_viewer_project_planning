@@ -1,0 +1,159 @@
+{
+  "name": "generic_heal_ratio_max",
+  "phase": "run",
+  "compileRequest": {
+    "schemaVersion": "generic-p0",
+    "schemaHash": "schema.heal-ratio-max.v1",
+    "rulesHash": "rules.heal-ratio-max.v1",
+    "typeCatalog": {
+      "types": [{ "key": "ability/common", "domain": "ability" }],
+      "relations": []
+    },
+    "combatants": [
+      {
+        "key": "source",
+        "displayName": "Source",
+        "attributes": { "attack_damage": { "base": 1, "current": 1, "max": 1, "resolved": 1 } },
+        "resources": {},
+        "providers": [{ "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo" }]
+      },
+      {
+        "key": "target",
+        "displayName": "Target",
+        "attributes": { "hp": { "base": 1000, "current": 100, "max": 1000, "resolved": 100 } },
+        "resources": {},
+        "providers": []
+      }
+    ],
+    "sharedProviders": [
+      {
+        "providerKey": "champion:source_demo",
+        "kind": "champion",
+        "stableId": "source_demo",
+        "abilities": [
+          {
+            "abilityKey": "apply_wounds",
+            "kind": "active",
+            "types": ["ability/common"],
+            "operations": [
+              { "operation": "apply_provider", "target": "target", "providerDefinitionRef": "status:wound_a" },
+              { "operation": "apply_provider", "target": "target", "providerDefinitionRef": "status:wound_b" }
+            ]
+          },
+          {
+            "abilityKey": "heal_100",
+            "kind": "active",
+            "types": ["ability/common"],
+            "operations": [
+              { "operation": "heal", "target": "target", "amount": { "op": "const", "value": 100 } }
+            ]
+          }
+        ]
+      },
+      {
+        "providerKey": "status:wound_a",
+        "kind": "status",
+        "stableId": "wound_a",
+        "lifecycle": {
+          "durationMs": { "op": "const", "value": 3000 },
+          "maxStacks": 1,
+          "refreshPolicy": "replace",
+          "instanceScope": "source_target"
+        },
+        "modifiers": [
+          {
+            "modifierKey": "wound_a",
+            "kind": "pipeline",
+            "command": "heal",
+            "healDirection": "RECEIVED",
+            "healCategory": "ANY",
+            "healGroupKey": "grievous",
+            "healGroupCalculationMode": "ratio_max",
+            "valuePolicy": "add_percent",
+            "value": { "op": "const", "value": -0.4 }
+          }
+        ]
+      },
+      {
+        "providerKey": "status:wound_b",
+        "kind": "status",
+        "stableId": "wound_b",
+        "lifecycle": {
+          "durationMs": { "op": "const", "value": 3000 },
+          "maxStacks": 1,
+          "refreshPolicy": "replace",
+          "instanceScope": "source_target"
+        },
+        "modifiers": [
+          {
+            "modifierKey": "wound_b",
+            "kind": "pipeline",
+            "command": "heal",
+            "healDirection": "RECEIVED",
+            "healCategory": "ANY",
+            "healGroupKey": "grievous",
+            "healGroupCalculationMode": "ratio_max",
+            "valuePolicy": "add_percent",
+            "value": { "op": "const", "value": -0.4 }
+          }
+        ]
+      }
+    ],
+    "rules": { "operations": [], "modifiers": [], "listeners": [], "triggerRules": [] },
+    "formulas": [],
+    "settings": {}
+  },
+  "runRequest": {
+    "sessionId": "<from compile>",
+    "expectedRulesHash": "rules.heal-ratio-max.v1",
+    "initialSnapshot": {
+      "schemaHash": "schema.heal-ratio-max.v1",
+      "rulesHash": "rules.heal-ratio-max.v1",
+      "timeMs": 0,
+      "combatants": [
+        {
+          "key": "source",
+          "attributes": { "attack_damage": { "base": 1, "current": 1, "max": 1, "resolved": 1 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [{ "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo", "stacks": 1, "state": {} }],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        },
+        {
+          "key": "target",
+          "attributes": { "hp": { "base": 1000, "current": 100, "max": 1000, "resolved": 100 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        }
+      ]
+    },
+    "driverPlan": {
+      "entries": [
+        {
+          "entryKey": "apply",
+          "abilityRef": "source.provider[champion:source_demo].ability[apply_wounds]",
+          "source": "source",
+          "target": "target",
+          "firstAtMs": 0
+        },
+        {
+          "entryKey": "heal",
+          "abilityRef": "source.provider[champion:source_demo].ability[heal_100]",
+          "source": "source",
+          "target": "target",
+          "firstAtMs": 10
+        }
+      ]
+    },
+    "stopPolicy": { "durationMs": 50, "stopOnTargetDeath": true, "stopWhenNoEvents": false },
+    "sampling": { "sampleEveryMs": 50, "dpsWindowMs": 1000, "maxSeriesPoints": 5000 }
+  }
+}

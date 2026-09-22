@@ -2033,13 +2033,12 @@ func TestStaleProviderExpireCleanupSkippedAfterExtend(t *testing.T) {
 	if runErr != nil {
 		t.Fatal(runErr)
 	}
-	evalCtx := state.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
-	if err := state.applyProviderInstance(model.SelectorTarget, model.SelectorSource, "status:attack_buff", evalCtx); err != nil {
+	if err := state.applyProviderInstance(model.SelectorTarget, model.SelectorSource, "status:attack_buff", 500, true, nil); err != nil {
 		t.Fatal(err)
 	}
 	providerRef := state.combatants[model.SelectorTarget].providers[0].ProviderRef
 	state.nowMs = 200
-	if err := state.refreshProviderInstance(model.SelectorTarget, providerRef, evalCtx); err != nil {
+	if err := state.refreshProviderInstance(model.SelectorTarget, providerRef, 700, true, nil); err != nil {
 		t.Fatal(err)
 	}
 	inst := state.combatants[model.SelectorTarget].providers[0]

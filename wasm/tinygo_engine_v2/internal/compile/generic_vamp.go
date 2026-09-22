@@ -253,6 +253,13 @@ func validateHealPipelineModifier(mod CompiledModifier, path string, collector *
 	if mod.ValuePolicy != "add_percent" {
 		add(model.GenericErrUnknownRef, path+".valuePolicy", "heal valuePolicy must be add_percent", mod.ValuePolicy)
 	}
+	mode := normalizeHealGroupMode(mod.HealGroupCalculationMode)
+	if mode != model.HealGroupRatioAdd && mode != model.HealGroupRatioMax {
+		add(model.GenericErrUnknownRef, path+".healGroupCalculationMode", "healGroupCalculationMode must be ratio_add or ratio_max", mod.HealGroupCalculationMode)
+	}
+	if mode == model.HealGroupRatioMax && mod.HealDirection != model.HealReceived {
+		add(model.GenericErrUnknownRef, path+".healDirection", "ratio_max requires healDirection=RECEIVED", mod.HealDirection)
+	}
 	if !mod.HasValue {
 		add(model.GenericErrMissingRequiredField, path+".value", "heal modifier value is required", mod.ModifierKey)
 	}
