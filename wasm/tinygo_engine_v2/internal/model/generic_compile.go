@@ -91,7 +91,7 @@ type ProviderStateFieldSchema struct {
 	RefreshPolicy string  `json:"refreshPolicy,omitempty"`
 }
 
-// ProviderStateRefreshOnWrite 是 provider-scope timed state 的唯一非空 refreshPolicy。
+// ProviderStateRefreshOnWrite 是每次写入续期的既有 refreshPolicy。
 const ProviderStateRefreshOnWrite = "refresh_on_write"
 
 // Provider 实例范围与普通减速种类。
@@ -142,6 +142,7 @@ type AbilityDefinition struct {
 	Tags          []string               `json:"tags,omitempty"`
 	Params        map[string]float64     `json:"params,omitempty"`
 	CastOrigin    string                 `json:"castOrigin,omitempty"` // champion|item|pet|innate
+	SkillKey      string                 `json:"skillKey,omitempty"`
 	Cost          *AbilityCost           `json:"cost,omitempty"`
 	Cooldown      *AbilityCooldown       `json:"cooldown,omitempty"`
 	CastCondition *GenericFormulaExpr    `json:"castCondition,omitempty"`
@@ -218,6 +219,8 @@ type OperationDefinition struct {
 	SkillHit *SkillHitDefinition `json:"skillHit,omitempty"`
 	// ProviderRefFromEvent 仅 expire_provider 在 event/spell_shield_blocked 上定位冻结实例。
 	ProviderRefFromEvent bool `json:"providerRefFromEvent,omitempty"`
+	// OutputRef 仅真实 damage 结算导出同帧口径；后续操作用 operation.output.<ref>.<kind> 读取。
+	OutputRef string `json:"outputRef,omitempty"`
 }
 
 // ModifierDefinition 是 provider 级 modifier。
@@ -249,6 +252,10 @@ type ListenerDefinition struct {
 	ChainLimitKey       string                `json:"chainLimitKey,omitempty"`
 	// PerCastThrottleMs 同一 castInstanceId 上的最小触发间隔；省略/0 保持旧行为。
 	PerCastThrottleMs int `json:"perCastThrottleMs,omitempty"`
+	// Condition 在分发任何动作前按 owner-relative 上下文与原事件快照冻结。
+	Condition *GenericFormulaExpr `json:"condition,omitempty"`
+	// OncePerUse 是共享同次使用额度；省略表示未启用本项新限制。
+	OncePerUse *OncePerUseLimit `json:"oncePerUse,omitempty"`
 }
 
 // TypeMatcher 是 flat bitset matcher 的 JSON 形态。

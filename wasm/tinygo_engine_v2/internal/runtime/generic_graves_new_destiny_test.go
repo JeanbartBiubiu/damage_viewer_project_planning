@@ -406,6 +406,7 @@ func loadGravesNDFixture(t *testing.T, opts gravesNDFixtureOpts) (model.CompileR
 // runGravesND exercises CompileFrame → session → RunFrame → ReleaseSessionFrame.
 func runGravesND(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
+	prepareNativeBasicAttackHits(&compileReq, &runReq)
 	session := NewSession()
 	session.ClearOutbox()
 	if code := session.CompileFrame(encodeGenericFrame(model.FrameKindGenericCompile, compileReq)); code != 0 {

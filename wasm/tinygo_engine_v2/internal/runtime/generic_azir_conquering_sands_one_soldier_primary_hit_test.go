@@ -12,7 +12,6 @@ import (
 	"strings"
 	"testing"
 
-	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -358,7 +357,7 @@ func loadAzirCSFixture(t *testing.T, opts azirCSFixtureOpts) (model.CompileReque
 
 func runAzirCS(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}

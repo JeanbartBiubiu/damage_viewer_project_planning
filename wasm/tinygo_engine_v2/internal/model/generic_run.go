@@ -16,8 +16,9 @@ type RunRequest struct {
 	SafetyBudget      *RunSafetyBudget `json:"safetyBudget,omitempty"`
 	RuntimeOptions    json.RawMessage  `json:"runtimeOptions,omitempty"`
 	Sampling          SamplingConfig   `json:"sampling,omitempty"`
-	SkillUses         []SkillUseFact   `json:"skillUses,omitempty"`
-	SkillHitFacts     []SkillHitFact   `json:"skillHitFacts,omitempty"`
+	SkillUses         []SkillUseFact    `json:"skillUses,omitempty"`
+	SkillHitFacts     []SkillHitFact    `json:"skillHitFacts,omitempty"`
+	AttackStartFacts  []AttackStartFact `json:"attackStartFacts,omitempty"`
 }
 
 // RunSafetyBudget 是 run 请求级安全预算覆盖（§4.1）。
@@ -29,10 +30,11 @@ type RunSafetyBudget struct {
 
 // Snapshot 是 run 起始战斗状态。
 type Snapshot struct {
-	SchemaHash string              `json:"schemaHash"`
-	RulesHash  string              `json:"rulesHash"`
-	TimeMs     int64               `json:"timeMs"`
-	Combatants []CombatantSnapshot `json:"combatants"`
+	SchemaHash       string                  `json:"schemaHash"`
+	RulesHash        string                  `json:"rulesHash"`
+	TimeMs           int64                   `json:"timeMs"`
+	Combatants       []CombatantSnapshot     `json:"combatants"`
+	UseTriggerLedger []UseTriggerLedgerEntry `json:"useTriggerLedger"`
 }
 
 // CombatantSnapshot 是 run 期单个 combatant 状态。

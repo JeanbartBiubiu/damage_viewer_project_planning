@@ -174,11 +174,11 @@ func compileStructuredStateField(obj map[string]interface{}, path, key string, c
 		if !policyOK {
 			collector.addError(model.GenericErrMissingRequiredField, path+".refreshPolicy", "refreshPolicy must be a string", key)
 			ok = false
-		} else if policy != "" && policy != model.ProviderStateRefreshOnWrite {
-			collector.addError(model.GenericErrUnknownRef, path+".refreshPolicy", "refreshPolicy must be empty or refresh_on_write", policy)
+		} else if policy != "" && policy != model.ProviderStateRefreshOnWrite && policy != model.ProviderStateRefreshStartOnFirstWrite {
+			collector.addError(model.GenericErrUnknownRef, path+".refreshPolicy", "refreshPolicy must be empty, refresh_on_write or start_on_first_write", policy)
 			ok = false
-		} else if policy == model.ProviderStateRefreshOnWrite && (!durOK || dur <= 0) {
-			collector.addError(model.GenericErrMissingRequiredField, path+".refreshPolicy", "refresh_on_write requires durationMs > 0", key)
+		} else if (policy == model.ProviderStateRefreshOnWrite || policy == model.ProviderStateRefreshStartOnFirstWrite) && (!durOK || dur <= 0) {
+			collector.addError(model.GenericErrMissingRequiredField, path+".refreshPolicy", policy+" requires durationMs > 0", key)
 			ok = false
 		} else {
 			field.RefreshPolicy = policy

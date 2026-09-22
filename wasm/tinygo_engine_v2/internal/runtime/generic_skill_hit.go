@@ -179,7 +179,54 @@ func (s *genericRunState) validateAndIndexSkillHitFacts() *model.EngineError {
 		}
 		s.skillHitFacts[fact.DriverEntryKey] = fact
 	}
+	if err := s.bindMissingBasicAttackFacts(hitEntries); err != nil {
+		return err
+	}
 	return s.buildSkillHitGroups(hitEntries)
+}
+
+func (s *genericRunState) bindMissingBasicAttackFacts(hitEntries map[string]int) *model.EngineError {
+	for entryKey, idx := range hitEntries {
+		if _, ok := s.skillHitFacts[entryKey]; ok {
+			continue
+		}
+		entry := s.req.DriverPlan.Entries[idx]
+		ability, _, ok := s.lookupDriverAbility(entry)
+		if !ok || !ability.IsBasicAttack {
+			continue
+		}
+		skillKey := strings.TrimSpace(ability.SkillHitSkillKey)
+		if skillKey == "" {
+			skillKey = strings.TrimSpace(ability.SkillKey)
+		}
+		if skillKey == "" {
+			return s.skillHitErr(model.GenericErrMissingRequiredField, "basic attack resolve requires skillKey", "skillHitFacts", entryKey)
+		}
+		useKey := nativeBasicAttackSkillPrefix + entryKey
+		if _, exists := s.skillUses[useKey]; exists {
+			useKey = nativeBasicAttackSkillPrefix + entryKey + ":" + skillKey
+		}
+		if _, exists := s.skillUses[useKey]; exists {
+			return s.skillHitErr(model.GenericErrUnknownRef, "could not allocate a unique basic-attack useKey", "skillUses", useKey)
+		}
+		s.skillUses[useKey] = &skillUseRuntime{
+			useKey:       useKey,
+			source:       entry.Source,
+			skillKey:     skillKey,
+			historyState: model.SkillHitHistoryComplete,
+		}
+		s.req.SkillUses = append(s.req.SkillUses, model.SkillUseFact{
+			UseKey:       useKey,
+			Source:       entry.Source,
+			SkillKey:     skillKey,
+			HistoryState: model.SkillHitHistoryComplete,
+		})
+		ref := useKey
+		fact := model.SkillHitFact{DriverEntryKey: entryKey, UseRef: &ref}
+		s.req.SkillHitFacts = append(s.req.SkillHitFacts, fact)
+		s.skillHitFacts[entryKey] = fact
+	}
+	return nil
 }
 
 func (s *genericRunState) buildSkillHitGroups(hitEntries map[string]int) *model.EngineError {
@@ -394,7 +441,7 @@ func (f *executionFrame) resolveSkillHit(op compilebundle.CompiledOperation, abi
 		freeze.shieldDefinitionRef = unit.shieldDefinitionRef
 		freeze.shieldSource = unit.shieldSource
 	}
-	if blocked == 1 && !reused && freeze.unitScope == model.SpellShieldScopeSkill && useRef != "" {
+	if blocked == 1 && !reused && freeze.unitScope == model.SpellShieldScopeSkill && useRef != "" && !ability.IsBasicAttack {
 		if len(f.run.skillHitLedger) >= maxSkillLedgerUnits {
 			return f.run.skillHitErr(model.GenericErrRuntimeInvariantFailed, "SKILL ledger exceeded run budget", "skillUses", useRef)
 		}
@@ -408,9 +455,20 @@ func (f *executionFrame) resolveSkillHit(op compilebundle.CompiledOperation, abi
 	}
 	freeze.matchedIndexes = matched
 
-	snap := f.captureEmitSnapshot(model.EventTypeSkillHit, f.sourceKey, f.targetKey)
-	snap.hasSkillHit = true
-	snap.skillHit = freeze
+	eventType := model.EventTypeSkillHit
+	if ability.IsBasicAttack {
+		eventType = model.EventTypeBasicAttackHit
+		if _, ok := f.run.compiled.Types.Registry.Lookup(eventType); !ok {
+			return f.run.skillHitErr(model.GenericErrUnknownTypeKey, "basic attack resolve requires event/basic_attack_hit in typeCatalog", f.abilityRef, "")
+		}
+	} else if _, ok := f.run.compiled.Types.Registry.Lookup(model.EventTypeSkillHit); !ok {
+		return f.run.skillHitErr(model.GenericErrUnknownTypeKey, "resolve_skill_hit requires event/skill_hit in typeCatalog", f.abilityRef, "")
+	}
+	snap := f.captureEmitSnapshot(eventType, f.sourceKey, f.targetKey)
+	if eventType == model.EventTypeSkillHit {
+		snap.hasSkillHit = true
+		snap.skillHit = freeze
+	}
 	f.run.recordEvidence(model.EvidenceItem{
 		TimeMs: f.run.nowMs,
 		Kind:   model.EvidenceKindSkillHit,
@@ -418,23 +476,32 @@ func (f *executionFrame) resolveSkillHit(op compilebundle.CompiledOperation, abi
 		Path:   "driverPlan.entries[" + f.driverEntryKey + "]",
 		Data:   skillHitEvidenceData(freeze),
 	})
+	emitData := skillHitEvidenceData(freeze)
+	emitData["eventType"] = eventType
 	f.run.recordEvidence(model.EvidenceItem{
 		TimeMs: f.run.nowMs,
 		Kind:   model.EvidenceKindEmittedEvent,
-		Ref:    model.EventTypeSkillHit,
-		Data:   skillHitEvidenceData(freeze),
+		Ref:    eventType,
+		Data:   emitData,
 	})
-	f.pendingEvents = append(f.pendingEvents, emittedEvent{
-		eventType:      model.EventTypeSkillHit,
-		ref:            model.EventTypeSkillHit,
+	ev := emittedEvent{
+		eventType:      eventType,
+		ref:            eventType,
 		sourceKey:      f.sourceKey,
 		targetKey:      f.targetKey,
-		types:          f.appendCastOriginEventType([]string{model.EventTypeSkillHit}),
+		types:          f.appendCastOriginEventType([]string{eventType}),
 		snapshot:       snap,
 		castInstanceID: f.castInstanceID,
 		castOrigin:     f.castOrigin,
 		skillHit:       freeze,
-	})
+	}
+	if freeze.useRef != "" {
+		ev.hasUse = true
+		ev.useKey = freeze.useRef
+		ev.useSource = freeze.sourceKey
+		ev.useSkillKey = freeze.skillKey
+	}
+	f.pendingEvents = append(f.pendingEvents, ev)
 	return nil
 }
 
@@ -718,6 +785,23 @@ func (f *executionFrame) activeSpellShields(ownerKey string) []status.ProviderIn
 	return out
 }
 
+func (s *genericRunState) refreshEmittedEventLiveSnapshot(ev *emittedEvent) {
+	if s == nil || ev == nil {
+		return
+	}
+	if src, ok := s.combatants[ev.sourceKey]; ok {
+		ev.snapshot.sourceAttrs = cloneAttributeMap(src.attributes)
+		ev.snapshot.sourceResources = cloneResourceMap(src.resources)
+	}
+	if tgt, ok := s.combatants[ev.targetKey]; ok {
+		ev.snapshot.targetAttrs = cloneAttributeMap(tgt.attributes)
+		ev.snapshot.targetResources = cloneResourceMap(tgt.resources)
+	}
+	ev.snapshot.eventType = ev.eventType
+	ev.snapshot.eventSourceKey = ev.sourceKey
+	ev.snapshot.eventTargetKey = ev.targetKey
+}
+
 func (s *genericRunState) dispatchSkillHitEvent(ev emittedEvent, chainDepth int) *model.EngineError {
 	freeze := ev.skillHit
 	if freeze == nil || freeze.plan == nil {
@@ -730,6 +814,7 @@ func (s *genericRunState) dispatchSkillHitEvent(ev emittedEvent, chainDepth int)
 			return err
 		}
 	}
+	s.refreshEmittedEventLiveSnapshot(&ev)
 	if err := s.dispatchListeners(ev, chainDepth); err != nil {
 		return err
 	}
@@ -749,7 +834,7 @@ func (s *genericRunState) executeSkillHitCandidate(ev emittedEvent, freeze *froz
 	frame := s.newExecutionFrame(freeze.sourceKey, freeze.targetKey, freeze.abilityRef)
 	frame.chainDepth = chainDepth
 	frame.eventCtx = cloneEventSnapshot(&ev.snapshot)
-	if frame.eventCtx != nil {
+	if frame.eventCtx != nil && ev.eventType == model.EventTypeSkillHit {
 		frame.eventCtx.hasSkillHit = true
 		frame.eventCtx.skillHit = freeze
 	}

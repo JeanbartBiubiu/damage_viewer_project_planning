@@ -234,7 +234,7 @@ func shapedChargeLoadFixture(t *testing.T) (model.CompileRequest, model.RunReque
 
 func shapedChargeRun(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -247,7 +247,7 @@ func shapedChargeRun(t *testing.T, compileReq model.CompileRequest, runReq model
 
 func shapedChargeCompile(t *testing.T, compileReq model.CompileRequest) compile.GenericCompileResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, nil)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
