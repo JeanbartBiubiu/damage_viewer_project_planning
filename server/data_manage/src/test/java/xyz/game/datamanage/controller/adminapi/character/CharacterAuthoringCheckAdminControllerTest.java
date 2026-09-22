@@ -46,8 +46,11 @@ class CharacterAuthoringCheckAdminControllerTest {
         when(service.check("lol", "hero")).thenReturn(new CharacterAuthoringCheckResponse("lol", "hero", "测试角色",
             OffsetDateTime.parse("2026-09-06T00:00:00Z"), new Conclusions("HAS_ERRORS", "NOT_CHECKED", "NOT_RUN"),
             new Summary(1, 0, 1, 0), List.of(new Skill("missing", null, null, null, 0, 0, 0, 0)),
-            List.of(new Reference("skill", "TRIGGER", "hit", "actions[0]", "RESULT", "skill", "effect", "damage")),
-            List.of(new Issue("ATTACHED_SKILL_MISSING", "ERROR", "关联技能不存在", "missing", "SKILL", "missing", "skillKey"))));
+            List.of(new Reference("skill", "TRIGGER", "hit", "actions[0]", "RESULT", "skill", "effect", "damage",
+                xyz.game.datamanage.service.character.AuthoringCheckLocationResolver.resolve("skill", "TRIGGER", "hit", "actions[0]",
+                    new ObjectMapper().readTree("{\"actions\":[{\"actionKey\":\"deal\"}]}")))),
+            List.of(new Issue("ATTACHED_SKILL_MISSING", "ERROR", "关联技能不存在", "missing", "SKILL", "missing", "skillKey",
+                xyz.game.datamanage.service.character.AuthoringCheckLocationResolver.missingSkill("missing", "missing", "skillKey")))));
         mvc.perform(get(URL)).andExpect(status().isOk())
             .andExpect(jsonPath("$.gameId").value("lol")).andExpect(jsonPath("$.characterKey").value("hero"))
             .andExpect(jsonPath("$.checkedAt").isString()).andExpect(jsonPath("$.conclusions.structure").value("HAS_ERRORS"))
@@ -57,6 +60,11 @@ class CharacterAuthoringCheckAdminControllerTest {
             .andExpect(jsonPath("$.skills[0].skillKey").value("missing")).andExpect(jsonPath("$.skills[0].name").isEmpty())
             .andExpect(jsonPath("$.skills[0].status").isEmpty()).andExpect(jsonPath("$.skills[0].maxLevel").isEmpty())
             .andExpect(jsonPath("$.references[0].sourceSkillKey").value("skill")).andExpect(jsonPath("$.references[0].targetSubKey").value("damage"))
+            .andExpect(jsonPath("$.references[0].location.editor").value("TRIGGER_RULE"))
+            .andExpect(jsonPath("$.references[0].location.segments[0].kind").value("KEYED_CHILD"))
+            .andExpect(jsonPath("$.references[0].location.segments[0].key").value("deal"))
+            .andExpect(jsonPath("$.issues[0].location.editor").value("CHARACTER_RELATIONS"))
+            .andExpect(jsonPath("$.issues[0].location.degradeReason").value("OBJECT_MISSING"))
             .andExpect(jsonPath("$.issues[0].code").value("ATTACHED_SKILL_MISSING"))
             .andExpect(jsonPath("$.issues[0].fieldPath").value("skillKey")).andExpect(jsonPath("$.issues[0].target").doesNotExist());
         verify(service).check("lol", "hero");

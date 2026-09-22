@@ -30,6 +30,30 @@ import xyz.game.datamanage.model.character.CharacterAuthoringCheckRows.*;
 import xyz.game.datamanage.support.error.ApiException;
 
 class CharacterAuthoringCheckServiceTest {
+    @Test
+    void stableLocationsUseThisReportsRawOrderAndPreserveFindings() {
+        String raw = """
+            {"lifecycle":null,"results":[
+              {"resultKey":"later","name":"后排序","sortOrder":20,"resultType":"DAMAGE","target":"TARGET","detail":{"damageTypeKey":"gone"}},
+              {"resultKey":"earlier","name":"先排序","sortOrder":0,"resultType":"DAMAGE","target":"TARGET","detail":{"damageTypeKey":"physical"}}
+            ]}
+            """;
+        when(checks.listObjects("lol", "hero")).thenReturn(List.of(new ObjectRow("skill", "EFFECT", "hit", "命中", 0, raw)));
+        when(checks.listReferences("lol", "hero")).thenReturn(List.of(new ReferenceRow("skill", "EFFECT", "hit",
+            "results[0].detail.damageTypeKey", "DAMAGE_TYPE", "", "gone", "", false)));
+        var response = check();
+        var reference = response.references().getFirst();
+        assertEquals("results[0].detail.damageTypeKey", reference.fieldPath());
+        assertEquals("FIELD", reference.location().precision());
+        assertEquals(new AuthoringCheckLocation.AuthoringCheckLocationSegment.KeyedChild("results", "resultKey", "later"),
+            reference.location().segments().getFirst());
+        var issue = response.issues().stream().filter(i -> i.code().equals("REFERENCE_TARGET_MISSING")).findFirst().orElseThrow();
+        assertEquals(reference.location(), issue.location());
+        assertTrue(response.issues().stream().allMatch(i -> i.location() != null));
+        assertEquals(1, response.summary().errorCount());
+        verify(checks, times(1)).listObjects("lol", "hero");
+    }
+
     private final GamesMapper games = mock(GamesMapper.class);
     private final CharacterMapper characters = mock(CharacterMapper.class);
     private final CharacterAuthoringCheckMapper checks = mock(CharacterAuthoringCheckMapper.class);
