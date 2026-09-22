@@ -725,7 +725,9 @@ test('技能行为总览五组、资源扣减说明、未启动被动，以及�
   await expect(restoreRows.nth(1)).not.toContainText(RESOURCE_NOTE);
   await expect(overview.getByText('触发规则：技能命中（on_hit）').first()).toBeVisible();
   await expect(overview.getByText('效果结果：命中效果 / 秘术伤害').first()).toBeVisible();
-  await expect(overview.getByText('过程效果挂接：施放过程 → hit').first()).toBeVisible();
+  const effectBinding = overview.getByRole('row').filter({ hasText: '过程效果挂接：施放过程 → 命中效果（hit）' }).first();
+  await expect(effectBinding).toBeVisible();
+  await expect(effectBinding.getByRole('cell').nth(2)).toContainText('当前目标');
   await expect(overview.getByText('未启动过程：被动光环（aura）')).toBeVisible();
   await expect(overview.getByText('未启动过程：充能过程（charge）')).toBeVisible();
   await expect(overview.getByText('未挂接效果：未挂接（orphan）')).toBeVisible();

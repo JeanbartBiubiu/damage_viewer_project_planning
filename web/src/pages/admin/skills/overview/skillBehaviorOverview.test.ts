@@ -148,6 +148,14 @@ describe('skill behavior overview grouping', () => {
     expect(model.supplement.some((item) => item.sourceKey === 'on_init')).toBe(true);
     expect(model.groups.costCooldown.some((item) => item.notes.includes(RESOURCE_DECREASE_REVIEW_NOTE) && item.id.includes('mark'))).toBe(false);
     expect(model.groups.use.some((item) => item.sourceKey === 'aura')).toBe(false);
+    expect(model.groups.use.find((item) => item.id === 'process:cast:binding:on_start')).toMatchObject({
+      sourceName: '施放过程 → 扣蓝（mana）', targetLabel: '施法者'
+    });
+    expect(model.groups.hit.find((item) => item.id === 'rule:on_hit:action:apply')).toMatchObject({
+      targetLabel: '动作目标：当前目标', valueSourceLabel: '效果：命中效果（hit）', notes: ['执行效果']
+    });
+    expect(model.groups.hit.find((item) => item.id === 'rule:on_hit:condition:enemy')?.targetLabel).toBe('事件对方');
+    expect(model.groups.hit.find((item) => item.id === 'rule:on_hit:binding:first')?.targetLabel).toContain('参数：');
   });
 
   it('keeps parameters, formulas and mode options as auxiliary references rather than inventing combat groups', () => {

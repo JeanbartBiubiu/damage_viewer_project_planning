@@ -16,6 +16,7 @@ import type {
 } from '../../../../types/skillProcess';
 import type {
   SkillTriggerAction,
+  SkillTriggerCondition,
   SkillTriggerEventSource,
   SkillTriggerRuleDetail,
   SkillTriggerRuntimeInputBinding
@@ -43,7 +44,11 @@ import {
   SKILL_TRIGGER_CAST_PHASE_PENDING_LABEL,
   SKILL_TRIGGER_EVENT_TYPE_LABELS,
   SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENT_LABELS,
-  SKILL_TRIGGER_SOURCE_TYPE_LABELS
+  SKILL_TRIGGER_SOURCE_TYPE_LABELS,
+  SKILL_TRIGGER_CONDITION_TYPE_LABELS,
+  SKILL_TRIGGER_SUBJECT_LABELS,
+  SKILL_TRIGGER_TARGET_CONTEXT_LABELS,
+  bindingSummary
 } from '../triggers/triggerRuleForm';
 import {
   RESOURCE_DECREASE_REVIEW_NOTE,
@@ -225,8 +230,10 @@ function valueSourceForResult(result: SkillEffectResult, value: NumericValue | n
 function processBindingEntry(
   skillKey: string,
   process: SkillProcess,
-  binding: SkillProcessEffectBinding
+  binding: SkillProcessEffectBinding,
+  effects: readonly SkillEffect[]
 ): SkillBehaviorEntry {
+  const effect = effects.find((item) => item.effectKey === binding.effectKey);
   const groups: SkillBehaviorGroupId[] = [...momentGroups(binding.moment.momentType), 'effect'];
   return {
     id: `process:${process.processKey}:binding:${binding.bindingKey}`,
@@ -234,10 +241,10 @@ function processBindingEntry(
     supplement: groups.length === 1,
     auxiliary: false,
     sourceKindLabel: '过程效果挂接',
-    sourceName: `${process.name} → ${binding.effectKey}`,
+    sourceName: `${process.name} → ${effect?.name ?? '未读取到名称'}（${binding.effectKey}）`,
     sourceKey: `${process.processKey} / ${binding.bindingKey}`,
     momentLabel: processMomentLabel(binding.moment),
-    targetLabel: binding.effectKey,
+    targetLabel: effectTargets(effect),
     valueSourceLabel: null,
     notes: [],
     location: location(skillKey, 'PROCESS', process.processKey, 'PROCESS', `effectBindings[bindingKey=${binding.bindingKey}]`, [
@@ -249,7 +256,8 @@ function processBindingEntry(
 function processOperationEntry(
   skillKey: string,
   process: SkillProcess,
-  operation: SkillProcessStateOperation
+  operation: SkillProcessStateOperation,
+  internalStates: readonly SkillInternalState[]
 ): SkillBehaviorEntry {
   const groups = momentGroups(operation.moment.momentType);
   if (operation.operation === 'START') groups.push('costCooldown');
@@ -262,7 +270,7 @@ function processOperationEntry(
     sourceName: `${process.name} / ${operation.name}`,
     sourceKey: `${process.processKey} / ${operation.operationKey}`,
     momentLabel: processMomentLabel(operation.moment),
-    targetLabel: operation.stateKey,
+    targetLabel: `内部状态：${internalStates.find((item) => item.stateKey === operation.stateKey)?.name ?? '未读取到名称'}（${operation.stateKey}）`,
     valueSourceLabel: numericSource(operation.value),
     notes: [],
     location: location(skillKey, 'PROCESS', process.processKey, 'PROCESS', `stateOperations[operationKey=${operation.operationKey}]`, [
@@ -275,6 +283,18 @@ function actionGroups(action: SkillTriggerAction): SkillBehaviorGroupId[] {
   if (action.actionType === 'START_PROCESS' || action.actionType === 'ADVANCE_PROCESS') return ['use'];
   if (action.actionType === 'EXECUTE_EFFECT') return ['effect'];
   return ['end'];
+}
+
+function effectTargets(effect: SkillEffect | undefined): string {
+  if (!effect) return '效果详情未读取';
+  return [...new Set(effect.results.map((result) => SKILL_EFFECT_TARGET_LABELS[result.target]))].join('、') || '无结果';
+}
+
+function conditionSubject(condition: SkillTriggerCondition): string | null {
+  if ('subject' in condition.detail && condition.detail.subject) return SKILL_TRIGGER_SUBJECT_LABELS[condition.detail.subject];
+  if (condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY' || condition.conditionType === 'TARGET_CATEGORY_CHECK') return '事件对方';
+  if (condition.conditionType === 'EXPLICIT_TARGET_IS_SOURCE') return '显式施法目标';
+  return null;
 }
 
 function bindingAddsCost(binding: SkillTriggerRuntimeInputBinding): boolean {
@@ -377,8 +397,8 @@ export function buildSkillBehaviorOverview(input: {
         ])
       });
     }
-    for (const binding of process.effectBindings) processEntries.push(processBindingEntry(input.skillKey, process, binding));
-    for (const operation of process.stateOperations) processEntries.push(processOperationEntry(input.skillKey, process, operation));
+    for (const binding of process.effectBindings) processEntries.push(processBindingEntry(input.skillKey, process, binding, input.effects));
+    for (const operation of process.stateOperations) processEntries.push(processOperationEntry(input.skillKey, process, operation, input.internalStates));
     const covered = processEntries.some((entry) => entry.groups.length > 0);
     const unstartedPassive = (process.activationType === 'PASSIVE' || process.activationType === 'CONSUMABLE')
       && !started.has(process.processKey);
@@ -441,9 +461,9 @@ export function buildSkillBehaviorOverview(input: {
           sourceName: `${rule.name} / ${group.name}`,
           sourceKey: `${rule.ruleKey} / ${condition.conditionKey}`,
           momentLabel: eventMomentLabel(rule.eventSource),
-          targetLabel: condition.conditionType,
+          targetLabel: conditionSubject(condition),
           valueSourceLabel: null,
-          notes: [],
+          notes: [SKILL_TRIGGER_CONDITION_TYPE_LABELS[condition.conditionType]],
           location: location(input.skillKey, 'TRIGGER', rule.ruleKey, 'TRIGGER_RULE', `conditionGroups[groupKey=${group.groupKey}].conditions[conditionKey=${condition.conditionKey}]`, [
             keyed('conditionGroups', group.groupKey),
             keyed('conditions', condition.conditionKey)
@@ -462,11 +482,11 @@ export function buildSkillBehaviorOverview(input: {
         sourceName: `${rule.name} / ${action.name}`,
         sourceKey: `${rule.ruleKey} / ${action.actionKey}`,
         momentLabel: eventMomentLabel(rule.eventSource),
-        targetLabel: SKILL_TRIGGER_ACTION_TYPE_LABELS[action.actionType],
-        valueSourceLabel: action.actionType === 'EXECUTE_EFFECT' ? action.detail.effectKey
+        targetLabel: action.targetContext ? `动作目标：${SKILL_TRIGGER_TARGET_CONTEXT_LABELS[action.targetContext]}` : null,
+        valueSourceLabel: action.actionType === 'EXECUTE_EFFECT' ? `效果：${input.effects.find((item) => item.effectKey === action.detail.effectKey)?.name ?? '目录缺失'}（${action.detail.effectKey}）`
           : action.actionType === 'START_PROCESS' || action.actionType === 'FAIL_PROCESS' || action.actionType === 'ADVANCE_PROCESS'
-            ? action.detail.processKey : null,
-        notes: [],
+            ? `过程：${input.processes.find((item) => item.processKey === action.detail.processKey)?.name ?? '目录缺失'}（${action.detail.processKey}）` : null,
+        notes: [SKILL_TRIGGER_ACTION_TYPE_LABELS[action.actionType]],
         location: location(input.skillKey, 'TRIGGER', rule.ruleKey, 'TRIGGER_RULE', `actions[actionKey=${action.actionKey}]`, [
           keyed('actions', action.actionKey)
         ])
@@ -485,8 +505,8 @@ export function buildSkillBehaviorOverview(input: {
           sourceName: `${action.name} / ${binding.parameterKey}`,
           sourceKey: `${action.actionKey} / ${binding.bindingKey}`,
           momentLabel: eventMomentLabel(rule.eventSource),
-          targetLabel: SKILL_TRIGGER_SOURCE_TYPE_LABELS[binding.sourceType],
-          valueSourceLabel: binding.parameterKey,
+          targetLabel: `参数：${input.parameters.find((item) => item.parameterKey === binding.parameterKey)?.name ?? '目录缺失'}（${binding.parameterKey}）`,
+          valueSourceLabel: bindingSummary(binding),
           notes: bindingAddsCost(binding) ? [RESOURCE_DECREASE_REVIEW_NOTE] : [],
           location: location(input.skillKey, 'TRIGGER', rule.ruleKey, 'TRIGGER_RULE', `actions[actionKey=${action.actionKey}].runtimeInputBindings[bindingKey=${binding.bindingKey}]`, [
             keyed('actions', action.actionKey),

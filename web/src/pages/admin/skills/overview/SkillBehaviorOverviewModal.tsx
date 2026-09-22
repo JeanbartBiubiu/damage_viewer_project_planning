@@ -30,7 +30,7 @@ function entryColumns(onEdit: (location: AuthoringLocation) => void) {
     { title: '来源', render: (_value: unknown, item: SkillBehaviorEntry) => `${item.sourceKindLabel}：${item.sourceName}（${item.sourceKey}）` },
     { title: '事件/过程时点', width: 220, render: (_value: unknown, item: SkillBehaviorEntry) => item.momentLabel ?? '—' },
     { title: '作用对象', width: 140, render: (_value: unknown, item: SkillBehaviorEntry) => item.targetLabel ?? '—' },
-    { title: '数值来源', width: 220, render: (_value: unknown, item: SkillBehaviorEntry) => item.valueSourceLabel ?? '—' },
+    { title: '数值或引用来源', width: 220, render: (_value: unknown, item: SkillBehaviorEntry) => item.valueSourceLabel ?? '—' },
     {
       title: '说明',
       width: 260,
