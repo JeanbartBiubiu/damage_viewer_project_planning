@@ -75,6 +75,7 @@ type genericRunState struct {
 	targetOverheal    float64
 	damageHistory     []damageRecord
 	nextFrameID       uint64
+	nextDamageID      uint64
 
 	evidence               []model.EvidenceItem
 	evidenceTruncated      bool
@@ -96,15 +97,15 @@ type genericRunState struct {
 	nextProviderInstanceID uint64
 
 	// Cast-instance identity (Focused Will / per-cast throttle). Monotonic from 1; discarded after run.
-	nextCastInstanceID           uint64
-	perCastThrottle              map[perCastThrottleKey]int64
-	perCastThrottleCapacity      int
+	nextCastInstanceID            uint64
+	perCastThrottle               map[perCastThrottleKey]int64
+	perCastThrottleCapacity       int
 	perCastThrottleOverflowWarned bool
-	perCastThrottleOverflowCount int
+	perCastThrottleOverflowCount  int
 
 	// Delayed repeat continuations (run-local; discarded with the run).
-	continuations       map[uint64]*triggeredContinuationPayload
-	nextContinuationID  uint64
+	continuations      map[uint64]*triggeredContinuationPayload
+	nextContinuationID uint64
 }
 
 // RunGeneric 执行单次 generic deterministic run，返回 DoneResult。

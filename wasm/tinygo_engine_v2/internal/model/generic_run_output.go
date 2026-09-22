@@ -36,6 +36,8 @@ const (
 	EvidenceKindListenerSkipped EvidenceKind = "listener_skipped"
 	EvidenceKindDamage          EvidenceKind = "damage"
 	EvidenceKindExecute         EvidenceKind = "execute"
+	EvidenceKindVamp            EvidenceKind = "vamp"
+	EvidenceKindHeal            EvidenceKind = "heal"
 )
 
 // DoneResult 是 generic run 成功时的 outbox payload。

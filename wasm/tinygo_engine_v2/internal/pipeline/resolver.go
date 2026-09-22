@@ -129,6 +129,11 @@ func resolveDamageWithSource(cmd command.Command, view CombatantView, sourceAttr
 	return outcome, next
 }
 
+// ResolveDamageWithSource 保留复制伤害的完整伤害分解，供共同吸血结算使用。
+func ResolveDamageWithSource(cmd command.Command, view CombatantView, sourceAttrs map[string]model.AttributeSlotDef, nowMs int64) (DamageOutcome, CombatantView) {
+	return damageResolver(cmd, view, sourceAttrs, nowMs)
+}
+
 // MitigateRawDamage applies target resistance without source penetration (compat wrapper).
 // ok=false means unknown damage type or non-finite mitigation.
 func MitigateRawDamage(raw float64, damageType string, attrs map[string]model.AttributeSlotDef) (mitigated float64, ok bool) {
