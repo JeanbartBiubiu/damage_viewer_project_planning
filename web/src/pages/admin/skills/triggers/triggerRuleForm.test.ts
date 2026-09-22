@@ -88,7 +88,7 @@ const EVENT_CAPABILITY_ROWS = [
     currentTargetBinding: '该次技能使用的显式目标；没有时为来源对象。',
     hasEventSource: false,
     requiredCatalogs: ['skills'],
-    detailFields: ['sourceSkillKey', 'useKind']
+    detailFields: ['sourceSkillKey', 'useKind', 'castPhase']
   },
   {
     eventType: 'BASIC_ATTACK_START',
@@ -457,7 +457,7 @@ describe('trigger event member set and capability table', () => {
     expect(switchEventType(createEmptyEventSource('SKILL_USED'), 'TAKEDOWN')).toEqual({ eventType: 'TAKEDOWN', detail: {} });
     expect(createEmptyEventSource('SKILL_USED')).toEqual({
       eventType: 'SKILL_USED',
-      detail: { sourceSkillKey: null, useKind: 'ANY' }
+      detail: { sourceSkillKey: null, useKind: 'ANY', castPhase: null }
     });
     expect(createEmptyEventSource('BASIC_ATTACK_HIT')).toEqual({
       eventType: 'BASIC_ATTACK_HIT',
@@ -465,7 +465,7 @@ describe('trigger event member set and capability table', () => {
     });
     expect(createEmptyEventSource('PROCESS_MOMENT')).toEqual({
       eventType: 'PROCESS_MOMENT',
-      detail: { processKey: '', moment: { momentType: 'PROCESS_START', stepKey: null } }
+      detail: { processKey: '', moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null } }
     });
     expect(createEmptyEventSource('RESULT_AVAILABLE')).toEqual({
       eventType: 'RESULT_AVAILABLE',
@@ -581,7 +581,7 @@ describe('trigger event member set and capability table', () => {
       eventType: 'PROCESS_MOMENT' as const,
       detail: {
         processKey: 'cast',
-        moment: { momentType: 'STEP_EXECUTION' as const, stepKey: 'charge' }
+        moment: { momentType: 'STEP_EXECUTION' as const, stepKey: 'charge', failureReason: null }
       }
     };
     expect(allowedEventValuesFor(stepExecution)).toEqual(['STEP_EXECUTION_INDEX']);
@@ -591,23 +591,23 @@ describe('trigger event member set and capability table', () => {
     ]);
     expect(allowedEventValuesFor({
       eventType: 'PROCESS_MOMENT',
-      detail: { processKey: 'cast', moment: { momentType: 'STEP_COMPLETE', stepKey: 'charge' } }
+      detail: { processKey: 'cast', moment: { momentType: 'STEP_COMPLETE', stepKey: 'charge', failureReason: null } }
     }, 'CHARGE')).toEqual(['CHARGE_DURATION_MS']);
     expect(allowedEventValuesFor({
       eventType: 'PROCESS_MOMENT',
-      detail: { processKey: 'cast', moment: { momentType: 'STEP_TIMEOUT', stepKey: 'charge' } }
+      detail: { processKey: 'cast', moment: { momentType: 'STEP_TIMEOUT', stepKey: 'charge', failureReason: null } }
     }, 'CHARGE')).toEqual(['CHARGE_DURATION_MS']);
     expect(allowedEventValuesFor({
       eventType: 'PROCESS_MOMENT',
-      detail: { processKey: 'cast', moment: { momentType: 'STEP_START', stepKey: 'charge' } }
+      detail: { processKey: 'cast', moment: { momentType: 'STEP_START', stepKey: 'charge', failureReason: null } }
     }, 'CHARGE')).toEqual([]);
     expect(allowedEventValuesFor({
       eventType: 'PROCESS_MOMENT',
-      detail: { processKey: 'cast', moment: { momentType: 'STEP_EXECUTION', stepKey: 'recast' } }
+      detail: { processKey: 'cast', moment: { momentType: 'STEP_EXECUTION', stepKey: 'recast', failureReason: null } }
     }, 'RECAST')).toEqual(['STEP_EXECUTION_INDEX', 'RECAST_COUNT']);
     expect(allowedEventValuesFor({
       eventType: 'PROCESS_MOMENT',
-      detail: { processKey: 'cast', moment: { momentType: 'STEP_COMPLETE', stepKey: 'recast' } }
+      detail: { processKey: 'cast', moment: { momentType: 'STEP_COMPLETE', stepKey: 'recast', failureReason: null } }
     }, 'RECAST')).toEqual(['RECAST_COUNT']);
 
     expect(allowedEventValuesFor(createEmptyEventSource('LIFECYCLE_MOMENT'))).toEqual([
@@ -739,7 +739,7 @@ describe('forbidden VALUE_REACHED, PERSISTENT event and RESULT_AVAILABLE vs life
 });
 
 describe('condition, action and runtime-source conversion with stale-field cleanup', () => {
-  it('uses exactly eight conditions, three actions and five runtime sources', () => {
+  it('uses exactly eight conditions, four actions and five runtime sources', () => {
     expect([...SKILL_TRIGGER_CONDITION_TYPES]).toEqual([
       'ATTRIBUTE_COMPARE',
       'STATUS_CHECK',
@@ -753,7 +753,8 @@ describe('condition, action and runtime-source conversion with stale-field clean
     expect([...SKILL_TRIGGER_ACTION_TYPES]).toEqual([
       'EXECUTE_EFFECT',
       'START_PROCESS',
-      'FAIL_PROCESS'
+      'FAIL_PROCESS',
+      'ADVANCE_PROCESS'
     ]);
     expect([...SKILL_TRIGGER_SOURCE_TYPES]).toEqual([
       'INTERNAL_STATE',
@@ -841,6 +842,15 @@ describe('condition, action and runtime-source conversion with stale-field clean
     expect(fail.runtimeInputBindings).toEqual([]);
     expect(fail.resultModifiers).toEqual([]);
     expect(fail.detail).not.toHaveProperty('effectKey');
+
+    const advance = switchActionType(withModifier, 'ADVANCE_PROCESS');
+    expect(advance.actionType).toBe('ADVANCE_PROCESS');
+    expect(advance.targetContext).toBeNull();
+    expect(advance.detail).toEqual({ processKey: '', stepKey: '' });
+    expect(advance.runtimeInputBindings).toEqual([]);
+    expect(advance.resultModifiers).toEqual([]);
+    expect(advance.detail).not.toHaveProperty('effectKey');
+    expect(advance.detail).not.toHaveProperty('failureReason');
 
     const start = switchActionType(withModifier, 'START_PROCESS');
     expect(start.detail).toEqual({ processKey: '' });
@@ -957,7 +967,7 @@ describe('detail to draft create/update round-trip', () => {
         eventType: 'PROCESS_MOMENT',
         detail: {
           processKey: 'charge_cast',
-          moment: { momentType: 'STEP_EXECUTION', stepKey: 'charge' }
+          moment: { momentType: 'STEP_EXECUTION', stepKey: 'charge', failureReason: null }
         }
       },
       conditionGroups: [],
@@ -1235,7 +1245,7 @@ describe('process moment step lookup', () => {
       eventType: 'PROCESS_MOMENT' as const,
       detail: {
         processKey: 'cast',
-        moment: { momentType: 'STEP_EXECUTION' as const, stepKey: 'charge' }
+        moment: { momentType: 'STEP_EXECUTION' as const, stepKey: 'charge', failureReason: null }
       }
     };
     expect(eventStepType(source, {

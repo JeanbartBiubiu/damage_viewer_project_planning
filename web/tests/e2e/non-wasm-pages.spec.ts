@@ -267,6 +267,7 @@ type SkillInternalStateRow = {
 type SkillProcessMomentRow = {
   momentType: string;
   stepKey: string | null;
+  failureReason: string | null;
 };
 
 type SkillProcessStepRow = {
@@ -1891,7 +1892,8 @@ class MockApi {
     const moment = raw && typeof raw === 'object' ? raw as Json : {};
     return {
       momentType: String(moment.momentType ?? 'PROCESS_START'),
-      stepKey: typeof moment.stepKey === 'string' ? moment.stepKey : null
+      stepKey: typeof moment.stepKey === 'string' ? moment.stepKey : null,
+      failureReason: typeof moment.failureReason === 'string' ? moment.failureReason : null
     };
   }
 
@@ -6117,7 +6119,7 @@ test.describe('skill management without Wasm', () => {
       activationType: 'ACTIVE',
       cooldown: {
         durationValue: formulaValue("cooldown_ms"),
-        startMoment: { momentType: 'PROCESS_START', stepKey: null }
+        startMoment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null }
       }
     });
     expect(createWrite?.body.steps).toEqual(expect.arrayContaining([
@@ -6128,7 +6130,7 @@ test.describe('skill management without Wasm', () => {
       expect.objectContaining({
         bindingKey: 'hit_results',
         effectKey: 'on_hit_results',
-        moment: { momentType: 'STEP_EXECUTION', stepKey: 'hit' }
+        moment: { momentType: 'STEP_EXECUTION', stepKey: 'hit', failureReason: null }
       })
     ]));
     expect(createWrite?.body.stateOperations).toEqual(expect.arrayContaining([
@@ -6498,7 +6500,7 @@ test.describe('skill management without Wasm', () => {
         gameId: GAME_ID, skillKey: 'varus_w', ruleKey: 'source_catalog', name: '来源目录规则',
         description: null, sortOrder: 10,
         eventSource: { eventType: event.kind, detail: {
-          sourceSkillKey: 'source_spell', ...(event.kind === 'SKILL_USED' ? { useKind: 'ACTIVE' } : {})
+          sourceSkillKey: 'source_spell', ...(event.kind === 'SKILL_USED' ? { useKind: 'ACTIVE', castPhase: 'INITIAL' } : {})
         } },
         conditionGroups: [], perTargetCooldown: null, maxTriggersPerProcess: null,
         actions: [{ actionKey: 'apply_damage', name: '造成伤害', actionType: 'EXECUTE_EFFECT', sortOrder: 10,
@@ -7856,6 +7858,163 @@ test('source cast resource cost binding retains failed drafts and saves and reop
   await saveOpenModal(edit);
   expect(mock.skillTriggerRules[0].actions[0].runtimeInputBindings).toEqual([{ ...bindingPayload, bindingKey: 'bind_2' }]);
   diagnostics.assertClean('source cast resource cost binding round trip and retained failures');
+});
+
+test('casting phase process completion and failure retain actual cost bindings through the nested editor', async ({ page }) => {
+  const mock = new MockApi();
+  seedSkillTriggerCatalog(mock);
+  const diagnostics = await prepare(page, mock);
+  await openSkills(page);
+  const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+  await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+  const create = visibleModal(page, '新增规则');
+  await create.getByLabel('规则标识', { exact: true }).fill('terminal_cost');
+  await create.getByLabel('规则名称', { exact: true }).fill('终结实际成本');
+  await chooseTriggerEventType(page, create, '当前技能过程到达固定时点');
+  await chooseSelectOption(page, create, '事件过程', '主要施放过程');
+  await chooseSelectOption(page, create, '过程时点', '过程完成');
+  await create.getByRole('button', { name: '编辑', exact: true }).first().click();
+  const action = visibleModal(page, '编辑动作');
+  await action.getByLabel('动作名称', { exact: true }).fill('读取所属施放成本');
+  await chooseSelectOption(page, action, '目标效果', '追加伤害');
+  await action.getByRole('button', { name: '新增绑定', exact: true }).click();
+  const binding = visibleModal(page, '新增绑定');
+  await chooseSelectOption(page, binding, '来源种类', '来源施放资源消耗');
+  await chooseSelectOption(page, binding, '绑定参数', '前序命中值（prior_hit_value / 小数）');
+  await chooseSelectOption(page, binding, '消耗属性', '法力值（mana）');
+  await expect(binding.getByRole('button', { name: '确定', exact: true })).toBeEnabled();
+  await binding.getByRole('button', { name: '确定', exact: true }).click();
+  await action.getByRole('button', { name: '确定', exact: true }).click();
+  await chooseSelectOption(page, create, '过程时点', '过程失败');
+  await chooseSelectOption(page, create, '失败原因', '主动取消');
+  await saveOpenModal(create);
+  const payload = { bindingKey: 'bind_1', parameterKey: 'prior_hit_value', sourceType: 'SOURCE_CAST_RESOURCE_COST', detail: { attributeKey: 'mana' } };
+  expect(mock.skillTriggerRules[0].actions[0].runtimeInputBindings).toEqual([payload]);
+  expect(mock.skillTriggerRules[0].eventSource).toMatchObject({ detail: {
+    moment: { momentType: 'PROCESS_FAILURE', stepKey: null, failureReason: 'ACTIVE_CANCELLED' }
+  } });
+  await shell.locator('tr', { hasText: 'terminal_cost' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const edit = visibleModal(page, '编辑规则');
+  await expect(edit.getByLabel('失败原因', { exact: true })).toContainText('主动取消');
+  await edit.getByRole('button', { name: '编辑', exact: true }).first().click();
+  const reopenedAction = visibleModal(page, '编辑动作');
+  await reopenedAction.locator('tr', { hasText: '来源施放资源消耗 / mana' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const reopenedBinding = visibleModal(page, '编辑绑定');
+  await expect(reopenedBinding.getByRole('button', { name: '确定', exact: true })).toBeEnabled();
+  await reopenedBinding.getByRole('button', { name: '确定', exact: true }).click();
+  await reopenedAction.getByRole('button', { name: '确定', exact: true }).click();
+  await chooseSelectOption(page, edit, '过程时点', '过程完成');
+  await expect(edit.getByLabel('失败原因', { exact: true })).toHaveCount(0);
+  await saveOpenModal(edit);
+  expect(mock.skillTriggerRules[0].actions[0].runtimeInputBindings).toEqual([payload]);
+  expect(mock.skillTriggerRules[0].eventSource).toMatchObject({ detail: {
+    moment: { momentType: 'PROCESS_COMPLETE', stepKey: null, failureReason: null }
+  } });
+  diagnostics.assertClean('casting phase actual cost nested editor and terminal switches');
+});
+
+test('casting phase cooldown failure reason clears when ordinary cooldown is disabled and reenabled', async ({ page }) => {
+  const mock = new MockApi();
+  seedSkillTriggerCatalog(mock);
+  mock.skillProcesses[0].cooldown = { durationValue: fixedValue(1000.25),
+    startMoment: { momentType: 'PROCESS_FAILURE', stepKey: null, failureReason: 'ACTIVE_CANCELLED' } };
+  const diagnostics = await prepare(page, mock);
+  await openSkills(page);
+  const shell = await openSkillProcesses(page, 'varus_w', '枯萎箭袋');
+  await shell.locator('tr', { hasText: 'primary_cast' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const edit = visibleModal(page, '编辑过程');
+  await expect(edit.getByLabel('失败原因', { exact: true })).toContainText('主动取消');
+  await clickArcoRadioByVisibleLabel(edit, '无普通冷却');
+  await clickArcoRadioByVisibleLabel(edit, '配置普通冷却');
+  await expect(edit.getByLabel('过程时点', { exact: true })).toContainText('过程开始');
+  await expect(edit.getByLabel('失败原因', { exact: true })).toHaveCount(0);
+  await edit.getByLabel('冷却时长取值固定数值', { exact: true }).fill('0.5');
+  await saveOpenModal(edit);
+  expect(mock.skillProcesses[0].cooldown).toEqual({ durationValue: fixedValue(0.5),
+    startMoment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null } });
+  await shell.locator('tr', { hasText: 'primary_cast' }).getByRole('button', { name: '编辑', exact: true }).click();
+  await expect(visibleModal(page, '编辑过程').getByLabel('冷却时长取值固定数值', { exact: true })).toHaveValue('0.5');
+  diagnostics.assertClean('casting phase ordinary cooldown switch clears stale failure reason');
+});
+
+test('casting phase requires explicit selection and advances matching recast and charge steps after reopening', async ({ page }) => {
+  const mock = new MockApi();
+  seedSkillTriggerCatalog(mock);
+  mock.skillProcesses[0].steps = [
+    { stepKey: 'recast', name: '再次入口', stepType: 'RECAST', description: null, sortOrder: 0,
+      detail: { windowValue: fixedValue(1000), maximumRecastCountValue: fixedValue(1) } },
+    { stepKey: 'charge', name: '蓄力入口', stepType: 'CHARGE', description: null, sortOrder: 1,
+      detail: { minimumChargeValue: fixedValue(0), maximumChargeValue: fixedValue(1000), releaseAtMaximum: true } }
+  ];
+  const diagnostics = await prepare(page, mock);
+  await openSkills(page);
+  const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+  await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+  const create = visibleModal(page, '新增规则');
+  await create.getByLabel('规则标识', { exact: true }).fill('advance_cast');
+  await create.getByLabel('规则名称', { exact: true }).fill('推进已有过程');
+  await expect(create.getByLabel('使用阶段', { exact: true })).toContainText('使用阶段待核定');
+  await chooseSelectOption(page, create, '来源技能', '枯萎箭袋（varus_w）');
+  await chooseSelectOption(page, create, '使用阶段', '再次施放');
+  await create.getByRole('button', { name: '编辑', exact: true }).first().click();
+  const action = visibleModal(page, '编辑动作');
+  await action.getByLabel('动作名称', { exact: true }).fill('推进步骤');
+  await chooseSelectOption(page, action, '动作种类', '推进当前过程');
+  await chooseSelectOption(page, action, '目标过程', '主要施放过程');
+  await chooseSelectOption(page, action, '目标步骤', '再次入口');
+  await expect(action.getByRole('button', { name: '新增绑定', exact: true })).toHaveCount(0);
+  await action.getByRole('button', { name: '确定', exact: true }).click();
+  await saveOpenModal(create);
+  expect(mock.skillTriggerRules[0].eventSource).toMatchObject({ detail: { castPhase: 'RECAST' } });
+  expect(mock.skillTriggerRules[0].actions[0]).toMatchObject({ actionType: 'ADVANCE_PROCESS', targetContext: null,
+    runtimeInputBindings: [], resultModifiers: [], detail: { processKey: 'primary_cast', stepKey: 'recast' } });
+  await shell.locator('tr', { hasText: 'advance_cast' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const edit = visibleModal(page, '编辑规则');
+  await expect(edit.getByLabel('使用阶段', { exact: true })).toContainText('再次施放');
+  await chooseSelectOption(page, edit, '使用阶段', '蓄力释放');
+  await edit.getByRole('button', { name: '编辑', exact: true }).first().click();
+  const reopenedAction = visibleModal(page, '编辑动作');
+  await chooseSelectOption(page, reopenedAction, '目标步骤', '蓄力入口');
+  await reopenedAction.getByRole('button', { name: '确定', exact: true }).click();
+  await saveOpenModal(edit);
+  expect(mock.skillTriggerRules[0].eventSource).toMatchObject({ detail: { castPhase: 'CHARGE_RELEASE' } });
+  expect(mock.skillTriggerRules[0].actions[0].detail).toEqual({ processKey: 'primary_cast', stepKey: 'charge' });
+  diagnostics.assertClean('casting phase explicit recast and charge advance round trips');
+});
+
+test('casting phase setting remaining cooldown accepts fractional milliseconds and zero after reopening', async ({ page }) => {
+  const mock = new MockApi();
+  seedSkillEffectCatalog(mock);
+  const diagnostics = await prepare(page, mock);
+  await openSkills(page);
+  const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+  await shell.getByRole('button', { name: '新增效果', exact: true }).click();
+  const create = visibleModal(page, '新增效果');
+  await create.getByLabel('效果标识', { exact: true }).fill('fixed_cooldown');
+  await create.getByLabel('效果名称', { exact: true }).fill('设置剩余冷却');
+  await create.getByRole('button', { name: '新增结果', exact: true }).click();
+  const result = visibleModal(page, '新增结果');
+  await result.getByLabel('结果标识', { exact: true }).fill('set_remaining');
+  await result.getByLabel('结果名称', { exact: true }).fill('冷却设置');
+  await chooseSelectOption(page, result, '结果种类', '冷却变化');
+  await clickArcoRadioByVisibleLabel(result, '设置剩余冷却');
+  await result.getByLabel('数值固定数值', { exact: true }).fill('1000.25');
+  await saveOpenModal(result);
+  await saveOpenModal(create);
+  const saved = () => mock.skillEffects.find((item) => item.effectKey === 'fixed_cooldown')!;
+  expect(saved().results[0].detail.operation).toBe('SET_REMAINING');
+  expect(saved().results[0].valueRule).toMatchObject({ value: fixedValue(1000.25) });
+  await shell.locator('tr', { hasText: 'fixed_cooldown' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const edit = visibleModal(page, '编辑效果');
+  await edit.locator('tr', { hasText: 'set_remaining' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const reopened = visibleModal(page, '编辑结果');
+  await expect(reopened.getByRole('radio', { name: '设置剩余冷却', exact: true })).toBeChecked();
+  await expect(reopened.getByLabel('数值固定数值', { exact: true })).toHaveValue('1000.25');
+  await reopened.getByLabel('数值固定数值', { exact: true }).fill('0');
+  await saveOpenModal(reopened);
+  await saveOpenModal(edit);
+  expect(saved().results[0].valueRule).toMatchObject({ value: fixedValue(0) });
+  diagnostics.assertClean('casting phase setting remaining cooldown fractional and zero values');
 });
 
 test('remaining cooldown ratio clears milliseconds, rejects invalid values and survives save and reopen', async ({ page }) => {

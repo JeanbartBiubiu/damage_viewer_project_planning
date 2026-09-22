@@ -15,7 +15,7 @@ import type { Attribute } from '../../../../types/attribute';
 import type { SkillEffect, SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
 import type { SkillParameter } from '../../../../types/skillParameter';
-import type { SkillProcessSummary } from '../../../../types/skillProcess';
+import type { SkillProcess, SkillProcessSummary } from '../../../../types/skillProcess';
 import type { GameStatus } from '../../../../types/status';
 import type {
   SkillTriggerActionType,
@@ -30,14 +30,19 @@ import {
   RESULT_MODIFIER_ORDER_HINT,
   SKILL_TRIGGER_ACTION_TYPE_LABELS,
   SKILL_TRIGGER_ACTION_TYPES,
+  SKILL_TRIGGER_ADVANCE_PROCESS_EVENT_MESSAGE,
+  SKILL_TRIGGER_ADVANCE_PROCESS_STEP_MESSAGE,
   SKILL_TRIGGER_FAILURE_REASON_LABELS,
   SKILL_TRIGGER_TARGET_CONTEXT_LABELS,
   actionSummary,
+  advanceProcessStepTypeForPhase,
+  allowsAdvanceProcessEvent,
   bindingSummary,
   createEmptyActionDraft,
   evaluateBindingCompleteness,
   canModifyResultValue,
   resultModifierTargetError,
+  skillUsedCastPhase,
   switchActionType,
   targetContextOptionsForEvent,
   validateResultModifier,
@@ -70,6 +75,10 @@ type SkillTriggerActionEditorModalProps = {
   effects: readonly SkillEffectSummary[];
   effectDetails: ReadonlyMap<string, SkillEffect>;
   processes: readonly SkillProcessSummary[];
+  processesLoadState?: CatalogLoadState;
+  processDetails?: ReadonlyMap<string, SkillProcess>;
+  onEnsureProcess?: (processKey: string) => Promise<SkillProcess | null>;
+  skillKey?: string;
   internalStates: readonly SkillInternalState[];
   statuses: readonly GameStatus[];
   reachableParameters: readonly SkillParameter[];
@@ -100,6 +109,10 @@ export function SkillTriggerActionEditorModal({
   effects,
   effectDetails,
   processes,
+  processesLoadState,
+  processDetails,
+  onEnsureProcess,
+  skillKey,
   internalStates,
   statuses,
   reachableParameters,
@@ -123,6 +136,21 @@ export function SkillTriggerActionEditorModal({
   const selectedProcess = current.actionType !== 'EXECUTE_EFFECT'
     ? processes.find((item) => item.processKey === current.detail.processKey) ?? null
     : null;
+  const selectedProcessDetail = current.actionType !== 'EXECUTE_EFFECT'
+    ? processDetails?.get(current.detail.processKey) ?? null
+    : null;
+  const expectedAdvanceStepType = current.actionType === 'ADVANCE_PROCESS'
+    ? advanceProcessStepTypeForPhase(skillUsedCastPhase(eventSource))
+    : null;
+  const currentAdvanceStepKey = current.actionType === 'ADVANCE_PROCESS' ? current.detail.stepKey : '';
+  const advanceProcessOptions = processes.filter((item) => (
+    item.activationType !== 'PASSIVE' || item.processKey === selectedProcess?.processKey
+  ));
+  const advanceStepOptions = (selectedProcessDetail?.steps ?? []).filter((item) => (
+    !expectedAdvanceStepType
+    || item.stepType === expectedAdvanceStepType
+    || item.stepKey === currentAdvanceStepKey
+  ));
   const completeness = evaluateBindingCompleteness(reachableParameters, current.runtimeInputBindings);
   const numericResults = selectedEffect
     ? selectedEffect.results.filter(canModifyResultValue)
@@ -170,7 +198,7 @@ export function SkillTriggerActionEditorModal({
           setLocalError(targetError);
           return;
         }
-        const error = validateResultModifier(modifier);
+        const error = validateResultModifier(modifier, selectedEffect?.results.find((result) => result.resultKey === modifier.resultKey));
         if (error) {
           setLocalError(error);
           return;
@@ -294,7 +322,7 @@ export function SkillTriggerActionEditorModal({
               />
             </Form.Item>
 
-            {current.actionType !== 'FAIL_PROCESS' ? (
+            {current.actionType !== 'FAIL_PROCESS' && current.actionType !== 'ADVANCE_PROCESS' ? (
               <Form.Item label="目标对象" required>
                 <Select
                   aria-label="目标对象"
@@ -362,6 +390,7 @@ export function SkillTriggerActionEditorModal({
                     };
                     setCurrent(next);
                     void resolveTarget(next);
+                    void onEnsureProcess?.(String(value ?? ''));
                   }}
                 />
               </Form.Item>
@@ -386,13 +415,16 @@ export function SkillTriggerActionEditorModal({
                       value: item.processKey,
                       label: item.name || item.processKey
                     }))}
-                    onChange={(value) => setCurrent({
-                      ...current,
-                      detail: {
-                        processKey: String(value ?? ''),
-                        failureReason: current.detail.failureReason
-                      }
-                    })}
+                    onChange={(value) => {
+                      setCurrent({
+                        ...current,
+                        detail: {
+                          processKey: String(value ?? ''),
+                          failureReason: current.detail.failureReason
+                        }
+                      });
+                      void onEnsureProcess?.(String(value ?? ''));
+                    }}
                   />
                 </Form.Item>
                 <Form.Item label="失败原因" required>
@@ -416,9 +448,65 @@ export function SkillTriggerActionEditorModal({
                 </Form.Item>
               </>
             ) : null}
+
+            {current.actionType === 'ADVANCE_PROCESS' ? (
+              <>
+                {!allowsAdvanceProcessEvent(eventSource, skillKey) ? (
+                  <Alert type="warning" content={SKILL_TRIGGER_ADVANCE_PROCESS_EVENT_MESSAGE} />
+                ) : null}
+                <Form.Item
+                  label="目标过程"
+                  required
+                  extra={
+                    selectedProcess
+                      ? `启动方式：${SKILL_PROCESS_ACTIVATION_TYPE_LABELS[selectedProcess.activationType]}`
+                      : SKILL_TRIGGER_ADVANCE_PROCESS_STEP_MESSAGE
+                  }
+                >
+                  <Select
+                    aria-label="目标过程"
+                    value={current.detail.processKey || undefined}
+                    disabled={disabled}
+                    options={advanceProcessOptions.map((item) => ({
+                      value: item.processKey,
+                      label: item.name || item.processKey,
+                      disabled: item.activationType === 'PASSIVE'
+                    }))}
+                    onChange={(value) => {
+                      const next = {
+                        ...current,
+                        detail: { processKey: String(value ?? ''), stepKey: '' }
+                      };
+                      setCurrent(next);
+                      void resolveTarget(next);
+                      void onEnsureProcess?.(String(value ?? ''));
+                    }}
+                  />
+                </Form.Item>
+                <Form.Item label="目标步骤" required extra={SKILL_TRIGGER_ADVANCE_PROCESS_STEP_MESSAGE}>
+                  <Select
+                    aria-label="目标步骤"
+                    value={current.detail.stepKey || undefined}
+                    disabled={disabled}
+                    options={advanceStepOptions.map((item) => ({
+                      value: item.stepKey,
+                      label: item.name || item.stepKey,
+                      disabled: Boolean(expectedAdvanceStepType && item.stepType !== expectedAdvanceStepType)
+                    }))}
+                    onChange={(value) => setCurrent({
+                      ...current,
+                      detail: {
+                        processKey: current.detail.processKey,
+                        stepKey: String(value ?? '')
+                      }
+                    })}
+                  />
+                </Form.Item>
+              </>
+            ) : null}
           </Form>
 
-          {current.actionType !== 'FAIL_PROCESS' ? (
+          {current.actionType !== 'FAIL_PROCESS' && current.actionType !== 'ADVANCE_PROCESS' ? (
             <>
               <Space>
                 <span>动态输入来源绑定</span>
@@ -551,6 +639,8 @@ export function SkillTriggerActionEditorModal({
         originalSourceType={originalBindings.find((item) => item.bindingKey === bindingEditor?.binding?.bindingKey)?.sourceType}
         attributes={attributes}
         attributesLoadState={attributesLoadState}
+        processes={processes}
+        processesLoadState={processesLoadState}
         onRetryAttributes={onRetryAttributes}
         reachableParameters={reachableParameters}
         currentBindings={current.runtimeInputBindings}

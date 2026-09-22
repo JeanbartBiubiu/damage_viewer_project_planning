@@ -16,7 +16,7 @@ import {
 
 const used: SkillTriggerEventSource = {
   eventType: 'SKILL_USED',
-  detail: { sourceSkillKey: 'annie_e', useKind: 'ACTIVE' }
+  detail: { sourceSkillKey: 'annie_e', useKind: 'ACTIVE', castPhase: 'INITIAL' }
 };
 
 function makeDraft() {
