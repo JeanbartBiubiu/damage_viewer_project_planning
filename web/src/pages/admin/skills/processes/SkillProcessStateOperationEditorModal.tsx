@@ -25,11 +25,11 @@ import {
   MISSING_CATALOG_LABEL,
   STATE_OPERATION_LABELS,
   allowedOperationsForStateType,
+  applyMomentTypeChange,
   applyStateKeyChange,
   applyStateOperationChange,
   createEmptyProcessDraft,
   isCatalogOptionSelectable,
-  isProcessLevelMoment,
   listInternalStateOptions,
   listModeOptionOptions,
   requiresModeOption,
@@ -387,16 +387,15 @@ export function SkillProcessStateOperationEditorModal({
           <SkillProcessMomentFields
             momentType={draft.momentType}
             stepKey={draft.stepKey}
+            failureReason={draft.failureReason}
             steps={steps}
             momentError={errors.moment ?? errors.momentType}
             stepKeyError={errors.stepKey}
+            failureReasonError={errors.failureReason}
             disabled={readOnly}
-            onMomentTypeChange={(value) => patchDraft({
-              ...draft,
-              momentType: value,
-              stepKey: isProcessLevelMoment(value) ? '' : draft.stepKey
-            })}
+            onMomentTypeChange={(value) => patchDraft(applyMomentTypeChange(draft, value))}
             onStepKeyChange={(value) => patchDraft({ ...draft, stepKey: value })}
+            onFailureReasonChange={(value) => patchDraft({ ...draft, failureReason: value })}
           />
           <Form.Item
             label="排序"

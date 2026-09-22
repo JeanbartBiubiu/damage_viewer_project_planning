@@ -33,7 +33,7 @@ describe('来源施放资源消耗绑定', () => {
   it.each([
     { eventType: 'SKILL_HIT', detail: { sourceSkillKey: null } },
     { eventType: 'SKILL_HIT', detail: { sourceSkillKey: '' } },
-    { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'q', useKind: 'ACTIVE' } },
+    { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'q', useKind: 'ACTIVE', castPhase: 'INITIAL' } },
     { eventType: 'BASIC_ATTACK_HIT', detail: {} }
   ] satisfies SkillTriggerEventSource[])('非明确技能命中事件禁止该来源并确认清理 %j', (next) => {
     expect(allowsSourceCastResourceCost(next)).toBe(false);
@@ -65,6 +65,30 @@ describe('来源施放资源消耗绑定', () => {
       expect(validateSkillTriggerDraft(draft(), { ...options, parameters }).ok).toBe(false);
     }
     expect(evaluateBindingCompleteness([{ ...parameter, valueType: 'INTEGER' }], [binding])[0].typeCompatible).toBe(false);
+  });
+
+  it('过程完成与失败可以绑定，互相切换保留，其他过程时点清除', () => {
+    const complete: SkillTriggerEventSource = {
+      eventType: 'PROCESS_MOMENT',
+      detail: { processKey: 'charge_cast', moment: { momentType: 'PROCESS_COMPLETE', stepKey: null, failureReason: null } }
+    };
+    const failure: SkillTriggerEventSource = {
+      eventType: 'PROCESS_MOMENT',
+      detail: { processKey: 'charge_cast', moment: { momentType: 'PROCESS_FAILURE', stepKey: null, failureReason: null } }
+    };
+    const start: SkillTriggerEventSource = {
+      eventType: 'PROCESS_MOMENT',
+      detail: { processKey: 'charge_cast', moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null } }
+    };
+    const processes = [{ processKey: 'charge_cast', activationType: 'ACTIVE' as const }];
+    expect(allowsSourceCastResourceCost(complete, processes)).toBe(true);
+    expect(allowsSourceCastResourceCost(failure, processes)).toBe(true);
+    expect(sourceCastResourceCostError(binding, complete, [parameter], attributes, 'ready', processes, 'ready')).toBeNull();
+    const processDraft = { ...draft(), eventSource: complete };
+    expect(analyzeEventSwitchImpact(processDraft, failure, null, processes).summary).toBe('');
+    expect(applyEventSwitchCleanup(processDraft, failure, null, processes).actions[0].runtimeInputBindings).toEqual([binding]);
+    expect(analyzeEventSwitchImpact(processDraft, start, null, processes).summary).toContain('将清除来源施放资源消耗绑定');
+    expect(applyEventSwitchCleanup(processDraft, start, null, processes).actions[0].runtimeInputBindings).toEqual([]);
   });
 
   it('经当前技能公式可达的十进制动态参数也可绑定', () => {

@@ -38,12 +38,14 @@ import type { SkillInternalState, SkillInternalStateSummary } from '../../../../
 import type { SkillParameter } from '../../../../types/skillParameter';
 import type {
   SkillProcess,
+  SkillProcessFailureReason,
   SkillProcessMoment,
   SkillProcessMomentType,
   SkillProcessSummary
 } from '../../../../types/skillProcess';
 import type { GameStatus } from '../../../../types/status';
 import type {
+  SkillTriggerCastPhase,
   SkillTriggerEventSource,
   SkillTriggerEventType,
   SkillTriggerEventUseKind,
@@ -92,6 +94,10 @@ import {
   SKILL_TRIGGER_STATUS_CHANGE_LABELS,
   SKILL_TRIGGER_SUBJECT_LABELS,
   SKILL_TRIGGER_TARGET_CONTEXT_LABELS,
+  SKILL_TRIGGER_CAST_PHASE_LABELS,
+  SKILL_TRIGGER_CAST_PHASE_PENDING_LABEL,
+  SKILL_TRIGGER_CAST_PHASES,
+  SKILL_TRIGGER_CAST_PHASE_REQUIRED_MESSAGE,
   SKILL_TRIGGER_UNSAVED_CONFIRM,
   SKILL_TRIGGER_USE_KIND_LABELS,
   actionSummary,
@@ -147,8 +153,12 @@ import {
   type SkillTriggerRuleDraft
 } from './triggerRuleForm';
 import {
+  PROCESS_FAILURE_REASON_ANY_LABEL,
+  PROCESS_FAILURE_REASON_LABELS,
+  PROCESS_FAILURE_REASONS,
   SKILL_PROCESS_MOMENT_TYPE_LABELS,
   SKILL_PROCESS_MOMENT_TYPES,
+  applyMomentTypeChange,
   isProcessLevelMoment
 } from '../processes/processForm';
 
@@ -196,12 +206,22 @@ function composeSaveError(error: unknown, unmappedMessages: string[]): string {
 
 function processMomentFrom(
   momentType: SkillProcessMomentType,
-  stepKey: string
+  stepKey: string,
+  failureReason: SkillProcessFailureReason | '' = ''
 ): SkillProcessMoment {
-  if (isProcessLevelMoment(momentType)) {
-    return { momentType, stepKey: null };
+  const next = applyMomentTypeChange({
+    momentType,
+    stepKey,
+    failureReason: momentType === 'PROCESS_FAILURE' ? failureReason : ''
+  }, momentType);
+  if (isProcessLevelMoment(next.momentType)) {
+    return {
+      momentType: next.momentType,
+      stepKey: null,
+      failureReason: next.momentType === 'PROCESS_FAILURE' ? (next.failureReason || null) : null
+    };
   }
-  return { momentType, stepKey };
+  return { momentType: next.momentType, stepKey: next.stepKey, failureReason: null };
 }
 
 function disabledName(name: string, key: string, disabled: boolean): string {
@@ -851,13 +871,14 @@ export function SkillTriggerRuleEditorModal({
       ? processByKey.get(next.detail.processKey) ?? null
       : null;
     const stepType = eventStepType(next, process);
-    const impact = analyzeEventSwitchImpact(draft, next, stepType);
+    const processCatalog = [...processByKey.values()];
+    const impact = analyzeEventSwitchImpact(draft, next, stepType, processCatalog);
     if (impact.summary) {
       Modal.confirm({
         content: impact.summary,
         okText: '确定',
         cancelText: '取消',
-        onOk: () => patchDraft(applyEventSwitchCleanup(draft, next, stepType))
+        onOk: () => patchDraft(applyEventSwitchCleanup(draft, next, stepType, processCatalog))
       });
       return;
     }
@@ -888,7 +909,9 @@ export function SkillTriggerRuleEditorModal({
       const effect = await ensureEffect(action.detail.effectKey);
       return effect ? collectExecuteEffectValues(effect) : null;
     }
-    if (action.actionType === 'START_PROCESS') {
+    if (action.actionType === 'START_PROCESS' || action.actionType === 'FAIL_PROCESS' || action.actionType === 'ADVANCE_PROCESS') {
+      if (action.detail.processKey) await ensureProcess(action.detail.processKey);
+      if (action.actionType !== 'START_PROCESS') return [];
       const process = await ensureProcess(action.detail.processKey);
       if (!process) return null;
       const effectsMap = new Map(effectByKeyRef.current);
@@ -1651,6 +1674,10 @@ export function SkillTriggerRuleEditorModal({
         effects={effects}
         effectDetails={effectByKey}
         processes={processes}
+        processesLoadState={catalogStates.processes}
+        processDetails={processByKey}
+        onEnsureProcess={ensureProcess}
+        skillKey={skill.skillKey}
         internalStates={[...stateByKey.values()]}
         statuses={statuses}
         reachableParameters={reachableParameters}
@@ -1733,7 +1760,8 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                   eventType: 'SKILL_USED',
                   detail: {
                     sourceSkillKey: key === '' ? null : key,
-                    useKind: eventSource.detail.useKind
+                    useKind: eventSource.detail.useKind,
+                    castPhase: eventSource.detail.castPhase
                   }
                 });
               }}
@@ -1752,7 +1780,33 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                 eventType: 'SKILL_USED',
                 detail: {
                   sourceSkillKey: eventSource.detail.sourceSkillKey,
-                  useKind: value as SkillTriggerEventUseKind
+                  useKind: value as SkillTriggerEventUseKind,
+                  castPhase: eventSource.detail.castPhase
+                }
+              })}
+            />
+          </Form.Item>
+          <Form.Item
+            label="使用阶段"
+            required
+            extra={eventSource.detail.castPhase === null ? SKILL_TRIGGER_CAST_PHASE_PENDING_LABEL : undefined}
+            help={eventSource.detail.castPhase === null ? SKILL_TRIGGER_CAST_PHASE_REQUIRED_MESSAGE : undefined}
+          >
+            <Select
+              aria-label="使用阶段"
+              value={eventSource.detail.castPhase ?? undefined}
+              disabled={disabled}
+              placeholder={SKILL_TRIGGER_CAST_PHASE_PENDING_LABEL}
+              options={SKILL_TRIGGER_CAST_PHASES.map((value) => ({
+                value,
+                label: SKILL_TRIGGER_CAST_PHASE_LABELS[value]
+              }))}
+              onChange={(value) => onChange({
+                eventType: 'SKILL_USED',
+                detail: {
+                  sourceSkillKey: eventSource.detail.sourceSkillKey,
+                  useKind: eventSource.detail.useKind,
+                  castPhase: value as SkillTriggerCastPhase
                 }
               })}
             />
@@ -1840,7 +1894,8 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                   processKey: eventSource.detail.processKey,
                   moment: processMomentFrom(
                     value as SkillProcessMomentType,
-                    eventSource.detail.moment.stepKey ?? ''
+                    eventSource.detail.moment.stepKey ?? '',
+                    eventSource.detail.moment.failureReason ?? ''
                   )
                 }
               })}
@@ -1860,7 +1915,37 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                   eventType: 'PROCESS_MOMENT',
                   detail: {
                     processKey: eventSource.detail.processKey,
-                    moment: processMomentFrom(eventSource.detail.moment.momentType, String(value ?? ''))
+                    moment: processMomentFrom(
+                      eventSource.detail.moment.momentType,
+                      String(value ?? ''),
+                      eventSource.detail.moment.failureReason ?? ''
+                    )
+                  }
+                })}
+              />
+            </Form.Item>
+          ) : null}
+          {eventSource.detail.moment.momentType === 'PROCESS_FAILURE' ? (
+            <Form.Item label="失败原因">
+              <Select
+                aria-label="失败原因"
+                allowClear
+                value={eventSource.detail.moment.failureReason ?? undefined}
+                disabled={disabled}
+                placeholder={PROCESS_FAILURE_REASON_ANY_LABEL}
+                options={PROCESS_FAILURE_REASONS.map((value) => ({
+                  value,
+                  label: PROCESS_FAILURE_REASON_LABELS[value]
+                }))}
+                onChange={(value) => onChange({
+                  eventType: 'PROCESS_MOMENT',
+                  detail: {
+                    processKey: eventSource.detail.processKey,
+                    moment: processMomentFrom(
+                      eventSource.detail.moment.momentType,
+                      eventSource.detail.moment.stepKey ?? '',
+                      value ? value as SkillProcessFailureReason : ''
+                    )
                   }
                 })}
               />

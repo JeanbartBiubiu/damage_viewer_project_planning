@@ -73,7 +73,7 @@ describe('事件对方类别条件', () => {
   });
 
   it.each([
-    { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ANY' } },
+    { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ANY', castPhase: null } },
     { eventType: 'BASIC_ATTACK_START', detail: {} },
     { eventType: 'STATUS_CHANGED', detail: { subject: 'CURRENT_TARGET', statusKey: '', change: 'APPLY' } }
   ] satisfies SkillTriggerEventSource[])('切到不提供事件对方的事件 %j 提醒并清理条件，原草稿保持不变', (next) => {
