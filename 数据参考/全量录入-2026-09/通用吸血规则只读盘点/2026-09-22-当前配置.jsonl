@@ -1,0 +1,29 @@
+{"host": "172.17.0.2", "kind": "target", "port": 5432, "database": "test0221", "readOnly": "on", "capturedAt": "2026-09-22T01:02:30.671629+08:00"}
+{"kind": "summary", "gameId": "lol", "emptyRules": 134, "missingRules": 0, "damageResults": 211, "nonEmptyRules": 77}
+{"kind": "ruleGroup", "basis": "POST_DEFENSE_DAMAGE", "count": 76, "sample": ["lux_q/light_binding_hit/magic_damage", "annie_w/spell_hit/damage", "brand_w/normal_pillar/damage", "brand_q/fireball_hit/damage", "brand_w/empowered_pillar/damage", "brand_e/conflagration_hit/damage", "lucian_w/flare_hit/damage", "lucian_q/beam_hit/damage"], "vampType": "OMNIVAMP", "efficiency": {"kind": "FIXED", "value": 1}}
+{"kind": "ruleGroup", "basis": "POST_DEFENSE_DAMAGE", "count": 4, "sample": ["shared_basic_attack/attack_hit/damage", "kalista_basic_attack/attack_hit/damage", "yasuo_basic_attack/attack_hit/damage", "senna_basic_attack/attack_hit/damage"], "vampType": "LIFE_STEAL", "efficiency": {"kind": "FIXED", "value": 1}}
+{"kind": "ruleGroup", "basis": "ACTUAL_HP_LOSS", "count": 1, "sample": ["ez_q/primary_hit/physical_damage"], "vampType": "LIFE_STEAL", "efficiency": {"kind": "PARAMETER", "parameterKey": "full_efficiency"}}
+{"kind": "ruleGroup", "basis": "ACTUAL_HP_LOSS", "count": 1, "sample": ["ez_q/primary_hit/physical_damage"], "vampType": "PHYSICAL_VAMP", "efficiency": {"kind": "PARAMETER", "parameterKey": "full_efficiency"}}
+{"kind": "ruleGroup", "basis": "ACTUAL_HP_LOSS", "count": 1, "sample": ["ez_q/primary_hit/physical_damage"], "vampType": "OMNIVAMP", "efficiency": {"kind": "PARAMETER", "parameterKey": "full_efficiency"}}
+{"key": "life_steal_percent", "max": null, "min": null, "kind": "attribute", "name": "生命偷取比例", "status": "ENABLED", "valueType": "DECIMAL"}
+{"key": "omnivamp_percent", "max": null, "min": null, "kind": "attribute", "name": "全能吸血比例", "status": "ENABLED", "valueType": "DECIMAL"}
+{"kind": "emptySample", "skillKey": "ahri_q", "effectKey": "outgoing_orb", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "ahri_q", "effectKey": "returning_orb", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "ahri_r", "effectKey": "spirit_bolt_hit", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "ahri_w", "effectKey": "first_fox_fire", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "ahri_w", "effectKey": "repeat_fox_fire", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "annie_e", "effectKey": "return_damage", "resultKey": "damage", "originKind": "REFLECTED", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "annie_r", "effectKey": "summon_impact", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "ashe_q", "effectKey": "empowered_attack", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "BASIC_ATTACK"}
+{"kind": "emptySample", "skillKey": "ashe_w", "effectKey": "hit_damage", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "azir_e", "effectKey": "dash_damage", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "azir_r", "effectKey": "charge_damage", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "brand_p", "effectKey": "blaze_explosion", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "brand_r", "effectKey": "pyroclasm_hit", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "darius_q", "effectKey": "blade_hit", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "darius_q", "effectKey": "handle_hit", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "darius_r", "effectKey": "guillotine_damage", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "darius_w", "effectKey": "noncritical_bonus", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "BASIC_ATTACK"}
+{"kind": "emptySample", "skillKey": "diana_p", "effectKey": "cleave_damage", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "BASIC_ATTACK"}
+{"kind": "emptySample", "skillKey": "diana_r", "effectKey": "moonfall_explosion", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}
+{"kind": "emptySample", "skillKey": "diana_w", "effectKey": "orb_collision", "resultKey": "damage", "originKind": "DIRECT", "deliveryKind": "SKILL"}

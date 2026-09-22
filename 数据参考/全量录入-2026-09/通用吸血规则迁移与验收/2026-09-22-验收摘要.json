@@ -1,0 +1,57 @@
+{
+  "capturedAt": "2026-09-21T18:29:43.221Z",
+  "scope": "第3项通用吸血规则首期实现与迁移验收",
+  "database": {
+    "database": "test0221",
+    "read_only": "on",
+    "tables": "28",
+    "rules": "2",
+    "damage_results": "212",
+    "old_fields": "0",
+    "resolved": "7",
+    "unresolved": "205",
+    "exceptions": "0",
+    "capturedAt": "2026-09-21T18:28:37.865152700Z"
+  },
+  "preservation": {
+    "originalManagementCompleteSkills": 8,
+    "affectedCompleteDamage": 4,
+    "newRepresentativeDamage": 3,
+    "ledgerCountsChanged": false
+  },
+  "checks": {
+    "backendTests": 1127,
+    "frontendTests": 865,
+    "frontendTestFiles": 69,
+    "adapterTests": 17,
+    "nonWasmSuite": {
+      "total": 102,
+      "firstPass": 100,
+      "fixtureRepairs": 2,
+      "targetedRecheckPassed": 2,
+      "productionChangedDuringRecheck": false
+    },
+    "realWasmAndLiveReadChecks": 8,
+    "wasmTopLevelPassed": 1012,
+    "wasmHistoricalFailures": 42
+  },
+  "wasm": {
+    "bytes": 731615,
+    "sha256": "24abd31297f97abd5a70f67b289d13d394fdc2feb5e4971018cbb8586bf71729"
+  },
+  "evidence": {
+    "migration": "C:/project/damage_backend_dev/output/game-vamp-rules/migration-attempt.jsonl",
+    "rolledBackAttempt": "C:/project/damage_backend_dev/output/game-vamp-rules/migration-rolled-back-20260922-0206.jsonl",
+    "representatives": "C:/project/damage_backend_dev/output/game-vamp-rules/representatives-readback-1790014576794.json",
+    "preservedComplete": "C:/project/damage_backend_dev/output/game-vamp-rules/preserve-completed-readback-1790015316917.json",
+    "wasmFailures": "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/dist/vamp-go-test-summary.json",
+    "browserScreenshot": "C:/project/damage_web_dev/web/output/playwright-vamp/vamp-runtime-实际页面读取游戏通用吸血规则/live-game-vamp-rules.png"
+  },
+  "boundaries": [
+    "205条旧伤害仍未核定，不推断为空即默认适用",
+    "3个实库代表的规则资格进入实际Wasm，伤害金额和战斗输入由专项明确提供",
+    "4个原管理完整对象只做等价资格衔接，不新增完整战斗证明",
+    "批量数据录入仍暂停，本次未改原阶段进度计数",
+    "42个历史Wasm检查问题仍保留"
+  ]
+}
