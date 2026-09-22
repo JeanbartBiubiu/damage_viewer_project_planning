@@ -26,7 +26,7 @@ class JsonNumericPrecisionTest {
               "target":"TARGET","sortOrder":0,"spellShieldBlockScope":null,
               "valueRule":{"value":{"kind":"FIXED","value":%s},"fixedMultiplier":1},
               "detail":{"damageTypeKey":"physical","deliveryKind":"SKILL","originKind":"DIRECT",
-               "critical":{"mode":"DISALLOWED"},"vampRules":[]}}]}
+               "critical":{"mode":"DISALLOWED"},"vampQualification":"UNRESOLVED","vampOverrides":[]}}]}
             """.formatted(DECIMAL);
         SkillEffectCreateRequest request = httpMapper.readValue(json, SkillEffectCreateRequest.class);
         assertEquals(EXPECTED, request.results().getFirst().valueRule().value().value());

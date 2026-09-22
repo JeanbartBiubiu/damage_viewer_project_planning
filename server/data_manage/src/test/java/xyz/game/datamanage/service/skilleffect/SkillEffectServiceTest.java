@@ -123,8 +123,8 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampBasisOutputKind;
-import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
-import xyz.game.datamanage.model.skilleffect.SkillEffectVampRuleRow;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampOverride;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampOverrideRow;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
 import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
@@ -805,7 +805,7 @@ class SkillEffectServiceTest {
     }
 
     @Test
-    void createsDamageCriticalAndVampRulesAndReadsCanonicalShape() {
+    void createsDamageCriticalAndVampOverridesAndReadsCanonicalShape() {
         stubParentAndNewKey();
         stubEnabledCatalogs();
         List<SkillEffectResultRow> results = List.of(resultRow("physical_hit", SkillEffectResultType.DAMAGE));
@@ -835,16 +835,16 @@ class SkillEffectServiceTest {
                 SkillNumericValue.formula("crit_multiplier")
             )
         ));
-        fixture.put("listVampRules", List.of(
-            new SkillEffectVampRuleRow(
+        fixture.put("listVampOverrides", List.of(
+            new SkillEffectVampOverrideRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
-                SkillEffectVampType.LIFE_STEAL,
+                SkillEffectVampType.LIFE_STEAL, xyz.game.datamanage.model.skilleffect.SkillEffectVampOverrideMode.OVERRIDE,
                 SkillEffectVampBasisOutputKind.POST_DEFENSE_DAMAGE,
                 SkillNumericValue.formula("life_steal_efficiency")
             ),
-            new SkillEffectVampRuleRow(
+            new SkillEffectVampOverrideRow(
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
-                SkillEffectVampType.OMNIVAMP,
+                SkillEffectVampType.OMNIVAMP, xyz.game.datamanage.model.skilleffect.SkillEffectVampOverrideMode.OVERRIDE,
                 SkillEffectVampBasisOutputKind.ACTUAL_HP_LOSS,
                 SkillNumericValue.formula("omnivamp_efficiency")
             )
@@ -854,15 +854,15 @@ class SkillEffectServiceTest {
             "physical",
             SkillEffectDamageDeliveryKind.SKILL,
             SkillEffectDamageOriginKind.DIRECT,
-            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.SOURCE_CRIT_CHANCE, SkillNumericValue.formula("crit_multiplier")),
+            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.SOURCE_CRIT_CHANCE, SkillNumericValue.formula("crit_multiplier")), xyz.game.datamanage.model.skilleffect.SkillEffectVampQualification.RESOLVED,
             List.of(
-                new SkillEffectVampRule(
-                    SkillEffectVampType.LIFE_STEAL,
+                new SkillEffectVampOverride(
+                    SkillEffectVampType.LIFE_STEAL, xyz.game.datamanage.model.skilleffect.SkillEffectVampOverrideMode.OVERRIDE,
                     SkillEffectVampBasisOutputKind.POST_DEFENSE_DAMAGE,
                     SkillNumericValue.formula("life_steal_efficiency")
                 ),
-                new SkillEffectVampRule(
-                    SkillEffectVampType.OMNIVAMP,
+                new SkillEffectVampOverride(
+                    SkillEffectVampType.OMNIVAMP, xyz.game.datamanage.model.skilleffect.SkillEffectVampOverrideMode.OVERRIDE,
                     SkillEffectVampBasisOutputKind.ACTUAL_HP_LOSS,
                     SkillNumericValue.formula("omnivamp_efficiency")
                 )
@@ -892,9 +892,9 @@ class SkillEffectServiceTest {
         SkillEffectDamageDetail saved = (SkillEffectDamageDetail) response.results().get(0).detail();
         assertEquals(SkillEffectCriticalMode.SOURCE_CRIT_CHANCE, saved.critical().mode());
         assertEquals(SkillNumericValue.formula("crit_multiplier"), saved.critical().multiplierValue());
-        assertEquals(2, saved.vampRules().size());
-        assertEquals(SkillEffectVampType.LIFE_STEAL, saved.vampRules().get(0).vampType());
-        assertEquals(SkillEffectVampType.OMNIVAMP, saved.vampRules().get(1).vampType());
+        assertEquals(2, saved.vampOverrides().size());
+        assertEquals(SkillEffectVampType.LIFE_STEAL, saved.vampOverrides().get(0).vampType());
+        assertEquals(SkillEffectVampType.OMNIVAMP, saved.vampOverrides().get(1).vampType());
     }
 
     @Test
@@ -904,15 +904,15 @@ class SkillEffectServiceTest {
             "physical",
             SkillEffectDamageDeliveryKind.SKILL,
             SkillEffectDamageOriginKind.DIRECT,
-            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, SkillNumericValue.formula("crit_multiplier")),
+            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, SkillNumericValue.formula("crit_multiplier")), xyz.game.datamanage.model.skilleffect.SkillEffectVampQualification.RESOLVED,
             List.of(
-                new SkillEffectVampRule(
-                    SkillEffectVampType.LIFE_STEAL,
+                new SkillEffectVampOverride(
+                    SkillEffectVampType.LIFE_STEAL, xyz.game.datamanage.model.skilleffect.SkillEffectVampOverrideMode.OVERRIDE,
                     SkillEffectVampBasisOutputKind.POST_DEFENSE_DAMAGE,
                     SkillNumericValue.formula("life_steal_efficiency")
                 ),
-                new SkillEffectVampRule(
-                    SkillEffectVampType.LIFE_STEAL,
+                new SkillEffectVampOverride(
+                    SkillEffectVampType.LIFE_STEAL, xyz.game.datamanage.model.skilleffect.SkillEffectVampOverrideMode.OVERRIDE,
                     SkillEffectVampBasisOutputKind.ACTUAL_HP_LOSS,
                     SkillNumericValue.formula("other_efficiency")
                 )
@@ -942,7 +942,7 @@ class SkillEffectServiceTest {
 
         assertEquals("400.VALIDATION_FAILED", exception.getCode());
         assertField(exception, "results[0].detail.critical.multiplierValue", "INVALID_CRITICAL_SHAPE");
-        assertField(exception, "results[0].detail.vampRules[1].vampType", "DUPLICATE_VAMP_TYPE");
+        assertField(exception, "results[0].detail.vampOverrides[1].vampType", "DUPLICATE_VAMP_TYPE");
         verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
     }
 
@@ -963,7 +963,7 @@ class SkillEffectServiceTest {
                 GAME_ID, SKILL_KEY, EFFECT_KEY, "physical_hit",
                 SkillEffectCriticalMode.DISALLOWED, null
             )));
-        fixture.put("listVampRules", List.of());
+        fixture.put("listVampOverrides", List.of());
         fixture.put("listNormalShieldInteractions", List.of());
         fixture.put("listAttributeChangeDetails", List.of());
         fixture.put("listResourceChangeDetails", List.of());
@@ -2012,6 +2012,20 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void rejectsLegacyVampFieldEvenWhenNullBeforeWriting() {
+        stubParentAndNewKey();
+        for (String legacy : List.of("null", "[]")) {
+            ObjectNode encoded = (ObjectNode) AggregateJson.tree(AggregateJson.write(damageResult("physical_hit")));
+            ((ObjectNode) encoded.path("detail")).set("vampRules", AggregateJson.tree(legacy));
+            SkillEffectResultRequest result = AggregateJson.read(encoded.toString(), SkillEffectResultRequest.class);
+            ApiException error = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+                new SkillEffectCreateRequest(EFFECT_KEY, "伤害", null, 10, List.of(result))));
+            assertField(error, "results[0].detail.vampRules", "UNKNOWN_FIELD");
+        }
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
     void createsAndReadsBackPersistentStatusApplyResultScope() {
         stubParentAndNewKey();
         stubEnabledCatalogs();
@@ -2724,7 +2738,7 @@ class SkillEffectServiceTest {
             "409.SKILL_EFFECT_IN_USE",
             "结果形状变化会使既有前序输出失效",
             Map.of("fieldIssues", List.of(Map.of(
-                "field", "results[0].detail.vampRules",
+                "field", "results[0].detail.vampOverrides",
                 "code", "TRIGGER_RULE_SHAPE_IN_USE",
                 "ruleKey", "prior",
                 "actionKey", "follow",
@@ -2740,7 +2754,7 @@ class SkillEffectServiceTest {
             )
         );
         assertEquals("409.SKILL_EFFECT_IN_USE", blocked.getCode());
-        assertField(blocked, "results[0].detail.vampRules", "TRIGGER_RULE_SHAPE_IN_USE");
+        assertField(blocked, "results[0].detail.vampOverrides", "TRIGGER_RULE_SHAPE_IN_USE");
         assertEquals("ACTUAL_HEALING", fieldIssues(blocked).get(0).get("outputKind"));
         verify(mapper, never()).updateEffect(any(), any(), any(), any(), any(), any(), any(), any());
 
@@ -2958,9 +2972,10 @@ class SkillEffectServiceTest {
                 ObjectNode critical = fixturePart("listCriticalPolicies", key);
                 if (critical != null) critical.set("mode", critical.remove("criticalMode"));
                 detail.set("critical", critical);
-                var vamp = detail.putArray("vampRules");
-                fixtureRows("listVampRules").stream().filter(item -> item.path("resultKey").asText().equals(key))
+                var vamp = detail.putArray("vampOverrides");
+                fixtureRows("listVampOverrides").stream().filter(item -> item.path("resultKey").asText().equals(key))
                     .forEach(item -> { item.remove(List.of("gameId", "skillKey", "effectKey", "resultKey")); vamp.add(item); });
+                detail.put("vampQualification", vamp.isEmpty() ? "UNRESOLVED" : "RESOLVED");
             }
             if (result.path("resultType").asText().equals("COOLDOWN_CHANGE") || result.path("resultType").asText().equals("SKILL_HASTE_MODIFIER")) {
                 ObjectNode scope = fixturePart("listSkillScopes", key);
@@ -3056,7 +3071,7 @@ class SkillEffectServiceTest {
                     SkillEffectCriticalMode.DISALLOWED, null
                 ))
                 .toList());
-        fixture.put("listVampRules", List.of());
+        fixture.put("listVampOverrides", List.of());
         fixture.put("listNormalShieldInteractions", results.stream()
                 .filter(row -> row.resultType() == SkillEffectResultType.NORMAL_SHIELD)
                 .map(row -> new SkillEffectNormalShieldInteractionRow(
