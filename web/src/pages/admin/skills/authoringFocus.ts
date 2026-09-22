@@ -146,7 +146,7 @@ const SUPPORTED_FIELDS: Record<AuthoringEditor, ReadonlySet<string>> = {
     'sourceSkillKey', 'processKey', 'stepKey', 'effectKey', 'resultKey', 'moment', 'conditionGroups', 'groupKey',
     'conditions', 'conditionKey', 'conditionType', 'actions', 'actionKey', 'actionType', 'runtimeInputBindings',
     'bindingKey', 'sourceType', 'parameterKey', 'eventValueKey', 'attributeKey', 'stateKey', 'optionKey',
-    'perTargetCooldown', 'maxTriggersPerProcess', 'targetContext', 'failureReason'
+    'perTargetCooldown', 'maxTriggersPerProcess', 'oncePerUse', 'targetContext', 'failureReason', 'scope'
   ])
 };
 

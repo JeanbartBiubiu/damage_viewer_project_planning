@@ -58,6 +58,7 @@
 - “条件与触发”新增“技能命中敌方对象”选项，仅在技能命中事件下使用；定义见规划 `master` 的《条件事件与动态输入供值管理详细设计》第6.7节。娜美R真实页面保存、重开、切换事件清理并取消恢复及独立回读已通过。三个来源技能选择器支持中文名称和稳定标识搜索；热更新连接失败时须重载后验收，不能假定旧页面已应用代码。
 - `src/types/skillTriggerRule.ts`、`src/services/skillTriggerRuleClient.ts`：技能条件与触发规则 list/get/create/update/delete（`/api/admin/games/{gameId}/skills/{skillKey}/trigger-rules`）
   - “来源对象参与击杀”使用空明细，可通过“事件对方类别”限定英雄；页面说明正式归属要求及重复入口风险。共享定义见规划真源《条件事件与动态输入供值管理详细设计》第5.4节。保存不代表战斗事件已实现。
+  - “同次使用仅触发一次”对应详情可空 `oncePerUse: {groupKey, scope}`，摘要为 `oncePerUseEnabled`。默认关闭；启用后填写共享限制键和范围（整个技能使用 / 每个目标）。只用于技能命中、普通攻击命中或普通攻击开始；切换到其他事件需确认后关闭该限制，取消保留原草稿。同技能同键的范围由后端全组校验，409 展示字段问题和冲突 `ruleKey`，前端不补值、不吞错。
 - `src/engine/genericEngineClient.ts`：通用 ABI compile / run / release
 - `src/engine/tinygoV2Bridge.ts`：低层 frame / loader
 - `src/engine/vampAdapter.ts`：通用吸血规则接入
@@ -189,7 +190,7 @@ npm run build
 npm run test:e2e:non-wasm
 ```
 
-聚焦条件与触发：`npx vitest run --config vitest.config.ts src/services/skillTriggerRuleClient.test.ts src/pages/admin/skills/triggers`，以及 `npx playwright test --config playwright.non-wasm.config.ts -g "condition and trigger"`。
+聚焦条件与触发：`npx vitest run --config vitest.config.ts src/services/skillTriggerRuleClient.test.ts src/pages/admin/skills/triggers`，以及 `npx playwright test --config playwright.non-wasm.config.ts -g "condition and trigger"`。同次使用限制管理页验收：`npx playwright test --config playwright.non-wasm.config.ts tests/e2e/authoring-p6.spec.ts`（HTTP fixtures，不依赖实库）。
 
 页面或联调行为变化时，浏览器验证覆盖受影响的路径和关键操作。共享路由、API 基址、认证或缓存变化再扩大相关回归；普通字段修改无需人工逐页遍历。完整阶段检查保持上面的命令顺序。
 

@@ -234,6 +234,12 @@ export function SkillTriggerRuleManagementModal({
       width: 100,
       render: (value: boolean) => (value ? <Tag color="arcoblue">已配置</Tag> : '—')
     },
+    {
+      title: '同次使用',
+      dataIndex: 'oncePerUseEnabled',
+      width: 100,
+      render: (value: boolean) => (value ? <Tag color="arcoblue">已配置</Tag> : '—')
+    },
     { title: '排序', dataIndex: 'sortOrder', width: 80 },
     {
       title: '更新时间',

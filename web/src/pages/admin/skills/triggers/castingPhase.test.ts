@@ -107,7 +107,8 @@ function ruleBody(eventSource: unknown, actions: unknown[]): Record<string, unkn
     conditionGroups: [],
     actions,
     perTargetCooldown: null,
-    maxTriggersPerProcess: null
+    maxTriggersPerProcess: null,
+    oncePerUse: null
   };
 }
 
