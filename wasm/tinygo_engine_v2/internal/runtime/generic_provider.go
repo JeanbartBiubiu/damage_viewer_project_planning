@@ -432,8 +432,9 @@ func providerFormulaContextFromBag(bag *providerStateBag, activeTargetKey string
 		}
 	}
 	ctx := formula.GenericEvalContext{
-		HasProviderContext: true,
-		ProviderState:      bag.state,
+		HasProviderContext:    true,
+		ProviderState:         bag.state,
+		ProviderStateDefaults: bag.defaultsForFormula(),
 	}
 	if activeTargetKey != "" && bag.targetKey == activeTargetKey {
 		ctx.ProviderTargetState = bag.targetStateForFormula()

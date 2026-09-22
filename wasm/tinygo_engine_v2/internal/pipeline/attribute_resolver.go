@@ -223,6 +223,7 @@ func (r AttributeResolver) ResolveAttributesWithProviderContext(
 				modCtx.HasProviderContext = pctx.HasProviderContext
 				modCtx.ProviderState = pctx.ProviderState
 				modCtx.ProviderTargetState = pctx.ProviderTargetState
+				modCtx.ProviderStateDefaults = pctx.ProviderStateDefaults
 			}
 			value, err := formulas.Eval(mod.ValueProgram, modCtx)
 			if err != nil || math.IsNaN(value) || math.IsInf(value, 0) {

@@ -561,6 +561,7 @@ func TestEnergizedUntimedCappedStructuredSchemaCompileSuccess(t *testing.T) {
 	}
 	seedEnergizedCharge(&runReq, 90)
 	setEnergizedDriverHits(&runReq, 1)
+	bindFactsForBasicAttackResolves(&compileReq, &runReq)
 	done, err := RunGeneric(result.Session, runReq)
 	if err != nil {
 		t.Fatal(err)

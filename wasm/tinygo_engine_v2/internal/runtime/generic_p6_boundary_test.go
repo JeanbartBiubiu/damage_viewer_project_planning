@@ -122,3 +122,52 @@ func TestP6AttackStartReverseActorsPreserveOriginalUse(t *testing.T) {
 		t.Fatal("missing native attack-start event")
 	}
 }
+
+func TestP6BasicAttackCannotInventMissingUseFacts(t *testing.T) {
+	c, r := loadBasicFixture(t)
+	ensureNativeBasicAttackCatalog(&c)
+	c.SharedProviders[0].Abilities = []model.AbilityDefinition{nativeHitAbility("aa_hit", "actual_attack", nil)}
+	r.DriverPlan.Entries = []model.DriverEntry{{EntryKey: "unproven_hit", AbilityRef: "source.provider[champion:source_demo].ability[aa_hit]", Source: "source", Target: "target"}}
+	r.SkillUses = nil
+	r.SkillHitFacts = nil
+	compiled := compile.CompileGeneric(c)
+	if !compiled.OK {
+		t.Fatalf("compile: %+v", compiled.Result.Errors)
+	}
+	if _, err := RunGeneric(compiled.Session, r); err == nil {
+		t.Fatal("missing attack use facts must fail, not mint a complete use from an entry key")
+	}
+}
+
+func TestP6ListenerMissingStateOrResourceIsNotZero(t *testing.T) {
+	for _, path := range []string{"provider.state.unknown", "provider.target_state.unknown", "source.resource.unknown.current"} {
+		t.Run(path, func(t *testing.T) {
+			c, r := p6SkillHit(t, []model.ListenerDefinition{{ListenerKey: "strict", EventMatcher: model.TypeMatcher{All: []string{model.EventTypeSkillHit}}, Condition: p6Eq(path, 0), Operations: []model.OperationDefinition{p6StateAdd("count", 1)}}}, map[string]interface{}{"count": p6SchemaField(0, 99, 0, "")}, 1, true, 50)
+			p6MustFailRun(t, c, r)
+		})
+	}
+}
+
+func TestP6TargetStateConditionUsesDeclaredNonzeroDefault(t *testing.T) {
+	c, r := p6SkillHit(t, []model.ListenerDefinition{{ListenerKey: "default", EventMatcher: model.TypeMatcher{All: []string{model.EventTypeSkillHit}}, Condition: p6Eq("provider.target_state.count", 5), Operations: []model.OperationDefinition{p6StateAdd("procs", 1)}}}, map[string]interface{}{"count": p6SchemaField(5, 99, 0, ""), "procs": p6SchemaField(0, 99, 0, "")}, 1, true, 50)
+	done := p6MustRun(t, c, r)
+	if got := p6State(t, done, "procs"); got != 1 {
+		t.Fatalf("declared target default must stay 5, got procs=%v", got)
+	}
+}
+
+func TestP6ListenerCannotInventMutationSlots(t *testing.T) {
+	for _, kind := range []string{"resource_change", "attribute_change"} {
+		t.Run(kind, func(t *testing.T) {
+			op := model.OperationDefinition{Operation: kind, Target: "source", ResourceKey: "unknown", AttributeKey: "unknown", ValuePolicy: "add", Amount: p6Amt(5)}
+			if kind == "resource_change" {
+				op.AttributeKey = ""
+				op.ValuePolicy = ""
+			} else {
+				op.ResourceKey = ""
+			}
+			c, r := p6SkillHit(t, []model.ListenerDefinition{{ListenerKey: "strict", EventMatcher: model.TypeMatcher{All: []string{model.EventTypeSkillHit}}, Condition: p6Eq("provider.state.count", 0), Operations: []model.OperationDefinition{op}}}, map[string]interface{}{"count": p6SchemaField(0, 99, 0, "")}, 1, true, 50)
+			p6MustFailRun(t, c, r)
+		})
+	}
+}
