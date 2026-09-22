@@ -106,9 +106,9 @@ const CATALOG: EffectFormCatalog = {
     { statusKey: 'old_poison', status: 'DISABLED', statusKind: 'STUN' }
   ],
   modifierZones: [
-    { modifierZoneKey: 'attribute_percent', domain: 'ATTRIBUTE', status: 'ENABLED' },
-    { modifierZoneKey: 'damage_ratio', domain: 'DAMAGE', status: 'ENABLED' },
-    { modifierZoneKey: 'healing_ratio', domain: 'HEALING', status: 'ENABLED' }
+    { modifierZoneKey: 'attribute_percent', domain: 'ATTRIBUTE', status: 'ENABLED', calculationMode: 'RATIO_ADD' },
+    { modifierZoneKey: 'damage_ratio', domain: 'DAMAGE', status: 'ENABLED', calculationMode: 'RATIO_ADD' },
+    { modifierZoneKey: 'healing_ratio', domain: 'HEALING', status: 'ENABLED', calculationMode: 'RATIO_ADD' }
   ]
 };
 

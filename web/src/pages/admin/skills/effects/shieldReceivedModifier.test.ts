@@ -31,7 +31,7 @@ const effect: SkillEffect = {
 const catalog: EffectFormCatalog = {
   parentSkillKey: effect.skillKey, formulas: [], effects: [], damageTypes: [], attributes: [],
   skills: [], skillCategories: [], statuses: [],
-  modifierZones: [{ modifierZoneKey: 'shield_received_ratio', domain: 'SHIELD', status: 'ENABLED' }]
+  modifierZones: [{ modifierZoneKey: 'shield_received_ratio', domain: 'SHIELD', status: 'ENABLED', calculationMode: 'RATIO_ADD' }]
 };
 
 describe('收到普通护盾修正管理契约', () => {
@@ -47,7 +47,7 @@ describe('收到普通护盾修正管理契约', () => {
   it('requires a shield zone and rejects substituting a healing zone', () => {
     const validation = validateSkillEffectDraft(skillEffectToDraft(effect), {
       includeEffectKey: true, catalog: { ...catalog,
-        modifierZones: [{ modifierZoneKey: 'shield_received_ratio', domain: 'HEALING', status: 'ENABLED' }] }
+        modifierZones: [{ modifierZoneKey: 'shield_received_ratio', domain: 'HEALING', status: 'ENABLED', calculationMode: 'RATIO_ADD' }] }
     });
     expect(validation.ok).toBe(false);
     if (validation.ok) throw new Error('must reject the wrong domain');
