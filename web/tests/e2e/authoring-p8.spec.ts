@@ -162,7 +162,7 @@ function rules(): Json[] {
         actionKey: 'start', name: '启动', actionType: 'START_PROCESS', sortOrder: 0, targetContext: 'CURRENT_TARGET',
         detail: { processKey: 'cast' }, runtimeInputBindings: [], resultModifiers: []
       }],
-      perTargetCooldown: null, maxTriggersPerProcess: null
+      perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null
     },
     {
       ruleKey: 'on_hit', name: '技能命中', description: null, sortOrder: 1,
@@ -180,12 +180,12 @@ function rules(): Json[] {
         }],
         resultModifiers: []
       }],
-      perTargetCooldown: null, maxTriggersPerProcess: null
+      perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null
     },
     {
       ruleKey: 'on_init', name: '初始化', description: null, sortOrder: 2,
       eventSource: { eventType: 'SOURCE_INITIALIZED', detail: {} },
-      conditionGroups: [], actions: [], perTargetCooldown: null, maxTriggersPerProcess: null
+      conditionGroups: [], actions: [], perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null
     }
   ];
 }
@@ -639,7 +639,7 @@ class AuthoringP8Api {
           ruleKey: item.ruleKey, name: item.name, description: item.description, eventType: (item.eventSource as Json).eventType,
           conditionGroupCount: Array.isArray(item.conditionGroups) ? item.conditionGroups.length : 0,
           actionCount: Array.isArray(item.actions) ? item.actions.length : 0,
-          perTargetCooldownEnabled: false, maxTriggersPerProcessEnabled: false,
+          perTargetCooldownEnabled: false, maxTriggersPerProcessEnabled: false, oncePerUseEnabled: false,
           sortOrder: item.sortOrder, updatedAt: NOW
         })));
         return;
@@ -725,7 +725,9 @@ test('技能行为总览五组、资源扣减说明、未启动被动，以及�
   await expect(restoreRows.nth(1)).not.toContainText(RESOURCE_NOTE);
   await expect(overview.getByText('触发规则：技能命中（on_hit）').first()).toBeVisible();
   await expect(overview.getByText('效果结果：命中效果 / 秘术伤害').first()).toBeVisible();
-  await expect(overview.getByText('过程效果挂接：施放过程 → hit').first()).toBeVisible();
+  const effectBinding = overview.getByRole('row').filter({ hasText: '过程效果挂接：施放过程 → 命中效果（hit）' }).first();
+  await expect(effectBinding).toBeVisible();
+  await expect(effectBinding.getByRole('cell').nth(2)).toContainText('当前目标');
   await expect(overview.getByText('未启动过程：被动光环（aura）')).toBeVisible();
   await expect(overview.getByText('未启动过程：充能过程（charge）')).toBeVisible();
   await expect(overview.getByText('未挂接效果：未挂接（orphan）')).toBeVisible();

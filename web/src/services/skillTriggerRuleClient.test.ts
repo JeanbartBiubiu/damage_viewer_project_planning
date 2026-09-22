@@ -34,6 +34,7 @@ const summary: SkillTriggerRuleSummary = {
   actionCount: 2,
   perTargetCooldownEnabled: false,
   maxTriggersPerProcessEnabled: false,
+  oncePerUseEnabled: false,
   sortOrder: 10,
   updatedAt: '2026-08-30T00:00:00Z'
 };
@@ -71,7 +72,8 @@ const detail: SkillTriggerRuleDetail = {
     }
   ],
   perTargetCooldown: null,
-  maxTriggersPerProcess: null
+  maxTriggersPerProcess: null,
+  oncePerUse: null
 };
 
 const createBody: CreateSkillTriggerRuleRequest = {
@@ -83,7 +85,8 @@ const createBody: CreateSkillTriggerRuleRequest = {
   conditionGroups: detail.conditionGroups,
   actions: detail.actions,
   perTargetCooldown: null,
-  maxTriggersPerProcess: null
+  maxTriggersPerProcess: null,
+  oncePerUse: null
 };
 
 const updateBody: UpdateSkillTriggerRuleRequest = {
@@ -94,7 +97,8 @@ const updateBody: UpdateSkillTriggerRuleRequest = {
   conditionGroups: detail.conditionGroups,
   actions: detail.actions,
   perTargetCooldown: null,
-  maxTriggersPerProcess: null
+  maxTriggersPerProcess: null,
+  oncePerUse: null
 };
 
 describe('skillTriggerRuleClient', () => {
@@ -296,6 +300,7 @@ describe('skillTriggerRuleClient', () => {
     });
     expect(parsed.perTargetCooldown).toBeNull();
     expect(parsed.maxTriggersPerProcess).toBeNull();
+    expect(parsed.oncePerUse).toBeNull();
   });
 
   it('rejects mismatched event detail shapes as protocol errors', () => {
@@ -754,5 +759,33 @@ describe('技能命中法术护盾事件值响应', () => {
       expect(() => parseSkillTriggerRuleDetail(response({ ...conditionDetail, ...extra }))).toThrow(SkillTriggerRuleProtocolError);
     }
     expect(() => parseSkillTriggerRuleDetail(response(conditionDetail, { eventValueKey: valueKey, value: 1 }))).toThrow(SkillTriggerRuleProtocolError);
+  });
+});
+
+describe('oncePerUse response contract', () => {
+  it('requires summary boolean and detail null or exact groupKey/scope', () => {
+    expect(parseSkillTriggerRuleSummary({ ...summary, oncePerUseEnabled: true }).oncePerUseEnabled).toBe(true);
+    expect(() => parseSkillTriggerRuleSummary({ ...summary, oncePerUseEnabled: undefined }))
+      .toThrow(/summary\.oncePerUseEnabled/);
+    expect(parseSkillTriggerRuleDetail({
+      ...detail,
+      oncePerUse: { groupKey: 'eclipse', scope: 'TARGET' }
+    }).oncePerUse).toEqual({ groupKey: 'eclipse', scope: 'TARGET' });
+    expect(parseSkillTriggerRuleDetail({ ...detail, oncePerUse: null }).oncePerUse).toBeNull();
+  });
+
+  it.each([
+    undefined,
+    [],
+    '',
+    0,
+    true,
+    { groupKey: 'eclipse' },
+    { scope: 'SKILL' },
+    { groupKey: 'Eclipse', scope: 'SKILL' },
+    { groupKey: 'eclipse', scope: 'PROVIDER' },
+    { groupKey: 'eclipse', scope: 'SKILL', quota: 1 }
+  ])('rejects illegal oncePerUse %j', (oncePerUse) => {
+    expect(() => parseSkillTriggerRuleDetail({ ...detail, oncePerUse })).toThrow(/detail\.oncePerUse/);
   });
 });
