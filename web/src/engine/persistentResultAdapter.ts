@@ -261,7 +261,10 @@ function adaptHealingRatioMax(
   };
 }
 
-export function adaptPersistentResult(authored: AuthoredPersistentResult, providerKey: string): AdaptedPersistentResult {
+function compilePersistentResultBody(
+  authored: AuthoredPersistentResult,
+  providerKey: string
+): AdaptedPersistentResult {
   catalogKey(authored.gameId, 'gameId');
   catalogKey(authored.skillKey, 'skillKey');
   catalogKey(authored.effectKey, 'effectKey');
@@ -273,7 +276,6 @@ export function adaptPersistentResult(authored: AuthoredPersistentResult, provid
   const resultPath = `${root}.results.${authored.result.resultKey}`;
   assertTargetContext(authored, root);
   assertParentLifecycle(authored, `${root}.lifecycle`);
-  assertNoUnsupportedBlock(authored, resultPath);
   if (authored.result.resultType === 'STATUS_OPERATION') {
     return adaptMovementSlow(authored, providerKey, root, resultPath);
   }
@@ -281,6 +283,21 @@ export function adaptPersistentResult(authored: AuthoredPersistentResult, provid
     return adaptHealingRatioMax(authored, providerKey, root, resultPath);
   }
   return fail(`${resultPath}.resultType`, '本期只支持普通移动减速施加和受到治疗降低 RATIO_MAX');
+}
+
+/** 命中入口复用的持续结果编译；保留原法术护盾粒度，不在这里拒绝或改写。 */
+export function compilePersistentResult(authored: AuthoredPersistentResult, providerKey: string): AdaptedPersistentResult {
+  return compilePersistentResultBody(authored, providerKey);
+}
+
+export function adaptPersistentResult(authored: AuthoredPersistentResult, providerKey: string): AdaptedPersistentResult {
+  catalogKey(authored.skillKey, 'skillKey');
+  catalogKey(authored.effectKey, 'effectKey');
+  catalogKey(authored.result.resultKey, 'resultKey');
+  const root = `skills.${authored.skillKey}.effects.${authored.effectKey}`;
+  const resultPath = `${root}.results.${authored.result.resultKey}`;
+  assertNoUnsupportedBlock(authored, resultPath);
+  return compilePersistentResultBody(authored, providerKey);
 }
 
 function noteHealGroupMode(
