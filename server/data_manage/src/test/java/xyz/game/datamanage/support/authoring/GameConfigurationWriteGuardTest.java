@@ -51,6 +51,7 @@ class GameConfigurationWriteGuardTest {
         lenient().when(jdbc.queryForList(GameVampRuleSemantics.CATEGORIES_SQL, String.class, "lol")).thenReturn(List.of());
         lenient().when(jdbc.queryForList(GameVampRuleSemantics.ATTRIBUTES_SQL, "lol")).thenReturn(List.of());
         lenient().when(jdbc.queryForList(GameVampRuleSemantics.SKILL_CATEGORIES_SQL, "lol")).thenReturn(List.of());
+        lenient().when(jdbc.queryForList(HealingRatioMaxSemantics.ZONES_SQL, "lol")).thenReturn(List.of());
     }
 
     @AfterEach
@@ -385,6 +386,54 @@ class GameConfigurationWriteGuardTest {
         verify(jdbc, never()).update(DELETE_SQL, "lol");
         verify(connection).rollback();
         verify(connection, never()).commit();
+    }
+
+    @Test
+    void finalHealingRatioMaxCombinationBypassRollsBackBeforeReferenceReplacement() throws Exception {
+        Connection connection = connection();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of(
+            Map.of("target_type", "MODIFIER_ZONE", "skill_key", "", "object_key", "foo")));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "source_type", "EFFECT", "skill_key", "skill", "source_key", "effect", "data", """
+                {"results":[{"resultKey":"grievous","resultType":"HEALING_MODIFIER","detail":{
+                  "modifierZoneKey":"foo","direction":"DONE","operation":"INCREASE","healingKind":"ANY"},
+                  "valueRule":{"value":{"kind":"FIXED","value":0.4},"fixedMultiplier":1}}]}
+                """)));
+        when(jdbc.queryForList(HealingRatioMaxSemantics.ZONES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "modifier_zone_key", "foo", "domain", "HEALING", "calculation_mode", "RATIO_MAX")));
+        ApiException error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            jdbc.update("UPDATE healing modifier bypass for test");
+            return null;
+        }));
+        assertEquals("409.SKILL_OBJECT_REFERENCE_INVALID", error.getCode());
+        assertTrue(error.getDetails().toString().contains("results[0].detail.direction"));
+        assertTrue(error.getDetails().toString().contains("results[0].detail.operation"));
+        verify(jdbc).update("UPDATE healing modifier bypass for test");
+        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(connection).rollback();
+        verify(connection, never()).commit();
+    }
+
+    @Test
+    void finalHealingRatioMaxKeepsRatioAddIncrease() throws Exception {
+        Connection connection = connection();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of(
+            Map.of("target_type", "MODIFIER_ZONE", "skill_key", "", "object_key", "healing_ratio_max")));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "source_type", "EFFECT", "skill_key", "skill", "source_key", "effect", "data", """
+                {"results":[{"resultKey":"boost","resultType":"HEALING_MODIFIER","detail":{
+                  "modifierZoneKey":"healing_ratio_max","direction":"DONE","operation":"INCREASE","healingKind":"DIRECT"},
+                  "valueRule":{"value":{"kind":"FIXED","value":0.4},"fixedMultiplier":1}}]}
+                """)));
+        when(jdbc.queryForList(HealingRatioMaxSemantics.ZONES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "modifier_zone_key", "healing_ratio_max", "domain", "HEALING", "calculation_mode", "RATIO_ADD")));
+        transaction(connection).execute(status -> {
+            guard.begin("lol");
+            return null;
+        });
+        verify(jdbc).update(DELETE_SQL, "lol");
+        verify(connection).commit();
     }
 
     private static Map<String, Object> formulaRow() {

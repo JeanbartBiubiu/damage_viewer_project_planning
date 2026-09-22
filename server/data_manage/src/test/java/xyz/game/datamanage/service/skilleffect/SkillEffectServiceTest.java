@@ -37,6 +37,7 @@ import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
+import xyz.game.datamanage.model.modifierzone.ModifierZoneCalculationMode;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
 import xyz.game.datamanage.model.skill.SkillRow;
@@ -173,7 +174,7 @@ class SkillEffectServiceTest {
         stubEnabledCatalogs();
         when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
         when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
-            new SkillEffectModifierZoneLockRow("shield_ratio", ModifierZoneDomain.SHIELD, ModifierZoneStatus.ENABLED)
+            new SkillEffectModifierZoneLockRow("shield_ratio", ModifierZoneDomain.SHIELD, ModifierZoneCalculationMode.RATIO_ADD, ModifierZoneStatus.ENABLED)
         ));
         SkillEffectResultRequest result = shieldReceivedModifierResult();
         SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
@@ -288,13 +289,13 @@ class SkillEffectServiceTest {
         stubEnabledCatalogs();
         SkillEffectResultRequest result = shieldReceivedModifierResult();
         when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
-            new SkillEffectModifierZoneLockRow("shield_ratio", ModifierZoneDomain.HEALING, ModifierZoneStatus.ENABLED)
+            new SkillEffectModifierZoneLockRow("shield_ratio", ModifierZoneDomain.HEALING, ModifierZoneCalculationMode.RATIO_ADD, ModifierZoneStatus.ENABLED)
         ));
         ApiException wrongDomain = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
             new SkillEffectCreateRequest(EFFECT_KEY, "护盾修正", null, 10, timedLifecycle(), List.of(result))));
         assertField(wrongDomain, "results[0].detail.modifierZoneKey", "MODIFIER_ZONE_DOMAIN_MISMATCH");
         when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
-            new SkillEffectModifierZoneLockRow("shield_ratio", ModifierZoneDomain.SHIELD, ModifierZoneStatus.ENABLED)
+            new SkillEffectModifierZoneLockRow("shield_ratio", ModifierZoneDomain.SHIELD, ModifierZoneCalculationMode.RATIO_ADD, ModifierZoneStatus.ENABLED)
         ));
         ApiException noLifecycle = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
             new SkillEffectCreateRequest(EFFECT_KEY, "护盾修正", null, 10, null, List.of(result))));
@@ -318,6 +319,168 @@ class SkillEffectServiceTest {
             SkillEffectResultType.SHIELD_RECEIVED_MODIFIER, SkillEffectTarget.SOURCE, null, 1, valueRule(),
             new xyz.game.datamanage.model.skilleffect.SkillEffectShieldReceivedModifierDetail(
                 "shield_ratio", SkillEffectModifierOperation.INCREASE), persistentShared());
+    }
+
+    @Test
+    void ratioMaxHealingModifierAcceptsFortyPercentAndKeepsRatioAddMeanings() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow(
+                "foo", ModifierZoneDomain.HEALING, ModifierZoneCalculationMode.RATIO_MAX, ModifierZoneStatus.ENABLED)
+        ));
+        for (SkillEffectHealingKind kind : SkillEffectHealingKind.values()) {
+            SkillEffectResultRequest result = healingModifierResult(
+                "foo",
+                SkillEffectHealingModifierDirection.RECEIVED,
+                SkillEffectModifierOperation.DECREASE,
+                kind,
+                fortyPercentRule()
+            );
+            SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+                EFFECT_KEY, "重伤", null, 10, timedLifecycle(), List.of(result)
+            ));
+            var detail = assertInstanceOf(SkillEffectHealingModifierDetail.class, saved.results().getFirst().detail());
+            assertEquals("foo", detail.modifierZoneKey());
+            assertEquals(SkillEffectHealingModifierDirection.RECEIVED, detail.direction());
+            assertEquals(SkillEffectModifierOperation.DECREASE, detail.operation());
+            assertEquals(kind, detail.healingKind());
+            assertEquals(new BigDecimal("0.4"), saved.results().getFirst().valueRule().value().value());
+        }
+
+        stubParentAndNewKey();
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow(
+                "healing_ratio_max",
+                ModifierZoneDomain.HEALING,
+                ModifierZoneCalculationMode.RATIO_ADD,
+                ModifierZoneStatus.ENABLED)
+        ));
+        SkillEffectResultRequest additive = healingModifierResult(
+            "healing_ratio_max",
+            SkillEffectHealingModifierDirection.DONE,
+            SkillEffectModifierOperation.INCREASE,
+            SkillEffectHealingKind.DIRECT,
+            fortyPercentRule()
+        );
+        SkillEffectDetailResponse kept = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+            EFFECT_KEY, "治疗增幅", null, 10, timedLifecycle(), List.of(additive)
+        ));
+        var additiveDetail = assertInstanceOf(SkillEffectHealingModifierDetail.class, kept.results().getFirst().detail());
+        assertEquals(SkillEffectHealingModifierDirection.DONE, additiveDetail.direction());
+        assertEquals(SkillEffectModifierOperation.INCREASE, additiveDetail.operation());
+    }
+
+    @Test
+    void ratioMaxHealingModifierRejectsWrongDomainIncreaseAndDoneDirection() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow(
+                "foo", ModifierZoneDomain.DAMAGE, ModifierZoneCalculationMode.RATIO_MAX, ModifierZoneStatus.ENABLED)
+        ));
+        ApiException wrongDomain = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "重伤", null, 10, timedLifecycle(), List.of(
+                healingModifierResult(
+                    "foo",
+                    SkillEffectHealingModifierDirection.RECEIVED,
+                    SkillEffectModifierOperation.DECREASE,
+                    SkillEffectHealingKind.ANY,
+                    fortyPercentRule()
+                )
+            ))));
+        assertField(wrongDomain, "results[0].detail.modifierZoneKey", "MODIFIER_ZONE_DOMAIN_MISMATCH");
+
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow(
+                "foo", ModifierZoneDomain.HEALING, ModifierZoneCalculationMode.RATIO_MAX, ModifierZoneStatus.ENABLED)
+        ));
+        ApiException increase = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "重伤", null, 10, timedLifecycle(), List.of(
+                healingModifierResult(
+                    "foo",
+                    SkillEffectHealingModifierDirection.RECEIVED,
+                    SkillEffectModifierOperation.INCREASE,
+                    SkillEffectHealingKind.ANY,
+                    fortyPercentRule()
+                )
+            ))));
+        assertField(increase, "results[0].detail.operation", "OPERATION_INVALID");
+        ApiException done = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "重伤", null, 10, timedLifecycle(), List.of(
+                healingModifierResult(
+                    "foo",
+                    SkillEffectHealingModifierDirection.DONE,
+                    SkillEffectModifierOperation.DECREASE,
+                    SkillEffectHealingKind.VAMP,
+                    fortyPercentRule()
+                )
+            ))));
+        assertField(done, "results[0].detail.direction", "DIRECTION_INVALID");
+        verify(mapper, never()).insertEffect(any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void ratioMaxLockUsesCatalogModeAndAllowsDisabledRetainedReference() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        SkillEffectResultRequest result = healingModifierResult(
+            "foo",
+            SkillEffectHealingModifierDirection.RECEIVED,
+            SkillEffectModifierOperation.DECREASE,
+            SkillEffectHealingKind.ANY,
+            fortyPercentRule()
+        );
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow(
+                "foo", ModifierZoneDomain.HEALING, ModifierZoneCalculationMode.RATIO_MAX, ModifierZoneStatus.ENABLED)
+        ));
+        service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+            EFFECT_KEY, "重伤", null, 10, timedLifecycle(), List.of(result)
+        ));
+
+        when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
+        when(mapper.findEffectForUpdate(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow(
+                "foo", ModifierZoneDomain.HEALING, ModifierZoneCalculationMode.RATIO_MAX, ModifierZoneStatus.DISABLED)
+        ));
+        SkillEffectDetailResponse updated = service.update(GAME_ID, SKILL_KEY, EFFECT_KEY, new SkillEffectUpdateRequest(
+            null, "重伤", null, 10, timedLifecycle(), List.of(result)
+        ));
+        assertEquals("foo", ((SkillEffectHealingModifierDetail) updated.results().getFirst().detail()).modifierZoneKey());
+
+        stubParentAndNewKey();
+        ApiException disabledNew = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "新重伤", null, 10, timedLifecycle(), List.of(result))));
+        assertEquals("409.SKILL_EFFECT_REFERENCE_DISABLED", disabledNew.getCode());
+        assertField(disabledNew, "results[0].detail.modifierZoneKey", "MODIFIER_ZONE_DISABLED");
+    }
+
+    private static SkillEffectResultRequest healingModifierResult(
+        String zoneKey,
+        SkillEffectHealingModifierDirection direction,
+        SkillEffectModifierOperation operation,
+        SkillEffectHealingKind healingKind,
+        SkillEffectValueRuleRequest valueRule
+    ) {
+        return new SkillEffectResultRequest(
+            "healing_reduction",
+            "治疗修正",
+            SkillEffectResultType.HEALING_MODIFIER,
+            SkillEffectTarget.SOURCE,
+            null,
+            1,
+            valueRule,
+            new SkillEffectHealingModifierDetail(zoneKey, direction, operation, healingKind),
+            persistentShared()
+        );
+    }
+
+    private static SkillEffectValueRuleRequest fortyPercentRule() {
+        return new SkillEffectValueRuleRequest(SkillNumericValue.fixed(new BigDecimal("0.4")), BigDecimal.ONE, null, null);
     }
 
     @Test
@@ -754,6 +917,7 @@ class SkillEffectServiceTest {
             new SkillEffectModifierZoneLockRow(
                 DAMAGE_ZONE_KEY,
                 ModifierZoneDomain.HEALING,
+                ModifierZoneCalculationMode.RATIO_ADD,
                 ModifierZoneStatus.ENABLED
             )
         ));
@@ -3113,7 +3277,8 @@ class SkillEffectServiceTest {
                 ModifierZoneDomain domain = HEALING_ZONE_KEY.equals(key)
                     ? ModifierZoneDomain.HEALING
                     : ModifierZoneDomain.DAMAGE;
-                rows.add(new SkillEffectModifierZoneLockRow(key, domain, ModifierZoneStatus.ENABLED));
+                rows.add(new SkillEffectModifierZoneLockRow(
+                    key, domain, ModifierZoneCalculationMode.RATIO_ADD, ModifierZoneStatus.ENABLED));
             }
             return rows;
         });

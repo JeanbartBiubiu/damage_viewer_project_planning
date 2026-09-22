@@ -24,11 +24,13 @@ public class GameConfigurationWriteGuard {
     private final JdbcTemplate jdbc;
     private final SkillNumericSemantics numericSemantics;
     private final GameVampRuleSemantics vampSemantics;
+    private final HealingRatioMaxSemantics healingRatioMaxSemantics;
 
     public GameConfigurationWriteGuard(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
         this.numericSemantics = new SkillNumericSemantics(jdbc);
         this.vampSemantics = new GameVampRuleSemantics(jdbc);
+        this.healingRatioMaxSemantics = new HealingRatioMaxSemantics(jdbc);
     }
 
     public void begin(String gameId) {
@@ -101,6 +103,7 @@ public class GameConfigurationWriteGuard {
         SkillHitTargetIsEnemyConditionSemantics.validate(aggregates);
         SkillCastingPhaseSemantics.validate(aggregates);
         vampSemantics.validate(gameId, aggregates);
+        healingRatioMaxSemantics.validate(gameId, aggregates);
         numericSemantics.validate(gameId, aggregates);
         jdbc.update("DELETE FROM public.skill_object_references WHERE game_id = ?", gameId);
         if (!references.isEmpty()) {

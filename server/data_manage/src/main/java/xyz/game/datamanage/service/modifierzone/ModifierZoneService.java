@@ -16,6 +16,7 @@ import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.modifierzone.ModifierZoneMapper;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneApplicationStage;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneCalculationMode;
+import xyz.game.datamanage.model.modifierzone.ModifierZoneCombinations;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneCreateRequest;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneListQuery;
@@ -284,8 +285,11 @@ public class ModifierZoneService {
             issues.add(fieldIssue("applicationStage", "REQUIRED", "应用阶段不能为空"));
         }
         if (domain != null && calculationMode != null && applicationStage != null
-            && !validCombination(domain, calculationMode, applicationStage)) {
-            issues.add(fieldIssue("applicationStage", "COMBINATION_INVALID", "作用域、计算方式和应用阶段组合不合法"));
+            && !ModifierZoneCombinations.isLegal(domain, calculationMode, applicationStage)) {
+            String field = calculationMode == ModifierZoneCalculationMode.RATIO_MAX
+                ? "calculationMode"
+                : "applicationStage";
+            issues.add(fieldIssue(field, "COMBINATION_INVALID", "作用域、计算方式和应用阶段组合不合法"));
         }
         if (description != null && description.length() > 2000) {
             issues.add(fieldIssue("description", "LENGTH_INVALID", "说明不能超过2000个字符"));
@@ -298,29 +302,6 @@ public class ModifierZoneService {
         } else if (sortOrder < 0) {
             issues.add(fieldIssue("sortOrder", "RANGE_INVALID", "排序不能小于0"));
         }
-    }
-
-    private static boolean validCombination(
-        ModifierZoneDomain domain,
-        ModifierZoneCalculationMode mode,
-        ModifierZoneApplicationStage stage
-    ) {
-        return (domain == ModifierZoneDomain.ATTRIBUTE
-                && mode == ModifierZoneCalculationMode.FLAT_ADD
-                && stage == ModifierZoneApplicationStage.ATTRIBUTE_FLAT)
-            || (domain == ModifierZoneDomain.ATTRIBUTE
-                && mode == ModifierZoneCalculationMode.RATIO_ADD
-                && stage == ModifierZoneApplicationStage.ATTRIBUTE_PERCENT)
-            || (domain == ModifierZoneDomain.DAMAGE
-                && mode == ModifierZoneCalculationMode.RATIO_ADD
-                && (stage == ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE
-                    || stage == ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE))
-            || (domain == ModifierZoneDomain.HEALING
-                && mode == ModifierZoneCalculationMode.RATIO_ADD
-                && stage == ModifierZoneApplicationStage.HEALING_RESULT)
-            || (domain == ModifierZoneDomain.SHIELD
-                && mode == ModifierZoneCalculationMode.RATIO_ADD
-                && stage == ModifierZoneApplicationStage.SHIELD_RESULT);
     }
 
     private static <E extends Enum<E>> String normalizeEnum(

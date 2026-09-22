@@ -54,6 +54,57 @@ class ModifierZoneServiceTest {
     }
 
     @Test
+    void ratioMaxOnlyAllowsHealingResultAndBlocksReferencedStructureChange() {
+        ApiException damage = assertThrows(ApiException.class, () -> service.create(GAME_ID,
+            new ModifierZoneCreateRequest(KEY, "错误伤害取强", ModifierZoneDomain.DAMAGE,
+                ModifierZoneCalculationMode.RATIO_MAX, ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE,
+                null, ModifierZoneStatus.ENABLED, 0)));
+        assertEquals("400.VALIDATION_FAILED", damage.getCode());
+        assertEquals("calculationMode", field(damage));
+        ApiException shield = assertThrows(ApiException.class, () -> service.create(GAME_ID,
+            new ModifierZoneCreateRequest(KEY, "错误护盾取强", ModifierZoneDomain.SHIELD,
+                ModifierZoneCalculationMode.RATIO_MAX, ModifierZoneApplicationStage.SHIELD_RESULT,
+                null, ModifierZoneStatus.ENABLED, 0)));
+        assertEquals("400.VALIDATION_FAILED", shield.getCode());
+        assertEquals("calculationMode", field(shield));
+        when(mapper.countByKey(GAME_ID, "grievous")).thenReturn(0L);
+        when(mapper.countByNormalizedName(GAME_ID, "重伤", null)).thenReturn(0L);
+        when(mapper.insert(
+            GAME_ID, "grievous", "重伤", "HEALING", "RATIO_MAX",
+            "HEALING_RESULT", null, "ENABLED", 10
+        )).thenReturn(1);
+        OffsetDateTime timestamp = OffsetDateTime.parse("2026-08-31T00:00:00Z");
+        when(mapper.findById(GAME_ID, "grievous")).thenReturn(new ModifierZoneResponse(
+            GAME_ID, "grievous", "重伤", ModifierZoneDomain.HEALING,
+            ModifierZoneCalculationMode.RATIO_MAX, ModifierZoneApplicationStage.HEALING_RESULT,
+            null, ModifierZoneStatus.ENABLED, 10, timestamp, timestamp
+        ));
+        assertEquals(
+            ModifierZoneCalculationMode.RATIO_MAX,
+            service.create(GAME_ID, new ModifierZoneCreateRequest(
+                "grievous", "重伤", ModifierZoneDomain.HEALING,
+                ModifierZoneCalculationMode.RATIO_MAX, ModifierZoneApplicationStage.HEALING_RESULT,
+                null, ModifierZoneStatus.ENABLED, 10
+            )).calculationMode()
+        );
+
+        when(mapper.findByIdForUpdate(GAME_ID, "grievous")).thenReturn(new ModifierZoneResponse(
+            GAME_ID, "grievous", "重伤", ModifierZoneDomain.HEALING,
+            ModifierZoneCalculationMode.RATIO_ADD, ModifierZoneApplicationStage.HEALING_RESULT,
+            null, ModifierZoneStatus.ENABLED, 10, timestamp, timestamp
+        ));
+        when(mapper.countHealingReferences(GAME_ID, "grievous")).thenReturn(1L);
+        assertCode("409.MODIFIER_ZONE_IN_USE", () -> service.update(GAME_ID, "grievous", new ModifierZoneUpdateRequest(
+            null, "重伤", ModifierZoneDomain.HEALING, ModifierZoneCalculationMode.RATIO_MAX,
+            ModifierZoneApplicationStage.HEALING_RESULT, null, ModifierZoneStatus.ENABLED, 10
+        )));
+        verify(mapper, never()).update(
+            GAME_ID, "grievous", "重伤", "HEALING", "RATIO_MAX",
+            "HEALING_RESULT", null, "ENABLED", 10
+        );
+    }
+
+    @Test
     void shieldDomainRejectsHealingStageAndFlatMode() {
         for (ModifierZoneCalculationMode mode : ModifierZoneCalculationMode.values()) {
             assertCode("400.VALIDATION_FAILED", () -> service.create(GAME_ID,
@@ -228,5 +279,12 @@ class ModifierZoneServiceTest {
     private static void assertCode(String code, Runnable action) {
         ApiException exception = assertThrows(ApiException.class, action::run);
         assertEquals(code, exception.getCode());
+    }
+
+    @SuppressWarnings("unchecked")
+    private static String field(ApiException exception) {
+        return ((java.util.List<java.util.Map<String, String>>) exception.getDetails().get("fieldIssues"))
+            .getFirst()
+            .get("field");
     }
 }
