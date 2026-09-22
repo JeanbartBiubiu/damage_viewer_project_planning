@@ -11,7 +11,7 @@ import {
   Tag,
   Typography
 } from '@arco-design/web-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
 import { createSkill, updateSkill } from '../../../services/skillClient';
 import type { Skill, SkillStatus } from '../../../types/skill';
@@ -31,6 +31,10 @@ import {
 
 export type SkillEditorMode = 'create' | 'view' | 'edit';
 
+export type SkillEditorSaveOptions = {
+  expandedLevelRange?: { minLevel: number; maxLevel: number };
+};
+
 type SkillEditorModalProps = {
   visible: boolean;
   mode: SkillEditorMode;
@@ -40,7 +44,7 @@ type SkillEditorModalProps = {
   selectedGameId: string | null;
   adminToken: string;
   onClose: () => void;
-  onSaved: (skill: Skill, options?: { maxLevelExpanded?: boolean }) => void | Promise<void>;
+  onSaved: (skill: Skill, options?: SkillEditorSaveOptions) => void | Promise<void>;
   onDirtyChange: (dirty: boolean) => void;
 };
 
@@ -96,6 +100,7 @@ export function SkillEditorModal({
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [openedMaxLevel, setOpenedMaxLevel] = useState<number | null>(null);
+  const saveRequestSerial = useRef(0);
   const readOnly = mode === 'view';
   const detailReady = mode === 'create' || (loadedSkill !== null && !loadingDetail && !loadError);
   const categoryOptions = useMemo(() => {
@@ -116,6 +121,11 @@ export function SkillEditorModal({
   useEffect(() => {
     if (!visible) return;
     let active = true;
+    saveRequestSerial.current += 1;
+    const invalidate = () => {
+      active = false;
+      saveRequestSerial.current += 1;
+    };
     const empty = createEmptySkillDraft();
     setInitial(empty);
     setDraft(empty);
@@ -129,13 +139,13 @@ export function SkillEditorModal({
     onDirtyChange(false);
     if (mode === 'create') {
       setLoadingDetail(false);
-      return () => { active = false; };
+      return invalidate;
     }
     const token = adminToken.trim();
     if (!selectedGameId || !skillKey || !token) {
       setLoadingDetail(false);
       setLoadError('请先选择游戏并配置 Admin Token，再重新打开技能。');
-      return () => { active = false; };
+      return invalidate;
     }
     setLoadingDetail(true);
     void loadFocusedSkill(apiBaseUrl, selectedGameId, skillKey, token)
@@ -153,7 +163,7 @@ export function SkillEditorModal({
         setLoadError(getErrorMessage(error));
         setLoadingDetail(false);
       });
-    return () => { active = false; };
+    return invalidate;
   }, [adminToken, apiBaseUrl, detailAttempt, mode, onDirtyChange, selectedGameId, skillKey, visible]);
 
   const patchDraft = <K extends keyof SkillDraft>(field: K, value: SkillDraft[K]) => {
@@ -174,7 +184,7 @@ export function SkillEditorModal({
   };
 
   const save = async () => {
-    if (!detailReady || saving) return;
+    if (readOnly || !detailReady || saving) return;
     const validation = validateSkillDraft(draft, mode === 'create');
     if (!validation.ok) {
       setErrors(validation.fieldErrors);
@@ -193,27 +203,32 @@ export function SkillEditorModal({
 
     const nextMaxLevel = validation.normalized.maxLevel;
     const previousMaxLevel = openedMaxLevel;
-    if (
-      mode === 'edit'
+    const expandedLevelRange = mode === 'edit'
       && previousMaxLevel !== null
-      && nextMaxLevel < previousMaxLevel
-    ) {
-      const confirmed = await new Promise<boolean>((resolve) => {
-        Modal.confirm({
-          title: '确认缩小最高等级',
-          content: `高于 Lv${nextMaxLevel} 的技能等级参数值将被删除`,
-          okText: '确认保存',
-          cancelText: '取消',
-          onOk: () => resolve(true),
-          onCancel: () => resolve(false)
-        });
-      });
-      if (!confirmed) return;
-    }
+      && nextMaxLevel > previousMaxLevel
+      ? { minLevel: previousMaxLevel + 1, maxLevel: nextMaxLevel }
+      : undefined;
+    const saveSerial = ++saveRequestSerial.current;
 
     setSaving(true);
     setSaveError(null);
     try {
+      if (mode === 'edit' && previousMaxLevel !== null && nextMaxLevel !== previousMaxLevel) {
+        const confirmed = await new Promise<boolean>((resolve) => {
+          Modal.confirm({
+            title: expandedLevelRange ? '确认扩大最高等级' : '确认缩小最高等级',
+            content: expandedLevelRange
+              ? `最高等级将从 Lv${previousMaxLevel} 扩大至 Lv${nextMaxLevel}。已有按技能等级取值的参数将由服务端为新增 Lv${expandedLevelRange.minLevel}～Lv${expandedLevelRange.maxLevel} 补 0；保存后请按来源逐项核对并填写新增等级数值。`
+              : `高于 Lv${nextMaxLevel} 的技能等级参数值将被删除`,
+            okText: '确认保存',
+            cancelText: '取消',
+            onOk: () => resolve(true),
+            onCancel: () => resolve(false)
+          });
+        });
+        if (!confirmed || saveRequestSerial.current !== saveSerial) return;
+      }
+
       const result = mode === 'create'
         ? await createSkill(
             apiBaseUrl,
@@ -228,19 +243,17 @@ export function SkillEditorModal({
             token,
             buildUpdateSkillRequest(validation.normalized)
           );
+      if (saveRequestSerial.current !== saveSerial) return;
       onDirtyChange(false);
-      await onSaved(result.data, {
-        maxLevelExpanded: mode === 'edit'
-          && previousMaxLevel !== null
-          && nextMaxLevel > previousMaxLevel
-      });
+      await onSaved(result.data, { expandedLevelRange });
     } catch (error) {
+      if (saveRequestSerial.current !== saveSerial) return;
       const mapped = mapSkillFieldIssues(error);
       setErrors(mapped.fieldErrors);
       setCategoryIndexErrors(mapped.categoryIndexErrors);
       setSaveError(composeSaveError(error, mapped.unmappedMessages));
     } finally {
-      setSaving(false);
+      if (saveRequestSerial.current === saveSerial) setSaving(false);
     }
   };
 

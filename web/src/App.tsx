@@ -129,19 +129,22 @@ export default function App() {
   const [apiBaseDraft, setApiBaseDraft] = useState(initialApiBaseUrl);
   const [apiBaseUrl, setApiBaseUrl] = useState(initialApiBaseUrl);
   // 先默认一个就行了
-  const [adminToken, setAdminToken] = useState(() => readStoredValue(ADMIN_TOKEN_STORAGE_KEY, 'test'));
+  const [adminToken, setAdminToken] = useState(() => readStoredValue(ADMIN_TOKEN_STORAGE_KEY, 'test').trim());
   const [games, setGames] = useState<GameSummary[]>([]);
   const [gamesStatus, setGamesStatus] = useState<LoadState>('loading');
   const [gamesError, setGamesError] = useState<string | null>(null);
   const [gamesEtag, setGamesEtag] = useState<string | null>(null);
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
   const [reloadSeed, setReloadSeed] = useState(0);
+  const [pageReloadSeed, setPageReloadSeed] = useState(0);
   const [collapsedNavigationGroups, setCollapsedNavigationGroups] = useState(() =>
     createDefaultCollapsedNavigationGroups()
   );
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [attributeEditorDirty, setAttributeEditorDirty] = useState(false);
   const attributeEditorDirtyRef = useRef(false);
+  const selectedGameIdRef = useRef(selectedGameId);
+  selectedGameIdRef.current = selectedGameId;
   const acceptedHashRef = useRef(
     typeof window === 'undefined' ? DEFAULT_HASH : window.location.hash || DEFAULT_HASH
   );
@@ -247,20 +250,23 @@ export default function App() {
           return;
         }
 
+        const nextGameId = resolveSelectedGameId(selectedGameIdRef.current, result.data);
+        if (nextGameId !== selectedGameIdRef.current && attributeEditorDirtyRef.current) {
+          setGamesStatus('error');
+          setGamesError('当前游戏已不在最新游戏列表中，请先保存或放弃页面修改后再刷新。');
+          return;
+        }
         setGames(result.data);
         setGamesEtag(result.etag);
         setGamesStatus('success');
-        setSelectedGameId((current) => resolveSelectedGameId(current, result.data));
+        setSelectedGameId(nextGameId);
       } catch (error) {
         if (cancelled) {
           return;
         }
 
-        setGames([]);
         setGamesStatus('error');
         setGamesError(getErrorMessage(error));
-        setGamesEtag(null);
-        setSelectedGameId(null);
       }
     }
 
@@ -276,8 +282,42 @@ export default function App() {
 
   const applyApiBase = () => {
     const nextValue = resolveApiBaseUrl(apiBaseDraft);
+    if (nextValue !== apiBaseUrl && attributeEditorDirtyRef.current
+      && !window.confirm('当前修改尚未保存，确定放弃修改并切换连接吗？')) return;
     setApiBaseDraft(nextValue);
+    if (nextValue === apiBaseUrl) return;
+    handleAttributeDirtyChange(false);
+    setGames([]);
+    setGamesEtag(null);
+    setSelectedGameId(null);
     setApiBaseUrl(nextValue);
+  };
+
+  const changeGame = (value: string) => {
+    const nextGameId = value || null;
+    if (nextGameId === selectedGameId) return;
+    if (attributeEditorDirtyRef.current
+      && !window.confirm('当前修改尚未保存，确定放弃修改并切换游戏吗？')) return;
+    handleAttributeDirtyChange(false);
+    setSelectedGameId(nextGameId);
+  };
+
+  const changeAdminToken = (value: string) => {
+    const nextToken = value.trim();
+    if (nextToken === adminToken) return;
+    if (attributeEditorDirtyRef.current
+      && !window.confirm('当前修改尚未保存，确定放弃修改并更换 Admin Token 吗？')) return;
+    handleAttributeDirtyChange(false);
+    setAdminToken(nextToken);
+  };
+
+  const refreshGames = () => {
+    if (attributeEditorDirtyRef.current) {
+      if (!window.confirm('当前修改尚未保存，确定放弃修改并刷新吗？')) return;
+      handleAttributeDirtyChange(false);
+      setPageReloadSeed((value) => value + 1);
+    }
+    setReloadSeed((value) => value + 1);
   };
 
   const handleNavigationClick = (
@@ -520,7 +560,7 @@ export default function App() {
               <span className="app-toolbar-label">游戏</span>
               <Select
                 value={selectedGameId ?? ''}
-                onChange={(value) => setSelectedGameId(value || null)}
+                onChange={changeGame}
                 disabled={games.length === 0}
                 placeholder="选择游戏"
                 size="small"
@@ -534,7 +574,7 @@ export default function App() {
               <span className="app-toolbar-label">Token</span>
               <Input.Password
                 value={adminToken}
-                onChange={setAdminToken}
+                onChange={changeAdminToken}
                 placeholder="粘贴 Admin JWT"
                 autoComplete="off"
                 size="small"
@@ -545,7 +585,7 @@ export default function App() {
               <Button type="primary" size="small" onClick={applyApiBase}>
                 应用
               </Button>
-              <Button size="small" onClick={() => setReloadSeed((value) => value + 1)}>
+              <Button size="small" onClick={refreshGames}>
                 刷新
               </Button>
             </div>
@@ -557,7 +597,9 @@ export default function App() {
 
           {gamesError ? <Alert type="error" content={gamesError} className="workspace-alert" /> : null}
 
-          <div className="page-stack">{pageContent}</div>
+          <div className="page-stack" key={JSON.stringify([apiBaseUrl, selectedGameId, adminToken.trim(), pageReloadSeed])}>
+            {pageContent}
+          </div>
         </Content>
       </Layout>
     </Layout>

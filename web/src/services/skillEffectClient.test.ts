@@ -43,7 +43,8 @@ const damageResult = {
     deliveryKind: 'SKILL',
     originKind: 'DIRECT',
     critical: { mode: 'DISALLOWED', multiplierValue: null },
-    vampRules: []
+    vampQualification: 'UNRESOLVED',
+    vampOverrides: []
   }
 };
 
@@ -65,6 +66,24 @@ const detail: SkillEffect = {
   lifecycle: null,
   results: [damageResult]
 };
+
+describe('吸血资格新协议', () => {
+  it('接收明确未核定、继承、禁止和覆盖；拒绝旧字段及混合形状', () => {
+    const make = (patch: Record<string, unknown>) => ({ ...detail, results: [{ ...damageResult, detail: { ...damageResult.detail, ...patch } }] });
+    expect(() => parseSkillEffect(make({ vampQualification: 'RESOLVED', vampOverrides: [] }))).not.toThrow();
+    const disabled = { vampType: 'OMNIVAMP', mode: 'DISABLED', basisOutputKind: null, efficiencyValue: null };
+    const override = { vampType: 'OMNIVAMP', mode: 'OVERRIDE', basisOutputKind: 'ACTUAL_HP_LOSS', efficiencyValue: { kind: 'FIXED', value: 0 } };
+    for (const value of [disabled, override]) {
+      expect(() => parseSkillEffect(make({ vampQualification: 'RESOLVED', vampOverrides: [value] }))).not.toThrow();
+    }
+    for (const patch of [
+      { vampRules: [] }, { vampQualification: undefined }, { vampOverrides: [disabled] },
+      { vampQualification: 'RESOLVED', vampOverrides: [disabled, disabled] },
+      { vampQualification: 'RESOLVED', vampOverrides: [{ ...disabled, efficiencyValue: formulaValue('old') }] },
+      { vampQualification: 'RESOLVED', vampOverrides: [{ ...override, efficiencyValue: { kind: 'FIXED', value: -1 } }] }
+    ]) expect(() => parseSkillEffect(make(patch))).toThrow(SkillEffectProtocolError);
+  });
+});
 
 const persistentStatusLifecycleBehavior = {
   moment: 'PERSISTENT' as const,
@@ -336,7 +355,8 @@ describe('skillEffectClient', () => {
             deliveryKind: 'SKILL',
             originKind: 'DIRECT',
             critical: { mode: 'DISALLOWED', multiplierValue: null },
-            vampRules: []
+            vampQualification: 'UNRESOLVED',
+            vampOverrides: []
           }
         },
         {

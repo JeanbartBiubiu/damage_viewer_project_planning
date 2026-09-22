@@ -2594,7 +2594,10 @@ export function formulaHasRuntimeInput(
 }
 
 export function collectExecuteEffectValues(effect: SkillEffect): NumericValue[] {
-  return [...numericValuesIn(effect.results), ...numericValuesIn(effect.lifecycle)];
+  const results = effect.results.map((result) => result.resultType === 'DAMAGE'
+    ? { ...result, detail: { ...result.detail, vampOverrides: result.detail.vampOverrides.filter((item) => item.mode === 'OVERRIDE') } }
+    : result);
+  return [...numericValuesIn(results), ...numericValuesIn(effect.lifecycle)];
 }
 
 export function collectExecuteEffectFormulaKeys(effect: SkillEffect): string[] {
@@ -2788,7 +2791,7 @@ export function listAvailablePriorResultOutputs(
       'IMMUNE',
       'KILLED'
     );
-    if (result.detail.vampRules.length > 0) {
+    if (result.detail.vampQualification === 'RESOLVED') {
       outputs.push('ACTUAL_HEALING');
     }
   } else if (result.resultType === 'DIRECT_HEAL') {

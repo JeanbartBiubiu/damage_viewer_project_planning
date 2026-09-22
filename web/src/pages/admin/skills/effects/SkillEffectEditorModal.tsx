@@ -3,6 +3,7 @@ import { formulaHasRuntimeInput } from '../triggers/triggerRuleForm';
 import { numericValueSummary } from '../numericValueForm';
 import { useNumericParameters } from '../useNumericParameters';
 import { NumericValueField } from '../NumericValueField';
+import { useGameVampRules } from './useGameVampRules';
 import {
   Alert,
   Button,
@@ -236,7 +237,9 @@ function interactionSummary(result: SkillEffectResultDraft): string {
     const critical = result.criticalMode
       ? SKILL_EFFECT_CRITICAL_MODE_LABELS[result.criticalMode]
       : '—';
-    return `${delivery} / ${origin} / ${critical} / 吸血 ${result.vampRules.length} 条`;
+    const vamp = result.vampQualification === 'UNRESOLVED' ? '吸血资格未核定，不可运行'
+      : result.vampOverrides.length ? `继承游戏规则，另有 ${result.vampOverrides.length} 条吸血例外` : '吸血已核定，继承游戏规则';
+    return `${delivery} / ${origin} / ${critical} / ${vamp}`;
   }
   if (result.resultType === 'NORMAL_SHIELD') {
     const damageType = result.absorbedDamageTypeKey || '全部伤害';
@@ -371,6 +374,7 @@ export function SkillEffectEditorModal({
   const effectsSerial = useRef(0);
   const skillSerial = useRef(0);
   const skillCategorySerial = useRef(0);
+  const gameVamp = useGameVampRules(apiBaseUrl, selectedGameId, adminToken, visible);
   const readOnly = mode === 'view';
   const closeBlocked = saving || (!readOnly && loadingDetail);
 
@@ -704,6 +708,9 @@ export function SkillEffectEditorModal({
     if (readOnly || saving || !detailReady || loadingDetail) return;
     const sorted = { ...draft, results: sortResultDrafts(draft.results) };
     const validation = validateSkillEffectDraft(sorted, {
+      gameVampRules: gameVamp.rules,
+      gameVampRulesLoadState: gameVamp.state,
+      parentSkillCategoryKeys: skill.skillCategoryKeys,
       parameters, parametersLoadState,
       includeEffectKey: mode === 'create' || mode === 'copy',
       catalog: {
@@ -1380,6 +1387,10 @@ export function SkillEffectEditorModal({
         formulasLoadState={formulasLoadState}
         onRetryFormulas={() => void loadFormulas()}
         parentSkill={skill}
+        gameVampRules={gameVamp.rules}
+        gameVampRulesLoadState={gameVamp.state}
+        gameVampRulesError={gameVamp.error}
+        onRetryGameVampRules={() => void gameVamp.reload()}
         parentDraft={draft}
         effectSummaries={effectSummaries}
         effectsLoadState={effectsLoadState}

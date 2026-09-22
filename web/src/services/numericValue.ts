@@ -32,7 +32,9 @@ export function assertNumericUses(root: unknown, domain: 'effect' | 'process' | 
       if (value.resultType === 'DAMAGE') {
         const detail = record(value.detail, `${path}.detail`);
         slot(detail.critical, 'multiplierValue', `${path}.detail.critical`, true);
-        for (const [i, rule] of list(detail.vampRules, `${path}.detail.vampRules`).entries()) slot(rule, 'efficiencyValue', `${path}.detail.vampRules[${i}]`);
+        for (const [i, rule] of list(detail.vampOverrides, `${path}.detail.vampOverrides`).entries()) {
+          if (rule.mode === 'OVERRIDE') slot(rule, 'efficiencyValue', `${path}.detail.vampOverrides[${i}]`);
+        }
       }
     }
   } else if (domain === 'state') {

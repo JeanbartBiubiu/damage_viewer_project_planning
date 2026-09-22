@@ -9,7 +9,7 @@ import {
   Space,
   Typography
 } from '@arco-design/web-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ApiRequestError, getErrorMessage } from '../../../services/apiClient';
 import {
   createAttribute,
@@ -74,6 +74,11 @@ export function AttributeEditorModal({
   const [fieldErrors, setFieldErrors] = useState<AttributeFieldErrors>({});
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const context = useMemo(() => ({}), [apiBaseUrl, selectedGameId, adminToken, attribute, mode, visible]);
+  const currentContext = useRef(context);
+  currentContext.current = context;
+  const active = useRef(true);
+  const busy = useRef(false);
 
   const readOnly = mode === 'view';
   const dirty = useMemo(
@@ -82,6 +87,8 @@ export function AttributeEditorModal({
   );
 
   useEffect(() => {
+    active.current = visible;
+    busy.current = false;
     if (!visible) {
       return;
     }
@@ -91,12 +98,13 @@ export function AttributeEditorModal({
     setFieldErrors({});
     setSaveError(null);
     setSaving(false);
-  }, [attribute, mode, visible]);
+    return () => { active.current = false; };
+  }, [attribute, context, mode, visible]);
 
   useEffect(() => {
     onDirtyChange(dirty);
-    return () => onDirtyChange(false);
   }, [dirty, onDirtyChange]);
+  useEffect(() => () => onDirtyChange(false), [onDirtyChange]);
 
   const patchDraft = <K extends AttributeFormField>(key: K, value: AttributeFormDraft[K]) => {
     setDraft((current) => ({ ...current, [key]: value }));
@@ -111,10 +119,10 @@ export function AttributeEditorModal({
   };
 
   const requestClose = () => {
-    if (saving) {
+    if (busy.current) {
       return;
     }
-    if (mode === 'create' && dirty && !window.confirm(UNSAVED_CONFIRM_MESSAGE)) {
+    if (dirty && !window.confirm(UNSAVED_CONFIRM_MESSAGE)) {
       return;
     }
     onDirtyChange(false);
@@ -122,7 +130,7 @@ export function AttributeEditorModal({
   };
 
   const handleSave = async () => {
-    if (readOnly || saving) {
+    if (readOnly || busy.current || !visible) {
       return;
     }
     const validation = validateAttributeDraft(draft, mode);
@@ -141,6 +149,8 @@ export function AttributeEditorModal({
       return;
     }
 
+    busy.current = true;
+    const isCurrent = () => active.current && currentContext.current === context;
     setSaving(true);
     setFieldErrors({});
     setSaveError(null);
@@ -159,10 +169,12 @@ export function AttributeEditorModal({
             token,
             buildUpdateAttributeRequest(validation.normalized)
           );
+      if (!isCurrent()) return;
       setBaseline(draft);
       onDirtyChange(false);
       await onSaved(result.data);
     } catch (error) {
+      if (!isCurrent()) return;
       if (error instanceof ApiRequestError) {
         const mapped = mapAttributeFieldIssues(error.details);
         setFieldErrors(mapped.fieldErrors);
@@ -175,7 +187,10 @@ export function AttributeEditorModal({
         setSaveError(getErrorMessage(error));
       }
     } finally {
-      setSaving(false);
+      if (isCurrent()) {
+        busy.current = false;
+        setSaving(false);
+      }
     }
   };
 
@@ -185,6 +200,9 @@ export function AttributeEditorModal({
     <Modal
       title={modalTitle(mode)}
       visible={visible}
+      closable={!saving}
+      maskClosable={!saving}
+      escToExit={!saving}
       onCancel={requestClose}
       autoFocus={false}
       focusLock

@@ -95,6 +95,24 @@ export type NamedFormula = {
   expression: GenericFormulaExpr;
 };
 
+export type TypeMatcher = { any?: string[]; all?: string[]; none?: string[] };
+export type GenericVampType = 'LIFE_STEAL' | 'OMNIVAMP' | 'PHYSICAL_VAMP' | 'SPELL_VAMP';
+export type GenericVampBasis = 'POST_DEFENSE_DAMAGE' | 'ACTUAL_HP_LOSS';
+
+export type GenericVampRule = {
+  vampType: GenericVampType;
+  sourceAttributeKey: string;
+  basisOutputKind: GenericVampBasis;
+  defaultEfficiency: number;
+  targetMatcher: TypeMatcher;
+  abilityMatcher: TypeMatcher;
+  damageMatcher: TypeMatcher;
+};
+
+export type GenericVampOverride =
+  | { vampType: GenericVampType; mode: 'DISABLED'; basisOutputKind?: never; efficiency?: never }
+  | { vampType: GenericVampType; mode: 'OVERRIDE'; basisOutputKind: GenericVampBasis; efficiency: GenericFormulaExpr };
+
 export type OperationDefinition = {
   operation: string;
   target: string;
@@ -122,6 +140,8 @@ export type OperationDefinition = {
   repeatDelayMs?: number;
   triggerStateKey?: string;
   threshold?: number;
+  vampQualification?: 'RESOLVED' | 'UNRESOLVED';
+  vampOverrides?: GenericVampOverride[];
 };
 
 export type ModifierDefinition = {
@@ -136,6 +156,9 @@ export type ModifierDefinition = {
   valuePolicy: string;
   value: GenericFormulaExpr;
   condition?: GenericFormulaExpr;
+  healDirection?: 'DONE' | 'RECEIVED';
+  healCategory?: 'ANY' | 'VAMP' | 'DIRECT';
+  healGroupKey?: string;
 };
 
 export type ListenerDefinition = {
@@ -203,11 +226,12 @@ export type ProviderDefinition = {
   initialStateSchema?: Record<string, number | ProviderStateFieldSchema>;
 };
 
-export type EmptyP0Rules = {
-  operations: [];
-  modifiers: [];
-  listeners: [];
-  triggerRules: [];
+export type GenericRules = {
+  operations?: OperationDefinition[];
+  modifiers?: ModifierDefinition[];
+  listeners?: ListenerDefinition[];
+  triggerRules?: unknown[];
+  vampRules?: GenericVampRule[];
 };
 
 export type CompileSettings = {
@@ -224,7 +248,7 @@ export type CompileRequest = {
   typeCatalog: TypeCatalog;
   combatants: CombatantDefinition[];
   sharedProviders?: ProviderDefinition[];
-  rules: EmptyP0Rules;
+  rules: GenericRules;
   formulas?: NamedFormula[];
   settings?: CompileSettings;
 };
