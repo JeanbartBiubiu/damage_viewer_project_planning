@@ -358,19 +358,32 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
   assertValueRule(value.valueRule, `${path}.valueRule`);
   switch (resultType) {
     case 'DAMAGE': {
+      assertExactDetailKeys(detail, ['damageTypeKey', 'deliveryKind', 'originKind', 'critical', 'vampQualification', 'vampOverrides'], path);
       assertString(detail.damageTypeKey, `${path}.detail.damageTypeKey`);
       assertEnum(detail.deliveryKind, DAMAGE_DELIVERY_KINDS, `${path}.detail.deliveryKind`);
       assertEnum(detail.originKind, DAMAGE_ORIGIN_KINDS, `${path}.detail.originKind`);
       if (!isRecord(detail.critical)) protocolError(`${path}.detail.critical`);
       assertEnum(detail.critical.mode, CRITICAL_MODES, `${path}.detail.critical.mode`);
       if (detail.critical.multiplierValue !== null && !isNumericValue(detail.critical.multiplierValue)) protocolError(`${path}.detail.critical.multiplierValue`);
-      if (!Array.isArray(detail.vampRules)) protocolError(`${path}.detail.vampRules`);
-      detail.vampRules.forEach((rule, index) => {
-        const rulePath = `${path}.detail.vampRules[${index}]`;
+      assertEnum(detail.vampQualification, new Set(['RESOLVED', 'UNRESOLVED']), `${path}.detail.vampQualification`);
+      if (!Array.isArray(detail.vampOverrides) || detail.vampOverrides.length > 4
+        || (detail.vampQualification === 'UNRESOLVED' && detail.vampOverrides.length)) protocolError(`${path}.detail.vampOverrides`);
+      const seenVampTypes = new Set<string>();
+      detail.vampOverrides.forEach((rule, index) => {
+        const rulePath = `${path}.detail.vampOverrides[${index}]`;
         if (!isRecord(rule)) protocolError(rulePath);
         assertEnum(rule.vampType, VAMP_TYPES, `${rulePath}.vampType`);
+        if (seenVampTypes.has(String(rule.vampType))) protocolError(`${rulePath}.vampType`);
+        seenVampTypes.add(String(rule.vampType));
+        if (Object.keys(rule).length !== 4 || !['vampType', 'mode', 'basisOutputKind', 'efficiencyValue'].every((key) => key in rule)) protocolError(rulePath);
+        assertEnum(rule.mode, new Set(['DISABLED', 'OVERRIDE']), `${rulePath}.mode`);
+        if (rule.mode === 'DISABLED') {
+          if (rule.basisOutputKind !== null || rule.efficiencyValue !== null) protocolError(rulePath);
+          return;
+        }
         assertEnum(rule.basisOutputKind, VAMP_BASIS_OUTPUT_KINDS, `${rulePath}.basisOutputKind`);
         if (!isNumericValue(rule.efficiencyValue)) protocolError(`${rulePath}.efficiencyValue`);
+        if (rule.efficiencyValue.kind === 'FIXED' && rule.efficiencyValue.value < 0) protocolError(`${rulePath}.efficiencyValue`);
       });
       break;
     }

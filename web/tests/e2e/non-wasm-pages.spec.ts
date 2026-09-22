@@ -1,4 +1,5 @@
 import { fixedValue, formulaValue, type NumericValue } from '../../src/types/numericValue';
+import type { GameVampRule } from '../../src/types/gameVamp';
 /**
  * Deterministic browser acceptance for non-calculation data management pages.
  * All Backend responses are route mocks; this file does not claim live database evidence.
@@ -586,6 +587,11 @@ class MockApi {
         await this.json(route, 200, row);
         return;
       }
+    }
+
+    if (method === 'GET' && path === `/api/admin/games/${GAME_ID}/vamp-rules`) {
+      await this.json(route, 200, { rules: [] });
+      return;
     }
 
     if (path === `/api/admin/games/${GAME_ID}/level-config`) {
@@ -2216,7 +2222,7 @@ class MockApi {
       await this.error(route, 409, '409.SKILL_EFFECT_IN_USE', '结果形状变化会使既有前序输出失效', {
         fieldIssues: [
           {
-            field: 'results[0].detail.vampRules',
+            field: 'results[0].detail.vampOverrides',
             code: 'TRIGGER_RULE_SHAPE_IN_USE',
             message: '该结构仍被条件与触发规则使用',
             ruleKey: 'follow_up_from_hit',
@@ -2900,7 +2906,8 @@ function damageResultDetail(damageTypeKey: string): Json {
     deliveryKind: 'SKILL',
     originKind: 'DIRECT',
     critical: { mode: 'DISALLOWED', multiplierValue: null },
-    vampRules: []
+    vampQualification: 'UNRESOLVED',
+    vampOverrides: []
   };
 }
 
@@ -3327,6 +3334,438 @@ async function fillCreateDraft(
   return modal;
 }
 
+async function installSecondSafetyGame(page: Page, mock: MockApi) {
+  const gameId = 'other_safety';
+  const config = { gameId, minLevel: 1, maxLevel: 20 };
+  await page.route(`${MOCK_API_BASE}/api/games`, route => route.fulfill({ json: [
+    { gameId: GAME_ID, gameName: GAME_NAME, representativeImageKey: null },
+    { gameId, gameName: '另一游戏', representativeImageKey: null }
+  ] }));
+  await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/representative-image`,
+    route => route.fulfill({ json: { image: null } }));
+  await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/vamp-rules`,
+    route => route.fulfill({ json: { rules: [] } }));
+  await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/attributes`,
+    route => route.fulfill({ json: { items: [], total: 0 } }));
+  await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/skill-categories`,
+    route => route.fulfill({ json: { items: [], total: 0 } }));
+  await page.route(`${MOCK_API_BASE}/api/admin/games/${gameId}/level-config`, async route => {
+    if (route.request().method() === 'PUT') {
+      const body = route.request().postDataJSON();
+      mock.writes.push({ method: 'PUT', path: new URL(route.request().url()).pathname, body });
+      Object.assign(config, body);
+    }
+    await route.fulfill({ json: config });
+  });
+  return config;
+}
+
+async function switchSafetyGame(page: Page) {
+  await page.locator('.app-toolbar-field--game .arco-select').click();
+  await page.getByRole('option', { name: 'other_safety / 另一游戏', exact: true }).click();
+}
+
+function gameVampRule(overrides: Partial<GameVampRule> = {}): GameVampRule {
+  return {
+    vampType: 'OMNIVAMP', sourceAttributeKey: 'omnivamp_percent', basisOutputKind: 'POST_DEFENSE_DAMAGE',
+    defaultEfficiency: 1, deliveryKinds: ['SKILL'], originKinds: ['DIRECT'], skillCategoryKeys: ['active'], ...overrides
+  };
+}
+
+test.describe('通用吸血管理', () => {
+  test('游戏规则保留显式零，写入失败保留草稿并保护刷新和离开', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    mock.attributes.push(attribute('omnivamp_percent', '全能吸血比例'));
+    const diagnostics = await prepare(page, mock);
+    let rules = [gameVampRule()];
+    let failWrite = false;
+    await page.route(`${MOCK_API_BASE}/api/admin/games/${GAME_ID}/vamp-rules`, async route => {
+      if (route.request().method() === 'PUT') {
+        const body = route.request().postDataJSON();
+        mock.writes.push({ method: 'PUT', path: new URL(route.request().url()).pathname, body });
+        if (failWrite) {
+          await route.fulfill({ status: 400, json: { error: { code: '400.VALIDATION_FAILED', message: '吸血规则保存失败', details: {} } } });
+          return;
+        }
+        rules = structuredClone(body.rules);
+      }
+      await route.fulfill({ json: { rules } });
+    });
+    await openGameSettings(page);
+    const efficiency = page.getByRole('spinbutton', { name: '全能吸血默认效率', exact: true });
+    await expect(efficiency).toHaveValue('1');
+    await efficiency.fill('0');
+    await page.getByRole('button', { name: '保存吸血规则', exact: true }).click();
+    await expect(page.getByRole('alert').filter({ hasText: '游戏吸血规则已保存' })).toBeVisible();
+    expect(mock.writes).toHaveLength(1);
+    expect(mock.writes[0]?.body).toEqual({ rules: [gameVampRule({ defaultEfficiency: 0 })] });
+    await page.locator('a[href="#/attributes"]').click();
+    await expect(page).toHaveURL(/#\/attributes$/);
+    await page.locator('a[href="#/game-settings"]').click();
+    await expect(efficiency).toHaveValue('0');
+
+    await efficiency.fill('0.5');
+    failWrite = true;
+    await page.getByRole('button', { name: '保存吸血规则', exact: true }).click();
+    await expect(page.getByRole('alert').filter({ hasText: '吸血规则保存失败' })).toBeVisible();
+    await expect(efficiency).toHaveValue('0.5');
+    expect(rules).toEqual([gameVampRule({ defaultEfficiency: 0 })]);
+    expect(mock.writes).toHaveLength(2);
+    await page.getByRole('button', { name: '刷新吸血规则', exact: true }).click();
+    const refresh = visibleModal(page, '放弃未保存的吸血规则？');
+    await expect(refresh).toBeVisible();
+    await refresh.getByRole('button', { name: '继续编辑', exact: true }).click();
+    await expect(efficiency).toHaveValue('0.5');
+    const rejectedLeave = page.waitForEvent('dialog').then(async dialog => {
+      expect(dialog.message()).toContain('未保存');
+      await dialog.dismiss();
+    });
+    await page.locator('a[href="#/attributes"]').click();
+    await rejectedLeave;
+    await expect(page).toHaveURL(/#\/game-settings$/);
+    await expect(efficiency).toHaveValue('0.5');
+    failWrite = false;
+    await page.getByRole('button', { name: '保存吸血规则', exact: true }).click();
+    await expect(page.getByRole('alert').filter({ hasText: '游戏吸血规则已保存' })).toBeVisible();
+    expect(mock.writes).toHaveLength(3);
+    await page.getByRole('button', { name: '刷新吸血规则', exact: true }).click();
+    await expect(efficiency).toHaveValue('0.5');
+    diagnostics.assertClean('game vamp zero, failure and draft protection');
+  });
+
+  test('旧游戏吸血规则迟到时不覆盖新游戏数据和草稿', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    mock.attributes.push(attribute('omnivamp_percent', '全能吸血比例'));
+    const diagnostics = await prepare(page, mock);
+    await installSecondSafetyGame(page, mock);
+    const otherGame = 'other_safety';
+    let otherRules = [gameVampRule({ sourceAttributeKey: 'other_omnivamp', defaultEfficiency: 0.25, skillCategoryKeys: ['other_active'] })];
+    await page.route(`${MOCK_API_BASE}/api/admin/games/${otherGame}/attributes`, route => route.fulfill({ json: {
+      items: [attribute('other_omnivamp', '另一吸血比例', { gameId: otherGame })], total: 1
+    } }));
+    await page.route(`${MOCK_API_BASE}/api/admin/games/${otherGame}/skill-categories`, route => route.fulfill({ json: {
+      items: [{ ...mock.skillCategories[0], gameId: otherGame, skillCategoryKey: 'other_active', name: '另一技能分类' }], total: 1
+    } }));
+    await page.route(`${MOCK_API_BASE}/api/admin/games/${otherGame}/vamp-rules`, async route => {
+      if (route.request().method() === 'PUT') {
+        const body = route.request().postDataJSON();
+        mock.writes.push({ method: 'PUT', path: new URL(route.request().url()).pathname, body });
+        otherRules = structuredClone(body.rules);
+      }
+      await route.fulfill({ json: { rules: otherRules } });
+    });
+    const hold = createDeferred();
+    let oldStarted = false;
+    let oldSettled = false;
+    await page.route(`${MOCK_API_BASE}/api/admin/games/${GAME_ID}/vamp-rules`, async route => {
+      oldStarted = true;
+      await hold.promise;
+      await route.fulfill({ json: { rules: [gameVampRule()] } });
+      oldSettled = true;
+    });
+    try {
+      await openGameSettings(page);
+      await expect.poll(() => oldStarted).toBe(true);
+      await switchSafetyGame(page);
+      const efficiency = page.getByRole('spinbutton', { name: '全能吸血默认效率', exact: true });
+      await expect(efficiency).toHaveValue('0.25');
+      await expect(page.getByLabel('全能吸血来源比例属性', { exact: true })).toContainText('other_omnivamp');
+      await efficiency.fill('0.4');
+      hold.resolve();
+      await expect.poll(() => oldSettled).toBe(true);
+      await expect(efficiency).toHaveValue('0.4');
+      await expect(page.getByLabel('全能吸血来源比例属性', { exact: true })).toContainText('other_omnivamp');
+      await page.getByRole('button', { name: '保存吸血规则', exact: true }).click();
+      await expect(page.getByRole('alert').filter({ hasText: '游戏吸血规则已保存' })).toBeVisible();
+      expect(mock.writes).toEqual([{ method: 'PUT', path: `/api/admin/games/${otherGame}/vamp-rules`, body: { rules: [
+        gameVampRule({ sourceAttributeKey: 'other_omnivamp', defaultEfficiency: 0.4, skillCategoryKeys: ['other_active'] })
+      ] } }]);
+      diagnostics.assertClean('late vamp rules cannot replace new game draft');
+    } finally { hold.resolve(); }
+  });
+
+  test('伤害由未核定改为继承后保存重开，明确禁止只保存必要例外', async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillProcessCatalog(mock);
+    mock.attributes.push(attribute('omnivamp_percent', '全能吸血比例'));
+    const original = structuredClone(mock.skillEffects.find((item) => item.effectKey === 'on_hit_results')!.results[0]!);
+    const diagnostics = await prepare(page, mock);
+    await page.route(`${MOCK_API_BASE}/api/admin/games/${GAME_ID}/vamp-rules`, route => route.fulfill({ json: { rules: [gameVampRule()] } }));
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    const effectRow = shell.locator('tr', { hasText: 'on_hit_results' });
+    await effectRow.getByRole('button', { name: '编辑', exact: true }).click();
+    const effect = visibleModal(page, '编辑效果');
+    await expect(effect.locator('tr', { hasText: 'damage' })).toContainText('吸血资格未核定，不可运行');
+    await effect.locator('tr', { hasText: 'damage' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const result = visibleModal(page, '编辑结果');
+    await expect(result.getByRole('radio', { name: '未核定，不可运行', exact: true })).toBeChecked();
+    await result.getByLabel('吸血资格', { exact: true }).getByText('已核定，继承游戏规则', { exact: true }).click();
+    await expect(result.getByText(/全能吸血：继承并适用；来源比例属性/)).toBeVisible();
+    await expect(result.getByText(/全能吸血：继承并适用；来源比例属性/)).toContainText('omnivamp_percent');
+    await expect(result.getByLabel('吸血种类 1', { exact: true })).toHaveCount(0);
+    await saveOpenModal(result);
+    await saveOpenModal(effect);
+    expect(mock.writes).toHaveLength(1);
+    const inherited = mock.skillEffects.find((item) => item.effectKey === 'on_hit_results')!.results[0]!;
+    expect(inherited).toEqual({ ...original, detail: { ...original.detail as Json, vampQualification: 'RESOLVED', vampOverrides: [] } });
+    expect(JSON.stringify(mock.writes[0]?.body)).not.toContain('vampRules');
+
+    await effectRow.getByRole('button', { name: '编辑', exact: true }).click();
+    await expect(effect.locator('tr', { hasText: 'damage' })).toContainText('吸血已核定，继承游戏规则');
+    await effect.locator('tr', { hasText: 'damage' }).getByRole('button', { name: '编辑', exact: true }).click();
+    await expect(result.getByRole('radio', { name: '已核定，继承游戏规则', exact: true })).toBeChecked();
+    await expect(result.getByText(/全能吸血：继承并适用；来源比例属性/)).toBeVisible();
+    await expect(result.getByLabel('吸血种类 1', { exact: true })).toHaveCount(0);
+    await result.getByRole('button', { name: '新增吸血例外', exact: true }).click();
+    await chooseSelectOption(page, result, '吸血种类 1', '全能吸血');
+    await expect(result.getByLabel('吸血例外方式 1', { exact: true })).toContainText('明确禁止');
+    await expect(result.getByLabel('吸血效率取值 1取值来源', { exact: true })).toHaveCount(0);
+    await expect(result.getByText(/全能吸血：本结果明确禁止/)).toBeVisible();
+    await saveOpenModal(result);
+    await saveOpenModal(effect);
+    expect(mock.writes).toHaveLength(2);
+    const disabled = mock.skillEffects.find((item) => item.effectKey === 'on_hit_results')!.results[0]!;
+    expect(disabled).toEqual({ ...original, detail: { ...original.detail as Json, vampQualification: 'RESOLVED', vampOverrides: [
+      { vampType: 'OMNIVAMP', mode: 'DISABLED', basisOutputKind: null, efficiencyValue: null }
+    ] } });
+    expect(JSON.stringify(mock.writes[1]?.body)).not.toContain('vampRules');
+    await effectRow.getByRole('button', { name: '编辑', exact: true }).click();
+    await effect.locator('tr', { hasText: 'damage' }).getByRole('button', { name: '编辑', exact: true }).click();
+    await expect(result.getByText(/全能吸血：本结果明确禁止/)).toBeVisible();
+    await expect(result.getByLabel('吸血种类 1', { exact: true })).toContainText('全能吸血');
+    await expect(result.getByLabel('吸血种类 2', { exact: true })).toHaveCount(0);
+    diagnostics.assertClean('unresolved to inherited and explicit disabled override');
+  });
+});
+
+test.describe('authoring input safety', () => {
+  test('expanded skill levels require confirmation and identify values needing review', async ({ page }) => {
+    const mock = new MockApi();
+    mock.skills = [{ gameId: GAME_ID, skillKey: 'grow_levels', name: '扩级核对', description: null,
+      maxLevel: 2, status: 'ENABLED', sortOrder: 0, skillCategoryKeys: [], createdAt: CREATED_AT, updatedAt: UPDATED_AT }];
+    const diagnostics = await prepare(page, mock);
+    await openSkills(page);
+    await skillRow(page, 'grow_levels').getByRole('button', { name: '编辑', exact: true }).click();
+    const editor = visibleModal(page, '编辑技能');
+    await expect(editor.getByLabel('最高等级', { exact: true })).toHaveValue('2');
+    await editor.getByLabel('最高等级', { exact: true }).fill('4');
+    await editor.getByRole('button', { name: '保存', exact: true }).click();
+    const confirm = visibleModal(page, '确认扩大最高等级');
+    await expect(confirm).toContainText('Lv3～Lv4');
+    await expect(confirm).toContainText('补 0');
+    await confirm.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(editor.getByLabel('最高等级', { exact: true })).toHaveValue('4');
+    expect(mock.writes).toHaveLength(0);
+    await editor.getByRole('button', { name: '保存', exact: true }).click();
+    await confirm.getByRole('button', { name: '确认保存', exact: true }).click();
+    await expect(editor).toBeHidden();
+    await expect(page.getByText(/技能「扩级核对」已保存。.*Lv3～Lv4.*逐项核对/)).toBeVisible();
+    expect(mock.skills[0]?.maxLevel).toBe(4);
+    expect(mock.writes).toHaveLength(1);
+    diagnostics.assertClean('skill level growth notice');
+  });
+
+  test('late level reads cannot replace another game or its shrink baseline', async ({ page }) => {
+    const mock = new MockApi();
+    const diagnostics = await prepare(page, mock);
+    const other = await installSecondSafetyGame(page, mock);
+    let release!: () => void;
+    const gate = new Promise<void>(resolve => { release = resolve; });
+    let started = false;
+    let settled = false;
+    await page.route(`${MOCK_API_BASE}/api/admin/games/${GAME_ID}/level-config`, async route => {
+      started = true;
+      await gate;
+      await route.fulfill({ json: { gameId: GAME_ID, minLevel: 1, maxLevel: 2 } });
+      settled = true;
+    });
+    try {
+      await openGameSettings(page);
+      await expect.poll(() => started).toBe(true);
+      await switchSafetyGame(page);
+      await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('20');
+      release();
+      await expect.poll(() => settled).toBe(true);
+      await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('20');
+      await page.getByLabel('最大等级', { exact: true }).fill('19');
+      await page.getByRole('button', { name: '保存等级范围', exact: true }).click();
+      const confirm = visibleModal(page, '确认调整等级范围');
+      await expect(confirm).toContainText('删除');
+      await confirm.getByRole('button', { name: '确认保存', exact: true }).click();
+      await expect(page.getByText('等级范围已保存。', { exact: true })).toBeVisible();
+      expect(other.maxLevel).toBe(19);
+      expect(mock.writes.map(write => write.path)).toEqual(['/api/admin/games/other_safety/level-config']);
+      diagnostics.assertClean('late level reads');
+    } finally { release(); }
+  });
+
+  test('level load failure disables saving until a successful retry', async ({ page }) => {
+    const mock = new MockApi();
+    const diagnostics = await prepare(page, mock);
+    let fail = false;
+    await page.route(`${MOCK_API_BASE}/api/admin/games/${GAME_ID}/level-config`, async route => {
+      if (fail && route.request().method() === 'GET') {
+        await route.fulfill({ status: 503, json: { error: { code: '503.TEST', message: '等级读取失败', details: {} } } });
+      } else await route.fallback();
+    });
+    await openGameSettings(page);
+    await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('2');
+    fail = true;
+    await page.locator('.panel-head').filter({ hasText: '游戏配置' }).getByRole('button', { name: '刷新', exact: true }).click();
+    await expect(page.getByRole('alert').filter({ hasText: '503.TEST: 等级读取失败' })).toBeVisible();
+    await expect(page.getByRole('button', { name: '保存等级范围', exact: true })).toBeDisabled();
+    expect(mock.writes).toHaveLength(0);
+    fail = false;
+    await page.locator('.panel-head').filter({ hasText: '游戏配置' }).getByRole('button', { name: '刷新', exact: true }).click();
+    await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('2');
+    await expect(page.getByRole('button', { name: '保存等级范围', exact: true })).toBeEnabled();
+    diagnostics.assertClean('level retry');
+  });
+
+  test('level drafts survive rejected refresh, game and connection switches', async ({ page }) => {
+    const mock = new MockApi();
+    const diagnostics = await prepare(page, mock);
+    await installSecondSafetyGame(page, mock);
+    await openGameSettings(page);
+    await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('2');
+    await page.getByLabel('最大等级', { exact: true }).fill('4');
+    await page.getByRole('button', { name: '设置代表图片', exact: true }).click();
+    await visibleModal(page, `${GAME_NAME} · 代表图片`).getByRole('button', { name: '关闭', exact: true }).click();
+    const unexpectedDialogs: string[] = [];
+    const dismissUnexpected = async (dialog: import('@playwright/test').Dialog) => {
+      unexpectedDialogs.push(dialog.message());
+      await dialog.dismiss();
+    };
+    page.on('dialog', dismissUnexpected);
+    await page.locator('.app-toolbar-field--token input').fill(` ${ADMIN_TOKEN} `);
+    await expect(page.locator('.app-toolbar-field--token input')).toHaveValue(ADMIN_TOKEN);
+    await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('4');
+    page.off('dialog', dismissUnexpected);
+    expect(unexpectedDialogs).toEqual([]);
+    const reject = async (action: () => Promise<unknown>) => {
+      const prompt = page.waitForEvent('dialog').then(async dialog => {
+        expect(dialog.message()).toContain('未保存');
+        await dialog.dismiss();
+      });
+      await action();
+      await prompt;
+      await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('4');
+    };
+    await reject(() => page.locator('.panel-head').filter({ hasText: '游戏配置' }).getByRole('button', { name: '刷新', exact: true }).click());
+    await reject(() => page.locator('.app-toolbar-actions').getByRole('button', { name: '刷新', exact: true }).click());
+    await reject(() => switchSafetyGame(page));
+    await expect(page.locator('.app-toolbar-field--game .arco-select-view-value')).toContainText(GAME_ID);
+    await page.getByPlaceholder('http://localhost:8080', { exact: true }).fill('http://127.0.0.1:19081');
+    await reject(() => page.getByRole('button', { name: '应用', exact: true }).click());
+    expect(mock.writes).toHaveLength(0);
+    diagnostics.assertClean('dirty level protection');
+  });
+
+  test('late level save cannot replace the newly selected game', async ({ page }) => {
+    const mock = new MockApi();
+    const diagnostics = await prepare(page, mock);
+    await installSecondSafetyGame(page, mock);
+    let release!: () => void;
+    const gate = new Promise<void>(resolve => { release = resolve; });
+    let saving = false;
+    let settled = false;
+    await page.route(`${MOCK_API_BASE}/api/admin/games/${GAME_ID}/level-config`, async route => {
+      if (route.request().method() !== 'PUT') { await route.fallback(); return; }
+      saving = true;
+      mock.writes.push({ method: 'PUT', path: new URL(route.request().url()).pathname, body: route.request().postDataJSON() });
+      await gate;
+      await route.fulfill({ json: { gameId: GAME_ID, minLevel: 1, maxLevel: 3 } });
+      settled = true;
+    });
+    try {
+      await openGameSettings(page);
+      await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('2');
+      await page.getByLabel('最大等级', { exact: true }).fill('3');
+      await page.getByRole('button', { name: '保存等级范围', exact: true }).click();
+      await visibleModal(page, '确认调整等级范围').getByRole('button', { name: '确认保存', exact: true }).click();
+      await expect.poll(() => saving).toBe(true);
+      page.once('dialog', dialog => dialog.accept());
+      await switchSafetyGame(page);
+      await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('20');
+      release();
+      await expect.poll(() => settled).toBe(true);
+      await expect(page.getByLabel('最大等级', { exact: true })).toHaveValue('20');
+      await expect(page.getByRole('button', { name: '保存等级范围', exact: true })).toBeEnabled();
+      expect(mock.writes).toHaveLength(1);
+      diagnostics.assertClean('late level save');
+    } finally { release(); }
+  });
+
+  for (const kind of ['attribute', 'status'] as const) {
+    test(`${kind} edits retain drafts when cancel and mask dismissal are rejected`, async ({ page }, testInfo) => {
+      const mock = new MockApi();
+      mock.attributes = [attribute('attack', '攻击力')];
+      mock.statuses = [{ gameId: GAME_ID, statusKey: 'stun', statusKind: 'STUN', name: '眩晕',
+        description: null, status: 'ENABLED', sortOrder: 0, createdAt: CREATED_AT, updatedAt: UPDATED_AT }];
+      const diagnostics = await prepare(page, mock);
+      if (kind === 'attribute') await openAttributes(page); else await openStatuses(page);
+      const row = kind === 'attribute' ? attributeRow(page, 'attack') : statusRow(page, 'stun');
+      await row.getByRole('button', { name: '编辑', exact: true }).click();
+      const editor = visibleModal(page, kind === 'attribute' ? '编辑属性' : '编辑状态');
+      const name = editor.getByLabel(kind === 'attribute' ? '属性名称' : '状态名称', { exact: true });
+      await name.fill('保留的修改');
+      for (const action of [
+        () => editor.getByRole('button', { name: '取消', exact: true }).click(),
+        () => closeEditorByOutsideOrEscape(page, testInfo)
+      ]) {
+        const prompt = page.waitForEvent('dialog').then(dialog => dialog.dismiss());
+        await action();
+        await prompt;
+        await expect(editor).toBeVisible();
+        await expect(name).toHaveValue('保留的修改');
+      }
+      page.once('dialog', dialog => dialog.accept());
+      await editor.getByRole('button', { name: '取消', exact: true }).click();
+      await expect(editor).toBeHidden();
+      expect(mock.writes).toHaveLength(0);
+      diagnostics.assertClean(`${kind} discard protection`);
+    });
+  }
+
+  for (const mode of ['FIXED', 'SKILL_LEVEL', 'CHARACTER_LEVEL'] as const) {
+    test(`empty ${mode} values cannot save while explicit zero survives reopening`, async ({ page }) => {
+      const mock = new MockApi();
+      mock.skills = [{ gameId: GAME_ID, skillKey: 'empty_values', name: '空值与零值', description: null,
+        maxLevel: 2, status: 'ENABLED', sortOrder: 0, skillCategoryKeys: [], createdAt: CREATED_AT, updatedAt: UPDATED_AT }];
+      const diagnostics = await prepare(page, mock);
+      await openSkills(page);
+      await skillRow(page, 'empty_values').getByRole('button', { name: '参数与公式', exact: true }).click();
+      const shell = visibleModal(page, '参数与公式 - 空值与零值');
+      await shell.getByRole('button', { name: '新增参数', exact: true }).click();
+      const editor = visibleModal(page, '新增参数');
+      await editor.getByLabel('稳定标识', { exact: true }).fill('explicit_zero');
+      await editor.getByLabel('参数名称', { exact: true }).fill('明确零值');
+      if (mode !== 'FIXED') await editor.getByLabel('取值方式').getByText(mode === 'SKILL_LEVEL' ? '按技能等级' : '按角色等级', { exact: true }).click();
+      const values = mode === 'FIXED'
+        ? [editor.getByRole('spinbutton', { name: '固定值', exact: true })]
+        : [1, 2].map(level => editor.getByRole('spinbutton', { name: `等级${level}数值`, exact: true }));
+      for (const value of values) await expect(value).toHaveValue('');
+      await editor.getByRole('button', { name: '保存', exact: true }).click();
+      await expect(editor.getByText(mode === 'FIXED' ? '固定值不能为空。' : '缺少等级 1 的数值。', { exact: true })).toBeVisible();
+      expect(mock.writes).toHaveLength(0);
+      for (const value of values) await value.fill('0');
+      await editor.getByRole('button', { name: '保存', exact: true }).click();
+      await expect(editor).toBeHidden();
+      expect(mock.writes).toHaveLength(1);
+      const parameter = mock.skillParameters.find(item => item.parameterKey === 'explicit_zero');
+      if (mode === 'FIXED') expect(parameter?.fixedValue).toBe(0);
+      else expect(parameter?.levelValues).toEqual({ '1': 0, '2': 0 });
+      await shell.locator('tr', { hasText: 'explicit_zero' }).getByRole('button', { name: '查看', exact: true }).click();
+      const view = visibleModal(page, '查看参数');
+      await expect(view.getByRole('spinbutton', { name: mode === 'FIXED' ? '固定值' : '等级1数值', exact: true })).toHaveValue('0');
+      diagnostics.assertClean(`${mode} empty vs zero`);
+    });
+  }
+});
+
 test.describe('character management without Wasm', () => {
   test('updates the level range on the standalone game settings page', async ({ page }) => {
     const mock = new MockApi();
@@ -3338,8 +3777,10 @@ test.describe('character management without Wasm', () => {
     await page.getByLabel('最大等级', { exact: true }).fill('3');
     await page.getByRole('button', { name: '保存等级范围', exact: true }).click();
     const confirmModal = visibleModal(page, '确认调整等级范围');
+    await expect(confirmModal).toContainText('第 3 级');
+    await expect(confirmModal).toContainText('补 0');
     await confirmModal.getByRole('button', { name: '确认保存', exact: true }).click();
-    await expect(page.getByText('等级范围已保存。', { exact: true })).toBeVisible();
+    await expect(page.getByText(/等级范围已保存。.*第 3 级.*逐项核对/)).toBeVisible();
     expect(mock.minLevel).toBe(1);
     expect(mock.maxLevel).toBe(3);
     diagnostics.assertClean('standalone game settings');
@@ -3694,6 +4135,7 @@ test.describe('status management without Wasm', () => {
     await page.getByRole('button', { name: '新增状态', exact: true }).click();
     const outsideCloseModal = visibleModal(page, '新增状态');
     await outsideCloseModal.getByLabel('状态名称', { exact: true }).fill('未保存状态');
+    page.once('dialog', dialog => dialog.accept());
     await closeEditorByOutsideOrEscape(page, testInfo);
     await expect(outsideCloseModal).toBeHidden();
     expect(mock.statuses).toHaveLength(1);
@@ -3713,6 +4155,7 @@ test.describe('status management without Wasm', () => {
     await failedModal.getByRole('button', { name: '保存', exact: true }).click();
     await expect(failedModal.getByText(/409\.STATUS_KEY_EXISTS/)).toBeVisible();
     await expect(failedModal.getByLabel('状态名称', { exact: true })).toHaveValue('减速草稿');
+    page.once('dialog', dialog => dialog.accept());
     await failedModal.getByRole('button', { name: '取消', exact: true }).click();
     await expect(failedModal).toBeHidden();
     mock.statusWriteFailure = null;
@@ -6982,6 +7425,7 @@ test.describe('attribute management without Wasm', () => {
     await expect(editModal.getByLabel('稳定标识')).toBeDisabled();
     await editModal.getByLabel('属性名称').fill('基础移动速度');
     const writesBeforeDiscard = mock.writes.length;
+    page.once('dialog', dialog => dialog.accept());
     await closeEditorByOutsideOrEscape(page, testInfo);
     await expect(editModal).toBeHidden();
     expect(mock.writes.length).toBe(writesBeforeDiscard);

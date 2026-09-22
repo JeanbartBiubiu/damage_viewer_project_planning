@@ -153,6 +153,10 @@ class RelationApi {
       await this.json(route, { gameId, minLevel: 1, maxLevel: 2 });
       return;
     }
+    if (resource === 'vamp-rules' && tail.length === 1 && method === 'GET') {
+      await this.json(route, { rules: [] });
+      return;
+    }
     if (resource === 'image-options' && method === 'GET') {
       const keyword = url.searchParams.get('keyword')!;
       expect(keyword.trim().length).toBeGreaterThan(0);

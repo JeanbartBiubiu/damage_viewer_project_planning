@@ -80,7 +80,8 @@ function damageResult(resultKey: string, formulaKey: string): SkillEffectResult 
       deliveryKind: 'SKILL',
       originKind: 'DIRECT',
       critical: { mode: 'DISALLOWED', multiplierValue: null },
-      vampRules: []
+      vampQualification: 'UNRESOLVED',
+      vampOverrides: []
     }
   };
 }
