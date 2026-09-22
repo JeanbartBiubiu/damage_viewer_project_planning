@@ -15,6 +15,8 @@ type GenericEvalContext struct {
 	SourceResources map[string]model.ResourceSlotDef
 	TargetResources map[string]model.ResourceSlotDef
 	AbilityParams   map[string]float64
+	// StrictReads 用于需要区分缺值与真实零值的吸血效率和治疗修正。
+	StrictReads bool
 
 	// Provider state reads require a concrete provider context.
 	HasProviderContext  bool
@@ -196,14 +198,21 @@ func bool01(ok bool) float64 {
 func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64, error) {
 	switch kind {
 	case ReadSourceAttr:
-		return readAttrValue(ctx.SourceAttrs, key), nil
+		return readAttrValueChecked(ctx.SourceAttrs, key, ctx.StrictReads)
 	case ReadTargetAttr:
-		return readAttrValue(ctx.TargetAttrs, key), nil
+		return readAttrValueChecked(ctx.TargetAttrs, key, ctx.StrictReads)
 	case ReadSourceResource:
 		return readResourceValue(ctx.SourceResources, key), nil
 	case ReadTargetResource:
 		return readResourceValue(ctx.TargetResources, key), nil
 	case ReadAbilityParam:
+		if ctx.StrictReads {
+			value, ok := ctx.AbilityParams[key]
+			if !ok {
+				return 0, errors.New("missing ability parameter: " + key)
+			}
+			return value, nil
+		}
 		if ctx.AbilityParams == nil {
 			return 0, nil
 		}
@@ -228,12 +237,12 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
 		}
-		return readAttrValue(ctx.EventEntrySourceAttrs, key), nil
+		return readAttrValueChecked(ctx.EventEntrySourceAttrs, key, ctx.StrictReads)
 	case ReadEventEntryTargetAttr:
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
 		}
-		return readAttrValue(ctx.EventEntryTargetAttrs, key), nil
+		return readAttrValueChecked(ctx.EventEntryTargetAttrs, key, ctx.StrictReads)
 	case ReadEventEntrySourceResource:
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
@@ -248,12 +257,12 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
 		}
-		return readAttrValue(ctx.EventSourceAttrs, key), nil
+		return readAttrValueChecked(ctx.EventSourceAttrs, key, ctx.StrictReads)
 	case ReadEventTargetAttr:
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
 		}
-		return readAttrValue(ctx.EventTargetAttrs, key), nil
+		return readAttrValueChecked(ctx.EventTargetAttrs, key, ctx.StrictReads)
 	case ReadEventSourceResource:
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err

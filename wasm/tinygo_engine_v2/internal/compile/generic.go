@@ -36,6 +36,7 @@ type CompiledSession struct {
 	AbilityRefIndex map[string]CompiledAbilityRef
 	RuleModifiers   []CompiledModifier
 	Listeners       []CompiledListener
+	VampRules       []CompiledVampRule
 }
 
 // CompiledCombatant 是 compile 后的 combatant 定义。
@@ -65,6 +66,9 @@ type CompiledModifier struct {
 	Bucket        string
 	Stage         string
 	Priority      int
+	HealDirection string
+	HealCategory  string
+	HealGroupKey  string
 	ValuePolicy   string
 	ValueProgram  formula.GenericProgramID
 	HasValue      bool
@@ -193,6 +197,8 @@ type CompiledOperation struct {
 	Types                 []string
 	CopyableOnHit         bool
 	CritEligible          bool
+	VampQualification     string
+	VampOverrides         []CompiledVampOverride
 	RepeatScope           string
 	RepeatCount           int
 	RepeatTag             string
@@ -258,6 +264,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		providerKeyIndex: make(map[string]uint16),
 	}
 
+	compileVampRules(req.Rules.VampRules, req.Combatants, ctx)
 	for i, provider := range req.SharedProviders {
 		compileProviderDefinition(provider, "sharedProviders["+itoa(i)+"]", ctx)
 	}
@@ -614,12 +621,16 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 	} else if ability.Kind == "passive_listener" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".listenerSpec", "passive_listener requires listenerSpec", ability.AbilityKey)
 	}
+	validateVampAbilityInputs(ability, compiled, path, ctx)
 }
 
 func compileRulesOperations(rules model.RulesContainer, ctx *genericCompileContext) {
 	collector := ctx.collector
 	session := ctx.session
 	for i, op := range rules.Operations {
+		if len(session.VampRules) > 0 && op.Operation == "damage" {
+			collector.addError(model.GenericErrMissingRequiredField, "rules.operations["+itoa(i)+"]", "vamp damage requires a declared owning ability", op.Ref)
+		}
 		compileOperation(op, "rules.operations["+itoa(i)+"]", -1, ctx)
 	}
 	for i, modifier := range rules.Modifiers {
@@ -650,15 +661,18 @@ func compileRulesOperations(rules model.RulesContainer, ctx *genericCompileConte
 func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *genericCompileContext) CompiledModifier {
 	collector := ctx.collector
 	compiled := CompiledModifier{
-		ModifierKey: mod.ModifierKey,
-		Kind:        mod.Kind,
-		Target:      mod.Target,
-		Command:     mod.Command,
-		Channel:     mod.Channel,
-		Bucket:      mod.Bucket,
-		Stage:       mod.Stage,
-		Priority:    mod.Priority,
-		ValuePolicy: mod.ValuePolicy,
+		ModifierKey:   mod.ModifierKey,
+		Kind:          mod.Kind,
+		Target:        mod.Target,
+		Command:       mod.Command,
+		Channel:       mod.Channel,
+		Bucket:        mod.Bucket,
+		Stage:         mod.Stage,
+		Priority:      mod.Priority,
+		ValuePolicy:   mod.ValuePolicy,
+		HealDirection: mod.HealDirection,
+		HealCategory:  mod.HealCategory,
+		HealGroupKey:  mod.HealGroupKey,
 	}
 	if mod.ModifierKey == "" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".modifierKey", "modifierKey is required", "")
@@ -684,6 +698,8 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 	}
 	if compiled.Kind == "pipeline" {
 		validatePipelineModifier(compiled, path, collector)
+	} else if mod.HealDirection != "" || mod.HealCategory != "" || mod.HealGroupKey != "" {
+		collector.addError(model.GenericErrUnknownRef, path, "heal fields require kind=pipeline and command=heal", mod.ModifierKey)
 	}
 	return compiled
 }
@@ -693,6 +709,13 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 // command=crit stages: crit_chance_pre_settlement|crit_multiplier_forced_branch|crit_multiplier_natural_branch
 // Channels: basic_damage|all_damage. Buckets: all_instances|first_per_cast.
 func validatePipelineModifier(mod CompiledModifier, path string, collector *genericCollector) {
+	if mod.Command == "heal" {
+		validateHealPipelineModifier(mod, path, collector)
+		return
+	}
+	if mod.HealDirection != "" || mod.HealCategory != "" || mod.HealGroupKey != "" {
+		collector.addError(model.GenericErrUnknownRef, path, "heal fields require command=heal", mod.ModifierKey)
+	}
 	switch mod.Channel {
 	case "basic_damage", "all_damage":
 	default:
@@ -804,6 +827,9 @@ func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCom
 		compiled.AbilityRef = listener.AbilityRef
 	}
 	for i, op := range listener.Operations {
+		if len(ctx.session.VampRules) > 0 && sourceAbilityIndex < 0 && op.Operation == "damage" {
+			collector.addError(model.GenericErrMissingRequiredField, path+".operations["+itoa(i)+"]", "vamp damage requires a declared owning ability", op.Ref)
+		}
 		compileOperation(op, path+".operations["+itoa(i)+"]", ownerProviderIndex, ctx)
 	}
 	compiled.OperationCount = uint16(len(ctx.session.Operations)) - compiled.OperationStart
@@ -947,6 +973,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	if op.Operation == "damage" {
 		compiled.Types = normalizeDamageTraitTypes(op.Types, catalog)
 	}
+	compileVampOverrides(op, &compiled, path, ctx)
 	if op.Operation == "state_change" || op.Operation == model.OperationKindStateDurationChange {
 		if scope, errMsg := resolveProviderStateScope(op.Types); errMsg == "" {
 			compiled.StateScope = scope
