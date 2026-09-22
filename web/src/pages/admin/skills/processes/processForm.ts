@@ -16,6 +16,7 @@ import type {
   SkillProcessCooldown,
   SkillProcessEffectBinding,
   SkillProcessEmpoweredConsumeMoment,
+  SkillProcessFailureReason,
   SkillProcessFirstExecution,
   SkillProcessMoment,
   SkillProcessMomentType,
@@ -84,6 +85,24 @@ export const SKILL_PROCESS_MOMENT_TYPE_LABELS = {
   PROCESS_FAILURE: '过程失败'
 } as const satisfies { [K in SkillProcessMomentType]: string };
 
+export const PROCESS_FAILURE_REASONS = [
+  'CONTROLLED',
+  'SOURCE_DIED',
+  'TARGET_UNTARGETABLE',
+  'ACTIVE_CANCELLED',
+  'EVENT_ABORTED'
+] as const satisfies readonly SkillProcessFailureReason[];
+
+export const PROCESS_FAILURE_REASON_LABELS = {
+  CONTROLLED: '受到控制',
+  SOURCE_DIED: '来源对象死亡',
+  TARGET_UNTARGETABLE: '当前目标不可选取',
+  ACTIVE_CANCELLED: '主动取消',
+  EVENT_ABORTED: '当前事件终止'
+} as const satisfies { [K in SkillProcessFailureReason]: string };
+
+export const PROCESS_FAILURE_REASON_ANY_LABEL = '不限原因';
+
 export const PROCESS_LEVEL_MOMENT_TYPES = [
   'PROCESS_START',
   'PROCESS_COMPLETE',
@@ -136,6 +155,7 @@ export const MISSING_CATALOG_LABEL = '目录缺失';
 export type SkillProcessMomentDraft = {
   momentType: SkillProcessMomentType;
   stepKey: string;
+  failureReason: SkillProcessFailureReason | '';
 };
 
 export type SkillProcessStepDraft = {
@@ -164,6 +184,7 @@ export type SkillProcessEffectBindingDraft = {
   effectKey: string;
   momentType: SkillProcessMomentType;
   stepKey: string;
+  failureReason: SkillProcessFailureReason | '';
   sortOrder: string;
   originalBindingKey: string | null;
 };
@@ -177,6 +198,7 @@ export type SkillProcessStateOperationDraft = {
   optionKey: string;
   momentType: SkillProcessMomentType;
   stepKey: string;
+  failureReason: SkillProcessFailureReason | '';
   sortOrder: string;
   originalOperation: SkillProcessStateOperationKind | null;
 };
@@ -191,6 +213,7 @@ export type SkillProcessDraft = {
   cooldownDurationValue: NumericValue | null;
   cooldownMomentType: SkillProcessMomentType;
   cooldownStepKey: string;
+  cooldownFailureReason: SkillProcessFailureReason | '';
   steps: SkillProcessStepDraft[];
   effectBindings: SkillProcessEffectBindingDraft[];
   stateOperations: SkillProcessStateOperationDraft[];
@@ -243,6 +266,7 @@ export type SkillProcessEffectBindingDraftField =
   | 'moment'
   | 'momentType'
   | 'stepKey'
+  | 'failureReason'
   | 'sortOrder';
 
 export type SkillProcessEffectBindingDraftErrors = {
@@ -259,6 +283,7 @@ export type SkillProcessStateOperationDraftField =
   | 'moment'
   | 'momentType'
   | 'stepKey'
+  | 'failureReason'
   | 'sortOrder';
 
 export type SkillProcessStateOperationDraftErrors = {
@@ -364,6 +389,7 @@ const BINDING_FIELD_BY_PATH: { [path: string]: SkillProcessEffectBindingDraftFie
   moment: 'moment',
   'moment.momentType': 'momentType',
   'moment.stepKey': 'stepKey',
+  'moment.failureReason': 'failureReason',
   sortOrder: 'sortOrder'
 };
 
@@ -377,6 +403,7 @@ const OPERATION_FIELD_BY_PATH: { [path: string]: SkillProcessStateOperationDraft
   moment: 'moment',
   'moment.momentType': 'momentType',
   'moment.stepKey': 'stepKey',
+  'moment.failureReason': 'failureReason',
   sortOrder: 'sortOrder'
 };
 
@@ -425,7 +452,8 @@ export function createEmptyMomentDraft(
 ): SkillProcessMomentDraft {
   return {
     momentType,
-    stepKey: ''
+    stepKey: '',
+    failureReason: ''
   };
 }
 
@@ -458,12 +486,32 @@ export function createEmptyStepDraft(
   });
 }
 
+export function applyMomentTypeChange<T extends {
+  momentType: SkillProcessMomentType;
+  stepKey: string;
+  failureReason: SkillProcessFailureReason | '';
+}>(draft: T, nextType: SkillProcessMomentType): T {
+  return {
+    ...draft,
+    momentType: nextType,
+    stepKey: isProcessLevelMoment(nextType) ? '' : draft.stepKey,
+    failureReason: nextType === 'PROCESS_FAILURE' ? draft.failureReason : ''
+  };
+}
+
+export function momentFailureReasonOf(
+  moment: SkillProcessMoment | { failureReason?: SkillProcessFailureReason | null }
+): SkillProcessFailureReason | '' {
+  return moment.failureReason ?? '';
+}
+
 export function createEmptyEffectBindingDraft(): SkillProcessEffectBindingDraft {
   return {
     bindingKey: '',
     effectKey: '',
     momentType: 'PROCESS_START',
     stepKey: '',
+    failureReason: '',
     sortOrder: '10',
     originalBindingKey: null
   };
@@ -479,6 +527,7 @@ export function createEmptyStateOperationDraft(): SkillProcessStateOperationDraf
     optionKey: '',
     momentType: 'PROCESS_START',
     stepKey: '',
+    failureReason: '',
     sortOrder: '10',
     originalOperation: null
   };
@@ -495,6 +544,7 @@ export function createEmptyProcessDraft(): SkillProcessDraft {
     cooldownDurationValue: null,
     cooldownMomentType: 'PROCESS_START',
     cooldownStepKey: '',
+    cooldownFailureReason: '',
     steps: [createEmptyStepDraft('IMMEDIATE')],
     effectBindings: [],
     stateOperations: []
@@ -512,6 +562,7 @@ export function skillProcessToDraft(process: SkillProcess): SkillProcessDraft {
     cooldownDurationValue: process.cooldown?.durationValue ?? null,
     cooldownMomentType: process.cooldown?.startMoment.momentType ?? 'PROCESS_START',
     cooldownStepKey: process.cooldown?.startMoment.stepKey ?? '',
+    cooldownFailureReason: momentFailureReasonOf(process.cooldown?.startMoment ?? {}),
     steps: sortStepDrafts(process.steps.map(skillProcessStepToDraft)),
     effectBindings: sortBindingDrafts(process.effectBindings.map(skillProcessBindingToDraft)),
     stateOperations: sortOperationDrafts(process.stateOperations.map(skillProcessOperationToDraft))
@@ -575,6 +626,7 @@ export function skillProcessBindingToDraft(
     effectKey: binding.effectKey,
     momentType: binding.moment.momentType,
     stepKey: binding.moment.stepKey ?? '',
+    failureReason: momentFailureReasonOf(binding.moment),
     sortOrder: String(binding.sortOrder),
     originalBindingKey: binding.bindingKey
   };
@@ -592,6 +644,7 @@ export function skillProcessOperationToDraft(
     optionKey: operation.optionKey ?? '',
     momentType: operation.moment.momentType,
     stepKey: operation.moment.stepKey ?? '',
+    failureReason: momentFailureReasonOf(operation.moment),
     sortOrder: String(operation.sortOrder),
     originalOperation: operation.operation
   };
@@ -762,6 +815,21 @@ export function operationValueSummary(operation: SkillProcessStateOperationDraft
 
 export function stepExecutionMomentHint(stepType: SkillProcessStepType | undefined): string | null {
   return stepType === 'EMPOWERED_BASIC_ATTACK' ? EMPOWERED_STEP_EXECUTION_HINT : null;
+}
+
+export function processMomentDraftSummary(draft: {
+  momentType: SkillProcessMomentType;
+  stepKey: string;
+  failureReason: SkillProcessFailureReason | '';
+}): string {
+  const typeLabel = SKILL_PROCESS_MOMENT_TYPE_LABELS[draft.momentType];
+  if (draft.momentType === 'PROCESS_FAILURE') {
+    const reason = draft.failureReason
+      ? PROCESS_FAILURE_REASON_LABELS[draft.failureReason]
+      : PROCESS_FAILURE_REASON_ANY_LABEL;
+    return `${typeLabel} / ${reason}`;
+  }
+  return draft.stepKey ? `${typeLabel} / ${draft.stepKey}` : typeLabel;
 }
 
 export function listFormulaOptions(catalog: ProcessFormCatalog, currentKey: string | NumericValue | null = ''): CatalogRefOption[] {
@@ -1205,7 +1273,7 @@ function validateAndBuildCooldown(
     validateFormulaRef(options, durationValue, fieldErrors, 'cooldownDurationValue');
   }
   const moment = validateMoment(
-    { momentType: draft.cooldownMomentType, stepKey: draft.cooldownStepKey },
+    { momentType: draft.cooldownMomentType, stepKey: draft.cooldownStepKey, failureReason: draft.cooldownFailureReason },
     steps,
     fieldErrors,
     'cooldownMoment'
@@ -1242,7 +1310,7 @@ function validateAndBuildBinding(
   }
   const sortOrder = parseNonNegativeInteger(draft.sortOrder, fieldErrors, 'sortOrder');
   const moment = validateMoment(
-    { momentType: draft.momentType, stepKey: draft.stepKey },
+    { momentType: draft.momentType, stepKey: draft.stepKey, failureReason: draft.failureReason },
     steps,
     fieldErrors,
     'moment'
@@ -1313,7 +1381,7 @@ function validateAndBuildOperation(
   }
   const sortOrder = parseNonNegativeInteger(draft.sortOrder, fieldErrors, 'sortOrder');
   const moment = validateMoment(
-    { momentType: draft.momentType, stepKey: draft.stepKey },
+    { momentType: draft.momentType, stepKey: draft.stepKey, failureReason: draft.failureReason },
     steps,
     fieldErrors,
     'moment'
@@ -1374,12 +1442,27 @@ function validateMoment(
     assignMomentError(fieldErrors, field, '请选择过程时点。');
     return null;
   }
+  if (draft.momentType !== 'PROCESS_FAILURE' && draft.failureReason) {
+    assignMomentError(fieldErrors, field, '只有过程失败时点可以筛选失败原因。');
+    return null;
+  }
+  if (
+    draft.momentType === 'PROCESS_FAILURE'
+    && draft.failureReason
+    && !(PROCESS_FAILURE_REASONS as readonly string[]).includes(draft.failureReason)
+  ) {
+    assignMomentError(fieldErrors, field, '请选择合法的失败原因。');
+    return null;
+  }
+  const failureReason = draft.momentType === 'PROCESS_FAILURE'
+    ? (draft.failureReason || null)
+    : null;
   if (isProcessLevelMoment(draft.momentType)) {
     if (draft.stepKey.trim()) {
       assignMomentError(fieldErrors, field, '过程级时点不能携带步骤。');
       return null;
     }
-    return { momentType: draft.momentType, stepKey: null };
+    return { momentType: draft.momentType, stepKey: null, failureReason };
   }
   const stepKey = draft.stepKey.trim();
   if (!stepKey) {
@@ -1395,7 +1478,7 @@ function validateMoment(
     assignMomentError(fieldErrors, field, '超时时点只允许蓄力、重施或强化下一次普通攻击步骤。');
     return null;
   }
-  return { momentType: draft.momentType, stepKey };
+  return { momentType: draft.momentType, stepKey, failureReason: null };
 }
 
 function assignMomentError(

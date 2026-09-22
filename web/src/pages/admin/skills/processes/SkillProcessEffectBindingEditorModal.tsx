@@ -14,9 +14,9 @@ import { SkillProcessMomentFields } from './SkillProcessMomentFields';
 import {
   INCOMPLETE_CATALOG_MESSAGE,
   MISSING_CATALOG_LABEL,
+  applyMomentTypeChange,
   createEmptyProcessDraft,
   isCatalogOptionSelectable,
-  isProcessLevelMoment,
   listEffectOptions,
   sortBindingDrafts,
   validateSkillProcessDraft,
@@ -206,16 +206,15 @@ export function SkillProcessEffectBindingEditorModal({
           <SkillProcessMomentFields
             momentType={draft.momentType}
             stepKey={draft.stepKey}
+            failureReason={draft.failureReason}
             steps={steps}
             momentError={errors.moment ?? errors.momentType}
             stepKeyError={errors.stepKey}
+            failureReasonError={errors.failureReason}
             disabled={readOnly}
-            onMomentTypeChange={(value) => patchDraft({
-              ...draft,
-              momentType: value,
-              stepKey: isProcessLevelMoment(value) ? '' : draft.stepKey
-            })}
+            onMomentTypeChange={(value) => patchDraft(applyMomentTypeChange(draft, value))}
             onStepKeyChange={(value) => patchDraft({ ...draft, stepKey: value })}
+            onFailureReasonChange={(value) => patchDraft({ ...draft, failureReason: value })}
           />
           <Form.Item
             label="排序"

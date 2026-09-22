@@ -28,14 +28,23 @@ export type SkillProcessStepMomentType =
 
 export type SkillProcessMomentType = SkillProcessProcessMomentType | SkillProcessStepMomentType;
 
+export type SkillProcessFailureReason =
+  | 'CONTROLLED'
+  | 'SOURCE_DIED'
+  | 'TARGET_UNTARGETABLE'
+  | 'ACTIVE_CANCELLED'
+  | 'EVENT_ABORTED';
+
 export type SkillProcessProcessMoment = {
   momentType: SkillProcessProcessMomentType;
   stepKey: null;
+  failureReason: SkillProcessFailureReason | null;
 };
 
 export type SkillProcessStepMoment = {
   momentType: SkillProcessStepMomentType;
   stepKey: string;
+  failureReason: null;
 };
 
 export type SkillProcessMoment = SkillProcessProcessMoment | SkillProcessStepMoment;

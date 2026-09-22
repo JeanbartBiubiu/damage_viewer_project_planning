@@ -1,6 +1,6 @@
 import { type NumericValue } from './numericValue';
 import type { FormulaAttributeValueKind } from './skillFormula';
-import type { SkillProcessMoment } from './skillProcess';
+import type { SkillProcessFailureReason, SkillProcessMoment } from './skillProcess';
 
 export type SkillTriggerEventType =
   | 'SOURCE_INITIALIZED'
@@ -40,7 +40,8 @@ export type SkillTriggerConditionType =
 export type SkillTriggerActionType =
   | 'EXECUTE_EFFECT'
   | 'START_PROCESS'
-  | 'FAIL_PROCESS';
+  | 'FAIL_PROCESS'
+  | 'ADVANCE_PROCESS';
 
 export type SkillTriggerRuntimeInputSourceType =
   | 'INTERNAL_STATE'
@@ -116,12 +117,9 @@ export type SkillTriggerInternalStateValueKind =
 
 export type SkillTriggerTargetContext = 'CURRENT_TARGET' | 'EVENT_SOURCE';
 
-export type SkillTriggerProcessFailureReason =
-  | 'CONTROLLED'
-  | 'SOURCE_DIED'
-  | 'TARGET_UNTARGETABLE'
-  | 'ACTIVE_CANCELLED'
-  | 'EVENT_ABORTED';
+export type SkillTriggerCastPhase = 'INITIAL' | 'RECAST' | 'CHARGE_RELEASE';
+
+export type SkillTriggerProcessFailureReason = SkillProcessFailureReason;
 
 export type SkillTriggerCombatStatusValueKind = 'PRESENT' | 'STACKS' | 'REMAINING_MS';
 
@@ -146,6 +144,7 @@ export type SkillTriggerEmptyDetail = {
 export type SkillTriggerSkillUsedEventDetail = {
   sourceSkillKey: string | null;
   useKind: SkillTriggerEventUseKind;
+  castPhase: SkillTriggerCastPhase | null;
 };
 
 export type SkillTriggerSkillHitEventDetail = {
@@ -627,10 +626,25 @@ export type SkillTriggerFailProcessAction = {
   resultModifiers: [];
 };
 
+export type SkillTriggerAdvanceProcessAction = {
+  actionKey: string;
+  name: string;
+  actionType: 'ADVANCE_PROCESS';
+  sortOrder: number;
+  targetContext: null;
+  detail: {
+    processKey: string;
+    stepKey: string;
+  };
+  runtimeInputBindings: [];
+  resultModifiers: [];
+};
+
 export type SkillTriggerAction =
   | SkillTriggerExecuteEffectAction
   | SkillTriggerStartProcessAction
-  | SkillTriggerFailProcessAction;
+  | SkillTriggerFailProcessAction
+  | SkillTriggerAdvanceProcessAction;
 
 export type SkillTriggerPerTargetCooldown = {
   durationValue: NumericValue;

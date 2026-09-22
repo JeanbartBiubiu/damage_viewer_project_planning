@@ -194,7 +194,7 @@ const CONSUME_PROCESS: SkillProcess = {
       operation: 'DISABLE',
       value: null,
       optionKey: null,
-      moment: { momentType: 'PROCESS_START', stepKey: null },
+      moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null },
       sortOrder: 10
     }
   ]
@@ -469,7 +469,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
     const draft = namedDraft('charge_cap', '蓄力上限', {
       eventSource: {
         eventType: 'PROCESS_MOMENT',
-        detail: { processKey: 'charge_cast', moment: { momentType: 'PROCESS_START', stepKey: null } }
+        detail: { processKey: 'charge_cast', moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null } }
       },
       maxTriggersPerProcessEnabled: true,
       maxTriggersLimitValue: formulaValue("max_triggers"),
@@ -479,7 +479,7 @@ describe('event-switch cleanup of event values, target contexts and process limi
       eventType: 'PROCESS_MOMENT' as const,
       detail: {
         processKey: 'charge_cast',
-        moment: { momentType: 'STEP_EXECUTION' as const, stepKey: 'charge' }
+        moment: { momentType: 'STEP_EXECUTION' as const, stepKey: 'charge', failureReason: null }
       }
     };
     const cleaned = applyEventSwitchCleanup(draft, next, 'CHARGE');

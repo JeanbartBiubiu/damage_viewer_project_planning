@@ -12,7 +12,7 @@ import {
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Attribute } from '../../../../types/attribute';
-import { allowsSourceCastResourceCost, sourceCastResourceCostError } from './sourceCastResourceCost';
+import { allowsSourceCastResourceCost, sourceCastResourceCostError, type SourceCastResourceCostProcess } from './sourceCastResourceCost';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
 import type { SkillParameter, SkillParameterValueType } from '../../../../types/skillParameter';
@@ -152,6 +152,8 @@ type SkillTriggerRuntimeInputBindingEditorModalProps = {
   originalSourceType?: SkillTriggerRuntimeInputSourceType;
   attributes: readonly Attribute[];
   attributesLoadState?: CatalogLoadState;
+  processes: readonly SourceCastResourceCostProcess[];
+  processesLoadState?: CatalogLoadState;
   onRetryAttributes: () => Promise<void>;
   reachableParameters: readonly SkillParameter[];
   currentBindings: readonly SkillTriggerRuntimeInputBinding[];
@@ -184,6 +186,8 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   originalSourceType,
   attributes,
   attributesLoadState,
+  processes,
+  processesLoadState,
   onRetryAttributes,
   reachableParameters,
   currentBindings,
@@ -209,7 +213,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   const [sourceEffectError, setSourceEffectError] = useState<string | null>(null);
   const [localError, setLocalError] = useState<string | null>(null);
   const sourceCostError = current.sourceType === 'SOURCE_CAST_RESOURCE_COST'
-    ? sourceCastResourceCostError(current, eventSource, reachableParameters, attributes, attributesLoadState)
+    ? sourceCastResourceCostError(current, eventSource, reachableParameters, attributes, attributesLoadState, processes, processesLoadState)
     : null;
   const allowedValues = allowedEventValuesFor(eventSource);
   const subjectOptions = subjectOptionsForEvent(eventSource.eventType);
@@ -444,7 +448,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               value={current.sourceType}
               disabled={disabled || Boolean(originalSourceType)}
               options={SKILL_TRIGGER_SOURCE_TYPES
-                .filter((value) => value !== 'SOURCE_CAST_RESOURCE_COST' || allowsSourceCastResourceCost(eventSource) || originalSourceType === value)
+                .filter((value) => value !== 'SOURCE_CAST_RESOURCE_COST' || allowsSourceCastResourceCost(eventSource, processes) || originalSourceType === value)
                 .filter((value) => value !== 'EVENT_VALUE' || allowedValues.length > 0)
                 .filter((value) => value !== 'PRIOR_ACTION_RESULT' || earlierActions.length > 0)
                 .map((value) => ({ value, label: SKILL_TRIGGER_SOURCE_TYPE_LABELS[value] }))}
@@ -457,7 +461,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
 
           {current.sourceType === 'SOURCE_CAST_RESOURCE_COST' ? (
             <>
-              <Alert type="info" content="读取本次命中所属原始施放的资源消耗，来源技能沿用事件选择；该值为非负十进制，真实零消耗与缺少上下文不同。" />
+              <Alert type="info" content="读取本次明确来源技能命中的原始施放消耗，或当前技能非被动过程完成/失败时点的实际施放消耗；只保存属性引用，不重新计算也不做 0 兜底。真实零消耗与缺少上下文不同。" />
               {sourceCostError ? <Alert type="warning" content={sourceCostError} /> : null}
               <Form.Item label="消耗属性" required>
                 <Select

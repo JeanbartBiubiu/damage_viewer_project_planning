@@ -44,19 +44,19 @@ import {
   MISSING_CATALOG_LABEL,
   SKILL_PROCESS_ACTIVATION_TYPES,
   SKILL_PROCESS_ACTIVATION_TYPE_LABELS,
-  SKILL_PROCESS_MOMENT_TYPE_LABELS,
   SKILL_PROCESS_STEP_TYPE_LABELS,
   STATE_OPERATION_LABELS,
   buildCreateSkillProcessRequest,
   buildUpdateSkillProcessRequest,
   createEmptyEffectBindingDraft,
+  applyMomentTypeChange,
   createEmptyProcessDraft,
   createEmptyStateOperationDraft,
   createEmptyStepDraft,
   findStepDeleteBlockers,
-  isProcessLevelMoment,
   mapSkillProcessFieldIssues,
   operationValueSummary,
+  processMomentDraftSummary,
   skillProcessToDraft,
   sortBindingDrafts,
   sortOperationDrafts,
@@ -682,10 +682,7 @@ export function SkillProcessEditorModal({
     },
     {
       title: '过程时点',
-      render: (_value, row: { item: SkillProcessEffectBindingDraft }) => {
-        const momentLabel = SKILL_PROCESS_MOMENT_TYPE_LABELS[row.item.momentType];
-        return row.item.stepKey ? `${momentLabel} / ${row.item.stepKey}` : momentLabel;
-      }
+      render: (_value, row: { item: SkillProcessEffectBindingDraft }) => processMomentDraftSummary(row.item)
     },
     {
       title: '排序',
@@ -781,10 +778,7 @@ export function SkillProcessEditorModal({
     },
     {
       title: '过程时点',
-      render: (_value, row: { item: SkillProcessStateOperationDraft }) => {
-        const momentLabel = SKILL_PROCESS_MOMENT_TYPE_LABELS[row.item.momentType];
-        return row.item.stepKey ? `${momentLabel} / ${row.item.stepKey}` : momentLabel;
-      }
+      render: (_value, row: { item: SkillProcessStateOperationDraft }) => processMomentDraftSummary(row.item)
     },
     {
       title: '排序',
@@ -995,7 +989,8 @@ export function SkillProcessEditorModal({
                   cooldownEnabled: value === 'configured',
                   cooldownDurationValue: value === 'configured' ? draft.cooldownDurationValue : null,
                   cooldownMomentType: value === 'configured' ? draft.cooldownMomentType : 'PROCESS_START',
-                  cooldownStepKey: value === 'configured' ? draft.cooldownStepKey : ''
+                  cooldownStepKey: value === 'configured' ? draft.cooldownStepKey : '',
+                  cooldownFailureReason: value === 'configured' ? draft.cooldownFailureReason : ''
                 })}
               >
                 <Radio value="none">无普通冷却</Radio>
@@ -1022,15 +1017,25 @@ export function SkillProcessEditorModal({
                 <SkillProcessMomentFields
                   momentType={draft.cooldownMomentType}
                   stepKey={draft.cooldownStepKey}
+                  failureReason={draft.cooldownFailureReason}
                   steps={draft.steps}
                   momentError={errors.cooldownMoment}
                   disabled={readOnly || saving}
-                  onMomentTypeChange={(value) => patchDraft({
-                    ...draft,
-                    cooldownMomentType: value,
-                    cooldownStepKey: isProcessLevelMoment(value) ? '' : draft.cooldownStepKey
-                  })}
+                  onMomentTypeChange={(value) => {
+                    const next = applyMomentTypeChange({
+                      momentType: draft.cooldownMomentType,
+                      stepKey: draft.cooldownStepKey,
+                      failureReason: draft.cooldownFailureReason
+                    }, value);
+                    patchDraft({
+                      ...draft,
+                      cooldownMomentType: next.momentType,
+                      cooldownStepKey: next.stepKey,
+                      cooldownFailureReason: next.failureReason
+                    });
+                  }}
                   onStepKeyChange={(value) => patchDraft({ ...draft, cooldownStepKey: value })}
+                  onFailureReasonChange={(value) => patchDraft({ ...draft, cooldownFailureReason: value })}
                 />
               </>
             ) : null}

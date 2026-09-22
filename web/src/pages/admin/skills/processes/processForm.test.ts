@@ -5,6 +5,7 @@ import type { SkillProcess } from '../../../../types/skillProcess';
 import {
   INCOMPLETE_CATALOG_MESSAGE,
   PROCESS_BEHAVIOR_REQUIRED_MESSAGE,
+  applyMomentTypeChange,
   applyStepTypeChange,
   buildCreateSkillProcessRequest,
   buildUpdateSkillProcessRequest,
@@ -127,7 +128,7 @@ const SAVED_PROCESS: SkillProcess = {
   sortOrder: 10,
   cooldown: {
     durationValue: formulaValue("cooldown_ms"),
-    startMoment: { momentType: 'PROCESS_START', stepKey: null }
+    startMoment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null }
   },
   steps: [{
     stepKey: 'hit',
@@ -140,7 +141,7 @@ const SAVED_PROCESS: SkillProcess = {
   effectBindings: [{
     bindingKey: 'hit_results',
     effectKey: 'on_hit_results',
-    moment: { momentType: 'STEP_EXECUTION', stepKey: 'hit' },
+    moment: { momentType: 'STEP_EXECUTION', stepKey: 'hit', failureReason: null },
     sortOrder: 10
   }],
   stateOperations: [],
@@ -276,7 +277,8 @@ describe('skill process steps, moments and behaviors', () => {
     }));
     expect(processStart.effectBindings[0]?.moment).toEqual({
       momentType: 'PROCESS_START',
-      stepKey: null
+      stepKey: null,
+      failureReason: null
     });
 
     for (const momentType of ['PROCESS_COMPLETE', 'PROCESS_FAILURE'] as const) {
@@ -290,7 +292,7 @@ describe('skill process steps, moments and behaviors', () => {
       const normalized = expectValid(validProcessDraft({
         effectBindings: [binding({ momentType, stepKey: 'hit' })]
       }));
-      expect(normalized.effectBindings[0]?.moment).toEqual({ momentType, stepKey: 'hit' });
+      expect(normalized.effectBindings[0]?.moment).toEqual({ momentType, stepKey: 'hit', failureReason: null });
     }
 
     const processWithStep = validateSkillProcessDraft(validProcessDraft({
@@ -313,6 +315,31 @@ describe('skill process steps, moments and behaviors', () => {
     expect(unknownStep.ok).toBe(false);
     if (unknownStep.ok) throw new Error('expected invalid');
     expect(unknownStep.bindingErrors[0]?.fieldErrors.moment).toBe('请选择当前过程中的步骤。');
+  });
+
+  it('only process failure moments keep a selected failure reason, and null means any reason', () => {
+    const kept = applyMomentTypeChange(binding({ momentType: 'PROCESS_FAILURE', failureReason: 'ACTIVE_CANCELLED' }), 'PROCESS_FAILURE');
+    expect(kept.failureReason).toBe('ACTIVE_CANCELLED');
+    expect(applyMomentTypeChange(kept, 'PROCESS_COMPLETE').failureReason).toBe('');
+    expect(applyMomentTypeChange(kept, 'STEP_EXECUTION')).toMatchObject({ failureReason: '', stepKey: '' });
+    const anyReason = expectValid(validProcessDraft({
+      effectBindings: [binding({ momentType: 'PROCESS_FAILURE', stepKey: '', failureReason: '' })]
+    }));
+    expect(anyReason.effectBindings[0]?.moment).toEqual({
+      momentType: 'PROCESS_FAILURE',
+      stepKey: null,
+      failureReason: null
+    });
+    const cancelled = expectValid(validProcessDraft({
+      effectBindings: [binding({ momentType: 'PROCESS_FAILURE', stepKey: '', failureReason: 'ACTIVE_CANCELLED' })]
+    }));
+    expect(cancelled.effectBindings[0]?.moment.failureReason).toBe('ACTIVE_CANCELLED');
+    const invalid = validateSkillProcessDraft(validProcessDraft({
+      effectBindings: [binding({ momentType: 'PROCESS_START', failureReason: 'CONTROLLED' })]
+    }), { includeProcessKey: true, catalog: CATALOG });
+    expect(invalid.ok).toBe(false);
+    if (invalid.ok) throw new Error('expected invalid');
+    expect(invalid.bindingErrors[0]?.fieldErrors.moment).toBe('只有过程失败时点可以筛选失败原因。');
   });
 
   it('rejects timeout moments except on charge, recast and empowered steps', () => {
@@ -338,7 +365,8 @@ describe('skill process steps, moments and behaviors', () => {
     }));
     expect(chargeTimeout.effectBindings[0]?.moment).toEqual({
       momentType: 'STEP_TIMEOUT',
-      stepKey: 'charge'
+      stepKey: 'charge',
+      failureReason: null
     });
   });
 
@@ -402,7 +430,7 @@ describe('skill process steps, moments and behaviors', () => {
     }));
     expect(normalized.cooldown).toEqual({
       durationValue: formulaValue("cooldown_ms"),
-      startMoment: { momentType: 'PROCESS_START', stepKey: null }
+      startMoment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null }
     });
     expect(normalized.effectBindings.map((item) => item.bindingKey)).toEqual(['mana_cost', 'hit_results']);
     expect(normalized.stateOperations.map((item) => item.operation)).toEqual([
@@ -436,7 +464,7 @@ describe('skill process steps, moments and behaviors', () => {
     const request = buildCreateSkillProcessRequest(normalized);
     expect(request.cooldown).toEqual({
       durationValue: formulaValue('cooldown_ms'),
-      startMoment: { momentType: 'PROCESS_START', stepKey: null }
+      startMoment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null }
     });
     expect(request.effectBindings).toEqual([]);
     expect(request.stateOperations).toEqual([]);

@@ -124,6 +124,7 @@ export function SkillProcessStepEditorModal({
           effectKey: 'placeholder',
           momentType: 'PROCESS_START',
           stepKey: '',
+          failureReason: '',
           sortOrder: '0',
           originalBindingKey: null
         }]
