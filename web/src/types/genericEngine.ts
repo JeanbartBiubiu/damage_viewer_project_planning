@@ -144,6 +144,8 @@ export type OperationDefinition = {
   vampOverrides?: GenericVampOverride[];
   skillHit?: SkillHitDefinition;
   providerRefFromEvent?: boolean;
+  /** Same-frame damage export key; later ops read operation.output.<outputRef>.<kind>. */
+  outputRef?: string;
 };
 
 export type SkillHitHistoryState = 'complete' | 'unknown';
@@ -232,6 +234,13 @@ export type ModifierDefinition = {
   healGroupCalculationMode?: HealGroupCalculationMode;
 };
 
+export type OncePerUseScope = 'provider' | 'provider_target';
+
+export type OncePerUseLimit = {
+  groupKey: string;
+  scope: OncePerUseScope;
+};
+
 export type ListenerDefinition = {
   listenerKey: string;
   eventMatcher: { any?: string[]; all?: string[]; none?: string[] };
@@ -241,6 +250,9 @@ export type ListenerDefinition = {
   chainLimitKey?: string;
   /** Optional non-negative per-cast throttle (ms); omit when unset for legacy payloads. */
   perCastThrottleMs?: number;
+  /** Frozen 0/1 predicate evaluated before any listener action. */
+  condition?: GenericFormulaExpr;
+  oncePerUse?: OncePerUseLimit;
 };
 
 export type AbilityDefinition = {
@@ -249,6 +261,8 @@ export type AbilityDefinition = {
   types?: string[];
   tags?: string[];
   params?: Record<string, number>;
+  /** Attack-start / resolve identity; must equal skillUses.skillKey when present. */
+  skillKey?: string;
   cost?: { resourceKey: string; amount: GenericFormulaExpr; allowPartial?: boolean };
   cooldown?: { durationMs: GenericFormulaExpr; startsOn?: string; groupKey?: string };
   /** Optional cast precondition formula (provider-local ref). */
@@ -393,11 +407,23 @@ export type CombatantSnapshot = {
   effectiveStatuses?: EffectiveStatusSnapshot[];
 };
 
+export type UseTriggerLedgerEntry = {
+  owner: string;
+  providerRef: string;
+  groupKey: string;
+  scope: OncePerUseScope;
+  useSource: string;
+  useSkillKey: string;
+  useKey: string;
+  target: string | null;
+};
+
 export type InitialSnapshot = {
   schemaHash: string;
   rulesHash: string;
   timeMs: number;
   combatants: CombatantSnapshot[];
+  useTriggerLedger?: UseTriggerLedgerEntry[];
 };
 
 /** TinyGo V2 DriverRepeat: fixed interval XOR formula cadence (never both). */
@@ -440,6 +466,11 @@ export type SafetyBudget = {
   maxEvents?: number;
 };
 
+export type AttackStartFact = {
+  driverEntryKey: string;
+  useRef: string;
+};
+
 export type RunRequest = {
   sessionId: string;
   expectedRulesHash: string;
@@ -453,6 +484,7 @@ export type RunRequest = {
   safetyBudget?: SafetyBudget;
   skillUses?: SkillUseFact[];
   skillHitFacts?: SkillHitFact[];
+  attackStartFacts?: AttackStartFact[];
 };
 
 export type RunSummary = {

@@ -6,7 +6,7 @@
 
 - `tinygoV2Bridge.ts` 负责加载、frame 编解码和导出校验；`genericEngineClient.ts` 负责 compile/run/release 客户端。不要新建第二套 Wasm loader。
 - 改请求或结果形状时同步读取 `web/src/types/genericEngine.ts` 及 TinyGo 当前 DTO；不要为已删除的旧表结构修改通用 ABI。
-- `hitAdapter.ts` 负责有界命中计划；持续结果编译由 `persistentResultAdapter.ts` 的共用函数提供给命中入口和第7独立入口。不要加入跳过命中判定的布尔开关。
+- `hitAdapter.ts` 负责有界命中计划；`triggerAdapter.ts` 负责第6项有界触发与过程适配。持续结果编译由 `persistentResultAdapter.ts` 的共用函数提供给命中入口和第7独立入口。不要加入跳过命中判定的布尔开关；命中入口继续拒绝 oncePerUse。
 - 前端产物为 `wasm/tinygo_engine_v2.wasm`。所需业务导出是 `engine_compile`、`engine_run`、`engine_release_session`。
 - 旧 Catalog、Bundle 和 combat-data assembler 已删除，不恢复依赖。
 
