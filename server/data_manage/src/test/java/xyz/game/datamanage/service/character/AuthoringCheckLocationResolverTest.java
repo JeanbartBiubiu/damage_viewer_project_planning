@@ -34,6 +34,11 @@ class AuthoringCheckLocationResolverTest {
         assertEquals("FIELD", limits.precision());
         assertEquals(new Field("perTargetCooldown"), limits.segments().getFirst());
         assertEquals("limits.perTargetCooldown.durationValue.parameterKey", limits.fieldPath());
+        var once = AuthoringCheckLocationResolver.resolve("q", "TRIGGER", "hit", "limits.oncePerUse.scope",
+            JSON.readTree("{\"limits\":{\"oncePerUse\":{\"groupKey\":\"eclipse\",\"scope\":\"SKILL\"}}}"));
+        assertEquals("FIELD", once.precision());
+        assertEquals(new Field("oncePerUse"), once.segments().getFirst());
+        assertEquals("limits.oncePerUse.scope", once.fieldPath());
         var key = AuthoringCheckLocationResolver.resolve("q", "STATE", "mode", "key", JSON.readTree("{\"key\":\"mode\",\"stateType\":\"MODE\"}"));
         assertEquals(new Field("stateKey"), key.segments().getLast());
         assertEquals(new ExpectValue("stateType", "MODE"), key.segments().getFirst());

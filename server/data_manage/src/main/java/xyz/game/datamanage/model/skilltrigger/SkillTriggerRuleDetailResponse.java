@@ -11,6 +11,7 @@ public record SkillTriggerRuleDetailResponse(
     List<SkillTriggerConditionGroup> conditionGroups,
     List<SkillTriggerAction> actions,
     SkillTriggerPerTargetCooldown perTargetCooldown,
-    SkillTriggerProcessLimit maxTriggersPerProcess
+    SkillTriggerProcessLimit maxTriggersPerProcess,
+    SkillTriggerOncePerUse oncePerUse
 ) {
 }

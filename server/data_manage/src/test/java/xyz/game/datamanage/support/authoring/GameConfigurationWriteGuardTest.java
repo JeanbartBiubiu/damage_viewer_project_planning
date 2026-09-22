@@ -436,6 +436,30 @@ class GameConfigurationWriteGuardTest {
         verify(connection).commit();
     }
 
+    @Test
+    void finalOncePerUseIllegalEventRollsBackBeforeReferenceReplacement() throws Exception {
+        Connection connection = connection();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of());
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "source_type", "TRIGGER", "skill_key", "skill", "source_key", "used", "data", """
+                {"eventSource":{"eventType":"SKILL_USED","detail":{"useKind":"ANY"}},
+                 "conditionGroups":[],"actions":[],
+                 "limits":{"oncePerUse":{"groupKey":"eclipse","scope":"SKILL"}}}
+                """)));
+        ApiException error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            jdbc.update("UPDATE once per use bypass for test");
+            return null;
+        }));
+        assertEquals("409.SKILL_TRIGGER_RULE_ONCE_PER_USE_INVALID", error.getCode());
+        assertTrue(error.getDetails().toString().contains("ONCE_PER_USE_EVENT_INVALID"));
+        assertTrue(error.getDetails().toString().contains("limits.oncePerUse"));
+        verify(jdbc).update("UPDATE once per use bypass for test");
+        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(connection).rollback();
+        verify(connection, never()).commit();
+    }
+
     private static Map<String, Object> formulaRow() {
         return Map.of("source_type", "FORMULA", "skill_key", "ez_q", "source_key", "damage",
             "data", "{\"expression\":{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"damage\"}}");

@@ -103,7 +103,7 @@ class SkillTriggerRuleCycleServiceTest {
                 List.of(executeAction("deal", EFFECT_KEY)),
                 new SkillTriggerPerTargetCooldown(SkillNumericValue.formula("cd_f"), SkillTriggerTargetContext.CURRENT_TARGET),
                 null
-            )
+            , null)
         );
     }
 
@@ -645,7 +645,7 @@ class SkillTriggerRuleCycleServiceTest {
         var group = new xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroup("g", "条件", 0, List.of(condition));
         assertCode("400.TRIGGER_RULE_CYCLE_UNGUARDED", () -> service.create(GAME_ID, SKILL_KEY,
             new SkillTriggerRuleCreateRequest("loop", "loop", null, 0, resultAvailable(EFFECT_KEY, RESULT_KEY),
-                List.of(group), List.of(executeAction("deal", EFFECT_KEY)), null, null)));
+                List.of(group), List.of(executeAction("deal", EFFECT_KEY)), null, null, null)));
     }
 
     @Test

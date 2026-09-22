@@ -139,6 +139,6 @@ class SkillTriggerSkillHitShieldValueServiceTest {
             List.of(new SkillTriggerAction("deal", "执行效果", SkillTriggerActionType.EXECUTE_EFFECT, 0,
                 SkillTriggerTargetContext.CURRENT_TARGET, new SkillTriggerExecuteEffectActionDetail(EFFECT_KEY),
                 binding == null ? List.of() : List.of(new SkillTriggerRuntimeInputBinding("shield", "shield_flag", SkillTriggerRuntimeInputSourceType.EVENT_VALUE, binding)), List.of())),
-            null, null);
+            null, null, null);
     }
 }

@@ -145,7 +145,7 @@ class SkillTriggerRuleServiceTest {
         when(mapper.listSummaries(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new SkillTriggerRuleSummaryResponse(
                 "on_hit", "命中追加", null, SkillTriggerEventType.BASIC_ATTACK_HIT,
-                0, 1, false, false, 10, TS
+                0, 1, false, false, false, 10, TS
             )
         ));
         var summaries = service.list(GAME_ID, SKILL_KEY);
@@ -182,7 +182,7 @@ class SkillTriggerRuleServiceTest {
         SkillTriggerRuleCreateRequest renamed = new SkillTriggerRuleCreateRequest(
             "on_hit", "命中追加", "命中后追加伤害", 20, create.eventSource(),
             List.of(), List.of(executeAction("deal", EFFECT_KEY)), null, null
-        );
+        , null);
         SkillTriggerRuleDetailResponse updated = service.update(
             GAME_ID, SKILL_KEY, "on_hit", updateFromCreate(renamed)
         );
@@ -225,7 +225,7 @@ class SkillTriggerRuleServiceTest {
         SkillTriggerRuleCreateRequest request = new SkillTriggerRuleCreateRequest(
             "json_order", "根保存顺序", null, 10,
             new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT, new SkillTriggerEmptyEventDetail()),
-            List.of(group), List.of(later, earlier), null, null);
+            List.of(group), List.of(later, earlier), null, null, null);
 
         SkillTriggerRuleDetailResponse created = service.create(GAME_ID, SKILL_KEY, request);
         assertEquals(List.of(earlier, later), created.actions());
@@ -240,6 +240,7 @@ class SkillTriggerRuleServiceTest {
         var limits = xyz.game.datamanage.support.authoring.AggregateJson.tree(root.limitsJson());
         assertTrue(limits.get("perTargetCooldown").isNull());
         assertTrue(limits.get("maxTriggersPerProcess").isNull());
+        assertTrue(limits.get("oncePerUse").isNull());
         assertFalse(root.actionsJson().contains("foreignFields"));
         assertFalse(root.actionsJson().contains("unknownFields"));
 
@@ -247,7 +248,7 @@ class SkillTriggerRuleServiceTest {
             5, later.targetContext(), later.detail(), later.runtimeInputBindings(), later.resultModifiers());
         SkillTriggerRuleDetailResponse updated = service.update(GAME_ID, SKILL_KEY, request.ruleKey(),
             updateFromCreate(new SkillTriggerRuleCreateRequest(request.ruleKey(), request.name(), null, 10,
-                request.eventSource(), request.conditionGroups(), List.of(earlier, movedEarlier), null, null)));
+                request.eventSource(), request.conditionGroups(), List.of(earlier, movedEarlier), null, null, null)));
         assertEquals(List.of(movedEarlier, earlier), updated.actions());
         assertEquals(updated, service.get(GAME_ID, SKILL_KEY, request.ruleKey()));
         assertEquals("later", xyz.game.datamanage.support.authoring.AggregateJson.tree(
@@ -281,7 +282,7 @@ class SkillTriggerRuleServiceTest {
             List.of(executeAction("deal", EFFECT_KEY)),
             null,
             null
-        );
+        , null);
 
         SkillTriggerRuleDetailResponse response = service.create(GAME_ID, SKILL_KEY, create);
 
@@ -441,7 +442,7 @@ class SkillTriggerRuleServiceTest {
                 List.of(),
                 null,
                 null
-            )
+            , null)
         ));
         ApiException emptyGroup = thrown(() -> service.create(
             GAME_ID,
@@ -453,7 +454,7 @@ class SkillTriggerRuleServiceTest {
                 List.of(executeAction("deal", EFFECT_KEY)),
                 null,
                 null
-            )
+            , null)
         ));
         assertEquals("400.VALIDATION_FAILED", emptyGroup.getCode());
         assertField(emptyGroup, "conditionGroups[0].conditions", "REQUIRED");
@@ -491,7 +492,7 @@ class SkillTriggerRuleServiceTest {
                 ),
                 null,
                 null
-            )
+            , null)
         ));
         assertEquals("400.VALIDATION_FAILED", failNotLast.getCode());
         assertField(failNotLast, "actions", "FAIL_PROCESS_NOT_LAST");
@@ -535,7 +536,7 @@ class SkillTriggerRuleServiceTest {
                 ),
                 null,
                 null
-            )
+            , null)
         );
         assertEquals("detonate_at_full_stacks", detonate.ruleKey());
         assertEquals(SkillTriggerLifecycleEventMoment.FULL_STACKS,
@@ -571,7 +572,7 @@ class SkillTriggerRuleServiceTest {
                 List.of(executeAction("apply_shield", "guardian_shield")),
                 new SkillTriggerPerTargetCooldown(SkillNumericValue.formula("per_target_cd"), SkillTriggerTargetContext.CURRENT_TARGET),
                 null
-            )
+            , null)
         );
         assertEquals(SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED, shield.eventSource().eventType());
         assertEquals(SkillNumericValue.formula("per_target_cd"), shield.perTargetCooldown().durationValue());
@@ -608,7 +609,7 @@ class SkillTriggerRuleServiceTest {
             List.of(executeAction("deal", "focus_burst"), executeAction("apply", "focus_mark")),
             null,
             null
-        );
+        , null);
         service.create(GAME_ID, SKILL_KEY, onHit);
 
         SkillTriggerAction first = executeAction("deal_first", "first_hit");
@@ -666,7 +667,7 @@ class SkillTriggerRuleServiceTest {
                 List.of(first, second),
                 null,
                 null
-            )
+            , null)
         );
         assertEquals(1, prior.actions().get(1).runtimeInputBindings().size());
         assertEquals(0, new BigDecimal("1.50").compareTo(prior.actions().get(1).resultModifiers().get(0).fixedMultiplier()));
@@ -704,7 +705,7 @@ class SkillTriggerRuleServiceTest {
                 List.of(executeAction("buff", EFFECT_KEY), startProcessAction("consume", PROCESS_KEY)),
                 null,
                 null
-            )
+            , null)
         );
 
         SkillTriggerRuleDetailResponse failed = service.create(
@@ -720,7 +721,7 @@ class SkillTriggerRuleServiceTest {
                 List.of(failProcessAction("fail", PROCESS_KEY, SkillTriggerProcessFailureReason.CONTROLLED)),
                 null,
                 null
-            )
+            , null)
         );
         assertEquals(SkillTriggerActionType.FAIL_PROCESS, failed.actions().get(0).actionType());
     }
@@ -1069,7 +1070,7 @@ class SkillTriggerRuleServiceTest {
                 "same", "same", null, 10,
                 new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT, new SkillTriggerEmptyEventDetail()),
                 List.of(), List.of(self), null, null
-            )
+            , null)
         ));
         assertField(sameAction, "actions[0].runtimeInputBindings[0].detail.sourceActionKey", "RESULT_NOT_IMMEDIATELY_AVAILABLE");
 
@@ -1089,7 +1090,7 @@ class SkillTriggerRuleServiceTest {
                     List.of()
                 )),
                 null, null
-            )
+            , null)
         ));
         assertField(missingAction, "actions[0].runtimeInputBindings[0].detail.sourceActionKey", "RESULT_NOT_IMMEDIATELY_AVAILABLE");
 
@@ -1280,7 +1281,7 @@ class SkillTriggerRuleServiceTest {
                 List.of(),
                 List.of(executeAction("apply", EFFECT_KEY)),
                 null, null
-            )
+            , null)
         ));
         assertEquals("400.TRIGGER_RULE_CYCLE_UNGUARDED", shieldCycle.getCode());
     }
@@ -1449,7 +1450,7 @@ class SkillTriggerRuleServiceTest {
             List.of(group),
             List.of(executeAction("deal", EFFECT_KEY)),
             null, null
-        );
+        , null);
         if (allowed) {
             service.create(GAME_ID, SKILL_KEY, conditionRequest);
         } else {
@@ -1488,7 +1489,7 @@ class SkillTriggerRuleServiceTest {
             bindKey, bindKey, null, 10,
             new SkillTriggerEventSource(eventType, detail),
             List.of(), List.of(boundAction), null, null
-        );
+        , null);
         if (allowed) {
             service.create(GAME_ID, SKILL_KEY, bindingRequest);
         } else {
@@ -1551,7 +1552,7 @@ class SkillTriggerRuleServiceTest {
             ruleKey, ruleKey, null, 10,
             new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT, new SkillTriggerEmptyEventDetail()),
             List.of(), actions, null, null
-        );
+        , null);
     }
 
     private static SkillTriggerRuntimeInputBinding priorBinding(SkillTriggerPriorResultOutputKind outputKind) {

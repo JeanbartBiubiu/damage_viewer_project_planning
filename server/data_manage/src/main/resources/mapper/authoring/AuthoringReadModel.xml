@@ -592,6 +592,16 @@
         WHERE r.limits->'maxTriggersPerProcess' IS NOT NULL AND r.limits->'maxTriggersPerProcess' &lt;> 'null'::jsonb
     </sql>
 
+    <sql id="triggerRuleOncePerUseLimits">
+        SELECT r.game_id AS game_id,
+               r.skill_key AS skill_key,
+               r.rule_key AS rule_key,
+               r.limits->'oncePerUse'->>'groupKey' AS group_key,
+               r.limits->'oncePerUse'->>'scope' AS scope
+        FROM public.skill_trigger_rules r
+        WHERE r.limits->'oncePerUse' IS NOT NULL AND r.limits->'oncePerUse' &lt;> 'null'::jsonb
+    </sql>
+
     <sql id="triggerRuleResultEvents">
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,

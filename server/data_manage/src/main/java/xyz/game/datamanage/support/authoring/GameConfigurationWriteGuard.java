@@ -102,6 +102,7 @@ public class GameConfigurationWriteGuard {
         SkillExplicitTargetIsSourceConditionSemantics.validate(aggregates);
         SkillHitTargetIsEnemyConditionSemantics.validate(aggregates);
         SkillCastingPhaseSemantics.validate(aggregates);
+        SkillTriggerOncePerUseSemantics.validate(aggregates);
         vampSemantics.validate(gameId, aggregates);
         healingRatioMaxSemantics.validate(gameId, aggregates);
         numericSemantics.validate(gameId, aggregates);

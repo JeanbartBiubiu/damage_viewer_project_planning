@@ -148,6 +148,6 @@ class SkillTriggerLifecycleConditionServiceTest {
             new SkillTriggerEventSource(event, new SkillTriggerEmptyEventDetail()),
             List.of(new SkillTriggerConditionGroup("conditions", "条件", 0,
                 List.of(new SkillTriggerCondition("mark_present", SkillTriggerConditionType.LIFECYCLE_CHECK, 0, detail)))),
-            List.of(executeAction("deal", EFFECT_KEY)), null, null);
+            List.of(executeAction("deal", EFFECT_KEY)), null, null, null);
     }
 }

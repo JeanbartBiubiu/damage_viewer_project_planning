@@ -82,6 +82,25 @@ class SkillObjectReferencesTest {
     }
 
     @Test
+    void oncePerUseGroupKeyIsNotASkillOrUserSkillReference() {
+        Aggregate trigger = aggregate(SourceType.TRIGGER, "s1", "eclipse_hit", """
+            {"eventSource":{"eventType":"BASIC_ATTACK_HIT","detail":{}},
+             "conditionGroups":[],"actions":[{"actionKey":"apply","actionType":"EXECUTE_EFFECT",
+               "targetContext":"CURRENT_TARGET","detail":{"effectKey":"passive"},
+               "runtimeInputBindings":[],"resultModifiers":[]}],
+             "limits":{"perTargetCooldown":null,"maxTriggersPerProcess":null,
+               "oncePerUse":{"groupKey":"s2","scope":"TARGET"}}}
+            """);
+        Set<Target> targets = Set.of(
+            new Target(TargetType.EFFECT, "s1", "passive", ""),
+            new Target(TargetType.SKILL, "", "s2", "")
+        );
+        List<Reference> refs = SkillObjectReferences.extractAndValidate("lol", List.of(trigger), targets);
+        assertEquals(1, refs.size());
+        assertReference(refs, SourceType.TRIGGER, "eclipse_hit", "actions[0].detail.effectKey", TargetType.EFFECT, "s1", "passive", "");
+    }
+
+    @Test
     void directParameterCreatesItsOwnEdgeWhileFixedZeroCreatesNone() {
         Aggregate effect = aggregate(SourceType.EFFECT, "s1", "direct_values", """
             {"results":[

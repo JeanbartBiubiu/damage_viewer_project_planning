@@ -36,7 +36,9 @@ public record SkillTriggerRuleCreateRequest(
     @Valid
     SkillTriggerPerTargetCooldown perTargetCooldown,
     @Valid
-    SkillTriggerProcessLimit maxTriggersPerProcess
+    SkillTriggerProcessLimit maxTriggersPerProcess,
+    @Valid
+    SkillTriggerOncePerUse oncePerUse
 ) {
     public SkillTriggerRuleCreateRequest {
         ruleKey = ruleKey == null ? null : ruleKey.trim();

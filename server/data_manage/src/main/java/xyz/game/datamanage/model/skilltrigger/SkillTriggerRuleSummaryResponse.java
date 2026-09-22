@@ -11,6 +11,7 @@ public record SkillTriggerRuleSummaryResponse(
     Integer actionCount,
     Boolean perTargetCooldownEnabled,
     Boolean maxTriggersPerProcessEnabled,
+    Boolean oncePerUseEnabled,
     Integer sortOrder,
     OffsetDateTime updatedAt
 ) {
