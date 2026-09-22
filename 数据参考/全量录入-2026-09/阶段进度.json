@@ -2,7 +2,7 @@
   "generatedAt": "2026-09-21T14:53:14.771Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
-  "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。",
+  "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。；第7项状态合并返回：1乘区+2原装备重伤效果经3次真实页面保存及独立回读，实际Wasm治疗60/60/100通过，整件装备结论及完成数保持。",
   "heroes": {
     "count": 171,
     "attributes": 1641,
@@ -13463,7 +13463,7 @@
         "status": "PASS",
         "cases": 15,
         "parametersOrFormulaChanged": false,
-        "maxAbsoluteDifference": 0.000007674097901144705,
+        "maxAbsoluteDifference": 7.674097901144705e-06,
         "tolerance": 0.0001
       },
       "currentComponentCounts": {
@@ -15121,9 +15121,27 @@
       "runtime": false,
       "wholeEquipmentComplete": false,
       "next": "用户于2026-09-21要求当前装备收尾后暂停；先据现有问题记录迭代功能，再明确恢复录入。"
+    },
+    "crossSourceStateMergeReturn": {
+      "status": "两项原装备重伤效果与游戏治疗取强乘区经真实页面保存；已保存配置进入实际Wasm工作线程验证，整件装备仍暂缓",
+      "skills": [
+        "item_3123_passive",
+        "item_3916_passive"
+      ],
+      "successfulSaves": 3,
+      "newModifierZones": 1,
+      "newEffects": 2,
+      "newTriggerRules": 0,
+      "browser": true,
+      "runtime": true,
+      "wholeEquipmentComplete": false,
+      "evidence": [
+        "管理机制迭代验收/2026-09-23-状态合并返回.json"
+      ],
+      "boundary": "只显式施加原效果验证取强与独立到期；不证明装备伤害触发、英雄目标资格和生命回复覆盖，不增加整技能或整装备完成数。"
     }
   },
-  "runtimeValidation": "未执行",
+  "runtimeValidation": "部分机制已验证：重伤取强与独立到期使用已保存效果进入实际Wasm；整技能与整装备未全量验证，见crossSourceStateMergeReturn。",
   "inventoryConclusions": {
     "schemaVersion": 1,
     "status": "进行中：角色、英雄技能、装备和符文清单均已逐项覆盖；各类资料待核与系统暂缓队列仍需继续处理。",
@@ -47128,13 +47146,14 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "系统暂缓",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "来源数值没有明确缺口；仍有1项事件、状态、时序或正确结算能力未完成。",
+        "reason": "已保存重伤效果并完成通用治疗取强、独立到期的实际运行返回；装备合法伤害触发、英雄目标资格及生命回复覆盖仍待接线或核对，整件装备仍系统暂缓。",
         "sourcePendingCount": 0,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
-          "equipmentEffectReview"
+          "equipmentEffectReview",
+          "crossSourceStateMergeReturn"
         ]
       },
       {
@@ -48625,13 +48644,14 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "系统暂缓",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "来源数值没有明确缺口；仍有1项事件、状态、时序或正确结算能力未完成。",
+        "reason": "已保存重伤效果并完成通用治疗取强、独立到期的实际运行返回；装备合法伤害触发、英雄目标资格及生命回复覆盖仍待接线或核对，整件装备仍系统暂缓。",
         "sourcePendingCount": 0,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
-          "equipmentEffectReview"
+          "equipmentEffectReview",
+          "crossSourceStateMergeReturn"
         ]
       },
       {

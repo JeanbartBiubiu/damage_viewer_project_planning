@@ -1,0 +1,347 @@
+{
+  "verifiedAt": "2026-09-22T22:32:40.506361+00:00",
+  "gameId": "lol",
+  "sourceVersion": "16.17.1",
+  "plan": "文档记录/详细设计/项目/管理页面与共性机制迭代计划.md 第7项",
+  "databaseScope": "test0221，新增1个乘区及2个效果；原对象未覆盖",
+  "pageWrites": [
+    {
+      "kind": "modifier-zone",
+      "request": {
+        "method": "POST",
+        "path": "/modifier-zones",
+        "body": {
+          "modifierZoneKey": "grievous_wounds",
+          "name": "重伤受到治疗取强",
+          "domain": "HEALING",
+          "calculationMode": "RATIO_MAX",
+          "applicationStage": "HEALING_RESULT",
+          "description": "重伤降低受到治疗的通用乘区。同组选择最大减少比例；每个来源的持续效果保留自己的期限，强者结束后仍有效的弱者继续生效。",
+          "status": "ENABLED",
+          "sortOrder": 260
+        },
+        "sha256": "a13aeecb273b63761799a8af5e00582e1bc2c81a60501023b91b38e9ce737665"
+      },
+      "writeAt": "2026-09-22T22:09:59.784Z",
+      "status": 201,
+      "immediateAndIndependentReadbackEqual": true,
+      "readback": {
+        "applicationStage": "HEALING_RESULT",
+        "calculationMode": "RATIO_MAX",
+        "createdAt": "2026-09-22T22:09:59.484631Z",
+        "description": "重伤降低受到治疗的通用乘区。同组选择最大减少比例；每个来源的持续效果保留自己的期限，强者结束后仍有效的弱者继续生效。",
+        "domain": "HEALING",
+        "gameId": "lol",
+        "modifierZoneKey": "grievous_wounds",
+        "name": "重伤受到治疗取强",
+        "sortOrder": 260,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-22T22:09:59.484631Z"
+      }
+    },
+    {
+      "kind": "effect",
+      "request": {
+        "method": "POST",
+        "path": "/skills/item_3123_passive/effects",
+        "body": {
+          "effectKey": "grievous_wounds",
+          "name": "重伤受到治疗降低",
+          "description": "保留来源已核定的40%降低受到治疗及3000毫秒期限组成；合法伤害触发、英雄目标资格与生命回复覆盖仍待接线核对，不代表整件装备运行完整。",
+          "sortOrder": 0,
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "grievous_duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE_TARGET",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "healing_reduction",
+              "name": "受到治疗降低40%",
+              "target": "TARGET",
+              "description": null,
+              "sortOrder": 0,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "KEEP",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "resultType": "HEALING_MODIFIER",
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "grievous_amount"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "modifierZoneKey": "grievous_wounds",
+                "direction": "RECEIVED",
+                "operation": "DECREASE",
+                "healingKind": "ANY"
+              }
+            }
+          ]
+        },
+        "sha256": "3a4433689f64086a9972f762f577d540edc7f4b226811b641bdcaf5ebd48997a"
+      },
+      "writeAt": "2026-09-22T22:10:50.069Z",
+      "status": 201,
+      "immediateAndIndependentReadbackEqual": true,
+      "readback": {
+        "createdAt": "2026-09-22T22:10:49.790166Z",
+        "description": "保留来源已核定的40%降低受到治疗及3000毫秒期限组成；合法伤害触发、英雄目标资格与生命回复覆盖仍待接线核对，不代表整件装备运行完整。",
+        "effectKey": "grievous_wounds",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "grievous_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "重伤受到治疗降低",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "direction": "RECEIVED",
+              "healingKind": "ANY",
+              "modifierZoneKey": "grievous_wounds",
+              "operation": "DECREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "KEEP",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "受到治疗降低40%",
+            "resultKey": "healing_reduction",
+            "resultType": "HEALING_MODIFIER",
+            "sortOrder": 0,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "grievous_amount"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3123_passive",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-22T22:10:49.790166Z"
+      }
+    },
+    {
+      "kind": "effect",
+      "request": {
+        "method": "POST",
+        "path": "/skills/item_3916_passive/effects",
+        "body": {
+          "effectKey": "grievous_wounds",
+          "name": "重伤受到治疗降低",
+          "description": "保留来源已核定的40%降低受到治疗及3000毫秒期限组成；合法伤害触发、英雄目标资格与生命回复覆盖仍待接线核对，不代表整件装备运行完整。",
+          "sortOrder": 0,
+          "lifecycle": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "grievous_duration_ms"
+            },
+            "maxStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "applicationStacksValue": {
+              "kind": "FIXED",
+              "value": 1
+            },
+            "instanceScope": "SOURCE_TARGET",
+            "reapplicationStackMode": "KEEP",
+            "reapplicationDurationMode": "REFRESH_ALL",
+            "expiryMode": "ALL_AT_ONCE",
+            "periodicIntervalValue": null,
+            "firstPeriodicExecution": null
+          },
+          "results": [
+            {
+              "resultKey": "healing_reduction",
+              "name": "受到治疗降低40%",
+              "target": "TARGET",
+              "description": null,
+              "sortOrder": 0,
+              "lifecycleBehavior": {
+                "moment": "PERSISTENT",
+                "valueReadMode": "APPLICATION_SNAPSHOT",
+                "stackValueMode": "SHARED",
+                "reapplicationValueMode": "KEEP",
+                "periodicExecutionMode": null
+              },
+              "spellShieldBlockScope": null,
+              "resultType": "HEALING_MODIFIER",
+              "valueRule": {
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "grievous_amount"
+                },
+                "fixedMultiplier": 1,
+                "fixedMinValue": null,
+                "fixedMaxValue": null
+              },
+              "detail": {
+                "modifierZoneKey": "grievous_wounds",
+                "direction": "RECEIVED",
+                "operation": "DECREASE",
+                "healingKind": "ANY"
+              }
+            }
+          ]
+        },
+        "sha256": "3a4433689f64086a9972f762f577d540edc7f4b226811b641bdcaf5ebd48997a"
+      },
+      "writeAt": "2026-09-22T22:10:57.738Z",
+      "status": 201,
+      "immediateAndIndependentReadbackEqual": true,
+      "readback": {
+        "createdAt": "2026-09-22T22:10:57.43009Z",
+        "description": "保留来源已核定的40%降低受到治疗及3000毫秒期限组成；合法伤害触发、英雄目标资格与生命回复覆盖仍待接线核对，不代表整件装备运行完整。",
+        "effectKey": "grievous_wounds",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "grievous_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "重伤受到治疗降低",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "direction": "RECEIVED",
+              "healingKind": "ANY",
+              "modifierZoneKey": "grievous_wounds",
+              "operation": "DECREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "KEEP",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "受到治疗降低40%",
+            "resultKey": "healing_reduction",
+            "resultType": "HEALING_MODIFIER",
+            "sortOrder": 0,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "grievous_amount"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3916_passive",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-22T22:10:57.43009Z"
+      }
+    }
+  ],
+  "runtime": {
+    "engineCommit": "b6a372708",
+    "hostCommit": "73f54bcbc",
+    "wasmSha256": "4B51975A41FF155D80294A1155C9D4463FB40677225DAE933D19F184808D040F",
+    "test": "web/tests/e2e/p7-runtime.spec.ts / 真实页面保存的两项重伤→GET→Worker，同组40%取强且各自到期",
+    "usesSavedEffectAndParameters": true,
+    "appliedAtMs": [
+      0,
+      1000
+    ],
+    "healAtMs": [
+      1100,
+      3100,
+      4100
+    ],
+    "healInput": [
+      100,
+      100,
+      100
+    ],
+    "actualHealing": [
+      60,
+      60,
+      100
+    ],
+    "targetStartHp": 100,
+    "targetFinalHp": 320,
+    "compileRunRelease": true,
+    "beforeAfterEffectsEqual": true
+  },
+  "remaining": [
+    "装备合法伤害触发及英雄目标资格仍待接线",
+    "生命回复覆盖仍待核对",
+    "普通减速30%/70%来源的触发资格及法术护盾粒度未擅自补值"
+  ],
+  "wholeEquipmentComplete": false,
+  "newCompletedSkills": 0,
+  "newCompletedEquipment": 0
+}
