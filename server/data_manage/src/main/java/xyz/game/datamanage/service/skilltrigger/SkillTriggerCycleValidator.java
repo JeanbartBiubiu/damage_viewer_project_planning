@@ -44,6 +44,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPerTargetCooldownRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessFailureReason;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessLimitRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessShapeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerResultEventRow;
@@ -207,7 +208,8 @@ public class SkillTriggerCycleValidator {
                 : EventFilter.processMoment(
                     processEvent.processKey(),
                     parseMomentType(processEvent.momentType()),
-                    processEvent.stepKey()
+                    processEvent.stepKey(),
+                    processEvent.failureReason()
                 );
             case RESULT_AVAILABLE -> resultEvent == null
                 ? EventFilter.none(rule.eventType())
@@ -260,21 +262,29 @@ public class SkillTriggerCycleValidator {
             }
             case START_PROCESS -> {
                 SkillTriggerProcessActionRow detail = processActions.get(actionKey(action));
-                if (detail == null || detail.failureReason() != null) {
+                if (detail == null) {
                     yield List.of();
                 }
                 yield produceStartProcess(detail.processKey(), effectsByKey, processesByKey, skillKey);
             }
             case FAIL_PROCESS -> {
                 SkillTriggerProcessActionRow detail = processActions.get(actionKey(action));
-                if (detail == null || detail.failureReason() == null) {
+                if (detail == null) {
                     yield List.of();
                 }
                 yield List.of(ProducedEvent.processMoment(
                     detail.processKey(),
                     SkillProcessMomentType.PROCESS_FAILURE,
-                    null
+                    null,
+                    detail.failureReason()
                 ));
+            }
+            case ADVANCE_PROCESS -> {
+                SkillTriggerProcessActionRow detail = processActions.get(actionKey(action));
+                if (detail == null) {
+                    yield produceAdvanceUnknown(effectsByKey, processesByKey, skillKey);
+                }
+                yield produceAdvanceProcess(detail.processKey(), effectsByKey, processesByKey, skillKey);
             }
         };
     }
@@ -285,12 +295,50 @@ public class SkillTriggerCycleValidator {
         Map<String, List<SkillTriggerProcessShapeRow>> processesByKey,
         String skillKey
     ) {
+        return produceProcessLifecycle(processKey, effectsByKey, processesByKey, skillKey, true);
+    }
+
+    private List<ProducedEvent> produceAdvanceProcess(
+        String processKey,
+        Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
+        Map<String, List<SkillTriggerProcessShapeRow>> processesByKey,
+        String skillKey
+    ) {
+        return produceProcessLifecycle(processKey, effectsByKey, processesByKey, skillKey, false);
+    }
+
+    private List<ProducedEvent> produceAdvanceUnknown(
+        Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
+        Map<String, List<SkillTriggerProcessShapeRow>> processesByKey,
+        String skillKey
+    ) {
+        List<ProducedEvent> produced = new ArrayList<>();
+        if (processesByKey.isEmpty()) {
+            produced.add(ProducedEvent.processMoment(null, SkillProcessMomentType.PROCESS_COMPLETE, null));
+            produced.add(ProducedEvent.processMoment(null, SkillProcessMomentType.PROCESS_FAILURE, null));
+            return produced;
+        }
+        for (String processKey : processesByKey.keySet()) {
+            produced.addAll(produceAdvanceProcess(processKey, effectsByKey, processesByKey, skillKey));
+        }
+        return produced;
+    }
+
+    private List<ProducedEvent> produceProcessLifecycle(
+        String processKey,
+        Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey,
+        Map<String, List<SkillTriggerProcessShapeRow>> processesByKey,
+        String skillKey,
+        boolean includeStart
+    ) {
         List<ProducedEvent> produced = new ArrayList<>();
         Set<String> visitedEffects = new LinkedHashSet<>();
         Set<String> seenSteps = new LinkedHashSet<>();
         for (SkillTriggerProcessShapeRow row : processesByKey.getOrDefault(processKey, List.of())) {
             if (seenSteps.add(processKey)) {
-                produced.add(ProducedEvent.processMoment(processKey, SkillProcessMomentType.PROCESS_START, null));
+                if (includeStart) {
+                    produced.add(ProducedEvent.processMoment(processKey, SkillProcessMomentType.PROCESS_START, null));
+                }
                 produced.add(ProducedEvent.processMoment(processKey, SkillProcessMomentType.PROCESS_COMPLETE, null));
                 produced.add(ProducedEvent.processMoment(processKey, SkillProcessMomentType.PROCESS_FAILURE, null));
             }
@@ -314,6 +362,10 @@ public class SkillTriggerCycleValidator {
                 produced.addAll(produceExecuteEffect(row.bindingEffectKey(), effectsByKey, visitedEffects, skillKey));
             }
             produced.addAll(produceStateOperation(row));
+        }
+        if (!includeStart && produced.isEmpty()) {
+            produced.add(ProducedEvent.processMoment(processKey, SkillProcessMomentType.PROCESS_COMPLETE, null));
+            produced.add(ProducedEvent.processMoment(processKey, SkillProcessMomentType.PROCESS_FAILURE, null));
         }
         return produced;
     }
@@ -509,7 +561,11 @@ public class SkillTriggerCycleValidator {
                 && produced.lifecycleMoment() == filter.lifecycleMoment();
             case PROCESS_MOMENT -> Objects.equals(produced.processKey(), filter.processKey())
                 && produced.momentType() == filter.momentType()
-                && Objects.equals(produced.stepKey(), filter.stepKey());
+                && Objects.equals(produced.stepKey(), filter.stepKey())
+                && (produced.momentType() != SkillProcessMomentType.PROCESS_FAILURE
+                    || produced.failureReason() == null
+                    || filter.failureReason() == null
+                    || produced.failureReason() == filter.failureReason());
             case INTERNAL_STATE_CHANGED -> Objects.equals(produced.stateKey(), filter.stateKey())
                 && produced.changeKind() == filter.changeKind();
             case STATUS_CHANGED -> Objects.equals(produced.statusKey(), filter.statusKey())
@@ -858,18 +914,19 @@ public class SkillTriggerCycleValidator {
         String stateKey,
         SkillTriggerInternalStateChangeKind changeKind,
         DamageProduced damage,
-        String sourceSkillKey
+        String sourceSkillKey,
+        SkillTriggerProcessFailureReason failureReason
     ) {
         static ProducedEvent wide(SkillTriggerEventType eventType) {
             return new ProducedEvent(
-                eventType, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null
+                eventType, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null
             );
         }
 
         static ProducedEvent link(SkillTriggerEventType eventType, String sourceSkillKey) {
             return new ProducedEvent(
                 eventType, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-                sourceSkillKey
+                sourceSkillKey, null
             );
         }
 
@@ -883,35 +940,46 @@ public class SkillTriggerCycleValidator {
                 eventType,
                 null, null, null, null, null, null, null, null, null, null, null, null, null,
                 new DamageProduced(damageTypeKey, deliveryKind, originKind),
-                null
+                null, null
             );
         }
 
         static ProducedEvent processMoment(String processKey, SkillProcessMomentType momentType, String stepKey) {
+            // 生命周期只能预测失败时点，原因未知时保留与全部失败筛选的潜在边。
+            return processMoment(processKey, momentType, stepKey, null);
+        }
+
+        static ProducedEvent processMoment(
+            String processKey,
+            SkillProcessMomentType momentType,
+            String stepKey,
+            SkillTriggerProcessFailureReason failureReason
+        ) {
             return new ProducedEvent(
                 SkillTriggerEventType.PROCESS_MOMENT,
-                processKey, momentType, stepKey, null, null, null, null, null, null, null, null, null, null, null, null
+                processKey, momentType, stepKey, null, null, null, null, null, null, null, null, null, null, null, null,
+                failureReason
             );
         }
 
         static ProducedEvent resultAvailable(String effectKey, String resultKey) {
             return new ProducedEvent(
                 SkillTriggerEventType.RESULT_AVAILABLE,
-                null, null, null, effectKey, resultKey, null, null, null, null, null, null, null, null, null, null
+                null, null, null, effectKey, resultKey, null, null, null, null, null, null, null, null, null, null, null
             );
         }
 
         static ProducedEvent lifecycle(String effectKey, SkillTriggerLifecycleEventMoment moment) {
             return new ProducedEvent(
                 SkillTriggerEventType.LIFECYCLE_MOMENT,
-                null, null, null, effectKey, null, moment, null, null, null, null, null, null, null, null, null
+                null, null, null, effectKey, null, moment, null, null, null, null, null, null, null, null, null, null
             );
         }
 
         static ProducedEvent statusChanged(String statusKey, SkillTriggerStatusChangeKind change) {
             return new ProducedEvent(
                 SkillTriggerEventType.STATUS_CHANGED,
-                null, null, null, null, null, null, null, statusKey, change, null, null, null, null, null, null
+                null, null, null, null, null, null, null, statusKey, change, null, null, null, null, null, null, null
             );
         }
 
@@ -922,21 +990,21 @@ public class SkillTriggerCycleValidator {
         ) {
             return new ProducedEvent(
                 SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED,
-                null, null, null, null, null, null, subject, null, null, direction, attributeKey, null, null, null, null
+                null, null, null, null, null, null, subject, null, null, direction, attributeKey, null, null, null, null, null
             );
         }
 
         static ProducedEvent entityDied(SkillTriggerSubject subject) {
             return new ProducedEvent(
                 SkillTriggerEventType.ENTITY_DIED,
-                null, null, null, null, null, null, subject, null, null, null, null, null, null, null, null
+                null, null, null, null, null, null, subject, null, null, null, null, null, null, null, null, null
             );
         }
 
         static ProducedEvent internalState(String stateKey, SkillTriggerInternalStateChangeKind changeKind) {
             return new ProducedEvent(
                 SkillTriggerEventType.INTERNAL_STATE_CHANGED,
-                null, null, null, null, null, null, null, null, null, null, null, stateKey, changeKind, null, null
+                null, null, null, null, null, null, null, null, null, null, null, stateKey, changeKind, null, null, null
             );
         }
     }
@@ -958,11 +1026,12 @@ public class SkillTriggerCycleValidator {
         SkillTriggerInternalStateChangeKind changeKind,
         DamageFilter damage,
         String sourceSkillKey,
-        boolean hasSourceSkillFilter
+        boolean hasSourceSkillFilter,
+        SkillTriggerProcessFailureReason failureReason
     ) {
         static EventFilter none(SkillTriggerEventType eventType) {
             return new EventFilter(
-                eventType, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, false
+                eventType, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, false, null
             );
         }
 
@@ -977,7 +1046,8 @@ public class SkillTriggerCycleValidator {
                 null, null, null, null, null, null, null, null, null, null, null, null, null,
                 new DamageFilter(damageTypeKey, deliveryKind, originKind),
                 null,
-                false
+                false,
+                null
             );
         }
 
@@ -988,35 +1058,42 @@ public class SkillTriggerCycleValidator {
         static EventFilter link(SkillTriggerEventType eventType, String sourceSkillKey) {
             return new EventFilter(
                 eventType, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-                sourceSkillKey, true
+                sourceSkillKey, true, null
             );
         }
 
-        static EventFilter processMoment(String processKey, SkillProcessMomentType momentType, String stepKey) {
+        static EventFilter processMoment(
+            String processKey,
+            SkillProcessMomentType momentType,
+            String stepKey,
+            String failureReason
+        ) {
             return new EventFilter(
                 SkillTriggerEventType.PROCESS_MOMENT,
-                processKey, momentType, stepKey, null, null, null, null, null, null, null, null, null, null, null, null, false
+                processKey, momentType, stepKey, null, null, null, null, null, null, null, null, null, null, null, null, false,
+                momentType == SkillProcessMomentType.PROCESS_FAILURE && failureReason != null
+                    ? SkillTriggerProcessFailureReason.valueOf(failureReason) : null
             );
         }
 
         static EventFilter resultAvailable(String effectKey, String resultKey) {
             return new EventFilter(
                 SkillTriggerEventType.RESULT_AVAILABLE,
-                null, null, null, effectKey, resultKey, null, null, null, null, null, null, null, null, null, null, false
+                null, null, null, effectKey, resultKey, null, null, null, null, null, null, null, null, null, null, false, null
             );
         }
 
         static EventFilter lifecycle(String effectKey, SkillTriggerLifecycleEventMoment moment) {
             return new EventFilter(
                 SkillTriggerEventType.LIFECYCLE_MOMENT,
-                null, null, null, effectKey, null, moment, null, null, null, null, null, null, null, null, null, false
+                null, null, null, effectKey, null, moment, null, null, null, null, null, null, null, null, null, false, null
             );
         }
 
         static EventFilter statusChanged(String statusKey, SkillTriggerStatusChangeKind change) {
             return new EventFilter(
                 SkillTriggerEventType.STATUS_CHANGED,
-                null, null, null, null, null, null, null, statusKey, change, null, null, null, null, null, null, false
+                null, null, null, null, null, null, null, statusKey, change, null, null, null, null, null, null, false, null
             );
         }
 
@@ -1027,21 +1104,21 @@ public class SkillTriggerCycleValidator {
         ) {
             return new EventFilter(
                 SkillTriggerEventType.HEALTH_THRESHOLD_CROSSED,
-                null, null, null, null, null, null, subject, null, null, direction, attributeKey, null, null, null, null, false
+                null, null, null, null, null, null, subject, null, null, direction, attributeKey, null, null, null, null, false, null
             );
         }
 
         static EventFilter entityDied(SkillTriggerSubject subject) {
             return new EventFilter(
                 SkillTriggerEventType.ENTITY_DIED,
-                null, null, null, null, null, null, subject, null, null, null, null, null, null, null, null, false
+                null, null, null, null, null, null, subject, null, null, null, null, null, null, null, null, false, null
             );
         }
 
         static EventFilter internalState(String stateKey, SkillTriggerInternalStateChangeKind changeKind) {
             return new EventFilter(
                 SkillTriggerEventType.INTERNAL_STATE_CHANGED,
-                null, null, null, null, null, null, null, null, null, null, null, stateKey, changeKind, null, null, false
+                null, null, null, null, null, null, null, null, null, null, null, stateKey, changeKind, null, null, false, null
             );
         }
     }

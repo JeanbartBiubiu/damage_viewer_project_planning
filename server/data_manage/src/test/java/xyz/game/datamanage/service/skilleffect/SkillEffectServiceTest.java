@@ -1465,6 +1465,80 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void setRemainingRequiresValueRuleAndRejectsMissingRule() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        stubDetailRead(
+            List.of(resultRow("set_self", SkillEffectResultType.COOLDOWN_CHANGE)),
+            List.of(valueRow("set_self")),
+            new DetailBundle(
+                List.of(),
+                List.of(),
+                List.of(),
+                List.of(new SkillEffectCooldownChangeDetailRow(
+                    GAME_ID, SKILL_KEY, EFFECT_KEY, "set_self", SkillEffectCooldownChangeOperation.SET_REMAINING
+                )),
+                List.of()
+            )
+        );
+        SkillEffectDetailResponse created = service.create(
+            GAME_ID,
+            SKILL_KEY,
+            new SkillEffectCreateRequest(
+                EFFECT_KEY,
+                "设置剩余冷却",
+                null,
+                0,
+                List.of(new SkillEffectResultRequest(
+                    "set_self",
+                    "设置剩余冷却",
+                    SkillEffectResultType.COOLDOWN_CHANGE,
+                    SkillEffectTarget.SOURCE,
+                    null,
+                    5,
+                    valueRule(),
+                    new SkillEffectCooldownChangeDetail(
+                        skillsScope(List.of(SKILL_KEY)),
+                        SkillEffectCooldownChangeOperation.SET_REMAINING
+                    )
+                ))
+            )
+        );
+        assertEquals(SkillEffectCooldownChangeOperation.SET_REMAINING,
+            ((SkillEffectCooldownChangeDetail) created.results().getFirst().detail()).operation());
+        assertEquals(AggregateJson.tree(AggregateJson.write(valueRule())),
+            AggregateJson.tree(AggregateJson.write(created.results().getFirst().valueRule())));
+
+        ApiException missing = assertThrows(
+            ApiException.class,
+            () -> service.create(
+                GAME_ID,
+                SKILL_KEY,
+                new SkillEffectCreateRequest(
+                    EFFECT_KEY,
+                    "缺少数值",
+                    null,
+                    0,
+                    List.of(new SkillEffectResultRequest(
+                        "set_self",
+                        "设置剩余冷却",
+                        SkillEffectResultType.COOLDOWN_CHANGE,
+                        SkillEffectTarget.SOURCE,
+                        null,
+                        5,
+                        null,
+                        new SkillEffectCooldownChangeDetail(
+                            skillsScope(List.of(SKILL_KEY)),
+                            SkillEffectCooldownChangeOperation.SET_REMAINING
+                        )
+                    ))
+                )
+            )
+        );
+        assertField(missing, "results[0].valueRule", "REQUIRED");
+    }
+
+    @Test
     void cooldownChangeRejectsEmptyAndDuplicateTargetLists() {
         when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
         when(mapper.countByKey(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenReturn(0L);

@@ -162,13 +162,13 @@ class SkillTriggerRuleEventShapeServiceTest {
                 "used",
                 new SkillTriggerEventSource(
                     SkillTriggerEventType.SKILL_USED,
-                    new SkillTriggerSkillEventDetail(SKILL_KEY, SkillTriggerEventUseKind.ACTIVE)
+                    new SkillTriggerSkillEventDetail(SKILL_KEY, SkillTriggerEventUseKind.ACTIVE, xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase.INITIAL)
                 ),
                 List.of(executeAction("deal", EFFECT_KEY))
             )
         );
 
-        assertEquals(new SkillTriggerSkillEventDetail(SKILL_KEY, SkillTriggerEventUseKind.ACTIVE),
+        assertEquals(new SkillTriggerSkillEventDetail(SKILL_KEY, SkillTriggerEventUseKind.ACTIVE, xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase.INITIAL),
             service.get(GAME_ID, SKILL_KEY, "used").eventSource().detail());
 
         ApiException missingKind = thrown(() -> service.create(
@@ -178,12 +178,26 @@ class SkillTriggerRuleEventShapeServiceTest {
                 "used_bad",
                 new SkillTriggerEventSource(
                     SkillTriggerEventType.SKILL_USED,
-                    new SkillTriggerSkillEventDetail(SKILL_KEY, null)
+                    new SkillTriggerSkillEventDetail(SKILL_KEY, null, xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase.INITIAL)
                 ),
                 List.of(executeAction("deal", EFFECT_KEY))
             )
         ));
         assertField(missingKind, "eventSource.detail.useKind", "REQUIRED");
+
+        ApiException missingPhase = thrown(() -> service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule(
+                "used_phase_bad",
+                new SkillTriggerEventSource(
+                    SkillTriggerEventType.SKILL_USED,
+                    new SkillTriggerSkillEventDetail(SKILL_KEY, SkillTriggerEventUseKind.ACTIVE)
+                ),
+                List.of(executeAction("deal", EFFECT_KEY))
+            )
+        ));
+        assertField(missingPhase, "eventSource.detail.castPhase", "REQUIRED");
 
         ApiException hitKind = thrown(() -> service.create(
             GAME_ID,
@@ -198,6 +212,20 @@ class SkillTriggerRuleEventShapeServiceTest {
             )
         ));
         assertField(hitKind, "eventSource.detail.useKind", "FORBIDDEN");
+
+        ApiException hitPhase = thrown(() -> service.create(
+            GAME_ID,
+            SKILL_KEY,
+            rule(
+                "hit_phase_bad",
+                new SkillTriggerEventSource(
+                    SkillTriggerEventType.SKILL_HIT,
+                    new SkillTriggerSkillEventDetail(SKILL_KEY, null, xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase.INITIAL)
+                ),
+                List.of(executeAction("deal", EFFECT_KEY))
+            )
+        ));
+        assertField(hitPhase, "eventSource.detail.castPhase", "FORBIDDEN");
     }
 
     @Test

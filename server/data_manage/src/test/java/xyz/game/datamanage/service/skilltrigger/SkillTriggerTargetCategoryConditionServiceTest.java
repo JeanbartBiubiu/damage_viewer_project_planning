@@ -110,7 +110,7 @@ class SkillTriggerTargetCategoryConditionServiceTest {
     private static SkillTriggerRuleCreateRequest request(SkillTriggerTargetCategoryConditionDetail detail, SkillTriggerEventType event) {
         SkillTriggerEventDetail eventDetail = switch (event) {
             case SKILL_HIT -> new SkillTriggerSkillEventDetail(null, null);
-            case SKILL_USED -> new SkillTriggerSkillEventDetail(null, SkillTriggerEventUseKind.ANY);
+            case SKILL_USED -> new SkillTriggerSkillEventDetail(null, SkillTriggerEventUseKind.ANY, xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase.INITIAL);
             case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN ->
                 new SkillTriggerDamageEventDetail(null, SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY);
             default -> new SkillTriggerEmptyEventDetail();

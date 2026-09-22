@@ -6,6 +6,7 @@ public record SkillTriggerProcessEventRow(
     String ruleKey,
     String processKey,
     String momentType,
-    String stepKey
+    String stepKey,
+    String failureReason
 ) {
 }

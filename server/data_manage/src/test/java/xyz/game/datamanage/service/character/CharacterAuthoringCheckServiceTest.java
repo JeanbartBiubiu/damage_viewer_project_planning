@@ -127,11 +127,22 @@ class CharacterAuthoringCheckServiceTest {
     void conditionsAndLifecycleRemovalDoNotConnectEffectsAndFailureDoesNotStartProcesses() {
         when(checks.listObjects("lol", "hero")).thenReturn(List.of(effect("mark"), process("passive", "PASSIVE", "[]"),
             process("active", "ACTIVE", "[]"), process("consumable", "CONSUMABLE", "[]"),
-            trigger("[" + action("fail", "FAIL_PROCESS", "{\"processKey\":\"passive\",\"failureReason\":\"EVENT_ABORTED\"}") + "]")));
+            trigger("[" + action("fail", "FAIL_PROCESS", "{\"processKey\":\"passive\",\"failureReason\":\"EVENT_ABORTED\"}") + ","
+                + action("advance", "ADVANCE_PROCESS", "{\"processKey\":\"passive\",\"stepKey\":\"step\"}") + "]")));
         when(checks.listReferences("lol", "hero")).thenReturn(List.of(ref("LIFECYCLE", "mark", "", true), ref("PROCESS", "passive", "", true)));
         var response = check();
         assertEquals("NO_ERRORS", response.conclusions().structure());
         assertEquals(List.of("EFFECT_NOT_CONNECTED", "PASSIVE_PROCESS_NOT_STARTED"), response.issues().stream().map(CharacterAuthoringCheckResponse.Issue::code).toList());
+    }
+
+    @Test
+    void advanceProcessIsAcceptedAndDoesNotCountAsAStart() {
+        when(checks.listObjects("lol", "hero")).thenReturn(List.of(
+            process("passive", "PASSIVE", "[]"),
+            trigger("[" + action("advance", "ADVANCE_PROCESS", "{\"processKey\":\"passive\",\"stepKey\":\"step\"}") + "]")));
+        var response = check();
+        assertEquals("NO_ERRORS", response.conclusions().structure());
+        assertEquals(List.of("PASSIVE_PROCESS_NOT_STARTED"), response.issues().stream().map(CharacterAuthoringCheckResponse.Issue::code).toList());
     }
 
     @Test

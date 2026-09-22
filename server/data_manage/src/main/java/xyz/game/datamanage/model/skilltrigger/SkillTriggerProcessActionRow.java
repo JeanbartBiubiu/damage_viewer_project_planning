@@ -5,7 +5,9 @@ public record SkillTriggerProcessActionRow(
     String skillKey,
     String ruleKey,
     String actionKey,
+    SkillTriggerActionType actionType,
     String processKey,
+    String stepKey,
     SkillTriggerProcessFailureReason failureReason
 ) {
 }
