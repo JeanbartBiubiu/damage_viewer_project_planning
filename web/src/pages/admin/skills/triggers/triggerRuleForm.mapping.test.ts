@@ -501,6 +501,7 @@ describe('nested backend fieldIssue mapping, cycle path and unknown detail reten
         { field: 'actions[0].resultModifiers[0].fixedMultiplier', message: '倍率不能为负。' },
         { field: 'perTargetCooldown.durationValue', message: '冷却公式不能为空。' },
         { field: 'maxTriggersPerProcess.limitValue', message: '次数取值不能为空。' },
+        { field: 'oncePerUse.scope', code: 'ONCE_PER_USE_SCOPE_CONFLICT', message: '同技能同一共享限制键的范围必须一致', conflictingRuleKey: 'first' },
         { field: 'unknownZone.foo', message: '无法识别的新字段。' },
         { field: '', message: '缺少字段名。' }
       ],
@@ -516,11 +517,13 @@ describe('nested backend fieldIssue mapping, cycle path and unknown detail reten
     expect(mapped.fieldErrors.eventSource).toBe('效果不能为空。');
     expect(mapped.fieldErrors.perTargetCooldown).toBe('冷却公式不能为空。');
     expect(mapped.fieldErrors.maxTriggersPerProcess).toBe('次数取值不能为空。');
+    expect(mapped.fieldErrors.oncePerUse).toBe('同技能同一共享限制键的范围必须一致（冲突规则：first）');
     expect(mapped.nestedErrors).toEqual([
       { path: 'conditionGroups[0].conditions[1].detail.comparator', message: '比较符不合法。' },
       { path: 'actions[0].detail.effectKey', message: '效果不能为空。' },
       { path: 'actions[0].runtimeInputBindings[1].parameterKey', message: '参数不能为空。' },
-      { path: 'actions[0].resultModifiers[0].fixedMultiplier', message: '倍率不能为负。' }
+      { path: 'actions[0].resultModifiers[0].fixedMultiplier', message: '倍率不能为负。' },
+      { path: 'oncePerUse.scope', message: '同技能同一共享限制键的范围必须一致（冲突规则：first）' }
     ]);
     expect(mapped.unmappedMessages).toEqual(['无法识别的新字段。', '缺少字段名。']);
     expect(mapped.retainedCode).toBe('400.VALIDATION_FAILED');
@@ -677,7 +680,8 @@ describe('representative draft transformations', () => {
         }
       ],
       perTargetCooldown: null,
-      maxTriggersPerProcess: null
+      maxTriggersPerProcess: null,
+      oncePerUse: null
     };
     const draft = fromDetail(detail);
     expect(draft.eventSource).toEqual(detail.eventSource);
@@ -741,7 +745,8 @@ describe('representative draft transformations', () => {
         durationValue: formulaValue("shield_cooldown_ms"),
         targetContext: 'CURRENT_TARGET'
       },
-      maxTriggersPerProcess: null
+      maxTriggersPerProcess: null,
+      oncePerUse: null
     };
     const created = toCreateRequest(fromDetail(detail));
     expect(created.ruleKey).toBe('low_health_shield');
@@ -804,7 +809,8 @@ describe('representative draft transformations', () => {
         }
       ],
       perTargetCooldown: null,
-      maxTriggersPerProcess: null
+      maxTriggersPerProcess: null,
+      oncePerUse: null
     };
     const created = toCreateRequest(fromDetail(detail));
     expect(created.actions.map((item) => item.actionKey)).toEqual(['bonus_damage', 'apply_mark']);
@@ -854,7 +860,8 @@ describe('representative draft transformations', () => {
         }
       ],
       perTargetCooldown: null,
-      maxTriggersPerProcess: null
+      maxTriggersPerProcess: null,
+      oncePerUse: null
     };
     const draft = fromDetail(detail);
     const created = toCreateRequest(draft);
@@ -951,7 +958,8 @@ describe('representative draft transformations', () => {
         }
       ],
       perTargetCooldown: null,
-      maxTriggersPerProcess: null
+      maxTriggersPerProcess: null,
+      oncePerUse: null
     };
     const created = toCreateRequest(fromDetail(detail));
     expect(created.eventSource.eventType).toBe('BASIC_ATTACK_HIT');

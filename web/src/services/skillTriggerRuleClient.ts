@@ -14,6 +14,8 @@ import type {
   SkillTriggerEventSource,
   SkillTriggerEventType,
   SkillTriggerEventUseKind,
+  SkillTriggerOncePerUse,
+  SkillTriggerOncePerUseScope,
   SkillTriggerRuleDetail,
   SkillTriggerRuleSummary,
   SkillTriggerRuntimeInputBinding,
@@ -112,6 +114,9 @@ const PRIOR_RESULT_OUTPUT_KINDS = new Set([
 ]);
 
 const PRIOR_RESULT_DETAIL_KEYS = new Set(['sourceActionKey', 'sourceResultKey', 'outputKind']);
+const ONCE_PER_USE_SCOPES = new Set<SkillTriggerOncePerUseScope>(['SKILL', 'TARGET']);
+const ONCE_PER_USE_KEYS = new Set(['groupKey', 'scope']);
+const TRIGGER_KEY_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
 
 const DAMAGE_DELIVERY_KINDS = new Set(['ANY', 'SKILL', 'BASIC_ATTACK']);
 const DAMAGE_ORIGIN_KINDS = new Set(['ANY', 'DIRECT', 'REFLECTED']);
@@ -158,6 +163,22 @@ function assertBoolean(value: unknown, path: string): boolean {
 function assertNullableString(value: unknown, path: string): string | null {
   if (value === null) return null;
   return assertString(value, path);
+}
+
+function assertOncePerUse(value: unknown, path: string): SkillTriggerOncePerUse | null {
+  if (value === null) return null;
+  if (!isRecord(value)) protocolError(path);
+  const keys = Object.keys(value);
+  if (keys.length !== ONCE_PER_USE_KEYS.size || keys.some((key) => !ONCE_PER_USE_KEYS.has(key))) {
+    protocolError(path);
+  }
+  const groupKey = assertString(value.groupKey, `${path}.groupKey`);
+  if (!TRIGGER_KEY_PATTERN.test(groupKey)) protocolError(`${path}.groupKey`);
+  const scope = value.scope;
+  if (typeof scope !== 'string' || !ONCE_PER_USE_SCOPES.has(scope as SkillTriggerOncePerUseScope)) {
+    protocolError(`${path}.scope`);
+  }
+  return { groupKey, scope: scope as SkillTriggerOncePerUseScope };
 }
 
 function assertEventSource(value: unknown, path: string): SkillTriggerEventSource {
@@ -466,6 +487,7 @@ export function parseSkillTriggerRuleSummary(value: unknown): SkillTriggerRuleSu
       value.maxTriggersPerProcessEnabled,
       'summary.maxTriggersPerProcessEnabled'
     ),
+    oncePerUseEnabled: assertBoolean(value.oncePerUseEnabled, 'summary.oncePerUseEnabled'),
     sortOrder: assertNumber(value.sortOrder, 'summary.sortOrder'),
     updatedAt: assertString(value.updatedAt, 'summary.updatedAt')
   };
@@ -500,7 +522,8 @@ export function parseSkillTriggerRuleDetail(value: unknown): SkillTriggerRuleDet
       : protocolError('detail.perTargetCooldown'),
     maxTriggersPerProcess: value.maxTriggersPerProcess === null || isRecord(value.maxTriggersPerProcess)
       ? (value.maxTriggersPerProcess as SkillTriggerRuleDetail['maxTriggersPerProcess'])
-      : protocolError('detail.maxTriggersPerProcess')
+      : protocolError('detail.maxTriggersPerProcess'),
+    oncePerUse: assertOncePerUse(value.oncePerUse, 'detail.oncePerUse')
   };
 }
 

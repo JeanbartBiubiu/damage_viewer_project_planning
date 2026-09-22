@@ -7,6 +7,7 @@ import {
   Form,
   Input,
   Modal,
+  Radio,
   Select,
   Space,
   Switch,
@@ -33,6 +34,7 @@ import type { Attribute } from '../../../../types/attribute';
 import type { DamageType } from '../../../../types/damageType';
 import type { Skill } from '../../../../types/skill';
 import type { AuthoringLocation } from '../../../../types/authoringLocation';
+import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
 import { resolveAuthoringLocation } from '../authoringLocation';
 import {
   authoringLocateMessage,
@@ -65,7 +67,8 @@ import type {
   SkillTriggerRuleDetail,
   SkillTriggerRuleSummary,
   SkillTriggerStatusChangeKind,
-  SkillTriggerTargetContext
+  SkillTriggerTargetContext,
+  SkillTriggerOncePerUseScope
 } from '../../../../types/skillTriggerRule';
 import {
   SkillTriggerActionEditorModal,
@@ -80,6 +83,9 @@ import {
   INCOMPLETE_CATALOG_MESSAGE,
   MISSING_CATALOG_LABEL,
   MAX_TRIGGERS_SCOPE_HINT,
+  SKILL_TRIGGER_ONCE_PER_USE_HINT,
+  SKILL_TRIGGER_ONCE_PER_USE_LABEL,
+  SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS,
   SKILL_TRIGGER_ACTION_TYPE_LABELS,
   SKILL_TRIGGER_CONDITION_GROUP_HINT,
   SKILL_TRIGGER_CYCLE_HINT,
@@ -212,6 +218,14 @@ function titleFor(mode: SkillTriggerRuleEditorMode): string {
   return mode === 'create' ? '新增规则' : '编辑规则';
 }
 
+function oncePerUseFocusField(path: string): string | null {
+  if (path === 'oncePerUse' || path.startsWith('oncePerUse.')) {
+    const nested = path.slice('oncePerUse'.length).replace(/^\./, '');
+    return nested || 'oncePerUse';
+  }
+  return null;
+}
+
 function composeSaveError(error: unknown, unmappedMessages: string[]): string {
   const general = getErrorMessage(error);
   const extra = unmappedMessages.filter((item) => item && item !== general);
@@ -301,6 +315,8 @@ export function SkillTriggerRuleEditorModal({
   const [conditionEditor, setConditionEditor] = useState<ConditionEditorState | null>(null);
   const [actionEditor, setActionEditor] = useState<ActionEditorState | null>(null);
   const [locateNotice, setLocateNotice] = useState<string | null>(null);
+  const [focusField, setFocusField] = useState<string | null>(null);
+  const [focusOncePerUse, setFocusOncePerUse] = useState(false);
   const [reachableParameters, setReachableParameters] = useState<SkillParameter[]>([]);
   const formulaCacheRef = useRef(createFormulaSessionCache());
   const effectByKeyRef = useRef(effectByKey);
@@ -394,6 +410,8 @@ export function SkillTriggerRuleEditorModal({
     setConditionEditor(null);
     setActionEditor(null);
     setLocateNotice(null);
+    setFocusField(null);
+    setFocusOncePerUse(false);
     setReachableParameters([]);
     formulaCacheRef.current = createFormulaSessionCache();
     effectByKeyRef.current = new Map();
@@ -640,6 +658,9 @@ export function SkillTriggerRuleEditorModal({
         const bindingKey = keyedChildKey(resolved.matchedSegments, 'runtimeInputBindings');
         const field = lastFieldName(resolved.matchedSegments);
         const canFocus = resolved.precision === 'FIELD' && !unsupported;
+        const locatingOncePerUse = resolved.matchedSegments.some((segment) => (
+          segment.kind === 'FIELD' && segment.field === 'oncePerUse'
+        ));
         if (conditionKey) {
           const groupIndex = next.conditionGroups.findIndex((group) => group.groupKey === groupKey);
           const group = groupIndex >= 0 ? next.conditionGroups[groupIndex] : undefined;
@@ -676,6 +697,9 @@ export function SkillTriggerRuleEditorModal({
                 : null
             });
           }
+        } else if (canFocus) {
+          setFocusField(field);
+          setFocusOncePerUse(locatingOncePerUse);
         }
       }
     } catch (error) {
@@ -1165,6 +1189,11 @@ export function SkillTriggerRuleEditorModal({
         setNestedErrors(mapped.nestedErrors);
         setCycle(mapped.cycle);
         setSaveError(composeSaveError(error, mapped.unmappedMessages));
+        const oncePath = mapped.nestedErrors.find((item) => oncePerUseFocusField(item.path) !== null)?.path;
+        if (oncePath) {
+          setFocusOncePerUse(true);
+          setFocusField(oncePerUseFocusField(oncePath));
+        }
         return;
       }
       if (!canOverwriteMissingRecord(status, error instanceof ApiRequestError ? error.code : undefined)) {
@@ -1310,6 +1339,7 @@ export function SkillTriggerRuleEditorModal({
             && !item.path.startsWith('actions')
             && !item.path.startsWith('perTargetCooldown')
             && !item.path.startsWith('maxTriggersPerProcess')
+            && !item.path.startsWith('oncePerUse')
           )).map((item) => (
             <Alert key={item.path} type="error" content={`${item.path}：${item.message}`} />
           ))}
@@ -1693,6 +1723,56 @@ export function SkillTriggerRuleEditorModal({
                     </Form.Item>
                   </>
                 ) : null}
+              </>
+            ) : null}
+            <Form.Item
+              label={SKILL_TRIGGER_ONCE_PER_USE_LABEL}
+              extra={SKILL_TRIGGER_ONCE_PER_USE_HINT}
+              validateStatus={fieldErrors.oncePerUse ? 'error' : undefined}
+              help={fieldErrors.oncePerUse || nestedErrorFor('oncePerUse', nestedErrors)}
+            >
+              <AuthoringFieldAnchor field="oncePerUse" active={focusOncePerUse && focusField === 'oncePerUse'}>
+                <Switch
+                  aria-label={SKILL_TRIGGER_ONCE_PER_USE_LABEL}
+                  checked={draft.oncePerUseEnabled}
+                  disabled={saving}
+                  onChange={(value) => patchDraft({
+                    ...draft,
+                    oncePerUseEnabled: value,
+                    oncePerUseScope: draft.oncePerUseScope || 'SKILL'
+                  })}
+                />
+              </AuthoringFieldAnchor>
+            </Form.Item>
+            {draft.oncePerUseEnabled ? (
+              <>
+                <Form.Item label="共享限制键" required>
+                  <AuthoringFieldAnchor field="groupKey" active={focusOncePerUse && focusField === 'groupKey'}>
+                    <Input
+                      aria-label="共享限制键"
+                      value={draft.oncePerUseGroupKey}
+                      disabled={saving}
+                      maxLength={64}
+                      onChange={(value) => patchDraft({ ...draft, oncePerUseGroupKey: value })}
+                    />
+                  </AuthoringFieldAnchor>
+                </Form.Item>
+                <Form.Item label="范围" required>
+                  <AuthoringFieldAnchor field="scope" active={focusOncePerUse && focusField === 'scope'}>
+                    <Radio.Group
+                      aria-label="同次使用范围"
+                      value={draft.oncePerUseScope}
+                      disabled={saving}
+                      onChange={(value) => patchDraft({
+                        ...draft,
+                        oncePerUseScope: value as SkillTriggerOncePerUseScope
+                      })}
+                    >
+                      <Radio value="SKILL">{SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS.SKILL}</Radio>
+                      <Radio value="TARGET">{SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS.TARGET}</Radio>
+                    </Radio.Group>
+                  </AuthoringFieldAnchor>
+                </Form.Item>
               </>
             ) : null}
           </Form>
