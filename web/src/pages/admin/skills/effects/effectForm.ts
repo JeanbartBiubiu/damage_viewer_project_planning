@@ -3,6 +3,7 @@ import type { GameVampRule } from '../../../../types/gameVamp';
 import { numericIssuePath, numericValueError, staticNumericValues } from '../numericValueForm';
 import { isValidCooldownRemainingDuration } from '../../../../types/cooldownRemaining';
 import { isValidCooldownReductionRatio } from '../../../../types/cooldownRatio';
+import { isValidHealingRatioMaxDecrease } from '../../../../types/healingRatioMax';
 import { isValidLifecycleExtensionDuration } from '../../../../types/lifecycleExtension';
 import { numericFormulaKey } from '../../../../types/numericValue';
 import { type NumericValue } from '../../../../types/numericValue';
@@ -337,6 +338,7 @@ export const LIFECYCLE_EXTENSION_HINT = '增加量按毫秒填写，只延长仍
 export const COOLDOWN_CHANGE_AMOUNT_HINT = '变化量按毫秒解释';
 export const COOLDOWN_REMAINING_RATIO_HINT = '每个受影响技能按自己的当前剩余冷却减少。有效比例为 0 到 1，70% 填 0.7；不按总冷却计算。切换毫秒与比例操作会清除原数值。';
 export const COOLDOWN_REMAINING_SET_HINT = '将剩余冷却设为该毫秒数；0 表示立即可用。空白不能当作 0。毫秒操作之间切换会保留已有合法值。';
+export const HEALING_RATIO_MAX_HINT = '比例减少取强按真实乘区计算方式判定，不按名称推断。只允许受到治疗且降低；有效减少比例为 0 到 1，40% 填 0.4。先应用倍率与已配置上下界，不改写作者原值。';
 export const DISABLED_CATALOG_LABEL = '已停用';
 export const DISABLED_PARENT_SKILL_LABEL = '当前技能（已停用）';
 export const INCOMPLETE_CATALOG_MESSAGE = '目录不完整，无法保存未知引用。';
@@ -571,7 +573,7 @@ export type EffectFormCatalog = {
   skills: ReadonlyArray<Pick<Skill, 'skillKey' | 'status'>>;
   skillCategories: ReadonlyArray<Pick<SkillCategory, 'skillCategoryKey' | 'status'>>;
   statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'status' | 'statusKind'>>;
-  modifierZones?: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'status'>>;
+  modifierZones?: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'status' | 'calculationMode'>>;
 };
 
 export type SkillEffectFormValidationOptions = {
@@ -1766,6 +1768,32 @@ export function listStatusOptions(
   );
 }
 
+export function catalogModifierZone(
+  catalog: EffectFormCatalog | null | undefined,
+  modifierZoneKey: string
+): Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'status' | 'calculationMode'> | undefined {
+  const trimmed = modifierZoneKey.trim();
+  if (!trimmed) return undefined;
+  return (catalog?.modifierZones ?? []).find((item) => item.modifierZoneKey === trimmed);
+}
+
+export function isRatioMaxHealingZone(
+  catalog: EffectFormCatalog | null | undefined,
+  modifierZoneKey: string
+): boolean {
+  return catalogModifierZone(catalog, modifierZoneKey)?.calculationMode === 'RATIO_MAX';
+}
+
+export function healingModifierAmountHint(
+  draft: SkillEffectResultDraft,
+  catalog: EffectFormCatalog | null | undefined = null
+): string | null {
+  if (draft.resultType === 'HEALING_MODIFIER' && isRatioMaxHealingZone(catalog, draft.modifierZoneKey)) {
+    return HEALING_RATIO_MAX_HINT;
+  }
+  return null;
+}
+
 export function listModifierZoneOptions(
   catalog: EffectFormCatalog,
   domain: ModifierZoneDomain,
@@ -2310,6 +2338,13 @@ function validateAndBuildResult(
     const values = staticNumericValues(valueRule.value, options.parameters);
     if (values?.some((value) => !isValidLifecycleExtensionDuration(value, valueRule))) {
       fieldErrors.value = '有效延长时长必须是非负整数毫秒。';
+    }
+  }
+  if (draft.resultType === 'HEALING_MODIFIER' && valueRule && !fieldErrors.value
+    && isRatioMaxHealingZone(options.catalog, draft.modifierZoneKey)) {
+    const values = staticNumericValues(valueRule.value, options.parameters);
+    if (values?.some((value) => !isValidHealingRatioMaxDecrease(value, valueRule))) {
+      fieldErrors.value = '比例减少取强的有效减少比例必须有限且位于0到1之间';
     }
   }
 
@@ -2910,6 +2945,14 @@ function validateTypeSpecificFields(
         fieldErrors.modifierOperation = '请选择修正方式。';
       }
       validateModifierZoneRef(draft, options, fieldErrors, 'HEALING');
+      if (isRatioMaxHealingZone(options.catalog, draft.modifierZoneKey)) {
+        if (draft.healingModifierDirection && draft.healingModifierDirection !== 'RECEIVED') {
+          fieldErrors.healingModifierDirection = '比例减少取强只允许受到治疗方向';
+        }
+        if (draft.modifierOperation && draft.modifierOperation !== 'DECREASE') {
+          fieldErrors.modifierOperation = '比例减少取强只允许降低操作';
+        }
+      }
       if (draft.healingKind !== 'ANY' && draft.healingKind !== 'DIRECT' && draft.healingKind !== 'VAMP') {
         fieldErrors.healingKind = '请选择治疗种类。';
       }
