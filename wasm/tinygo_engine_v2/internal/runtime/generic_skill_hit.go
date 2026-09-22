@@ -320,8 +320,8 @@ func (s *genericRunState) groupOrderKnown(members, heapOrder []string) (bool, *m
 }
 
 func (s *genericRunState) lookupDriverAbility(entry model.DriverEntry) (compilebundle.CompiledAbility, string, bool) {
-	sourceKey, _ := s.resolveCombatantKey(entry.Source, entry.Source, entry.Target)
-	targetKey, _ := s.resolveCombatantKey(entry.Target, entry.Source, entry.Target)
+	sourceKey, _ := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
+	targetKey, _ := s.resolveDriverCombatantKey(entry.Target, sourceKey)
 	resolved := normalizeAbilityRef(entry.AbilityRef, sourceKey, targetKey)
 	ref, ok := s.compiled.AbilityRefIndex[resolved]
 	if !ok || int(ref.AbilityIndex) >= len(s.compiled.Abilities) {
