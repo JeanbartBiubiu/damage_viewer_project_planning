@@ -1,6 +1,7 @@
 package xyz.game.datamanage.model.skilltrigger;
 
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
+import xyz.game.datamanage.model.skillprocess.SkillProcessActivationType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationKind;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 import xyz.game.datamanage.model.value.SkillNumericValue;
@@ -32,6 +33,7 @@ public record SkillTriggerProcessShapeRow(
     SkillNumericValue ammoInitialValue,
     SkillNumericValue ammoMaxValue,
     SkillNumericValue ammoRecoveryValue,
-    SkillNumericValue cooldownDurationValue
+    SkillNumericValue cooldownDurationValue,
+    SkillProcessActivationType activationType
 ) {
 }

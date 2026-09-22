@@ -434,6 +434,70 @@ class SkillNumericSemanticsTest {
             object(SourceType.EFFECT, "increase", "{\"results\":[{\"resultType\":\"COOLDOWN_CHANGE\",\"detail\":{\"operation\":\"INCREASE\"},\"valueRule\":{\"value\":" + fixed("-5") + "}}]}"),
             object(SourceType.EFFECT, "reset", "{\"results\":[{\"resultType\":\"COOLDOWN_CHANGE\",\"detail\":{\"operation\":\"RESET\"}}]}")
         ), List.of()));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(List.of(
+            object(SourceType.EFFECT, "set_zero", "{\"results\":[{\"resultType\":\"COOLDOWN_CHANGE\",\"detail\":{\"operation\":\"SET_REMAINING\"},\"valueRule\":{\"value\":" + fixed("0") + "}}]}")
+        ), List.of()));
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(object(SourceType.EFFECT, "set_neg", "{\"results\":[{\"resultType\":\"COOLDOWN_CHANGE\",\"detail\":{\"operation\":\"SET_REMAINING\"},\"valueRule\":{\"value\":" + fixed("-1") + "}}]}")),
+            List.of());
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(object(SourceType.EFFECT, "set_inf", "{\"results\":[{\"resultType\":\"COOLDOWN_CHANGE\",\"detail\":{\"operation\":\"SET_REMAINING\"},\"valueRule\":{\"value\":{\"kind\":\"FIXED\",\"value\":1e1000}}}]}")),
+            List.of());
+    }
+
+    @Test
+    void setRemainingCooldownValidatesEffectiveClampAndMultiplierWithoutIntegerRestriction() {
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(setRemainingEffect(fixed("0.5"), "1", null, null)), List.of()));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(setRemainingEffect(fixed("1000"), "0", null, null)), List.of()));
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(setRemainingEffect(fixed("10"), "1", null, "-1")), List.of());
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(setRemainingEffect(fixed("10"), "1e308", null, null)), List.of());
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(setRemainingEffect(fixed("10"), "1e308", null, "0.25")), List.of()));
+    }
+
+    @Test
+    void setRemainingCooldownValidatesEveryParameterLevelAfterScaling() {
+        Aggregate effect = setRemainingEffect(parameterValue("duration"), "1e308", null, null);
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value", List.of(effect),
+            List.of(level("duration", "DECIMAL", "SKILL_LEVEL", "{\"1\":0.5,\"2\":10}")));
+    }
+
+    @Test
+    void setRemainingCooldownValidatesActionResultModifiers() {
+        Aggregate effect = setRemainingEffect(fixed("10"), "1", null, null);
+        assertIssue("VALUE_RANGE_INVALID", "actions[0].resultModifiers[0]",
+            List.of(effect, ratioModifierRule(null, null, "-1")), List.of());
+        assertIssue("VALUE_RANGE_INVALID", "actions[0].resultModifiers[0]",
+            List.of(effect, ratioModifierRule("1e308", null, null)), List.of());
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(effect, ratioModifierRule("0.025", null, null)), List.of()));
+    }
+
+    @Test
+    void setRemainingCooldownRejectsNegativeUpperBoundsWithoutEvaluatingDynamicValues() {
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(setRemainingEffect(parameterValue("duration"), "1", null, "-1")),
+            List.of(runtime("duration", "DECIMAL")));
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(formula("input"), setRemainingEffect(formulaValue(), "1", null, "-1")),
+            List.of(fixedParameter("input", "DECIMAL", "5")));
+        assertIssue("VALUE_RANGE_INVALID", "actions[0].resultModifiers[0]",
+            List.of(formula("input"), setRemainingEffect(formulaValue(), "1", null, null),
+                ratioModifierRule(null, null, "-1")),
+            List.of(fixedParameter("input", "DECIMAL", "5")));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(setRemainingEffect(parameterValue("duration"), "1", null, "0")),
+            List.of(runtime("duration", "DECIMAL"))));
+    }
+
+    private static Aggregate setRemainingEffect(String value, String multiplier, String minimum, String maximum) {
+        Aggregate effect = ratioEffect(value, multiplier, minimum, maximum);
+        ((ObjectNode) effect.data().path("results").get(0).path("detail")).put("operation", "SET_REMAINING");
+        return effect;
     }
 
     private static Aggregate protectionCooldown(String value) {

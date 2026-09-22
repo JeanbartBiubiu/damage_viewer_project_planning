@@ -24,6 +24,7 @@ public final class SkillTriggerActionDeserializer extends JsonDeserializer<Skill
                 case EXECUTE_EFFECT -> SkillTriggerExecuteEffectActionDetail.class;
                 case START_PROCESS -> SkillTriggerStartProcessActionDetail.class;
                 case FAIL_PROCESS -> SkillTriggerFailProcessActionDetail.class;
+                case ADVANCE_PROCESS -> SkillTriggerAdvanceProcessActionDetail.class;
             };
             detail = codec.treeToValue(detailNode, detailClass);
         }

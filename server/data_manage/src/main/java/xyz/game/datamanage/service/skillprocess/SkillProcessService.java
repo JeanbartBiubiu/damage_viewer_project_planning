@@ -643,6 +643,14 @@ public class SkillProcessService {
             return;
         }
         SkillProcessMomentType type = moment.momentType();
+        if (!moment.unknownFields().isEmpty()) {
+            for (String field : moment.unknownFields()) {
+                issues.add(fieldIssue(prefix + "." + field, "UNKNOWN_FIELD", "过程时点包含未知字段"));
+            }
+        }
+        if (moment.failureReason() != null && type != SkillProcessMomentType.PROCESS_FAILURE) {
+            issues.add(fieldIssue(prefix + ".failureReason", "FORBIDDEN", "失败原因筛选只能用于过程失败时点"));
+        }
         if (PROCESS_MOMENTS.contains(type)) {
             if (moment.stepKey() != null) {
                 issues.add(fieldIssue(prefix + ".stepKey", "STEP_FORBIDDEN", "该过程时点不能指定步骤"));

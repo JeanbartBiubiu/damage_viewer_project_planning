@@ -41,6 +41,21 @@ public final class SkillTriggerEventCapabilities {
         return eventType == SkillTriggerEventType.SKILL_HIT && sourceSkillKey != null && !sourceSkillKey.isBlank();
     }
 
+    public static boolean sourceCastResourceCostAvailable(
+        SkillTriggerEventType eventType,
+        String sourceSkillKey,
+        SkillProcessMomentType momentType,
+        boolean currentSkillNonPassiveProcess
+    ) {
+        if (sourceCastResourceCostAvailable(eventType, sourceSkillKey)) {
+            return true;
+        }
+        return eventType == SkillTriggerEventType.PROCESS_MOMENT
+            && currentSkillNonPassiveProcess
+            && (momentType == SkillProcessMomentType.PROCESS_COMPLETE
+                || momentType == SkillProcessMomentType.PROCESS_FAILURE);
+    }
+
     public static SkillTriggerValueDomain valueDomain(SkillTriggerEventValueKey valueKey) {
         if (valueKey == null) {
             return null;

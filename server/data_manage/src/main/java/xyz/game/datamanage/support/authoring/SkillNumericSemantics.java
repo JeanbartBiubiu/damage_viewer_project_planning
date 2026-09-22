@@ -11,7 +11,9 @@ import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperation;
+import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventCapabilities;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventValueKey;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputs;
@@ -79,12 +81,24 @@ public final class SkillNumericSemantics {
                         String lifecycleOperation = text(r.path("detail"), "operation");
                         boolean extendDuration = "LIFECYCLE_OPERATION".equals(text(r, "resultType"))
                             && "EXTEND_DURATION".equals(lifecycleOperation);
+                        Bound valueBound = Bound.ANY;
+                        if ("LIFECYCLE_OPERATION".equals(text(r, "resultType")) && !extendDuration) {
+                            valueBound = Bound.INTEGER;
+                        } else if ("COOLDOWN_CHANGE".equals(text(r, "resultType"))
+                            && SkillEffectCooldownChangeOperation.SET_REMAINING.name()
+                                .equals(text(r.path("detail"), "operation"))) {
+                            valueBound = Bound.NON_NEGATIVE_FINITE;
+                        }
                         Use valueUse = use(a, r.path("valueRule"), path + ".valueRule", "value",
-                            "LIFECYCLE_OPERATION".equals(text(r, "resultType")) && !extendDuration
-                                ? Bound.INTEGER : Bound.ANY,
+                            valueBound,
                             current);
                         if (extendDuration) {
                             validateExtendedDuration(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
+                        }
+                        if ("COOLDOWN_CHANGE".equals(text(r, "resultType"))
+                            && SkillEffectCooldownChangeOperation.SET_REMAINING.name()
+                                .equals(text(r.path("detail"), "operation"))) {
+                            validateSetRemainingCooldown(a, valueUse, r.path("valueRule"), null, path + ".valueRule.value");
                         }
                         if ("COOLDOWN_CHANGE".equals(text(r, "resultType"))
                             && SkillEffectCooldownChangeOperation.REDUCE_REMAINING_RATIO.name()
@@ -210,7 +224,7 @@ public final class SkillNumericSemantics {
                     throw invalid(a, use.path(), "VALUE_RANGE_INVALID", "该位置的数值不能小于零");
                 }
                 if (bound == Bound.NON_NEGATIVE_FINITE && !Double.isFinite(value.doubleValue())) {
-                    throw invalid(a, use.path(), "VALUE_RANGE_INVALID", "吸血效率必须是有限非负数");
+                    throw invalid(a, use.path(), "VALUE_RANGE_INVALID", "该位置的数值必须是有限非负数");
                 }
                 if ((bound == Bound.POSITIVE || bound == Bound.POSITIVE_INTEGER) && value.signum() <= 0) {
                     throw invalid(a, use.path(), "VALUE_RANGE_INVALID", "该位置的数值必须大于零");
@@ -320,11 +334,9 @@ public final class SkillNumericSemantics {
                             || detail.path("attributeKey").asText().isBlank()) {
                             throw invalid(rule, path + ".detail", "VALUE_SHAPE_INVALID", "来源施放消耗明细只能包含资源属性标识");
                         }
-                        JsonNode event = rule.data().path("eventSource");
-                        if (!"SKILL_HIT".equals(text(event, "eventType"))
-                            || !SkillTriggerEventCapabilities.sourceCastResourceCostAvailable(
-                                xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType.SKILL_HIT, text(event.path("detail"), "sourceSkillKey"))) {
-                            throw invalid(rule, path + ".sourceType", "EVENT_VALUE_NOT_AVAILABLE", "来源施放消耗仅适用于明确来源技能的技能命中事件");
+                        if (!sourceCastResourceCostAllowed(rule)) {
+                            throw invalid(rule, path + ".sourceType", "EVENT_VALUE_NOT_AVAILABLE",
+                                "来源施放消耗仅适用于明确来源技能的技能命中，或当前技能非被动过程的完成与失败时点");
                         }
                     }
                     if ("INTEGER".equals(p.valueType()) && bindingDomain(binding) == SkillTriggerValueDomain.DECIMAL) throw invalid(rule, path, "REFERENCE_TYPE_MISMATCH", "小数来源不能绑定整数参数");
@@ -376,6 +388,15 @@ public final class SkillNumericSemantics {
                         "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]"
                     );
                 }
+                if (result != null
+                    && "COOLDOWN_CHANGE".equals(text(result, "resultType"))
+                    && SkillEffectCooldownChangeOperation.SET_REMAINING.name()
+                        .equals(text(result.path("detail"), "operation"))) {
+                    validateSetRemainingCooldown(rule,
+                        findUse(effect, "results[" + resultIndex + "].valueRule.value"),
+                        result.path("valueRule"), modifier,
+                        "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]");
+                }
                 modifierIndex++;
             }
         }
@@ -410,6 +431,30 @@ public final class SkillNumericSemantics {
                 if (modifier != null) effective = applyFixedRule(effective, modifier);
                 if (effective.compareTo(BigDecimal.ZERO) < 0 || effective.compareTo(BigDecimal.ONE) > 0) {
                     throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "按比例减少剩余冷却的有效比例必须在0到1之间");
+                }
+            }
+        }
+
+        private void validateSetRemainingCooldown(
+            Aggregate source,
+            Use valueUse,
+            JsonNode valueRule,
+            JsonNode modifier,
+            String errorPath
+        ) {
+            BigDecimal upperBound = decimal(valueRule, "fixedMaxValue");
+            BigDecimal modifierUpperBound = modifier == null ? null : decimal(modifier, "fixedMaxValue");
+            if ((upperBound != null && upperBound.signum() < 0)
+                || (modifierUpperBound != null && modifierUpperBound.signum() < 0)) {
+                throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "设置剩余冷却不能使用负数上界");
+            }
+            StaticValues known = known(valueUse);
+            if (known == null) return; // 具名公式和计算时传入值留给执行时验证。
+            for (BigDecimal value : known.values().values()) {
+                BigDecimal effective = applyFixedRule(value, valueRule);
+                if (modifier != null) effective = applyFixedRule(effective, modifier);
+                if (effective.signum() < 0 || !Double.isFinite(effective.doubleValue())) {
+                    throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "设置剩余冷却的有效毫秒数必须是有限非负数");
                 }
             }
         }
@@ -473,6 +518,36 @@ public final class SkillNumericSemantics {
             if (label != null && !"SKILL_HIT".equals(text(rule.data().path("eventSource"), "eventType"))) {
                 throw invalid(rule, path + ".eventValueKey", "EVENT_VALUE_NOT_AVAILABLE", label + "只适用于技能命中事件");
             }
+        }
+
+        private boolean sourceCastResourceCostAllowed(Aggregate rule) {
+            JsonNode event = rule.data().path("eventSource");
+            String eventTypeName = text(event, "eventType");
+            SkillTriggerEventType eventType;
+            try {
+                eventType = SkillTriggerEventType.valueOf(eventTypeName);
+            } catch (IllegalArgumentException ex) {
+                return false;
+            }
+            if (eventType == SkillTriggerEventType.SKILL_HIT) {
+                return SkillTriggerEventCapabilities.sourceCastResourceCostAvailable(
+                    eventType, text(event.path("detail"), "sourceSkillKey"));
+            }
+            if (eventType != SkillTriggerEventType.PROCESS_MOMENT) {
+                return false;
+            }
+            JsonNode detail = event.path("detail");
+            SkillProcessMomentType momentType;
+            try {
+                momentType = SkillProcessMomentType.valueOf(text(detail.path("moment"), "momentType"));
+            } catch (IllegalArgumentException ex) {
+                return false;
+            }
+            Aggregate process = objects.get(new Id(rule.skillKey(), SourceType.PROCESS, text(detail, "processKey")));
+            boolean currentSkillNonPassive = process != null
+                && !"PASSIVE".equals(text(process.data(), "activationType"));
+            return SkillTriggerEventCapabilities.sourceCastResourceCostAvailable(
+                eventType, null, momentType, currentSkillNonPassive);
         }
 
         private SkillTriggerValueDomain bindingDomain(JsonNode binding) {

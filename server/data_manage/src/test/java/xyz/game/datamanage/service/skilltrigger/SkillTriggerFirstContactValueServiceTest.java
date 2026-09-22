@@ -114,7 +114,7 @@ class SkillTriggerFirstContactValueServiceTest {
             SkillTriggerEventValueConditionDetail condition, SkillTriggerEventValueBindingDetail binding) {
         SkillTriggerEventDetail detail = switch (event) {
             case SKILL_HIT -> new SkillTriggerSkillEventDetail(null, null);
-            case SKILL_USED -> new SkillTriggerSkillEventDetail(null, SkillTriggerEventUseKind.ANY);
+            case SKILL_USED -> new SkillTriggerSkillEventDetail(null, SkillTriggerEventUseKind.ANY, xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase.INITIAL);
             default -> new SkillTriggerEmptyEventDetail();
         };
         return new SkillTriggerRuleCreateRequest("first_contact", "首次目标接触", null, 0, new SkillTriggerEventSource(event, detail),

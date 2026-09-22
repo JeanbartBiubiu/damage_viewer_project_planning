@@ -996,6 +996,10 @@ class SkillTriggerRuleServiceTest {
             cooldownShape(false, null, SkillEffectCooldownChangeOperation.RESET)
         );
         assertTrue(SkillTriggerPriorResultOutputs.available(reset).isEmpty());
+        SkillTriggerPriorResultOutputs.Shape setRemaining = SkillTriggerPriorResultOutputs.Shape.from(
+            cooldownShape(true, "cd_f", SkillEffectCooldownChangeOperation.SET_REMAINING)
+        );
+        assertEquals(EnumSet.of(SkillTriggerPriorResultOutputKind.CONFIGURED_VALUE), SkillTriggerPriorResultOutputs.available(setRemaining));
 
         SkillTriggerPriorResultOutputs.Shape persistentModifier = SkillTriggerPriorResultOutputs.Shape.from(
             new SkillTriggerEffectShapeRow(
@@ -1171,6 +1175,10 @@ class SkillTriggerRuleServiceTest {
         stubPriorFollow(reduce, SkillParameterValueType.DECIMAL);
         stubPriorSuccessAssemble("cd_ok", EFFECT_KEY);
         service.create(GAME_ID, SKILL_KEY, priorRule("cd_ok", SkillTriggerPriorResultOutputKind.CONFIGURED_VALUE, 10, 20));
+        SkillTriggerEffectShapeRow setRemaining = cooldownShape(true, "cd_f", SkillEffectCooldownChangeOperation.SET_REMAINING);
+        stubPriorFollow(setRemaining, SkillParameterValueType.DECIMAL);
+        stubPriorSuccessAssemble("cd_set", EFFECT_KEY);
+        service.create(GAME_ID, SKILL_KEY, priorRule("cd_set", SkillTriggerPriorResultOutputKind.CONFIGURED_VALUE, 10, 20));
         stubPriorFollow(reset, SkillParameterValueType.DECIMAL);
         ApiException resetValue = thrown(() -> service.create(
             GAME_ID, SKILL_KEY, priorRule("cd_reset", SkillTriggerPriorResultOutputKind.CONFIGURED_VALUE, 10, 20)

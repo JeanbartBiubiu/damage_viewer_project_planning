@@ -21,6 +21,8 @@ import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilltrigger.SkillTriggerRuleMapper;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
+import xyz.game.datamanage.model.skillprocess.SkillProcessActivationType;
+import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
 import xyz.game.datamanage.model.skilltrigger.*;
 import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.support.error.ApiException;
@@ -80,9 +82,46 @@ class SkillTriggerSourceCastResourceCostServiceTest {
         SkillTriggerRuntimeInputBinding binding = binding(new SkillTriggerSourceCastResourceCostBindingDetail("mana"));
         for (SkillTriggerEventSource event : List.of(hit(null),
             new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT, new SkillTriggerEmptyEventDetail()),
-            new SkillTriggerEventSource(SkillTriggerEventType.SKILL_USED, new SkillTriggerSkillEventDetail("ezreal_e", SkillTriggerEventUseKind.ACTIVE)))) {
+            new SkillTriggerEventSource(SkillTriggerEventType.SKILL_USED, new SkillTriggerSkillEventDetail("ezreal_e", SkillTriggerEventUseKind.ACTIVE, xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase.INITIAL)))) {
             assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY, request(binding, event))), PATH + ".sourceType", "EVENT_VALUE_NOT_AVAILABLE");
         }
+    }
+
+    @Test
+    void processCompleteAndFailureOfCurrentNonPassiveProcessAreAllowed() {
+        when(mapper.listProcessShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            processActivation(PROCESS_KEY, SkillProcessActivationType.ACTIVE)
+        ));
+        SkillTriggerRuntimeInputBinding binding = binding(new SkillTriggerSourceCastResourceCostBindingDetail("mana"));
+        for (SkillProcessMomentType moment : List.of(
+            SkillProcessMomentType.PROCESS_COMPLETE,
+            SkillProcessMomentType.PROCESS_FAILURE
+        )) {
+            var saved = service.create(GAME_ID, SKILL_KEY, request(binding, processMoment(PROCESS_KEY, moment, null)));
+            assertEquals("mana", assertInstanceOf(SkillTriggerSourceCastResourceCostBindingDetail.class,
+                saved.actions().getFirst().runtimeInputBindings().getFirst().detail()).attributeKey());
+        }
+    }
+
+    @Test
+    void processStartCancelPassiveAndForeignProcessAreRejected() {
+        SkillTriggerRuntimeInputBinding binding = binding(new SkillTriggerSourceCastResourceCostBindingDetail("mana"));
+        when(mapper.listProcessShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            processActivation(PROCESS_KEY, SkillProcessActivationType.ACTIVE)
+        ));
+        assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY, request(binding, processStart(PROCESS_KEY)))),
+            PATH + ".sourceType", "EVENT_VALUE_NOT_AVAILABLE");
+        assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY, request(binding,
+            new SkillTriggerEventSource(SkillTriggerEventType.PROCESS_CANCEL_REQUESTED,
+                new SkillTriggerCancelProcessEventDetail(PROCESS_KEY))))),
+            PATH + ".sourceType", "EVENT_VALUE_NOT_AVAILABLE");
+
+        when(mapper.listProcessShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            processActivation(PROCESS_KEY, SkillProcessActivationType.PASSIVE)
+        ));
+        assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY, request(
+            binding, processMoment(PROCESS_KEY, SkillProcessMomentType.PROCESS_COMPLETE, null)))),
+            PATH + ".sourceType", "EVENT_VALUE_NOT_AVAILABLE");
     }
 
     @Test
