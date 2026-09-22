@@ -142,6 +142,74 @@ export type OperationDefinition = {
   threshold?: number;
   vampQualification?: 'RESOLVED' | 'UNRESOLVED';
   vampOverrides?: GenericVampOverride[];
+  skillHit?: SkillHitDefinition;
+  providerRefFromEvent?: boolean;
+};
+
+export type SkillHitHistoryState = 'complete' | 'unknown';
+export type SkillHitValueKey = 'first_contact' | 'blocked';
+export type SkillHitComparator = 'eq' | 'ne' | 'lt' | 'lte' | 'gt' | 'gte';
+export type SpellShieldBlockScope = 'SKILL' | 'EFFECT' | 'RESULT' | 'DAMAGE_INSTANCE';
+export type SkillHitResultType =
+  | 'DAMAGE'
+  | 'ATTRIBUTE_CHANGE'
+  | 'RESOURCE_CHANGE'
+  | 'COOLDOWN_CHANGE'
+  | 'STATUS_OPERATION'
+  | 'LIFECYCLE_OPERATION'
+  | 'SPELL_SHIELD'
+  | 'DAMAGE_MODIFIER'
+  | 'HEALING_MODIFIER'
+  | 'DAMAGE_IMMUNITY'
+  | 'HEALTH_FLOOR';
+export type SkillHitSemanticTarget = 'TARGET' | 'SOURCE' | 'SELF';
+export type SkillHitMoment = 'INSTANT' | 'PERSISTENT';
+export type SkillHitStatusKind = 'stun' | 'root' | 'silence' | 'charm' | 'airborne' | 'movement_slow';
+
+export type SkillUseFact = {
+  useKey: string;
+  source: string;
+  skillKey: string;
+  historyState: SkillHitHistoryState;
+  priorQualifiedContacts?: string[];
+};
+
+export type SkillHitFact = {
+  driverEntryKey: string;
+  useRef: string | null;
+  sequence: number | null;
+};
+
+export type SkillHitEventValueCondition = {
+  key: SkillHitValueKey;
+  comparator: SkillHitComparator;
+  value: GenericFormulaExpr;
+};
+
+export type SkillHitSemantic = {
+  resultType: SkillHitResultType;
+  target: SkillHitSemanticTarget;
+  moment: SkillHitMoment;
+  statusOperation?: 'APPLY' | 'REMOVE';
+  statusKey?: string;
+  statusKind?: SkillHitStatusKind;
+};
+
+export type SkillHitCandidate = {
+  candidateKey: string;
+  effectOccurrenceKey: string;
+  effectKey: string;
+  resultKey: string;
+  semantic: SkillHitSemantic;
+  spellShieldBlockScope: SpellShieldBlockScope | null;
+  participationCondition?: GenericFormulaExpr | null;
+  eventValueConditions?: SkillHitEventValueCondition[];
+  operations: OperationDefinition[];
+};
+
+export type SkillHitDefinition = {
+  skillKey: string;
+  candidates: SkillHitCandidate[];
 };
 
 export type HealGroupCalculationMode = 'ratio_add' | 'ratio_max';
@@ -383,6 +451,8 @@ export type RunRequest = {
   stopPolicy: StopPolicy;
   sampling: SamplingConfig;
   safetyBudget?: SafetyBudget;
+  skillUses?: SkillUseFact[];
+  skillHitFacts?: SkillHitFact[];
 };
 
 export type RunSummary = {

@@ -10,8 +10,8 @@ import type { GameVampRule } from '../../src/types/gameVamp';
 import type { AuthoredVampDamage } from '../../src/engine/vampAdapter';
 
 const WASM_PATH = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const WASM_SHA256 = '271D154A0862E195126E4085882BD7C7E9356D10E45DB153535859B59EA93CEF';
-const WASM_BYTES = 760195;
+const WASM_SHA256 = '4B51975A41FF155D80294A1155C9D4463FB40677225DAE933D19F184808D040F';
+const WASM_BYTES = 828519;
 
 function slot(value: number, max = value) {
   return { base: value, current: value, max, resolved: value };
@@ -332,5 +332,48 @@ test('原库乌尔加特配置保留命中要求，独立结果入口拒绝绕�
   expect(rejected?.message).toContain('必须经命中处理入口执行');
   await testInfo.attach('真实配置与适配边界', { contentType: 'application/json', body: Buffer.from(JSON.stringify({
     effect, rejected, runtimeExecuted: false, note: '真实命中处理由第5项负责，未移除配置粒度或用布尔开关绕过'
+  }, null, 2)) });
+});
+
+test('真实页面保存的两项重伤→GET→Worker，同组40%取强且各自到期', async ({ page, request }, testInfo) => {
+  test.skip(process.env.P7_LIVE_API !== '1', '显式启用后只读本地实际服务');
+  const api = 'http://127.0.0.1:8080/api/admin/games/lol';
+  const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
+  const read = async (path: string) => {
+    const response = await request.get(api + path, { headers });
+    expect(response.status(), path).toBe(200);
+    return response.json();
+  };
+  const zone = await read('/modifier-zones/grievous_wounds');
+  const keys = ['item_3123_passive', 'item_3916_passive'];
+  const originals = await Promise.all(keys.map(async skillKey => ({
+    effect: await read(`/skills/${skillKey}/effects/grievous_wounds`),
+    parameters: await read(`/skills/${skillKey}/parameters`)
+  })));
+  const bindings: PersistentResultBinding[] = originals.map(({ effect, parameters }, index) => ({
+    providerKey: `status:${effect.skillKey}:${effect.effectKey}`,
+    applyProviderKey: 'champion', applyAbilityKey: index === 0 ? 'apply' : 'apply_strong',
+    authored: {
+      gameId: effect.gameId, skillKey: effect.skillKey, effectKey: effect.effectKey,
+      skillLevel: 1, characterLevel: 1, source: 'source', target: 'target',
+      lifecycle: effect.lifecycle, result: effect.results[0], parameters, statuses: [], modifierZones: [zone]
+    }
+  }));
+  const result = await runBindings(page, bindings, [
+    { entryKey: 'first', abilityRef: abilityRef('apply'), source: 'source', target: 'target', firstAtMs: 0 },
+    { entryKey: 'second', abilityRef: abilityRef('apply_strong'), source: 'source', target: 'target', firstAtMs: 1000 },
+    { entryKey: 'both', abilityRef: abilityRef('heal'), source: 'source', target: 'target', firstAtMs: 1100 },
+    { entryKey: 'one', abilityRef: abilityRef('heal'), source: 'source', target: 'target', firstAtMs: 3100 },
+    { entryKey: 'none', abilityRef: abilityRef('heal'), source: 'source', target: 'target', firstAtMs: 4100 }
+  ], 4200, { targetHp: 100 });
+  const heals = result.done.evidence.items.filter(item => item.kind === 'heal');
+  expect(heals.map(item => item.timeMs)).toEqual([1100, 3100, 4100]);
+  expect(heals.map(item => item.data?.actualHealing)).toEqual([60, 60, 100]);
+  expect(targetCombatant(result.done).attributes.hp.current).toBe(320);
+  expect(result.released.released).toBe(true);
+  const after = await Promise.all(keys.map(skillKey => read(`/skills/${skillKey}/effects/grievous_wounds`)));
+  expect(after).toEqual(originals.map(row => row.effect));
+  await testInfo.attach('真实重伤效果运行回读', { contentType: 'application/json', body: Buffer.from(JSON.stringify({
+    skillKeys: keys, result: result.done, note: '实际保存的效果与参数直接编译；这里只显式施加结果，不证明装备伤害触发或生命回复覆盖。'
   }, null, 2)) });
 });
