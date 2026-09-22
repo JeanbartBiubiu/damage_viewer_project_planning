@@ -19,7 +19,8 @@ public record CharacterAuthoringCheckResponse(
     public record Skill(String skillKey, String name, String status, Integer maxLevel, Integer sortOrder,
                         int effectCount, int processCount, int triggerRuleCount) { }
     public record Reference(String sourceSkillKey, String sourceType, String sourceKey, String fieldPath,
-                            String targetType, String targetSkillKey, String targetKey, String targetSubKey) { }
+                            String targetType, String targetSkillKey, String targetKey, String targetSubKey,
+                            AuthoringCheckLocation location) { }
     public record Issue(String code, String severity, String message, String skillKey,
-                        String objectType, String objectKey, String fieldPath) { }
+                        String objectType, String objectKey, String fieldPath, AuthoringCheckLocation location) { }
 }

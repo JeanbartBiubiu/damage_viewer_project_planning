@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -78,7 +80,8 @@ public class CharacterAuthoringCheckService {
         boolean validConfig = config != null && config.minLevel() != null && config.maxLevel() != null
             && config.minLevel() >= 1 && config.maxLevel() >= config.minLevel() && config.maxLevel() <= 100;
         if (!validConfig) basic(issues, null, "LEVEL_CONFIG", gameId, "levelConfig", "当前游戏的等级配置缺失或范围不合法");
-        int configuredAttributes = checkLevelValues(characterKey, characters.findLevelValuesJson(gameId, characterKey),
+        String levelValuesJson = characters.findLevelValuesJson(gameId, characterKey);
+        int configuredAttributes = checkLevelValues(characterKey, levelValuesJson,
             validConfig ? config : null, characters.listAttributeDefinitions(gameId), issues);
 
         List<AttachedSkill> attached = checks.listAttachedSkills(gameId, characterKey);
@@ -90,7 +93,7 @@ public class CharacterAuthoringCheckService {
             checkKey(row.skillKey(), row.skillKey(), "SKILL", row.skillKey(), "skillKey", issues);
             checkSort(row.sortOrder(), row.skillKey(), "CHARACTER_SKILL_RELATION", characterKey, "sortOrder", issues);
             if (!row.skillExists()) {
-                issues.add(new Issue("ATTACHED_SKILL_MISSING", "ERROR", "关联记录指向不存在的技能", row.skillKey(), "SKILL", row.skillKey(), "skillKey"));
+                issues.add(new Issue("ATTACHED_SKILL_MISSING", "ERROR", "关联记录指向不存在的技能", row.skillKey(), "SKILL", row.skillKey(), "skillKey", null));
                 continue;
             }
             checkName(row.name(), row.skillKey(), "SKILL", row.skillKey(), "name", issues);
@@ -98,23 +101,77 @@ public class CharacterAuthoringCheckService {
             if (!Set.of("ENABLED", "DISABLED").contains(row.status() == null ? "" : row.status())) basic(issues, row.skillKey(), "SKILL", row.skillKey(), "status", "技能启停状态缺失或不合法");
             if ("DISABLED".equals(row.status())) review(issues, row.skillKey(), "SKILL", row.skillKey(), "status", "ATTACHED_SKILL_DISABLED", "已挂载技能处于停用状态，请核对是否保留");
         }
-        checkObjects(checks.listObjects(gameId, characterKey), issues);
+        List<ObjectRow> objects = checks.listObjects(gameId, characterKey);
+        checkObjects(objects, issues);
+        Map<String, JsonNode> savedObjects = locationObjects(character, levelValuesJson, attached, objects);
         List<Reference> references = new ArrayList<>();
         for (ReferenceRow row : checks.listReferences(gameId, characterKey)) {
             references.add(new Reference(row.sourceSkillKey(), row.sourceType(), row.sourceKey(), row.fieldPath(),
-                row.targetType(), row.targetSkillKey(), row.targetKey(), row.targetSubKey()));
+                row.targetType(), row.targetSkillKey(), row.targetKey(), row.targetSubKey(),
+                AuthoringCheckLocationResolver.resolve(row.sourceSkillKey(), row.sourceType(), row.sourceKey(), row.fieldPath(),
+                    savedObjects.get(locationObjectKey(row.sourceSkillKey(), row.sourceType(), row.sourceKey())))));
             if (!row.targetExists()) issues.add(new Issue("REFERENCE_TARGET_MISSING", "ERROR",
                 "直接引用目标不存在：" + row.targetType() + " / " + row.targetSkillKey() + " / " + row.targetKey()
                     + (row.targetSubKey().isEmpty() ? "" : " / " + row.targetSubKey()),
-                row.sourceSkillKey(), row.sourceType(), row.sourceKey(), row.fieldPath()));
+                row.sourceSkillKey(), row.sourceType(), row.sourceKey(), row.fieldPath(), null));
         }
         issues.sort(Comparator.comparing(Issue::severity).thenComparing(i -> i.skillKey() == null ? "" : i.skillKey())
             .thenComparing(Issue::objectType).thenComparing(i -> i.objectKey() == null ? "" : i.objectKey())
             .thenComparing(Issue::fieldPath).thenComparing(Issue::code));
-        int errors = (int) issues.stream().filter(i -> "ERROR".equals(i.severity())).count();
+        List<Issue> locatedIssues = issues.stream().map(issue -> new Issue(issue.code(), issue.severity(), issue.message(),
+            issue.skillKey(), issue.objectType(), issue.objectKey(), issue.fieldPath(),
+            "ATTACHED_SKILL_MISSING".equals(issue.code())
+                ? AuthoringCheckLocationResolver.missingSkill(issue.skillKey(), issue.objectKey(), issue.fieldPath())
+                : AuthoringCheckLocationResolver.resolve(issue.skillKey(), issue.objectType(), issue.objectKey(), issue.fieldPath(),
+                    savedObjects.get(locationObjectKey(issue.skillKey(), issue.objectType(), issue.objectKey()))))).toList();
+        int errors = (int) locatedIssues.stream().filter(i -> "ERROR".equals(i.severity())).count();
         return new CharacterAuthoringCheckResponse(gameId, characterKey, character.name(), OffsetDateTime.now(ZoneOffset.UTC),
             new Conclusions(errors == 0 ? "NO_ERRORS" : "HAS_ERRORS", "NOT_CHECKED", "NOT_RUN"),
-            new Summary(skills.size(), configuredAttributes, errors, issues.size() - errors), skills, references, issues);
+            new Summary(skills.size(), configuredAttributes, errors, locatedIssues.size() - errors), skills, references, locatedIssues);
+    }
+
+    private static String locationObjectKey(String skill, String type, String key) {
+        return (skill == null ? "" : skill) + "\u0000" + type + "\u0000" + key;
+    }
+
+    /** 复用本次只读事务的原始保存次序，不从组装后已排序的编辑响应反推索引。 */
+    private Map<String, JsonNode> locationObjects(CharacterResponse character, String levelValuesJson,
+                                                 List<AttachedSkill> attached, List<ObjectRow> objects) {
+        Map<String, JsonNode> result = new HashMap<>();
+        ObjectNode characterData = JsonNodeFactory.instance.objectNode()
+            .put("characterKey", character.characterKey()).put("name", character.name());
+        characterData.putArray("skills");
+        result.put(locationObjectKey(null, "CHARACTER", character.characterKey()), characterData);
+        ObjectNode attributes = JsonNodeFactory.instance.objectNode();
+        attributes.set("levelValues", readLocationJson(levelValuesJson));
+        result.put(locationObjectKey(null, "CHARACTER_ATTRIBUTES", character.characterKey()), attributes);
+        for (AttachedSkill skill : attached) {
+            characterData.withArray("skills").addObject().put("skillKey", skill.skillKey()).put("sortOrder", skill.sortOrder());
+            if (skill.skillExists()) {
+                ObjectNode data = JsonNodeFactory.instance.objectNode().put("skillKey", skill.skillKey())
+                    .put("name", skill.name()).put("status", skill.status()).put("maxLevel", skill.maxLevel());
+                result.put(locationObjectKey(skill.skillKey(), "SKILL", skill.skillKey()), data);
+            }
+            result.put(locationObjectKey(skill.skillKey(), "CHARACTER_SKILL_RELATION", character.characterKey()),
+                JsonNodeFactory.instance.objectNode().put("sortOrder", skill.sortOrder()).put("skillKey", skill.skillKey()));
+        }
+        for (ObjectRow row : objects) {
+            JsonNode data = readLocationJson(row.dataJson());
+            if (data instanceof ObjectNode object) {
+                object.put("key", row.objectKey()).put("name", row.name()).put("sortOrder", row.sortOrder());
+            }
+            result.put(locationObjectKey(row.skillKey(), row.objectType(), row.objectKey()), data);
+        }
+        return result;
+    }
+
+    private JsonNode readLocationJson(String raw) {
+        if (raw == null) return JsonNodeFactory.instance.nullNode();
+        try {
+            JsonNode parsed = jsonReader.readTree(raw);
+            return parsed == null ? JsonNodeFactory.instance.textNode(raw) : parsed;
+        }
+        catch (JsonProcessingException ignored) { return JsonNodeFactory.instance.textNode(raw); }
     }
 
     private int checkLevelValues(String characterKey, String raw, LevelConfigResponse config,
@@ -333,12 +390,12 @@ public class CharacterAuthoringCheckService {
         basic(issues, row.skillKey(), row.objectType(), row.objectKey(), path, message);
     }
     private static void basic(List<Issue> issues, String skill, String type, String key, String path, String message) {
-        issues.add(new Issue("BASIC_FIELD_INVALID", "ERROR", message, skill, type, key, path));
+        issues.add(new Issue("BASIC_FIELD_INVALID", "ERROR", message, skill, type, key, path, null));
     }
     private static void levelIssue(List<Issue> issues, String key, String path, String message) {
-        issues.add(new Issue("LEVEL_VALUES_INVALID", "ERROR", message, null, "CHARACTER_ATTRIBUTES", key, path));
+        issues.add(new Issue("LEVEL_VALUES_INVALID", "ERROR", message, null, "CHARACTER_ATTRIBUTES", key, path, null));
     }
     private static void review(List<Issue> issues, String skill, String type, String key, String path, String code, String message) {
-        issues.add(new Issue(code, "REVIEW", message, skill, type, key, path));
+        issues.add(new Issue(code, "REVIEW", message, skill, type, key, path, null));
     }
 }
