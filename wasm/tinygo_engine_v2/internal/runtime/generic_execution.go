@@ -27,6 +27,9 @@ type stagedProviderMutation struct {
 	shieldAmount   float64
 	shieldRef      string
 	shieldPriority int16
+	expireAt       int64
+	hasExpireAt    bool
+	contributions  []status.StatusContribution
 }
 
 type stagedCombatant struct {
@@ -624,12 +627,19 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 		if op.ProviderDefinitionRef == "" {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "apply_provider requires providerDefinitionRef", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
+		prepared, err := f.prepareProviderMutation(op.ProviderDefinitionRef, "", f.sourceKey, targetKey, ability)
+		if err != nil {
+			return err
+		}
 		sc := f.stageFor(targetKey)
 		sc.providerOps = append(sc.providerOps, stagedProviderMutation{
 			kind:          "apply",
 			definitionRef: op.ProviderDefinitionRef,
 			targetKey:     targetKey,
 			sourceKey:     f.sourceKey,
+			expireAt:      prepared.expireAt,
+			hasExpireAt:   prepared.hasExpireAt,
+			contributions: cloneStatusContributions(prepared.contributions),
 		})
 		sc.dirty = true
 		return nil
@@ -637,12 +647,19 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 		if op.ProviderRef == "" {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "refresh_provider requires providerRef", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
+		prepared, err := f.prepareProviderMutation("", op.ProviderRef, f.sourceKey, targetKey, ability)
+		if err != nil {
+			return err
+		}
 		sc := f.stageFor(targetKey)
 		sc.providerOps = append(sc.providerOps, stagedProviderMutation{
-			kind:        "refresh",
-			providerRef: op.ProviderRef,
-			targetKey:   targetKey,
-			sourceKey:   f.sourceKey,
+			kind:          "refresh",
+			providerRef:   op.ProviderRef,
+			targetKey:     targetKey,
+			sourceKey:     f.sourceKey,
+			expireAt:      prepared.expireAt,
+			hasExpireAt:   prepared.hasExpireAt,
+			contributions: cloneStatusContributions(prepared.contributions),
 		})
 		sc.dirty = true
 		return nil
@@ -1767,13 +1784,13 @@ func (f *executionFrame) commit() {
 		for _, mut := range staged.providerOps {
 			switch mut.kind {
 			case "apply":
-				if err := f.run.applyProviderInstance(mut.targetKey, mut.sourceKey, mut.definitionRef, evalCtx); err != nil {
+				if err := f.run.applyProviderInstance(mut.targetKey, mut.sourceKey, mut.definitionRef, mut.expireAt, mut.hasExpireAt, mut.contributions); err != nil {
 					f.fatal = true
 					f.fatalErr = err
 					return
 				}
 			case "refresh":
-				if err := f.run.refreshProviderInstance(mut.targetKey, mut.providerRef, evalCtx); err != nil {
+				if err := f.run.refreshProviderInstance(mut.targetKey, mut.providerRef, mut.expireAt, mut.hasExpireAt, mut.contributions); err != nil {
 					f.fatal = true
 					f.fatalErr = err
 					return

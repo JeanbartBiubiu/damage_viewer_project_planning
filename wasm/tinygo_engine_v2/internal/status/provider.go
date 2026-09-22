@@ -2,15 +2,25 @@
 package status
 
 // ProviderInstance 是 combatant 上已挂载的 dynamic provider 运行态。
+// ProviderInstance 是 combatant 上已挂载的 dynamic provider 运行态。
 type ProviderInstance struct {
-	ProviderRef     string
-	DefinitionRef   string
-	Source          string
-	Owner           string
-	Stacks          int
-	ExpireAt        int64
-	State           map[string]interface{}
-	DefinitionIndex uint16
+	ProviderRef         string
+	DefinitionRef       string
+	Source              string
+	Owner               string
+	Stacks              int
+	ExpireAt            int64
+	State               map[string]interface{}
+	DefinitionIndex     uint16
+	StatusContributions []StatusContribution
+}
+
+// StatusContribution 是 apply/refresh 当时保存的普通减速快照值。
+type StatusContribution struct {
+	ResultRef  string
+	StatusKey  string
+	StatusKind string
+	Strength   float64
 }
 
 // Expired 判断 provider 是否已到过期时刻（ExpireAt<=0 表示永不过期）。

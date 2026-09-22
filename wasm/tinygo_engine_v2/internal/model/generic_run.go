@@ -35,28 +35,57 @@ type Snapshot struct {
 
 // CombatantSnapshot 是 run 期单个 combatant 状态。
 // finalSnapshot 输出要求稳定 shape：空 map/array 也必须 materialize，故关键字段不加 omitempty。
+// CombatantSnapshot 是 run 期单个 combatant 状态。
+// finalSnapshot 输出要求稳定 shape：空 map/array 也必须 materialize，故关键字段不加 omitempty。
 type CombatantSnapshot struct {
-	Key           string                      `json:"key"`
-	Attributes    map[string]AttributeSlotDef `json:"attributes"`
-	Resources     map[string]ResourceSlotDef  `json:"resources"`
-	Cooldowns     map[string]interface{}      `json:"cooldowns"`
-	Providers     []CombatantProviderSnapshot `json:"providers"`
-	Shields       []CombatantShieldSnapshot   `json:"shields"`
-	AbilityState  map[string]interface{}      `json:"abilityState"`
-	ProviderState map[string]interface{}      `json:"providerState"`
-	Vars          map[string]interface{}      `json:"vars"`
+	Key               string                      `json:"key"`
+	Attributes        map[string]AttributeSlotDef `json:"attributes"`
+	Resources         map[string]ResourceSlotDef  `json:"resources"`
+	Cooldowns         map[string]interface{}      `json:"cooldowns"`
+	Providers         []CombatantProviderSnapshot `json:"providers"`
+	Shields           []CombatantShieldSnapshot   `json:"shields"`
+	AbilityState      map[string]interface{}      `json:"abilityState"`
+	ProviderState     map[string]interface{}      `json:"providerState"`
+	Vars              map[string]interface{}      `json:"vars"`
+	EffectiveStatuses []EffectiveStatusSnapshot   `json:"effectiveStatuses"`
 }
 
 // CombatantProviderSnapshot 是 combatant 上已挂载 provider 的运行态。
 // finalSnapshot 要求 source/owner/stacks/expireAt/state 稳定输出；expireAt 为 null 表示 persistent。
 type CombatantProviderSnapshot struct {
-	ProviderRef   string                 `json:"providerRef"`
-	DefinitionRef string                 `json:"definitionRef"`
-	Source        string                 `json:"source"`
-	Owner         string                 `json:"owner"`
-	Stacks        int                    `json:"stacks"`
-	ExpireAt      *int64                 `json:"expireAt"` // nil / JSON null = persistent
-	State         map[string]interface{} `json:"state"`
+	ProviderRef         string                               `json:"providerRef"`
+	DefinitionRef       string                               `json:"definitionRef"`
+	Source              string                               `json:"source"`
+	Owner               string                               `json:"owner"`
+	Stacks              int                                  `json:"stacks"`
+	ExpireAt            *int64                               `json:"expireAt"` // nil / JSON null = persistent
+	State               map[string]interface{}               `json:"state"`
+	StatusContributions []ProviderStatusContributionSnapshot `json:"statusContributions,omitempty"`
+}
+
+// ProviderStatusContributionSnapshot 保存 apply/refresh 当时的真实强度；strength 用指针区分 JSON 0 与缺失。
+type ProviderStatusContributionSnapshot struct {
+	ResultRef  string   `json:"resultRef"`
+	StatusKey  string   `json:"statusKey"`
+	StatusKind string   `json:"statusKind"`
+	Strength   *float64 `json:"strength"`
+}
+
+// EffectiveStatusSnapshot 是最终对象快照上只读的有效状态合并。
+type EffectiveStatusSnapshot struct {
+	StatusKind    string                        `json:"statusKind"`
+	Strength      float64                       `json:"strength"`
+	Contributions []EffectiveStatusContribution `json:"contributions"`
+}
+
+// EffectiveStatusContribution 是一条仍有效的普通减速贡献。
+type EffectiveStatusContribution struct {
+	ProviderRef string  `json:"providerRef"`
+	ResultRef   string  `json:"resultRef"`
+	StatusKey   string  `json:"statusKey"`
+	Source      string  `json:"source"`
+	ExpireAt    int64   `json:"expireAt"`
+	Strength    float64 `json:"strength"`
 }
 
 // CombatantShieldSnapshot 是 combatant 上护盾运行态。
@@ -96,6 +125,11 @@ func (p StopPolicy) StopWhenNoEventsOrDefault() bool {
 
 // BoolPtr 返回 bool 指针，供测试与构造 StopPolicy 使用。
 func BoolPtr(v bool) *bool {
+	return &v
+}
+
+// Float64Ptr 返回 float64 指针，供快照强度区分 JSON 0 与缺失。
+func Float64Ptr(v float64) *float64 {
 	return &v
 }
 

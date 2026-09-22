@@ -65,6 +65,8 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 
 ## 当前已接入能力
 
+普通减速与取强治疗的`source_target`（按来源与承受者）实例恢复必须提供真实来源、当前承受者、非空实例标识、单层与正到期时间；缺失不按自身或默认层数补齐。同一归属不能恢复两份实例，新生成标识不复用恢复过的标识。已到期记录允许输入但不贡献有效强度，再次施加建立新生命周期；期限必须为可表示的正整数毫秒。
+
 | 区域 | 状态 | 说明 |
 | --- | --- | --- |
 | Generic ABI / frame / outbox | 已接入 | kind `200..214`；优先帧保留 |
@@ -72,6 +74,7 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 | `CompileGeneric` | 已接入 | collect-all；输出 `CompiledSession` |
 | `RunGeneric` | 已接入 | driver plan、gate、damage/heal/resource、provider tick |
 | 通用吸血 | 已接入 | 游戏规则与伤害例外；普通、复制伤害共用末尾吸血结算；治疗修正与逐次证据 |
+| 跨来源状态合并与重施 | 已接入 | `source_target` 单层重施、普通减速取强快照、`effectiveStatuses`、治疗组 `ratio_max` |
 | Canonical fixture | 已接入 | `generic_p0_basic_damage.json`（targetFinalHp=900） |
 | Node smoke | 已接入 | 真实 compile/run/release round-trip |
 | Node / Go bench | 已接入 | `--mode generic-run` / `go run ./cmd/bench` 默认 generic |
@@ -246,3 +249,21 @@ node .\scripts\vamp-smoke-node.mjs
 ```
 
 该样例明确提供两侧英雄、100原始伤害、100护甲、20护盾及20剩余生命等运行输入。原生与Node结果证明通用机制；实库来源、管理适配及浏览器Worker验证由相应模块独立提供证据。
+
+### 跨来源状态合并与重伤取强
+
+方案唯一来源为规划工作树的《管理页面与共性机制迭代计划》第7项。本模块负责通用编译与结算，不实现移速软上限、几何、控制抗性或按英雄名分支。
+
+- `ProviderLifecycle.instanceScope=source_target` 仅在显式 `maxStacks=1`、`refreshPolicy=replace` 且有正期限时进入按 `definitionRef+source+owner` 复用实例；未指定范围仍每次新建。
+- `statusContributions` 在 apply/refresh 当时用真实来源/目标、能力参数求值并保存快照；强度有限且在 `[0,1]`，JSON 0 与缺失分开；失败不挂实例。
+- 最终 `effectiveStatuses` 只读输出普通减速有效 max 及全部有效贡献；弱实例保留并独立到期。到期守卫使用实例 `ExpireAt>nowMs`，不使用 `expectedExpireAt`。
+- `healGroupCalculationMode=ratio_max` 对同组 received+`add_percent` 取最小带符号比例，组间仍按 `max(0,1+ratio)` 连乘；非法值报错不夹取。同组模式冲突 collect-all 列出双方路径。
+
+专项验证使用独立构造的 `internal/testkit/fixtures/generic_status_merge_slow.json` 与 `generic_heal_ratio_max.json`，不修改或复制原基准样例。最终构建后运行：
+
+```powershell
+go test -count=1 ./internal/compile ./internal/runtime -run 'Status|HealRatioMax|Slow'
+node .\scripts\status-merge-smoke-node.mjs
+```
+
+原生与 Node 结果证明通用机制；浏览器 Worker 真实验证由主负责人独立提供，不能拿 Node 代替。
