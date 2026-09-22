@@ -2,6 +2,8 @@ import { numericFormulaKey } from '../../../../types/numericValue';
 import { usesNumericValueKind } from '../numericValueForm';
 import type { SkillParameter } from '../../../../types/skillParameter';
 import { NumericValueField } from '../NumericValueField';
+import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
 import {
   Alert,
   Button,
@@ -104,6 +106,7 @@ import {
   applyStackValueModeChange,
   clearHiddenLifecycleBehaviorFields,
   cooldownChangeAmountHint,
+  healingModifierAmountHint,
   isCatalogOptionSelectable,
   isFixedPersistentSnapshotResult,
   isModifierZoneRequired,
@@ -175,6 +178,8 @@ type SkillEffectResultEditorModalProps = {
   adminToken: string;
   onClose: () => void;
   onConfirm: (draft: SkillEffectResultDraft) => void;
+  focusField?: string | null;
+  locateMessage?: string | null;
 };
 
 function titleFor(mode: SkillEffectResultEditorMode): string {
@@ -353,7 +358,9 @@ export function SkillEffectResultEditorModal({
   selectedGameId,
   adminToken,
   onClose,
-  onConfirm
+  onConfirm,
+  focusField = null,
+  locateMessage = null
 }: SkillEffectResultEditorModalProps) {
   const [draft, setDraft] = useState<SkillEffectResultDraft>(resultDraft);
   const [errors, setErrors] = useState<SkillEffectResultDraftErrors>(fieldErrors);
@@ -655,6 +662,7 @@ export function SkillEffectResultEditorModal({
     skillCategories,
     statuses
   }), [attributes, damageTypes, effectSummaries, formulas, modifierZones, parentDraft.effectKey, parentSkill.skillKey, skillCategories, skills, statuses]);
+  const healingRatioMaxHint = healingModifierAmountHint(draft, catalog);
 
   const validationCatalogState = useMemo<EffectCatalogLoadState>(() => ({
     ...catalogLoadState,
@@ -1070,6 +1078,9 @@ export function SkillEffectResultEditorModal({
   };
 
   const close = () => {
+    if (modifierZoneEditorVisible || skillCategoryEditorVisible) return;
+    if (!readOnly && JSON.stringify(draft) !== JSON.stringify(resultDraft)
+      && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
     onClose();
   };
 
@@ -1173,6 +1184,7 @@ export function SkillEffectResultEditorModal({
       }
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
+        {locateMessage ? <Alert type="warning" content={locateMessage} /> : null}
         {saveError ? <Alert type="error" content={saveError} /> : null}
         {catalogErrorMessages.length > 0 ? (
           <Alert
@@ -1194,6 +1206,7 @@ export function SkillEffectResultEditorModal({
           <Alert type="error" content="普通移动减速需要父效果填写持续时间。请先在父效果中配置，再保存减速结果。" />
         ) : null}
         <Form layout="vertical">
+          <AuthoringFieldAnchor field="resultKey" active={focusField === 'resultKey'}>
           <Form.Item
             label="结果标识"
             required
@@ -1208,6 +1221,8 @@ export function SkillEffectResultEditorModal({
               onChange={(value) => patchDraft({ ...draft, resultKey: value })}
             />
           </Form.Item>
+          </AuthoringFieldAnchor>
+          <AuthoringFieldAnchor field="name" active={focusField === 'name'}>
           <Form.Item
             label="结果名称"
             required
@@ -1222,6 +1237,8 @@ export function SkillEffectResultEditorModal({
               onChange={(value) => patchDraft({ ...draft, name: value })}
             />
           </Form.Item>
+          </AuthoringFieldAnchor>
+          <AuthoringFieldAnchor field="resultType" active={focusField === 'resultType'}>
           <Form.Item
             label="结果种类"
             required
@@ -1239,6 +1256,8 @@ export function SkillEffectResultEditorModal({
               onChange={(value) => changeResultType(value as SkillEffectResultType)}
             />
           </Form.Item>
+          </AuthoringFieldAnchor>
+          <AuthoringFieldAnchor field="target" active={focusField === 'target'}>
           <Form.Item
             label="作用对象"
             required
@@ -1258,6 +1277,7 @@ export function SkillEffectResultEditorModal({
               <Radio value="TARGET">{SKILL_EFFECT_TARGET_LABELS.TARGET}</Radio>
             </Radio.Group>
           </Form.Item>
+          </AuthoringFieldAnchor>
           <Form.Item
             label="排序"
             required
@@ -1296,6 +1316,7 @@ export function SkillEffectResultEditorModal({
           {showValueRule ? (
             <>
               {ratioCooldown && cooldownHint ? <Alert type="info" content={cooldownHint} /> : null}
+              {healingRatioMaxHint ? <Alert type="info" content={healingRatioMaxHint} /> : null}
               {draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'EXTEND_DURATION'
                 ? <Alert type="info" content={LIFECYCLE_EXTENSION_HINT} /> : null}
               {slowApply ? <Alert type="info" content="0.3 表示 30% 减速；百分数点参数使用固定倍率 0.01。上下界固定为 0 和 1。" /> : null}
@@ -1799,6 +1820,7 @@ export function SkillEffectResultEditorModal({
 
           {draft.resultType === 'ATTRIBUTE_CHANGE' ? (
             <>
+              <AuthoringFieldAnchor field="attributeKey" active={focusField === 'attributeKey'}>
               <Form.Item
                 label="属性"
                 required
@@ -1814,6 +1836,7 @@ export function SkillEffectResultEditorModal({
                   onChange={(value) => patchDraft({ ...draft, attributeKey: String(value ?? '') })}
                 />
               </Form.Item>
+              </AuthoringFieldAnchor>
               <Form.Item
                 label="操作"
                 required
@@ -1840,6 +1863,7 @@ export function SkillEffectResultEditorModal({
 
           {draft.resultType === 'RESOURCE_CHANGE' ? (
             <>
+              <AuthoringFieldAnchor field="attributeKey" active={focusField === 'attributeKey'}>
               <Form.Item
                 label="资源属性"
                 required
@@ -1855,6 +1879,8 @@ export function SkillEffectResultEditorModal({
                   onChange={(value) => patchDraft({ ...draft, attributeKey: String(value ?? '') })}
                 />
               </Form.Item>
+              </AuthoringFieldAnchor>
+              <AuthoringFieldAnchor field="operation" active={focusField === 'operation'}>
               <Form.Item
                 label="操作"
                 required
@@ -1875,6 +1901,7 @@ export function SkillEffectResultEditorModal({
                   ))}
                 </Radio.Group>
               </Form.Item>
+              </AuthoringFieldAnchor>
             </>
           ) : null}
 

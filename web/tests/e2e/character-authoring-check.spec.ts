@@ -59,6 +59,10 @@ test('角色录入检查失败重试、技能往返和迟到响应隔离', async
   await modal.getByRole('button', { name: '录入技能', exact: true }).click();
   await expect(page.getByRole('button', { name: '返回录入检查', exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: '技能录入 · 秘术射击', exact: true })).toBeVisible();
+  const editor = page.getByRole('dialog', { name: '编辑技能', exact: true });
+  await expect(editor.getByLabel('技能名称', { exact: true })).toHaveValue('秘术射击');
+  await editor.getByRole('button', { name: '取消', exact: true }).click();
+  await expect(editor).toBeHidden();
   const beforeReturn = reads;
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
   await expect.poll(() => reads).toBeGreaterThan(beforeReturn);

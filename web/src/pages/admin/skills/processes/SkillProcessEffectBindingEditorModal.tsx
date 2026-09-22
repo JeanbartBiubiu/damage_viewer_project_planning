@@ -9,6 +9,8 @@ import {
   Space
 } from '@arco-design/web-react';
 import { useEffect, useMemo, useState } from 'react';
+import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
 import type { SkillEffectSummary } from '../../../../types/skillEffect';
 import { SkillProcessMomentFields } from './SkillProcessMomentFields';
 import {
@@ -42,6 +44,8 @@ type SkillProcessEffectBindingEditorModalProps = {
   onOpenEffects?: () => void;
   onClose: () => void;
   onConfirm: (draft: SkillProcessEffectBindingDraft) => void;
+  focusField?: string | null;
+  locateMessage?: string | null;
 };
 
 function titleFor(mode: SkillProcessEffectBindingEditorMode): string {
@@ -62,7 +66,9 @@ export function SkillProcessEffectBindingEditorModal({
   effectsLoadState,
   onOpenEffects,
   onClose,
-  onConfirm
+  onConfirm,
+  focusField = null,
+  locateMessage = null
 }: SkillProcessEffectBindingEditorModalProps) {
   const [draft, setDraft] = useState<SkillProcessEffectBindingDraft>(bindingDraft);
   const [errors, setErrors] = useState<SkillProcessEffectBindingDraftErrors>(fieldErrors);
@@ -149,19 +155,24 @@ export function SkillProcessEffectBindingEditorModal({
     onConfirm(draft);
   };
 
+  const close = () => {
+    if (!readOnly && JSON.stringify(draft) !== JSON.stringify(bindingDraft) && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
+    onClose();
+  };
+
   return (
     <Modal
       title={titleFor(mode)}
       visible={visible}
       maskClosable
-      onCancel={onClose}
+      onCancel={close}
       style={{ width: 'calc(100vw - 80px)', maxWidth: 900 }}
       footer={
         <Space>
           {!readOnly ? (
             <Button onClick={onOpenEffects}>效果与结果</Button>
           ) : null}
-          <Button onClick={onClose}>{readOnly ? '关闭' : '取消'}</Button>
+          <Button onClick={close}>{readOnly ? '关闭' : '取消'}</Button>
           {!readOnly ? (
             <Button type="primary" onClick={save}>保存</Button>
           ) : null}
@@ -170,6 +181,7 @@ export function SkillProcessEffectBindingEditorModal({
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
         {saveError ? <Alert type="error" content={saveError} /> : null}
+        {locateMessage ? <Alert type="warning" content={locateMessage} /> : null}
         {effectsLoadState === 'failed' ? (
           <Alert type="error" content={INCOMPLETE_CATALOG_MESSAGE} />
         ) : null}
@@ -180,6 +192,7 @@ export function SkillProcessEffectBindingEditorModal({
             validateStatus={errors.bindingKey ? 'error' : undefined}
             help={errors.bindingKey}
           >
+            <AuthoringFieldAnchor field="bindingKey" active={focusField === 'bindingKey'}>
             <Input
               aria-label="挂接标识"
               value={draft.bindingKey}
@@ -187,6 +200,7 @@ export function SkillProcessEffectBindingEditorModal({
               maxLength={64}
               onChange={(value) => patchDraft({ ...draft, bindingKey: value })}
             />
+            </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
             label="效果"

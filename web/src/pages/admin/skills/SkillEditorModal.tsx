@@ -17,6 +17,14 @@ import { createSkill, updateSkill } from '../../../services/skillClient';
 import type { Skill, SkillStatus } from '../../../types/skill';
 import type { SkillCategory } from '../../../types/skillCategory';
 import { loadFocusedSkill } from './focusedSkill';
+import { AuthoringFieldAnchor } from './AuthoringFieldAnchor';
+import { resolveAuthoringLocation } from './authoringLocation';
+import {
+  authoringLocateMessage,
+  type AuthoringNavigationRequest,
+  lastFieldName,
+  shouldDegradeUnsupportedAnchor
+} from './authoringFocus';
 import {
   buildCreateSkillRequest,
   buildUpdateSkillRequest,
@@ -46,6 +54,7 @@ type SkillEditorModalProps = {
   onClose: () => void;
   onSaved: (skill: Skill, options?: SkillEditorSaveOptions) => void | Promise<void>;
   onDirtyChange: (dirty: boolean) => void;
+  authoringFocus?: AuthoringNavigationRequest | null;
 };
 
 function titleFor(mode: SkillEditorMode): string {
@@ -86,7 +95,8 @@ export function SkillEditorModal({
   adminToken,
   onClose,
   onSaved,
-  onDirtyChange
+  onDirtyChange,
+  authoringFocus
 }: SkillEditorModalProps) {
   const skillKey = skill?.skillKey;
   const [initial, setInitial] = useState<SkillDraft>(createEmptySkillDraft);
@@ -100,6 +110,8 @@ export function SkillEditorModal({
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [openedMaxLevel, setOpenedMaxLevel] = useState<number | null>(null);
+  const [locateNotice, setLocateNotice] = useState<string | null>(null);
+  const [focusField, setFocusField] = useState<string | null>(null);
   const saveRequestSerial = useRef(0);
   const readOnly = mode === 'view';
   const detailReady = mode === 'create' || (loadedSkill !== null && !loadingDetail && !loadError);
@@ -136,6 +148,8 @@ export function SkillEditorModal({
     setSaveError(null);
     setSaving(false);
     setOpenedMaxLevel(null);
+    setLocateNotice(null);
+    setFocusField(null);
     onDirtyChange(false);
     if (mode === 'create') {
       setLoadingDetail(false);
@@ -157,14 +171,38 @@ export function SkillEditorModal({
         setDraft(fresh);
         setOpenedMaxLevel(current.maxLevel);
         setLoadingDetail(false);
+        if (authoringFocus?.location) {
+          const location = authoringFocus.location;
+          const resolved = resolveAuthoringLocation(location, current);
+          const unsupported = shouldDegradeUnsupportedAnchor(location.editor, resolved.matchedSegments, resolved.precision);
+          const field = lastFieldName(resolved.matchedSegments);
+          if (resolved.precision !== 'FIELD' || unsupported || resolved.reason) {
+            setLocateNotice(authoringLocateMessage({
+              originalFieldPath: resolved.originalFieldPath,
+              reason: resolved.reason,
+              unsupportedAnchor: unsupported,
+              reportChanged: resolved.reportChanged
+            }));
+            setFocusField(null);
+          } else {
+            setLocateNotice(null);
+            setFocusField(field);
+          }
+        }
       })
       .catch((error: unknown) => {
         if (!active) return;
         setLoadError(getErrorMessage(error));
         setLoadingDetail(false);
+        if (authoringFocus?.location) {
+          setLocateNotice(authoringLocateMessage({
+            originalFieldPath: authoringFocus.location.fieldPath,
+            reason: 'OBJECT_MISSING'
+          }));
+        }
       });
     return invalidate;
-  }, [adminToken, apiBaseUrl, detailAttempt, mode, onDirtyChange, selectedGameId, skillKey, visible]);
+  }, [adminToken, apiBaseUrl, authoringFocus, detailAttempt, mode, onDirtyChange, selectedGameId, skillKey, visible]);
 
   const patchDraft = <K extends keyof SkillDraft>(field: K, value: SkillDraft[K]) => {
     const next = { ...draft, [field]: value };
@@ -179,6 +217,8 @@ export function SkillEditorModal({
 
   const close = () => {
     if (saving) return;
+    if (!readOnly && JSON.stringify(draft) !== JSON.stringify(initial)
+      && !window.confirm('技能修改尚未保存，确定关闭吗？')) return;
     onDirtyChange(false);
     onClose();
   };
@@ -274,6 +314,7 @@ export function SkillEditorModal({
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
         {saveError ? <Alert type="error" content={saveError} /> : null}
+        {locateNotice ? <Alert type="warning" content={locateNotice} /> : null}
         {loadError ? (
           <Alert type="error" content={loadError}
             action={<Button size="mini" onClick={() => setDetailAttempt((attempt) => attempt + 1)}>重试</Button>} />
@@ -286,6 +327,7 @@ export function SkillEditorModal({
             validateStatus={errors.skillKey ? 'error' : undefined}
             help={errors.skillKey}
           >
+            <AuthoringFieldAnchor field="skillKey" active={focusField === 'skillKey'}>
             <Input
               aria-label="技能标识"
               value={draft.skillKey}
@@ -293,6 +335,7 @@ export function SkillEditorModal({
               maxLength={64}
               onChange={(value) => patchDraft('skillKey', value)}
             />
+            </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
             label="技能名称"
@@ -300,6 +343,7 @@ export function SkillEditorModal({
             validateStatus={errors.name ? 'error' : undefined}
             help={errors.name}
           >
+            <AuthoringFieldAnchor field="name" active={focusField === 'name'}>
             <Input
               aria-label="技能名称"
               value={draft.name}
@@ -307,6 +351,7 @@ export function SkillEditorModal({
               maxLength={100}
               onChange={(value) => patchDraft('name', value)}
             />
+            </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
             label="最高等级"
@@ -314,6 +359,7 @@ export function SkillEditorModal({
             validateStatus={errors.maxLevel ? 'error' : undefined}
             help={errors.maxLevel}
           >
+            <AuthoringFieldAnchor field="maxLevel" active={focusField === 'maxLevel'}>
             <InputNumber
               aria-label="最高等级"
               value={draft.maxLevel.trim() ? Number(draft.maxLevel) : undefined}
@@ -323,6 +369,7 @@ export function SkillEditorModal({
               style={{ width: '100%' }}
               onChange={(value) => patchDraft('maxLevel', value === undefined ? '' : String(value))}
             />
+            </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
             label="技能分类"
@@ -333,6 +380,7 @@ export function SkillEditorModal({
                 : undefined
             }
           >
+            <AuthoringFieldAnchor field="skillCategoryKeys" active={focusField === 'skillCategoryKeys'}>
             <Select
               aria-label="技能分类"
               mode="multiple"
@@ -345,12 +393,14 @@ export function SkillEditorModal({
               )}
               onChange={(value) => patchDraft('skillCategoryKeys', Array.isArray(value) ? value : [])}
             />
+            </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
             label="说明"
             validateStatus={errors.description ? 'error' : undefined}
             help={errors.description}
           >
+            <AuthoringFieldAnchor field="description" active={focusField === 'description'}>
             <Input.TextArea
               aria-label="说明"
               value={draft.description}
@@ -360,6 +410,7 @@ export function SkillEditorModal({
               autoSize={{ minRows: 3, maxRows: 8 }}
               onChange={(value) => patchDraft('description', value)}
             />
+            </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
             label="状态"
@@ -367,6 +418,7 @@ export function SkillEditorModal({
             validateStatus={errors.status ? 'error' : undefined}
             help={errors.status}
           >
+            <AuthoringFieldAnchor field="status" active={focusField === 'status'}>
             <Radio.Group
               aria-label="状态"
               value={draft.status}
@@ -376,6 +428,7 @@ export function SkillEditorModal({
               <Radio value="ENABLED">启用</Radio>
               <Radio value="DISABLED">停用</Radio>
             </Radio.Group>
+            </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
             label="排序"
@@ -383,6 +436,7 @@ export function SkillEditorModal({
             validateStatus={errors.sortOrder ? 'error' : undefined}
             help={errors.sortOrder}
           >
+            <AuthoringFieldAnchor field="sortOrder" active={focusField === 'sortOrder'}>
             <InputNumber
               aria-label="排序"
               value={draft.sortOrder.trim() ? Number(draft.sortOrder) : undefined}
@@ -392,6 +446,7 @@ export function SkillEditorModal({
               style={{ width: '100%' }}
               onChange={(value) => patchDraft('sortOrder', value === undefined ? '' : String(value))}
             />
+            </AuthoringFieldAnchor>
           </Form.Item>
         </Form>
         ) : !loadError ? <Alert type="info" content="正在加载技能详情…" /> : null}

@@ -28,6 +28,7 @@ type FormulaExpressionEditorProps = {
   attributes: Attribute[];
   retainedDisabledAttributeKeys: Set<string>;
   nodeIssues: Array<{ path: string; message: string }>;
+  focusPath?: string | null;
   updateAtPath: (path: string, next: FormulaNodeDraft) => void;
   onNodeIssue: (issue: { path: string; message: string }) => void;
 };
@@ -42,6 +43,7 @@ export function FormulaExpressionEditor({
   attributes,
   retainedDisabledAttributeKeys,
   nodeIssues,
+  focusPath = null,
   updateAtPath,
   onNodeIssue
 }: FormulaExpressionEditorProps) {
@@ -73,6 +75,8 @@ export function FormulaExpressionEditor({
   return (
     <Card
       size="small"
+      data-authoring-field={path}
+      className={focusPath === path ? 'authoring-field-active' : undefined}
       style={{ marginTop: path === 'expression' ? 0 : 8, width: '100%' }}
     >
       <Space direction="vertical" style={{ width: '100%' }} size="small">
@@ -125,6 +129,7 @@ export function FormulaExpressionEditor({
                 attributes={attributes}
                 retainedDisabledAttributeKeys={retainedDisabledAttributeKeys}
                 nodeIssues={nodeIssues}
+                focusPath={focusPath}
                 updateAtPath={updateAtPath}
                 onNodeIssue={onNodeIssue}
               />
@@ -141,6 +146,7 @@ export function FormulaExpressionEditor({
                 attributes={attributes}
                 retainedDisabledAttributeKeys={retainedDisabledAttributeKeys}
                 nodeIssues={nodeIssues}
+                focusPath={focusPath}
                 updateAtPath={updateAtPath}
                 onNodeIssue={onNodeIssue}
               />

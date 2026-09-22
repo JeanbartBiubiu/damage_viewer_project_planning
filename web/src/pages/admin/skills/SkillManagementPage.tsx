@@ -32,6 +32,11 @@ import { SkillProcessInternalStateModal } from './processes/SkillProcessInternal
 import { SkillTriggerRuleManagementModal } from './triggers/SkillTriggerRuleManagementModal';
 import { SKILL_TRIGGER_ENTRY_LABEL } from './triggers/triggerRuleForm';
 import { loadFocusedSkill } from './focusedSkill';
+import { SkillBehaviorOverviewModal } from './overview/SkillBehaviorOverviewModal';
+import {
+  createAuthoringNavigationRequest,
+  type AuthoringNavigationRequest
+} from './authoringFocus';
 
 export type SkillManagementPageProps = {
   apiBaseUrl: string;
@@ -40,13 +45,20 @@ export type SkillManagementPageProps = {
   onDirtyChange: (dirty: boolean) => void;
   focus?: {
     skillKey: string;
-    sourceKind: 'character' | 'equipment';
+    sourceKind: 'character' | 'equipment' | 'rune';
     sourceKey: string;
     sourceName: string;
     onReturn: () => void;
     returnLabel: string;
+    navigation?: AuthoringNavigationRequest;
   };
 };
+
+const FOCUS_SOURCE_LABELS = {
+  character: '角色',
+  equipment: '装备',
+  rune: '符文'
+} as const;
 
 type StatusFilter = SkillStatus | '';
 type EditorState = { mode: SkillEditorMode; skill: Skill | null };
@@ -95,7 +107,7 @@ export function SkillManagementPage({
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [categories, setCategories] = useState<SkillCategory[]>([]);
   const [categoryLoading, setCategoryLoading] = useState(false);
@@ -113,6 +125,11 @@ export function SkillManagementPage({
   const [effectTarget, setEffectTarget] = useState<EffectTarget | null>(null);
   const [processInternalStateTarget, setProcessInternalStateTarget] = useState<ProcessInternalStateTarget | null>(null);
   const [triggerRuleTarget, setTriggerRuleTarget] = useState<TriggerRuleTarget | null>(null);
+  const [overviewTarget, setOverviewTarget] = useState<Skill | null>(null);
+  const [overviewRefresh, setOverviewRefresh] = useState(0);
+  const [authoringFocus, setAuthoringFocus] = useState<AuthoringNavigationRequest | null>(null);
+  const consumedAuthoringFocusId = useRef<string | null>(null);
+  const [authoringNotice, setAuthoringNotice] = useState<string | null>(null);
   const skillRequestSerial = useRef(0);
   const categoryRequestSerial = useRef(0);
   const statusRequestSerial = useRef(0);
@@ -138,7 +155,7 @@ export function SkillManagementPage({
     setAppliedQuery(EMPTY_QUERY);
     setItems([]);
     setTotal(0);
-    setLoading(false);
+    setLoading(true);
     setLoadError(null);
     setCategories([]);
     setCategoryLoading(false);
@@ -155,6 +172,10 @@ export function SkillManagementPage({
     setEffectTarget(null);
     setProcessInternalStateTarget(null);
     setTriggerRuleTarget(null);
+    setOverviewTarget(null);
+    setAuthoringFocus(null);
+    consumedAuthoringFocusId.current = null;
+    setAuthoringNotice(null);
     setNotice(null);
   }
 
@@ -230,6 +251,47 @@ export function SkillManagementPage({
     setTriggerRuleTarget(null);
     void loadSkills(appliedQuery);
   }, [appliedQuery, loadSkills]);
+
+  const incomingAuthoringFocus = authoringFocus ?? focus?.navigation ?? null;
+  useEffect(() => {
+    if (!incomingAuthoringFocus || consumedAuthoringFocusId.current === incomingAuthoringFocus.requestId) return;
+    const location = incomingAuthoringFocus.location;
+    const skill = items.find((item) => item.skillKey === location.skillKey)
+      ?? (overviewTarget?.skillKey === location.skillKey ? overviewTarget : null);
+    if (!skill) {
+      if (loading) return;
+      consumedAuthoringFocusId.current = incomingAuthoringFocus.requestId;
+      setAuthoringNotice(`无法精确定位：当前没有该技能。原路径：${location.fieldPath}`);
+      return;
+    }
+    consumedAuthoringFocusId.current = incomingAuthoringFocus.requestId;
+    setAuthoringNotice(null);
+    switch (location.editor) {
+      case 'SKILL_BASIC':
+        setEditor({ mode: 'edit', skill });
+        break;
+      case 'PARAMETER':
+      case 'FORMULA':
+        setParameterFormulaTarget(skill);
+        break;
+      case 'EFFECT':
+        setEffectTarget(skill);
+        break;
+      case 'PROCESS':
+      case 'INTERNAL_STATE':
+        setProcessInternalStateTarget(skill);
+        break;
+      case 'TRIGGER_RULE':
+        setTriggerRuleTarget(skill);
+        break;
+      default:
+        setAuthoringNotice(`无法精确定位：没有合法编辑入口。原路径：${location.fieldPath}`);
+    }
+  }, [incomingAuthoringFocus, items, loading, overviewTarget]);
+
+  const refreshOverview = useCallback(() => {
+    setOverviewRefresh((current) => current + 1);
+  }, []);
 
   useEffect(() => {
     onDirtyChange(false);
@@ -399,7 +461,7 @@ export function SkillManagementPage({
     },
     {
       title: '操作',
-      width: 520,
+      width: 600,
       fixed: 'right',
       render: (_value, record: Skill) => (
         <Space size="mini" wrap>
@@ -410,6 +472,7 @@ export function SkillManagementPage({
             onDirtyChange={onDirtyChange}
             onImageSaved={() => onImageSaved(record)}
           />
+          <Button size="mini" onClick={() => setOverviewTarget(record)}>行为总览</Button>
           <Button size="mini" onClick={() => setEditor({ mode: 'view', skill: record })}>查看</Button>
           <Button
             size="mini"
@@ -481,8 +544,9 @@ export function SkillManagementPage({
           />
         ) : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
+        {authoringNotice ? <Alert type="warning" content={authoringNotice} className="workspace-alert" /> : null}
 
-        {focus ? <Alert type="info" content={`来自${focus.sourceKind === 'character' ? '角色' : '装备'}：${focus.sourceName}（${focus.sourceKey}）。正在录入下方这一项技能；完成后${focus.returnLabel}可继续核对。`} style={{ marginBottom: 16 }} /> : null}
+        {focus ? <Alert type="info" content={`来自${FOCUS_SOURCE_LABELS[focus.sourceKind]}：${focus.sourceName}（${focus.sourceKey}）。正在录入下方这一项技能；完成后${focus.returnLabel}可继续核对。`} style={{ marginBottom: 16 }} /> : null}
 
         {!focus ? <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 1fr) minmax(220px, auto) auto', gap: 12, alignItems: 'end', marginBottom: 16 }}>
           <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -541,7 +605,7 @@ export function SkillManagementPage({
             }
           }}
           rowKey={(record: Skill) => record.skillKey}
-          scroll={{ x: 1654 }}
+          scroll={{ x: 1734 }}
           noDataElement={<Empty description="暂无技能" />}
         />
       </Panel>
@@ -556,9 +620,10 @@ export function SkillManagementPage({
           apiBaseUrl={apiBaseUrl}
           selectedGameId={selectedGameId}
           adminToken={adminToken}
-          onClose={() => setEditor(null)}
+          onClose={() => { setEditor(null); refreshOverview(); }}
           onSaved={handleSaved}
           onDirtyChange={onDirtyChange}
+          authoringFocus={incomingAuthoringFocus?.location.editor === 'SKILL_BASIC' ? incomingAuthoringFocus : null}
         />
       ) : null}
 
@@ -568,11 +633,12 @@ export function SkillManagementPage({
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
-        onClose={() => setParameterFormulaTarget(null)}
+        onClose={() => { setParameterFormulaTarget(null); refreshOverview(); }}
         onSkillMissing={() => {
           setParameterFormulaTarget(null);
           void loadSkills(appliedQuery);
         }}
+        authoringFocus={incomingAuthoringFocus && (incomingAuthoringFocus.location.editor === 'PARAMETER' || incomingAuthoringFocus.location.editor === 'FORMULA') ? incomingAuthoringFocus : null}
       />
 
       <SkillEffectManagementModal
@@ -581,9 +647,10 @@ export function SkillManagementPage({
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
-        onClose={() => setEffectTarget(null)}
+        onClose={() => { setEffectTarget(null); refreshOverview(); }}
         onSkillMissing={handleEffectSkillMissing}
         onDirtyChange={onDirtyChange}
+        authoringFocus={incomingAuthoringFocus?.location.editor === 'EFFECT' ? incomingAuthoringFocus : null}
       />
 
       <SkillProcessInternalStateModal
@@ -592,9 +659,10 @@ export function SkillManagementPage({
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
-        onClose={() => setProcessInternalStateTarget(null)}
+        onClose={() => { setProcessInternalStateTarget(null); refreshOverview(); }}
         onSkillMissing={handleProcessInternalStateSkillMissing}
         onDirtyChange={onDirtyChange}
+        authoringFocus={incomingAuthoringFocus && (incomingAuthoringFocus.location.editor === 'PROCESS' || incomingAuthoringFocus.location.editor === 'INTERNAL_STATE') ? incomingAuthoringFocus : null}
       />
 
       <SkillTriggerRuleManagementModal
@@ -603,9 +671,21 @@ export function SkillManagementPage({
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         adminToken={adminToken}
-        onClose={() => setTriggerRuleTarget(null)}
+        onClose={() => { setTriggerRuleTarget(null); refreshOverview(); }}
         onSkillMissing={handleTriggerRuleSkillMissing}
         onDirtyChange={onDirtyChange}
+        authoringFocus={incomingAuthoringFocus?.location.editor === 'TRIGGER_RULE' ? incomingAuthoringFocus : null}
+      />
+
+      <SkillBehaviorOverviewModal
+        visible={overviewTarget !== null}
+        skill={overviewTarget}
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        refreshNonce={overviewRefresh}
+        onClose={() => setOverviewTarget(null)}
+        onEdit={(location) => setAuthoringFocus(createAuthoringNavigationRequest(location))}
       />
 
       <Modal

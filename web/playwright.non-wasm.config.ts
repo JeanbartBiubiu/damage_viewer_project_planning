@@ -13,7 +13,7 @@ const webBaseUrl = optionalWebBaseUrl || `http://127.0.0.1:${NON_WASM_PREVIEW_PO
 
 export default defineConfig({
   testDir: './tests/e2e',
-  testMatch: /(?:non-wasm-pages|relation-management|character-authoring-check)\.spec\.ts/,
+  testMatch: /(?:non-wasm-pages|relation-management|character-authoring-check|authoring-p9|authoring-p8)\.spec\.ts/,
   outputDir: './output/playwright-non-wasm',
   timeout: 90_000,
   expect: { timeout: 15_000 },

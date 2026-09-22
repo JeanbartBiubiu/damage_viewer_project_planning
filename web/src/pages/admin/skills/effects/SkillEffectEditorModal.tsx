@@ -1,7 +1,12 @@
 import { getSkillFormula } from '../../../../services/skillFormulaClient';
 import { formulaHasRuntimeInput } from '../triggers/triggerRuleForm';
-import { numericValueSummary } from '../numericValueForm';
 import { useNumericParameters } from '../useNumericParameters';
+import { CollapsibleReferenceList } from '../../shared/CollapsibleReferenceList';
+import {
+  buildResultReferenceSummary,
+  parameterCatalogEntries,
+  type ResultReferenceCatalogs
+} from './resultReferenceSummary';
 import { NumericValueField } from '../NumericValueField';
 import { useGameVampRules } from './useGameVampRules';
 import {
@@ -41,12 +46,20 @@ import type {
   SkillEffectReapplicationStackMode,
   SkillEffectSummary
 } from '../../../../types/skillEffect';
+import type { AuthoringLocation } from '../../../../types/authoringLocation';
+import { resolveAuthoringLocation } from '../authoringLocation';
+import {
+  AUTHORING_UNSAVED_CONFIRM,
+  authoringLocateMessage,
+  keyedChildren,
+  lastFieldName,
+  shouldDegradeUnsupportedAnchor
+} from '../authoringFocus';
 import {
   SkillEffectResultEditorModal,
   type SkillEffectResultEditorMode
 } from './SkillEffectResultEditorModal';
 import {
-  COOLDOWN_CHANGE_OPERATION_LABELS,
   LIFECYCLE_PENDING_BEHAVIOR_LABEL,
   SKILL_EFFECT_CRITICAL_MODE_LABELS,
   SKILL_EFFECT_CRITICAL_FILTER_LABELS,
@@ -72,7 +85,6 @@ import {
   SKILL_EFFECT_TARGET_LABELS,
   SKILL_EFFECT_VALUE_READ_MODE_LABELS,
   SKILL_HASTE_MODIFIER_OPERATION_LABELS,
-  affectedSkillScopeSummary,
   applyDurationFormulaChange,
   applyExpiryModeChange,
   applyReapplicationDurationModeChange,
@@ -115,6 +127,7 @@ type SkillEffectEditorModalProps = {
   onSaved: (effect: SkillEffect) => void | Promise<void>;
   onSkillMissing: () => void;
   onDirtyChange: (dirty: boolean) => void;
+  authoringLocation?: AuthoringLocation | null;
 };
 
 type ResultEditorState = {
@@ -122,6 +135,8 @@ type ResultEditorState = {
   index: number | null;
   draft: SkillEffectResultDraft;
   fieldErrors: SkillEffectResultDraftErrors;
+  focusField?: string | null;
+  locateMessage?: string | null;
 };
 
 const EMPTY_RESULT_DRAFT = createEmptyResultDraft();
@@ -150,80 +165,32 @@ function resultErrorSummary(errors: SkillEffectResultDraftErrors | undefined): s
   return messages.length > 0 ? messages.join('；') : null;
 }
 
-function catalogDisplayName(key: string, names: Map<string, string> | undefined): string {
-  if (!key) return '—';
-  return names?.get(key) || key;
-}
-
-function referenceSummary(
-  result: SkillEffectResultDraft,
-  names?: {
-    attributes?: Map<string, string>;
-    formulas?: Map<string, string>;
-    skills?: Map<string, string>;
-    skillCategories?: Map<string, string>;
-    categoryStatuses?: Map<string, 'ENABLED' | 'DISABLED' | null>;
-  }
-): string {
-  const scope = affectedSkillScopeSummary(result.affectedSkillScope, {
-    skills: names?.skills,
-    skillCategories: names?.skillCategories,
-    categoryStatuses: names?.categoryStatuses
-  });
-  const formula = numericValueSummary(result.value, names?.formulas);
-  switch (result.resultType) {
-    case 'DAMAGE':
-      return result.damageTypeKey || '—';
-    case 'DIRECT_HEAL':
-    case 'NORMAL_SHIELD':
-      return numericValueSummary(result.value, names?.formulas);
-    case 'ATTRIBUTE_CHANGE':
-    case 'RESOURCE_CHANGE':
-      return result.attributeKey || '—';
-    case 'COOLDOWN_CHANGE': {
-      const operation = result.cooldownOperation
-        ? COOLDOWN_CHANGE_OPERATION_LABELS[result.cooldownOperation]
-        : '—';
-      const value = result.cooldownOperation === 'RESET' ? '无数值规则' : formula;
-      return `${operation} · ${value} · ${scope}`;
-    }
-    case 'SKILL_HASTE_MODIFIER': {
-      const operation = result.skillHasteOperation
-        ? SKILL_HASTE_MODIFIER_OPERATION_LABELS[result.skillHasteOperation]
-        : '—';
-      return `${operation} · ${formula} · ${scope}`;
-    }
-    case 'STATUS_OPERATION':
-      return result.value !== null && result.statusOperation === 'APPLY'
-        ? `${result.statusKey} · 减速比例 ${formula} × ${result.fixedMultiplier}（0 至 1）`
-        : result.statusKey || '—';
-    case 'LIFECYCLE_OPERATION':
-      return result.targetEffectKey || '—';
-    case 'DAMAGE_MODIFIER':
-    case 'DAMAGE_IMMUNITY':
-      return result.damageTypeKey || '全部伤害';
-    case 'HEALING_MODIFIER':
-    case 'SHIELD_RECEIVED_MODIFIER':
-      return numericValueSummary(result.value, names?.formulas);
-    case 'HEALTH_FLOOR':
-      return result.attributeKey || '—';
-    case 'EXECUTE':
-      return [
-        catalogDisplayName(result.attributeKey, names?.attributes),
-        numericValueSummary(result.value, names?.formulas)
-      ].join(' · ');
-    case 'HIT_LINK_APPLICATION':
-    case 'ATTACK_LINK_APPLICATION':
-      return numericValueSummary(result.value, names?.formulas);
-    case 'SPELL_SHIELD':
-      return '—';
-    case 'ATTACK_TIMER_RESET':
-      return '清零普通攻击间隔的剩余等待';
-    default: {
-      const unexpected: never = result.resultType;
-      return unexpected;
-    }
-  }
+function ResultReferenceSummaryCell({
+  result,
+  catalogs
+}: {
+  result: SkillEffectResultDraft;
+  catalogs: ResultReferenceCatalogs;
+}) {
+  const model = buildResultReferenceSummary(result, catalogs);
+  return (
+    <div>
+      {[model.target, ...model.segments].join(' · ')}
+      {model.scope ? (
+        <>
+          {' · '}
+          {model.scope.all ? (
+            <CollapsibleReferenceList allLabel={model.scope.modeLabel} />
+          ) : (
+            <>
+              {model.scope.modeLabel}：
+              <CollapsibleReferenceList items={model.scope.items} loadState={model.scope.loadState} />
+            </>
+          )}
+        </>
+      ) : null}
+    </div>
+  );
 }
 
 function interactionSummary(result: SkillEffectResultDraft): string {
@@ -340,7 +307,8 @@ export function SkillEffectEditorModal({
   onClose,
   onSaved,
   onSkillMissing,
-  onDirtyChange
+  onDirtyChange,
+  authoringLocation
 }: SkillEffectEditorModalProps) {
   const [draft, setDraft] = useState<SkillEffectDraft>(createEmptyEffectDraft());
   const [baseline, setBaseline] = useState<SkillEffectDraft>(createEmptyEffectDraft());
@@ -366,8 +334,13 @@ export function SkillEffectEditorModal({
   const [effectsLoadState, setEffectsLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
   const [effectsError, setEffectsError] = useState<string | null>(null);
   const [skills, setSkills] = useState<Skill[]>([]);
+  const [skillsLoadState, setSkillsLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [skillsError, setSkillsError] = useState<string | null>(null);
   const [skillCategories, setSkillCategories] = useState<SkillCategory[]>([]);
+  const [skillCategoriesLoadState, setSkillCategoriesLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [skillCategoriesError, setSkillCategoriesError] = useState<string | null>(null);
   const [resultEditor, setResultEditor] = useState<ResultEditorState | null>(null);
+  const [locateNotice, setLocateNotice] = useState<string | null>(null);
   const detailSerial = useRef(0);
   const formulaSerial = useRef(0);
   const attributeSerial = useRef(0);
@@ -416,7 +389,11 @@ export function SkillEffectEditorModal({
     setEffectsLoadState(undefined);
     setEffectsError(null);
     setSkills([]);
+    setSkillsLoadState(undefined);
+    setSkillsError(null);
     setSkillCategories([]);
+    setSkillCategoriesLoadState(undefined);
+    setSkillCategoriesError(null);
     setResultEditor(null);
   }, [mode]);
 
@@ -498,15 +475,21 @@ export function SkillEffectEditorModal({
     const token = adminToken.trim();
     if (!visible || !token) {
       setSkills([]);
+      setSkillsLoadState(undefined);
+      setSkillsError(null);
       return;
     }
     try {
       const result = await listSkills(apiBaseUrl, selectedGameId, token);
       if (skillSerial.current !== serial) return;
       setSkills(result.data.items);
-    } catch {
+      setSkillsLoadState('ready');
+      setSkillsError(null);
+    } catch (error) {
       if (skillSerial.current !== serial) return;
       setSkills([]);
+      setSkillsLoadState('failed');
+      setSkillsError(getErrorMessage(error));
     }
   }, [adminToken, apiBaseUrl, selectedGameId, visible]);
 
@@ -516,15 +499,21 @@ export function SkillEffectEditorModal({
     const token = adminToken.trim();
     if (!visible || !token) {
       setSkillCategories([]);
+      setSkillCategoriesLoadState(undefined);
+      setSkillCategoriesError(null);
       return;
     }
     try {
       const result = await listSkillCategories(apiBaseUrl, selectedGameId, token);
       if (skillCategorySerial.current !== serial) return;
       setSkillCategories(result.data.items);
-    } catch {
+      setSkillCategoriesLoadState('ready');
+      setSkillCategoriesError(null);
+    } catch (error) {
       if (skillCategorySerial.current !== serial) return;
       setSkillCategories([]);
+      setSkillCategoriesLoadState('failed');
+      setSkillCategoriesError(getErrorMessage(error));
     }
   }, [adminToken, apiBaseUrl, selectedGameId, visible]);
 
@@ -555,6 +544,51 @@ export function SkillEffectEditorModal({
       setEffectsError(getErrorMessage(error));
     }
   }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
+
+  const applyAuthoringLocation = useCallback((detail: SkillEffect, nextDraft: SkillEffectDraft) => {
+    if (!authoringLocation) {
+      setLocateNotice(null);
+      return;
+    }
+    const resolved = resolveAuthoringLocation(authoringLocation, detail);
+    const unsupported = shouldDegradeUnsupportedAnchor(authoringLocation.editor, resolved.matchedSegments, resolved.precision);
+    const resultKey = keyedChildren(resolved.matchedSegments).find((item) => item.collection === 'results')?.key;
+    const field = lastFieldName(resolved.matchedSegments);
+    if (resolved.precision !== 'FIELD' || unsupported || resolved.reason) {
+      setLocateNotice(authoringLocateMessage({
+        originalFieldPath: resolved.originalFieldPath,
+        reason: resolved.reason,
+        unsupportedAnchor: unsupported,
+        reportChanged: resolved.reportChanged
+      }));
+    } else {
+      setLocateNotice(null);
+    }
+    if (!resultKey) return;
+    const index = nextDraft.results.findIndex((item) => item.resultKey === resultKey);
+    if (index < 0) {
+      setLocateNotice(authoringLocateMessage({
+        originalFieldPath: resolved.originalFieldPath,
+        reason: 'MISSING_KEY'
+      }));
+      return;
+    }
+    setResultEditor({
+      mode: 'edit',
+      index,
+      draft: nextDraft.results[index]!,
+      fieldErrors: {},
+      focusField: resolved.precision === 'FIELD' && !unsupported ? field : null,
+      locateMessage: resolved.precision === 'FIELD' && !unsupported && !resolved.reason
+        ? null
+        : authoringLocateMessage({
+          originalFieldPath: resolved.originalFieldPath,
+          reason: resolved.reason,
+          unsupportedAnchor: unsupported,
+          reportChanged: resolved.reportChanged
+        })
+    });
+  }, [authoringLocation]);
 
   const loadDetail = useCallback(async () => {
     const serial = detailSerial.current + 1;
@@ -603,6 +637,7 @@ export function SkillEffectEditorModal({
       setBaseline(next);
       setDetailReady(true);
       onDirtyChange(false);
+      applyAuthoringLocation(result.data, next);
     } catch (error) {
       if (detailSerial.current !== serial) return;
       if (isSkillNotFound(error)) {
@@ -611,6 +646,12 @@ export function SkillEffectEditorModal({
       }
       setDetailReady(false);
       setLoadError(getErrorMessage(error));
+      if (authoringLocation) {
+        setLocateNotice(authoringLocateMessage({
+          originalFieldPath: authoringLocation.fieldPath,
+          reason: 'OBJECT_MISSING'
+        }));
+      }
     } finally {
       if (detailSerial.current === serial) setLoadingDetail(false);
     }
@@ -623,7 +664,9 @@ export function SkillEffectEditorModal({
     onSkillMissing,
     selectedGameId,
     skill.skillKey,
-    visible
+    visible,
+    applyAuthoringLocation,
+    authoringLocation
   ]);
 
   useEffect(() => {
@@ -699,7 +742,9 @@ export function SkillEffectEditorModal({
   };
 
   const close = () => {
-    if (closeBlocked) return;
+    if (closeBlocked || resultEditor) return;
+    const dirty = JSON.stringify(draft) !== JSON.stringify(baseline);
+    if (!readOnly && dirty && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
     onDirtyChange(false);
     onClose();
   };
@@ -799,41 +844,69 @@ export function SkillEffectEditorModal({
     }
     return map;
   }, [resultErrors]);
-  const formulaNames = useMemo(() => {
-    const names = new Map<string, string>();
+  const formulaEntries = useMemo(() => {
+    const names = new Map<string, { name: string }>();
     for (const item of formulas) {
-      names.set(item.formulaKey, item.name);
+      names.set(item.formulaKey, { name: item.name });
     }
     return names;
   }, [formulas]);
-  const attributeNames = useMemo(() => {
-    const names = new Map<string, string>();
+  const attributeEntries = useMemo(() => {
+    const names = new Map<string, { name: string; status: 'ENABLED' | 'DISABLED' | null }>();
     for (const item of attributes) {
-      names.set(item.attributeKey, item.name);
+      names.set(item.attributeKey, { name: item.name, status: item.status });
     }
     return names;
   }, [attributes]);
-  const skillNames = useMemo(() => {
-    const names = new Map<string, string>();
+  const skillEntries = useMemo(() => {
+    const names = new Map<string, { name: string; status: 'ENABLED' | 'DISABLED' | null }>();
     for (const item of skills) {
-      names.set(item.skillKey, item.name);
+      names.set(item.skillKey, { name: item.name, status: item.status });
     }
     return names;
   }, [skills]);
-  const skillCategoryNames = useMemo(() => {
-    const names = new Map<string, string>();
+  const skillCategoryEntries = useMemo(() => {
+    const names = new Map<string, { name: string; status: 'ENABLED' | 'DISABLED' | null }>();
     for (const item of skillCategories) {
-      names.set(item.skillCategoryKey, item.name);
+      names.set(item.skillCategoryKey, { name: item.name, status: item.status });
     }
     return names;
   }, [skillCategories]);
-  const skillCategoryStatuses = useMemo(() => {
-    const statuses = new Map<string, 'ENABLED' | 'DISABLED' | null>();
-    for (const item of skillCategories) {
-      statuses.set(item.skillCategoryKey, item.status);
+  const statusEntries = useMemo(() => {
+    const names = new Map<string, { name: string; status: 'ENABLED' | 'DISABLED' | null; statusKind: typeof statuses[number]['statusKind'] }>();
+    for (const item of statuses) {
+      names.set(item.statusKey, { name: item.name, status: item.status, statusKind: item.statusKind });
     }
-    return statuses;
-  }, [skillCategories]);
+    return names;
+  }, [statuses]);
+  const effectEntries = useMemo(() => {
+    const names = new Map<string, { name: string }>();
+    for (const item of effectSummaries) {
+      names.set(item.effectKey, { name: item.name });
+    }
+    return names;
+  }, [effectSummaries]);
+  const parameterEntries = useMemo(() => parameterCatalogEntries(parameters), [parameters]);
+  const resultReferenceCatalogs: ResultReferenceCatalogs = useMemo(() => ({
+    parametersLoadState,
+    formulasLoadState,
+    attributesLoadState,
+    statusesLoadState,
+    effectsLoadState,
+    skillsLoadState,
+    skillCategoriesLoadState,
+    parameters: parameterEntries,
+    formulas: formulaEntries,
+    attributes: attributeEntries,
+    statuses: statusEntries,
+    effects: effectEntries,
+    skills: skillEntries,
+    skillCategories: skillCategoryEntries
+  }), [
+    attributeEntries, attributesLoadState, effectEntries, effectsLoadState, formulaEntries,
+    formulasLoadState, parameterEntries, parametersLoadState, skillCategoriesLoadState,
+    skillCategoryEntries, skillEntries, skillsLoadState, statusEntries, statusesLoadState
+  ]);
   const showPeriodicFields = hasPeriodicResults(draft);
   const hasLinearDecayShield = draft.results.some((result) => (
     result.resultType === 'NORMAL_SHIELD' && result.shieldDecayMode === 'LINEAR_TO_ZERO'
@@ -913,13 +986,9 @@ export function SkillEffectEditorModal({
     ] : []),
     {
       title: '关键引用摘要',
-      render: (_value, row: { item: SkillEffectResultDraft }) => referenceSummary(row.item, {
-        attributes: attributeNames,
-        formulas: formulaNames,
-        skills: skillNames,
-        skillCategories: skillCategoryNames,
-        categoryStatuses: skillCategoryStatuses
-      })
+      render: (_value, row: { item: SkillEffectResultDraft }) => (
+        <ResultReferenceSummaryCell result={row.item} catalogs={resultReferenceCatalogs} />
+      )
     },
     {
       title: '特殊交互',
@@ -987,12 +1056,12 @@ export function SkillEffectEditorModal({
       <Modal
         title={titleFor(mode)}
         visible={visible}
-        maskClosable
+        maskClosable={!resultEditor}
         onCancel={close}
         style={{ width: 'calc(100vw - 80px)', maxWidth: 1800 }}
         footer={
           <Space>
-            <Button onClick={close} disabled={closeBlocked}>{readOnly ? '关闭' : '取消'}</Button>
+            <Button onClick={close} disabled={closeBlocked || Boolean(resultEditor)}>{readOnly ? '关闭' : '取消'}</Button>
             {!readOnly ? (
               <Button
                 type="primary"
@@ -1011,6 +1080,7 @@ export function SkillEffectEditorModal({
             <Alert type="info" content="填写新的效果标识后保存。公式及其他引用仍指向原有对象，请核对后调整；已有规则不会自动切换到新效果。" />
           ) : null}
           {saveError ? <Alert type="error" content={saveError} /> : null}
+          {locateNotice ? <Alert type="warning" content={locateNotice} /> : null}
           {loadError ? (
             <Alert
               type="error"
@@ -1050,6 +1120,24 @@ export function SkillEffectEditorModal({
               content={attributesError}
               action={
                 <Button size="mini" onClick={() => void loadAttributesCatalog()}>重试</Button>
+              }
+            />
+          ) : null}
+          {skillsError ? (
+            <Alert
+              type="error"
+              content={skillsError}
+              action={
+                <Button size="mini" onClick={() => void loadSkillsCatalog()}>重试技能目录</Button>
+              }
+            />
+          ) : null}
+          {skillCategoriesError ? (
+            <Alert
+              type="error"
+              content={skillCategoriesError}
+              action={
+                <Button size="mini" onClick={() => void loadSkillCategoriesCatalog()}>重试技能分类目录</Button>
               }
             />
           ) : null}
@@ -1401,6 +1489,8 @@ export function SkillEffectEditorModal({
         selectedGameId={selectedGameId}
         adminToken={adminToken}
         onClose={() => setResultEditor(null)}
+        focusField={resultEditor?.focusField ?? null}
+        locateMessage={resultEditor?.locateMessage ?? null}
         onConfirm={(nextResult) => {
           if (!resultEditor) return;
           if (resultEditor.index === null) {

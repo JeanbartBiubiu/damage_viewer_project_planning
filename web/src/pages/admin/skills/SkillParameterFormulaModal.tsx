@@ -28,6 +28,8 @@ import {
 } from './SkillParameterEditorModal';
 import { formatParameterValue, type LevelRange } from './parameterForm';
 import { SKILL_TRIGGER_PARAMETER_IN_USE_MESSAGE } from './triggers/triggerRuleForm';
+import type { AuthoringNavigationRequest } from './authoringFocus';
+import { useAuthoringListFocus } from './useAuthoringListFocus';
 
 type SkillParameterFormulaModalProps = {
   visible: boolean;
@@ -37,6 +39,7 @@ type SkillParameterFormulaModalProps = {
   adminToken: string;
   onClose: () => void;
   onSkillMissing: () => void;
+  authoringFocus?: AuthoringNavigationRequest | null;
 };
 
 type ParameterEditorState = {
@@ -65,14 +68,15 @@ export function SkillParameterFormulaModal({
   selectedGameId,
   adminToken,
   onClose,
-  onSkillMissing
+  onSkillMissing,
+  authoringFocus
 }: SkillParameterFormulaModalProps) {
   const [activeTab, setActiveTab] = useState('parameters');
   const [keyword, setKeyword] = useState('');
   const [parameters, setParameters] = useState<SkillParameter[]>([]);
   const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
-  const [parametersLoading, setParametersLoading] = useState(false);
-  const [formulasLoading, setFormulasLoading] = useState(false);
+  const [parametersLoading, setParametersLoading] = useState(true);
+  const [formulasLoading, setFormulasLoading] = useState(true);
   const [parametersError, setParametersError] = useState<string | null>(null);
   const [formulasError, setFormulasError] = useState<string | null>(null);
   const [characterLevelRange, setCharacterLevelRange] = useState<LevelRange | null>(null);
@@ -84,6 +88,8 @@ export function SkillParameterFormulaModal({
   const [deleteFormulaTarget, setDeleteFormulaTarget] = useState<SkillFormulaSummary | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [locateNotice, setLocateNotice] = useState<string | null>(null);
+  const [focusedLocation, setFocusedLocation] = useState<AuthoringNavigationRequest['location'] | null>(null);
   const parameterSerial = useRef(0);
   const formulaSerial = useRef(0);
   const levelSerial = useRef(0);
@@ -98,8 +104,8 @@ export function SkillParameterFormulaModal({
     setKeyword('');
     setParameters([]);
     setFormulas([]);
-    setParametersLoading(false);
-    setFormulasLoading(false);
+    setParametersLoading(true);
+    setFormulasLoading(true);
     setParametersError(null);
     setFormulasError(null);
     setCharacterLevelRange(null);
@@ -111,6 +117,8 @@ export function SkillParameterFormulaModal({
     setDeleteFormulaTarget(null);
     setDeleteError(null);
     setDeleting(false);
+    setLocateNotice(null);
+    setFocusedLocation(null);
   }, []);
 
   const loadParameters = useCallback(async () => {
@@ -258,10 +266,40 @@ export function SkillParameterFormulaModal({
   }, [characterLevelRange]);
 
   const close = () => {
-    if (deleting) return;
+    if (deleting || parameterEditor || formulaEditor) return;
     resetState();
     onClose();
   };
+
+  const handleFoundParameter = useCallback((item: SkillParameter, location: AuthoringNavigationRequest['location']) => {
+    setLocateNotice(null);
+    setFocusedLocation(location);
+    setActiveTab('parameters');
+    setParameterEditor({ mode: 'edit', parameter: item });
+  }, []);
+  const handleFoundFormula = useCallback((item: SkillFormulaSummary, location: AuthoringNavigationRequest['location']) => {
+    setLocateNotice(null);
+    setFocusedLocation(location);
+    setActiveTab('formulas');
+    setFormulaEditor({ mode: 'edit', formula: item });
+  }, []);
+  const handleMissing = useCallback((message: string) => setLocateNotice(message), []);
+  useAuthoringListFocus(
+    authoringFocus?.location.editor === 'PARAMETER' ? authoringFocus : null,
+    parameters,
+    (item) => item.parameterKey,
+    visible && !parametersLoading && parametersError === null,
+    handleFoundParameter,
+    handleMissing
+  );
+  useAuthoringListFocus(
+    authoringFocus?.location.editor === 'FORMULA' ? authoringFocus : null,
+    formulas,
+    (item) => item.formulaKey,
+    visible && !formulasLoading && formulasError === null,
+    handleFoundFormula,
+    handleMissing
+  );
 
   const handleSkillMissing = () => {
     resetState();
@@ -527,13 +565,14 @@ export function SkillParameterFormulaModal({
       <Modal
         title={skill ? `参数与公式 - ${skill.name}` : '参数与公式'}
         visible={visible && skill !== null}
-        maskClosable
+        maskClosable={!parameterEditor && !formulaEditor}
         onCancel={close}
         style={{ width: 1100 }}
         footer={
-          <Button onClick={close}>关闭</Button>
+          <Button onClick={close} disabled={Boolean(parameterEditor || formulaEditor)}>关闭</Button>
         }
       >
+        {locateNotice ? <Alert type="warning" content={locateNotice} style={{ marginBottom: 12 }} /> : null}
         <Tabs activeTab={activeTab} onChange={setActiveTab}>
           <Tabs.TabPane key="parameters" title="技能参数">
             <div style={{ display: 'flex', gap: 12, marginBottom: 16, alignItems: 'end' }}>
@@ -664,6 +703,7 @@ export function SkillParameterFormulaModal({
             await loadParameters();
           }}
           onSkillMissing={handleSkillMissing}
+          authoringLocation={focusedLocation?.editor === 'PARAMETER' ? focusedLocation : null}
         />
       ) : null}
 
@@ -682,6 +722,7 @@ export function SkillParameterFormulaModal({
             await loadFormulas();
           }}
           onSkillMissing={handleSkillMissing}
+          authoringLocation={focusedLocation?.editor === 'FORMULA' ? focusedLocation : null}
         />
       ) : null}
 

@@ -144,6 +144,8 @@ export type OperationDefinition = {
   vampOverrides?: GenericVampOverride[];
 };
 
+export type HealGroupCalculationMode = 'ratio_add' | 'ratio_max';
+
 export type ModifierDefinition = {
   modifierKey: string;
   kind: string;
@@ -159,6 +161,7 @@ export type ModifierDefinition = {
   healDirection?: 'DONE' | 'RECEIVED';
   healCategory?: 'ANY' | 'VAMP' | 'DIRECT';
   healGroupKey?: string;
+  healGroupCalculationMode?: HealGroupCalculationMode;
 };
 
 export type ListenerDefinition = {
@@ -207,6 +210,16 @@ export type ProviderStateFieldSchema = {
   refreshPolicy?: string;
 };
 
+export type ProviderInstanceScope = 'source_target';
+export type MovementSlowStatusKind = 'movement_slow';
+
+export type StatusContributionDefinition = {
+  resultRef: string;
+  statusKey: string;
+  statusKind: MovementSlowStatusKind;
+  strength: GenericFormulaExpr;
+};
+
 export type ProviderDefinition = {
   providerKey: string;
   kind: string;
@@ -221,7 +234,9 @@ export type ProviderDefinition = {
     maxStacks?: number;
     refreshPolicy?: string;
     tickIntervalMs?: number;
+    instanceScope?: ProviderInstanceScope;
   };
+  statusContributions?: StatusContributionDefinition[];
   /** TinyGo V2: bare `number` (legacy default 0) or structured timed/capped state. */
   initialStateSchema?: Record<string, number | ProviderStateFieldSchema>;
 };
@@ -264,6 +279,13 @@ export type CompileResult = {
   errors?: EngineError[];
 };
 
+export type ProviderStatusContributionSnapshot = {
+  resultRef: string;
+  statusKey: string;
+  statusKind: MovementSlowStatusKind;
+  strength: number;
+};
+
 export type CombatantProviderSnapshot = {
   providerRef: string;
   definitionRef: string;
@@ -272,6 +294,22 @@ export type CombatantProviderSnapshot = {
   stacks: number;
   expireAt: number | null;
   state: Record<string, unknown>;
+  statusContributions?: ProviderStatusContributionSnapshot[];
+};
+
+export type EffectiveStatusContribution = {
+  providerRef: string;
+  resultRef: string;
+  statusKey: string;
+  source: 'source' | 'target';
+  expireAt: number;
+  strength: number;
+};
+
+export type EffectiveStatusSnapshot = {
+  statusKind: MovementSlowStatusKind;
+  strength: number;
+  contributions: EffectiveStatusContribution[];
 };
 
 export type CombatantSnapshot = {
@@ -284,6 +322,7 @@ export type CombatantSnapshot = {
   abilityState: Record<string, unknown>;
   providerState: Record<string, unknown>;
   vars: Record<string, unknown>;
+  effectiveStatuses?: EffectiveStatusSnapshot[];
 };
 
 export type InitialSnapshot = {
@@ -413,7 +452,7 @@ export type SeriesSamplingEvidence = {
 export type DoneResult = {
   ok: boolean;
   summary: RunSummary;
-  finalSnapshot: Record<string, unknown>;
+  finalSnapshot: InitialSnapshot;
   series: SeriesPoint[];
   warnings: WarningItem[];
   evidence: EvidenceCollection;
