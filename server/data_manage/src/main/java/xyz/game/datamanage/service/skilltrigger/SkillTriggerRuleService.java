@@ -41,7 +41,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectResultRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampOverride;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
@@ -606,8 +606,9 @@ public class SkillTriggerRuleService {
             if (critical != null && critical.multiplierValue() != null) {
                 formulaKeys.add(critical.multiplierValue());
             }
-            for (SkillEffectVampRule vampRule : damage.vampRules() == null ? List.<SkillEffectVampRule>of() : damage.vampRules()) {
-                if (vampRule != null && vampRule.efficiencyValue() != null) {
+            for (SkillEffectVampOverride vampRule : damage.vampOverrides() == null ? List.<SkillEffectVampOverride>of() : damage.vampOverrides()) {
+                if (vampRule != null && vampRule.mode() == xyz.game.datamanage.model.skilleffect.SkillEffectVampOverrideMode.OVERRIDE
+                    && vampRule.efficiencyValue() != null) {
                     formulaKeys.add(vampRule.efficiencyValue());
                 }
             }
@@ -644,9 +645,12 @@ public class SkillTriggerRuleService {
                 continue;
             }
             paths.add(resultPath(i, "detail.critical.multiplierValue"));
-            if (damage.vampRules() != null) {
-                for (int j = 0; j < damage.vampRules().size(); j++) {
-                    paths.add(resultPath(i, "detail.vampRules[" + j + "].efficiencyValue"));
+            if (damage.vampOverrides() != null) {
+                for (int j = 0; j < damage.vampOverrides().size(); j++) {
+                    SkillEffectVampOverride override = damage.vampOverrides().get(j);
+                    if (override != null && override.mode() == xyz.game.datamanage.model.skilleffect.SkillEffectVampOverrideMode.OVERRIDE) {
+                        paths.add(resultPath(i, "detail.vampOverrides[" + j + "].efficiencyValue"));
+                    }
                 }
             }
         }

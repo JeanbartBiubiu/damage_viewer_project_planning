@@ -1,5 +1,33 @@
 # 受保护管理数据批次
 
+## 通用吸血规则一次性迁移
+
+迁移后，`verify-game-vamp-rules.mjs` 仅将已审查的两项游戏规则和共享普攻、安妮Q、安妮W三个代表结果落地。先运行 `node tools/authoring/verify-game-vamp-rules.mjs --prepare` 冻结实时前值和完整请求，审查生成的计划及摘要后运行 `--apply <计划摘要>`，再由另次执行运行 `--check <同一计划摘要>`。回查比较规则、技能前值和完整效果，仅放宽合法更新时间；其余伤害不在此工具核定范围。写入尝试使用独占流水，结果不明先只读核对，禁止重放。
+
+`ApplyGameVampRules.java` 仅允许当前已核对的 `test0221` 连接。它只在内存读取应用配置和环境变量，不输出或归档连接凭据。新结构切换前使用本工具；旧的逐伤害吸血批次工具保留历史原字节，不能向新版接口重放旧 `vampRules` 请求。
+
+- `--prepare` 使用只读一致性事务，冻结全部效果、引用及触发规则的完整行，并记录全部27张原业务表的数据摘要、列、约束和索引。计算每条旧伤害唯一允许的新值，生成不能覆盖的外部档案及档案、SQL、执行器和后端已编译类摘要；不会建表、改数据或调用写入守卫。前序动作依赖伤害实际治疗输出时，档案标记不可执行并列出稳定路径。
+- `--apply` 必须明确传入冻结档案绝对路径、档案摘要和已审查SQL摘要；工具及后端已编译类也必须与准备时一致。在任何数据库写入前以独占方式建立固定 `output/game-vamp-rules/migration-attempt.jsonl`，存在旧尝试即拒绝。持有全部原业务表锁后重新核对完整前值，同连接建立临时原效果档案并执行SQL。提交前等游戏写入守卫完成最终校验和引用重建，再逐项比较全部效果、引用、其他表、时间戳和原结构；失败由事务回滚。提交成功后另开只读连接回读并保存独立证据。
+- `--check` 仅打开只读一致性事务，比较当前库与冻结前值或唯一预期新值；不创建临时表、重建引用、建立尝试流水或写本地档案。结果只会是原状态未变、新状态一致或失败。失败、超时或提交结果不明时先用它核对，不移除尝试流水来重放。
+
+先在后端模块生成当前编译类及依赖路径：`mvn compile dependency:build-classpath "-Dmdep.outputFile=target/codex-runtime-classpath.txt"`。以下命令在后端工作树根目录运行；编译检查不会连接数据库，三个执行命令按需分别运行。
+
+```powershell
+$taskRoot = (Get-Location).Path
+$taskClasspath = (Join-Path $taskRoot 'server/data_manage/target/classes') + [IO.Path]::PathSeparator + (Get-Content -Raw server/data_manage/target/codex-runtime-classpath.txt).Trim()
+javac -encoding UTF-8 -cp $taskClasspath -d server/data_manage/target/game-vamp-migration-compile tools/authoring/ApplyGameVampRules.java
+java --class-path $taskClasspath tools/authoring/ApplyGameVampRules.java $taskRoot --prepare
+```
+
+准备结果会打印新档案路径和两个摘要。独立审查后，把已批准的值分别赋给 `$taskArchive`、`$taskArchiveSha` 和 `$taskSqlSha`，应用及纯回查入口为：
+
+```powershell
+java --class-path $taskClasspath tools/authoring/ApplyGameVampRules.java $taskRoot --apply $taskArchive $taskArchiveSha $taskSqlSha
+java --class-path $taskClasspath tools/authoring/ApplyGameVampRules.java $taskRoot --check $taskArchive $taskArchiveSha
+```
+
+准备后修改代码或重新生成不同的后端编译类，需要重新生成档案并审查；不能只替换摘要绕过。迁移只建立空规则表并把旧伤害转为未核定，不自动录入游戏默认规则、裁定特殊技能或删除前序动作。数据库回查、最终服务HTTP验证、页面和战斗运行证据分别保留。
+
 追加新参数、效果、过程和触发规则使用 `append-reviewed-skill-components-v3.mjs`，新批次说明纠错使用 `update-reviewed-descriptions-v4.mjs`。已经执行过的旧版工具保留原字节，供原批次追溯；后续扩充另立版本，不修改已批准工具来重放旧批次。页面流程尚未稳定时，仍先按项目录入标准流程做真实页面录入，这些工具不替代该前提。
 
 批次放在本工作树的 `数据参考` 下。`prepare` 只读固定来源和实时现值，生成完整请求、来源摘要、保护基线，并确认新对象不存在。独立评审必须绑定工具及01至04文件的原字节摘要；`write` 还要求 `DAMAGE_APPROVED_BATCH_SHA` 与获批冻结文件一致。它在请求前重核来源和现值，以独占方式建立06记录，然后逐项写入、即时回读。没有独立批准或现值漂移时停止，不在写入窗口临时改请求或跳过对象。

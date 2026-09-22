@@ -115,7 +115,7 @@ class SkillEffectAdminControllerTest {
             .andExpect(jsonPath("$.results[0].detail.deliveryKind").value("SKILL"))
             .andExpect(jsonPath("$.results[0].detail.originKind").value("DIRECT"))
             .andExpect(jsonPath("$.results[0].detail.critical.mode").value("DISALLOWED"))
-            .andExpect(jsonPath("$.results[0].detail.vampRules", hasSize(0)))
+            .andExpect(jsonPath("$.results[0].detail.vampOverrides", hasSize(0)))
             .andExpect(jsonPath("$.results[0].valueRule.value").value(org.hamcrest.Matchers.equalTo(Map.of("kind", "FORMULA", "formulaKey", "base_damage"))));
 
         mockMvc.perform(post(BASE_PATH)
@@ -145,7 +145,7 @@ class SkillEffectAdminControllerTest {
         assertEquals("SKILL", submitted.deliveryKind().name());
         assertEquals("DIRECT", submitted.originKind().name());
         assertEquals("DISALLOWED", submitted.critical().mode().name());
-        assertEquals(0, submitted.vampRules().size());
+        assertEquals(0, submitted.vampOverrides().size());
     }
 
     @Test
@@ -536,7 +536,7 @@ class SkillEffectAdminControllerTest {
                 "409.SKILL_EFFECT_IN_USE",
                 "结果形状变化会使既有前序输出失效",
                 Map.of("fieldIssues", List.of(Map.of(
-                    "field", "results[0].detail.vampRules",
+                    "field", "results[0].detail.vampOverrides",
                     "code", "TRIGGER_RULE_SHAPE_IN_USE",
                     "ruleKey", "prior",
                     "actionKey", "follow",
@@ -550,7 +550,7 @@ class SkillEffectAdminControllerTest {
             .andExpect(status().isConflict())
             .andExpect(jsonPath("$.error.code").value("409.SKILL_EFFECT_IN_USE"))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].code").value("TRIGGER_RULE_SHAPE_IN_USE"))
-            .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("results[0].detail.vampRules"))
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("results[0].detail.vampOverrides"))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].ruleKey").value("prior"))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].actionKey").value("follow"))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].bindingKey").value("from_first"))
@@ -624,7 +624,7 @@ class SkillEffectAdminControllerTest {
                     "deliveryKind":"SKILL",
                     "originKind":"DIRECT",
                     "critical":{"mode":"DISALLOWED","multiplierValue":null},
-                    "vampRules":[]
+                    "vampQualification":"UNRESOLVED","vampOverrides":[]
                   }
                 }
               ]
@@ -652,7 +652,7 @@ class SkillEffectAdminControllerTest {
                     "deliveryKind":"SKILL",
                     "originKind":"DIRECT",
                     "critical":{"mode":"DISALLOWED","multiplierValue":null},
-                    "vampRules":[]
+                    "vampQualification":"UNRESOLVED","vampOverrides":[]
                   }
                 }
               ]

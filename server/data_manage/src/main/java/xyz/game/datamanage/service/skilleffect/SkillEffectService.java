@@ -81,7 +81,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectSkillScopeMode;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSummaryResponse;
 import xyz.game.datamanage.model.skilleffect.SkillEffectUpdateRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleRequest;
-import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampOverride;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
@@ -898,34 +898,15 @@ public class SkillEffectService {
                 critical.multiplierValue()
             );
         }
-        List<SkillEffectVampRule> vampRules = detail.vampRules();
-        if (vampRules == null) {
-            issues.add(fieldIssue(resultPath(index, "detail.vampRules"), "REQUIRED", "吸血规则不能为空"));
-            return;
-        }
-        if (vampRules.size() > SkillEffectVampType.values().length) {
-            issues.add(fieldIssue(resultPath(index, "detail.vampRules"), "SIZE_INVALID", "吸血规则不能超过4条"));
-        }
-        Set<SkillEffectVampType> seenVampTypes = new HashSet<>();
-        for (int i = 0; i < vampRules.size(); i++) {
-            SkillEffectVampRule rule = vampRules.get(i);
-            String prefix = resultPath(index, "detail.vampRules[" + i + "]");
-            if (rule == null) {
-                issues.add(fieldIssue(prefix, "REQUIRED", "吸血规则不能为空"));
-                continue;
-            }
-            if (rule.vampType() == null) {
-                issues.add(fieldIssue(prefix + ".vampType", "REQUIRED", "吸血种类不能为空"));
-            } else if (!seenVampTypes.add(rule.vampType())) {
-                issues.add(fieldIssue(prefix + ".vampType", "DUPLICATE_VAMP_TYPE", "同一吸血种类不能重复"));
-            }
-            if (rule.basisOutputKind() == null) {
-                issues.add(fieldIssue(prefix + ".basisOutputKind", "INVALID_VAMP_BASIS", "吸血计算基准不能为空"));
-            }
-            if (rule.efficiencyValue() == null) {
-                issues.add(fieldIssue(prefix + ".efficiencyValue", "REQUIRED", "吸血效率公式不能为空"));
-            } else {
-                addInteractionFormulaRef(refs, prefix + ".efficiencyValue", rule.efficiencyValue());
+        xyz.game.datamanage.support.authoring.GameVampRuleSemantics.validateDamageShape(
+            detail, resultPath(index, "detail"), issues);
+        if (detail.vampOverrides() != null) {
+            for (int i = 0; i < detail.vampOverrides().size(); i++) {
+                SkillEffectVampOverride override = detail.vampOverrides().get(i);
+                if (override != null && override.mode() == xyz.game.datamanage.model.skilleffect.SkillEffectVampOverrideMode.OVERRIDE
+                    && override.efficiencyValue() != null) {
+                    addInteractionFormulaRef(refs, resultPath(index, "detail.vampOverrides[" + i + "].efficiencyValue"), override.efficiencyValue());
+                }
             }
         }
     }

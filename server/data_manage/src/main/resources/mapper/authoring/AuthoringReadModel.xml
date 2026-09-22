@@ -31,7 +31,8 @@
                j->>'resultKey' AS result_key,
                j->'detail'->>'damageTypeKey' AS damage_type_key,
                j->'detail'->>'deliveryKind' AS delivery_kind,
-               j->'detail'->>'originKind' AS origin_kind
+               j->'detail'->>'originKind' AS origin_kind,
+               j->'detail'->>'vampQualification' AS vamp_qualification
         FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j
         WHERE j->>'resultType' = 'DAMAGE'
     </sql>
@@ -152,7 +153,7 @@
         WHERE j->'valueRule' IS NOT NULL AND j->'valueRule' &lt;> 'null'::jsonb
     </sql>
 
-    <sql id="effectResultVampRules">
+    <sql id="effectResultVampOverrides">
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,
                r.effect_key AS effect_key,
@@ -160,8 +161,8 @@
                v->>'vampType' AS vamp_type,
                v->>'basisOutputKind' AS basis_output_kind,
                v->>'efficiencyValue' AS efficiency_value
-        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j CROSS JOIN LATERAL jsonb_array_elements(COALESCE(NULLIF(j->'detail'->'vampRules','null'::jsonb),'[]'::jsonb)) v
-        WHERE j->>'resultType' = 'DAMAGE'
+        FROM public.skill_effects r CROSS JOIN LATERAL jsonb_array_elements(r.results) j CROSS JOIN LATERAL jsonb_array_elements(COALESCE(NULLIF(j->'detail'->'vampOverrides','null'::jsonb),'[]'::jsonb)) v
+        WHERE j->>'resultType' = 'DAMAGE' AND v->>'mode' = 'OVERRIDE'
     </sql>
 
     <sql id="effectResults">

@@ -11,7 +11,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectResultType;
 import xyz.game.datamanage.model.skilleffect.SkillEffectSpellShieldBlockScope;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail;
-import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampQualification;
 
 public final class SkillTriggerPriorResultOutputs {
 
@@ -63,13 +63,9 @@ public final class SkillTriggerPriorResultOutputs {
             int vampCount = 0;
             SkillEffectStatusOperation statusOperation = null;
             SkillEffectCooldownChangeOperation cooldownOperation = null;
-            if (result.detail() instanceof SkillEffectDamageDetail damage
-                && damage.vampRules() != null) {
-                for (SkillEffectVampRule rule : damage.vampRules()) {
-                    if (rule != null) {
-                        vampCount++;
-                    }
-                }
+            if (result.detail() instanceof SkillEffectDamageDetail damage) {
+                // 已核定伤害始终提供实际回复；不匹配或明确禁止时为零。
+                vampCount = damage.vampQualification() == SkillEffectVampQualification.RESOLVED ? 1 : 0;
             } else if (result.detail() instanceof SkillEffectStatusOperationDetail status) {
                 statusOperation = status.operation();
             } else if (result.detail() instanceof SkillEffectCooldownChangeDetail cooldown) {
@@ -161,7 +157,7 @@ public final class SkillTriggerPriorResultOutputs {
         return switch (outputKind) {
             case CONFIGURED_VALUE -> "valueRule";
             case ACTUAL_HEALING -> shape.resultType() == SkillEffectResultType.DAMAGE
-                ? "detail.vampRules"
+                ? "detail.vampQualification"
                 : "resultType";
             case BLOCKED -> "spellShieldBlockScope";
             case STATUS_APPLIED -> "detail.operation";

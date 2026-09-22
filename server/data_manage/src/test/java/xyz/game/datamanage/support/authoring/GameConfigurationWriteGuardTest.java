@@ -47,6 +47,10 @@ class GameConfigurationWriteGuardTest {
         guard = new GameConfigurationWriteGuard(jdbc);
         lenient().when(jdbc.queryForObject("SHOW transaction_isolation", String.class)).thenReturn("read committed");
         lenient().when(jdbc.queryForList(LOCK_SQL, String.class, "lol")).thenReturn(List.of("lol"));
+        lenient().when(jdbc.queryForList(GameVampRuleSemantics.RULES_SQL, String.class, "lol")).thenReturn(List.of());
+        lenient().when(jdbc.queryForList(GameVampRuleSemantics.CATEGORIES_SQL, String.class, "lol")).thenReturn(List.of());
+        lenient().when(jdbc.queryForList(GameVampRuleSemantics.ATTRIBUTES_SQL, "lol")).thenReturn(List.of());
+        lenient().when(jdbc.queryForList(GameVampRuleSemantics.SKILL_CATEGORIES_SQL, "lol")).thenReturn(List.of());
     }
 
     @AfterEach
@@ -386,6 +390,38 @@ class GameConfigurationWriteGuardTest {
     private static Map<String, Object> formulaRow() {
         return Map.of("source_type", "FORMULA", "skill_key", "ez_q", "source_key", "damage",
             "data", "{\"expression\":{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"damage\"}}");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"RULE_DELETED", "CATEGORY_DELETED", "ATTRIBUTE_INTEGER"})
+    void finalVampConfigurationChangeRollsBackBusinessWrite(String change) throws Exception {
+        Connection connection = connection();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of());
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "source_type", "EFFECT", "skill_key", "skill", "source_key", "effect", "data", """
+            {"results":[{"resultKey":"hit","resultType":"DAMAGE","detail":{
+              "deliveryKind":"SKILL","originKind":"DIRECT","vampQualification":"RESOLVED","vampOverrides":[]}}]}
+            """)));
+        when(jdbc.queryForList(GameVampRuleSemantics.RULES_SQL, String.class, "lol")).thenReturn(
+            "RULE_DELETED".equals(change) ? List.of() : List.of("""
+                {"vampType":"OMNIVAMP","sourceAttributeKey":"vamp","basisOutputKind":"POST_DEFENSE_DAMAGE",
+                 "defaultEfficiency":1,"deliveryKinds":["SKILL"],"originKinds":["DIRECT"],"skillCategoryKeys":["common"]}
+                """));
+        when(jdbc.queryForList(GameVampRuleSemantics.ATTRIBUTES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "attribute_key", "vamp", "value_type", "ATTRIBUTE_INTEGER".equals(change) ? "INTEGER" : "DECIMAL")));
+        when(jdbc.queryForList(GameVampRuleSemantics.CATEGORIES_SQL, String.class, "lol")).thenReturn(
+            "CATEGORY_DELETED".equals(change) ? List.of() : List.of("common"));
+        when(jdbc.queryForList(GameVampRuleSemantics.SKILL_CATEGORIES_SQL, "lol")).thenReturn(List.of(Map.of(
+            "skill_key", "skill", "skill_category_key", "common")));
+        ApiException error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
+            guard.begin("lol");
+            jdbc.update("UPDATE vamp configuration for test");
+            return null;
+        }));
+        assertEquals("409.GAME_VAMP_RULE_INVALID", error.getCode());
+        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(connection).rollback();
+        verify(connection, never()).commit();
     }
 
     private static Connection connection() throws Exception {

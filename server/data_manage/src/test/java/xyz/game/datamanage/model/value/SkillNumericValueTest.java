@@ -22,7 +22,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import xyz.game.datamanage.model.skilleffect.SkillEffectCriticalPolicy;
 import xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleRequest;
-import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampOverride;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCounterDetail;
 import xyz.game.datamanage.model.skillprocess.SkillProcessCooldown;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationRequest;
@@ -134,7 +134,7 @@ class SkillNumericValueTest {
             Arguments.of(SkillEffectValueRuleRequest.class, "{\"value\":" + value + ",\"fixedMultiplier\":1}", "formulaKey"),
             Arguments.of(SkillEffectLifecycleRequest.class, "{\"durationValue\":" + value + "}", "durationFormulaKey"),
             Arguments.of(SkillEffectCriticalPolicy.class, "{\"mode\":\"DISALLOWED\",\"multiplierValue\":null}", "multiplierFormulaKey"),
-            Arguments.of(SkillEffectVampRule.class, "{\"efficiencyValue\":" + value + "}", "efficiencyFormulaKey"),
+            Arguments.of(SkillEffectVampOverride.class, "{\"efficiencyValue\":" + value + "}", "efficiencyFormulaKey"),
             Arguments.of(SkillProcessCooldown.class, "{\"durationValue\":" + value + "}", "durationFormulaKey"),
             Arguments.of(SkillProcessStateOperationRequest.class, "{\"value\":" + value + "}", "valueFormulaKey"),
             Arguments.of(SkillTriggerPerTargetCooldown.class, "{\"durationValue\":" + value + "}", "durationFormulaKey"),

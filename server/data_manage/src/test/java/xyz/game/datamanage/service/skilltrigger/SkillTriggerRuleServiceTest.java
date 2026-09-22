@@ -69,7 +69,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperation;
 import xyz.game.datamanage.model.skilleffect.SkillEffectStatusOperationDetail;
 import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleRequest;
-import xyz.game.datamanage.model.skilleffect.SkillEffectVampRule;
+import xyz.game.datamanage.model.skilleffect.SkillEffectVampOverride;
 import xyz.game.datamanage.model.skillformula.AttributeValueKind;
 import xyz.game.datamanage.model.skillparameter.SkillParameterValueType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessMomentType;
@@ -331,7 +331,7 @@ class SkillTriggerRuleServiceTest {
             "magic",
             SkillEffectDamageDeliveryKind.SKILL,
             SkillEffectDamageOriginKind.REFLECTED,
-            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, null),
+            new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, null), xyz.game.datamanage.model.skilleffect.SkillEffectVampQualification.UNRESOLVED,
             List.of()
         );
         ApiException exception = thrown(() -> service.assertEffectUpdate(
@@ -398,7 +398,7 @@ class SkillTriggerRuleServiceTest {
             new SkillEffectCriticalPolicy(
                 SkillEffectCriticalMode.SOURCE_CRIT_CHANCE,
                 SkillNumericValue.formula("interaction_formula")
-            ),
+            ), xyz.game.datamanage.model.skilleffect.SkillEffectVampQualification.UNRESOLVED,
             List.of()
         );
         ApiException exception = thrown(() -> service.assertEffectUpdate(
@@ -1307,7 +1307,7 @@ class SkillTriggerRuleServiceTest {
             GAME_ID, SKILL_KEY, EFFECT_KEY, null, null, List.of(damageResult(List.of(), null)), List.of()
         ));
         assertEquals("409.SKILL_EFFECT_IN_USE", lastVamp.getCode());
-        assertField(lastVamp, "results[0].detail.vampRules", "TRIGGER_RULE_SHAPE_IN_USE");
+        assertField(lastVamp, "results[0].detail.vampQualification", "TRIGGER_RULE_SHAPE_IN_USE");
         assertEquals("ACTUAL_HEALING", SkillTriggerRuleTestSupport.fieldIssues(lastVamp).get(0).get("outputKind"));
         assertEquals("prior", SkillTriggerRuleTestSupport.fieldIssues(lastVamp).get(0).get("ruleKey"));
         assertEquals("follow", SkillTriggerRuleTestSupport.fieldIssues(lastVamp).get(0).get("actionKey"));
@@ -1590,7 +1590,7 @@ class SkillTriggerRuleServiceTest {
     }
 
     private static SkillEffectResultRequest damageResult(
-        List<SkillEffectVampRule> vampRules,
+        List<SkillEffectVampOverride> vampOverrides,
         SkillEffectSpellShieldBlockScope blockScope
     ) {
         return new SkillEffectResultRequest(
@@ -1600,8 +1600,8 @@ class SkillTriggerRuleServiceTest {
                 "physical",
                 SkillEffectDamageDeliveryKind.SKILL,
                 SkillEffectDamageOriginKind.DIRECT,
-                new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, null),
-                vampRules
+                new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, null), vampOverrides.isEmpty() ? xyz.game.datamanage.model.skilleffect.SkillEffectVampQualification.UNRESOLVED : xyz.game.datamanage.model.skilleffect.SkillEffectVampQualification.RESOLVED,
+                vampOverrides
             ),
             null,
             blockScope
