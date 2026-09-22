@@ -43,9 +43,11 @@ function damageResult(resultKey: string, vamp = false): SkillEffectResult {
       deliveryKind: 'SKILL',
       originKind: 'DIRECT',
       critical: { mode: 'DISALLOWED', multiplierValue: null },
-      vampRules: vamp
+      vampQualification: vamp ? 'RESOLVED' : 'UNRESOLVED',
+      vampOverrides: vamp
         ? [{
           vampType: 'OMNIVAMP',
+          mode: 'OVERRIDE',
           basisOutputKind: 'ACTUAL_HP_LOSS',
           efficiencyValue: formulaValue("vamp")
         }]

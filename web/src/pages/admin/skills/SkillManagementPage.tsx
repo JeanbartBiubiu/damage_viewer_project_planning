@@ -25,7 +25,7 @@ import type {
   UpdateSkillRequest
 } from '../../../types/skill';
 import type { SkillCategory } from '../../../types/skillCategory';
-import { SkillEditorModal, type SkillEditorMode } from './SkillEditorModal';
+import { SkillEditorModal, type SkillEditorMode, type SkillEditorSaveOptions } from './SkillEditorModal';
 import { SkillEffectManagementModal } from './effects/SkillEffectManagementModal';
 import { SkillParameterFormulaModal } from './SkillParameterFormulaModal';
 import { SkillProcessInternalStateModal } from './processes/SkillProcessInternalStateModal';
@@ -263,9 +263,12 @@ export function SkillManagementPage({
     setAppliedQuery(EMPTY_QUERY);
   };
 
-  const handleSaved = async (saved: Skill, options?: { maxLevelExpanded?: boolean }) => {
+  const handleSaved = async (saved: Skill, options?: SkillEditorSaveOptions) => {
     setEditor(null);
-    const suffix = options?.maxLevelExpanded ? '新增等级参数已补 0。' : '';
+    const expanded = options?.expandedLevelRange;
+    const suffix = expanded
+      ? `已有按技能等级取值的参数在新增 Lv${expanded.minLevel}～Lv${expanded.maxLevel} 已由服务端补 0，请按来源逐项核对并填写新增等级数值。`
+      : '';
     setNotice(`技能「${saved.name}」已保存。${suffix}`);
     onDirtyChange(false);
     await loadSkills(appliedQuery);

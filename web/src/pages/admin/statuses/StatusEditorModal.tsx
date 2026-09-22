@@ -9,7 +9,7 @@ import {
   Space,
   Typography
 } from '@arco-design/web-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
 import { createStatus, updateStatus } from '../../../services/statusClient';
 import type { GameStatus } from '../../../types/status';
@@ -71,31 +71,43 @@ export function StatusEditorModal({
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const readOnly = mode === 'view';
+  const dirty = visible && !readOnly && JSON.stringify(draft) !== JSON.stringify(initial);
+  const context = useMemo(() => ({}), [apiBaseUrl, selectedGameId, adminToken, mode, initial, visible]);
+  const currentContext = useRef(context);
+  currentContext.current = context;
+  const active = useRef(true);
+  const busy = useRef(false);
 
   useEffect(() => {
+    active.current = visible;
+    busy.current = false;
     if (!visible) return;
     setDraft(initial);
     setErrors({});
     setSaveError(null);
     setSaving(false);
-    onDirtyChange(false);
-  }, [initial, onDirtyChange, visible]);
+    return () => { active.current = false; };
+  }, [context, initial, visible]);
+
+  useEffect(() => { onDirtyChange(dirty); }, [dirty, onDirtyChange]);
+  useEffect(() => () => onDirtyChange(false), [onDirtyChange]);
 
   const patchDraft = (field: keyof StatusDraft, value: string) => {
     const next = { ...draft, [field]: value };
     setDraft(next);
     setErrors((current) => ({ ...current, [field]: undefined }));
     setSaveError(null);
-    onDirtyChange(JSON.stringify(next) !== JSON.stringify(initial));
   };
 
   const close = () => {
-    if (saving) return;
+    if (busy.current) return;
+    if (dirty && !window.confirm('当前修改尚未保存，确定要离开吗？')) return;
     onDirtyChange(false);
     onClose();
   };
 
   const save = async () => {
+    if (readOnly || busy.current || !visible) return;
     const validation = validateStatusDraft(draft, mode === 'create');
     if (!validation.ok) {
       setErrors(validation.fieldErrors);
@@ -111,6 +123,8 @@ export function StatusEditorModal({
       return;
     }
 
+    busy.current = true;
+    const isCurrent = () => active.current && currentContext.current === context;
     setSaving(true);
     setSaveError(null);
     try {
@@ -128,14 +142,19 @@ export function StatusEditorModal({
             token,
             buildUpdateStatusRequest(validation.normalized, statusRecord!.status)
           );
+      if (!isCurrent()) return;
       onDirtyChange(false);
       await onSaved(result.data);
     } catch (error) {
+      if (!isCurrent()) return;
       const mapped = mapStatusFieldIssues(error);
       setErrors(mapped.fieldErrors);
       setSaveError(composeSaveError(error, mapped.unmappedMessages));
     } finally {
-      setSaving(false);
+      if (isCurrent()) {
+        busy.current = false;
+        setSaving(false);
+      }
     }
   };
 
@@ -143,7 +162,9 @@ export function StatusEditorModal({
     <Modal
       title={titleFor(mode)}
       visible={visible}
-      maskClosable
+      closable={!saving}
+      maskClosable={!saving}
+      escToExit={!saving}
       onCancel={close}
       footer={
         <Space>

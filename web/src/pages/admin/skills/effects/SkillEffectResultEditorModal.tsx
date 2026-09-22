@@ -22,6 +22,7 @@ import { listSkills } from '../../../../services/skillClient';
 import { listSkillCategories } from '../../../../services/skillCategoryClient';
 import { listStatuses } from '../../../../services/statusClient';
 import type { Attribute } from '../../../../types/attribute';
+import type { GameVampRule } from '../../../../types/gameVamp';
 import type { DamageType } from '../../../../types/damageType';
 import type { ModifierZone } from '../../../../types/modifierZone';
 import type { Skill } from '../../../../types/skill';
@@ -126,7 +127,7 @@ import {
   listSpellShieldBlockScopeOptions,
   modifierZoneDomainForDraft,
   listStatusOptions,
-  sortVampRuleDrafts,
+  sortVampOverrideDrafts,
   usesAffectedSkillScope,
   validateSkillEffectDraft,
   valueFormulaLabelFor,
@@ -159,6 +160,10 @@ type SkillEffectResultEditorModalProps = {
   formulasLoadState?: 'ready' | 'failed';
   onRetryFormulas: () => void;
   parentSkill: Skill;
+  gameVampRules: readonly GameVampRule[];
+  gameVampRulesLoadState: 'loading' | 'ready' | 'failed';
+  gameVampRulesError: string | null;
+  onRetryGameVampRules: () => void;
   parentDraft: SkillEffectDraft;
   effectSummaries: ReadonlyArray<Pick<SkillEffectSummary, 'effectKey' | 'name' | 'lifecycleEnabled'>>;
   effectsLoadState?: 'ready' | 'failed';
@@ -334,6 +339,10 @@ export function SkillEffectResultEditorModal({
   formulasLoadState,
   onRetryFormulas,
   parentSkill,
+  gameVampRules,
+  gameVampRulesLoadState,
+  gameVampRulesError,
+  onRetryGameVampRules,
   parentDraft,
   effectSummaries,
   effectsLoadState,
@@ -592,7 +601,8 @@ export function SkillEffectResultEditorModal({
       void loadDamageTypes();
     }
     if (
-      draft.resultType === 'ATTRIBUTE_CHANGE'
+      draft.resultType === 'DAMAGE'
+      || draft.resultType === 'ATTRIBUTE_CHANGE'
       || draft.resultType === 'RESOURCE_CHANGE'
       || draft.resultType === 'HEALTH_FLOOR'
       || draft.resultType === 'EXECUTE'
@@ -770,8 +780,8 @@ export function SkillEffectResultEditorModal({
     ) return true;
     if (
       draft.resultType === 'DAMAGE'
-      && draft.vampRules.some((rule) => (
-        hasUnknownOption(listFormulaOptions(catalog, rule.efficiencyValue), numericFormulaKey(rule.efficiencyValue))
+      && draft.vampOverrides.some((rule) => (
+        rule.mode === 'OVERRIDE' && hasUnknownOption(listFormulaOptions(catalog, rule.efficiencyValue), numericFormulaKey(rule.efficiencyValue))
       ))
     ) return true;
     if (
@@ -835,7 +845,7 @@ export function SkillEffectResultEditorModal({
     draft.lifecycleBehavior.moment,
     draft.modifierZoneKey,
     draft.resultType,
-    draft.vampRules,
+    draft.vampOverrides,
     draft.statusKey,
     draft.targetEffectKey,
     formulaOptions,
@@ -1074,7 +1084,10 @@ export function SkillEffectResultEditorModal({
       },
       {
         includeEffectKey: false,
-      parameters, parametersLoadState,
+        gameVampRules,
+        gameVampRulesLoadState,
+        parentSkillCategoryKeys: parentSkill.skillCategoryKeys,
+        parameters, parametersLoadState,
         catalog,
         catalogLoadState: validationCatalogState,
         skipLifecycleShapeValidation: true,
@@ -1472,113 +1485,65 @@ export function SkillEffectResultEditorModal({
                   allowClear />
                 </Form.Item>
               ) : null}
-              <Form.Item
-                label="吸血规则"
-                validateStatus={errors.vampRules ? 'error' : undefined}
-                help={errors.vampRules}
-              >
-                <Space direction="vertical" style={{ width: '100%' }}>
-                  {draft.vampRules.map((rule, index) => {
-                    const usedByOthers = new Set(
-                      draft.vampRules
-                        .filter((_, itemIndex) => itemIndex !== index)
-                        .map((item) => item.vampType)
-                    );
-                    return (
-                      <Space key={`${rule.vampType || 'new'}-${index}`} style={{ width: '100%' }}>
-                        <Select
-                          aria-label={`吸血种类 ${index + 1}`}
-                          value={rule.vampType || undefined}
-                          disabled={readOnly}
-                          style={{ width: 220 }}
-                          options={SKILL_EFFECT_VAMP_TYPES
-                            .filter((value) => !usedByOthers.has(value))
-                            .map((value) => ({
-                              value,
-                              label: SKILL_EFFECT_VAMP_TYPE_LABELS[value]
-                            }))}
-                          placeholder="吸血种类"
-                          onChange={(value) => patchDraft({
-                            ...draft,
-                            vampRules: sortVampRuleDrafts(draft.vampRules.map((item, itemIndex) => (
-                              itemIndex === index
-                                ? { ...item, vampType: value as SkillEffectVampType }
-                                : item
-                            )))
-                          })}
-                        />
-                        <Select
-                          aria-label={`吸血计算基准 ${index + 1}`}
-                          value={rule.basisOutputKind || undefined}
-                          disabled={readOnly}
-                          style={{ width: 220 }}
-                          options={(Object.keys(
-                            SKILL_EFFECT_VAMP_BASIS_OUTPUT_KIND_LABELS
-                          ) as SkillEffectVampBasisOutputKind[]).map((value) => ({
-                            value,
-                            label: SKILL_EFFECT_VAMP_BASIS_OUTPUT_KIND_LABELS[value]
-                          }))}
-                          placeholder="计算基准"
-                          onChange={(value) => patchDraft({
-                            ...draft,
-                            vampRules: draft.vampRules.map((item, itemIndex) => (
-                              itemIndex === index
-                                ? { ...item, basisOutputKind: value as SkillEffectVampBasisOutputKind }
-                                : item
-                            ))
-                          })}
-                        />
-                        <NumericValueField aria-label={`吸血效率取值 ${index + 1}`}
-                  value={rule.efficiencyValue}
-                  onChange={(value) => patchDraft({
-                            ...draft,
-                            vampRules: draft.vampRules.map((item, itemIndex) => (
-                              itemIndex === index
-                                ? { ...item, efficiencyValue: value! }
-                                : item
-                            ))
-                          })}
-                  parameters={parameters}
-                  formulas={formulas}
-                  disabled={readOnly} />
-                        <Button
-                          status="danger"
-                          disabled={readOnly}
-                          onClick={() => patchDraft({
-                            ...draft,
-                            vampRules: draft.vampRules.filter((_, itemIndex) => itemIndex !== index)
-                          })}
-                        >
-                          删除
-                        </Button>
-                      </Space>
-                    );
-                  })}
-                  {!readOnly ? (
-                    <Button
-                      disabled={draft.vampRules.length >= SKILL_EFFECT_VAMP_TYPES.length}
-                      onClick={() => {
-                        const used = new Set(draft.vampRules.map((item) => item.vampType));
-                        const vampType = SKILL_EFFECT_VAMP_TYPES.find((value) => !used.has(value));
-                        if (!vampType) return;
-                        patchDraft({
-                          ...draft,
-                          vampRules: sortVampRuleDrafts([
-                            ...draft.vampRules,
-                            {
-                              vampType,
-                              basisOutputKind: 'POST_DEFENSE_DAMAGE',
-                              efficiencyValue: null
-                            }
-                          ])
-                        });
-                      }}
-                    >
-                      新增吸血规则
-                    </Button>
-                  ) : null}
-                </Space>
+              <Form.Item label="吸血资格" required validateStatus={errors.vampQualification ? 'error' : undefined} help={errors.vampQualification}>
+                <Radio.Group aria-label="吸血资格" value={draft.vampQualification} disabled={readOnly} onChange={(value) => {
+                  const apply = () => patchDraft({ ...draft, vampQualification: value, vampOverrides: value === 'UNRESOLVED' ? [] : draft.vampOverrides });
+                  if (value === 'UNRESOLVED' && draft.vampOverrides.length) {
+                    Modal.confirm({ title: '清除吸血例外', content: '改为未核定会清除当前吸血例外，后续核定前不能运行。', okText: '清除并设为未核定', cancelText: '继续编辑', onOk: apply });
+                  } else apply();
+                }}>
+                  <Radio value="UNRESOLVED">未核定，不可运行</Radio>
+                  <Radio value="RESOLVED">已核定，继承游戏规则</Radio>
+                </Radio.Group>
               </Form.Item>
+              <Alert type="warning" content="召唤师技能、反伤、强化攻击附伤、宠物及范围或持续伤害，需要按来源核定资格。不要仅凭技能伤害或普攻伤害分类判断；独立治疗仍单独配置。" />
+              {draft.vampQualification === 'UNRESOLVED' ? <Alert type="info" content="可以保存未核定草稿；核定前不参与运行，不表示禁止吸血，也不自动继承游戏规则。" /> : <>
+                {gameVampRulesLoadState === 'loading' ? <Alert type="info" content="正在读取游戏吸血规则…" /> : null}
+                {gameVampRulesLoadState === 'failed' ? <Space><Alert type="error" content={gameVampRulesError || '游戏吸血规则读取失败，草稿已保留。'} /><Button onClick={onRetryGameVampRules}>重试吸血规则</Button></Space> : null}
+                {gameVampRulesLoadState === 'ready' && !gameVampRules.length ? <Alert type="warning" content="游戏尚无通用吸血规则。请先前往游戏配置维护规则，或明确改为未核定后保存。" /> : null}
+                {gameVampRulesLoadState === 'ready' && gameVampRules.length > 0 ? <Form.Item label="继承规则摘要">
+                  <Space direction="vertical" style={{ width: '100%' }}>
+                    {gameVampRules.map((rule) => {
+                      const exception = draft.vampOverrides.find((item) => item.vampType === rule.vampType);
+                      const matches = rule.deliveryKinds.includes(draft.damageDeliveryKind as SkillEffectDamageDeliveryKind)
+                        && rule.originKinds.includes(draft.damageOriginKind as SkillEffectDamageOriginKind)
+                        && rule.skillCategoryKeys.some((key) => parentSkill.skillCategoryKeys.includes(key));
+                      const source = attributes.find((item) => item.attributeKey === rule.sourceAttributeKey);
+                      const status = exception?.mode === 'DISABLED' ? '本结果明确禁止'
+                        : exception?.mode === 'OVERRIDE' ? '本结果使用覆盖例外'
+                        : matches ? '继承并适用' : '当前产生方式、来源性质或技能分类不匹配';
+                      return <div key={rule.vampType}>{SKILL_EFFECT_VAMP_TYPE_LABELS[rule.vampType]}：{status}；来源比例属性 {source?.name ? source.name + ' / ' : ''}{rule.sourceAttributeKey}；{SKILL_EFFECT_VAMP_BASIS_OUTPUT_KIND_LABELS[rule.basisOutputKind]}；默认效率 {rule.defaultEfficiency}。</div>;
+                    })}
+                  </Space>
+                </Form.Item> : null}
+                <Form.Item label="吸血例外" validateStatus={errors.vampOverrides ? 'error' : undefined} help={errors.vampOverrides || '普通伤害保留空列表即可继承。只有来源明确的禁止或覆盖才新增例外。'}>
+                  <Space direction="vertical" style={{ width: '100%' }}>
+                    {draft.vampOverrides.map((rule, index) => {
+                      const usedByOthers = new Set(draft.vampOverrides.filter((_, i) => i !== index).map((item) => item.vampType));
+                      const patchRule = (next: typeof rule) => patchDraft({ ...draft, vampOverrides: sortVampOverrideDrafts(draft.vampOverrides.map((item, i) => i === index ? next : item)) });
+                      return <Space wrap key={(rule.vampType || 'new') + '-' + index} style={{ width: '100%' }}>
+                        <Select aria-label={'吸血种类 ' + (index + 1)} value={rule.vampType || undefined} disabled={readOnly} style={{ width: 180 }}
+                          options={SKILL_EFFECT_VAMP_TYPES.filter((value) => !usedByOthers.has(value)).map((value) => ({ value, label: SKILL_EFFECT_VAMP_TYPE_LABELS[value] }))}
+                          onChange={(value) => patchRule({ ...rule, vampType: value as SkillEffectVampType })} />
+                        <Select aria-label={'吸血例外方式 ' + (index + 1)} value={rule.mode} disabled={readOnly} style={{ width: 180 }}
+                          options={[{ value: 'DISABLED', label: '明确禁止' }, { value: 'OVERRIDE', label: '覆盖资格与效率' }]}
+                          onChange={(mode) => patchRule({ ...rule, mode, basisOutputKind: null, efficiencyValue: null })} />
+                        {rule.mode === 'OVERRIDE' ? <>
+                          <Select aria-label={'吸血计算基准 ' + (index + 1)} value={rule.basisOutputKind || undefined} disabled={readOnly} style={{ width: 200 }} placeholder="计算基准"
+                            options={Object.entries(SKILL_EFFECT_VAMP_BASIS_OUTPUT_KIND_LABELS).map(([value, label]) => ({ value, label }))}
+                            onChange={(value) => patchRule({ ...rule, basisOutputKind: value as SkillEffectVampBasisOutputKind })} />
+                          <NumericValueField aria-label={'吸血效率取值 ' + (index + 1)} value={rule.efficiencyValue}
+                            onChange={(efficiencyValue) => patchRule({ ...rule, efficiencyValue })} parameters={parameters} formulas={formulas} disabled={readOnly} />
+                        </> : null}
+                        <Button status="danger" disabled={readOnly} onClick={() => patchDraft({ ...draft, vampOverrides: draft.vampOverrides.filter((_, i) => i !== index) })}>删除例外</Button>
+                      </Space>;
+                    })}
+                    {!readOnly ? <Button disabled={draft.vampOverrides.length >= SKILL_EFFECT_VAMP_TYPES.length || draft.vampOverrides.some((item) => !item.vampType)} onClick={() => {
+                      patchDraft({ ...draft, vampOverrides: [...draft.vampOverrides, { vampType: '', mode: 'DISABLED', basisOutputKind: null, efficiencyValue: null }] });
+                    }}>新增吸血例外</Button> : null}
+                  </Space>
+                </Form.Item>
+              </>}
             </>
           ) : null}
 

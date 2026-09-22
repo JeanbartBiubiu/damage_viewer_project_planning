@@ -95,9 +95,9 @@ export function SkillParameterEditorModal({
   const [errors, setErrors] = useState<SkillParameterDraftErrors>({});
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
-  const [fillValue, setFillValue] = useState<number | undefined>(0);
-  const [arithStart, setArithStart] = useState<number | undefined>(0);
-  const [arithStep, setArithStep] = useState<number | undefined>(0);
+  const [fillValue, setFillValue] = useState<number | undefined>();
+  const [arithStart, setArithStart] = useState<number | undefined>();
+  const [arithStep, setArithStep] = useState<number | undefined>();
   const [bulkLevelText, setBulkLevelText] = useState('');
   const [bulkLevelError, setBulkLevelError] = useState<string | null>(null);
   const readOnly = mode === 'view';
@@ -114,9 +114,9 @@ export function SkillParameterEditorModal({
     setErrors({});
     setSaveError(null);
     setSaving(false);
-    setFillValue(0);
-    setArithStart(0);
-    setArithStep(0);
+    setFillValue(undefined);
+    setArithStart(undefined);
+    setArithStep(undefined);
     setBulkLevelText('');
     setBulkLevelError(null);
   }, [initial, mode, visible]);
@@ -207,6 +207,7 @@ export function SkillParameterEditorModal({
   };
 
   const save = async () => {
+    if (readOnly || saving) return;
     if (bulkLevelText.trim()) {
       if (!bulkLevelError) {
         setBulkLevelError('已填写整列等级数值但尚未应用，请先点击“应用整列数值”。');
@@ -378,6 +379,7 @@ export function SkillParameterEditorModal({
             >
               <InputNumber
                 aria-label="固定值"
+                placeholder="请明确填写，0 也是有效数值"
                 value={draft.fixedValue.trim() ? Number(draft.fixedValue) : undefined}
                 disabled={readOnly || saving}
                 style={{ width: '100%' }}
@@ -402,6 +404,9 @@ export function SkillParameterEditorModal({
                       <Typography.Text type="secondary">
                         按 Lv{activeLevelRange.minLevel}～Lv{activeLevelRange.maxLevel} 顺序输入 {levels.length} 个数值，应用后再保存。
                       </Typography.Text>
+                      <Typography.Text type="secondary">
+                        空白表示未填写，0 是有效数值。填充和粘贴仅在点击应用后写入等级草稿。
+                      </Typography.Text>
                       <Input.TextArea
                         aria-label="整列等级数值"
                         value={bulkLevelText}
@@ -416,27 +421,36 @@ export function SkillParameterEditorModal({
                         }}
                       />
                       <Button onClick={applyBulkLevelValues} disabled={saving}>应用整列数值</Button>
+                      <Typography.Text type="secondary">
+                        固定填充需填写填充值；等差递增需填写起始值和每级增加值，均可填 0。
+                      </Typography.Text>
                       <Space wrap>
                         <InputNumber
                           aria-label="固定填充值"
+                          placeholder="填充值，可填 0"
                           value={fillValue}
                           disabled={saving}
                           onChange={setFillValue}
                         />
-                        <Button onClick={applyFixedFill} disabled={saving}>固定填充</Button>
+                        <Button onClick={applyFixedFill} disabled={saving || fillValue === undefined}>固定填充</Button>
                         <InputNumber
                           aria-label="等差起始值"
+                          placeholder="起始值，可填 0"
                           value={arithStart}
                           disabled={saving}
                           onChange={setArithStart}
                         />
                         <InputNumber
                           aria-label="每级增加值"
+                          placeholder="每级增加值，可填 0"
                           value={arithStep}
                           disabled={saving}
                           onChange={setArithStep}
                         />
-                        <Button onClick={applyArithmeticFill} disabled={saving}>等差递增</Button>
+                        <Button
+                          onClick={applyArithmeticFill}
+                          disabled={saving || arithStart === undefined || arithStep === undefined}
+                        >等差递增</Button>
                       </Space>
                     </Space>
                   ) : null}
@@ -450,6 +464,7 @@ export function SkillParameterEditorModal({
                           <span>Lv{level}</span>
                           <InputNumber
                             aria-label={`等级${level}数值`}
+                            placeholder="待填写"
                             value={draft.levelValues[String(level)]?.trim()
                               ? Number(draft.levelValues[String(level)])
                               : undefined}
