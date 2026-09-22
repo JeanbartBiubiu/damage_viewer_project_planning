@@ -156,6 +156,9 @@ export function compileNumericValue(
   const compiled = compileFormulaExpression(row.expression, `${path}.expression`, state, fail);
   if (!state.bindParameters) {
     const folded = tryFoldConstant(compiled);
+    // Owned listeners have no ability parameter frame. Inline known parameters
+    // while retaining explicitly permitted owner-relative attribute reads.
+    if (folded === null && state.allowAttributeReads) return compiled;
     if (folded === null) return fail(path, '本期只能把常量、明确等级参数及完全由其组成的公式折成常量');
     return constExpr(folded);
   }
