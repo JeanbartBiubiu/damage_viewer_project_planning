@@ -71,6 +71,7 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 | Session registry + hash 校验 | 已接入 | `session.go` Compile/Run/Release |
 | `CompileGeneric` | 已接入 | collect-all；输出 `CompiledSession` |
 | `RunGeneric` | 已接入 | driver plan、gate、damage/heal/resource、provider tick |
+| 通用吸血 | 已接入 | 游戏规则与伤害例外；普通、复制伤害共用末尾吸血结算；治疗修正与逐次证据 |
 | Canonical fixture | 已接入 | `generic_p0_basic_damage.json`（targetFinalHp=900） |
 | Node smoke | 已接入 | 真实 compile/run/release round-trip |
 | Node / Go bench | 已接入 | `--mode generic-run` / `go run ./cmd/bench` 默认 generic |
@@ -222,3 +223,26 @@ Per-cast throttle 安全边界：
 
 - 表键：`listenerIndex + ownerCombatantKey + ownerProviderRef + castInstanceId → lastTriggerMs`；缺表项或 `now-last >= PerCastThrottleMs` 允许触发；重叠 cast 独立。
 - 容量 `min(4096, max(256, MaxEvents))`。溢出按最小 `castInstanceId` 驱逐（并列 listenerIndex → combatantKey → providerRef）；每次 run 至多一条 `per_cast_throttle_overflow` 警告。表在 run 结束丢弃。
+
+### 通用吸血与治疗修正
+
+方案唯一来源为规划工作树的《管理页面与共性机制迭代计划》第3项。本模块负责通用编译与结算，不承担任意管理技能的完整装配。
+
+- `rules.vampRules`（游戏吸血规则）每种类型至多一条，类型顺序为生命偷取、全能吸血、物理吸血、法术吸血。比例读取规则指定的来源属性，不由伤害操作重复保存。
+- `targetMatcher`、`abilityMatcher`、`damageMatcher`（目标、能力、伤害匹配器）分别只引用 `combatant`、`ability`、`damage_trait` 类型域，三者同时成立。必须有正向约束；类型来自 `Types`，不使用 `Tags`。
+- 有规则时，伤害必须声明 `vampQualification=RESOLVED`（已核定）；`UNRESOLVED`（未核定）拒绝编译。伤害产生方式与来源性质各声明一个类型，所属能力和两侧对象也必须明确分类。未使用吸血的原通用请求保持原样。
+- `vampOverrides`（技能例外）支持 `DISABLED`（禁止，不带数值）或 `OVERRIDE`（覆盖，必须有明确基数及通用效率公式）；例外要求对应游戏规则。覆盖可以越过默认能力、伤害资格，但不能越过目标范围和死亡、自身伤害保护。
+- 吸血比例与效率在每次扣血后读取；严格读取保留有效属性的真实零值，缺少属性或参数、负效率和非有限结果报具体路径。复制伤害保留原能力分类和例外，比例仍读取本次有效值。
+- 每次伤害的贡献求和后治疗一次。现有 `kind=pipeline, command=heal` 修正新增 `healDirection=DONE/RECEIVED`（造成/受到）、`healCategory=ANY/VAMP/DIRECT`（全部/吸血/直接治疗）及 `healGroupKey`（乘区标识），数值策略为 `add_percent`（有符号比例）。同区比例加总后乘 `max(0,1+净比例)`，各区按既有修正排序的首次出现顺序相乘；先造成再受到，最后裁剪生命上限。伤害修正已有的 `channel/stage/bucket` 不用于治疗。
+- 普通与复制伤害的末尾共同结算吸血，不监听伤害事件补治疗。来源死亡、自身伤害和目标受击前已死均不吸血；击杀仍能吸血。治疗与单独斩杀不产生吸血。
+
+`done.evidence.items` 中的 `vamp`（吸血明细）通过 `damageId` 关联 `damage`（伤害明细）。逐次保存防御后伤害、护盾吸收、实际扣血、过量伤害，各种吸血的基数/比例/效率/贡献，以及 `healingBeforeModifiers`（修正前）、`healingAfterDone`（造成修正后）、`healingAfterModifiers`（全部修正后）、`actualHealing`（实际回复）、`overheal`（过量回复）。已核定但禁止或不匹配的伤害仍保存明确零值及跳过原因。
+
+专项验证使用独立构造的 `internal/testkit/fixtures/generic_vamp_damage.json`，不修改或复制原基准样例。最终构建后运行：
+
+```powershell
+go test -count=1 ./internal/compile ./internal/runtime -run '^TestVamp'
+node .\scripts\vamp-smoke-node.mjs
+```
+
+该样例明确提供两侧英雄、100原始伤害、100护甲、20护盾及20剩余生命等运行输入。原生与Node结果证明通用机制；实库来源、管理适配及浏览器Worker验证由相应模块独立提供证据。

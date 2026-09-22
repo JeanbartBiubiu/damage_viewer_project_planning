@@ -19,6 +19,9 @@ type MountedDamageModifier struct {
 	Bucket            string
 	Stage             string
 	Priority          int
+	HealDirection     string
+	HealCategory      string
+	HealGroupKey      string
 	ValuePolicy       string
 	ValueProgram      formula.GenericProgramID
 	HasValue          bool
@@ -52,6 +55,9 @@ func (r *DamageModifierResolver) MountCompiledModifierOwned(ownerCombatantKey, p
 		Bucket:            mod.Bucket,
 		Stage:             mod.Stage,
 		Priority:          mod.Priority,
+		HealDirection:     mod.HealDirection,
+		HealCategory:      mod.HealCategory,
+		HealGroupKey:      mod.HealGroupKey,
 		ValuePolicy:       mod.ValuePolicy,
 		ValueProgram:      mod.ValueProgram,
 		HasValue:          mod.HasValue,
@@ -83,7 +89,7 @@ func (r DamageModifierResolver) CollectForStage(channel, stage string) []Mounted
 
 // CollectedDamageModifier is a mounted damage modifier plus the channels that selected it.
 type CollectedDamageModifier struct {
-	Modifier         MountedDamageModifier
+	Modifier        MountedDamageModifier
 	MatchedChannels []string
 }
 

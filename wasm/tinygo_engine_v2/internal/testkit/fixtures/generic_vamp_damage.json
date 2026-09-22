@@ -1,0 +1,386 @@
+{
+  "name": "generic_vamp_damage",
+  "phase": "run",
+  "compileRequest": {
+    "schemaVersion": "generic-p0",
+    "schemaHash": "schema.vamp.v1",
+    "rulesHash": "rules.vamp.v1",
+    "typeCatalog": {
+      "types": [
+        {
+          "key": "combatant/champion",
+          "domain": "combatant"
+        },
+        {
+          "key": "combatant/minion",
+          "domain": "combatant"
+        },
+        {
+          "key": "ability/basic_attack",
+          "domain": "ability"
+        },
+        {
+          "key": "ability/common",
+          "domain": "ability"
+        },
+        {
+          "key": "ability/summoner",
+          "domain": "ability"
+        },
+        {
+          "key": "damage/physical",
+          "domain": "damage"
+        },
+        {
+          "key": "damage/true",
+          "domain": "damage"
+        },
+        {
+          "key": "damage_trait/delivery_skill",
+          "domain": "damage_trait"
+        },
+        {
+          "key": "damage_trait/delivery_basic_attack",
+          "domain": "damage_trait"
+        },
+        {
+          "key": "damage_trait/origin_direct",
+          "domain": "damage_trait"
+        },
+        {
+          "key": "damage_trait/origin_reflected",
+          "domain": "damage_trait"
+        },
+        {
+          "key": "event/damage_instance",
+          "domain": "event"
+        },
+        {
+          "key": "event/source_owner",
+          "domain": "event"
+        },
+        {
+          "key": "event/on_hit",
+          "domain": "event"
+        },
+        {
+          "key": "state_scope/provider",
+          "domain": "state_scope"
+        }
+      ],
+      "relations": []
+    },
+    "combatants": [
+      {
+        "key": "source",
+        "types": [
+          "combatant/champion"
+        ],
+        "attributes": {
+          "hp": {
+            "base": 100,
+            "current": 95,
+            "max": 100,
+            "resolved": 95
+          },
+          "life_steal_percent": {
+            "base": 0.1,
+            "current": 0.1,
+            "max": 0.1,
+            "resolved": 0.1
+          },
+          "omnivamp_percent": {
+            "base": 0.2,
+            "current": 0.2,
+            "max": 0.2,
+            "resolved": 0.2
+          },
+          "heal_shield_power_percent": {
+            "base": 9,
+            "current": 9,
+            "max": 9,
+            "resolved": 9
+          }
+        },
+        "resources": {},
+        "providers": [
+          {
+            "providerRef": "champion",
+            "definitionRef": "vamp_sample"
+          }
+        ]
+      },
+      {
+        "key": "target",
+        "types": [
+          "combatant/champion"
+        ],
+        "attributes": {
+          "hp": {
+            "base": 20,
+            "current": 20,
+            "max": 100,
+            "resolved": 20
+          },
+          "armor": {
+            "base": 100,
+            "current": 100,
+            "max": 100,
+            "resolved": 100
+          }
+        },
+        "resources": {},
+        "providers": []
+      }
+    ],
+    "sharedProviders": [
+      {
+        "providerKey": "vamp_sample",
+        "kind": "champion",
+        "stableId": "vamp_sample",
+        "abilities": [
+          {
+            "abilityKey": "attack",
+            "kind": "active",
+            "types": [
+              "ability/basic_attack"
+            ],
+            "params": {
+              "efficiency": 1
+            },
+            "operations": [
+              {
+                "operation": "damage",
+                "target": "target",
+                "amount": {
+                  "op": "const",
+                  "value": 100
+                },
+                "damageType": "damage/physical",
+                "types": [
+                  "damage_trait/delivery_basic_attack",
+                  "damage_trait/origin_direct"
+                ],
+                "vampQualification": "RESOLVED",
+                "ref": "sample_hit"
+              }
+            ]
+          }
+        ],
+        "modifiers": [
+          {
+            "modifierKey": "done",
+            "kind": "pipeline",
+            "command": "heal",
+            "healDirection": "DONE",
+            "healCategory": "ANY",
+            "healGroupKey": "general",
+            "valuePolicy": "add_percent",
+            "value": {
+              "op": "const",
+              "value": 0.2
+            }
+          },
+          {
+            "modifierKey": "received",
+            "kind": "pipeline",
+            "command": "heal",
+            "healDirection": "RECEIVED",
+            "healCategory": "VAMP",
+            "healGroupKey": "general",
+            "valuePolicy": "add_percent",
+            "value": {
+              "op": "const",
+              "value": -0.4
+            }
+          },
+          {
+            "modifierKey": "direct-only",
+            "kind": "pipeline",
+            "command": "heal",
+            "healDirection": "DONE",
+            "healCategory": "DIRECT",
+            "healGroupKey": "general",
+            "valuePolicy": "add_percent",
+            "value": {
+              "op": "const",
+              "value": 9
+            }
+          }
+        ]
+      }
+    ],
+    "rules": {
+      "vampRules": [
+        {
+          "vampType": "OMNIVAMP",
+          "sourceAttributeKey": "omnivamp_percent",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "defaultEfficiency": 1,
+          "targetMatcher": {
+            "all": [
+              "combatant/champion"
+            ]
+          },
+          "abilityMatcher": {
+            "any": [
+              "ability/basic_attack",
+              "ability/common"
+            ]
+          },
+          "damageMatcher": {
+            "all": [
+              "damage_trait/origin_direct"
+            ],
+            "any": [
+              "damage_trait/delivery_skill",
+              "damage_trait/delivery_basic_attack"
+            ]
+          }
+        },
+        {
+          "vampType": "LIFE_STEAL",
+          "sourceAttributeKey": "life_steal_percent",
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "defaultEfficiency": 1,
+          "targetMatcher": {
+            "all": [
+              "combatant/champion"
+            ]
+          },
+          "abilityMatcher": {
+            "all": [
+              "ability/basic_attack"
+            ]
+          },
+          "damageMatcher": {
+            "all": [
+              "damage_trait/origin_direct"
+            ],
+            "any": [
+              "damage_trait/delivery_basic_attack"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "runRequest": {
+    "sessionId": "sample",
+    "expectedRulesHash": "rules.vamp.v1",
+    "initialSnapshot": {
+      "schemaHash": "schema.vamp.v1",
+      "rulesHash": "rules.vamp.v1",
+      "timeMs": 0,
+      "combatants": [
+        {
+          "key": "source",
+          "attributes": {
+            "hp": {
+              "base": 100,
+              "current": 95,
+              "max": 100,
+              "resolved": 95
+            },
+            "life_steal_percent": {
+              "base": 0.1,
+              "current": 0.1,
+              "max": 0.1,
+              "resolved": 0.1
+            },
+            "omnivamp_percent": {
+              "base": 0.2,
+              "current": 0.2,
+              "max": 0.2,
+              "resolved": 0.2
+            },
+            "heal_shield_power_percent": {
+              "base": 9,
+              "current": 9,
+              "max": 9,
+              "resolved": 9
+            }
+          },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [
+            {
+              "providerRef": "champion",
+              "definitionRef": "vamp_sample",
+              "source": "source",
+              "owner": "source",
+              "stacks": 1,
+              "expireAt": null,
+              "state": {}
+            }
+          ],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        },
+        {
+          "key": "target",
+          "attributes": {
+            "hp": {
+              "base": 20,
+              "current": 20,
+              "max": 100,
+              "resolved": 20
+            },
+            "armor": {
+              "base": 100,
+              "current": 100,
+              "max": 100,
+              "resolved": 100
+            }
+          },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [],
+          "shields": [
+            {
+              "shieldRef": "sample_shield",
+              "source": "target",
+              "owner": "target",
+              "remaining": 20,
+              "priority": 0,
+              "expireAt": null,
+              "state": {}
+            }
+          ],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        }
+      ]
+    },
+    "driverPlan": {
+      "entries": [
+        {
+          "entryKey": "one-hit",
+          "abilityRef": "source.provider[champion].ability[attack]",
+          "source": "source",
+          "target": "target",
+          "firstAtMs": 0
+        }
+      ]
+    },
+    "stopPolicy": {
+      "durationMs": 100,
+      "stopOnTargetDeath": false,
+      "stopWhenNoEvents": false
+    },
+    "sampling": {
+      "sampleEveryMs": 100
+    }
+  },
+  "expectedResultKind": "done",
+  "expectedSummarySubset": {
+    "sourceFinalHp": 100,
+    "targetFinalHp": 0,
+    "sourceDamageDealt": 50,
+    "abilityCastCount": 1
+  },
+  "notes": "吸血专项样例：运行输入由样例明确声明；不是任意管理技能装配证明。100原始、50防御后、20护盾、20扣血、10过量；5+10吸血经1.2和0.6修正为10.8，实际5。"
+}
