@@ -24,8 +24,22 @@ type expireCleanupPayload struct {
 }
 
 func (s *genericRunState) nextProviderRef(definitionRef string) string {
-	s.nextProviderInstanceID++
-	return fmt.Sprintf("%s#%d", definitionRef, s.nextProviderInstanceID)
+	if s.usedProviderRefs == nil {
+		s.usedProviderRefs = map[string]bool{}
+		for _, c := range s.combatants {
+			for _, inst := range c.providers {
+				s.usedProviderRefs[inst.ProviderRef] = true
+			}
+		}
+	}
+	for {
+		s.nextProviderInstanceID++
+		ref := fmt.Sprintf("%s#%d", definitionRef, s.nextProviderInstanceID)
+		if !s.usedProviderRefs[ref] {
+			s.usedProviderRefs[ref] = true
+			return ref
+		}
+	}
 }
 
 func (s *genericRunState) findProviderDefinitionIndex(providerKey string) (uint16, bool) {
@@ -55,48 +69,46 @@ func (s *genericRunState) enqueueExpireCleanup(atMs int64, payload expireCleanup
 	_ = s.heap.Push(ev)
 }
 
-func (s *genericRunState) applyProviderInstance(targetKey, sourceKey, definitionRef string, evalCtx formula.GenericEvalContext) *model.EngineError {
+func (s *genericRunState) applyProviderInstance(targetKey, sourceKey, definitionRef string, expireAt int64, hasExpireAt bool, contributions []status.StatusContribution) *model.EngineError {
 	defIdx, ok := s.findProviderDefinitionIndex(definitionRef)
 	if !ok {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown provider definition: "+definitionRef, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
 	provider := s.compiled.Providers[defIdx]
-	providerRef := s.nextProviderRef(definitionRef)
-	stacks := 1
-	expireAt := int64(0)
-	if provider.Lifecycle != nil {
-		if provider.Lifecycle.HasDuration {
-			duration, err := s.compiled.Formulas.Eval(provider.Lifecycle.DurationProgram, evalCtx)
-			if err != nil {
-				return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+	if provider.Lifecycle != nil && provider.Lifecycle.AllowsSourceTargetReuse() {
+		c := s.combatants[targetKey]
+		for _, expired := range c.providers {
+			if expired.DefinitionRef == definitionRef && expired.Source == sourceKey && expired.Owner == targetKey && expired.Expired(s.nowMs) {
+				s.removeProviderInstance(targetKey, expired.ProviderRef, s.evalContextForCombatants(sourceKey, targetKey), model.EvidenceKindProviderExpire)
+				c = s.combatants[targetKey]
+				break
 			}
-			expireAt = s.nowMs + int64(duration)
+		}
+		if inst, idx, found := findSourceTargetProvider(c.providers, definitionRef, sourceKey, targetKey, s.nowMs); found {
+			return s.replaceProviderInstance(targetKey, idx, inst, expireAt, hasExpireAt, contributions, model.EvidenceKindProviderRefresh)
 		}
 	}
+	providerRef := s.nextProviderRef(definitionRef)
+	stacks := 1
+	if !hasExpireAt {
+		expireAt = 0
+	}
 	inst := status.ProviderInstance{
-		ProviderRef:     providerRef,
-		DefinitionRef:   definitionRef,
-		Source:          sourceKey,
-		Owner:           targetKey,
-		Stacks:          stacks,
-		ExpireAt:        expireAt,
-		State:           map[string]interface{}{},
-		DefinitionIndex: defIdx,
+		ProviderRef:         providerRef,
+		DefinitionRef:       definitionRef,
+		Source:              sourceKey,
+		Owner:               targetKey,
+		Stacks:              stacks,
+		ExpireAt:            expireAt,
+		State:               map[string]interface{}{},
+		DefinitionIndex:     defIdx,
+		StatusContributions: cloneStatusContributions(contributions),
 	}
 	c := s.combatants[targetKey]
 	c.providers = append(c.providers, inst)
 	s.combatants[targetKey] = c
 	mountProviderModifiersAcross(s.combatants, targetKey, inst, s.compiled)
-	c = s.combatants[targetKey]
-	c.attributes = s.resolveAttributesFor(targetKey, c.attributes, evalCtx, "")
-	s.combatants[targetKey] = c
-	// Opponent-mounted modifiers may need a re-resolve on the other combatant.
-	if opp := opponentCombatantKey(targetKey); opp != "" {
-		if oc, ok := s.combatants[opp]; ok {
-			oc.attributes = s.resolveAttributesFor(opp, oc.attributes, evalCtx, "")
-			s.combatants[opp] = oc
-		}
-	}
+	s.reResolveAfterProviderChange(targetKey, sourceKey)
 	if expireAt > 0 {
 		s.enqueueExpireCleanup(expireAt, expireCleanupPayload{
 			combatantKey: targetKey,
@@ -105,10 +117,34 @@ func (s *genericRunState) applyProviderInstance(targetKey, sourceKey, definition
 		})
 	}
 	s.scheduleInitialProviderTick(targetKey, providerRef, defIdx, expireAt, inst.Source)
+	s.recordProviderLifecycleEvidence(model.EvidenceKindProviderApply, inst)
+	s.bindProviderInstanceListeners(inst)
 	return nil
 }
 
-func (s *genericRunState) refreshProviderInstance(targetKey, providerRef string, evalCtx formula.GenericEvalContext) *model.EngineError {
+func (s *genericRunState) replaceProviderInstance(targetKey string, idx int, inst status.ProviderInstance, expireAt int64, hasExpireAt bool, contributions []status.StatusContribution, kind model.EvidenceKind) *model.EngineError {
+	if hasExpireAt {
+		inst.ExpireAt = expireAt
+		if expireAt > 0 {
+			s.enqueueExpireCleanup(expireAt, expireCleanupPayload{
+				combatantKey: targetKey,
+				providerRef:  inst.ProviderRef,
+				kind:         "provider",
+			})
+		}
+	}
+	if contributions != nil {
+		inst.StatusContributions = cloneStatusContributions(contributions)
+	}
+	c := s.combatants[targetKey]
+	c.providers[idx] = inst
+	s.combatants[targetKey] = c
+	s.reResolveAfterProviderChange(targetKey, inst.Source)
+	s.recordProviderLifecycleEvidence(kind, inst)
+	return nil
+}
+
+func (s *genericRunState) refreshProviderInstance(targetKey, providerRef string, expireAt int64, hasExpireAt bool, contributions []status.StatusContribution) *model.EngineError {
 	c, ok := s.combatants[targetKey]
 	if !ok {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown combatant: "+targetKey, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
@@ -118,7 +154,10 @@ func (s *genericRunState) refreshProviderInstance(targetKey, providerRef string,
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown providerRef: "+providerRef, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
 	provider := s.compiled.Providers[inst.DefinitionIndex]
-	policy := "replace"
+	if provider.Lifecycle != nil && provider.Lifecycle.AllowsSourceTargetReuse() {
+		return s.replaceProviderInstance(targetKey, idx, inst, expireAt, hasExpireAt, contributions, model.EvidenceKindProviderRefresh)
+	}
+	policy := model.RefreshPolicyReplace
 	maxStacks := 1
 	if provider.Lifecycle != nil {
 		if provider.Lifecycle.RefreshPolicy != "" {
@@ -130,61 +169,73 @@ func (s *genericRunState) refreshProviderInstance(targetKey, providerRef string,
 	}
 	switch policy {
 	case "extend":
-		if provider.Lifecycle != nil && provider.Lifecycle.HasDuration {
-			duration, err := s.compiled.Formulas.Eval(provider.Lifecycle.DurationProgram, evalCtx)
-			if err != nil {
-				return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
-			}
-			newExpire := s.nowMs + int64(duration)
-			if newExpire > inst.ExpireAt {
-				inst.ExpireAt = newExpire
-				s.enqueueExpireCleanup(newExpire, expireCleanupPayload{
-					combatantKey: targetKey,
-					providerRef:  providerRef,
-					kind:         "provider",
-				})
-			}
+		if hasExpireAt && expireAt > inst.ExpireAt {
+			inst.ExpireAt = expireAt
+			s.enqueueExpireCleanup(expireAt, expireCleanupPayload{
+				combatantKey: targetKey,
+				providerRef:  providerRef,
+				kind:         "provider",
+			})
 		}
 	case "add_stack":
 		if inst.Stacks < maxStacks {
 			inst.Stacks++
 		}
 	default: // replace
-		if provider.Lifecycle != nil && provider.Lifecycle.HasDuration {
-			duration, err := s.compiled.Formulas.Eval(provider.Lifecycle.DurationProgram, evalCtx)
-			if err != nil {
-				return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+		if hasExpireAt {
+			inst.ExpireAt = expireAt
+			if expireAt > 0 {
+				s.enqueueExpireCleanup(inst.ExpireAt, expireCleanupPayload{
+					combatantKey: targetKey,
+					providerRef:  providerRef,
+					kind:         "provider",
+				})
 			}
-			inst.ExpireAt = s.nowMs + int64(duration)
-			s.enqueueExpireCleanup(inst.ExpireAt, expireCleanupPayload{
-				combatantKey: targetKey,
-				providerRef:  providerRef,
-				kind:         "provider",
-			})
 		}
 		if inst.Stacks < maxStacks {
 			inst.Stacks = maxStacks
 		}
 	}
+	if contributions != nil {
+		inst.StatusContributions = cloneStatusContributions(contributions)
+	}
 	c.providers[idx] = inst
 	s.combatants[targetKey] = c
-	c.attributes = s.resolveAttributesFor(targetKey, c.attributes, evalCtx, "")
-	s.combatants[targetKey] = c
+	s.reResolveAfterProviderChange(targetKey, inst.Source)
+	s.recordProviderLifecycleEvidence(model.EvidenceKindProviderRefresh, inst)
 	return nil
 }
 
-func (s *genericRunState) expireProviderInstance(targetKey, providerRef string, evalCtx formula.GenericEvalContext) {
-	s.removeProviderInstance(targetKey, providerRef, evalCtx)
+func (s *genericRunState) reResolveAfterProviderChange(targetKey, sourceKey string) {
+	evalCtx := s.evalContextForCombatants(sourceKey, targetKey)
+	if sourceKey == "" {
+		evalCtx = s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
+	}
+	c := s.combatants[targetKey]
+	c.attributes = s.resolveAttributesFor(targetKey, c.attributes, evalCtx, "")
+	s.combatants[targetKey] = c
+	if opp := opponentCombatantKey(targetKey); opp != "" {
+		if oc, ok := s.combatants[opp]; ok {
+			oc.attributes = s.resolveAttributesFor(opp, oc.attributes, evalCtx, "")
+			s.combatants[opp] = oc
+		}
+	}
 }
 
-func (s *genericRunState) removeProviderInstance(targetKey, providerRef string, evalCtx formula.GenericEvalContext) {
+func (s *genericRunState) expireProviderInstance(targetKey, providerRef string, evalCtx formula.GenericEvalContext) {
+	s.removeProviderInstance(targetKey, providerRef, evalCtx, model.EvidenceKindProviderRemove)
+}
+
+func (s *genericRunState) removeProviderInstance(targetKey, providerRef string, evalCtx formula.GenericEvalContext, kind model.EvidenceKind) {
 	c, ok := s.combatants[targetKey]
 	if !ok {
 		return
 	}
-	if _, _, ok := status.FindByRef(c.providers, providerRef); !ok {
+	inst, _, ok := status.FindByRef(c.providers, providerRef)
+	if !ok {
 		return
 	}
+	s.unbindProviderInstanceListeners(targetKey, providerRef)
 	c.providers = status.RemoveByRef(c.providers, providerRef)
 	delete(c.providerState, providerRef)
 	s.combatants[targetKey] = c
@@ -197,6 +248,9 @@ func (s *genericRunState) removeProviderInstance(targetKey, providerRef string, 
 			oc.attributes = s.resolveAttributesFor(opp, oc.attributes, evalCtx, "")
 			s.combatants[opp] = oc
 		}
+	}
+	if kind != "" {
+		s.recordProviderLifecycleEvidence(kind, inst)
 	}
 }
 
@@ -217,7 +271,7 @@ func (s *genericRunState) handleExpireCleanup(ev scheduler.GenericEvent) {
 				}
 			}
 			evalCtx := s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
-			s.removeProviderInstance(payload.combatantKey, payload.providerRef, evalCtx)
+			s.removeProviderInstance(payload.combatantKey, payload.providerRef, evalCtx, model.EvidenceKindProviderExpire)
 		}
 	case "provider_target_state":
 		s.applyProviderTargetStateExpiry(payload)
@@ -234,9 +288,11 @@ func (s *genericRunState) sweepExpiredInstances() {
 		changed := false
 		active := make([]status.ProviderInstance, 0, len(c.providers))
 		expiredRefs := make([]string, 0)
+		expiredInsts := make([]status.ProviderInstance, 0)
 		for _, inst := range c.providers {
 			if inst.Expired(s.nowMs) {
 				expiredRefs = append(expiredRefs, inst.ProviderRef)
+				expiredInsts = append(expiredInsts, inst)
 				delete(c.providerState, inst.ProviderRef)
 				changed = true
 				continue
@@ -257,6 +313,9 @@ func (s *genericRunState) sweepExpiredInstances() {
 					oc.attributes = s.resolveAttributesFor(opp, oc.attributes, evalCtx, "")
 					s.combatants[opp] = oc
 				}
+			}
+			for _, inst := range expiredInsts {
+				s.recordProviderLifecycleEvidence(model.EvidenceKindProviderExpire, inst)
 			}
 			continue
 		}
@@ -483,18 +542,55 @@ func (s *genericRunState) refreshProviderAwareAttributes(sourceKey, targetKey st
 	}
 }
 
-func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantKey string, compiled compilebundle.CompiledSession) ([]status.ProviderInstance, pipeline.AttributeResolver) {
+func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantKey string, compiled compilebundle.CompiledSession, combatantKeys map[string]bool, path string, schemaHash, rulesHash, sessionID string) ([]status.ProviderInstance, pipeline.AttributeResolver, *model.EngineError) {
 	// Resolver stays empty here; cross-combatant mounts happen in remountAllProviderModifiers.
 	resolver := pipeline.AttributeResolver{}
 	if len(snapshot) == 0 {
-		return nil, resolver
+		return nil, resolver, nil
 	}
 	instances := make([]status.ProviderInstance, 0, len(snapshot))
-	for _, snap := range snapshot {
+	seenRefs := map[string]bool{}
+	seenSourceTargets := map[string]bool{}
+	for i, snap := range snapshot {
+		p := path + ".providers[" + itoa(uint32(i)) + "]"
 		defIdx, ok := findProviderDefIndex(compiled, snap.DefinitionRef)
 		if !ok {
+			if len(snap.StatusContributions) > 0 {
+				return nil, resolver, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown provider definition with statusContributions", p+".definitionRef", snap.DefinitionRef, schemaHash, rulesHash, sessionID)
+			}
 			continue
 		}
+		provider := compiled.Providers[defIdx]
+		strictIdentity := provider.Lifecycle != nil && provider.Lifecycle.AllowsSourceTargetReuse()
+		if strictIdentity {
+			invalid := func(field, message string) *model.EngineError {
+				return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, message, p+"."+field, snap.ProviderRef, schemaHash, rulesHash, sessionID)
+			}
+			if snap.Source == "" || !combatantKeys[snap.Source] {
+				return nil, resolver, invalid("source", "source_target snapshot requires the actual source combatant")
+			}
+			if snap.Owner != combatantKey {
+				return nil, resolver, invalid("owner", "source_target snapshot owner must equal its recipient combatant")
+			}
+			if snap.ProviderRef == "" {
+				return nil, resolver, invalid("providerRef", "source_target snapshot requires an explicit instance reference")
+			}
+			if snap.Stacks != 1 {
+				return nil, resolver, invalid("stacks", "source_target snapshot must have exactly one stack")
+			}
+			if snap.ExpireAt == nil || *snap.ExpireAt <= 0 {
+				return nil, resolver, invalid("expireAt", "source_target snapshot requires a positive expiry timestamp")
+			}
+			identity := snap.DefinitionRef + "\x00" + snap.Source + "\x00" + snap.Owner
+			if seenSourceTargets[identity] {
+				return nil, resolver, invalid("providerRef", "duplicate source_target snapshot instance")
+			}
+			seenSourceTargets[identity] = true
+		}
+		if priorStrict, duplicate := seenRefs[snap.ProviderRef]; duplicate && (priorStrict || strictIdentity) {
+			return nil, resolver, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "duplicate providerRef involving a source_target instance", p+".providerRef", snap.ProviderRef, schemaHash, rulesHash, sessionID)
+		}
+		seenRefs[snap.ProviderRef] = strictIdentity
 		owner := snap.Owner
 		if owner == "" {
 			owner = combatantKey
@@ -507,27 +603,34 @@ func materializeProviders(snapshot []model.CombatantProviderSnapshot, combatantK
 		if snap.ExpireAt != nil && *snap.ExpireAt > 0 {
 			expireAt = *snap.ExpireAt
 		}
+		if len(provider.StatusContributions) > 0 && expireAt <= 0 {
+			return nil, resolver, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "status contribution duration must be positive", p+".expireAt", snap.ProviderRef, schemaHash, rulesHash, sessionID)
+		}
 		state := snap.State
 		if state == nil {
 			state = map[string]interface{}{}
 		}
+		contribs, err := restoreStatusContributions(snap, provider, p, schemaHash, rulesHash, sessionID)
+		if err != nil {
+			return nil, resolver, err
+		}
 		inst := status.ProviderInstance{
-			ProviderRef:     snap.ProviderRef,
-			DefinitionRef:   snap.DefinitionRef,
-			Source:          source,
-			Owner:           owner,
-			Stacks:          snap.Stacks,
-			ExpireAt:        expireAt,
-			State:           state,
-			DefinitionIndex: defIdx,
+			ProviderRef:         snap.ProviderRef,
+			DefinitionRef:       snap.DefinitionRef,
+			Source:              source,
+			Owner:               owner,
+			Stacks:              snap.Stacks,
+			ExpireAt:            expireAt,
+			State:               state,
+			DefinitionIndex:     defIdx,
+			StatusContributions: contribs,
 		}
 		if inst.Stacks <= 0 {
 			inst.Stacks = 1
 		}
 		instances = append(instances, inst)
 	}
-	_ = compiled
-	return instances, resolver
+	return instances, resolver, nil
 }
 
 // remountAllProviderModifiers clears then remounts every provider modifier onto the correct
@@ -610,13 +713,14 @@ func providersToSnapshot(instances []status.ProviderInstance) []model.CombatantP
 			source = inst.Owner
 		}
 		snap := model.CombatantProviderSnapshot{
-			ProviderRef:   inst.ProviderRef,
-			DefinitionRef: inst.DefinitionRef,
-			Source:        source,
-			Owner:         inst.Owner,
-			Stacks:        inst.Stacks,
-			ExpireAt:      expireAtPtr(inst.ExpireAt),
-			State:         state,
+			ProviderRef:         inst.ProviderRef,
+			DefinitionRef:       inst.DefinitionRef,
+			Source:              source,
+			Owner:               inst.Owner,
+			Stacks:              inst.Stacks,
+			ExpireAt:            expireAtPtr(inst.ExpireAt),
+			State:               state,
+			StatusContributions: contributionsToSnapshot(inst.StatusContributions),
 		}
 		out = append(out, snap)
 	}

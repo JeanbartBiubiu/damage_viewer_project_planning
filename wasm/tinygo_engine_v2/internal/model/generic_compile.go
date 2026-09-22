@@ -69,16 +69,17 @@ type CombatantProviderMount struct {
 
 // ProviderDefinition 是可复用 capability provider 定义。
 type ProviderDefinition struct {
-	ProviderKey        string                 `json:"providerKey"`
-	Kind               string                 `json:"kind"`
-	StableID           string                 `json:"stableId"`
-	Types              []string               `json:"types,omitempty"`
-	Tags               []string               `json:"tags,omitempty"`
-	Abilities          []AbilityDefinition    `json:"abilities,omitempty"`
-	Modifiers          []ModifierDefinition   `json:"modifiers,omitempty"`
-	Listeners          []ListenerDefinition   `json:"listeners,omitempty"`
-	Lifecycle          *ProviderLifecycle     `json:"lifecycle,omitempty"`
-	InitialStateSchema map[string]interface{} `json:"initialStateSchema,omitempty"`
+	ProviderKey         string                         `json:"providerKey"`
+	Kind                string                         `json:"kind"`
+	StableID            string                         `json:"stableId"`
+	Types               []string                       `json:"types,omitempty"`
+	Tags                []string                       `json:"tags,omitempty"`
+	Abilities           []AbilityDefinition            `json:"abilities,omitempty"`
+	Modifiers           []ModifierDefinition           `json:"modifiers,omitempty"`
+	Listeners           []ListenerDefinition           `json:"listeners,omitempty"`
+	Lifecycle           *ProviderLifecycle             `json:"lifecycle,omitempty"`
+	StatusContributions []StatusContributionDefinition `json:"statusContributions,omitempty"`
+	InitialStateSchema  map[string]interface{}         `json:"initialStateSchema,omitempty"`
 }
 
 // ProviderStateFieldSchema 是 initialStateSchema 的结构化字段形态（Gate H1）。
@@ -93,12 +94,28 @@ type ProviderStateFieldSchema struct {
 // ProviderStateRefreshOnWrite 是 provider-scope timed state 的唯一非空 refreshPolicy。
 const ProviderStateRefreshOnWrite = "refresh_on_write"
 
+// Provider 实例范围与普通减速种类。
+const (
+	InstanceScopeSourceTarget = "source_target"
+	StatusKindMovementSlow    = "movement_slow"
+	RefreshPolicyReplace      = "replace"
+)
+
 // ProviderLifecycle 描述 dynamic provider 生命周期。
 type ProviderLifecycle struct {
 	DurationMs     *GenericFormulaExpr `json:"durationMs,omitempty"`
 	MaxStacks      int                 `json:"maxStacks,omitempty"`
 	RefreshPolicy  string              `json:"refreshPolicy,omitempty"`
 	TickIntervalMs int64               `json:"tickIntervalMs,omitempty"`
+	InstanceScope  string              `json:"instanceScope,omitempty"`
+}
+
+// StatusContributionDefinition 是供值器在 apply/refresh 时快照的普通减速能力。
+type StatusContributionDefinition struct {
+	ResultRef  string             `json:"resultRef"`
+	StatusKey  string             `json:"statusKey"`
+	StatusKind string             `json:"statusKind"`
+	Strength   GenericFormulaExpr `json:"strength"`
 }
 
 // CastOrigin 枚举：能力施放来源（可选；非空时必须是下列之一）。
@@ -197,24 +214,29 @@ type OperationDefinition struct {
 	RepeatDelayMs   int     `json:"repeatDelayMs,omitempty"`
 	TriggerStateKey string  `json:"triggerStateKey,omitempty"`
 	Threshold       float64 `json:"threshold,omitempty"`
+	// SkillHit 仅 resolve_skill_hit 使用；无自由 payload。
+	SkillHit *SkillHitDefinition `json:"skillHit,omitempty"`
+	// ProviderRefFromEvent 仅 expire_provider 在 event/spell_shield_blocked 上定位冻结实例。
+	ProviderRefFromEvent bool `json:"providerRefFromEvent,omitempty"`
 }
 
 // ModifierDefinition 是 provider 级 modifier。
 type ModifierDefinition struct {
-	ModifierKey   string              `json:"modifierKey"`
-	Kind          string              `json:"kind"`
-	Target        string              `json:"target,omitempty"`
-	Command       string              `json:"command,omitempty"`
-	Channel       string              `json:"channel,omitempty"`
-	Bucket        string              `json:"bucket,omitempty"`
-	Stage         string              `json:"stage,omitempty"`
-	Priority      int                 `json:"priority,omitempty"`
-	HealDirection string              `json:"healDirection,omitempty"`
-	HealCategory  string              `json:"healCategory,omitempty"`
-	HealGroupKey  string              `json:"healGroupKey,omitempty"`
-	ValuePolicy   string              `json:"valuePolicy"`
-	Value         GenericFormulaExpr  `json:"value"`
-	Condition     *GenericFormulaExpr `json:"condition,omitempty"`
+	ModifierKey              string              `json:"modifierKey"`
+	Kind                     string              `json:"kind"`
+	Target                   string              `json:"target,omitempty"`
+	Command                  string              `json:"command,omitempty"`
+	Channel                  string              `json:"channel,omitempty"`
+	Bucket                   string              `json:"bucket,omitempty"`
+	Stage                    string              `json:"stage,omitempty"`
+	Priority                 int                 `json:"priority,omitempty"`
+	HealDirection            string              `json:"healDirection,omitempty"`
+	HealCategory             string              `json:"healCategory,omitempty"`
+	HealGroupKey             string              `json:"healGroupKey,omitempty"`
+	HealGroupCalculationMode string              `json:"healGroupCalculationMode,omitempty"`
+	ValuePolicy              string              `json:"valuePolicy"`
+	Value                    GenericFormulaExpr  `json:"value"`
+	Condition                *GenericFormulaExpr `json:"condition,omitempty"`
 }
 
 // ListenerDefinition 是 provider 级 listener。

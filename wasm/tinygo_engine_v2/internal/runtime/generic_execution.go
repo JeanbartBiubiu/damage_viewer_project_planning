@@ -27,6 +27,10 @@ type stagedProviderMutation struct {
 	shieldAmount   float64
 	shieldRef      string
 	shieldPriority int16
+	expireAt       int64
+	hasExpireAt    bool
+	strict         bool
+	contributions  []status.StatusContribution
 }
 
 type stagedCombatant struct {
@@ -62,6 +66,8 @@ type eventFormulaSnapshot struct {
 	damageTypeKey        string
 	castInstanceID       uint64
 	castOrigin           string
+	hasSkillHit          bool
+	skillHit             *frozenSkillHitContext
 }
 
 type executionFrame struct {
@@ -108,6 +114,11 @@ type executionFrame struct {
 	// consumedFirstPerCast tracks first_per_cast pipeline modifiers already applied in this cast/frame.
 	// Key: ownerCombatantKey + "\x00" + providerRef + "\x00" + modifierKey.
 	consumedFirstPerCast map[string]bool
+
+	driverEntryKey       string
+	skipBlockedWrites    bool
+	skillHitCandidateKey string
+	skillHitOccurrenceID uint64
 }
 
 // copyableDamageFrozen 冻结一次 CopyableOnHit damage 的 replay 输入（不做公式重算 / 不二次 crit 结算）。
@@ -187,6 +198,7 @@ type emittedEvent struct {
 	snapshot       eventFormulaSnapshot
 	castInstanceID uint64
 	castOrigin     string
+	skillHit       *frozenSkillHitContext
 }
 
 func (s *genericRunState) newExecutionFrame(sourceKey, targetKey, abilityRef string) *executionFrame {
@@ -234,7 +246,7 @@ func (f *executionFrame) captureEmitSnapshot(eventType, eventSourceKey, eventTar
 	tgt := f.stageFor(eventTargetKey)
 	entrySrcAttrs, entrySrcRes := f.entryMapsForKey(eventSourceKey)
 	entryTgtAttrs, entryTgtRes := f.entryMapsForKey(eventTargetKey)
-	return eventFormulaSnapshot{
+	snap := eventFormulaSnapshot{
 		eventType:            eventType,
 		eventSourceKey:       eventSourceKey,
 		eventTargetKey:       eventTargetKey,
@@ -249,6 +261,11 @@ func (f *executionFrame) captureEmitSnapshot(eventType, eventSourceKey, eventTar
 		castInstanceID:       f.castInstanceID,
 		castOrigin:           f.castOrigin,
 	}
+	if f.eventCtx != nil && f.eventCtx.hasSkillHit {
+		snap.hasSkillHit = true
+		snap.skillHit = f.eventCtx.skillHit
+	}
+	return snap
 }
 
 func cloneEventSnapshot(src *eventFormulaSnapshot) *eventFormulaSnapshot {
@@ -273,6 +290,8 @@ func cloneEventSnapshot(src *eventFormulaSnapshot) *eventFormulaSnapshot {
 		damageTypeKey:        src.damageTypeKey,
 		castInstanceID:       src.castInstanceID,
 		castOrigin:           src.castOrigin,
+		hasSkillHit:          src.hasSkillHit,
+		skillHit:             src.skillHit,
 	}
 	return &cp
 }
@@ -313,6 +332,7 @@ func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) form
 		SourceResources: f.stageFor(f.sourceKey).resources,
 		TargetResources: f.stageFor(f.targetKey).resources,
 		AbilityParams:   ability.Params,
+		StrictReads:     f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit),
 	}
 	if f.ownerProviderRef != "" {
 		ctx.HasProviderContext = true
@@ -342,6 +362,15 @@ func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) form
 		if f.eventCtx.hasDamageSnapshot {
 			ctx.HasEventDamageSnapshot = true
 			ctx.EventDamage = f.eventCtx.damageSnapshot
+		}
+		if f.eventCtx.hasSkillHit && f.eventCtx.skillHit != nil {
+			ctx.HasEventSkillHit = true
+			ctx.HasSkillHitBlocked = true
+			ctx.SkillHitBlocked = f.eventCtx.skillHit.blocked
+			if f.eventCtx.skillHit.hasFirstContact {
+				ctx.HasSkillHitFirstContact = true
+				ctx.SkillHitFirstContact = f.eventCtx.skillHit.firstContact
+			}
 		}
 	}
 	return ctx
@@ -420,7 +449,17 @@ func (f *executionFrame) resolveAttributesFor(combatantKey string, attrs map[str
 func (f *executionFrame) evalAmount(programID formula.GenericProgramID, ability compilebundle.CompiledAbility) (float64, *model.EngineError) {
 	value, err := f.run.compiled.Formulas.Eval(programID, f.evalContext(ability))
 	if err != nil {
-		return 0, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		msg := err.Error()
+		out := engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, msg, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		if f.skillHitOccurrenceID != 0 && int(programID) < len(f.run.compiled.Formulas.Programs) {
+			out.Path = f.run.compiled.Formulas.Programs[programID].Key
+			out.Ref = f.abilityRef
+		}
+		if strings.HasPrefix(msg, "event.skill_hit.") {
+			out.Path = msg
+			out.Ref = f.abilityRef
+		}
+		return 0, out
 	}
 	if math.IsNaN(value) || math.IsInf(value, 0) {
 		return 0, engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite formula result", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -471,6 +510,21 @@ func (f *executionFrame) bumpCommandBudget() *model.EngineError {
 func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility, op compilebundle.CompiledOperation) *model.EngineError {
 	if err := f.bumpCommandBudget(); err != nil {
 		return err
+	}
+
+	if f.skipBlockedWrites && isSkillHitBlockedWrite(op.Operation) {
+		f.run.recordEvidence(model.EvidenceItem{
+			TimeMs: f.run.nowMs,
+			Kind:   model.EvidenceKindSkillHitSkip,
+			Ref:    f.skillHitCandidateKey,
+			Path:   f.abilityRef,
+			Data: map[string]interface{}{
+				"occurrenceId": float64(f.skillHitOccurrenceID),
+				"candidateKey": f.skillHitCandidateKey,
+				"operation":    op.Operation,
+			},
+		})
+		return nil
 	}
 
 	// repeat：允许空 target；仅登记 deferred request，不解析 combatant target。
@@ -624,12 +678,19 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 		if op.ProviderDefinitionRef == "" {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "apply_provider requires providerDefinitionRef", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
+		prepared, err := f.prepareProviderMutation(op.ProviderDefinitionRef, "", f.sourceKey, targetKey, ability)
+		if err != nil {
+			return err
+		}
 		sc := f.stageFor(targetKey)
 		sc.providerOps = append(sc.providerOps, stagedProviderMutation{
 			kind:          "apply",
 			definitionRef: op.ProviderDefinitionRef,
 			targetKey:     targetKey,
 			sourceKey:     f.sourceKey,
+			expireAt:      prepared.expireAt,
+			hasExpireAt:   prepared.hasExpireAt,
+			contributions: cloneStatusContributions(prepared.contributions),
 		})
 		sc.dirty = true
 		return nil
@@ -637,16 +698,26 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 		if op.ProviderRef == "" {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "refresh_provider requires providerRef", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
+		prepared, err := f.prepareProviderMutation("", op.ProviderRef, f.sourceKey, targetKey, ability)
+		if err != nil {
+			return err
+		}
 		sc := f.stageFor(targetKey)
 		sc.providerOps = append(sc.providerOps, stagedProviderMutation{
-			kind:        "refresh",
-			providerRef: op.ProviderRef,
-			targetKey:   targetKey,
-			sourceKey:   f.sourceKey,
+			kind:          "refresh",
+			providerRef:   op.ProviderRef,
+			targetKey:     targetKey,
+			sourceKey:     f.sourceKey,
+			expireAt:      prepared.expireAt,
+			hasExpireAt:   prepared.hasExpireAt,
+			contributions: cloneStatusContributions(prepared.contributions),
 		})
 		sc.dirty = true
 		return nil
 	case "expire_provider":
+		if op.ProviderRefFromEvent {
+			return f.expireProviderFromEvent(op)
+		}
 		if op.ProviderRef == "" {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "expire_provider requires providerRef", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
@@ -663,6 +734,9 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 		eventType := op.EventType
 		if eventType == "" {
 			eventType = op.Ref
+		}
+		if eventType == model.EventTypeSkillHit || eventType == model.EventTypeSpellShieldBlocked {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "emit_event cannot forge engine-produced skill hit events", "eventType", eventType, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
 		ref := op.Ref
 		if ref == "" {
@@ -705,8 +779,19 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 		return f.applyStateDurationChange(op, ability)
 	case model.OperationKindExecuteThreshold:
 		return f.applyExecuteThreshold(op, targetKey, ability)
+	case model.OperationKindResolveSkillHit:
+		return f.resolveSkillHit(op, ability)
 	default:
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "unknown operation: "+op.Operation, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+}
+
+func isSkillHitBlockedWrite(op string) bool {
+	switch op {
+	case "damage", "apply_provider", "refresh_provider", "attribute_change", "resource_change", "cooldown_change", "heal", "shield":
+		return true
+	default:
+		return false
 	}
 }
 
@@ -1767,18 +1852,26 @@ func (f *executionFrame) commit() {
 		for _, mut := range staged.providerOps {
 			switch mut.kind {
 			case "apply":
-				if err := f.run.applyProviderInstance(mut.targetKey, mut.sourceKey, mut.definitionRef, evalCtx); err != nil {
+				if err := f.run.applyProviderInstance(mut.targetKey, mut.sourceKey, mut.definitionRef, mut.expireAt, mut.hasExpireAt, mut.contributions); err != nil {
 					f.fatal = true
 					f.fatalErr = err
 					return
 				}
 			case "refresh":
-				if err := f.run.refreshProviderInstance(mut.targetKey, mut.providerRef, evalCtx); err != nil {
+				if err := f.run.refreshProviderInstance(mut.targetKey, mut.providerRef, mut.expireAt, mut.hasExpireAt, mut.contributions); err != nil {
 					f.fatal = true
 					f.fatalErr = err
 					return
 				}
 			case "expire":
+				if mut.strict {
+					if err := f.run.removeProviderInstanceStrict(mut.targetKey, mut.providerRef, mut.definitionRef, evalCtx); err != nil {
+						f.fatal = true
+						f.fatalErr = err
+						return
+					}
+					continue
+				}
 				f.run.expireProviderInstance(mut.targetKey, mut.providerRef, evalCtx)
 			}
 		}
@@ -1828,7 +1921,7 @@ func (s *genericRunState) executeAbilityCast(entry model.DriverEntry) *model.Eng
 	if !ok {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrOperationTargetMissing, "target unavailable", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
-	return s.castAbilityAt(sourceKey, targetKey, entry.AbilityRef, 0, nil, nil)
+	return s.castAbilityAt(sourceKey, targetKey, entry.AbilityRef, 0, nil, nil, entry.EntryKey)
 }
 
 // castAbilityAt 在独立 execution frame 中施放 ability（driver cast 与 listener child ability 共用）。
@@ -1838,7 +1931,7 @@ func (s *genericRunState) executeAbilityCast(entry model.DriverEntry) *model.Eng
 // Cast-instance 规则：
 //   - 顶层 driver / TickSpec / Listener AbilityRef 完整 child ability：总是 mint 新 ID，使用本 ability 的 CastOrigin。
 //   - 同 frame 多 op / delayed 继承 frame 上的 ID+origin（本函数内一次 mint）。
-func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string, chainDepth int, eventCtx *eventFormulaSnapshot, collector *eventCopyableCollector) *model.EngineError {
+func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string, chainDepth int, eventCtx *eventFormulaSnapshot, collector *eventCopyableCollector, driverEntryKey string) *model.EngineError {
 	resolvedRef := normalizeAbilityRef(abilityRef, sourceKey, targetKey)
 	ref, ok := s.compiled.AbilityRefIndex[resolvedRef]
 	if !ok {
@@ -1859,6 +1952,7 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	frame.chainDepth = chainDepth
 	frame.eventCtx = cloneEventSnapshot(eventCtx)
 	frame.copyableCollector = collector
+	frame.driverEntryKey = driverEntryKey
 	if int(ref.CombatantIndex) < len(s.compiled.Combatants) {
 		frame.ownerCombatantKey = s.compiled.Combatants[ref.CombatantIndex].Key
 	}
@@ -2189,6 +2283,12 @@ func (f *executionFrame) dispatchPendingEvents() *model.EngineError {
 	events := append([]emittedEvent(nil), f.pendingEvents...)
 	f.pendingEvents = nil
 	for _, ev := range events {
+		if ev.eventType == model.EventTypeSkillHit && ev.skillHit != nil {
+			if err := f.run.dispatchSkillHitEvent(ev, f.chainDepth+1); err != nil {
+				return err
+			}
+			continue
+		}
 		if err := f.run.dispatchListeners(ev, f.chainDepth+1); err != nil {
 			return err
 		}
@@ -2202,7 +2302,15 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 	}
 	collector := &eventCopyableCollector{}
 	baseEventTypes := s.eventTypeSet(ev.types)
-	for listenerIndex, listener := range s.compiled.Listeners {
+	listeners := append(append([]compilebundle.CompiledListener{}, s.compiled.Listeners...), s.runtimeListeners...)
+	for listenerIndex, listener := range listeners {
+		if !s.listenerStillLive(listener) {
+			continue
+		}
+		if ev.eventType == model.EventTypeSpellShieldBlocked && ev.skillHit != nil && listener.OwnerProviderRef != "" &&
+			(listener.OwnerCombatantKey != ev.skillHit.shieldOwner || listener.OwnerProviderRef != ev.skillHit.shieldProviderRef) {
+			continue
+		}
 		eventTypes := baseEventTypes
 		if listener.OwnerCombatantKey != "" {
 			eventTypes = s.augmentOwnerRelativeEventTypes(baseEventTypes, ev.sourceKey, listener.OwnerCombatantKey)
@@ -2248,7 +2356,7 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 				triggered = true
 			}
 			if hasAbilityRef {
-				if err := s.castAbilityAt(sourceKey, targetKey, listener.AbilityRef, chainDepth, eventCtx, collector); err != nil {
+				if err := s.castAbilityAt(sourceKey, targetKey, listener.AbilityRef, chainDepth, eventCtx, collector, ""); err != nil {
 					return err
 				}
 				triggered = true

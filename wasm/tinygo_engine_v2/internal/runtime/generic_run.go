@@ -95,6 +95,7 @@ type genericRunState struct {
 	expireCleanupPayloads  []expireCleanupPayload
 	anchoredTickPayloads   []anchoredTickPayload
 	nextProviderInstanceID uint64
+	usedProviderRefs       map[string]bool
 
 	// Cast-instance identity (Focused Will / per-cast throttle). Monotonic from 1; discarded after run.
 	nextCastInstanceID            uint64
@@ -106,6 +107,13 @@ type genericRunState struct {
 	// Delayed repeat continuations (run-local; discarded with the run).
 	continuations      map[uint64]*triggeredContinuationPayload
 	nextContinuationID uint64
+
+	skillUses                map[string]*skillUseRuntime
+	skillHitFacts            map[string]model.SkillHitFact
+	skillHitGroups           map[string]*skillHitGroup
+	skillHitLedger           map[string]*frozenSkillHitContext
+	skillHitOccurrenceCount  uint64
+	runtimeListeners         []compilebundle.CompiledListener
 }
 
 // RunGeneric 执行单次 generic deterministic run，返回 DoneResult。
@@ -165,6 +173,17 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	}
 	validateRuntimeOptions(req.RuntimeOptions)
 
+	combatants, err := materializeCombatants(req.InitialSnapshot, compiled, req.SessionID)
+	if err != nil {
+		return nil, err
+	}
+	usedProviderRefs := map[string]bool{}
+	for _, c := range combatants {
+		for _, inst := range c.providers {
+			usedProviderRefs[inst.ProviderRef] = true
+		}
+	}
+
 	state := &genericRunState{
 		compiled:                   compiled,
 		req:                        req,
@@ -172,7 +191,8 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 		startMs:                    req.InitialSnapshot.TimeMs,
 		durationMs:                 req.StopPolicy.DurationMs,
 		conditionRecheckIntervalMs: recheck,
-		combatants:                 materializeCombatants(req.InitialSnapshot, compiled),
+		combatants:                 combatants,
+		usedProviderRefs:           usedProviderRefs,
 		heap:                       scheduler.NewGenericHeap(64),
 		budget:                     budget,
 		sampling:                   sampling,
@@ -189,6 +209,9 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	state.seedExpireCleanups()
 	state.seedProviderTicks()
 	if err := state.compileDriverConditions(); err != nil {
+		return nil, err
+	}
+	if err := state.initSkillHitState(); err != nil {
 		return nil, err
 	}
 	return state, nil
@@ -261,9 +284,13 @@ func normalizeConditionRecheckInterval(raw int64) int64 {
 	return raw
 }
 
-func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.CompiledSession) map[string]combatantRuntime {
+func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.CompiledSession, sessionID string) (map[string]combatantRuntime, *model.EngineError) {
 	out := make(map[string]combatantRuntime, len(snapshot.Combatants))
+	combatantKeys := make(map[string]bool, len(snapshot.Combatants))
 	for _, c := range snapshot.Combatants {
+		combatantKeys[c.Key] = true
+	}
+	for i, c := range snapshot.Combatants {
 		attrs := c.Attributes
 		if attrs == nil {
 			attrs = map[string]model.AttributeSlotDef{}
@@ -272,7 +299,11 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 		if resources == nil {
 			resources = map[string]model.ResourceSlotDef{}
 		}
-		providers, resolver := materializeProviders(c.Providers, c.Key, compiled)
+		path := "initialSnapshot.combatants[" + itoa(uint32(i)) + "]"
+		providers, resolver, err := materializeProviders(c.Providers, c.Key, compiled, combatantKeys, path, compiled.SchemaHash, compiled.RulesHash, sessionID)
+		if err != nil {
+			return nil, err
+		}
 		shields := materializeShields(c.Shields, c.Key)
 		out[c.Key] = combatantRuntime{
 			key:           c.Key,
@@ -357,7 +388,7 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 		)
 		out[key] = c
 	}
-	return out
+	return out, nil
 }
 
 func mountRuleModifiers(resolver *pipeline.AttributeResolver, damageResolver *pipeline.DamageModifierResolver, combatantKey string, compiled compilebundle.CompiledSession) {
@@ -430,6 +461,7 @@ func mountRulePipelineModifier(damageResolver *pipeline.DamageModifierResolver, 
 		default:
 			return
 		}
+	case "heal":
 	default:
 		return
 	}
@@ -953,6 +985,10 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 		snapshot.Combatants[i].Providers = providersToSnapshot(rt.providers)
 		snapshot.Combatants[i].Shields = shieldsToSnapshot(rt.shields)
 		snapshot.Combatants[i].ProviderState = providerStateToSnapshot(rt.providerState)
+		snapshot.Combatants[i].EffectiveStatuses = s.buildEffectiveStatuses(rt.providers)
+		if snapshot.Combatants[i].EffectiveStatuses == nil {
+			snapshot.Combatants[i].EffectiveStatuses = []model.EffectiveStatusSnapshot{}
+		}
 		if snapshot.Combatants[i].AbilityState == nil {
 			snapshot.Combatants[i].AbilityState = map[string]interface{}{}
 		}
@@ -1133,6 +1169,13 @@ func engineErrorPtr(phase model.GenericErrorPhase, code model.GenericErrCode, me
 	err.RulesHash = rulesHash
 	err.SessionID = sessionID
 	return &err
+}
+
+func engineErrorPtrAt(phase model.GenericErrorPhase, code model.GenericErrCode, message, path, ref, schemaHash, rulesHash, sessionID string) *model.EngineError {
+	err := engineErrorPtr(phase, code, message, schemaHash, rulesHash, sessionID)
+	err.Path = path
+	err.Ref = ref
+	return err
 }
 
 func validateRuntimeOptions(raw json.RawMessage) {

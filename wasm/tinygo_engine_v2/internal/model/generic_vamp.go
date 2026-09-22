@@ -2,22 +2,32 @@ package model
 
 // 吸血种类采用固定结算顺序；缺省规则不启用吸血。
 const (
-	VampLifeSteal    = "LIFE_STEAL"
-	VampOmnivamp     = "OMNIVAMP"
-	VampPhysical     = "PHYSICAL_VAMP"
-	VampSpell        = "SPELL_VAMP"
-	VampResolved     = "RESOLVED"
-	VampUnresolved   = "UNRESOLVED"
-	VampDisabled     = "DISABLED"
-	VampOverride     = "OVERRIDE"
-	VampPostDefense  = "POST_DEFENSE_DAMAGE"
-	VampActualHPLoss = "ACTUAL_HP_LOSS"
-	HealDone         = "DONE"
-	HealReceived     = "RECEIVED"
-	HealAny          = "ANY"
-	HealVamp         = "VAMP"
-	HealDirect       = "DIRECT"
+	VampLifeSteal     = "LIFE_STEAL"
+	VampOmnivamp      = "OMNIVAMP"
+	VampPhysical      = "PHYSICAL_VAMP"
+	VampSpell         = "SPELL_VAMP"
+	VampResolved      = "RESOLVED"
+	VampUnresolved    = "UNRESOLVED"
+	VampDisabled      = "DISABLED"
+	VampOverride      = "OVERRIDE"
+	VampPostDefense   = "POST_DEFENSE_DAMAGE"
+	VampActualHPLoss  = "ACTUAL_HP_LOSS"
+	HealDone          = "DONE"
+	HealReceived      = "RECEIVED"
+	HealAny           = "ANY"
+	HealVamp          = "VAMP"
+	HealDirect        = "DIRECT"
+	HealGroupRatioAdd = "ratio_add"
+	HealGroupRatioMax = "ratio_max"
 )
+
+// NormalizeHealGroupMode 将未指定的治疗组计算方式视为既有加算。
+func NormalizeHealGroupMode(mode string) string {
+	if mode == "" {
+		return HealGroupRatioAdd
+	}
+	return mode
+}
 
 var VampTypeOrder = [...]string{VampLifeSteal, VampOmnivamp, VampPhysical, VampSpell}
 

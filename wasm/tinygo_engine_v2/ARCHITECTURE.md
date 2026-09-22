@@ -97,8 +97,9 @@ graph LR
 | --- | --- |
 | `CompiledSession` | 只读规则快照：schema/rules hash、combatants、providers、abilities、operations、formulas、settings、abilityRefIndex |
 | `CompiledCombatant` | combatant 模板与 provider mounts |
-| `CompiledProvider` / `CompiledAbility` | capability 与 ability 定义 |
-| `CompiledOperation` | 执行期 operation IR |
+| `CompiledProvider` / `CompiledAbility` | capability 与 ability 定义；含 `instanceScope`、`statusContributions` 与治疗组计算方式 |
+| `CompiledOperation` | 执行期 operation IR；`resolve_skill_hit` 携带编译后的命中计划 |
+| `CompiledSkillHit` | 命中候选、阻挡范围、供值条件与候选 operations 切片 |
 | `formula.GenericRegistry` | 已编译公式程序 |
 | `typeset.CatalogResult` | flat type key / matcher 输入 |
 
@@ -108,7 +109,7 @@ graph LR
 graph TD
     Session["Session: genericSessions + outbox"]
     Entry["genericSessionEntry: sessionId hashes CompiledSession"]
-    State["genericRunState: combatants heap budget counters"]
+    State["genericRunState: combatants heap budget skillUses/skillHitFacts ledger"]
     Outbox["abi.Outbox priority frames"]
 
     Session --> Entry

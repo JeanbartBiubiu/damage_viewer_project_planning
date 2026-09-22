@@ -39,6 +39,8 @@ const (
 	ReadDamageAbilityType
 	// ReadEventDamage is an immutable numeric snapshot field under event.damage.*.
 	ReadEventDamage
+	// ReadEventSkillHit 读取 event.skill_hit.firstContact|blocked；缺值必须报路径。
+	ReadEventSkillHit
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -337,6 +339,12 @@ var EventDamageSnapshotFields = map[string]struct{}{
 }
 
 func parseEventReadPath(path string) (GenericReadKind, string, bool) {
+	if path == model.FormulaPathSkillHitFirstContact {
+		return ReadEventSkillHit, "firstContact", true
+	}
+	if path == model.FormulaPathSkillHitBlocked {
+		return ReadEventSkillHit, "blocked", true
+	}
 	if strings.HasPrefix(path, "event.damage.") {
 		key := strings.TrimPrefix(path, "event.damage.")
 		if key == "" {

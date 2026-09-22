@@ -180,6 +180,7 @@ func (f *executionFrame) applyHealingDirection(hostKey, direction, category stri
 	mods := f.stageFor(hostKey).damageResolver.CollectForHeal(direction, category)
 	type group struct {
 		key   string
+		mode  string
 		ratio float64
 		items []map[string]interface{}
 	}
@@ -212,13 +213,22 @@ func (f *executionFrame) applyHealingDirection(hostKey, direction, category stri
 		if !ok {
 			i = len(groups)
 			index[mod.HealGroupKey] = i
-			groups = append(groups, group{key: mod.HealGroupKey, items: []map[string]interface{}{}})
+			groups = append(groups, group{key: mod.HealGroupKey, mode: model.NormalizeHealGroupMode(mod.HealGroupCalculationMode), items: []map[string]interface{}{}})
 		}
-		groups[i].ratio += value
-		if math.IsInf(groups[i].ratio, 0) || math.IsNaN(groups[i].ratio) {
-			return 0, evidence, f.vampError("non-finite healing group ratio", "heal.modifiers", mod.ModifierKey)
+		if groups[i].mode == model.HealGroupRatioMax {
+			if value < -1 || value > 0 {
+				return 0, evidence, f.vampError("ratio_max healing modifier must be within [-1,0]", "heal.modifiers["+mod.ModifierKey+"].value", mod.ModifierKey)
+			}
+			if len(groups[i].items) == 0 || value < groups[i].ratio {
+				groups[i].ratio = value
+			}
+		} else {
+			groups[i].ratio += value
+			if math.IsInf(groups[i].ratio, 0) || math.IsNaN(groups[i].ratio) {
+				return 0, evidence, f.vampError("non-finite healing group ratio", "heal.modifiers", mod.ModifierKey)
+			}
 		}
-		groups[i].items = append(groups[i].items, map[string]interface{}{"modifierKey": mod.ModifierKey, "providerOwner": mod.OwnerCombatantKey, "providerRef": mod.ProviderRef, "value": value})
+		groups[i].items = append(groups[i].items, map[string]interface{}{"modifierKey": mod.ModifierKey, "providerOwner": mod.OwnerCombatantKey, "providerRef": mod.ProviderRef, "value": value, "calculationMode": groups[i].mode})
 	}
 	for _, g := range groups {
 		before := amount
@@ -227,7 +237,7 @@ func (f *executionFrame) applyHealingDirection(hostKey, direction, category stri
 		if math.IsNaN(amount) || math.IsInf(amount, 0) {
 			return 0, evidence, f.vampError("non-finite healing modifier result", "heal.modifiers", g.key)
 		}
-		evidence = append(evidence, map[string]interface{}{"direction": direction, "groupKey": g.key, "netRatio": g.ratio, "factor": factor, "before": before, "after": amount, "items": g.items})
+		evidence = append(evidence, map[string]interface{}{"direction": direction, "groupKey": g.key, "calculationMode": g.mode, "netRatio": g.ratio, "factor": factor, "before": before, "after": amount, "items": g.items})
 	}
 	return amount, evidence, nil
 }
