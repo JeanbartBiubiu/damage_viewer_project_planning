@@ -58,13 +58,17 @@ export type SkillEffectCriticalPolicy = {
 };
 
 /**
- * 当前伤害结果的显式吸血资格、结算依据与效率。
- * 空数组表示没有吸血规则，不会继承默认资格；按已核定来源填写适用规则。
+ * 当前伤害结果是否已按来源核定吸血资格。
+ * 已核定且例外为空时继承游戏规则；未核定只能保留空例外，不能运行。
  */
-export type SkillEffectVampRule = {
+export type SkillEffectVampQualification = 'RESOLVED' | 'UNRESOLVED';
+
+/** 禁止项不带数值；覆盖项仅改变本伤害资格、基数与效率，不改变来源比例属性。 */
+export type SkillEffectVampOverride = {
   vampType: SkillEffectVampType;
-  basisOutputKind: SkillEffectVampBasisOutputKind;
-  efficiencyValue: NumericValue;
+  mode: 'DISABLED' | 'OVERRIDE';
+  basisOutputKind: SkillEffectVampBasisOutputKind | null;
+  efficiencyValue: NumericValue | null;
 };
 
 export type AttributeChangeOperation = 'INCREASE' | 'DECREASE' | 'SET';
@@ -124,7 +128,8 @@ export type SkillEffectDamageDetail = {
   deliveryKind: SkillEffectDamageDeliveryKind;
   originKind: SkillEffectDamageOriginKind;
   critical: SkillEffectCriticalPolicy;
-  vampRules: SkillEffectVampRule[];
+  vampQualification: SkillEffectVampQualification;
+  vampOverrides: SkillEffectVampOverride[];
 };
 
 export type SkillEffectNormalShieldDetail = {

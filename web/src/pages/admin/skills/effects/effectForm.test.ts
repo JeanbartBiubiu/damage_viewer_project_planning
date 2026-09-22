@@ -145,7 +145,8 @@ const EFFECT: SkillEffect = {
         deliveryKind: 'SKILL',
         originKind: 'DIRECT',
         critical: { mode: 'DISALLOWED', multiplierValue: null },
-        vampRules: []
+        vampQualification: 'UNRESOLVED',
+        vampOverrides: []
       }
     },
     {
@@ -325,7 +326,8 @@ describe('skill effect form defaults and conversion', () => {
       damageDeliveryKind: 'SKILL',
       damageOriginKind: 'DIRECT',
       criticalMode: 'DISALLOWED',
-      vampRules: [],
+      vampQualification: 'UNRESOLVED',
+      vampOverrides: [],
       originalResultType: null,
       originalDamageTypeKey: null
     });
@@ -348,7 +350,8 @@ describe('skill effect form defaults and conversion', () => {
       damageDeliveryKind: 'SKILL',
       damageOriginKind: 'DIRECT',
       criticalMode: 'DISALLOWED',
-      vampRules: [],
+      vampQualification: 'UNRESOLVED',
+      vampOverrides: [],
       originalResultType: 'DAMAGE',
       originalDamageTypeKey: 'physical',
       statusKey: '',
@@ -407,7 +410,8 @@ describe('skill effect form normalization and request building', () => {
             deliveryKind: 'SKILL',
             originKind: 'DIRECT',
             critical: { mode: 'DISALLOWED', multiplierValue: null },
-            vampRules: []
+            vampQualification: 'UNRESOLVED',
+            vampOverrides: []
           }
         }
       ]
@@ -597,14 +601,17 @@ describe('skill effect form normalization and request building', () => {
 describe('skill effect form validation', () => {
   it('rejects duplicate or incomplete vamp rows', () => {
     const duplicate = validateSkillEffectDraft(validEffectDraft([validDamageDraft({
-      vampRules: [
+      vampQualification: 'RESOLVED',
+      vampOverrides: [
         {
           vampType: 'OMNIVAMP',
+          mode: 'OVERRIDE',
           basisOutputKind: 'POST_DEFENSE_DAMAGE',
           efficiencyValue: formulaValue("heal")
         },
         {
           vampType: 'OMNIVAMP',
+          mode: 'OVERRIDE',
           basisOutputKind: 'ACTUAL_HP_LOSS',
           efficiencyValue: formulaValue("damage")
         }
@@ -612,19 +619,21 @@ describe('skill effect form validation', () => {
     })]), { includeEffectKey: true, catalog: CATALOG });
     expect(duplicate.ok).toBe(false);
     if (!duplicate.ok) {
-      expect(duplicate.resultErrors[0]?.fieldErrors.vampRules).toBe('吸血种类不能重复。');
+      expect(duplicate.resultErrors[0]?.fieldErrors.vampOverrides).toBe('吸血种类不能重复。');
     }
 
     const missingFormula = validateSkillEffectDraft(validEffectDraft([validDamageDraft({
-      vampRules: [{
+      vampQualification: 'RESOLVED',
+      vampOverrides: [{
         vampType: 'SPELL_VAMP',
+        mode: 'OVERRIDE',
         basisOutputKind: 'ACTUAL_HP_LOSS',
         efficiencyValue: null
       }]
     })]), { includeEffectKey: true, catalog: CATALOG });
     expect(missingFormula.ok).toBe(false);
     if (!missingFormula.ok) {
-      expect(missingFormula.resultErrors[0]?.fieldErrors.vampRules).toBe('请选择吸血效率取值。');
+      expect(missingFormula.resultErrors[0]?.fieldErrors.vampOverrides).toBe('请选择吸血效率取值。');
     }
   });
 
@@ -1028,7 +1037,7 @@ describe('skill effect API field issue mapping', () => {
         { field: 'results[0].detail.damageTypeKey', code: 'UNKNOWN_DAMAGE_TYPE', message: '伤害类型不存在' },
         { field: 'results[0].detail.originKind', code: 'ENUM_INVALID', message: '来源性质不合法' },
         { field: 'results[0].detail.critical.multiplierValue', code: 'UNKNOWN_FORMULA', message: '暴击公式不存在' },
-        { field: 'results[0].detail.vampRules[1].efficiencyValue', code: 'UNKNOWN_FORMULA', message: '吸血公式不存在' },
+        { field: 'results[0].detail.vampOverrides[1].efficiencyValue', code: 'UNKNOWN_FORMULA', message: '吸血公式不存在' },
         { field: 'results[1].detail.operation', code: 'ENUM_INVALID', message: '操作不合法' },
         { field: 'results[1].resultType', code: 'IMMUTABLE', message: '结果种类不可修改' },
         { field: 'results[2].detail.affectedSkillScope.skillKeys[1]', code: 'UNKNOWN_SKILL', message: '技能不存在' },
@@ -1050,7 +1059,7 @@ describe('skill effect API field issue mapping', () => {
             damageTypeKey: '伤害类型不存在',
             damageOriginKind: '来源性质不合法',
             criticalMultiplierValue: "暴击公式不存在",
-            vampRules: '吸血公式不存在'
+            vampOverrides: '吸血公式不存在'
           }
         },
         {
@@ -1112,7 +1121,7 @@ describe('skill effect API field issue mapping', () => {
       {
         fieldIssues: [
           {
-            field: 'results[0].detail.vampRules',
+            field: 'results[0].detail.vampOverrides',
             code: 'TRIGGER_RULE_SHAPE_IN_USE',
             message: '结果形状变化会使既有前序输出失效',
             ruleKey: 'prior',
@@ -1128,7 +1137,7 @@ describe('skill effect API field issue mapping', () => {
       resultErrors: [{
         index: 0,
         fieldErrors: {
-          vampRules: '结果形状变化会使既有前序输出失效'
+          vampOverrides: '结果形状变化会使既有前序输出失效'
         }
       }],
       unmappedMessages: [
@@ -1183,14 +1192,17 @@ describe('skill effect draft sorting', () => {
     const normalized = expectValid(validEffectDraft([validDamageDraft({
       criticalMode: 'SOURCE_CRIT_CHANCE',
       criticalMultiplierValue: formulaValue("heal"),
-      vampRules: [
+      vampQualification: 'RESOLVED',
+      vampOverrides: [
         {
           vampType: 'OMNIVAMP',
+          mode: 'OVERRIDE',
           basisOutputKind: 'ACTUAL_HP_LOSS',
           efficiencyValue: formulaValue("heal")
         },
         {
           vampType: 'LIFE_STEAL',
+          mode: 'OVERRIDE',
           basisOutputKind: 'POST_DEFENSE_DAMAGE',
           efficiencyValue: formulaValue("damage")
         }
@@ -1203,7 +1215,8 @@ describe('skill effect draft sorting', () => {
         deliveryKind: 'SKILL',
         originKind: 'DIRECT',
         critical: { mode: 'SOURCE_CRIT_CHANCE', multiplierValue: formulaValue("heal") },
-        vampRules: [
+        vampQualification: 'RESOLVED',
+        vampOverrides: [
           { vampType: 'LIFE_STEAL', efficiencyValue: formulaValue("damage") },
           { vampType: 'OMNIVAMP', efficiencyValue: formulaValue("heal") }
         ]

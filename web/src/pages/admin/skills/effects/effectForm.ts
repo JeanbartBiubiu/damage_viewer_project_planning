@@ -1,4 +1,5 @@
 import type { SkillParameter } from '../../../../types/skillParameter';
+import type { GameVampRule } from '../../../../types/gameVamp';
 import { numericIssuePath, numericValueError, staticNumericValues } from '../numericValueForm';
 import { isValidCooldownReductionRatio } from '../../../../types/cooldownRatio';
 import { isValidLifecycleExtensionDuration } from '../../../../types/lifecycleExtension';
@@ -59,6 +60,7 @@ import type {
   SkillEffectValueRule,
   SkillEffectVampBasisOutputKind,
   SkillEffectVampType,
+  SkillEffectVampQualification,
   StatusOperation,
   UpdateSkillEffectRequest
 } from '../../../../types/skillEffect';
@@ -370,9 +372,10 @@ export type SkillEffectResultLifecycleBehaviorDraft = {
   periodicExecutionMode: SkillEffectPeriodicExecutionMode | '';
 };
 
-export type SkillEffectVampRuleDraft = {
+export type SkillEffectVampOverrideDraft = {
   vampType: SkillEffectVampType | '';
-  basisOutputKind: SkillEffectVampBasisOutputKind | '';
+  mode: 'DISABLED' | 'OVERRIDE';
+  basisOutputKind: SkillEffectVampBasisOutputKind | '' | null;
   efficiencyValue: NumericValue | null;
 };
 
@@ -398,7 +401,8 @@ export type SkillEffectResultDraft = {
   damageOriginKind: SkillEffectDamageOriginKind | '';
   criticalMode: SkillEffectCriticalMode | '';
   criticalMultiplierValue: NumericValue | null;
-  vampRules: SkillEffectVampRuleDraft[];
+  vampQualification: SkillEffectVampQualification;
+  vampOverrides: SkillEffectVampOverrideDraft[];
   absorbedDamageTypeKey: string;
   shieldDecayMode: SkillEffectNormalShieldDecayMode | '';
   modifierDirection: SkillEffectDamageModifierDirection | '';
@@ -479,7 +483,8 @@ export type SkillEffectResultDraftField =
   | 'damageOriginKind'
   | 'criticalMode'
   | 'criticalMultiplierValue'
-  | 'vampRules'
+  | 'vampQualification'
+  | 'vampOverrides'
   | 'absorbedDamageTypeKey'
   | 'shieldDecayMode'
   | 'modifierDirection'
@@ -567,6 +572,9 @@ export type EffectFormCatalog = {
 };
 
 export type SkillEffectFormValidationOptions = {
+  gameVampRules?: readonly GameVampRule[];
+  gameVampRulesLoadState?: 'ready' | 'failed' | 'loading';
+  parentSkillCategoryKeys?: readonly string[];
   parameters?: readonly SkillParameter[];
   parametersLoadState?: 'ready' | 'failed';
   includeEffectKey: boolean;
@@ -652,7 +660,8 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   'detail.critical': 'criticalMode',
   'detail.critical.mode': 'criticalMode',
   'detail.critical.multiplierValue': 'criticalMultiplierValue',
-  'detail.vampRules': 'vampRules',
+  'detail.vampOverrides': 'vampOverrides',
+  'detail.vampQualification': 'vampQualification',
   'detail.absorbedDamageTypeKey': 'absorbedDamageTypeKey',
   'detail.decayMode': 'shieldDecayMode',
   'detail.criticalFilter': 'criticalFilter',
@@ -741,7 +750,8 @@ export function createEmptyResultDraft(
     damageOriginKind: resultType === 'DAMAGE' ? 'DIRECT' : '',
     criticalMode: resultType === 'DAMAGE' ? 'DISALLOWED' : '',
     criticalMultiplierValue: null,
-    vampRules: [],
+    vampQualification: 'UNRESOLVED',
+    vampOverrides: [],
     absorbedDamageTypeKey: '',
     shieldDecayMode: resultType === 'NORMAL_SHIELD' ? 'NONE' : '',
     modifierDirection: resultType === 'DAMAGE_MODIFIER' ? 'TAKEN' : '',
@@ -842,7 +852,8 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       draft.damageOriginKind = result.detail.originKind;
       draft.criticalMode = result.detail.critical.mode;
       draft.criticalMultiplierValue = result.detail.critical.multiplierValue ?? null;
-      draft.vampRules = sortVampRuleDrafts(result.detail.vampRules.map((rule) => ({ ...rule })));
+      draft.vampQualification = result.detail.vampQualification;
+      draft.vampOverrides = sortVampOverrideDrafts(result.detail.vampOverrides.map((rule) => ({ ...rule })));
       draft.originalDamageTypeKey = result.detail.damageTypeKey;
       break;
     case 'ATTRIBUTE_CHANGE':
@@ -1065,7 +1076,8 @@ export function applyResultTypeChange(
     damageOriginKind: nextType === 'DAMAGE' ? 'DIRECT' : '',
     criticalMode: nextType === 'DAMAGE' ? 'DISALLOWED' : '',
     criticalMultiplierValue: null,
-    vampRules: [],
+    vampQualification: 'UNRESOLVED',
+    vampOverrides: [],
     absorbedDamageTypeKey: '',
     shieldDecayMode: nextType === 'NORMAL_SHIELD' ? 'NONE' : '',
     modifierDirection: nextType === 'DAMAGE_MODIFIER' ? 'TAKEN' : '',
@@ -1109,9 +1121,9 @@ export function applyCriticalModeChange(
   });
 }
 
-export function sortVampRuleDrafts(
-  rules: ReadonlyArray<SkillEffectVampRuleDraft>
-): SkillEffectVampRuleDraft[] {
+export function sortVampOverrideDrafts(
+  rules: ReadonlyArray<SkillEffectVampOverrideDraft>
+): SkillEffectVampOverrideDraft[] {
   const order = new Map<string, number>(
     SKILL_EFFECT_VAMP_TYPES.map((value, index) => [value, index])
   );
@@ -1207,8 +1219,9 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
       draft.resultType === 'DAMAGE' && draft.criticalMode !== 'DISALLOWED'
         ? draft.criticalMultiplierValue
         : null,
-    vampRules: draft.resultType === 'DAMAGE'
-      ? sortVampRuleDrafts(draft.vampRules.map((rule) => ({ ...rule })))
+    vampQualification: draft.resultType === 'DAMAGE' ? draft.vampQualification : 'UNRESOLVED',
+    vampOverrides: draft.resultType === 'DAMAGE'
+      ? sortVampOverrideDrafts(draft.vampOverrides.map((rule) => ({ ...rule })))
       : [],
     absorbedDamageTypeKey:
       draft.resultType === 'NORMAL_SHIELD' ? draft.absorbedDamageTypeKey : '',
@@ -2319,10 +2332,12 @@ function validateAndBuildResult(
               ? null
               : draft.criticalMultiplierValue || null
           },
-          vampRules: sortVampRuleDrafts(draft.vampRules).map((rule) => ({
+          vampQualification: draft.vampQualification,
+          vampOverrides: sortVampOverrideDrafts(draft.vampOverrides).map((rule) => ({
             vampType: rule.vampType as SkillEffectVampType,
-            basisOutputKind: rule.basisOutputKind as SkillEffectVampBasisOutputKind,
-            efficiencyValue: rule.efficiencyValue!
+            mode: rule.mode,
+            basisOutputKind: rule.mode === 'DISABLED' ? null : rule.basisOutputKind as SkillEffectVampBasisOutputKind,
+            efficiencyValue: rule.mode === 'DISABLED' ? null : rule.efficiencyValue!
           }))
         }
       };
@@ -2640,30 +2655,54 @@ function validateTypeSpecificFields(
           { allowDisabled: true }
         );
       }
-      if (draft.vampRules.length > SKILL_EFFECT_VAMP_TYPES.length) {
-        fieldErrors.vampRules = '吸血规则不能超过 4 条。';
+      if (draft.vampQualification !== 'RESOLVED' && draft.vampQualification !== 'UNRESOLVED') {
+        fieldErrors.vampQualification = '请选择吸血资格状态。';
+      } else if (draft.vampQualification === 'UNRESOLVED' && draft.vampOverrides.length) {
+        fieldErrors.vampOverrides = '未核定吸血资格时不能保存吸血例外。';
+      } else if (draft.vampQualification === 'RESOLVED' && options.gameVampRulesLoadState !== undefined) {
+        if (options.gameVampRulesLoadState !== 'ready') {
+          fieldErrors.vampQualification = '游戏吸血规则尚未读取完成，请重试，或明确选择未核定。';
+        } else if (!options.gameVampRules?.length) {
+          fieldErrors.vampQualification = '请先在游戏配置维护通用吸血规则，或明确选择未核定。';
+        } else if (!options.parentSkillCategoryKeys?.length) {
+          fieldErrors.vampQualification = '技能缺少基础分类，无法核定吸血资格。';
+        }
+      }
+      if (draft.vampOverrides.length > SKILL_EFFECT_VAMP_TYPES.length) {
+        fieldErrors.vampOverrides = '吸血例外不能超过 4 条。';
       }
       {
         const seenVampTypes = new Set<string>();
-        for (const rule of draft.vampRules) {
+        for (const rule of draft.vampOverrides) {
           if (!(SKILL_EFFECT_VAMP_TYPES as readonly string[]).includes(rule.vampType)) {
-            fieldErrors.vampRules = '请选择吸血种类。';
+            fieldErrors.vampOverrides = '请选择吸血种类。';
             break;
           }
           if (seenVampTypes.has(rule.vampType)) {
-            fieldErrors.vampRules = '吸血种类不能重复。';
+            fieldErrors.vampOverrides = '吸血种类不能重复。';
             break;
           }
           seenVampTypes.add(rule.vampType);
+          if (rule.mode === 'DISABLED') {
+            if (rule.basisOutputKind !== null || rule.efficiencyValue !== null) {
+              fieldErrors.vampOverrides = '禁止吸血时必须清空计算基数和效率。';
+              break;
+            }
+            continue;
+          }
+          if (rule.mode !== 'OVERRIDE') {
+            fieldErrors.vampOverrides = '请选择吸血例外方式。';
+            break;
+          }
           if (
             rule.basisOutputKind !== 'POST_DEFENSE_DAMAGE'
             && rule.basisOutputKind !== 'ACTUAL_HP_LOSS'
           ) {
-            fieldErrors.vampRules = '请选择吸血计算基准。';
+            fieldErrors.vampOverrides = '请选择吸血计算基准。';
             break;
           }
           if (!rule.efficiencyValue) {
-            fieldErrors.vampRules = '请选择吸血效率取值。';
+            fieldErrors.vampOverrides = '请选择吸血效率取值。';
             break;
           }
           validateCatalogRef(
@@ -2672,10 +2711,19 @@ function validateTypeSpecificFields(
             rule.efficiencyValue,
             rule.efficiencyValue,
             fieldErrors,
-            'vampRules',
+            'vampOverrides',
             { allowDisabled: true }
           );
-          if (fieldErrors.vampRules) break;
+          if (fieldErrors.vampOverrides) break;
+          const efficiencies = staticNumericValues(rule.efficiencyValue, options.parameters);
+          if (efficiencies?.some((value) => !Number.isFinite(value) || value < 0)) {
+            fieldErrors.vampOverrides = '吸血效率必须是有限非负数。';
+            break;
+          }
+          if (options.gameVampRules && !options.gameVampRules.some((item) => item.vampType === rule.vampType)) {
+            fieldErrors.vampOverrides = '覆盖前需要在游戏配置中维护对应种类的吸血规则。';
+            break;
+          }
         }
       }
       break;
@@ -3559,7 +3607,7 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         detail: {
           ...result.detail,
           critical: { ...result.detail.critical },
-          vampRules: result.detail.vampRules.map((rule) => ({ ...rule }))
+          vampOverrides: result.detail.vampOverrides.map((rule) => ({ ...rule }))
         }
       };
     case 'DIRECT_HEAL':
@@ -3719,8 +3767,8 @@ function mapResultIssueField(
   if (/^detail\.affectedSkillKeys\[\d+\]$/.test(nested)) {
     return null;
   }
-  if (/^detail\.vampRules\[\d+\](?:\.(?:vampType|basisOutputKind|efficiencyValue))?$/.test(nested)) {
-    return 'vampRules';
+  if (/^detail\.vampOverrides\[\d+\](?:\.(?:vampType|mode|basisOutputKind|efficiencyValue))?$/.test(nested)) {
+    return 'vampOverrides';
   }
   if (nested === 'detail.operation') {
     if (resultType === 'ATTRIBUTE_CHANGE') return 'attributeOperation';

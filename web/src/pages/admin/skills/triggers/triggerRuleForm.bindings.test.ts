@@ -82,7 +82,8 @@ function damageResult(
       deliveryKind: 'SKILL',
       originKind: 'DIRECT',
       critical: { mode: 'DISALLOWED', multiplierValue: null },
-      vampRules: []
+      vampQualification: 'UNRESOLVED',
+      vampOverrides: []
     }
   };
 }
@@ -282,8 +283,10 @@ describe('formula session cache and reachable RUNTIME_INPUT collection', () => {
         mode: 'SOURCE_CRIT_CHANCE',
         multiplierValue: formulaValue("critical_multiplier")
       };
-      specialDamage.detail.vampRules = [{
+      specialDamage.detail.vampQualification = 'RESOLVED';
+      specialDamage.detail.vampOverrides = [{
         vampType: 'OMNIVAMP',
+        mode: 'OVERRIDE',
         basisOutputKind: 'ACTUAL_HP_LOSS',
         efficiencyValue: formulaValue("omnivamp_efficiency")
       }];

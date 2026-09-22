@@ -107,7 +107,7 @@ export function applyValueModeReset(
     return {
       ...draft,
       valueMode: nextMode,
-      fixedValue: '0',
+      fixedValue: '',
       levelValues: {}
     };
   }
@@ -122,7 +122,7 @@ export function applyValueModeReset(
   const range = levelRange ?? { minLevel: 1, maxLevel: 1 };
   const levelValues: Record<string, string> = {};
   for (let level = range.minLevel; level <= range.maxLevel; level += 1) {
-    levelValues[String(level)] = '0';
+    levelValues[String(level)] = '';
   }
   return {
     ...draft,

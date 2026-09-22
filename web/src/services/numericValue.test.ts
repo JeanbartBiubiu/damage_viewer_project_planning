@@ -7,7 +7,7 @@ const v = () => fixedValue(2);
 const roots: Array<{ domain: Parameters<typeof assertNumericUses>[1]; root: Root }> = [
   { domain: 'effect', root: {
     lifecycle: { durationValue: v(), maxStacksValue: v(), applicationStacksValue: v(), periodicIntervalValue: v() },
-    results: [{ resultType: 'DAMAGE', valueRule: { value: v() }, detail: { critical: { multiplierValue: v() }, vampRules: [{ efficiencyValue: v() }] } }]
+    results: [{ resultType: 'DAMAGE', valueRule: { value: v() }, detail: { critical: { multiplierValue: v() }, vampOverrides: [{ mode: 'OVERRIDE', efficiencyValue: v() }] } }]
   } },
   { domain: 'process', root: {
     cooldown: { durationValue: v() }, stateOperations: [{ operation: 'CONSUME', value: v() }],

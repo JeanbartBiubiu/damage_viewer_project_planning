@@ -26,7 +26,7 @@ describe('普通减速触发动作约束', () => {
     const damage: SkillEffectResult = { ...slow, resultKey: 'damage', resultType: 'DAMAGE',
       lifecycleBehavior: null, valueRule: slow.valueRule!, detail: {
         damageTypeKey: 'physical', deliveryKind: 'SKILL', originKind: 'DIRECT',
-        critical: { mode: 'DISALLOWED', multiplierValue: null }, vampRules: []
+        critical: { mode: 'DISALLOWED', multiplierValue: null }, vampQualification: 'UNRESOLVED', vampOverrides: []
       } };
     expect(resultModifierTargetError({ ...effect, results: [damage] }, modifier.resultKey)).toBeNull();
     expect(resultModifierTargetError(effect, 'slow')).toContain('状态操作不接受额外结果修正');

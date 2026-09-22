@@ -136,7 +136,8 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
         deliveryKind: 'SKILL',
         originKind: 'DIRECT',
         critical: { mode: 'DISALLOWED', multiplierValue: null },
-        vampRules: []
+        vampQualification: 'UNRESOLVED',
+        vampOverrides: []
       }
     });
     expect(listAvailablePriorResultOutputs(damage)).toEqual([
@@ -151,12 +152,16 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
 
     const vamped = structuredClone(damage);
     if (vamped.resultType === 'DAMAGE') {
-      vamped.detail.vampRules = [{
+      vamped.detail.vampQualification = 'RESOLVED';
+      vamped.detail.vampOverrides = [{
         vampType: 'OMNIVAMP',
+        mode: 'OVERRIDE',
         basisOutputKind: 'ACTUAL_HP_LOSS',
         efficiencyValue: formulaValue("vamp")
       }];
     }
+    expect(listAvailablePriorResultOutputs(vamped)).toContain('ACTUAL_HEALING');
+    if (vamped.resultType === 'DAMAGE') vamped.detail.vampOverrides = [];
     expect(listAvailablePriorResultOutputs(vamped)).toContain('ACTUAL_HEALING');
 
     expect(listAvailablePriorResultOutputs(baseResult('heal', 'DIRECT_HEAL', {
@@ -253,7 +258,8 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
         deliveryKind: 'SKILL',
         originKind: 'DIRECT',
         critical: { mode: 'DISALLOWED', multiplierValue: null },
-        vampRules: []
+        vampQualification: 'UNRESOLVED',
+        vampOverrides: []
       }
     });
     const all = listAvailablePriorResultOutputs(damage);
@@ -348,7 +354,8 @@ describe('stage 7.6.5 event values and prior-result outputs', () => {
         deliveryKind: 'SKILL',
         originKind: 'DIRECT',
         critical: { mode: 'DISALLOWED', multiplierValue: null },
-        vampRules: []
+        vampQualification: 'UNRESOLVED',
+        vampOverrides: []
       }
     })]);
     const stale = findStalePriorResultBindings(reordered, new Map([['on_hit', damageEffect]]));

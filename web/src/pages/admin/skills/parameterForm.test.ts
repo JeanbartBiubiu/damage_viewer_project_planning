@@ -2,13 +2,97 @@ import { describe, expect, it } from 'vitest';
 import {
   applyValueModeReset,
   applyPastedLevelValues,
+  buildCreateParameterRequest,
   buildLevelValues,
   createEmptyParameterDraft,
   fillArithmeticLevelValues,
   fillFixedLevelValues,
   mapParameterFieldIssues,
+  parameterToDraft,
   validateParameterDraft
 } from './parameterForm';
+
+describe('parameterForm empty and zero values', () => {
+  it('requires an explicit fixed value and preserves a saved zero when reopened', () => {
+    const draft = createEmptyParameterDraft('FIXED');
+    draft.parameterKey = 'base_value';
+    draft.name = '基础数值';
+
+    expect(draft.fixedValue).toBe('');
+    expect(validateParameterDraft(draft, true, null)).toEqual({
+      ok: false,
+      fieldErrors: { fixedValue: '固定值不能为空。' }
+    });
+
+    draft.fixedValue = '0';
+    const validated = validateParameterDraft(draft, true, null);
+    expect(validated.ok).toBe(true);
+    if (!validated.ok) return;
+    const request = buildCreateParameterRequest(validated.normalized);
+    expect(request.fixedValue).toBe(0);
+    expect(request.levelValues).toBeNull();
+
+    const reopened = parameterToDraft({
+      ...request,
+      gameId: 'test',
+      skillKey: 'skill_q',
+      createdAt: '2026-09-21T00:00:00Z',
+      updatedAt: '2026-09-21T00:00:00Z'
+    });
+    expect(reopened.fixedValue).toBe('0');
+    expect(validateParameterDraft(reopened, false, null)).toEqual(validated);
+  });
+
+  it.each([
+    { valueMode: 'SKILL_LEVEL' as const, range: { minLevel: 1, maxLevel: 2 } },
+    { valueMode: 'CHARACTER_LEVEL' as const, range: { minLevel: 3, maxLevel: 4 } }
+  ])('requires every $valueMode value and preserves explicit zeros', ({ valueMode, range }) => {
+    const draft = createEmptyParameterDraft(valueMode, range);
+    draft.parameterKey = 'level_value';
+    draft.name = '等级数值';
+    const firstLevel = String(range.minLevel);
+    const lastLevel = String(range.maxLevel);
+
+    expect(draft.levelValues).toEqual({ [firstLevel]: '', [lastLevel]: '' });
+    expect(validateParameterDraft(draft, true, range)).toEqual({
+      ok: false,
+      fieldErrors: { levelValues: `缺少等级 ${firstLevel} 的数值。` }
+    });
+    draft.levelValues[firstLevel] = '0';
+    expect(validateParameterDraft(draft, true, range)).toEqual({
+      ok: false,
+      fieldErrors: { levelValues: `缺少等级 ${lastLevel} 的数值。` }
+    });
+
+    draft.levelValues[lastLevel] = '0';
+    const validated = validateParameterDraft(draft, true, range);
+    expect(validated.ok).toBe(true);
+    if (!validated.ok) return;
+    const request = buildCreateParameterRequest(validated.normalized);
+    expect(request.fixedValue).toBeNull();
+    expect(request.levelValues).toEqual({ [firstLevel]: 0, [lastLevel]: 0 });
+
+    const reopened = parameterToDraft({
+      ...request,
+      gameId: 'test',
+      skillKey: 'skill_q',
+      createdAt: '2026-09-21T00:00:00Z',
+      updatedAt: '2026-09-21T00:00:00Z'
+    }, range);
+    expect(reopened.levelValues).toEqual({ [firstLevel]: '0', [lastLevel]: '0' });
+    expect(validateParameterDraft(reopened, false, range)).toEqual(validated);
+  });
+
+  it('keeps zero available through fixed, arithmetic and pasted fills', () => {
+    const expected = { '2': '0', '3': '0' };
+    expect(fillFixedLevelValues(2, 3, 0)).toEqual(expected);
+    expect(fillArithmeticLevelValues(2, 3, 0, 0)).toEqual(expected);
+    expect(applyPastedLevelValues({}, '0\n0', 2, 3, 'INTEGER')).toEqual({
+      ok: true,
+      levelValues: expected
+    });
+  });
+});
 
 describe('parameterForm level helpers', () => {
   it('fills fixed and arithmetic sequences including negative and non-1 start', () => {
@@ -122,10 +206,10 @@ describe('parameterForm mode switching', () => {
 
     const toLevel = applyValueModeReset(base, 'SKILL_LEVEL', { minLevel: 1, maxLevel: 2 });
     expect(toLevel.fixedValue).toBe('');
-    expect(toLevel.levelValues).toEqual({ '1': '0', '2': '0' });
+    expect(toLevel.levelValues).toEqual({ '1': '', '2': '' });
 
     const toFixed = applyValueModeReset(toLevel, 'FIXED', { minLevel: 1, maxLevel: 2 });
-    expect(toFixed.fixedValue).toBe('0');
+    expect(toFixed.fixedValue).toBe('');
     expect(toFixed.levelValues).toEqual({});
 
     const toRuntime = applyValueModeReset(toFixed, 'RUNTIME_INPUT', { minLevel: 1, maxLevel: 2 });
@@ -137,7 +221,7 @@ describe('parameterForm mode switching', () => {
       maxLevel: 3
     });
     expect(fromRuntime.fixedValue).toBe('');
-    expect(fromRuntime.levelValues).toEqual({ '2': '0', '3': '0' });
+    expect(fromRuntime.levelValues).toEqual({ '2': '', '3': '' });
   });
 
   it('validates RUNTIME_INPUT as null value fields', () => {
