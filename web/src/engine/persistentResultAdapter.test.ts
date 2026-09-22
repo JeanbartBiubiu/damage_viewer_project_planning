@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { adaptPersistentResult, withPersistentResults, type AuthoredPersistentResult } from './persistentResultAdapter';
+import { adaptPersistentResult, compilePersistentResult, withPersistentResults, type AuthoredPersistentResult } from './persistentResultAdapter';
 import type { CompileRequest } from '../types/genericEngine';
 import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
 import type { SkillEffectLifecycle, SkillEffectResult } from '../types/skillEffect';
@@ -130,6 +130,14 @@ describe('有界持续结果适配', () => {
   it('法术护盾粒度非空且未提供命中判定时拒绝，不静默忽略', () => {
     expect(() => adaptPersistentResult(authored('slow', { result: slowResult({ spellShieldBlockScope: 'RESULT' }) }), 'status:slow'))
       .toThrow('命中判定');
+  });
+
+  it('命中入口共用编译函数保留原粒度，不提供跳过判定的开关', () => {
+    const row = authored('slow', { result: slowResult({ spellShieldBlockScope: 'RESULT' }) });
+    const compiled = compilePersistentResult(row, 'status:slow');
+    expect(row.result.spellShieldBlockScope).toBe('RESULT');
+    expect(compiled.operation).toEqual({ operation: 'apply_provider', target: 'target', providerDefinitionRef: 'status:slow' });
+    expect(compiled.provider.statusContributions?.[0]?.statusKind).toBe('movement_slow');
   });
 
   it('治疗 RATIO_MAX 把管理减少比例映射为 add_percent 负值，种类按目录映射', () => {
