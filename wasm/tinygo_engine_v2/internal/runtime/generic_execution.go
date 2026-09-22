@@ -1943,11 +1943,11 @@ func (s *genericRunState) combatantExists(key string) bool {
 }
 
 func (s *genericRunState) executeAbilityCast(entry model.DriverEntry) *model.EngineError {
-	sourceKey, ok := s.resolveCombatantKey(entry.Source, entry.Source, entry.Target)
+	sourceKey, ok := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
 	if !ok {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrOperationTargetMissing, "source unavailable", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
-	targetKey, ok := s.resolveCombatantKey(entry.Target, entry.Source, entry.Target)
+	targetKey, ok := s.resolveDriverCombatantKey(entry.Target, sourceKey)
 	if !ok {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrOperationTargetMissing, "target unavailable", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
