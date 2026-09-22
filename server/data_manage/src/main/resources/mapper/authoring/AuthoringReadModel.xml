@@ -274,7 +274,8 @@
                r.process_key AS process_key,
                r.cooldown->>'durationValue' AS duration_value,
                r.cooldown->'startMoment'->>'momentType' AS moment_type,
-               r.cooldown->'startMoment'->>'stepKey' AS step_key
+               r.cooldown->'startMoment'->>'stepKey' AS step_key,
+               r.cooldown->'startMoment'->>'failureReason' AS failure_reason
         FROM public.skill_processes r
         WHERE r.cooldown IS NOT NULL AND r.cooldown &lt;> 'null'::jsonb
     </sql>
@@ -297,6 +298,7 @@
                j->>'effectKey' AS effect_key,
                j->'moment'->>'momentType' AS moment_type,
                j->'moment'->>'stepKey' AS step_key,
+               j->'moment'->>'failureReason' AS failure_reason,
                (j->>'sortOrder')::integer AS sort_order
         FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.effect_bindings) j
     </sql>
@@ -358,6 +360,7 @@
                j->>'optionKey' AS option_key,
                j->'moment'->>'momentType' AS moment_type,
                j->'moment'->>'stepKey' AS step_key,
+               j->'moment'->>'failureReason' AS failure_reason,
                (j->>'sortOrder')::integer AS sort_order
         FROM public.skill_processes r CROSS JOIN LATERAL jsonb_array_elements(r.state_operations) j
     </sql>
@@ -559,10 +562,12 @@
                r.skill_key AS skill_key,
                r.rule_key AS rule_key,
                a->>'actionKey' AS action_key,
+               a->>'actionType' AS action_type,
                a->'detail'->>'processKey' AS process_key,
+               a->'detail'->>'stepKey' AS step_key,
                a->'detail'->>'failureReason' AS failure_reason
         FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.actions) a
-        WHERE a->>'actionType' IN ('START_PROCESS','FAIL_PROCESS')
+        WHERE a->>'actionType' IN ('START_PROCESS','FAIL_PROCESS','ADVANCE_PROCESS')
     </sql>
 
     <sql id="triggerRuleProcessEvents">
@@ -571,7 +576,8 @@
                r.rule_key AS rule_key,
                r.event_source->'detail'->>'processKey' AS process_key,
                r.event_source->'detail'->'moment'->>'momentType' AS moment_type,
-               r.event_source->'detail'->'moment'->>'stepKey' AS step_key
+               r.event_source->'detail'->'moment'->>'stepKey' AS step_key,
+               r.event_source->'detail'->'moment'->>'failureReason' AS failure_reason
         FROM public.skill_trigger_rules r
         WHERE r.event_type IN ('PROCESS_MOMENT','PROCESS_CANCEL_REQUESTED')
     </sql>

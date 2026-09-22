@@ -78,13 +78,14 @@ class TriggerAggregateFieldContractTest {
         Set<String> readerLeaves = new LinkedHashSet<>();
         Matcher leaves = Pattern.compile("event_source->'detail'->'moment'->>'([^']+)'").matcher(reader);
         while (leaves.find()) readerLeaves.add(leaves.group(1));
-        assertEquals(fields(detail.get("moment")), readerLeaves);
+        assertTrue(readerLeaves.containsAll(fields(detail.get("moment"))));
+        assertTrue(readerLeaves.contains("failureReason"));
         for (String migration : List.of(PART, TOTAL)) {
             String branch = eventBranch(read(migration), SkillTriggerEventType.PROCESS_MOMENT);
             Set<String> topFields = pairs(branch, "'([^']+)'\\s*,\\s*(d\\.process_key|jsonb_build_object)").keySet();
             assertEquals(fields(detail), topFields, migration);
             Map<String, String> nested = pairs(branch, "'(momentType|stepKey)'\\s*,\\s*d\\.([a-z_]+)");
-            assertEquals(fields(detail.get("moment")), nested.keySet());
+            assertEquals(Set.of("momentType", "stepKey"), nested.keySet());
             assertEquals(Map.of("momentType", "moment_type", "stepKey", "step_key"), nested);
         }
     }

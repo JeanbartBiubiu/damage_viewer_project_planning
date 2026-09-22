@@ -68,6 +68,27 @@ class SourceCastResourceCostSemanticsTest {
         assertTrue(error.getDetails().toString().contains("EVENT_VALUE_NOT_AVAILABLE"));
     }
 
+    @Test
+    void processCompleteOfCurrentNonPassiveProcessKeepsTheCostBinding() {
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            processObjects("PROCESS_COMPLETE", "ACTIVE", "{\"attributeKey\":\"mana\"}"), List.of(INPUT)));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            processObjects("PROCESS_FAILURE", "ACTIVE", "{\"attributeKey\":\"mana\"}"), List.of(INPUT)));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"PROCESS_START", "PASSIVE", "PROCESS_CANCEL"})
+    void processStartPassiveAndCancelCannotKeepTheCostBinding(String change) {
+        List<Aggregate> objects = "PROCESS_CANCEL".equals(change)
+            ? cancelObjects("{\"attributeKey\":\"mana\"}")
+            : processObjects(
+                "PROCESS_START".equals(change) ? "PROCESS_START" : "PROCESS_COMPLETE",
+                "PASSIVE".equals(change) ? "PASSIVE" : "ACTIVE",
+                "{\"attributeKey\":\"mana\"}");
+        ApiException error = assertThrows(ApiException.class, () -> SkillNumericSemantics.validate(objects, List.of(INPUT)));
+        assertTrue(error.getDetails().toString().contains("EVENT_VALUE_NOT_AVAILABLE"));
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"{}", "{\"attributeKey\":null}", "{\"attributeKey\":\"mana\",\"sourceSkillKey\":\"source_skill\"}"})
     void finalBindingDetailCannotLoseItsAttributeOrStoreAnAlternateSource(String detail) {
@@ -86,6 +107,37 @@ class SourceCastResourceCostSemanticsTest {
                  "actions":[{"actionKey":"refund","actionType":"EXECUTE_EFFECT","detail":{"effectKey":"refund"},
                   "runtimeInputBindings":[{"bindingKey":"cost","parameterKey":"cost","sourceType":"SOURCE_CAST_RESOURCE_COST","detail":%s}]}]}
                 """.formatted(eventType, sourceSkill, detail)))
+        );
+    }
+
+    static List<Aggregate> processObjects(String momentType, String activation, String detail) {
+        return List.of(
+            objects("SKILL_HIT", "source_skill", detail).getFirst(),
+            new Aggregate(SourceType.PROCESS, "skill", "cast", AggregateJson.tree("""
+                {"activationType":"%s","steps":[{"stepKey":"recast","stepType":"RECAST","detail":{}}],
+                 "cooldown":null,"effectBindings":[],"stateOperations":[]}
+                """.formatted(activation))),
+            new Aggregate(SourceType.TRIGGER, "skill", "rule", AggregateJson.tree("""
+                {"eventSource":{"eventType":"PROCESS_MOMENT","detail":{"processKey":"cast",
+                  "moment":{"momentType":"%s"}}},"conditionGroups":[],
+                 "actions":[{"actionKey":"refund","actionType":"EXECUTE_EFFECT","detail":{"effectKey":"refund"},
+                  "runtimeInputBindings":[{"bindingKey":"cost","parameterKey":"cost","sourceType":"SOURCE_CAST_RESOURCE_COST","detail":%s}]}]}
+                """.formatted(momentType, detail)))
+        );
+    }
+
+    static List<Aggregate> cancelObjects(String detail) {
+        return List.of(
+            objects("SKILL_HIT", "source_skill", detail).getFirst(),
+            new Aggregate(SourceType.PROCESS, "skill", "cast", AggregateJson.tree("""
+                {"activationType":"ACTIVE","steps":[{"stepKey":"recast","stepType":"RECAST","detail":{}}],
+                 "cooldown":null,"effectBindings":[],"stateOperations":[]}
+                """)),
+            new Aggregate(SourceType.TRIGGER, "skill", "rule", AggregateJson.tree("""
+                {"eventSource":{"eventType":"PROCESS_CANCEL_REQUESTED","detail":{"processKey":"cast"}},"conditionGroups":[],
+                 "actions":[{"actionKey":"refund","actionType":"EXECUTE_EFFECT","detail":{"effectKey":"refund"},
+                  "runtimeInputBindings":[{"bindingKey":"cost","parameterKey":"cost","sourceType":"SOURCE_CAST_RESOURCE_COST","detail":%s}]}]}
+                """.formatted(detail)))
         );
     }
 }

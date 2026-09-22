@@ -45,6 +45,7 @@
             <arg column="process_key" javaType="java.lang.String"/>
             <arg column="moment_type" javaType="java.lang.String"/>
             <arg column="step_key" javaType="java.lang.String"/>
+            <arg column="failure_reason" javaType="java.lang.String"/>
         </constructor>
     </resultMap>
 
@@ -262,7 +263,9 @@
             <arg column="skill_key" javaType="java.lang.String"/>
             <arg column="rule_key" javaType="java.lang.String"/>
             <arg column="action_key" javaType="java.lang.String"/>
+            <arg column="action_type" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType"/>
             <arg column="process_key" javaType="java.lang.String"/>
+            <arg column="step_key" javaType="java.lang.String"/>
             <arg column="failure_reason" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessFailureReason"/>
         </constructor>
     </resultMap>
@@ -425,6 +428,7 @@
             <arg column="ammo_max_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
             <arg column="ammo_recovery_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
             <arg column="cooldown_duration_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
+            <arg column="activation_type" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessActivationType"/>
         </constructor>
     </resultMap>
 
@@ -712,7 +716,7 @@
     </select>
 
     <select id="listProcessActionsForSkill" resultMap="processActionRow">
-        SELECT game_id, skill_key, rule_key, action_key, process_key, failure_reason
+        SELECT game_id, skill_key, rule_key, action_key, action_type, process_key, step_key, failure_reason
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleProcessActions"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey}
         ORDER BY rule_key ASC, action_key ASC
@@ -733,7 +737,7 @@
     </select>
 
     <select id="listProcessEventsForSkill" resultMap="processEventRow">
-        SELECT game_id, skill_key, rule_key, process_key, moment_type, step_key
+        SELECT game_id, skill_key, rule_key, process_key, moment_type, step_key, failure_reason
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleProcessEvents"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey}
         ORDER BY rule_key ASC
@@ -844,7 +848,8 @@
                CAST(NULL AS varchar) AS ammo_initial_value,
                CAST(NULL AS varchar) AS ammo_max_value,
                CAST(NULL AS varchar) AS ammo_recovery_value,
-               CAST(NULL AS varchar) AS cooldown_duration_value
+               CAST(NULL AS varchar) AS cooldown_duration_value,
+               CAST(NULL AS varchar) AS activation_type
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.processEffectBindings"/>) b
         WHERE b.game_id = #{gameId} AND b.skill_key = #{skillKey}
         UNION ALL
@@ -874,7 +879,8 @@
                CAST(NULL AS varchar) AS ammo_initial_value,
                CAST(NULL AS varchar) AS ammo_max_value,
                CAST(NULL AS varchar) AS ammo_recovery_value,
-               CAST(NULL AS varchar) AS cooldown_duration_value
+               CAST(NULL AS varchar) AS cooldown_duration_value,
+               CAST(NULL AS varchar) AS activation_type
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.processStateOperations"/>) o
         JOIN public.skill_internal_states s
           ON s.game_id = o.game_id
@@ -908,7 +914,8 @@
                CAST(NULL AS varchar) AS ammo_initial_value,
                CAST(NULL AS varchar) AS ammo_max_value,
                CAST(NULL AS varchar) AS ammo_recovery_value,
-               CAST(NULL AS varchar) AS cooldown_duration_value
+               CAST(NULL AS varchar) AS cooldown_duration_value,
+               CAST(NULL AS varchar) AS activation_type
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.processSteps"/>) st
         LEFT JOIN (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.processDelayStepDetails"/>) d
           ON d.game_id = st.game_id
@@ -973,9 +980,41 @@
                CAST(NULL AS varchar) AS ammo_initial_value,
                CAST(NULL AS varchar) AS ammo_max_value,
                CAST(NULL AS varchar) AS ammo_recovery_value,
-               cd.duration_value AS cooldown_duration_value
+               cd.duration_value AS cooldown_duration_value,
+               CAST(NULL AS varchar) AS activation_type
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.processCooldowns"/>) cd
         WHERE cd.game_id = #{gameId} AND cd.skill_key = #{skillKey}
+        UNION ALL
+        SELECT p.process_key,
+               CAST(NULL AS varchar) AS binding_effect_key,
+               CAST(NULL AS varchar) AS operation_state_key,
+               CAST(NULL AS varchar) AS operation,
+               CAST(NULL AS varchar) AS operation_value,
+               CAST(NULL AS varchar) AS state_type,
+               CAST(NULL AS varchar) AS step_key,
+               CAST(NULL AS varchar) AS step_type,
+               CAST(NULL AS varchar) AS cooldown_value,
+               CAST(NULL AS varchar) AS delay_value,
+               CAST(NULL AS varchar) AS multi_count_value,
+               CAST(NULL AS varchar) AS multi_interval_value,
+               CAST(NULL AS varchar) AS periodic_count_value,
+               CAST(NULL AS varchar) AS periodic_interval_value,
+               CAST(NULL AS varchar) AS channel_duration_value,
+               CAST(NULL AS varchar) AS channel_count_value,
+               CAST(NULL AS varchar) AS charge_min_value,
+               CAST(NULL AS varchar) AS charge_max_value,
+               CAST(NULL AS varchar) AS recast_window_value,
+               CAST(NULL AS varchar) AS recast_count_value,
+               CAST(NULL AS varchar) AS empowered_window_value,
+               CAST(NULL AS varchar) AS counter_initial_value,
+               CAST(NULL AS varchar) AS counter_max_value,
+               CAST(NULL AS varchar) AS ammo_initial_value,
+               CAST(NULL AS varchar) AS ammo_max_value,
+               CAST(NULL AS varchar) AS ammo_recovery_value,
+               CAST(NULL AS varchar) AS cooldown_duration_value,
+               p.activation_type AS activation_type
+        FROM public.skill_processes p
+        WHERE p.game_id = #{gameId} AND p.skill_key = #{skillKey}
         ORDER BY process_key ASC, step_key ASC, binding_effect_key ASC
     </select>
 

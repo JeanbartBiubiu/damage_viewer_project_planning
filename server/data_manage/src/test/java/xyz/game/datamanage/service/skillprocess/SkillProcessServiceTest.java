@@ -194,6 +194,63 @@ class SkillProcessServiceTest {
     }
 
     @Test
+    void failureReasonIsOnlyAllowedOnProcessFailureMoments() {
+        when(mapper.countByKey(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(0L);
+        SkillProcessCreateRequest allowed = new SkillProcessCreateRequest(
+            PROCESS_KEY, "失败时点", SkillProcessActivationType.ACTIVE, null, 0,
+            new SkillProcessCooldown(
+                SkillNumericValue.formula(FORMULA_KEY),
+                new SkillProcessMoment(
+                    SkillProcessMomentType.PROCESS_FAILURE,
+                    null,
+                    xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessFailureReason.ACTIVE_CANCELLED
+                )
+            ),
+            List.of(immediateStep()),
+            List.of(),
+            List.of()
+        );
+        SkillProcessDetailResponse created = service.create(GAME_ID, SKILL_KEY, allowed);
+        assertEquals(
+            xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessFailureReason.ACTIVE_CANCELLED,
+            created.cooldown().startMoment().failureReason()
+        );
+
+        ApiException forbidden = assertThrows(ApiException.class, () -> service.create(
+            GAME_ID, SKILL_KEY,
+            new SkillProcessCreateRequest(
+                PROCESS_KEY, "完成时点", SkillProcessActivationType.ACTIVE, null, 0,
+                new SkillProcessCooldown(
+                    SkillNumericValue.formula(FORMULA_KEY),
+                    new SkillProcessMoment(
+                        SkillProcessMomentType.PROCESS_COMPLETE,
+                        null,
+                        xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessFailureReason.SOURCE_DIED
+                    )
+                ),
+                List.of(immediateStep()),
+                List.of(),
+                List.of()
+            )
+        ));
+        assertField(forbidden, "cooldown.startMoment.failureReason", "FORBIDDEN");
+
+        SkillProcessMoment noisy = xyz.game.datamanage.support.authoring.AggregateJson.read(
+            "{\"momentType\":\"PROCESS_FAILURE\",\"unexpected\":true}", SkillProcessMoment.class);
+        ApiException unknown = assertThrows(ApiException.class, () -> service.create(
+            GAME_ID, SKILL_KEY,
+            new SkillProcessCreateRequest(
+                PROCESS_KEY, "未知字段", SkillProcessActivationType.ACTIVE, null, 0,
+                new SkillProcessCooldown(SkillNumericValue.formula(FORMULA_KEY), noisy),
+                List.of(immediateStep()),
+                List.of(),
+                List.of()
+            )
+        ));
+        assertField(unknown, "cooldown.startMoment.unexpected", "UNKNOWN_FIELD");
+    }
+
+    @Test
     void rejectsCorruptStoredStepDetailAndUnresolvedLocalMoment() {
         stored = new SkillProcessRow(GAME_ID, SKILL_KEY, PROCESS_KEY, "施放", SkillProcessActivationType.ACTIVE,
             null, 0, TS, TS,

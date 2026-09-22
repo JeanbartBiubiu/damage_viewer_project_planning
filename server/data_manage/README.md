@@ -93,11 +93,19 @@
 
 ### 来源施放消耗绑定
 
-动态输入来源 `SOURCE_CAST_RESOURCE_COST` 的明细只含 `attributeKey`，引用当前游戏已有属性。仅允许已经明确 `sourceSkillKey` 的 `SKILL_HIT` 事件，目标必须是当前动作可达的 `RUNTIME_INPUT`、`DECIMAL` 参数。来源技能直接取事件配置，更换绑定来源仍须使用新的绑定键。
+动态输入来源 `SOURCE_CAST_RESOURCE_COST` 的明细只含 `attributeKey`，引用当前游戏已有属性。允许已经明确 `sourceSkillKey` 的 `SKILL_HIT`，以及当前技能、非被动过程的 `PROCESS_COMPLETE` / `PROCESS_FAILURE`；开始或取消请求不能供值。目标必须是当前动作可达的 `RUNTIME_INPUT`、`DECIMAL` 参数。命中事件的来源技能直接取事件配置；过程时点的来源归属为规则所属技能加 `processKey`。更换绑定来源仍须使用新的绑定键。
 
 属性引用进入统一引用索引；受写入守卫保护的属性移除事务会以 409 拒绝悬空引用，当前属性管理没有删除接口。参数类型、模式、公式可达性和绑定事件的后续变化均在提交前复核。普通直接 SQL 不受此保护。
 
-该来源约定读取实际命中所属原始施放的非负资源消耗快照，同次施放的多次命中共用快照，后续退款不改变它。真实零消耗必须明确提供零，缺少施放或资源上下文必须报缺失。本模块只保存此输入契约，不产生快照，也不把已有消耗、恢复或退款结果累加成该值。
+该来源约定读取实际命中所属原始施放、或当前技能过程完成/失败时点对应施放的非负资源消耗快照。同次施放的多次命中共用快照，后续退款不改变它。真实零消耗必须明确提供零，缺少施放或资源上下文必须报缺失。本模块只保存此输入契约，不产生快照，也不把已有消耗、恢复或退款结果累加成该值。完整规则以规划真源[管理页面与共性机制迭代计划](../../../damage_viewer_project_planning/文档记录/详细设计/项目/管理页面与共性机制迭代计划.md)第4项（PLAN_REV `casting-phase-r2`）为准。
+
+### 技能使用阶段与推进过程
+
+`SKILL_USED.detail.castPhase` 必填，取值 `INITIAL` / `RECAST` / `CHARGE_RELEASE`；`SKILL_HIT` 及其他事件拒绝该字段。读取旧缺省或 `NULL` 如实返回，不默认 `INITIAL`。新建与修改（包括只改名字）强制核定阶段。
+
+`ADVANCE_PROCESS` 明细为 `{processKey,stepKey}`，必须明确同技能 `sourceSkillKey`：`RECAST` 推进再次施放步骤，`CHARGE_RELEASE` 推进蓄力步骤；拒绝首次、被动、不存在或类型不匹配。动作外壳与 `FAIL_PROCESS` 相同：`targetContext` 为 `null`，动态输入与结果修正为空。已核定阶段上的 `START_PROCESS` 只允许 `INITIAL`。过程时点 `failureReason` 仅 `PROCESS_FAILURE` 可非空。冷却变化 `SET_REMAINING` 需要有限非负毫秒（含 0）的数值规则，配置值前序输出沿用 `REDUCE` 而非 `RESET`。
+
+未修改的缺阶段存量不单独锁死全游戏最终检查；任意 `ADVANCE_PROCESS` 不能因阶段空缺豁免。本模块仍只管理配置，不执行过程或宣称战斗通过。共享契约只以规划真源第4项为准，不在此复制整份。
 
 ### 事件对方类别条件
 

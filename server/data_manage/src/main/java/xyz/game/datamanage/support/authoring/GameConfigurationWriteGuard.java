@@ -99,6 +99,7 @@ public class GameConfigurationWriteGuard {
         SkillTargetCategoryConditionSemantics.validate(aggregates);
         SkillExplicitTargetIsSourceConditionSemantics.validate(aggregates);
         SkillHitTargetIsEnemyConditionSemantics.validate(aggregates);
+        SkillCastingPhaseSemantics.validate(aggregates);
         vampSemantics.validate(gameId, aggregates);
         numericSemantics.validate(gameId, aggregates);
         jdbc.update("DELETE FROM public.skill_object_references WHERE game_id = ?", gameId);
@@ -166,7 +167,7 @@ public class GameConfigurationWriteGuard {
                jsonb_build_object('stateType', state_type, 'detail', detail)::text
           FROM public.skill_internal_states JOIN selected_game USING (game_id)
         UNION ALL SELECT 'PROCESS', skill_key, process_key,
-               jsonb_build_object('steps', steps, 'cooldown', cooldown,
+               jsonb_build_object('activationType', activation_type, 'steps', steps, 'cooldown', cooldown,
                    'effectBindings', effect_bindings, 'stateOperations', state_operations)::text
           FROM public.skill_processes JOIN selected_game USING (game_id)
         UNION ALL SELECT 'TRIGGER', skill_key, rule_key,
