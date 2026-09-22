@@ -1,3 +1,5 @@
+import type { AuthoringLocation } from './authoringLocation';
+
 export type AuthoringCheckSkill = {
   skillKey: string;
   name: string | null;
@@ -18,6 +20,7 @@ export type AuthoringCheckReference = {
   targetSkillKey: string | null;
   targetKey: string;
   targetSubKey: string | null;
+  location: AuthoringLocation;
 };
 
 export type AuthoringCheckIssue = {
@@ -28,6 +31,7 @@ export type AuthoringCheckIssue = {
   objectType: string;
   objectKey: string;
   fieldPath: string;
+  location: AuthoringLocation;
 };
 
 export type CharacterAuthoringCheck = {

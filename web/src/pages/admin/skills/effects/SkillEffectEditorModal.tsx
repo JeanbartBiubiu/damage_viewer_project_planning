@@ -46,6 +46,15 @@ import type {
   SkillEffectReapplicationStackMode,
   SkillEffectSummary
 } from '../../../../types/skillEffect';
+import type { AuthoringLocation } from '../../../../types/authoringLocation';
+import { resolveAuthoringLocation } from '../authoringLocation';
+import {
+  AUTHORING_UNSAVED_CONFIRM,
+  authoringLocateMessage,
+  keyedChildren,
+  lastFieldName,
+  shouldDegradeUnsupportedAnchor
+} from '../authoringFocus';
 import {
   SkillEffectResultEditorModal,
   type SkillEffectResultEditorMode
@@ -118,6 +127,7 @@ type SkillEffectEditorModalProps = {
   onSaved: (effect: SkillEffect) => void | Promise<void>;
   onSkillMissing: () => void;
   onDirtyChange: (dirty: boolean) => void;
+  authoringLocation?: AuthoringLocation | null;
 };
 
 type ResultEditorState = {
@@ -125,6 +135,8 @@ type ResultEditorState = {
   index: number | null;
   draft: SkillEffectResultDraft;
   fieldErrors: SkillEffectResultDraftErrors;
+  focusField?: string | null;
+  locateMessage?: string | null;
 };
 
 const EMPTY_RESULT_DRAFT = createEmptyResultDraft();
@@ -295,7 +307,8 @@ export function SkillEffectEditorModal({
   onClose,
   onSaved,
   onSkillMissing,
-  onDirtyChange
+  onDirtyChange,
+  authoringLocation
 }: SkillEffectEditorModalProps) {
   const [draft, setDraft] = useState<SkillEffectDraft>(createEmptyEffectDraft());
   const [baseline, setBaseline] = useState<SkillEffectDraft>(createEmptyEffectDraft());
@@ -327,6 +340,7 @@ export function SkillEffectEditorModal({
   const [skillCategoriesLoadState, setSkillCategoriesLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
   const [skillCategoriesError, setSkillCategoriesError] = useState<string | null>(null);
   const [resultEditor, setResultEditor] = useState<ResultEditorState | null>(null);
+  const [locateNotice, setLocateNotice] = useState<string | null>(null);
   const detailSerial = useRef(0);
   const formulaSerial = useRef(0);
   const attributeSerial = useRef(0);
@@ -531,6 +545,51 @@ export function SkillEffectEditorModal({
     }
   }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
 
+  const applyAuthoringLocation = useCallback((detail: SkillEffect, nextDraft: SkillEffectDraft) => {
+    if (!authoringLocation) {
+      setLocateNotice(null);
+      return;
+    }
+    const resolved = resolveAuthoringLocation(authoringLocation, detail);
+    const unsupported = shouldDegradeUnsupportedAnchor(authoringLocation.editor, resolved.matchedSegments, resolved.precision);
+    const resultKey = keyedChildren(resolved.matchedSegments).find((item) => item.collection === 'results')?.key;
+    const field = lastFieldName(resolved.matchedSegments);
+    if (resolved.precision !== 'FIELD' || unsupported || resolved.reason) {
+      setLocateNotice(authoringLocateMessage({
+        originalFieldPath: resolved.originalFieldPath,
+        reason: resolved.reason,
+        unsupportedAnchor: unsupported,
+        reportChanged: resolved.reportChanged
+      }));
+    } else {
+      setLocateNotice(null);
+    }
+    if (!resultKey) return;
+    const index = nextDraft.results.findIndex((item) => item.resultKey === resultKey);
+    if (index < 0) {
+      setLocateNotice(authoringLocateMessage({
+        originalFieldPath: resolved.originalFieldPath,
+        reason: 'MISSING_KEY'
+      }));
+      return;
+    }
+    setResultEditor({
+      mode: 'edit',
+      index,
+      draft: nextDraft.results[index]!,
+      fieldErrors: {},
+      focusField: resolved.precision === 'FIELD' && !unsupported ? field : null,
+      locateMessage: resolved.precision === 'FIELD' && !unsupported && !resolved.reason
+        ? null
+        : authoringLocateMessage({
+          originalFieldPath: resolved.originalFieldPath,
+          reason: resolved.reason,
+          unsupportedAnchor: unsupported,
+          reportChanged: resolved.reportChanged
+        })
+    });
+  }, [authoringLocation]);
+
   const loadDetail = useCallback(async () => {
     const serial = detailSerial.current + 1;
     detailSerial.current = serial;
@@ -578,6 +637,7 @@ export function SkillEffectEditorModal({
       setBaseline(next);
       setDetailReady(true);
       onDirtyChange(false);
+      applyAuthoringLocation(result.data, next);
     } catch (error) {
       if (detailSerial.current !== serial) return;
       if (isSkillNotFound(error)) {
@@ -586,6 +646,12 @@ export function SkillEffectEditorModal({
       }
       setDetailReady(false);
       setLoadError(getErrorMessage(error));
+      if (authoringLocation) {
+        setLocateNotice(authoringLocateMessage({
+          originalFieldPath: authoringLocation.fieldPath,
+          reason: 'OBJECT_MISSING'
+        }));
+      }
     } finally {
       if (detailSerial.current === serial) setLoadingDetail(false);
     }
@@ -598,7 +664,9 @@ export function SkillEffectEditorModal({
     onSkillMissing,
     selectedGameId,
     skill.skillKey,
-    visible
+    visible,
+    applyAuthoringLocation,
+    authoringLocation
   ]);
 
   useEffect(() => {
@@ -674,7 +742,9 @@ export function SkillEffectEditorModal({
   };
 
   const close = () => {
-    if (closeBlocked) return;
+    if (closeBlocked || resultEditor) return;
+    const dirty = JSON.stringify(draft) !== JSON.stringify(baseline);
+    if (!readOnly && dirty && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
     onDirtyChange(false);
     onClose();
   };
@@ -986,12 +1056,12 @@ export function SkillEffectEditorModal({
       <Modal
         title={titleFor(mode)}
         visible={visible}
-        maskClosable
+        maskClosable={!resultEditor}
         onCancel={close}
         style={{ width: 'calc(100vw - 80px)', maxWidth: 1800 }}
         footer={
           <Space>
-            <Button onClick={close} disabled={closeBlocked}>{readOnly ? '关闭' : '取消'}</Button>
+            <Button onClick={close} disabled={closeBlocked || Boolean(resultEditor)}>{readOnly ? '关闭' : '取消'}</Button>
             {!readOnly ? (
               <Button
                 type="primary"
@@ -1010,6 +1080,7 @@ export function SkillEffectEditorModal({
             <Alert type="info" content="填写新的效果标识后保存。公式及其他引用仍指向原有对象，请核对后调整；已有规则不会自动切换到新效果。" />
           ) : null}
           {saveError ? <Alert type="error" content={saveError} /> : null}
+          {locateNotice ? <Alert type="warning" content={locateNotice} /> : null}
           {loadError ? (
             <Alert
               type="error"
@@ -1418,6 +1489,8 @@ export function SkillEffectEditorModal({
         selectedGameId={selectedGameId}
         adminToken={adminToken}
         onClose={() => setResultEditor(null)}
+        focusField={resultEditor?.focusField ?? null}
+        locateMessage={resultEditor?.locateMessage ?? null}
         onConfirm={(nextResult) => {
           if (!resultEditor) return;
           if (resultEditor.index === null) {

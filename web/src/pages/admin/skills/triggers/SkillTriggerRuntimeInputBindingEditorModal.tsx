@@ -13,6 +13,8 @@ import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Attribute } from '../../../../types/attribute';
 import { allowsSourceCastResourceCost, sourceCastResourceCostError, type SourceCastResourceCostProcess } from './sourceCastResourceCost';
+import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
 import type { SkillParameter, SkillParameterValueType } from '../../../../types/skillParameter';
@@ -168,6 +170,8 @@ type SkillTriggerRuntimeInputBindingEditorModalProps = {
   onClose: () => void;
   onConfirm: (binding: SkillTriggerRuntimeInputBinding) => void;
   onEnsureEffect?: (effectKey: string) => Promise<SkillEffect | null>;
+  focusField?: string | null;
+  locateMessage?: string | null;
 };
 
 function titleFor(mode: SkillTriggerRuntimeInputBindingEditorMode): string {
@@ -201,9 +205,14 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   disabled,
   onClose,
   onConfirm,
-  onEnsureEffect
+  onEnsureEffect,
+  focusField = null,
+  locateMessage = null
 }: SkillTriggerRuntimeInputBindingEditorModalProps) {
   const [current, setCurrent] = useState<SkillTriggerRuntimeInputBinding>(
+    binding ?? emptyBinding(existingBindingKeys)
+  );
+  const [initial, setInitial] = useState<SkillTriggerRuntimeInputBinding>(
     binding ?? emptyBinding(existingBindingKeys)
   );
   const [selectedOutputKind, setSelectedOutputKind] = useState<PriorResultOutputSelection>(
@@ -268,7 +277,9 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
 
   useEffect(() => {
     if (!visible) return;
-    setCurrent(binding ?? emptyBinding(existingBindingKeys));
+    const next = binding ?? emptyBinding(existingBindingKeys);
+    setCurrent(next);
+    setInitial(next);
     setSelectedOutputKind(initialPriorResultOutputSelection(mode, binding));
     setSourceEffectError(null);
     setSourceEffectLoading(false);
@@ -367,6 +378,12 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
     onConfirm(current);
   };
 
+  const close = () => {
+    if (!disabled && JSON.stringify(current) !== JSON.stringify(initial)
+      && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
+    onClose();
+  };
+
   const columns: TableColumnProps[] = [
     { title: '参数', dataIndex: 'name' },
     { title: '稳定标识', dataIndex: 'parameterKey' },
@@ -394,11 +411,11 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
       title={titleFor(mode)}
       visible={visible}
       maskClosable
-      onCancel={onClose}
+      onCancel={close}
       style={{ width: 960 }}
       footer={
         <Space>
-          <Button onClick={onClose}>取消</Button>
+          <Button onClick={close}>取消</Button>
           <Button
             type="primary"
             disabled={disabled || !priorResultConfirmReady || Boolean(sourceCostError)}
@@ -410,6 +427,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
       }
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
+        {locateMessage ? <Alert type="warning" content={locateMessage} /> : null}
         {localError ? <Alert type="error" content={localError} /> : null}
         <Table
           size="small"
@@ -420,6 +438,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
           noDataElement={<Empty description="当前动作没有计算时传入参数" />}
         />
         <Form layout="vertical">
+          <AuthoringFieldAnchor field="bindingKey" active={focusField === 'bindingKey'}>
           <Form.Item label="绑定标识" required>
             <Input
               aria-label="绑定标识"
@@ -429,6 +448,8 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               onChange={(value) => setCurrent({ ...current, bindingKey: value })}
             />
           </Form.Item>
+          </AuthoringFieldAnchor>
+          <AuthoringFieldAnchor field="parameterKey" active={focusField === 'parameterKey'}>
           <Form.Item label="参数" required>
             <Select
               aria-label="绑定参数"
@@ -442,6 +463,8 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               onChange={(value) => setCurrent({ ...current, parameterKey: String(value ?? '') })}
             />
           </Form.Item>
+          </AuthoringFieldAnchor>
+          <AuthoringFieldAnchor field="sourceType" active={focusField === 'sourceType'}>
           <Form.Item label="来源种类" required extra={originalSourceType ? '已有绑定不能更改来源种类；请删除后以新标识新增。' : undefined}>
             <Select
               aria-label="来源种类"
@@ -458,11 +481,13 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               }}
             />
           </Form.Item>
+          </AuthoringFieldAnchor>
 
           {current.sourceType === 'SOURCE_CAST_RESOURCE_COST' ? (
             <>
               <Alert type="info" content="读取本次明确来源技能命中的原始施放消耗，或当前技能非被动过程完成/失败时点的实际施放消耗；只保存属性引用，不重新计算也不做 0 兜底。真实零消耗与缺少上下文不同。" />
               {sourceCostError ? <Alert type="warning" content={sourceCostError} /> : null}
+              <AuthoringFieldAnchor field="attributeKey" active={focusField === 'attributeKey'}>
               <Form.Item label="消耗属性" required>
                 <Select
                   aria-label="消耗属性"
@@ -472,6 +497,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
                   onChange={(value) => setCurrent({ ...current, detail: { attributeKey: String(value ?? '') } })}
                 />
               </Form.Item>
+              </AuthoringFieldAnchor>
               <Button disabled={disabled || attributesLoadState === 'loading'} loading={attributesLoadState === 'loading'} onClick={() => void onRetryAttributes()}>刷新属性目录</Button>
             </>
           ) : null}

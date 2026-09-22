@@ -20,6 +20,15 @@ import type {
   SkillParameterValueMode,
   SkillParameterValueType
 } from '../../../types/skillParameter';
+import type { AuthoringLocation } from '../../../types/authoringLocation';
+import { resolveAuthoringLocation } from './authoringLocation';
+import { AuthoringFieldAnchor } from './AuthoringFieldAnchor';
+import {
+  AUTHORING_UNSAVED_CONFIRM,
+  authoringLocateMessage,
+  lastFieldName,
+  shouldDegradeUnsupportedAnchor
+} from './authoringFocus';
 import {
   applyValueModeReset,
   applyPastedLevelValues,
@@ -52,6 +61,7 @@ type SkillParameterEditorModalProps = {
   onClose: () => void;
   onSaved: () => void | Promise<void>;
   onSkillMissing: () => void;
+  authoringLocation?: AuthoringLocation | null;
 };
 
 function titleFor(mode: SkillParameterEditorMode): string {
@@ -73,7 +83,8 @@ export function SkillParameterEditorModal({
   adminToken,
   onClose,
   onSaved,
-  onSkillMissing
+  onSkillMissing,
+  authoringLocation
 }: SkillParameterEditorModalProps) {
   const skillLevelRange = useMemo<LevelRange>(
     () => ({ minLevel: 1, maxLevel: skillMaxLevel }),
@@ -100,6 +111,8 @@ export function SkillParameterEditorModal({
   const [arithStep, setArithStep] = useState<number | undefined>();
   const [bulkLevelText, setBulkLevelText] = useState('');
   const [bulkLevelError, setBulkLevelError] = useState<string | null>(null);
+  const [focusField, setFocusField] = useState<string | null>(null);
+  const [locateNotice, setLocateNotice] = useState<string | null>(null);
   const readOnly = mode === 'view';
 
   const activeLevelRange = draft.valueMode === 'SKILL_LEVEL'
@@ -119,7 +132,27 @@ export function SkillParameterEditorModal({
     setArithStep(undefined);
     setBulkLevelText('');
     setBulkLevelError(null);
-  }, [initial, mode, visible]);
+    if (!authoringLocation || !parameter) {
+      setFocusField(null);
+      setLocateNotice(null);
+      return;
+    }
+    const resolved = resolveAuthoringLocation(authoringLocation, parameter);
+    const unsupported = shouldDegradeUnsupportedAnchor(authoringLocation.editor, resolved.matchedSegments, resolved.precision);
+    const field = lastFieldName(resolved.matchedSegments);
+    if (resolved.precision !== 'FIELD' || unsupported || resolved.reason) {
+      setLocateNotice(authoringLocateMessage({
+        originalFieldPath: resolved.originalFieldPath,
+        reason: resolved.reason,
+        unsupportedAnchor: unsupported,
+        reportChanged: resolved.reportChanged
+      }));
+      setFocusField(null);
+    } else {
+      setLocateNotice(null);
+      setFocusField(field);
+    }
+  }, [authoringLocation, initial, mode, parameter, visible]);
 
   const patchDraft = <K extends keyof SkillParameterDraft>(
     field: K,
@@ -163,6 +196,8 @@ export function SkillParameterEditorModal({
 
   const close = () => {
     if (saving) return;
+    if (!readOnly && JSON.stringify(draft) !== JSON.stringify(initial)
+      && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
     onClose();
   };
 
@@ -298,8 +333,10 @@ export function SkillParameterEditorModal({
       }
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
+        {locateNotice ? <Alert type="warning" content={locateNotice} /> : null}
         {saveError ? <Alert type="error" content={saveError} /> : null}
         <Form layout="vertical">
+          <AuthoringFieldAnchor field="parameterKey" active={focusField === 'parameterKey'}>
           <Form.Item
             label="稳定标识"
             required
@@ -314,6 +351,8 @@ export function SkillParameterEditorModal({
               onChange={(value) => patchDraft('parameterKey', value)}
             />
           </Form.Item>
+          </AuthoringFieldAnchor>
+          <AuthoringFieldAnchor field="name" active={focusField === 'name'}>
           <Form.Item
             label="参数名称"
             required
@@ -328,6 +367,8 @@ export function SkillParameterEditorModal({
               onChange={(value) => patchDraft('name', value)}
             />
           </Form.Item>
+          </AuthoringFieldAnchor>
+          <AuthoringFieldAnchor field="valueType" active={focusField === 'valueType'}>
           <Form.Item
             label="数值类型"
             required
@@ -344,6 +385,8 @@ export function SkillParameterEditorModal({
               <Radio value="DECIMAL">小数</Radio>
             </Radio.Group>
           </Form.Item>
+          </AuthoringFieldAnchor>
+          <AuthoringFieldAnchor field="valueMode" active={focusField === 'valueMode'}>
           <Form.Item
             label="取值方式"
             required
@@ -369,8 +412,10 @@ export function SkillParameterEditorModal({
               </Typography.Text>
             ) : null}
           </Form.Item>
+          </AuthoringFieldAnchor>
 
           {draft.valueMode === 'FIXED' ? (
+            <AuthoringFieldAnchor field="fixedValue" active={focusField === 'fixedValue' || focusField === 'value'}>
             <Form.Item
               label="固定值"
               required
@@ -386,9 +431,11 @@ export function SkillParameterEditorModal({
                 onChange={(value) => patchDraft('fixedValue', value === undefined ? '' : String(value))}
               />
             </Form.Item>
+            </AuthoringFieldAnchor>
           ) : null}
 
           {draft.valueMode === 'SKILL_LEVEL' || draft.valueMode === 'CHARACTER_LEVEL' ? (
+            <AuthoringFieldAnchor field="levelValues" active={focusField === 'levelValues'}>
             <Form.Item
               label="等级数值"
               required
@@ -483,8 +530,10 @@ export function SkillParameterEditorModal({
                 </Space>
               )}
             </Form.Item>
+            </AuthoringFieldAnchor>
           ) : null}
 
+          <AuthoringFieldAnchor field="description" active={focusField === 'description'}>
           <Form.Item
             label="说明"
             validateStatus={errors.description ? 'error' : undefined}
@@ -500,6 +549,8 @@ export function SkillParameterEditorModal({
               onChange={(value) => patchDraft('description', value)}
             />
           </Form.Item>
+          </AuthoringFieldAnchor>
+          <AuthoringFieldAnchor field="sortOrder" active={focusField === 'sortOrder'}>
           <Form.Item
             label="排序"
             required
@@ -516,6 +567,7 @@ export function SkillParameterEditorModal({
               onChange={(value) => patchDraft('sortOrder', value === undefined ? '' : String(value))}
             />
           </Form.Item>
+          </AuthoringFieldAnchor>
         </Form>
       </Space>
     </Modal>

@@ -1,6 +1,7 @@
 import { ApiRequestError, encodePathSegment, requestJson } from './apiClient';
 import type { ApiResult } from './apiClient';
 import type { CharacterAuthoringCheck } from '../types/characterAuthoringCheck';
+import { parseAuthoringLocation } from './authoringLocation';
 
 function record(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -21,10 +22,19 @@ export function parseCharacterAuthoringCheck(value: unknown, gameId: string, cha
     && nullableString(item.status)
     && (item.maxLevel === null || Number.isInteger(item.maxLevel)) && Number.isInteger(item.sortOrder)
     && count(item.effectCount) && count(item.processCount) && count(item.triggerRuleCount))) return invalid();
-  if (!value.references.every(item => record(item) && ['sourceSkillKey', 'sourceType', 'sourceKey', 'fieldPath', 'targetType', 'targetKey'].every(key => string(item[key]))
-    && nullableString(item.targetSkillKey) && nullableString(item.targetSubKey))) return invalid();
+  if (!value.references.every(item => record(item)
+    && string(item.sourceSkillKey) && string(item.sourceType) && string(item.sourceKey) && string(item.fieldPath)
+    && string(item.targetType) && string(item.targetKey)
+    && nullableString(item.targetSkillKey) && nullableString(item.targetSubKey)
+    && parseAuthoringLocation(item.location, {
+      skillKey: item.sourceSkillKey, objectType: item.sourceType, objectKey: item.sourceKey, fieldPath: item.fieldPath
+    }))) return invalid();
   if (!value.issues.every(item => record(item) && (item.severity === 'ERROR' || item.severity === 'REVIEW')
-    && ['code', 'message', 'objectType', 'objectKey', 'fieldPath'].every(key => string(item[key])) && nullableString(item.skillKey))) return invalid();
+    && string(item.code) && string(item.message) && string(item.objectType) && string(item.objectKey) && string(item.fieldPath)
+    && nullableString(item.skillKey)
+    && parseAuthoringLocation(item.location, {
+      skillKey: item.skillKey, objectType: item.objectType, objectKey: item.objectKey, fieldPath: item.fieldPath
+    }))) return invalid();
   const errors = value.issues.filter(item => item.severity === 'ERROR').length;
   const reviews = value.issues.filter(item => item.severity === 'REVIEW').length;
   if (value.summary.errorCount !== errors || value.summary.reviewCount !== reviews || value.summary.attachedSkillCount !== value.skills.length

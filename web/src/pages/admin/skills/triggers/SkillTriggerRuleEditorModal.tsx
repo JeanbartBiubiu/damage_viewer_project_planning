@@ -32,6 +32,14 @@ import {
 import type { Attribute } from '../../../../types/attribute';
 import type { DamageType } from '../../../../types/damageType';
 import type { Skill } from '../../../../types/skill';
+import type { AuthoringLocation } from '../../../../types/authoringLocation';
+import { resolveAuthoringLocation } from '../authoringLocation';
+import {
+  authoringLocateMessage,
+  keyedChildKey,
+  lastFieldName,
+  shouldDegradeUnsupportedAnchor
+} from '../authoringFocus';
 import type { SkillEffect, SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillFormula, SkillFormulaSummary } from '../../../../types/skillFormula';
 import type { SkillInternalState, SkillInternalStateSummary } from '../../../../types/skillInternalState';
@@ -177,6 +185,7 @@ type SkillTriggerRuleEditorModalProps = {
   onSkillMissing: () => void;
   onRuleMissing: () => void;
   onDirtyChange: (dirty: boolean) => void;
+  authoringLocation?: AuthoringLocation | null;
 };
 
 type ConditionEditorState = {
@@ -184,12 +193,17 @@ type ConditionEditorState = {
   groupIndex: number;
   conditionIndex: number | null;
   draft: SkillTriggerConditionDraft;
+  focusField?: string | null;
+  locateMessage?: string | null;
 };
 
 type ActionEditorState = {
   mode: SkillTriggerActionEditorMode;
   index: number | null;
   draft: SkillTriggerActionDraft;
+  focusField?: string | null;
+  locateMessage?: string | null;
+  focusBindingKey?: string | null;
 };
 
 type CatalogOption = { label: string; value: string; disabled?: boolean };
@@ -252,7 +266,8 @@ export function SkillTriggerRuleEditorModal({
   onSaved,
   onSkillMissing,
   onRuleMissing,
-  onDirtyChange
+  onDirtyChange,
+  authoringLocation
 }: SkillTriggerRuleEditorModalProps) {
   const [draft, setDraft] = useState<SkillTriggerRuleDraft>(createEmptyRuleDraft());
   const [baseline, setBaseline] = useState<SkillTriggerRuleDraft>(createEmptyRuleDraft());
@@ -285,6 +300,7 @@ export function SkillTriggerRuleEditorModal({
   const [formulaByKey, setFormulaByKey] = useState<Map<string, SkillFormula>>(() => new Map());
   const [conditionEditor, setConditionEditor] = useState<ConditionEditorState | null>(null);
   const [actionEditor, setActionEditor] = useState<ActionEditorState | null>(null);
+  const [locateNotice, setLocateNotice] = useState<string | null>(null);
   const [reachableParameters, setReachableParameters] = useState<SkillParameter[]>([]);
   const formulaCacheRef = useRef(createFormulaSessionCache());
   const effectByKeyRef = useRef(effectByKey);
@@ -377,6 +393,7 @@ export function SkillTriggerRuleEditorModal({
     setFormulaByKey(new Map());
     setConditionEditor(null);
     setActionEditor(null);
+    setLocateNotice(null);
     setReachableParameters([]);
     formulaCacheRef.current = createFormulaSessionCache();
     effectByKeyRef.current = new Map();
@@ -605,6 +622,62 @@ export function SkillTriggerRuleEditorModal({
       setDetailReady(true);
       setRecordMissing(false);
       reportDirty(next, next);
+      if (authoringLocation) {
+        const resolved = resolveAuthoringLocation(authoringLocation, result.data);
+        const unsupported = shouldDegradeUnsupportedAnchor(authoringLocation.editor, resolved.matchedSegments, resolved.precision);
+        const notice = (resolved.precision !== 'FIELD' || unsupported || resolved.reason)
+          ? authoringLocateMessage({
+            originalFieldPath: resolved.originalFieldPath,
+            reason: resolved.reason,
+            unsupportedAnchor: unsupported,
+            reportChanged: resolved.reportChanged
+          })
+          : null;
+        setLocateNotice(notice);
+        const groupKey = keyedChildKey(resolved.matchedSegments, 'conditionGroups');
+        const conditionKey = keyedChildKey(resolved.matchedSegments, 'conditions');
+        const actionKey = keyedChildKey(resolved.matchedSegments, 'actions');
+        const bindingKey = keyedChildKey(resolved.matchedSegments, 'runtimeInputBindings');
+        const field = lastFieldName(resolved.matchedSegments);
+        const canFocus = resolved.precision === 'FIELD' && !unsupported;
+        if (conditionKey) {
+          const groupIndex = next.conditionGroups.findIndex((group) => group.groupKey === groupKey);
+          const group = groupIndex >= 0 ? next.conditionGroups[groupIndex] : undefined;
+          const conditionIndex = group?.conditions.findIndex((item) => item.conditionKey === conditionKey) ?? -1;
+          if (!group || conditionIndex < 0) {
+            setLocateNotice(authoringLocateMessage({ originalFieldPath: resolved.originalFieldPath, reason: 'MISSING_KEY' }));
+          } else {
+            setConditionEditor({
+              mode: 'edit',
+              groupIndex,
+              conditionIndex,
+              draft: group.conditions[conditionIndex]!,
+              focusField: canFocus ? field : null,
+              locateMessage: notice
+            });
+          }
+        } else if (actionKey) {
+          const index = next.actions.findIndex((item) => item.actionKey === actionKey);
+          if (index < 0) {
+            setLocateNotice(authoringLocateMessage({ originalFieldPath: resolved.originalFieldPath, reason: 'MISSING_KEY' }));
+          } else {
+            const action = next.actions[index]!;
+            if (bindingKey && !action.runtimeInputBindings.some((item) => item.bindingKey === bindingKey)) {
+              setLocateNotice(authoringLocateMessage({ originalFieldPath: resolved.originalFieldPath, reason: 'MISSING_KEY' }));
+            }
+            setActionEditor({
+              mode: 'edit',
+              index,
+              draft: action,
+              focusField: canFocus ? field : null,
+              locateMessage: notice,
+              focusBindingKey: bindingKey && action.runtimeInputBindings.some((item) => item.bindingKey === bindingKey)
+                ? bindingKey
+                : null
+            });
+          }
+        }
+      }
     } catch (error) {
       if (detailSerial.current !== serial) return;
       if (handleMissing(error)) return;
@@ -617,10 +690,16 @@ export function SkillTriggerRuleEditorModal({
       }
       setLoadError(getErrorMessage(error));
       setDetailReady(false);
+      if (authoringLocation) {
+        setLocateNotice(authoringLocateMessage({
+          originalFieldPath: authoringLocation.fieldPath,
+          reason: 'OBJECT_MISSING'
+        }));
+      }
     } finally {
       if (detailSerial.current === serial) setLoadingDetail(false);
     }
-  }, [adminToken, apiBaseUrl, handleMissing, mode, onRuleMissing, reportDirty, rule, selectedGameId, skill.skillKey, visible]);
+  }, [adminToken, apiBaseUrl, authoringLocation, handleMissing, mode, onRuleMissing, reportDirty, rule, selectedGameId, skill.skillKey, visible]);
 
   const ensureEffect = useCallback(async (effectKey: string): Promise<SkillEffect | null> => {
     if (!effectKey.trim()) return null;
@@ -1203,6 +1282,7 @@ export function SkillTriggerRuleEditorModal({
       >
         <Space direction="vertical" size="medium" style={{ width: '100%' }}>
           {saveError ? <Alert type="error" content={saveError} /> : null}
+          {locateNotice ? <Alert type="warning" content={locateNotice} /> : null}
           {loadError ? (
             <Alert
               type="error"
@@ -1645,6 +1725,8 @@ export function SkillTriggerRuleEditorModal({
         fieldErrors={nestedErrors}
         disabled={saving}
         onClose={() => setConditionEditor(null)}
+        focusField={conditionEditor?.focusField ?? null}
+        locateMessage={conditionEditor?.locateMessage ?? null}
         onConfirm={(nextCondition) => {
           if (!conditionEditor) return;
           const group = sortedGroups[conditionEditor.groupIndex];
@@ -1686,6 +1768,9 @@ export function SkillTriggerRuleEditorModal({
         onTargetChange={(next) => refreshActionReferences(next)}
         onEnsureEffect={ensureEffect}
         onClose={() => setActionEditor(null)}
+        focusField={actionEditor?.focusField ?? null}
+        locateMessage={actionEditor?.locateMessage ?? null}
+        focusBindingKey={actionEditor?.focusBindingKey ?? null}
         onConfirm={(nextAction) => {
           const nextActions = actionEditor?.mode === 'edit' && actionEditor.index !== null
             ? sortedActions.map((item, index) => (index === actionEditor.index ? nextAction : item))
