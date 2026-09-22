@@ -1,0 +1,3079 @@
+{
+  "formatVersion": 1,
+  "capturedAt": "2026-09-21T17:04:55.605Z",
+  "purpose": "特殊普攻已有配置的独立只读证据；只筛选与普攻本体、攻击序列、攻击属性和取消第二次攻击直接相关的组成，不表示完整配置或战斗运行通过。",
+  "userDecision": {
+    "confirmedOn": "2026-09-22",
+    "normalAttackSkillCategoryKeys": [
+      "basic_attack"
+    ],
+    "normalAttackExcludedCategoryKeys": [
+      "common",
+      "ultimate"
+    ],
+    "cooldownReductionCategoryScope": [
+      "common",
+      "ultimate"
+    ],
+    "zeriQ": {
+      "skillKey": "zeri_q",
+      "skillCategoryKeys": [
+        "basic_attack"
+      ]
+    },
+    "zeriRightClick": {
+      "skillKey": "zeri_basic_attack",
+      "skillCategoryKeys": [
+        "common"
+      ]
+    },
+    "meaning": "按用户确认，普通攻击是一类特殊技能，不加入普通技能或终极技能两类；全技能减冷却可显式只选择这两类。泽丽Q归普通攻击，右键单独定义为普通技能。",
+    "interval": "通用普通攻击间隔为1/来源当前总攻速秒，存毫秒时为1000/来源当前总攻速；特殊英雄另需已核攻击时序，不能从孤立标量猜完整函数。",
+    "classificationOnly": "此处记录业务决策，不声称这7项原技能的现库分类已经全部调整。"
+  },
+  "versionBoundary": {
+    "officialDataDragon": "16.17.1",
+    "clientDirectory": "16.17",
+    "clientContentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+    "characterLevels": "本轮只覆盖角色1至18级；未展开或批准缺少求值依据的等级表。",
+    "meaning": "固定资料用于本轮录入，16.17与16.17.1是同补丁号的不同资料版本标识，未证明构建完全一致；不混用当前最新版本或经典模式数值。"
+  },
+  "evidenceBoundary": {
+    "method": "仅HTTP GET读取业务配置，并读取固定来源文件；本代理没有业务写入。",
+    "baseUrl": "http://localhost:8080/api/admin/games/lol",
+    "liveDatabaseDirectlyQueried": false,
+    "browserWriteVerifiedHere": false,
+    "runtimeVerified": false,
+    "newBasicAttackSkillsMaintainedHere": false,
+    "meaning": "接口保存与读回证据不等于真实数据库独立查询、浏览器写入或战斗运行证明。"
+  },
+  "numericPolicy": [
+    "接口对象以GET响应JSON原文嵌入，数值不重新取整或缩短。",
+    "源数据保留原始浮点精度；当前库已经采用的短小数与客户端精确值分开记录，不在本文件中修改现库。",
+    "RUNTIME_INPUT表示必须提供已核实际输入；fixedValue与levelValues保持null，不填默认0，不由端点推导等级表。",
+    "完整公式只证明现有数学表达；没有状态、过程、触发和实际事件证据时，不批准自动攻击入口。"
+  ],
+  "patchSources": [
+    {
+      "id": "official_26_1",
+      "url": "https://www.leagueoflegends.com/en-sg/news/game-updates/patch-26-1-notes/",
+      "verification": "本次已打开官方原页核对；正常模式基础暴击倍率与固定客户端角色根的2对应。",
+      "facts": [
+        "烬的总暴击伤害乘算系数改为0.75，故当前候选完整倍率为0.75×(2+额外暴击伤害比例)。",
+        "男枪同页初稿为额外暴击伤害收益0.35；期中更新改为0.5，固定16.17客户端CritDamageRatio=0.5。不能只引用同页较早段落。"
+      ],
+      "limits": "补丁正文不提供弹药时序、实际弹数或完整事件脚本。"
+    },
+    {
+      "id": "official_26_17",
+      "url": "https://www.leagueoflegends.com/en-gb/news/game-updates/league-of-legends-patch-26-17-notes/",
+      "verification": "本次已打开官方原页核对。",
+      "facts": [
+        "永恩暴击伤害惩罚由10%改为5%，对应完整倍率候选0.95×(2+额外暴击伤害比例)。"
+      ],
+      "limits": "补丁变更不证明两个伤害结果在系统内共享同一次暴击判定。"
+    }
+  ],
+  "teamEvidence": {
+    "agent": "/root/basic_attack_exceptions",
+    "receivedOn": "2026-09-22",
+    "use": "采用同队已核固定来源与确切缺项；下列未核项保持未核，不因为参数或公式存在而视为机制已接。"
+  },
+  "sourceFiles": [
+    {
+      "championId": "Jhin",
+      "client": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Jhin.json.gz",
+        "sha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+        "compressedSha256": "21146e54ed3337fd2e235fd6bda961823a4834f6e068e832dc433d59b47139f7",
+        "byteSize": 59957,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/jhin/jhin.bin.json",
+        "fetchedAt": "2026-09-06T14:26:21.201Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+        "rawSha256Verified": true,
+        "compressedSha256Verified": true
+      },
+      "official": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Jhin.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jhin.json",
+        "fetchedAt": "2026-09-06T14:12:48.393Z",
+        "byteSize": 14749,
+        "sha256": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15",
+        "sha256Verified": true
+      },
+      "rootPath": "Characters/Jhin/CharacterRecords/Root"
+    },
+    {
+      "championId": "Graves",
+      "client": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Graves.json.gz",
+        "sha256": "77bf8e202e55753f7f2d17378841202bf4389bef35fdca33d9c645599f616d78",
+        "compressedSha256": "435bc1b1de464ae4837e2c5fb3ec4648da2039440265fd202b3a45608da18509",
+        "byteSize": 73878,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/graves/graves.bin.json",
+        "fetchedAt": "2026-09-06T14:26:18.746Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+        "rawSha256Verified": true,
+        "compressedSha256Verified": true
+      },
+      "official": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Graves.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Graves.json",
+        "fetchedAt": "2026-09-06T14:12:47.744Z",
+        "byteSize": 13502,
+        "sha256": "2bffed5c33c68bf1cd792a4bf371d2c94483c72295242a7633e99d539b9b8afa",
+        "sha256Verified": true
+      },
+      "rootPath": "Characters/Graves/CharacterRecords/Root"
+    },
+    {
+      "championId": "Sett",
+      "client": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Sett.json.gz",
+        "sha256": "13dbe8579df57977485fd282aec6b03673d39579b9325148079050aafd9960f6",
+        "compressedSha256": "02307985a897af077d579aae85285de7799fbf0e6918db6acb5c643925c87cbf",
+        "byteSize": 55065,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/sett/sett.bin.json",
+        "fetchedAt": "2026-09-06T14:26:37.197Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+        "rawSha256Verified": true,
+        "compressedSha256Verified": true
+      },
+      "official": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Sett.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sett.json",
+        "fetchedAt": "2026-09-06T14:12:53.163Z",
+        "byteSize": 14882,
+        "sha256": "c9d8782de0f5f0ecaffa770801d2b69e7ee9c4b916a5d09332b89aa311184e7d",
+        "sha256Verified": true
+      },
+      "rootPath": "Characters/Sett/CharacterRecords/Root"
+    },
+    {
+      "championId": "Akshan",
+      "client": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Akshan.json.gz",
+        "sha256": "52abb620d076b5ba05a8a87aa43363fb89477c47284cd7c193cf317e9374a0b7",
+        "compressedSha256": "a8a838cc7d5cf08eea71841a9355aeb52f33f3f6e4ad1f78c00c9c57c4ce46a5",
+        "byteSize": 66707,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/akshan/akshan.bin.json",
+        "fetchedAt": "2026-09-06T14:26:12.121Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+        "rawSha256Verified": true,
+        "compressedSha256Verified": true
+      },
+      "official": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Akshan.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Akshan.json",
+        "fetchedAt": "2026-09-06T14:12:46.143Z",
+        "byteSize": 11419,
+        "sha256": "42ad2ac0e2119d4f494701b406f4d3b3ca8e5e6c1197a0a17a4138fb30dfa58a",
+        "sha256Verified": true
+      },
+      "rootPath": "Characters/Akshan/CharacterRecords/Root"
+    },
+    {
+      "championId": "Yone",
+      "client": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Yone.json.gz",
+        "sha256": "0a6aba675da88bd2dd7fdb8dd82ac3fe77bf345235f7203e0259a6c3a191fac6",
+        "compressedSha256": "b5a9518097411d104326bd762c1c0cffac6e02c4c6174fff778621705dab9731",
+        "byteSize": 75662,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/yone/yone.bin.json",
+        "fetchedAt": "2026-09-06T14:26:49.142Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+        "rawSha256Verified": true,
+        "compressedSha256Verified": true
+      },
+      "official": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Yone.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Yone.json",
+        "fetchedAt": "2026-09-06T14:12:57.216Z",
+        "byteSize": 14427,
+        "sha256": "4ef1ade7fde9a22385a91c804c5a446b77d712e59cf3904b2e4f0e4edf9847db",
+        "sha256Verified": true
+      },
+      "rootPath": "Characters/Yone/CharacterRecords/Root"
+    },
+    {
+      "championId": "Zeri",
+      "client": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Zeri.json.gz",
+        "sha256": "30bb219046600f4d8159e8083e5e32e62f45b91d4e4397ef890454f3ba439142",
+        "compressedSha256": "9f95e07833a84b308fe0be82d8535b64282dec4c731775c0000cb42b6be044f2",
+        "byteSize": 74529,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/zeri/zeri.bin.json",
+        "fetchedAt": "2026-09-06T14:26:51.242Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release",
+        "rawSha256Verified": true,
+        "compressedSha256Verified": true
+      },
+      "official": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Zeri.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Zeri.json",
+        "fetchedAt": "2026-09-06T14:12:57.462Z",
+        "byteSize": 12997,
+        "sha256": "7b76f66a8b1e939cb52f84333181927a0005e21a3e88bf574268d9a0c108eaac",
+        "sha256Verified": true
+      },
+      "rootPath": "Characters/Zeri/CharacterRecords/Root"
+    }
+  ],
+  "skills": [
+    {
+      "skillKey": "jhin_p",
+      "championId": "Jhin",
+      "purpose": "固定攻击节奏、四发弹药、第四发附伤、特殊暴击与攻击属性转换。",
+      "identity": {
+        "path": "skills/jhin_p",
+        "status": 200,
+        "sha256": "45eb4c4773ef110de510bcefdc5461bd45f883d38d75e0660816ec27885f55f6",
+        "capturedAt": "2026-09-21T17:04:55.716Z",
+        "body": {"createdAt":"2026-09-06T18:18:44.137267Z","description":"烬的手枪，“低语”，是一台精密的设备，用来造成出色的伤害。它会以一个固定的频率发射子弹，并且只能装四颗子弹。烬会将黑暗魔法注入最后一颗子弹，来让它产生暴击并造成额外斩杀伤害。当“低语”暴击时，它会为烬提供一个爆发性的移动速度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证。）","gameId":"lol","maxLevel":1,"name":"烬·低语","skillCategoryKeys":["passive"],"skillKey":"jhin_p","sortOrder":0,"status":"ENABLED","updatedAt":"2026-09-06T18:18:44.137267Z"}
+      },
+      "automaticEntryApproved": false,
+      "readyFormulaKeys": [
+        "crit_move_speed_percent"
+      ],
+      "readyFormulaNotes": [
+        "暴击后移动速度比例可独立复用现有数学表达：base_crit_move_speed_percent + crit_move_speed_attack_speed_ratio×来源额外攻速比例；不证明暴击触发或移速结果已接。",
+        "可以另记录普通攻击基础伤害=来源总攻击力，以及特殊暴击倍率0.75×(2+额外暴击伤害比例)；第四发已损生命附伤另算，不能再次乘暴击。"
+      ],
+      "blockers": [
+        "弹药容量4、装填2500毫秒、脱战等待8000毫秒已有参数；没有弹药递减、第四发选择、空仓限制、自动装填、打断或恢复时序配置。",
+        "fourth_shot_execute_percent是无默认运行输入；原树有1级0.15000000596046448、6/11级各增加0.05000000074505806，尚未批准完整1至18级表。",
+        "level_attack_damage_percent是无默认运行输入；断点完整求值和属性应用阶段未核，不能重复读取已经包含自身增益的总攻击力再放大。",
+        "第四发本体强制暴击与已损生命附伤需要分开结算；fourth_shot_damage_multiplier=1.5不能替代带额外暴伤时的完整倍率。",
+        "固定攻击速度的等级变化、外部攻速转攻击力和移动速度、当前总攻速的产生阶段尚未形成完整自动接线。"
+      ],
+      "runtimeInputs": [
+        {
+          "parameterKey": "fourth_shot_execute_percent",
+          "name": "第四发对目标已损失生命额外比例（等级曲线待核输入）",
+          "fixedValue": null,
+          "levelValues": null,
+          "defaultSupplied": false,
+          "requirement": "原树明确1级.15及6/11级附加值各.05，但省略初始和断点后每级增量；当前中文没有精确分段。不生成18级数组，须外部提供已核比例。"
+        },
+        {
+          "parameterKey": "level_attack_damage_percent",
+          "name": "烬等级攻击力比例（等级曲线待核输入）",
+          "fixedValue": null,
+          "levelValues": null,
+          "defaultSupplied": false,
+          "requirement": "原树明确1级.04、初始每级.01以及10/12级新斜率.02/.04；断点附加值省略且没有完整分段中文证明，不把缺项补0，不生成完整18级数组。"
+        }
+      ],
+      "liveConfiguration": {
+        "parameters": {
+          "name": "参数",
+          "listReadback": {
+            "path": "skills/jhin_p/parameters",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:55.785Z",
+            "sha256": "56b03c41268e8b67f77992971452e8ef5d2c1a4c709d8263daa50334eedae877"
+          },
+          "observedCount": 14,
+          "selectedCount": 14,
+          "objects": [
+            {
+              "path": "skills/jhin_p/parameters/max_ammo",
+              "status": 200,
+              "sha256": "63aec1b970cea9d1314387d9b126edfba02b613dd8685ae14c154d1f61aa4796",
+              "capturedAt": "2026-09-21T17:04:55.835Z",
+              "body": {"createdAt":"2026-09-09T02:03:43.719935Z","description":"客户端当前根绑定 DataValues.MaxAmmo 取索引1至1。","fixedValue":4,"gameId":"lol","levelValues":null,"name":"低语弹药数","parameterKey":"max_ammo","skillKey":"jhin_p","sortOrder":10,"updatedAt":"2026-09-09T02:03:43.719935Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/reload_time_ms",
+              "status": 200,
+              "sha256": "9eb076de8ae8d1ec73d7964dd79f471902fc6d7c0601ab930009141404e0ddbc",
+              "capturedAt": "2026-09-21T17:04:55.842Z",
+              "body": {"createdAt":"2026-09-09T02:03:44.465648Z","description":"客户端当前根绑定 DataValues.ReloadTime 取索引1至1。","fixedValue":2500,"gameId":"lol","levelValues":null,"name":"低语完整装填时间（毫秒）","parameterKey":"reload_time_ms","skillKey":"jhin_p","sortOrder":20,"updatedAt":"2026-09-09T02:03:44.465648Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/crit_move_speed_duration_ms",
+              "status": 200,
+              "sha256": "6d2d0879e294b723d8b070eb6c9beb6d3954b0667a1c74ba04845ece3e2beb0b",
+              "capturedAt": "2026-09-21T17:04:55.834Z",
+              "body": {"createdAt":"2026-09-09T02:03:45.220334Z","description":"客户端当前根绑定 DataValues.HasteDuration 取索引1至1。","fixedValue":2000,"gameId":"lol","levelValues":null,"name":"暴击后移动速度持续（毫秒）","parameterKey":"crit_move_speed_duration_ms","skillKey":"jhin_p","sortOrder":30,"updatedAt":"2026-09-09T02:03:45.220334Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/out_of_combat_reload_delay_ms",
+              "status": 200,
+              "sha256": "668e63599cad93677a971d0853dd766cfb83691ab4a346d52cafd3be53d86f65",
+              "capturedAt": "2026-09-21T17:04:55.835Z",
+              "body": {"createdAt":"2026-09-09T02:03:45.918891Z","description":"客户端当前根绑定 DataValues.OutOfCombatTimeBeforeReload 取索引1至1。","fixedValue":8000,"gameId":"lol","levelValues":null,"name":"脱战后自动装填等待（毫秒）","parameterKey":"out_of_combat_reload_delay_ms","skillKey":"jhin_p","sortOrder":40,"updatedAt":"2026-09-09T02:03:45.918891Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/fourth_shot_damage_multiplier",
+              "status": 200,
+              "sha256": "c69f01fee797460edf0113ee9b4743d10ff328a0d60a057a0ee2ae46b84c9c77",
+              "capturedAt": "2026-09-21T17:04:55.852Z",
+              "body": {"createdAt":"2026-09-09T02:03:46.673906Z","description":"客户端当前根绑定 DataValues.FourthShotDamageMult 取索引1至1。","fixedValue":1.5,"gameId":"lol","levelValues":null,"name":"第四发攻击倍率","parameterKey":"fourth_shot_damage_multiplier","skillKey":"jhin_p","sortOrder":50,"updatedAt":"2026-09-09T02:03:46.673906Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/crit_damage_reduction_ratio",
+              "status": 200,
+              "sha256": "84c1902160cabf865dea646b1ed7bf943b68af7263e5af1b2ce9ff040e240177",
+              "capturedAt": "2026-09-21T17:04:55.855Z",
+              "body": {"createdAt":"2026-09-09T02:03:47.449527Z","description":"客户端当前根绑定 DataValues.CritReductionPercent 取索引1至1。","fixedValue":0.25,"gameId":"lol","levelValues":null,"name":"烬暴击伤害降低比例","parameterKey":"crit_damage_reduction_ratio","skillKey":"jhin_p","sortOrder":60,"updatedAt":"2026-09-09T02:03:47.449527Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/base_attack_speed",
+              "status": 200,
+              "sha256": "7888355efef8183f5ae51d1256aa5f2d65ad629538673815da9558c5c610b22b",
+              "capturedAt": "2026-09-21T17:04:55.855Z",
+              "body": {"createdAt":"2026-09-09T02:03:48.20267Z","description":"客户端当前根绑定 DataValues.BaseAttackSpeed 取索引1至1。","fixedValue":0.625,"gameId":"lol","levelValues":null,"name":"低语基础攻击速度","parameterKey":"base_attack_speed","skillKey":"jhin_p","sortOrder":70,"updatedAt":"2026-09-09T02:03:48.20267Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/attack_speed_per_level_ratio",
+              "status": 200,
+              "sha256": "5033028761bf3ffa00bd7b79f8abf25a32f5aabdee91dff32fc86a85ca830e95",
+              "capturedAt": "2026-09-21T17:04:55.854Z",
+              "body": {"createdAt":"2026-09-09T02:03:48.970971Z","description":"客户端当前根绑定 DataValues.PercentAttackSpeedPerLevel 取索引1至1。","fixedValue":0.03,"gameId":"lol","levelValues":null,"name":"每级额外攻击速度比例","parameterKey":"attack_speed_per_level_ratio","skillKey":"jhin_p","sortOrder":80,"updatedAt":"2026-09-09T02:03:48.970971Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/crit_move_speed_attack_speed_ratio",
+              "status": 200,
+              "sha256": "165b21d745d92abe7fdd1f10bad0956438a43cd4a16dc172ac67933478f711d2",
+              "capturedAt": "2026-09-21T17:04:55.855Z",
+              "body": {"createdAt":"2026-09-09T02:03:51.25284Z","description":"客户端当前根绑定 DataValues.CritMoveSpeedPercentASRatio 取索引1至1。","fixedValue":0.44,"gameId":"lol","levelValues":null,"name":"暴击移动速度对额外攻速系数","parameterKey":"crit_move_speed_attack_speed_ratio","skillKey":"jhin_p","sortOrder":90,"updatedAt":"2026-09-09T02:03:51.25284Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/fourth_shot_execute_percent",
+              "status": 200,
+              "sha256": "b2817605336006b3bd51c4022aa56317d9b8d0fbc83efd99e47ae143667be8f8",
+              "capturedAt": "2026-09-21T17:04:55.856Z",
+              "body": {"createdAt":"2026-09-09T02:03:52.472801Z","description":"原树明确1级.15及6/11级附加值各.05，但省略初始和断点后每级增量；当前中文没有精确分段。不生成18级数组，须外部提供已核比例。","fixedValue":null,"gameId":"lol","levelValues":null,"name":"第四发对目标已损失生命额外比例（等级曲线待核输入）","parameterKey":"fourth_shot_execute_percent","skillKey":"jhin_p","sortOrder":100,"updatedAt":"2026-09-09T02:03:52.472801Z","valueMode":"RUNTIME_INPUT","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/level_attack_damage_percent",
+              "status": 200,
+              "sha256": "c68710a41ff33165e2d22c70e2fdbace67c5c28719abd391ddf5d16d967ba601",
+              "capturedAt": "2026-09-21T17:04:55.869Z",
+              "body": {"createdAt":"2026-09-09T02:03:53.267704Z","description":"原树明确1级.04、初始每级.01以及10/12级新斜率.02/.04；断点附加值省略且没有完整分段中文证明，不把缺项补0，不生成完整18级数组。","fixedValue":null,"gameId":"lol","levelValues":null,"name":"烬等级攻击力比例（等级曲线待核输入）","parameterKey":"level_attack_damage_percent","skillKey":"jhin_p","sortOrder":110,"updatedAt":"2026-09-09T02:03:53.267704Z","valueMode":"RUNTIME_INPUT","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/critical_attack_damage_ratio",
+              "status": 200,
+              "sha256": "e02982d1ac9e252bc3cb4deb044345fa49f76be9f02ed0f1c52c408518330b51",
+              "capturedAt": "2026-09-21T17:04:55.869Z",
+              "body": {"createdAt":"2026-09-09T02:03:54.056653Z","description":"TotalADPercent第二项mStat=8、系数.35。","fixedValue":0.35,"gameId":"lol","levelValues":null,"name":"暴击几率转攻击力比例","parameterKey":"critical_attack_damage_ratio","skillKey":"jhin_p","sortOrder":120,"updatedAt":"2026-09-09T02:03:54.056653Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/attack_speed_damage_ratio",
+              "status": 200,
+              "sha256": "a4e57ec78ebcf736fd929df36016bac83ea841e33151b578e945e85d4460b1e7",
+              "capturedAt": "2026-09-21T17:04:55.868Z",
+              "body": {"createdAt":"2026-09-09T02:03:54.863808Z","description":"TotalADPercent第三项mStat=4/mStatFormula=2、系数.3；只表达输入关系，不从最终攻击力反推额外攻速。","fixedValue":0.3,"gameId":"lol","levelValues":null,"name":"额外攻速转攻击力比例","parameterKey":"attack_speed_damage_ratio","skillKey":"jhin_p","sortOrder":130,"updatedAt":"2026-09-09T02:03:54.863808Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/jhin_p/parameters/base_crit_move_speed_percent",
+              "status": 200,
+              "sha256": "0da3c66ddc8f96d147ff204d778ef0ad507fb282a3d3b8bbca8530e24c36ec2c",
+              "capturedAt": "2026-09-21T17:04:55.875Z",
+              "body": {"createdAt":"2026-09-09T02:03:55.662074Z","description":"CritMoveSpeedPercent首项固定.14；不把它当最终移动速度。","fixedValue":0.14,"gameId":"lol","levelValues":null,"name":"暴击后基础移动速度比例","parameterKey":"base_crit_move_speed_percent","skillKey":"jhin_p","sortOrder":140,"updatedAt":"2026-09-09T02:03:55.662074Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            }
+          ]
+        },
+        "formulas": {
+          "name": "公式",
+          "listReadback": {
+            "path": "skills/jhin_p/formulas",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:55.908Z",
+            "sha256": "150035a150bde8df2056552baaf622200899dc878c99fd540b70f34090947ccc"
+          },
+          "observedCount": 3,
+          "selectedCount": 3,
+          "objects": [
+            {
+              "path": "skills/jhin_p/formulas/fourth_shot_bonus_damage",
+              "status": 200,
+              "sha256": "8748acc37580d0db8bd9c4aac47cef435eff86716ba337f159d538d223462ef8",
+              "capturedAt": "2026-09-21T17:04:55.947Z",
+              "body": {"createdAt":"2026-09-09T02:03:56.493538Z","description":"外部已核等级比例×目标已损生命；没有默认等级曲线，不是低于阈值处决。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"fourth_shot_execute_percent"},{"attributeKey":"hp","attributeOwner":"TARGET","attributeValueKind":"MISSING","nodeType":"ATTRIBUTE"}],"operation":"MULTIPLY"},"formulaKey":"fourth_shot_bonus_damage","gameId":"lol","name":"第四发已损生命额外物理伤害","skillKey":"jhin_p","sortOrder":10,"updatedAt":"2026-09-09T02:03:56.493538Z"}
+            },
+            {
+              "path": "skills/jhin_p/formulas/total_attack_damage_percent",
+              "status": 200,
+              "sha256": "a1e619cdb9579a2eeac50f2e2431c952e30c26f30a2542e9b3eb42d3042deb56",
+              "capturedAt": "2026-09-21T17:04:55.947Z",
+              "body": {"createdAt":"2026-09-09T02:03:57.321946Z","description":"等级比例+.35×暴击几率+.3×额外攻速；不在当前技能自身反复读取最终攻击力。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"level_attack_damage_percent"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"critical_attack_damage_ratio"},{"attributeKey":"critical_strike_chance","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"}],"operation":"MULTIPLY"}],"operation":"ADD"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"attack_speed_damage_ratio"},{"attributeKey":"bonus_attack_speed_percent","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"}],"operation":"MULTIPLY"}],"operation":"ADD"},"formulaKey":"total_attack_damage_percent","gameId":"lol","name":"烬总攻击力转换比例","skillKey":"jhin_p","sortOrder":20,"updatedAt":"2026-09-09T02:03:57.321946Z"}
+            },
+            {
+              "path": "skills/jhin_p/formulas/crit_move_speed_percent",
+              "status": 200,
+              "sha256": "eac43cb5c719f14253abac9c7925e6ef91460feb51cee295e6196bf9a65b0791",
+              "capturedAt": "2026-09-21T17:04:55.947Z",
+              "body": {"createdAt":"2026-09-09T02:03:58.100462Z","description":".14+.44×额外攻速；实际触发和移动速度结果另接线。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"base_crit_move_speed_percent"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"crit_move_speed_attack_speed_ratio"},{"attributeKey":"bonus_attack_speed_percent","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"}],"operation":"MULTIPLY"}],"operation":"ADD"},"formulaKey":"crit_move_speed_percent","gameId":"lol","name":"暴击后移动速度比例","skillKey":"jhin_p","sortOrder":30,"updatedAt":"2026-09-09T02:03:58.100462Z"}
+            }
+          ]
+        },
+        "effects": {
+          "name": "效果",
+          "listReadback": {
+            "path": "skills/jhin_p/effects",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:55.989Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "processes": {
+          "name": "过程",
+          "listReadback": {
+            "path": "skills/jhin_p/processes",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.046Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "internal-states": {
+          "name": "内部状态",
+          "listReadback": {
+            "path": "skills/jhin_p/internal-states",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.089Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "trigger-rules": {
+          "name": "触发规则",
+          "listReadback": {
+            "path": "skills/jhin_p/trigger-rules",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.129Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        }
+      },
+      "excludedObjects": [],
+      "sourceParts": {
+        "rootPath": "Characters/Jhin/CharacterRecords/Root",
+        "rootAttackFields": {
+          "critDamageMultiplier": 2,
+          "attackRangeModifiable": {
+            "baseValue": 550,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedModifiable": {
+            "baseValue": 0.625,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedRatioModifiable": {
+            "baseValue": 0,
+            "__type": "ModifiableFloat"
+          },
+          "basicAttack": {
+            "mAttackTotalTime": 1.600000023841858,
+            "mAttackCastTime": 0.25,
+            "mAttackProbability": 1,
+            "__type": "AttackSlotData"
+          },
+          "extraAttacks": [
+            {
+              "mAttackName": "JhinBasicAttack2",
+              "__type": "AttackSlotData"
+            },
+            {
+              "mAttackName": "JhinBasicAttack3",
+              "__type": "AttackSlotData"
+            }
+          ],
+          "critAttacks": [
+            {
+              "mAttackName": "JhinCritAttack",
+              "__type": "AttackSlotData"
+            }
+          ]
+        },
+        "clientPath": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive",
+        "dataValues": [
+          {
+            "name": "MaxAmmo",
+            "values": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "ReloadTime",
+            "values": [
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "HasteDuration",
+            "values": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "OutOfCombatTimeBeforeReload",
+            "values": [
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "FourthShotDamageMult",
+            "values": [
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "CritReductionPercent",
+            "values": [
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "BaseAttackSpeed",
+            "values": [
+              0.625,
+              0.625,
+              0.625,
+              0.625,
+              0.625,
+              0.625,
+              0.625
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "PercentAttackSpeedPerLevel",
+            "values": [
+              0.029999999329447746,
+              0.029999999329447746,
+              0.029999999329447746,
+              0.029999999329447746,
+              0.029999999329447746,
+              0.029999999329447746,
+              0.029999999329447746
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "CritMoveSpeedPercentASRatio",
+            "values": [
+              0.4399999976158142,
+              0.4399999976158142,
+              0.4399999976158142,
+              0.4399999976158142,
+              0.4399999976158142,
+              0.4399999976158142,
+              0.4399999976158142
+            ],
+            "__type": "SpellDataValue"
+          }
+        ],
+        "calculations": {
+          "FourthShotExecutePercent": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mLevel1Value": 0.15000000596046448,
+                "mBreakpoints": [
+                  {
+                    "mLevel": 6,
+                    "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 11,
+                    "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                    "__type": "Breakpoint"
+                  }
+                ],
+                "__type": "ByCharLevelBreakpointsCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          },
+          "TotalADPercent": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mLevel1Value": 0.03999999910593033,
+                "mInitialBonusPerLevel": 0.009999999776482582,
+                "mBreakpoints": [
+                  {
+                    "mLevel": 10,
+                    "mBonusPerLevelAtAndAfter": 0.019999999552965164,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 12,
+                    "mBonusPerLevelAtAndAfter": 0.03999999910593033,
+                    "__type": "Breakpoint"
+                  }
+                ],
+                "__type": "ByCharLevelBreakpointsCalculationPart"
+              },
+              {
+                "mStat": 8,
+                "mCoefficient": 0.3499999940395355,
+                "__type": "StatByCoefficientCalculationPart"
+              },
+              {
+                "mStat": 4,
+                "mStatFormula": 2,
+                "mCoefficient": 0.30000001192092896,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          },
+          "CritMoveSpeedPercent": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mNumber": 0.14000000059604645,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mStat": 4,
+                "mStatFormula": 2,
+                "mDataValue": "CritMoveSpeedPercentASRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          }
+        },
+        "meaning": "这里只保留固定客户端中的相关完整节点，不推断未提供的脚本行为。"
+      }
+    },
+    {
+      "skillKey": "graves_p",
+      "championId": "Graves",
+      "purpose": "两发弹药、多个弹丸、首弹/后弹与特殊暴击。",
+      "identity": {
+        "path": "skills/graves_p",
+        "status": 200,
+        "sha256": "740137f49b7640bc01da3196e116bd62e1c45820a36b0835ae88849809672e34",
+        "capturedAt": "2026-09-21T17:04:56.176Z",
+        "body": {"createdAt":"2026-09-06T18:18:27.446696Z","description":"格雷福斯的散弹枪拥有一些独特性能。他的弹药打光后就必须重新装弹。每次攻击会发射4颗弹丸，弹丸无法穿透单位。会击退被多颗弹丸命中的非英雄单位。（来源：官方中文静态资料16.17.1；数值和机制待补证。）","gameId":"lol","maxLevel":1,"name":"格雷福斯·新命运","skillCategoryKeys":["passive"],"skillKey":"graves_p","sortOrder":0,"status":"ENABLED","updatedAt":"2026-09-06T18:18:27.446696Z"}
+      },
+      "automaticEntryApproved": false,
+      "readyFormulaKeys": [],
+      "readyFormulaNotes": [
+        "四个已有公式均依赖至少一个未核运行输入；只有在调用者显式提供已核输入与真实弹数条件时才能计算，不列为无歧义的独立自动入口。"
+      ],
+      "blockers": [
+        "弹药容量2、非暴击4颗、暴击6颗已有参数；缺弹药消费和开火/装填随攻速的完整函数及状态。",
+        "single_bullet_damage_level_value是无默认运行输入；客户端31点表已保留，等级索引和求值语义未批准，不能只按端点补表。",
+        "source_stat_9_0_value是无默认运行输入；总暴击倍率的实际属性口径、单位与阶段未接，不能直接以基础2替代。",
+        "必须提供每个目标实际命中弹数及分配；弹丸被单位阻挡、落空不能按总发射弹数默认全中。",
+        "four_pellets_same_target仅表示非暴击且四颗真实命中同一目标，不是所有攻击的默认伤害。",
+        "首颗伤害与其余各颗伤害分别计算；普通共享普攻伤害不能再叠加。暴击弹丸的增幅为0.5×(实际总暴击倍率−1)，实际整发的暴击与弹丸覆盖时序仍需接线。"
+      ],
+      "runtimeInputs": [
+        {
+          "parameterKey": "single_bullet_damage_level_value",
+          "name": "同一目标首颗弹丸物理伤害的实际等级项",
+          "fixedValue": null,
+          "levelValues": null,
+          "defaultSupplied": false,
+          "requirement": "原等级节点完整保留；起止等级、表索引、断点求值或取整未证，实际值必须外供，不能用端点猜整曲线。"
+        },
+        {
+          "parameterKey": "source_stat_9_0_value",
+          "name": "原计算属性9/0实际值",
+          "fixedValue": null,
+          "levelValues": null,
+          "defaultSupplied": false,
+          "requirement": "该原节点属性口径未证，必须提供已核实际值；不由字段名猜属性、比例单位或角色基础值。"
+        }
+      ],
+      "liveConfiguration": {
+        "parameters": {
+          "name": "参数",
+          "listReadback": {
+            "path": "skills/graves_p/parameters",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.219Z",
+            "sha256": "2b0e1b0fd9cf19d0a0d83d8ff6e07461bfb46d52943981d5234edc4f6a4938dd"
+          },
+          "observedCount": 10,
+          "selectedCount": 10,
+          "objects": [
+            {
+              "path": "skills/graves_p/parameters/crit_damage_ratio",
+              "status": 200,
+              "sha256": "6af2d7c317814946bf2d76461b703987b4130a2b5aebd90262b217f32fad166b",
+              "capturedAt": "2026-09-21T17:04:56.261Z",
+              "body": {"createdAt":"2026-09-09T04:26:38.784407Z","description":"客户端当前根绑定 DataValues.CritDamageRatio 取索引1至1。","fixedValue":0.5,"gameId":"lol","levelValues":null,"name":"暴击弹丸伤害增幅系数","parameterKey":"crit_damage_ratio","skillKey":"graves_p","sortOrder":10,"updatedAt":"2026-09-09T04:26:38.784407Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/graves_p/parameters/single_bullet_damage_level_value",
+              "status": 200,
+              "sha256": "6e98afeb43392ab98052825ecc4547c00a0db79b30396825b32a52a9252f6d52",
+              "capturedAt": "2026-09-21T17:04:56.260Z",
+              "body": {"createdAt":"2026-09-09T04:26:39.787657Z","description":"原等级节点完整保留；起止等级、表索引、断点求值或取整未证，实际值必须外供，不能用端点猜整曲线。","fixedValue":null,"gameId":"lol","levelValues":null,"name":"同一目标首颗弹丸物理伤害的实际等级项","parameterKey":"single_bullet_damage_level_value","skillKey":"graves_p","sortOrder":20,"updatedAt":"2026-09-09T04:26:39.787657Z","valueMode":"RUNTIME_INPUT","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/graves_p/parameters/calculation_constant_1",
+              "status": 200,
+              "sha256": "97e534db1f83960f44e8aff32b94ce61441ae13b1b6ba39d8244750bc562e1c2",
+              "capturedAt": "2026-09-21T17:04:56.260Z",
+              "body": {"createdAt":"2026-09-09T04:26:40.624207Z","description":"当前原计算树显式常数；只用于此数学表达式。","fixedValue":0.333,"gameId":"lol","levelValues":null,"name":"同一目标后续弹丸物理伤害固定系数","parameterKey":"calculation_constant_1","skillKey":"graves_p","sortOrder":30,"updatedAt":"2026-09-09T04:26:40.624207Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/graves_p/parameters/calculation_constant_2",
+              "status": 200,
+              "sha256": "eb8d63ea40d5ccf4d648ed495b8c9cb004a96122909cb6d01e6e6d6aee2e816d",
+              "capturedAt": "2026-09-21T17:04:56.260Z",
+              "body": {"createdAt":"2026-09-09T04:26:41.861159Z","description":"当前原计算树显式常数；只用于此数学表达式。","fixedValue":-1,"gameId":"lol","levelValues":null,"name":"暴击弹丸伤害增幅比例固定系数","parameterKey":"calculation_constant_2","skillKey":"graves_p","sortOrder":40,"updatedAt":"2026-09-09T04:26:41.861159Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/graves_p/parameters/source_stat_9_0_value",
+              "status": 200,
+              "sha256": "100b7c4eb2b08d2a47592650191596b9b8c62500d25f5d66a6d74bcfbc1ce3d4",
+              "capturedAt": "2026-09-21T17:04:56.261Z",
+              "body": {"createdAt":"2026-09-09T04:26:42.933739Z","description":"该原节点属性口径未证，必须提供已核实际值；不由字段名猜属性、比例单位或角色基础值。","fixedValue":null,"gameId":"lol","levelValues":null,"name":"原计算属性9/0实际值","parameterKey":"source_stat_9_0_value","skillKey":"graves_p","sortOrder":50,"updatedAt":"2026-09-09T04:26:42.933739Z","valueMode":"RUNTIME_INPUT","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/graves_p/parameters/calculation_constant_3",
+              "status": 200,
+              "sha256": "1251290c39f741563bd60e4f99c8aea0ce533f9ab505ed130fe5c92f29784bd5",
+              "capturedAt": "2026-09-21T17:04:56.261Z",
+              "body": {"createdAt":"2026-09-09T04:26:43.804332Z","description":"当前原计算树显式常数；只用于此数学表达式。","fixedValue":1,"gameId":"lol","levelValues":null,"name":"暴击弹丸伤害增幅比例固定系数","parameterKey":"calculation_constant_3","skillKey":"graves_p","sortOrder":60,"updatedAt":"2026-09-09T04:26:43.804332Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/graves_p/parameters/normal_pellet_count",
+              "status": 200,
+              "sha256": "79e6a19bc45170306c624f55047b45c903ff98aececd49ff3b36648d6b109507",
+              "capturedAt": "2026-09-21T17:04:56.262Z",
+              "body": {"createdAt":"2026-09-09T04:26:44.684492Z","description":"当前中文明确每次攻击发射4颗弹丸。","fixedValue":4,"gameId":"lol","levelValues":null,"name":"非暴击弹丸总数","parameterKey":"normal_pellet_count","skillKey":"graves_p","sortOrder":70,"updatedAt":"2026-09-09T04:26:44.684492Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/graves_p/parameters/crit_pellet_count",
+              "status": 200,
+              "sha256": "6078327c42d732f8dc6041776ad4398eab428934fe6ac90572235b64053fff1e",
+              "capturedAt": "2026-09-21T17:04:56.261Z",
+              "body": {"createdAt":"2026-09-09T04:26:45.534043Z","description":"当前中文明确暴击改为6颗。","fixedValue":6,"gameId":"lol","levelValues":null,"name":"暴击弹丸总数","parameterKey":"crit_pellet_count","skillKey":"graves_p","sortOrder":80,"updatedAt":"2026-09-09T04:26:45.534043Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/graves_p/parameters/ammo_capacity",
+              "status": 200,
+              "sha256": "9febea81226bafc7e1883751f088bfed7efec42ee2e1a86539f61d3ad6e05c52",
+              "capturedAt": "2026-09-21T17:04:56.261Z",
+              "body": {"createdAt":"2026-09-09T04:26:46.457828Z","description":"当前中文明确只有2颗子弹。","fixedValue":2,"gameId":"lol","levelValues":null,"name":"弹药容量","parameterKey":"ammo_capacity","skillKey":"graves_p","sortOrder":90,"updatedAt":"2026-09-09T04:26:46.457828Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/graves_p/parameters/normal_followup_count",
+              "status": 200,
+              "sha256": "fbd2c50639dc616cea0732343e8944e8f2099fc014fd84fecbb20a02baa80f1e",
+              "capturedAt": "2026-09-21T17:04:56.260Z",
+              "body": {"createdAt":"2026-09-09T04:26:47.238415Z","description":"明确4弹减首弹1颗；仅用于全部命中同一英雄的分支。","fixedValue":3,"gameId":"lol","levelValues":null,"name":"四弹全中时后续弹丸数","parameterKey":"normal_followup_count","skillKey":"graves_p","sortOrder":100,"updatedAt":"2026-09-09T04:26:47.238415Z","valueMode":"FIXED","valueType":"INTEGER"}
+            }
+          ]
+        },
+        "formulas": {
+          "name": "公式",
+          "listReadback": {
+            "path": "skills/graves_p/formulas",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.299Z",
+            "sha256": "2baa5ad75989bf11a5454e2c13ac9b7792234274d999810fa00395befe7f2c68"
+          },
+          "observedCount": 4,
+          "selectedCount": 4,
+          "objects": [
+            {
+              "path": "skills/graves_p/formulas/single_bullet_damage",
+              "status": 200,
+              "sha256": "851e4fc144416435184335a2fc26dcd911d42e09c579cadb238b45be13a22747",
+              "capturedAt": "2026-09-21T17:04:56.337Z",
+              "body": {"createdAt":"2026-09-09T04:26:48.082256Z","description":"总攻击力乘实际等级系数；原31点表的等级索引未证；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。","expression":{"nodeType":"OPERATION","operands":[{"attributeKey":"attack_damage","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"},{"nodeType":"PARAMETER","parameterKey":"single_bullet_damage_level_value"}],"operation":"MULTIPLY"},"formulaKey":"single_bullet_damage","gameId":"lol","name":"同一目标首颗弹丸物理伤害","skillKey":"graves_p","sortOrder":10,"updatedAt":"2026-09-09T04:26:48.082256Z"}
+            },
+            {
+              "path": "skills/graves_p/formulas/subsequent_bullet_damage",
+              "status": 200,
+              "sha256": "4d5d99917a78500776b2876e3d87c898a3d25064e507648d1a98ac30d44368f6",
+              "capturedAt": "2026-09-21T17:04:56.337Z",
+              "body": {"createdAt":"2026-09-09T04:26:48.916388Z","description":"原计算为首弹伤害的0.333倍；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"calculation_constant_1"},{"nodeType":"OPERATION","operands":[{"attributeKey":"attack_damage","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"},{"nodeType":"PARAMETER","parameterKey":"single_bullet_damage_level_value"}],"operation":"MULTIPLY"}],"operation":"MULTIPLY"},"formulaKey":"subsequent_bullet_damage","gameId":"lol","name":"同一目标后续弹丸物理伤害","skillKey":"graves_p","sortOrder":20,"updatedAt":"2026-09-09T04:26:48.916388Z"}
+            },
+            {
+              "path": "skills/graves_p/formulas/crit_pellet_increase",
+              "status": 200,
+              "sha256": "1150fe733ed0077667a93723d834663781100681db36a7c5c01a0635f41c9b4e",
+              "capturedAt": "2026-09-21T17:04:56.337Z",
+              "body": {"createdAt":"2026-09-09T04:26:49.798761Z","description":"原节点mStat9未解码，以实际输入保留；不以角色基础暴击倍率2替代活体属性；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"crit_damage_ratio"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"calculation_constant_2"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"source_stat_9_0_value"},{"nodeType":"PARAMETER","parameterKey":"calculation_constant_3"}],"operation":"MULTIPLY"}],"operation":"ADD"}],"operation":"MULTIPLY"},"formulaKey":"crit_pellet_increase","gameId":"lol","name":"暴击弹丸伤害增幅比例","skillKey":"graves_p","sortOrder":30,"updatedAt":"2026-09-09T04:26:49.798761Z"}
+            },
+            {
+              "path": "skills/graves_p/formulas/four_pellets_same_target",
+              "status": 200,
+              "sha256": "29d75e7b728ec6754c3b355c5824d09bf546711e7243caa4e32bd562df09b858",
+              "capturedAt": "2026-09-21T17:04:56.337Z",
+              "body": {"createdAt":"2026-09-09T04:26:50.677302Z","description":"条件是非暴击且四弹真实命中同一英雄；不把该条件当每次攻击默认。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"OPERATION","operands":[{"attributeKey":"attack_damage","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"},{"nodeType":"PARAMETER","parameterKey":"single_bullet_damage_level_value"}],"operation":"MULTIPLY"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"normal_followup_count"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"calculation_constant_1"},{"nodeType":"OPERATION","operands":[{"attributeKey":"attack_damage","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"},{"nodeType":"PARAMETER","parameterKey":"single_bullet_damage_level_value"}],"operation":"MULTIPLY"}],"operation":"MULTIPLY"}],"operation":"MULTIPLY"}],"operation":"ADD"},"formulaKey":"four_pellets_same_target","gameId":"lol","name":"非暴击四弹全中同一目标总伤害","skillKey":"graves_p","sortOrder":40,"updatedAt":"2026-09-09T04:26:50.677302Z"}
+            }
+          ]
+        },
+        "effects": {
+          "name": "效果",
+          "listReadback": {
+            "path": "skills/graves_p/effects",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.378Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "processes": {
+          "name": "过程",
+          "listReadback": {
+            "path": "skills/graves_p/processes",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.422Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "internal-states": {
+          "name": "内部状态",
+          "listReadback": {
+            "path": "skills/graves_p/internal-states",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.470Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "trigger-rules": {
+          "name": "触发规则",
+          "listReadback": {
+            "path": "skills/graves_p/trigger-rules",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.517Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        }
+      },
+      "excludedObjects": [],
+      "sourceParts": {
+        "rootPath": "Characters/Graves/CharacterRecords/Root",
+        "rootAttackFields": {
+          "critDamageMultiplier": 2,
+          "attackRangeModifiable": {
+            "baseValue": 425,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedModifiable": {
+            "baseValue": 0.4749999940395355,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedRatioModifiable": {
+            "baseValue": 0.49000000953674316,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedPerLevelModifiable": {
+            "baseValue": 3,
+            "__type": "ModifiableFloat"
+          },
+          "basicAttack": {
+            "mAttackDelayCastOffsetPercent": -0.29499998688697815,
+            "mAttackDelayCastOffsetPercentAttackSpeedRatio": 0.10000000149011612,
+            "mAttackProbability": 1,
+            "__type": "AttackSlotData"
+          },
+          "critAttacks": [
+            {
+              "mAttackDelayCastOffsetPercent": -0.29499998688697815,
+              "mAttackName": "GravesCritAttack",
+              "__type": "AttackSlotData"
+            }
+          ]
+        },
+        "clientPath": "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive",
+        "dataValues": [
+          {
+            "name": "CritDamageRatio",
+            "values": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "__type": "SpellDataValue"
+          }
+        ],
+        "calculations": {
+          "SingleBulletDamage": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mStat": 2,
+                "mSubpart": {
+                  "values": [
+                    0,
+                    0.7000017762184143,
+                    0.7112977504730225,
+                    0.7233880162239075,
+                    0.7362725138664246,
+                    0.7499512434005737,
+                    0.7644242644309998,
+                    0.7796915173530579,
+                    0.795753002166748,
+                    0.8126087784767151,
+                    0.8302587270736694,
+                    0.8487030267715454,
+                    0.8679414987564087,
+                    0.8879742622375488,
+                    0.908801257610321,
+                    0.9304224848747253,
+                    0.9528380036354065,
+                    0.9760477542877197,
+                    1.000051736831665,
+                    1.0248500108718872,
+                    1.0504424571990967,
+                    1.076829195022583,
+                    1.1040102243423462,
+                    1.1319855451583862,
+                    1.1607550382614136,
+                    1.1903187036514282,
+                    1.2206767797470093,
+                    1.2518290281295776,
+                    1.2837754487991333,
+                    1.3165162801742554,
+                    1.3500512838363647
+                  ],
+                  "__type": "ByCharLevelFormulaCalculationPart"
+                },
+                "__type": "StatBySubPartCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "MultiBulletDamage": {
+            "mMultiplier": {
+              "mNumber": 0.3330000042915344,
+              "__type": "NumberCalculationPart"
+            },
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mModifiedGameCalculation": "SingleBulletDamage",
+            "__type": "GameCalculationModified"
+          },
+          "CritDamageMult": {
+            "mFormulaParts": [
+              {
+                "mPart1": {
+                  "mDataValue": "CritDamageRatio",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                "mPart2": {
+                  "mSubparts": [
+                    {
+                      "mNumber": -1,
+                      "__type": "NumberCalculationPart"
+                    },
+                    {
+                      "mStat": 9,
+                      "mCoefficient": 1,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                },
+                "__type": "ProductOfSubPartsCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          },
+          "{549cda4d}": {
+            "mFormulaParts": [
+              {
+                "mStat": 9,
+                "mCoefficient": 1,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "meaning": "这里只保留固定客户端中的相关完整节点，不推断未提供的脚本行为。"
+      }
+    },
+    {
+      "skillKey": "sett_p",
+      "championId": "Sett",
+      "purpose": "左右拳交替、右拳附伤与右拳专用间隔。",
+      "identity": {
+        "path": "skills/sett_p",
+        "status": 200,
+        "sha256": "fda647b023c3660286a5d37f67381e3d622b7498e8b683982ea4712a75f24b4e",
+        "capturedAt": "2026-09-21T17:04:56.567Z",
+        "body": {"createdAt":"2026-09-06T18:20:14.653064Z","description":"瑟提的普通攻击会交替使用左重拳和右重拳。右重拳稍微强一些和快一些。瑟提还很讨厌失败，因此会基于他的已损失生命值而获得额外的生命回复。（来源：官方中文静态资料16.17.1；数值和机制待补证。）","gameId":"lol","maxLevel":1,"name":"瑟提·沙场豪情","skillCategoryKeys":["passive"],"skillKey":"sett_p","sortOrder":0,"status":"ENABLED","updatedAt":"2026-09-06T18:20:14.653064Z"}
+      },
+      "automaticEntryApproved": false,
+      "readyFormulaKeys": [
+        "right_punch_bonus"
+      ],
+      "readyFormulaNotes": [
+        "现有right_punch_bonus=角色等级表5至90 + 0.55×来源额外攻击力，可独立复用。已有同名效果是独立附加物理伤害且禁止暴击，不能在新本体中重复结算。"
+      ],
+      "blockers": [
+        "缺左拳/右拳状态、切换与消费、右拳相对左拳8倍攻速的具体调度、2秒未接右拳重置左拳的事件接线。",
+        "现有右拳附伤效果不含完整普通攻击本体；应只加一次，不让附伤再次暴击。",
+        "客户端同文件保留的AttackSpeed=1.5等孤立字段不能覆盖已核右拳8倍规则，字段名本身不构成当前执行证据。"
+      ],
+      "runtimeInputs": [],
+      "liveConfiguration": {
+        "parameters": {
+          "name": "参数",
+          "listReadback": {
+            "path": "skills/sett_p/parameters",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.636Z",
+            "sha256": "20a4291673ab21d9214954f4a63d762fe907d70f4fc8ca849cc1c9830ce49132"
+          },
+          "observedCount": 5,
+          "selectedCount": 4,
+          "objects": [
+            {
+              "path": "skills/sett_p/parameters/right_punch_base",
+              "status": 200,
+              "sha256": "5aad5d611ed4f9a9e2683eead87e9a3e63c3dff42e81a70921d7981b1582dafc",
+              "capturedAt": "2026-09-21T17:04:56.680Z",
+              "body": {"createdAt":"2026-09-08T14:37:11.905171Z","description":"完整角色等级表索引1至18；索引0不作为角色1级。","fixedValue":null,"gameId":"lol","levelValues":{"1":5,"10":50,"11":55,"12":60,"13":65,"14":70,"15":75,"16":80,"17":85,"18":90,"2":10,"3":15,"4":20,"5":25,"6":30,"7":35,"8":40,"9":45},"name":"右重拳额外基础伤害","parameterKey":"right_punch_base","skillKey":"sett_p","sortOrder":10,"updatedAt":"2026-09-08T14:37:11.905171Z","valueMode":"CHARACTER_LEVEL","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/sett_p/parameters/right_punch_bonus_ad_ratio",
+              "status": 200,
+              "sha256": "0cabc83f830472b1c01f5dadab5a4b94f03fbab59be38127e1f78d8d64a35efc",
+              "capturedAt": "2026-09-21T17:04:56.680Z",
+              "body": {"createdAt":"2026-09-08T14:37:12.54011Z","description":"当前完整RightPunchBonus计算树的属性与总量/额外量已核对。","fixedValue":0.55,"gameId":"lol","levelValues":null,"name":"右重拳额外攻击力倍率","parameterKey":"right_punch_bonus_ad_ratio","skillKey":"sett_p","sortOrder":20,"updatedAt":"2026-09-08T14:37:12.54011Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/sett_p/parameters/right_punch_reset_ms",
+              "status": 200,
+              "sha256": "ba9ea807c203c5039f6ee7a837e30c6abeb7b4a710dc015cd3186e71b6d0213a",
+              "capturedAt": "2026-09-21T17:04:56.680Z",
+              "body": {"createdAt":"2026-09-08T14:37:13.841412Z","description":"当前绑定扩展明确2秒内未打出右重拳即重置。","fixedValue":2000,"gameId":"lol","levelValues":null,"name":"未接右重拳时重置左拳（毫秒）","parameterKey":"right_punch_reset_ms","skillKey":"sett_p","sortOrder":40,"updatedAt":"2026-09-08T14:37:13.841412Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/sett_p/parameters/right_punch_attack_speed_multiplier",
+              "status": 200,
+              "sha256": "bf04805947a4d6ed5939c1129a49036fcb3b3d7360ed23f408c5b0ff7d842a1a",
+              "capturedAt": "2026-09-21T17:04:56.681Z",
+              "body": {"createdAt":"2026-09-08T14:37:14.501445Z","description":"当前绑定扩展明确右拳攻速为左拳8倍，不采用未引用AttackSpeed=1.5。","fixedValue":8,"gameId":"lol","levelValues":null,"name":"右拳相对左拳攻击速度倍数","parameterKey":"right_punch_attack_speed_multiplier","skillKey":"sett_p","sortOrder":50,"updatedAt":"2026-09-08T14:37:14.501445Z","valueMode":"FIXED","valueType":"INTEGER"}
+            }
+          ]
+        },
+        "formulas": {
+          "name": "公式",
+          "listReadback": {
+            "path": "skills/sett_p/formulas",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.729Z",
+            "sha256": "922451382f481d145902b055f597ae0b2d441b85382278eb385846e3b4e548e8"
+          },
+          "observedCount": 1,
+          "selectedCount": 1,
+          "objects": [
+            {
+              "path": "skills/sett_p/formulas/right_punch_bonus",
+              "status": 200,
+              "sha256": "3de2e148e3a0f2b405b59bff23245766cc458d5e696b693958b79e4194e43c75",
+              "capturedAt": "2026-09-21T17:04:56.775Z",
+              "body": {"createdAt":"2026-09-08T14:37:15.103555Z","description":"当前右重拳计算树：等级5至90加0.55额外攻击力；不包含普通攻击本体。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"right_punch_base"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"right_punch_bonus_ad_ratio"},{"attributeKey":"attack_damage","attributeOwner":"SOURCE","attributeValueKind":"BONUS","nodeType":"ATTRIBUTE"}],"operation":"MULTIPLY"}],"operation":"ADD"},"formulaKey":"right_punch_bonus","gameId":"lol","name":"右重拳额外物理伤害","skillKey":"sett_p","sortOrder":10,"updatedAt":"2026-09-08T14:37:15.103555Z"}
+            }
+          ]
+        },
+        "effects": {
+          "name": "效果",
+          "listReadback": {
+            "path": "skills/sett_p/effects",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.827Z",
+            "sha256": "37d8a9c9e417a1ef38851cf2b79281c09a5abcaf31ba801886713fdedb954cbd"
+          },
+          "observedCount": 1,
+          "selectedCount": 1,
+          "objects": [
+            {
+              "path": "skills/sett_p/effects/right_punch_bonus",
+              "status": 200,
+              "sha256": "ed6eb30115f5be704238e4725e8ef0b1bd722e7093228a4fe6c7cd35c7af99af",
+              "capturedAt": "2026-09-21T17:04:56.878Z",
+              "body": {"createdAt":"2026-09-08T14:37:15.941417Z","description":"独立伤害；实际触发另行核对，吸血规则空列表不代表不能吸血。","effectKey":"right_punch_bonus","gameId":"lol","lifecycle":null,"name":"右重拳独立额外物理伤害","results":[{"description":null,"detail":{"critical":{"mode":"DISALLOWED","multiplierValue":null},"damageTypeKey":"physics","deliveryKind":"BASIC_ATTACK","originKind":"DIRECT","vampRules":[]},"lifecycleBehavior":null,"name":"右重拳独立额外物理伤害","resultKey":"damage","resultType":"DAMAGE","sortOrder":10,"spellShieldBlockScope":null,"target":"TARGET","valueRule":{"fixedMaxValue":null,"fixedMinValue":0,"fixedMultiplier":1,"value":{"formulaKey":"right_punch_bonus","kind":"FORMULA"}}}],"skillKey":"sett_p","sortOrder":10,"updatedAt":"2026-09-08T14:37:15.941417Z"}
+            }
+          ]
+        },
+        "processes": {
+          "name": "过程",
+          "listReadback": {
+            "path": "skills/sett_p/processes",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.928Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "internal-states": {
+          "name": "内部状态",
+          "listReadback": {
+            "path": "skills/sett_p/internal-states",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:56.972Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "trigger-rules": {
+          "name": "触发规则",
+          "listReadback": {
+            "path": "skills/sett_p/trigger-rules",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.026Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        }
+      },
+      "excludedObjects": [
+        {
+          "section": "parameters",
+          "key": "missing_health_unit",
+          "name": "已损失生命比例单位",
+          "reason": "已损生命回复分支，与普攻本体无关。"
+        }
+      ],
+      "sourceParts": {
+        "rootPath": "Characters/Sett/CharacterRecords/Root",
+        "rootAttackFields": {
+          "critDamageMultiplier": 2,
+          "attackRangeModifiable": {
+            "baseValue": 125,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedModifiable": {
+            "baseValue": 0.625,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedRatioModifiable": {
+            "baseValue": 0.625,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedPerLevelModifiable": {
+            "baseValue": 1.75,
+            "__type": "ModifiableFloat"
+          },
+          "basicAttack": {
+            "mAttackTotalTime": 1.75,
+            "mAttackCastTime": 0.375,
+            "mAttackProbability": 1,
+            "__type": "AttackSlotData"
+          },
+          "extraAttacks": [
+            {
+              "mAttackName": "SettBasicAttack2",
+              "__type": "AttackSlotData"
+            },
+            {
+              "mAttackName": "SettBasicAttack3",
+              "__type": "AttackSlotData"
+            }
+          ],
+          "critAttacks": [
+            {
+              "mAttackName": "SettCritAttack",
+              "__type": "AttackSlotData"
+            },
+            {
+              "mAttackName": "SettCritAttack2",
+              "__type": "AttackSlotData"
+            }
+          ]
+        },
+        "clientPath": "Characters/Sett/Spells/SettPassiveAbility/SettPassive",
+        "dataValues": [],
+        "calculations": {
+          "RightPunchBonus": {
+            "mFormulaParts": [
+              {
+                "values": [
+                  0,
+                  5,
+                  10,
+                  15,
+                  20,
+                  25,
+                  30,
+                  35,
+                  40,
+                  45,
+                  50,
+                  55,
+                  60,
+                  65,
+                  70,
+                  75,
+                  80,
+                  85,
+                  90,
+                  95,
+                  100,
+                  105,
+                  110,
+                  115,
+                  120,
+                  125,
+                  130,
+                  135,
+                  140,
+                  145,
+                  150
+                ],
+                "__type": "ByCharLevelFormulaCalculationPart"
+              },
+              {
+                "mStat": 2,
+                "mStatFormula": 2,
+                "mCoefficient": 0.550000011920929,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "meaning": "这里只保留固定客户端中的相关完整节点，不推断未提供的脚本行为。"
+      }
+    },
+    {
+      "skillKey": "akshan_p",
+      "championId": "Akshan",
+      "purpose": "额外第二枪伤害、取消第二枪后的移动速度。",
+      "identity": {
+        "path": "skills/akshan_p",
+        "status": 200,
+        "sha256": "4119fa88237ce6353614e69c05bb46064e92eb5fe7d6a255874312b1af61b653",
+        "capturedAt": "2026-09-21T17:04:57.078Z",
+        "body": {"createdAt":"2026-09-06T18:16:16.896955Z","description":"来自阿克尚攻击或技能的每第三次命中会造成额外伤害，并且如果目标是英雄还会为他提供一层护盾。<br><br>在阿克尚攻击时，他会进行一次额外的射击，来造成较少伤害。如果他取消掉了这次额外射击，那么他会转而获得移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证。）","gameId":"lol","maxLevel":1,"name":"阿克尚·无所不用","skillCategoryKeys":["passive"],"skillKey":"akshan_p","sortOrder":0,"status":"ENABLED","updatedAt":"2026-09-06T18:16:16.896955Z"}
+      },
+      "automaticEntryApproved": false,
+      "readyFormulaKeys": [
+        "second_attack_physical_damage"
+      ],
+      "readyFormulaNotes": [
+        "额外第二枪基础物理伤害=0.5×来源总攻击力，可独立复用；100%暴击效能已有来源，不使用旧30%额外暴伤口径。"
+      ],
+      "blockers": [
+        "缺自动第二枪的延迟、发起/命中时点、取消后消费、取消后移动速度应用与结束，以及第二枪属于独立攻击还是同一动作的事件资格。",
+        "第一枪和第二枪共用还是独立暴击判定，缺固定版本完整证据及接线；不能凭两次伤害结果各自随机决定。",
+        "SecondAutoFlexedAttackRange=200仅保留来源字段，不能当作第二枪总射程。",
+        "move_speed_base_at_character_level仍是无默认运行输入；20至75只是端点，未批准中间等级曲线。",
+        "三次命中魔法伤害与英雄目标护盾是另一被动分支；不能把它们当每一次普攻必然执行。"
+      ],
+      "runtimeInputs": [
+        {
+          "parameterKey": "move_speed_base_at_character_level",
+          "name": "取消射击角色等级移动速度基础值",
+          "fixedValue": null,
+          "levelValues": null,
+          "defaultSupplied": false,
+          "requirement": "当前ASModdedMS先消费MS角色等级插值，再乘1+额外攻击速度；中间等级曲线未证，无默认值。"
+        }
+      ],
+      "liveConfiguration": {
+        "parameters": {
+          "name": "参数",
+          "listReadback": {
+            "path": "skills/akshan_p/parameters",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.134Z",
+            "sha256": "f9dc42d9cf09022dff3d76fda05b737db5066f93f7af096957ef88b5a4aa692d"
+          },
+          "observedCount": 28,
+          "selectedCount": 8,
+          "objects": [
+            {
+              "path": "skills/akshan_p/parameters/second_attack_ad_ratio",
+              "status": 200,
+              "sha256": "e35a7f30f5a80e7e46c9d75c00d1ddf3f914747816bff8893d1ac443882d71c2",
+              "capturedAt": "2026-09-21T17:04:57.189Z",
+              "body": {"createdAt":"2026-09-09T20:01:11.15768Z","description":"当前SecondAutoDamage的mStat=2且未给formula，按同版窄证读取来源总攻击力。","fixedValue":0.5,"gameId":"lol","levelValues":null,"name":"额外射击总攻击力比例","parameterKey":"second_attack_ad_ratio","skillKey":"akshan_p","sortOrder":20,"updatedAt":"2026-09-09T20:01:11.15768Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/akshan_p/parameters/second_attack_crit_efficiency_ratio",
+              "status": 200,
+              "sha256": "20dde1c252b8dede003992a8b9c64f7f8bfb46e6d6e16e0356cdca9af75ab0f7",
+              "capturedAt": "2026-09-21T17:04:57.189Z",
+              "body": {"createdAt":"2026-09-09T20:01:12.35518Z","description":"当前正文明确第二次攻击可暴击且效能为100%；保留比例1。","fixedValue":1,"gameId":"lol","levelValues":null,"name":"额外射击暴击效能比例","parameterKey":"second_attack_crit_efficiency_ratio","skillKey":"akshan_p","sortOrder":30,"updatedAt":"2026-09-09T20:01:12.35518Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/akshan_p/parameters/second_attack_range_points",
+              "status": 200,
+              "sha256": "7abc561a85c15d6556fcd5642cadf3bf430e60c548503b544d47f4fbfef0e20f",
+              "capturedAt": "2026-09-21T17:04:57.188Z",
+              "body": {"createdAt":"2026-09-09T20:01:13.476743Z","description":"当前DataValues.SecondAutoFlexedAttackRange=200；只保存来源数值，不建攻击事件。","fixedValue":200,"gameId":"lol","levelValues":null,"name":"额外射击攻击距离","parameterKey":"second_attack_range_points","skillKey":"akshan_p","sortOrder":40,"updatedAt":"2026-09-09T20:01:13.476743Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/akshan_p/parameters/haste_duration_ms",
+              "status": 200,
+              "sha256": "484b5db81abd8e434c4ec1721ceb2be7193bc1b12b0948d84d395cdeb3facb88",
+              "capturedAt": "2026-09-21T17:04:57.188Z",
+              "body": {"createdAt":"2026-09-09T20:01:14.568267Z","description":"当前HasteDuration=1秒，转换为1000毫秒。","fixedValue":1000,"gameId":"lol","levelValues":null,"name":"取消额外射击后移动速度持续时间（毫秒）","parameterKey":"haste_duration_ms","skillKey":"akshan_p","sortOrder":50,"updatedAt":"2026-09-09T20:01:14.568267Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/akshan_p/parameters/move_speed_base_min",
+              "status": 200,
+              "sha256": "bdb5db2ed00f72251c1017d36b9c000a074bd511c149d441605dd4d73a9b6fe9",
+              "capturedAt": "2026-09-21T17:04:57.190Z",
+              "body": {"createdAt":"2026-09-09T20:01:15.730747Z","description":"当前MS为角色等级插值20至75；只保留端点，未知中间曲线使用运行输入。","fixedValue":20,"gameId":"lol","levelValues":null,"name":"取消射击移动速度角色等级下限","parameterKey":"move_speed_base_min","skillKey":"akshan_p","sortOrder":60,"updatedAt":"2026-09-09T20:01:15.730747Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/akshan_p/parameters/move_speed_base_max",
+              "status": 200,
+              "sha256": "088b213e88ca49d65ef4c917a362da359626f8f5004224fde2edfbbffdbe18c1",
+              "capturedAt": "2026-09-21T17:04:57.189Z",
+              "body": {"createdAt":"2026-09-09T20:01:17.02718Z","description":"当前MS为角色等级插值20至75；只保留端点，未知中间曲线使用运行输入。","fixedValue":75,"gameId":"lol","levelValues":null,"name":"取消射击移动速度角色等级上限","parameterKey":"move_speed_base_max","skillKey":"akshan_p","sortOrder":70,"updatedAt":"2026-09-09T20:01:17.02718Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/akshan_p/parameters/move_speed_base_at_character_level",
+              "status": 200,
+              "sha256": "4e3a3087a12c51394faf72a4c3bffcb6ba42875de7a83ffbba666d1be9d91b26",
+              "capturedAt": "2026-09-21T17:04:57.190Z",
+              "body": {"createdAt":"2026-09-09T20:01:18.243268Z","description":"当前ASModdedMS先消费MS角色等级插值，再乘1+额外攻击速度；中间等级曲线未证，无默认值。","fixedValue":null,"gameId":"lol","levelValues":null,"name":"取消射击角色等级移动速度基础值","parameterKey":"move_speed_base_at_character_level","skillKey":"akshan_p","sortOrder":80,"updatedAt":"2026-09-09T20:01:18.243268Z","valueMode":"RUNTIME_INPUT","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/akshan_p/parameters/move_speed_multiplier_base",
+              "status": 200,
+              "sha256": "48d8dcb9e7d3ace73baedf9c00c81b50ba45a5570ce47960f297e665e4ef1e43",
+              "capturedAt": "2026-09-21T17:04:57.190Z",
+              "body": {"createdAt":"2026-09-09T20:01:19.39492Z","description":"当前ASModdedMS的倍率树含Number=1。","fixedValue":1,"gameId":"lol","levelValues":null,"name":"取消射击移动速度基础倍率","parameterKey":"move_speed_multiplier_base","skillKey":"akshan_p","sortOrder":90,"updatedAt":"2026-09-09T20:01:19.39492Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            }
+          ]
+        },
+        "formulas": {
+          "name": "公式",
+          "listReadback": {
+            "path": "skills/akshan_p/formulas",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.331Z",
+            "sha256": "09f16bb19fc06af3530e582e780eaba1b5c7581481ae39905e6b13fdbdf45d1f"
+          },
+          "observedCount": 4,
+          "selectedCount": 2,
+          "objects": [
+            {
+              "path": "skills/akshan_p/formulas/second_attack_physical_damage",
+              "status": 200,
+              "sha256": "260b95e8434945077aa65bc16ce9e58e9bd39b793cfd108336c9f071090e22a1",
+              "capturedAt": "2026-09-21T17:04:57.383Z",
+              "body": {"createdAt":"2026-09-09T20:01:44.144475Z","description":"当前SecondAutoDamage=SecondAutoADRatio×来源总攻击力。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"second_attack_ad_ratio"},{"attributeKey":"attack_damage","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"}],"operation":"MULTIPLY"},"formulaKey":"second_attack_physical_damage","gameId":"lol","name":"额外射击物理伤害","skillKey":"akshan_p","sortOrder":10,"updatedAt":"2026-09-09T20:01:44.144475Z"}
+            },
+            {
+              "path": "skills/akshan_p/formulas/cancelled_second_attack_move_speed",
+              "status": 200,
+              "sha256": "05350237e75e93bc07d0023388f1d89c5896595881e6bc6fe715c2e5b283a1a1",
+              "capturedAt": "2026-09-21T17:04:57.384Z",
+              "body": {"createdAt":"2026-09-09T20:01:48.095358Z","description":"当前ASModdedMS=MS×(1+额外攻击速度)；mStat=4/formula=2按额外攻击速度属性读取。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"move_speed_base_at_character_level"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"move_speed_multiplier_base"},{"attributeKey":"bonus_attack_speed_percent","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"}],"operation":"ADD"}],"operation":"MULTIPLY"},"formulaKey":"cancelled_second_attack_move_speed","gameId":"lol","name":"取消额外射击后的移动速度","skillKey":"akshan_p","sortOrder":40,"updatedAt":"2026-09-09T20:01:48.095358Z"}
+            }
+          ]
+        },
+        "effects": {
+          "name": "效果",
+          "listReadback": {
+            "path": "skills/akshan_p/effects",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.434Z",
+            "sha256": "2423303cbfcd35be5f6453356e3c804f60568be6c5f2cb449d2277117f40f2c3"
+          },
+          "observedCount": 1,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "processes": {
+          "name": "过程",
+          "listReadback": {
+            "path": "skills/akshan_p/processes",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.514Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "internal-states": {
+          "name": "内部状态",
+          "listReadback": {
+            "path": "skills/akshan_p/internal-states",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.549Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "trigger-rules": {
+          "name": "触发规则",
+          "listReadback": {
+            "path": "skills/akshan_p/trigger-rules",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.585Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        }
+      },
+      "excludedObjects": [
+        {
+          "section": "parameters",
+          "key": "max_stack_count",
+          "name": "无所不用三次命中最大层数",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_proc_base_damage",
+          "name": "三次命中基础魔法伤害角色等级起点",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_proc_breakpoint_1_level",
+          "name": "三次命中魔法伤害第一次断点等级",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_proc_breakpoint_1_increase",
+          "name": "三次命中魔法伤害第一次增加",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_proc_breakpoint_2_level",
+          "name": "三次命中魔法伤害第二次断点等级",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_proc_breakpoint_2_increase",
+          "name": "三次命中魔法伤害第二次增加",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_proc_breakpoint_3_level",
+          "name": "三次命中魔法伤害第三次断点等级",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_proc_breakpoint_3_increase",
+          "name": "三次命中魔法伤害第三次增加",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_proc_base_damage_at_character_level",
+          "name": "三次命中角色等级基础伤害实际值",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_proc_ap_ratio",
+          "name": "三次命中法术强度比例",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "shield_base_min",
+          "name": "英雄目标护盾角色等级下限",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "shield_base_max",
+          "name": "英雄目标护盾角色等级上限",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "shield_base_at_character_level",
+          "name": "英雄目标护盾角色等级基础值",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "shield_bonus_ad_ratio",
+          "name": "英雄目标护盾额外攻击力比例",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "shield_duration_ms",
+          "name": "英雄目标护盾持续时间（毫秒）",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_cooldown_base_ms",
+          "name": "三次命中护盾基础冷却（毫秒）",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_cooldown_reduction_ms",
+          "name": "三次命中护盾每次冷却减少（毫秒）",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_cooldown_breakpoint_1_level",
+          "name": "三次命中护盾第一次冷却断点等级",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_cooldown_breakpoint_2_level",
+          "name": "三次命中护盾第二次冷却断点等级",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "parameters",
+          "key": "passive_cooldown_breakpoint_3_level",
+          "name": "三次命中护盾第三次冷却断点等级",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "formulas",
+          "key": "passive_proc_magic_damage",
+          "name": "三次命中额外魔法伤害",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "formulas",
+          "key": "champion_shield_value",
+          "name": "英雄目标护盾值",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        },
+        {
+          "section": "effects",
+          "key": "champion_shield",
+          "name": "无所不用英雄目标自身护盾",
+          "reason": "三次命中伤害、护盾或其冷却分支；本文件只筛选第二枪及取消行为。"
+        }
+      ],
+      "sourceParts": {
+        "rootPath": "Characters/Akshan/CharacterRecords/Root",
+        "rootAttackFields": {
+          "critDamageMultiplier": 2,
+          "attackRangeModifiable": {
+            "baseValue": 500,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedModifiable": {
+            "baseValue": 0.6380000114440918,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedRatioModifiable": {
+            "baseValue": 0.4000000059604645,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedPerLevelModifiable": {
+            "baseValue": 4,
+            "__type": "ModifiableFloat"
+          },
+          "basicAttack": {
+            "mAttackTotalTime": 1.5,
+            "mAttackCastTime": 0.20000000298023224,
+            "mAttackDelayCastOffsetPercentAttackSpeedRatio": 1,
+            "mAttackName": "AkshanBasicAttack",
+            "__type": "AttackSlotData"
+          },
+          "extraAttacks": [
+            {
+              "mAttackName": "AkshanBasicAttack2",
+              "__type": "AttackSlotData"
+            },
+            {
+              "mAttackName": "AkshanBasicAttack3",
+              "__type": "AttackSlotData"
+            }
+          ],
+          "critAttacks": [
+            {
+              "mAttackName": "AkshanCritAttack",
+              "__type": "AttackSlotData"
+            }
+          ]
+        },
+        "clientPath": "Characters/Akshan/Spells/AkshanPassiveAbility/AkshanPassive",
+        "dataValues": [
+          {
+            "name": "SecondAutoADRatio",
+            "values": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "HasteDuration",
+            "values": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "SecondAutoFlexedAttackRange",
+            "values": [
+              200,
+              200,
+              200,
+              200,
+              200,
+              200,
+              200
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "SecondAutoCritRatio",
+            "values": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "__type": "SpellDataValue"
+          }
+        ],
+        "calculations": {
+          "MS": {
+            "mFormulaParts": [
+              {
+                "mStartValue": 20,
+                "mEndValue": 75,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "SecondAutoDamage": {
+            "mFormulaParts": [
+              {
+                "mStat": 2,
+                "mDataValue": "SecondAutoADRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "ASModdedMS": {
+            "mMultiplier": {
+              "mSubparts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mStat": 4,
+                  "mStatFormula": 2,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            },
+            "mModifiedGameCalculation": "MS",
+            "__type": "GameCalculationModified"
+          },
+          "{82593567}": {
+            "mMultiplier": {
+              "mSubparts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mPart1": {
+                    "mDataValue": "SecondAutoCritRatio",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "mPart2": {
+                    "mSubparts": [
+                      {
+                        "mStat": 9,
+                        "mCoefficient": 1,
+                        "__type": "StatByCoefficientCalculationPart"
+                      },
+                      {
+                        "mNumber": -1,
+                        "__type": "NumberCalculationPart"
+                      }
+                    ],
+                    "__type": "SumOfSubPartsCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            },
+            "mModifiedGameCalculation": "SecondAutoDamage",
+            "__type": "GameCalculationModified"
+          }
+        },
+        "meaning": "这里只保留固定客户端中的相关完整节点，不推断未提供的脚本行为。"
+      }
+    },
+    {
+      "skillKey": "yone_p",
+      "championId": "Yone",
+      "purpose": "第二击的物理/魔法拆分、特殊暴击与超额暴击转攻击力。",
+      "identity": {
+        "path": "skills/yone_p",
+        "status": 200,
+        "sha256": "b7949afb81852b21c8b19ea810c91182ad722844a9fbbe24dd1aa7ae2116fcc0",
+        "capturedAt": "2026-09-21T17:04:57.621Z",
+        "body": {"createdAt":"2026-09-06T18:21:12.294693Z","description":"永恩每第二次攻击造成魔法伤害。此外，他的暴击几率提升。（来源：官方中文静态资料16.17.1；数值和机制待补证。）","gameId":"lol","maxLevel":1,"name":"永恩·狩人之道","skillCategoryKeys":["passive"],"skillKey":"yone_p","sortOrder":0,"status":"ENABLED","updatedAt":"2026-09-06T18:21:12.294693Z"}
+      },
+      "automaticEntryApproved": false,
+      "readyFormulaKeys": [
+        "second_attack_physical_damage",
+        "second_attack_magic_damage"
+      ],
+      "readyFormulaNotes": [
+        "第二击两个已有公式分别为0.5×来源总攻击力；合计同一次完整攻击基数，替换原完整物理伤害，不再额外叠加一笔总攻击力。",
+        "完整暴击倍率候选为0.95×(2+额外暴击伤害比例)；两个伤害分量必须共用同一次攻击的暴击判定，不因公式可用而批准两个独立判定。"
+      ],
+      "blockers": [
+        "缺左右刀交替状态、普通第一击与混伤第二击选择和攻击事件接线。",
+        "缺同一次攻击的物理与魔法结果共享暴击判定的系统验证。",
+        "crit_chance_before_self_modifier_ratio是无默认运行输入；属性阶段未接时，不能读取已经含自身翻倍的最终暴击几率再次翻倍。",
+        "超额暴击转攻击力需要先确定自身提升前输入和封顶顺序，不能只挂上公式就视作属性转换完成。"
+      ],
+      "runtimeInputs": [
+        {
+          "parameterKey": "crit_chance_before_self_modifier_ratio",
+          "name": "自身提升前实际暴击几率",
+          "fixedValue": null,
+          "levelValues": null,
+          "defaultSupplied": false,
+          "requirement": "正文扩展说明自身暴击提升在其它修正之后计算；实际阶段无默认输入。"
+        }
+      ],
+      "liveConfiguration": {
+        "parameters": {
+          "name": "参数",
+          "listReadback": {
+            "path": "skills/yone_p/parameters",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.660Z",
+            "sha256": "dcf0a4e1e1b0f86fec2f682e9dcbc67f911f53f52aa7f693b3d666d3a86c15e2"
+          },
+          "observedCount": 8,
+          "selectedCount": 8,
+          "objects": [
+            {
+              "path": "skills/yone_p/parameters/magic_damage_split_ratio",
+              "status": 200,
+              "sha256": "b1d7bd90a96d789e1fba799cd994dc1fb5dce83e5d0acc6484fb493936554597",
+              "capturedAt": "2026-09-21T17:04:57.701Z",
+              "body": {"createdAt":"2026-09-09T17:07:26.336162Z","description":"客户端MagicDamageSplit=0.5，正文明确每第二次攻击有50%攻击伤害为魔法伤害；比例1代表100%。","fixedValue":0.5,"gameId":"lol","levelValues":null,"name":"第二次攻击魔法伤害比例","parameterKey":"magic_damage_split_ratio","skillKey":"yone_p","sortOrder":10,"updatedAt":"2026-09-09T17:07:26.336162Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/yone_p/parameters/physical_damage_split_ratio",
+              "status": 200,
+              "sha256": "d563a5df8e890931cee1a7e5764241d2adf3d51bed48b2629dbd9ac192e36f30",
+              "capturedAt": "2026-09-21T17:04:57.701Z",
+              "body": {"createdAt":"2026-09-09T17:07:27.332819Z","description":"正文明确剩余50%攻击伤害仍为物理；与魔法分量合计一个完整攻击基数。","fixedValue":0.5,"gameId":"lol","levelValues":null,"name":"第二次攻击物理伤害比例","parameterKey":"physical_damage_split_ratio","skillKey":"yone_p","sortOrder":20,"updatedAt":"2026-09-09T17:07:27.332819Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/yone_p/parameters/crit_chance_multiplier",
+              "status": 200,
+              "sha256": "7b34ab7b4f0f48b5fb51fd712f132ff610f55e68ef3fab68c5c66ddb1e7dec03",
+              "capturedAt": "2026-09-21T17:04:57.702Z",
+              "body": {"createdAt":"2026-09-09T17:07:28.432257Z","description":"当前正文显示CritChanceMultiplier*100%，在其它暴击修正后提升100%；比例1代表100%。","fixedValue":1,"gameId":"lol","levelValues":null,"name":"暴击几率提升比例","parameterKey":"crit_chance_multiplier","skillKey":"yone_p","sortOrder":30,"updatedAt":"2026-09-09T17:07:28.432257Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/yone_p/parameters/crit_damage_modifier_ratio",
+              "status": 200,
+              "sha256": "51f17ea93f47f6852bc8845c3ec25bdb75890c3205f056f81864d2c2c4b624c3",
+              "capturedAt": "2026-09-21T17:04:57.702Z",
+              "body": {"createdAt":"2026-09-09T17:07:29.579713Z","description":"客户端CritDamageMod约0.95；实际暴击倍率由CurrentCritDamage读取，本值不作为完整倍率。","fixedValue":0.95,"gameId":"lol","levelValues":null,"name":"暴击伤害调节比例","parameterKey":"crit_damage_modifier_ratio","skillKey":"yone_p","sortOrder":40,"updatedAt":"2026-09-09T17:07:29.579713Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/yone_p/parameters/crit_to_bonus_ad_per_ratio",
+              "status": 200,
+              "sha256": "51db8760033442d32c642636327b6802bcc6d0ec3edd9c1cb661a483e1f43c4c",
+              "capturedAt": "2026-09-21T17:04:57.702Z",
+              "body": {"createdAt":"2026-09-09T17:07:30.659038Z","description":"客户端YoneCritToAD=50，正文按每1%超出部分乘0.01。","fixedValue":50,"gameId":"lol","levelValues":null,"name":"超额暴击转额外攻击力系数","parameterKey":"crit_to_bonus_ad_per_ratio","skillKey":"yone_p","sortOrder":50,"updatedAt":"2026-09-09T17:07:30.659038Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/yone_p/parameters/crit_chance_before_self_modifier_ratio",
+              "status": 200,
+              "sha256": "2bb48adfdcecf6decdae383b5fd9211dfcee5f0abd91b61f903342e566504219",
+              "capturedAt": "2026-09-21T17:04:57.702Z",
+              "body": {"createdAt":"2026-09-09T17:07:31.827742Z","description":"正文扩展说明自身暴击提升在其它修正之后计算；实际阶段无默认输入。","fixedValue":null,"gameId":"lol","levelValues":null,"name":"自身提升前实际暴击几率","parameterKey":"crit_chance_before_self_modifier_ratio","skillKey":"yone_p","sortOrder":60,"updatedAt":"2026-09-09T17:07:31.827742Z","valueMode":"RUNTIME_INPUT","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/yone_p/parameters/crit_chance_cap_ratio",
+              "status": 200,
+              "sha256": "41c4f03d645f130f643e31c06680801d423466ada90b41561bb5b56db34953a2",
+              "capturedAt": "2026-09-21T17:04:57.702Z",
+              "body": {"createdAt":"2026-09-09T17:07:33.007552Z","description":"正文以100%为超额转换起点；比例1代表100%。","fixedValue":1,"gameId":"lol","levelValues":null,"name":"暴击几率封顶比例","parameterKey":"crit_chance_cap_ratio","skillKey":"yone_p","sortOrder":70,"updatedAt":"2026-09-09T17:07:33.007552Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/yone_p/parameters/zero_ratio",
+              "status": 200,
+              "sha256": "ffa95be18d44005eb8c8996b8137ce4712670fa7fe24a418a504d725de423bc1",
+              "capturedAt": "2026-09-21T17:04:57.702Z",
+              "body": {"createdAt":"2026-09-09T17:07:34.13815Z","description":"为超额转换的MAX下界提供显式二元叶子。","fixedValue":0,"gameId":"lol","levelValues":null,"name":"零比例边界","parameterKey":"zero_ratio","skillKey":"yone_p","sortOrder":80,"updatedAt":"2026-09-09T17:07:34.13815Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            }
+          ]
+        },
+        "formulas": {
+          "name": "公式",
+          "listReadback": {
+            "path": "skills/yone_p/formulas",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.734Z",
+            "sha256": "a2af904ab78db12da7ef5785556f6fa515d622e41586035f4e52ca77823420b6"
+          },
+          "observedCount": 4,
+          "selectedCount": 4,
+          "objects": [
+            {
+              "path": "skills/yone_p/formulas/second_attack_physical_damage",
+              "status": 200,
+              "sha256": "9d81b8ff19c3ba1f2380ffcf2287fa8fb7612fc96712a52cb550aad724aa2b00",
+              "capturedAt": "2026-09-21T17:04:57.776Z",
+              "body": {"createdAt":"2026-09-09T17:07:35.23332Z","description":"每第二次攻击只把同一个实际攻击基数拆分为物理分量，不再叠加一笔完整物理攻击；攻击特效是否纳入待接。","expression":{"nodeType":"OPERATION","operands":[{"attributeKey":"attack_damage","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"},{"nodeType":"PARAMETER","parameterKey":"physical_damage_split_ratio"}],"operation":"MULTIPLY"},"formulaKey":"second_attack_physical_damage","gameId":"lol","name":"第二次攻击物理伤害分量","skillKey":"yone_p","sortOrder":10,"updatedAt":"2026-09-09T17:07:35.23332Z"}
+            },
+            {
+              "path": "skills/yone_p/formulas/second_attack_magic_damage",
+              "status": 200,
+              "sha256": "b852a08d2f30c73915e7f76352c0766b1c1f6945090e86689502d9f8e8052f9e",
+              "capturedAt": "2026-09-21T17:04:57.776Z",
+              "body": {"createdAt":"2026-09-09T17:07:36.436235Z","description":"每第二次攻击把同一个实际攻击基数拆分为魔法分量；与物理分量合计完整攻击伤害。","expression":{"nodeType":"OPERATION","operands":[{"attributeKey":"attack_damage","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"},{"nodeType":"PARAMETER","parameterKey":"magic_damage_split_ratio"}],"operation":"MULTIPLY"},"formulaKey":"second_attack_magic_damage","gameId":"lol","name":"第二次攻击魔法伤害分量","skillKey":"yone_p","sortOrder":20,"updatedAt":"2026-09-09T17:07:36.436235Z"}
+            },
+            {
+              "path": "skills/yone_p/formulas/crit_chance_after_self_modifier_ratio",
+              "status": 200,
+              "sha256": "956b2f84b97a2cc4b2bb9d33196482d355af8528e5e9756197bfc0772c7125ef",
+              "capturedAt": "2026-09-21T17:04:57.775Z",
+              "body": {"createdAt":"2026-09-09T17:07:37.609177Z","description":"先读取其它暴击修正后的实际暴击几率，再增加同值100%；不重复乘已经含自身提升的最终值。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"crit_chance_before_self_modifier_ratio"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"crit_chance_before_self_modifier_ratio"},{"nodeType":"PARAMETER","parameterKey":"crit_chance_multiplier"}],"operation":"MULTIPLY"}],"operation":"ADD"},"formulaKey":"crit_chance_after_self_modifier_ratio","gameId":"lol","name":"自身提升后暴击几率","skillKey":"yone_p","sortOrder":30,"updatedAt":"2026-09-09T17:07:37.609177Z"}
+            },
+            {
+              "path": "skills/yone_p/formulas/crit_overcap_bonus_attack_damage",
+              "status": 200,
+              "sha256": "7496e538a8e91c7477f1e5500e039193e2713abb0dc338ad721d00319984488f",
+              "capturedAt": "2026-09-21T17:04:57.775Z",
+              "body": {"createdAt":"2026-09-09T17:07:38.782924Z","description":"MAX(自身提升后暴击几率-1,0)×50；仅计算超过100%的比例部分。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"OPERATION","operands":[{"nodeType":"OPERATION","operands":[{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"crit_chance_before_self_modifier_ratio"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"crit_chance_before_self_modifier_ratio"},{"nodeType":"PARAMETER","parameterKey":"crit_chance_multiplier"}],"operation":"MULTIPLY"}],"operation":"ADD"},{"nodeType":"PARAMETER","parameterKey":"crit_chance_cap_ratio"}],"operation":"SUBTRACT"},{"nodeType":"PARAMETER","parameterKey":"zero_ratio"}],"operation":"MAX"},{"nodeType":"PARAMETER","parameterKey":"crit_to_bonus_ad_per_ratio"}],"operation":"MULTIPLY"},"formulaKey":"crit_overcap_bonus_attack_damage","gameId":"lol","name":"超额暴击转额外攻击力","skillKey":"yone_p","sortOrder":40,"updatedAt":"2026-09-09T17:07:38.782924Z"}
+            }
+          ]
+        },
+        "effects": {
+          "name": "效果",
+          "listReadback": {
+            "path": "skills/yone_p/effects",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.808Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "processes": {
+          "name": "过程",
+          "listReadback": {
+            "path": "skills/yone_p/processes",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.840Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "internal-states": {
+          "name": "内部状态",
+          "listReadback": {
+            "path": "skills/yone_p/internal-states",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.878Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "trigger-rules": {
+          "name": "触发规则",
+          "listReadback": {
+            "path": "skills/yone_p/trigger-rules",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.921Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        }
+      },
+      "excludedObjects": [],
+      "sourceParts": {
+        "rootPath": "Characters/Yone/CharacterRecords/Root",
+        "rootAttackFields": {
+          "critDamageMultiplier": 2,
+          "attackRangeModifiable": {
+            "baseValue": 175,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedModifiable": {
+            "baseValue": 0.625,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedRatioModifiable": {
+            "baseValue": 0.625,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedPerLevelModifiable": {
+            "baseValue": 3.5,
+            "__type": "ModifiableFloat"
+          },
+          "basicAttack": {
+            "mAttackDelayCastOffsetPercent": -0.07999999821186066,
+            "mAttackDelayCastOffsetPercentAttackSpeedRatio": 1,
+            "mAttackProbability": 1,
+            "__type": "AttackSlotData"
+          },
+          "extraAttacks": [
+            {
+              "mAttackName": "YoneBasicAttack2",
+              "__type": "AttackSlotData"
+            },
+            {
+              "mAttackName": "YoneBasicAttack3",
+              "__type": "AttackSlotData"
+            },
+            {
+              "mAttackName": "YoneBasicAttack4",
+              "__type": "AttackSlotData"
+            }
+          ],
+          "critAttacks": [
+            {
+              "mAttackDelayCastOffsetPercentAttackSpeedRatio": 1,
+              "mAttackName": "YoneCritAttack",
+              "__type": "AttackSlotData"
+            },
+            {
+              "mAttackName": "YoneCritAttack2",
+              "__type": "AttackSlotData"
+            },
+            {
+              "mAttackName": "YoneCritAttack3",
+              "__type": "AttackSlotData"
+            },
+            {
+              "mAttackName": "YoneCritAttack4",
+              "__type": "AttackSlotData"
+            }
+          ]
+        },
+        "clientPath": "Characters/Yone/Spells/YonePassiveAbility/YonePassive",
+        "dataValues": [
+          {
+            "name": "MagicDamageSplit",
+            "values": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "YoneCritToAD",
+            "values": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "CritChanceMultiplier",
+            "values": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "CritDamageMod",
+            "values": [
+              0.949999988079071,
+              0.949999988079071,
+              0.949999988079071,
+              0.949999988079071,
+              0.949999988079071,
+              0.949999988079071,
+              0.949999988079071
+            ],
+            "__type": "SpellDataValue"
+          }
+        ],
+        "calculations": {
+          "CurrentCritDamage": {
+            "mExpandedTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mStat": 9,
+                "mCoefficient": 1,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          }
+        },
+        "meaning": "这里只保留固定客户端中的相关完整节点，不推断未提供的脚本行为。"
+      }
+    },
+    {
+      "skillKey": "zeri_p",
+      "championId": "Zeri",
+      "purpose": "右键独立普通技能的未满/满充能魔法伤害与处决资格。",
+      "identity": {
+        "path": "skills/zeri_p",
+        "status": 200,
+        "sha256": "eaa9c4a09e96958a2647b491d31c7c753990f06f80dd1c4e16793e7c2a8acaac",
+        "capturedAt": "2026-09-21T17:04:57.958Z",
+        "body": {"createdAt":"2026-09-06T18:21:21.672408Z","description":"泽丽的攻击造成魔法伤害并被视为技能。移动和施放【电火迸射】会将能量储存至泽丽的【火花背包】。在完全充能后，她的下次攻击将造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）","gameId":"lol","maxLevel":1,"name":"泽丽·内能迁转","skillCategoryKeys":["passive"],"skillKey":"zeri_p","sortOrder":0,"status":"ENABLED","updatedAt":"2026-09-06T18:21:21.672408Z"}
+      },
+      "automaticEntryApproved": false,
+      "readyFormulaKeys": [],
+      "readyFormulaNotes": [
+        "四个已有公式仍含无默认等级输入；可保留数学结构，但不能独立运行，不新建零值等级表。",
+        "固定构建类默认值可补证静态基础充能容量100；这不等于初始当前充能，也不等于未满攻击消费量。"
+      ],
+      "blockers": [
+        "未满基础伤害10至25、处决阈值70至160、满充基础75至160及目标最大生命比例1%至11%的完整1至18级求值尚未批准。",
+        "缺当前充能初值、各事件增加和消费时点、未满/满充选择及满充后消费全部充能的状态接线。",
+        "未满右键每次消费量仍未知；ChargePerAttack=10表示充能增加，不能直接当作右键消费。",
+        "处决限定未满分支且目标当前生命严格低于阈值；比较生命发生在伤害之前还是之后尚未证实，不能做无条件处决。",
+        "右键不套普通总攻击力与暴击伤害；根字段直接证明其使用技能来源并跳过攻击序列事件，但每个攻击监听资格仍需逐项核对。",
+        "本次右键的实际攻击间隔、前摇与充能之间的完整脚本未取得；ZeriQPassive只有脚本名，没有脚本正文。"
+      ],
+      "runtimeInputs": [
+        {
+          "parameterKey": "q_min_damage_level_base",
+          "name": "跨Q未充能基础伤害实际等级值",
+          "fixedValue": null,
+          "levelValues": null,
+          "defaultSupplied": false,
+          "requirement": "P正文跨技能引用Q.MinDamage；Q树为10至25的角色等级插值，当前没有完整等级求值，实际值外供。"
+        },
+        {
+          "parameterKey": "q_passive_execute_threshold_level_base",
+          "name": "跨Q处决阈值基础实际等级值",
+          "fixedValue": null,
+          "levelValues": null,
+          "defaultSupplied": false,
+          "requirement": "P正文跨技能引用Q.PassiveExecuteThreshold；Q树为70至160的角色等级插值，实际值外供，不猜曲线。"
+        },
+        {
+          "parameterKey": "q_passive_max_damage_level_base",
+          "name": "跨Q满充能基础伤害实际等级值",
+          "fixedValue": null,
+          "levelValues": null,
+          "defaultSupplied": false,
+          "requirement": "P正文跨技能引用Q.PassiveMaxDamage；Q树为75至160的角色等级插值，实际值外供。"
+        },
+        {
+          "parameterKey": "q_passive_max_charge_hp_ratio",
+          "name": "跨Q满充能最大生命比例实际值",
+          "fixedValue": null,
+          "levelValues": null,
+          "defaultSupplied": false,
+          "requirement": "P正文跨技能引用Q.PassiveMaxChargePercentHealth；Q树为1%至11%的角色等级插值，实际比例无默认。"
+        }
+      ],
+      "liveConfiguration": {
+        "parameters": {
+          "name": "参数",
+          "listReadback": {
+            "path": "skills/zeri_p/parameters",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:57.992Z",
+            "sha256": "e7e50e16b0f8361b6c0bc3d12f7f40bd9660e94ef769b422ca4713a1f42f64fc"
+          },
+          "observedCount": 8,
+          "selectedCount": 7,
+          "objects": [
+            {
+              "path": "skills/zeri_p/parameters/q_min_damage_level_base",
+              "status": 200,
+              "sha256": "3b5b8527f4265b684a4dd76ffbcc4ad07604a07a1b321a3754a288f624f35418",
+              "capturedAt": "2026-09-21T17:04:58.033Z",
+              "body": {"createdAt":"2026-09-09T17:32:01.011436Z","description":"P正文跨技能引用Q.MinDamage；Q树为10至25的角色等级插值，当前没有完整等级求值，实际值外供。","fixedValue":null,"gameId":"lol","levelValues":null,"name":"跨Q未充能基础伤害实际等级值","parameterKey":"q_min_damage_level_base","skillKey":"zeri_p","sortOrder":10,"updatedAt":"2026-09-09T17:32:01.011436Z","valueMode":"RUNTIME_INPUT","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/zeri_p/parameters/q_min_damage_ability_power_ratio",
+              "status": 200,
+              "sha256": "8ad5ad9203ef0ff49599e21c0c03f4ef9d09698b4ece50144fbee2bf8547a6d1",
+              "capturedAt": "2026-09-21T17:04:58.035Z",
+              "body": {"createdAt":"2026-09-09T17:32:02.173268Z","description":"当前Q.MinDamage树StatByCoefficient约0.03；P沿跨Q引用保留该比例。","fixedValue":0.03,"gameId":"lol","levelValues":null,"name":"跨Q未充能法强比例","parameterKey":"q_min_damage_ability_power_ratio","skillKey":"zeri_p","sortOrder":20,"updatedAt":"2026-09-09T17:32:02.173268Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/zeri_p/parameters/q_passive_execute_threshold_level_base",
+              "status": 200,
+              "sha256": "9b7e0d1a529c8232cbc525c066abb656aebaef1dcd5a5ff0556ed2d1379d2ec6",
+              "capturedAt": "2026-09-21T17:04:58.032Z",
+              "body": {"createdAt":"2026-09-09T17:32:03.420347Z","description":"P正文跨技能引用Q.PassiveExecuteThreshold；Q树为70至160的角色等级插值，实际值外供，不猜曲线。","fixedValue":null,"gameId":"lol","levelValues":null,"name":"跨Q处决阈值基础实际等级值","parameterKey":"q_passive_execute_threshold_level_base","skillKey":"zeri_p","sortOrder":30,"updatedAt":"2026-09-09T17:32:03.420347Z","valueMode":"RUNTIME_INPUT","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/zeri_p/parameters/q_passive_execute_threshold_ability_power_ratio",
+              "status": 200,
+              "sha256": "6e931bc3c7e09285a8372bb736d20049bc69368ba5e4ab496dfb8187525bb801",
+              "capturedAt": "2026-09-21T17:04:58.033Z",
+              "body": {"createdAt":"2026-09-09T17:32:04.588388Z","description":"当前Q.PassiveExecuteThreshold树系数约0.2；这是处决资格阈值，不是普通伤害。","fixedValue":0.2,"gameId":"lol","levelValues":null,"name":"跨Q处决阈值法强比例","parameterKey":"q_passive_execute_threshold_ability_power_ratio","skillKey":"zeri_p","sortOrder":40,"updatedAt":"2026-09-09T17:32:04.588388Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/zeri_p/parameters/q_passive_max_damage_level_base",
+              "status": 200,
+              "sha256": "4fb34421dd7f653b73547771181db9d73c42dd8fddfa4273db86b557946b026a",
+              "capturedAt": "2026-09-21T17:04:58.035Z",
+              "body": {"createdAt":"2026-09-09T17:32:05.721208Z","description":"P正文跨技能引用Q.PassiveMaxDamage；Q树为75至160的角色等级插值，实际值外供。","fixedValue":null,"gameId":"lol","levelValues":null,"name":"跨Q满充能基础伤害实际等级值","parameterKey":"q_passive_max_damage_level_base","skillKey":"zeri_p","sortOrder":50,"updatedAt":"2026-09-09T17:32:05.721208Z","valueMode":"RUNTIME_INPUT","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/zeri_p/parameters/q_passive_max_damage_ability_power_ratio",
+              "status": 200,
+              "sha256": "aeaa26503179bce278b07871d7f8821b92b67abf3a21ac59852a6c8a8aa3d2d5",
+              "capturedAt": "2026-09-21T17:04:58.033Z",
+              "body": {"createdAt":"2026-09-09T17:32:06.846867Z","description":"当前Q.PassiveMaxDamage树StatByCoefficient约1.1。","fixedValue":1.1,"gameId":"lol","levelValues":null,"name":"跨Q满充能法强比例","parameterKey":"q_passive_max_damage_ability_power_ratio","skillKey":"zeri_p","sortOrder":60,"updatedAt":"2026-09-09T17:32:06.846867Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/zeri_p/parameters/q_passive_max_charge_hp_ratio",
+              "status": 200,
+              "sha256": "459a1e053e3ff0f67e04fe299e72c052db51e8f4edf2cad3db02812c4016f8ca",
+              "capturedAt": "2026-09-21T17:04:58.033Z",
+              "body": {"createdAt":"2026-09-09T17:32:07.989859Z","description":"P正文跨技能引用Q.PassiveMaxChargePercentHealth；Q树为1%至11%的角色等级插值，实际比例无默认。","fixedValue":null,"gameId":"lol","levelValues":null,"name":"跨Q满充能最大生命比例实际值","parameterKey":"q_passive_max_charge_hp_ratio","skillKey":"zeri_p","sortOrder":70,"updatedAt":"2026-09-09T17:32:07.989859Z","valueMode":"RUNTIME_INPUT","valueType":"DECIMAL"}
+            }
+          ]
+        },
+        "formulas": {
+          "name": "公式",
+          "listReadback": {
+            "path": "skills/zeri_p/formulas",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:58.068Z",
+            "sha256": "26d71cb7c5cadc0d03fcb4ce6d5a80f06e7835f611e76c85bb2f9b6f9eba4ea9"
+          },
+          "observedCount": 4,
+          "selectedCount": 4,
+          "objects": [
+            {
+              "path": "skills/zeri_p/formulas/unenergized_magic_damage",
+              "status": 200,
+              "sha256": "06d7beab152b48caba98c035e33d661d9f966b5eb2ce9544572da122bf7baf0c",
+              "capturedAt": "2026-09-21T17:04:58.105Z",
+              "body": {"createdAt":"2026-09-09T17:32:10.432582Z","description":"当前P正文跨Q引用MinDamage；基础等级值由实际等级输入，另加0.03×法强。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"q_min_damage_level_base"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"q_min_damage_ability_power_ratio"},{"attributeKey":"ability_power","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"}],"operation":"MULTIPLY"}],"operation":"ADD"},"formulaKey":"unenergized_magic_damage","gameId":"lol","name":"泽丽未充能攻击魔法伤害","skillKey":"zeri_p","sortOrder":10,"updatedAt":"2026-09-09T17:32:10.432582Z"}
+            },
+            {
+              "path": "skills/zeri_p/formulas/execute_threshold",
+              "status": 200,
+              "sha256": "9e2cf79d3a75e234b843e8f7c06b26effe1d9c79779e786ccd4ff5abc90f99d4",
+              "capturedAt": "2026-09-21T17:04:58.105Z",
+              "body": {"createdAt":"2026-09-09T17:32:11.669568Z","description":"当前P正文跨Q引用PassiveExecuteThreshold；这是低于阈值的资格判断，不创建自动处决结果。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"q_passive_execute_threshold_level_base"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"q_passive_execute_threshold_ability_power_ratio"},{"attributeKey":"ability_power","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"}],"operation":"MULTIPLY"}],"operation":"ADD"},"formulaKey":"execute_threshold","gameId":"lol","name":"泽丽处决生命阈值","skillKey":"zeri_p","sortOrder":20,"updatedAt":"2026-09-09T17:32:11.669568Z"}
+            },
+            {
+              "path": "skills/zeri_p/formulas/passive_max_damage",
+              "status": 200,
+              "sha256": "6a45ffd74d51ae7000581130b97dc49897b9876b1cfa38476cdca8be1142367e",
+              "capturedAt": "2026-09-21T17:04:58.105Z",
+              "body": {"createdAt":"2026-09-09T17:32:12.902251Z","description":"当前P正文跨Q引用PassiveMaxDamage；基础等级值由实际等级输入。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"q_passive_max_damage_level_base"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"q_passive_max_damage_ability_power_ratio"},{"attributeKey":"ability_power","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"}],"operation":"MULTIPLY"}],"operation":"ADD"},"formulaKey":"passive_max_damage","gameId":"lol","name":"泽丽满充能基础魔法伤害","skillKey":"zeri_p","sortOrder":30,"updatedAt":"2026-09-09T17:32:12.902251Z"}
+            },
+            {
+              "path": "skills/zeri_p/formulas/full_charge_magic_damage",
+              "status": 200,
+              "sha256": "34e4678ee02c9a16d337162af8807d0ff4962b705ee89ba42fdf7336887baf44",
+              "capturedAt": "2026-09-21T17:04:58.105Z",
+              "body": {"createdAt":"2026-09-09T17:32:14.158791Z","description":"当前P正文跨Q引用PassiveMaxDamage并加PassiveMaxChargePercentHealth×目标最大生命；野怪300上限支路排除。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"q_passive_max_damage_level_base"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"q_passive_max_damage_ability_power_ratio"},{"attributeKey":"ability_power","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"}],"operation":"MULTIPLY"}],"operation":"ADD"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"q_passive_max_charge_hp_ratio"},{"attributeKey":"hp","attributeOwner":"TARGET","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"}],"operation":"MULTIPLY"}],"operation":"ADD"},"formulaKey":"full_charge_magic_damage","gameId":"lol","name":"泽丽满充能攻击总魔法伤害","skillKey":"zeri_p","sortOrder":40,"updatedAt":"2026-09-09T17:32:14.158791Z"}
+            }
+          ]
+        },
+        "effects": {
+          "name": "效果",
+          "listReadback": {
+            "path": "skills/zeri_p/effects",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:58.140Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "processes": {
+          "name": "过程",
+          "listReadback": {
+            "path": "skills/zeri_p/processes",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:58.174Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "internal-states": {
+          "name": "内部状态",
+          "listReadback": {
+            "path": "skills/zeri_p/internal-states",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:58.209Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "trigger-rules": {
+          "name": "触发规则",
+          "listReadback": {
+            "path": "skills/zeri_p/trigger-rules",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:58.247Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        }
+      },
+      "excludedObjects": [
+        {
+          "section": "parameters",
+          "key": "one_ratio",
+          "name": "单位倍率常数",
+          "reason": "现有四个相关公式未引用的单位常数；不作为新公式必需输入。"
+        }
+      ],
+      "sourceParts": {
+        "rootPath": "Characters/Zeri/CharacterRecords/Root",
+        "rootAttackFields": {
+          "critDamageMultiplier": 2,
+          "attackRangeModifiable": {
+            "baseValue": 550,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedModifiable": {
+            "baseValue": 0.6579999923706055,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedRatioModifiable": {
+            "baseValue": 0.625,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedPerLevelModifiable": {
+            "baseValue": 2,
+            "__type": "ModifiableFloat"
+          },
+          "TreatAutoAttacksAsNormalSpells": {
+            "AutoAttackSpellsUseSpellSource": true,
+            "SkipSequencedAttackEvents": true,
+            "OverrideQueryableAttackRange": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 740,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mStat": 31,
+                  "mStatFormula": 2,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "__type": "TreatAutoAttacksAsNormalSpells"
+          },
+          "basicAttack": {
+            "mAttackTotalTime": 1.600000023841858,
+            "mAttackCastTime": 0.25,
+            "mAttackProbability": 1,
+            "mAttackName": "ZeriBasicAttack",
+            "__type": "AttackSlotData"
+          },
+          "critAttacks": [
+            {
+              "mAttackTotalTime": 1.600000023841858,
+              "mAttackCastTime": 0.25,
+              "mAttackProbability": 1,
+              "mAttackName": "ZeriBasicAttack",
+              "__type": "AttackSlotData"
+            }
+          ]
+        },
+        "clientPath": "Characters/Zeri/Spells/ZeriPassiveAbility/ZeriPassive",
+        "dataValues": [],
+        "calculations": {},
+        "meaning": "这里只保留固定客户端中的相关完整节点，不推断未提供的脚本行为。",
+        "crossSkillSource": {
+          "slot": "Q",
+          "clientPath": "Characters/Zeri/Spells/ZeriQAbility/ZeriQ",
+          "dataValues": [
+            {
+              "name": "ChargePerAttack",
+              "values": [
+                10,
+                10,
+                10,
+                10,
+                10,
+                10,
+                10
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ChargeDistanceMultiplier",
+              "values": [
+                0.02500000037252903,
+                0.02500000037252903,
+                0.02500000037252903,
+                0.02500000037252903,
+                0.02500000037252903,
+                0.02500000037252903,
+                0.02500000037252903
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "MinDamage": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 10,
+                  "mEndValue": 25,
+                  "mScaleByStatProgressionMultiplier": true,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.029999999329447746,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "PassiveExecuteThreshold": {
+              "{72c5c2a8}": 2,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 70,
+                  "mEndValue": 160,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.20000000298023224,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "PassiveMaxDamage": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 75,
+                  "mEndValue": 160,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mCoefficient": 1.100000023841858,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "PassiveMaxChargePercentHealth": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 0.009999999776482582,
+                  "mEndValue": 0.10999999940395355,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            }
+          },
+          "meaning": "泽丽P当前正文跨Q引用这些计算；不得因为源挂在Q就把右键伤害归入Q整发。"
+        }
+      }
+    },
+    {
+      "skillKey": "zeri_q",
+      "championId": "Zeri",
+      "purpose": "Q作为普通攻击的整发伤害、实际弹丸与攻速关系。",
+      "identity": {
+        "path": "skills/zeri_q",
+        "status": 200,
+        "sha256": "0ca7f857e81429c9ab6723342f016223c615fc831fa22d9ea999b72f0d7e7719",
+        "capturedAt": "2026-09-21T17:04:58.282Z",
+        "body": {"createdAt":"2026-09-06T18:21:21.986315Z","description":"【电火迸射】连续发射7发子弹，对命中的首个敌人造成相当于攻击力的物理伤害。这个技能会被视为一次攻击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）","gameId":"lol","maxLevel":5,"name":"泽丽·电火迸射","skillCategoryKeys":["common"],"skillKey":"zeri_q","sortOrder":1,"status":"ENABLED","updatedAt":"2026-09-06T18:21:21.986315Z"}
+      },
+      "automaticEntryApproved": false,
+      "readyFormulaKeys": [
+        "active_physical_damage"
+      ],
+      "readyFormulaNotes": [
+        "整次攻击基础物理伤害=22/26/30/34/38 + 对应逐级总攻击力比例×来源总攻击力。比例按接口长小数保留；七颗子弹共用这一整发基数，不能把完整公式重复乘7。"
+      ],
+      "blockers": [
+        "缺实际命中弹数、目标分配、阻挡和落空；不能把发射7颗默认当作7颗全部命中同一目标。",
+        "每个目标只触发一次攻击特效的资格事件，以及一次整发暴击如何覆盖各弹仍缺接线与验证。",
+        "只有MinCooldown=500毫秒、AttackSpeedCap=1.5和相关标量；完整Q/R状态下的间隔与施放函数未核，不能自行拼成MAX(500,1000/攻速)。",
+        "R提高最大攻速的固定来源已由同队核对；1.5不能当所有状态的绝对上限。",
+        "mCooldownNotAffectedByCDR=true证明不使用普通技能减冷却；源cooldownTime全0是静态占位，不能录为真实0冷却。",
+        "溢出攻速转攻击力的基数及应用阶段未接；0.6000000238418579只是来源系数，不形成完整属性流程。",
+        "现有cast_time_ms=250是静态字段，不证明随攻速变化的实际前摇、子弹命中或施放完成时点。"
+      ],
+      "runtimeInputs": [],
+      "liveConfiguration": {
+        "parameters": {
+          "name": "参数",
+          "listReadback": {
+            "path": "skills/zeri_q/parameters",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:58.314Z",
+            "sha256": "1246b9018c374a4e7d2e16f58aeca37545a83ccfa21c6aa2bcc80fa45ac3607b"
+          },
+          "observedCount": 9,
+          "selectedCount": 9,
+          "objects": [
+            {
+              "path": "skills/zeri_q/parameters/base_damage",
+              "status": 200,
+              "sha256": "b8580a064ef81b7f6b9adafebe07734a04061485f34fe963b920f6e9afe45994",
+              "capturedAt": "2026-09-21T17:04:58.358Z",
+              "body": {"createdAt":"2026-09-09T17:32:15.373621Z","description":"当前ActiveDamageThatCanCrit树BaseDamage取等级1至5，为22/26/30/34/38；原数组索引0的18不作为技能等级1。","fixedValue":null,"gameId":"lol","levelValues":{"1":22,"2":26,"3":30,"4":34,"5":38},"name":"电火迸射基础物理伤害","parameterKey":"base_damage","skillKey":"zeri_q","sortOrder":10,"updatedAt":"2026-09-09T17:32:15.373621Z","valueMode":"SKILL_LEVEL","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/zeri_q/parameters/total_attack_damage_ratio",
+              "status": 200,
+              "sha256": "713aee0177d4006fc3765650b9208092d98a9c65f704431ccb2f968f155220c6",
+              "capturedAt": "2026-09-21T17:04:58.365Z",
+              "body": {"createdAt":"2026-09-09T17:32:16.505578Z","description":"当前ActiveDamageThatCanCrit树ActiveADRatio取等级1至5，为1.02/1.04/1.06/1.08/1.1。","fixedValue":null,"gameId":"lol","levelValues":{"1":1.0199999809265137,"2":1.0399999618530273,"3":1.059999942779541,"4":1.0800000429153442,"5":1.100000023841858},"name":"电火迸射总攻击力比例","parameterKey":"total_attack_damage_ratio","skillKey":"zeri_q","sortOrder":20,"updatedAt":"2026-09-09T17:32:16.505578Z","valueMode":"SKILL_LEVEL","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/zeri_q/parameters/missile_count",
+              "status": 200,
+              "sha256": "63a386749da2c56bdfe0800dd36504285879393331cb961c8591fc96abdd9e47",
+              "capturedAt": "2026-09-21T17:04:58.365Z",
+              "body": {"createdAt":"2026-09-09T17:32:17.689465Z","description":"当前正文明确一次发射7颗；整次攻击公式只计算一次，不能把整式逐颗再乘7。","fixedValue":7,"gameId":"lol","levelValues":null,"name":"子弹数量","parameterKey":"missile_count","skillKey":"zeri_q","sortOrder":30,"updatedAt":"2026-09-09T17:32:17.689465Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/zeri_q/parameters/min_cooldown_ms",
+              "status": 200,
+              "sha256": "80a9981831705ee8ebca6024c200284659374b25a7d45e29a0279d9f24cc2e9f",
+              "capturedAt": "2026-09-21T17:04:58.358Z",
+              "body": {"createdAt":"2026-09-09T17:32:18.897523Z","description":"当前MinCooldown=0.5秒，转换为500毫秒。","fixedValue":500,"gameId":"lol","levelValues":null,"name":"最小冷却时间（毫秒）","parameterKey":"min_cooldown_ms","skillKey":"zeri_q","sortOrder":40,"updatedAt":"2026-09-09T17:32:18.897523Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/zeri_q/parameters/attack_speed_cap",
+              "status": 200,
+              "sha256": "54652e7b7d7d3cc74719c6e97f278a06a024ec120294c9c5e393f049ddf2ed59",
+              "capturedAt": "2026-09-21T17:04:58.358Z",
+              "body": {"createdAt":"2026-09-09T17:32:20.131403Z","description":"当前正文和DataValues.AttackSpeedCap=1.5；只是上限来源，不构造完整攻速求值。","fixedValue":1.5,"gameId":"lol","levelValues":null,"name":"最大攻击速度（每秒攻击次数）","parameterKey":"attack_speed_cap","skillKey":"zeri_q","sortOrder":50,"updatedAt":"2026-09-09T17:32:20.131403Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/zeri_q/parameters/excess_attack_speed_to_ad_ratio",
+              "status": 200,
+              "sha256": "43c6f398844c57a7830eb43c8a48397489340a313200af4cec95ea674bc2bbac",
+              "capturedAt": "2026-09-21T17:04:58.357Z",
+              "body": {"createdAt":"2026-09-09T17:32:21.383851Z","description":"当前正文和DataValues为60%，转为0.6比例；不自行定义溢出基数和应用阶段。","fixedValue":0.6000000238418579,"gameId":"lol","levelValues":null,"name":"溢出攻击速度转攻击力比例","parameterKey":"excess_attack_speed_to_ad_ratio","skillKey":"zeri_q","sortOrder":60,"updatedAt":"2026-09-09T17:32:21.383851Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/zeri_q/parameters/charge_per_attack",
+              "status": 200,
+              "sha256": "ff554abe3c900ef5e7033f70d14efacc6ab1a53ab1f2aeba9e30b831b9a93f2b",
+              "capturedAt": "2026-09-21T17:04:58.358Z",
+              "body": {"createdAt":"2026-09-09T17:32:22.572953Z","description":"当前DataValues.ChargePerAttack=10；实际充能存量由事件层提供。","fixedValue":10,"gameId":"lol","levelValues":null,"name":"每次攻击充能值","parameterKey":"charge_per_attack","skillKey":"zeri_q","sortOrder":70,"updatedAt":"2026-09-09T17:32:22.572953Z","valueMode":"FIXED","valueType":"INTEGER"}
+            },
+            {
+              "path": "skills/zeri_q/parameters/charge_distance_multiplier",
+              "status": 200,
+              "sha256": "cc9dd58f964b90c898803abcf4330ae7bfbf54cf7c77f795adbe7218908c7e97",
+              "capturedAt": "2026-09-21T17:04:58.357Z",
+              "body": {"createdAt":"2026-09-09T17:32:23.788225Z","description":"当前DataValues.ChargeDistanceMultiplier约0.025；只保存来源系数。","fixedValue":0.02500000037252903,"gameId":"lol","levelValues":null,"name":"移动充能距离系数","parameterKey":"charge_distance_multiplier","skillKey":"zeri_q","sortOrder":80,"updatedAt":"2026-09-09T17:32:23.788225Z","valueMode":"FIXED","valueType":"DECIMAL"}
+            },
+            {
+              "path": "skills/zeri_q/parameters/cast_time_ms",
+              "status": 200,
+              "sha256": "ae7fb314b0dbb725323d0d43dc3fc36d3afbe071a217b83337fb09498a8d8131",
+              "capturedAt": "2026-09-21T17:04:58.357Z",
+              "body": {"createdAt":"2026-09-09T17:32:24.966161Z","description":"当前根spellCastTime；仅保存来源字段，不代表命中、位移或效果事件已接线。","fixedValue":250,"gameId":"lol","levelValues":null,"name":"基础施法时间（毫秒）","parameterKey":"cast_time_ms","skillKey":"zeri_q","sortOrder":1000,"updatedAt":"2026-09-09T17:32:24.966161Z","valueMode":"FIXED","valueType":"INTEGER"}
+            }
+          ]
+        },
+        "formulas": {
+          "name": "公式",
+          "listReadback": {
+            "path": "skills/zeri_q/formulas",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:58.400Z",
+            "sha256": "ca3c3f0d079fc7b404b9b9e257f3554380e10547052d5beda3f65289f62b39e4"
+          },
+          "observedCount": 1,
+          "selectedCount": 1,
+          "objects": [
+            {
+              "path": "skills/zeri_q/formulas/active_physical_damage",
+              "status": 200,
+              "sha256": "03c540b5385980de701e75440944ede91b8e9ba526c0a6f2c40b6ba0a238cfc6",
+              "capturedAt": "2026-09-21T17:04:58.433Z",
+              "body": {"createdAt":"2026-09-09T17:32:26.214376Z","description":"当前ActiveDamageThatCanCrit=基础值+总攻击力比例；七颗子弹作为一次攻击，不能把完整公式重复乘7。","expression":{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"base_damage"},{"nodeType":"OPERATION","operands":[{"nodeType":"PARAMETER","parameterKey":"total_attack_damage_ratio"},{"attributeKey":"attack_damage","attributeOwner":"SOURCE","attributeValueKind":"TOTAL","nodeType":"ATTRIBUTE"}],"operation":"MULTIPLY"}],"operation":"ADD"},"formulaKey":"active_physical_damage","gameId":"lol","name":"电火迸射整次攻击物理伤害","skillKey":"zeri_q","sortOrder":10,"updatedAt":"2026-09-09T17:32:26.214376Z"}
+            }
+          ]
+        },
+        "effects": {
+          "name": "效果",
+          "listReadback": {
+            "path": "skills/zeri_q/effects",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:58.474Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "processes": {
+          "name": "过程",
+          "listReadback": {
+            "path": "skills/zeri_q/processes",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:58.508Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "internal-states": {
+          "name": "内部状态",
+          "listReadback": {
+            "path": "skills/zeri_q/internal-states",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:58.540Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        },
+        "trigger-rules": {
+          "name": "触发规则",
+          "listReadback": {
+            "path": "skills/zeri_q/trigger-rules",
+            "status": 200,
+            "capturedAt": "2026-09-21T17:04:58.578Z",
+            "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+          },
+          "observedCount": 0,
+          "selectedCount": 0,
+          "objects": []
+        }
+      },
+      "excludedObjects": [],
+      "sourceParts": {
+        "rootPath": "Characters/Zeri/CharacterRecords/Root",
+        "rootAttackFields": {
+          "critDamageMultiplier": 2,
+          "attackRangeModifiable": {
+            "baseValue": 550,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedModifiable": {
+            "baseValue": 0.6579999923706055,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedRatioModifiable": {
+            "baseValue": 0.625,
+            "__type": "ModifiableFloat"
+          },
+          "attackSpeedPerLevelModifiable": {
+            "baseValue": 2,
+            "__type": "ModifiableFloat"
+          },
+          "TreatAutoAttacksAsNormalSpells": {
+            "AutoAttackSpellsUseSpellSource": true,
+            "SkipSequencedAttackEvents": true,
+            "OverrideQueryableAttackRange": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 740,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mStat": 31,
+                  "mStatFormula": 2,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "__type": "TreatAutoAttacksAsNormalSpells"
+          },
+          "basicAttack": {
+            "mAttackTotalTime": 1.600000023841858,
+            "mAttackCastTime": 0.25,
+            "mAttackProbability": 1,
+            "mAttackName": "ZeriBasicAttack",
+            "__type": "AttackSlotData"
+          },
+          "critAttacks": [
+            {
+              "mAttackTotalTime": 1.600000023841858,
+              "mAttackCastTime": 0.25,
+              "mAttackProbability": 1,
+              "mAttackName": "ZeriBasicAttack",
+              "__type": "AttackSlotData"
+            }
+          ]
+        },
+        "clientPath": "Characters/Zeri/Spells/ZeriQAbility/ZeriQ",
+        "dataValues": [
+          {
+            "name": "MinCooldown",
+            "values": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "AttackSpeedCap",
+            "values": [
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "ExcessAttackSpeedToADMult",
+            "values": [
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "BaseDamage",
+            "values": [
+              18,
+              22,
+              26,
+              30,
+              34,
+              38,
+              42
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "ActiveADRatio",
+            "values": [
+              1,
+              1.0199999809265137,
+              1.0399999618530273,
+              1.059999942779541,
+              1.0800000429153442,
+              1.100000023841858,
+              1.1200000047683716
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "NumberOfMissiles",
+            "values": [
+              7,
+              7,
+              7,
+              7,
+              7,
+              7,
+              7
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "EnergizedMissiles",
+            "values": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "ChargePerAttack",
+            "values": [
+              10,
+              10,
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "ChargeDistanceMultiplier",
+            "values": [
+              0.02500000037252903,
+              0.02500000037252903,
+              0.02500000037252903,
+              0.02500000037252903,
+              0.02500000037252903,
+              0.02500000037252903,
+              0.02500000037252903
+            ],
+            "__type": "SpellDataValue"
+          }
+        ],
+        "calculations": {
+          "ActiveDamageThatCanCrit": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mStat": 2,
+                "mDataValue": "ActiveADRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "CurrentCritDamage": {
+            "mFormulaParts": [
+              {
+                "mStat": 9,
+                "mCoefficient": 1,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "meaning": "这里只保留固定客户端中的相关完整节点，不推断未提供的脚本行为。",
+        "executionFlags": {
+          "mCooldownNotAffectedByCDR": true,
+          "mUseAutoattackCastTimeData": {
+            "__type": "UseAutoattackCastTimeData"
+          },
+          "spellCastTime": 0.25,
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    }
+  ],
+  "sourcePrecisionDifferences": [
+    {
+      "skillKey": "jhin_p",
+      "parameterKey": "attack_speed_per_level_ratio",
+      "liveValue": 0.03,
+      "sourceValue": 0.029999999329447746,
+      "clientPath": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive",
+      "sourceField": "DataValues.PercentAttackSpeedPerLevel",
+      "meaning": "现库与客户端浮点表示分别保留；这项差异未触发业务修正，不据此认定语义错误。"
+    },
+    {
+      "skillKey": "jhin_p",
+      "parameterKey": "crit_move_speed_attack_speed_ratio",
+      "liveValue": 0.44,
+      "sourceValue": 0.4399999976158142,
+      "clientPath": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive",
+      "sourceField": "DataValues.CritMoveSpeedPercentASRatio",
+      "meaning": "现库与客户端浮点表示分别保留；这项差异未触发业务修正，不据此认定语义错误。"
+    },
+    {
+      "skillKey": "jhin_p",
+      "parameterKey": "critical_attack_damage_ratio",
+      "liveValue": 0.35,
+      "sourceValue": 0.3499999940395355,
+      "clientPath": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive",
+      "sourceField": "mSpellCalculations.TotalADPercent.mFormulaParts[1].mCoefficient",
+      "meaning": "现库与客户端浮点表示分别保留；这项差异未触发业务修正，不据此认定语义错误。"
+    },
+    {
+      "skillKey": "jhin_p",
+      "parameterKey": "attack_speed_damage_ratio",
+      "liveValue": 0.3,
+      "sourceValue": 0.30000001192092896,
+      "clientPath": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive",
+      "sourceField": "mSpellCalculations.TotalADPercent.mFormulaParts[2].mCoefficient",
+      "meaning": "现库与客户端浮点表示分别保留；这项差异未触发业务修正，不据此认定语义错误。"
+    },
+    {
+      "skillKey": "jhin_p",
+      "parameterKey": "base_crit_move_speed_percent",
+      "liveValue": 0.14,
+      "sourceValue": 0.14000000059604645,
+      "clientPath": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive",
+      "sourceField": "mSpellCalculations.CritMoveSpeedPercent.mFormulaParts[0].mNumber",
+      "meaning": "现库与客户端浮点表示分别保留；这项差异未触发业务修正，不据此认定语义错误。"
+    },
+    {
+      "skillKey": "graves_p",
+      "parameterKey": "calculation_constant_1",
+      "liveValue": 0.333,
+      "sourceValue": 0.3330000042915344,
+      "clientPath": "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive",
+      "sourceField": "mSpellCalculations.MultiBulletDamage.mMultiplier.mNumber",
+      "meaning": "现库与客户端浮点表示分别保留；这项差异未触发业务修正，不据此认定语义错误。"
+    },
+    {
+      "skillKey": "sett_p",
+      "parameterKey": "right_punch_bonus_ad_ratio",
+      "liveValue": 0.55,
+      "sourceValue": 0.550000011920929,
+      "clientPath": "Characters/Sett/Spells/SettPassiveAbility/SettPassive",
+      "sourceField": "mSpellCalculations.RightPunchBonus.mFormulaParts[1].mCoefficient",
+      "meaning": "现库与客户端浮点表示分别保留；这项差异未触发业务修正，不据此认定语义错误。"
+    },
+    {
+      "skillKey": "yone_p",
+      "parameterKey": "crit_damage_modifier_ratio",
+      "liveValue": 0.95,
+      "sourceValue": 0.949999988079071,
+      "clientPath": "Characters/Yone/Spells/YonePassiveAbility/YonePassive",
+      "sourceField": "DataValues.CritDamageMod",
+      "meaning": "现库与客户端浮点表示分别保留；这项差异未触发业务修正，不据此认定语义错误。"
+    },
+    {
+      "skillKey": "zeri_p",
+      "parameterKey": "q_min_damage_ability_power_ratio",
+      "liveValue": 0.03,
+      "sourceValue": 0.029999999329447746,
+      "clientPath": "Characters/Zeri/Spells/ZeriQAbility/ZeriQ",
+      "sourceField": "Q.mSpellCalculations.MinDamage.mFormulaParts[1].mCoefficient",
+      "meaning": "现库与客户端浮点表示分别保留；这项差异未触发业务修正，不据此认定语义错误。"
+    },
+    {
+      "skillKey": "zeri_p",
+      "parameterKey": "q_passive_execute_threshold_ability_power_ratio",
+      "liveValue": 0.2,
+      "sourceValue": 0.20000000298023224,
+      "clientPath": "Characters/Zeri/Spells/ZeriQAbility/ZeriQ",
+      "sourceField": "Q.mSpellCalculations.PassiveExecuteThreshold.mFormulaParts[1].mCoefficient",
+      "meaning": "现库与客户端浮点表示分别保留；这项差异未触发业务修正，不据此认定语义错误。"
+    },
+    {
+      "skillKey": "zeri_p",
+      "parameterKey": "q_passive_max_damage_ability_power_ratio",
+      "liveValue": 1.1,
+      "sourceValue": 1.100000023841858,
+      "clientPath": "Characters/Zeri/Spells/ZeriQAbility/ZeriQ",
+      "sourceField": "Q.mSpellCalculations.PassiveMaxDamage.mFormulaParts[1].mCoefficient",
+      "meaning": "现库与客户端浮点表示分别保留；这项差异未触发业务修正，不据此认定语义错误。"
+    }
+  ],
+  "validation": {
+    "httpRequestCount": 154,
+    "allHttpStatus200": true,
+    "skillCount": 7,
+    "clientSourceFilesVerified": 6,
+    "officialSourceFilesVerified": 6,
+    "selectedParameterCount": 60,
+    "selectedFormulaCount": 19,
+    "selectedEffectCount": 1,
+    "selectedRuntimeInputCount": 10,
+    "allSelectedFormulaParameterReferencesPresent": true,
+    "allSelectedRuntimeInputsHaveNoDefault": true,
+    "allSevenHaveNoExistingProcessStateOrTrigger": true,
+    "automaticallyApprovedAttackEntryCount": 0,
+    "evidenceScope": "仅配置与固定来源证据整理；不运行测试、不写API、不写数据库、不操作浏览器。"
+  },
+  "zeriStaticChargeCapacityEvidence": {
+    "sourcePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\交叉试录\\通用公式来源补证\\meta-dump-16.17.8104348.json",
+    "sourceUrl": "https://raw.githubusercontent.com/LeagueToolkit/lol-meta-classes/3284cf031cfcdfdd49cf371765522ed576b6f3fb/dumps/16.17.8104348.json",
+    "sha256": "063932bad2bc800a44b0cb3929f6de31fbfcacd89d2f1add75b9c67cc7c7e167",
+    "sha256Verified": true,
+    "version": "16.17",
+    "rootPath": "Characters/Zeri/CharacterRecords/Root.secondaryAbilityResource",
+    "rootValue": {
+      "arType": 7,
+      "{c4ab3550}": {
+        "baseValue": 0,
+        "__type": "ModifiableFloat"
+      },
+      "arIncrements": 100,
+      "arMaxSegments": 1,
+      "arHasRegenText": false,
+      "HideEmptyPips": true,
+      "__type": "AbilityResourceSlotInfo"
+    },
+    "classHash": "0xce31c975",
+    "capacityFieldHash": "0x726ee5cd",
+    "valueFieldHash": "0xb35aa769",
+    "classDefaultCapacity": 100,
+    "classDefaultGrowth": 0,
+    "fieldMetadata": {
+      "other_class": "0xce9b917b",
+      "offset": 8,
+      "bitmask": 0,
+      "value_type": "Embed",
+      "container": null,
+      "map": null,
+      "hasher": null,
+      "unkptr": "0x0"
+    },
+    "growthFieldMetadata": {
+      "other_class": "0xce9b917b",
+      "offset": 32,
+      "bitmask": 0,
+      "value_type": "Embed",
+      "container": null,
+      "map": null,
+      "hasher": null,
+      "unkptr": "0x0"
+    },
+    "meaning": "根未覆盖基础容量字段，固定构建类默认值补证基础容量100；这不是初始当前充能、未满消费量或完整充能流程。"
+  }
+}

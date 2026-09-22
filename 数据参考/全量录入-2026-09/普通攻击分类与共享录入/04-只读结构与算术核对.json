@@ -1,0 +1,130 @@
+{
+  "capturedAt": "2026-09-21T17:54:28.082Z",
+  "input": {
+    "attributes": {
+      "SOURCE.attack_damage.TOTAL": 100,
+      "SOURCE.attack_damage.BONUS": 60,
+      "SOURCE.attack_speed.TOTAL": 2,
+      "SOURCE.critical_strike_chance.TOTAL": 0.5,
+      "SOURCE.critical_strike_damage_bonus_percent.TOTAL": 0.4,
+      "SOURCE.ability_power.TOTAL": 100,
+      "TARGET.hp.TOTAL": 2000,
+      "TARGET.hp.MISSING": 500
+    },
+    "note": "人工选定的公式算术检查输入，未模拟实际战斗；不验证缺失的等级曲线。"
+  },
+  "databaseReadback": {
+    "database": "test0221",
+    "readOnly": true,
+    "characters": 171,
+    "skills": 1073,
+    "allCharacterSkillRelations": 1026,
+    "originalPqwerRelations": 855,
+    "newAttackRelations": 171,
+    "sharedRelations": 161,
+    "allScopeResults": 0,
+    "mixedAttackCategories": 0
+  },
+  "configurationCounts": {
+    "skills": 11,
+    "parameters": 51,
+    "formulas": 41,
+    "effects": 10,
+    "processes": 5,
+    "rules": 10
+  },
+  "checks": [
+    {
+      "name": "共享0.625攻速毫秒",
+      "actual": 1600,
+      "expected": 1600,
+      "passed": true
+    },
+    {
+      "name": "共享2攻速毫秒",
+      "actual": 500,
+      "expected": 500,
+      "passed": true
+    },
+    {
+      "name": "shared_basic_attack暴击倍率",
+      "actual": 2.4,
+      "expected": 2.4,
+      "passed": true
+    },
+    {
+      "name": "kalista_basic_attack暴击倍率",
+      "actual": 2.4,
+      "expected": 2.4,
+      "passed": true
+    },
+    {
+      "name": "yasuo_basic_attack暴击倍率",
+      "actual": 2.28,
+      "expected": 2.28,
+      "passed": true
+    },
+    {
+      "name": "senna_basic_attack暴击倍率",
+      "actual": 1.92,
+      "expected": 1.92,
+      "passed": true
+    },
+    {
+      "name": "ashe_basic_attack暴击倍率",
+      "actual": 1,
+      "expected": 1,
+      "passed": true
+    },
+    {
+      "name": "艾希每击本体伤害",
+      "actual": 170,
+      "expected": 170,
+      "passed": true
+    },
+    {
+      "name": "男枪暴击弹丸倍率",
+      "actual": 1.7,
+      "expected": 1.7,
+      "passed": true
+    },
+    {
+      "name": "瑟提1级右拳附伤",
+      "actual": 38,
+      "expected": 38,
+      "passed": true
+    },
+    {
+      "name": "瑟提18级右拳附伤",
+      "actual": 123,
+      "expected": 123,
+      "passed": true
+    },
+    {
+      "name": "瑟提右拳间隔毫秒",
+      "actual": 62.5,
+      "expected": 62.5,
+      "passed": true
+    },
+    {
+      "name": "阿克尚第二枪基础伤害",
+      "actual": 50,
+      "expected": 50,
+      "passed": true
+    },
+    {
+      "name": "永恩第二击物理分量",
+      "actual": 50,
+      "expected": 50,
+      "passed": true
+    },
+    {
+      "name": "永恩第二击魔法分量",
+      "actual": 50,
+      "expected": 50,
+      "passed": true
+    }
+  ],
+  "source": "03-最终独立回读.json",
+  "runtimeVerified": false
+}

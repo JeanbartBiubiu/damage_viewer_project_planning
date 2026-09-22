@@ -1,0 +1,152 @@
+{
+  "capturedAt": "2026-09-21T18:00:10.904Z",
+  "result": "共享普攻及四个专属常态本体配置已保存回读；六个特殊定义只完成数值与挂载，未记完整。",
+  "userDecision": {
+    "sharedSkill": true,
+    "cooldownFormulaMilliseconds": "1000 / SOURCE.attack_speed.TOTAL",
+    "classification": "普通攻击不归普通技能或终极技能；需要排除普攻的冷却变化选择common与ultimate。",
+    "zeri": "zeri_q仅basic_attack；zeri_basic_attack仅common。"
+  },
+  "counts": {
+    "characters": 171,
+    "sharedCharacters": 161,
+    "dedicatedCharacters": 10,
+    "newSkills": 11,
+    "parameters": 51,
+    "formulas": 41,
+    "effects": 10,
+    "processes": 5,
+    "triggerRules": 10,
+    "originalPqwerRelations": 855,
+    "newAttackRelations": 171,
+    "totalCharacterSkillRelations": 1026
+  },
+  "configuredRegularBodies": [
+    "shared_basic_attack",
+    "kalista_basic_attack",
+    "yasuo_basic_attack",
+    "ashe_basic_attack",
+    "senna_basic_attack"
+  ],
+  "pending": [
+    {
+      "skillKey": "yone_basic_attack",
+      "kind": "共同行为表达待补",
+      "reason": "模式可表达交替，但两个伤害分量缺明确共用同一次暴击判定的表达；不能用两次独立判定或未经阶段证明的前序原始伤害复制。"
+    },
+    {
+      "skillKey": "jhin_basic_attack",
+      "kind": "资料与规则未闭合",
+      "reason": "第四发实际等级比例仍无默认，弹药消费、强制暴击、装填与脱战重装时点尚未组成完整规则。"
+    },
+    {
+      "skillKey": "graves_basic_attack",
+      "kind": "资料与规则未闭合",
+      "reason": "首弹等级倍率、实际命中弹数、同次暴击和两发装填未闭合；没有默认四弹全中。"
+    },
+    {
+      "skillKey": "sett_basic_attack",
+      "kind": "时间锚点资料待核",
+      "reason": "模式与生命周期可以表达左右拳及2秒待命，但8倍数值尚未核定对应前摇、两拳出手间隔或周期；两条间隔公式仅候选换算，不挂过程。"
+    },
+    {
+      "skillKey": "akshan_basic_attack",
+      "kind": "时序资料待核",
+      "reason": "第二枪延迟数值和起算点、第二枪后攻击等待，以及取消或换目标资格仍缺固定16.17依据；未把第二枪强制接为每次必定发生。"
+    },
+    {
+      "skillKey": "zeri_basic_attack",
+      "kind": "等级与充能资料待核",
+      "reason": "四条实际等级值无默认；基础容量100已核，初始充能、未满消费量、满未满分流、处决资格和具体交互仍待接。"
+    }
+  ],
+  "verification": {
+    "independentHttpReadback": true,
+    "independentDbReadOnly": true,
+    "formulaArithmeticCases": 15,
+    "formulaArithmeticPassed": true,
+    "newAssignmentsUnique": true,
+    "originalPqwerCountsPreserved": true,
+    "newSkillIssuesInRepresentativeAuthoringChecks": 0,
+    "runtimeVerified": false
+  },
+  "latestMetadataReadback": [
+    {
+      "path": "skills/sett_basic_attack/formulas/attack_interval_ms",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-21T17:42:32.927402Z",
+        "description": "1000/当前总攻速的毫秒换算值。瑟提左右拳的起算点、前后拳等待及右拳特殊阶段仍需固定来源核定；本公式未挂到过程或规则，不表示已完成左右拳时间线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "milliseconds_per_second"
+            },
+            {
+              "attributeKey": "attack_speed",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "DIVIDE"
+        },
+        "formulaKey": "attack_interval_ms",
+        "gameId": "lol",
+        "name": "当前总攻速换算间隔",
+        "skillKey": "sett_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T17:59:05.278471Z"
+      }
+    },
+    {
+      "path": "skills/sett_basic_attack/formulas/right_punch_interval_ms",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-21T17:43:19.647514Z",
+        "description": "按用户1/总攻速口径与固定来源8倍攻速数值换算为1000/（总攻速×8）。尚未确认该值对应前摇、左右拳出手间隔还是完整周期；只保留数值候选，未引用到过程或规则，不能据此认定双拳时序完成。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "milliseconds_per_second"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "attack_speed",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "right_punch_attack_speed_multiplier"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "DIVIDE"
+        },
+        "formulaKey": "right_punch_interval_ms",
+        "gameId": "lol",
+        "name": "右拳八倍攻速对应间隔候选",
+        "skillKey": "sett_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T17:58:14.722466Z"
+      }
+    }
+  ],
+  "relatedEvidence": [
+    "01-共享普攻独立回读.json",
+    "02-特殊普攻来源与待核项.json",
+    "03-最终独立回读.json",
+    "04-只读结构与算术核对.json"
+  ],
+  "note": "03记录主体回读；本文件的两条瑟提公式名称和说明读回是其后最后一次元数据修正，表达式字节结构保持。"
+}

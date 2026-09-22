@@ -1,0 +1,3184 @@
+{
+  "capturedAt": "2026-09-21T16:37:03.038Z",
+  "method": "全部业务写入由浏览器管理表单完成；本文件为独立只读接口回读。",
+  "records": [
+    {
+      "path": "skills/shared_basic_attack",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-21T16:04:04.509379Z",
+        "description": "普通英雄共享的单次普通攻击。主伤害为来源当前总攻击力的100%物理伤害；基础暴击倍率2，加上额外暴击伤害比例；攻击间隔为1000除以来源当前总攻击速度，单位毫秒。只归入普通攻击分类，常规技能急速与冷却返还不包含本类。英雄被动、强化攻击和附加伤害由各自技能配置；泽丽、卡莉丝塔及其他本体例外使用独立定义。来源：固定16.17/16.17.1及官方26.1暴击规则；2026-09-22用户确认分类口径。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "普通攻击·共享",
+        "skillCategoryKeys": [
+          "basic_attack"
+        ],
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-21T16:05:27.435586Z"
+      }
+    },
+    {
+      "path": "skills/shared_basic_attack/parameters",
+      "status": 200,
+      "body": [
+        {
+          "createdAt": "2026-09-21T16:07:22.355821Z",
+          "description": "固定16.17角色根critDamageMultiplier=2；官方26.1起基础暴击伤害为200%。额外暴击伤害比例在公式中另行加算。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础暴击伤害倍率",
+          "parameterKey": "base_critical_multiplier",
+          "skillKey": "shared_basic_attack",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-21T16:07:22.355821Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-21T16:06:25.424567Z",
+          "description": "将1/当前总攻速得到的秒数转换为毫秒；攻击间隔公式的固定分子。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每秒毫秒数",
+          "parameterKey": "milliseconds_per_second",
+          "skillKey": "shared_basic_attack",
+          "sortOrder": 0,
+          "updatedAt": "2026-09-21T16:06:25.424567Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "path": "skills/shared_basic_attack/formulas/attack_damage",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-21T16:09:56.829786Z",
+        "description": "读取来源当前总攻击力。暴击在伤害结果中独立配置，避免重复计入。",
+        "expression": {
+          "attributeKey": "attack_damage",
+          "attributeOwner": "SOURCE",
+          "attributeValueKind": "TOTAL",
+          "nodeType": "ATTRIBUTE"
+        },
+        "formulaKey": "attack_damage",
+        "gameId": "lol",
+        "name": "普通攻击基础物理伤害",
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:09:56.829786Z"
+      }
+    },
+    {
+      "path": "skills/shared_basic_attack/formulas/attack_interval_ms",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-21T16:11:41.616322Z",
+        "description": "每秒毫秒数 / 施法者攻击速度最终值；单位毫秒，不使用技能急速。读取合法的当前总攻速，零攻速不能发起攻击。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "milliseconds_per_second"
+            },
+            {
+              "attributeKey": "attack_speed",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "DIVIDE"
+        },
+        "formulaKey": "attack_interval_ms",
+        "gameId": "lol",
+        "name": "当前攻速对应攻击间隔",
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:11:41.616322Z"
+      }
+    },
+    {
+      "path": "skills/shared_basic_attack/formulas/critical_multiplier",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-21T16:11:59.700822Z",
+        "description": "基础暴击倍率2，加上来源当前额外暴击伤害比例。供伤害结果按来源暴击率判定时使用。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_critical_multiplier"
+            },
+            {
+              "attributeKey": "critical_strike_damage_bonus_percent",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "critical_multiplier",
+        "gameId": "lol",
+        "name": "普通攻击暴击伤害倍率",
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:11:59.700822Z"
+      }
+    },
+    {
+      "path": "skills/shared_basic_attack/effects/attack_hit",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-21T16:15:46.56472Z",
+        "description": "单次实际普通攻击命中后结算一次本体物理伤害和一次命中联动；附带伤害由所属技能另行监听，不重复本体伤害。",
+        "effectKey": "attack_hit",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "普通攻击命中",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "critical": {
+                "mode": "SOURCE_CRIT_CHANCE",
+                "multiplierValue": {
+                  "formulaKey": "critical_multiplier",
+                  "kind": "FORMULA"
+                }
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampRules": [
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "LIFE_STEAL"
+                },
+                {
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  },
+                  "vampType": "OMNIVAMP"
+                }
+              ]
+            },
+            "lifecycleBehavior": null,
+            "name": "普通攻击本体物理伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "attack_damage",
+                "kind": "FORMULA"
+              }
+            }
+          },
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "应用一次命中联动",
+            "resultKey": "hit_link",
+            "resultType": "HIT_LINK_APPLICATION",
+            "sortOrder": 20,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "FIXED",
+                "value": 1
+              }
+            }
+          }
+        ],
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:15:46.56472Z"
+      }
+    },
+    {
+      "path": "skills/shared_basic_attack/effects/attack_start",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-21T16:16:34.671393Z",
+        "description": "每次真实普通攻击发起应用一次攻击联动；不直接造成伤害，不重复发起普通攻击事件。",
+        "effectKey": "attack_start",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "普通攻击发起联动",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "应用一次攻击联动",
+            "resultKey": "attack_link",
+            "resultType": "ATTACK_LINK_APPLICATION",
+            "sortOrder": 0,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "FIXED",
+                "value": 1
+              }
+            }
+          }
+        ],
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:16:34.671393Z"
+      }
+    },
+    {
+      "path": "skills/shared_basic_attack/processes/attack",
+      "status": 200,
+      "body": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "formulaKey": "attack_interval_ms",
+            "kind": "FORMULA"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-21T16:19:05.502825Z",
+        "description": "真实普攻发起时启动，以当前总攻速计算本次攻击间隔并应用一次攻击联动。只归入普通攻击分类；实际命中另由普攻命中规则结算，前摇、弹道与落空由实际攻击事件提供。",
+        "effectBindings": [
+          {
+            "bindingKey": "attack_start_link",
+            "effectKey": "attack_start",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "普通攻击间隔与发起",
+        "processKey": "attack",
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "记录已发生的攻击发起，不把此步骤当作实际命中。",
+            "detail": {},
+            "name": "记录攻击发起",
+            "sortOrder": 10,
+            "stepKey": "begin",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-21T16:19:05.502825Z"
+      }
+    },
+    {
+      "path": "skills/shared_basic_attack/trigger-rules/on_attack_start",
+      "status": 200,
+      "body": {
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "actionType": "START_PROCESS",
+            "detail": {
+              "processKey": "attack"
+            },
+            "name": "启动普通攻击过程",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "仅在来源对象实际发起普通攻击时启动本技能攻击过程；不自行发起攻击或生成命中。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_START"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "普通攻击发起时记录间隔",
+        "perTargetCooldown": null,
+        "ruleKey": "on_attack_start",
+        "sortOrder": 0
+      }
+    },
+    {
+      "path": "skills/shared_basic_attack/trigger-rules/on_attack_hit",
+      "status": 200,
+      "body": {
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "attack_hit"
+            },
+            "name": "结算普通攻击命中",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只响应本次实际普通攻击命中对象，结算一次本体伤害和一次命中联动。来源对象只挂共享或专属普攻其中一套。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "普通攻击命中时结算本体",
+        "perTargetCooldown": null,
+        "ruleKey": "on_attack_hit",
+        "sortOrder": 0
+      }
+    },
+    {
+      "path": "character-skill-relations?skillKey=shared_basic_attack",
+      "status": 200,
+      "body": {
+        "items": [
+          {
+            "characterKey": "champion_lissandra",
+            "characterName": "丽桑卓",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_udyr",
+            "characterName": "乌迪尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_leblanc",
+            "characterName": "乐芙兰",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_zaahen",
+            "characterName": "亚恒",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_aatrox",
+            "characterName": "亚托克斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "ez",
+            "characterName": "伊泽瑞尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_evelynn",
+            "characterName": "伊芙琳",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_elise",
+            "characterName": "伊莉丝",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_zoe",
+            "characterName": "佐伊",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_viego",
+            "characterName": "佛耶戈",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_illaoi",
+            "characterName": "俄洛伊",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_kogmaw",
+            "characterName": "克格莫",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_kled",
+            "characterName": "克烈",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_rumble",
+            "characterName": "兰博",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_nasus",
+            "characterName": "内瑟斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_kennen",
+            "characterName": "凯南",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_kayle",
+            "characterName": "凯尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_caitlyn",
+            "characterName": "凯特琳",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_kayn",
+            "characterName": "凯隐",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_galio",
+            "characterName": "加里奥",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_nunu",
+            "characterName": "努努和威朗普",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_zed",
+            "characterName": "劫",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_kindred",
+            "characterName": "千珏",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_belveth",
+            "characterName": "卑尔维斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_khazix",
+            "characterName": "卡兹克",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_karma",
+            "characterName": "卡尔玛",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_karthus",
+            "characterName": "卡尔萨斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_katarina",
+            "characterName": "卡特琳娜",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_kaisa",
+            "characterName": "卡莎",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_kassadin",
+            "characterName": "卡萨丁",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_camille",
+            "characterName": "卡蜜尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_cassiopeia",
+            "characterName": "卡西奥佩娅",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_lucian",
+            "characterName": "卢锡安",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_urgot",
+            "characterName": "厄加特",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_missfortune",
+            "characterName": "厄运小姐",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_gragas",
+            "characterName": "古拉加斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_ziggs",
+            "characterName": "吉格斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_jarvaniv",
+            "characterName": "嘉文四世",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_twitch",
+            "characterName": "图奇",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_zilean",
+            "characterName": "基兰",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_tahmkench",
+            "characterName": "塔姆",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_taliyah",
+            "characterName": "塔莉垭",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_taric",
+            "characterName": "塔里克",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_malphite",
+            "characterName": "墨菲特",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_qiyana",
+            "characterName": "奇亚娜",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_nidalee",
+            "characterName": "奈德丽",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_quinn",
+            "characterName": "奎因",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_ksante",
+            "characterName": "奎桑提",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_ornn",
+            "characterName": "奥恩",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_olaf",
+            "characterName": "奥拉夫",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_aurelionsol",
+            "characterName": "奥瑞利安·索尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_orianna",
+            "characterName": "奥莉安娜",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_neeko",
+            "characterName": "妮蔻",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_sona",
+            "characterName": "娑娜",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_nami",
+            "characterName": "娜美",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_zyra",
+            "characterName": "婕拉",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_monkeyking",
+            "characterName": "孙悟空",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_annie",
+            "characterName": "安妮",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_ambessa",
+            "characterName": "安蓓萨",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_nilah",
+            "characterName": "尼菈",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_tristana",
+            "characterName": "崔丝塔娜",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_twistedfate",
+            "characterName": "崔斯特",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_bard",
+            "characterName": "巴德",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_brand",
+            "characterName": "布兰德",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_blitzcrank",
+            "characterName": "布里茨",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_braum",
+            "characterName": "布隆",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_shyvana",
+            "characterName": "希瓦娜",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_sivir",
+            "characterName": "希维尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_corki",
+            "characterName": "库奇",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_vladimir",
+            "characterName": "弗拉基米尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_hwei",
+            "characterName": "彗",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_darius",
+            "characterName": "德莱厄斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_draven",
+            "characterName": "德莱文",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_yuumi",
+            "characterName": "悠米",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_shen",
+            "characterName": "慎",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_zac",
+            "characterName": "扎克",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_lux",
+            "characterName": "拉克丝",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_rammus",
+            "characterName": "拉莫斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_teemo",
+            "characterName": "提莫",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_skarner",
+            "characterName": "斯卡纳",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_swain",
+            "characterName": "斯维因",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_smolder",
+            "characterName": "斯莫德",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_masteryi",
+            "characterName": "易",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_gangplank",
+            "characterName": "普朗克",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_leesin",
+            "characterName": "李青",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_jayce",
+            "characterName": "杰斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_gwen",
+            "characterName": "格温",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_mel",
+            "characterName": "梅尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_volibear",
+            "characterName": "沃利贝尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_warwick",
+            "characterName": "沃里克",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_poppy",
+            "characterName": "波比",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_tryndamere",
+            "characterName": "泰达米尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_talon",
+            "characterName": "泰隆",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_xerath",
+            "characterName": "泽拉斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_rakan",
+            "characterName": "洛",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_locke",
+            "characterName": "洛克",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_pyke",
+            "characterName": "派克",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_pantheon",
+            "characterName": "潘森",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_renata",
+            "characterName": "烈娜塔 · 戈拉斯克",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_trundle",
+            "characterName": "特朗德尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_malzahar",
+            "characterName": "玛尔扎哈",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_ryze",
+            "characterName": "瑞兹",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_sejuani",
+            "characterName": "瑟庄妮",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_lulu",
+            "characterName": "璐璐",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_garen",
+            "characterName": "盖伦",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_chogath",
+            "characterName": "科加斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_milio",
+            "characterName": "米利欧",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_soraka",
+            "characterName": "索拉卡",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_yorick",
+            "characterName": "约里克",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_naafiri",
+            "characterName": "纳亚菲利",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_gnar",
+            "characterName": "纳尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_velkoz",
+            "characterName": "维克兹",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_viktor",
+            "characterName": "维克托",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_veigar",
+            "characterName": "维迦",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_ekko",
+            "characterName": "艾克",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_anivia",
+            "characterName": "艾尼维亚",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_irelia",
+            "characterName": "艾瑞莉娅",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_ivern",
+            "characterName": "艾翁",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_rell",
+            "characterName": "芮尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_yunara",
+            "characterName": "芸阿娜",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_maokai",
+            "characterName": "茂凯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_lillia",
+            "characterName": "莉莉娅",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_samira",
+            "characterName": "莎弥拉",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_mordekaiser",
+            "characterName": "莫德凯撒",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_morgana",
+            "characterName": "莫甘娜",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_fizz",
+            "characterName": "菲兹",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_fiora",
+            "characterName": "菲奥娜",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_seraphine",
+            "characterName": "萨勒芬妮",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_shaco",
+            "characterName": "萨科",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_drmundo",
+            "characterName": "蒙多医生",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_vi",
+            "characterName": "蔚",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_leona",
+            "characterName": "蕾欧娜",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_vex",
+            "characterName": "薇古丝",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_vayne",
+            "characterName": "薇恩",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_nautilus",
+            "characterName": "诺提勒斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_briar",
+            "characterName": "贝蕾亚",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_fiddlesticks",
+            "characterName": "费德提克",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_jax",
+            "characterName": "贾克斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_sion",
+            "characterName": "赛恩",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_hecarim",
+            "characterName": "赫卡里姆",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_xinzhao",
+            "characterName": "赵信",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_singed",
+            "characterName": "辛吉德",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_syndra",
+            "characterName": "辛德拉",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_janna",
+            "characterName": "迦娜",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_jinx",
+            "characterName": "金克丝",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_riven",
+            "characterName": "锐雯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_thresh",
+            "characterName": "锤石",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_azir",
+            "characterName": "阿兹尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_alistar",
+            "characterName": "阿利斯塔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_akali",
+            "characterName": "阿卡丽",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_amumu",
+            "characterName": "阿木木",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_ahri",
+            "characterName": "阿狸",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_aurora",
+            "characterName": "阿萝拉",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_reksai",
+            "characterName": "雷克塞",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_renekton",
+            "characterName": "雷克顿",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_rengar",
+            "characterName": "雷恩加尔",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_xayah",
+            "characterName": "霞",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_varus",
+            "characterName": "韦鲁斯",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_nocturne",
+            "characterName": "魔腾",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_heimerdinger",
+            "characterName": "黑默丁格",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          },
+          {
+            "characterKey": "champion_diana",
+            "characterName": "黛安娜",
+            "gameId": "lol",
+            "skillKey": "shared_basic_attack",
+            "skillName": "普通攻击·共享",
+            "skillStatus": "ENABLED",
+            "sortOrder": 5
+          }
+        ],
+        "total": 161
+      }
+    },
+    {
+      "path": "characters/ez/authoring-check",
+      "status": 200,
+      "body": {
+        "characterKey": "ez",
+        "characterName": "伊泽瑞尔",
+        "checkedAt": "2026-09-21T16:37:03.0223013Z",
+        "conclusions": {
+          "mechanics": "NOT_CHECKED",
+          "runtime": "NOT_RUN",
+          "structure": "NO_ERRORS"
+        },
+        "gameId": "lol",
+        "issues": [],
+        "references": [
+          {
+            "fieldPath": "results[0].detail.attributeKey",
+            "sourceKey": "mana_cost",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "EFFECT",
+            "targetKey": "mana",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "results[0].valueRule.value.parameterKey",
+            "sourceKey": "mana_cost",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "EFFECT",
+            "targetKey": "mana_cost",
+            "targetSkillKey": "ez_e",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "results[0].detail.damageTypeKey",
+            "sourceKey": "primary_hit",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "EFFECT",
+            "targetKey": "magic",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "DAMAGE_TYPE"
+          },
+          {
+            "fieldPath": "results[0].valueRule.value.formulaKey",
+            "sourceKey": "primary_hit",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "EFFECT",
+            "targetKey": "damage",
+            "targetSkillKey": "ez_e",
+            "targetSubKey": "",
+            "targetType": "FORMULA"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[0].parameterKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "FORMULA",
+            "targetKey": "base_damage",
+            "targetSkillKey": "ez_e",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[1].operands[0].parameterKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "FORMULA",
+            "targetKey": "bonus_ad_ratio",
+            "targetSkillKey": "ez_e",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[1].operands[1].attributeKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "FORMULA",
+            "targetKey": "attack_damage",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "expression.operands[1].operands[0].parameterKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "FORMULA",
+            "targetKey": "ap_ratio",
+            "targetSkillKey": "ez_e",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[1].operands[1].attributeKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "FORMULA",
+            "targetKey": "ability_power",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "cooldown.durationValue.parameterKey",
+            "sourceKey": "cast",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "PROCESS",
+            "targetKey": "cooldown_ms",
+            "targetSkillKey": "ez_e",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "effectBindings[0].effectKey",
+            "sourceKey": "cast",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "PROCESS",
+            "targetKey": "mana_cost",
+            "targetSkillKey": "ez_e",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "steps[0].detail.delayValue.parameterKey",
+            "sourceKey": "cast",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "PROCESS",
+            "targetKey": "cast_time_ms",
+            "targetSkillKey": "ez_e",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "resolve_on_e_hit",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "TRIGGER",
+            "targetKey": "primary_hit",
+            "targetSkillKey": "ez_e",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "sourceKey": "resolve_on_e_hit",
+            "sourceSkillKey": "ez_e",
+            "sourceType": "TRIGGER",
+            "targetKey": "ez_e",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "lifecycle.applicationStacksValue.parameterKey",
+            "sourceKey": "rising_spell_force",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "EFFECT",
+            "targetKey": "application_stacks",
+            "targetSkillKey": "ez_p",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "lifecycle.durationValue.parameterKey",
+            "sourceKey": "rising_spell_force",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "EFFECT",
+            "targetKey": "duration_ms",
+            "targetSkillKey": "ez_p",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "lifecycle.maxStacksValue.parameterKey",
+            "sourceKey": "rising_spell_force",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "EFFECT",
+            "targetKey": "max_stacks",
+            "targetSkillKey": "ez_p",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "results[0].detail.attributeKey",
+            "sourceKey": "rising_spell_force",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "EFFECT",
+            "targetKey": "bonus_attack_speed_percent",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "results[0].detail.modifierZoneKey",
+            "sourceKey": "rising_spell_force",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "EFFECT",
+            "targetKey": "attribute_percent_bonus",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "MODIFIER_ZONE"
+          },
+          {
+            "fieldPath": "results[0].lifecycleBehavior",
+            "sourceKey": "rising_spell_force",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "EFFECT",
+            "targetKey": "rising_spell_force",
+            "targetSkillKey": "ez_p",
+            "targetSubKey": "",
+            "targetType": "LIFECYCLE"
+          },
+          {
+            "fieldPath": "results[0].valueRule.value.parameterKey",
+            "sourceKey": "rising_spell_force",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "EFFECT",
+            "targetKey": "stack_attack_speed_ratio",
+            "targetSkillKey": "ez_p",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "stack_on_ez_e_hit",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "TRIGGER",
+            "targetKey": "rising_spell_force",
+            "targetSkillKey": "ez_p",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "sourceKey": "stack_on_ez_e_hit",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "TRIGGER",
+            "targetKey": "ez_e",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "stack_on_ez_q_hit",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "TRIGGER",
+            "targetKey": "rising_spell_force",
+            "targetSkillKey": "ez_p",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "sourceKey": "stack_on_ez_q_hit",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "TRIGGER",
+            "targetKey": "ez_q",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "stack_on_ez_r_hit",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "TRIGGER",
+            "targetKey": "rising_spell_force",
+            "targetSkillKey": "ez_p",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "sourceKey": "stack_on_ez_r_hit",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "TRIGGER",
+            "targetKey": "ez_r",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "stack_on_ez_w_hit",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "TRIGGER",
+            "targetKey": "rising_spell_force",
+            "targetSkillKey": "ez_p",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "sourceKey": "stack_on_ez_w_hit",
+            "sourceSkillKey": "ez_p",
+            "sourceType": "TRIGGER",
+            "targetKey": "ez_w",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "results[0].detail.attributeKey",
+            "sourceKey": "mana_cost",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "EFFECT",
+            "targetKey": "mana",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "results[0].valueRule.value.parameterKey",
+            "sourceKey": "mana_cost",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "EFFECT",
+            "targetKey": "mana_cost",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "results[0].detail.damageTypeKey",
+            "sourceKey": "primary_hit",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "EFFECT",
+            "targetKey": "physics",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "DAMAGE_TYPE"
+          },
+          {
+            "fieldPath": "results[0].detail.vampRules[0].efficiencyValue.parameterKey",
+            "sourceKey": "primary_hit",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "EFFECT",
+            "targetKey": "full_efficiency",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "results[0].detail.vampRules[1].efficiencyValue.parameterKey",
+            "sourceKey": "primary_hit",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "EFFECT",
+            "targetKey": "full_efficiency",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "results[0].detail.vampRules[2].efficiencyValue.parameterKey",
+            "sourceKey": "primary_hit",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "EFFECT",
+            "targetKey": "full_efficiency",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "results[0].valueRule.value.formulaKey",
+            "sourceKey": "primary_hit",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "EFFECT",
+            "targetKey": "damage",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "FORMULA"
+          },
+          {
+            "fieldPath": "results[1].detail.affectedSkillScope.skillKeys[0]",
+            "sourceKey": "primary_hit",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "EFFECT",
+            "targetKey": "ez_q",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "results[1].detail.affectedSkillScope.skillKeys[1]",
+            "sourceKey": "primary_hit",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "EFFECT",
+            "targetKey": "ez_w",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "results[1].detail.affectedSkillScope.skillKeys[2]",
+            "sourceKey": "primary_hit",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "EFFECT",
+            "targetKey": "ez_e",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "results[1].detail.affectedSkillScope.skillKeys[3]",
+            "sourceKey": "primary_hit",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "EFFECT",
+            "targetKey": "ez_r",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "results[1].valueRule.value.parameterKey",
+            "sourceKey": "primary_hit",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "EFFECT",
+            "targetKey": "cooldown_reduction_ms",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[0].parameterKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "FORMULA",
+            "targetKey": "base_damage",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[1].operands[0].parameterKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "FORMULA",
+            "targetKey": "total_ad_ratio",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[1].operands[1].attributeKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "FORMULA",
+            "targetKey": "attack_damage",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "expression.operands[1].operands[0].parameterKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "FORMULA",
+            "targetKey": "ap_ratio",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[1].operands[1].attributeKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "FORMULA",
+            "targetKey": "ability_power",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "cooldown.durationValue.parameterKey",
+            "sourceKey": "cast",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "PROCESS",
+            "targetKey": "cooldown_ms",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "effectBindings[0].effectKey",
+            "sourceKey": "cast",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "PROCESS",
+            "targetKey": "mana_cost",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "steps[0].detail.delayValue.parameterKey",
+            "sourceKey": "cast",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "PROCESS",
+            "targetKey": "cast_time_ms",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "resolve_on_q_hit",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "TRIGGER",
+            "targetKey": "primary_hit",
+            "targetSkillKey": "ez_q",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "sourceKey": "resolve_on_q_hit",
+            "sourceSkillKey": "ez_q",
+            "sourceType": "TRIGGER",
+            "targetKey": "ez_q",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "results[0].detail.damageTypeKey",
+            "sourceKey": "champion_hit",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "EFFECT",
+            "targetKey": "magic",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "DAMAGE_TYPE"
+          },
+          {
+            "fieldPath": "results[0].valueRule.value.formulaKey",
+            "sourceKey": "champion_hit",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "EFFECT",
+            "targetKey": "champion_damage",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "FORMULA"
+          },
+          {
+            "fieldPath": "results[0].detail.attributeKey",
+            "sourceKey": "mana_cost",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "EFFECT",
+            "targetKey": "mana",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "results[0].valueRule.value.parameterKey",
+            "sourceKey": "mana_cost",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "EFFECT",
+            "targetKey": "mana_cost",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "results[0].detail.damageTypeKey",
+            "sourceKey": "minion_monster_hit",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "EFFECT",
+            "targetKey": "magic",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "DAMAGE_TYPE"
+          },
+          {
+            "fieldPath": "results[0].valueRule.value.formulaKey",
+            "sourceKey": "minion_monster_hit",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "EFFECT",
+            "targetKey": "minion_monster_damage",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "FORMULA"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[0].parameterKey",
+            "sourceKey": "champion_damage",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "FORMULA",
+            "targetKey": "champion_base_damage",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[1].operands[0].parameterKey",
+            "sourceKey": "champion_damage",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "FORMULA",
+            "targetKey": "bonus_ad_ratio",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[1].operands[1].attributeKey",
+            "sourceKey": "champion_damage",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "FORMULA",
+            "targetKey": "attack_damage",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "expression.operands[1].operands[0].parameterKey",
+            "sourceKey": "champion_damage",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "FORMULA",
+            "targetKey": "ap_ratio",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[1].operands[1].attributeKey",
+            "sourceKey": "champion_damage",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "FORMULA",
+            "targetKey": "ability_power",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[0].parameterKey",
+            "sourceKey": "minion_monster_damage",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "FORMULA",
+            "targetKey": "minion_monster_base_damage",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[1].operands[0].parameterKey",
+            "sourceKey": "minion_monster_damage",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "FORMULA",
+            "targetKey": "bonus_ad_ratio",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[1].operands[1].attributeKey",
+            "sourceKey": "minion_monster_damage",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "FORMULA",
+            "targetKey": "attack_damage",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "expression.operands[1].operands[0].parameterKey",
+            "sourceKey": "minion_monster_damage",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "FORMULA",
+            "targetKey": "ap_ratio",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[1].operands[1].attributeKey",
+            "sourceKey": "minion_monster_damage",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "FORMULA",
+            "targetKey": "ability_power",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "cooldown.durationValue.parameterKey",
+            "sourceKey": "cast",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "PROCESS",
+            "targetKey": "cooldown_ms",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "effectBindings[0].effectKey",
+            "sourceKey": "cast",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "PROCESS",
+            "targetKey": "mana_cost",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "steps[0].detail.delayValue.parameterKey",
+            "sourceKey": "cast",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "PROCESS",
+            "targetKey": "cast_time_ms",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "resolve_on_r_champion_epic_hit",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "TRIGGER",
+            "targetKey": "champion_hit",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "sourceKey": "resolve_on_r_champion_epic_hit",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "TRIGGER",
+            "targetKey": "ez_r",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "resolve_on_r_minion_monster_hit",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "TRIGGER",
+            "targetKey": "minion_monster_hit",
+            "targetSkillKey": "ez_r",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "sourceKey": "resolve_on_r_minion_monster_hit",
+            "sourceSkillKey": "ez_r",
+            "sourceType": "TRIGGER",
+            "targetKey": "ez_r",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "results[0].detail.targetEffectKey",
+            "sourceKey": "detonate_by_attack",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "EFFECT",
+            "targetKey": "essence_flux_mark",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "LIFECYCLE"
+          },
+          {
+            "fieldPath": "results[0].detail.targetEffectKey",
+            "sourceKey": "detonate_with_mana_refund",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "EFFECT",
+            "targetKey": "essence_flux_mark",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "LIFECYCLE"
+          },
+          {
+            "fieldPath": "results[1].detail.attributeKey",
+            "sourceKey": "detonate_with_mana_refund",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "EFFECT",
+            "targetKey": "mana",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "results[1].valueRule.value.formulaKey",
+            "sourceKey": "detonate_with_mana_refund",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "EFFECT",
+            "targetKey": "mana_restore_total",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "FORMULA"
+          },
+          {
+            "fieldPath": "lifecycle.applicationStacksValue.parameterKey",
+            "sourceKey": "essence_flux_mark",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "EFFECT",
+            "targetKey": "application_stacks",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "lifecycle.durationValue.parameterKey",
+            "sourceKey": "essence_flux_mark",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "EFFECT",
+            "targetKey": "mark_duration_ms",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "lifecycle.maxStacksValue.parameterKey",
+            "sourceKey": "essence_flux_mark",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "EFFECT",
+            "targetKey": "max_stacks",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "results[0].detail.damageTypeKey",
+            "sourceKey": "essence_flux_mark",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "EFFECT",
+            "targetKey": "magic",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "DAMAGE_TYPE"
+          },
+          {
+            "fieldPath": "results[0].lifecycleBehavior",
+            "sourceKey": "essence_flux_mark",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "EFFECT",
+            "targetKey": "essence_flux_mark",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "LIFECYCLE"
+          },
+          {
+            "fieldPath": "results[0].valueRule.value.formulaKey",
+            "sourceKey": "essence_flux_mark",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "EFFECT",
+            "targetKey": "damage",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "FORMULA"
+          },
+          {
+            "fieldPath": "results[0].detail.attributeKey",
+            "sourceKey": "mana_cost",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "EFFECT",
+            "targetKey": "mana",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "results[0].valueRule.value.parameterKey",
+            "sourceKey": "mana_cost",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "EFFECT",
+            "targetKey": "mana_cost",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[0].parameterKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "FORMULA",
+            "targetKey": "base_damage",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[1].operands[0].parameterKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "FORMULA",
+            "targetKey": "bonus_ad_ratio",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[0].operands[1].operands[1].attributeKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "FORMULA",
+            "targetKey": "attack_damage",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "expression.operands[1].operands[0].parameterKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "FORMULA",
+            "targetKey": "ap_ratio",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[1].operands[1].attributeKey",
+            "sourceKey": "damage",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "FORMULA",
+            "targetKey": "ability_power",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "expression.operands[0].parameterKey",
+            "sourceKey": "mana_restore_total",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "FORMULA",
+            "targetKey": "mana_restore_base",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[1].parameterKey",
+            "sourceKey": "mana_restore_total",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "FORMULA",
+            "targetKey": "source_cast_mana_cost",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "cooldown.durationValue.parameterKey",
+            "sourceKey": "cast",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "PROCESS",
+            "targetKey": "cooldown_ms",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "effectBindings[0].effectKey",
+            "sourceKey": "cast",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "PROCESS",
+            "targetKey": "mana_cost",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "steps[0].detail.delayValue.parameterKey",
+            "sourceKey": "cast",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "PROCESS",
+            "targetKey": "cast_time_ms",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "apply_mark_on_w_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "essence_flux_mark",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "sourceKey": "apply_mark_on_w_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "ez_w",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "detonate_private_mark_on_basic_attack_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "detonate_by_attack",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "conditionGroups[0].conditions[0].detail.effectKey",
+            "sourceKey": "detonate_private_mark_on_basic_attack_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "essence_flux_mark",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "LIFECYCLE"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "detonate_private_mark_on_ez_e_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "detonate_with_mana_refund",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "actions[0].runtimeInputBindings[0].detail.attributeKey",
+            "sourceKey": "detonate_private_mark_on_ez_e_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "mana",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "actions[0].runtimeInputBindings[0].parameterKey",
+            "sourceKey": "detonate_private_mark_on_ez_e_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "source_cast_mana_cost",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "conditionGroups[0].conditions[0].detail.effectKey",
+            "sourceKey": "detonate_private_mark_on_ez_e_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "essence_flux_mark",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "LIFECYCLE"
+          },
+          {
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "sourceKey": "detonate_private_mark_on_ez_e_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "ez_e",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "detonate_private_mark_on_ez_q_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "detonate_with_mana_refund",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "actions[0].runtimeInputBindings[0].detail.attributeKey",
+            "sourceKey": "detonate_private_mark_on_ez_q_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "mana",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "actions[0].runtimeInputBindings[0].parameterKey",
+            "sourceKey": "detonate_private_mark_on_ez_q_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "source_cast_mana_cost",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "conditionGroups[0].conditions[0].detail.effectKey",
+            "sourceKey": "detonate_private_mark_on_ez_q_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "essence_flux_mark",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "LIFECYCLE"
+          },
+          {
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "sourceKey": "detonate_private_mark_on_ez_q_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "ez_q",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "detonate_private_mark_on_ez_r_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "detonate_with_mana_refund",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "actions[0].runtimeInputBindings[0].detail.attributeKey",
+            "sourceKey": "detonate_private_mark_on_ez_r_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "mana",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "actions[0].runtimeInputBindings[0].parameterKey",
+            "sourceKey": "detonate_private_mark_on_ez_r_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "source_cast_mana_cost",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "conditionGroups[0].conditions[0].detail.effectKey",
+            "sourceKey": "detonate_private_mark_on_ez_r_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "essence_flux_mark",
+            "targetSkillKey": "ez_w",
+            "targetSubKey": "",
+            "targetType": "LIFECYCLE"
+          },
+          {
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "sourceKey": "detonate_private_mark_on_ez_r_hit",
+            "sourceSkillKey": "ez_w",
+            "sourceType": "TRIGGER",
+            "targetKey": "ez_r",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "SKILL"
+          },
+          {
+            "fieldPath": "results[0].detail.critical.multiplierValue.formulaKey",
+            "sourceKey": "attack_hit",
+            "sourceSkillKey": "shared_basic_attack",
+            "sourceType": "EFFECT",
+            "targetKey": "critical_multiplier",
+            "targetSkillKey": "shared_basic_attack",
+            "targetSubKey": "",
+            "targetType": "FORMULA"
+          },
+          {
+            "fieldPath": "results[0].detail.damageTypeKey",
+            "sourceKey": "attack_hit",
+            "sourceSkillKey": "shared_basic_attack",
+            "sourceType": "EFFECT",
+            "targetKey": "physics",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "DAMAGE_TYPE"
+          },
+          {
+            "fieldPath": "results[0].valueRule.value.formulaKey",
+            "sourceKey": "attack_hit",
+            "sourceSkillKey": "shared_basic_attack",
+            "sourceType": "EFFECT",
+            "targetKey": "attack_damage",
+            "targetSkillKey": "shared_basic_attack",
+            "targetSubKey": "",
+            "targetType": "FORMULA"
+          },
+          {
+            "fieldPath": "expression.attributeKey",
+            "sourceKey": "attack_damage",
+            "sourceSkillKey": "shared_basic_attack",
+            "sourceType": "FORMULA",
+            "targetKey": "attack_damage",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "expression.operands[0].parameterKey",
+            "sourceKey": "attack_interval_ms",
+            "sourceSkillKey": "shared_basic_attack",
+            "sourceType": "FORMULA",
+            "targetKey": "milliseconds_per_second",
+            "targetSkillKey": "shared_basic_attack",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[1].attributeKey",
+            "sourceKey": "attack_interval_ms",
+            "sourceSkillKey": "shared_basic_attack",
+            "sourceType": "FORMULA",
+            "targetKey": "attack_speed",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "expression.operands[0].parameterKey",
+            "sourceKey": "critical_multiplier",
+            "sourceSkillKey": "shared_basic_attack",
+            "sourceType": "FORMULA",
+            "targetKey": "base_critical_multiplier",
+            "targetSkillKey": "shared_basic_attack",
+            "targetSubKey": "",
+            "targetType": "PARAMETER"
+          },
+          {
+            "fieldPath": "expression.operands[1].attributeKey",
+            "sourceKey": "critical_multiplier",
+            "sourceSkillKey": "shared_basic_attack",
+            "sourceType": "FORMULA",
+            "targetKey": "critical_strike_damage_bonus_percent",
+            "targetSkillKey": "",
+            "targetSubKey": "",
+            "targetType": "ATTRIBUTE"
+          },
+          {
+            "fieldPath": "cooldown.durationValue.formulaKey",
+            "sourceKey": "attack",
+            "sourceSkillKey": "shared_basic_attack",
+            "sourceType": "PROCESS",
+            "targetKey": "attack_interval_ms",
+            "targetSkillKey": "shared_basic_attack",
+            "targetSubKey": "",
+            "targetType": "FORMULA"
+          },
+          {
+            "fieldPath": "effectBindings[0].effectKey",
+            "sourceKey": "attack",
+            "sourceSkillKey": "shared_basic_attack",
+            "sourceType": "PROCESS",
+            "targetKey": "attack_start",
+            "targetSkillKey": "shared_basic_attack",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "actions[0].detail.effectKey",
+            "sourceKey": "on_attack_hit",
+            "sourceSkillKey": "shared_basic_attack",
+            "sourceType": "TRIGGER",
+            "targetKey": "attack_hit",
+            "targetSkillKey": "shared_basic_attack",
+            "targetSubKey": "",
+            "targetType": "EFFECT"
+          },
+          {
+            "fieldPath": "actions[0].detail.processKey",
+            "sourceKey": "on_attack_start",
+            "sourceSkillKey": "shared_basic_attack",
+            "sourceType": "TRIGGER",
+            "targetKey": "attack",
+            "targetSkillKey": "shared_basic_attack",
+            "targetSubKey": "",
+            "targetType": "PROCESS"
+          }
+        ],
+        "skills": [
+          {
+            "effectCount": 2,
+            "maxLevel": 1,
+            "name": "普通攻击·共享",
+            "processCount": 1,
+            "skillKey": "shared_basic_attack",
+            "sortOrder": 5,
+            "status": "ENABLED",
+            "triggerRuleCount": 2
+          },
+          {
+            "effectCount": 1,
+            "maxLevel": 1,
+            "name": "咒能高涨",
+            "processCount": 0,
+            "skillKey": "ez_p",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "triggerRuleCount": 4
+          },
+          {
+            "effectCount": 2,
+            "maxLevel": 5,
+            "name": "秘术射击",
+            "processCount": 1,
+            "skillKey": "ez_q",
+            "sortOrder": 20,
+            "status": "ENABLED",
+            "triggerRuleCount": 1
+          },
+          {
+            "effectCount": 4,
+            "maxLevel": 5,
+            "name": "精华跃动",
+            "processCount": 1,
+            "skillKey": "ez_w",
+            "sortOrder": 30,
+            "status": "ENABLED",
+            "triggerRuleCount": 5
+          },
+          {
+            "effectCount": 2,
+            "maxLevel": 5,
+            "name": "奥术跃迁",
+            "processCount": 1,
+            "skillKey": "ez_e",
+            "sortOrder": 40,
+            "status": "ENABLED",
+            "triggerRuleCount": 1
+          },
+          {
+            "effectCount": 3,
+            "maxLevel": 3,
+            "name": "精准弹幕",
+            "processCount": 1,
+            "skillKey": "ez_r",
+            "sortOrder": 50,
+            "status": "ENABLED",
+            "triggerRuleCount": 2
+          }
+        ],
+        "summary": {
+          "attachedSkillCount": 6,
+          "configuredAttributeCount": 16,
+          "errorCount": 0,
+          "reviewCount": 0
+        }
+      }
+    }
+  ]
+}

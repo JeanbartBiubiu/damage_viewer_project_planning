@@ -1,0 +1,2732 @@
+{
+  "at": "2026-09-09T01:06:15.729Z",
+  "sourceSha256": "7b1df1fe63d3ce00d466be458e5c07a1b8b6b6220ba1c728c4cc8324b72e64c6",
+  "mode": "GET_ONLY",
+  "meaning": "用于选择尚无技能挂载的装备；无挂载不等于漏录，有挂载不等于完整机制",
+  "items": [
+    {
+      "equipmentKey": "duolan_jian",
+      "name": "多兰之刃",
+      "itemId": "1055",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "10攻击力\n80生命值\n2.5%全能吸血",
+      "relations": []
+    },
+    {
+      "equipmentKey": "duolanjie",
+      "name": "多兰之戒",
+      "itemId": "1056",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "18法术强度\n90生命值\n\n汲取\n每秒回复1法力值，在对一名敌方英雄造成伤害后，提升至每秒2法力值，持续5秒。如果你不能获得法力值，则转而治疗45%此数值的生命值。\n\n帮助之手\n攻击会对小兵造成5额外物理伤害。",
+      "relations": [
+        {
+          "equipmentKey": "duolanjie",
+          "equipmentName": "多兰之戒",
+          "gameId": "lol",
+          "skillKey": "duolanjie_passive",
+          "skillName": "多兰之戒·汲取",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_1001",
+      "name": "鞋子",
+      "itemId": "1001",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "25移动速度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1004",
+      "name": "仙女护符",
+      "itemId": "1004",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "50%基础法力回复",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1006",
+      "name": "治疗宝珠",
+      "itemId": "1006",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "100%基础生命回复",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1011",
+      "name": "巨人腰带",
+      "itemId": "1011",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "350生命值",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1018",
+      "name": "灵巧披风",
+      "itemId": "1018",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "15%暴击几率",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1026",
+      "name": "爆裂魔杖",
+      "itemId": "1026",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45法术强度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1027",
+      "name": "蓝水晶",
+      "itemId": "1027",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "300法力",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1028",
+      "name": "红水晶",
+      "itemId": "1028",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "150生命值",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1029",
+      "name": "布甲",
+      "itemId": "1029",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "15护甲",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1031",
+      "name": "锁子甲",
+      "itemId": "1031",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40护甲",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1033",
+      "name": "抗魔斗篷",
+      "itemId": "1033",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "20魔法抗性",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1036",
+      "name": "长剑",
+      "itemId": "1036",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "10攻击力",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1037",
+      "name": "十字镐",
+      "itemId": "1037",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "25攻击力",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1038",
+      "name": "暴风之剑",
+      "itemId": "1038",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40攻击力",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1042",
+      "name": "短剑",
+      "itemId": "1042",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "10%攻击速度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1043",
+      "name": "反曲之弓",
+      "itemId": "1043",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "15%攻击速度\n\n叮刺\n攻击附带15额外物理伤害 攻击特效。",
+      "relations": [
+        {
+          "equipmentKey": "item_1043",
+          "equipmentName": "反曲之弓",
+          "gameId": "lol",
+          "skillKey": "item_1043_passive",
+          "skillName": "反曲之弓·叮刺",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_1052",
+      "name": "增幅典籍",
+      "itemId": "1052",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "20法术强度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1053",
+      "name": "吸血鬼节杖",
+      "itemId": "1053",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "15攻击力\n7%生命偷取",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1054",
+      "name": "多兰之盾",
+      "itemId": "1054",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "110生命值\n\n耐久专注\n每5秒回复4生命值。\n在承受来自英雄的伤害后，在8秒里回复生命值。\n帮助之手\n攻击对小兵造成5额外物理伤害。",
+      "relations": [
+        {
+          "equipmentKey": "item_1054",
+          "equipmentName": "多兰之盾",
+          "gameId": "lol",
+          "skillKey": "item_1054_passive",
+          "skillName": "多兰之盾·耐久专注",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_1057",
+      "name": "负极斗篷",
+      "itemId": "1057",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45魔法抗性",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1058",
+      "name": "无用大棒",
+      "itemId": "1058",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "65法术强度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1082",
+      "name": "黑暗封印",
+      "itemId": "1082",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "15法术强度\n50生命值\n\n荣耀\n参与击杀后提供荣耀层数，至多至10层。阵亡时损失5层荣耀。\n每层荣耀提供4法术强度。",
+      "relations": [
+        {
+          "equipmentKey": "item_1082",
+          "equipmentName": "黑暗封印",
+          "gameId": "lol",
+          "skillKey": "item_1082_passive",
+          "skillName": "黑暗封印·荣耀",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_1083",
+      "name": "萃取",
+      "itemId": "1083",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "7攻击力\n\n收割\n回复3生命值攻击特效。\n击杀小兵时提供1金币，至多至100。达到上限时提供额外的350金币。",
+      "relations": [
+        {
+          "equipmentKey": "item_1083",
+          "equipmentName": "萃取",
+          "gameId": "lol",
+          "skillKey": "item_1083_passive",
+          "skillName": "萃取·收割",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_1086",
+      "name": "多兰之弓",
+      "itemId": "1086",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "8攻击力\n15%攻击速度\n1.5%全能吸血",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_1120",
+      "name": "多兰之盔",
+      "itemId": "1120",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "150生命值\n8护甲\n8魔法抗性\n\n帮助之手\n攻击会对小兵造成5额外物理伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2010",
+      "name": "永续意志夹心饼干",
+      "itemId": "2010",
+      "scopeCategory": "符文生成物",
+      "description": "主动 - 消耗：食用饼干，以在5秒里持续回复生命值，基于你的已损失生命值获得提升。消耗或出售一块饼干，都会永久提供30最大生命值。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2019",
+      "name": "钢铁印章",
+      "itemId": "2019",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "15攻击力\n30护甲",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2020",
+      "name": "残暴之力",
+      "itemId": "2020",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "25攻击力\n10技能急速\n5穿甲",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2021",
+      "name": "掘道钻头",
+      "itemId": "2021",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "15攻击力\n250生命值",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2022",
+      "name": "荧尘",
+      "itemId": "2022",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "5技能急速",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2065",
+      "name": "舒瑞娅的战歌",
+      "itemId": "2065",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "50法术强度\n15技能急速\n4%移动速度\n125%基础法力回复\n\n鼓舞演讲\n为附近友军们提供持续4秒的30%移动速度。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2150",
+      "name": "技能合剂",
+      "itemId": "2150",
+      "scopeCategory": "符文生成物",
+      "description": "消耗\n提供1技能点数。\n\n这个装备不会提升你的等级或允许对那些已经升满的技能投入技能点数。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2152",
+      "name": "原力合剂",
+      "itemId": "2152",
+      "scopeCategory": "符文生成物",
+      "description": "消耗\n提供25适应之力，持续60秒。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2420",
+      "name": "探索者的护臂",
+      "itemId": "2420",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40法术强度\n25护甲\n\n时间停止(单次使用)\n进入凝滞状态2.5秒。",
+      "relations": [
+        {
+          "equipmentKey": "item_2420",
+          "equipmentName": "探索者的护臂",
+          "gameId": "lol",
+          "skillKey": "item_2420_active",
+          "skillName": "探索者的护臂·时间停止",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_2421",
+      "name": "碎裂的护臂",
+      "itemId": "2421",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "40法术强度\n25护甲\n\n支离破碎的时间\n【护臂】目前是破碎状态，但仍然可以用于升级。\n\n在打破一个【护臂】后，商店主人就只会卖给你碎裂的护臂了。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2422",
+      "name": "有点神奇之鞋",
+      "itemId": "2422",
+      "scopeCategory": "符文生成物",
+      "description": "25移动速度\n\n提供额外的10移动速度。通过【有点神奇之鞋】合成的鞋类装备都会保持这个移动速度加成。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2501",
+      "name": "霸王血铠",
+      "itemId": "2501",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "30攻击力\n550生命值\n\n专横\n获得相当于你2.5%额外生命值的攻击力。\n\n报复\n获得基于你的百分比已损失生命值的12%攻击力提升。",
+      "relations": [
+        {
+          "equipmentKey": "item_2501",
+          "equipmentName": "霸王血铠",
+          "gameId": "lol",
+          "skillKey": "item_2501_passive",
+          "skillName": "霸王血铠·专横与报复",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_2502",
+      "name": "无终恨意",
+      "itemId": "2502",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "400生命值\n50护甲\n15技能急速\n\n苦楚\n在与英雄的战斗状态下，每4秒对附近的敌方英雄们造成魔法伤害，并治疗自身相当于250%已造成伤害的生命值。",
+      "relations": [
+        {
+          "equipmentKey": "item_2502",
+          "equipmentName": "无终恨意",
+          "gameId": "lol",
+          "skillKey": "item_2502_passive",
+          "skillName": "无终恨意·苦楚",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_2503",
+      "name": "黯炎火炬",
+      "itemId": "2503",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "80法术强度\n600法力\n20技能急速\n\n邪焰\n伤害型技能造成额外魔法伤害，持续3秒。\n\n黯炎\n被你的邪焰影响的每个敌方英雄、史诗级野怪和大型野怪都会为你提供4%法术强度。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2504",
+      "name": "败魔",
+      "itemId": "2504",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "400生命值\n80魔法抗性\n100%基础生命回复\n\n法师之祸\n如果连续15秒没有受到魔法伤害，获得魔法护盾。",
+      "relations": [
+        {
+          "equipmentKey": "item_2504",
+          "equipmentName": "败魔",
+          "gameId": "lol",
+          "skillKey": "item_2504_passive",
+          "skillName": "败魔·法师之祸",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_2508",
+      "name": "命定灰烬",
+      "itemId": "2508",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "30法术强度\n\n激燃\n伤害型技能在3秒里持续造成15额外魔法伤害。\n对野怪造成额外的45魔法伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2510",
+      "name": "黄昏与黎明",
+      "itemId": "2510",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "300生命值\n60法术强度\n20技能急速\n20%攻击速度\n\n咒刃 \n施放技能后，你的下一次攻击会造成0额外魔法伤害并治疗你自身0 攻击特效然后将攻击特效施加额外的一次。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2512",
+      "name": "猎魔人弩箭",
+      "itemId": "2512",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45%攻击速度\n25%暴击几率\n4%移动速度\n\n守夜\n获得30终极技能急速。\n\n开战弹幕 \n在施放你的终极技能后，你的下3次攻击获得50%攻击速度并且必定产生暴击，造成你的80%常规暴击伤害，持续8秒。如果一次攻击本应暴击，则此攻击转而造成15%额外真实伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2517",
+      "name": "无穷饥渴",
+      "itemId": "2517",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "65攻击力\n5%全能吸血\n20%韧性\n\n饥馑\n获得技能急速，基于你的额外攻击力。\n\n盛宴\n如果一名在近期曾被你造成过伤害的英雄阵亡，则获得持续适中时长的全能吸血。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2520",
+      "name": "破垒者",
+      "itemId": "2520",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "55攻击力\n22穿甲\n15技能急速\n\n成型炸药 (0秒)\n对一个英雄或史诗级野怪造成技能伤害时，会造成额外的0真实伤害。\n\n破坏\n参与击杀一个在3秒内被你造成过伤害的英雄后，提供持续90秒的【蓄意破坏】。在你拥有【蓄意破坏】时，你对史诗级野怪或防御塔的下一次攻击会在3秒里持续造成额外0真实伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2522",
+      "name": "实现器",
+      "itemId": "2522",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "90法术强度\n300法力\n10技能急速\n\n法力成真 (0秒)\n在8秒的持续期间里，你的法力值获得强化。在强化状态下，你的技能花费100%额外法力值，你获得额外的0技能伤害、护盾值、治疗效果，并且你的基础技能的冷却时间转速加快30%。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2523",
+      "name": "海克斯镜片 C44",
+      "itemId": "2523",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "55攻击力\n25%暴击几率\n\n高倍望远镜\n攻击造成至多10%额外伤害，基于敌人离你有多远 (在500码时达到最大伤害)。\n\n奥术瞄准\n当一个你在3秒内造成过伤害的英雄阵亡时，你获得持续8秒的100额外攻击距离。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2524",
+      "name": "班德尔音管",
+      "itemId": "2524",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "200生命值\n15技能急速\n20护甲\n20魔法抗性\n\n嘹亮旋律\n减速或定身一个敌方英雄时会提供一个持续0秒的【嘹亮旋律】。【嘹亮旋律】会为你提供20移动速度。当你拥有【嘹亮旋律】时，附近的友军，包括你自己，获得0攻击速度。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2525",
+      "name": "原生质护带",
+      "itemId": "2525",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "600生命值\n20技能急速\n\n救主灵刃 (0秒)\n在受到将使你的生命值跌到30%以下的伤害时，获得持续5秒的0最大生命值，然后在此期间持续治疗0生命值。在回复生命值状态下，你获得15%体型增长、10%移动速度、以及25%韧性。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2526",
+      "name": "耳语头环",
+      "itemId": "2526",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "200生命值\n8%治疗和护盾强度\n75%基础法力回复\n300法力\n\n和谐\n获得0%治疗和护盾强度。\n\n法力流 (8秒，最大5层)\n技能在命中时会提供4最大法力值(对英雄时翻倍)。\n在360最大法力值时转变为歌之权冠。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_2530",
+      "name": "歌之权冠",
+      "itemId": "2530",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "200生命值\n8%治疗和护盾强度\n1000法力\n100%基础法力回复\n\n和谐\n获得0%治疗和护盾强度。\n\n和音\n当你或你在前3秒提供过治疗或护盾的任一友军处在与英雄的战斗状态时，每秒治疗附近生命值最低的那个友军。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3003",
+      "name": "大天使之杖",
+      "itemId": "3003",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "70法术强度\n600法力\n25技能急速\n\n敬畏\n获得相当于1%额外法力值的法术强度。\n\n法力流 (8秒，最大5层充能)\n技能在命中时提供5最大法力值(对英雄时翻倍)。\n在360最大法力值时转变为炽天使之拥。",
+      "relations": [
+        {
+          "equipmentKey": "item_3003",
+          "equipmentName": "大天使之杖",
+          "gameId": "lol",
+          "skillKey": "item_3003_passive",
+          "skillName": "大天使之杖·敬畏与法力流",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3004",
+      "name": "魔宗",
+      "itemId": "3004",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "35攻击力\n500法力\n15技能急速\n\n敬畏\n获得0额外攻击力。\n\n法力流 (8秒，最大4层)\n普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。\n在360最大法力值时转变为魔切。",
+      "relations": [
+        {
+          "equipmentKey": "item_3004",
+          "equipmentName": "魔宗",
+          "gameId": "lol",
+          "skillKey": "item_3004_passive",
+          "skillName": "魔宗·敬畏与法力流",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3006",
+      "name": "狂战士胫甲",
+      "itemId": "3006",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "30%攻击速度\n45移动速度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3008",
+      "name": "暴食胫甲",
+      "itemId": "3008",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45移动速度\n4%全能吸血\n\n杀戮\n参与击杀英雄后获得0.6%全能吸血，可叠加至多10次。",
+      "relations": [
+        {
+          "equipmentKey": "item_3008",
+          "equipmentName": "暴食胫甲",
+          "gameId": "lol",
+          "skillKey": "item_3008_passive",
+          "skillName": "暴食胫甲·杀戮",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3009",
+      "name": "轻灵之靴",
+      "itemId": "3009",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "55移动速度\n\n迅捷步\n将减速效果的效能降低25%。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3020",
+      "name": "法师之靴",
+      "itemId": "3020",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "12法术穿透\n45移动速度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3024",
+      "name": "冰川圆盾",
+      "itemId": "3024",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "25护甲\n300法力\n10技能急速",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3026",
+      "name": "守护天使",
+      "itemId": "3026",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "55攻击力\n45护甲\n\n重生\n你的英雄在受到致命伤害时，会在凝滞4秒后原地复活，恢复50%基础生命值和100%最大法力值。",
+      "relations": [
+        {
+          "equipmentKey": "item_3026",
+          "equipmentName": "守护天使",
+          "gameId": "lol",
+          "skillKey": "item_3026_passive",
+          "skillName": "守护天使·重生",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3031",
+      "name": "无尽之刃",
+      "itemId": "3031",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "75攻击力\n25%暴击几率\n30%暴击伤害",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3032",
+      "name": "育恩塔尔荒野箭",
+      "itemId": "3032",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "50攻击力\n45%攻击速度\n0%暴击几率\n\n熟能生巧\n攻击时，永久获得暴击几率，至多至25%。\n\n疾风骤雨 \n攻击一个敌方英雄时，获得持续6秒的30%攻击速度(30秒冷却时间)。\n攻击可使这个冷却时间缩短1秒，这个缩减值会在暴击时提升至2秒。",
+      "relations": [
+        {
+          "equipmentKey": "item_3032",
+          "equipmentName": "育恩塔尔荒野箭",
+          "gameId": "lol",
+          "skillKey": "item_3032_passive",
+          "skillName": "育恩塔尔荒野箭·疾风骤雨",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3033",
+      "name": "凡性的提醒",
+      "itemId": "3033",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "35攻击力\n30%护甲穿透\n25%暴击几率\n\n重伤\n对敌方英雄造成物理伤害时会施加40%重伤效果，持续3秒。",
+      "relations": [
+        {
+          "equipmentKey": "item_3033",
+          "equipmentName": "凡性的提醒",
+          "gameId": "lol",
+          "skillKey": "item_3033_passive",
+          "skillName": "凡性的提醒·重伤",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3035",
+      "name": "最后的轻语",
+      "itemId": "3035",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "20攻击力\n18%护甲穿透",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3036",
+      "name": "多米尼克领主的致意",
+      "itemId": "3036",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "35攻击力\n35%护甲穿透\n25%暴击几率\n\n巨人杀手\n基于敌方英雄的额外生命值，对其至多造成15%额外伤害。最大伤害加成在1500额外生命值时达成。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3040",
+      "name": "炽天使之拥",
+      "itemId": "3040",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "70法术强度\n1000法力\n25技能急速\n\n敬畏\n获得0法术强度。\n\n救主灵刃 (0秒)\n在受到将使你的生命值跌到30%以下的伤害时，提供持续3秒的0护盾值。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3041",
+      "name": "梅贾的窃魂卷",
+      "itemId": "3041",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "20法术强度\n100生命值\n\n荣耀\n参与击杀后提供荣耀层数，至多至25层。阵亡时损失10层荣耀。\n每层荣耀提供5法术强度，并在10层或以上荣耀时提供10%移动速度。",
+      "relations": [
+        {
+          "equipmentKey": "item_3041",
+          "equipmentName": "梅贾的窃魂卷",
+          "gameId": "lol",
+          "skillKey": "item_3041_passive",
+          "skillName": "梅贾的窃魂卷·荣耀",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3042",
+      "name": "魔切",
+      "itemId": "3042",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "35攻击力\n1000法力\n15技能急速\n\n敬畏\n获得2%最大法力值的额外攻击力。\n\n冲击\n攻击会对英雄造成1.2%最大法力值的额外物理伤害攻击特效。\n伤害型技能会对英雄造成3% - 4%最大法力值的额外物理伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3044",
+      "name": "净蚀",
+      "itemId": "3044",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "15攻击力\n200生命值\n\n狂怒\n攻击会提供持续2秒的移动速度。",
+      "relations": [
+        {
+          "equipmentKey": "item_3044",
+          "equipmentName": "净蚀",
+          "gameId": "lol",
+          "skillKey": "item_3044_passive",
+          "skillName": "净蚀·狂怒",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3046",
+      "name": "幻影之舞",
+      "itemId": "3046",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "65%攻击速度\n25%暴击几率\n10%移动速度\n\n幽影华尔兹变为幽灵状态。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3047",
+      "name": "铁板靴",
+      "itemId": "3047",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "25护甲\n45移动速度\n\n镀板\n使即将到来的攻击伤害降低10%。",
+      "relations": [
+        {
+          "equipmentKey": "item_3047",
+          "equipmentName": "铁板靴",
+          "gameId": "lol",
+          "skillKey": "item_3047_passive",
+          "skillName": "铁板靴·镀板",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3050",
+      "name": "基克的聚合",
+      "itemId": "3050",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "300生命值\n25护甲\n25魔法抗性\n10技能急速\n\n霜火风暴\n施放你的终极技能时会召唤一个风暴环绕于你5秒。这个风暴对敌方英雄们造成每秒30魔法伤害和30%减速。",
+      "relations": [
+        {
+          "equipmentKey": "item_3050",
+          "equipmentName": "基克的聚合",
+          "gameId": "lol",
+          "skillKey": "item_3050_passive",
+          "skillName": "基克的聚合·霜火风暴",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3051",
+      "name": "缚炉之斧",
+      "itemId": "3051",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "20攻击力\n20%攻击速度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3053",
+      "name": "斯特拉克的挑战护手",
+      "itemId": "3053",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "400生命值\n20%韧性\n\n抓人双爪\n获得额外攻击力。\n\n救主灵刃\n在受到将使你的生命值跌到30%以下的伤害时，提供持续4.5秒的不断衰减的护盾值。",
+      "relations": [
+        {
+          "equipmentKey": "item_3053",
+          "equipmentName": "斯特拉克的挑战护手",
+          "gameId": "lol",
+          "skillKey": "item_3053_passive",
+          "skillName": "斯特拉克的挑战护手·被动",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3057",
+      "name": "耀光",
+      "itemId": "3057",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "10技能急速\n\n咒刃\n施放技能后，你的下一次普通攻击会造成额外物理伤害攻击特效。",
+      "relations": [
+        {
+          "equipmentKey": "item_3057",
+          "equipmentName": "耀光",
+          "gameId": "lol",
+          "skillKey": "item_3057_passive",
+          "skillName": "耀光·咒刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3065",
+      "name": "振奋盔甲",
+      "itemId": "3065",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "400生命值\n50魔法抗性\n10技能急速\n100%基础生命回复\n\n无拘活力\n你身上的治疗和护盾效果提升25%。",
+      "relations": [
+        {
+          "equipmentKey": "item_3065",
+          "equipmentName": "振奋盔甲",
+          "gameId": "lol",
+          "skillKey": "item_3065_passive",
+          "skillName": "振奋盔甲·无拘活力",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3066",
+      "name": "带翼的月板甲",
+      "itemId": "3066",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "200生命值\n4%移动速度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3067",
+      "name": "燃烧宝石",
+      "itemId": "3067",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "200生命值\n10技能急速",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3068",
+      "name": "日炎圣盾",
+      "itemId": "3068",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "350生命值\n50护甲\n10技能急速\n\n献祭\n承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。",
+      "relations": [
+        {
+          "equipmentKey": "item_3068",
+          "equipmentName": "日炎圣盾",
+          "gameId": "lol",
+          "skillKey": "item_3068_passive",
+          "skillName": "日炎圣盾·献祭",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3070",
+      "name": "女神之泪",
+      "itemId": "3070",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "240法力\n\n法力流 (8秒，最大4层)\n技能在命中时会提供3最大法力值(对英雄时翻倍)，至多至360。\n\n帮助之手\n攻击会对小兵造成额外的5物理伤害。",
+      "relations": [
+        {
+          "equipmentKey": "item_3070",
+          "equipmentName": "女神之泪",
+          "gameId": "lol",
+          "skillKey": "item_3070_passive",
+          "skillName": "女神之泪·法力流",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3071",
+      "name": "黑色切割者",
+      "itemId": "3071",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45攻击力\n400生命值\n20技能急速\n\n切割\n对英雄造成物理伤害时会将该目标的护甲降低6%，持续6秒(可叠加5次)。\n\n热烈\n造成物理伤害时会提供持续2秒的0移动速度。",
+      "relations": [
+        {
+          "equipmentKey": "item_3071",
+          "equipmentName": "黑色切割者",
+          "gameId": "lol",
+          "skillKey": "item_3071_passive",
+          "skillName": "黑色切割者·切割",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3072",
+      "name": "饮血剑",
+      "itemId": "3072",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "80攻击力\n15%生命偷取\n\n灵液护盾\n将来自你的生命偷取的溢出治疗效果转化为护盾值。",
+      "relations": [
+        {
+          "equipmentKey": "item_3072",
+          "equipmentName": "饮血剑",
+          "gameId": "lol",
+          "skillKey": "item_3072_passive",
+          "skillName": "饮血剑·灵液护盾",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3073",
+      "name": "海克斯注力刚壁",
+      "itemId": "3073",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40攻击力\n20%攻击速度\n450生命值\n\n海克斯充能\n获得30终极技能急速。\n\n过载 \n在施放你的终极技能后，获得持续8秒的0%攻击速度和0%移动速度。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3074",
+      "name": "贪欲九头蛇",
+      "itemId": "3074",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "65攻击力\n15技能急速\n12%生命偷取\n\n顺劈\n攻击会对附近的敌人们造成物理伤害。血斩\n对你周围的敌人们造成物理伤害。\n你的生命偷取会作用于此伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3075",
+      "name": "荆棘之甲",
+      "itemId": "3075",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "150生命值\n75护甲\n\n荆棘\n在被一次攻击命中后，对攻击者造成魔法伤害，并且如果目标是英雄，还会施加持续3秒的40%重伤效果。",
+      "relations": [
+        {
+          "equipmentKey": "item_3075",
+          "equipmentName": "荆棘之甲",
+          "gameId": "lol",
+          "skillKey": "item_3075_passive",
+          "skillName": "荆棘之甲·荆棘",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3076",
+      "name": "棘刺背心",
+      "itemId": "3076",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "30护甲\n\n荆棘\n在被一次攻击命中后，对攻击者造成0魔法伤害并且如果目标是英雄，还会对其施加持续3秒的40%重伤效果。",
+      "relations": [
+        {
+          "equipmentKey": "item_3076",
+          "equipmentName": "棘刺背心",
+          "gameId": "lol",
+          "skillKey": "item_3076_passive",
+          "skillName": "棘刺背心·荆棘",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3077",
+      "name": "提亚马特",
+      "itemId": "3077",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "25攻击力\n\n顺劈\n攻击会对附近的敌人们造成物理伤害。\n新月\n对你周围的敌人们造成物理伤害。",
+      "relations": [
+        {
+          "equipmentKey": "item_3077",
+          "equipmentName": "提亚马特",
+          "gameId": "lol",
+          "skillKey": "item_3077_active",
+          "skillName": "提亚马特·新月",
+          "skillStatus": "ENABLED",
+          "sortOrder": 20
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3078",
+      "name": "三相之力",
+      "itemId": "3078",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "36攻击力\n30%攻击速度\n333生命值\n15技能急速\n\n咒刃\n施放技能后，你的下一次普通攻击会造成额外物理伤害攻击特效。\n \n加快\n攻击一个单位时会提供持续2秒的20移动速度。",
+      "relations": [
+        {
+          "equipmentKey": "item_3078",
+          "equipmentName": "三相之力",
+          "gameId": "lol",
+          "skillKey": "item_3078_passive",
+          "skillName": "三相之力·咒刃与加快",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3082",
+      "name": "守望者铠甲",
+      "itemId": "3082",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40护甲\n\n坚如磐石\n使所受的来自攻击的伤害降低。",
+      "relations": [
+        {
+          "equipmentKey": "item_3082",
+          "equipmentName": "守望者铠甲",
+          "gameId": "lol",
+          "skillKey": "item_3082_passive",
+          "skillName": "守望者铠甲·坚如磐石",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3083",
+      "name": "狂徒铠甲",
+      "itemId": "3083",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "1000生命值\n100%基础生命回复\n\n狂徒之心 \n如果你拥有2000额外生命值，并且在8秒内没有受到伤害，则每秒回复0生命值。\n\n狂徒之活力\n获得额外生命值，相当于你12%的装备生命值(0)。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3084",
+      "name": "心之钢",
+      "itemId": "3084",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "900生命值\n100%基础生命回复\n\n庞然吞食 每个目标(0秒)\n如果一个敌方英雄在附近度过了若干秒，那么你的下一次对其打出的攻击会造成70外加你的6%最大生命值的额外物理伤害，并为你提供相当于10%该伤害的最大生命值。\n\n歌利亚巨人\n每有1000最大生命值，获得3%体型提升，至多至30%。",
+      "relations": [
+        {
+          "equipmentKey": "item_3084",
+          "equipmentName": "心之钢",
+          "gameId": "lol",
+          "skillKey": "item_3084_passive",
+          "skillName": "心之钢·庞然吞食",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3085",
+      "name": "卢安娜的飓风",
+      "itemId": "3085",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40%攻击速度\n25%暴击几率\n5%移动速度\n\n风怒\n攻击对目标附近的2个额外敌人发射弩箭。\n每根弩箭造成物理伤害并施加攻击特效。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3086",
+      "name": "狂热",
+      "itemId": "3086",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "15%攻击速度\n15%暴击几率\n4%移动速度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3087",
+      "name": "斯塔缇克电刃",
+      "itemId": "3087",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45攻击力\n45法术强度\n30%攻击速度\n4%移动速度\n\n电火花\n你的盈能攻击会发射连锁闪电，造成附带攻击特效，并且对附近的目标们造成魔法伤害。\n\n电疗 \n普通攻击提供额外盈能层数。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3089",
+      "name": "灭世者的死亡之帽",
+      "itemId": "3089",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "130法术强度\n\n魔法乐章\n使你的总法术强度提升30%。",
+      "relations": [
+        {
+          "equipmentKey": "item_3089",
+          "equipmentName": "灭世者的死亡之帽",
+          "gameId": "lol",
+          "skillKey": "item_3089_passive",
+          "skillName": "灭世者的死亡之帽·魔法乐章",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3091",
+      "name": "智慧末刃",
+      "itemId": "3091",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "50%攻击速度\n45魔法抗性\n20%韧性\n\n喧争\n普攻造成额外魔法伤害 攻击特效。",
+      "relations": [
+        {
+          "equipmentKey": "item_3091",
+          "equipmentName": "智慧末刃",
+          "gameId": "lol",
+          "skillKey": "item_3091_passive",
+          "skillName": "智慧末刃·喧争",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3094",
+      "name": "疾射火炮",
+      "itemId": "3094",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "35%攻击速度\n25%暴击几率\n4%移动速度\n\n神射手\n你的盈能攻击造成40额外魔法伤害并获得35%额外攻击距离。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3095",
+      "name": "岚切",
+      "itemId": "3095",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "50攻击力\n25%攻击速度\n25%暴击几率\n\n盈能\n移动和攻击会生成一次盈能攻击。\n\n弩箭\n你的盈能攻击附带0额外魔法伤害并提供持续1.5秒的45%移动速度。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3100",
+      "name": "巫妖之祸",
+      "itemId": "3100",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "100法术强度\n6%移动速度\n10技能急速\n\n咒刃\n施放技能后，你的下一次攻击会造成额外魔法伤害攻击特效。",
+      "relations": [
+        {
+          "equipmentKey": "item_3100",
+          "equipmentName": "巫妖之祸",
+          "gameId": "lol",
+          "skillKey": "item_3100_passive",
+          "skillName": "巫妖之祸·咒刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3102",
+      "name": "女妖面纱",
+      "itemId": "3102",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "105法术强度\n40魔法抗性\n\n废除\n提供一层法术护盾来格挡下一个敌方技能。",
+      "relations": [
+        {
+          "equipmentKey": "item_3102",
+          "equipmentName": "女妖面纱",
+          "gameId": "lol",
+          "skillKey": "item_3102_passive",
+          "skillName": "女妖面纱·废除",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3107",
+      "name": "救赎",
+      "itemId": "3107",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "30法术强度\n15技能急速\n100%基础法力回复\n10%治疗和护盾强度\n\n干涉 \n在2.5秒后，为友方单位们回复150 - 350生命值，并对敌方英雄们造成10%最大生命值的真实伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3108",
+      "name": "恶魔法典",
+      "itemId": "3108",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "25法术强度\n10技能急速",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3109",
+      "name": "骑士之誓",
+      "itemId": "3109",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "200生命值\n40护甲\n10技能急速\n100%基础生命回复\n\n牺牲\n当你的誓约者在附近时，将其所受的14%伤害转移到你身上，并为你提供相当于其对英雄的12%已造成伤害值的治疗效果。立誓(0秒)\n指定一名友方英雄作为你的誓约者。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3110",
+      "name": "冰霜之心",
+      "itemId": "3110",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "75护甲\n400法力\n20技能急速\n\n凛冬之抚\n使附近敌方英雄的攻击速度降低20%。",
+      "relations": [
+        {
+          "equipmentKey": "item_3110",
+          "equipmentName": "冰霜之心",
+          "gameId": "lol",
+          "skillKey": "item_3110_passive",
+          "skillName": "冰霜之心·凛冬之抚",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3111",
+      "name": "水银之靴",
+      "itemId": "3111",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "20魔法抗性\n45移动速度\n30%韧性",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3113",
+      "name": "以太精魂",
+      "itemId": "3113",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "30法术强度\n4%移动速度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3114",
+      "name": "禁忌雕像",
+      "itemId": "3114",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "50%基础法力回复\n8%治疗和护盾强度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3115",
+      "name": "纳什之牙",
+      "itemId": "3115",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "80法术强度\n50%攻击速度\n15技能急速\n\n艾卡西亚之咬\n普攻造成额外魔法伤害 攻击特效。",
+      "relations": [
+        {
+          "equipmentKey": "item_3115",
+          "equipmentName": "纳什之牙",
+          "gameId": "lol",
+          "skillKey": "item_3115_passive",
+          "skillName": "纳什之牙·艾卡西亚之咬",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3116",
+      "name": "瑞莱的冰晶节杖",
+      "itemId": "3116",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "65法术强度\n400生命值\n\n凝霜\n伤害型技能会使敌人减速30%，持续1秒。",
+      "relations": [
+        {
+          "equipmentKey": "item_3116",
+          "equipmentName": "瑞莱的冰晶节杖",
+          "gameId": "lol",
+          "skillKey": "item_3116_passive",
+          "skillName": "瑞莱的冰晶节杖·冰脉",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3118",
+      "name": "残疫",
+      "itemId": "3118",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "90法术强度\n600法力\n15技能急速\n\n蔑视\n获得20终极技能急速。\n\n憎恨之雾\n在用你的终极技能对一个英雄造成伤害时，灼烧其脚下的地面3秒，每秒造成魔法伤害并削减其魔法抗性。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3119",
+      "name": "凛冬之临",
+      "itemId": "3119",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "550生命值\n500法力\n15技能急速\n\n敬畏\n获得0生命值。\n\n法力流 (8秒，最大4层)\n普攻和技能在命中时会提供3最大法力值(对英雄时翻倍)。\n在360最大法力值时转变为末日寒冬。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3121",
+      "name": "末日寒冬",
+      "itemId": "3121",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "550生命值\n1000法力\n15技能急速\n\n敬畏\n获得0生命值。\n\n永续(0秒)\n定身或减速 (仅限近战)一名敌方英雄时会提供一个持续3秒的护盾 。\n如果附近有1名以上的敌人，则护盾值会提升80%。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3123",
+      "name": "死刑宣告",
+      "itemId": "3123",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "15攻击力\n\n重伤\n对敌方英雄造成物理伤害时会施加持续3秒的40%重伤效果。",
+      "relations": [
+        {
+          "equipmentKey": "item_3123",
+          "equipmentName": "死刑宣告",
+          "gameId": "lol",
+          "skillKey": "item_3123_passive",
+          "skillName": "死刑宣告·重伤",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3124",
+      "name": "鬼索的狂暴之刃",
+      "itemId": "3124",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "30攻击力\n30法术强度\n25%攻击速度\n\n怨怒\n攻击造成30额外魔法伤害攻击特效。\n\n沸腾打击\n攻击会提供8%攻击速度，持续3秒(可叠加4次)。\n在满层状态下，每第三次攻击会附带2次攻击特效。",
+      "relations": [
+        {
+          "equipmentKey": "item_3124",
+          "equipmentName": "鬼索的狂暴之刃",
+          "gameId": "lol",
+          "skillKey": "item_3124_passive",
+          "skillName": "鬼索的狂暴之刃·怨怒与沸腾打击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3133",
+      "name": "考尔菲德的战锤",
+      "itemId": "3133",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "20攻击力\n10技能急速",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3134",
+      "name": "锯齿短匕",
+      "itemId": "3134",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "20攻击力\n10穿甲",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3135",
+      "name": "虚空之杖",
+      "itemId": "3135",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "95法术强度\n40%法术穿透",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3137",
+      "name": "蜕生",
+      "itemId": "3137",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "75法术强度\n30%法术穿透\n20技能急速\n\n死中焕生\n每当一个敌方英雄在被你造成伤害后的3秒内阵亡时，在其所在位置生成一个新星，来为友军们治疗生命值。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3139",
+      "name": "水银弯刀",
+      "itemId": "3139",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "50攻击力\n35魔法抗性\n10%生命偷取\n\n\n\n主动 \n水银\n移除所有控制类减益效果(浮空除外)，并提供移动速度。",
+      "relations": [
+        {
+          "equipmentKey": "item_3139",
+          "equipmentName": "水银弯刀",
+          "gameId": "lol",
+          "skillKey": "item_3139_active",
+          "skillName": "水银弯刀·水银",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3140",
+      "name": "水银饰带",
+      "itemId": "3140",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "30魔法抗性\n\n水银\n移除所有控制类减益效果(滞空除外)。",
+      "relations": [
+        {
+          "equipmentKey": "item_3140",
+          "equipmentName": "水银饰带",
+          "gameId": "lol",
+          "skillKey": "item_3140_active",
+          "skillName": "水银饰带·水银",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3142",
+      "name": "幽梦之灵",
+      "itemId": "3142",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "55攻击力\n18穿甲\n4%移动速度\n\n鬼影萦绕\n非战斗状态期间获得0移动速度。\n\n鬼魂步伐\n提供移动速度和幽灵状态，持续0秒。",
+      "relations": [
+        {
+          "equipmentKey": "item_3142",
+          "equipmentName": "幽梦之灵",
+          "gameId": "lol",
+          "skillKey": "item_3142_passive",
+          "skillName": "幽梦之灵·鬼影萦绕",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        },
+        {
+          "equipmentKey": "item_3142",
+          "equipmentName": "幽梦之灵",
+          "gameId": "lol",
+          "skillKey": "item_3142_active",
+          "skillName": "幽梦之灵·鬼魂步伐",
+          "skillStatus": "ENABLED",
+          "sortOrder": 20
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3143",
+      "name": "兰顿之兆",
+      "itemId": "3143",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "350生命值\n75护甲\n\n复原力\n所受的来自暴击的伤害降低30%。\n谦卑\n对附近敌人造成持续2秒的70%减速。",
+      "relations": [
+        {
+          "equipmentKey": "item_3143",
+          "equipmentName": "兰顿之兆",
+          "gameId": "lol",
+          "skillKey": "item_3143_passive",
+          "skillName": "兰顿之兆·复原力",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        },
+        {
+          "equipmentKey": "item_3143",
+          "equipmentName": "兰顿之兆",
+          "gameId": "lol",
+          "skillKey": "item_3143_active",
+          "skillName": "兰顿之兆·谦卑",
+          "skillStatus": "ENABLED",
+          "sortOrder": 20
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3144",
+      "name": "斥候弹弓",
+      "itemId": "3144",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "20%攻击速度\n\n靶心\n对一名敌方英雄造成伤害时会造成额外魔法伤害。\n攻击可使这个冷却时间缩减1秒。",
+      "relations": [
+        {
+          "equipmentKey": "item_3144",
+          "equipmentName": "斥候弹弓",
+          "gameId": "lol",
+          "skillKey": "item_3144_passive",
+          "skillName": "斥候弹弓·靶心",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3145",
+      "name": "海克斯科技发电机",
+      "itemId": "3145",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45法术强度\n\n转速加快\n对一名敌方英雄造成伤害时会造成额外魔法伤害。",
+      "relations": [
+        {
+          "equipmentKey": "item_3145",
+          "equipmentName": "海克斯科技发电机",
+          "gameId": "lol",
+          "skillKey": "item_3145_passive",
+          "skillName": "海克斯科技发电机·转速加快",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3146",
+      "name": "海克斯科技枪刃",
+      "itemId": "3146",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "80法术强度\n40攻击力\n10%全能吸血\n\n\n\n主动 (0秒)\n闪电弹\n震击目标敌方英雄，造成0魔法伤害和持续1.5秒的25%减速。",
+      "relations": [
+        {
+          "equipmentKey": "item_3146",
+          "equipmentName": "海克斯科技枪刃",
+          "gameId": "lol",
+          "skillKey": "item_3146_active",
+          "skillName": "海克斯科技枪刃·闪电弹",
+          "skillStatus": "ENABLED",
+          "sortOrder": 20
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3147",
+      "name": "幽魂面具",
+      "itemId": "3147",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "30法术强度\n200生命值\n\n癫狂\n在与敌方英雄作战时，每过1秒，就会造成2%额外伤害，至多至6%。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3152",
+      "name": "海克斯科技火箭腰带",
+      "itemId": "3152",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "60法术强度\n350生命值\n20技能急速\n\n超音速\n朝着目标方向冲刺，释放多颗魔法弹，魔法弹造成魔法伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3153",
+      "name": "破败王者之刃",
+      "itemId": "3153",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40攻击力\n25%攻击速度\n10%生命偷取\n\n雾之锋\n攻击造成一部分敌人当前生命值的额外物理伤害 攻击特效。\n\n抓挠之影\n攻击一位英雄3次会对其造成持续1秒的30%减速。",
+      "relations": [
+        {
+          "equipmentKey": "item_3153",
+          "equipmentName": "破败王者之刃",
+          "gameId": "lol",
+          "skillKey": "item_3153_passive",
+          "skillName": "破败王者之刃·雾之锋与抓挠之影",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3155",
+      "name": "海克斯饮魔刀",
+      "itemId": "3155",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "25攻击力\n25魔法抗性\n\n救主灵刃\n在受到将使你的生命值跌到30%以下的魔法伤害时，提供持续2.5秒的魔法伤害护盾。",
+      "relations": [
+        {
+          "equipmentKey": "item_3155",
+          "equipmentName": "海克斯饮魔刀",
+          "gameId": "lol",
+          "skillKey": "item_3155_passive",
+          "skillName": "海克斯饮魔刀·救主灵刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3156",
+      "name": "玛莫提乌斯之噬",
+      "itemId": "3156",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "60攻击力\n15技能急速\n40魔法抗性\n\n救主灵刃\n在受到将使你的生命值跌到30%以下的魔法伤害时，提供持续3秒的魔法伤害护盾和持续到战斗状态结束的10%全能吸血。",
+      "relations": [
+        {
+          "equipmentKey": "item_3156",
+          "equipmentName": "玛莫提乌斯之噬",
+          "gameId": "lol",
+          "skillKey": "item_3156_passive",
+          "skillName": "玛莫提乌斯之噬·救主灵刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3157",
+      "name": "中娅沙漏",
+      "itemId": "3157",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "105法术强度\n50护甲\n\n\n\n时间停止\n进入凝滞状态2.5秒。",
+      "relations": [
+        {
+          "equipmentKey": "item_3157",
+          "equipmentName": "中娅沙漏",
+          "gameId": "lol",
+          "skillKey": "item_3157_active",
+          "skillName": "中娅沙漏·时间停止",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3158",
+      "name": "明朗之靴",
+      "itemId": "3158",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "10技能急速\n45移动速度\n\n艾欧尼亚的洞悉\n获得10召唤师技能急速。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3161",
+      "name": "朔极之矛",
+      "itemId": "3161",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45攻击力\n450生命值\n\n龙之力量\n获得25基础技能急速。\n\n专注意志\n使用技能造成伤害会使你的英雄技能和被动伤害提升3%，持续6秒。（叠加4次）。",
+      "relations": [
+        {
+          "equipmentKey": "item_3161",
+          "equipmentName": "朔极之矛",
+          "gameId": "lol",
+          "skillKey": "item_3161_passive",
+          "skillName": "朔极之矛·龙之力量与专注意志",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3165",
+      "name": "莫雷洛秘典",
+      "itemId": "3165",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "75法术强度\n350生命值\n15技能急速\n\n重伤\n对敌方英雄造成魔法伤害时会施加持续3秒的40%重伤效果。",
+      "relations": [
+        {
+          "equipmentKey": "item_3165",
+          "equipmentName": "莫雷洛秘典",
+          "gameId": "lol",
+          "skillKey": "item_3165_passive",
+          "skillName": "莫雷洛秘典·重伤",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3168",
+      "name": "不朽之路",
+      "itemId": "3168",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "45移动速度\n4%全能吸血\n\n杀戮\n参与击杀英雄后获得0.6%全能吸血，可叠加至多10次。\n\n现在到永远\n在一半生命值以上时，造成4%额外伤害。\n\n在一半生命值以下时，获得12%额外治疗值、护盾值和回复。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3170",
+      "name": "迅速进军",
+      "itemId": "3170",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "65移动速度\n\n迅捷步\n将减速效果的效能降低25%。\n\n诺克萨斯的狂热\n获得相当于你5%移动速度的适应之力。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3171",
+      "name": "猩红明朗",
+      "itemId": "3171",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "20技能急速\n45移动速度\n\n艾欧尼亚的洞悉\n获得20召唤师技能急速。\n\n诺克萨斯的急速\n用技能增强或保护友军、用技能对敌军造成伤害或者施放召唤师技能会提供持续4秒的0移动速度。\n\n【诺克萨斯的急速】每次施放技能只能被触发1次。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3172",
+      "name": "炮铜胫甲",
+      "itemId": "3172",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "45%攻击速度\n45移动速度\n5%生命偷取",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3173",
+      "name": "带链碾碎者",
+      "itemId": "3173",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "25魔法抗性\n45移动速度\n30%韧性\n\n诺克萨斯的不懈(0秒)\n在受到来自英雄的魔法伤害后，获得一个持续5秒的0魔法护盾。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3174",
+      "name": "装甲战靴",
+      "itemId": "3174",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "35护甲\n45移动速度\n\n镀板\n使即将到来的攻击伤害降低10%。\n\n诺克萨斯的耐久 (0秒)\n在受到来自英雄的物理伤害后，获得一个持续5秒的0物理护盾。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3175",
+      "name": "灵能使之靴",
+      "itemId": "3175",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "20法术穿透\n8%法术穿透\n45移动速度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3176",
+      "name": "永远前进",
+      "itemId": "3176",
+      "scopeCategory": "特殊升级或使用后形态",
+      "description": "55移动速度\n\n无所不在\n获得一个新的主动效果：传送。\n\n虚空生物\n获得强化回城\n\n诺克萨斯的同步\n获得45移动速度和脱离战斗时8%总移动速度。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3179",
+      "name": "黯影阔剑",
+      "itemId": "3179",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "60攻击力\n18穿甲\n15技能急速\n\n夜行者\n未被敌人看见达一小段时间后，你对英雄的下一次攻击造成额外真实伤害。\n\n封锁 \n在你处在敌方侦察守卫和陷阱附近时，将其短暂显形。在显形守卫状态下，你的攻击对其造成额外伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3181",
+      "name": "破舰者",
+      "itemId": "3181",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40攻击力\n500生命值\n4%移动速度\n\n船长\n对英雄和史诗级野怪的每第五次攻击造成额外物理伤害，对建筑物造成更多伤害。\n\n登舰小组\n附近的友军攻城兵和超级士兵获得护甲和魔法抗性。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3190",
+      "name": "钢铁烈阳之匣",
+      "itemId": "3190",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "200生命值\n30护甲\n30魔法抗性\n10技能急速\n\n虔诚\n为附近友军提供290 - 360护盾值，在2.5秒里持续衰减。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3211",
+      "name": "幽魂斗篷",
+      "itemId": "3211",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "200生命值\n35魔法抗性\n100%基础生命回复",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3222",
+      "name": "米凯尔的祝福",
+      "itemId": "3222",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "250生命值\n100%基础法力回复\n12%治疗和护盾强度\n15技能急速\n\n纯化 \n移除一名友方英雄身上的所有控制类减益效果(滞空和压制除外)并为其回复100 - 250生命值。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3302",
+      "name": "界弓",
+      "itemId": "3302",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "30攻击力\n35%攻击速度\n\n晦影\n攻击造成0额外魔法伤害 攻击特效。\n\n交相\n对抗英雄时，在光明特效和黑暗特效之间轮换：附带光明特效的攻击提供持续5秒的护甲和魔抗。附带黑暗特效的攻击提供持续5秒的10%护甲穿透和法术穿透。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3504",
+      "name": "炽热香炉",
+      "itemId": "3504",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45法术强度\n10%治疗和护盾强度\n125%基础法力回复\n4%移动速度\n\n圣洁化\n对一名友方英雄施加治疗或护盾时，会使你们两个都获得持续6秒的强化，提供25%攻击速度和20魔法伤害 攻击特效。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3508",
+      "name": "夺萃之镰",
+      "itemId": "3508",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "50攻击力\n20技能急速\n25%暴击几率\n\n咒刃 \n施放技能后，你的下一次普通攻击会造成额外物理伤害并提供法力值 攻击特效。",
+      "relations": [
+        {
+          "equipmentKey": "item_3508",
+          "equipmentName": "夺萃之镰",
+          "gameId": "lol",
+          "skillKey": "item_3508_passive",
+          "skillName": "夺萃之镰·咒刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3742",
+      "name": "亡者的板甲",
+      "itemId": "3742",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "350生命值\n55护甲\n4%移动速度\n\n沉船者\n在移动时，积攒至多20额外移动速度。你的下一次攻击会释放掉已积攒的移动速度来造成额外物理伤害。\n\n永不沉没\n使所受的减速效果的效能降低15%。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3748",
+      "name": "巨型九头蛇",
+      "itemId": "3748",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40攻击力\n600生命值\n\n顺劈\n攻击附带物理伤害并对目标身后的敌人们造成物理伤害。\n刚斩\n强化你的下一次顺劈，使其造成额外物理伤害 攻击特效并对目标身后的敌人们造成额外物理伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3801",
+      "name": "晶体护腕",
+      "itemId": "3801",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "200生命值\n100%基础生命回复",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_3802",
+      "name": "遗失的章节",
+      "itemId": "3802",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40法术强度\n300法力\n10技能急速\n\n启蒙\n升级时会在3秒里持续回复共20%最大法力值。",
+      "relations": [
+        {
+          "equipmentKey": "item_3802",
+          "equipmentName": "遗失的章节",
+          "gameId": "lol",
+          "skillKey": "item_3802_passive",
+          "skillName": "遗失的章节·启蒙",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3803",
+      "name": "万世催化石",
+      "itemId": "3803",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "300生命值\n375法力\n\n永恒\n将来自英雄的10%所受伤害回复为法力值。\n施放一个技能时，治疗自身相当于25%法力消耗的生命值。",
+      "relations": [
+        {
+          "equipmentKey": "item_3803",
+          "equipmentName": "万世催化石",
+          "gameId": "lol",
+          "skillKey": "item_3803_passive",
+          "skillName": "万世催化石·永恒",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3814",
+      "name": "夜之锋刃",
+      "itemId": "3814",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "50攻击力\n15穿甲\n250生命值\n\n废除\n提供一层法术护盾来格挡下一个敌方技能。",
+      "relations": [
+        {
+          "equipmentKey": "item_3814",
+          "equipmentName": "夜之锋刃",
+          "gameId": "lol",
+          "skillKey": "item_3814_passive",
+          "skillName": "夜之锋刃·废除",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_3916",
+      "name": "湮灭宝珠",
+      "itemId": "3916",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "25法术强度\n\n重伤\n对敌方英雄造成魔法伤害时会施加持续3秒的40%重伤效果。",
+      "relations": [
+        {
+          "equipmentKey": "item_3916",
+          "equipmentName": "湮灭宝珠",
+          "gameId": "lol",
+          "skillKey": "item_3916_passive",
+          "skillName": "湮灭宝珠·重伤",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_4005",
+      "name": "帝国指令",
+      "itemId": "4005",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "60法术强度\n15技能急速\n150%基础法力回复\n\n控制\n你的带有定身效果的那些技能获得20技能急速。\n\n命令\n在定身一个敌方英雄时，为其打上标记，施加持续4秒的7%易损。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_4401",
+      "name": "自然之力",
+      "itemId": "4401",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "400生命值\n55魔法抗性\n4%移动速度\n\n坚定\n受到8次来自英雄的魔法伤害后，获得70魔法抗性和6%额外移动速度。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_4628",
+      "name": "视界专注",
+      "itemId": "4628",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "75法术强度\n25技能急速\n\n高能射击\n在对600码或更远的英雄造成技能伤害时，将其显形6秒。\n\n专注\n在高能射击触发时，显形目标1400码内的所有其它敌方英雄3秒。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_4629",
+      "name": "星界驱驰",
+      "itemId": "4629",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "70法术强度\n350生命值\n25技能急速\n4%移动速度\n\n咒舞\n对英雄造成魔法伤害或真实伤害时会提供移动速度，持续4秒。",
+      "relations": [
+        {
+          "equipmentKey": "item_4629",
+          "equipmentName": "星界驱驰",
+          "gameId": "lol",
+          "skillKey": "item_4629_passive",
+          "skillName": "星界驱驰·咒舞",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_4630",
+      "name": "枯萎珠宝",
+      "itemId": "4630",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "25法术强度\n13%法术穿透",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_4632",
+      "name": "翠绿屏障",
+      "itemId": "4632",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40法术强度\n25魔法抗性\n\n废除\n提供一层法术护盾来格挡下一个敌方技能。",
+      "relations": [
+        {
+          "equipmentKey": "item_4632",
+          "equipmentName": "翠绿屏障",
+          "gameId": "lol",
+          "skillKey": "item_4632_passive",
+          "skillName": "翠绿屏障·废除",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_4633",
+      "name": "裂隙制造者",
+      "itemId": "4633",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "70法术强度\n350生命值\n15技能急速\n\n虚空腐蚀\n在与敌方英雄作战时，每过1秒，就会造成2%额外伤害，至多至8%。在最大强度时，获得全能吸血。\n\n虚空灌注\n获得相当于你2%额外生命值的法术强度。",
+      "relations": [
+        {
+          "equipmentKey": "item_4633",
+          "equipmentName": "裂隙制造者",
+          "gameId": "lol",
+          "skillKey": "item_4633_passive",
+          "skillName": "裂隙制造者·虚空灌注与虚空腐蚀",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_4642",
+      "name": "班德尔玻璃镜",
+      "itemId": "4642",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "20法术强度\n100%基础法力回复\n10技能急速",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_4645",
+      "name": "影焰",
+      "itemId": "4645",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "110法术强度\n15法术穿透\n\n余烬绽放\n魔法伤害和真实伤害会暴击低于40%生命值的敌人，造成20%提升伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_4646",
+      "name": "风暴狂涌",
+      "itemId": "4646",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "90法术强度\n15法术穿透\n6%移动速度\n\n风暴掠袭 \n在2.5秒内对一个英雄造成相当于其25%最大生命值的伤害时，对其施加风啸。\n\n风啸\n在2秒后，造成魔法伤害。如果目标在风啸触发前阵亡，那么它会对附近的敌人们造成伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6333",
+      "name": "死亡之舞",
+      "itemId": "6333",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "60攻击力\n50护甲\n15技能急速\n\n无视痛苦\n所受的一部分伤害会以流血形式在3秒里持续扣除。\n\n蔑视\n如果一名在过去3秒内曾被你造成过伤害的英雄阵亡，会净化无视痛苦的剩余伤害，并在2秒里持续为你回复生命值。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6609",
+      "name": "炼金朋克链锯剑",
+      "itemId": "6609",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45攻击力\n450生命值\n15技能急速\n\n劈削\n对敌方英雄造成物理伤害时会施加40%重伤效果，持续3秒。",
+      "relations": [
+        {
+          "equipmentKey": "item_6609",
+          "equipmentName": "炼金朋克链锯剑",
+          "gameId": "lol",
+          "skillKey": "item_6609_passive",
+          "skillName": "炼金朋克链锯剑·劈削",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_6610",
+      "name": "焚天",
+      "itemId": "6610",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40攻击力\n400生命值\n10技能急速\n\n光盾打击\n你对一个英雄打出的第一次攻击会暴击并回复生命值。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6616",
+      "name": "流水法杖",
+      "itemId": "6616",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "35法术强度\n10%治疗和护盾强度\n125%基础法力回复\n10技能急速\n\n湍流\n当你为一名友军提供治疗或护盾效果时，你和你的目标都会获得持续6秒的40法术强度和15技能急速。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6617",
+      "name": "月石再生器",
+      "itemId": "6617",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "25法术强度\n200生命值\n20技能急速\n125%基础法力回复\n\n星光恩典\n对一名友军的治疗或护盾会连锁至另一名友方英雄(你自己除外)，提供相当于 30%原治疗值的治疗效果或 35%原护盾值的护盾效果。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6620",
+      "name": "海力亚的回响",
+      "itemId": "6620",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "35法术强度\n200生命值\n20技能急速\n125%基础法力回复\n\n灵魂吸取\n获得【灵魂充能】，数额相当于对英雄的30%折前伤害值。为一位友军提供治疗或护盾时，会消耗所有灵魂充能来回复生命值。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6621",
+      "name": "黎明核心",
+      "itemId": "6621",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45法术强度\n16%治疗和护盾强度\n100%基础法力回复\n\n最初之光\n每100%基础法力回复获得2%治疗和护盾强度和10法术强度。",
+      "relations": [
+        {
+          "equipmentKey": "item_6621",
+          "equipmentName": "黎明核心",
+          "gameId": "lol",
+          "skillKey": "item_6621_passive",
+          "skillName": "黎明核心·最初之光",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_6631",
+      "name": "挺进破坏者",
+      "itemId": "6631",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40攻击力\n25%攻击速度\n450生命值\n\n顺劈\n攻击会对附近的敌人们造成物理伤害。\n破阵冲击波\n对附近的敌人们造成物理伤害和35%减速。\n每命中一个英雄就会获得持续衰减的35%移动速度，持续3秒。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6653",
+      "name": "兰德里的折磨",
+      "itemId": "6653",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "60法术强度\n300生命值\n\n折磨\n伤害型技能会灼烧敌人，每秒造成2%最大生命值的魔法伤害，持续3秒。\n\n受苦\n在与敌方英雄作战时，每过1秒，就会造成2%额外伤害，至多至6%。",
+      "relations": [
+        {
+          "equipmentKey": "item_6653",
+          "equipmentName": "兰德里的折磨",
+          "gameId": "lol",
+          "skillKey": "item_6653_passive",
+          "skillName": "兰德里的折磨·折磨与受苦",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_6655",
+      "name": "卢登的回声",
+      "itemId": "6655",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "100法术强度\n600法力\n10技能急速\n\n回声\n伤害型技能会发射6道回声，对目标和附近的敌人造成额外魔法伤害。剩余回声会对主要目标发射，造成20%伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6657",
+      "name": "时光之杖",
+      "itemId": "6657",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45法术强度\n350生命值\n500法力\n\n时无限\n这件装备每60秒获得10生命值、30法力值和3法术强度，至多至10层。在达到最大层数时，还会使英雄等级提升1级。\n\n永恒\n承受来自英雄的伤害时，回复相当于10%伤害值的法力值。\n施放一个技能时，为自身治疗相当于25%法力消耗的生命值。",
+      "relations": [
+        {
+          "equipmentKey": "item_6657",
+          "equipmentName": "时光之杖",
+          "gameId": "lol",
+          "skillKey": "item_6657_passive",
+          "skillName": "时光之杖·时无限与永恒",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_6660",
+      "name": "斑比的熔渣",
+      "itemId": "6660",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "150生命值\n5技能急速\n\n献祭\n承受或造成伤害后，对附近敌人造成魔法伤害，持续3秒。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6662",
+      "name": "冰脉护手",
+      "itemId": "6662",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "300生命值\n50护甲\n15技能急速\n\n咒刃\n在施放一个技能后，你的下一次攻击造成额外物理伤害攻击特效并生成一个持续2秒的冰冷地带，这个地带可造成减速。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6664",
+      "name": "璀璨回响",
+      "itemId": "6664",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "400生命值\n40魔法抗性\n10技能急速\n100%基础生命回复\n\n献祭\n承受或造成伤害后，每秒对附近敌人造成魔法伤害，持续3秒。\n\n荒弃\n击杀一个敌人时，会在其周围造成魔法伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6665",
+      "name": "千变者贾修",
+      "itemId": "6665",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "350生命值\n45护甲\n45魔法抗性\n\n虚空生物的复原力\n在与英雄战斗5秒后，使你的额外护甲和魔法抗性提升30%，持续到战斗结束为止。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6670",
+      "name": "正午箭袋",
+      "itemId": "6670",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "15攻击力\n20%暴击几率",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6672",
+      "name": "海妖杀手",
+      "itemId": "6672",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45攻击力\n40%攻击速度\n4%移动速度\n\n放倒它\n每第三次攻击造成额外物理伤害攻击特效，这个伤害会基于目标的已损失生命值获得提升。",
+      "relations": [
+        {
+          "equipmentKey": "item_6672",
+          "equipmentName": "海妖杀手",
+          "gameId": "lol",
+          "skillKey": "item_6672_passive",
+          "skillName": "海妖杀手·放倒它",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_6673",
+      "name": "不朽盾弓",
+      "itemId": "6673",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "55攻击力\n25%暴击几率\n\n救主灵刃\n在受到将使你的生命值跌到30%以下的伤害时，提供持续3秒的护盾值。",
+      "relations": [
+        {
+          "equipmentKey": "item_6673",
+          "equipmentName": "不朽盾弓",
+          "gameId": "lol",
+          "skillKey": "item_6673_passive",
+          "skillName": "不朽盾弓·救主灵刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_6675",
+      "name": "纳沃利烁刃",
+      "itemId": "6675",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "40%攻击速度\n25%暴击几率\n4%移动速度\n\n超凡入圣\n攻击会使各基础技能的冷却时间缩短15%剩余冷却时间。",
+      "relations": [
+        {
+          "equipmentKey": "item_6675",
+          "equipmentName": "纳沃利烁刃",
+          "gameId": "lol",
+          "skillKey": "item_6675_passive",
+          "skillName": "纳沃利烁刃·超凡入圣",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_6676",
+      "name": "收集者",
+      "itemId": "6676",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "50攻击力\n10穿甲\n25%暴击几率\n\n死\n你的伤害会处决低于5%生命值的英雄。\n\n税\n击杀英雄时提供25额外金币。",
+      "relations": [
+        {
+          "equipmentKey": "item_6676",
+          "equipmentName": "收集者",
+          "gameId": "lol",
+          "skillKey": "item_6676_passive",
+          "skillName": "收集者·死",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_6690",
+      "name": "剑翎",
+      "itemId": "6690",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "15攻击力\n4%移动速度",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6692",
+      "name": "星蚀",
+      "itemId": "6692",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "60攻击力\n15技能急速\n\n永升之月\n在2秒内用2次独立的攻击或技能命中一名英雄时，会为你提供持续2秒的护盾值。",
+      "relations": [
+        {
+          "equipmentKey": "item_6692",
+          "equipmentName": "星蚀",
+          "gameId": "lol",
+          "skillKey": "item_6692_passive",
+          "skillName": "星蚀·永升之月",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_6694",
+      "name": "赛瑞尔达的怨恨",
+      "itemId": "6694",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "45攻击力\n35%护甲穿透\n15技能急速\n\n严寒\n伤害型技能会对低于50%生命值的敌人造成持续1秒的30%减速。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6695",
+      "name": "巨蛇之牙",
+      "itemId": "6695",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "55攻击力\n15穿甲\n\n掠盾者\n对一名敌方英雄造成伤害时，会使其获得的护盾值降低0%，持续3秒。\n如果该敌方英雄尚未被掠盾者影响，会使其身上的所有护盾降低0%。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6696",
+      "name": "公理圆弧",
+      "itemId": "6696",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "55攻击力\n18穿甲\n20技能急速\n\n涌动\n在你对一名敌方英雄造成伤害后，如果该英雄在3秒内阵亡，则会返还你的终极技能的一些总冷却时间。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6697",
+      "name": "狂妄",
+      "itemId": "6697",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "55攻击力\n18穿甲\n10技能急速\n\n盛名\n如果一名在过去3秒内曾被你造成过伤害的英雄阵亡，则获得持续90秒的12+3x已击杀英雄数的攻击力。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6698",
+      "name": "亵渎九头蛇",
+      "itemId": "6698",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "55攻击力\n18穿甲\n10技能急速\n\n顺劈\n攻击会对附近的敌人们造成物理伤害。\n邪斩\n对你附近的敌人们造成物理伤害。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_6699",
+      "name": "电震涡流剑",
+      "itemId": "6699",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "55攻击力\n10穿甲\n10技能急速\n\n通电\n用技能对一名敌人造成伤害会触发盈能(充能完毕时)。\n\n苍穹\n你的盈能攻击造成相当于%目标当前生命值的额外物理伤害，并为你提供持续4秒的 额外穿甲。",
+      "relations": []
+    },
+    {
+      "equipmentKey": "item_8010",
+      "name": "放血者的诅咒",
+      "itemId": "8010",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "65法术强度\n400生命值\n15技能急速\n\n恶劣衰朽\n用技能或被动对英雄造成魔法伤害时，会对其造成持续6秒的7.5%魔法抗性削减。(可叠加4次)。",
+      "relations": [
+        {
+          "equipmentKey": "item_8010",
+          "equipmentName": "放血者的诅咒",
+          "gameId": "lol",
+          "skillKey": "item_8010_passive",
+          "skillName": "放血者的诅咒·恶劣衰朽",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "equipmentKey": "item_8020",
+      "name": "深渊面具",
+      "itemId": "8020",
+      "scopeCategory": "可购买普通装备候选",
+      "description": "350生命值\n45魔法抗性\n15技能急速\n\n损毁\n使附近的敌方英雄承受12%额外魔法伤害。",
+      "relations": []
+    }
+  ],
+  "summary": {
+    "equipment": 198,
+    "withRelations": 72,
+    "withoutRelations": 126,
+    "withoutRelationsAndNotPure": [
+      {
+        "key": "item_1120",
+        "id": "1120",
+        "name": "多兰之盔"
+      },
+      {
+        "key": "item_2010",
+        "id": "2010",
+        "name": "永续意志夹心饼干"
+      },
+      {
+        "key": "item_2065",
+        "id": "2065",
+        "name": "舒瑞娅的战歌"
+      },
+      {
+        "key": "item_2150",
+        "id": "2150",
+        "name": "技能合剂"
+      },
+      {
+        "key": "item_2152",
+        "id": "2152",
+        "name": "原力合剂"
+      },
+      {
+        "key": "item_2421",
+        "id": "2421",
+        "name": "碎裂的护臂"
+      },
+      {
+        "key": "item_2422",
+        "id": "2422",
+        "name": "有点神奇之鞋"
+      },
+      {
+        "key": "item_2503",
+        "id": "2503",
+        "name": "黯炎火炬"
+      },
+      {
+        "key": "item_2508",
+        "id": "2508",
+        "name": "命定灰烬"
+      },
+      {
+        "key": "item_2510",
+        "id": "2510",
+        "name": "黄昏与黎明"
+      },
+      {
+        "key": "item_2512",
+        "id": "2512",
+        "name": "猎魔人弩箭"
+      },
+      {
+        "key": "item_2517",
+        "id": "2517",
+        "name": "无穷饥渴"
+      },
+      {
+        "key": "item_2520",
+        "id": "2520",
+        "name": "破垒者"
+      },
+      {
+        "key": "item_2522",
+        "id": "2522",
+        "name": "实现器"
+      },
+      {
+        "key": "item_2523",
+        "id": "2523",
+        "name": "海克斯镜片 C44"
+      },
+      {
+        "key": "item_2524",
+        "id": "2524",
+        "name": "班德尔音管"
+      },
+      {
+        "key": "item_2525",
+        "id": "2525",
+        "name": "原生质护带"
+      },
+      {
+        "key": "item_2526",
+        "id": "2526",
+        "name": "耳语头环"
+      },
+      {
+        "key": "item_2530",
+        "id": "2530",
+        "name": "歌之权冠"
+      },
+      {
+        "key": "item_3009",
+        "id": "3009",
+        "name": "轻灵之靴"
+      },
+      {
+        "key": "item_3036",
+        "id": "3036",
+        "name": "多米尼克领主的致意"
+      },
+      {
+        "key": "item_3040",
+        "id": "3040",
+        "name": "炽天使之拥"
+      },
+      {
+        "key": "item_3042",
+        "id": "3042",
+        "name": "魔切"
+      },
+      {
+        "key": "item_3046",
+        "id": "3046",
+        "name": "幻影之舞"
+      },
+      {
+        "key": "item_3073",
+        "id": "3073",
+        "name": "海克斯注力刚壁"
+      },
+      {
+        "key": "item_3074",
+        "id": "3074",
+        "name": "贪欲九头蛇"
+      },
+      {
+        "key": "item_3083",
+        "id": "3083",
+        "name": "狂徒铠甲"
+      },
+      {
+        "key": "item_3085",
+        "id": "3085",
+        "name": "卢安娜的飓风"
+      },
+      {
+        "key": "item_3087",
+        "id": "3087",
+        "name": "斯塔缇克电刃"
+      },
+      {
+        "key": "item_3094",
+        "id": "3094",
+        "name": "疾射火炮"
+      },
+      {
+        "key": "item_3095",
+        "id": "3095",
+        "name": "岚切"
+      },
+      {
+        "key": "item_3107",
+        "id": "3107",
+        "name": "救赎"
+      },
+      {
+        "key": "item_3109",
+        "id": "3109",
+        "name": "骑士之誓"
+      },
+      {
+        "key": "item_3118",
+        "id": "3118",
+        "name": "残疫"
+      },
+      {
+        "key": "item_3119",
+        "id": "3119",
+        "name": "凛冬之临"
+      },
+      {
+        "key": "item_3121",
+        "id": "3121",
+        "name": "末日寒冬"
+      },
+      {
+        "key": "item_3137",
+        "id": "3137",
+        "name": "蜕生"
+      },
+      {
+        "key": "item_3147",
+        "id": "3147",
+        "name": "幽魂面具"
+      },
+      {
+        "key": "item_3152",
+        "id": "3152",
+        "name": "海克斯科技火箭腰带"
+      },
+      {
+        "key": "item_3158",
+        "id": "3158",
+        "name": "明朗之靴"
+      },
+      {
+        "key": "item_3168",
+        "id": "3168",
+        "name": "不朽之路"
+      },
+      {
+        "key": "item_3170",
+        "id": "3170",
+        "name": "迅速进军"
+      },
+      {
+        "key": "item_3171",
+        "id": "3171",
+        "name": "猩红明朗"
+      },
+      {
+        "key": "item_3172",
+        "id": "3172",
+        "name": "炮铜胫甲"
+      },
+      {
+        "key": "item_3173",
+        "id": "3173",
+        "name": "带链碾碎者"
+      },
+      {
+        "key": "item_3174",
+        "id": "3174",
+        "name": "装甲战靴"
+      },
+      {
+        "key": "item_3175",
+        "id": "3175",
+        "name": "灵能使之靴"
+      },
+      {
+        "key": "item_3176",
+        "id": "3176",
+        "name": "永远前进"
+      },
+      {
+        "key": "item_3179",
+        "id": "3179",
+        "name": "黯影阔剑"
+      },
+      {
+        "key": "item_3181",
+        "id": "3181",
+        "name": "破舰者"
+      },
+      {
+        "key": "item_3190",
+        "id": "3190",
+        "name": "钢铁烈阳之匣"
+      },
+      {
+        "key": "item_3222",
+        "id": "3222",
+        "name": "米凯尔的祝福"
+      },
+      {
+        "key": "item_3302",
+        "id": "3302",
+        "name": "界弓"
+      },
+      {
+        "key": "item_3504",
+        "id": "3504",
+        "name": "炽热香炉"
+      },
+      {
+        "key": "item_3742",
+        "id": "3742",
+        "name": "亡者的板甲"
+      },
+      {
+        "key": "item_3748",
+        "id": "3748",
+        "name": "巨型九头蛇"
+      },
+      {
+        "key": "item_4005",
+        "id": "4005",
+        "name": "帝国指令"
+      },
+      {
+        "key": "item_4401",
+        "id": "4401",
+        "name": "自然之力"
+      },
+      {
+        "key": "item_4628",
+        "id": "4628",
+        "name": "视界专注"
+      },
+      {
+        "key": "item_4645",
+        "id": "4645",
+        "name": "影焰"
+      },
+      {
+        "key": "item_4646",
+        "id": "4646",
+        "name": "风暴狂涌"
+      },
+      {
+        "key": "item_6333",
+        "id": "6333",
+        "name": "死亡之舞"
+      },
+      {
+        "key": "item_6610",
+        "id": "6610",
+        "name": "焚天"
+      },
+      {
+        "key": "item_6616",
+        "id": "6616",
+        "name": "流水法杖"
+      },
+      {
+        "key": "item_6617",
+        "id": "6617",
+        "name": "月石再生器"
+      },
+      {
+        "key": "item_6620",
+        "id": "6620",
+        "name": "海力亚的回响"
+      },
+      {
+        "key": "item_6631",
+        "id": "6631",
+        "name": "挺进破坏者"
+      },
+      {
+        "key": "item_6655",
+        "id": "6655",
+        "name": "卢登的回声"
+      },
+      {
+        "key": "item_6660",
+        "id": "6660",
+        "name": "斑比的熔渣"
+      },
+      {
+        "key": "item_6662",
+        "id": "6662",
+        "name": "冰脉护手"
+      },
+      {
+        "key": "item_6664",
+        "id": "6664",
+        "name": "璀璨回响"
+      },
+      {
+        "key": "item_6665",
+        "id": "6665",
+        "name": "千变者贾修"
+      },
+      {
+        "key": "item_6694",
+        "id": "6694",
+        "name": "赛瑞尔达的怨恨"
+      },
+      {
+        "key": "item_6695",
+        "id": "6695",
+        "name": "巨蛇之牙"
+      },
+      {
+        "key": "item_6696",
+        "id": "6696",
+        "name": "公理圆弧"
+      },
+      {
+        "key": "item_6697",
+        "id": "6697",
+        "name": "狂妄"
+      },
+      {
+        "key": "item_6698",
+        "id": "6698",
+        "name": "亵渎九头蛇"
+      },
+      {
+        "key": "item_6699",
+        "id": "6699",
+        "name": "电震涡流剑"
+      },
+      {
+        "key": "item_8020",
+        "id": "8020",
+        "name": "深渊面具"
+      }
+    ]
+  }
+}
