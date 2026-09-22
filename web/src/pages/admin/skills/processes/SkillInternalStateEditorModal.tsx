@@ -25,6 +25,16 @@ import {
   updateSkillInternalState
 } from '../../../../services/skillInternalStateClient';
 import type { Skill } from '../../../../types/skill';
+import type { AuthoringLocation } from '../../../../types/authoringLocation';
+import { resolveAuthoringLocation } from '../authoringLocation';
+import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import {
+  AUTHORING_UNSAVED_CONFIRM,
+  authoringLocateMessage,
+  keyedChildKey,
+  lastFieldName,
+  shouldDegradeUnsupportedAnchor
+} from '../authoringFocus';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type {
   SkillInternalState,
@@ -72,6 +82,7 @@ type SkillInternalStateEditorModalProps = {
   onDirtyChange: (dirty: boolean) => void;
   catalogRevision: number;
   onOpenParameterFormula?: () => void;
+  authoringLocation?: AuthoringLocation | null;
 };
 
 function titleFor(mode: SkillInternalStateEditorMode): string {
@@ -109,7 +120,8 @@ export function SkillInternalStateEditorModal({
   onSkillMissing,
   onDirtyChange,
   catalogRevision,
-  onOpenParameterFormula
+  onOpenParameterFormula,
+  authoringLocation
 }: SkillInternalStateEditorModalProps) {
   const [draft, setDraft] = useState<SkillInternalStateDraft>(createEmptyInternalStateDraft());
   const [baseline, setBaseline] = useState<SkillInternalStateDraft>(createEmptyInternalStateDraft());
@@ -124,6 +136,9 @@ export function SkillInternalStateEditorModal({
   const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
   const { parameters, parametersLoadState } = useNumericParameters(apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible, catalogRevision);
   const [formulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [locateNotice, setLocateNotice] = useState<string | null>(null);
+  const [focusField, setFocusField] = useState<string | null>(null);
+  const [focusedOptionKey, setFocusedOptionKey] = useState<string | null>(null);
   const detailSerial = useRef(0);
   const formulaSerial = useRef(0);
   const readOnly = mode === 'view';
@@ -151,6 +166,9 @@ export function SkillInternalStateEditorModal({
     setDetailReady(mode === 'create');
     setFormulas([]);
     setFormulasLoadState(undefined);
+    setLocateNotice(null);
+    setFocusField(null);
+    setFocusedOptionKey(null);
   }, [mode]);
 
   const loadFormulas = useCallback(async () => {
@@ -222,6 +240,30 @@ export function SkillInternalStateEditorModal({
       setBaseline(next);
       setDetailReady(true);
       onDirtyChange(false);
+      if (authoringLocation) {
+        const resolved = resolveAuthoringLocation(authoringLocation, result.data);
+        const unsupported = shouldDegradeUnsupportedAnchor(authoringLocation.editor, resolved.matchedSegments, resolved.precision);
+        const optionKey = keyedChildKey(resolved.matchedSegments, 'options');
+        const field = lastFieldName(resolved.matchedSegments);
+        if (resolved.precision !== 'FIELD' || unsupported || resolved.reason) {
+          setLocateNotice(authoringLocateMessage({
+            originalFieldPath: resolved.originalFieldPath,
+            reason: resolved.reason,
+            unsupportedAnchor: unsupported,
+            reportChanged: resolved.reportChanged
+          }));
+          setFocusField(null);
+        } else {
+          setLocateNotice(null);
+          setFocusField(field);
+        }
+        if (optionKey && !next.options.some((item) => item.optionKey === optionKey)) {
+          setLocateNotice(authoringLocateMessage({ originalFieldPath: resolved.originalFieldPath, reason: 'MISSING_KEY' }));
+          setFocusedOptionKey(null);
+        } else {
+          setFocusedOptionKey(optionKey ?? null);
+        }
+      }
     } catch (error) {
       if (detailSerial.current !== serial) return;
       if (isSkillNotFound(error)) {
@@ -230,6 +272,12 @@ export function SkillInternalStateEditorModal({
       }
       setDetailReady(false);
       setLoadError(getErrorMessage(error));
+      if (authoringLocation) {
+        setLocateNotice(authoringLocateMessage({
+          originalFieldPath: authoringLocation.fieldPath,
+          reason: 'OBJECT_MISSING'
+        }));
+      }
     } finally {
       if (detailSerial.current === serial) setLoadingDetail(false);
     }
@@ -242,7 +290,8 @@ export function SkillInternalStateEditorModal({
     onSkillMissing,
     selectedGameId,
     skill.skillKey,
-    visible
+    visible,
+    authoringLocation
   ]);
 
   useEffect(() => {
@@ -283,6 +332,8 @@ export function SkillInternalStateEditorModal({
 
   const close = () => {
     if (closeBlocked) return;
+    const dirty = JSON.stringify(draft) !== JSON.stringify(baseline);
+    if (!readOnly && dirty && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
     onDirtyChange(false);
     onClose();
   };
@@ -362,6 +413,10 @@ export function SkillInternalStateEditorModal({
     {
       title: '选项标识',
       render: (_value, row: { item: SkillInternalStateModeOptionDraft; index: number }) => (
+        <AuthoringFieldAnchor
+          field="optionKey"
+          active={focusedOptionKey === row.item.optionKey && (focusField === 'optionKey' || focusField === null)}
+        >
         <Input
           aria-label={`选项标识 ${row.index + 1}`}
           value={row.item.optionKey}
@@ -371,11 +426,16 @@ export function SkillInternalStateEditorModal({
             itemIndex === row.index ? { ...item, optionKey: value } : item
           )))}
         />
+        </AuthoringFieldAnchor>
       )
     },
     {
       title: '名称',
       render: (_value, row: { item: SkillInternalStateModeOptionDraft; index: number }) => (
+        <AuthoringFieldAnchor
+          field="name"
+          active={focusedOptionKey === row.item.optionKey && focusField === 'name'}
+        >
         <Input
           aria-label={`选项名称 ${row.index + 1}`}
           value={row.item.name}
@@ -385,6 +445,7 @@ export function SkillInternalStateEditorModal({
             itemIndex === row.index ? { ...item, name: value } : item
           )))}
         />
+        </AuthoringFieldAnchor>
       )
     },
     {
@@ -473,6 +534,7 @@ export function SkillInternalStateEditorModal({
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
         {saveError ? <Alert type="error" content={saveError} /> : null}
+        {locateNotice ? <Alert type="warning" content={locateNotice} /> : null}
         {loadError ? (
           <Alert
             type="error"

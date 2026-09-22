@@ -10,7 +10,9 @@ import {
   Table
 } from '@arco-design/web-react';
 import type { TableColumnProps } from '@arco-design/web-react';
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useEffect, useRef, useState } from 'react';
+import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
 import type { Attribute } from '../../../../types/attribute';
 import type { SkillEffect, SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
@@ -88,6 +90,9 @@ type SkillTriggerActionEditorModalProps = {
   onConfirm: (draft: SkillTriggerActionDraft) => void;
   onTargetChange?: (draft: SkillTriggerActionDraft) => void | Promise<void>;
   onEnsureEffect?: (effectKey: string) => Promise<SkillEffect | null>;
+  focusField?: string | null;
+  locateMessage?: string | null;
+  focusBindingKey?: string | null;
 };
 
 function titleFor(mode: SkillTriggerActionEditorMode): string {
@@ -121,7 +126,10 @@ export function SkillTriggerActionEditorModal({
   onClose,
   onConfirm,
   onTargetChange,
-  onEnsureEffect
+  onEnsureEffect,
+  focusField = null,
+  locateMessage = null,
+  focusBindingKey = null
 }: SkillTriggerActionEditorModalProps) {
   const [current, setCurrent] = useState<SkillTriggerActionDraft>(
     draft ?? createEmptyActionDraft(existingKeys)
@@ -129,6 +137,7 @@ export function SkillTriggerActionEditorModal({
   const [bindingEditor, setBindingEditor] = useState<BindingEditorState | null>(null);
   const [localError, setLocalError] = useState<string | null>(null);
   const [resolvingTarget, setResolvingTarget] = useState(false);
+  const consumedBindingFocus = useRef<string | null>(null);
   const targetOptions = targetContextOptionsForEvent(eventSource.eventType);
   const selectedEffect = current.actionType === 'EXECUTE_EFFECT'
     ? effectDetails.get(current.detail.effectKey) ?? null
@@ -162,7 +171,16 @@ export function SkillTriggerActionEditorModal({
     setBindingEditor(null);
     setLocalError(null);
     setResolvingTarget(false);
+    consumedBindingFocus.current = null;
   }, [draft, visible]);
+
+  useEffect(() => {
+    if (!visible || !focusBindingKey || consumedBindingFocus.current === focusBindingKey) return;
+    const index = current.runtimeInputBindings.findIndex((item) => item.bindingKey === focusBindingKey);
+    if (index < 0) return;
+    consumedBindingFocus.current = focusBindingKey;
+    setBindingEditor({ mode: 'edit', index, binding: current.runtimeInputBindings[index]! });
+  }, [current.runtimeInputBindings, focusBindingKey, visible]);
 
   const errorFor = (suffix: string): string | undefined => (
     fieldErrors.find((item) => item.path.endsWith(suffix))?.message
@@ -255,17 +273,24 @@ export function SkillTriggerActionEditorModal({
     }
   ];
 
+  const close = () => {
+    if (bindingEditor) return;
+    const original = draft ?? createEmptyActionDraft(existingKeys);
+    if (JSON.stringify(current) !== JSON.stringify(original) && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
+    onClose();
+  };
+
   return (
     <>
       <Modal
         title={titleFor(mode)}
         visible={visible}
         maskClosable={!bindingEditor}
-        onCancel={onClose}
+        onCancel={close}
         style={{ width: 1080 }}
         footer={
           <Space>
-            <Button onClick={onClose} disabled={Boolean(bindingEditor)}>取消</Button>
+            <Button onClick={close} disabled={Boolean(bindingEditor)}>取消</Button>
             <Button type="primary" disabled={disabled || Boolean(bindingEditor) || resolvingTarget} onClick={confirm}>确定</Button>
           </Space>
         }
@@ -276,9 +301,11 @@ export function SkillTriggerActionEditorModal({
               ? <Button size="mini" loading={resolvingTarget} disabled={disabled}
                   onClick={() => void retrySelectedEffect()}>重试效果详情</Button>
               : undefined} /> : null}
+          {locateMessage ? <Alert type="warning" content={locateMessage} /> : null}
           <Alert type="info" content={actionSummary(current)} />
           <Form layout="vertical">
             <Form.Item label="动作种类" required>
+              <AuthoringFieldAnchor field="actionType" active={focusField === 'actionType'}>
               <Select
                 aria-label="动作种类"
                 value={current.actionType}
@@ -289,6 +316,7 @@ export function SkillTriggerActionEditorModal({
                 }))}
                 onChange={(value) => patchType(value as SkillTriggerActionType)}
               />
+              </AuthoringFieldAnchor>
             </Form.Item>
             <Form.Item
               label="动作标识"
@@ -296,6 +324,7 @@ export function SkillTriggerActionEditorModal({
               validateStatus={errorFor('actionKey') ? 'error' : undefined}
               help={errorFor('actionKey')}
             >
+              <AuthoringFieldAnchor field="actionKey" active={focusField === 'actionKey'}>
               <Input
                 aria-label="动作标识"
                 value={current.actionKey}
@@ -303,6 +332,7 @@ export function SkillTriggerActionEditorModal({
                 maxLength={64}
                 onChange={(value) => setCurrent({ ...current, actionKey: value })}
               />
+              </AuthoringFieldAnchor>
             </Form.Item>
             <Form.Item label="动作名称" required>
               <Input
@@ -654,6 +684,12 @@ export function SkillTriggerActionEditorModal({
         disabled={disabled}
         onClose={() => setBindingEditor(null)}
         onEnsureEffect={onEnsureEffect}
+        focusField={bindingEditor && focusBindingKey && bindingEditor.binding?.bindingKey === focusBindingKey
+          ? focusField
+          : null}
+        locateMessage={bindingEditor && focusBindingKey && bindingEditor.binding?.bindingKey === focusBindingKey
+          ? locateMessage
+          : null}
         onConfirm={(nextBinding) => {
           if (bindingEditor?.mode === 'edit' && bindingEditor.index !== null) {
             setCurrent({

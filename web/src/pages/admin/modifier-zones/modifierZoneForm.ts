@@ -1,8 +1,11 @@
 import { ApiRequestError } from '../../../services/apiClient';
-import type {
-  ModifierZoneApplicationStage,
-  ModifierZoneCalculationMode,
-  ModifierZoneDomain
+import {
+  allowedModifierZoneApplicationStages,
+  allowedModifierZoneCalculationModes,
+  isLegalModifierZoneCombination,
+  type ModifierZoneApplicationStage,
+  type ModifierZoneCalculationMode,
+  type ModifierZoneDomain
 } from '../../../types/modifierZone';
 
 export type ModifierZoneDraft = {
@@ -26,7 +29,8 @@ export const DOMAIN_LABELS: Record<ModifierZoneDomain, string> = {
 
 export const CALCULATION_MODE_LABELS: Record<ModifierZoneCalculationMode, string> = {
   FLAT_ADD: '固定值加算',
-  RATIO_ADD: '比例加算'
+  RATIO_ADD: '比例加算',
+  RATIO_MAX: '比例减少取强'
 };
 
 export const APPLICATION_STAGE_LABELS: Record<ModifierZoneApplicationStage, string> = {
@@ -39,22 +43,17 @@ export const APPLICATION_STAGE_LABELS: Record<ModifierZoneApplicationStage, stri
 };
 
 export function allowedCalculationModes(domain: ModifierZoneDomain | ''): ModifierZoneCalculationMode[] {
-  return domain === 'ATTRIBUTE' ? ['FLAT_ADD', 'RATIO_ADD'] : domain ? ['RATIO_ADD'] : [];
+  return allowedModifierZoneCalculationModes(domain);
 }
 
 export function allowedApplicationStages(
   domain: ModifierZoneDomain | '',
   mode: ModifierZoneCalculationMode | ''
 ): ModifierZoneApplicationStage[] {
-  if (domain === 'ATTRIBUTE' && mode === 'FLAT_ADD') return ['ATTRIBUTE_FLAT'];
-  if (domain === 'ATTRIBUTE' && mode === 'RATIO_ADD') return ['ATTRIBUTE_PERCENT'];
-  if (domain === 'DAMAGE' && mode === 'RATIO_ADD') {
-    return ['DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'];
-  }
-  if (domain === 'HEALING' && mode === 'RATIO_ADD') return ['HEALING_RESULT'];
-  if (domain === 'SHIELD' && mode === 'RATIO_ADD') return ['SHIELD_RESULT'];
-  return [];
+  return allowedModifierZoneApplicationStages(domain, mode);
 }
+
+export { isLegalModifierZoneCombination };
 
 export function validateModifierZoneDraft(
   draft: ModifierZoneDraft,
@@ -72,9 +71,16 @@ export function validateModifierZoneDraft(
   else if (draft.name.trim().length > 100) errors.name = '乘区名称不能超过100个字符';
   if (!draft.domain) errors.domain = '作用域不能为空';
   if (!draft.calculationMode) errors.calculationMode = '计算方式不能为空';
+  else if (draft.domain && !allowedCalculationModes(draft.domain).includes(draft.calculationMode)) {
+    errors.calculationMode = '作用域、计算方式和应用阶段组合不合法';
+  }
   if (!draft.applicationStage) errors.applicationStage = '应用阶段不能为空';
-  else if (!allowedApplicationStages(draft.domain, draft.calculationMode).includes(draft.applicationStage)) {
-    errors.applicationStage = '作用域、计算方式和应用阶段组合不合法';
+  else if (!isLegalModifierZoneCombination(draft.domain, draft.calculationMode, draft.applicationStage)) {
+    if (draft.calculationMode === 'RATIO_MAX') {
+      errors.calculationMode = '作用域、计算方式和应用阶段组合不合法';
+    } else {
+      errors.applicationStage = '作用域、计算方式和应用阶段组合不合法';
+    }
   }
   if (draft.description.trim().length > 2000) errors.description = '说明不能超过2000个字符';
   const sortOrder = Number(draft.sortOrder.trim());

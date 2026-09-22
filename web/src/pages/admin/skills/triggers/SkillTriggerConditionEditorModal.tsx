@@ -6,6 +6,8 @@ import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerTargetCategory } from
 import { numericValueError } from '../numericValueForm';
 import type { SkillParameter } from '../../../../types/skillParameter';
 import { NumericValueField } from '../NumericValueField';
+import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
 import {
   Alert,
   Button,
@@ -90,6 +92,8 @@ type SkillTriggerConditionEditorModalProps = {
   disabled?: boolean;
   onClose: () => void;
   onConfirm: (draft: SkillTriggerConditionDraft) => void;
+  focusField?: string | null;
+  locateMessage?: string | null;
 };
 
 function titleFor(mode: SkillTriggerConditionEditorMode): string {
@@ -120,7 +124,9 @@ export function SkillTriggerConditionEditorModal({
   fieldErrors,
   disabled,
   onClose,
-  onConfirm
+  onConfirm,
+  focusField = null,
+  locateMessage = null
 }: SkillTriggerConditionEditorModalProps) {
   const [current, setCurrent] = useState<SkillTriggerConditionDraft>(
     draft ?? createEmptyConditionDraft(existingKeys)
@@ -215,24 +221,32 @@ export function SkillTriggerConditionEditorModal({
     label: item.name || item.stateKey
   }));
 
+  const close = () => {
+    const original = draft ?? createEmptyConditionDraft(existingKeys);
+    if (JSON.stringify(current) !== JSON.stringify(original) && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
+    onClose();
+  };
+
   return (
     <Modal
       title={titleFor(mode)}
       visible={visible}
       maskClosable
-      onCancel={onClose}
+      onCancel={close}
       style={{ width: 720 }}
       footer={
         <Space>
-          <Button onClick={onClose}>取消</Button>
+          <Button onClick={close}>取消</Button>
           <Button type="primary" disabled={disabled || reloadingEffects} onClick={confirm}>确定</Button>
         </Space>
       }
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
         {localError ? <Alert type="error" content={localError} /> : null}
+        {locateMessage ? <Alert type="warning" content={locateMessage} /> : null}
         <Form layout="vertical">
           <Form.Item label="条件种类" required extra={originalConditionType ? '已有条件不能更改种类；请删除后以新标识新增。' : undefined}>
+            <AuthoringFieldAnchor field="conditionType" active={focusField === 'conditionType'}>
             <Select
               aria-label="条件种类"
               value={current.conditionType}
@@ -243,6 +257,7 @@ export function SkillTriggerConditionEditorModal({
               }))}
               onChange={(value) => patchType(value as SkillTriggerConditionType)}
             />
+            </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
             label="条件标识"
@@ -250,6 +265,7 @@ export function SkillTriggerConditionEditorModal({
             validateStatus={errorFor('conditionKey') ? 'error' : undefined}
             help={errorFor('conditionKey')}
           >
+            <AuthoringFieldAnchor field="conditionKey" active={focusField === 'conditionKey'}>
             <Input
               aria-label="条件标识"
               value={current.conditionKey}
@@ -257,6 +273,7 @@ export function SkillTriggerConditionEditorModal({
               maxLength={64}
               onChange={(value) => setCurrent({ ...current, conditionKey: value })}
             />
+            </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item label="排序" required>
             <Input

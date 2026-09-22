@@ -19,6 +19,8 @@ import {
   SkillEffectEditorModal,
   type SkillEffectEditorMode
 } from './SkillEffectEditorModal';
+import type { AuthoringNavigationRequest } from '../authoringFocus';
+import { useAuthoringListFocus } from '../useAuthoringListFocus';
 
 type SkillEffectManagementModalProps = {
   visible: boolean;
@@ -29,6 +31,7 @@ type SkillEffectManagementModalProps = {
   onClose: () => void;
   onSkillMissing: () => void;
   onDirtyChange: (dirty: boolean) => void;
+  authoringFocus?: AuthoringNavigationRequest | null;
 };
 
 type EditorState = {
@@ -53,16 +56,19 @@ export function SkillEffectManagementModal({
   adminToken,
   onClose,
   onSkillMissing,
-  onDirtyChange
+  onDirtyChange,
+  authoringFocus
 }: SkillEffectManagementModalProps) {
   const [items, setItems] = useState<SkillEffectSummary[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [editor, setEditor] = useState<EditorState | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<SkillEffectSummary | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [locateNotice, setLocateNotice] = useState<string | null>(null);
+  const [focusedLocation, setFocusedLocation] = useState<AuthoringNavigationRequest['location'] | null>(null);
   const listSerial = useRef(0);
   const openSkillKey = skill?.skillKey ?? null;
   const openGameId = selectedGameId;
@@ -70,13 +76,15 @@ export function SkillEffectManagementModal({
   const resetState = useCallback(() => {
     listSerial.current += 1;
     setItems([]);
-    setLoading(false);
+    setLoading(true);
     setLoadError(null);
     setNotice(null);
     setEditor(null);
     setDeleteTarget(null);
     setDeleteError(null);
     setDeleting(false);
+    setLocateNotice(null);
+    setFocusedLocation(null);
   }, []);
 
   const loadEffects = useCallback(async () => {
@@ -122,10 +130,27 @@ export function SkillEffectManagementModal({
   }, [loadEffects, resetState, skill, visible]);
 
   const close = () => {
-    if (deleting) return;
+    if (deleting || editor) return;
     resetState();
     onClose();
   };
+
+  const handleFound = useCallback((item: SkillEffectSummary, location: AuthoringNavigationRequest['location']) => {
+    setLocateNotice(null);
+    setFocusedLocation(location);
+    setEditor({ mode: 'edit', effect: item });
+  }, []);
+  const handleMissing = useCallback((message: string) => {
+    setLocateNotice(message);
+  }, []);
+  useAuthoringListFocus(
+    authoringFocus,
+    items,
+    (item) => item.effectKey,
+    visible && !loading && loadError === null,
+    handleFound,
+    handleMissing
+  );
 
   const handleSkillMissing = useCallback(() => {
     resetState();
@@ -233,11 +258,11 @@ export function SkillEffectManagementModal({
       <Modal
         title={skill ? `效果与结果 - ${skill.name}` : '效果与结果'}
         visible={visible && skill !== null}
-        maskClosable
+        maskClosable={!editor}
         onCancel={close}
         style={{ width: 'calc(100vw - 80px)', maxWidth: 1800 }}
         footer={
-          <Button onClick={close} disabled={deleting}>关闭</Button>
+          <Button onClick={close} disabled={deleting || Boolean(editor)}>关闭</Button>
         }
       >
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginBottom: 16 }}>
@@ -269,6 +294,7 @@ export function SkillEffectManagementModal({
           />
         ) : null}
         {notice ? <Alert type="success" content={notice} style={{ marginBottom: 12 }} /> : null}
+        {locateNotice ? <Alert type="warning" content={locateNotice} style={{ marginBottom: 12 }} /> : null}
         <Table
           className="data-table-shell"
           loading={loading}
@@ -299,6 +325,7 @@ export function SkillEffectManagementModal({
           }}
           onSkillMissing={handleSkillMissing}
           onDirtyChange={onDirtyChange}
+          authoringLocation={focusedLocation}
         />
       ) : null}
 

@@ -1,5 +1,7 @@
 import type { SkillParameter } from '../../../../types/skillParameter';
 import { NumericValueField } from '../NumericValueField';
+import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
 import {
   Alert,
   Button,
@@ -54,6 +56,8 @@ type SkillProcessStepEditorModalProps = {
   onOpenParameterFormula?: () => void;
   onClose: () => void;
   onConfirm: (draft: SkillProcessStepDraft) => void;
+  focusField?: string | null;
+  locateMessage?: string | null;
 };
 
 function titleFor(mode: SkillProcessStepEditorMode): string {
@@ -75,7 +79,9 @@ export function SkillProcessStepEditorModal({
   formulasLoadState,
   onOpenParameterFormula,
   onClose,
-  onConfirm
+  onConfirm,
+  focusField = null,
+  locateMessage = null
 }: SkillProcessStepEditorModalProps) {
   const [draft, setDraft] = useState<SkillProcessStepDraft>(stepDraft);
   const [errors, setErrors] = useState<SkillProcessStepDraftErrors>(fieldErrors);
@@ -160,19 +166,24 @@ export function SkillProcessStepEditorModal({
     onConfirm(draft);
   };
 
+  const close = () => {
+    if (!readOnly && JSON.stringify(draft) !== JSON.stringify(stepDraft) && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
+    onClose();
+  };
+
   return (
     <Modal
       title={titleFor(mode)}
       visible={visible}
       maskClosable
-      onCancel={onClose}
+      onCancel={close}
       style={{ width: 'calc(100vw - 80px)', maxWidth: 960 }}
       footer={
         <Space>
           {!readOnly ? (
             <Button onClick={onOpenParameterFormula}>参数与公式</Button>
           ) : null}
-          <Button onClick={onClose}>{readOnly ? '关闭' : '取消'}</Button>
+          <Button onClick={close}>{readOnly ? '关闭' : '取消'}</Button>
           {!readOnly ? (
             <Button type="primary" onClick={save}>保存</Button>
           ) : null}
@@ -181,6 +192,7 @@ export function SkillProcessStepEditorModal({
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
         {saveError ? <Alert type="error" content={saveError} /> : null}
+        {locateMessage ? <Alert type="warning" content={locateMessage} /> : null}
         {formulasLoadState === 'failed' ? (
           <Alert type="error" content={INCOMPLETE_CATALOG_MESSAGE} />
         ) : null}
@@ -191,6 +203,7 @@ export function SkillProcessStepEditorModal({
             validateStatus={errors.stepKey ? 'error' : undefined}
             help={errors.stepKey}
           >
+            <AuthoringFieldAnchor field="stepKey" active={focusField === 'stepKey'}>
             <Input
               aria-label="步骤标识"
               value={draft.stepKey}
@@ -198,6 +211,7 @@ export function SkillProcessStepEditorModal({
               maxLength={64}
               onChange={(value) => patchDraft({ ...draft, stepKey: value })}
             />
+            </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
             label="步骤名称"
@@ -219,6 +233,7 @@ export function SkillProcessStepEditorModal({
             validateStatus={errors.stepType ? 'error' : undefined}
             help={errors.stepType}
           >
+            <AuthoringFieldAnchor field="stepType" active={focusField === 'stepType'}>
             <Select
               aria-label="步骤种类"
               value={draft.stepType}
@@ -229,6 +244,7 @@ export function SkillProcessStepEditorModal({
               }))}
               onChange={(value) => patchDraft(applyStepTypeChange(draft, value as SkillProcessStepType))}
             />
+            </AuthoringFieldAnchor>
           </Form.Item>
           <Form.Item
             label="排序"

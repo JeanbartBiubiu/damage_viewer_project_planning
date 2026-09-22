@@ -21,6 +21,8 @@ import { CharacterAuthoringCheckModal } from './CharacterAuthoringCheckModal';
 import { CharacterEditorModal, type CharacterEditorMode } from './CharacterEditorModal';
 import { SkillRelationsModal } from '../relations/SkillRelationsModal';
 import { SkillManagementPage } from '../skills/SkillManagementPage';
+import { createAuthoringNavigationRequest, type AuthoringNavigationRequest } from '../skills/authoringFocus';
+import type { AuthoringLocation } from '../../../types/authoringLocation';
 
 export type CharacterManagementPageProps = {
   apiBaseUrl: string;
@@ -59,7 +61,13 @@ export function CharacterManagementPage({
   const [deleting, setDeleting] = useState(false);
   const [skillsTarget, setSkillsTarget] = useState<Character | null>(null);
   const [checkTarget, setCheckTarget] = useState<Character | null>(null);
-  const [skillFocus, setSkillFocus] = useState<{ character: Character; skillKey: string; context: string; fromCheck?: boolean } | null>(null);
+  const [skillFocus, setSkillFocus] = useState<{
+    character: Character;
+    skillKey: string;
+    context: string;
+    fromCheck?: boolean;
+    navigation?: AuthoringNavigationRequest;
+  } | null>(null);
   const skillFocusDirty = useRef(false);
   const focusContext = JSON.stringify([apiBaseUrl, selectedGameId, adminToken]);
   const activeContext = useRef(focusContext);
@@ -211,6 +219,7 @@ export function CharacterManagementPage({
         sourceKey: skillFocus.character.characterKey,
         sourceName: skillFocus.character.name,
         returnLabel: skillFocus.fromCheck ? '返回录入检查' : '返回角色技能',
+        navigation: skillFocus.navigation,
         onReturn: () => {
           if (skillFocusDirty.current && !window.confirm(`当前技能修改尚未保存，确定${skillFocus.fromCheck ? '返回录入检查' : '返回角色技能'}吗？`)) return;
           reportSkillDirty(false);
@@ -302,10 +311,15 @@ export function CharacterManagementPage({
         onEditCharacter={() => checkTarget && setEditor({ mode: 'edit', character: checkTarget })}
         onEditAttributes={() => setAttributesTarget(checkTarget)}
         onEditRelations={() => setSkillsTarget(checkTarget)}
-        onEditSkill={(skillKey) => {
-          if (!checkTarget) return;
-          reportSkillDirty(false);
-          setSkillFocus({ character: checkTarget, skillKey, context: focusContext, fromCheck: true });
+        onLocate={(location: AuthoringLocation) => {
+          if (!checkTarget || !location.skillKey) return;
+          setSkillFocus({
+            character: checkTarget,
+            skillKey: location.skillKey,
+            context: focusContext,
+            fromCheck: true,
+            navigation: createAuthoringNavigationRequest(location)
+          });
         }}
       />
 
