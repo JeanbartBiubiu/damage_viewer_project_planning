@@ -703,8 +703,8 @@ func (s *genericRunState) handleAbilityAttempt(ev scheduler.GenericEvent) *model
 	s.abilityAttemptCount++
 	s.entryAttemptCounts[ev.DriverEntryIndex]++
 
-	sourceKey, _ := s.resolveCombatantKey(entry.Source, entry.Source, entry.Target)
-	targetKey, _ := s.resolveCombatantKey(entry.Target, entry.Source, entry.Target)
+	sourceKey, _ := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
+	targetKey, _ := s.resolveDriverCombatantKey(entry.Target, sourceKey)
 	statRef := normalizeAbilityRef(entry.AbilityRef, sourceKey, targetKey)
 	acc := s.statFor(statRef)
 	acc.attemptCount++
@@ -743,8 +743,8 @@ func (s *genericRunState) scheduleDynamicRepeatNext(entry model.DriverEntry, ent
 		return nil
 	}
 
-	sourceKey, _ := s.resolveCombatantKey(entry.Source, entry.Source, entry.Target)
-	targetKey, _ := s.resolveCombatantKey(entry.Target, entry.Source, entry.Target)
+	sourceKey, _ := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
+	targetKey, _ := s.resolveDriverCombatantKey(entry.Target, sourceKey)
 	src := s.combatants[sourceKey]
 	tgt := s.combatants[targetKey]
 	evalCtx := formula.GenericEvalContext{

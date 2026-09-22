@@ -25,8 +25,8 @@ func isValidSelector(sel string) bool {
 }
 
 func (s *genericRunState) checkAttemptGate(entry model.DriverEntry, entryIndex int) gateCheckResult {
-	sourceKey, sourceOK := s.resolveCombatantKey(entry.Source, entry.Source, entry.Target)
-	targetKey, targetOK := s.resolveCombatantKey(entry.Target, entry.Source, entry.Target)
+	sourceKey, sourceOK := s.resolveDriverCombatantKey(entry.Source, model.SelectorSource)
+	targetKey, targetOK := s.resolveDriverCombatantKey(entry.Target, sourceKey)
 	if !isValidSelector(entry.Source) || !isValidSelector(entry.Target) || !sourceOK || !targetOK {
 		return gateCheckResult{skipped: true, reason: model.AttemptSkipTargetUnavailable}
 	}
