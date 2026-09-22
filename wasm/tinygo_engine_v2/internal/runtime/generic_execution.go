@@ -78,6 +78,7 @@ type executionFrame struct {
 	abilityRef        string
 	ownerCombatantKey string // mounted provider owner; distinct from event/op sourceKey
 	ownerProviderRef  string
+	strictReads       bool
 
 	// castInstanceID / castOrigin：同一次施放的身份与来源；多 op / delayed / listener ops 继承。
 	castInstanceID uint64
@@ -337,12 +338,13 @@ func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) form
 		SourceResources: f.stageFor(f.sourceKey).resources,
 		TargetResources: f.stageFor(f.targetKey).resources,
 		AbilityParams:   ability.Params,
-		StrictReads:     f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit),
+		StrictReads:     f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit),
 	}
 	if f.ownerProviderRef != "" {
 		ctx.HasProviderContext = true
-		bag := f.providerStateBag(f.providerOwnerKey(), f.ownerProviderRef, false)
+		bag := f.providerStateBag(f.providerOwnerKey(), f.ownerProviderRef, ctx.StrictReads)
 		if bag != nil {
+			ctx.ProviderStateDefaults = bag.defaultsForFormula()
 			ctx.ProviderState = bag.state
 			if bag.targetKey == f.targetKey {
 				ctx.ProviderTargetState = bag.targetStateForFormula()
@@ -437,7 +439,8 @@ func (f *executionFrame) providerFormulaContextFunc(combatantKey string) pipelin
 		if bagOwner == "" {
 			bagOwner = combatantKey
 		}
-		bag := f.providerStateBag(bagOwner, providerRef, false)
+		strict := f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit)
+		bag := f.providerStateBag(bagOwner, providerRef, strict)
 		if bag != nil {
 			bag.lazyExpireProviderTargetState(f.run.nowMs)
 		}
@@ -1438,6 +1441,7 @@ func (f *executionFrame) applyPipelineDamageModifiers(
 			modCtx.HasProviderContext = pctx.HasProviderContext
 			modCtx.ProviderState = pctx.ProviderState
 			modCtx.ProviderTargetState = pctx.ProviderTargetState
+			modCtx.ProviderStateDefaults = pctx.ProviderStateDefaults
 		}
 		if mod.HasCondition {
 			cond, err := f.run.compiled.Formulas.Eval(mod.ConditionProg, modCtx)
@@ -1766,6 +1770,9 @@ func (f *executionFrame) applyResourceChange(targetKey, resourceKey string, amou
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "resource_change requires resourceKey", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
 	sc := f.stageFor(targetKey)
+	if _, ok := sc.resources[resourceKey]; !ok && f.strictReads {
+		return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "resource_change requires an explicit resource slot", "combatants."+targetKey+".resources."+resourceKey, resourceKey, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
 	if amount >= 0 {
 		sc.resources = resource.Refund(sc.resources, resourceKey, amount)
 	} else {
@@ -1792,6 +1799,9 @@ func (f *executionFrame) applyAttributeChange(targetKey, attributeKey, valuePoli
 	sc := f.stageFor(targetKey)
 	slot, ok := sc.attributes[attributeKey]
 	if !ok {
+		if f.strictReads {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "attribute_change requires an explicit attribute slot", "combatants."+targetKey+".attributes."+attributeKey, attributeKey, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
 		slot = model.AttributeSlotDef{}
 	}
 	base0 := slot.Base
@@ -2614,6 +2624,7 @@ func (s *genericRunState) dispatchListenerOperations(listener compilebundle.Comp
 		ability = s.compiled.Abilities[listener.SourceAbilityIndex]
 	}
 	frame := s.newExecutionFrame(sourceKey, targetKey, "listener:"+listener.ListenerKey)
+	frame.strictReads = listener.HasCondition || listener.HasOncePerUse
 	frame.chainDepth = chainDepth
 	frame.ownerCombatantKey = listener.OwnerCombatantKey
 	frame.ownerProviderRef = listener.OwnerProviderRef

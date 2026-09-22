@@ -388,6 +388,17 @@ func (b *providerStateBag) targetStateForFormula() map[string]float64 {
 	return cloneFloatMap(b.targetValues)
 }
 
+func (b *providerStateBag) defaultsForFormula() map[string]float64 {
+	if b == nil || len(b.fieldDefs) == 0 {
+		return nil
+	}
+	defaults := make(map[string]float64, len(b.fieldDefs))
+	for key, field := range b.fieldDefs {
+		defaults[key] = field.defaultValue
+	}
+	return defaults
+}
+
 // lazyExpireProviderState resets expired provider-scope keys to defaultValue (Gate H1).
 func (b *providerStateBag) lazyExpireProviderState(nowMs int64) {
 	if b == nil || len(b.fieldDefs) == 0 {
