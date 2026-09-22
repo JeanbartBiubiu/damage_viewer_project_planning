@@ -51,6 +51,13 @@ type GenericEvalContext struct {
 	// Event damage snapshot reads require an emitted damage_instance (or equivalent) context.
 	HasEventDamageSnapshot bool
 	EventDamage            EventDamageSnapshot
+
+	// Skill hit freeze reads: event.skill_hit.firstContact|blocked. Missing value is a path error.
+	HasEventSkillHit           bool
+	HasSkillHitFirstContact    bool
+	SkillHitFirstContact       float64
+	HasSkillHitBlocked         bool
+	SkillHitBlocked            float64
 }
 
 // EventDamageSnapshot is the immutable numeric freeze under event.damage.*.
@@ -316,6 +323,24 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 			}
 		}
 		return 0, nil
+	case ReadEventSkillHit:
+		if !ctx.HasEventSkillHit {
+			return 0, errors.New("event.skill_hit." + key + " requires skill hit context")
+		}
+		switch key {
+		case "firstContact":
+			if !ctx.HasSkillHitFirstContact {
+				return 0, errors.New(model.FormulaPathSkillHitFirstContact)
+			}
+			return ctx.SkillHitFirstContact, nil
+		case "blocked":
+			if !ctx.HasSkillHitBlocked {
+				return 0, errors.New(model.FormulaPathSkillHitBlocked)
+			}
+			return ctx.SkillHitBlocked, nil
+		default:
+			return 0, errors.New("unknown event.skill_hit field")
+		}
 	case ReadEventDamage:
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err

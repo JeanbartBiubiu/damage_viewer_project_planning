@@ -192,6 +192,8 @@ type CompiledAbility struct {
 	ProviderIndex        uint16
 	OperationStart       uint16
 	OperationCount       uint16
+	HasSkillHit          bool
+	SkillHitSkillKey     string
 }
 
 // CompiledOperation 是 compile 后的 operation 定义。
@@ -226,6 +228,41 @@ type CompiledOperation struct {
 	RepeatDelayMs         int
 	TriggerStateKey       string
 	Threshold             float64
+	ProviderRefFromEvent  bool
+	SkillHit              *CompiledSkillHit
+}
+
+// CompiledSkillHit 是 resolve_skill_hit 的编译计划。
+type CompiledSkillHit struct {
+	SkillKey   string
+	Candidates []CompiledSkillHitCandidate
+}
+
+// CompiledSkillHitCandidate 保存资格、条件程序与候选操作区间。
+type CompiledSkillHitCandidate struct {
+	CandidateKey           string
+	EffectOccurrenceKey    string
+	EffectKey              string
+	ResultKey              string
+	Semantic               model.SkillHitSemantic
+	BlockScope             string // empty = null
+	HasBlockScope          bool
+	InboundBlockEligible   bool
+	ParticipationProgram   formula.GenericProgramID
+	HasParticipation       bool
+	EventValueConds        []CompiledSkillHitValueCond
+	OperationStart         uint16
+	OperationCount         uint16
+	Path                   string
+}
+
+// CompiledSkillHitValueCond 是编译后的 first_contact/blocked 比较。
+type CompiledSkillHitValueCond struct {
+	Key        string
+	Comparator string
+	ValueProg  formula.GenericProgramID
+	HasValue   bool
+	Path       string
 }
 
 // GenericCompileResult 是 CompileGeneric 的返回值。
@@ -245,6 +282,7 @@ type genericCompileContext struct {
 	providerMounts       map[string]map[string]uint16
 	providerAbilityIndex map[uint16]map[string]uint16
 	healGroupModes       map[string]healGroupModeSeen
+	currentListener      *model.ListenerDefinition
 }
 
 type healGroupModeSeen struct {
@@ -574,10 +612,33 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			compiled.HasCastCondition = true
 		}
 	}
-	for k, op := range ability.Operations {
-		compileOperation(op, path+".operations["+itoa(k)+"]", int(providerIndex), ctx)
+	compiled.OperationStart = uint16(len(session.Operations))
+	if skillHitOp, ok := uniqueResolveSkillHit(ability.Operations); ok {
+		if ability.Kind != "active" {
+			collector.addError(model.GenericErrUnknownRef, path+".kind", "resolve_skill_hit requires an active ability", ability.AbilityKey)
+		}
+		if len(ability.Operations) != 1 {
+			collector.addError(model.GenericErrUnknownRef, path+".operations", "hit ability operations must be exactly one resolve_skill_hit", ability.AbilityKey)
+		}
+		if ability.TickSpec != nil {
+			collector.addError(model.GenericErrUnknownRef, path+".tickSpec", "resolve_skill_hit cannot mix tickSpec", ability.AbilityKey)
+		}
+		compileSkillHitAbility(ability, skillHitOp, path, int(providerIndex), ctx)
+		if idx := lastSkillHitOperationIndex(session); idx >= 0 {
+			compiled.OperationStart = uint16(idx)
+			compiled.OperationCount = 1
+			compiled.HasSkillHit = true
+			compiled.SkillHitSkillKey = skillHitOp.SkillHit.SkillKey
+		}
+	} else {
+		for k, op := range ability.Operations {
+			if op.Operation == model.OperationKindResolveSkillHit {
+				collector.addError(model.GenericErrUnknownRef, path+".operations["+itoa(k)+"]", "resolve_skill_hit must be the unique operation on an active hit ability", ability.AbilityKey)
+			}
+			compileOperation(op, path+".operations["+itoa(k)+"]", int(providerIndex), ctx)
+		}
+		compiled.OperationCount = uint16(len(session.Operations)) - compiled.OperationStart
 	}
-	compiled.OperationCount = uint16(len(session.Operations)) - compiled.OperationStart
 	if ability.TickSpec != nil {
 		ts := ability.TickSpec
 		if ts.IntervalMs <= 0 {
@@ -870,12 +931,16 @@ func compileListenerDefinition(listener model.ListenerDefinition, path, ownerCom
 		compiled.HasAbilityRef = true
 		compiled.AbilityRef = listener.AbilityRef
 	}
+	prevListener := ctx.currentListener
+	listenerCopy := listener
+	ctx.currentListener = &listenerCopy
 	for i, op := range listener.Operations {
 		if len(ctx.session.VampRules) > 0 && sourceAbilityIndex < 0 && op.Operation == "damage" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".operations["+itoa(i)+"]", "vamp damage requires a declared owning ability", op.Ref)
 		}
 		compileOperation(op, path+".operations["+itoa(i)+"]", ownerProviderIndex, ctx)
 	}
+	ctx.currentListener = prevListener
 	compiled.OperationCount = uint16(len(ctx.session.Operations)) - compiled.OperationStart
 	return compiled
 }
@@ -940,6 +1005,13 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	if op.RepeatDelayMs != 0 && op.Operation != model.OperationKindRepeat {
 		collector.addError(model.GenericErrMissingRequiredField, path+".repeatDelayMs", "repeatDelayMs is only supported on repeat operations", op.Operation)
 	}
+	if op.Operation == model.OperationKindResolveSkillHit {
+		collector.addError(model.GenericErrUnknownRef, path+".operation", "resolve_skill_hit is only allowed as the unique operation on an active hit ability", op.Operation)
+		return
+	}
+	if op.ProviderRefFromEvent && op.Operation != "expire_provider" {
+		collector.addError(model.GenericErrUnknownRef, path+".providerRefFromEvent", "providerRefFromEvent is only allowed on expire_provider", op.Operation)
+	}
 	switch op.Operation {
 	case "damage":
 		if op.DamageType == "" {
@@ -963,10 +1035,21 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		if op.ProviderDefinitionRef == "" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".providerDefinitionRef", "apply_provider requires providerDefinitionRef", "")
 		}
-	case "refresh_provider", "expire_provider":
+	case "refresh_provider":
 		if op.ProviderRef == "" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".providerRef", op.Operation+" requires providerRef", "")
 		}
+		if op.ProviderRefFromEvent {
+			collector.addError(model.GenericErrUnknownRef, path+".providerRefFromEvent", "providerRefFromEvent is only allowed on expire_provider", op.Operation)
+		}
+	case "expire_provider":
+		if op.ProviderRefFromEvent {
+			validateProviderRefFromEvent(op, path, ownerProviderIndex, ctx.currentListener, ctx)
+		} else if op.ProviderRef == "" {
+			collector.addError(model.GenericErrMissingRequiredField, path+".providerRef", op.Operation+" requires providerRef", "")
+		}
+	case "emit_event":
+		validateEmitEventNotForged(op, path, ctx)
 	case "cooldown_change":
 		if op.AbilityRef == "" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".abilityRef", "cooldown_change requires abilityRef", "")
@@ -1013,6 +1096,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		RepeatDelayMs:         op.RepeatDelayMs,
 		TriggerStateKey:       op.TriggerStateKey,
 		Threshold:             op.Threshold,
+		ProviderRefFromEvent:  op.ProviderRefFromEvent,
 	}
 	if op.Operation == "damage" {
 		compiled.Types = normalizeDamageTraitTypes(op.Types, catalog)

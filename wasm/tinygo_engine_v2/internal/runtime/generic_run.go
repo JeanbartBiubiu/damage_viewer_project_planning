@@ -107,6 +107,13 @@ type genericRunState struct {
 	// Delayed repeat continuations (run-local; discarded with the run).
 	continuations      map[uint64]*triggeredContinuationPayload
 	nextContinuationID uint64
+
+	skillUses                map[string]*skillUseRuntime
+	skillHitFacts            map[string]model.SkillHitFact
+	skillHitGroups           map[string]*skillHitGroup
+	skillHitLedger           map[string]*frozenSkillHitContext
+	skillHitOccurrenceCount  uint64
+	runtimeListeners         []compilebundle.CompiledListener
 }
 
 // RunGeneric 执行单次 generic deterministic run，返回 DoneResult。
@@ -202,6 +209,9 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	state.seedExpireCleanups()
 	state.seedProviderTicks()
 	if err := state.compileDriverConditions(); err != nil {
+		return nil, err
+	}
+	if err := state.initSkillHitState(); err != nil {
 		return nil, err
 	}
 	return state, nil

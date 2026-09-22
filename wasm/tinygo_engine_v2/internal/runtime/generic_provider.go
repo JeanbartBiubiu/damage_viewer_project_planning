@@ -118,6 +118,7 @@ func (s *genericRunState) applyProviderInstance(targetKey, sourceKey, definition
 	}
 	s.scheduleInitialProviderTick(targetKey, providerRef, defIdx, expireAt, inst.Source)
 	s.recordProviderLifecycleEvidence(model.EvidenceKindProviderApply, inst)
+	s.bindProviderInstanceListeners(inst)
 	return nil
 }
 
@@ -234,6 +235,7 @@ func (s *genericRunState) removeProviderInstance(targetKey, providerRef string, 
 	if !ok {
 		return
 	}
+	s.unbindProviderInstanceListeners(targetKey, providerRef)
 	c.providers = status.RemoveByRef(c.providers, providerRef)
 	delete(c.providerState, providerRef)
 	s.combatants[targetKey] = c

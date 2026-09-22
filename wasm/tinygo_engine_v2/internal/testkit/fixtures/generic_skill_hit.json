@@ -1,0 +1,167 @@
+{
+  "name": "generic_skill_hit",
+  "phase": "run",
+  "compileRequest": {
+    "schemaVersion": "generic-p0",
+    "schemaHash": "schema.skill-hit.v1",
+    "rulesHash": "rules.skill-hit.v1",
+    "typeCatalog": {
+      "types": [
+        { "key": "ability/common", "domain": "ability" },
+        { "key": "damage/physical", "domain": "damage" },
+        { "key": "event/skill_hit", "domain": "event" },
+        { "key": "event/spell_shield_blocked", "domain": "event" },
+        { "key": "provider/spell_shield", "domain": "provider" }
+      ],
+      "relations": []
+    },
+    "combatants": [
+      {
+        "key": "source",
+        "displayName": "Source",
+        "attributes": { "attack_damage": { "base": 100, "current": 100, "max": 200, "resolved": 100 } },
+        "resources": {},
+        "providers": [{ "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo" }]
+      },
+      {
+        "key": "target",
+        "displayName": "Target",
+        "attributes": { "hp": { "base": 1000, "current": 1000, "max": 2000, "resolved": 1000 } },
+        "resources": {},
+        "providers": []
+      }
+    ],
+    "sharedProviders": [
+      {
+        "providerKey": "champion:source_demo",
+        "kind": "champion",
+        "stableId": "source_demo",
+        "abilities": [
+          {
+            "abilityKey": "skill_hit",
+            "kind": "active",
+            "types": ["ability/common"],
+            "operations": [
+              {
+                "operation": "resolve_skill_hit",
+                "target": "target",
+                "skillHit": {
+                  "skillKey": "author:q",
+                  "candidates": [
+                    {
+                      "candidateKey": "dmg",
+                      "effectOccurrenceKey": "occ",
+                      "effectKey": "effect-occ",
+                      "resultKey": "rd",
+                      "semantic": { "resultType": "DAMAGE", "target": "TARGET", "moment": "INSTANT" },
+                      "spellShieldBlockScope": "RESULT",
+                      "eventValueConditions": [
+                        { "key": "blocked", "comparator": "eq", "value": { "op": "const", "value": 0 } }
+                      ],
+                      "operations": [
+                        {
+                          "operation": "damage",
+                          "target": "target",
+                          "damageType": "damage/physical",
+                          "amount": { "op": "const", "value": 100 },
+                          "ref": "op-dmg"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "providerKey": "shield:spell",
+        "kind": "status",
+        "stableId": "spell_shield",
+        "types": ["provider/spell_shield"],
+        "lifecycle": {
+          "durationMs": { "op": "const", "value": 5000 },
+          "maxStacks": 1,
+          "refreshPolicy": "replace"
+        },
+        "listeners": [
+          {
+            "listenerKey": "consume",
+            "eventMatcher": { "all": ["event/spell_shield_blocked"] },
+            "operations": [
+              { "operation": "heal", "target": "self", "amount": { "op": "const", "value": 40 } },
+              { "operation": "expire_provider", "target": "self", "providerRefFromEvent": true }
+            ]
+          }
+        ]
+      }
+    ],
+    "rules": { "operations": [], "modifiers": [], "listeners": [], "triggerRules": [] },
+    "formulas": [],
+    "settings": {}
+  },
+  "runRequest": {
+    "sessionId": "<from compile>",
+    "expectedRulesHash": "rules.skill-hit.v1",
+    "initialSnapshot": {
+      "schemaHash": "schema.skill-hit.v1",
+      "rulesHash": "rules.skill-hit.v1",
+      "timeMs": 0,
+      "combatants": [
+        {
+          "key": "source",
+          "attributes": { "attack_damage": { "base": 100, "current": 100, "max": 200, "resolved": 100 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [{ "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo", "stacks": 1, "state": {} }],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        },
+        {
+          "key": "target",
+          "attributes": { "hp": { "base": 1000, "current": 1000, "max": 2000, "resolved": 1000 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [
+            {
+              "providerRef": "shield:spell#restored",
+              "definitionRef": "shield:spell",
+              "source": "source",
+              "owner": "target",
+              "stacks": 1,
+              "expireAt": 5000,
+              "state": {}
+            }
+          ],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        }
+      ]
+    },
+    "driverPlan": {
+      "entries": [
+        {
+          "entryKey": "h1",
+          "abilityRef": "source.provider[champion:source_demo].ability[skill_hit]",
+          "source": "source",
+          "target": "target",
+          "priority": 0,
+          "firstAtMs": 0
+        }
+      ]
+    },
+    "skillUses": [
+      { "useKey": "u1", "source": "source", "skillKey": "author:q", "historyState": "complete" }
+    ],
+    "skillHitFacts": [
+      { "driverEntryKey": "h1", "useRef": "u1" }
+    ],
+    "stopPolicy": { "durationMs": 50, "stopOnTargetDeath": false, "stopWhenNoEvents": false },
+    "sampling": { "sampleEveryMs": 100, "dpsWindowMs": 1000, "maxSeriesPoints": 5000 }
+  }
+}

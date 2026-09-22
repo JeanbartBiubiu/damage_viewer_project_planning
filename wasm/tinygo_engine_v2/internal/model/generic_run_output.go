@@ -42,6 +42,8 @@ const (
 	EvidenceKindProviderRefresh EvidenceKind = "provider_refresh"
 	EvidenceKindProviderExpire  EvidenceKind = "provider_expire"
 	EvidenceKindProviderRemove  EvidenceKind = "provider_remove"
+	EvidenceKindSkillHit        EvidenceKind = "skill_hit"
+	EvidenceKindSkillHitSkip    EvidenceKind = "skill_hit_skip"
 )
 
 // DoneResult 是 generic run 成功时的 outbox payload。
