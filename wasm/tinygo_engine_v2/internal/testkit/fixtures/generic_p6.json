@@ -1,0 +1,190 @@
+{
+  "name": "generic_p6",
+  "phase": "run",
+  "compileRequest": {
+    "schemaVersion": "generic-p0",
+    "schemaHash": "schema.p6.v1",
+    "rulesHash": "rules.p6.v1",
+    "typeCatalog": {
+      "types": [
+        { "key": "ability/basic_attack", "domain": "ability" },
+        { "key": "damage/physical", "domain": "damage" },
+        { "key": "event/skill_hit", "domain": "event" },
+        { "key": "event/basic_attack_hit", "domain": "event" },
+        { "key": "event/basic_attack_start", "domain": "event" },
+        { "key": "event/source_owner", "domain": "event" },
+        { "key": "state_scope/provider", "domain": "state_scope" }
+      ],
+      "relations": []
+    },
+    "combatants": [
+      {
+        "key": "source",
+        "displayName": "Source",
+        "attributes": { "attack_damage": { "base": 100, "current": 100, "max": 200, "resolved": 100 } },
+        "resources": { "mana": { "current": 0, "max": 200 } },
+        "providers": [
+          { "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo" },
+          { "providerRef": "item:p6_shared", "definitionRef": "item:p6_shared" }
+        ]
+      },
+      {
+        "key": "target",
+        "displayName": "Target",
+        "attributes": { "hp": { "base": 1000, "current": 1000, "max": 2000, "resolved": 1000 } },
+        "resources": {},
+        "providers": []
+      }
+    ],
+    "sharedProviders": [
+      {
+        "providerKey": "champion:source_demo",
+        "kind": "champion",
+        "stableId": "source_demo",
+        "abilities": [
+          {
+            "abilityKey": "skill_hit",
+            "kind": "active",
+            "operations": [
+              {
+                "operation": "resolve_skill_hit",
+                "target": "target",
+                "skillHit": {
+                  "skillKey": "author:q",
+                  "candidates": [
+                    {
+                      "candidateKey": "dmg",
+                      "effectOccurrenceKey": "occ",
+                      "effectKey": "effect-occ",
+                      "resultKey": "rd",
+                      "semantic": { "resultType": "DAMAGE", "target": "TARGET", "moment": "INSTANT" },
+                      "eventValueConditions": [
+                        { "key": "blocked", "comparator": "eq", "value": { "op": "const", "value": 0 } }
+                      ],
+                      "operations": [
+                        {
+                          "operation": "damage",
+                          "target": "target",
+                          "damageType": "damage/physical",
+                          "amount": { "op": "const", "value": 50 },
+                          "ref": "op-dmg"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "abilityKey": "aa_start",
+            "kind": "active",
+            "skillKey": "aa:basic",
+            "types": ["ability/basic_attack"],
+            "operations": []
+          },
+          {
+            "abilityKey": "aa_hit",
+            "kind": "active",
+            "skillKey": "aa:basic",
+            "types": ["ability/basic_attack"],
+            "operations": [
+              {
+                "operation": "resolve_skill_hit",
+                "target": "target",
+                "skillHit": { "skillKey": "aa:basic", "candidates": [] }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "providerKey": "item:p6_shared",
+        "kind": "item",
+        "stableId": "p6",
+        "initialStateSchema": {
+          "procs": { "defaultValue": 0, "maxValue": 99, "durationMs": 0 },
+          "hits": { "defaultValue": 0, "maxValue": 99, "durationMs": 2000, "refreshPolicy": "start_on_first_write" }
+        },
+        "listeners": [
+          {
+            "listenerKey": "once",
+            "eventMatcher": { "all": ["event/skill_hit", "event/source_owner"] },
+            "oncePerUse": { "groupKey": "proc", "scope": "provider" },
+            "operations": [
+              {
+                "operation": "state_change",
+                "target": "source",
+                "ref": "procs",
+                "valuePolicy": "add",
+                "types": ["state_scope/provider"],
+                "amount": { "op": "const", "value": 1 }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "rules": { "operations": [], "modifiers": [], "listeners": [], "triggerRules": [] },
+    "formulas": [],
+    "settings": {}
+  },
+  "runRequest": {
+    "sessionId": "<from compile>",
+    "expectedRulesHash": "rules.p6.v1",
+    "initialSnapshot": {
+      "schemaHash": "schema.p6.v1",
+      "rulesHash": "rules.p6.v1",
+      "timeMs": 0,
+      "combatants": [
+        {
+          "key": "source",
+          "attributes": { "attack_damage": { "base": 100, "current": 100, "max": 200, "resolved": 100 } },
+          "resources": { "mana": { "current": 0, "max": 200 } },
+          "cooldowns": {},
+          "providers": [
+            { "providerRef": "champion:source_demo", "definitionRef": "champion:source_demo", "stacks": 1, "state": {} },
+            { "providerRef": "item:p6_shared", "definitionRef": "item:p6_shared", "source": "source", "owner": "source", "stacks": 1, "state": {} }
+          ],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        },
+        {
+          "key": "target",
+          "attributes": { "hp": { "base": 1000, "current": 1000, "max": 2000, "resolved": 1000 } },
+          "resources": {},
+          "cooldowns": {},
+          "providers": [],
+          "shields": [],
+          "abilityState": {},
+          "providerState": {},
+          "vars": {}
+        }
+      ],
+      "useTriggerLedger": []
+    },
+    "driverPlan": {
+      "entries": [
+        { "entryKey": "h1", "abilityRef": "source.provider[champion:source_demo].ability[skill_hit]", "source": "source", "target": "target", "firstAtMs": 0 },
+        { "entryKey": "h2", "abilityRef": "source.provider[champion:source_demo].ability[skill_hit]", "source": "source", "target": "target", "firstAtMs": 50 },
+        { "entryKey": "start", "abilityRef": "source.provider[champion:source_demo].ability[aa_start]", "source": "source", "target": "target", "firstAtMs": 100 },
+        { "entryKey": "hit", "abilityRef": "source.provider[champion:source_demo].ability[aa_hit]", "source": "source", "target": "target", "firstAtMs": 110 }
+      ]
+    },
+    "skillUses": [
+      { "useKey": "u1", "source": "source", "skillKey": "author:q", "historyState": "complete" },
+      { "useKey": "aa1", "source": "source", "skillKey": "aa:basic", "historyState": "complete" }
+    ],
+    "skillHitFacts": [
+      { "driverEntryKey": "h1", "useRef": "u1" },
+      { "driverEntryKey": "h2", "useRef": "u1" },
+      { "driverEntryKey": "hit", "useRef": "aa1" }
+    ],
+    "attackStartFacts": [
+      { "driverEntryKey": "start", "useRef": "aa1" }
+    ],
+    "stopPolicy": { "durationMs": 200, "stopWhenNoEvents": false }
+  }
+}

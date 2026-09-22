@@ -119,6 +119,7 @@ type executionFrame struct {
 	skipBlockedWrites    bool
 	skillHitCandidateKey string
 	skillHitOccurrenceID uint64
+	operationOutputs     map[string]formula.OperationOutputValues
 }
 
 // copyableDamageFrozen 冻结一次 CopyableOnHit damage 的 replay 输入（不做公式重算 / 不二次 crit 结算）。
@@ -199,6 +200,10 @@ type emittedEvent struct {
 	castInstanceID uint64
 	castOrigin     string
 	skillHit       *frozenSkillHitContext
+	hasUse         bool
+	useKey         string
+	useSource      string
+	useSkillKey    string
 }
 
 func (s *genericRunState) newExecutionFrame(sourceKey, targetKey, abilityRef string) *executionFrame {
@@ -363,7 +368,7 @@ func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) form
 			ctx.HasEventDamageSnapshot = true
 			ctx.EventDamage = f.eventCtx.damageSnapshot
 		}
-		if f.eventCtx.hasSkillHit && f.eventCtx.skillHit != nil {
+		if f.eventCtx.hasSkillHit && f.eventCtx.skillHit != nil && f.eventCtx.eventType == model.EventTypeSkillHit {
 			ctx.HasEventSkillHit = true
 			ctx.HasSkillHitBlocked = true
 			ctx.SkillHitBlocked = f.eventCtx.skillHit.blocked
@@ -372,6 +377,10 @@ func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) form
 				ctx.SkillHitFirstContact = f.eventCtx.skillHit.firstContact
 			}
 		}
+	}
+	if f.operationOutputs != nil {
+		ctx.HasOperationOutputs = true
+		ctx.OperationOutputs = f.operationOutputs
 	}
 	return ctx
 }
@@ -735,7 +744,7 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 		if eventType == "" {
 			eventType = op.Ref
 		}
-		if eventType == model.EventTypeSkillHit || eventType == model.EventTypeSpellShieldBlocked {
+		if model.IsEngineProducedEvent(eventType) {
 			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrUnknownRef, "emit_event cannot forge engine-produced skill hit events", "eventType", eventType, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
 		ref := op.Ref
@@ -831,7 +840,9 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 		}
 		next = bag.clampProviderStateValue(op.Ref, next)
 		bag.state[op.Ref] = next
-		bag.refreshExpireAtOnWrite(op.Ref, f.run.nowMs)
+		if !bag.refreshExpireAtOnWrite(op.Ref, f.run.nowMs) {
+			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "provider state duration overflow", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
 		// Provider-scope write must immediately re-resolve owner attributes with provider-aware context.
 		sc := f.stageFor(ownerKey)
 		sc.attributes = f.resolveAttributesFor(ownerKey, sc.attributes, f.evalContext(ability))
@@ -850,7 +861,11 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 		}
 		next = bag.clampProviderStateValue(op.Ref, next)
 		bag.targetValues[op.Ref] = next
-		if exp := bag.refreshTargetExpireAtOnWrite(op.Ref, f.run.nowMs); exp > 0 {
+		exp, ok := bag.refreshTargetExpireAtOnWrite(op.Ref, f.run.nowMs)
+		if !ok {
+			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "provider target state duration overflow", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
+		if exp > 0 {
 			f.run.scheduleProviderTargetStateExpiry(ownerKey, f.ownerProviderRef, f.targetKey, op.Ref, exp)
 			f.run.scheduleAnchoredTicksOnTargetWrite(ownerKey, f.ownerProviderRef, f.sourceKey, f.targetKey, op.Ref, exp, bag)
 		}
@@ -1084,6 +1099,20 @@ func (s *genericRunState) recordGenericExecuteEvidence(ev genericExecuteEvidence
 	})
 }
 
+func (f *executionFrame) recordOperationOutput(op compilebundle.CompiledOperation, outcome pipeline.DamageOutcome) {
+	if op.OutputRef == "" {
+		return
+	}
+	if f.operationOutputs == nil {
+		f.operationOutputs = map[string]formula.OperationOutputValues{}
+	}
+	f.operationOutputs[op.OutputRef] = formula.OperationOutputValues{
+		PostDefenseDamage: outcome.MitigatedAmount,
+		ShieldAbsorbed:    outcome.ShieldAbsorbed,
+		ActualHPLoss:      outcome.HPDamage,
+	}
+}
+
 func (f *executionFrame) applyCommand(cmd command.Command, ability compilebundle.CompiledAbility) *model.EngineError {
 	if cmd.Kind == command.KindHeal {
 		return f.applyDirectHeal(cmd, ability)
@@ -1290,6 +1319,7 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundl
 
 	targetHPBefore := attribute.ReadHP(view.Attributes)
 	outcome, next := pipeline.ApplyMitigatedDamage(rawForEvidence, mitigated, view, f.run.nowMs)
+	f.recordOperationOutput(op, outcome)
 	f.run.nextDamageID++
 	damageID := f.run.nextDamageID
 	result := command.Result{
@@ -1983,10 +2013,18 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	if err := frame.maybeDispatchAbilityStartedEvent(ability); err != nil {
 		return err
 	}
+	if err := frame.maybeDispatchBasicAttackStart(ability); err != nil {
+		return err
+	}
+	if err := frame.maybeDispatchBasicAttackHit(ability); err != nil {
+		return err
+	}
 
-	s.abilityCastCount++
 	acc := s.statFor(resolvedRef)
-	acc.castCount++
+	if !isNativeHitFollowUp(frame.driverEntryKey) {
+		s.abilityCastCount++
+		acc.castCount++
+	}
 	if frame.damageDealt > 0 {
 		if acc.damageDealt == nil {
 			v := frame.damageDealt
@@ -2276,6 +2314,112 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.
 	return f.run.dispatchListeners(ev, f.chainDepth+1)
 }
 
+func (f *executionFrame) maybeDispatchBasicAttackHit(ability compilebundle.CompiledAbility) *model.EngineError {
+	if f.chainDepth != 0 || f.driverEntryKey == "" {
+		return nil
+	}
+	if !ability.IsBasicAttack || ability.HasSkillHit || ability.OperationCount == 0 {
+		return nil
+	}
+	if strings.TrimSpace(ability.SkillKey) == "" {
+		return nil
+	}
+	if _, isStart := f.run.attackStartFacts[f.driverEntryKey]; isStart {
+		return nil
+	}
+	if _, ok := f.run.compiled.Types.Registry.Lookup(model.EventTypeBasicAttackHit); !ok {
+		return nil
+	}
+	eventTypes := []string{model.EventTypeBasicAttackHit}
+	eventTypes = append(eventTypes, f.abilityTypeKeys(ability)...)
+	eventTypes = f.appendCastOriginEventType(eventTypes)
+	data := map[string]interface{}{
+		"source":    f.sourceKey,
+		"target":    f.targetKey,
+		"eventType": model.EventTypeBasicAttackHit,
+	}
+	attachCastProvenance(data, f.castInstanceID, f.castOrigin)
+	f.run.recordEvidence(model.EvidenceItem{
+		TimeMs: f.run.nowMs,
+		Kind:   model.EvidenceKindEmittedEvent,
+		Ref:    model.EventTypeBasicAttackHit,
+		Data:   data,
+	})
+	ev := emittedEvent{
+		eventType:      model.EventTypeBasicAttackHit,
+		ref:            model.EventTypeBasicAttackHit,
+		sourceKey:      f.sourceKey,
+		targetKey:      f.targetKey,
+		types:          eventTypes,
+		snapshot:       f.captureEmitSnapshot(model.EventTypeBasicAttackHit, f.sourceKey, f.targetKey),
+		castInstanceID: f.castInstanceID,
+		castOrigin:     f.castOrigin,
+	}
+	if fact, ok := f.run.skillHitFacts[f.driverEntryKey]; ok && fact.UseRef != nil && *fact.UseRef != "" {
+		if use, found := f.run.skillUses[*fact.UseRef]; found {
+			ev.hasUse = true
+			ev.useKey = use.useKey
+			ev.useSource = use.source
+			ev.useSkillKey = use.skillKey
+			data["useRef"] = use.useKey
+			data["skillKey"] = use.skillKey
+		}
+	}
+	return f.run.dispatchListeners(ev, f.chainDepth+1)
+}
+
+func (f *executionFrame) maybeDispatchBasicAttackStart(ability compilebundle.CompiledAbility) *model.EngineError {
+	if f.chainDepth != 0 || f.driverEntryKey == "" {
+		return nil
+	}
+	fact, ok := f.run.attackStartFacts[f.driverEntryKey]
+	if !ok {
+		return nil
+	}
+	if !ability.IsBasicAttack || ability.HasSkillHit || ability.OperationCount != 0 {
+		return f.run.skillHitErr(model.GenericErrUnknownRef, "attack start driver must be an empty-operations basic_attack ability", "attackStartFacts", f.driverEntryKey)
+	}
+	if _, ok := f.run.compiled.Types.Registry.Lookup(model.EventTypeBasicAttackStart); !ok {
+		return f.run.skillHitErr(model.GenericErrUnknownTypeKey, "attack start requires event/basic_attack_start in typeCatalog", "attackStartFacts", f.driverEntryKey)
+	}
+	use, found := f.run.skillUses[fact.UseRef]
+	if !found {
+		return f.run.skillHitErr(model.GenericErrUnknownRef, "attack start useRef is missing", "attackStartFacts.useRef", fact.UseRef)
+	}
+	eventTypes := []string{model.EventTypeBasicAttackStart}
+	eventTypes = append(eventTypes, f.abilityTypeKeys(ability)...)
+	eventTypes = f.appendCastOriginEventType(eventTypes)
+	data := map[string]interface{}{
+		"source":    f.sourceKey,
+		"target":    f.targetKey,
+		"eventType": model.EventTypeBasicAttackStart,
+		"useRef":    fact.UseRef,
+		"skillKey":  use.skillKey,
+	}
+	attachCastProvenance(data, f.castInstanceID, f.castOrigin)
+	f.run.recordEvidence(model.EvidenceItem{
+		TimeMs: f.run.nowMs,
+		Kind:   model.EvidenceKindEmittedEvent,
+		Ref:    model.EventTypeBasicAttackStart,
+		Data:   data,
+	})
+	ev := emittedEvent{
+		eventType:      model.EventTypeBasicAttackStart,
+		ref:            model.EventTypeBasicAttackStart,
+		sourceKey:      f.sourceKey,
+		targetKey:      f.targetKey,
+		types:          eventTypes,
+		snapshot:       f.captureEmitSnapshot(model.EventTypeBasicAttackStart, f.sourceKey, f.targetKey),
+		castInstanceID: f.castInstanceID,
+		castOrigin:     f.castOrigin,
+		hasUse:         true,
+		useKey:         use.useKey,
+		useSource:      use.source,
+		useSkillKey:    use.skillKey,
+	}
+	return f.run.dispatchListeners(ev, f.chainDepth+1)
+}
+
 func (f *executionFrame) dispatchPendingEvents() *model.EngineError {
 	if len(f.pendingEvents) == 0 {
 		return nil
@@ -2283,7 +2427,7 @@ func (f *executionFrame) dispatchPendingEvents() *model.EngineError {
 	events := append([]emittedEvent(nil), f.pendingEvents...)
 	f.pendingEvents = nil
 	for _, ev := range events {
-		if ev.eventType == model.EventTypeSkillHit && ev.skillHit != nil {
+		if ev.skillHit != nil && (ev.eventType == model.EventTypeSkillHit || ev.eventType == model.EventTypeBasicAttackHit) {
 			if err := f.run.dispatchSkillHitEvent(ev, f.chainDepth+1); err != nil {
 				return err
 			}
@@ -2300,22 +2444,35 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 	if chainDepth > s.budget.MaxChainDepth {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max chain depth exceeded", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
+	s.lazyExpireAllProviderState()
 	collector := &eventCopyableCollector{}
 	baseEventTypes := s.eventTypeSet(ev.types)
 	listeners := append(append([]compilebundle.CompiledListener{}, s.compiled.Listeners...), s.runtimeListeners...)
+	frozen := make([]bool, len(listeners))
+	frozenOK := make([]bool, len(listeners))
+	for i, listener := range listeners {
+		if !listener.HasCondition || !s.listenerMatchesEvent(listener, ev, baseEventTypes) {
+			continue
+		}
+		ok, err := s.evalListenerCondition(listener, ev)
+		if err != nil {
+			return err
+		}
+		frozen[i] = true
+		frozenOK[i] = ok
+	}
+	compiledCount := len(s.compiled.Listeners)
 	for listenerIndex, listener := range listeners {
-		if !s.listenerStillLive(listener) {
+		if !s.listenerMatchesEvent(listener, ev, baseEventTypes) {
 			continue
 		}
-		if ev.eventType == model.EventTypeSpellShieldBlocked && ev.skillHit != nil && listener.OwnerProviderRef != "" &&
-			(listener.OwnerCombatantKey != ev.skillHit.shieldOwner || listener.OwnerProviderRef != ev.skillHit.shieldProviderRef) {
-			continue
-		}
-		eventTypes := baseEventTypes
-		if listener.OwnerCombatantKey != "" {
-			eventTypes = s.augmentOwnerRelativeEventTypes(baseEventTypes, ev.sourceKey, listener.OwnerCombatantKey)
-		}
-		if !listener.EventMatcher.Match(eventTypes) {
+		if frozen[listenerIndex] && !frozenOK[listenerIndex] {
+			s.recordEvidence(model.EvidenceItem{
+				TimeMs: s.nowMs,
+				Kind:   model.EvidenceKindListenerSkipped,
+				Ref:    listener.ListenerKey,
+				Data:   map[string]interface{}{"reason": "condition_false"},
+			})
 			continue
 		}
 		maxTriggers := listener.MaxTriggersPerEvent
@@ -2336,6 +2493,30 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 		}
 		if !s.allowPerCastThrottle(listenerIndex, listener.OwnerCombatantKey, listener.OwnerProviderRef, castID, listener.PerCastThrottleMs) {
 			continue
+		}
+		if listener.HasOncePerUse && listenerIndex >= compiledCount {
+			return s.skillHitErr(model.GenericErrUnknownRef, "dynamic listeners do not support oncePerUse", "listeners["+listener.ListenerKey+"].oncePerUse", listener.OncePerUseGroup)
+		}
+		oncePerUse := listener.HasOncePerUse
+		reserved := false
+		if oncePerUse {
+			didReserve, skip, err := s.reserveOncePerUse(listener, ev)
+			if err != nil {
+				return err
+			}
+			if skip {
+				s.recordEvidence(model.EvidenceItem{
+					TimeMs: s.nowMs,
+					Kind:   model.EvidenceKindListenerSkipped,
+					Ref:    listener.ListenerKey,
+					Data: map[string]interface{}{
+						"reason":   "once_per_use",
+						"groupKey": listener.OncePerUseGroup,
+					},
+				})
+				continue
+			}
+			reserved = didReserve
 		}
 		sourceKey, targetKey := s.listenerFrameCombatants(ev, listener)
 		eventCtx := cloneEventSnapshot(&ev.snapshot)
@@ -2362,6 +2543,9 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 				triggered = true
 			}
 		}
+		if reserved {
+			s.commitOncePerUse(listener, ev)
+		}
 		if triggered && listener.PerCastThrottleMs > 0 {
 			s.notePerCastThrottleTrigger(listenerIndex, listener.OwnerCombatantKey, listener.OwnerProviderRef, castID)
 		}
@@ -2373,6 +2557,21 @@ const (
 	eventSourceOwner    = "event/source_owner"
 	eventSourceOpponent = "event/source_opponent"
 )
+
+func (s *genericRunState) listenerMatchesEvent(listener compilebundle.CompiledListener, ev emittedEvent, baseEventTypes typeset.TypeSet) bool {
+	if !s.listenerStillLive(listener) {
+		return false
+	}
+	if ev.eventType == model.EventTypeSpellShieldBlocked && ev.skillHit != nil && listener.OwnerProviderRef != "" &&
+		(listener.OwnerCombatantKey != ev.skillHit.shieldOwner || listener.OwnerProviderRef != ev.skillHit.shieldProviderRef) {
+		return false
+	}
+	eventTypes := baseEventTypes
+	if listener.OwnerCombatantKey != "" {
+		eventTypes = s.augmentOwnerRelativeEventTypes(baseEventTypes, ev.sourceKey, listener.OwnerCombatantKey)
+	}
+	return listener.EventMatcher.Match(eventTypes)
+}
 
 // augmentOwnerRelativeEventTypes adds a catalog-backed owner-relative relation key for provider listeners.
 func (s *genericRunState) augmentOwnerRelativeEventTypes(base typeset.TypeSet, eventSourceKey, ownerKey string) typeset.TypeSet {

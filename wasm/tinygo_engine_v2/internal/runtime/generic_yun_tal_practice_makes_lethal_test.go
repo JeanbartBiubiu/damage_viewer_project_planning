@@ -4,7 +4,6 @@ import (
 	"math"
 	"testing"
 
-	"tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -202,7 +201,7 @@ func setYunTalDriverHits(runReq *model.RunRequest, hits int) {
 
 func runYunTalPractice(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -265,7 +264,7 @@ func wantYunTalCrit(stacks float64) float64 {
 func TestYunTalPracticeMakesLethalInitialCritZero(t *testing.T) {
 	compileReq, runReq := loadYunTalPracticeFixture(t)
 	setYunTalDriverHits(&runReq, 0)
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -396,7 +395,8 @@ func TestYunTalPracticeMakesLethalGuinsooPhantomDoesNotStack(t *testing.T) {
 		}
 		runReq.InitialSnapshot.Combatants[i].ProviderState = map[string]interface{}{
 			yunTalChampionRef: map[string]interface{}{
-				"state": map[string]interface{}{guinsooStackKey: float64(3)},
+				"state":    map[string]interface{}{guinsooStackKey: float64(3)},
+				"expireAt": map[string]interface{}{guinsooStackKey: float64(10000)},
 			},
 			yunTalProviderRef: map[string]interface{}{
 				"state": map[string]interface{}{yunTalStackKey: seedStacks},

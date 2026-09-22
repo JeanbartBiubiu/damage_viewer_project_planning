@@ -314,7 +314,7 @@ func yunTalFlurryLoadFixture(t *testing.T, critChance float64) (model.CompileReq
 
 func yunTalFlurryRun(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, &runReq)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}

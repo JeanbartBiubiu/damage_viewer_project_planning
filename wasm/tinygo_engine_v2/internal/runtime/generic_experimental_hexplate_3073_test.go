@@ -281,7 +281,7 @@ func hex3073LoadFixture(t *testing.T) (model.CompileRequest, model.RunRequest) {
 
 func hex3073Compile(t *testing.T, compileReq model.CompileRequest) compile.GenericCompileResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, nil)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -290,7 +290,10 @@ func hex3073Compile(t *testing.T, compileReq model.CompileRequest) compile.Gener
 
 func hex3073Run(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := hex3073Compile(t, compileReq)
+	result := compileMigrated(&compileReq, &runReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
 	done, err := RunGeneric(result.Session, runReq)
 	if err != nil {
 		t.Fatal(err)

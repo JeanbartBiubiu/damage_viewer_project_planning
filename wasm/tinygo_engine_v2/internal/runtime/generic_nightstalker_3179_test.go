@@ -263,7 +263,7 @@ func nightstalkerLoadFixture(t *testing.T) (model.CompileRequest, model.RunReque
 
 func nightstalkerCompile(t *testing.T, compileReq model.CompileRequest) compile.GenericCompileResult {
 	t.Helper()
-	result := compile.CompileGeneric(compileReq)
+	result := compileMigrated(&compileReq, nil)
 	if !result.OK {
 		t.Fatalf("compile failed: %+v", result.Result.Errors)
 	}
@@ -272,7 +272,10 @@ func nightstalkerCompile(t *testing.T, compileReq model.CompileRequest) compile.
 
 func nightstalkerRun(t *testing.T, compileReq model.CompileRequest, runReq model.RunRequest) model.DoneResult {
 	t.Helper()
-	result := nightstalkerCompile(t, compileReq)
+	result := compileMigrated(&compileReq, &runReq)
+	if !result.OK {
+		t.Fatalf("compile failed: %+v", result.Result.Errors)
+	}
 	done, err := RunGeneric(result.Session, runReq)
 	if err != nil {
 		t.Fatal(err)
@@ -578,7 +581,8 @@ func TestGenericNightstalker3179PhantomCannotCopyBonus(t *testing.T) {
 		}
 		runReq.InitialSnapshot.Combatants[i].ProviderState = map[string]interface{}{
 			nightstalkerChampionRef: map[string]interface{}{
-				"state": map[string]interface{}{guinsooStackKey: float64(3)},
+				"state":    map[string]interface{}{guinsooStackKey: float64(3)},
+				"expireAt": map[string]interface{}{guinsooStackKey: float64(10000)},
 			},
 			nightstalkerProviderRef: map[string]interface{}{
 				"state": map[string]interface{}{nightstalkerReadyKey: float64(1)},
