@@ -385,7 +385,7 @@ func TestPipelineUnsupportedModifierRejectedAtCompile(t *testing.T) {
 		Modifiers: []model.ModifierDefinition{{
 			ModifierKey: "bad",
 			Kind:        "pipeline",
-			Command:     "heal",
+			Command:     "shield",
 			Channel:     "basic_damage",
 			Stage:       "outgoing_pre_mitigation",
 			Bucket:      "all_instances",

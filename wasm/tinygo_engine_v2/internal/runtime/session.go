@@ -115,7 +115,9 @@ func (s *Session) RunJSON(payload []byte) int32 {
 	}
 	done, runErr := RunGeneric(entry.compiled, req)
 	if runErr != nil {
-		s.writeGenericError(runErr.Phase, runErr.Code, runErr.Message, entry.schemaHash, entry.rulesHash, req.SessionID)
+		// 保留运行层的具体字段路径与引用，避免宿主只收到无法定位的错误消息。
+		runErr.SchemaHash, runErr.RulesHash, runErr.SessionID = entry.schemaHash, entry.rulesHash, req.SessionID
+		s.outbox.WriteJSON(model.FrameKindGenericError, *runErr)
 		return -1
 	}
 	if code := s.outbox.WriteJSON(model.FrameKindGenericDone, done); code != model.ErrOK {
