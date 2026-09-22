@@ -1,10 +1,6 @@
 package xyz.game.datamanage.service.skilltrigger;
 
-import xyz.game.datamanage.model.value.SkillNumericValue;
-import xyz.game.datamanage.support.authoring.AggregateJson;
-
 import jakarta.validation.Valid;
-import xyz.game.datamanage.support.authoring.AggregateJson;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -89,6 +85,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleEventMoment;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerParameterRefRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPerTargetCooldown;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerOncePerUse;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputs;
@@ -121,11 +118,14 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerTargetContext;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerValueDomain;
 import xyz.game.datamanage.support.error.ApiException;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.support.authoring.SkillExplicitTargetIsSourceConditionSemantics;
 import xyz.game.datamanage.support.authoring.SkillHitTargetIsEnemyConditionSemantics;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerSkillHitTargetIsEnemyConditionDetail;
 import xyz.game.datamanage.support.authoring.SkillLifecycleConditionSemantics;
 import xyz.game.datamanage.support.authoring.SkillTargetCategoryConditionSemantics;
+import xyz.game.datamanage.support.authoring.SkillTriggerOncePerUseSemantics;
+import xyz.game.datamanage.model.value.SkillNumericValue;
 
 @Service
 @Validated
@@ -207,10 +207,11 @@ public class SkillTriggerRuleService {
         requireGame(gameId);
         ValidatedRule values = validateCreate(request);
         lockParentSkill(gameId, skillKey);
-        mapper.listRulesForUpdate(gameId, skillKey);
+        List<SkillTriggerRuleRow> locked = mapper.listRulesForUpdate(gameId, skillKey);
         if (mapper.countByKey(gameId, skillKey, values.ruleKey()) > 0) {
             throw keyExists();
         }
+        assertOncePerUseGroup(values, locked);
         Catalog catalog = lockAndValidateCatalogs(gameId, skillKey, values, null);
         try {
             insertAggregate(gameId, skillKey, values);
@@ -232,13 +233,14 @@ public class SkillTriggerRuleService {
         requireGame(gameId);
         ValidatedRule values = validateUpdate(request, ruleKey);
         lockParentSkill(gameId, skillKey);
-        mapper.listRulesForUpdate(gameId, skillKey);
+        List<SkillTriggerRuleRow> locked = mapper.listRulesForUpdate(gameId, skillKey);
         SkillTriggerRuleRow existing = mapper.findRuleForUpdate(gameId, skillKey, ruleKey);
         if (existing == null) {
             throw ruleNotFound(ruleKey);
         }
         SkillTriggerRuleDetailResponse current = assembler.assemble(existing);
         rejectImmutableKinds(current, values);
+        assertOncePerUseGroup(values, locked);
         Catalog catalog = lockAndValidateCatalogs(gameId, skillKey, values, current);
         try {
             if (mapper.updateRule(
@@ -252,7 +254,8 @@ public class SkillTriggerRuleService {
                 AggregateJson.write(values.eventSource()),
                 AggregateJson.write(SkillTriggerRuleAssembler.orderedGroups(values.conditionGroups())),
                 AggregateJson.write(SkillTriggerRuleAssembler.orderedActions(values.actions())),
-                AggregateJson.write(new SkillTriggerRuleAssembler.Limits(values.perTargetCooldown(), values.maxTriggersPerProcess()))
+                AggregateJson.write(new SkillTriggerRuleAssembler.Limits(
+                    values.perTargetCooldown(), values.maxTriggersPerProcess(), values.oncePerUse()))
             ) == 0) {
                 throw ruleNotFound(ruleKey);
             }
@@ -817,6 +820,7 @@ public class SkillTriggerRuleService {
             request.actions(),
             request.perTargetCooldown(),
             request.maxTriggersPerProcess(),
+            request.oncePerUse(),
             issues
         );
     }
@@ -842,6 +846,7 @@ public class SkillTriggerRuleService {
             request.actions(),
             request.perTargetCooldown(),
             request.maxTriggersPerProcess(),
+            request.oncePerUse(),
             issues
         );
     }
@@ -856,6 +861,7 @@ public class SkillTriggerRuleService {
         List<SkillTriggerAction> actions,
         SkillTriggerPerTargetCooldown cooldown,
         SkillTriggerProcessLimit processLimit,
+        SkillTriggerOncePerUse oncePerUse,
         List<Map<String, String>> issues
     ) {
         List<Map<String, String>> bodyIssues = new ArrayList<>();
@@ -984,6 +990,16 @@ public class SkillTriggerRuleService {
                 "单次过程最大触发次数只允许用于 PROCESS_MOMENT"
             ));
         }
+        var oncePerUseParsed = SkillTriggerOncePerUseSemantics.fromDto(oncePerUse);
+        for (Map<String, String> unknown : SkillTriggerOncePerUseSemantics.unknownFieldIssues(oncePerUseParsed, "oncePerUse")) {
+            bodyIssues.add(unknown);
+        }
+        issues.addAll(SkillTriggerOncePerUseSemantics.shapeIssues(oncePerUseParsed, "oncePerUse"));
+        issues.addAll(SkillTriggerOncePerUseSemantics.eventIssues(
+            eventSource == null ? null : eventSource.eventType(),
+            oncePerUseParsed,
+            "oncePerUse"
+        ));
         throwIfInvalidBody(bodyIssues);
         throwIfInvalid(issues);
         return new ValidatedRule(
@@ -995,7 +1011,8 @@ public class SkillTriggerRuleService {
             groups,
             safeActions,
             cooldown,
-            processLimit
+            processLimit,
+            oncePerUse
         );
     }
 
@@ -2507,7 +2524,8 @@ public class SkillTriggerRuleService {
             values.eventSource().eventType().name(), AggregateJson.write(values.eventSource()),
             AggregateJson.write(SkillTriggerRuleAssembler.orderedGroups(values.conditionGroups())),
             AggregateJson.write(SkillTriggerRuleAssembler.orderedActions(values.actions())),
-            AggregateJson.write(new SkillTriggerRuleAssembler.Limits(values.perTargetCooldown(), values.maxTriggersPerProcess())));
+            AggregateJson.write(new SkillTriggerRuleAssembler.Limits(
+                values.perTargetCooldown(), values.maxTriggersPerProcess(), values.oncePerUse())));
     }
 
     private List<Map<String, String>> collectEffectShapeIssues(
@@ -3195,8 +3213,40 @@ public class SkillTriggerRuleService {
         List<SkillTriggerConditionGroup> conditionGroups,
         List<SkillTriggerAction> actions,
         SkillTriggerPerTargetCooldown perTargetCooldown,
-        SkillTriggerProcessLimit maxTriggersPerProcess
+        SkillTriggerProcessLimit maxTriggersPerProcess,
+        SkillTriggerOncePerUse oncePerUse
     ) {
+    }
+
+    private void assertOncePerUseGroup(ValidatedRule values, List<SkillTriggerRuleRow> locked) {
+        List<SkillTriggerOncePerUseSemantics.Member> others = new ArrayList<>();
+        for (SkillTriggerRuleRow row : nullToEmpty(locked)) {
+            if (row.ruleKey().equals(values.ruleKey())) {
+                continue;
+            }
+            SkillTriggerRuleAssembler.Limits limits = AggregateJson.read(row.limitsJson(), SkillTriggerRuleAssembler.Limits.class);
+            SkillTriggerOncePerUseSemantics.Member other = SkillTriggerOncePerUseSemantics.member(
+                row.ruleKey(),
+                SkillTriggerOncePerUseSemantics.fromDto(limits == null ? null : limits.oncePerUse())
+            );
+            if (other != null) {
+                others.add(other);
+            }
+        }
+        List<Map<String, String>> issues = SkillTriggerOncePerUseSemantics.groupIssues(
+            values.ruleKey(),
+            SkillTriggerOncePerUseSemantics.fromDto(values.oncePerUse()),
+            others,
+            "oncePerUse"
+        );
+        if (!issues.isEmpty()) {
+            throw new ApiException(
+                HttpStatus.CONFLICT,
+                "409.SKILL_TRIGGER_RULE_ONCE_PER_USE_INVALID",
+                "同次使用限制组范围与现有规则冲突",
+                Map.of("fieldIssues", List.copyOf(issues))
+            );
+        }
     }
 
     private static final class CollectedRefs {

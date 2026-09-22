@@ -119,6 +119,6 @@ class SkillTriggerTargetCategoryConditionServiceTest {
             new SkillTriggerEventSource(event, eventDetail),
             List.of(new SkillTriggerConditionGroup("g", "条件", 0, List.of(
                 new SkillTriggerCondition("target_category", SkillTriggerConditionType.TARGET_CATEGORY_CHECK, 0, detail)))),
-            List.of(executeAction("deal", EFFECT_KEY)), null, null);
+            List.of(executeAction("deal", EFFECT_KEY)), null, null, null);
     }
 }

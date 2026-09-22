@@ -176,6 +176,6 @@ class SkillTriggerSkillHitTargetIsEnemyConditionServiceTest {
             List.of(executeAction("damage", EFFECT_KEY)),
             null,
             null
-        );
+        , null);
     }
 }

@@ -165,7 +165,7 @@ class SkillTriggerRuleRuntimeInputServiceTest {
         ApiException error = thrown(() -> service.create(GAME_ID, SKILL_KEY, new SkillTriggerRuleCreateRequest(
             "slow", "减速", null, 0,
             new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT, new SkillTriggerEmptyEventDetail()),
-            List.of(), List.of(action), null, null)));
+            List.of(), List.of(action), null, null, null)));
         assertField(error, "actions[0].resultModifiers[0].resultKey", "REFERENCE_TYPE_MISMATCH");
         verify(mapper, never()).insertRule(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
     }
@@ -236,7 +236,7 @@ class SkillTriggerRuleRuntimeInputServiceTest {
                 List.of(first, second),
                 null,
                 null
-            )
+            , null)
         );
 
         assertEquals(List.of(first, second), service.get(GAME_ID, SKILL_KEY, "src_prior").actions());
@@ -267,7 +267,7 @@ class SkillTriggerRuleRuntimeInputServiceTest {
                 List.of(laterFollow, laterFirst),
                 null,
                 null
-            )
+            , null)
         ));
         assertEquals("400.INVALID_RUNTIME_INPUT_BINDING", later.getCode());
         assertField(later, "actions[0].runtimeInputBindings[0].detail.sourceActionKey", "RESULT_NOT_IMMEDIATELY_AVAILABLE");
@@ -312,7 +312,7 @@ class SkillTriggerRuleRuntimeInputServiceTest {
                 "keep", "keep", null, 10,
                 new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT, new SkillTriggerEmptyEventDetail()),
                 List.of(), List.of(first, second), null, null
-            )
+            , null)
         );
 
         ApiException removed = thrown(() -> service.update(
@@ -321,7 +321,7 @@ class SkillTriggerRuleRuntimeInputServiceTest {
                 "keep", "keep", null, 10,
                 new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT, new SkillTriggerEmptyEventDetail()),
                 List.of(), List.of(second), null, null
-            ))
+            , null))
         ));
         assertEquals("400.INVALID_RUNTIME_INPUT_BINDING", removed.getCode());
         verify(mapper, never()).updateRule(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
@@ -334,7 +334,7 @@ class SkillTriggerRuleRuntimeInputServiceTest {
                 "keep", "keep", null, 10,
                 new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_HIT, new SkillTriggerEmptyEventDetail()),
                 List.of(), List.of(renamedSource, second), null, null
-            ))
+            , null))
         );
         verify(mapper).updateRule(eq(GAME_ID), eq(SKILL_KEY), eq("keep"), any(), any(), any(), any(), any(), any(), any(), any());
         assertEquals(List.of(renamedSource, second), service.get(GAME_ID, SKILL_KEY, "keep").actions());

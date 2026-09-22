@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,7 @@ import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
+import xyz.game.datamanage.support.authoring.SkillTriggerOncePerUseSemantics;
 import xyz.game.datamanage.support.error.ApiException;
 
 /** 只诊断保存结构与直接接入；不执行机制，也不修改派生引用。 */
@@ -227,6 +229,8 @@ public class CharacterAuthoringCheckService {
         Set<String> connectedEffects = new HashSet<>();
         Set<String> startedProcesses = new HashSet<>();
         List<ObjectRow> passiveProcesses = new ArrayList<>();
+        Map<String, List<SkillTriggerOncePerUseSemantics.Member>> oncePerUseBySkill = new LinkedHashMap<>();
+        Map<String, ObjectRow> oncePerUseRows = new LinkedHashMap<>();
         for (ObjectRow row : rows) {
             checkKey(row.objectKey(), row.skillKey(), row.objectType(), row.objectKey(), "key", issues);
             checkName(row.name(), row.skillKey(), row.objectType(), row.objectKey(), "name", issues);
@@ -267,6 +271,12 @@ public class CharacterAuthoringCheckService {
                     requiredEnum(data.path("eventSource"), "eventType", SkillTriggerEventType.class, row, "eventSource.eventType", issues);
                     requireObject(data.path("eventSource").get("detail"), row, "eventSource.detail", false, issues);
                     requireObject(data.get("limits"), row, "limits", false, issues);
+                    var parsed = checkOncePerUse(row, data, issues);
+                    var member = SkillTriggerOncePerUseSemantics.member(row.objectKey(), parsed);
+                    if (member != null) {
+                        oncePerUseBySkill.computeIfAbsent(row.skillKey(), ignored -> new ArrayList<>()).add(member);
+                        oncePerUseRows.put(objectKey(row.skillKey(), row.objectKey()), row);
+                    }
                     List<JsonNode> groups = children(data.get("conditionGroups"), row, "conditionGroups", "groupKey", false, issues);
                     for (int i = 0; i < groups.size(); i++) {
                         String path = "conditionGroups[" + i + "].conditions";
@@ -299,6 +309,36 @@ public class CharacterAuthoringCheckService {
         }
         for (ObjectRow row : passiveProcesses) if (!startedProcesses.contains(objectKey(row.skillKey(), row.objectKey()))) {
             review(issues, row.skillKey(), row.objectType(), row.objectKey(), "activationType", "PASSIVE_PROCESS_NOT_STARTED", "被动过程未发现启动过程动作，请人工核对启动入口");
+        }
+        for (Map.Entry<String, List<SkillTriggerOncePerUseSemantics.Member>> entry : oncePerUseBySkill.entrySet()) {
+            for (Map<String, String> issue : SkillTriggerOncePerUseSemantics.groupConsistencyIssues(entry.getValue(), "limits.oncePerUse")) {
+                ObjectRow source = oncePerUseRows.get(objectKey(entry.getKey(), issue.get("sourceKey")));
+                if (source == null) continue;
+                issues.add(new Issue(issue.get("code"), "ERROR",
+                    issue.get("message") + "，冲突规则：" + issue.get("conflictingRuleKey"),
+                    source.skillKey(), source.objectType(), source.objectKey(), issue.get("field"), null));
+            }
+        }
+    }
+
+    private static SkillTriggerOncePerUseSemantics.Parsed checkOncePerUse(ObjectRow row, JsonNode data, List<Issue> issues) {
+        var parsed = SkillTriggerOncePerUseSemantics.parse(data.path("limits").path("oncePerUse"));
+        SkillTriggerEventType eventType = null;
+        String rawEvent = data.path("eventSource").path("eventType").asText(null);
+        if (rawEvent != null && !rawEvent.isBlank()) {
+            try { eventType = SkillTriggerEventType.valueOf(rawEvent); }
+            catch (IllegalArgumentException ignored) { eventType = null; }
+        }
+        addOncePerUseIssues(row, SkillTriggerOncePerUseSemantics.unknownFieldIssues(parsed, "limits.oncePerUse"), issues);
+        addOncePerUseIssues(row, SkillTriggerOncePerUseSemantics.shapeIssues(parsed, "limits.oncePerUse"), issues);
+        addOncePerUseIssues(row, SkillTriggerOncePerUseSemantics.eventIssues(eventType, parsed, "limits.oncePerUse"), issues);
+        return parsed;
+    }
+
+    private static void addOncePerUseIssues(ObjectRow row, List<Map<String, String>> found, List<Issue> issues) {
+        for (Map<String, String> issue : found) {
+            issues.add(new Issue(issue.get("code"), "ERROR", issue.get("message"), row.skillKey(),
+                row.objectType(), row.objectKey(), issue.get("field"), null));
         }
     }
 

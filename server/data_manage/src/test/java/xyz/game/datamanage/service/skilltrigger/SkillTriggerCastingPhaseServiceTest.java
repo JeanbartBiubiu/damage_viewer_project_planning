@@ -98,7 +98,7 @@ class SkillTriggerCastingPhaseServiceTest {
             List.of(executeAction("deal", EFFECT_KEY)),
             null,
             null
-        );
+        , null);
         assertField(thrown(() -> service.update(GAME_ID, SKILL_KEY, "legacy", rename)),
             "eventSource.detail.castPhase", "REQUIRED");
     }

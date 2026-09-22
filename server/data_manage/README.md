@@ -43,9 +43,9 @@
 | 效果 | `results`、`lifecycle` | 结果数组和可选效果生命周期；结果自身保留数值规则、类型明细与生命周期行为 |
 | 内部状态 | `detail` | COUNTER、AMMO、MODE、FLAG、INTERNAL_COOLDOWN 对应内容，模式选项也在其中 |
 | 过程 | `steps`、`cooldown`、`effect_bindings`、`state_operations` | 步骤、可选普通冷却、效果挂接与内部状态操作 |
-| 触发规则 | `event_source`、`condition_groups`、`actions`、`limits` | 事件来源、条件组、动作与两项触发限制 |
+| 触发规则 | `event_source`、`condition_groups`、`actions`、`limits` | 事件来源、条件组、动作与三项触发限制 |
 
-数据库的 `effect_bindings`、`state_operations` 等列对应接口中的 `effectBindings`、`stateOperations`；触发规则的 `limits` 只用于存储，接口使用 `perTargetCooldown` 和 `maxTriggersPerProcess` 字段。数值字段使用下文的三种统一取值来源；其余枚举、数组顺序、空值语义，以及角色、装备和参数的完整属性或等级取值图保持原结构。
+数据库的 `effect_bindings`、`state_operations` 等列对应接口中的 `effectBindings`、`stateOperations`；触发规则的 `limits` 只用于存储，接口使用 `perTargetCooldown`、`maxTriggersPerProcess` 和 `oncePerUse` 字段。数值字段使用下文的三种统一取值来源；其余枚举、数组顺序、空值语义，以及角色、装备和参数的完整属性或等级取值图保持原结构。
 
 ### 校验与并发写入
 
@@ -132,6 +132,14 @@
 该值必须来自同次实际命中的护盾判定，缺少结果必须报缺失，不能默认补零，也不能从伤害、护盾存续或免疫反推。当前只保存管理输入契约，不产生运行时判定；比较此值不作为循环保护。
 
 持续状态施加允许保留当前结果粒度：`TARGET + STATUS_OPERATION + APPLY + PERSISTENT + RESULT`。创建、修改与聚合读回共用 `SkillEffectService` 的资格校验；其他持续非空粒度仍拒绝，`null` 保持不参与阻挡的含义。共享语义以规划工作树的《法术护盾闭环详细设计》为准，沿用现有结果与生命周期 JSONB，不增加表或字段；本服务不执行状态期限或法术护盾战斗判断。
+
+### 同次使用限制
+
+触发规则可空 `oncePerUse: {groupKey, scope}` 写入现有 `limits` JSON，不加表、不做数据迁移。页面称“同次使用仅触发一次”；`null` 或缺失表示关闭，旧 JSON 缺该字段读回 `null`，不猜测组名。启用后 `groupKey` 沿用 `^[a-z][a-z0-9_]{0,63}$`，`scope` 为 `SKILL` 或 `TARGET`，额度固定一次，不接受次数配置或其它额外字段。
+
+只允许 `SKILL_HIT`、`BASIC_ATTACK_HIT`、`BASIC_ATTACK_START`。同技能同一 `groupKey` 必须同范围；保存时在 `listRulesForUpdate` 事务锁下核对其他规则，冲突字段为 `oncePerUse.scope` 并附 `conflictingRuleKey`，不偷偷改另一条。不同技能可以重名。删除或把该限制改为 `null` 后，剩余成员可改范围。
+
+`groupKey` 不是目录或用户技能引用，不进入 `skill_object_references`。请求形状、未知字段和事件资格返回 `400.VALIDATION_FAILED` 或 `400.INVALID_BODY`；与已有规则组冲突以及提交前最终聚合不合法返回 `409.SKILL_TRIGGER_RULE_ONCE_PER_USE_INVALID`。服务字段校验与 `GameConfigurationWriteGuard` 共用 `SkillTriggerOncePerUseSemantics`。角色录入检查走同一语义，诊断字段经第8项 `limits` 展开为 `oncePerUse.groupKey` / `oncePerUse.scope`。本模块只保存、校验和回读，不执行额度。共享契约以规划真源[管理页面与共性机制迭代计划](../../../damage_viewer_project_planning/文档记录/详细设计/项目/管理页面与共性机制迭代计划.md)第6项（`authoring-p6-r3`）为准。
 
 ## 初始化与已有库迁移
 

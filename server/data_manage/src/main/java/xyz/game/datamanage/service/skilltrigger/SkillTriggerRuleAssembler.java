@@ -9,7 +9,8 @@ import xyz.game.datamanage.support.authoring.AggregateJson;
 @Component
 public class SkillTriggerRuleAssembler {
     public record Limits(SkillTriggerPerTargetCooldown perTargetCooldown,
-                         SkillTriggerProcessLimit maxTriggersPerProcess) {}
+                         SkillTriggerProcessLimit maxTriggersPerProcess,
+                         SkillTriggerOncePerUse oncePerUse) {}
 
     public SkillTriggerRuleDetailResponse assemble(SkillTriggerRuleRow row) {
         Limits limits = AggregateJson.read(row.limitsJson(), Limits.class);
@@ -18,7 +19,8 @@ public class SkillTriggerRuleAssembler {
             orderedGroups(AggregateJson.readList(row.conditionGroupsJson(), SkillTriggerConditionGroup.class)),
             orderedActions(AggregateJson.readList(row.actionsJson(), SkillTriggerAction.class)),
             limits == null ? null : limits.perTargetCooldown(),
-            limits == null ? null : limits.maxTriggersPerProcess());
+            limits == null ? null : limits.maxTriggersPerProcess(),
+            limits == null ? null : limits.oncePerUse());
     }
 
     static List<SkillTriggerConditionGroup> orderedGroups(List<SkillTriggerConditionGroup> groups) {

@@ -212,7 +212,7 @@ class SkillTriggerRuleAdminControllerTest {
             )),
             null,
             null
-        );
+        , null);
         when(service.create(eq("lol"), eq("ezreal_q"), any(SkillTriggerRuleCreateRequest.class)))
             .thenReturn(response);
 
@@ -281,7 +281,7 @@ class SkillTriggerRuleAdminControllerTest {
             )),
             null,
             null
-        );
+        , null);
         when(service.create(eq("lol"), eq("ezreal_q"), any(SkillTriggerRuleCreateRequest.class)))
             .thenReturn(response);
 
@@ -327,6 +327,23 @@ class SkillTriggerRuleAdminControllerTest {
             .andExpect(jsonPath("$.error.code").value("400.INVALID_BODY"));
         verify(service, never()).create(any(), any(), any());
         verify(logHelper, never()).log(any(), any(), any(), anyInt());
+    }
+
+    @Test
+    void oncePerUseNonObjectOrIllegalScopeReturnInvalidBody() throws Exception {
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(createJson().replace("\"sortOrder\":10", "\"sortOrder\":10,\"oncePerUse\":[]")))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.code").value("400.INVALID_BODY"));
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(createJson().replace(
+                    "\"sortOrder\":10",
+                    "\"sortOrder\":10,\"oncePerUse\":{\"groupKey\":\"eclipse\",\"scope\":\"PROVIDER\"}")))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.code").value("400.INVALID_BODY"));
+        verify(service, never()).create(any(), any(), any());
     }
 
     @Test
@@ -410,7 +427,7 @@ class SkillTriggerRuleAdminControllerTest {
     private static SkillTriggerRuleSummaryResponse summary() {
         return new SkillTriggerRuleSummaryResponse(
             "on_hit", "命中追加", null, SkillTriggerEventType.BASIC_ATTACK_HIT,
-            0, 1, false, false, 10, TS
+            0, 1, false, false, false, 10, TS
         );
     }
 
@@ -429,6 +446,7 @@ class SkillTriggerRuleAdminControllerTest {
                 List.of(),
                 List.of()
             )),
+            null,
             null,
             null
         );

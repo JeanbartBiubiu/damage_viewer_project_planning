@@ -166,6 +166,6 @@ class SkillTriggerExplicitTargetIsSourceConditionServiceTest {
             List.of(executeAction("shield", EFFECT_KEY)),
             null,
             null
-        );
+        , null);
     }
 }

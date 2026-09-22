@@ -45,6 +45,10 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventUseKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerExecuteEffectActionDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerFailProcessActionDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerOncePerUse;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerOncePerUseScope;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerPerTargetCooldown;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessLimit;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthDirection;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthThresholdEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateLockRow;
@@ -123,7 +127,7 @@ final class SkillTriggerRuleTestSupport {
         lenient().when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
         lenient().when(skillMapper.findById(GAME_ID, SKILL_KEY)).thenReturn(skill());
         lenient().when(skillMapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(skill());
-        lenient().when(mapper.listRulesForUpdate(GAME_ID, SKILL_KEY)).thenReturn(List.of());
+        lenient().when(mapper.listRulesForUpdate(GAME_ID, SKILL_KEY)).thenAnswer(invocation -> List.copyOf(stored.values()));
         lenient().when(mapper.countByKey(eq(GAME_ID), eq(SKILL_KEY), anyString())).thenReturn(0L);
         lenient().when(mapper.lockAttributes(eq(GAME_ID), anyCollection())).thenAnswer(invocation -> {
             Collection<String> keys = invocation.getArgument(1);
@@ -187,7 +191,41 @@ final class SkillTriggerRuleTestSupport {
         List<SkillTriggerAction> actions
     ) {
         return new SkillTriggerRuleCreateRequest(
-            ruleKey, ruleKey, null, 10, eventSource, List.of(), actions, null, null
+            ruleKey, ruleKey, null, 10, eventSource, List.of(), actions, null, null, null
+        );
+    }
+
+    static SkillTriggerOncePerUse oncePerUse(String groupKey, SkillTriggerOncePerUseScope scope) {
+        return new SkillTriggerOncePerUse(groupKey, scope);
+    }
+
+    static SkillTriggerRuleCreateRequest oncePerUseRule(
+        String ruleKey,
+        SkillTriggerEventType eventType,
+        SkillTriggerOncePerUse oncePerUse
+    ) {
+        return oncePerUseRule(ruleKey, eventType, oncePerUse, null, null);
+    }
+
+    static SkillTriggerRuleCreateRequest oncePerUseRule(
+        String ruleKey,
+        SkillTriggerEventType eventType,
+        SkillTriggerOncePerUse oncePerUse,
+        SkillTriggerPerTargetCooldown cooldown,
+        SkillTriggerProcessLimit processLimit
+    ) {
+        SkillTriggerEventSource source = switch (eventType) {
+            case SKILL_HIT -> new SkillTriggerEventSource(
+                eventType, new SkillTriggerSkillEventDetail(SKILL_KEY, null)
+            );
+            case SKILL_USED -> skillUsed(SkillTriggerCastPhase.INITIAL);
+            case PROCESS_MOMENT -> processStart(PROCESS_KEY);
+            default -> new SkillTriggerEventSource(eventType, new SkillTriggerEmptyEventDetail());
+        };
+        return new SkillTriggerRuleCreateRequest(
+            ruleKey, ruleKey, null, 10, source, List.of(),
+            List.of(executeAction(ruleKey + "_act", EFFECT_KEY)),
+            cooldown, processLimit, oncePerUse
         );
     }
 
@@ -201,7 +239,8 @@ final class SkillTriggerRuleTestSupport {
             request.conditionGroups(),
             request.actions(),
             request.perTargetCooldown(),
-            request.maxTriggersPerProcess()
+            request.maxTriggersPerProcess(),
+            request.oncePerUse()
         );
     }
 
@@ -414,7 +453,7 @@ final class SkillTriggerRuleTestSupport {
         return new SkillTriggerRuleRow(GAME_ID, SKILL_KEY, ruleKey, name, null, 10, eventType, TS, TS,
             xyz.game.datamanage.support.authoring.AggregateJson.write(
                 new SkillTriggerEventSource(eventType, new SkillTriggerEmptyEventDetail())),
-            "[]", "[]", "{\"perTargetCooldown\":null,\"maxTriggersPerProcess\":null}");
+            "[]", "[]", "{\"perTargetCooldown\":null,\"maxTriggersPerProcess\":null,\"oncePerUse\":null}");
     }
 
     static SkillTriggerActionRow executeActionRow(String ruleKey, String actionKey) {

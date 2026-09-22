@@ -263,7 +263,7 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
     ) {
         return new SkillTriggerRuleCreateRequest(
             ruleKey, ruleKey, null, 10, eventSource, groups, List.of(executeAction("deal", EFFECT_KEY)), null, null
-        );
+        , null);
     }
 
     private static SkillTriggerConditionGroup group(String groupKey, SkillTriggerCondition condition) {
