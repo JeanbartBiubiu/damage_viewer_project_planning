@@ -204,10 +204,16 @@ func (s *genericRunState) validateRestoredLedgerRow(row model.UseTriggerLedgerEn
 	if _, ok := model.ValidOncePerUseScope[row.Scope]; !ok {
 		return s.skillHitErr(model.GenericErrUnknownRef, "useTriggerLedger.scope must be provider or provider_target", path+".scope", row.Scope)
 	}
+	if !s.combatantExists(row.UseSource) {
+		return s.skillHitErr(model.GenericErrUnknownRef, "useTriggerLedger.useSource is not a snapshot actor", path+".useSource", row.UseSource)
+	}
+	if row.Target != nil && !s.combatantExists(*row.Target) {
+		return s.skillHitErr(model.GenericErrUnknownRef, "useTriggerLedger.target is not a snapshot actor", path+".target", *row.Target)
+	}
 	if row.Scope == model.OncePerUseScopeProviderTarget && (row.Target == nil || strings.TrimSpace(*row.Target) == "") {
 		return s.skillHitErr(model.GenericErrMissingRequiredField, "provider_target ledger rows require target", path+".target", row.UseKey)
 	}
-	if row.Scope == model.OncePerUseScopeProvider && row.Target != nil && strings.TrimSpace(*row.Target) != "" {
+	if row.Scope == model.OncePerUseScopeProvider && row.Target != nil {
 		return s.skillHitErr(model.GenericErrUnknownRef, "provider-scope ledger rows cannot carry a target", path+".target", row.UseKey)
 	}
 	mountID := row.Owner + "\x00" + row.ProviderRef + "\x00" + row.GroupKey + "\x00" + row.Scope
@@ -342,8 +348,17 @@ func useTriggerLedgerLess(a, b model.UseTriggerLedgerEntry) bool {
 	if a.GroupKey != b.GroupKey {
 		return a.GroupKey < b.GroupKey
 	}
+	if a.Scope != b.Scope {
+		return a.Scope < b.Scope
+	}
+	if a.UseSource != b.UseSource {
+		return a.UseSource < b.UseSource
+	}
 	if a.UseKey != b.UseKey {
 		return a.UseKey < b.UseKey
+	}
+	if a.UseSkillKey != b.UseSkillKey {
+		return a.UseSkillKey < b.UseSkillKey
 	}
 	at, bt := "", ""
 	if a.Target != nil {

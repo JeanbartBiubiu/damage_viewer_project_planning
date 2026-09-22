@@ -303,6 +303,8 @@ node .\scripts\skill-hit-smoke-node.mjs
 - `operation.outputRef` 只导出同帧真实 `pipeline.DamageOutcome` 的 `POST_DEFENSE_DAMAGE` / `SHIELD_ABSORBED` / `ACTUAL_HP_LOSS`。
 - 普通攻击 `resolve_skill_hit` 只发 `event/basic_attack_hit`；空 operations 的 `attackStartFacts` 开始 driver 只发 `event/basic_attack_start`。`emit_event` 不能伪造这两种原生事件。
 
+入口中的 `source`、`target` 是实际快照角色标识，只有 `self`、`opponent` 按来源解释；操作中的目标仍按当前执行帧解释。反向施法的资源门禁、命中和原生攻击开始与使用记录保持同一实际来源。恢复状态先检查原始对象和数值，不能丢弃非法字段后当默认值；额度账本核对来源、目标并按完整身份稳定排序。动态供值器不支持同次使用限制，不能静默忽略。内联被动能力的操作与直接监听操作遵守相同的冻结条件限制，施放门禁及其他非操作位置不能借用尚未生成的伤害输出。
+
 专项验证使用独立构造的 `internal/testkit/fixtures/generic_p6.json`，不修改或复制原基准样例。最终构建后运行：
 
 ```powershell

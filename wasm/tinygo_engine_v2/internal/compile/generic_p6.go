@@ -26,11 +26,16 @@ func validateOncePerUse(listener model.ListenerDefinition, path string, ownerPro
 	limit := listener.OncePerUse
 	if ownerProviderIndex < 0 {
 		collector.addError(model.GenericErrUnknownRef, path+".oncePerUse", "oncePerUse is only allowed on mounted provider listeners", listener.ListenerKey)
+	} else if ownerProviderIndex < len(ctx.session.Providers) {
+		provider := ctx.session.Providers[ownerProviderIndex]
+		if provider.Kind == "status" || provider.Lifecycle != nil {
+			collector.addError(model.GenericErrUnknownRef, path+".oncePerUse", "oncePerUse requires a static provider without a dynamic lifecycle", listener.ListenerKey)
+		}
 	}
 	if strings.TrimSpace(limit.GroupKey) == "" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".oncePerUse.groupKey", "oncePerUse.groupKey is required", listener.ListenerKey)
-	} else if utf8.RuneCountInString(limit.GroupKey) > model.MaxOncePerUseGroupKeyLen || strings.Contains(limit.GroupKey, ".") {
-		collector.addError(model.GenericErrUnknownRef, path+".oncePerUse.groupKey", "oncePerUse.groupKey must be a 1-64 character identifier without dots", limit.GroupKey)
+	} else if !validOncePerUseGroupKey(limit.GroupKey) {
+		collector.addError(model.GenericErrUnknownRef, path+".oncePerUse.groupKey", "oncePerUse.groupKey must match [a-z][a-z0-9_]{0,63}", limit.GroupKey)
 	}
 	if _, ok := model.ValidOncePerUseScope[limit.Scope]; !ok {
 		collector.addError(model.GenericErrUnknownRef, path+".oncePerUse.scope", "oncePerUse.scope must be provider or provider_target", limit.Scope)
@@ -41,9 +46,29 @@ func validateOncePerUse(listener model.ListenerDefinition, path string, ownerPro
 	if listener.MaxTriggersPerEvent > 1 {
 		collector.addError(model.GenericErrUnknownRef, path+".maxTriggersPerEvent", "oncePerUse listeners cannot set maxTriggersPerEvent>1", listener.ListenerKey)
 	}
-	for i, op := range listener.Operations {
+	validateOncePerUseOperations(listener.Operations, path+".operations", ctx)
+}
+
+func validOncePerUseGroupKey(key string) bool {
+	if len(key) == 0 || len(key) > model.MaxOncePerUseGroupKeyLen || key[0] < 'a' || key[0] > 'z' {
+		return false
+	}
+	for i := 1; i < len(key); i++ {
+		c := key[i]
+		if !(c >= 'a' && c <= 'z') && !(c >= '0' && c <= '9') && c != '_' {
+			return false
+		}
+	}
+	return true
+}
+
+func validateOncePerUseOperations(operations []model.OperationDefinition, path string, ctx *genericCompileContext) {
+	for i, op := range operations {
 		if op.Condition != nil {
-			collector.addError(model.GenericErrUnknownRef, path+".operations["+itoa(i)+"].condition", "oncePerUse listeners cannot use operation.condition", listener.ListenerKey)
+			ctx.collector.addError(model.GenericErrUnknownRef, path+"["+itoa(i)+"].condition", "oncePerUse listeners cannot use operation.condition", op.Ref)
+		}
+		if op.Operation == model.OperationKindRepeat || op.Operation == model.OperationKindResolveSkillHit {
+			ctx.collector.addError(model.GenericErrUnknownRef, path+"["+itoa(i)+"]", "oncePerUse requires direct operations in one execution frame", op.Operation)
 		}
 	}
 }

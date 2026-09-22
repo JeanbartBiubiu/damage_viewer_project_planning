@@ -248,20 +248,20 @@ type CompiledSkillHit struct {
 
 // CompiledSkillHitCandidate 保存资格、条件程序与候选操作区间。
 type CompiledSkillHitCandidate struct {
-	CandidateKey           string
-	EffectOccurrenceKey    string
-	EffectKey              string
-	ResultKey              string
-	Semantic               model.SkillHitSemantic
-	BlockScope             string // empty = null
-	HasBlockScope          bool
-	InboundBlockEligible   bool
-	ParticipationProgram   formula.GenericProgramID
-	HasParticipation       bool
-	EventValueConds        []CompiledSkillHitValueCond
-	OperationStart         uint16
-	OperationCount         uint16
-	Path                   string
+	CandidateKey         string
+	EffectOccurrenceKey  string
+	EffectKey            string
+	ResultKey            string
+	Semantic             model.SkillHitSemantic
+	BlockScope           string // empty = null
+	HasBlockScope        bool
+	InboundBlockEligible bool
+	ParticipationProgram formula.GenericProgramID
+	HasParticipation     bool
+	EventValueConds      []CompiledSkillHitValueCond
+	OperationStart       uint16
+	OperationCount       uint16
+	Path                 string
 }
 
 // CompiledSkillHitValueCond 是编译后的 first_contact/blocked 比较。
@@ -729,6 +729,9 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 			spec.ListenerKey = ability.AbilityKey
 		}
 		// Inline passive_listener: execution target is this ability's operations.
+		if spec.OncePerUse != nil && len(spec.Operations) == 0 {
+			validateOncePerUseOperations(ability.Operations, path+".operations", ctx)
+		}
 		inline := compileListenerDefinition(spec, path+".listenerSpec", "", "", abilityIndex, int(providerIndex), ctx)
 		if ability.Kind == "passive_listener" && inline.OperationCount == 0 && compiled.OperationCount > 0 {
 			inline.OperationStart = compiled.OperationStart
@@ -1000,6 +1003,7 @@ func compileListener(listener model.ListenerDefinition, path string, ctx *generi
 }
 
 func (ctx *genericCompileContext) registerFormula(key string, instr []formula.GenericInstr) formula.GenericProgramID {
+	validateOperationOutputReads(instr, key, ctx)
 	session := ctx.session
 	if id, exists := session.Formulas.Index[key]; exists {
 		return id
@@ -1154,7 +1158,6 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 			}
 			compiled.AmountProgram = session.Formulas.Index[key]
 			compiled.HasAmount = true
-			validateOperationOutputReads(instr, path+".amount", ctx)
 		}
 	}
 	if op.Condition != nil {
@@ -1164,7 +1167,6 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 			key := path + ".condition"
 			compiled.ConditionProgram = ctx.registerFormula(key, instr)
 			compiled.HasCondition = true
-			validateOperationOutputReads(instr, path+".condition", ctx)
 		}
 	}
 	if op.AbilityRef != "" {
