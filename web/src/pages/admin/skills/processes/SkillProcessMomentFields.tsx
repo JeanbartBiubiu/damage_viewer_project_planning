@@ -1,8 +1,11 @@
 import { Form, Select } from '@arco-design/web-react';
-import type { SkillProcessMomentType } from '../../../../types/skillProcess';
+import type { SkillProcessFailureReason, SkillProcessMomentType } from '../../../../types/skillProcess';
 import type { SkillProcessStepDraft } from './processForm';
 import {
   MISSING_CATALOG_LABEL,
+  PROCESS_FAILURE_REASON_ANY_LABEL,
+  PROCESS_FAILURE_REASON_LABELS,
+  PROCESS_FAILURE_REASONS,
   SKILL_PROCESS_MOMENT_TYPE_LABELS,
   SKILL_PROCESS_MOMENT_TYPES,
   isProcessLevelMoment,
@@ -13,23 +16,29 @@ import {
 type MomentFieldsProps = {
   momentType: SkillProcessMomentType;
   stepKey: string;
+  failureReason?: SkillProcessFailureReason | '';
   steps: SkillProcessStepDraft[];
   momentError?: string;
   stepKeyError?: string;
+  failureReasonError?: string;
   disabled?: boolean;
   onMomentTypeChange: (value: SkillProcessMomentType) => void;
   onStepKeyChange: (value: string) => void;
+  onFailureReasonChange?: (value: SkillProcessFailureReason | '') => void;
 };
 
 export function SkillProcessMomentFields({
   momentType,
   stepKey,
+  failureReason = '',
   steps,
   momentError,
   stepKeyError,
+  failureReasonError,
   disabled,
   onMomentTypeChange,
-  onStepKeyChange
+  onStepKeyChange,
+  onFailureReasonChange
 }: MomentFieldsProps) {
   const needsStep = !isProcessLevelMoment(momentType);
   const selectedStep = steps.find((item) => item.stepKey.trim() === stepKey.trim());
@@ -81,6 +90,28 @@ export function SkillProcessMomentFields({
             options={stepOptions}
             placeholder="请选择步骤"
             onChange={(value) => onStepKeyChange(String(value ?? ''))}
+          />
+        </Form.Item>
+      ) : null}
+      {momentType === 'PROCESS_FAILURE' ? (
+        <Form.Item
+          label="失败原因"
+          validateStatus={failureReasonError ? 'error' : undefined}
+          help={failureReasonError}
+        >
+          <Select
+            aria-label="失败原因"
+            allowClear
+            value={failureReason || undefined}
+            disabled={disabled}
+            placeholder={PROCESS_FAILURE_REASON_ANY_LABEL}
+            options={PROCESS_FAILURE_REASONS.map((value) => ({
+              value,
+              label: PROCESS_FAILURE_REASON_LABELS[value]
+            }))}
+            onChange={(value) => onFailureReasonChange?.(
+              value ? value as SkillProcessFailureReason : ''
+            )}
           />
         </Form.Item>
       ) : null}

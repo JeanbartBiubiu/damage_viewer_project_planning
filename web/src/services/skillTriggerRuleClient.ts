@@ -4,13 +4,16 @@ import { SKILL_TRIGGER_TARGET_CATEGORIES } from '../types/skillTriggerRule';
 import type { ApiResult } from './apiClient';
 import { encodePathSegment, requestJson } from './apiClient';
 import { skillsPath } from './skillClient';
+import { parseSkillProcessMoment } from './skillProcessMoment';
 import type {
   CreateSkillTriggerRuleRequest,
   SkillTriggerAction,
+  SkillTriggerCastPhase,
   SkillTriggerCondition,
   SkillTriggerConditionGroup,
   SkillTriggerEventSource,
   SkillTriggerEventType,
+  SkillTriggerEventUseKind,
   SkillTriggerRuleDetail,
   SkillTriggerRuleSummary,
   SkillTriggerRuntimeInputBinding,
@@ -54,7 +57,10 @@ const CONDITION_TYPES = new Set([
   'EVENT_VALUE_COMPARE'
 ]);
 
-const ACTION_TYPES = new Set(['EXECUTE_EFFECT', 'START_PROCESS', 'FAIL_PROCESS']);
+const ACTION_TYPES = new Set(['EXECUTE_EFFECT', 'START_PROCESS', 'FAIL_PROCESS', 'ADVANCE_PROCESS']);
+const CAST_PHASES = new Set<SkillTriggerCastPhase>(['INITIAL', 'RECAST', 'CHARGE_RELEASE']);
+const SKILL_USED_DETAIL_KEYS = new Set(['sourceSkillKey', 'useKind', 'castPhase']);
+const ADVANCE_PROCESS_DETAIL_KEYS = new Set(['processKey', 'stepKey']);
 
 const SOURCE_TYPES = new Set([
   'INTERNAL_STATE',
@@ -162,17 +168,36 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
   }
   if (!isRecord(value.detail)) protocolError(`${path}.detail`);
   const detail = value.detail;
+  if (eventType !== 'SKILL_USED' && detail.castPhase !== null && detail.castPhase !== undefined) {
+    protocolError(`${path}.detail.castPhase`);
+  }
   switch (eventType) {
     case 'SOURCE_INITIALIZED':
     case 'TAKEDOWN':
       if (Object.keys(detail).length !== 0) protocolError(`${path}.detail`);
       break;
-    case 'SKILL_USED':
+    case 'SKILL_USED': {
+      if (Object.keys(detail).some((key) => !SKILL_USED_DETAIL_KEYS.has(key))) {
+        protocolError(`${path}.detail`);
+      }
       if (typeof detail.useKind !== 'string') protocolError(`${path}.detail.useKind`);
       if (detail.sourceSkillKey !== null && typeof detail.sourceSkillKey !== 'string') {
         protocolError(`${path}.detail.sourceSkillKey`);
       }
+      let castPhase: SkillTriggerCastPhase | null = null;
+      if ('castPhase' in detail && detail.castPhase !== null && detail.castPhase !== undefined) {
+        if (typeof detail.castPhase !== 'string' || !CAST_PHASES.has(detail.castPhase as SkillTriggerCastPhase)) {
+          protocolError(`${path}.detail.castPhase`);
+        }
+        castPhase = detail.castPhase as SkillTriggerCastPhase;
+      }
+      value.detail = {
+        sourceSkillKey: detail.sourceSkillKey as string | null,
+        useKind: detail.useKind as SkillTriggerEventUseKind,
+        castPhase
+      };
       break;
+    }
     case 'SKILL_HIT':
       if (detail.sourceSkillKey !== null && typeof detail.sourceSkillKey !== 'string') {
         protocolError(`${path}.detail.sourceSkillKey`);
@@ -191,6 +216,7 @@ function assertEventSource(value: unknown, path: string): SkillTriggerEventSourc
       if (typeof detail.processKey !== 'string' || !isRecord(detail.moment)) {
         protocolError(`${path}.detail`);
       }
+      detail.moment = parseSkillProcessMoment(detail.moment, `${path}.detail.moment`, protocolError);
       break;
     case 'RESULT_AVAILABLE':
       if (typeof detail.effectKey !== 'string' || typeof detail.resultKey !== 'string') {
@@ -393,6 +419,20 @@ function assertAction(value: unknown, path: string): SkillTriggerAction {
     && (typeof value.detail.processKey !== 'string' || typeof value.detail.failureReason !== 'string')
   ) {
     protocolError(`${path}.detail`);
+  }
+  if (actionType === 'ADVANCE_PROCESS') {
+    if (value.targetContext !== null) protocolError(`${path}.targetContext`);
+    if (value.runtimeInputBindings.length !== 0) protocolError(`${path}.runtimeInputBindings`);
+    if (value.resultModifiers.length !== 0) protocolError(`${path}.resultModifiers`);
+    if (
+      Object.keys(value.detail).some((key) => !ADVANCE_PROCESS_DETAIL_KEYS.has(key))
+      || typeof value.detail.processKey !== 'string'
+      || typeof value.detail.stepKey !== 'string'
+      || !/^[a-z][a-z0-9_]{0,63}$/.test(value.detail.processKey)
+      || !/^[a-z][a-z0-9_]{0,63}$/.test(value.detail.stepKey)
+    ) {
+      protocolError(`${path}.detail`);
+    }
   }
   return value as SkillTriggerAction;
 }

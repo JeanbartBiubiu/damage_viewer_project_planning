@@ -1,7 +1,7 @@
 import { lifecycleConditionError, LIFECYCLE_CHECK_LABELS } from './lifecycleCondition';
 import { allowsExplicitTargetIsSource, explicitTargetIsSourceError } from './explicitTargetCondition';
 import { allowsSkillHitEnemy, skillHitEnemyError } from './skillHitEnemyCondition';
-import { allowsSourceCastResourceCost, sourceCastResourceCostError } from './sourceCastResourceCost';
+import { allowsSourceCastResourceCost, sourceCastResourceCostError, type SourceCastResourceCostProcess } from './sourceCastResourceCost';
 import { allowsTargetCategoryCheck, targetCategoryConditionError, TARGET_CATEGORY_LABELS } from './targetCategoryCondition';
 import type { Attribute } from '../../../../types/attribute';
 import { fixedValue, numericFormulaKey, numericParameterKey } from '../../../../types/numericValue';
@@ -28,6 +28,7 @@ import type {
   SkillTriggerAction,
   SkillTriggerActionType,
   SkillTriggerAttributeCompareDetail,
+  SkillTriggerCastPhase,
   SkillTriggerCombatStatusBinding,
   SkillTriggerCombatStatusBindingDetail,
   SkillTriggerCombatStatusMeasuredBindingDetail,
@@ -80,7 +81,12 @@ import type {
   UpdateSkillTriggerRuleRequest
 } from '../../../../types/skillTriggerRule';
 import { FORMULA_ATTRIBUTE_VALUE_KINDS, attributeValueKindLabel } from '../formulaExpression';
-import { isProcessLevelMoment, SKILL_PROCESS_MOMENT_TYPE_LABELS } from '../processes/processForm';
+import {
+  isProcessLevelMoment,
+  PROCESS_FAILURE_REASON_ANY_LABEL,
+  PROCESS_FAILURE_REASON_LABELS,
+  SKILL_PROCESS_MOMENT_TYPE_LABELS
+} from '../processes/processForm';
 import { SKILL_INTERNAL_STATE_TYPE_LABELS } from '../processes/internalStateForm';
 
 export const SKILL_TRIGGER_KEY_PATTERN = /^[a-z][a-z0-9_]{0,63}$/;
@@ -243,7 +249,8 @@ export const SKILL_TRIGGER_CONDITION_TYPES = [
 export const SKILL_TRIGGER_ACTION_TYPES = [
   'EXECUTE_EFFECT',
   'START_PROCESS',
-  'FAIL_PROCESS'
+  'FAIL_PROCESS',
+  'ADVANCE_PROCESS'
 ] as const satisfies readonly SkillTriggerActionType[];
 
 export const SKILL_TRIGGER_SOURCE_TYPES = [
@@ -369,7 +376,7 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
     currentTargetBinding: '该次技能使用的显式目标；没有时为来源对象。',
     hasEventSource: false,
     requiredCatalogs: ['skills'],
-    detailFields: ['sourceSkillKey', 'useKind']
+    detailFields: ['sourceSkillKey', 'useKind', 'castPhase']
   },
   BASIC_ATTACK_START: {
     eventType: 'BASIC_ATTACK_START',
@@ -611,7 +618,8 @@ export const SKILL_TRIGGER_CONDITION_TYPE_LABELS = {
 export const SKILL_TRIGGER_ACTION_TYPE_LABELS = {
   EXECUTE_EFFECT: '执行效果',
   START_PROCESS: '启动过程',
-  FAIL_PROCESS: '令过程失败'
+  FAIL_PROCESS: '令过程失败',
+  ADVANCE_PROCESS: '推进当前过程'
 } as const satisfies { [K in SkillTriggerActionType]: string };
 
 export const SKILL_TRIGGER_SOURCE_TYPE_LABELS = {
@@ -638,6 +646,25 @@ export const SKILL_TRIGGER_USE_KIND_LABELS = {
   CONSUMABLE: '消耗',
   ANY: '任意'
 } as const satisfies { [K in SkillTriggerEventUseKind]: string };
+
+export const SKILL_TRIGGER_CAST_PHASES = [
+  'INITIAL',
+  'RECAST',
+  'CHARGE_RELEASE'
+] as const satisfies readonly SkillTriggerCastPhase[];
+
+export const SKILL_TRIGGER_CAST_PHASE_LABELS = {
+  INITIAL: '首次施放',
+  RECAST: '再次施放',
+  CHARGE_RELEASE: '蓄力释放'
+} as const satisfies { [K in SkillTriggerCastPhase]: string };
+
+export const SKILL_TRIGGER_CAST_PHASE_PENDING_LABEL = '使用阶段待核定';
+export const SKILL_TRIGGER_CAST_PHASE_REQUIRED_MESSAGE = '请选择使用阶段。';
+export const SKILL_TRIGGER_START_PROCESS_PHASE_MESSAGE = '已核定的技能使用事件只有首次阶段可以启动过程。';
+export const SKILL_TRIGGER_ADVANCE_PROCESS_EVENT_MESSAGE = '推进当前过程仅用于明确来源为本技能的再次施放或蓄力释放。';
+export const SKILL_TRIGGER_ADVANCE_PROCESS_STEP_MESSAGE = '请选择与使用阶段匹配的非被动过程步骤。';
+export const SKILL_TRIGGER_SOURCE_CAST_RESOURCE_COST_CLEAR_MESSAGE = '当前事件不是已明确来源技能的技能命中，也不是当前技能非被动过程的完成或失败时点，将清除来源施放资源消耗绑定。';
 
 export const SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENT_LABELS = {
   APPLICATION: '施加',
@@ -693,13 +720,7 @@ export const SKILL_TRIGGER_COMBAT_STATUS_VALUE_LABELS = {
   REMAINING_MS: '剩余时间'
 } as const satisfies { [K in SkillTriggerCombatStatusValueKind]: string };
 
-export const SKILL_TRIGGER_FAILURE_REASON_LABELS = {
-  CONTROLLED: '受到控制',
-  SOURCE_DIED: '来源对象死亡',
-  TARGET_UNTARGETABLE: '当前目标不可选取',
-  ACTIVE_CANCELLED: '主动取消',
-  EVENT_ABORTED: '当前事件终止'
-} as const satisfies { [K in SkillTriggerProcessFailureReason]: string };
+export const SKILL_TRIGGER_FAILURE_REASON_LABELS = PROCESS_FAILURE_REASON_LABELS;
 
 export const SKILL_TRIGGER_VALUE_TYPE_LABELS = {
   INTEGER: '整数',
@@ -798,10 +819,20 @@ export type SkillTriggerFailProcessActionDraft = ActionDraftBase & {
   };
 };
 
+export type SkillTriggerAdvanceProcessActionDraft = ActionDraftBase & {
+  actionType: 'ADVANCE_PROCESS';
+  targetContext: null;
+  detail: {
+    processKey: string;
+    stepKey: string;
+  };
+};
+
 export type SkillTriggerActionDraft =
   | SkillTriggerExecuteEffectActionDraft
   | SkillTriggerStartProcessActionDraft
-  | SkillTriggerFailProcessActionDraft;
+  | SkillTriggerFailProcessActionDraft
+  | SkillTriggerAdvanceProcessActionDraft;
 
 export type SkillTriggerRuleDraft = {
   ruleKey: string;
@@ -939,7 +970,7 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
     case 'SOURCE_INITIALIZED':
       return { eventType, detail: emptyEventDetail() };
     case 'SKILL_USED':
-      return { eventType, detail: { sourceSkillKey: null, useKind: 'ANY' } };
+      return { eventType, detail: { sourceSkillKey: null, useKind: 'ANY', castPhase: null } };
     case 'SKILL_HIT':
       return { eventType, detail: { sourceSkillKey: null } };
     case 'HIT_LINK_APPLIED':
@@ -949,7 +980,7 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
     case 'PROCESS_MOMENT':
       return {
         eventType,
-        detail: { processKey: '', moment: { momentType: 'PROCESS_START', stepKey: null } }
+        detail: { processKey: '', moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null } }
       };
     case 'RESULT_AVAILABLE':
       return { eventType, detail: { effectKey: '', resultKey: '' } };
@@ -1122,6 +1153,9 @@ export function createEmptyActionDetail(
   actionType: 'FAIL_PROCESS'
 ): { processKey: string; failureReason: SkillTriggerProcessFailureReason };
 export function createEmptyActionDetail(
+  actionType: 'ADVANCE_PROCESS'
+): { processKey: string; stepKey: string };
+export function createEmptyActionDetail(
   actionType: SkillTriggerActionType
 ): SkillTriggerAction['detail'];
 export function createEmptyActionDetail(
@@ -1129,6 +1163,7 @@ export function createEmptyActionDetail(
 ): SkillTriggerAction['detail'] {
   if (actionType === 'EXECUTE_EFFECT') return { effectKey: '' };
   if (actionType === 'START_PROCESS') return { processKey: '' };
+  if (actionType === 'ADVANCE_PROCESS') return { processKey: '', stepKey: '' };
   return { processKey: '', failureReason: 'CONTROLLED' };
 }
 
@@ -1231,6 +1266,10 @@ export function createEmptyActionDraft(
 ): SkillTriggerFailProcessActionDraft;
 export function createEmptyActionDraft(
   existingKeys: readonly string[],
+  actionType: 'ADVANCE_PROCESS'
+): SkillTriggerAdvanceProcessActionDraft;
+export function createEmptyActionDraft(
+  existingKeys: readonly string[],
   actionType?: SkillTriggerActionType
 ): SkillTriggerActionDraft;
 export function createEmptyActionDraft(
@@ -1250,6 +1289,14 @@ export function createEmptyActionDraft(
       actionType,
       targetContext: null,
       detail: createEmptyActionDetail('FAIL_PROCESS')
+    };
+  }
+  if (actionType === 'ADVANCE_PROCESS') {
+    return {
+      ...base,
+      actionType,
+      targetContext: null,
+      detail: createEmptyActionDetail('ADVANCE_PROCESS')
     };
   }
   if (actionType === 'START_PROCESS') {
@@ -1996,6 +2043,17 @@ function actionFromDetail(action: SkillTriggerAction): SkillTriggerActionDraft {
         runtimeInputBindings: [],
         resultModifiers: []
       };
+    case 'ADVANCE_PROCESS':
+      return {
+        actionKey: action.actionKey,
+        name: action.name,
+        actionType: 'ADVANCE_PROCESS',
+        sortOrder: String(action.sortOrder),
+        targetContext: null,
+        detail: action.detail,
+        runtimeInputBindings: [],
+        resultModifiers: []
+      };
   }
 }
 
@@ -2090,6 +2148,48 @@ export function actionFailureReason(
   return 'failureReason' in detail ? detail.failureReason : 'CONTROLLED';
 }
 
+export function actionStepKey(detail: SkillTriggerAction['detail']): string {
+  return 'stepKey' in detail ? detail.stepKey : '';
+}
+
+export function isProcessShellAction(actionType: SkillTriggerActionType): boolean {
+  return actionType === 'FAIL_PROCESS' || actionType === 'ADVANCE_PROCESS';
+}
+
+export function skillUsedCastPhase(
+  eventSource: SkillTriggerEventSource
+): SkillTriggerCastPhase | null {
+  return eventSource.eventType === 'SKILL_USED' ? eventSource.detail.castPhase : null;
+}
+
+export function allowsStartProcessOnEvent(eventSource: SkillTriggerEventSource): boolean {
+  if (eventSource.eventType !== 'SKILL_USED') return true;
+  return eventSource.detail.castPhase === null || eventSource.detail.castPhase === 'INITIAL';
+}
+
+export function allowsAdvanceProcessEvent(
+  eventSource: SkillTriggerEventSource,
+  skillKey?: string
+): boolean {
+  if (eventSource.eventType !== 'SKILL_USED') return false;
+  if (eventSource.detail.castPhase !== 'RECAST' && eventSource.detail.castPhase !== 'CHARGE_RELEASE') {
+    return false;
+  }
+  if (typeof eventSource.detail.sourceSkillKey !== 'string' || !eventSource.detail.sourceSkillKey) {
+    return false;
+  }
+  if (skillKey && eventSource.detail.sourceSkillKey !== skillKey) return false;
+  return true;
+}
+
+export function advanceProcessStepTypeForPhase(
+  phase: SkillTriggerCastPhase | null
+): SkillProcessStepType | null {
+  if (phase === 'RECAST') return 'RECAST';
+  if (phase === 'CHARGE_RELEASE') return 'CHARGE';
+  return null;
+}
+
 function toAction(action: SkillTriggerActionDraft, sortOrder: number): SkillTriggerAction {
   if (action.actionType === 'EXECUTE_EFFECT') {
     return {
@@ -2112,6 +2212,21 @@ function toAction(action: SkillTriggerActionDraft, sortOrder: number): SkillTrig
       targetContext: action.targetContext ?? 'CURRENT_TARGET',
       detail: { processKey: actionProcessKey(action.detail) },
       runtimeInputBindings: action.runtimeInputBindings,
+      resultModifiers: []
+    };
+  }
+  if (action.actionType === 'ADVANCE_PROCESS') {
+    return {
+      actionKey: action.actionKey.trim(),
+      name: action.name.trim(),
+      actionType: 'ADVANCE_PROCESS',
+      sortOrder,
+      targetContext: null,
+      detail: {
+        processKey: actionProcessKey(action.detail),
+        stepKey: actionStepKey(action.detail)
+      },
+      runtimeInputBindings: [],
       resultModifiers: []
     };
   }
@@ -2220,7 +2335,8 @@ function usesEventSourceSubject(draft: SkillTriggerRuleDraft): boolean {
 export function analyzeEventSwitchImpact(
   draft: SkillTriggerRuleDraft,
   nextSource: SkillTriggerEventSource,
-  stepType: SkillProcessStepType | null = null
+  stepType: SkillProcessStepType | null = null,
+  processes?: ReadonlyArray<SourceCastResourceCostProcess>
 ): EventSwitchImpact {
   const allowed = new Set(allowedEventValuesFor(nextSource, stepType));
   const staleValues = SKILL_TRIGGER_EVENT_VALUE_KEYS.filter((key) => (
@@ -2238,8 +2354,8 @@ export function analyzeEventSwitchImpact(
   if (!allowsSkillHitEnemy(nextSource.eventType) && draft.conditionGroups.some((group) => group.conditions.some((condition) => condition.conditionType === 'SKILL_HIT_TARGET_IS_ENEMY'))) {
     parts.push('当前事件不是技能命中，将清除技能命中敌方对象条件；空条件组也会一并清除。');
   }
-  if (!allowsSourceCastResourceCost(nextSource) && draft.actions.some((action) => action.runtimeInputBindings.some((binding) => binding.sourceType === 'SOURCE_CAST_RESOURCE_COST'))) {
-    parts.push('当前事件未明确技能命中来源，将清除来源施放资源消耗绑定。');
+  if (!allowsSourceCastResourceCost(nextSource, processes) && draft.actions.some((action) => action.runtimeInputBindings.some((binding) => binding.sourceType === 'SOURCE_CAST_RESOURCE_COST'))) {
+    parts.push(SKILL_TRIGGER_SOURCE_CAST_RESOURCE_COST_CLEAR_MESSAGE);
   }
   if (staleValues.length > 0) {
     parts.push(`将清除不再可用的事件值：${staleValues.map((key) => SKILL_TRIGGER_EVENT_VALUE_LABELS[key]).join('、')}`);
@@ -2308,11 +2424,12 @@ function cleanupBindingForEventSwitch(
   binding: SkillTriggerRuntimeInputBinding,
   hasEventSource: boolean,
   allowed: readonly SkillTriggerEventValueKey[],
-  nextSource: SkillTriggerEventSource
+  nextSource: SkillTriggerEventSource,
+  processes?: ReadonlyArray<SourceCastResourceCostProcess>
 ): SkillTriggerRuntimeInputBinding | null {
   switch (binding.sourceType) {
     case 'SOURCE_CAST_RESOURCE_COST':
-      return allowsSourceCastResourceCost(nextSource) ? binding : null;
+      return allowsSourceCastResourceCost(nextSource, processes) ? binding : null;
     case 'EVENT_VALUE': {
       if (!allowed.includes(binding.detail.eventValueKey)) return null;
       return binding;
@@ -2331,14 +2448,15 @@ function cleanupActionForEventSwitch(
   action: SkillTriggerActionDraft,
   hasEventSource: boolean,
   allowed: readonly SkillTriggerEventValueKey[],
-  nextSource: SkillTriggerEventSource
+  nextSource: SkillTriggerEventSource,
+  processes?: ReadonlyArray<SourceCastResourceCostProcess>
 ): SkillTriggerActionDraft {
   const runtimeInputBindings: SkillTriggerRuntimeInputBinding[] = [];
   for (const binding of action.runtimeInputBindings) {
-    const next = cleanupBindingForEventSwitch(binding, hasEventSource, allowed, nextSource);
+    const next = cleanupBindingForEventSwitch(binding, hasEventSource, allowed, nextSource, processes);
     if (next) runtimeInputBindings.push(next);
   }
-  if (action.actionType === 'FAIL_PROCESS') {
+  if (action.actionType === 'FAIL_PROCESS' || action.actionType === 'ADVANCE_PROCESS') {
     return { ...action, targetContext: null, runtimeInputBindings };
   }
   return {
@@ -2351,7 +2469,8 @@ function cleanupActionForEventSwitch(
 export function applyEventSwitchCleanup(
   draft: SkillTriggerRuleDraft,
   nextSource: SkillTriggerEventSource,
-  stepType: SkillProcessStepType | null = null
+  stepType: SkillProcessStepType | null = null,
+  processes?: ReadonlyArray<SourceCastResourceCostProcess>
 ): SkillTriggerRuleDraft {
   const hasEventSource = eventHasEventSource(nextSource.eventType);
   const allowed = allowedEventValuesFor(nextSource, stepType);
@@ -2364,7 +2483,7 @@ export function applyEventSwitchCleanup(
     return { ...group, conditions };
   }).filter((group) => group.conditions.length > 0);
   const nextActions = draft.actions.map((action) => (
-    cleanupActionForEventSwitch(action, hasEventSource, allowed, nextSource)
+    cleanupActionForEventSwitch(action, hasEventSource, allowed, nextSource, processes)
   ));
   return {
     ...draft,
@@ -2528,7 +2647,9 @@ export function actionSummary(action: SkillTriggerActionDraft): string {
     : '—';
   const object = action.actionType === 'EXECUTE_EFFECT'
     ? actionEffectKey(action.detail)
-    : actionProcessKey(action.detail);
+    : action.actionType === 'ADVANCE_PROCESS'
+      ? [actionProcessKey(action.detail), actionStepKey(action.detail)].filter(Boolean).join(' / ')
+      : actionProcessKey(action.detail);
   return [
     SKILL_TRIGGER_ACTION_TYPE_LABELS[action.actionType],
     target,
@@ -2911,7 +3032,8 @@ export function isLegalPriorResultBinding(
 }
 
 export function validateResultModifier(
-  modifier: SkillTriggerResultModifier
+  modifier: SkillTriggerResultModifier,
+  targetResult?: SkillEffectResult
 ): string | null {
   const hasValue = modifier.fixedMultiplier !== null
     || modifier.fixedMinValue !== null
@@ -2919,6 +3041,10 @@ export function validateResultModifier(
   if (!hasValue) return '固定结果修正至少需要一项非空。';
   if (modifier.fixedMultiplier !== null && modifier.fixedMultiplier < 0) {
     return '额外固定倍率不能小于 0。';
+  }
+  if (targetResult && cooldownOperationOf(targetResult) === 'SET_REMAINING'
+    && modifier.fixedMaxValue !== null && modifier.fixedMaxValue < 0) {
+    return '设置剩余冷却的额外固定最大值不能小于 0。';
   }
   if (
     modifier.fixedMinValue !== null
@@ -3156,6 +3282,12 @@ export function validateSkillTriggerDraft(
       pushError(nestedErrors, 'eventSource.detail', '来源对象初始化完成事件的详情必须为空对象。');
     }
   }
+  if (draft.eventSource.eventType === 'SKILL_USED') {
+    const phase = draft.eventSource.detail.castPhase;
+    if (phase === null || !(SKILL_TRIGGER_CAST_PHASES as readonly string[]).includes(phase)) {
+      pushError(nestedErrors, 'eventSource.detail.castPhase', SKILL_TRIGGER_CAST_PHASE_REQUIRED_MESSAGE);
+    }
+  }
   if (draft.eventSource.eventType === 'PROCESS_MOMENT' && !draft.eventSource.detail.processKey.trim()) {
     pushError(nestedErrors, 'eventSource.detail.processKey', '过程不能为空。');
   }
@@ -3307,11 +3439,39 @@ export function validateSkillTriggerDraft(
     }
     actionKeys.add(action.actionKey.trim());
     if (!action.name.trim()) pushError(nestedErrors, `actions[${actionIndex}].name`, '动作名称不能为空。');
-    if (action.actionType !== 'FAIL_PROCESS' && action.targetContext === 'EVENT_SOURCE' && !hasEventSource) {
+    if (!isProcessShellAction(action.actionType) && action.targetContext === 'EVENT_SOURCE' && !hasEventSource) {
       pushError(nestedErrors, `actions[${actionIndex}].targetContext`, '当前事件不提供事件来源对象。');
     }
-    if (action.actionType === 'FAIL_PROCESS' && action.targetContext !== null) {
-      pushError(nestedErrors, `actions[${actionIndex}].targetContext`, '令过程失败不能选择目标对象。');
+    const shellTargetError = action.actionType === 'ADVANCE_PROCESS'
+        ? '推进当前过程不能选择目标对象。'
+        : '令过程失败不能选择目标对象。';
+    if (isProcessShellAction(action.actionType) && action.targetContext !== null) {
+      pushError(nestedErrors, `actions[${actionIndex}].targetContext`, shellTargetError);
+    }
+    if (isProcessShellAction(action.actionType) && action.runtimeInputBindings.length > 0) {
+      pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings`, '推进或终止当前过程不能配置动态输入绑定。');
+    }
+    if (action.actionType === 'START_PROCESS' && !allowsStartProcessOnEvent(draft.eventSource)) {
+      pushError(nestedErrors, `actions[${actionIndex}].actionType`, SKILL_TRIGGER_START_PROCESS_PHASE_MESSAGE);
+    }
+    if (action.actionType === 'ADVANCE_PROCESS') {
+      if (!allowsAdvanceProcessEvent(draft.eventSource, options.skillKey)) {
+        pushError(nestedErrors, `actions[${actionIndex}].actionType`, SKILL_TRIGGER_ADVANCE_PROCESS_EVENT_MESSAGE);
+      }
+      const processKey = actionProcessKey(action.detail).trim();
+      const stepKey = actionStepKey(action.detail).trim();
+      const expectedStepType = advanceProcessStepTypeForPhase(skillUsedCastPhase(draft.eventSource));
+      if (!processKey || !stepKey) {
+        pushError(nestedErrors, `actions[${actionIndex}].detail.stepKey`, SKILL_TRIGGER_ADVANCE_PROCESS_STEP_MESSAGE);
+      } else if (options.catalogStates?.processes !== undefined && options.catalogStates.processes !== 'ready') {
+        pushError(nestedErrors, `actions[${actionIndex}].detail.processKey`, INCOMPLETE_CATALOG_MESSAGE);
+      } else {
+        const process = options.processesByKey?.get(processKey);
+        const step = process?.steps.find((item) => item.stepKey === stepKey) ?? null;
+        if (!process || process.activationType === 'PASSIVE' || !expectedStepType || !step || step.stepType !== expectedStepType) {
+          pushError(nestedErrors, `actions[${actionIndex}].detail.stepKey`, SKILL_TRIGGER_ADVANCE_PROCESS_STEP_MESSAGE);
+        }
+      }
     }
     const bindingKeys = new Set<string>();
     const parameterKeys = new Set<string>();
@@ -3331,7 +3491,16 @@ export function validateSkillTriggerDraft(
       parameterKeys.add(binding.parameterKey);
       if (binding.sourceType === 'SOURCE_CAST_RESOURCE_COST') {
         const reachable = reachableRuntimeInputParameters(collectActionValues(action, options), options.formulasByKey ?? new Map(), options.parameters ?? []);
-        const error = sourceCastResourceCostError(binding, draft.eventSource, reachable, options.attributes ?? [], options.catalogStates?.attributes);
+        const processes = options.processesByKey ? [...options.processesByKey.values()] : undefined;
+        const error = sourceCastResourceCostError(
+          binding,
+          draft.eventSource,
+          reachable,
+          options.attributes ?? [],
+          options.catalogStates?.attributes,
+          processes,
+          options.catalogStates?.processes
+        );
         if (error) pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}]`, error);
       }
       if (binding.sourceType === 'EVENT_VALUE' && !allowedValues.includes(binding.detail.eventValueKey)) {
@@ -3384,7 +3553,7 @@ export function validateSkillTriggerDraft(
           pushError(nestedErrors, `actions[${actionIndex}].resultModifiers[${modifierIndex}].resultKey`, '同一结果不能重复修正。');
         }
         modifierKeys.add(modifier.resultKey);
-        const modifierError = validateResultModifier(modifier);
+        const modifierError = validateResultModifier(modifier, targetResult);
         if (modifierError) {
           pushError(nestedErrors, `actions[${actionIndex}].resultModifiers[${modifierIndex}]`, modifierError);
         }
@@ -3427,7 +3596,7 @@ export function validateSkillTriggerDraft(
         );
       }
     }
-    if (action.actionType !== 'FAIL_PROCESS' && options.parameters && options.effectsByKey) {
+    if (!isProcessShellAction(action.actionType) && options.parameters && options.effectsByKey) {
       const reachable = reachableRuntimeInputParameters(
         collectActionValues(action, options), options.formulasByKey ?? new Map(), options.parameters
       );
@@ -3648,6 +3817,12 @@ export function attributeValueKinds(): FormulaAttributeValueKind[] {
 
 export function processMomentLabel(moment: SkillProcessMoment): string {
   const typeLabel = SKILL_PROCESS_MOMENT_TYPE_LABELS[moment.momentType];
+  if (moment.momentType === 'PROCESS_FAILURE') {
+    const reason = moment.failureReason
+      ? PROCESS_FAILURE_REASON_LABELS[moment.failureReason]
+      : PROCESS_FAILURE_REASON_ANY_LABEL;
+    return `${typeLabel} / ${reason}`;
+  }
   if (isProcessLevelMoment(moment.momentType)) return typeLabel;
   return `${typeLabel} / ${moment.stepKey}`;
 }

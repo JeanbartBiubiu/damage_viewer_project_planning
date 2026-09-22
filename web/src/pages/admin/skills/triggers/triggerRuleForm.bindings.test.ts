@@ -217,7 +217,7 @@ const CHARGE_PROCESS: SkillProcess = {
   sortOrder: 10,
   cooldown: {
     durationValue: formulaValue("process_cooldown_ms"),
-    startMoment: { momentType: 'PROCESS_START', stepKey: null }
+    startMoment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null }
   },
   steps: [
     {
@@ -237,7 +237,7 @@ const CHARGE_PROCESS: SkillProcess = {
     {
       bindingKey: 'hit_on_release',
       effectKey: 'on_hit_damage',
-      moment: { momentType: 'STEP_COMPLETE', stepKey: 'charge' },
+      moment: { momentType: 'STEP_COMPLETE', stepKey: 'charge', failureReason: null },
       sortOrder: 10
     }
   ],
@@ -249,7 +249,7 @@ const CHARGE_PROCESS: SkillProcess = {
       operation: 'START',
       value: null,
       optionKey: null,
-      moment: { momentType: 'PROCESS_START', stepKey: null },
+      moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null },
       sortOrder: 10
     }
   ]
@@ -377,7 +377,7 @@ describe('formula session cache and reachable RUNTIME_INPUT collection', () => {
       effectBindings: [{
         bindingKey: 'hit_on_release',
         effectKey: 'special_results',
-        moment: { momentType: 'STEP_COMPLETE' as const, stepKey: 'charge' },
+        moment: { momentType: 'STEP_COMPLETE' as const, stepKey: 'charge', failureReason: null },
         sortOrder: 10
       }]
     };

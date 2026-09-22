@@ -1,6 +1,7 @@
 import type { SkillParameter } from '../../../../types/skillParameter';
 import type { GameVampRule } from '../../../../types/gameVamp';
 import { numericIssuePath, numericValueError, staticNumericValues } from '../numericValueForm';
+import { isValidCooldownRemainingDuration } from '../../../../types/cooldownRemaining';
 import { isValidCooldownReductionRatio } from '../../../../types/cooldownRatio';
 import { isValidLifecycleExtensionDuration } from '../../../../types/lifecycleExtension';
 import { numericFormulaKey } from '../../../../types/numericValue';
@@ -234,7 +235,8 @@ export const COOLDOWN_CHANGE_OPERATION_LABELS = {
   REDUCE: '减少',
   INCREASE: '增加',
   RESET: '重置为可用',
-  REDUCE_REMAINING_RATIO: '按比例减少剩余冷却'
+  REDUCE_REMAINING_RATIO: '按比例减少剩余冷却',
+  SET_REMAINING: '设置剩余冷却'
 } as const satisfies { [K in CooldownChangeOperation]: string };
 
 export const SKILL_HASTE_MODIFIER_OPERATION_LABELS = {
@@ -334,6 +336,7 @@ export const LIFECYCLE_EXTENSION_HINT = '增加量按毫秒填写，只延长仍
 
 export const COOLDOWN_CHANGE_AMOUNT_HINT = '变化量按毫秒解释';
 export const COOLDOWN_REMAINING_RATIO_HINT = '每个受影响技能按自己的当前剩余冷却减少。有效比例为 0 到 1，70% 填 0.7；不按总冷却计算。切换毫秒与比例操作会清除原数值。';
+export const COOLDOWN_REMAINING_SET_HINT = '将剩余冷却设为该毫秒数；0 表示立即可用。空白不能当作 0。毫秒操作之间切换会保留已有合法值。';
 export const DISABLED_CATALOG_LABEL = '已停用';
 export const DISABLED_PARENT_SKILL_LABEL = '当前技能（已停用）';
 export const INCOMPLETE_CATALOG_MESSAGE = '目录不完整，无法保存未知引用。';
@@ -963,7 +966,10 @@ export function requiresValueRule(
     return false;
   }
   if (resultType === 'COOLDOWN_CHANGE') {
-    return cooldownOperation === 'REDUCE' || cooldownOperation === 'INCREASE' || cooldownOperation === 'REDUCE_REMAINING_RATIO';
+    return cooldownOperation === 'REDUCE'
+      || cooldownOperation === 'INCREASE'
+      || cooldownOperation === 'REDUCE_REMAINING_RATIO'
+      || cooldownOperation === 'SET_REMAINING';
   }
   if (resultType === 'LIFECYCLE_OPERATION') {
     return lifecycleOperation === 'INCREASE'
@@ -1033,6 +1039,9 @@ export function resolveResultStatusKind(
 export function cooldownChangeAmountHint(draft: SkillEffectResultDraft): string | null {
   if (draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'REDUCE_REMAINING_RATIO') {
     return COOLDOWN_REMAINING_RATIO_HINT;
+  }
+  if (draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'SET_REMAINING') {
+    return COOLDOWN_REMAINING_SET_HINT;
   }
   if (
     draft.resultType === 'COOLDOWN_CHANGE'
@@ -2288,6 +2297,14 @@ function validateAndBuildResult(
       fieldErrors.value = '有效冷却减少比例必须在 0 到 1 之间（70% 填 0.7）。';
     }
   }
+  if (draft.resultType === 'COOLDOWN_CHANGE' && draft.cooldownOperation === 'SET_REMAINING'
+    && valueRule && !fieldErrors.value) {
+    const values = staticNumericValues(valueRule.value, options.parameters);
+    if ((valueRule.fixedMaxValue !== null && valueRule.fixedMaxValue < 0)
+      || values?.some((value) => !isValidCooldownRemainingDuration(value, valueRule))) {
+      fieldErrors.value = '有效剩余冷却必须是有限非负毫秒，可填写小数。';
+    }
+  }
   if (draft.resultType === 'LIFECYCLE_OPERATION' && draft.lifecycleOperation === 'EXTEND_DURATION'
     && valueRule && !fieldErrors.value) {
     const values = staticNumericValues(valueRule.value, options.parameters);
@@ -2397,7 +2414,7 @@ function validateAndBuildResult(
         valueRule: valueRule!,
         detail: {
           affectedSkillScope: buildAffectedSkillScope(draft),
-          operation: draft.cooldownOperation as 'REDUCE' | 'INCREASE' | 'REDUCE_REMAINING_RATIO'
+          operation: draft.cooldownOperation as 'REDUCE' | 'INCREASE' | 'REDUCE_REMAINING_RATIO' | 'SET_REMAINING'
         }
       };
     case 'STATUS_OPERATION':
@@ -2796,6 +2813,7 @@ function validateTypeSpecificFields(
         && draft.cooldownOperation !== 'INCREASE'
         && draft.cooldownOperation !== 'RESET'
         && draft.cooldownOperation !== 'REDUCE_REMAINING_RATIO'
+        && draft.cooldownOperation !== 'SET_REMAINING'
       ) {
         fieldErrors.cooldownOperation = '请选择操作。';
       }

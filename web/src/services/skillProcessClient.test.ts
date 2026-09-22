@@ -48,7 +48,8 @@ const detail: SkillProcess = {
     durationValue: formulaValue("cooldown_ms"),
     startMoment: {
       momentType: 'PROCESS_START',
-      stepKey: null
+      stepKey: null,
+      failureReason: null
     }
   },
   steps: [
@@ -67,7 +68,8 @@ const detail: SkillProcess = {
       effectKey: 'on_hit_results',
       moment: {
         momentType: 'STEP_EXECUTION',
-        stepKey: 'hit'
+        stepKey: 'hit',
+        failureReason: null
       },
       sortOrder: 10
     }
