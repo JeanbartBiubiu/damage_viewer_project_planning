@@ -1,16 +1,22 @@
 import { GAME_VAMP_TYPES, type GameVampRule } from '../types/gameVamp';
 import type { SkillEffectDamageDetail } from '../types/skillEffect';
-import type { FormulaExpressionNode, SkillFormula } from '../types/skillFormula';
+import type { SkillFormula } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
 import type { NumericValue } from '../types/numericValue';
 import type {
   CompileRequest, GenericFormulaExpr, GenericVampOverride, GenericVampRule,
   NamedFormula, OperationDefinition, TypeCatalog
 } from '../types/genericEngine';
+import {
+  compileNumericValue,
+  createNumericCompileState,
+  finiteNumber,
+  NumericAdaptationError
+} from './numericAdapter';
 
-export class VampAdaptationError extends Error {
-  constructor(readonly path: string, message: string) {
-    super(`${path}: ${message}`);
+export class VampAdaptationError extends NumericAdaptationError {
+  constructor(path: string, message: string) {
+    super(path, message);
     this.name = 'VampAdaptationError';
   }
 }
@@ -24,10 +30,7 @@ const originTypes = {
 const championType = 'combatant/champion';
 const basisKinds = ['POST_DEFENSE_DAMAGE', 'ACTUAL_HP_LOSS'];
 const fail = (path: string, message: string): never => { throw new VampAdaptationError(path, message); };
-const finite = (value: unknown, path: string): number => {
-  if (typeof value !== 'number' || !Number.isFinite(value)) return fail(path, '需要明确的有限数值，不能用零替代缺失值');
-  return value;
-};
+const finite = (value: unknown, path: string): number => finiteNumber(value, path, fail);
 const keys = (values: readonly string[], path: string): string[] => {
   if (!Array.isArray(values) || !values.length || new Set(values).size !== values.length
     || values.some(value => typeof value !== 'string' || !/^[a-z][a-z0-9_]{0,63}$/.test(value))) {
@@ -101,62 +104,18 @@ export function adaptDamageVamp(rules: readonly GameVampRule[], damage: Authored
     };
   });
   const params: Record<string, number> = {};
-  const formulas = new Map<string, NamedFormula>();
   const requiredAttributes = new Set(genericRules.map(rule => rule.sourceAttributeKey));
-  const parameter = (key: string, path: string): GenericFormulaExpr => {
-    const matches = damage.parameters?.filter(value => value.parameterKey === key) ?? [];
-    if (matches.length !== 1) fail(path, '技能参数缺失或重复');
-    const row = matches[0]!;
-    if (row.gameId !== damage.gameId || row.skillKey !== damage.skillKey) fail(path, '参数不属于当前游戏和技能');
-    let value: number;
-    if (row.valueMode === 'FIXED') value = finite(row.fixedValue, path);
-    else if (row.valueMode === 'SKILL_LEVEL' || row.valueMode === 'CHARACTER_LEVEL') {
-      const level = row.valueMode === 'SKILL_LEVEL' ? damage.skillLevel : damage.characterLevel;
-      if (!Number.isInteger(level) || level < 1) fail(path, '本次等级必须明确且有效');
-      value = finite(row.levelValues?.[String(level)], `${path}.levelValues.${level}`);
-    } else return fail(path, '本期吸血适配不支持未供值的计算时输入');
-    params[key] = value;
-    return { op: 'read', path: `ability.param.${key}` };
-  };
-  const expression = (node: FormulaExpressionNode, path: string, depth = 0): GenericFormulaExpr => {
-    if (depth > 32) return fail(path, '公式深度超过限制');
-    if (node.nodeType === 'PARAMETER') return parameter(node.parameterKey, `${path}.parameterKey`);
-    if (node.nodeType === 'OPERATION') {
-      const operation = { ADD: 'add', SUBTRACT: 'sub', MULTIPLY: 'mul', DIVIDE: 'div', MIN: 'min', MAX: 'max' }[node.operation];
-      if (!operation || node.operands.length !== 2) return fail(path, '不支持的公式运算');
-      return { op: operation, args: node.operands.map((operand, index) => expression(operand, `${path}.operands[${index}]`, depth + 1)) };
-    }
-    if (node.nodeType !== 'ATTRIBUTE' || !['SOURCE', 'TARGET'].includes(node.attributeOwner)) return fail(path, '不支持的公式节点');
-    keys([node.attributeKey], `${path}.attributeKey`);
-    requiredAttributes.add(node.attributeKey);
-    const owner = node.attributeOwner === 'SOURCE' ? 'source' : 'target';
-    const read = (field: string): GenericFormulaExpr => ({ op: 'read', path: `${owner}.attr.${node.attributeKey}.${field}` });
-    const missing: GenericFormulaExpr = { op: 'sub', args: [read('max'), read('current')] };
-    switch (node.attributeValueKind) {
-      case 'BASE': return read('base');
-      case 'TOTAL': return read('resolved');
-      case 'CURRENT': return read('current');
-      case 'BONUS': return { op: 'sub', args: [read('resolved'), read('base')] };
-      case 'MISSING': return missing;
-      case 'CURRENT_RATIO': return { op: 'div', args: [read('current'), read('max')] };
-      case 'MISSING_RATIO': return { op: 'div', args: [missing, read('max')] };
-      default: return fail(path, '不支持的属性取值口径');
-    }
-  };
+  const state = createNumericCompileState({
+    gameId: damage.gameId, skillKey: damage.skillKey, skillLevel: damage.skillLevel,
+    characterLevel: damage.characterLevel, parameters: damage.parameters, formulas: damage.formulas,
+    formulaNamespace: `vamp/${damage.skillKey}`, bindParameters: true, allowAttributeReads: true,
+    runtimeInputMessage: '本期吸血适配不支持未供值的计算时输入'
+  });
+  state.params = params;
+  state.requiredAttributes = requiredAttributes;
   const numeric = (value: NumericValue, path: string): GenericFormulaExpr => {
-    if (value.kind === 'FIXED') {
-      if (finite(value.value, path) < 0) fail(path, '效率不能为负数');
-      return { op: 'const', value: value.value };
-    }
-    if (value.kind === 'PARAMETER') return parameter(value.parameterKey, path);
-    if (value.kind !== 'FORMULA') return fail(path, '不支持的数值来源');
-    const matches = damage.formulas?.filter(row => row.formulaKey === value.formulaKey) ?? [];
-    if (matches.length !== 1) return fail(path, '技能公式缺失或重复');
-    const row = matches[0]!;
-    if (row.gameId !== damage.gameId || row.skillKey !== damage.skillKey) return fail(path, '公式不属于当前游戏和技能');
-    const key = `vamp/${damage.skillKey}/${row.formulaKey}`;
-    if (!formulas.has(key)) formulas.set(key, { key, expression: expression(row.expression, `${path}.expression`) });
-    return { op: 'ref', ref: key };
+    if (value.kind === 'FIXED' && finite(value.value, path) < 0) fail(path, '效率不能为负数');
+    return compileNumericValue(value, path, state, fail);
   };
   const overrideKinds = new Set<string>();
   if (!Array.isArray(damage.detail.vampOverrides)) fail(`${root}.vampOverrides`, '吸血例外必须为明确的列表');
@@ -177,7 +136,7 @@ export function adaptDamageVamp(rules: readonly GameVampRule[], damage: Authored
   return {
     rules: genericRules, abilityTypes,
     operation: { types: [delivery, origin], vampQualification: 'RESOLVED', vampOverrides: overrides },
-    params, formulas: [...formulas.values()], typeEntries: [...types].map(([key, domain]) => ({ key, domain })),
+    params, formulas: [...state.namedFormulas.values()], typeEntries: [...types].map(([key, domain]) => ({ key, domain })),
     requiredAttributes: [...requiredAttributes]
   };
 }
