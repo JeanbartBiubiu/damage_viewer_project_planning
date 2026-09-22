@@ -238,3 +238,15 @@ func TestGenericEvalDamageAmountRequiresContext(t *testing.T) {
 		t.Fatalf("got %v want 85", got)
 	}
 }
+
+func TestGenericEvalSkillHitMissingValueReportsPath(t *testing.T) {
+	reg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: model.FormulaPathSkillHitFirstContact})
+	_, err := reg.Eval(0, GenericEvalContext{HasEventSkillHit: true, HasSkillHitBlocked: true, SkillHitBlocked: 1})
+	if err == nil || err.Error() != model.FormulaPathSkillHitFirstContact {
+		t.Fatalf("err=%v", err)
+	}
+	got, err := reg.Eval(0, GenericEvalContext{HasEventSkillHit: true, HasSkillHitFirstContact: true, SkillHitFirstContact: 0})
+	if err != nil || got != 0 {
+		t.Fatalf("got %v err=%v", got, err)
+	}
+}

@@ -75,6 +75,7 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 | `RunGeneric` | 已接入 | driver plan、gate、damage/heal/resource、provider tick |
 | 通用吸血 | 已接入 | 游戏规则与伤害例外；普通、复制伤害共用末尾吸血结算；治疗修正与逐次证据 |
 | 跨来源状态合并与重施 | 已接入 | `source_target` 单层重施、普通减速取强快照、`effectiveStatuses`、治疗组 `ratio_max` |
+| 命中供值与法术护盾 | 已接入 | `resolve_skill_hit` 单次 driver、`skillUses`/`skillHitFacts`、四档阻挡与 `event/spell_shield_blocked` |
 | Canonical fixture | 已接入 | `generic_p0_basic_damage.json`（targetFinalHp=900） |
 | Node smoke | 已接入 | 真实 compile/run/release round-trip |
 | Node / Go bench | 已接入 | `--mode generic-run` / `go run ./cmd/bench` 默认 generic |
@@ -267,3 +268,25 @@ node .\scripts\status-merge-smoke-node.mjs
 ```
 
 原生与 Node 结果证明通用机制；浏览器 Worker 真实验证由主负责人独立提供，不能拿 Node 代替。
+
+### 命中供值与法术护盾
+
+方案唯一来源为规划工作树的《管理页面与共性机制迭代计划》第5项 `authoring-p5-r2`。本模块负责通用编译与结算，不实现完整过程、弹道、tick，也不按英雄或装备名分支。
+
+- `resolve_skill_hit` 只能作为一次 active 命中能力的唯一操作；运行时要求单次 driver 事实，禁止 Repeat/WhileReady。
+- `skillUses` / `skillHitFacts` 在 run 入口做严格校验：完整历史、同刻堆序（时间→类别→priority→entries 下标），缺值、重复事实和非法来源报明确路径。
+- 每次实际 resolve 铸造独立发生身份；首次接触与阻挡在当时冻结。四档范围为 `SKILL` / `EFFECT` / `RESULT` / `DAMAGE_INSTANCE`；null 永不连带，首个非 null 单元不能被后项放大。
+- 首次接触核对全部已确认合格历史，包含场外单位，不按当前目标重算。只有 null 候选的后续命中不会复用技能级阻挡标记；只有被挡的实际护盾实例接收其所属格挡监听。命中数值读取缺失会明确失败，不补零。
+- 本期候选没有经过验证的状态移除、伤害/治疗修正、伤害免疫和生命下限操作映射，编译会拒绝这些候选；不能用这些名称包住普通伤害来绕过阻挡资格。护盾成功后的显式生命周期移除仍由对应实例事件监听执行。
+- `provider/spell_shield` 是类型身份；普通数值护盾操作不参与。控制按封闭 `provider/status_*` 身份，第7项普通减速复用既有贡献。
+- 候选在父成本/CD commit 后分发，逐候选 commit 再派派生事件，最后才发 `event/spell_shield_blocked`。`emit_event` 不能伪造引擎事件。
+- `providerRefFromEvent` 仅所属 listener、`eventMatcher.all` 含 `event/spell_shield_blocked`、target=self；锁冻结 owner/ref/definition，缺失或不符硬错误。自疗 self 是监听 owner。动态实例必须实际 bind/unbind，不能只靠静态挂载。
+
+专项验证使用独立构造的 `internal/testkit/fixtures/generic_skill_hit.json`，不修改或复制原基准样例。最终构建后运行：
+
+```powershell
+go test -count=1 ./internal/compile ./internal/runtime ./internal/formula ./internal/model -run 'SkillHit'
+node .\scripts\skill-hit-smoke-node.mjs
+```
+
+原生与 Node 结果证明通用机制；Web 复制最终 dist 与浏览器 Worker 验证由父任务或后续 Web 负责。

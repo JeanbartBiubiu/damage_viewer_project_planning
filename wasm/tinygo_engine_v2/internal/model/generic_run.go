@@ -16,6 +16,8 @@ type RunRequest struct {
 	SafetyBudget      *RunSafetyBudget `json:"safetyBudget,omitempty"`
 	RuntimeOptions    json.RawMessage  `json:"runtimeOptions,omitempty"`
 	Sampling          SamplingConfig   `json:"sampling,omitempty"`
+	SkillUses         []SkillUseFact   `json:"skillUses,omitempty"`
+	SkillHitFacts     []SkillHitFact   `json:"skillHitFacts,omitempty"`
 }
 
 // RunSafetyBudget 是 run 请求级安全预算覆盖（§4.1）。

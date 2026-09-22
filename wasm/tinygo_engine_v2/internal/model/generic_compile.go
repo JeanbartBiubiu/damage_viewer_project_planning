@@ -214,6 +214,10 @@ type OperationDefinition struct {
 	RepeatDelayMs   int     `json:"repeatDelayMs,omitempty"`
 	TriggerStateKey string  `json:"triggerStateKey,omitempty"`
 	Threshold       float64 `json:"threshold,omitempty"`
+	// SkillHit 仅 resolve_skill_hit 使用；无自由 payload。
+	SkillHit *SkillHitDefinition `json:"skillHit,omitempty"`
+	// ProviderRefFromEvent 仅 expire_provider 在 event/spell_shield_blocked 上定位冻结实例。
+	ProviderRefFromEvent bool `json:"providerRefFromEvent,omitempty"`
 }
 
 // ModifierDefinition 是 provider 级 modifier。
