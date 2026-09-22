@@ -52,8 +52,11 @@ export type AuthoredHitProgram = {
   vampRules?: readonly GameVampRule[];
 };
 
+export type HitResolveKind = 'skill' | 'basic_attack';
+
 export type AdaptedHitProgram = {
   skillHit: SkillHitDefinition;
+  resolveKind: HitResolveKind;
   providers: ProviderDefinition[];
   params: Record<string, number>;
   formulas: NamedFormula[];
@@ -184,11 +187,19 @@ function assertStandardLifecycle(effect: SkillEffect, path: string, scope: 'SOUR
   }
 }
 
-function eventValueFingerprint(condition: SkillTriggerEventValueCompareCondition, path: string, state: NumericCompileState): {
+function eventValueFingerprint(
+  condition: SkillTriggerEventValueCompareCondition,
+  path: string,
+  state: NumericCompileState,
+  resolveKind: HitResolveKind
+): {
   key: SkillHitValueKey; comparator: SkillHitComparator; value: GenericFormulaExpr; fingerprint: string;
 } {
   const key = EVENT_VALUE_KEYS[condition.detail.eventValueKey];
   if (!key) return fail(`${path}.eventValueKey`, '未知命中值条件');
+  if (resolveKind === 'basic_attack') {
+    return fail(`${path}.eventValueKey`, '本期 basic_attack_hit 不提供 firstContact/blocked 公式路径');
+  }
   const comparator = COMPARATORS[condition.detail.comparator];
   if (!comparator) return fail(`${path}.comparator`, '未知比较运算');
   const value = compileNumericValue(condition.detail.comparisonValue, `${path}.comparisonValue`, state, fail);
@@ -224,7 +235,8 @@ function remainingPredicate(
 function convertRuleConditions(
   rule: SkillTriggerRuleDetail,
   authored: AuthoredHitProgram,
-  state: NumericCompileState
+  state: NumericCompileState,
+  resolveKind: HitResolveKind
 ): { eventValueConditions: SkillHitEventValueCondition[]; participation: GenericFormulaExpr | null } {
   const root = planPath(authored.skillKey, `rules.${rule.ruleKey}`);
   if (rule.perTargetCooldown || rule.maxTriggersPerProcess || ('oncePerUse' in rule && rule.oncePerUse)) {
@@ -242,7 +254,7 @@ function convertRuleConditions(
     for (const condition of conditions) {
       const path = `${groupPath}.conditions.${condition.conditionKey}`;
       if (condition.conditionType === 'EVENT_VALUE_COMPARE') {
-        const compiled = eventValueFingerprint(condition, path, state);
+        const compiled = eventValueFingerprint(condition, path, state, resolveKind);
         event.push({ key: compiled.key, comparator: compiled.comparator, value: compiled.value });
         fingerprints.push(compiled.fingerprint);
         continue;
@@ -313,11 +325,20 @@ function compileDamage(
   result: Extract<SkillEffectResult, { resultType: 'DAMAGE' }>,
   path: string,
   state: NumericCompileState,
-  typeEntries: Map<string, string>
+  typeEntries: Map<string, string>,
+  resolveKind: HitResolveKind
 ): { operation: OperationDefinition; vamp: AdaptedVampDamage } {
   if (result.target !== 'TARGET') return fail(`${path}.target`, '本期伤害只支持作用对象 TARGET');
   if (momentOf(result) !== 'INSTANT') return fail(`${path}.lifecycleBehavior`, 'DAMAGE moment must be INSTANT');
-  if (result.detail.deliveryKind !== 'SKILL') return fail(`${path}.detail.deliveryKind`, '本期命中入口只接受技能伤害');
+  const expectedDelivery = resolveKind === 'basic_attack' ? 'BASIC_ATTACK' : 'SKILL';
+  if (result.detail.deliveryKind !== expectedDelivery) {
+    return fail(
+      `${path}.detail.deliveryKind`,
+      resolveKind === 'basic_attack'
+        ? '普攻命中入口要求显式 BASIC_ATTACK 产生方式，不能与技能口径混用'
+        : '本期命中入口只接受技能伤害'
+    );
+  }
   if (result.detail.originKind !== 'DIRECT') return fail(`${path}.detail.originKind`, '未支持的来源性质');
   if (result.detail.critical.mode !== 'DISALLOWED') return fail(`${path}.detail.critical`, '未支持的暴击策略');
   const damageType = `damage/${catalogKey(result.detail.damageTypeKey, `${path}.detail.damageTypeKey`)}`;
@@ -433,10 +454,11 @@ function compileResultOperations(
   path: string,
   state: NumericCompileState,
   providers: Map<string, ProviderDefinition>,
-  typeEntries: Map<string, string>
+  typeEntries: Map<string, string>,
+  resolveKind: HitResolveKind
 ): { semantic: SkillHitSemantic; operations: OperationDefinition[]; vamp?: AdaptedVampDamage } {
   if (result.resultType === 'DAMAGE') {
-    const compiled = compileDamage(authored, result, path, state, typeEntries);
+    const compiled = compileDamage(authored, result, path, state, typeEntries, resolveKind);
     return {
       semantic: { resultType: 'DAMAGE', target: 'TARGET', moment: 'INSTANT' },
       operations: [compiled.operation],
@@ -552,10 +574,17 @@ function compileConsumeOperations(
   return operations;
 }
 
-function assertHitRule(rule: SkillTriggerRuleDetail, authored: AuthoredHitProgram): void {
+function assertHitRule(rule: SkillTriggerRuleDetail, authored: AuthoredHitProgram, resolveKind: HitResolveKind): void {
   const root = planPath(authored.skillKey, `rules.${rule.ruleKey}`);
-  if (rule.eventSource.eventType !== 'SKILL_HIT') return fail(`${root}.eventSource.eventType`, '命中计划只接受 SKILL_HIT');
-  if (rule.eventSource.detail.sourceSkillKey && rule.eventSource.detail.sourceSkillKey !== authored.skillKey) {
+  if (resolveKind === 'basic_attack') {
+    if (rule.eventSource.eventType !== 'BASIC_ATTACK_HIT') {
+      return fail(`${root}.eventSource.eventType`, '普攻命中计划只接受 BASIC_ATTACK_HIT');
+    }
+  } else if (rule.eventSource.eventType !== 'SKILL_HIT') {
+    return fail(`${root}.eventSource.eventType`, '命中计划只接受 SKILL_HIT');
+  }
+  if (rule.eventSource.eventType === 'SKILL_HIT' && rule.eventSource.detail.sourceSkillKey
+    && rule.eventSource.detail.sourceSkillKey !== authored.skillKey) {
     return fail(`${root}.eventSource.detail.sourceSkillKey`, '来源技能必须等于本次作者技能身份');
   }
   for (const action of rule.actions) {
@@ -601,33 +630,42 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
   if (!Number.isInteger(authored.characterLevel) || authored.characterLevel < 1) fail('characterLevel', '本次等级必须明确且有效');
   const state = numericState(authored);
   const providers = new Map<string, ProviderDefinition>();
-  const typeEntries = new Map<string, string>([['event/skill_hit', 'event']]);
-  const candidates: SkillHitCandidate[] = [];
-  let vampRules: GenericVampRule[] | undefined;
-  const abilityTypes = new Set<string>();
-  const hitRules = stableSorted(
-    authored.rules.filter((rule) => rule.eventSource.eventType === 'SKILL_HIT'),
-    (rule) => rule.sortOrder
-  );
+  const skillHitRules = authored.rules.filter((rule) => rule.eventSource.eventType === 'SKILL_HIT');
+  const basicHitRules = authored.rules.filter((rule) => rule.eventSource.eventType === 'BASIC_ATTACK_HIT');
   const consumeRules = stableSorted(
     authored.rules.filter((rule) => rule.eventSource.eventType === 'SPELL_SHIELD_BLOCKED'),
     (rule) => rule.sortOrder
   );
+  if (skillHitRules.length && basicHitRules.length) {
+    return fail(planPath(authored.skillKey, `rules.${basicHitRules[0]!.ruleKey}.eventSource`), '同一 resolve 不能同时入队 skill_hit 与 basic_attack_hit');
+  }
+  if (basicHitRules.length && consumeRules.length) {
+    return fail(planPath(authored.skillKey, `rules.${consumeRules[0]!.ruleKey}.eventSource`), '普攻命中入口不接办法术护盾消费');
+  }
+  const resolveKind: HitResolveKind = basicHitRules.length ? 'basic_attack' : 'skill';
+  const typeEntries = new Map<string, string>(resolveKind === 'basic_attack'
+    ? [['event/basic_attack_hit', 'event'], ['ability/basic_attack', 'ability']]
+    : [['event/skill_hit', 'event']]);
+  const candidates: SkillHitCandidate[] = [];
+  let vampRules: GenericVampRule[] | undefined;
+  const abilityTypes = new Set<string>();
+  const hitRules = stableSorted(resolveKind === 'basic_attack' ? basicHitRules : skillHitRules, (rule) => rule.sortOrder);
   const unknown = authored.rules.filter((rule) => rule.eventSource.eventType !== 'SKILL_HIT'
+    && rule.eventSource.eventType !== 'BASIC_ATTACK_HIT'
     && rule.eventSource.eventType !== 'SPELL_SHIELD_BLOCKED');
   if (unknown.length) {
     return fail(planPath(authored.skillKey, `rules.${unknown[0]!.ruleKey}.eventSource`), '未支持的过程或事件，按共享契约整体拒绝');
   }
   for (const rule of hitRules) {
-    assertHitRule(rule, authored);
-    const converted = convertRuleConditions(rule, authored, state);
+    assertHitRule(rule, authored, resolveKind);
+    const converted = convertRuleConditions(rule, authored, state, resolveKind);
     for (const action of stableSorted(rule.actions, (item) => item.sortOrder)) {
       if (action.actionType !== 'EXECUTE_EFFECT') continue;
       const effect = lookupEffect(authored, action.detail.effectKey, planPath(authored.skillKey, `rules.${rule.ruleKey}.actions.${action.actionKey}.detail.effectKey`));
       const occurrence = `${rule.ruleKey}:${action.actionKey}`;
       for (const result of stableSorted(effect.results, (item) => item.sortOrder)) {
         const path = planPath(authored.skillKey, `effects.${effect.effectKey}.results.${result.resultKey}`);
-        const compiled = compileResultOperations(authored, effect, result, path, state, providers, typeEntries);
+        const compiled = compileResultOperations(authored, effect, result, path, state, providers, typeEntries, resolveKind);
         if (compiled.vamp) {
           if (vampRules && !sameJson(vampRules, compiled.vamp.rules)) fail(path, '同一命中计划的游戏吸血规则不一致');
           vampRules = compiled.vamp.rules;
@@ -672,6 +710,7 @@ export function adaptHitProgram(authored: AuthoredHitProgram): AdaptedHitProgram
   }
   return {
     skillHit: { skillKey: authored.skillKey, candidates },
+    resolveKind,
     providers: [...providers.values()],
     params: state.params,
     formulas: [...state.namedFormulas.values()],
@@ -721,10 +760,14 @@ export function withHitProgram(
     ability.types = [...new Set([...(ability.types ?? []).filter((key) => !key.startsWith('ability/')), ...adapted.abilityTypes])];
     for (const actor of request.combatants) actor.types = [...new Set([...(actor.types ?? []), 'combatant/champion'])];
   }
+  if (adapted.resolveKind === 'basic_attack') {
+    ability.skillKey = binding.authored.skillKey;
+    ability.types = [...new Set([...(ability.types ?? []), 'ability/basic_attack', ...adapted.abilityTypes])];
+  }
   if ((ability.operations ?? []).some((operation) => operation.operation !== 'resolve_skill_hit')) {
     return fail('bindings', '命中能力 operations 只能是一条 resolve_skill_hit，不能混放伤害或控制');
   }
-  if (adapted.skillHit.candidates.length) {
+  if (adapted.skillHit.candidates.length || adapted.resolveKind === 'basic_attack') {
     ability.operations = [{
       operation: 'resolve_skill_hit',
       target: 'target',
