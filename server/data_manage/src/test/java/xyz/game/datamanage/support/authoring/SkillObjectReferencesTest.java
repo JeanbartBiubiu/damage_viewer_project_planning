@@ -105,7 +105,7 @@ class SkillObjectReferencesTest {
         assertPaths(refs, "effects", """
             lifecycle.durationValue.formulaKey lifecycle.maxStacksValue.formulaKey lifecycle.applicationStacksValue.formulaKey lifecycle.periodicIntervalValue.formulaKey
             results[0].valueRule.value.formulaKey results[0].detail.damageTypeKey results[0].detail.critical.multiplierValue.formulaKey
-            results[0].detail.vampRules[0].efficiencyValue.formulaKey results[1].valueRule.value.formulaKey results[2].detail.absorbedDamageTypeKey
+            results[0].detail.vampOverrides[0].efficiencyValue.formulaKey results[1].valueRule.value.formulaKey results[2].detail.absorbedDamageTypeKey
             results[3].detail.attributeKey results[3].detail.modifierZoneKey results[4].detail.attributeKey results[5].detail.statusKey
             results[6].detail.affectedSkillScope.skillKeys[0] results[6].detail.affectedSkillScope.skillKeys[1]
             results[7].detail.targetEffectKey results[8].detail.modifierZoneKey results[8].detail.damageTypeKey
@@ -169,7 +169,7 @@ class SkillObjectReferencesTest {
         assertEquals(Set.of(SourceType.values()), refs.stream().map(Reference::sourceType).collect(Collectors.toSet()));
         assertReference(refs, SourceType.FORMULA, "f", "expression.operands[0].parameterKey", TargetType.PARAMETER, "s1", "p", "");
         assertReference(refs, SourceType.EFFECT, "effects", "results[0].detail.critical.multiplierValue.formulaKey", TargetType.FORMULA, "s1", "f", "");
-        assertReference(refs, SourceType.EFFECT, "effects", "results[0].detail.vampRules[0].efficiencyValue.formulaKey", TargetType.FORMULA, "s1", "f", "");
+        assertReference(refs, SourceType.EFFECT, "effects", "results[0].detail.vampOverrides[0].efficiencyValue.formulaKey", TargetType.FORMULA, "s1", "f", "");
         assertReference(refs, SourceType.EFFECT, "effects", "results[6].detail.affectedSkillScope.skillKeys[1]", TargetType.SKILL, "", "s2", "");
         assertReference(refs, SourceType.EFFECT, "effects", "results[16].detail.affectedSkillScope.skillCategoryKeys[0]", TargetType.CATEGORY, "", "magic", "");
         assertReference(refs, SourceType.TRIGGER, "complex", "actions[1].runtimeInputBindings[3].detail.sourceActionKey", TargetType.ACTION, "s1", "complex", "first");
@@ -281,7 +281,7 @@ class SkillObjectReferencesTest {
         result.add(aggregate(SourceType.EFFECT, "s1", "effects", """
             {"lifecycle":{"durationValue":{"kind":"FORMULA","formulaKey":"f"},"maxStacksValue":{"kind":"FORMULA","formulaKey":"f"},"applicationStacksValue":{"kind":"FORMULA","formulaKey":"f"},"periodicIntervalValue":{"kind":"FORMULA","formulaKey":"f"}},
              "results":[
-                {"resultKey":"damage","resultType":"DAMAGE","valueRule":{"value":{"kind":"FORMULA","formulaKey":"f"}},"detail":{"damageTypeKey":"magic","critical":{"multiplierValue":{"kind":"FORMULA","formulaKey":"f"}},"vampRules":[{"efficiencyValue":{"kind":"FORMULA","formulaKey":"f"}}]}},
+                {"resultKey":"damage","resultType":"DAMAGE","valueRule":{"value":{"kind":"FORMULA","formulaKey":"f"}},"detail":{"damageTypeKey":"magic","critical":{"multiplierValue":{"kind":"FORMULA","formulaKey":"f"}},"vampQualification":"RESOLVED","vampOverrides":[{"mode":"OVERRIDE","efficiencyValue":{"kind":"FORMULA","formulaKey":"f"}}]}},
                 {"resultKey":"heal","resultType":"DIRECT_HEAL","valueRule":{"value":{"kind":"FORMULA","formulaKey":"f"}},"detail":{}},
                 {"resultKey":"shield","resultType":"NORMAL_SHIELD","detail":{"absorbedDamageTypeKey":"magic"}},
                 {"resultKey":"attribute","resultType":"ATTRIBUTE_CHANGE","detail":{"attributeKey":"hp","modifierZoneKey":"zone"}},

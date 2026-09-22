@@ -31,8 +31,8 @@ final class SkillEffectAggregate {
         SkillEffectResultDetail detail = result.detail();
         if (detail instanceof SkillEffectDamageDetail damage) {
             detail = new SkillEffectDamageDetail(damage.damageTypeKey(), damage.deliveryKind(), damage.originKind(),
-                damage.critical(), damage.vampRules().stream()
-                    .sorted(Comparator.comparing(rule -> rule.vampType().name())).toList());
+                damage.critical(), damage.vampQualification(), damage.vampOverrides().stream()
+                    .sorted(Comparator.comparing(SkillEffectVampOverride::vampType)).toList());
         }
         return new SkillEffectResultResponse(
             result.resultKey(), result.name(), result.resultType(), result.target(), result.description(), result.sortOrder(),

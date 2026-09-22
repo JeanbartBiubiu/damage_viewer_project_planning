@@ -1,4 +1,4 @@
--- 当前管理数据：27 张业务逻辑表；结构化内容由服务聚合校验。
+-- 当前管理数据：28 张业务逻辑表；结构化内容由服务聚合校验。
 
 CREATE TABLE public.games (
     game_id varchar(64) PRIMARY KEY,
@@ -44,6 +44,33 @@ CREATE UNIQUE INDEX uq_attributes_name
     ON public.attributes (game_id, lower(btrim(name)));
 
 COMMENT ON TABLE public.attributes IS '属性';
+
+CREATE TABLE public.game_vamp_rules (
+    game_id varchar(64) NOT NULL,
+    vamp_type varchar(32) NOT NULL,
+    source_attribute_key varchar(64) NOT NULL,
+    basis_output_kind varchar(32) NOT NULL,
+    default_efficiency numeric NOT NULL,
+    delivery_kinds jsonb NOT NULL,
+    origin_kinds jsonb NOT NULL,
+    skill_category_keys jsonb NOT NULL,
+    CONSTRAINT pk_game_vamp_rules PRIMARY KEY (game_id, vamp_type),
+    CONSTRAINT fk_game_vamp_rules_game FOREIGN KEY (game_id) REFERENCES public.games (game_id),
+    CONSTRAINT fk_game_vamp_rules_attribute FOREIGN KEY (game_id, source_attribute_key)
+        REFERENCES public.attributes (game_id, attribute_key),
+    CONSTRAINT ck_game_vamp_rules_type CHECK (vamp_type IN ('LIFE_STEAL', 'OMNIVAMP', 'PHYSICAL_VAMP', 'SPELL_VAMP')),
+    CONSTRAINT ck_game_vamp_rules_basis CHECK (basis_output_kind IN ('POST_DEFENSE_DAMAGE', 'ACTUAL_HP_LOSS')),
+    CONSTRAINT ck_game_vamp_rules_efficiency CHECK (default_efficiency >= 0 AND default_efficiency < 'Infinity'::numeric),
+    CONSTRAINT ck_game_vamp_rules_delivery CHECK (jsonb_typeof(delivery_kinds) = 'array' AND jsonb_array_length(delivery_kinds) > 0
+        AND delivery_kinds <@ '["SKILL", "BASIC_ATTACK"]'::jsonb),
+    CONSTRAINT ck_game_vamp_rules_origin CHECK (jsonb_typeof(origin_kinds) = 'array' AND jsonb_array_length(origin_kinds) > 0
+        AND origin_kinds <@ '["DIRECT", "REFLECTED"]'::jsonb),
+    CONSTRAINT ck_game_vamp_rules_categories CHECK (jsonb_typeof(skill_category_keys) = 'array' AND jsonb_array_length(skill_category_keys) > 0)
+);
+
+COMMENT ON TABLE public.game_vamp_rules IS '游戏通用吸血规则；集合去重、分类引用和比例属性类型由同游戏事务最终校验';
+COMMENT ON COLUMN public.game_vamp_rules.default_efficiency IS '非负有限倍率，1表示100%；不代替来源对象的实时吸血比例';
+COMMENT ON COLUMN public.game_vamp_rules.skill_category_keys IS '同游戏适用技能分类，集合内任一匹配，与产生方式、来源性质同时满足';
 
 CREATE TABLE public.game_level_configs (
     game_id varchar(64) NOT NULL,

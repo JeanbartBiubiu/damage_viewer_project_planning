@@ -46,7 +46,7 @@ public final class SkillNumericSemantics {
 
     public record Parameter(String skillKey, String key, String valueType, String valueMode,
                             BigDecimal fixedValue, JsonNode levelValues) {}
-    private enum Bound { ANY, INTEGER, NON_NEGATIVE, POSITIVE, NON_NEGATIVE_INTEGER, POSITIVE_INTEGER }
+    private enum Bound { ANY, INTEGER, NON_NEGATIVE, NON_NEGATIVE_FINITE, POSITIVE, NON_NEGATIVE_INTEGER, POSITIVE_INTEGER }
     private record Id(String skill, SourceType type, String key) {}
     private record Use(Aggregate source, String path, SkillNumericValue value) {}
     private record StaticValues(String dimension, Map<String, BigDecimal> values) {}
@@ -95,8 +95,11 @@ public final class SkillNumericSemantics {
                             JsonNode detail = r.path("detail");
                             use(a, detail.path("critical"), path + ".detail.critical", "multiplierValue", Bound.ANY, false);
                             int v = 0;
-                            for (JsonNode vamp : detail.path("vampRules")) {
-                                use(a, vamp, path + ".detail.vampRules[" + v++ + "]", "efficiencyValue", Bound.ANY, false);
+                            for (JsonNode vamp : detail.path("vampOverrides")) {
+                                if ("OVERRIDE".equals(vamp.path("mode").asText())) {
+                                    use(a, vamp, path + ".detail.vampOverrides[" + v + "]", "efficiencyValue", Bound.NON_NEGATIVE_FINITE, false);
+                                }
+                                v++;
                             }
                         }
                     }
@@ -203,8 +206,11 @@ public final class SkillNumericSemantics {
             StaticValues known = known(use);
             if (known != null) for (BigDecimal value : known.values().values()) {
                 if (integer(bound) && value.stripTrailingZeros().scale() > 0) throw invalid(a, use.path(), "VALUE_TYPE_MISMATCH", "该位置要求整数");
-                if ((bound == Bound.NON_NEGATIVE || bound == Bound.NON_NEGATIVE_INTEGER) && value.signum() < 0) {
+                if ((bound == Bound.NON_NEGATIVE || bound == Bound.NON_NEGATIVE_INTEGER || bound == Bound.NON_NEGATIVE_FINITE) && value.signum() < 0) {
                     throw invalid(a, use.path(), "VALUE_RANGE_INVALID", "该位置的数值不能小于零");
+                }
+                if (bound == Bound.NON_NEGATIVE_FINITE && !Double.isFinite(value.doubleValue())) {
+                    throw invalid(a, use.path(), "VALUE_RANGE_INVALID", "吸血效率必须是有限非负数");
                 }
                 if ((bound == Bound.POSITIVE || bound == Bound.POSITIVE_INTEGER) && value.signum() <= 0) {
                     throw invalid(a, use.path(), "VALUE_RANGE_INVALID", "该位置的数值必须大于零");

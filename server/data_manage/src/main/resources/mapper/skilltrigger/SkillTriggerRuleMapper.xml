@@ -491,14 +491,7 @@
                dd.delivery_kind AS damage_delivery_kind,
                dd.origin_kind AS damage_origin_kind,
                sp.block_scope AS spell_shield_block_scope,
-               COALESCE((
-                   SELECT COUNT(*)
-                   FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectResultVampRules"/>) vr
-                   WHERE vr.game_id = r.game_id
-                     AND vr.skill_key = r.skill_key
-                     AND vr.effect_key = r.effect_key
-                     AND vr.result_key = r.result_key
-               ), 0) AS vamp_count,
+               CASE WHEN dd.vamp_qualification = 'RESOLVED' THEN 1 ELSE 0 END AS vamp_count,
                cd.operation AS cooldown_operation
         FROM public.skill_effects e
         LEFT JOIN (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectResults"/>) r
@@ -817,7 +810,7 @@
           AND multiplier_value IS NOT NULL
         UNION
         SELECT efficiency_value AS value_json
-        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectResultVampRules"/>)
+        FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.effectResultVampOverrides"/>)
         WHERE game_id = #{gameId}
           AND skill_key = #{skillKey}
           AND effect_key = #{effectKey}

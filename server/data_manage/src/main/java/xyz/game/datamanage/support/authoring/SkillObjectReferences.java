@@ -150,8 +150,12 @@ public final class SkillObjectReferences {
                     case "DAMAGE" -> {
                         dictionary(detail, dp, "damageTypeKey", TargetType.DAMAGE_TYPE);
                         formulas(detail.path("critical"), dp + ".critical", "multiplierValue");
-                        JsonNode rules = array(detail, "vampRules");
-                        for (int v = 0; v < rules.size(); v++) formulas(rules.get(v), dp + ".vampRules[" + v + "]", "efficiencyValue");
+                        JsonNode rules = array(detail, "vampOverrides");
+                        for (int v = 0; v < rules.size(); v++) {
+                            if ("OVERRIDE".equals(rules.get(v).path("mode").asText())) {
+                                formulas(rules.get(v), dp + ".vampOverrides[" + v + "]", "efficiencyValue");
+                            }
+                        }
                     }
                     case "NORMAL_SHIELD" -> dictionary(detail, dp, "absorbedDamageTypeKey", TargetType.DAMAGE_TYPE);
                     case "ATTRIBUTE_CHANGE" -> {
