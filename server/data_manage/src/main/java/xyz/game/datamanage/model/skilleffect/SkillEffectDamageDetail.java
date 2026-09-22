@@ -16,16 +16,17 @@ public record SkillEffectDamageDetail(
     SkillEffectDamageDeliveryKind deliveryKind,
     SkillEffectDamageOriginKind originKind,
     SkillEffectCriticalPolicy critical,
-    List<SkillEffectVampRule> vampRules,
+    SkillEffectVampQualification vampQualification,
+    List<SkillEffectVampOverride> vampOverrides,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillEffectResultDetail {
 
     public SkillEffectDamageDetail {
         damageTypeKey = damageTypeKey == null ? null : damageTypeKey.trim();
-        vampRules = vampRules == null
+        vampOverrides = vampOverrides == null
             ? null
-            : Collections.unmodifiableList(new ArrayList<>(vampRules));
+            : Collections.unmodifiableList(new ArrayList<>(vampOverrides));
         foreignFields = SkillEffectDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillEffectDetailFieldCapture.normalize(unknownFields);
     }
@@ -36,6 +37,7 @@ public record SkillEffectDamageDetail(
             SkillEffectDamageDeliveryKind.SKILL,
             SkillEffectDamageOriginKind.DIRECT,
             new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, null),
+            SkillEffectVampQualification.UNRESOLVED,
             List.of(),
             Set.of(),
             Set.of()
@@ -47,9 +49,10 @@ public record SkillEffectDamageDetail(
         SkillEffectDamageDeliveryKind deliveryKind,
         SkillEffectDamageOriginKind originKind,
         SkillEffectCriticalPolicy critical,
-        List<SkillEffectVampRule> vampRules
+        SkillEffectVampQualification vampQualification,
+        List<SkillEffectVampOverride> vampOverrides
     ) {
-        this(damageTypeKey, deliveryKind, originKind, critical, vampRules, Set.of(), Set.of());
+        this(damageTypeKey, deliveryKind, originKind, critical, vampQualification, vampOverrides, Set.of(), Set.of());
     }
 
     @JsonCreator
@@ -58,7 +61,8 @@ public record SkillEffectDamageDetail(
         @JsonProperty("deliveryKind") SkillEffectDamageDeliveryKind deliveryKind,
         @JsonProperty("originKind") SkillEffectDamageOriginKind originKind,
         @JsonProperty("critical") SkillEffectCriticalPolicy critical,
-        @JsonProperty("vampRules") List<SkillEffectVampRule> vampRules,
+        @JsonProperty("vampQualification") SkillEffectVampQualification vampQualification,
+        @JsonProperty("vampOverrides") List<SkillEffectVampOverride> vampOverrides,
         @JsonProperty("attributeKey") JsonNode attributeKey,
         @JsonProperty("operation") JsonNode operation,
         @JsonProperty("affectedSkillKey") JsonNode affectedSkillKey,
@@ -74,7 +78,8 @@ public record SkillEffectDamageDetail(
             deliveryKind,
             originKind,
             critical,
-            vampRules,
+            vampQualification,
+            vampOverrides,
             SkillEffectDetailFieldCapture.captureForeign(
                 "attributeKey", attributeKey,
                 "operation", operation,
