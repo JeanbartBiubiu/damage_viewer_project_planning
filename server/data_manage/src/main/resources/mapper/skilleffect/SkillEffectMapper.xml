@@ -38,6 +38,7 @@
         <constructor>
             <arg column="modifier_zone_key" javaType="java.lang.String"/>
             <arg column="domain" javaType="xyz.game.datamanage.model.modifierzone.ModifierZoneDomain"/>
+            <arg column="calculation_mode" javaType="xyz.game.datamanage.model.modifierzone.ModifierZoneCalculationMode"/>
             <arg column="status" javaType="xyz.game.datamanage.model.modifierzone.ModifierZoneStatus"/>
         </constructor>
     </resultMap>
@@ -219,7 +220,7 @@
     </select>
 
     <select id="lockModifierZones" resultMap="modifierZoneLock">
-        SELECT modifier_zone_key, domain, status
+        SELECT modifier_zone_key, domain, calculation_mode, status
         FROM public.modifier_zones
         WHERE game_id = #{gameId}
           AND modifier_zone_key IN

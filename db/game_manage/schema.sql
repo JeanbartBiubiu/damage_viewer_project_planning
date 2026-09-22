@@ -376,7 +376,7 @@ CREATE TABLE public.modifier_zones (
     CONSTRAINT ck_modifier_zones_domain
         CHECK (domain IN ('ATTRIBUTE', 'DAMAGE', 'HEALING', 'SHIELD')),
     CONSTRAINT ck_modifier_zones_calculation_mode
-        CHECK (calculation_mode IN ('FLAT_ADD', 'RATIO_ADD')),
+        CHECK (calculation_mode IN ('FLAT_ADD', 'RATIO_ADD', 'RATIO_MAX')),
     CONSTRAINT ck_modifier_zones_application_stage
         CHECK (application_stage IN (
             'ATTRIBUTE_FLAT', 'ATTRIBUTE_PERCENT',
@@ -391,6 +391,8 @@ CREATE TABLE public.modifier_zones (
             OR (domain = 'DAMAGE' AND calculation_mode = 'RATIO_ADD'
                 AND application_stage IN ('DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'))
             OR (domain = 'HEALING' AND calculation_mode = 'RATIO_ADD'
+                AND application_stage = 'HEALING_RESULT')
+            OR (domain = 'HEALING' AND calculation_mode = 'RATIO_MAX'
                 AND application_stage = 'HEALING_RESULT')
             OR (domain = 'SHIELD' AND calculation_mode = 'RATIO_ADD'
                 AND application_stage = 'SHIELD_RESULT')

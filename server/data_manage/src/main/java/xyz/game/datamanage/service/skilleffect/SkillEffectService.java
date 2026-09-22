@@ -4,6 +4,7 @@ import xyz.game.datamanage.model.value.SkillNumericValue;
 
 import jakarta.validation.Valid;
 import xyz.game.datamanage.support.authoring.AggregateJson;
+import xyz.game.datamanage.support.authoring.HealingRatioMaxSemantics;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -650,7 +651,10 @@ public class SkillEffectService {
             retained,
             refs,
             issues,
-            true
+            true,
+            enumName(result.resultType()),
+            enumName(detail.direction()),
+            enumName(detail.operation())
         );
         validateOptionalInteractionDamageType(result, index, detail.damageTypeKey(), retained, refs, issues);
         if (detail.deliveryKind() == null) {
@@ -690,7 +694,10 @@ public class SkillEffectService {
             retained,
             refs,
             issues,
-            true
+            true,
+            enumName(result.resultType()),
+            enumName(detail.direction()),
+            enumName(detail.operation())
         );
         if (detail.healingKind() == null) {
             issues.add(fieldIssue(resultPath(index, "detail.healingKind"), "REQUIRED", "治疗种类不能为空"));
@@ -713,7 +720,7 @@ public class SkillEffectService {
             issues.add(fieldIssue(resultPath(index, "detail.operation"), "REQUIRED", "修正方式不能为空"));
         }
         collectModifierZoneRef(result, index, detail.modifierZoneKey(), ModifierZoneDomain.SHIELD,
-            retained, refs, issues, true);
+            retained, refs, issues, true, enumName(result.resultType()), null, enumName(detail.operation()));
     }
 
     private void validateDamageImmunity(
@@ -1032,7 +1039,10 @@ public class SkillEffectService {
             retained,
             refs,
             issues,
-            persistentAdjustment
+            persistentAdjustment,
+            enumName(result.resultType()),
+            null,
+            enumName(detail.operation())
         );
         String attributeKey = detail.attributeKey();
         if (attributeKey == null || attributeKey.isBlank()) {
@@ -1055,7 +1065,10 @@ public class SkillEffectService {
         Map<String, RetainedCatalog> retained,
         CollectedRefs refs,
         List<Map<String, String>> issues,
-        boolean required
+        boolean required,
+        String resultType,
+        String direction,
+        String operation
     ) {
         String path = resultPath(index, "detail.modifierZoneKey");
         if (modifierZoneKey == null || modifierZoneKey.isBlank()) {
@@ -1072,7 +1085,11 @@ public class SkillEffectService {
             path,
             modifierZoneKey,
             expectedDomain,
-            isRetained(retained, result.resultKey(), CatalogKind.MODIFIER_ZONE, modifierZoneKey)
+            isRetained(retained, result.resultKey(), CatalogKind.MODIFIER_ZONE, modifierZoneKey),
+            resultPath(index, ""),
+            resultType,
+            direction,
+            operation
         ));
         refs.modifierZoneKeys.add(modifierZoneKey);
     }
@@ -2250,6 +2267,17 @@ public class SkillEffectService {
                 issues.add(fieldIssue(ref.path(), "UNKNOWN_MODIFIER_ZONE", "乘区不存在或不属于当前游戏"));
             } else if (zone.domain() != ref.expectedDomain()) {
                 issues.add(fieldIssue(ref.path(), "MODIFIER_ZONE_DOMAIN_MISMATCH", "乘区作用域与结果种类不一致"));
+            } else {
+                HealingRatioMaxSemantics.addReferenceIssues(
+                    zone.calculationMode(),
+                    ref.resultType(),
+                    ref.direction(),
+                    ref.operation(),
+                    ref.path(),
+                    ref.resultPrefix() + ".detail.direction",
+                    ref.resultPrefix() + ".detail.operation",
+                    issues
+                );
             }
         }
     }
@@ -2276,6 +2304,10 @@ public class SkillEffectService {
             return "results[" + index + "]";
         }
         return "results[" + index + "]." + suffix;
+    }
+
+    private static String enumName(Enum<?> value) {
+        return value == null ? null : value.name();
     }
 
     private static void throwIfInvalid(List<Map<String, String>> issues) {
@@ -2622,7 +2654,11 @@ public class SkillEffectService {
         String path,
         String key,
         ModifierZoneDomain expectedDomain,
-        boolean retainedOrExempt
+        boolean retainedOrExempt,
+        String resultPrefix,
+        String resultType,
+        String direction,
+        String operation
     ) {
     }
 

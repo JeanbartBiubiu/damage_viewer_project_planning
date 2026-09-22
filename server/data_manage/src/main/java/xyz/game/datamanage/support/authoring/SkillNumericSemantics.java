@@ -37,11 +37,19 @@ public final class SkillNumericSemantics {
                 fixed == null ? null : new BigDecimal(fixed.toString()),
                 AggregateJson.tree((String) row.get("level_values"))));
         }
-        validate(aggregates, parameters);
+        Map<String, String> zoneModes = new LinkedHashMap<>();
+        for (Map<String, Object> row : jdbc.queryForList(HealingRatioMaxSemantics.ZONES_SQL, gameId)) {
+            zoneModes.put((String) row.get("modifier_zone_key"), (String) row.get("calculation_mode"));
+        }
+        validate(aggregates, parameters, zoneModes);
     }
 
     public static void validate(List<Aggregate> aggregates, List<Parameter> parameters) {
-        Context context = new Context(aggregates, parameters);
+        validate(aggregates, parameters, Map.of());
+    }
+
+    public static void validate(List<Aggregate> aggregates, List<Parameter> parameters, Map<String, String> zoneModes) {
+        Context context = new Context(aggregates, parameters, zoneModes);
         for (Aggregate aggregate : aggregates) context.collect(aggregate);
         for (Aggregate aggregate : aggregates) if (aggregate.type() == SourceType.TRIGGER) context.bindings(aggregate);
     }
@@ -57,10 +65,12 @@ public final class SkillNumericSemantics {
         private final Map<Id, Aggregate> objects = new LinkedHashMap<>();
         private final Map<String, Parameter> parameters = new LinkedHashMap<>();
         private final Map<Id, List<Use>> uses = new LinkedHashMap<>();
+        private final Map<String, String> zoneModes;
 
-        private Context(List<Aggregate> aggregates, List<Parameter> parameters) {
+        private Context(List<Aggregate> aggregates, List<Parameter> parameters, Map<String, String> zoneModes) {
             for (Aggregate a : aggregates) objects.put(id(a), a);
             for (Parameter p : parameters) this.parameters.put(p.skillKey() + "/" + p.key(), p);
+            this.zoneModes = zoneModes == null ? Map.of() : zoneModes;
         }
 
         private void collect(Aggregate a) {
@@ -104,6 +114,9 @@ public final class SkillNumericSemantics {
                             && SkillEffectCooldownChangeOperation.REDUCE_REMAINING_RATIO.name()
                                 .equals(text(r.path("detail"), "operation"))) {
                             validateRemainingCooldownRatio(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
+                        }
+                        if (isHealingRatioMaxDecrease(r)) {
+                            validateHealingRatioMaxDecrease(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
                         }
                         if ("DAMAGE".equals(text(r, "resultType"))) {
                             JsonNode detail = r.path("detail");
@@ -397,6 +410,15 @@ public final class SkillNumericSemantics {
                         result.path("valueRule"), modifier,
                         "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]");
                 }
+                if (result != null && isHealingRatioMaxDecrease(result)) {
+                    validateHealingRatioMaxDecrease(
+                        rule,
+                        findUse(effect, "results[" + resultIndex + "].valueRule.value"),
+                        result.path("valueRule"),
+                        modifier,
+                        "actions[" + actionIndex + "].resultModifiers[" + modifierIndex + "]"
+                    );
+                }
                 modifierIndex++;
             }
         }
@@ -406,6 +428,46 @@ public final class SkillNumericSemantics {
                 if (use.path().equals(path)) return use;
             }
             return null;
+        }
+
+        private boolean isHealingRatioMaxDecrease(JsonNode result) {
+            if (!"HEALING_MODIFIER".equals(text(result, "resultType"))) {
+                return false;
+            }
+            JsonNode detail = result.path("detail");
+            if (!"DECREASE".equals(text(detail, "operation"))) {
+                return false;
+            }
+            return "RATIO_MAX".equals(zoneModes.get(text(detail, "modifierZoneKey")));
+        }
+
+        private void validateHealingRatioMaxDecrease(
+            Aggregate source,
+            Use valueUse,
+            JsonNode valueRule,
+            String errorPath
+        ) {
+            validateHealingRatioMaxDecrease(source, valueUse, valueRule, null, errorPath);
+        }
+
+        private void validateHealingRatioMaxDecrease(
+            Aggregate source,
+            Use valueUse,
+            JsonNode valueRule,
+            JsonNode modifier,
+            String errorPath
+        ) {
+            StaticValues known = known(valueUse);
+            if (known == null) return; // 具名公式和计算时传入值留给运行适配检查。
+            for (BigDecimal value : known.values().values()) {
+                BigDecimal effective = applyFixedRule(value, valueRule);
+                if (modifier != null) effective = applyFixedRule(effective, modifier);
+                if (!Double.isFinite(effective.doubleValue())
+                    || effective.compareTo(BigDecimal.ZERO) < 0
+                    || effective.compareTo(BigDecimal.ONE) > 0) {
+                    throw invalid(source, errorPath, "VALUE_RANGE_INVALID", "比例减少取强的有效减少比例必须有限且位于0到1之间");
+                }
+            }
         }
 
         private void validateRemainingCooldownRatio(

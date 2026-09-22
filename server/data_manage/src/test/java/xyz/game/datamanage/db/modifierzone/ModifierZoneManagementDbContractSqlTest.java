@@ -1,5 +1,6 @@
 package xyz.game.datamanage.db.modifierzone;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -21,7 +22,10 @@ class ModifierZoneManagementDbContractSqlTest {
 
         assertTrue(zones.contains("primary key (game_id, modifier_zone_key)"));
         assertTrue(zones.contains("domain in ('attribute', 'damage', 'healing', 'shield')"));
-        assertTrue(zones.contains("calculation_mode in ('flat_add', 'ratio_add')"));
+        assertTrue(zones.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_max')"));
+        assertTrue(zones.contains("varchar(16) not null"));
+        assertTrue(zones.contains("and calculation_mode = 'ratio_max'"));
+        assertTrue(zones.contains("and application_stage = 'healing_result'"));
         assertTrue(zones.contains("damage_pre_defense"));
         assertTrue(zones.contains("damage_post_defense"));
         assertTrue(zones.contains("healing_result"));
@@ -33,6 +37,7 @@ class ModifierZoneManagementDbContractSqlTest {
             assertFalse(sql.contains("create table public." + oldTable));
         }
         String mapper = read("server/data_manage/src/main/resources/mapper/modifierzone/ModifierZoneMapper.xml");
+        String effectMapper = read("server/data_manage/src/main/resources/mapper/skilleffect/SkillEffectMapper.xml");
         String readModel = read("server/data_manage/src/main/resources/mapper/authoring/AuthoringReadModel.xml");
         for (String fragment : new String[] {"effectAttributeChangeDetails", "effectDamageModifierDetails", "effectHealingModifierDetails", "effectShieldReceivedModifierDetails"}) {
             assertTrue(mapper.contains("AuthoringReadModel." + fragment));
@@ -40,6 +45,8 @@ class ModifierZoneManagementDbContractSqlTest {
         }
         assertTrue(readModel.contains("jsonb_array_elements(r.results)"));
         assertTrue(readModel.contains("j->'detail'->>'modifierZoneKey'"));
+        assertTrue(effectMapper.contains("calculation_mode"));
+        assertTrue(effectMapper.contains("SkillEffectModifierZoneLockRow"));
     }
 
     @Test
@@ -68,7 +75,8 @@ class ModifierZoneManagementDbContractSqlTest {
         for (String domain : new String[] {"ATTRIBUTE", "DAMAGE", "HEALING"}) assertTrue(effects.contains("ModifierZoneDomain." + domain));
         assertTrue(effects.contains("MODIFIER_ZONE_DOMAIN_MISMATCH"));
         assertTrue(effects.contains("boolean persistentAdjustment"));
-        assertTrue(effects.contains("collectModifierZoneRef("));
+        assertTrue(effects.contains("HealingRatioMaxSemantics.addReferenceIssues("));
+        assertTrue(effects.contains("zone.calculationMode()"));
         assertTrue(effects.contains("\"该结果不能选择乘区\""));
         assertTrue(effects.contains("\"乘区不能为空\""));
         assertTrue(effects.contains("SkillEffectLifecycleValueReadMode.MOMENT_EVALUATION"));
@@ -76,8 +84,48 @@ class ModifierZoneManagementDbContractSqlTest {
         assertTrue(effects.contains("RUNTIME_INPUT_FORBIDDEN"));
         assertTrue(zones.contains("configurationWrites.begin(gameId)"));
         assertTrue(zones.contains("structuralFieldsChanged(current, request)"));
+        assertTrue(zones.contains("ModifierZoneCombinations.isLegal"));
+        assertTrue(zones.contains("calculationMode == ModifierZoneCalculationMode.RATIO_MAX"));
         assertTrue(zones.contains("referenceCount(gameId, modifierZoneKey) > 0"));
         assertTrue(references.contains("\"modifierZoneKey\", TargetType.MODIFIER_ZONE"));
+    }
+
+    @Test
+    void healingRatioMaxMigrationOnlyExpandsTwoExistingChecks() throws IOException {
+        String sql = read("db/game_manage/migrations/healing_ratio_max.sql");
+        String executable = sql.replaceAll("(?m)--[^\\n]*", "");
+        assertTrue(sql.contains("BEGIN;"));
+        assertTrue(sql.contains("COMMIT;"));
+        assertTrue(sql.contains("ck_modifier_zones_calculation_mode"));
+        assertTrue(sql.contains("ck_modifier_zones_combination"));
+        assertTrue(sql.contains("RATIO_MAX"));
+        assertTrue(sql.contains("禁止重放"));
+        assertTrue(sql.contains("约束漂移或已执行"));
+        assertTrue(sql.contains("DROP CONSTRAINT ck_modifier_zones_calculation_mode"));
+        assertTrue(sql.contains("DROP CONSTRAINT ck_modifier_zones_combination"));
+        assertFalse(executable.toLowerCase(Locale.ROOT).contains("cascade"));
+        assertFalse(executable.contains("ALTER TABLE public.modifier_zones ADD COLUMN"));
+        assertFalse(executable.contains("CREATE TABLE public."));
+        assertFalse(executable.contains("DROP TABLE public."));
+        assertFalse(executable.contains("CREATE INDEX"));
+        assertTrue(sql.contains("pk_modifier_zones"));
+        assertTrue(sql.contains("fk_modifier_zones_game"));
+        assertTrue(sql.contains("uq_modifier_zones_name"));
+        assertTrue(sql.contains("character_maximum_length = 16"));
+        assertTrue(sql.contains("healing_ratio_max_zones_before"));
+        assertTrue(sql.contains("EXCEPT ALL"));
+        assertEquals(2, count(executable, "DROP CONSTRAINT"));
+        String schema = normalized(read("db/game_manage/schema.sql"));
+        assertTrue(schema.contains("calculation_mode in ('flat_add', 'ratio_add', 'ratio_max')"));
+        assertTrue(schema.contains("domain = 'healing' and calculation_mode = 'ratio_max'"));
+    }
+
+    private static int count(String text, String fragment) {
+        int total = 0;
+        for (int index = 0; (index = text.indexOf(fragment, index)) >= 0; index += fragment.length()) {
+            total++;
+        }
+        return total;
     }
 
     private static String tableBody(String sql, String table) {

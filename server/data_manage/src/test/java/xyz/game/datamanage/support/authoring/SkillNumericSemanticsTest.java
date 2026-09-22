@@ -369,6 +369,42 @@ class SkillNumericSemanticsTest {
     }
 
     @Test
+    void healingRatioMaxAcceptsFortyPercentAfterMultiplierAndBounds() {
+        Map<String, String> zones = Map.of("foo", "RATIO_MAX");
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(healingRatioMaxEffect(fixed("0.4"), "1", null, null)), List.of(), zones));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(healingRatioMaxEffect(fixed("40"), "0.01", null, null)), List.of(), zones));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(healingRatioMaxEffect(fixed("2"), "1", null, "0.4")), List.of(), zones));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(healingRatioMaxEffect(fixed("0.4"), "1", null, null)), List.of(), Map.of("foo", "RATIO_ADD")));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"-0.01", "1.01"})
+    void healingRatioMaxRejectsStaticEffectiveRatioOutsideInclusiveBounds(String value) {
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(healingRatioMaxEffect(fixed(value), "1", null, null)), List.of(), Map.of("foo", "RATIO_MAX"));
+    }
+
+    @Test
+    void healingRatioMaxRejectsRawPercentPointsWithoutConfiguredMultiplier() {
+        assertIssue("VALUE_RANGE_INVALID", "results[0].valueRule.value",
+            List.of(healingRatioMaxEffect(fixed("40"), "1", null, null)), List.of(), Map.of("foo", "RATIO_MAX"));
+    }
+
+    @Test
+    void healingRatioMaxLeavesNamedFormulaAndRuntimeInputUnknown() {
+        Aggregate effect = healingRatioMaxEffect(formulaValue(), "1", null, null);
+        Map<String, String> zones = Map.of("foo", "RATIO_MAX");
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(formula("input"), effect), List.of(fixedParameter("input", "DECIMAL", "40")), zones));
+        assertDoesNotThrow(() -> SkillNumericSemantics.validate(
+            List.of(formula("input"), effect), List.of(runtime("input", "DECIMAL")), zones));
+    }
+
+    @Test
     void extendDurationChecksEffectiveWholeMillisecondsAfterFixedRule() {
         assertDoesNotThrow(() -> SkillNumericSemantics.validate(
             List.of(extendedDurationEffect(fixed("0"), "1", null, null)), List.of()));
@@ -513,6 +549,15 @@ class SkillNumericSemanticsTest {
         return object(SourceType.EFFECT, "effect", "{\"results\":[{\"resultKey\":\"cooldown\",\"resultType\":\"COOLDOWN_CHANGE\",\"detail\":{\"operation\":\"REDUCE_REMAINING_RATIO\"},\"valueRule\":" + rule + "}]}");
     }
 
+    private static Aggregate healingRatioMaxEffect(String value, String multiplier, String minimum, String maximum) {
+        StringBuilder rule = new StringBuilder("{\"value\":").append(value)
+            .append(",\"fixedMultiplier\":").append(multiplier);
+        if (minimum != null) rule.append(",\"fixedMinValue\":").append(minimum);
+        if (maximum != null) rule.append(",\"fixedMaxValue\":").append(maximum);
+        rule.append("}");
+        return object(SourceType.EFFECT, "effect", "{\"results\":[{\"resultKey\":\"grievous\",\"resultType\":\"HEALING_MODIFIER\",\"detail\":{\"modifierZoneKey\":\"foo\",\"direction\":\"RECEIVED\",\"operation\":\"DECREASE\",\"healingKind\":\"ANY\"},\"valueRule\":" + rule + "}]}");
+    }
+
     private static Aggregate extendedDurationEffect(String value, String multiplier, String minimum, String maximum) {
         StringBuilder rule = new StringBuilder("{\"value\":").append(value)
             .append(",\"fixedMultiplier\":").append(multiplier);
@@ -587,7 +632,18 @@ class SkillNumericSemanticsTest {
 
     @SuppressWarnings("unchecked")
     private static void assertIssue(String code, String path, List<Aggregate> objects, List<Parameter> parameters) {
-        ApiException error = assertThrows(ApiException.class, () -> SkillNumericSemantics.validate(objects, parameters));
+        assertIssue(code, path, objects, parameters, Map.of());
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void assertIssue(
+        String code,
+        String path,
+        List<Aggregate> objects,
+        List<Parameter> parameters,
+        Map<String, String> zones
+    ) {
+        ApiException error = assertThrows(ApiException.class, () -> SkillNumericSemantics.validate(objects, parameters, zones));
         assertEquals("400.INVALID_SKILL_NUMERIC_VALUE", error.getCode());
         List<Map<String, String>> issues = (List<Map<String, String>>) error.getDetails().get("fieldIssues");
         assertEquals(1, issues.size());
