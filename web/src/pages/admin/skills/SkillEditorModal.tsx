@@ -179,6 +179,8 @@ export function SkillEditorModal({
 
   const close = () => {
     if (saving) return;
+    if (!readOnly && JSON.stringify(draft) !== JSON.stringify(initial)
+      && !window.confirm('技能修改尚未保存，确定关闭吗？')) return;
     onDirtyChange(false);
     onClose();
   };

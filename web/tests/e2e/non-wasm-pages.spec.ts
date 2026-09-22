@@ -4562,7 +4562,16 @@ test.describe('skill management without Wasm', () => {
     await page.getByRole('button', { name: '新增技能', exact: true }).click();
     const outsideCloseModal = visibleModal(page, '新增技能');
     await outsideCloseModal.getByLabel('技能名称', { exact: true }).fill('未保存技能');
+    const rejectOutsideClose = page.waitForEvent('dialog').then(async dialog => {
+      expect(dialog.message()).toBe('技能修改尚未保存，确定关闭吗？');
+      await dialog.dismiss();
+    });
     await closeEditorByOutsideOrEscape(page, testInfo);
+    await rejectOutsideClose;
+    await expect(outsideCloseModal.getByLabel('技能名称', { exact: true })).toHaveValue('未保存技能');
+    const confirmOutsideClose = page.waitForEvent('dialog').then(dialog => dialog.accept());
+    await closeEditorByOutsideOrEscape(page, testInfo);
+    await confirmOutsideClose;
     await expect(outsideCloseModal).toBeHidden();
     expect(mock.skills).toHaveLength(1);
 
@@ -5138,7 +5147,8 @@ test.describe('skill management without Wasm', () => {
     await saveOpenModal(hasteModal);
     await expect(effectModal).toBeVisible();
     await expect(effectModal.getByText('技能急速修正')).toBeVisible();
-    await expect(effectModal.getByText('增加 · 技能急速180 · 位移')).toBeVisible();
+    await expect(effectModal.getByText('当前目标 · 增加 · 技能急速180（skill_haste_180） × 1')).toBeVisible();
+    await expect(effectModal.getByText('位移（displacement）', { exact: true })).toBeVisible();
     await expect(effectModal.getByText('增加', { exact: true })).toBeVisible();
 
     await effectModal.getByRole('button', { name: '保存', exact: true }).click();
@@ -7719,6 +7729,7 @@ test('lifecycle conditions save and reopen presence absence and stack comparison
   const create = visibleModal(page, '新增规则');
   await create.getByLabel('规则标识', { exact: true }).fill('lifecycle_direct');
   await create.getByLabel('规则名称', { exact: true }).fill('直接检查印记');
+  await chooseSelectOption(page, create, '使用阶段', '首次施放');
   await create.getByRole('button', { name: '编辑', exact: true }).first().click();
   await fillExecuteEffectAction(page, visibleModal(page, '编辑动作'), { name: '引爆', effectName: '命中结果' });
   await create.getByRole('button', { name: '新增条件组', exact: true }).click();

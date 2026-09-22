@@ -40,13 +40,19 @@ export type SkillManagementPageProps = {
   onDirtyChange: (dirty: boolean) => void;
   focus?: {
     skillKey: string;
-    sourceKind: 'character' | 'equipment';
+    sourceKind: 'character' | 'equipment' | 'rune';
     sourceKey: string;
     sourceName: string;
     onReturn: () => void;
     returnLabel: string;
   };
 };
+
+const FOCUS_SOURCE_LABELS = {
+  character: '角色',
+  equipment: '装备',
+  rune: '符文'
+} as const;
 
 type StatusFilter = SkillStatus | '';
 type EditorState = { mode: SkillEditorMode; skill: Skill | null };
@@ -482,7 +488,7 @@ export function SkillManagementPage({
         ) : null}
         {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
 
-        {focus ? <Alert type="info" content={`来自${focus.sourceKind === 'character' ? '角色' : '装备'}：${focus.sourceName}（${focus.sourceKey}）。正在录入下方这一项技能；完成后${focus.returnLabel}可继续核对。`} style={{ marginBottom: 16 }} /> : null}
+        {focus ? <Alert type="info" content={`来自${FOCUS_SOURCE_LABELS[focus.sourceKind]}：${focus.sourceName}（${focus.sourceKey}）。正在录入下方这一项技能；完成后${focus.returnLabel}可继续核对。`} style={{ marginBottom: 16 }} /> : null}
 
         {!focus ? <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 1fr) minmax(220px, auto) auto', gap: 12, alignItems: 'end', marginBottom: 16 }}>
           <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
