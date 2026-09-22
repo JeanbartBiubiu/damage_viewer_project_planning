@@ -9,8 +9,8 @@ import type { SkillEffect, SkillEffectResult } from '../../src/types/skillEffect
 import type { SkillTriggerRuleDetail } from '../../src/types/skillTriggerRule';
 
 const WASM_PATH = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const WASM_SHA256 = '4B51975A41FF155D80294A1155C9D4463FB40677225DAE933D19F184808D040F';
-const WASM_BYTES = 828519;
+const WASM_SHA256 = '1434E7D212D8CA0F8A6139C70B47CD098A774D2EC0A78BC424617B0CA9637F61';
+const WASM_BYTES = 888566;
 
 function slot(value: number, max = value) {
   return { base: value, current: value, max, resolved: value };
