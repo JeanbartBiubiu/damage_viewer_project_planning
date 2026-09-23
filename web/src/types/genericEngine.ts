@@ -123,6 +123,7 @@ export type OperationDefinition = {
   attributeKey?: string;
   abilityRef?: string;
   shieldRef?: string;
+  shieldDurationMs?: GenericFormulaExpr;
   providerDefinitionRef?: string;
   providerRef?: string;
   eventType?: string;
