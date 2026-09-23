@@ -1,0 +1,545 @@
+{
+  "recordedAt": "2026-09-23T08:08:32.1710926+08:00",
+  "chapter": 6,
+  "description": "同次使用限制：真实页面保存、共享组范围冲突和独立回读；仅合成对象",
+  "backendCommit": "82306639e",
+  "webCommit": "7289f0f22",
+  "fixture": "p6_live_20260923_mudc90su",
+  "fixtureRequestHash": "9591c4e5285157c44628c13aff80d9864414babaebd57a86d5bcd5a592ea3c49",
+  "browser": {
+    "passed": true,
+    "checks": [
+      "默认关闭、启用保存及重开",
+      "真实409、字段定位、草稿保留与数据库未变",
+      "修正范围后保存、关闭限制后重开"
+    ],
+    "errors": []
+  },
+  "attempts": [
+    {
+      "at": "2026-09-23T00:06:41.564Z",
+      "action": "attempt",
+      "path": "/skills/p6_live_20260923_mudc90su/trigger-rules/first",
+      "body": {
+        "name": "first",
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "sortOrder": 0,
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": null,
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "mark",
+            "name": "验收数值",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "mark"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": {
+          "groupKey": "shared_proc",
+          "scope": "SKILL"
+        }
+      },
+      "hash": "d508fac53a005839b0dcd2e0f6acb0d3ce01a175e9de8c653a833af2d2cef527"
+    },
+    {
+      "at": "2026-09-23T00:06:43.334Z",
+      "action": "response",
+      "path": "/skills/p6_live_20260923_mudc90su/trigger-rules/first",
+      "status": 200,
+      "body": {
+        "actions": [
+          {
+            "actionKey": "mark",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mark"
+            },
+            "name": "验收数值",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": null,
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "first",
+        "oncePerUse": {
+          "groupKey": "shared_proc",
+          "scope": "SKILL"
+        },
+        "perTargetCooldown": null,
+        "ruleKey": "first",
+        "sortOrder": 0
+      }
+    },
+    {
+      "at": "2026-09-23T00:06:43.411Z",
+      "action": "independent-readback",
+      "key": "first",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "mark",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mark"
+            },
+            "name": "验收数值",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": null,
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "first",
+        "oncePerUse": {
+          "groupKey": "shared_proc",
+          "scope": "SKILL"
+        },
+        "perTargetCooldown": null,
+        "ruleKey": "first",
+        "sortOrder": 0
+      }
+    },
+    {
+      "at": "2026-09-23T00:06:45.32Z",
+      "action": "attempt",
+      "path": "/skills/p6_live_20260923_mudc90su/trigger-rules/second",
+      "body": {
+        "name": "second",
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "sortOrder": 10,
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "mark",
+            "name": "验收数值",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "mark"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": {
+          "groupKey": "shared_proc",
+          "scope": "TARGET"
+        }
+      },
+      "hash": "98c176c8e503d1c4305962db22259a707a6efbf88c88ad13995b8d8891a11b65"
+    },
+    {
+      "at": "2026-09-23T00:06:45.398Z",
+      "action": "response",
+      "path": "/skills/p6_live_20260923_mudc90su/trigger-rules/second",
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "409.SKILL_TRIGGER_RULE_ONCE_PER_USE_INVALID",
+          "details": {
+            "fieldIssues": [
+              {
+                "code": "ONCE_PER_USE_SCOPE_CONFLICT",
+                "conflictingRuleKey": "first",
+                "field": "oncePerUse.scope",
+                "message": "同技能同一共享限制键的范围必须一致"
+              }
+            ]
+          },
+          "message": "同次使用限制组范围与现有规则冲突"
+        }
+      }
+    },
+    {
+      "at": "2026-09-23T00:06:45.63Z",
+      "action": "attempt",
+      "path": "/skills/p6_live_20260923_mudc90su/trigger-rules/second",
+      "body": {
+        "name": "second",
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "sortOrder": 10,
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "mark",
+            "name": "验收数值",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "mark"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": {
+          "groupKey": "shared_proc",
+          "scope": "SKILL"
+        }
+      },
+      "hash": "ae9ca9a2c9a79b18ad0248ad3610502a561261a694a62fe2687e872df26bc169"
+    },
+    {
+      "at": "2026-09-23T00:06:47.493Z",
+      "action": "response",
+      "path": "/skills/p6_live_20260923_mudc90su/trigger-rules/second",
+      "status": 200,
+      "body": {
+        "actions": [
+          {
+            "actionKey": "mark",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mark"
+            },
+            "name": "验收数值",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "second",
+        "oncePerUse": {
+          "groupKey": "shared_proc",
+          "scope": "SKILL"
+        },
+        "perTargetCooldown": null,
+        "ruleKey": "second",
+        "sortOrder": 10
+      }
+    },
+    {
+      "at": "2026-09-23T00:06:47.543Z",
+      "action": "independent-readback",
+      "key": "second",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "mark",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mark"
+            },
+            "name": "验收数值",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "second",
+        "oncePerUse": {
+          "groupKey": "shared_proc",
+          "scope": "SKILL"
+        },
+        "perTargetCooldown": null,
+        "ruleKey": "second",
+        "sortOrder": 10
+      }
+    },
+    {
+      "at": "2026-09-23T00:06:48.486Z",
+      "action": "attempt",
+      "path": "/skills/p6_live_20260923_mudc90su/trigger-rules/second",
+      "body": {
+        "name": "second",
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "sortOrder": 10,
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "mark",
+            "name": "验收数值",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "mark"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": null
+      },
+      "hash": "cdb7a1b5da0f4438699fea80f0589aa2073297edab4134bb63d815d54a2ff23d"
+    },
+    {
+      "at": "2026-09-23T00:06:50.169Z",
+      "action": "response",
+      "path": "/skills/p6_live_20260923_mudc90su/trigger-rules/second",
+      "status": 200,
+      "body": {
+        "actions": [
+          {
+            "actionKey": "mark",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mark"
+            },
+            "name": "验收数值",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "second",
+        "oncePerUse": null,
+        "perTargetCooldown": null,
+        "ruleKey": "second",
+        "sortOrder": 10
+      }
+    },
+    {
+      "at": "2026-09-23T00:06:50.221Z",
+      "action": "independent-readback",
+      "key": "second",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "mark",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mark"
+            },
+            "name": "验收数值",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "second",
+        "oncePerUse": null,
+        "perTargetCooldown": null,
+        "ruleKey": "second",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "finalReadback": [
+    {
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-23T00:02:16.269262Z",
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "第6项同次使用验收",
+        "skillCategoryKeys": [],
+        "skillKey": "p6_live_20260923_mudc90su",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-23T00:02:16.269262Z"
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-23T00:02:17.992472Z",
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "effectKey": "mark",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "验收数值",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "attack_damage",
+              "modifierZoneKey": null,
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": null,
+            "name": "零增量",
+            "resultKey": "mark",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 0,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            }
+          }
+        ],
+        "skillKey": "p6_live_20260923_mudc90su",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-23T00:02:17.992472Z"
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "actions": [
+          {
+            "actionKey": "mark",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mark"
+            },
+            "name": "验收数值",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": null,
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "first",
+        "oncePerUse": {
+          "groupKey": "shared_proc",
+          "scope": "SKILL"
+        },
+        "perTargetCooldown": null,
+        "ruleKey": "first",
+        "sortOrder": 0
+      }
+    },
+    {
+      "status": 200,
+      "body": {
+        "actions": [
+          {
+            "actionKey": "mark",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "mark"
+            },
+            "name": "验收数值",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "第6项同次使用限制验收合成对象，不是正式英雄资料",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "second",
+        "oncePerUse": null,
+        "perTargetCooldown": null,
+        "ruleKey": "second",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "cleanup": {
+    "passed": true,
+    "allFourAbsent": true,
+    "protectedUnchanged": true
+  },
+  "protectedSkills": [
+    "annie_q",
+    "item_6692_passive",
+    "item_3508_passive"
+  ],
+  "attemptNotes": [
+    "首次页面脚本在游戏初始化完成前查询，未发送写请求；后续改为等待初始化完成",
+    "第一份页面冻结请求遗漏更新请求不含ruleKey及服务规范化useKind:null，拦截器在发出前拒绝；核对接口后修正预期，未重放不确定写入"
+  ],
+  "runtimeProven": false
+}
