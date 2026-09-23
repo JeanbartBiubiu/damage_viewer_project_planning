@@ -1305,6 +1305,9 @@ export function withTriggerProgram(
       if (ability.kind !== 'active' || ability.types?.includes('ability/basic_attack')) {
         fail('bindings.initialCastAbilities', '初次技能启动能力必须是明确的非普攻主动能力');
       }
+      if (ability.processControl && ability.processControl.action !== 'INITIAL') {
+        fail('bindings.initialCastAbilities', '过程推进、取消或中断不是首次施法入口');
+      }
       if (!ability.skillKey) fail('bindings.initialCastAbilities', '启动能力 skillKey 必须已明确，不能写成装备被动键');
       catalogKey(ability.skillKey, 'bindings.initialCastAbilities.skillKey');
       if (wantedSkill !== null && wantedSkill !== undefined && ability.skillKey !== wantedSkill) {
