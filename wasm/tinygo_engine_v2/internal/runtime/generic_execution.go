@@ -77,14 +77,16 @@ type eventFormulaSnapshot struct {
 }
 
 type executionFrame struct {
-	run               *genericRunState
-	frameID           uint64
-	sourceKey         string
-	targetKey         string
-	abilityRef        string
-	ownerCombatantKey string // mounted provider owner; distinct from event/op sourceKey
-	ownerProviderRef  string
-	strictReads       bool
+	processActualCosts  map[string]float64
+	processCostReadable bool
+	run                 *genericRunState
+	frameID             uint64
+	sourceKey           string
+	targetKey           string
+	abilityRef          string
+	ownerCombatantKey   string // mounted provider owner; distinct from event/op sourceKey
+	ownerProviderRef    string
+	strictReads         bool
 
 	// castInstanceID / castOrigin：同一次施放的身份与来源；多 op / delayed / listener ops 继承。
 	castInstanceID uint64
@@ -340,12 +342,14 @@ func (f *executionFrame) stageFor(key string) *stagedCombatant {
 
 func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) formula.GenericEvalContext {
 	ctx := formula.GenericEvalContext{
-		SourceAttrs:     f.stageFor(f.sourceKey).attributes,
-		TargetAttrs:     f.stageFor(f.targetKey).attributes,
-		SourceResources: f.stageFor(f.sourceKey).resources,
-		TargetResources: f.stageFor(f.targetKey).resources,
-		AbilityParams:   ability.Params,
-		StrictReads:     f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit),
+		ProcessActualCosts:    f.processActualCosts,
+		HasProcessActualCosts: f.processCostReadable,
+		SourceAttrs:           f.stageFor(f.sourceKey).attributes,
+		TargetAttrs:           f.stageFor(f.targetKey).attributes,
+		SourceResources:       f.stageFor(f.sourceKey).resources,
+		TargetResources:       f.stageFor(f.targetKey).resources,
+		AbilityParams:         ability.Params,
+		StrictReads:           f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit),
 	}
 	if f.ownerProviderRef != "" {
 		ctx.HasProviderContext = true
@@ -657,7 +661,7 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			cooldownKey = normalizeAbilityRef(op.AbilityRefStr, f.sourceKey, f.targetKey)
 		}
 		ownerPrefix := combatantPrefixFromAbilityRef(cooldownKey)
-		ownerKey, ok := f.run.resolveCombatantKey(ownerPrefix, f.sourceKey, f.targetKey)
+		ownerKey, ok := ownerPrefix, f.run.combatantExists(ownerPrefix)
 		if !ok {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrOperationTargetMissing, "operation target unavailable", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
@@ -668,6 +672,19 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 		}
 		readyAt := f.run.nowMs
 		switch op.ValuePolicy {
+		case "set_remaining":
+			if !op.HasAmount {
+				return f.run.processErr("operation.cooldown_change.amount", "set_remaining requires amount", cooldownKey)
+			}
+			duration, err := f.evalAmount(op.AmountProgram, ability)
+			if err != nil {
+				return err
+			}
+			var valid bool
+			readyAt, valid = processTimeAfter(f.run.nowMs, duration, true)
+			if !valid {
+				return f.run.processErr("operation.cooldown_change.amount", "set_remaining requires finite non-negative integer milliseconds and safe timestamp addition", cooldownKey)
+			}
 		case "reset":
 			readyAt = f.run.nowMs
 		case "reduce", "refund":
@@ -1944,6 +1961,13 @@ func (f *executionFrame) commit() {
 		return
 	}
 	f.enqueueCommittedTimedShields()
+	if !f.run.settlingProcessDeaths && f.run.processFailure == nil {
+		f.run.processFailure = f.run.failDeadProcesses()
+		if f.run.processFailure != nil {
+			f.fatal = true
+			f.fatalErr = f.run.processFailure
+		}
+	}
 }
 
 func (f *executionFrame) evalShieldDuration(op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility) (int64, *model.EngineError) {
@@ -2055,6 +2079,9 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrUnknownRef, "unknown abilityRef", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
 	ability := s.compiled.Abilities[ref.AbilityIndex]
+	if ability.ProcessControl != nil {
+		return s.processErr("abilityRef", "process control can only execute through its single-shot driver fact", resolvedRef)
+	}
 	start := ability.OperationStart
 	end := start + ability.OperationCount
 	if int(end) > len(s.compiled.Operations) {
@@ -2360,6 +2387,15 @@ func (f *executionFrame) maybeQueueDamageDealtEvent(ability compilebundle.Compil
 func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.CompiledAbility) *model.EngineError {
 	if f.chainDepth != 0 {
 		return nil
+	}
+	if ability.HasSkillHit {
+		if fact, ok := f.run.skillHitFacts[f.driverEntryKey]; ok && fact.UseRef != nil {
+			for _, p := range f.run.processInstances {
+				if p.UseKey == *fact.UseRef && p.Owner == f.sourceKey && p.SkillKey == ability.SkillKey {
+					return nil
+				}
+			}
+		}
 	}
 	basicAttackID, ok := f.run.compiled.Types.Registry.Lookup(abilityTypeBasicAttack)
 	if !ok {
@@ -3200,6 +3236,9 @@ func (s *genericRunState) recordDamage(sourceKey, targetKey string, amount float
 }
 
 func (s *genericRunState) checkDeathStopReason() {
+	if !s.settlingProcessDeaths && s.processFailure == nil {
+		s.processFailure = s.failDeadProcesses()
+	}
 	if s.stopReasonSet {
 		return
 	}

@@ -132,6 +132,7 @@ type SeriesSamplingEvidence struct {
 
 // SafetyBudget 是 run 期安全预算默认值（§4.1）。
 type SafetyBudget struct {
+	MaxProcessInstances int
 	MaxChainDepth       int
 	MaxCommandsPerEvent int
 	MaxEvents           int
@@ -142,6 +143,7 @@ type SafetyBudget struct {
 // DefaultSafetyBudget 返回 §4.1 默认安全预算。
 func DefaultSafetyBudget() SafetyBudget {
 	return SafetyBudget{
+		MaxProcessInstances: 10000,
 		MaxChainDepth:       32,
 		MaxCommandsPerEvent: 256,
 		MaxEvents:           100000,
