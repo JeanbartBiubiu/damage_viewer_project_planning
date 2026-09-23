@@ -5,9 +5,9 @@ import {
   initialCastAbilityType, provenTriggerUse, triggerProviderStateSnapshot, useTriggerLedgerEntry,
   withTriggerProgram, type AuthoredTriggerProgram
 } from './triggerAdapter';
-import type { CompileRequest } from '../types/genericEngine';
+import type { CompileRequest, ProviderDefinition } from '../types/genericEngine';
 import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
-import type { SkillEffect } from '../types/skillEffect';
+import type { SkillFormula } from '../types/skillFormula';
 import type { SkillInternalState } from '../types/skillInternalState';
 import type { SkillProcess, SkillProcessMoment } from '../types/skillProcess';
 import type { SkillTriggerCondition, SkillTriggerRuleDetail } from '../types/skillTriggerRule';
@@ -156,6 +156,67 @@ function shieldProgram(): AuthoredTriggerProgram {
   return authored;
 }
 
+function dualEventWindow(patch: Partial<AuthoredTriggerProgram> = {}): AuthoredTriggerProgram {
+  const authored = windowProgram(patch);
+  const extra = authored.rules.map((rule, index) => ({
+    ...structuredClone(rule),
+    ruleKey: index === 0 ? 'aa_first' : 'aa_reward',
+    sortOrder: 30 + index * 10,
+    eventSource: { eventType: 'BASIC_ATTACK_HIT' as const, detail: {} }
+  }));
+  authored.rules = [...authored.rules, ...extra];
+  return authored;
+}
+
+function refreshStartGroups(): SkillTriggerRuleDetail['conditionGroups'] {
+  return [
+    { groupKey: 'idle', name: 'idle', sortOrder: 10, conditions: [flagOn(false), cooldownReady()] },
+    {
+      groupKey: 'armed', name: 'armed', sortOrder: 20,
+      conditions: [{
+        conditionKey: 'ready_on', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 10,
+        detail: { stateKey: 'ready', valueKind: 'ENABLED', optionKey: null, expectedBoolean: true, comparator: null, comparisonValue: null }
+      }, cooldownReady()]
+    }
+  ];
+}
+
+function refreshSpellblade(windowMs = 10000): AuthoredTriggerProgram {
+  const authored = spellbladeProgram();
+  const step = authored.processes[0]!.steps[0]!;
+  if (step.stepType !== 'EMPOWERED_BASIC_ATTACK') throw new Error('fixture');
+  step.detail.windowValue = fixedValue(windowMs);
+  authored.rules[0]!.conditionGroups = refreshStartGroups();
+  return authored;
+}
+
+function formulaRefundEffect(skillKey: string): SkillEffect {
+  return {
+    gameId: 'lol', skillKey, effectKey: 'refund', name: 'refund', description: 'synthetic', sortOrder: 20, lifecycle: null,
+    results: [{
+      resultKey: 'mana', name: 'mana', resultType: 'RESOURCE_CHANGE', target: 'SOURCE', description: null, sortOrder: 10,
+      spellShieldBlockScope: null, lifecycleBehavior: null,
+      valueRule: { value: formulaValue('total_mana_refund'), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
+      detail: { attributeKey: 'mana', operation: 'RESTORE' }
+    }],
+    createdAt: '', updatedAt: ''
+  };
+}
+
+function manaRefundFormula(skillKey: string): SkillFormula {
+  return {
+    gameId: 'lol', skillKey, formulaKey: 'total_mana_refund', name: '回蓝', description: null, sortOrder: 20,
+    createdAt: '', updatedAt: '',
+    expression: {
+      nodeType: 'OPERATION', operation: 'MULTIPLY',
+      operands: [
+        { nodeType: 'PARAMETER', parameterKey: 'mana_refund_damage_multiplier' },
+        { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'attack_damage', attributeValueKind: 'TOTAL' }
+      ]
+    }
+  };
+}
+
 function cooldownReady(): SkillTriggerCondition {
   return {
     conditionKey: 'icd_ready', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 20,
@@ -214,7 +275,7 @@ function spellbladeProgram(patch: Partial<AuthoredTriggerProgram> = {}): Authore
     rules: [
       {
         ruleKey: 'arm', name: 'arm', description: 'synthetic', sortOrder: 10,
-        eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: skillKey, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
+        eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
         conditionGroups: [{ groupKey: 'idle', name: 'idle', sortOrder: 10, conditions: [flagOn(false), cooldownReady()] }],
         actions: [{
           actionKey: 'start', name: 'start', actionType: 'START_PROCESS', sortOrder: 10,
@@ -261,12 +322,27 @@ function request(): CompileRequest {
     sharedProviders: [{
       providerKey: 'champion', stableId: 'champion', kind: 'champion',
       abilities: [
-        { abilityKey: 'cast', kind: 'active', operations: [] },
+        { abilityKey: 'cast', kind: 'active', skillKey: 'champion_q', operations: [] },
         basicAttackStartAbility({ abilityKey: 'aa_start', skillKey: 'aa_basic' }),
         basicAttackHitAbility({ abilityKey: 'aa_hit', skillKey: 'aa_basic' })
       ]
     }]
   };
+}
+
+function mountedProvider(input: CompileRequest, owner: 'source' | 'target', providerRef: string): ProviderDefinition {
+  const mount = input.combatants.find((actor) => actor.key === owner)?.providers.find((row) => row.providerRef === providerRef);
+  const provider = input.sharedProviders?.find((row) => row.providerKey === mount?.definitionRef);
+  if (!provider) throw new Error(`missing test provider: ${owner}/${providerRef}`);
+  return provider;
+}
+
+function startMarker(input: CompileRequest, triggerProviderKey: string): string {
+  const marker = mountedProvider(input, 'source', triggerProviderKey).abilities
+    ?.find((ability) => ability.listenerSpec?.listenerKey === 'arm')
+    ?.listenerSpec?.eventMatcher.all?.find((key) => key.startsWith('ability/'));
+  if (!marker) throw new Error(`missing test start marker: ${triggerProviderKey}`);
+  return marker;
 }
 
 describe('有界触发与过程适配', () => {
@@ -335,11 +411,14 @@ describe('有界触发与过程适配', () => {
     const input = request();
     const unchanged = structuredClone(input);
     const output = withTriggerProgram(input, {
-      triggerProviderKey: 'item:synth_spellblade', authored, initialCastAbilityKey: 'cast'
+      triggerProviderKey: 'item:synth_spellblade', authored,
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'cast' }]
     }, { rulesHash: 'with-p6' });
     expect(input).toEqual(unchanged);
     expect(output.sharedProviders?.find((row) => row.providerKey === 'item:synth_spellblade')?.abilities?.[0]?.kind).toBe('passive_listener');
-    expect(output.sharedProviders?.[0]?.abilities?.find((row) => row.abilityKey === 'cast')?.types).toContain('ability/skill_synth_spellblade');
+    const cast = mountedProvider(output, 'source', 'champion').abilities?.find((row) => row.abilityKey === 'cast');
+    expect(cast?.types).toContain(startMarker(output, 'item:synth_spellblade'));
+    expect(cast?.skillKey).toBe('champion_q');
     expect(output.combatants[0]?.providers.some((row) => row.providerRef === 'item:synth_spellblade')).toBe(true);
   });
 
@@ -368,9 +447,13 @@ describe('有界触发与过程适配', () => {
     const unresolved = damageEffect('synth_window', 'SKILL');
     if (unresolved.results[0] && unresolved.results[0].resultType === 'DAMAGE') unresolved.results[0].detail.vampQualification = 'UNRESOLVED';
     expect(() => adaptTriggerProgram(windowProgram({ effects: [unresolved] }))).toThrow('尚未核定');
-    expect(() => adaptTriggerProgram(windowProgram({
+    const mixedDelivery = adaptTriggerProgram(windowProgram({
       effects: [damageEffect('synth_window', 'BASIC_ATTACK')]
-    }))).toThrow('产生方式');
+    }));
+    expect(mixedDelivery.provider.abilities?.[1]?.listenerSpec?.operations?.[0]).toMatchObject({
+      operation: 'damage',
+      types: expect.arrayContaining(['damage_trait/delivery_basic_attack'])
+    });
     expect(() => adaptTriggerProgram(spellbladeProgram({
       rules: spellbladeProgram().rules.map((rule) => (
         rule.ruleKey === 'arm'
@@ -378,13 +461,7 @@ describe('有界触发与过程适配', () => {
           : rule
       ))
     }))).toThrow('INITIAL');
-    expect(() => adaptTriggerProgram(spellbladeProgram({
-      rules: spellbladeProgram().rules.map((rule) => (
-        rule.ruleKey === 'arm'
-          ? { ...rule, eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } } }
-          : rule
-      ))
-    }))).toThrow('来源技能');
+    expect(adaptTriggerProgram(spellbladeProgram()).initialCastSourceSkillKey).toBeNull();
     expect(() => adaptTriggerProgram(windowProgram({
       rules: windowProgram().rules.map((rule) => (
         rule.ruleKey === 'first_hit'
@@ -675,7 +752,7 @@ describe('有界触发与过程适配', () => {
     }))).toThrow('动作依赖');
     expect(() => adaptTriggerProgram(windowProgram({
       rules: [{ ...windowProgram().rules[0]! }]
-    }))).toThrow('两条规则');
+    }))).toThrow(/两条或四条/);
     expect(useTriggerLedgerEntry({
       owner: 'source', providerRef: 'item:synth_window', groupKey: 'proc', scope: 'provider_target',
       useSource: 'source', useSkillKey: 'author_q', useKey: 'hist1', target: 'target'
@@ -718,9 +795,18 @@ describe('有界触发与过程适配', () => {
 
   it('来源绑定必须明确、唯一并指向拥有者的主动能力', () => {
     expect(() => withTriggerProgram(request(), { triggerProviderKey: 'item:proc', authored: spellbladeProgram() }, { rulesHash: 'after' })).toThrow(/启动能力|绑定/);
+    const authored = spellbladeProgram();
+    authored.rules = authored.rules.map((rule) => (
+      rule.ruleKey === 'arm'
+        ? { ...rule, eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'champion_q', useKind: 'ACTIVE', castPhase: 'INITIAL' } } }
+        : rule
+    ));
     const input = request();
     input.sharedProviders![0]!.abilities![0]!.skillKey = 'different_skill';
-    expect(() => withTriggerProgram(input, { triggerProviderKey: 'item:proc', authored: spellbladeProgram(), initialCastAbilityKey: 'cast' }, { rulesHash: 'after' })).toThrow(/身份|来源技能|冲突/);
+    expect(() => withTriggerProgram(input, {
+      triggerProviderKey: 'item:proc', authored,
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'cast' }]
+    }, { rulesHash: 'after' })).toThrow(/来源|范围|匹配/);
   });
 
   it('奖励副作用遵循过程时点，规则沿作者顺序，未核定重启整体拒绝', () => {
@@ -732,7 +818,7 @@ describe('有界触发与过程适配', () => {
     expect(abilities.map(row => row.listenerSpec!.listenerKey)).toEqual(['second_hit', 'first_hit']);
     expect(abilities[0]!.listenerSpec!.operations!.at(-1)!.operation).toBe('damage');
     const unguarded = spellbladeProgram(); unguarded.rules[0]!.conditionGroups = [];
-    expect(() => adaptTriggerProgram(unguarded)).toThrow('重复启动');
+    expect(() => adaptTriggerProgram(unguarded)).toThrow(/FLAG|待命|缺/);
   });
 
   it('限时普通护盾保留期限与数值裁剪，重复施加和不足以证明不重叠的冷却门禁拒绝', () => {
@@ -775,9 +861,275 @@ describe('有界触发与过程适配', () => {
 
   it('回蓝必须有实际承受者资源槽位，反向拥有者不能误读另一方', () => {
     const forward = request(); delete forward.combatants[0]!.resources!.mana;
-    expect(() => withTriggerProgram(forward, { triggerProviderKey: 'proc', authored: spellbladeProgram(), initialCastAbilityKey: 'cast' }, { rulesHash: 'after' })).toThrow('combatants.source.resources.mana');
+    expect(() => withTriggerProgram(forward, {
+      triggerProviderKey: 'proc', authored: spellbladeProgram(),
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'cast' }]
+    }, { rulesHash: 'after' })).toThrow('combatants.source.resources.mana');
     const reverse = request(); delete reverse.combatants[1]!.resources!.mana;
-    expect(() => withTriggerProgram(reverse, { triggerProviderKey: 'proc', authored: spellbladeProgram({ owner: 'target' }), initialCastAbilityKey: 'cast' }, { rulesHash: 'after' })).toThrow('combatants.target.resources.mana');
+    expect(() => withTriggerProgram(reverse, {
+      triggerProviderKey: 'proc', authored: spellbladeProgram({ owner: 'target' }),
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'cast' }]
+    }, { rulesHash: 'after' })).toThrow('combatants.target.resources.mana');
+  });
+
+  it('四条规则按同一窗口/奖励过程配对两种命中，保留作者顺序与共享限制', () => {
+    const authored = dualEventWindow();
+    const adapted = adaptTriggerProgram(authored);
+    expect(adapted.combo).toBe('count_window');
+    expect(adapted.provider.abilities).toHaveLength(4);
+    expect(adapted.provider.abilities?.map((row) => row.listenerSpec?.listenerKey)).toEqual([
+      'first_hit', 'second_hit', 'aa_first', 'aa_reward'
+    ]);
+    expect(adapted.provider.abilities?.[2]?.listenerSpec?.eventMatcher.all).toEqual(['event/basic_attack_hit', 'event/source_owner']);
+    expect(adapted.oncePerUse).toEqual({ groupKey: 'proc', scope: 'provider' });
+    expect(adapted.provider.abilities?.every((row) => row.listenerSpec?.oncePerUse?.groupKey === 'proc')).toBe(true);
+    expect(adapted.consumeEvent).toBeUndefined();
+    expect(() => adaptTriggerProgram(windowProgram({
+      rules: [...windowProgram().rules, ...dualEventWindow().rules.slice(2, 3)]
+    }))).toThrow(/两条或四条|完整1first|重复|缺失/);
+    const duplicateSkill = dualEventWindow();
+    duplicateSkill.rules[2]!.eventSource = { eventType: 'SKILL_HIT', detail: { sourceSkillKey: null } };
+    expect(() => adaptTriggerProgram(duplicateSkill)).toThrow(/重复|缺失|覆盖/);
+  });
+
+  it('每奖励规则独立验证护盾门禁；跨事件共用奖励不误判重复，同单元仍拒绝', () => {
+    const dual = dualEventWindow();
+    dual.effects = [shieldEffect(dual.skillKey)];
+    dual.processes[1]!.effectBindings[0]!.effectKey = 'shield';
+    const adapted = adaptTriggerProgram(dual);
+    const shields = adapted.provider.abilities
+      ?.filter((row) => row.listenerSpec?.listenerKey === 'second_hit' || row.listenerSpec?.listenerKey === 'aa_reward')
+      .flatMap((row) => row.listenerSpec?.operations ?? [])
+      .filter((row) => row.operation === 'shield') ?? [];
+    expect(shields).toHaveLength(2);
+    const unguarded = dualEventWindow();
+    unguarded.effects = [shieldEffect(unguarded.skillKey)];
+    unguarded.processes[1]!.effectBindings[0]!.effectKey = 'shield';
+    unguarded.rules[3]!.conditionGroups = [{ groupKey: 'ready', name: 'ready', sortOrder: 10, conditions: [stateGte('hits', 1)] }];
+    expect(() => adaptTriggerProgram(unguarded)).toThrow('剩余时间等于零');
+    const duplicate = dualEventWindow();
+    duplicate.effects = [shieldEffect(duplicate.skillKey)];
+    duplicate.processes[1]!.effectBindings[0]!.effectKey = 'shield';
+    duplicate.processes[1]!.effectBindings.push({ ...duplicate.processes[1]!.effectBindings[0]!, bindingKey: 'duplicate' });
+    expect(() => adaptTriggerProgram(duplicate)).toThrow('重复施加');
+  });
+
+  it('FLAG 窗口：全 false 不刷新；false/true 对称才 refresh_on_write，反例路径拒绝', () => {
+    expect(adaptTriggerProgram(spellbladeProgram()).provider.initialStateSchema?.ready).toMatchObject({
+      durationMs: 1500, refreshPolicy: 'start_on_first_write'
+    });
+    const refresh = refreshSpellblade();
+    expect(adaptTriggerProgram(refresh).provider.initialStateSchema?.ready).toMatchObject({
+      durationMs: 10000, refreshPolicy: 'refresh_on_write'
+    });
+    expect(adaptTriggerProgram(refresh).provider.initialStateSchema?.icd).toMatchObject({
+      durationMs: 1500, refreshPolicy: 'start_on_first_write'
+    });
+    const onlyTrue = spellbladeProgram();
+    onlyTrue.rules[0]!.conditionGroups = [refreshStartGroups()[1]!];
+    expect(() => adaptTriggerProgram(onlyTrue)).toThrow(/仅true|FLAG true/);
+    const missingFlag = spellbladeProgram();
+    missingFlag.rules[0]!.conditionGroups = [{ groupKey: 'idle', name: 'idle', sortOrder: 10, conditions: [cooldownReady()] }];
+    expect(() => adaptTriggerProgram(missingFlag)).toThrow(/FLAG/);
+    const missingIcd = spellbladeProgram();
+    missingIcd.rules[0]!.conditionGroups = [{ groupKey: 'idle', name: 'idle', sortOrder: 10, conditions: [flagOn(false)] }];
+    expect(() => adaptTriggerProgram(missingIcd)).toThrow(/冷却|ICD/);
+    const mixed = spellbladeProgram();
+    mixed.rules[0]!.conditionGroups = [{
+      groupKey: 'bad', name: 'bad', sortOrder: 10, conditions: [flagOn(false), {
+        conditionKey: 'ready_on', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 30,
+        detail: { stateKey: 'ready', valueKind: 'ENABLED', optionKey: null, expectedBoolean: true, comparator: null, comparisonValue: null }
+      }, cooldownReady()]
+    }];
+    expect(() => adaptTriggerProgram(mixed)).toThrow(/矛盾|既开又关/);
+    const asymmetric = refreshSpellblade();
+    asymmetric.rules[0]!.conditionGroups[1]!.conditions.push({
+      conditionKey: 'ad', conditionType: 'ATTRIBUTE_COMPARE', sortOrder: 30,
+      detail: {
+        subject: 'SOURCE', attributeKey: 'omnivamp_percent', attributeValueKind: 'CURRENT',
+        comparator: 'GTE', comparisonValue: fixedValue(0)
+      }
+    });
+    expect(() => adaptTriggerProgram(asymmetric)).toThrow(/对称/);
+  });
+
+  it('多真实主动技能绑定、未绑定不打标、错来源与无 skillKey 拒绝，不改写装备被动键', () => {
+    const input = request();
+    input.sharedProviders![0]!.abilities = [
+      { abilityKey: 'q', kind: 'active', skillKey: 'champion_q', operations: [] },
+      { abilityKey: 'w', kind: 'active', skillKey: 'champion_w', operations: [] },
+      { abilityKey: 'e', kind: 'active', skillKey: 'champion_e', operations: [] },
+      { abilityKey: 'passive', kind: 'passive_listener', skillKey: 'item_passive', operations: [] },
+      { abilityKey: 'cast', kind: 'active', operations: [] }
+    ];
+    const output = withTriggerProgram(input, {
+      triggerProviderKey: 'item:blade', authored: spellbladeProgram(),
+      initialCastAbilities: [
+        { providerRef: 'champion', abilityKey: 'q' },
+        { providerRef: 'champion', abilityKey: 'w' }
+      ]
+    }, { rulesHash: 'after' });
+    const abilities = mountedProvider(output, 'source', 'champion').abilities ?? [];
+    const marker = startMarker(output, 'item:blade');
+    expect(abilities.find((row) => row.abilityKey === 'q')?.types).toContain(marker);
+    expect(abilities.find((row) => row.abilityKey === 'w')?.types).toContain(marker);
+    expect(abilities.find((row) => row.abilityKey === 'e')?.types ?? []).not.toContain(marker);
+    expect(abilities.find((row) => row.abilityKey === 'q')?.skillKey).toBe('champion_q');
+    expect(abilities.find((row) => row.abilityKey === 'w')?.skillKey).toBe('champion_w');
+    expect(() => withTriggerProgram(request(), {
+      triggerProviderKey: 'item:blade', authored: spellbladeProgram(),
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'cast' }]
+    }, { rulesHash: 'after' })).not.toThrow();
+    const missingKey = request();
+    missingKey.sharedProviders![0]!.abilities![0]!.skillKey = undefined;
+    expect(() => withTriggerProgram(missingKey, {
+      triggerProviderKey: 'item:blade', authored: spellbladeProgram(),
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'cast' }]
+    }, { rulesHash: 'after' })).toThrow(/skillKey|明确/);
+    expect(() => withTriggerProgram(request(), {
+      triggerProviderKey: 'item:blade', authored: spellbladeProgram(),
+      initialCastAbilities: [
+        { providerRef: 'champion', abilityKey: 'cast' },
+        { providerRef: 'champion', abilityKey: 'cast' }
+      ]
+    }, { rulesHash: 'after' })).toThrow(/重复/);
+    const wrongOwner = request();
+    wrongOwner.combatants[0]!.providers = [];
+    expect(() => withTriggerProgram(wrongOwner, {
+      triggerProviderKey: 'item:blade', authored: spellbladeProgram(),
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'cast' }]
+    }, { rulesHash: 'after' })).toThrow(/owner|挂载|拥有者/);
+  });
+
+  it('共享定义多次挂载时，只给明确绑定的实际挂载打启动标记', () => {
+    const input = request();
+    input.combatants[0]!.providers.push({ providerRef: 'champion_alt', definitionRef: 'champion' });
+    const original = structuredClone(input);
+    const output = withTriggerProgram(input, {
+      triggerProviderKey: 'item:blade', authored: spellbladeProgram(),
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'cast' }]
+    }, { rulesHash: 'after' });
+    const marker = startMarker(output, 'item:blade');
+    const selected = mountedProvider(output, 'source', 'champion');
+    expect(selected.abilities?.[0]?.types).toContain(marker);
+    expect(mountedProvider(output, 'source', 'champion_alt').abilities?.[0]?.types ?? []).not.toContain(marker);
+    expect(mountedProvider(output, 'target', 'champion').abilities?.[0]?.types ?? []).not.toContain(marker);
+    expect(selected.abilities?.[0]).toMatchObject({ abilityKey: 'cast', skillKey: 'champion_q' });
+    expect(selected.stableId).toBe('champion');
+    expect(output.combatants[0]!.providers[0]!.providerRef).toBe('champion');
+    expect(input).toEqual(original);
+  });
+
+  it('同技能两个触发程序分别绑定 Q/W 时，监听标记互不串用', () => {
+    const input = request();
+    input.sharedProviders![0]!.abilities!.push({ abilityKey: 'w', kind: 'active', skillKey: 'champion_w', operations: [] });
+    const first = withTriggerProgram(input, {
+      triggerProviderKey: 'item:blade_a', authored: spellbladeProgram(),
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'cast' }]
+    }, { rulesHash: 'first' });
+    const output = withTriggerProgram(first, {
+      triggerProviderKey: 'item:blade_b', authored: spellbladeProgram(),
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'w' }]
+    }, { rulesHash: 'second' });
+    const firstMarker = startMarker(output, 'item:blade_a');
+    const secondMarker = startMarker(output, 'item:blade_b');
+    expect(firstMarker).not.toBe(secondMarker);
+    const abilities = mountedProvider(output, 'source', 'champion').abilities!;
+    expect(abilities.find((ability) => ability.abilityKey === 'cast')?.types).toContain(firstMarker);
+    expect(abilities.find((ability) => ability.abilityKey === 'cast')?.types ?? []).not.toContain(secondMarker);
+    expect(abilities.find((ability) => ability.abilityKey === 'w')?.types).toContain(secondMarker);
+    expect(abilities.find((ability) => ability.abilityKey === 'w')?.types ?? []).not.toContain(firstMarker);
+  });
+
+  it('重新适配同一程序由 Q 改为 W 时移除旧绑定，并保留另一个程序', () => {
+    const input = request();
+    input.sharedProviders![0]!.abilities!.push({ abilityKey: 'w', kind: 'active', skillKey: 'champion_w', operations: [] });
+    const first = withTriggerProgram(input, {
+      triggerProviderKey: 'item:blade_a', authored: spellbladeProgram(),
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'cast' }]
+    }, { rulesHash: 'first' });
+    const other = withTriggerProgram(first, {
+      triggerProviderKey: 'item:blade_b', authored: spellbladeProgram(),
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'cast' }]
+    }, { rulesHash: 'other' });
+    const before = structuredClone(other);
+    const output = withTriggerProgram(other, {
+      triggerProviderKey: 'item:blade_a', authored: spellbladeProgram(),
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'w' }]
+    }, { rulesHash: 'rebound' });
+    const firstMarker = startMarker(output, 'item:blade_a');
+    const otherMarker = startMarker(output, 'item:blade_b');
+    const abilities = mountedProvider(output, 'source', 'champion').abilities!;
+    expect(abilities.find((ability) => ability.abilityKey === 'cast')?.types ?? []).not.toContain(firstMarker);
+    expect(abilities.find((ability) => ability.abilityKey === 'cast')?.types).toContain(otherMarker);
+    expect(abilities.find((ability) => ability.abilityKey === 'w')?.types).toContain(firstMarker);
+    expect(abilities.find((ability) => ability.abilityKey === 'w')?.types ?? []).not.toContain(otherMarker);
+    expect(output.sharedProviders).toHaveLength(other.sharedProviders!.length);
+    expect(other).toEqual(before);
+  });
+
+  it('刷新条件的明细与嵌套数值对象键顺序不改变含义', () => {
+    const authored = refreshSpellblade();
+    const condition = authored.rules[0]!.conditionGroups[1]!.conditions.find((row) => (
+      row.conditionType === 'INTERNAL_STATE_CHECK' && row.detail.valueKind === 'REMAINING_MS'
+    ));
+    if (condition?.conditionType !== 'INTERNAL_STATE_CHECK') throw new Error('missing test cooldown condition');
+    condition.detail = Object.fromEntries(Object.entries(condition.detail).reverse()) as typeof condition.detail;
+    condition.detail.comparisonValue = { value: 0, kind: 'FIXED' };
+    expect(adaptTriggerProgram(authored).provider.initialStateSchema?.ready).toMatchObject({ refreshPolicy: 'refresh_on_write' });
+  });
+
+  it('待击刷新比较 false/true 剩余条件组集合，允许多组对称选择和重复组', () => {
+    const authored = refreshSpellblade();
+    const alternatives: SkillTriggerCondition[] = [
+      {
+        conditionKey: 'ad', conditionType: 'ATTRIBUTE_COMPARE', sortOrder: 30,
+        detail: { subject: 'SOURCE', attributeKey: 'attack_damage', attributeValueKind: 'CURRENT', comparator: 'GTE', comparisonValue: fixedValue(100) }
+      },
+      {
+        conditionKey: 'vamp', conditionType: 'ATTRIBUTE_COMPARE', sortOrder: 40,
+        detail: { subject: 'SOURCE', attributeKey: 'omnivamp_percent', attributeValueKind: 'CURRENT', comparator: 'GTE', comparisonValue: fixedValue(0.1) }
+      }
+    ];
+    const [idle, armed] = authored.rules[0]!.conditionGroups;
+    const groups = [idle!, armed!].flatMap((group, flagIndex) => alternatives.map((condition, index) => ({
+      ...structuredClone(group), groupKey: `${group.groupKey}_${index}`, sortOrder: flagIndex * 20 + index,
+      conditions: flagIndex === 0
+        ? [...structuredClone(group.conditions), structuredClone(condition)]
+        : [structuredClone(condition), ...structuredClone(group.conditions).reverse()]
+    })));
+    groups.push({ ...structuredClone(groups[0]!), groupKey: 'idle_duplicate', sortOrder: 50 });
+    authored.rules[0]!.conditionGroups = groups;
+    expect(adaptTriggerProgram(authored).provider.initialStateSchema?.ready).toMatchObject({ refreshPolicy: 'refresh_on_write' });
+    authored.rules[0]!.conditionGroups = groups.filter((group) => group.groupKey !== groups[3]!.groupKey);
+    expect(() => adaptTriggerProgram(authored)).toThrow(/对称/);
+  });
+
+  it('回蓝走来源总攻击力公式，不新增事件字段且保留同帧前序输出', () => {
+    const authored = spellbladeProgram();
+    authored.parameters = [
+      ...authored.parameters!,
+      {
+        gameId: 'lol', skillKey: authored.skillKey, parameterKey: 'mana_refund_damage_multiplier', name: '倍率',
+        valueType: 'DECIMAL', valueMode: 'FIXED', fixedValue: 0.5, levelValues: null, description: null, sortOrder: 1,
+        createdAt: '', updatedAt: ''
+      }
+    ];
+    authored.formulas = [manaRefundFormula(authored.skillKey)];
+    authored.effects = [authored.effects[0]!, formulaRefundEffect(authored.skillKey)];
+    authored.rules[1]!.actions[1] = {
+      ...authored.rules[1]!.actions[1]!,
+      runtimeInputBindings: []
+    };
+    const adapted = adaptTriggerProgram(authored);
+    expect(JSON.stringify(adapted.formulas)).toContain('source.attr.attack_damage.resolved');
+    expect(JSON.stringify(adapted.provider.abilities?.[1]?.listenerSpec?.operations)).toContain('trigger/synth_spellblade/total_mana_refund');
+    expect(adapted.requiredAttributes).toContain('attack_damage');
+    expect(adapted.formulas.some((row) => row.key.includes('total_mana_refund'))).toBe(true);
+    expect(adapted.provider.abilities?.[1]?.listenerSpec?.operations?.[0]).toMatchObject({
+      operation: 'damage'
+    });
+    expect(adapted.provider.abilities?.[1]?.listenerSpec?.operations?.[0]?.outputRef).toBeUndefined();
   });
 
 });

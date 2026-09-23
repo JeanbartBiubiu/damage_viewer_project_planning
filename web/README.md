@@ -206,7 +206,7 @@ npm run test:e2e:non-wasm
 
 乘区计算方式新增 `RATIO_MAX`（比例减少取强），只允许治疗作用域和治疗结果阶段；原 `RATIO_ADD` 保持加算。效果引用该乘区时只允许受到治疗且降低，静态有效比例在 `[0,1]`，按已有倍率与上下界计算，不夹取作者原值。有界适配 `persistentResultAdapter.ts` 只转换被选中的完整持续结果，复用吸血适配的数值翻译；生命周期须为正整数时长、单层、`SOURCE_TARGET`、KEEP + REFRESH_ALL + ALL_AT_ONCE、无周期。普通减速强度在引擎 apply 时求值，治疗减少只把常量与明确等级参数折成运行常量。
 
-`npx playwright test --config playwright.p7.config.ts` 使用最终 `src/engine/wasm/tinygo_engine_v2.wasm`（895683 bytes，SHA256 `620763FCE922E91E3A33F6B8A1597FF528FFCF7A53200CABECF50F548EE3415B`）验证：30%/70% 两个效果强者结束恢复弱者，以及同一定义由两个实际来源施加时分别保留期限；同来源更弱重施与旧到期事件；两个 40% 治疗减少 100→60，以及合成 60% 结束后弱 40% 恢复；直接治疗与吸血共用取强乘区。它在独立的4176端口启动开发服务，不替换后台工作线程或Wasm。设置 `P7_LIVE_API=1` 后只读取得乌尔加特Q的真实效果、参数、公式和状态目录，验证独立持续结果入口拒绝绕过原配置的法术护盾粒度；不删除原粒度，也不以布尔开关冒充命中判定。原对象的实际命中运行由第5项接线后验证，不写入正式库。该证据不表示整技能装配或第8项管理 UI 已完成。
+`npx playwright test --config playwright.p7.config.ts` 使用最终 `src/engine/wasm/tinygo_engine_v2.wasm`（895839 bytes，SHA256 `C93ED71DB56B9C1217774F1B67923C1873DC3C5A3B5A64B6545260918337442B`）验证：30%/70% 两个效果强者结束恢复弱者，以及同一定义由两个实际来源施加时分别保留期限；同来源更弱重施与旧到期事件；两个 40% 治疗减少 100→60，以及合成 60% 结束后弱 40% 恢复；直接治疗与吸血共用取强乘区。它在独立的4176端口启动开发服务，不替换后台工作线程或Wasm。设置 `P7_LIVE_API=1` 后只读取得乌尔加特Q的真实效果、参数、公式和状态目录，验证独立持续结果入口拒绝绕过原配置的法术护盾粒度；不删除原粒度，也不以布尔开关冒充命中判定。原对象的实际命中运行由第5项接线后验证，不写入正式库。该证据不表示整技能装配或第8项管理 UI 已完成。
 
 ### 有界命中与法术护盾
 
@@ -216,9 +216,9 @@ npm run test:e2e:non-wasm
 
 ### 同次使用限制、固定时间窗与一次消费
 
-`src/engine/triggerAdapter.ts` 把所选完整规则、过程、内部状态、效果、参数公式和显式运行事实编成 provider 监听器。只完整转换两种组合：PASSIVE 单 DELAY 计数窗口加无等待奖励单元，以及单 EMPOWERED_BASIC_ATTACK 待命及 ATTACK_START/HIT 准确消费。其它过程、动作、绑定或条件按路径整条拒绝，不按装备名称识别星蚀或夺萃，也不补 10 秒窗口。同次使用限制映射为监听器 `oncePerUse.provider|provider_target`；命中入口继续拒绝该字段。普通攻击开始 driver 必须带 `skillKey` 与 `ability/basic_attack`，命中走 `resolve_skill_hit` 且只发 `event/basic_attack_hit`。
+`src/engine/triggerAdapter.ts` 把所选完整规则、过程、内部状态、效果、参数公式和显式运行事实编成 provider 监听器。只完整转换两种组合：PASSIVE 单 DELAY 计数窗口加无等待奖励单元（每种命中事件一对开窗/奖励，两条或四条），以及单 EMPOWERED_BASIC_ATTACK 待命及 ATTACK_START/HIT 准确消费。其它过程、动作、绑定或条件按路径整条拒绝，不按装备名称识别星蚀或夺萃。奖励/消费伤害只保留原结果 `deliveryKind`，不从触发事件改写。待击 FLAG 在全部启动组为 false 时首次写入开窗；同时存在 false/true 且剔除 FLAG 后条件对称时才对 FLAG 使用 `refresh_on_write`，计数与内部冷却仍 `start_on_first_write`。初次启动改为必填 `initialCastAbilities`，只给拥有者真实挂载的非普攻主动能力打现有程序标记并保留原 `skillKey`。同次使用限制映射为监听器 `oncePerUse.provider|provider_target`；命中入口继续拒绝该字段。普通攻击开始 driver 必须带 `skillKey` 与 `ability/basic_attack`，命中走 `resolve_skill_hit` 且只发 `event/basic_attack_hit`。
 
-`npx playwright test --config playwright.p6.config.ts` 使用独立4180端口，固定校验当前Wasm产物的字节数与摘要，并实际执行编译、运行、释放；编译或运行错误直接使验收失败。覆盖同次使用限制、固定窗口、快照恢复、内部冷却、攻击开始与命中消费、反向拥有者、目标范围非零默认值及限时普通护盾。设置`P6_LIVE_API=1`后，额外只读原库星蚀护盾效果、公式和参数，接入专项明确提供的合格使用与计数过程。它证明原护盾组成的施加、吸收与到期，不表示多段/持续伤害资格、受到护盾修正或整装备装配已完成。正式夺萃的待击窗口、回蓝口径、重复启动与冷却起点资料不足时仍明确报路径，不补默认值。专项不写实库。
+`npx playwright test --config playwright.p6.config.ts` 使用独立4180端口，固定校验当前Wasm产物的字节数与摘要（895839 bytes，SHA256 `C93ED71DB56B9C1217774F1B67923C1873DC3C5A3B5A64B6545260918337442B`），并实际执行编译、运行、释放；编译或运行错误直接使验收失败。覆盖同次使用限制、固定窗口、快照恢复、内部冷却、攻击开始与命中消费、反向拥有者、目标范围非零默认值、限时普通护盾，以及技能/普攻组合计数、待击刷新、消费后恢复、同定义多挂载隔离和重新绑定。设置`P6_LIVE_API=1`后，额外只读原库星蚀护盾效果、公式和参数，以及夺萃之镰 `item_3508_passive` 的窗口参数、回蓝公式与单回蓝效果；后者用显式合成过程和受控主体伤害输入验证窗口、消费、护甲/护盾扣血不同而来源回蓝相同。它证明原护盾组成的施加、吸收与到期，以及原回蓝组成加已核定过程专项；多段与持续伤害计数采用本任务用户核定，原咒刃附伤、受到护盾修正及整装备装配仍未完成。原 `spellblade_damage` 与星蚀伤害仍为未核定，不绕过。专项不写实库。
 
 ## 常见问题
 
