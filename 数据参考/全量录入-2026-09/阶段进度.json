@@ -15139,9 +15139,21 @@
         "管理机制迭代验收/2026-09-23-状态合并返回.json"
       ],
       "boundary": "只显式施加原效果验证取强与独立到期；不证明装备伤害触发、英雄目标资格和生命回复覆盖，不增加整技能或整装备完成数。"
+    },
+    "hitAndTriggerRuntimeReturn": {
+      "status": "命中与法术护盾、同次使用限制、固定窗口、普攻消费和限时普通护盾已经实际Wasm工作线程验证；原星蚀护盾组成已返回，正式触发资料缺口保持",
+      "skills": ["urgot_q", "sivir_e", "item_6692_passive", "item_3508_passive"],
+      "formalDataWrites": 0,
+      "browser": true,
+      "runtime": true,
+      "wholeSkillComplete": false,
+      "wholeEquipmentComplete": false,
+      "recordedAt": "2026-09-23T08:21:00+08:00",
+      "evidence": ["管理机制迭代验收/2026-09-23-命中与触发运行.json", "管理机制迭代验收/2026-09-23-同次使用管理.json"],
+      "boundary": "厄加特只运行所选减速，原未核定伤害仍拒绝；希维尔所选盾与治疗通过。星蚀只返回原护盾、公式与期限，合格使用和计数过程为专项明确输入；夺萃只完成通用机制合成验收。来源不全不补默认，不增加整技能或整装备完成数。"
     }
   },
-  "runtimeValidation": "部分机制已验证：重伤取强与独立到期使用已保存效果进入实际Wasm；整技能与整装备未全量验证，见crossSourceStateMergeReturn。",
+  "runtimeValidation": "部分机制已验证：重伤取强、普通减速、命中与法术护盾、同次使用限制、固定窗口及普攻消费；原星蚀护盾组成进入实际Wasm。整技能与整装备未全量验证，见crossSourceStateMergeReturn与hitAndTriggerRuntimeReturn。",
   "inventoryConclusions": {
     "schemaVersion": 1,
     "status": "进行中：角色、英雄技能、装备和符文清单均已逐项覆盖；各类资料待核与系统暂缓队列仍需继续处理。",
@@ -48083,13 +48095,14 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "仍有1项来源数值、范围、模式、取得方式或机制事实待核，不能猜值或直接排除。",
+        "reason": "同次使用限制、待击消费、同帧伤害供值与回蓝共性能力已通过合成配置运行；固定版本的待击窗口、回蓝精确伤害口径、重复启动行为及内部冷却起点仍待来源核定，原技能未填猜测默认值。",
         "sourcePendingCount": 1,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
-          "equipmentEffectReview"
+          "equipmentEffectReview",
+          "hitAndTriggerRuntimeReturn"
         ]
       },
       {
@@ -49686,13 +49699,14 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "仍有1项来源数值、范围、模式、取得方式或机制事实待核，不能猜值或直接排除。",
+        "reason": "原星蚀护盾效果、公式与2秒期限已进入真实Wasm验证；同次使用限制与固定窗口共性能力已实现。原技能多段和持续伤害的独立命中资格仍待来源核定，整装备装配未完成。",
         "sourcePendingCount": 1,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
-          "equipmentEffectReview"
+          "equipmentEffectReview",
+          "hitAndTriggerRuntimeReturn"
         ]
       },
       {

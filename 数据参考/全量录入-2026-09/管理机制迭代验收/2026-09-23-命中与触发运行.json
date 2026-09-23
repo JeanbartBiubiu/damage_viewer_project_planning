@@ -1,0 +1,293 @@
+{
+  "recordedAt": "2026-09-23T00:21:04.547Z",
+  "scope": "第5、6、7项及吸血共同产物运行验收；本记录补第6项原星蚀护盾组成",
+  "nativeCommit": "5feb7ba9b",
+  "webCommit": "e73ff5bfc",
+  "wasm": {
+    "bytes": 895683,
+    "sha256": "620763fce922e91e3a33f6b8a1597ff528ffcf7a53200cabecf50f548ee3415b",
+    "path": "web/src/engine/wasm/tinygo_engine_v2.wasm"
+  },
+  "checks": {
+    "native": {
+      "passed": 1733,
+      "historicalMissingSeedFailures": 38,
+      "newFailures": 0
+    },
+    "nativeBenchmark": true,
+    "nodeCompileRunRelease": true,
+    "nodeP6Smoke": true,
+    "nodeBenchmark": true,
+    "webUnitPassed": 1011,
+    "webLint": true,
+    "webTypecheck": true,
+    "webBuild": true,
+    "worker": [
+      {
+        "chapter": "p5",
+        "passed": 10,
+        "failed": 0,
+        "skipped": 0,
+        "liveApi": true,
+        "evidencePath": ".agents/artifacts/p6-shield-final-p5-worker.log",
+        "sha256": "7744c6c24f52de98157efa6770ccc3fa17a7457807aa52b9dcbed98a7f74753c"
+      },
+      {
+        "chapter": "p6",
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "liveApi": true,
+        "evidencePath": ".agents/artifacts/p6-final-worker.log",
+        "sha256": "40ed7358ed704bfe499253170046a6d582b5f732fe7de48158158b9db201f301"
+      },
+      {
+        "chapter": "p7",
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "liveApi": true,
+        "evidencePath": ".agents/artifacts/p6-shield-final-p7-worker.log",
+        "sha256": "b99a46842b9522c36587fbb80243ae5be491f30fe9421e37f5fefb4b36803ca0"
+      },
+      {
+        "chapter": "vamp",
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "liveApi": true,
+        "evidencePath": ".agents/artifacts/p6-shield-final-vamp-worker.log",
+        "sha256": "bf6104827af14b5f3c2d56d0681736412a0db7c71aa1f3d9cf726910d1029b5f"
+      }
+    ]
+  },
+  "runtimeCases": [
+    "同次使用多段共享额度及下一独立使用",
+    "窗口不续期、到期恢复默认而不启动冷却",
+    "状态期限与历史额度恢复、同会话重跑隔离",
+    "攻击开始与命中消费时刻分别为10和20毫秒",
+    "攻击开始付款失败不消费",
+    "冷却中不重新开窗、不发重复奖励",
+    "反向拥有者的伤害、回蓝与使用归属",
+    "目标范围使用声明的非零默认值及原目标额度",
+    "第二次使用施盾、期限内吸收、到期同刻扣生命",
+    "原库星蚀效果、参数与公式详情进入真实Worker"
+  ],
+  "originalEclipseShield": {
+    "effect": {
+      "createdAt": "2026-09-07T16:55:42.564477Z",
+      "description": "近战分支：150加额外攻击力40%，持续2秒。",
+      "effectKey": "shield_melee",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "近战永升之月护盾",
+      "results": [
+        {
+          "description": "150加额外攻击力40%。",
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "近战星蚀护盾",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "shield_melee",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "item_6692_passive",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:55:42.564477Z"
+    },
+    "parameters": [
+      {
+        "createdAt": "2026-09-07T16:55:38.608477Z",
+        "description": "近战护盾基础值，单位：护盾点。",
+        "fixedValue": 150,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "近战护盾基础值",
+        "parameterKey": "shield_base",
+        "skillKey": "item_6692_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:55:38.608477Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:55:38.99608Z",
+        "description": "近战护盾对额外攻击力的倍率，小数1表示100%。",
+        "fixedValue": 0.4000000059604645,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外攻击力护盾倍率",
+        "parameterKey": "shield_bonus_ad_ratio",
+        "skillKey": "item_6692_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T16:55:38.99608Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:55:39.659006Z",
+        "description": "护盾持续时间，单位：毫秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾持续时间",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "item_6692_passive",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-07T16:55:39.659006Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "formulas": [
+      {
+        "createdAt": "2026-09-07T16:55:41.119416Z",
+        "description": "150加额外攻击力40%。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BASE",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "SUBTRACT"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "shield_melee",
+        "gameId": "lol",
+        "name": "近战星蚀护盾",
+        "skillKey": "item_6692_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:55:41.119416Z"
+      }
+    ],
+    "sourceAttributes": {
+      "attackDamageBase": 100,
+      "attackDamageResolved": 100
+    },
+    "expectedShield": 150,
+    "explicitIncomingDamage": 40,
+    "finalSourceHp": 1000,
+    "finalShields": [
+      {
+        "shieldRef": "trigger:item_6692_passive:shield_melee:shield#1",
+        "source": "source",
+        "owner": "source",
+        "remaining": 110,
+        "priority": 0,
+        "expireAt": 2100,
+        "state": {}
+      }
+    ],
+    "useTriggerLedger": [
+      {
+        "owner": "source",
+        "providerRef": "item:item_6692_passive",
+        "groupKey": "proc",
+        "scope": "provider",
+        "useSource": "source",
+        "useSkillKey": "author_q",
+        "useKey": "u1",
+        "target": null
+      },
+      {
+        "owner": "source",
+        "providerRef": "item:item_6692_passive",
+        "groupKey": "proc",
+        "scope": "provider",
+        "useSource": "source",
+        "useSkillKey": "author_q",
+        "useKey": "u2",
+        "target": null
+      }
+    ]
+  },
+  "formalDataWrites": 0,
+  "wholeEquipmentComplete": false,
+  "boundary": "原库护盾、期限与数值直接参与运行；计数过程和两个合格使用为专项明确输入，不代表原装备多段与持续伤害资格已核定，不证明受到护盾修正。",
+  "pendingSources": {
+    "item_6692_passive": [
+      "同技能多段伤害和持续伤害是否分别计入独立命中"
+    ],
+    "item_3508_passive": [
+      "固定版本待击窗口",
+      "50%回蓝对应的实际伤害口径",
+      "待命期间重复启动行为",
+      "内部冷却起算时点"
+    ]
+  },
+  "excluded": [
+    "普通护盾任意重施、衰减、伤害类型筛选及受到护盾修正",
+    "整英雄或整装备自动装配",
+    "全部技能完成率增加"
+  ],
+  "note": "原库公式列表只有摘要；最终测试另取公式详情后运行。初次缺表达式失败是测试读取不完整，保留失败日志，未修改原公式或补造数值。"
+}
