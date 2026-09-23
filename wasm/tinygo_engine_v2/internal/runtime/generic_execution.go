@@ -33,6 +33,12 @@ type stagedProviderMutation struct {
 	contributions  []status.StatusContribution
 }
 
+type pendingShieldExpire struct {
+	combatantKey string
+	shieldRef    string
+	expireAt     int64
+}
+
 type stagedCombatant struct {
 	attributes     map[string]model.AttributeSlotDef
 	resources      map[string]model.ResourceSlotDef
@@ -78,6 +84,7 @@ type executionFrame struct {
 	abilityRef        string
 	ownerCombatantKey string // mounted provider owner; distinct from event/op sourceKey
 	ownerProviderRef  string
+	strictReads       bool
 
 	// castInstanceID / castOrigin：同一次施放的身份与来源；多 op / delayed / listener ops 继承。
 	castInstanceID uint64
@@ -120,6 +127,7 @@ type executionFrame struct {
 	skillHitCandidateKey string
 	skillHitOccurrenceID uint64
 	operationOutputs     map[string]formula.OperationOutputValues
+	pendingShieldExpires []pendingShieldExpire
 }
 
 // copyableDamageFrozen 冻结一次 CopyableOnHit damage 的 replay 输入（不做公式重算 / 不二次 crit 结算）。
@@ -337,12 +345,13 @@ func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) form
 		SourceResources: f.stageFor(f.sourceKey).resources,
 		TargetResources: f.stageFor(f.targetKey).resources,
 		AbilityParams:   ability.Params,
-		StrictReads:     f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit),
+		StrictReads:     f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit),
 	}
 	if f.ownerProviderRef != "" {
 		ctx.HasProviderContext = true
-		bag := f.providerStateBag(f.providerOwnerKey(), f.ownerProviderRef, false)
+		bag := f.providerStateBag(f.providerOwnerKey(), f.ownerProviderRef, ctx.StrictReads)
 		if bag != nil {
+			ctx.ProviderStateDefaults = bag.defaultsForFormula()
 			ctx.ProviderState = bag.state
 			if bag.targetKey == f.targetKey {
 				ctx.ProviderTargetState = bag.targetStateForFormula()
@@ -437,7 +446,8 @@ func (f *executionFrame) providerFormulaContextFunc(combatantKey string) pipelin
 		if bagOwner == "" {
 			bagOwner = combatantKey
 		}
-		bag := f.providerStateBag(bagOwner, providerRef, false)
+		strict := f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit)
+		bag := f.providerStateBag(bagOwner, providerRef, strict)
 		if bag != nil {
 			bag.lazyExpireProviderTargetState(f.run.nowMs)
 		}
@@ -561,15 +571,32 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			if ref == "" {
 				ref = "shield:auto"
 			}
+			expireAt := int64(0)
+			if op.HasShieldDuration {
+				var err *model.EngineError
+				expireAt, err = f.evalShieldDuration(op, ability)
+				if err != nil {
+					return err
+				}
+				ref = f.run.nextShieldRef(ref)
+			}
+			f.run.reserveShieldRef(ref)
 			sc.shields = append(sc.shields, pipeline.ShieldInstance{
 				ShieldRef: ref,
 				Source:    f.sourceKey,
 				Owner:     targetKey,
 				Remaining: amount,
 				Priority:  0,
-				ExpireAt:  0,
+				ExpireAt:  expireAt,
 				State:     map[string]interface{}{},
 			})
+			if expireAt > 0 {
+				f.pendingShieldExpires = append(f.pendingShieldExpires, pendingShieldExpire{
+					combatantKey: targetKey,
+					shieldRef:    ref,
+					expireAt:     expireAt,
+				})
+			}
 			sc.dirty = true
 			return nil
 		}
@@ -1438,6 +1465,7 @@ func (f *executionFrame) applyPipelineDamageModifiers(
 			modCtx.HasProviderContext = pctx.HasProviderContext
 			modCtx.ProviderState = pctx.ProviderState
 			modCtx.ProviderTargetState = pctx.ProviderTargetState
+			modCtx.ProviderStateDefaults = pctx.ProviderStateDefaults
 		}
 		if mod.HasCondition {
 			cond, err := f.run.compiled.Formulas.Eval(mod.ConditionProg, modCtx)
@@ -1766,6 +1794,9 @@ func (f *executionFrame) applyResourceChange(targetKey, resourceKey string, amou
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "resource_change requires resourceKey", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
 	sc := f.stageFor(targetKey)
+	if _, ok := sc.resources[resourceKey]; !ok && f.strictReads {
+		return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "resource_change requires an explicit resource slot", "combatants."+targetKey+".resources."+resourceKey, resourceKey, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
 	if amount >= 0 {
 		sc.resources = resource.Refund(sc.resources, resourceKey, amount)
 	} else {
@@ -1792,6 +1823,9 @@ func (f *executionFrame) applyAttributeChange(targetKey, attributeKey, valuePoli
 	sc := f.stageFor(targetKey)
 	slot, ok := sc.attributes[attributeKey]
 	if !ok {
+		if f.strictReads {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrMissingRequiredField, "attribute_change requires an explicit attribute slot", "combatants."+targetKey+".attributes."+attributeKey, attributeKey, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		}
 		slot = model.AttributeSlotDef{}
 	}
 	base0 := slot.Base
@@ -1904,6 +1938,59 @@ func (f *executionFrame) commit() {
 				}
 				f.run.expireProviderInstance(mut.targetKey, mut.providerRef, evalCtx)
 			}
+		}
+	}
+	if f.fatal {
+		return
+	}
+	f.enqueueCommittedTimedShields()
+}
+
+func (f *executionFrame) evalShieldDuration(op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility) (int64, *model.EngineError) {
+	wasStrict := f.strictReads
+	f.strictReads = true
+	ctx := f.evalContext(ability)
+	f.strictReads = wasStrict
+	path := "shieldDurationMs"
+	if int(op.ShieldDurationProgram) < len(f.run.compiled.Formulas.Programs) {
+		path = f.run.compiled.Formulas.Programs[op.ShieldDurationProgram].Key
+	}
+	value, err := f.run.compiled.Formulas.Eval(op.ShieldDurationProgram, ctx)
+	if err != nil {
+		return 0, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), path, op.ShieldRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	if !formula.ValidPositiveInt64DurationMs(value) {
+		return 0, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "shieldDurationMs must be a positive integer within the timestamp range", path, op.ShieldRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	delta := int64(value)
+	expireAt, ok := addDuration(f.run.nowMs, delta)
+	if !ok || expireAt <= f.run.nowMs {
+		return 0, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "shieldDurationMs expiry overflows the timestamp range", path, op.ShieldRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	return expireAt, nil
+}
+
+func (f *executionFrame) enqueueCommittedTimedShields() {
+	for _, pending := range f.pendingShieldExpires {
+		if pending.expireAt <= 0 || pending.shieldRef == "" {
+			continue
+		}
+		c, ok := f.run.combatants[pending.combatantKey]
+		if !ok {
+			continue
+		}
+		for _, sh := range c.shields {
+			if sh.ShieldRef != pending.shieldRef {
+				continue
+			}
+			if sh.ExpireAt > 0 {
+				f.run.enqueueExpireCleanup(pending.expireAt, expireCleanupPayload{
+					combatantKey: pending.combatantKey,
+					shieldRef:    pending.shieldRef,
+					kind:         "shield",
+				})
+			}
+			break
 		}
 	}
 }
@@ -2614,6 +2701,7 @@ func (s *genericRunState) dispatchListenerOperations(listener compilebundle.Comp
 		ability = s.compiled.Abilities[listener.SourceAbilityIndex]
 	}
 	frame := s.newExecutionFrame(sourceKey, targetKey, "listener:"+listener.ListenerKey)
+	frame.strictReads = listener.HasCondition || listener.HasOncePerUse
 	frame.chainDepth = chainDepth
 	frame.ownerCombatantKey = listener.OwnerCombatantKey
 	frame.ownerProviderRef = listener.OwnerProviderRef

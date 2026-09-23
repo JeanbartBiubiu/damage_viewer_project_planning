@@ -7,6 +7,9 @@ import (
 	"tinygo_engine_v2/internal/model"
 )
 
+// Synthetic fixture identity only; the production runtime never invents use facts.
+const nativeBasicAttackSkillPrefix = "aa:"
+
 func isNativeHitEmit(op model.OperationDefinition) bool {
 	eventType := op.EventType
 	if eventType == "" {

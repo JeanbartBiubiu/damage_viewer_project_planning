@@ -11,7 +11,6 @@ import (
 const maxUseTriggerLedger = 1024
 
 const nativeHitFollowUpSuffix = "__native_hit"
-const nativeBasicAttackSkillPrefix = "aa:"
 
 func isNativeHitFollowUp(entryKey string) bool {
 	return strings.HasSuffix(entryKey, nativeHitFollowUpSuffix)
@@ -403,6 +402,7 @@ func (s *genericRunState) evalListenerCondition(listener compilebundle.CompiledL
 		ability = s.compiled.Abilities[listener.SourceAbilityIndex]
 	}
 	frame := s.newExecutionFrame(sourceKey, targetKey, "listener:"+listener.ListenerKey)
+	frame.strictReads = true
 	frame.ownerCombatantKey = listener.OwnerCombatantKey
 	frame.ownerProviderRef = listener.OwnerProviderRef
 	frame.eventCtx = cloneEventSnapshot(&ev.snapshot)
