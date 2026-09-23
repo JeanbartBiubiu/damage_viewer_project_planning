@@ -9,8 +9,8 @@ import type { AuthoredHitProgram } from '../../src/engine/hitAdapter';
 import type { SkillEffect } from '../../src/types/skillEffect';
 
 const WASM_PATH = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const WASM_SHA256 = '1434E7D212D8CA0F8A6139C70B47CD098A774D2EC0A78BC424617B0CA9637F61';
-const WASM_BYTES = 888566;
+const WASM_SHA256 = '620763FCE922E91E3A33F6B8A1597FF528FFCF7A53200CABECF50F548EE3415B';
+const WASM_BYTES = 895683;
 
 function slot(value: number, max = value) {
   return { base: value, current: value, max, resolved: value };
@@ -519,6 +519,7 @@ async function assertNativeResult(result: WorkerResult, testInfo: import('@playw
   if (!result.compileOk || result.runError || !result.done) {
     await testInfo.attach('p6-native-failure', { contentType: 'application/json', body: Buffer.from(JSON.stringify(result, null, 2)) });
   }
+  expect(result.adapterError).toBeUndefined();
   expect(result.compileOk, JSON.stringify(result.compileErrors)).toBe(true);
   expect(result.runError).toBeUndefined();
   expect(result.done).toBeDefined();
@@ -726,7 +727,8 @@ test('原库星蚀普通护盾组成→GET→Worker，保留原公式与期限�
   const read = async (path: string) => {
     const response = await request.get(api + path, { headers }); expect(response.status(), path).toBe(200); return response.json();
   };
-  const [effect, parameters, formulas] = await Promise.all([read('/effects/shield_melee'), read('/parameters'), read('/formulas')]);
+  const [effect, parameters, formulaRows] = await Promise.all([read('/effects/shield_melee'), read('/parameters'), read('/formulas')]);
+  const formulas = await Promise.all(formulaRows.map((row: { formulaKey: string }) => read(`/formulas/${row.formulaKey}`)));
   const program = shieldWindow(effect); program.parameters = parameters; program.formulas = formulas;
   const result = await runP6(page, { mode: 'window', program, durationMs: 300,
     uses: [{ useKey: 'u1', skillKey: 'author_q' }, { useKey: 'u2', skillKey: 'author_q' }],
