@@ -64,6 +64,7 @@
 - `src/engine/vampAdapter.ts`：通用吸血规则接入
 - `src/engine/persistentResultAdapter.ts`：有界持续结果适配（普通减速施加、受到治疗降低比例减少取强）
 - `src/engine/hitAdapter.ts`：有界命中与法术护盾适配
+- `src/engine/triggerAdapter.ts`：有界触发、同次使用限制、固定时间窗与一次消费适配
 - `src/engine/numericAdapter.ts`：管理数值到通用公式的共享翻译
 - `src/engine/wasm/`：Wasm 构建产物目录，现用 `tinygo_engine_v2.wasm`
 
@@ -212,6 +213,12 @@ npm run test:e2e:non-wasm
 `src/engine/hitAdapter.ts` 把所选完整命中规则、效果、状态、参数公式和显式身份事实编成 `resolve_skill_hit` 计划，复用第7项持续结果内核与现有 `GenericEngineClient` compile/run/release。原配置只读；未支持过程、动作依赖、来源/目标或未知条件按路径整体拒绝。候选按规则、动作、结果的 sortOrder 稳定排列。宿主只对已证明单次使用分配 `skillUses`，未知 `useRef` 为 null，不从施放实例臆造多段归属。未核定吸血资格在有无游戏规则时均拒绝；已核定伤害复用游戏吸血编译，将规则、技能分类、伤害特征一起装入真实请求。来源比例属性必须显式供值，零值也走同一结算。法术护盾实例和状态定义包含所属技能、效果与结果身份；盾内治疗监听器展开已知等级参数，按实际拥有者读取属性。
 
 `npx playwright test --config playwright.p5.config.ts` 使用同一最终 Wasm 验证：无盾/有盾时伤害与控制同挡、null 独立、四档范围隔离、跨段 SKILL 旧使用复用与新使用独立、首次/历史/零伤挡/同刻未知与已证明非首次 0、显式消费正确实例与自疗 owner、阈值小数、缺事实错误。它在独立的4177端口启动开发服务，不替换后台工作线程或Wasm。设置 `P5_LIVE_API=1` 后只读 GET 乌尔加特Q与希维尔E；GET 非 200 不算通过。真实 GET 验证保留厄加特 Q 的未核定伤害错误，仅选择原减速规则运行：无盾时45%减速，有希维尔 E 实例时阻挡减速，使用原等级1治疗公式按护盾拥有者200攻击力、100法强回复170生命并消费本盾。合成伤害另验100伤害按20%全能吸血回复20生命。厄加特伤害正式全运行需另行核定。该证据不表示整技能装配或第8项管理 UI 已完成。
+
+### 同次使用限制、固定时间窗与一次消费
+
+`src/engine/triggerAdapter.ts` 把所选完整规则、过程、内部状态、效果、参数公式和显式运行事实编成 provider 监听器。只完整转换两种组合：PASSIVE 单 DELAY 计数窗口加无等待奖励单元，以及单 EMPOWERED_BASIC_ATTACK 待命及 ATTACK_START/HIT 准确消费。其它过程、动作、绑定或条件按路径整条拒绝，不按装备名称识别星蚀或夺萃，也不补 10 秒窗口。同次使用限制映射为监听器 `oncePerUse.provider|provider_target`；命中入口继续拒绝该字段。普通攻击开始 driver 必须带 `skillKey` 与 `ability/basic_attack`，命中走 `resolve_skill_hit` 且只发 `event/basic_attack_hit`。
+
+`npx playwright test --config playwright.p6.config.ts` 使用独立 4180 端口。当前仓库内 `tinygo_engine_v2.wasm` 仍为第5项产物（828519 bytes，SHA256 `4B51975A41FF155D80294A1155C9D4463FB40677225DAE933D19F184808D040F`），不支持第6项全部协议；专项会跑宿主编译与合成配置，实际 Worker 待最终 native。机制测试只用标注 synthetic 的配置，不写实库。正式星蚀/夺萃未核定窗口、回蓝口径或冷却起点时保留路径错误。该证据不表示整装备装配已完成。
 
 ## 常见问题
 

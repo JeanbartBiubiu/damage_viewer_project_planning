@@ -74,7 +74,7 @@ function execute(ruleKey: string, effectKey: string, sortOrder: number, groups: 
       actionKey: `do_${effectKey}`, name: effectKey, actionType: 'EXECUTE_EFFECT', sortOrder: 10,
       targetContext: 'CURRENT_TARGET', detail: { effectKey }, runtimeInputBindings: [], resultModifiers: []
     }],
-    perTargetCooldown: null, maxTriggersPerProcess: null
+    perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null
   };
 }
 
@@ -129,7 +129,7 @@ function request(): CompileRequest {
     typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }], relations: [] }, rules: {},
     combatants: (['source', 'target'] as const).map((key) => ({
       key, resources: {}, providers: [{ providerRef: 'champion', definitionRef: 'champion' }],
-      attributes: { hp: { ...slot }, attack_damage: { ...slot }, armor: { base: 0, current: 0, max: 0, resolved: 0 } }
+      attributes: { hp: { ...slot }, attack_damage: { ...slot }, armor: { base: 0, current: 0, max: 0, resolved: 0 }, omnivamp_percent: { base: 0.2, current: 0.2, max: 1, resolved: 0.2 } }
     })),
     sharedProviders: [{
       providerKey: 'champion', stableId: 'champion', kind: 'champion',
@@ -341,7 +341,7 @@ describe('有界命中适配', () => {
           actionKey: 'action_1', name: '执行block_heal', actionType: 'EXECUTE_EFFECT', sortOrder: 10,
           targetContext: 'CURRENT_TARGET', detail: { effectKey: 'block_heal' }, runtimeInputBindings: [], resultModifiers: []
         }],
-        perTargetCooldown: null, maxTriggersPerProcess: null
+        perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null
       }]
     };
     const adapted = adaptHitProgram(authored);
@@ -394,5 +394,105 @@ describe('有界命中适配', () => {
       lifecycle: lifecycle(), result: slowResult('RESULT'), parameters: [slowParam], statuses: program().statuses,
       modifierZones: [], source: 'source', target: 'target'
     }, 'status:slow')).toThrow('命中判定');
+  });
+
+  it('第6项 oncePerUse 仍由命中入口整体拒绝，不放开布尔跳过', () => {
+    expect(() => adaptHitProgram(program({
+      rules: [{ ...execute('actual_hit', 'primary_hit', 10, championEnemy()), oncePerUse: { groupKey: 'proc', scope: 'SKILL' } }]
+    }))).toThrow('过程限制');
+  });
+
+  it('普攻命中入口要求显式 basic_attack 身份与 BASIC_ATTACK 产生方式', () => {
+    const aaDamage = damageResult();
+    if (aaDamage.resultType !== 'DAMAGE') throw new Error('fixture');
+    aaDamage.detail.deliveryKind = 'BASIC_ATTACK';
+    const authored = program({
+      effects: [effect('primary_hit', [aaDamage])],
+      rules: [{
+        ...execute('aa_hit', 'primary_hit', 10, championEnemy()),
+        eventSource: { eventType: 'BASIC_ATTACK_HIT', detail: {} }
+      }]
+    });
+    const before = structuredClone(authored);
+    const adapted = adaptHitProgram(authored);
+    expect(authored).toEqual(before);
+    expect(adapted.resolveKind).toBe('basic_attack');
+    expect(adapted.typeEntries).toEqual(expect.arrayContaining([
+      { key: 'event/basic_attack_hit', domain: 'event' },
+      { key: 'ability/basic_attack', domain: 'ability' }
+    ]));
+    expect(adapted.typeEntries.some((entry) => entry.key === 'event/skill_hit')).toBe(false);
+    const output = withHitProgram(request(), {
+      hitProviderKey: 'champion', hitAbilityKey: 'skill_hit', authored
+    }, { rulesHash: 'after-aa' });
+    expect(output.sharedProviders?.[0]?.abilities?.[0]?.skillKey).toBe('urgot_q');
+    expect(output.sharedProviders?.[0]?.abilities?.[0]?.types).toEqual(expect.arrayContaining(['ability/basic_attack']));
+    expect(output.sharedProviders?.[0]?.abilities?.[0]?.operations?.[0]?.skillHit?.skillKey).toBe('urgot_q');
+    expect(() => adaptHitProgram(program({
+      rules: [{
+        ...execute('aa_hit', 'primary_hit', 10, championEnemy()),
+        eventSource: { eventType: 'BASIC_ATTACK_HIT', detail: {} }
+      }]
+    }))).toThrow('BASIC_ATTACK');
+    expect(() => adaptHitProgram(program({
+      rules: [
+        execute('actual_hit', 'primary_hit', 10, championEnemy()),
+        {
+          ...execute('aa_hit', 'primary_hit', 20, championEnemy()),
+          eventSource: { eventType: 'BASIC_ATTACK_HIT', detail: {} }
+        }
+      ]
+    }))).toThrow('不能同时入队');
+    expect(() => adaptHitProgram(program({
+      effects: [effect('primary_hit', [aaDamage])],
+      rules: [{
+        ...execute('aa_hit', 'primary_hit', 10, [{
+          groupKey: 'first', name: 'first', sortOrder: 10,
+          conditions: [{
+            conditionKey: 'first', conditionType: 'EVENT_VALUE_COMPARE', sortOrder: 10,
+            detail: { eventValueKey: 'SKILL_HIT_FIRST_CONTACT', comparator: 'EQ', comparisonValue: fixedValue(1) }
+          }]
+        }]),
+        eventSource: { eventType: 'BASIC_ATTACK_HIT', detail: {} }
+      }]
+    }))).toThrow('firstContact/blocked');
+    const emptyAa = program({
+      effects: [],
+      rules: [{
+        ruleKey: 'empty_aa', name: 'empty_aa', description: null, sortOrder: 10,
+        eventSource: { eventType: 'BASIC_ATTACK_HIT', detail: {} },
+        conditionGroups: [], actions: [], perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null
+      }]
+    });
+    expect(adaptHitProgram(emptyAa).resolveKind).toBe('basic_attack');
+    expect(adaptHitProgram(emptyAa).skillHit.candidates).toEqual([]);
+    const emptyOut = withHitProgram(request(), {
+      hitProviderKey: 'champion', hitAbilityKey: 'skill_hit', authored: emptyAa
+    }, { rulesHash: 'empty-aa' });
+    expect(emptyOut.sharedProviders?.[0]?.abilities?.[0]?.operations).toEqual([
+      expect.objectContaining({
+        operation: 'resolve_skill_hit',
+        skillHit: { skillKey: 'urgot_q', candidates: [] }
+      })
+    ]);
+  });
+
+  it('源目录两个效果相同 resultKey 不能合并成同一 provider', () => {
+    const secondSlow = slowResult();
+    const adapted = adaptHitProgram(program({
+      effects: [
+        effect('slow_a', [slowResult()], { lifecycle: lifecycle() }),
+        effect('slow_b', [secondSlow], { lifecycle: lifecycle() })
+      ],
+      rules: [
+        execute('apply_a', 'slow_a', 10, championEnemy()),
+        execute('apply_b', 'slow_b', 20, championEnemy())
+      ]
+    }));
+    expect(adapted.providers.map((row) => row.providerKey)).toEqual([
+      'status:urgot_q:slow_a:slow',
+      'status:urgot_q:slow_b:slow'
+    ]);
+    expect(adapted.providers[0]).not.toEqual(adapted.providers[1]);
   });
 });
