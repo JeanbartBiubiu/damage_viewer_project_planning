@@ -15140,6 +15140,24 @@
       ],
       "boundary": "只显式施加原效果验证取强与独立到期；不证明装备伤害触发、英雄目标资格和生命回复覆盖，不增加整技能或整装备完成数。"
     },
+    "confirmedItemRulesReturn": {
+      "status": "用户七项核定已落实：共享技能/普攻计数、同次跳伤限制、10秒刷新窗口、命中后冷却和结算前近似回蓝",
+      "recordedAt": "2026-09-23T13:22:34.846Z",
+      "skills": [
+        "item_6692_passive",
+        "item_3508_passive"
+      ],
+      "formalDataWrites": 3,
+      "protectedObjectsUnchanged": 23,
+      "browser": true,
+      "runtime": true,
+      "wholeSkillComplete": false,
+      "wholeEquipmentComplete": false,
+      "evidence": [
+        "管理机制迭代验收/2026-09-23-装备规则核定与回蓝返回.json"
+      ],
+      "boundary": "本次核定取代七项旧待核说明；原伤害吸血资格、近远程分支及完整装备装配保持。仅更新机制证据与两项原因，历史待核计数和完成总数没有重算，批量录入仍暂停。"
+    },
     "hitAndTriggerRuntimeReturn": {
       "status": "命中与法术护盾、同次使用限制、固定窗口、普攻消费和限时普通护盾已经实际Wasm工作线程验证；原星蚀护盾组成已返回，正式触发资料缺口保持",
       "skills": ["urgot_q", "sivir_e", "item_6692_passive", "item_3508_passive"],
@@ -15153,7 +15171,7 @@
       "boundary": "厄加特只运行所选减速，原未核定伤害仍拒绝；希维尔所选盾与治疗通过。星蚀只返回原护盾、公式与期限，合格使用和计数过程为专项明确输入；夺萃只完成通用机制合成验收。来源不全不补默认，不增加整技能或整装备完成数。"
     }
   },
-  "runtimeValidation": "部分机制已验证：重伤取强、普通减速、命中与法术护盾、同次使用限制、固定窗口及普攻消费；原星蚀护盾组成进入实际Wasm。整技能与整装备未全量验证，见crossSourceStateMergeReturn与hitAndTriggerRuntimeReturn。",
+  "runtimeValidation": "部分机制已验证：重伤取强、普通减速、命中与法术护盾、同次使用限制、固定窗口及普攻消费；原星蚀护盾组成进入实际Wasm。整技能与整装备未全量验证，见crossSourceStateMergeReturn与hitAndTriggerRuntimeReturn。 本次七项装备规则已按用户核定返回，含刷新及消费后恢复、施法绑定隔离和原回蓝组成，见confirmedItemRulesReturn；批量录入仍暂停。",
   "inventoryConclusions": {
     "schemaVersion": 1,
     "status": "进行中：角色、英雄技能、装备和符文清单均已逐项覆盖；各类资料待核与系统暂缓队列仍需继续处理。",
@@ -48095,7 +48113,7 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "同次使用限制、待击消费、同帧伤害供值与回蓝共性能力已通过合成配置运行；固定版本的待击窗口、回蓝精确伤害口径、重复启动行为及内部冷却起点仍待来源核定，原技能未填猜测默认值。",
+        "reason": "用户已核定10秒窗口、重复施法刷新、命中后冷却及结算前普攻主体近似回蓝；三项原配置已保存并独立回读，原回蓝组成进入真实Wasm。原附伤吸血资格、近远程分支和完整装备装配仍待处理，整装备未记完成。",
         "sourcePendingCount": 1,
         "systemPendingCount": 1,
         "evidenceRefs": [
@@ -49699,7 +49717,7 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "原星蚀护盾效果、公式与2秒期限已进入真实Wasm验证；同次使用限制与固定窗口共性能力已实现。原技能多段和持续伤害的独立命中资格仍待来源核定，整装备装配未完成。",
+        "reason": "原护盾效果、公式与2秒期限已进入真实Wasm；用户已核定同次技能及持续伤害最多计一次，与另一次普攻可以触发，四种技能/普攻组合均验证。原伤害吸血资格、近远程分支及完整装备装配保持待处理。",
         "sourcePendingCount": 1,
         "systemPendingCount": 1,
         "evidenceRefs": [

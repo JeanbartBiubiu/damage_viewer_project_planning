@@ -1,0 +1,544 @@
+{
+  "recordedAt": "2026-09-23T20:40:42.489692+08:00",
+  "source": "用户在本任务逐项核定及随后补充确认",
+  "rules": {
+    "eclipseSameUseLimit": 1,
+    "eclipseDamageOverTime": "同次最多一次，后续跳伤不能单独触发，另一次普攻可以完成触发",
+    "essenceWindowMs": 10000,
+    "essenceRepeatStart": "刷新剩余窗口",
+    "essenceCooldownStart": "强化普攻命中后",
+    "essenceCooldownMs": 1500,
+    "unusedExpiryStartsCooldown": false,
+    "manaRefund": "本项目近似：当前来源总攻击力乘0.5，不累计暴击或其它攻击特效，不受减伤与护盾影响"
+  },
+  "requestPlan": {
+    "createdAt": "2026-09-23T12:25:22.398Z",
+    "requests": [
+      {
+        "key": "window",
+        "method": "POST",
+        "path": "/parameters",
+        "readPath": "/parameters/spellblade_window_ms",
+        "before": {
+          "status": 404,
+          "body": {
+            "error": {
+              "code": "404.SKILL_PARAMETER_NOT_FOUND",
+              "details": {
+                "parameterKey": "spellblade_window_ms"
+              },
+              "message": "技能参数不存在"
+            }
+          }
+        },
+        "body": {
+          "parameterKey": "spellblade_window_ms",
+          "name": "咒刃待击窗口",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10000,
+          "levelValues": null,
+          "description": "2026-09-23用户明确核定采用10秒；再次符合条件的施法刷新剩余窗口。",
+          "sortOrder": 50
+        },
+        "sha256": "9d2e9aff34663fda764c5438243b9c1c5d271859e2898b2d9b213cbbab24c9d8"
+      },
+      {
+        "key": "refund_formula",
+        "method": "PUT",
+        "path": "/formulas/total_mana_refund",
+        "readPath": "/formulas/total_mana_refund",
+        "before": {
+          "status": 200,
+          "body": {
+            "createdAt": "2026-09-07T17:15:55.687813Z",
+            "description": "咒刃额外物理伤害的50%。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mana_refund_damage_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "spellblade_base_ad_ratio"
+                        },
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "BASE",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "spellblade_crit_chance_multiplier"
+                        },
+                        {
+                          "attributeKey": "critical_strike_chance",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "total_mana_refund",
+            "gameId": "lol",
+            "name": "咒刃攻击特效法力回复",
+            "skillKey": "item_3508_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T17:15:55.687813Z"
+          }
+        },
+        "body": {
+          "description": "2026-09-23用户核定的项目近似：按来源总攻击力的50%恢复法力，不计暴击增量、其它攻击特效及减伤和护盾结算。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_refund_damage_multiplier"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          },
+          "name": "普攻主体近似回蓝",
+          "sortOrder": 20
+        },
+        "sha256": "5a12bbe910adde2b390b3c2d81d7045852db95234d424926c0648c8aa73c3359"
+      },
+      {
+        "key": "refund_effect",
+        "method": "PUT",
+        "path": "/effects/total_mana_refund",
+        "readPath": "/effects/total_mana_refund",
+        "before": {
+          "status": 200,
+          "body": {
+            "createdAt": "2026-09-07T17:15:56.957497Z",
+            "description": "保存攻击特效法力回复组成，实际施放和攻击命中时点待接线。",
+            "effectKey": "total_mana_refund",
+            "gameId": "lol",
+            "lifecycle": null,
+            "name": "咒刃攻击特效法力回复",
+            "results": [
+              {
+                "description": "咒刃额外物理伤害的50%恢复为来源法力值。",
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "RESTORE"
+                },
+                "lifecycleBehavior": null,
+                "name": "法力回复",
+                "resultKey": "total_mana_refund",
+                "resultType": "RESOURCE_CHANGE",
+                "sortOrder": 10,
+                "spellShieldBlockScope": null,
+                "target": "SOURCE",
+                "valueRule": {
+                  "fixedMaxValue": null,
+                  "fixedMinValue": 0,
+                  "fixedMultiplier": 1,
+                  "value": {
+                    "formulaKey": "total_mana_refund",
+                    "kind": "FORMULA"
+                  }
+                }
+              }
+            ],
+            "skillKey": "item_3508_passive",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-07T17:15:56.957497Z"
+          }
+        },
+        "body": {
+          "description": "2026-09-23用户核定的项目近似：按来源总攻击力的50%恢复法力，不计暴击增量、其它攻击特效及减伤和护盾结算。",
+          "lifecycle": null,
+          "name": "普攻主体近似法力回复",
+          "results": [
+            {
+              "description": "2026-09-23用户核定的项目近似：按来源总攻击力的50%恢复法力，不计暴击增量、其它攻击特效及减伤和护盾结算。",
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "RESTORE"
+              },
+              "lifecycleBehavior": null,
+              "name": "法力回复",
+              "resultKey": "total_mana_refund",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "total_mana_refund",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "sortOrder": 20
+        },
+        "sha256": "f50b136bb1c8a741221ed7425d76a278ae096423412f7384a08e3c1f4405a6bc"
+      }
+    ],
+    "preflightRepair": "v1准备器浅拷贝误改了效果前值的结果说明，写前比较发现并拦截；原接口与独立完整预读逐字段相等。修正准备器深拷贝，保留v1及原请求hash，尚未发送效果写入。"
+  },
+  "browserSaveJournal": [
+    {
+      "at": "2026-09-23T12:26:23.552Z",
+      "action": "intent",
+      "key": "window",
+      "method": "POST",
+      "path": "/parameters",
+      "requestHash": "9d2e9aff34663fda764c5438243b9c1c5d271859e2898b2d9b213cbbab24c9d8"
+    },
+    {
+      "at": "2026-09-23T12:26:56.943Z",
+      "action": "readback",
+      "key": "window",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-23T12:26:38.016696Z",
+        "description": "2026-09-23用户明确核定采用10秒；再次符合条件的施法刷新剩余窗口。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃待击窗口",
+        "parameterKey": "spellblade_window_ms",
+        "skillKey": "item_3508_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-23T12:26:38.016696Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-23T12:29:23.978Z",
+      "action": "intent",
+      "key": "refund_formula",
+      "method": "PUT",
+      "path": "/formulas/total_mana_refund",
+      "requestHash": "5a12bbe910adde2b390b3c2d81d7045852db95234d424926c0648c8aa73c3359"
+    },
+    {
+      "at": "2026-09-23T12:29:57.571Z",
+      "action": "readback",
+      "key": "refund_formula",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-07T17:15:55.687813Z",
+        "description": "2026-09-23用户核定的项目近似：按来源总攻击力的50%恢复法力，不计暴击增量、其它攻击特效及减伤和护盾结算。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_refund_damage_multiplier"
+            },
+            {
+              "attributeKey": "attack_damage",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "total_mana_refund",
+        "gameId": "lol",
+        "name": "普攻主体近似回蓝",
+        "skillKey": "item_3508_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-23T12:29:37.189104Z"
+      }
+    },
+    {
+      "at": "2026-09-23T12:29:57.746Z",
+      "action": "readback",
+      "key": "window",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-23T12:26:38.016696Z",
+        "description": "2026-09-23用户明确核定采用10秒；再次符合条件的施法刷新剩余窗口。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃待击窗口",
+        "parameterKey": "spellblade_window_ms",
+        "skillKey": "item_3508_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-23T12:26:38.016696Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-23T12:32:29.63Z",
+      "action": "intent",
+      "key": "refund_effect",
+      "method": "PUT",
+      "path": "/effects/total_mana_refund",
+      "requestHash": "f50b136bb1c8a741221ed7425d76a278ae096423412f7384a08e3c1f4405a6bc"
+    },
+    {
+      "at": "2026-09-23T12:33:24.985Z",
+      "action": "readback",
+      "key": "refund_effect",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-07T17:15:56.957497Z",
+        "description": "2026-09-23用户核定的项目近似：按来源总攻击力的50%恢复法力，不计暴击增量、其它攻击特效及减伤和护盾结算。",
+        "effectKey": "total_mana_refund",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "普攻主体近似法力回复",
+        "results": [
+          {
+            "description": "2026-09-23用户核定的项目近似：按来源总攻击力的50%恢复法力，不计暴击增量、其它攻击特效及减伤和护盾结算。",
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "RESTORE"
+            },
+            "lifecycleBehavior": null,
+            "name": "法力回复",
+            "resultKey": "total_mana_refund",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "total_mana_refund",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "item_3508_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-23T12:32:59.634572Z"
+      }
+    }
+  ],
+  "independentReadback": {
+    "at": "2026-09-23T12:38:06.682Z",
+    "passed": true,
+    "protectedObjectsUnchanged": 23,
+    "changes": [
+      {
+        "section": "parameters",
+        "key": "spellblade_window_ms",
+        "current": {
+          "createdAt": "2026-09-23T12:26:38.016696Z",
+          "description": "2026-09-23用户明确核定采用10秒；再次符合条件的施法刷新剩余窗口。",
+          "fixedValue": 10000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "咒刃待击窗口",
+          "parameterKey": "spellblade_window_ms",
+          "skillKey": "item_3508_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-23T12:26:38.016696Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      },
+      {
+        "section": "formulas",
+        "key": "total_mana_refund",
+        "current": {
+          "createdAt": "2026-09-07T17:15:55.687813Z",
+          "description": "2026-09-23用户核定的项目近似：按来源总攻击力的50%恢复法力，不计暴击增量、其它攻击特效及减伤和护盾结算。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mana_refund_damage_multiplier"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          "formulaKey": "total_mana_refund",
+          "gameId": "lol",
+          "name": "普攻主体近似回蓝",
+          "skillKey": "item_3508_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-23T12:29:37.189104Z"
+        }
+      },
+      {
+        "section": "effects",
+        "key": "total_mana_refund",
+        "current": {
+          "createdAt": "2026-09-07T17:15:56.957497Z",
+          "description": "2026-09-23用户核定的项目近似：按来源总攻击力的50%恢复法力，不计暴击增量、其它攻击特效及减伤和护盾结算。",
+          "effectKey": "total_mana_refund",
+          "gameId": "lol",
+          "lifecycle": null,
+          "name": "普攻主体近似法力回复",
+          "results": [
+            {
+              "description": "2026-09-23用户核定的项目近似：按来源总攻击力的50%恢复法力，不计暴击增量、其它攻击特效及减伤和护盾结算。",
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "RESTORE"
+              },
+              "lifecycleBehavior": null,
+              "name": "法力回复",
+              "resultKey": "total_mana_refund",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "spellShieldBlockScope": null,
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "total_mana_refund",
+                  "kind": "FORMULA"
+                }
+              }
+            }
+          ],
+          "skillKey": "item_3508_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-23T12:32:59.634572Z"
+        }
+      }
+    ]
+  },
+  "implementation": {
+    "planRevision": "authoring-p6-confirmed-r2",
+    "runtime": "已完成本次有界适配、实际Worker和原回蓝组成验证",
+    "wholeEquipmentComplete": false,
+    "completedAt": "2026-09-23T13:22:34.819Z",
+    "webCommit": "7d698f3d74ff566d483ee8717dc4b71d9b11736b",
+    "cursorReview": {
+      "runId": "run-46274a52-9563-40ff-8de4-1d53f110d446",
+      "verdict": "READY",
+      "readonlyTools": 50,
+      "fileDelta": 0
+    },
+    "cursorImplementation": {
+      "runId": "run-aa448abe-e364-4ffc-8f8b-08fa495e2247",
+      "status": "finished",
+      "fileDelta": 4,
+      "outsideScope": 0
+    },
+    "independentReview": "修复三种施法绑定串用及多分支条件误拒后，独立只读复核READY",
+    "webChecks": {
+      "lint": true,
+      "typecheck": true,
+      "unitTests": 1021,
+      "build": true
+    },
+    "browser": {
+      "actualWasm": true,
+      "liveApiReadback": true,
+      "p5": 10,
+      "p6": 20,
+      "p7": 8,
+      "vamp": 8,
+      "p6RunDetail": "首轮19通过；重绑用例复用了旧rulesHash而正确被拒，修正夹具为新摘要后该项复测通过。运行生产代码未变。",
+      "restore": "窗口10500毫秒恢复后11000命中消费，待命期限清零、冷却到12500；消费后最终快照可再次恢复并正常结束冷却",
+      "binding": "同一定义的另一个真实挂载不刷新；Q改绑W后旧Q不刷新",
+      "realRefund": {
+        "attackDamage": 100,
+        "coefficient": 0.5,
+        "targetFinalHp": [
+          900,
+          950,
+          940
+        ],
+        "sourceMana": [
+          50,
+          50,
+          50
+        ],
+        "boundary": "原参数、完整公式和回蓝效果；受控主体伤害分别无防御、100护甲、40普通护盾。不是整件装备装配。"
+      }
+    }
+  },
+  "boundary": "仅本次三项原配置写入；原伤害吸血资格和近远程分支保持，不以核定表冒充完整装备已运行",
+  "nativeRepair": {
+    "commit": "ad09b2aeb",
+    "reason": "每次写入刷新型状态消费回默认值后保留正期限，导致自己的快照无法恢复",
+    "preFix": "provider与provider_target两个范围恢复均失败",
+    "fix": "写回声明的默认值时清期限；保留非默认值续期、首次写入不续期和严格恢复校验",
+    "independentReview": "内置wasm_engineer只读复核READY",
+    "nativeTestsPassed": 1736,
+    "historicalMissingSeedFailures": 38,
+    "newFailures": 0,
+    "wasmBytes": 895839,
+    "wasmSha256": "c93ed71db56b9c1217774f1b67923c1873dc3c5a3b5a64b6545260918337442b",
+    "nodeRoundtrip": {
+      "passed": true,
+      "active": {
+        "expireAt": {
+          "ready": 19000
+        },
+        "state": {
+          "icd": 0,
+          "ready": 1
+        }
+      },
+      "consumed": {
+        "expireAt": {
+          "icd": 12500
+        },
+        "state": {
+          "icd": 1,
+          "ready": 0
+        }
+      },
+      "restored": {
+        "expireAt": {},
+        "state": {
+          "icd": 0,
+          "ready": 0
+        }
+      }
+    },
+    "browser": "通过：真实Worker直接恢复待命和消费后的最终快照，严格校验保持"
+  }
+}
