@@ -9,8 +9,8 @@ import type { AuthoredHitProgram } from '../../src/engine/hitAdapter';
 import type { SkillEffect } from '../../src/types/skillEffect';
 
 const WASM_PATH = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const WASM_SHA256 = '620763FCE922E91E3A33F6B8A1597FF528FFCF7A53200CABECF50F548EE3415B';
-const WASM_BYTES = 895683;
+const WASM_SHA256 = 'C93ED71DB56B9C1217774F1B67923C1873DC3C5A3B5A64B6545260918337442B';
+const WASM_BYTES = 895839;
 
 function slot(value: number, max = value) {
   return { base: value, current: value, max, resolved: value };
@@ -185,7 +185,7 @@ function syntheticSpellblade(): AuthoredTriggerProgram {
     rules: [
       {
         ruleKey: 'arm', name: 'arm', description: 'synthetic', sortOrder: 10,
-        eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: skillKey, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
+        eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
         conditionGroups: [{
           groupKey: 'idle', name: 'idle', sortOrder: 10,
           conditions: [{
@@ -233,6 +233,66 @@ function syntheticSpellblade(): AuthoredTriggerProgram {
   consume.actions = [{ ...damage, runtimeInputBindings: [] }, { ...damage, actionKey: 'do_refund', name: 'refund', sortOrder: 20, detail: { effectKey: 'refund' } }];
   authored.processes[0]!.effectBindings.push({ bindingKey: 'do_refund', effectKey: 'refund', moment: stepExec('aa'), sortOrder: 20 });
   for (const op of authored.processes[0]!.stateOperations) if (op.moment.momentType === 'STEP_EXECUTION') op.sortOrder += 10;
+  return authored;
+}
+
+function dualEventWindow(): AuthoredTriggerProgram {
+  const authored = syntheticWindow();
+  const extra = authored.rules.map((rule, index) => ({
+    ...structuredClone(rule),
+    ruleKey: index === 0 ? 'aa_first' : 'aa_reward',
+    sortOrder: 30 + index * 10,
+    eventSource: { eventType: 'BASIC_ATTACK_HIT' as const, detail: {} }
+  }));
+  authored.rules = [...authored.rules, ...extra];
+  return authored;
+}
+
+function refreshSpellblade(windowMs = 10000): AuthoredTriggerProgram {
+  const authored = syntheticSpellblade();
+  const step = authored.processes[0]!.steps[0]!;
+  if (step.stepType !== 'EMPOWERED_BASIC_ATTACK') throw new Error('fixture');
+  step.detail.windowValue = fixedValue(windowMs);
+  authored.rules[0]!.conditionGroups = [
+    authored.rules[0]!.conditionGroups[0]!,
+    {
+      groupKey: 'armed', name: 'armed', sortOrder: 20,
+      conditions: [{
+        conditionKey: 'ready_on', conditionType: 'INTERNAL_STATE_CHECK' as const, sortOrder: 10,
+        detail: { stateKey: 'ready', valueKind: 'ENABLED' as const, optionKey: null, expectedBoolean: true, comparator: null, comparisonValue: null }
+      }, cooldownReady()]
+    }
+  ];
+  return authored;
+}
+
+function formulaManaProgram(input: {
+  skillKey: string;
+  parameters: AuthoredTriggerProgram['parameters'];
+  formulas: AuthoredTriggerProgram['formulas'];
+  effect: SkillEffect;
+}): AuthoredTriggerProgram {
+  const authored = refreshSpellblade(10000);
+  authored.skillKey = input.skillKey;
+  for (const row of [...authored.processes, ...authored.internalStates]) row.skillKey = input.skillKey;
+  const step = authored.processes[0]!.steps[0]!;
+  if (step.stepType !== 'EMPOWERED_BASIC_ATTACK') throw new Error('fixture');
+  step.detail.windowValue = parameterValue('spellblade_window_ms');
+  authored.internalStates = authored.internalStates.map((state) => (
+    state.stateType === 'INTERNAL_COOLDOWN'
+      ? { ...state, skillKey: input.skillKey, detail: { durationValue: parameterValue('spellblade_cooldown_ms') } }
+      : { ...state, skillKey: input.skillKey }
+  ));
+  authored.parameters = input.parameters;
+  authored.formulas = input.formulas;
+  authored.effects = [{ ...input.effect, skillKey: input.skillKey }];
+  authored.vampRules = [];
+  authored.skillCategoryKeys = [];
+  authored.processes[0]!.effectBindings = [{ bindingKey: 'do_refund', effectKey: input.effect.effectKey, moment: stepExec('aa'), sortOrder: 10 }];
+  authored.rules[1]!.actions = [{
+    actionKey: 'do_refund', name: 'refund', actionType: 'EXECUTE_EFFECT', sortOrder: 10,
+    targetContext: 'CURRENT_TARGET', detail: { effectKey: input.effect.effectKey }, runtimeInputBindings: [], resultModifiers: []
+  }];
   return authored;
 }
 
@@ -308,7 +368,7 @@ function baseRequest(): CompileRequest {
       providerKey: 'champion', stableId: 'champion', kind: 'champion',
       abilities: [
         { abilityKey: 'skill_hit', kind: 'active', operations: [] },
-        { abilityKey: 'cast', kind: 'active', operations: [] }
+        { abilityKey: 'cast', kind: 'active', skillKey: 'champion_q', operations: [] }
       ]
     }]
   };
@@ -321,6 +381,8 @@ type WorkerResult = {
   compileErrors?: EngineError[];
   done?: DoneResult;
   secondDone?: DoneResult;
+  resumedDone?: DoneResult;
+  consumedRestoredDone?: DoneResult;
   runError?: string;
   released?: boolean;
 };
@@ -334,13 +396,25 @@ async function runP6(page: Page, payload: {
   mode: 'window' | 'spellblade' | 'spellblade-start' | 'reject-first-contact' | 'reject-eclipse';
   uses?: Array<{ useKey: string; skillKey: string }>;
   hits?: Array<{ entryKey: string; at: number; useKey: string }>;
+  aaHits?: Array<{ entryKey: string; at: number; useKey: string }>;
   durationMs?: number;
   startCost?: number;
   startOnly?: boolean;
+  startAt?: number;
+  hitAt?: number;
   program?: AuthoredTriggerProgram;
   incoming?: Array<{ at: number; amount: number }>;
   restore?: { state: Record<string, number>; expireAt: Record<string, number>; ledger: RestoreLedgerRow[] };
   secondRun?: boolean;
+  initialCastAbilities?: Array<{ providerRef: string; abilityKey: string }>;
+  casts?: Array<{ entryKey: string; abilityKey: string; at: number; skillKey: string; providerRef?: string }>;
+  additionalChampionMount?: string;
+  rebindAbilities?: Array<{ providerRef: string; abilityKey: string }>;
+  resumeEmpowered?: { startAt: number; hitAt: number; durationMs: number; restoreDurationMs: number };
+  extraChampionAbilities?: Array<{ abilityKey: string; kind: string; skillKey?: string; types?: string[]; operations?: unknown[] }>;
+  aaBodyDamage?: number;
+  targetArmor?: number;
+  targetShield?: { at: number; amount: number };
 }): Promise<WorkerResult> {
   await page.route('**/p6-browser-harness', (route) => route.fulfill({
     contentType: 'text/html', body: '<!doctype html><title>第6项运行验证</title>'
@@ -393,30 +467,82 @@ async function runP6(page: Page, payload: {
       const hitAdapted = data.mode === 'window' ? adaptHitProgram(dummy) : null;
       let request = structuredClone(input);
       if (owner === 'target') for (const actor of request.combatants) actor.key = actor.key === 'source' ? 'target' : 'source';
+      if (data.targetArmor != null) {
+        const foe = request.combatants.find(actor => actor.key === counterpart)!;
+        foe.attributes.armor = { base: data.targetArmor, current: data.targetArmor, max: data.targetArmor, resolved: data.targetArmor };
+      }
       if (data.mode === 'window') {
         request = withHitProgram(request, { hitProviderKey: 'champion', hitAbilityKey: 'skill_hit', authored: dummy }, { rulesHash: 'with-p6-hit' });
+        if (data.aaHits?.length) {
+          const champion = request.sharedProviders![0]!;
+          champion.abilities = [
+            ...(champion.abilities ?? []),
+            basicAttackStartAbility({ abilityKey: 'aa_start', skillKey: 'aa_basic' }),
+            basicAttackHitAbility({ abilityKey: 'aa_hit', skillKey: 'aa_basic' })
+          ];
+          request.typeCatalog.types.push({ key: 'event/basic_attack_start', domain: 'event' }, { key: 'event/basic_attack_hit', domain: 'event' }, { key: 'ability/basic_attack', domain: 'ability' });
+        }
       } else {
+        const casts = data.casts ?? [{ entryKey: 'cast', abilityKey: 'cast', at: 0, skillKey: 'champion_q' }];
+        const castAbilities = [...new Map(casts.map((row) => [row.abilityKey, {
+          abilityKey: row.abilityKey, kind: 'active' as const, skillKey: row.skillKey, operations: [] as const
+        }])).values()];
+        const aaHit = basicAttackHitAbility({ abilityKey: 'aa_hit', skillKey: 'aa_basic' });
         const champion = request.sharedProviders![0]!;
         champion.abilities = [
-          { abilityKey: 'cast', kind: 'active', operations: [] },
+          ...castAbilities,
+          ...(data.extraChampionAbilities ?? []).filter((row) => !castAbilities.some((ability) => ability.abilityKey === row.abilityKey)) as typeof castAbilities,
           basicAttackStartAbility({
             abilityKey: 'aa_start', skillKey: 'aa_basic',
             ...(data.startCost != null ? { cost: { resourceKey: 'mana', amount: { op: 'const', value: data.startCost } } } : {})
           }),
-          basicAttackHitAbility({ abilityKey: 'aa_hit', skillKey: 'aa_basic' })
+          aaHit,
+          ...(data.aaBodyDamage != null ? [{
+            abilityKey: 'aa_body', kind: 'active' as const,
+            operations: [{
+              operation: 'damage', target: 'target', damageType: 'damage/physical',
+              amount: { op: 'const', value: data.aaBodyDamage }, critEligible: false
+            }]
+          }] : [])
         ];
         request.typeCatalog.types.push({ key: 'event/basic_attack_start', domain: 'event' }, { key: 'event/basic_attack_hit', domain: 'event' }, { key: 'ability/basic_attack', domain: 'ability' });
       }
+      if (data.additionalChampionMount) {
+        request.combatants.find(actor => actor.key === owner)!.providers.push({
+          providerRef: data.additionalChampionMount, definitionRef: 'champion'
+        });
+      }
       request = withTriggerProgram(request, {
         triggerProviderKey: `item:${authored.skillKey}`, authored,
-        initialCastAbilityKey: data.mode === 'window' ? undefined : 'cast'
+        ...(data.mode === 'window' ? {} : {
+          initialCastAbilities: data.initialCastAbilities ?? [{ providerRef: 'champion', abilityKey: (data.casts ?? [{ abilityKey: 'cast' }])[0]!.abilityKey }]
+        })
       }, { rulesHash: 'with-p6' });
+      if (data.rebindAbilities) {
+        request = withTriggerProgram(request, {
+          triggerProviderKey: `item:${authored.skillKey}`, authored,
+          initialCastAbilities: data.rebindAbilities
+        }, { rulesHash: 'with-p6-rebound' });
+      }
       const defender = request.combatants.find(actor => actor.key === counterpart)!;
       if (data.incoming?.length) {
         defender.providers.push({ providerRef: 'incoming', definitionRef: 'incoming' });
         request.sharedProviders!.push({ providerKey: 'incoming', kind: 'champion', stableId: 'incoming', abilities: data.incoming.map((hit, index) => ({
           abilityKey: `hit_${index}`, kind: 'active', operations: [{ operation: 'damage', target: 'target', damageType: 'damage/physical', amount: { op: 'const', value: hit.amount } }]
         })) });
+      }
+      if (data.targetShield) {
+        defender.providers.push({ providerRef: 'pre_shield', definitionRef: 'pre_shield' });
+        request.sharedProviders!.push({
+          providerKey: 'pre_shield', kind: 'champion', stableId: 'pre_shield',
+          abilities: [{
+            abilityKey: 'apply_shield', kind: 'active',
+            operations: [{
+              operation: 'shield', target: 'self', shieldRef: 'synth_aa_block',
+              shieldDurationMs: { op: 'const', value: 8000 }, amount: { op: 'const', value: data.targetShield.amount }
+            }]
+          }]
+        });
       }
       const client = new GenericEngineClient();
       try {
@@ -427,19 +553,52 @@ async function runP6(page: Page, payload: {
             compileOk: false, compileErrors: compiled.errors
           };
         }
-        const uses = (data.uses ?? []).map((row) => provenSkillUseFact({ useKey: row.useKey, source: owner, skillKey: row.skillKey }));
-        const hits = data.mode === 'window' ? (data.hits ?? []).map((row) => skillHitFact(row.entryKey, row.useKey)) : data.startOnly ? [] : [skillHitFact('hit', 'aa1')];
+        const casts = data.mode === 'window' ? [] : (data.casts ?? [{ entryKey: 'cast', abilityKey: 'cast', at: 0, skillKey: 'champion_q' }]);
+        const uses = [
+          ...casts.map((row) => provenTriggerUse({ useKey: row.entryKey, source: owner, skillKey: row.skillKey })),
+          ...(data.uses ?? []).map((row) => provenSkillUseFact({ useKey: row.useKey, source: owner, skillKey: row.skillKey }))
+        ];
+        if (data.mode !== 'window' || data.aaHits?.length) {
+          uses.push(provenTriggerUse({ useKey: 'aa1', source: owner, skillKey: 'aa_basic' }));
+          for (const row of data.aaHits ?? []) {
+            if (row.useKey !== 'aa1') uses.push(provenTriggerUse({ useKey: row.useKey, source: owner, skillKey: 'aa_basic' }));
+          }
+        }
+        const hits = data.mode === 'window'
+          ? [
+              ...(data.hits ?? []).map((row) => skillHitFact(row.entryKey, row.useKey)),
+              ...(data.aaHits ?? []).map((row) => skillHitFact(row.entryKey, row.useKey))
+            ]
+          : data.startOnly ? [] : [skillHitFact('hit', 'aa1')];
+        const startAt = data.startAt ?? 10;
+        const hitAt = data.hitAt ?? 20;
         const entries = data.mode === 'window'
-          ? (data.hits ?? []).map((row) => ({
-              entryKey: row.entryKey, abilityRef: `${owner}.provider[champion].ability[skill_hit]`,
-              source: owner, target: counterpart, firstAtMs: row.at
-            }))
+          ? [
+              ...(data.hits ?? []).map((row) => ({
+                entryKey: row.entryKey, abilityRef: `${owner}.provider[champion].ability[skill_hit]`,
+                source: owner, target: counterpart, firstAtMs: row.at
+              })),
+              ...(data.aaHits ?? []).map((row) => ({
+                entryKey: row.entryKey, abilityRef: `${owner}.provider[champion].ability[aa_hit]`,
+                source: owner, target: counterpart, firstAtMs: row.at
+              }))
+            ]
           : [
-              { entryKey: 'cast', abilityRef: `${owner}.provider[champion].ability[cast]`, source: owner, target: counterpart, firstAtMs: 0 },
-              { entryKey: 'start', abilityRef: `${owner}.provider[champion].ability[aa_start]`, source: owner, target: counterpart, firstAtMs: 10 },
-              ...(data.startOnly ? [] : [{ entryKey: 'hit', abilityRef: `${owner}.provider[champion].ability[aa_hit]`, source: owner, target: counterpart, firstAtMs: 20 }])
+              ...casts.map((row) => ({
+                entryKey: row.entryKey, abilityRef: `${owner}.provider[${row.providerRef ?? 'champion'}].ability[${row.abilityKey}]`,
+                source: owner, target: counterpart, firstAtMs: row.at
+              })),
+              { entryKey: 'start', abilityRef: `${owner}.provider[champion].ability[aa_start]`, source: owner, target: counterpart, firstAtMs: startAt },
+              ...(data.aaBodyDamage != null && !data.startOnly ? [{ entryKey: 'aa_body', abilityRef: `${owner}.provider[champion].ability[aa_body]`, source: owner, target: counterpart, firstAtMs: hitAt }] : []),
+              ...(data.startOnly ? [] : [{ entryKey: 'hit', abilityRef: `${owner}.provider[champion].ability[aa_hit]`, source: owner, target: counterpart, firstAtMs: hitAt }])
             ];
         entries.push(...(data.incoming ?? []).map((hit, index) => ({ entryKey: `incoming_${index}`, abilityRef: `${counterpart}.provider[incoming].ability[hit_${index}]`, source: counterpart, target: owner, firstAtMs: hit.at })));
+        if (data.targetShield) {
+          entries.push({
+            entryKey: 'pre_shield', abilityRef: `${counterpart}.provider[pre_shield].ability[apply_shield]`,
+            source: counterpart, target: owner, firstAtMs: data.targetShield.at
+          });
+        }
         const triggerRef = `item:${authored.skillKey}`;
         const snapshotCombatants = request.combatants.map((actor) => ({
           key: actor.key, attributes: structuredClone(actor.attributes), resources: structuredClone(actor.resources),
@@ -455,10 +614,10 @@ async function runP6(page: Page, payload: {
           } : {}
         }));
         const runBody = {
-          sessionId: compiled.sessionId, expectedRulesHash: 'with-p6', schemaVersion: request.schemaVersion,
-          schemaHash: request.schemaHash, rulesHash: 'with-p6',
+          sessionId: compiled.sessionId, expectedRulesHash: request.rulesHash, schemaVersion: request.schemaVersion,
+          schemaHash: request.schemaHash, rulesHash: request.rulesHash,
           initialSnapshot: {
-            schemaHash: request.schemaHash, rulesHash: 'with-p6', timeMs: 0,
+            schemaHash: request.schemaHash, rulesHash: request.rulesHash, timeMs: 0,
             combatants: snapshotCombatants,
             useTriggerLedger: (data.restore?.ledger ?? []).map((row) => useTriggerLedgerEntry(row))
           },
@@ -470,6 +629,32 @@ async function runP6(page: Page, payload: {
           attackStartFacts: data.mode === 'window' ? undefined : [attackStartFact('start', 'aa1')]
         };
         const done = await client.run(runBody);
+        let resumedDone: DoneResult | undefined;
+        let consumedRestoredDone: DoneResult | undefined;
+        if (data.resumeEmpowered) {
+          const resume = data.resumeEmpowered;
+          resumedDone = await client.run({
+            ...runBody, initialSnapshot: done.finalSnapshot,
+            driverPlan: { entries: [
+              { entryKey: 'resume_start', abilityRef: `${owner}.provider[champion].ability[aa_start]`, source: owner, target: counterpart, firstAtMs: resume.startAt },
+              { entryKey: 'resume_hit', abilityRef: `${owner}.provider[champion].ability[aa_hit]`, source: owner, target: counterpart, firstAtMs: resume.hitAt }
+            ] },
+            stopPolicy: { ...runBody.stopPolicy, durationMs: resume.durationMs },
+            skillUses: [provenTriggerUse({ useKey: 'resume_aa', source: owner, skillKey: 'aa_basic' })],
+            skillHitFacts: [skillHitFact('resume_hit', 'resume_aa')],
+            attackStartFacts: [attackStartFact('resume_start', 'resume_aa')]
+          });
+          consumedRestoredDone = await client.run({
+            ...runBody, initialSnapshot: resumedDone.finalSnapshot,
+            driverPlan: { entries: [{
+              entryKey: 'after_consumption', abilityRef: `${owner}.provider[champion].ability[aa_start]`,
+              source: owner, target: counterpart, firstAtMs: resumedDone.finalSnapshot.timeMs + 1
+            }] },
+            stopPolicy: { ...runBody.stopPolicy, durationMs: resume.restoreDurationMs },
+            skillUses: [provenTriggerUse({ useKey: 'after_consumption_aa', source: owner, skillKey: 'aa_basic' })],
+            skillHitFacts: [], attackStartFacts: [attackStartFact('after_consumption', 'after_consumption_aa')]
+          });
+        }
         const secondDone = data.secondRun
           ? await client.run({
               ...runBody,
@@ -488,13 +673,13 @@ async function runP6(page: Page, payload: {
               }
             })
           : undefined;
-        const released = await client.release(compiled.sessionId, 'with-p6');
+        const released = await client.release(compiled.sessionId, request.rulesHash);
         return {
           adapted: {
             combo: adapted.combo, oncePerUse: adapted.oncePerUse, consumeEvent: adapted.consumeEvent,
             outputRef: adapted.provider.abilities?.at(-1)?.listenerSpec?.operations?.[0]?.outputRef
           },
-          compileOk: true, done, secondDone, released: released.released, hitAdapted: hitAdapted?.resolveKind
+          compileOk: true, done, secondDone, resumedDone, consumedRestoredDone, released: released.released, hitAdapted: hitAdapted?.resolveKind
         };
       } catch (error) {
         return {
@@ -742,5 +927,227 @@ test('原库星蚀普通护盾组成→GET→Worker，保留原公式与期限�
   expect(await read('/effects/shield_melee')).toEqual(effect);
   await testInfo.attach('原护盾组成与明确触发输入', { contentType: 'application/json', body: Buffer.from(JSON.stringify({ effect, parameters, formulas, done: result.done,
     boundary: '原库护盾、期限与数值直接参与运行；计数过程和两个合格使用为专项明确输入，不代表原装备多段与持续伤害资格已核定，不证明受到护盾修正。'
+  }, null, 2)) });
+});
+
+const twoSkills = {
+  initialCastAbilities: [
+    { providerRef: 'champion', abilityKey: 'q' },
+    { providerRef: 'champion', abilityKey: 'w' }
+  ],
+  extraChampionAbilities: [{ abilityKey: 'e', kind: 'active', skillKey: 'champion_e', operations: [] }]
+};
+
+test('实际 Worker：技能与普攻四种命中组合，同 use 多段与跳伤只计一次', async ({ page }, testInfo) => {
+  const program = dualEventWindow();
+  const skillThenAa = await runP6(page, {
+    mode: 'window', program,
+    uses: [{ useKey: 'u1', skillKey: 'author_q' }],
+    hits: [{ entryKey: 'h1', at: 0, useKey: 'u1' }],
+    aaHits: [{ entryKey: 'aa1', at: 100, useKey: 'aa1' }]
+  });
+  await assertNativeResult(skillThenAa, testInfo);
+  expect(providerState(skillThenAa.done!, 'item:synth_window').state).toMatchObject({ hits: 0, icd: 1 });
+  expect(skillThenAa.done!.finalSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp.current).toBe(960);
+
+  const aaThenSkill = await runP6(page, {
+    mode: 'window', program,
+    uses: [{ useKey: 'u1', skillKey: 'author_q' }],
+    aaHits: [{ entryKey: 'aa1', at: 0, useKey: 'aa1' }],
+    hits: [{ entryKey: 'h1', at: 100, useKey: 'u1' }]
+  });
+  await assertNativeResult(aaThenSkill, testInfo);
+  expect(providerState(aaThenSkill.done!, 'item:synth_window').state).toMatchObject({ hits: 0, icd: 1 });
+
+  const multiThenAa = await runP6(page, {
+    mode: 'window', program,
+    uses: [{ useKey: 'u1', skillKey: 'author_q' }],
+    hits: [
+      { entryKey: 'h1', at: 0, useKey: 'u1' },
+      { entryKey: 'h2', at: 40, useKey: 'u1' }
+    ],
+    aaHits: [{ entryKey: 'aa1', at: 100, useKey: 'aa1' }]
+  });
+  await assertNativeResult(multiThenAa, testInfo);
+  expect(providerState(multiThenAa.done!, 'item:synth_window').state).toMatchObject({ hits: 0, icd: 1 });
+  expect(multiThenAa.done!.finalSnapshot.useTriggerLedger?.filter(row => row.useKey === 'u1')).toHaveLength(1);
+
+  const sameUseOnly = await runP6(page, {
+    mode: 'window', program, durationMs: 300,
+    uses: [{ useKey: 'dot1', skillKey: 'author_q' }],
+    hits: [
+      { entryKey: 'h1', at: 0, useKey: 'dot1' },
+      { entryKey: 'h2', at: 50, useKey: 'dot1' }
+    ]
+  });
+  await assertNativeResult(sameUseOnly, testInfo);
+  expect(providerState(sameUseOnly.done!, 'item:synth_window').state).toMatchObject({ hits: 1, icd: 0 });
+});
+
+test('实际 Worker：旧不刷新样例到期，刷新两组可将窗口续到19000', async ({ page }, testInfo) => {
+  const stale = await runP6(page, {
+    mode: 'spellblade', program: syntheticSpellblade(), durationMs: 1600, startOnly: true,
+    ...twoSkills,
+    casts: [
+      { entryKey: 'cast_q', abilityKey: 'q', at: 0, skillKey: 'champion_q' },
+      { entryKey: 'cast_w', abilityKey: 'w', at: 500, skillKey: 'champion_w' }
+    ]
+  });
+  await assertNativeResult(stale, testInfo);
+  expect(providerState(stale.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 0 });
+
+  const armed = await runP6(page, {
+    mode: 'spellblade', program: refreshSpellblade(10000), durationMs: 10500, startOnly: true,
+    ...twoSkills,
+    casts: [
+      { entryKey: 'cast_q', abilityKey: 'q', at: 0, skillKey: 'champion_q' },
+      { entryKey: 'cast_w', abilityKey: 'w', at: 9000, skillKey: 'champion_w' }
+    ]
+  });
+  await assertNativeResult(armed, testInfo);
+  const armedBag = providerState(armed.done!, 'item:synth_spellblade');
+  expect(armedBag.state).toMatchObject({ ready: 1, icd: 0 });
+  expect(armedBag.expireAt).toMatchObject({ ready: 19000 });
+
+  const consumed = await runP6(page, {
+    mode: 'spellblade', program: refreshSpellblade(10000), durationMs: 12000,
+    startAt: 11000, hitAt: 11000,
+    ...twoSkills,
+    casts: [
+      { entryKey: 'cast_q', abilityKey: 'q', at: 0, skillKey: 'champion_q' },
+      { entryKey: 'cast_w', abilityKey: 'w', at: 9000, skillKey: 'champion_w' }
+    ]
+  });
+  await assertNativeResult(consumed, testInfo);
+  expect(providerState(consumed.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 1 });
+
+  const timeout = await runP6(page, {
+    mode: 'spellblade', program: refreshSpellblade(10000), durationMs: 19100, startOnly: true,
+    ...twoSkills,
+    casts: [
+      { entryKey: 'cast_q', abilityKey: 'q', at: 0, skillKey: 'champion_q' },
+      { entryKey: 'cast_w', abilityKey: 'w', at: 9000, skillKey: 'champion_w' }
+    ]
+  });
+  await assertNativeResult(timeout, testInfo);
+  expect(providerState(timeout.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 0 });
+});
+
+test('实际 Worker：未绑定主动施法不刷新，真实 use 与 owner 保持', async ({ page }, testInfo) => {
+  const result = await runP6(page, {
+    mode: 'spellblade', program: refreshSpellblade(10000), durationMs: 10500, startOnly: true,
+    initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'q' }],
+    extraChampionAbilities: [{ abilityKey: 'e', kind: 'active', skillKey: 'champion_e', operations: [] }],
+    casts: [
+      { entryKey: 'cast_q', abilityKey: 'q', at: 0, skillKey: 'champion_q' },
+      { entryKey: 'cast_e', abilityKey: 'e', at: 9000, skillKey: 'champion_e' }
+    ]
+  });
+  await assertNativeResult(result, testInfo);
+  expect(providerState(result.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 0 });
+  expect(result.done!.finalSnapshot.useTriggerLedger ?? []).not.toEqual(
+    expect.arrayContaining([expect.objectContaining({ useSkillKey: 'item_passive' })])
+  );
+  const qUse = result.done!.evidence.items.some(item => item.kind === 'emitted_event' && item.ref === 'event/ability_started');
+  expect(qUse).toBe(true);
+});
+
+test('实际 Worker：刷新窗口与消费后的最终快照均可直接恢复', async ({ page }, testInfo) => {
+  const result = await runP6(page, {
+    mode: 'spellblade', program: refreshSpellblade(10000), durationMs: 10500, startOnly: true,
+    ...twoSkills,
+    casts: [
+      { entryKey: 'q0', abilityKey: 'q', at: 0, skillKey: 'champion_q' },
+      { entryKey: 'w9', abilityKey: 'w', at: 9000, skillKey: 'champion_w' }
+    ],
+    resumeEmpowered: { startAt: 10900, hitAt: 11000, durationMs: 1000, restoreDurationMs: 2000 }
+  });
+  await assertNativeResult(result, testInfo);
+  expect(providerState(result.done!, 'item:synth_spellblade')).toMatchObject({ state: { ready: 1, icd: 0 }, expireAt: { ready: 19000 } });
+  expect(result.resumedDone).toBeDefined();
+  const consumed = providerState(result.resumedDone!, 'item:synth_spellblade');
+  expect(consumed).toMatchObject({ state: { ready: 0, icd: 1 }, expireAt: { icd: 12500 } });
+  expect((consumed.expireAt as Record<string, number>).ready ?? 0).toBe(0);
+  expect(result.consumedRestoredDone).toBeDefined();
+  expect(providerState(result.consumedRestoredDone!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 0 });
+});
+
+test('实际 Worker：同定义另一个挂载未绑定时不能刷新窗口', async ({ page }, testInfo) => {
+  const result = await runP6(page, {
+    mode: 'spellblade', program: refreshSpellblade(10000), durationMs: 10500, startOnly: true,
+    additionalChampionMount: 'champion_alt',
+    initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'q' }],
+    casts: [
+      { entryKey: 'q0', abilityKey: 'q', at: 0, skillKey: 'champion_q' },
+      { entryKey: 'other_q9', providerRef: 'champion_alt', abilityKey: 'q', at: 9000, skillKey: 'champion_q' }
+    ]
+  });
+  await assertNativeResult(result, testInfo);
+  expect(providerState(result.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 0 });
+});
+
+test('实际 Worker：重新绑定W后，旧Q入口不能刷新窗口', async ({ page }, testInfo) => {
+  const result = await runP6(page, {
+    mode: 'spellblade', program: refreshSpellblade(10000), durationMs: 10500, startOnly: true,
+    initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'q' }],
+    rebindAbilities: [{ providerRef: 'champion', abilityKey: 'w' }],
+    casts: [
+      { entryKey: 'w0', abilityKey: 'w', at: 0, skillKey: 'champion_w' },
+      { entryKey: 'q9', abilityKey: 'q', at: 9000, skillKey: 'champion_q' }
+    ]
+  });
+  await assertNativeResult(result, testInfo);
+  expect(providerState(result.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 0 });
+});
+
+test('原库夺萃回蓝组成→GET→Worker，护甲与护盾扣血不同但回蓝相同', async ({ page, request }, testInfo) => {
+  test.skip(process.env.P6_LIVE_API !== '1', '显式启用后只读本地实际服务');
+  const api = 'http://127.0.0.1:8080/api/admin/games/lol/skills/item_3508_passive';
+  const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
+  const read = async (path: string) => {
+    const response = await request.get(api + path, { headers }); expect(response.status(), path).toBe(200); return response.json();
+  };
+  const [parameters, formulaRows, effect] = await Promise.all([
+    read('/parameters'), read('/formulas'), read('/effects/total_mana_refund')
+  ]);
+  const formula = await read('/formulas/total_mana_refund');
+  expect(parameters.find((row: { parameterKey: string }) => row.parameterKey === 'spellblade_window_ms')?.fixedValue).toBe(10000);
+  expect(parameters.find((row: { parameterKey: string }) => row.parameterKey === 'mana_refund_damage_multiplier')?.fixedValue).toBe(0.5);
+  expect(formula.expression).toEqual({
+    nodeType: 'OPERATION', operation: 'MULTIPLY',
+    operands: [
+      { nodeType: 'PARAMETER', parameterKey: 'mana_refund_damage_multiplier' },
+      { attributeKey: 'attack_damage', attributeOwner: 'SOURCE', attributeValueKind: 'TOTAL', nodeType: 'ATTRIBUTE' }
+    ]
+  });
+  const program = formulaManaProgram({
+    skillKey: 'item_3508_passive', parameters, formulas: [formula], effect
+  });
+  const runLive = (extra: Parameters<typeof runP6>[1]) => runP6(page, {
+    mode: 'spellblade', program, durationMs: 100, aaBodyDamage: 100,
+    initialCastAbilities: [{ providerRef: 'champion', abilityKey: 'cast' }],
+    ...extra
+  });
+  const plain = await runLive({});
+  await assertNativeResult(plain, testInfo);
+  const armored = await runLive({ targetArmor: 100 });
+  await assertNativeResult(armored, testInfo);
+  const shielded = await runLive({ targetShield: { at: 0, amount: 40 } });
+  await assertNativeResult(shielded, testInfo);
+  const hp = (result: WorkerResult) => result.done!.finalSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp.current;
+  const mana = (result: WorkerResult) => result.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.resources.mana.current;
+  expect(hp(plain)).toBe(900);
+  expect(hp(armored)).toBe(950);
+  expect(hp(shielded)).toBe(940);
+  expect(hp(plain)).not.toBe(hp(armored));
+  expect(hp(plain)).not.toBe(hp(shielded));
+  expect(mana(plain)).toBe(50);
+  expect(mana(armored)).toBe(50);
+  expect(mana(shielded)).toBe(50);
+  expect(providerState(plain.done!, 'item:item_3508_passive').state).toMatchObject({ ready: 0, icd: 1 });
+  expect(formulaRows.some((row: { formulaKey: string }) => row.formulaKey === 'spellblade_damage')).toBe(true);
+  await testInfo.attach('原回蓝组成与核定过程专项', { contentType: 'application/json', body: Buffer.from(JSON.stringify({
+    parameters, formula, effect, plainHp: hp(plain), armoredHp: hp(armored), shieldedHp: hp(shielded), mana: mana(plain),
+    boundary: '这是原回蓝组成加已核定过程专项，不是原完整装备已完成。主体伤害为显式合成原生普攻输入；原 spellblade_damage 与星蚀伤害仍 UNRESOLVED，未改、未绕过、未参与本次运行。'
   }, null, 2)) });
 });
