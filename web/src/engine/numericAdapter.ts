@@ -22,6 +22,11 @@ export type NumericCompileState = {
   bindParameters: boolean;
   allowAttributeReads: boolean;
   runtimeInputMessage: string;
+  /**
+   * 仅当前动作显式提供的 RUNTIME_INPUT 读值。未列入的计算时参数仍按 runtimeInputMessage 拒绝。
+   * 固定值和等级参数不读取此表。
+   */
+  runtimeInputReads?: Readonly<Record<string, GenericFormulaExpr>>;
   params: Record<string, number>;
   namedFormulas: Map<string, NamedFormula>;
   requiredAttributes: Set<string>;
@@ -89,6 +94,13 @@ export function compileParameter(
     const level = row.valueMode === 'SKILL_LEVEL' ? state.skillLevel : state.characterLevel;
     if (!Number.isInteger(level) || level < 1) fail(path, '本次等级必须明确且有效');
     value = finiteNumber(row.levelValues?.[String(level)], `${path}.levelValues.${level}`, fail);
+  } else if (row.valueMode === 'RUNTIME_INPUT') {
+    if (!state.runtimeInputReads || !Object.prototype.hasOwnProperty.call(state.runtimeInputReads, key)) {
+      return fail(path, state.runtimeInputMessage);
+    }
+    const mapped = state.runtimeInputReads?.[key];
+    if (!mapped) return fail(path, state.runtimeInputMessage);
+    return mapped;
   } else return fail(path, state.runtimeInputMessage);
   if (key in state.params && state.params[key] !== value) fail(path, '参数与现有运行输入冲突');
   if (state.bindParameters) {
