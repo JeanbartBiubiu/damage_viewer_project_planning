@@ -15169,9 +15169,28 @@
       "recordedAt": "2026-09-23T08:21:00+08:00",
       "evidence": ["管理机制迭代验收/2026-09-23-命中与触发运行.json", "管理机制迭代验收/2026-09-23-同次使用管理.json"],
       "boundary": "厄加特只运行所选减速，原未核定伤害仍拒绝；希维尔所选盾与治疗通过。星蚀只返回原护盾、公式与期限，合格使用和计数过程为专项明确输入；夺萃只完成通用机制合成验收。来源不全不补默认，不增加整技能或整装备完成数。"
+    },
+    "castingPhaseRuntimeReturn": {
+      "status": "第4项施放、阶段推进、实际成本退款、冷却与恢复已进入实际Wasm和浏览器验证",
+      "recordedAt": "2026-09-23T16:41:13.142Z",
+      "skills": [
+        "vi_q",
+        "lux_e",
+        "jax_e"
+      ],
+      "formalDataWrites": 0,
+      "protectedObjectsUnchanged": 35,
+      "browser": true,
+      "runtime": true,
+      "wholeSkillComplete": false,
+      "wholeEquipmentComplete": false,
+      "evidence": [
+        "管理机制迭代验收/2026-09-23-施放阶段运行.json"
+      ],
+      "boundary": "只返回原成本、已存步骤及明确挂接的冷却；首次入口和完整蓄力/重施/取消场景为合成机制验收。没有补写正式规则，没有增加整技能完成数或重算历史待核总数，批量录入仍暂停。"
     }
   },
-  "runtimeValidation": "部分机制已验证：重伤取强、普通减速、命中与法术护盾、同次使用限制、固定窗口及普攻消费；原星蚀护盾组成进入实际Wasm。整技能与整装备未全量验证，见crossSourceStateMergeReturn与hitAndTriggerRuntimeReturn。 本次七项装备规则已按用户核定返回，含刷新及消费后恢复、施法绑定隔离和原回蓝组成，见confirmedItemRulesReturn；批量录入仍暂停。",
+  "runtimeValidation": "部分机制已验证：重伤取强、普通减速、命中与法术护盾、同次使用限制、固定窗口及普攻消费；原星蚀护盾组成进入实际Wasm。整技能与整装备未全量验证，见crossSourceStateMergeReturn与hitAndTriggerRuntimeReturn。 本次七项装备规则已按用户核定返回，含刷新及消费后恢复、施法绑定隔离和原回蓝组成，见confirmedItemRulesReturn；批量录入仍暂停。 第4项主动阶段、实际成本与冷却及恢复已验证，三名代表原组成已返回，见castingPhaseRuntimeReturn；正式完整阶段和伤害等装配未全量完成。",
   "inventoryConclusions": {
     "schemaVersion": 1,
     "status": "进行中：角色、英雄技能、装备和符文清单均已逐项覆盖；各类资料待核与系统暂缓队列仍需继续处理。",
@@ -25535,7 +25554,7 @@
         "name": "贾克斯·反击风暴",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已有主动cast过程但未写入口；当前SKILL_USED无法区分首次施放、再次施放和自然结束，无条件启动会重复成本并重启冷却。攻击躲闪、减伤、一次反击和控制仍未接，整技能保持系统暂缓。",
+        "reason": "共性首次/重施/自然到期区分及成本、冷却只结算一次已运行验证；原50法力成本和开始17000毫秒冷却进入实际Worker，正式入口仍未补写。最早重施资料未核定；攻击躲闪、减伤、一次反击和控制完整装配仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 1,
@@ -25547,7 +25566,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "fourComplexCastProcessEntryDeferredAudit"
+          "fourComplexCastProcessEntryDeferredAudit",
+          "castingPhaseRuntimeReturn"
         ]
       },
       {
@@ -29269,7 +29289,7 @@
         "name": "拉克丝·透光奇点",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已有主动cast过程但未写入口；当前SKILL_USED无法区分首次施放、再次施放和到期爆炸，无条件启动会重复成本与冷却。区域、减速、目标筛选和爆炸仍未接，整技能保持系统暂缓。",
+        "reason": "共性首次/重施/自然到期区分及成本、冷却只结算一次已运行验证；原70法力成本、250毫秒延时和开始10000毫秒冷却进入实际Worker并恢复，正式入口仍未补写。区域、减速、目标筛选和爆炸完整装配仍未接，整技能保持系统暂缓。",
         "pendingCounts": {
           "source": 0,
           "system": 2,
@@ -29281,7 +29301,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "fourComplexCastProcessEntryDeferredAudit"
+          "fourComplexCastProcessEntryDeferredAudit",
+          "castingPhaseRuntimeReturn"
         ]
       },
       {
@@ -39646,7 +39667,7 @@
         "name": "蔚·强能冲拳",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "已有只表示蓄力开始且无普通冷却的cast过程，但当前SKILL_USED无法区分蓄力开始、正常释放和取消，入口保持系统暂缓；蓄力伤害时点仍有来源缺口，整技能保持资料待核。",
+        "reason": "共性蓄力开始、释放与取消、实际成本退款和冷却时点已运行验证；原50法力成本及不挂普通冷却的cast过程进入实际Worker，正式入口仍未补写。正常冷却、取消/释放的完整来源与蓄力伤害时点仍有缺口，整技能保持资料待核。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -39658,7 +39679,8 @@
         "evidenceRefs": [
           "skillThirdStageCurrentReadback",
           "heroSourceInventory",
-          "fourComplexCastProcessEntryDeferredAudit"
+          "fourComplexCastProcessEntryDeferredAudit",
+          "castingPhaseRuntimeReturn"
         ]
       },
       {

@@ -1,0 +1,1157 @@
+{
+  "recordedAt": "2026-09-23T16:41:13.142Z",
+  "status": "第4项限定运行机制和原组成返回验收通过；整技能未完成，批量录入保持暂停",
+  "planRevision": "casting-runtime-r2",
+  "source": "本任务已授权继续第4项；当前管理详情35次只读回查",
+  "businessWrites": 0,
+  "review": {
+    "planRevision": "casting-runtime-r2",
+    "runId": "run-c50f42ac-169c-4aae-883e-e76a6f1a838a",
+    "status": "finished",
+    "result": "VERDICT: READY  \nREVIEWED_PLAN_REV: casting-runtime-r2\n\n阻塞项：无。\n\n显式 `castCosts` 抽出后同帧求和并原子准入，差额写入 `actualCosts`，退款只读 `process.actual_cost`。普通冷却按 `startMoment` 至多一次，失败时点的设置排在其后。阶段为即时、延时及末尾一个蓄力或单次重施；推进与取消共用 `useKey`，按挂载隔离，仅首次成功分发 `ability_started`。同刻到期优先，统一终结只发生一次。`SOURCE_DIED` 在伤害提交后、停机前进入该终结。`runLoop` 在弹出前检查预算，弹出后才把 `nowMs` 拨到事件时间，因此同刻未处理到期仍等于快照 `timeMs`；方案要求先重建再推进，更早的活动实例拒绝。`maxProcessInstances` 计入终结行，不足则失败且不裁剪。\n\n必要验收：多资源原子付款且推进不重复付款；属性改变后按账退款；同刻竞争、旧事件与重复取消；死亡停机前终结；多挂载隔离；活动与终结恢复、到期等于快照时间、过去时间与预算拒绝；同一使用的命中和首次 `ability_started` 不因推进重复。",
+    "fileDelta": 0,
+    "readonlyCompletedTools": 8,
+    "toolTruncation": false,
+    "model": {
+      "id": "grok-4.7",
+      "params": [
+        {
+          "id": "context",
+          "value": "256k"
+        },
+        {
+          "id": "reasoning_effort",
+          "value": "xhigh"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    }
+  },
+  "originalReadback": {
+    "capturedAt": "2026-09-23T13:38:42.135Z",
+    "count": 35,
+    "audit": [
+      {
+        "method": "GET",
+        "path": "vi_q/internal-states",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/trigger-rules",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/effects",
+        "status": 200,
+        "sha256": "ae5cb10aaf95908457d4bc379de369e16f04894374509a23bc98cd8c68559cec"
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/formulas",
+        "status": 200,
+        "sha256": "1a7886d86331ce788a542cafe0e1f9defac91e0554ca13fa86797e3f8c72c435"
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/parameters",
+        "status": 200,
+        "sha256": "bfc868c7beaf5d522377f93a6fe8ae2dcf7c180a3bbc28b4be460d4d3441955a"
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/processes",
+        "status": 200,
+        "sha256": "4efed2166c4746da2dd9ea5a21b6ba4cf41e09c9eab18487eafe0f2defa9953e"
+      },
+      {
+        "method": "GET",
+        "path": "vi_q",
+        "status": 200,
+        "sha256": "ae5264e1c53de06713d5d5e16a6c173ca10c22fe4cd613e62750a6c3c71da45d"
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/formulas/min_damage",
+        "status": 200,
+        "sha256": "bb7e084bd9666414dea74c538ff0c2579bad644e3b314d0ed7af972e1f5be0d1"
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/formulas/max_damage",
+        "status": 200,
+        "sha256": "e3a22ddc7ad6bf8fab50f04b7d61247f935f47aea3dfefd9bcf5946ab450d939"
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/effects/max_damage",
+        "status": 200,
+        "sha256": "493ef072b32a1fa51452ea8ca5e15e0db98d86455796ddfa96f5dd2c5e3a3a98"
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/effects/min_damage",
+        "status": 200,
+        "sha256": "dd4813ae7cada30733dd3fc954cdad8f4a712bb2fa3185f97820f0f55e47cba0"
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/effects/mana_cost",
+        "status": 200,
+        "sha256": "c3b26f8fb40a9406f8100f4fb56cd77647a087576c2adfb48404ed244d470f97"
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/processes/cast",
+        "status": 200,
+        "sha256": "a9056d2a2647104112c75557d18335cf2ab9182bf480c36cd3c7b53efc99125c"
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/formulas",
+        "status": 200,
+        "sha256": "b7b111bc6d0d21808fefe908192e7738b587d0e16d5d6669c0405ca10c85303f"
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/internal-states",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/effects",
+        "status": 200,
+        "sha256": "9f17813d60c22f506501ff1f9032619e1c20ddb1113ed7a915026a5db46f3942"
+      },
+      {
+        "method": "GET",
+        "path": "lux_e",
+        "status": 200,
+        "sha256": "f9393962dd8e2092241929825524e550fb649d679df2ffc6081e7c0ce33d512d"
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/trigger-rules",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/processes",
+        "status": 200,
+        "sha256": "ef7b040fa15d5589369867d5c3db7f7a1034661740a14510fb3a71e294c78c17"
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/parameters",
+        "status": 200,
+        "sha256": "8a89405dcfb539b7d156ff46a13f1496e094baa8aaf240625186d2f8d0e2c428"
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/formulas/damage",
+        "status": 200,
+        "sha256": "06534a5bd7e0add79fb24ba81ccce2eedbe2047c613c21ddfe3fae240b8e15dc"
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/effects/singularity_detonate",
+        "status": 200,
+        "sha256": "f78c08bd5599cec32f2004354a6b697e602450c98f0c3f3ddabaeff57a480b27"
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/effects/mana_cost",
+        "status": 200,
+        "sha256": "b28a7ceab4ef8a5781e6969d20fd8854c67dfc2394e7c30536b5e551bf7c6080"
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/processes/cast",
+        "status": 200,
+        "sha256": "81b0b974ba225e5fa686c9b4e296488c44ed2f2277ca543ac4be0cd0bccbcd84"
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/effects",
+        "status": 200,
+        "sha256": "8869cddb8d50bde380f81dbcb11d1294179c6be8b509fc0082956167d91c26aa"
+      },
+      {
+        "method": "GET",
+        "path": "jax_e",
+        "status": 200,
+        "sha256": "608fcfe7ed70a55f3ed6a1f2eb157d57287b009438da203f16b881f95a918195"
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/trigger-rules",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/internal-states",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/processes",
+        "status": 200,
+        "sha256": "73a6f2e716f4cf3810b6688265db60461d8c94524ef12ed7ef24aacaf9376254"
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/formulas",
+        "status": 200,
+        "sha256": "929e19e52249718bc5af30054f55533669cbac9cd135e64426ab06d96aaf2661"
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/parameters",
+        "status": 200,
+        "sha256": "77c27ca34c85bbb2afa9e817d66089fc5b297503b7747cad48d7e7361de17ab8"
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/formulas/counterstrike_damage",
+        "status": 200,
+        "sha256": "156d584337d0e4abfd2504f324d30649d728bdcb1962984f22a1f373891746fb"
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/effects/mana_cost",
+        "status": 200,
+        "sha256": "c104896ec1360515cea9b4e3ec2e8005c6dc2a33f441a1de0f0b56b3195a25ea"
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/effects/counterstrike_damage",
+        "status": 200,
+        "sha256": "4ec573d7a1310185f1cdc26e7a378f00c210d5b99dfd8f157b9ca525832cb9f7"
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/processes/cast",
+        "status": 200,
+        "sha256": "2d0707fd708d74b8c1e8fd47fda6e736967a1dc1a389b7e36cc5453f751bcf7a"
+      }
+    ]
+  },
+  "originalComponents": [
+    {
+      "skillKey": "vi_q",
+      "process": {
+        "activationType": "ACTIVE",
+        "cooldown": null,
+        "createdAt": "2026-09-08T17:37:24.089941Z",
+        "description": "开始蓄力仅绑定已确证法力消耗；正常释放、取消与冷却起算未核，不以一次IMMEDIATE启动普通冷却。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放强能冲拳",
+        "processKey": "cast",
+        "skillKey": "vi_q",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": null,
+            "detail": {},
+            "name": "施放开始",
+            "sortOrder": 10,
+            "stepKey": "start",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-08T17:37:24.089941Z"
+      },
+      "rules": [],
+      "costEffect": {
+        "createdAt": "2026-09-08T17:37:22.138667Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "vi_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T17:37:22.138667Z"
+      },
+      "parameters": [
+        {
+          "createdAt": "2026-09-08T02:05:42.803736Z",
+          "description": "DDragon16.17.1 Vi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 10500,
+            "3": 9000,
+            "4": 7500,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vi_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:42.803736Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:43.253812Z",
+          "description": "DDragon16.17.1 Vi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 60,
+            "3": 70,
+            "4": 80,
+            "5": 90
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vi_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:43.253812Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "expectedInSyntheticScene": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "initialMana": 100,
+        "cost": 50,
+        "sourceManaAfterStart": 50,
+        "cooldown": null
+      }
+    },
+    {
+      "skillKey": "lux_e",
+      "process": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-07T14:45:55.539977Z",
+        "description": "过程只负责法力、施法延迟和冷却。再次施放引爆与 5 秒后自动爆炸未写入，避免把区域命中猜成立即伤害。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放透光奇点",
+        "processKey": "cast",
+        "skillKey": "lux_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": "主技能 spellCastTime，按毫秒录入。",
+            "detail": {
+              "delayValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "cast_time_ms"
+              }
+            },
+            "name": "施法时间",
+            "sortOrder": 10,
+            "stepKey": "cast_time",
+            "stepType": "DELAY"
+          }
+        ],
+        "updatedAt": "2026-09-07T14:45:55.539977Z"
+      },
+      "rules": [],
+      "costEffect": {
+        "createdAt": "2026-09-07T14:45:54.866867Z",
+        "description": "施放时消耗对应技能等级的法力。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "lux_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T14:45:54.866867Z"
+      },
+      "parameters": [
+        {
+          "createdAt": "2026-09-07T14:45:52.886599Z",
+          "description": "客户端 cooldownTime 跳过 rank0 后与 DDragon 10/9.5/9/8.5/8 秒一致。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9500,
+            "3": 9000,
+            "4": 8500,
+            "5": 8000
+          },
+          "name": "冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "lux_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-07T14:45:52.886599Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T14:45:53.261472Z",
+          "description": "客户端 mana 无 rank0 重复，前 5 项与 DDragon 一致。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 80,
+            "3": 90,
+            "4": 100,
+            "5": 110
+          },
+          "name": "法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "lux_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-07T14:45:53.261472Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T14:45:53.560584Z",
+          "description": "客户端主技能 spellCastTime=0.25 秒。再次施放/开关技能 0.425 秒不混入首次施放。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "lux_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-07T14:45:53.560584Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "expectedInSyntheticScene": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "initialMana": 100,
+        "cost": 70,
+        "sourceManaAfterStart": 30,
+        "cooldownReadyAtMs": 10000,
+        "delayMs": 250
+      }
+    },
+    {
+      "skillKey": "jax_e",
+      "process": {
+        "activationType": "ACTIVE",
+        "cooldown": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          "startMoment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          }
+        },
+        "createdAt": "2026-09-08T15:45:36.798401Z",
+        "description": "仅表达施放开始的已确证成本与冷却；即时步骤不等于完整施法时长，也不生成命中。",
+        "effectBindings": [
+          {
+            "bindingKey": "mana_cost",
+            "effectKey": "mana_cost",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "gameId": "lol",
+        "name": "施放反击风暴",
+        "processKey": "cast",
+        "skillKey": "jax_e",
+        "sortOrder": 10,
+        "stateOperations": [],
+        "steps": [
+          {
+            "description": null,
+            "detail": {},
+            "name": "施放开始",
+            "sortOrder": 10,
+            "stepKey": "start",
+            "stepType": "IMMEDIATE"
+          }
+        ],
+        "updatedAt": "2026-09-08T15:45:36.798401Z"
+      },
+      "rules": [],
+      "costEffect": {
+        "createdAt": "2026-09-08T15:45:35.607075Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放法力消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗法力",
+            "resultKey": "consume_mana",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "jax_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-08T15:45:35.607075Z"
+      },
+      "parameters": [
+        {
+          "createdAt": "2026-09-08T15:45:27.764969Z",
+          "description": "官方与当前根绑定Cooldown.values索引1起的冷却逐级一致。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 17000,
+            "2": 15000,
+            "3": 13000,
+            "4": 11000,
+            "5": 9000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "jax_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-08T15:45:27.764969Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:30.695191Z",
+          "description": "DDragon16.17.1 Jax.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 60,
+            "3": 70,
+            "4": 80,
+            "5": 90
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "jax_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:30.695191Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "expectedInSyntheticScene": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "initialMana": 100,
+        "cost": 50,
+        "sourceManaAfterStart": 50,
+        "cooldownReadyAtMs": 17000
+      }
+    }
+  ],
+  "runtime": {
+    "wasmBytes": 976767,
+    "wasmSha256": "0FD141CE054160F765E0DA176F43EE0E6866177C805576EF5D7FD04ADA11CD3C",
+    "build": "TinyGo 0.40.1，默认-scheduler=none -no-debug -opt=z，固定256MiB；未修改构建配置",
+    "canonicalCompileRunRelease": "通过，目标生命900",
+    "processSmokeSessions": 11,
+    "nodeBenchmark": {
+      "iterations": 10,
+      "warmup": 2,
+      "minMs": 0.236,
+      "meanMs": 0.328,
+      "p50Ms": 0.272,
+      "p95Ms": 0.695
+    },
+    "recoveryFix": "默认优化产物在恢复后生成空使用账本时越界；空账本直接返回空数组，非空逻辑保持。11组真实Wasm和第6项20项浏览器通过，诊断打印与临时禁止内联已删除。"
+  },
+  "nativeValidation": {
+    "fullCommand": "go test -count=1 -json ./...",
+    "fullExitCode": 1,
+    "firstPassIncludingSubtests": 1878,
+    "firstFailures": 42,
+    "postCommitStructuralRetest": {
+      "passed": 4,
+      "failed": 0,
+      "reason": "4项历史断言依赖工作树无生产脏改；精确提交后独立复测通过，未放宽断言"
+    },
+    "finalPassedIncludingSubtests": 1882,
+    "finalPassedTopLevel": 1188,
+    "historicalFailures": [
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestAkshanAvengerangFirstOutboundHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestAzirConqueringSandsOneSoldierPrimaryHitWikiSeedShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestCaitlyn90CaliberNetSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestCaitlynAceInTheHoleSingleBulletQuantumSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestCaitlynPiltoverPeacemakerFirstEnemyHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestCorkiPhosphorusBombPrimaryImpactSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestEzrealArcaneShiftSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestEzrealMysticShotPrimaryHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestEzrealTrueshotBarragePrimaryHitWikiSidecarIdentityAndBoundary"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestEzrealTrueshotBarragePrimaryHitSeedGraphShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestGravesEndOfTheLineFirstOutboundPassSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestJhinDancingGrenadePrimaryFirstHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestJhinDeadlyFlourishSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestJinxFlameChompersPrimaryExplosionHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestJinxZapSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestKalistaPiercePrimaryHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestGenericKogmawLivingArtilleryBackendSeedAndREADMEIdentity"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestLucianArdentBlazePrimaryHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestLucianPiercingLightSelectedTargetHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestLucianTheCullingSingleShotQuantumSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestGenericQuinnBlindingAssaultBackendSeedAndREADMEIdentity"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestGenericQuinnHarrierWikiAndBackendIdentityContract"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestGenericQuinnHarrierIsolationDeterminismCompileShapeTags"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestGenericQuinnVaultBackendSeedAndREADMEIdentity"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestSamiraFlairSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestSennaDawningShadowPrimaryHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestSennaLastEmbraceFirstEnemyHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestSivirBoomerangBladeFirstOutboundHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestTristanaBusterShotPrimaryHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestGenericTristanaRapidFireWikiSidecarSeedGraphAndIdentity"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestTristanaRocketJumpPrimaryLandingHitSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestVarusChainOfCorruptionPrimaryHitWikiSidecarIdentityAndBoundary"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestVarusChainOfCorruptionPrimaryHitSeedGraphShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestVarusPiercingArrowMaxChargePrimaryFirstHitWikiSeedShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestGenericVayneFinalHourBackendSeedDirectStateChangeGraph"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestGenericVayneTumbleWikiSidecarAndBackendContract"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestXayahDoubleDaggersSourceSeedProviderFormulaShape"
+      },
+      {
+        "package": "tinygo_engine_v2/internal/runtime",
+        "test": "TestXayahFeatherstormSourceSeedProviderFormulaShape"
+      }
+    ],
+    "newFailures": 0,
+    "historicalBoundary": "38项缺旧种子资料，与既有基线一致；不恢复已删除设计来迎合断言",
+    "nativeBenchmark": "go run ./cmd/bench通过",
+    "independentReview": "READY；稳定计时顺序、阶段统计、死亡集合冻结、所有过去驱动拒绝和空账本输出逐项复核",
+    "baselineComparison": "与上一轮p6-confirmed-final-go逐测试身份比较，38项失败集合完全一致"
+  },
+  "webValidation": {
+    "lint": "通过",
+    "typecheck": "通过",
+    "unitFiles": 88,
+    "unitPassed": 1039,
+    "build": "通过；原构建体积提示保持",
+    "browser": {
+      "p4": 11,
+      "p5": 10,
+      "p6": 20,
+      "p7": 8,
+      "vamp": 8,
+      "failed": 0,
+      "liveReadback": true
+    },
+    "fixtureCorrections": "首次P4浏览器验收修正合成伤害所需吸血规则与分类；拉克丝恢复以实际快照200毫秒续50毫秒到250，未把请求终点249冒充快照时刻。生产判定未绕过。",
+    "managementBoundary": "本次未改管理UI，复用前期相关页面证据，不将运行专项冒充新管理页面验收"
+  },
+  "delivery": {
+    "nativeCommit": "ffab12041fd43ff5c16e8020b9020f5d46e2fed4",
+    "webCommit": "40c3940fd9ac05460dae10813fa8bec77ee50aee",
+    "branchTargets": [
+      "origin/master",
+      "origin/backend/dev",
+      "origin/web/dev",
+      "origin/wasm/dev",
+      "github/master"
+    ],
+    "verification": "模块提交标识对应上述验收；最终隔离集成及远端引用回查由交付回复和本次Git流水记录"
+  },
+  "boundary": "首次入口及复杂阶段为明确合成验收接线；三名代表只返回原成本、已存步骤与实际挂接的冷却。蔚未挂普通冷却，贾克斯最早重施和蔚释放/取消资料仍保留。未修改正式技能，未升格整技能完成。",
+  "implementation": {
+    "native": {
+      "route": "Cursor首个编辑卡住且无代码落地后，由内置执行代理接手",
+      "interruptedRun": "run-6f9ce9ce-b798-43d8-98b9-6970266d173a",
+      "steeringOutcome": "revert_to_followup",
+      "sourceChangesBeforeStop": 0,
+      "oldExecutorStopped": true,
+      "status": "内置执行代理实现，主负责人修复最终Wasm并验收通过"
+    },
+    "host": {
+      "route": "Cursor落地5文件后目录查询卡住；停止旧执行器并核对5文件摘要不变，内置执行代理与主负责人收尾",
+      "runId": "run-8bb08bde-b68b-43cb-a5f6-bcaf462b086a",
+      "oldExecutorStopped": true,
+      "cursorFinished": false,
+      "status": "最终代码、适配单测和真实Worker验收通过"
+    }
+  },
+  "originalFinalReadback": {
+    "verifiedAt": "2026-09-23T16:35:44.980Z",
+    "businessWrites": 0,
+    "passed": true,
+    "checks": [
+      {
+        "method": "GET",
+        "path": "vi_q/internal-states",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/trigger-rules",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/effects",
+        "status": 200,
+        "sha256": "ae5cb10aaf95908457d4bc379de369e16f04894374509a23bc98cd8c68559cec",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/formulas",
+        "status": 200,
+        "sha256": "1a7886d86331ce788a542cafe0e1f9defac91e0554ca13fa86797e3f8c72c435",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/parameters",
+        "status": 200,
+        "sha256": "bfc868c7beaf5d522377f93a6fe8ae2dcf7c180a3bbc28b4be460d4d3441955a",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/processes",
+        "status": 200,
+        "sha256": "4efed2166c4746da2dd9ea5a21b6ba4cf41e09c9eab18487eafe0f2defa9953e",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "vi_q",
+        "status": 200,
+        "sha256": "ae5264e1c53de06713d5d5e16a6c173ca10c22fe4cd613e62750a6c3c71da45d",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/formulas/min_damage",
+        "status": 200,
+        "sha256": "bb7e084bd9666414dea74c538ff0c2579bad644e3b314d0ed7af972e1f5be0d1",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/formulas/max_damage",
+        "status": 200,
+        "sha256": "e3a22ddc7ad6bf8fab50f04b7d61247f935f47aea3dfefd9bcf5946ab450d939",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/effects/max_damage",
+        "status": 200,
+        "sha256": "493ef072b32a1fa51452ea8ca5e15e0db98d86455796ddfa96f5dd2c5e3a3a98",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/effects/min_damage",
+        "status": 200,
+        "sha256": "dd4813ae7cada30733dd3fc954cdad8f4a712bb2fa3185f97820f0f55e47cba0",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/effects/mana_cost",
+        "status": 200,
+        "sha256": "c3b26f8fb40a9406f8100f4fb56cd77647a087576c2adfb48404ed244d470f97",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "vi_q/processes/cast",
+        "status": 200,
+        "sha256": "a9056d2a2647104112c75557d18335cf2ab9182bf480c36cd3c7b53efc99125c",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/formulas",
+        "status": 200,
+        "sha256": "b7b111bc6d0d21808fefe908192e7738b587d0e16d5d6669c0405ca10c85303f",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/internal-states",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/effects",
+        "status": 200,
+        "sha256": "9f17813d60c22f506501ff1f9032619e1c20ddb1113ed7a915026a5db46f3942",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "lux_e",
+        "status": 200,
+        "sha256": "f9393962dd8e2092241929825524e550fb649d679df2ffc6081e7c0ce33d512d",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/trigger-rules",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/processes",
+        "status": 200,
+        "sha256": "ef7b040fa15d5589369867d5c3db7f7a1034661740a14510fb3a71e294c78c17",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/parameters",
+        "status": 200,
+        "sha256": "8a89405dcfb539b7d156ff46a13f1496e094baa8aaf240625186d2f8d0e2c428",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/formulas/damage",
+        "status": 200,
+        "sha256": "06534a5bd7e0add79fb24ba81ccce2eedbe2047c613c21ddfe3fae240b8e15dc",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/effects/singularity_detonate",
+        "status": 200,
+        "sha256": "f78c08bd5599cec32f2004354a6b697e602450c98f0c3f3ddabaeff57a480b27",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/effects/mana_cost",
+        "status": 200,
+        "sha256": "b28a7ceab4ef8a5781e6969d20fd8854c67dfc2394e7c30536b5e551bf7c6080",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "lux_e/processes/cast",
+        "status": 200,
+        "sha256": "81b0b974ba225e5fa686c9b4e296488c44ed2f2277ca543ac4be0cd0bccbcd84",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/effects",
+        "status": 200,
+        "sha256": "8869cddb8d50bde380f81dbcb11d1294179c6be8b509fc0082956167d91c26aa",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "jax_e",
+        "status": 200,
+        "sha256": "608fcfe7ed70a55f3ed6a1f2eb157d57287b009438da203f16b881f95a918195",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/trigger-rules",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/internal-states",
+        "status": 200,
+        "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/processes",
+        "status": 200,
+        "sha256": "73a6f2e716f4cf3810b6688265db60461d8c94524ef12ed7ef24aacaf9376254",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/formulas",
+        "status": 200,
+        "sha256": "929e19e52249718bc5af30054f55533669cbac9cd135e64426ab06d96aaf2661",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/parameters",
+        "status": 200,
+        "sha256": "77c27ca34c85bbb2afa9e817d66089fc5b297503b7747cad48d7e7361de17ab8",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/formulas/counterstrike_damage",
+        "status": 200,
+        "sha256": "156d584337d0e4abfd2504f324d30649d728bdcb1962984f22a1f373891746fb",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/effects/mana_cost",
+        "status": 200,
+        "sha256": "c104896ec1360515cea9b4e3ec2e8005c6dc2a33f441a1de0f0b56b3195a25ea",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/effects/counterstrike_damage",
+        "status": 200,
+        "sha256": "4ec573d7a1310185f1cdc26e7a378f00c210d5b99dfd8f157b9ca525832cb9f7",
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "path": "jax_e/processes/cast",
+        "status": 200,
+        "sha256": "2d0707fd708d74b8c1e8fd47fda6e736967a1dc1a389b7e36cc5453f751bcf7a",
+        "unchanged": true
+      }
+    ]
+  },
+  "ledgerAudit": "所有角色/技能/装备/符文/图片计数及清单结论保持；仅新增共性运行证据并更新三名代表原因与引用",
+  "governance": {
+    "invalidRules": 0,
+    "invalidHeaders": 0,
+    "existingMissingDocs": 3,
+    "existingUnassignedDocs": 1,
+    "sqliteRebuilt": false
+  }
+}
