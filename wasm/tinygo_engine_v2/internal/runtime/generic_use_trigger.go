@@ -304,6 +304,10 @@ func (s *genericRunState) commitOncePerUse(listener compilebundle.CompiledListen
 
 func (s *genericRunState) snapshotUseTriggerLedger() []model.UseTriggerLedgerEntry {
 	out := make([]model.UseTriggerLedgerEntry, 0, len(s.useTriggerLedger))
+	// 空账本直接返回，避免优化后的 Wasm 为恢复场景建立无元素的映射迭代器。
+	if len(s.useTriggerLedger) == 0 {
+		return out
+	}
 	for _, rec := range s.useTriggerLedger {
 		if rec == nil || !rec.committed {
 			continue

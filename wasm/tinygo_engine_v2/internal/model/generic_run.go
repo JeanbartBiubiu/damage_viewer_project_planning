@@ -1,40 +1,63 @@
 // canonical RunRequest 与 snapshot DTO（Slice B fixture / 后续 A2/C）。
 package model
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"errors"
+)
 
 // RunRequest 是 generic run frame 的顶层 payload。
 type RunRequest struct {
-	SessionID         string           `json:"sessionId"`
-	ExpectedRulesHash string           `json:"expectedRulesHash,omitempty"`
-	SchemaVersion     string           `json:"schemaVersion,omitempty"`
-	SchemaHash        string           `json:"schemaHash,omitempty"`
-	RulesHash         string           `json:"rulesHash,omitempty"`
-	InitialSnapshot   Snapshot         `json:"initialSnapshot"`
-	DriverPlan        DriverPlan       `json:"driverPlan"`
-	StopPolicy        StopPolicy       `json:"stopPolicy"`
-	SafetyBudget      *RunSafetyBudget `json:"safetyBudget,omitempty"`
-	RuntimeOptions    json.RawMessage  `json:"runtimeOptions,omitempty"`
-	Sampling          SamplingConfig   `json:"sampling,omitempty"`
-	SkillUses         []SkillUseFact    `json:"skillUses,omitempty"`
-	SkillHitFacts     []SkillHitFact    `json:"skillHitFacts,omitempty"`
-	AttackStartFacts  []AttackStartFact `json:"attackStartFacts,omitempty"`
+	ProcessCommandFacts []ProcessCommandFact `json:"processCommandFacts,omitempty"`
+	SessionID           string               `json:"sessionId"`
+	ExpectedRulesHash   string               `json:"expectedRulesHash,omitempty"`
+	SchemaVersion       string               `json:"schemaVersion,omitempty"`
+	SchemaHash          string               `json:"schemaHash,omitempty"`
+	RulesHash           string               `json:"rulesHash,omitempty"`
+	InitialSnapshot     Snapshot             `json:"initialSnapshot"`
+	DriverPlan          DriverPlan           `json:"driverPlan"`
+	StopPolicy          StopPolicy           `json:"stopPolicy"`
+	SafetyBudget        *RunSafetyBudget     `json:"safetyBudget,omitempty"`
+	RuntimeOptions      json.RawMessage      `json:"runtimeOptions,omitempty"`
+	Sampling            SamplingConfig       `json:"sampling,omitempty"`
+	SkillUses           []SkillUseFact       `json:"skillUses,omitempty"`
+	SkillHitFacts       []SkillHitFact       `json:"skillHitFacts,omitempty"`
+	AttackStartFacts    []AttackStartFact    `json:"attackStartFacts,omitempty"`
 }
 
 // RunSafetyBudget 是 run 请求级安全预算覆盖（§4.1）。
 type RunSafetyBudget struct {
+	MaxProcessInstances int `json:"maxProcessInstances,omitempty"`
 	MaxChainDepth       int `json:"maxChainDepth,omitempty"`
 	MaxCommandsPerEvent int `json:"maxCommandsPerEvent,omitempty"`
 	MaxEvents           int `json:"maxEvents,omitempty"`
 }
 
+func (v *RunSafetyBudget) UnmarshalJSON(data []byte) error {
+	type plain RunSafetyBudget
+	var decoded plain
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+	if raw, present := fields["maxProcessInstances"]; present && (string(raw) == "null" || decoded.MaxProcessInstances <= 0 || decoded.MaxProcessInstances > 100000) {
+		return errors.New("safetyBudget.maxProcessInstances must be a positive integer at most 100000")
+	}
+	*v = RunSafetyBudget(decoded)
+	return nil
+}
+
 // Snapshot 是 run 起始战斗状态。
 type Snapshot struct {
-	SchemaHash       string                  `json:"schemaHash"`
-	RulesHash        string                  `json:"rulesHash"`
-	TimeMs           int64                   `json:"timeMs"`
-	Combatants       []CombatantSnapshot     `json:"combatants"`
-	UseTriggerLedger []UseTriggerLedgerEntry `json:"useTriggerLedger"`
+	ProcessInstances []ProcessInstanceSnapshot `json:"processInstances"`
+	SchemaHash       string                    `json:"schemaHash"`
+	RulesHash        string                    `json:"rulesHash"`
+	TimeMs           int64                     `json:"timeMs"`
+	Combatants       []CombatantSnapshot       `json:"combatants"`
+	UseTriggerLedger []UseTriggerLedgerEntry   `json:"useTriggerLedger"`
 }
 
 // CombatantSnapshot 是 run 期单个 combatant 状态。
