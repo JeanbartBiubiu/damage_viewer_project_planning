@@ -96,6 +96,8 @@ type genericRunState struct {
 	anchoredTickPayloads   []anchoredTickPayload
 	nextProviderInstanceID uint64
 	usedProviderRefs       map[string]bool
+	nextShieldInstanceID   uint64
+	usedShieldRefs         map[string]bool
 
 	// Cast-instance identity (Focused Will / per-cast throttle). Monotonic from 1; discarded after run.
 	nextCastInstanceID            uint64
@@ -181,9 +183,15 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 		return nil, err
 	}
 	usedProviderRefs := map[string]bool{}
+	usedShieldRefs := map[string]bool{}
 	for _, c := range combatants {
 		for _, inst := range c.providers {
 			usedProviderRefs[inst.ProviderRef] = true
+		}
+		for _, sh := range c.shields {
+			if sh.ShieldRef != "" {
+				usedShieldRefs[sh.ShieldRef] = true
+			}
 		}
 	}
 
@@ -196,6 +204,7 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 		conditionRecheckIntervalMs: recheck,
 		combatants:                 combatants,
 		usedProviderRefs:           usedProviderRefs,
+		usedShieldRefs:             usedShieldRefs,
 		heap:                       scheduler.NewGenericHeap(64),
 		budget:                     budget,
 		sampling:                   sampling,

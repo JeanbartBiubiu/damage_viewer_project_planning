@@ -42,6 +42,37 @@ func (s *genericRunState) nextProviderRef(definitionRef string) string {
 	}
 }
 
+func (s *genericRunState) nextShieldRef(definitionRef string) string {
+	if definitionRef == "" {
+		definitionRef = "shield:auto"
+	}
+	s.reserveShieldRef("")
+	for {
+		s.nextShieldInstanceID++
+		ref := fmt.Sprintf("%s#%d", definitionRef, s.nextShieldInstanceID)
+		if !s.usedShieldRefs[ref] {
+			s.usedShieldRefs[ref] = true
+			return ref
+		}
+	}
+}
+
+func (s *genericRunState) reserveShieldRef(ref string) {
+	if s.usedShieldRefs == nil {
+		s.usedShieldRefs = map[string]bool{}
+		for _, c := range s.combatants {
+			for _, sh := range c.shields {
+				if sh.ShieldRef != "" {
+					s.usedShieldRefs[sh.ShieldRef] = true
+				}
+			}
+		}
+	}
+	if ref != "" {
+		s.usedShieldRefs[ref] = true
+	}
+}
+
 func (s *genericRunState) findProviderDefinitionIndex(providerKey string) (uint16, bool) {
 	for i, p := range s.compiled.Providers {
 		if p.ProviderKey == providerKey {
@@ -276,7 +307,7 @@ func (s *genericRunState) handleExpireCleanup(ev scheduler.GenericEvent) {
 	case "provider_target_state":
 		s.applyProviderTargetStateExpiry(payload)
 	case "shield":
-		s.removeShieldInstance(payload.combatantKey, payload.shieldRef)
+		s.removeExpiredShieldInstance(payload.combatantKey, payload.shieldRef)
 	default:
 		s.sweepExpiredInstances()
 	}
@@ -324,14 +355,14 @@ func (s *genericRunState) sweepExpiredInstances() {
 	}
 }
 
-func (s *genericRunState) removeShieldInstance(combatantKey, shieldRef string) {
+func (s *genericRunState) removeExpiredShieldInstance(combatantKey, shieldRef string) {
 	c, ok := s.combatants[combatantKey]
 	if !ok {
 		return
 	}
 	out := c.shields[:0]
 	for _, sh := range c.shields {
-		if sh.ShieldRef != shieldRef {
+		if sh.ShieldRef != shieldRef || !sh.Expired(s.nowMs) {
 			out = append(out, sh)
 		}
 	}
@@ -344,6 +375,7 @@ func (s *genericRunState) addShieldInstance(targetKey, sourceKey string, amount 
 	if shieldRef == "" {
 		shieldRef = fmt.Sprintf("shield#%d", len(c.shields)+1)
 	}
+	s.reserveShieldRef(shieldRef)
 	c.shields = append(c.shields, shieldpkg.Instance{
 		ShieldRef: shieldRef,
 		Source:    sourceKey,

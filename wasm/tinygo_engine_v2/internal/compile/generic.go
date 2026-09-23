@@ -238,6 +238,8 @@ type CompiledOperation struct {
 	ProviderRefFromEvent  bool
 	SkillHit              *CompiledSkillHit
 	OutputRef             string
+	HasShieldDuration     bool
+	ShieldDurationProgram formula.GenericProgramID
 }
 
 // CompiledSkillHit 是 resolve_skill_hit 的编译计划。
@@ -1045,6 +1047,9 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	if op.RepeatDelayMs != 0 && op.Operation != model.OperationKindRepeat {
 		collector.addError(model.GenericErrMissingRequiredField, path+".repeatDelayMs", "repeatDelayMs is only supported on repeat operations", op.Operation)
 	}
+	if op.ShieldDurationMs != nil && op.Operation != "shield" {
+		collector.addError(model.GenericErrMissingRequiredField, path+".shieldDurationMs", "shieldDurationMs is only supported on shield operations", op.Operation)
+	}
 	if op.Operation == model.OperationKindResolveSkillHit {
 		collector.addError(model.GenericErrUnknownRef, path+".operation", "resolve_skill_hit is only allowed as the unique operation on an active hit ability", op.Operation)
 		return
@@ -1178,7 +1183,24 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		compiled.Ref = op.EventType
 	}
 	compiled.OutputRef = op.OutputRef
+	compileShieldDuration(op, path, &compiled, ctx)
 	session.Operations = append(session.Operations, compiled)
+}
+
+func compileShieldDuration(op model.OperationDefinition, path string, compiled *CompiledOperation, ctx *genericCompileContext) {
+	if op.ShieldDurationMs == nil || op.Operation != "shield" {
+		return
+	}
+	collector := ctx.collector
+	instr := formula.CompileGenericFormula(*op.ShieldDurationMs, path+".shieldDurationMs", ctx.namedFormulas, map[string]bool{}, collector.addError)
+	if len(instr) == 0 {
+		return
+	}
+	compiled.ShieldDurationProgram = ctx.registerFormula(path+".shieldDurationMs", instr)
+	compiled.HasShieldDuration = true
+	if value, folded := formula.TryFoldConst(instr); folded && !formula.ValidPositiveInt64DurationMs(value) {
+		collector.addError(model.GenericErrFormulaTypeError, path+".shieldDurationMs", "shieldDurationMs must be a positive integer within the timestamp range", op.ShieldRef)
+	}
 }
 
 // resolveProviderStateScope extracts the single supported state_scope/* from operation types.
