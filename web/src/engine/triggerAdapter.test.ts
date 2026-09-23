@@ -1001,6 +1001,25 @@ describe('有界触发与过程适配', () => {
     }, { rulesHash: 'after' })).toThrow(/owner|挂载|拥有者/);
   });
 
+  it('主动过程只允许首次控制绑定为初次施法，重施不能被打启动标记', () => {
+    const input = request();
+    const provider = input.sharedProviders![0]!;
+    provider.processes = [{
+      processKey: 'cast', skillKey: 'champion_q', costs: [], cooldown: null, momentOperations: [],
+      steps: [{ stepKey: 'recast', stepType: 'RECAST', windowMs: { op: 'const', value: 1000 } }]
+    }];
+    provider.abilities = [
+      { abilityKey: 'initial', kind: 'active', skillKey: 'champion_q', processControl: { processKey: 'cast', action: 'INITIAL' } },
+      { abilityKey: 'recast', kind: 'active', skillKey: 'champion_q', processControl: { processKey: 'cast', action: 'RECAST', stepKey: 'recast' } }
+    ];
+    const bind = (abilityKey: string) => withTriggerProgram(input, {
+      triggerProviderKey: 'item:blade', authored: spellbladeProgram(),
+      initialCastAbilities: [{ providerRef: 'champion', abilityKey }]
+    }, { rulesHash: 'after-process' });
+    expect(() => bind('initial')).not.toThrow();
+    expect(() => bind('recast')).toThrow(/首次施法/);
+  });
+
   it('共享定义多次挂载时，只给明确绑定的实际挂载打启动标记', () => {
     const input = request();
     input.combatants[0]!.providers.push({ providerRef: 'champion_alt', definitionRef: 'champion' });

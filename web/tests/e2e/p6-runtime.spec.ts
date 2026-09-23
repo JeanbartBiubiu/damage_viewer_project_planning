@@ -9,8 +9,8 @@ import type { AuthoredHitProgram } from '../../src/engine/hitAdapter';
 import type { SkillEffect } from '../../src/types/skillEffect';
 
 const WASM_PATH = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const WASM_SHA256 = 'C93ED71DB56B9C1217774F1B67923C1873DC3C5A3B5A64B6545260918337442B';
-const WASM_BYTES = 895839;
+const WASM_SHA256 = '0FD141CE054160F765E0DA176F43EE0E6866177C805576EF5D7FD04ADA11CD3C';
+const WASM_BYTES = 976767;
 
 function slot(value: number, max = value) {
   return { base: value, current: value, max, resolved: value };

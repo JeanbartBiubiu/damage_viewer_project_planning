@@ -282,6 +282,8 @@ export type AbilityDefinition = {
     anchorStateKey?: string;
   };
   stateSchema?: Record<string, unknown>;
+  /** 主动过程控制入口。有该字段时不得再配普通 cost、cooldown 或独立 operations。 */
+  processControl?: ProcessControlDefinition;
 };
 
 /** Structured provider initialStateSchema field (Guinsoo H+K / Gate H1). */
@@ -322,6 +324,8 @@ export type ProviderDefinition = {
   statusContributions?: StatusContributionDefinition[];
   /** TinyGo V2: bare `number` (legacy default 0) or structured timed/capped state. */
   initialStateSchema?: Record<string, number | ProviderStateFieldSchema>;
+  /** 主动过程定义。旧请求省略时表示空集合；新过程对象使用完整字段。 */
+  processes?: ProcessDefinition[];
 };
 
 export type GenericRules = {
@@ -425,6 +429,8 @@ export type InitialSnapshot = {
   timeMs: number;
   combatants: CombatantSnapshot[];
   useTriggerLedger?: UseTriggerLedgerEntry[];
+  /** 省略表示无过程实例。活动与终结行都占实例预算。 */
+  processInstances?: ProcessInstanceSnapshot[];
 };
 
 /** TinyGo V2 DriverRepeat: fixed interval XOR formula cadence (never both). */
@@ -465,6 +471,102 @@ export type SafetyBudget = {
   maxChainDepth?: number;
   maxCommandsPerEvent?: number;
   maxEvents?: number;
+  /** 过程实例预算，含已终结行。缺省由原生取 10000，上限 100000。 */
+  maxProcessInstances?: number;
+};
+
+export type ProcessControlAction = 'INITIAL' | 'RECAST' | 'CHARGE_RELEASE' | 'CANCEL' | 'INTERRUPT';
+
+export type ProcessFailureReason =
+  | 'CONTROLLED'
+  | 'SOURCE_DIED'
+  | 'TARGET_UNTARGETABLE'
+  | 'ACTIVE_CANCELLED'
+  | 'EVENT_ABORTED';
+
+export type ProcessControlDefinition = {
+  processKey: string;
+  action: ProcessControlAction;
+  stepKey?: string;
+  failureReason?: ProcessFailureReason;
+};
+
+export type ProcessStepType = 'IMMEDIATE' | 'DELAY' | 'CHARGE' | 'RECAST';
+
+export type ProcessMomentType =
+  | 'PROCESS_START'
+  | 'PROCESS_COMPLETE'
+  | 'PROCESS_FAILURE'
+  | 'STEP_START'
+  | 'STEP_EXECUTION'
+  | 'STEP_COMPLETE'
+  | 'STEP_TIMEOUT';
+
+export type ProcessMomentDefinition = {
+  momentType: ProcessMomentType;
+  stepKey: string | null;
+  failureReason: ProcessFailureReason | null;
+};
+
+export type ProcessStepDefinition = {
+  stepKey: string;
+  stepType: ProcessStepType;
+  delayMs?: GenericFormulaExpr;
+  minimumChargeMs?: GenericFormulaExpr;
+  maximumChargeMs?: GenericFormulaExpr;
+  releaseAtMaximum?: boolean;
+  windowMs?: GenericFormulaExpr;
+};
+
+export type ProcessCostDefinition = {
+  resourceKey: string;
+  amount: GenericFormulaExpr;
+};
+
+export type ProcessCooldownDefinition = {
+  durationMs: GenericFormulaExpr;
+  startMoment: ProcessMomentDefinition;
+};
+
+export type ProcessMomentOperations = {
+  moment: ProcessMomentDefinition;
+  operations: OperationDefinition[];
+};
+
+export type ProcessDefinition = {
+  processKey: string;
+  skillKey: string;
+  steps: ProcessStepDefinition[];
+  costs: ProcessCostDefinition[];
+  cooldown: ProcessCooldownDefinition | null;
+  momentOperations: ProcessMomentOperations[];
+};
+
+export type ProcessInstanceStatus = 'active' | 'complete' | 'failed';
+
+export type ProcessInstanceSnapshot = {
+  owner: 'source' | 'target';
+  providerRef: string;
+  processKey: string;
+  skillKey: string;
+  useKey: string;
+  target: 'source' | 'target';
+  stepKey: string;
+  stepVersion: number;
+  startedAtMs: number;
+  stepStartedAtMs: number;
+  advanceAtMs: number;
+  expiresAtMs: number | null;
+  actualCosts: Record<string, number>;
+  cooldownStarted: boolean;
+  status: ProcessInstanceStatus;
+  failureReason: ProcessFailureReason | null;
+  finishedAtMs: number | null;
+};
+
+export type ProcessCommandFact = {
+  driverEntryKey: string;
+  useRef: string;
 };
 
 export type AttackStartFact = {
@@ -486,6 +588,8 @@ export type RunRequest = {
   skillUses?: SkillUseFact[];
   skillHitFacts?: SkillHitFact[];
   attackStartFacts?: AttackStartFact[];
+  /** 单次驱动条目绑定到已有 skillUses.useKey。省略表示无过程驱动事实。 */
+  processCommandFacts?: ProcessCommandFact[];
 };
 
 export type RunSummary = {
