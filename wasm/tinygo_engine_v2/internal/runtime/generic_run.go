@@ -50,6 +50,10 @@ type damageRecord struct {
 }
 
 type genericRunState struct {
+	processInstances           []*processRuntime
+	processFacts               map[string]model.ProcessCommandFact
+	processFailure             *model.EngineError
+	settlingProcessDeaths      bool
 	compiled                   compilebundle.CompiledSession
 	req                        model.RunRequest
 	nowMs                      int64
@@ -110,15 +114,15 @@ type genericRunState struct {
 	continuations      map[uint64]*triggeredContinuationPayload
 	nextContinuationID uint64
 
-	skillUses                map[string]*skillUseRuntime
-	skillHitFacts            map[string]model.SkillHitFact
-	skillHitGroups           map[string]*skillHitGroup
-	skillHitLedger           map[string]*frozenSkillHitContext
-	skillHitOccurrenceCount  uint64
-	runtimeListeners         []compilebundle.CompiledListener
-	attackStartFacts         map[string]model.AttackStartFact
-	useTriggerLedger         map[useTriggerKey]*useTriggerRecord
-	useTriggerReserving      int
+	skillUses               map[string]*skillUseRuntime
+	skillHitFacts           map[string]model.SkillHitFact
+	skillHitGroups          map[string]*skillHitGroup
+	skillHitLedger          map[string]*frozenSkillHitContext
+	skillHitOccurrenceCount uint64
+	runtimeListeners        []compilebundle.CompiledListener
+	attackStartFacts        map[string]model.AttackStartFact
+	useTriggerLedger        map[useTriggerKey]*useTriggerRecord
+	useTriggerReserving     int
 }
 
 // RunGeneric 执行单次 generic deterministic run，返回 DoneResult。
@@ -162,6 +166,12 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	}
 	if req.SafetyBudget != nil {
 		sb := req.SafetyBudget
+		if sb.MaxProcessInstances < 0 || sb.MaxProcessInstances > 100000 {
+			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "maxProcessInstances must be a positive integer at most 100000", "safetyBudget.maxProcessInstances", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
+		}
+		if sb.MaxProcessInstances > 0 {
+			budget.MaxProcessInstances = sb.MaxProcessInstances
+		}
 		if sb.MaxChainDepth > 0 {
 			budget.MaxChainDepth = sb.MaxChainDepth
 		}
@@ -232,6 +242,9 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	if err := state.initUseTriggerState(); err != nil {
 		return nil, err
 	}
+	if err := state.initProcessState(); err != nil {
+		return nil, err
+	}
 	return state, nil
 }
 
@@ -253,6 +266,11 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 		if entry.Condition != nil {
 			path := "driverPlan.entries[" + entry.EntryKey + "].condition"
 			instr := formula.CompileGenericFormula(*entry.Condition, path, map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError)
+			for _, in := range instr {
+				if in.ReadKind == formula.ReadProcessActualCost {
+					addError(model.GenericErrFormulaTypeError, path, "process actual costs are unavailable in a driver condition", in.ReadKey)
+				}
+			}
 			if len(instr) > 0 {
 				key := "run:" + path
 				id := formula.GenericProgramID(len(s.compiled.Formulas.Programs))
@@ -274,6 +292,11 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 		case hasFormula:
 			path := repeatPath + ".intervalFormula"
 			instr := formula.CompileGenericFormula(*entry.Repeat.IntervalFormula, path, map[string]model.GenericFormulaExpr{}, map[string]bool{}, addError)
+			for _, in := range instr {
+				if in.ReadKind == formula.ReadProcessActualCost {
+					addError(model.GenericErrFormulaTypeError, path, "process actual costs are unavailable in a driver repeat", in.ReadKey)
+				}
+			}
 			if len(instr) == 0 {
 				continue
 			}
@@ -284,7 +307,7 @@ func (s *genericRunState) compileDriverConditions() *model.EngineError {
 		}
 	}
 	if len(compileErrors) > 0 {
-		return engineErrorPtr(model.GenericPhaseRun, compileErrors[0].Code, compileErrors[0].Message, s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+		return &compileErrors[0]
 	}
 	return nil
 }
@@ -616,6 +639,10 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		s.nowMs = ev.TimeMs
 		s.processedEvents++
 		switch ev.Kind {
+		case scheduler.GenericEventProcessTimer:
+			if err := s.handleProcessTimer(ev); err != nil {
+				return err
+			}
 		case scheduler.GenericEventAnchoredTick:
 			if err := s.handleAnchoredTick(ev); err != nil {
 				return err
@@ -636,6 +663,9 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			}
 		case scheduler.GenericEventSample:
 			s.handleSample()
+		}
+		if s.processFailure != nil {
+			return s.processFailure
 		}
 		if s.stopReasonSet {
 			break
@@ -731,6 +761,9 @@ func (s *genericRunState) handleAbilityAttempt(ev scheduler.GenericEvent) *model
 		acc.attemptCount++
 	}
 
+	if ability, _, ok := s.lookupDriverAbility(entry); ok && ability.ProcessControl != nil {
+		return s.handleProcessCommand(entry, ev.DriverEntryIndex, ability, statRef)
+	}
 	gate := s.checkAttemptGate(entry, ev.DriverEntryIndex)
 	if gate.skipped {
 		s.attemptSkippedCount++
@@ -1030,6 +1063,7 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 		snapshot.Combatants[i].ProviderState = providerStateToSnapshot(rt.providerState)
 	}
 	snapshot.UseTriggerLedger = s.snapshotUseTriggerLedger()
+	snapshot.ProcessInstances = s.snapshotProcesses()
 	if snapshot.UseTriggerLedger == nil {
 		snapshot.UseTriggerLedger = []model.UseTriggerLedgerEntry{}
 	}

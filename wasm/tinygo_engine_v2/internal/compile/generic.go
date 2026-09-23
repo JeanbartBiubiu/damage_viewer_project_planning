@@ -137,6 +137,7 @@ type CompiledProviderStateField struct {
 
 // CompiledProvider 是 compile 后的 provider 定义。
 type CompiledProvider struct {
+	Processes           []CompiledProcess
 	ProviderKey         string
 	Kind                string
 	StableID            string
@@ -184,6 +185,7 @@ func (ts *CompiledTickSpec) IsAnchored() bool {
 
 // CompiledAbility 是 compile 后的 ability 定义。
 type CompiledAbility struct {
+	ProcessControl       *CompiledProcessControl
 	AbilityKey           string
 	Kind                 string
 	TypeSet              typeset.TypeSet
@@ -283,6 +285,8 @@ type GenericCompileResult struct {
 }
 
 type genericCompileContext struct {
+	currentProcess       *CompiledProcess
+	currentProcessMoment *model.ProcessMomentDefinition
 	collector            *genericCollector
 	session              *CompiledSession
 	catalog              typeset.CatalogResult
@@ -350,6 +354,9 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	for i, provider := range req.SharedProviders {
 		compileProviderAbilities(provider, "sharedProviders["+itoa(i)+"]", ctx)
 	}
+	for i, provider := range req.SharedProviders {
+		compileProviderProcesses(provider, "sharedProviders["+itoa(i)+"]", ctx)
+	}
 
 	combatantKeys := map[string]uint8{}
 	for i, combatant := range req.Combatants {
@@ -412,8 +419,12 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	}
 	compileRulesOperations(req.Rules, ctx)
 	buildAbilityRefIndex(ctx)
+	validateProcessAbilityRefs(req, ctx)
 	validateAllAbilityRefs(req, ctx)
 	finalizeListenerIndex(ctx)
+	if len(session.Operations) > 65535 {
+		collector.addError(model.GenericErrRuntimeInvariantFailed, "operations", "compiled operations exceed supported index range", "")
+	}
 
 	if len(collector.errors) > 0 {
 		return GenericCompileResult{
@@ -547,7 +558,8 @@ func compileProviderAbilities(provider model.ProviderDefinition, path string, ct
 	if !ok {
 		return
 	}
-	start := ctx.session.Providers[providerIdx].AbilityStart
+	start := uint16(len(ctx.session.Abilities))
+	ctx.session.Providers[providerIdx].AbilityStart = start
 	for j, ability := range provider.Abilities {
 		compileAbilityDefinition(ability, path+".abilities["+itoa(j)+"]", uint16(providerIdx), ctx)
 	}
@@ -1005,6 +1017,7 @@ func compileListener(listener model.ListenerDefinition, path string, ctx *generi
 }
 
 func (ctx *genericCompileContext) registerFormula(key string, instr []formula.GenericInstr) formula.GenericProgramID {
+	validateProcessActualCostReads(instr, key, ctx)
 	validateOperationOutputReads(instr, key, ctx)
 	session := ctx.session
 	if id, exists := session.Formulas.Index[key]; exists {
@@ -1096,6 +1109,9 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	case "emit_event":
 		validateEmitEventNotForged(op, path, ctx)
 	case "cooldown_change":
+		if op.ValuePolicy == "set_remaining" && op.Amount == nil {
+			collector.addError(model.GenericErrMissingRequiredField, path+".amount", "set_remaining requires amount", "")
+		}
 		if op.AbilityRef == "" {
 			collector.addError(model.GenericErrMissingRequiredField, path+".abilityRef", "cooldown_change requires abilityRef", "")
 		}
@@ -1154,6 +1170,12 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	}
 	if op.Amount != nil {
 		instr := formula.CompileGenericFormula(*op.Amount, path+".amount", ctx.namedFormulas, map[string]bool{}, collector.addError)
+		validateProcessActualCostReads(instr, path+".amount", ctx)
+		if op.Operation == "cooldown_change" && op.ValuePolicy == "set_remaining" {
+			if value, constant := formula.TryFoldConst(instr); constant && (value < 0 || (value != 0 && !formula.ValidPositiveInt64DurationMs(value))) {
+				collector.addError(model.GenericErrFormulaTypeError, path+".amount", "set_remaining requires finite non-negative integer milliseconds", "")
+			}
+		}
 		validateDamagePredicateReads(instr, path+".amount", catalog, collector.addError)
 		if len(instr) > 0 {
 			key := path + ".amount"

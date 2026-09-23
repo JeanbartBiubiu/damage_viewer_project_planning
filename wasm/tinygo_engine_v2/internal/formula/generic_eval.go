@@ -10,11 +10,13 @@ import (
 
 // GenericEvalContext 是 generic formula 运行时只读视图。
 type GenericEvalContext struct {
-	SourceAttrs     map[string]model.AttributeSlotDef
-	TargetAttrs     map[string]model.AttributeSlotDef
-	SourceResources map[string]model.ResourceSlotDef
-	TargetResources map[string]model.ResourceSlotDef
-	AbilityParams   map[string]float64
+	ProcessActualCosts    map[string]float64
+	HasProcessActualCosts bool
+	SourceAttrs           map[string]model.AttributeSlotDef
+	TargetAttrs           map[string]model.AttributeSlotDef
+	SourceResources       map[string]model.ResourceSlotDef
+	TargetResources       map[string]model.ResourceSlotDef
+	AbilityParams         map[string]float64
 	// StrictReads 用于需要区分缺值与真实零值的吸血效率和治疗修正。
 	StrictReads bool
 
@@ -349,6 +351,15 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 		}
 	case ReadOperationOutput:
 		return readOperationOutput(key, ctx)
+	case ReadProcessActualCost:
+		if !ctx.HasProcessActualCosts {
+			return 0, errors.New("process.actual_cost." + key + " requires process completion or failure context")
+		}
+		value, ok := ctx.ProcessActualCosts[key]
+		if !ok || math.IsNaN(value) || math.IsInf(value, 0) || value < 0 {
+			return 0, errors.New("process.actual_cost." + key + " is missing or invalid")
+		}
+		return value, nil
 	case ReadEventDamage:
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
