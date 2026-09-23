@@ -747,6 +747,10 @@ export function withHitProgram(
   const provider = request.sharedProviders.find((row) => row.providerKey === binding.hitProviderKey);
   const ability = provider?.abilities?.find((row) => row.abilityKey === binding.hitAbilityKey);
   if (!ability) return fail('bindings', '绑定必须指向已有命中能力');
+  if (ability.kind !== 'active') return fail('bindings', '命中入口必须是主动单次能力');
+  if (adapted.resolveKind === 'skill' && ability.types?.includes('ability/basic_attack')) {
+    return fail('bindings', '技能命中不能绑定已声明普通攻击身份的能力');
+  }
   if (adapted.vampRules) {
     if (request.combatants.length !== 2 || !request.combatants.some((actor) => actor.key === 'source')
       || !request.combatants.some((actor) => actor.key === 'target')

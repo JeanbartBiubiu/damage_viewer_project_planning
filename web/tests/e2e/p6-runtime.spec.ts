@@ -6,10 +6,11 @@ import type { CompileRequest, DoneResult, EngineError } from '../../src/types/ge
 import { fixedValue, parameterValue } from '../../src/types/numericValue';
 import type { AuthoredTriggerProgram } from '../../src/engine/triggerAdapter';
 import type { AuthoredHitProgram } from '../../src/engine/hitAdapter';
+import type { SkillEffect } from '../../src/types/skillEffect';
 
 const WASM_PATH = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const WASM_SHA256 = '4B51975A41FF155D80294A1155C9D4463FB40677225DAE933D19F184808D040F';
-const WASM_BYTES = 828519;
+const WASM_SHA256 = '1434E7D212D8CA0F8A6139C70B47CD098A774D2EC0A78BC424617B0CA9637F61';
+const WASM_BYTES = 888566;
 
 function slot(value: number, max = value) {
   return { base: value, current: value, max, resolved: value };
@@ -29,6 +30,13 @@ function processComplete() {
 }
 function stepExec(stepKey: string) {
   return { momentType: 'STEP_EXECUTION' as const, stepKey, failureReason: null };
+}
+
+function cooldownReady() {
+  return {
+    conditionKey: 'icd_ready', conditionType: 'INTERNAL_STATE_CHECK' as const, sortOrder: 20,
+    detail: { stateKey: 'icd', valueKind: 'REMAINING_MS' as const, optionKey: null, expectedBoolean: null, comparator: 'EQ' as const, comparisonValue: fixedValue(0) }
+  };
 }
 
 function syntheticWindow(): AuthoredTriggerProgram {
@@ -93,7 +101,7 @@ function syntheticWindow(): AuthoredTriggerProgram {
           conditions: [{
             conditionKey: 'idle', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 10,
             detail: { stateKey: 'hits', valueKind: 'VALUE', optionKey: null, expectedBoolean: null, comparator: 'EQ', comparisonValue: fixedValue(0) }
-          }]
+          }, cooldownReady()]
         }],
         actions: [{
           actionKey: 'go_window', name: 'window', actionType: 'START_PROCESS', sortOrder: 10,
@@ -109,7 +117,7 @@ function syntheticWindow(): AuthoredTriggerProgram {
           conditions: [{
             conditionKey: 'stacked', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 10,
             detail: { stateKey: 'hits', valueKind: 'VALUE', optionKey: null, expectedBoolean: null, comparator: 'GTE', comparisonValue: fixedValue(1) }
-          }]
+          }, cooldownReady()]
         }],
         actions: [{
           actionKey: 'go_reward', name: 'reward', actionType: 'START_PROCESS', sortOrder: 10,
@@ -123,7 +131,7 @@ function syntheticWindow(): AuthoredTriggerProgram {
 
 function syntheticSpellblade(): AuthoredTriggerProgram {
   const skillKey = 'synth_spellblade';
-  return {
+  const authored: AuthoredTriggerProgram = {
     gameId: 'lol', skillKey, skillLevel: 1, characterLevel: 1,
     identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
     statuses: [], modifierZones: [], skillCategoryKeys: ['common'], vampRules,
@@ -183,7 +191,7 @@ function syntheticSpellblade(): AuthoredTriggerProgram {
           conditions: [{
             conditionKey: 'ready', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 10,
             detail: { stateKey: 'ready', valueKind: 'ENABLED', optionKey: null, expectedBoolean: false, comparator: null, comparisonValue: null }
-          }]
+          }, cooldownReady()]
         }],
         actions: [{
           actionKey: 'start', name: 'start', actionType: 'START_PROCESS', sortOrder: 10,
@@ -199,7 +207,7 @@ function syntheticSpellblade(): AuthoredTriggerProgram {
           conditions: [{
             conditionKey: 'ready', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 10,
             detail: { stateKey: 'ready', valueKind: 'ENABLED', optionKey: null, expectedBoolean: true, comparator: null, comparisonValue: null }
-          }]
+          }, cooldownReady()]
         }],
         actions: [{
           actionKey: 'do_bonus', name: 'bonus', actionType: 'EXECUTE_EFFECT', sortOrder: 10,
@@ -214,6 +222,36 @@ function syntheticSpellblade(): AuthoredTriggerProgram {
       }
     ]
   };
+  // The authoring API only permits earlier EXECUTE_EFFECT actions as output sources.
+  const bonus = authored.effects[0]!;
+  const refund = { ...bonus, effectKey: 'refund', name: 'refund', results: [bonus.results[1]!] };
+  bonus.results = [bonus.results[0]!];
+  authored.effects = [bonus, refund];
+  authored.parameters = [{ gameId: 'lol', skillKey, parameterKey: 'stolen', name: '前序伤害', valueType: 'DECIMAL', valueMode: 'RUNTIME_INPUT', fixedValue: null, levelValues: null, description: null, sortOrder: 0, createdAt: '', updatedAt: '' }];
+  const consume = authored.rules[1]!;
+  const damage = consume.actions[0]!;
+  consume.actions = [{ ...damage, runtimeInputBindings: [] }, { ...damage, actionKey: 'do_refund', name: 'refund', sortOrder: 20, detail: { effectKey: 'refund' } }];
+  authored.processes[0]!.effectBindings.push({ bindingKey: 'do_refund', effectKey: 'refund', moment: stepExec('aa'), sortOrder: 20 });
+  for (const op of authored.processes[0]!.stateOperations) if (op.moment.momentType === 'STEP_EXECUTION') op.sortOrder += 10;
+  return authored;
+}
+
+function shieldWindow(effect?: SkillEffect): AuthoredTriggerProgram {
+  const authored = syntheticWindow();
+  const shield: SkillEffect = effect ?? {
+    gameId: 'lol', skillKey: authored.skillKey, effectKey: 'shield', name: '护盾', description: 'synthetic', sortOrder: 10,
+    lifecycle: { durationValue: fixedValue(2000), maxStacksValue: fixedValue(1), applicationStacksValue: fixedValue(1), instanceScope: 'SOURCE', reapplicationStackMode: 'KEEP', reapplicationDurationMode: 'REFRESH_ALL', expiryMode: 'ALL_AT_ONCE', periodicIntervalValue: null, firstPeriodicExecution: null },
+    results: [{ resultKey: 'shield', name: '护盾', resultType: 'NORMAL_SHIELD', target: 'SOURCE', description: null, sortOrder: 10, spellShieldBlockScope: null,
+      lifecycleBehavior: { moment: 'PERSISTENT', valueReadMode: 'APPLICATION_SNAPSHOT', stackValueMode: 'SHARED', reapplicationValueMode: 'REPLACE', periodicExecutionMode: null },
+      valueRule: { value: fixedValue(150), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
+      detail: { absorbedDamageTypeKey: null, decayMode: 'NONE' }
+    }], createdAt: '', updatedAt: ''
+  };
+  authored.skillKey = shield.skillKey;
+  authored.effects = [shield];
+  for (const row of [...authored.processes, ...authored.internalStates]) row.skillKey = shield.skillKey;
+  authored.processes[1]!.effectBindings[0]!.effectKey = shield.effectKey;
+  return authored;
 }
 
 function dummyHit(): AuthoredHitProgram {
@@ -298,6 +336,9 @@ async function runP6(page: Page, payload: {
   hits?: Array<{ entryKey: string; at: number; useKey: string }>;
   durationMs?: number;
   startCost?: number;
+  startOnly?: boolean;
+  program?: AuthoredTriggerProgram;
+  incoming?: Array<{ at: number; amount: number }>;
   restore?: { state: Record<string, number>; expireAt: Record<string, number>; ledger: RestoreLedgerRow[] };
   secondRun?: boolean;
 }): Promise<WorkerResult> {
@@ -312,8 +353,8 @@ async function runP6(page: Page, payload: {
     } = await import(/* @vite-ignore */ '/src/engine/triggerAdapter.ts');
     const { adaptHitProgram, withHitProgram, provenSkillUseFact, skillHitFact } = await import(/* @vite-ignore */ '/src/engine/hitAdapter.ts');
     const { GenericEngineClient } = await import(/* @vite-ignore */ '/src/engine/genericEngineClient.ts');
-    const authoredWindow = data.window;
-    const authoredBlade = data.blade;
+    const authoredWindow = data.mode === 'window' && data.program ? data.program : data.window;
+    const authoredBlade = data.mode !== 'window' && data.program ? data.program : data.blade;
     const dummy = data.dummy;
     const input = data.input;
     try {
@@ -346,9 +387,12 @@ async function runP6(page: Page, payload: {
         authoredBlade.rules[1]!.eventSource = { eventType: 'BASIC_ATTACK_START', detail: {} };
       }
       const authored = data.mode === 'window' ? authoredWindow : authoredBlade;
+      const owner = authored.owner ?? 'source';
+      const counterpart = owner === 'source' ? 'target' : 'source';
       const adapted = adaptTriggerProgram(authored);
       const hitAdapted = data.mode === 'window' ? adaptHitProgram(dummy) : null;
       let request = structuredClone(input);
+      if (owner === 'target') for (const actor of request.combatants) actor.key = actor.key === 'source' ? 'target' : 'source';
       if (data.mode === 'window') {
         request = withHitProgram(request, { hitProviderKey: 'champion', hitAbilityKey: 'skill_hit', authored: dummy }, { rulesHash: 'with-p6-hit' });
       } else {
@@ -367,6 +411,13 @@ async function runP6(page: Page, payload: {
         triggerProviderKey: `item:${authored.skillKey}`, authored,
         initialCastAbilityKey: data.mode === 'window' ? undefined : 'cast'
       }, { rulesHash: 'with-p6' });
+      const defender = request.combatants.find(actor => actor.key === counterpart)!;
+      if (data.incoming?.length) {
+        defender.providers.push({ providerRef: 'incoming', definitionRef: 'incoming' });
+        request.sharedProviders!.push({ providerKey: 'incoming', kind: 'champion', stableId: 'incoming', abilities: data.incoming.map((hit, index) => ({
+          abilityKey: `hit_${index}`, kind: 'active', operations: [{ operation: 'damage', target: 'target', damageType: 'damage/physical', amount: { op: 'const', value: hit.amount } }]
+        })) });
+      }
       const client = new GenericEngineClient();
       try {
         const compiled = await client.compile(request);
@@ -376,18 +427,19 @@ async function runP6(page: Page, payload: {
             compileOk: false, compileErrors: compiled.errors
           };
         }
-        const uses = (data.uses ?? []).map((row) => provenSkillUseFact({ useKey: row.useKey, source: 'source', skillKey: row.skillKey }));
-        const hits = (data.hits ?? []).map((row) => skillHitFact(row.entryKey, row.useKey));
+        const uses = (data.uses ?? []).map((row) => provenSkillUseFact({ useKey: row.useKey, source: owner, skillKey: row.skillKey }));
+        const hits = data.mode === 'window' ? (data.hits ?? []).map((row) => skillHitFact(row.entryKey, row.useKey)) : data.startOnly ? [] : [skillHitFact('hit', 'aa1')];
         const entries = data.mode === 'window'
           ? (data.hits ?? []).map((row) => ({
-              entryKey: row.entryKey, abilityRef: 'source.provider[champion].ability[skill_hit]',
-              source: 'source' as const, target: 'target' as const, firstAtMs: row.at
+              entryKey: row.entryKey, abilityRef: `${owner}.provider[champion].ability[skill_hit]`,
+              source: owner, target: counterpart, firstAtMs: row.at
             }))
           : [
-              { entryKey: 'cast', abilityRef: 'source.provider[champion].ability[cast]', source: 'source' as const, target: 'target' as const, firstAtMs: 0 },
-              { entryKey: 'start', abilityRef: 'source.provider[champion].ability[aa_start]', source: 'source' as const, target: 'target' as const, firstAtMs: 10 },
-              { entryKey: 'hit', abilityRef: 'source.provider[champion].ability[aa_hit]', source: 'source' as const, target: 'target' as const, firstAtMs: 20 }
+              { entryKey: 'cast', abilityRef: `${owner}.provider[champion].ability[cast]`, source: owner, target: counterpart, firstAtMs: 0 },
+              { entryKey: 'start', abilityRef: `${owner}.provider[champion].ability[aa_start]`, source: owner, target: counterpart, firstAtMs: 10 },
+              ...(data.startOnly ? [] : [{ entryKey: 'hit', abilityRef: `${owner}.provider[champion].ability[aa_hit]`, source: owner, target: counterpart, firstAtMs: 20 }])
             ];
+        entries.push(...(data.incoming ?? []).map((hit, index) => ({ entryKey: `incoming_${index}`, abilityRef: `${counterpart}.provider[incoming].ability[hit_${index}]`, source: counterpart, target: owner, firstAtMs: hit.at })));
         const triggerRef = `item:${authored.skillKey}`;
         const snapshotCombatants = request.combatants.map((actor) => ({
           key: actor.key, attributes: structuredClone(actor.attributes), resources: structuredClone(actor.resources),
@@ -396,7 +448,7 @@ async function runP6(page: Page, payload: {
             providerRef: provider.providerRef, definitionRef: provider.definitionRef,
             source: actor.key, owner: actor.key, stacks: 1, expireAt: null as number | null, state: {}
           })),
-          providerState: actor.key === 'source' ? {
+          providerState: actor.key === owner ? {
             [triggerRef]: data.restore
               ? triggerProviderStateSnapshot({ state: data.restore.state, expireAt: data.restore.expireAt })
               : { state: {}, expireAt: {} }
@@ -413,7 +465,7 @@ async function runP6(page: Page, payload: {
           driverPlan: { entries, conditionRecheckIntervalMs: 100 },
           stopPolicy: { durationMs: data.durationMs ?? 3000, stopOnTargetDeath: false, stopWhenNoEvents: false },
           sampling: { sampleEveryMs: 100, dpsWindowMs: 1000, maxSeriesPoints: 100 },
-          skillUses: uses.length ? uses : [provenTriggerUse({ useKey: 'aa1', source: 'source', skillKey: 'aa_basic' })],
+          skillUses: uses.length ? uses : [provenTriggerUse({ useKey: 'aa1', source: owner, skillKey: 'aa_basic' })],
           skillHitFacts: hits,
           attackStartFacts: data.mode === 'window' ? undefined : [attackStartFact('start', 'aa1')]
         };
@@ -430,7 +482,7 @@ async function runP6(page: Page, payload: {
                     providerRef: provider.providerRef, definitionRef: provider.definitionRef,
                     source: actor.key, owner: actor.key, stacks: 1, expireAt: null as number | null, state: {}
                   })),
-                  providerState: actor.key === 'source' ? { [triggerRef]: { state: {}, expireAt: {} } } : {}
+                  providerState: actor.key === owner ? { [triggerRef]: { state: {}, expireAt: {} } } : {}
                 })),
                 useTriggerLedger: []
               }
@@ -463,23 +515,17 @@ function providerState(done: DoneResult, providerRef: string): Record<string, un
   return (source.providerState[providerRef] ?? {}) as Record<string, unknown>;
 }
 
-async function nativeOrPending(
-  result: WorkerResult,
-  testInfo: { attach: (name: string, file: { contentType: string; body: Buffer }) => Promise<void> }
-): Promise<boolean> {
-  if (result.compileOk && !result.runError && result.done) return true;
-  await testInfo.attach('p6-native-pending', {
-    contentType: 'application/json',
-    body: Buffer.from(JSON.stringify({
-      compileOk: result.compileOk, compileErrors: result.compileErrors, runError: result.runError,
-      wasm: WASM_SHA256,
-      note: '当前仓库 Wasm 仍为第5项产物，不支持第6项全部协议。宿主已编译合成配置；实际 Worker 待最终 native，本附件不是运行成功证据。'
-    }, null, 2))
-  });
-  return false;
+async function assertNativeResult(result: WorkerResult, testInfo: import('@playwright/test').TestInfo): Promise<void> {
+  if (!result.compileOk || result.runError || !result.done) {
+    await testInfo.attach('p6-native-failure', { contentType: 'application/json', body: Buffer.from(JSON.stringify(result, null, 2)) });
+  }
+  expect(result.compileOk, JSON.stringify(result.compileErrors)).toBe(true);
+  expect(result.runError).toBeUndefined();
+  expect(result.done).toBeDefined();
+  expect(result.released).toBe(true);
 }
 
-test('记录当前Wasm身份且不冒充第6项已运行', () => {
+test('最终Wasm产物身份', () => {
   const bytes = readFileSync(WASM_PATH);
   expect(bytes.length).toBe(WASM_BYTES);
   expect(createHash('sha256').update(bytes).digest('hex').toUpperCase()).toBe(WASM_SHA256);
@@ -509,7 +555,7 @@ test('实际 Worker：合成计数窗口同 use 多段只计一次，下一真�
   expect(result.adapterError).toBeUndefined();
   expect(result.adapted?.combo).toBe('count_window');
   expect(result.adapted?.oncePerUse).toEqual({ groupKey: 'proc', scope: 'provider' });
-  if (!await nativeOrPending(result, testInfo)) return;
+  await assertNativeResult(result, testInfo);
   const bag = providerState(result.done!, 'item:synth_window');
   const state = (bag.state ?? {}) as Record<string, number>;
   expect(state.hits).toBe(0);
@@ -534,7 +580,7 @@ test('实际 Worker：固定窗口不续期，恰好到期后重开', async ({ p
   });
   expect(result.adapterError).toBeUndefined();
   expect(result.adapted?.combo).toBe('count_window');
-  if (!await nativeOrPending(result, testInfo)) return;
+  await assertNativeResult(result, testInfo);
   const bag = providerState(result.done!, 'item:synth_window');
   const state = (bag.state ?? {}) as Record<string, number>;
   expect(state.hits).toBe(1);
@@ -561,7 +607,7 @@ test('实际 Worker：快照恢复期限与历史 use 额度，新命中走下�
     }
   });
   expect(result.adapterError).toBeUndefined();
-  if (!await nativeOrPending(result, testInfo)) return;
+  await assertNativeResult(result, testInfo);
   const bag = providerState(result.done!, 'item:synth_window');
   const state = (bag.state ?? {}) as Record<string, number>;
   expect(state.hits).toBe(0);
@@ -571,12 +617,12 @@ test('实际 Worker：快照恢复期限与历史 use 额度，新命中走下�
 });
 
 test('实际 Worker：合成待击消费开始与命中分开，伤害回蓝后清 ready 并开冷却', async ({ page }, testInfo) => {
-  const result = await runP6(page, { mode: 'spellblade' });
+  const result = await runP6(page, { mode: 'spellblade', durationMs: 100 });
   expect(result.adapterError).toBeUndefined();
   expect(result.adapted?.combo).toBe('empowered');
   expect(result.adapted?.consumeEvent).toBe('event/basic_attack_hit');
   expect(result.adapted?.outputRef).toBe('do_bonus_hit');
-  if (!await nativeOrPending(result, testInfo)) return;
+  await assertNativeResult(result, testInfo);
   const bag = providerState(result.done!, 'item:synth_spellblade');
   const state = (bag.state ?? {}) as Record<string, number>;
   expect(state.ready).toBe(0);
@@ -589,12 +635,110 @@ test('实际 Worker：合成待击消费开始与命中分开，伤害回蓝后�
 });
 
 test('实际 Worker：开始消费门禁失败不消费 ready', async ({ page }, testInfo) => {
-  const result = await runP6(page, { mode: 'spellblade-start', startCost: 50 });
+  const result = await runP6(page, { mode: 'spellblade-start', startCost: 50, startOnly: true, durationMs: 100 });
   expect(result.adapterError).toBeUndefined();
   expect(result.adapted?.consumeEvent).toBe('event/basic_attack_start');
-  if (!await nativeOrPending(result, testInfo)) return;
+  await assertNativeResult(result, testInfo);
   const bag = providerState(result.done!, 'item:synth_spellblade');
   const state = (bag.state ?? {}) as Record<string, number>;
   expect(state.ready).toBe(1);
   expect(state.icd).toBe(0);
+});
+
+test('实际 Worker：内部冷却中不会重新开窗或重复奖励', async ({ page }, testInfo) => {
+  const result = await runP6(page, { mode: 'window', durationMs: 400,
+    uses: ['u1', 'u2', 'u3', 'u4'].map(useKey => ({ useKey, skillKey: 'author_q' })),
+    hits: [0, 100, 200, 300].map((at, index) => ({ entryKey: `h${index}`, at, useKey: `u${index + 1}` }))
+  });
+  await assertNativeResult(result, testInfo);
+  expect(result.done!.finalSnapshot.useTriggerLedger).toHaveLength(2);
+  expect(result.done!.finalSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp.current).toBe(960);
+  expect(providerState(result.done!, 'item:synth_window').state).toMatchObject({ hits: 0, icd: 1 });
+});
+
+test('实际 Worker：同一攻击开始已消费、尚未命中时命中消费仍待命', async ({ page }, testInfo) => {
+  const start = await runP6(page, { mode: 'spellblade-start', durationMs: 15, startOnly: true });
+  await assertNativeResult(start, testInfo);
+  expect(start.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.resources.mana.current).toBe(20);
+  expect(providerState(start.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 1 });
+  expect(start.done!.evidence.items.some(item => item.kind === 'damage' && item.timeMs === 10)).toBe(true);
+  const hit = await runP6(page, { mode: 'spellblade', durationMs: 15, startOnly: true });
+  await assertNativeResult(hit, testInfo);
+  expect(hit.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.resources.mana.current).toBe(0);
+  expect(providerState(hit.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 1, icd: 0 });
+});
+
+test('实际 Worker：反向拥有者的回蓝、命中与同次使用账本归属一致', async ({ page }, testInfo) => {
+  const program = syntheticSpellblade(); program.owner = 'target';
+  const result = await runP6(page, { mode: 'spellblade', program, durationMs: 100 });
+  await assertNativeResult(result, testInfo);
+  const owner = result.done!.finalSnapshot.combatants.find(actor => actor.key === 'target')!;
+  expect(owner.resources.mana.current).toBe(20);
+  expect(result.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.attributes.hp.current).toBe(960);
+  expect(result.done!.finalSnapshot.useTriggerLedger).toEqual([expect.objectContaining({ owner: 'target', useSource: 'target', useKey: 'aa1', target: null })]);
+});
+
+test('实际 Worker：目标范围状态使用声明的非零初值，按原命中目标记录额度', async ({ page }, testInfo) => {
+  const program = syntheticWindow();
+  const counter = program.internalStates[0]!;
+  if (counter.stateType !== 'COUNTER') throw new Error('fixture');
+  counter.scope = 'TARGET'; counter.detail.initialValue = fixedValue(5);
+  for (const process of program.processes) for (const op of process.stateOperations) if (op.stateKey === 'hits' && op.operation === 'SET') op.value = fixedValue(5);
+  for (const [index, rule] of program.rules.entries()) {
+    rule.oncePerUse!.scope = 'TARGET';
+    const condition = rule.conditionGroups[0]!.conditions[0]!;
+    if (condition.conditionType !== 'INTERNAL_STATE_CHECK' || condition.detail.valueKind !== 'VALUE') throw new Error('fixture');
+    condition.detail.comparisonValue = fixedValue(index === 0 ? 5 : 6);
+  }
+  const result = await runP6(page, { mode: 'window', program, durationMs: 300,
+    uses: [{ useKey: 'u1', skillKey: 'author_q' }, { useKey: 'u2', skillKey: 'author_q' }],
+    hits: [{ entryKey: 'h1', at: 0, useKey: 'u1' }, { entryKey: 'h2', at: 100, useKey: 'u2' }]
+  });
+  await assertNativeResult(result, testInfo);
+  expect(providerState(result.done!, 'item:synth_window').targetState).toMatchObject({ target: 'target', values: { hits: 5 } });
+  expect(result.done!.finalSnapshot.useTriggerLedger).toHaveLength(2);
+  expect(result.done!.finalSnapshot.useTriggerLedger!.every(row => row.scope === 'provider_target' && row.target === 'target')).toBe(true);
+  expect(result.done!.finalSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp.current).toBe(960);
+});
+
+test('实际 Worker：限时护盾在第二次独立使用生效，到期边界不再吸收', async ({ page }, testInfo) => {
+  const program = shieldWindow();
+  const payload = { mode: 'window' as const, program,
+    uses: [{ useKey: 'u1', skillKey: 'author_q' }, { useKey: 'u2', skillKey: 'author_q' }],
+    hits: [{ entryKey: 'h1', at: 0, useKey: 'u1' }, { entryKey: 'h2', at: 100, useKey: 'u2' }]
+  };
+  const active = await runP6(page, { ...payload, durationMs: 300, incoming: [{ at: 200, amount: 40 }] });
+  await assertNativeResult(active, testInfo);
+  const source = active.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!;
+  expect(source.attributes.hp.current).toBe(1000);
+  expect(source.shields).toEqual([expect.objectContaining({ remaining: 110, expireAt: 2100 })]);
+  const expired = await runP6(page, { ...payload, durationMs: 2200, incoming: [{ at: 200, amount: 40 }, { at: 2100, amount: 40 }] });
+  await assertNativeResult(expired, testInfo);
+  const after = expired.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!;
+  expect(after.attributes.hp.current).toBe(960);
+  expect(after.shields).toEqual([]);
+});
+
+test('原库星蚀普通护盾组成→GET→Worker，保留原公式与期限且不升格完整触发资格', async ({ page, request }, testInfo) => {
+  test.skip(process.env.P6_LIVE_API !== '1', '显式启用后只读本地实际服务');
+  const api = 'http://127.0.0.1:8080/api/admin/games/lol/skills/item_6692_passive';
+  const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
+  const read = async (path: string) => {
+    const response = await request.get(api + path, { headers }); expect(response.status(), path).toBe(200); return response.json();
+  };
+  const [effect, parameters, formulas] = await Promise.all([read('/effects/shield_melee'), read('/parameters'), read('/formulas')]);
+  const program = shieldWindow(effect); program.parameters = parameters; program.formulas = formulas;
+  const result = await runP6(page, { mode: 'window', program, durationMs: 300,
+    uses: [{ useKey: 'u1', skillKey: 'author_q' }, { useKey: 'u2', skillKey: 'author_q' }],
+    hits: [{ entryKey: 'h1', at: 0, useKey: 'u1' }, { entryKey: 'h2', at: 100, useKey: 'u2' }],
+    incoming: [{ at: 200, amount: 40 }]
+  });
+  await assertNativeResult(result, testInfo);
+  const source = result.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!;
+  expect(source.attributes.hp.current).toBe(1000);
+  expect(source.shields).toEqual([expect.objectContaining({ remaining: 110, expireAt: 2100 })]);
+  expect(await read('/effects/shield_melee')).toEqual(effect);
+  await testInfo.attach('原护盾组成与明确触发输入', { contentType: 'application/json', body: Buffer.from(JSON.stringify({ effect, parameters, formulas, done: result.done,
+    boundary: '原库护盾、期限与数值直接参与运行；计数过程和两个合格使用为专项明确输入，不代表原装备多段与持续伤害资格已核定，不证明受到护盾修正。'
+  }, null, 2)) });
 });

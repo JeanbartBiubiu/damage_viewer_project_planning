@@ -52,6 +52,7 @@ export type AuthoredTriggerProgram = {
   formulas?: readonly SkillFormula[];
   statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'statusKind' | 'status'>>;
   modifierZones?: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'calculationMode' | 'status'>>;
+  // Relative to the mounted listener owner: source is that owner; target is its event counterpart.
   identity: { source: CombatantIdentityFact; target: CombatantIdentityFact };
   skillCategoryKeys?: readonly string[];
   vampRules?: readonly GameVampRule[];
@@ -116,6 +117,9 @@ type CompileCtx = {
   vampRules?: GenericVampRule[];
   abilityTypes: Set<string>;
   outputRefs: Map<string, string>;
+  stateKeys: Set<string>;
+  shieldGuard: { rule: SkillTriggerRuleDetail; cooldown: Extract<SkillInternalState, { stateType: 'INTERNAL_COOLDOWN' }> };
+  shieldRefs: Set<string>;
 };
 
 function fail(path: string, message: string): never {
@@ -159,6 +163,13 @@ function numericState(authored: AuthoredTriggerProgram): NumericCompileState {
   });
 }
 
+function constantState(authored: AuthoredTriggerProgram): NumericCompileState {
+  const state = numericState(authored);
+  state.bindParameters = false;
+  state.allowAttributeReads = false;
+  return state;
+}
+
 export function initialCastAbilityType(skillKey: string): string {
   return `ability/skill_${catalogKey(skillKey, 'skillKey')}`;
 }
@@ -199,6 +210,25 @@ function isImmediateMoment(moment: SkillProcessMoment, process: SkillProcess): b
   return moment.momentType === 'STEP_START' || moment.momentType === 'STEP_EXECUTION' || moment.momentType === 'STEP_COMPLETE';
 }
 
+function momentOrder(moment: SkillProcessMoment, process: SkillProcess): number {
+  if (isProcessStart(moment)) return 0;
+  const steps = stableSorted(process.steps, (step) => step.sortOrder);
+  if (isProcessComplete(moment)) return 1 + steps.length * 3;
+  const index = steps.findIndex((step) => step.stepKey === moment.stepKey);
+  const phase = ['STEP_START', 'STEP_EXECUTION', 'STEP_COMPLETE'].indexOf(moment.momentType);
+  if (index < 0 || phase < 0) return fail(`processes.${process.processKey}.moment`, '未支持的过程时点');
+  return 1 + index * 3 + phase;
+}
+
+function requireGroupGuard(rule: SkillTriggerRuleDetail, stateKey: string, expected: number | boolean, authored: AuthoredTriggerProgram): void {
+  if (!rule.conditionGroups.length || rule.conditionGroups.some((group) => !group.conditions.some((condition) => {
+    if (condition.conditionType !== 'INTERNAL_STATE_CHECK' || condition.detail.stateKey !== stateKey) return false;
+    if (typeof expected === 'boolean') return condition.detail.valueKind === 'ENABLED' && condition.detail.expectedBoolean === expected;
+    return condition.detail.valueKind === 'VALUE' && condition.detail.comparator === 'EQ'
+      && compileConstNumber(condition.detail.comparisonValue, planPath(authored.skillKey, `rules.${rule.ruleKey}.conditionGroups`), authored, '状态门禁') === expected;
+  }))) fail(planPath(authored.skillKey, `rules.${rule.ruleKey}.conditionGroups`), '每个条件组必须明确约束开始计数或待命状态，不能猜测重复启动语义');
+}
+
 function lookupState(authored: AuthoredTriggerProgram, stateKey: string, path: string): SkillInternalState {
   const matches = authored.internalStates.filter((item) => item.stateKey === stateKey);
   if (matches.length !== 1) return fail(path, '内部状态目录缺失或重复');
@@ -216,7 +246,7 @@ function lookupEffect(authored: AuthoredTriggerProgram, effectKey: string, path:
 }
 
 function foldPositiveInt(value: GenericFormulaExpr, path: string, label: string): number {
-  if (value.op !== 'const' || typeof value.value !== 'number' || !Number.isInteger(value.value) || value.value <= 0) {
+  if (value.op !== 'const' || typeof value.value !== 'number' || !Number.isSafeInteger(value.value) || value.value <= 0) {
     return fail(path, `${label}必须是正整数，不能猜测窗口或补默认`);
   }
   return value.value;
@@ -282,7 +312,7 @@ function classifyCountWindow(authored: AuthoredTriggerProgram, delay: SkillProce
     fail(`${root}.steps`, '计数窗口只接受单个 DELAY 步骤');
   }
   const delayMs = foldPositiveInt(
-    compileNumericValue(delay.steps[0]!.detail.delayValue, `${root}.steps.${delay.steps[0]!.stepKey}.detail.delayValue`, numericState(authored), fail),
+    compileNumericValue(delay.steps[0]!.detail.delayValue, `${root}.steps.${delay.steps[0]!.stepKey}.detail.delayValue`, constantState(authored), fail),
     `${root}.steps.${delay.steps[0]!.stepKey}.detail.delayValue`,
     '窗口时长'
   );
@@ -296,19 +326,24 @@ function classifyCountWindow(authored: AuthoredTriggerProgram, delay: SkillProce
   const counterState = lookupState(authored, increase.stateKey, `${root}.stateOperations.${increase.operationKey}.stateKey`);
   if (counterState.stateType !== 'COUNTER') fail(`${root}.stateOperations.${increase.operationKey}.stateKey`, '窗口计数必须是 COUNTER');
   const increment = foldNumber(
-    compileNumericValue(increase.value, `${root}.stateOperations.${increase.operationKey}.value`, numericState(authored), fail),
+    compileNumericValue(increase.value, `${root}.stateOperations.${increase.operationKey}.value`, constantState(authored), fail),
     `${root}.stateOperations.${increase.operationKey}.value`,
     '计数增量'
   );
   const resetValue = foldNumber(
-    compileNumericValue(reset.value, `${root}.stateOperations.${reset.operationKey}.value`, numericState(authored), fail),
+    compileNumericValue(reset.value, `${root}.stateOperations.${reset.operationKey}.value`, constantState(authored), fail),
     `${root}.stateOperations.${reset.operationKey}.value`,
     '完成恢复值'
   );
   const initial = compileConstNumber(counterState.detail.initialValue, planPath(authored.skillKey, `internalStates.${counterState.stateKey}.detail.initialValue`), authored, '计数初始值');
+  const maximum = compileConstNumber(counterState.detail.maxValue, planPath(authored.skillKey, `internalStates.${counterState.stateKey}.detail.maxValue`), authored, '计数上限');
+  if (!Number.isSafeInteger(initial) || initial < 0 || !Number.isSafeInteger(maximum) || maximum < initial || !Number.isSafeInteger(increment) || increment <= 0) {
+    return fail(root, '计数默认值、上限和正增量必须是有效整数');
+  }
   if (resetValue !== initial) fail(`${root}.stateOperations.${reset.operationKey}.value`, '完成恢复值必须等于计数明确默认值');
 
   const rewardRoot = planPath(authored.skillKey, `processes.${reward.processKey}`);
+  if (reward.activationType !== 'PASSIVE') fail(`${rewardRoot}.activationType`, '本期计数奖励只支持被动过程');
   if (reward.steps.some((step) => step.stepType !== 'IMMEDIATE')) fail(`${rewardRoot}.steps`, '奖励过程只含 IMMEDIATE 或无等待步骤');
   if (reward.cooldown) fail(`${rewardRoot}.cooldown`, '奖励冷却必须由 INTERNAL_COOLDOWN 状态表达，不能另带普通冷却');
   for (const binding of reward.effectBindings) {
@@ -327,12 +362,12 @@ function classifyCountWindow(authored: AuthoredTriggerProgram, delay: SkillProce
   const icdState = lookupState(authored, icdOp.stateKey, `${rewardRoot}.stateOperations.${icdOp.operationKey}.stateKey`);
   if (icdState.stateType !== 'INTERNAL_COOLDOWN') fail(`${rewardRoot}.stateOperations.${icdOp.operationKey}.stateKey`, '内部冷却必须是 INTERNAL_COOLDOWN');
   foldPositiveInt(
-    compileNumericValue(icdState.detail.durationValue, planPath(authored.skillKey, `internalStates.${icdState.stateKey}.detail.durationValue`), numericState(authored), fail),
+    compileNumericValue(icdState.detail.durationValue, planPath(authored.skillKey, `internalStates.${icdState.stateKey}.detail.durationValue`), constantState(authored), fail),
     planPath(authored.skillKey, `internalStates.${icdState.stateKey}.detail.durationValue`),
     '内部冷却'
   );
   const clearValue = foldNumber(
-    compileNumericValue(clear.value, `${rewardRoot}.stateOperations.${clear.operationKey}.value`, numericState(authored), fail),
+    compileNumericValue(clear.value, `${rewardRoot}.stateOperations.${clear.operationKey}.value`, constantState(authored), fail),
     `${rewardRoot}.stateOperations.${clear.operationKey}.value`,
     '清零值'
   );
@@ -340,8 +375,8 @@ function classifyCountWindow(authored: AuthoredTriggerProgram, delay: SkillProce
 
   if (authored.rules.length !== 2) fail(planPath(authored.skillKey, 'rules'), '计数窗口只接受第一击与阈值两条规则');
   const [left, right] = stableSorted([...authored.rules], (item) => item.sortOrder);
-  const leftKey = startProcessKey(left!, authored.skillKey, true);
-  const rightKey = startProcessKey(right!, authored.skillKey, true);
+  const leftKey = startProcessKey(left!, authored.skillKey);
+  const rightKey = startProcessKey(right!, authored.skillKey);
   let firstRule: SkillTriggerRuleDetail;
   let rewardRule: SkillTriggerRuleDetail;
   if (leftKey === delay.processKey && rightKey === reward.processKey) {
@@ -386,7 +421,7 @@ function classifyEmpowered(authored: AuthoredTriggerProgram, process: SkillProce
   if (process.cooldown) fail(`${root}.cooldown`, '待击冷却必须由 INTERNAL_COOLDOWN 表达');
   const step = process.steps[0]!;
   const windowMs = foldPositiveInt(
-    compileNumericValue(step.detail.windowValue, `${root}.steps.${step.stepKey}.detail.windowValue`, numericState(authored), fail),
+    compileNumericValue(step.detail.windowValue, `${root}.steps.${step.stepKey}.detail.windowValue`, constantState(authored), fail),
     `${root}.steps.${step.stepKey}.detail.windowValue`,
     '待击窗口'
   );
@@ -414,7 +449,7 @@ function classifyEmpowered(authored: AuthoredTriggerProgram, process: SkillProce
   const icdState = lookupState(authored, icdOp.stateKey, `${root}.stateOperations.${icdOp.operationKey}.stateKey`);
   if (icdState.stateType !== 'INTERNAL_COOLDOWN') fail(`${root}.stateOperations.${icdOp.operationKey}.stateKey`, '内部冷却必须是 INTERNAL_COOLDOWN');
   foldPositiveInt(
-    compileNumericValue(icdState.detail.durationValue, planPath(authored.skillKey, `internalStates.${icdState.stateKey}.detail.durationValue`), numericState(authored), fail),
+    compileNumericValue(icdState.detail.durationValue, planPath(authored.skillKey, `internalStates.${icdState.stateKey}.detail.durationValue`), constantState(authored), fail),
     planPath(authored.skillKey, `internalStates.${icdState.stateKey}.detail.durationValue`),
     '内部冷却'
   );
@@ -546,12 +581,22 @@ function compileCondition(
 ): GenericFormulaExpr {
   if (condition.conditionType === 'INTERNAL_STATE_CHECK') {
     const state = lookupState(authored, condition.detail.stateKey, `${path}.detail.stateKey`);
+    if (!ctx.stateKeys.has(state.stateKey)) return fail(`${path}.detail.stateKey`, '所引用状态未被完整过程适配，不能当作默认值');
     const read: GenericFormulaExpr = { op: 'read', path: stateReadPath(state) };
     if (condition.detail.valueKind === 'VALUE') {
+      if (state.stateType !== 'COUNTER' && state.stateType !== 'AMMO') return fail(`${path}.detail.valueKind`, 'VALUE 只用于计数或弹药，内部冷却须使用剩余时间');
       const comparator = COMPARATORS[condition.detail.comparator];
       if (!comparator) fail(`${path}.detail.comparator`, '未知比较运算');
       const right = compileNumericValue(condition.detail.comparisonValue, `${path}.detail.comparisonValue`, ctx.state, fail);
       return compareExpr(comparator, read, right);
+    }
+    if (condition.detail.valueKind === 'REMAINING_MS') {
+      if (state.stateType !== 'INTERNAL_COOLDOWN') return fail(`${path}.detail.stateKey`, '剩余时间只用于内部冷却');
+      const threshold = compileConstNumber(condition.detail.comparisonValue, `${path}.detail.comparisonValue`, authored, '冷却比较值');
+      if (threshold !== 0) return fail(`${path}.detail.comparisonValue`, '本期内部冷却只支持与零比较的就绪判断，不能把活动标记当毫秒');
+      const comparator = COMPARATORS[condition.detail.comparator];
+      if (!comparator) return fail(`${path}.detail.comparator`, '未知比较运算');
+      return compareExpr(comparator, read, constExpr(0));
     }
     if (condition.detail.valueKind === 'ENABLED') {
       if (state.stateType !== 'FLAG') fail(`${path}.detail.stateKey`, 'ENABLED 只用于 FLAG');
@@ -634,10 +679,19 @@ function priorOutputExpr(
     if (!OUTPUT_KINDS.has(binding.detail.outputKind)) {
       fail(`${path}.runtimeInputBindings.${binding.bindingKey}.outputKind`, '未知伤害口径，三种输出口径必须使用同执行帧 operation.output');
     }
-    const ref = `${binding.detail.sourceActionKey}_${binding.detail.sourceResultKey}`;
-    if (ref.includes('.') || !ctx.outputRefs.has(ref)) {
-      continue;
+    const parameters = ctx.authored.parameters?.filter((row) => row.parameterKey === binding.parameterKey) ?? [];
+    if (parameters.length !== 1 || parameters[0]!.gameId !== ctx.authored.gameId || parameters[0]!.skillKey !== ctx.authored.skillKey
+      || parameters[0]!.valueMode !== 'RUNTIME_INPUT' || parameters[0]!.valueType !== 'DECIMAL') {
+      fail(`${path}.runtimeInputBindings.${binding.bindingKey}.parameterKey`, '前序伤害只能供给当前技能明确的计算时十进制参数（RUNTIME_INPUT）');
     }
+    const ref = `${binding.detail.sourceActionKey}_${binding.detail.sourceResultKey}`;
+    if (binding.detail.sourceActionKey === action.actionKey || ref.includes('.') || !ctx.outputRefs.has(ref)) {
+      fail(`${path}.runtimeInputBindings.${binding.bindingKey}`, '前序结果必须来自已经完成的更早动作，不能同动作或前向引用');
+    }
+    if (ctx.outputRefs.get(ref) !== `${binding.detail.sourceActionKey}.${binding.detail.sourceResultKey}`) {
+      fail(`${path}.runtimeInputBindings.${binding.bindingKey}`, '前序输出引用身份碰撞');
+    }
+    if (out.has(binding.parameterKey)) fail(`${path}.runtimeInputBindings.${binding.bindingKey}`, '同一动态参数重复供值');
     out.set(binding.parameterKey, { op: 'read', path: `operation.output.${ref}.${binding.detail.outputKind}` });
   }
   return out;
@@ -709,6 +763,57 @@ function selectorFor(target: 'SOURCE' | 'TARGET' | 'SELF'): 'source' | 'target' 
   return 'self';
 }
 
+function compileTimedShield(
+  effect: SkillEffect,
+  result: Extract<SkillEffectResult, { resultType: 'NORMAL_SHIELD' }>,
+  path: string,
+  ctx: CompileCtx,
+  bindings: Map<string, GenericFormulaExpr>
+): OperationDefinition {
+  const life = effect.lifecycle;
+  const behavior = result.lifecycleBehavior;
+  if (result.target !== 'SOURCE' || result.spellShieldBlockScope !== null) {
+    return fail(path, '限时普通护盾仅支持无阻挡粒度的来源自身护盾');
+  }
+  if (result.detail.absorbedDamageTypeKey !== null || result.detail.decayMode !== 'NONE') {
+    return fail(`${path}.detail`, '限时普通护盾仅支持全部伤害且不衰减，不能丢弃筛选或衰减');
+  }
+  if (!life || life.instanceScope !== 'SOURCE' || life.reapplicationStackMode !== 'KEEP'
+    || life.reapplicationDurationMode !== 'REFRESH_ALL' || life.expiryMode !== 'ALL_AT_ONCE'
+    || life.periodicIntervalValue !== null || life.firstPeriodicExecution !== null) {
+    return fail(`${path}.lifecycle`, '限时普通护盾需要来源单层、整体到期、无周期及明确刷新方式');
+  }
+  if (compileConstNumber(life.maxStacksValue, `${path}.lifecycle.maxStacksValue`, ctx.authored, '护盾层数') !== 1
+    || compileConstNumber(life.applicationStacksValue, `${path}.lifecycle.applicationStacksValue`, ctx.authored, '护盾施加层数') !== 1) {
+    return fail(`${path}.lifecycle`, '限时普通护盾只支持明确单层');
+  }
+  if (!behavior || behavior.moment !== 'PERSISTENT' || behavior.valueReadMode !== 'APPLICATION_SNAPSHOT'
+    || behavior.stackValueMode !== 'SHARED' || behavior.reapplicationValueMode !== 'REPLACE'
+    || behavior.periodicExecutionMode !== null) {
+    return fail(`${path}.lifecycleBehavior`, '限时普通护盾需要持续存在、施加快照、共享值及重施替换');
+  }
+  if (!life.durationValue) return fail(`${path}.lifecycle.durationValue`, '护盾期限必须明确');
+  const duration = foldPositiveInt(compileNumericValue(life.durationValue, `${path}.lifecycle.durationValue`, constantState(ctx.authored), fail), `${path}.lifecycle.durationValue`, '护盾期限');
+  const { rule, cooldown } = ctx.shieldGuard;
+  const guardPath = planPath(ctx.authored.skillKey, `rules.${rule.ruleKey}.conditionGroups`);
+  if (cooldown.scope !== 'SKILL' || !rule.conditionGroups.length || rule.conditionGroups.some(group => !group.conditions.some(condition =>
+    condition.conditionType === 'INTERNAL_STATE_CHECK' && condition.detail.stateKey === cooldown.stateKey
+    && condition.detail.valueKind === 'REMAINING_MS' && condition.detail.comparator === 'EQ'
+    && compileConstNumber(condition.detail.comparisonValue, guardPath, ctx.authored, '冷却门禁') === 0
+  ))) return fail(guardPath, '每个施盾条件组必须明确要求技能范围的内部冷却剩余时间等于零');
+  const cooldownMs = foldPositiveInt(compileNumericValue(cooldown.detail.durationValue, `${path}.cooldown.durationValue`, constantState(ctx.authored), fail), `${path}.cooldown.durationValue`, '内部冷却');
+  if (cooldownMs < duration) return fail(`${path}.lifecycle.durationValue`, '内部冷却不得短于护盾期限，不能把来源单实例重施改成叠加');
+  const shieldRef = `trigger:${ctx.authored.skillKey}:${effect.effectKey}:${result.resultKey}`;
+  if (ctx.shieldRefs.has(shieldRef)) return fail(path, '同一奖励单元不能重复施加同定义护盾，来源重施尚未支持');
+  ctx.shieldRefs.add(shieldRef);
+  return {
+    operation: 'shield', target: 'source',
+    shieldRef,
+    shieldDurationMs: constExpr(duration),
+    amount: compileBoundValue(result.valueRule, `${path}.valueRule`, ctx, bindings)
+  };
+}
+
 function compileResult(
   result: SkillEffectResult,
   path: string,
@@ -717,6 +822,10 @@ function compileResult(
   bindings: Map<string, GenericFormulaExpr>,
   outputRef?: string
 ): OperationDefinition {
+  if (result.spellShieldBlockScope !== null) return fail(`${path}.spellShieldBlockScope`, '带法术护盾粒度的结果必须经过命中处理入口');
+  if (result.lifecycleBehavior !== null) {
+    return fail(`${path}.lifecycleBehavior.moment`, '本期即时过程不能丢弃结果生效时点');
+  }
   if (result.resultType === 'DAMAGE') return compileDamage(result, path, ctx, expectedDelivery, outputRef);
   if (result.resultType === 'RESOURCE_CHANGE') {
     if (result.detail.operation !== 'RESTORE') fail(`${path}.detail.operation`, '本期资源变化只接受 RESTORE');
@@ -776,6 +885,10 @@ function compileEffectAction(
   neededOutputs: Set<string>
 ): OperationDefinition[] {
   const effect = lookupEffect(ctx.authored, action.detail.effectKey, `${path}.detail.effectKey`);
+  if (effect.lifecycle && effect.results.some(result => result.resultType !== 'NORMAL_SHIELD')) {
+    return fail(`${path}.detail.effectKey`, '本期即时过程不能丢弃效果生命周期');
+  }
+  const bindings = priorOutputExpr(action, path, ctx);
   const operations: OperationDefinition[] = [];
   for (const result of stableSorted(effect.results, (item) => item.sortOrder)) {
     const resultPath = planPath(ctx.authored.skillKey, `effects.${effect.effectKey}.results.${result.resultKey}`);
@@ -783,8 +896,9 @@ function compileEffectAction(
     const outputRef = result.resultType === 'DAMAGE' && neededOutputs.has(ref)
       ? outputKey(action.actionKey, result.resultKey, resultPath, ctx)
       : undefined;
-    const bindings = priorOutputExpr(action, path, ctx);
-    operations.push(compileResult(result, resultPath, ctx, expectedDelivery, bindings, outputRef));
+    operations.push(result.resultType === 'NORMAL_SHIELD'
+      ? compileTimedShield(effect, result, resultPath, ctx, bindings)
+      : compileResult(result, resultPath, ctx, expectedDelivery, bindings, outputRef));
   }
   if (!operations.length) fail(path, '效果没有可执行结果');
   return operations;
@@ -804,6 +918,7 @@ function deliveryFor(eventType: HitListenEvent): 'SKILL' | 'BASIC_ATTACK' {
 function compileCountWindow(combo: CountWindowCombo, ctx: CompileCtx): { abilities: AbilityDefinition[]; schema: Record<string, ProviderStateFieldSchema> } {
   const firstCondition = compileListenerCondition(combo.firstRule, combo.eventType, ctx);
   const rewardCondition = compileListenerCondition(combo.rewardRule, combo.eventType, ctx);
+  requireGroupGuard(combo.firstRule, combo.counter.stateKey, compileConstNumber(combo.counter.detail.initialValue, 'counter.initialValue', ctx.authored, '计数默认值'), ctx.authored);
   const matcher = { all: [eventTypeKey(combo.eventType), 'event/source_owner'] };
   ctx.typeEntries.set(eventTypeKey(combo.eventType), 'event');
   ctx.typeEntries.set('event/source_owner', 'event');
@@ -814,7 +929,7 @@ function compileCountWindow(combo: CountWindowCombo, ctx: CompileCtx): { abiliti
   const rewardStart = startProcessAction(combo.rewardRule, ctx.authored.skillKey, true);
   const needed = neededDamageOutputs([rewardStart, ...combo.rewardRule.actions]);
   const rewardOps: OperationDefinition[] = [];
-  const scheduled: Array<{ sortOrder: number; ops: OperationDefinition[] }> = [];
+  const scheduled: Array<{ sortOrder: number; moment: number; ops: OperationDefinition[] }> = [];
   for (const binding of stableSorted(combo.reward.effectBindings, (item) => item.sortOrder)) {
     const action: Extract<SkillTriggerAction, { actionType: 'EXECUTE_EFFECT' }> = {
       actionKey: binding.bindingKey, name: binding.bindingKey, actionType: 'EXECUTE_EFFECT', sortOrder: binding.sortOrder,
@@ -823,25 +938,27 @@ function compileCountWindow(combo: CountWindowCombo, ctx: CompileCtx): { abiliti
     action.runtimeInputBindings = [...rewardStart.runtimeInputBindings];
     scheduled.push({
       sortOrder: binding.sortOrder,
+      moment: momentOrder(binding.moment, combo.reward),
       ops: compileEffectAction(action, planPath(ctx.authored.skillKey, `processes.${combo.reward.processKey}.effectBindings.${binding.bindingKey}`), ctx, deliveryFor(combo.eventType), needed)
     });
   }
   for (const op of stableSorted(combo.reward.stateOperations, (item) => item.sortOrder)) {
     if (op.operation === 'SET' && op.stateKey === combo.counter.stateKey) {
       const initial = compileConstNumber(combo.counter.detail.initialValue, planPath(ctx.authored.skillKey, `internalStates.${combo.counter.stateKey}.detail.initialValue`), ctx.authored, '计数初始值');
-      scheduled.push({ sortOrder: op.sortOrder, ops: [stateChange(combo.counter, 'set', initial)] });
+      scheduled.push({ sortOrder: op.sortOrder, moment: momentOrder(op.moment, combo.reward), ops: [stateChange(combo.counter, 'set', initial)] });
     } else if (op.operation === 'START') {
-      scheduled.push({ sortOrder: op.sortOrder, ops: [stateChange(combo.icd, 'set', 1)] });
+      scheduled.push({ sortOrder: op.sortOrder, moment: momentOrder(op.moment, combo.reward), ops: [stateChange(combo.icd, 'set', 1)] });
     }
   }
-  for (const row of stableSorted(scheduled, (item) => item.sortOrder)) rewardOps.push(...row.ops);
+  scheduled.sort((left, right) => left.moment - right.moment || left.sortOrder - right.sortOrder);
+  for (const row of scheduled) rewardOps.push(...row.ops);
   assertPriorOutputsResolved([rewardStart], planPath(ctx.authored.skillKey, `rules.${combo.rewardRule.ruleKey}.actions.${rewardStart.actionKey}`), ctx);
   const first = listenerAbility(`listen_${combo.firstRule.ruleKey}`, combo.firstRule.ruleKey, matcher, firstOps, ctx, combo.oncePerUse, firstCondition);
   const reward = listenerAbility(`listen_${combo.rewardRule.ruleKey}`, combo.rewardRule.ruleKey, matcher, rewardOps, ctx, combo.oncePerUse, rewardCondition);
   const counterMax = compileConstNumber(combo.counter.detail.maxValue, planPath(ctx.authored.skillKey, `internalStates.${combo.counter.stateKey}.detail.maxValue`), ctx.authored, '计数上限');
   const initial = compileConstNumber(combo.counter.detail.initialValue, planPath(ctx.authored.skillKey, `internalStates.${combo.counter.stateKey}.detail.initialValue`), ctx.authored, '计数初始值');
   const icdMs = foldPositiveInt(
-    compileNumericValue(combo.icd.detail.durationValue, planPath(ctx.authored.skillKey, `internalStates.${combo.icd.stateKey}.detail.durationValue`), numericState(ctx.authored), fail),
+    compileNumericValue(combo.icd.detail.durationValue, planPath(ctx.authored.skillKey, `internalStates.${combo.icd.stateKey}.detail.durationValue`), constantState(ctx.authored), fail),
     planPath(ctx.authored.skillKey, `internalStates.${combo.icd.stateKey}.detail.durationValue`),
     '内部冷却'
   );
@@ -861,6 +978,8 @@ function compileCountWindow(combo: CountWindowCombo, ctx: CompileCtx): { abiliti
 function compileEmpowered(combo: EmpoweredCombo, ctx: CompileCtx): { abilities: AbilityDefinition[]; schema: Record<string, ProviderStateFieldSchema> } {
   const startCondition = compileListenerCondition(combo.startRule, 'SKILL_USED', ctx);
   const consumeCondition = compileListenerCondition(combo.consumeRule, combo.eventType, ctx);
+  requireGroupGuard(combo.startRule, combo.flag.stateKey, false, ctx.authored);
+  requireGroupGuard(combo.consumeRule, combo.flag.stateKey, true, ctx.authored);
   ctx.typeEntries.set('event/ability_started', 'event');
   ctx.typeEntries.set(eventTypeKey(combo.eventType), 'event');
   ctx.typeEntries.set('event/source_owner', 'event');
@@ -901,7 +1020,7 @@ function compileEmpowered(combo: EmpoweredCombo, ctx: CompileCtx): { abilities: 
     consumeOps, ctx, combo.oncePerUse, consumeCondition
   );
   const icdMs = foldPositiveInt(
-    compileNumericValue(combo.icd.detail.durationValue, planPath(ctx.authored.skillKey, `internalStates.${combo.icd.stateKey}.detail.durationValue`), numericState(ctx.authored), fail),
+    compileNumericValue(combo.icd.detail.durationValue, planPath(ctx.authored.skillKey, `internalStates.${combo.icd.stateKey}.detail.durationValue`), constantState(ctx.authored), fail),
     planPath(ctx.authored.skillKey, `internalStates.${combo.icd.stateKey}.detail.durationValue`),
     '内部冷却'
   );
@@ -957,9 +1076,14 @@ export function adaptTriggerProgram(authored: AuthoredTriggerProgram): AdaptedTr
   if (!Number.isInteger(authored.characterLevel) || authored.characterLevel < 1) fail('characterLevel', '本次等级必须明确且有效');
   const combo = classifyTriggerProgram(authored);
   const ctx: CompileCtx = {
-    authored, state: numericState(authored), typeEntries: new Map(), abilityTypes: new Set(), outputRefs: new Map()
+    authored, state: numericState(authored), typeEntries: new Map(), abilityTypes: new Set(), outputRefs: new Map(),
+    stateKeys: new Set([combo.kind === 'count_window' ? combo.counter.stateKey : combo.flag.stateKey, combo.icd.stateKey]),
+    shieldGuard: { rule: combo.kind === 'count_window' ? combo.rewardRule : combo.consumeRule, cooldown: combo.icd },
+    shieldRefs: new Set()
   };
   const compiled = combo.kind === 'count_window' ? compileCountWindow(combo, ctx) : compileEmpowered(combo, ctx);
+  const authorOrder = stableSorted(authored.rules, (rule) => rule.sortOrder).map((rule) => rule.ruleKey);
+  compiled.abilities.sort((left, right) => authorOrder.indexOf(left.listenerSpec!.listenerKey) - authorOrder.indexOf(right.listenerSpec!.listenerKey));
   const providerKey = `trigger:${authored.skillKey}`;
   const provider: ProviderDefinition = {
     providerKey, kind: 'item', stableId: providerKey,
@@ -1015,10 +1139,15 @@ export function withTriggerProgram(
     request.rules.vampRules = adapted.vampRules;
     for (const actor of request.combatants) actor.types = [...new Set([...(actor.types ?? []), 'combatant/champion'])];
   }
-  if (binding.initialCastAbilityKey && adapted.initialCastAbilityType) {
-    const provider = request.sharedProviders.find((row) => row.abilities?.some((ability) => ability.abilityKey === binding.initialCastAbilityKey));
-    const ability = provider?.abilities?.find((row) => row.abilityKey === binding.initialCastAbilityKey);
-    if (!ability) fail('bindings.initialCastAbilityKey', '启动能力必须已存在');
+  if (adapted.initialCastAbilityType) {
+    if (!binding.initialCastAbilityKey) fail('bindings.initialCastAbilityKey', '必须明确绑定初次启动能力');
+    const actor = request.combatants.find((row) => row.key === (binding.authored.owner ?? 'source'));
+    const matches = request.sharedProviders.filter((provider) => actor?.providers.some((mount) => mount.definitionRef === provider.providerKey))
+      .flatMap((provider) => (provider.abilities ?? []).filter((ability) => ability.abilityKey === binding.initialCastAbilityKey));
+    if (matches.length !== 1) fail('bindings.initialCastAbilityKey', '启动能力必须属于实际拥有者且唯一存在');
+    const ability = matches[0]!;
+    if (ability.kind !== 'active' || ability.types?.includes('ability/basic_attack')) fail('bindings.initialCastAbilityKey', '初次技能启动能力必须是明确的非普攻主动能力');
+    if (ability.skillKey && ability.skillKey !== binding.authored.skillKey) fail('bindings.initialCastAbilityKey', '启动能力来源技能身份冲突');
     ability.skillKey = binding.authored.skillKey;
     ability.types = [...new Set([...(ability.types ?? []), adapted.initialCastAbilityType])];
   }
@@ -1030,8 +1159,23 @@ export function withTriggerProgram(
   const owner = binding.authored.owner ?? 'source';
   const actor = request.combatants.find((row) => row.key === owner);
   if (!actor) fail(`combatants.${owner}`, '监听器拥有者必须是实际对象');
-  if (!actor.providers.some((row) => row.providerRef === binding.triggerProviderKey)) {
+  const mounted = actor.providers.find((row) => row.providerRef === binding.triggerProviderKey);
+  if (mounted && mounted.definitionRef !== binding.triggerProviderKey) fail(`combatants.${owner}.providers`, '已有实例引用指向不同定义');
+  if (!mounted) {
     actor.providers.push({ providerRef: binding.triggerProviderKey, definitionRef: binding.triggerProviderKey });
+  }
+  for (const ability of adapted.provider.abilities ?? []) {
+    for (const operation of ability.listenerSpec?.operations ?? []) {
+      if (operation.operation !== 'resource_change' && operation.operation !== 'attribute_change') continue;
+      const targetKey = operation.target === 'target' ? (owner === 'source' ? 'target' : 'source') : owner;
+      const target = request.combatants.find((row) => row.key === targetKey);
+      const collection = operation.operation === 'resource_change' ? 'resources' : 'attributes';
+      const key = operation.operation === 'resource_change' ? operation.resourceKey! : operation.attributeKey!;
+      const path = `combatants.${targetKey}.${collection}.${key}`;
+      const slot = target?.[collection][key];
+      if (!slot) fail(path, '数值变化必须有明确的输入槽位，不能自动创建资源或属性');
+      for (const value of Object.values(slot)) finite(value, path);
+    }
   }
   for (const combatant of request.combatants) {
     for (const key of adapted.requiredAttributes) {
