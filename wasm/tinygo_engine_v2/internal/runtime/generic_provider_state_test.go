@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"encoding/json"
+	"fmt"
 	"math"
 	"strings"
 	"testing"
@@ -1107,6 +1108,47 @@ func TestProviderStateStartOnFirstWriteDoesNotRefresh(t *testing.T) {
 	}
 	if _, ok := addDuration(math.MaxInt64-1, 10); ok {
 		t.Fatal("overflow must fail")
+	}
+}
+
+func TestRefreshOnWriteConsumedWindowCanRestore(t *testing.T) {
+	for _, target := range []bool{false, true} {
+		t.Run(fmt.Sprintf("target_%v", target), func(t *testing.T) {
+			bag := &providerStateBag{
+				state: map[string]float64{}, expireAt: map[string]int64{},
+				targetValues: map[string]float64{}, targetExpireAt: map[string]int64{},
+				fieldDefs: map[string]providerStateFieldDef{"ready": {defaultValue: 0, durationMs: 10000, refreshPolicy: model.ProviderStateRefreshOnWrite}},
+			}
+			values, expires := bag.state, bag.expireAt
+			write := func(now int64) {
+				if !bag.refreshExpireAtOnWrite("ready", now) {
+					t.Fatal("refresh failed")
+				}
+			}
+			if target {
+				bag.targetKey = "target"
+				values, expires = bag.targetValues, bag.targetExpireAt
+				write = func(now int64) {
+					if _, ok := bag.refreshTargetExpireAtOnWrite("ready", now); !ok {
+						t.Fatal("target refresh failed")
+					}
+				}
+			}
+			values["ready"] = 1
+			write(0)
+			write(9000)
+			if expires["ready"] != 19000 {
+				t.Fatalf("refresh expiry=%d want 19000", expires["ready"])
+			}
+			values["ready"] = 0
+			write(11000)
+			if err := restoreBagTimers(bag, 11000, map[string]bool{"source": true, "target": true}, "state", "schema", "rules", "session"); err != nil {
+				t.Fatalf("consumed window must yield restorable state: %+v", err)
+			}
+			if expires["ready"] != 0 {
+				t.Fatalf("consumption must clear expiry, got %d", expires["ready"])
+			}
+		})
 	}
 }
 

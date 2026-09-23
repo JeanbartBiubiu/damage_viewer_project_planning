@@ -530,6 +530,10 @@ func (b *providerStateBag) refreshExpireAtOnWrite(key string, nowMs int64) bool 
 	b.ensure()
 	switch def.refreshPolicy {
 	case model.ProviderStateRefreshOnWrite:
+		if b.state[key] == def.defaultValue {
+			b.expireAt[key] = 0
+			return true
+		}
 		exp, ok := addDuration(nowMs, def.durationMs)
 		if !ok {
 			return false
@@ -554,6 +558,10 @@ func (b *providerStateBag) refreshTargetExpireAtOnWrite(key string, nowMs int64)
 	b.ensure()
 	switch def.refreshPolicy {
 	case model.ProviderStateRefreshOnWrite:
+		if b.targetValues[key] == def.defaultValue {
+			b.targetExpireAt[key] = 0
+			return 0, true
+		}
 		exp, ok := addDuration(nowMs, def.durationMs)
 		if !ok {
 			return 0, false
