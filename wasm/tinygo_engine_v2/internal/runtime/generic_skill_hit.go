@@ -179,54 +179,7 @@ func (s *genericRunState) validateAndIndexSkillHitFacts() *model.EngineError {
 		}
 		s.skillHitFacts[fact.DriverEntryKey] = fact
 	}
-	if err := s.bindMissingBasicAttackFacts(hitEntries); err != nil {
-		return err
-	}
 	return s.buildSkillHitGroups(hitEntries)
-}
-
-func (s *genericRunState) bindMissingBasicAttackFacts(hitEntries map[string]int) *model.EngineError {
-	for entryKey, idx := range hitEntries {
-		if _, ok := s.skillHitFacts[entryKey]; ok {
-			continue
-		}
-		entry := s.req.DriverPlan.Entries[idx]
-		ability, _, ok := s.lookupDriverAbility(entry)
-		if !ok || !ability.IsBasicAttack {
-			continue
-		}
-		skillKey := strings.TrimSpace(ability.SkillHitSkillKey)
-		if skillKey == "" {
-			skillKey = strings.TrimSpace(ability.SkillKey)
-		}
-		if skillKey == "" {
-			return s.skillHitErr(model.GenericErrMissingRequiredField, "basic attack resolve requires skillKey", "skillHitFacts", entryKey)
-		}
-		useKey := nativeBasicAttackSkillPrefix + entryKey
-		if _, exists := s.skillUses[useKey]; exists {
-			useKey = nativeBasicAttackSkillPrefix + entryKey + ":" + skillKey
-		}
-		if _, exists := s.skillUses[useKey]; exists {
-			return s.skillHitErr(model.GenericErrUnknownRef, "could not allocate a unique basic-attack useKey", "skillUses", useKey)
-		}
-		s.skillUses[useKey] = &skillUseRuntime{
-			useKey:       useKey,
-			source:       entry.Source,
-			skillKey:     skillKey,
-			historyState: model.SkillHitHistoryComplete,
-		}
-		s.req.SkillUses = append(s.req.SkillUses, model.SkillUseFact{
-			UseKey:       useKey,
-			Source:       entry.Source,
-			SkillKey:     skillKey,
-			HistoryState: model.SkillHitHistoryComplete,
-		})
-		ref := useKey
-		fact := model.SkillHitFact{DriverEntryKey: entryKey, UseRef: &ref}
-		s.req.SkillHitFacts = append(s.req.SkillHitFacts, fact)
-		s.skillHitFacts[entryKey] = fact
-	}
-	return nil
 }
 
 func (s *genericRunState) buildSkillHitGroups(hitEntries map[string]int) *model.EngineError {

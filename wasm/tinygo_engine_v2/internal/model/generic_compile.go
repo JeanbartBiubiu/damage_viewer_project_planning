@@ -221,6 +221,8 @@ type OperationDefinition struct {
 	ProviderRefFromEvent bool `json:"providerRefFromEvent,omitempty"`
 	// OutputRef 仅真实 damage 结算导出同帧口径；后续操作用 operation.output.<ref>.<kind> 读取。
 	OutputRef string `json:"outputRef,omitempty"`
+	// ShieldDurationMs 仅 shield 允许；省略表示无期限。有字段时运行按施加帧严格求值。
+	ShieldDurationMs *GenericFormulaExpr `json:"shieldDurationMs,omitempty"`
 }
 
 // ModifierDefinition 是 provider 级 modifier。

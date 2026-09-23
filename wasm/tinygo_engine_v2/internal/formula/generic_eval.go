@@ -19,9 +19,10 @@ type GenericEvalContext struct {
 	StrictReads bool
 
 	// Provider state reads require a concrete provider context.
-	HasProviderContext  bool
-	ProviderState       map[string]float64
-	ProviderTargetState map[string]float64
+	HasProviderContext    bool
+	ProviderState         map[string]float64
+	ProviderTargetState   map[string]float64
+	ProviderStateDefaults map[string]float64
 
 	// Event snapshot reads require an emit_event listener / child-ability context.
 	// Participants are the original emitted event source/target (not owner-remapped).
@@ -53,11 +54,11 @@ type GenericEvalContext struct {
 	EventDamage            EventDamageSnapshot
 
 	// Skill hit freeze reads: event.skill_hit.firstContact|blocked. Missing value is a path error.
-	HasEventSkillHit           bool
-	HasSkillHitFirstContact    bool
-	SkillHitFirstContact       float64
-	HasSkillHitBlocked         bool
-	SkillHitBlocked            float64
+	HasEventSkillHit        bool
+	HasSkillHitFirstContact bool
+	SkillHitFirstContact    float64
+	HasSkillHitBlocked      bool
+	SkillHitBlocked         float64
 
 	// Operation output reads require the current execution frame after a real damage settlement.
 	HasOperationOutputs bool
@@ -220,9 +221,9 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 	case ReadTargetAttr:
 		return readAttrValueChecked(ctx.TargetAttrs, key, ctx.StrictReads)
 	case ReadSourceResource:
-		return readResourceValue(ctx.SourceResources, key), nil
+		return readResourceValueChecked(ctx.SourceResources, key, ctx.StrictReads)
 	case ReadTargetResource:
-		return readResourceValue(ctx.TargetResources, key), nil
+		return readResourceValueChecked(ctx.TargetResources, key, ctx.StrictReads)
 	case ReadAbilityParam:
 		if ctx.StrictReads {
 			value, ok := ctx.AbilityParams[key]
@@ -239,18 +240,12 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 		if !ctx.HasProviderContext {
 			return 0, errors.New("provider.state requires provider context")
 		}
-		if ctx.ProviderState == nil {
-			return 0, nil
-		}
-		return ctx.ProviderState[key], nil
+		return readProviderValue(ctx.ProviderState, ctx.ProviderStateDefaults, key, ctx.StrictReads)
 	case ReadProviderTargetState:
 		if !ctx.HasProviderContext {
 			return 0, errors.New("provider.target_state requires provider context")
 		}
-		if ctx.ProviderTargetState == nil {
-			return 0, nil
-		}
-		return ctx.ProviderTargetState[key], nil
+		return readProviderValue(ctx.ProviderTargetState, ctx.ProviderStateDefaults, key, ctx.StrictReads)
 	case ReadEventEntrySourceAttr:
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
@@ -265,12 +260,12 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
 		}
-		return readResourceValue(ctx.EventEntrySourceResources, key), nil
+		return readResourceValueChecked(ctx.EventEntrySourceResources, key, ctx.StrictReads)
 	case ReadEventEntryTargetResource:
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
 		}
-		return readResourceValue(ctx.EventEntryTargetResources, key), nil
+		return readResourceValueChecked(ctx.EventEntryTargetResources, key, ctx.StrictReads)
 	case ReadEventSourceAttr:
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
@@ -285,12 +280,12 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
 		}
-		return readResourceValue(ctx.EventSourceResources, key), nil
+		return readResourceValueChecked(ctx.EventSourceResources, key, ctx.StrictReads)
 	case ReadEventTargetResource:
 		if err := requireEventContext(ctx); err != nil {
 			return 0, err
 		}
-		return readResourceValue(ctx.EventTargetResources, key), nil
+		return readResourceValueChecked(ctx.EventTargetResources, key, ctx.StrictReads)
 	case ReadDamageAmount:
 		if !ctx.HasDamageContext {
 			return 0, errors.New("damage.amount requires damage context")
@@ -490,6 +485,30 @@ func readResourceValue(resources map[string]model.ResourceSlotDef, key string) f
 		return 0
 	}
 	return slot.Current
+}
+
+func readResourceValueChecked(resources map[string]model.ResourceSlotDef, key string, strict bool) (float64, error) {
+	resourceKey := key
+	if idx := strings.LastIndex(key, "."); idx > 0 {
+		resourceKey = key[:idx]
+	}
+	if _, ok := resources[resourceKey]; !ok && strict {
+		return 0, errors.New("missing resource: " + resourceKey)
+	}
+	return readResourceValue(resources, key), nil
+}
+
+func readProviderValue(values, defaults map[string]float64, key string, strict bool) (float64, error) {
+	if value, ok := values[key]; ok {
+		return value, nil
+	}
+	if value, ok := defaults[key]; ok {
+		return value, nil
+	}
+	if strict {
+		return 0, errors.New("missing provider state: " + key)
+	}
+	return 0, nil
 }
 
 func finite(v float64) bool {

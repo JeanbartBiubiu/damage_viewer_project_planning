@@ -27,6 +27,9 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 	collector := ctx.collector
 	session := ctx.session
 	opPath := path + ".operations[0]"
+	if op.ShieldDurationMs != nil {
+		collector.addError(model.GenericErrMissingRequiredField, opPath+".shieldDurationMs", "shieldDurationMs is only supported on shield operations", op.Operation)
+	}
 	if op.SkillHit == nil {
 		collector.addError(model.GenericErrMissingRequiredField, opPath+".skillHit", "resolve_skill_hit requires skillHit", ability.AbilityKey)
 		session.Operations = append(session.Operations, CompiledOperation{Operation: model.OperationKindResolveSkillHit, Target: op.Target})
