@@ -77,6 +77,7 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 | 跨来源状态合并与重施 | 已接入 | `source_target` 单层重施、普通减速取强快照、`effectiveStatuses`、治疗组 `ratio_max` |
 | 命中供值与法术护盾 | 已接入 | `resolve_skill_hit` 单次 driver、`skillUses`/`skillHitFacts`、四档阻挡与 `event/spell_shield_blocked` |
 | 同次使用、固定时间窗与普攻原生事件 | 已接入 | `listener.condition` 冻结、`oncePerUse` 专用账本、`start_on_first_write`、`operation.outputRef`、`event/basic_attack_*` |
+| 主动过程与阶段时点 | 已接入 | 顺序即时/延时、末尾蓄力或单次重施、原子成本、取消/中断、实际成本退款、可恢复实例 |
 | Canonical fixture | 已接入 | `generic_p0_basic_damage.json`（targetFinalHp=900） |
 | Node smoke | 已接入 | 真实 compile/run/release round-trip |
 | Node / Go bench | 已接入 | `--mode generic-run` / `go run ./cmd/bench` 默认 generic |
@@ -324,3 +325,23 @@ node .\scripts\p6-smoke-node.mjs
 - 清理按完整引用匹配，且只移除已经到期的实例；旧事件不能删刷新后或新实例。快照保存/恢复 `expireAt`。到期采用左闭右开：到期同刻不能再吸收，施加同帧仍可吸收。
 
 专项验证覆盖期限内吸收、到期同刻、同帧吸收、引用冲突、恢复清理、非法期限与失败帧。2026-09-23最终产物895683字节，SHA256为`620763fce922e91e3a33f6b8a1597ff528ffcf7a53200cabecf50f548ee3415b`；真实浏览器Worker第6项13项通过，另第5项10项、第7项8项及通用吸血8项通过。第6项包含原库星蚀护盾公式与期限，不代表原装备全部触发资格已核定。分层证据由唯一计划及其《命中与触发运行》验收记录维护。
+
+### 主动过程与阶段时点
+
+方案唯一来源为规划工作树《管理页面与共性机制迭代计划》第4项 `casting-runtime-r2`。过程定义位于 `ProviderDefinition.processes`，能力继续使用 `kind=active`，由 `processControl.action` 声明首次施放、重施、蓄力释放、取消或中断。过程控制只接受单次驱动与明确 `processCommandFacts`，绑定已有真实 `skillUses`。
+
+- 首期支持顺序 `IMMEDIATE`（即时）、`DELAY`（延时），末尾一个 `CHARGE`（蓄力）或 `RECAST`（单次重施）。步骤时长在进入时严格求值并冻结，不接旧分步引擎，也不按英雄名判断。
+- 所有成本逐笔求值并检查有限非负，同资源聚合后统一检查、原子扣款。实例 `actualCosts` 记录扣前扣后差额；完成或失败时点可读取 `process.actual_cost.<资源键>`，属性后来变化不重算历史账。
+- 时点先启动至多一次普通冷却，再按原数组顺序执行匹配操作。`set_remaining`（设置剩余冷却）只接受有限非负整数毫秒及安全时间相加，在过程内锁定首次能力的真实完整引用；0 表示立即可用。
+- 到期先于同刻推进；多个过程同刻计时按拥有者、挂载、过程、使用身份稳定排序，恢复沿用相同顺序。即时/延时步骤自动推进，重施到期只走超时和完成；蓄力最大值是否执行步骤由明确布尔决定。统一终结防止旧事件、重复取消或阶段推进重复结算。
+- 伤害提交后、死亡停机前，先冻结该次死亡涉及的活动过程集合，稳定执行 `SOURCE_DIED`（来源死亡）失败时点。其它中断依赖明确控制能力与事实。阶段伤害和治疗累计到首次能力统计；首次事件仅成功开始时产生，同真实使用的后续第5项命中保留命中身份而不再产生首次事件。
+- `Snapshot.processInstances` 保存活动及终结实例；两者均计入独立预算，默认10000、上限100000。恢复验证归属、成本键、步骤版本、冻结时间及终结标记。到期等于快照时间会补本刻计时，过去活动期限或含过程运行中的过去驱动明确失败；历史使用可不重复输入，出现时必须匹配。新对象拒绝未知字段和缺失必需字段。
+
+专项输入全部为明确合成机制样例，不代表任意管理过程或整英雄已装配。原生与真实 Node Wasm 验证入口：
+
+```powershell
+go test -count=1 ./internal/compile ./internal/runtime ./internal/model ./internal/formula ./internal/scheduler -run 'Process|P6|SkillHit|Cooldown'
+node .\scripts\p4-runtime-smoke.mjs
+```
+
+真实浏览器 Worker 与原管理对象返回验证由宿主集成任务独立记录；Node 与原生测试不替代浏览器证据。

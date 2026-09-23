@@ -10,7 +10,8 @@ const MaxGenericEventHeap = 100000
 type GenericEventCategory uint8
 
 const (
-	GenericCategoryAnchoredTick GenericEventCategory = iota
+	GenericCategoryProcessTimer GenericEventCategory = iota
+	GenericCategoryAnchoredTick
 	GenericCategoryExpireCleanup
 	GenericCategoryProviderTick
 	GenericCategoryAbilityAttempt
@@ -28,6 +29,7 @@ const (
 	GenericEventTriggeredContinuation
 	GenericEventSample
 	GenericEventAnchoredTick
+	GenericEventProcessTimer
 )
 
 // ProviderInstanceRef 定位 combatant 上的 provider instance。
@@ -38,11 +40,14 @@ type ProviderInstanceRef struct {
 
 // GenericEvent 是 generic runtime 调度事件。
 type GenericEvent struct {
-	TimeMs   int64
-	Category GenericEventCategory
-	Priority int16
-	Seq      uint64
-	Kind     GenericEventKind
+	ProcessIndex       int
+	ProcessStepVersion int
+	ProcessSortKey     string
+	TimeMs             int64
+	Category           GenericEventCategory
+	Priority           int16
+	Seq                uint64
+	Kind               GenericEventKind
 	// DriverEntryIndex 指向 driver plan entry；-1 表示非 driver 事件。
 	DriverEntryIndex int
 	AttemptIndex     int
@@ -118,6 +123,9 @@ func GenericLess(a, b GenericEvent) bool {
 	}
 	if a.Category != b.Category {
 		return a.Category < b.Category
+	}
+	if a.Kind == GenericEventProcessTimer && b.Kind == GenericEventProcessTimer && a.ProcessSortKey != b.ProcessSortKey {
+		return a.ProcessSortKey < b.ProcessSortKey
 	}
 	if a.Priority != b.Priority {
 		return a.Priority < b.Priority

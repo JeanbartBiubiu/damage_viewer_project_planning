@@ -43,6 +43,7 @@ const (
 	ReadEventSkillHit
 	// ReadOperationOutput 读取 operation.output.<ref>.<kind>；仅同帧已结算伤害。
 	ReadOperationOutput
+	ReadProcessActualCost
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -221,6 +222,10 @@ func compileGenericNode(expr model.GenericFormulaExpr, path string, named map[st
 }
 
 func parseReadPath(path string) (GenericReadKind, string, bool) {
+	if strings.HasPrefix(path, "process.actual_cost.") {
+		key := strings.TrimPrefix(path, "process.actual_cost.")
+		return ReadProcessActualCost, key, key != "" && !strings.ContainsAny(key, ".[] ")
+	}
 	if path == "" {
 		return 0, "", false
 	}
@@ -329,17 +334,17 @@ func CanonicalDamageTypeKey(nameOrKey string) string {
 
 // EventDamageSnapshotField names the frozen event.damage.* numeric paths.
 var EventDamageSnapshotFields = map[string]struct{}{
-	"baseRawAmount":         {},
-	"preMitigationAmount":   {},
-	"mitigatedAmount":       {},
-	"originalCritChance":    {},
-	"effectiveCritChance":   {},
-	"forcedCritWeight":      {},
-	"naturalCritWeight":     {},
-	"forcedCritMultiplier":  {},
-	"naturalCritMultiplier": {},
-	"normalPart":            {},
-	"critPart":              {},
+	"baseRawAmount":          {},
+	"preMitigationAmount":    {},
+	"mitigatedAmount":        {},
+	"originalCritChance":     {},
+	"effectiveCritChance":    {},
+	"forcedCritWeight":       {},
+	"naturalCritWeight":      {},
+	"forcedCritMultiplier":   {},
+	"naturalCritMultiplier":  {},
+	"normalPart":             {},
+	"critPart":               {},
 	"naturalBranchRawAmount": {},
 }
 

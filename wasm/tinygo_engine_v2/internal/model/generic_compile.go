@@ -69,6 +69,7 @@ type CombatantProviderMount struct {
 
 // ProviderDefinition 是可复用 capability provider 定义。
 type ProviderDefinition struct {
+	Processes           []ProcessDefinition            `json:"processes,omitempty"`
 	ProviderKey         string                         `json:"providerKey"`
 	Kind                string                         `json:"kind"`
 	StableID            string                         `json:"stableId"`
@@ -136,20 +137,21 @@ var ValidCastOrigins = map[string]struct{}{
 
 // AbilityDefinition 是 provider 内能力定义。
 type AbilityDefinition struct {
-	AbilityKey    string                 `json:"abilityKey"`
-	Kind          string                 `json:"kind"`
-	Types         []string               `json:"types,omitempty"`
-	Tags          []string               `json:"tags,omitempty"`
-	Params        map[string]float64     `json:"params,omitempty"`
-	CastOrigin    string                 `json:"castOrigin,omitempty"` // champion|item|pet|innate
-	SkillKey      string                 `json:"skillKey,omitempty"`
-	Cost          *AbilityCost           `json:"cost,omitempty"`
-	Cooldown      *AbilityCooldown       `json:"cooldown,omitempty"`
-	CastCondition *GenericFormulaExpr    `json:"castCondition,omitempty"`
-	Operations    []OperationDefinition  `json:"operations,omitempty"`
-	ListenerSpec  *ListenerDefinition    `json:"listenerSpec,omitempty"`
-	TickSpec      *TickSpec              `json:"tickSpec,omitempty"`
-	StateSchema   map[string]interface{} `json:"stateSchema,omitempty"`
+	ProcessControl *ProcessControlDefinition `json:"processControl,omitempty"`
+	AbilityKey     string                    `json:"abilityKey"`
+	Kind           string                    `json:"kind"`
+	Types          []string                  `json:"types,omitempty"`
+	Tags           []string                  `json:"tags,omitempty"`
+	Params         map[string]float64        `json:"params,omitempty"`
+	CastOrigin     string                    `json:"castOrigin,omitempty"` // champion|item|pet|innate
+	SkillKey       string                    `json:"skillKey,omitempty"`
+	Cost           *AbilityCost              `json:"cost,omitempty"`
+	Cooldown       *AbilityCooldown          `json:"cooldown,omitempty"`
+	CastCondition  *GenericFormulaExpr       `json:"castCondition,omitempty"`
+	Operations     []OperationDefinition     `json:"operations,omitempty"`
+	ListenerSpec   *ListenerDefinition       `json:"listenerSpec,omitempty"`
+	TickSpec       *TickSpec                 `json:"tickSpec,omitempty"`
+	StateSchema    map[string]interface{}    `json:"stateSchema,omitempty"`
 }
 
 // AbilityCost 是 active ability 资源消耗。
