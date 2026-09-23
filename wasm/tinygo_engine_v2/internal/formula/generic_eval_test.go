@@ -250,3 +250,27 @@ func TestGenericEvalSkillHitMissingValueReportsPath(t *testing.T) {
 		t.Fatalf("got %v err=%v", got, err)
 	}
 }
+
+func TestTryFoldConstAndPositiveDuration(t *testing.T) {
+	okReg := mustCompileFormula(t, model.GenericFormulaExpr{
+		Op: "add",
+		Args: []model.GenericFormulaExpr{
+			{Op: "const", Value: model.Float64Ptr(1000)},
+			{Op: "const", Value: model.Float64Ptr(1000)},
+		},
+	})
+	value, folded := TryFoldConst(okReg.Programs[0].Instr)
+	if !folded || value != 2000 || !ValidPositiveInt64DurationMs(value) {
+		t.Fatalf("folded=%v value=%v", folded, value)
+	}
+	readReg := mustCompileFormula(t, model.GenericFormulaExpr{Op: "read", Path: "ability.param.x"})
+	if _, folded := TryFoldConst(readReg.Programs[0].Instr); folded {
+		t.Fatal("read formula must not fold")
+	}
+	if ValidPositiveInt64DurationMs(0) || ValidPositiveInt64DurationMs(-1) || ValidPositiveInt64DurationMs(1.5) || ValidPositiveInt64DurationMs(9223372036854775808.0) {
+		t.Fatal("illegal durations accepted")
+	}
+	if !ValidPositiveInt64DurationMs(1) || !ValidPositiveInt64DurationMs(2000) {
+		t.Fatal("legal durations rejected")
+	}
+}

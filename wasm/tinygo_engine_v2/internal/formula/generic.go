@@ -447,6 +447,32 @@ func genericOpFor(op string) GenericOp {
 	}
 }
 
+// maxInt64ExclusiveFloat 是不能落入 int64 的下限（2^63）。
+const maxInt64ExclusiveFloat = 9223372036854775808.0
+
+// ValidPositiveInt64DurationMs 判断期限在转换为 int64 前是否为有限正整数毫秒。
+func ValidPositiveInt64DurationMs(value float64) bool {
+	return finite(value) && value == math.Trunc(value) && value > 0 && value < maxInt64ExclusiveFloat
+}
+
+// TryFoldConst 仅在程序不含 read 时折叠常量。折叠失败（非有限、除零等）仍视为已折叠的非法值。
+func TryFoldConst(instr []GenericInstr) (float64, bool) {
+	if len(instr) == 0 {
+		return 0, false
+	}
+	for _, in := range instr {
+		if in.Op == GenericOpRead {
+			return 0, false
+		}
+	}
+	reg := GenericRegistry{Programs: []GenericProgram{{Instr: instr}}}
+	value, err := reg.Eval(0, GenericEvalContext{})
+	if err != nil {
+		return math.NaN(), true
+	}
+	return value, true
+}
+
 func itoa(v int) string {
 	if v == 0 {
 		return "0"

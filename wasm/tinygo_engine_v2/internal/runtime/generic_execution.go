@@ -33,6 +33,12 @@ type stagedProviderMutation struct {
 	contributions  []status.StatusContribution
 }
 
+type pendingShieldExpire struct {
+	combatantKey string
+	shieldRef    string
+	expireAt     int64
+}
+
 type stagedCombatant struct {
 	attributes     map[string]model.AttributeSlotDef
 	resources      map[string]model.ResourceSlotDef
@@ -121,6 +127,7 @@ type executionFrame struct {
 	skillHitCandidateKey string
 	skillHitOccurrenceID uint64
 	operationOutputs     map[string]formula.OperationOutputValues
+	pendingShieldExpires []pendingShieldExpire
 }
 
 // copyableDamageFrozen 冻结一次 CopyableOnHit damage 的 replay 输入（不做公式重算 / 不二次 crit 结算）。
@@ -564,15 +571,32 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			if ref == "" {
 				ref = "shield:auto"
 			}
+			expireAt := int64(0)
+			if op.HasShieldDuration {
+				var err *model.EngineError
+				expireAt, err = f.evalShieldDuration(op, ability)
+				if err != nil {
+					return err
+				}
+				ref = f.run.nextShieldRef(ref)
+			}
+			f.run.reserveShieldRef(ref)
 			sc.shields = append(sc.shields, pipeline.ShieldInstance{
 				ShieldRef: ref,
 				Source:    f.sourceKey,
 				Owner:     targetKey,
 				Remaining: amount,
 				Priority:  0,
-				ExpireAt:  0,
+				ExpireAt:  expireAt,
 				State:     map[string]interface{}{},
 			})
+			if expireAt > 0 {
+				f.pendingShieldExpires = append(f.pendingShieldExpires, pendingShieldExpire{
+					combatantKey: targetKey,
+					shieldRef:    ref,
+					expireAt:     expireAt,
+				})
+			}
 			sc.dirty = true
 			return nil
 		}
@@ -1914,6 +1938,59 @@ func (f *executionFrame) commit() {
 				}
 				f.run.expireProviderInstance(mut.targetKey, mut.providerRef, evalCtx)
 			}
+		}
+	}
+	if f.fatal {
+		return
+	}
+	f.enqueueCommittedTimedShields()
+}
+
+func (f *executionFrame) evalShieldDuration(op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility) (int64, *model.EngineError) {
+	wasStrict := f.strictReads
+	f.strictReads = true
+	ctx := f.evalContext(ability)
+	f.strictReads = wasStrict
+	path := "shieldDurationMs"
+	if int(op.ShieldDurationProgram) < len(f.run.compiled.Formulas.Programs) {
+		path = f.run.compiled.Formulas.Programs[op.ShieldDurationProgram].Key
+	}
+	value, err := f.run.compiled.Formulas.Eval(op.ShieldDurationProgram, ctx)
+	if err != nil {
+		return 0, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), path, op.ShieldRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	if !formula.ValidPositiveInt64DurationMs(value) {
+		return 0, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "shieldDurationMs must be a positive integer within the timestamp range", path, op.ShieldRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	delta := int64(value)
+	expireAt, ok := addDuration(f.run.nowMs, delta)
+	if !ok || expireAt <= f.run.nowMs {
+		return 0, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "shieldDurationMs expiry overflows the timestamp range", path, op.ShieldRef, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	}
+	return expireAt, nil
+}
+
+func (f *executionFrame) enqueueCommittedTimedShields() {
+	for _, pending := range f.pendingShieldExpires {
+		if pending.expireAt <= 0 || pending.shieldRef == "" {
+			continue
+		}
+		c, ok := f.run.combatants[pending.combatantKey]
+		if !ok {
+			continue
+		}
+		for _, sh := range c.shields {
+			if sh.ShieldRef != pending.shieldRef {
+				continue
+			}
+			if sh.ExpireAt > 0 {
+				f.run.enqueueExpireCleanup(pending.expireAt, expireCleanupPayload{
+					combatantKey: pending.combatantKey,
+					shieldRef:    pending.shieldRef,
+					kind:         "shield",
+				})
+			}
+			break
 		}
 	}
 }
