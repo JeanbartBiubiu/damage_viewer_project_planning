@@ -1,0 +1,2520 @@
+{
+  "observedAt": "2026-09-24T16:47:56.175Z",
+  "evidence": "静态代码快照；未访问实库、未测试接口或运行时。物理列及枚举名称核对是机械覆盖检查，不代替语义审查。",
+  "schema": {
+    "source": "C:/project/damage_backend_dev/db/game_manage/schema.sql",
+    "sha256": "11ca426aad15b545a21d6fef890fa308aad3f9f79f4f44e6538e1146fad090da",
+    "tableCount": 28,
+    "columnCount": 219,
+    "missingColumns": []
+  },
+  "chapters": [
+    {
+      "file": "00-范围与阅读说明.md",
+      "sha256": "1ffebffbcd5f4e47b269def2dd327e1ab5cfa6b96c32b73831da106597aeda7e"
+    },
+    {
+      "file": "01-物理表字段.md",
+      "sha256": "b847c31f572e97a9300c27d1baf225853158119d74927d67276904d5c9d055d6"
+    },
+    {
+      "file": "05-数值公式公共目录与引用.md",
+      "sha256": "b1875755f3eb07ce74173577b755a6289e7bc3e38aadcdbd6533908dcfaf5358"
+    },
+    {
+      "file": "02-效果与生命周期.md",
+      "sha256": "3003534409590f0d6e183ebcfc703900ef73339fd1d627efd9e0ad5c357ae9c1"
+    },
+    {
+      "file": "04-过程与内部状态.md",
+      "sha256": "b1c7547e9a6bcf87214a65de5ddc8ad611c2032353082f1931645d15174e3627"
+    },
+    {
+      "file": "03-事件条件与触发.md",
+      "sha256": "b13e341531308cb4274eb4cd6d85e9ca7a5263673d1fd8a8c77ccbf19425cdee"
+    }
+  ],
+  "enumChecks": [
+    {
+      "name": "SkillEffectAttributeChangeOperation",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectAttributeChangeOperation.java",
+      "values": [
+        "INCREASE",
+        "DECREASE",
+        "SET"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectCooldownChangeOperation",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectCooldownChangeOperation.java",
+      "values": [
+        "REDUCE",
+        "REDUCE_REMAINING_RATIO",
+        "INCREASE",
+        "RESET",
+        "SET_REMAINING"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectCriticalFilter",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectCriticalFilter.java",
+      "values": [
+        "ANY",
+        "CRITICAL_ONLY",
+        "NON_CRITICAL_ONLY"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectCriticalMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectCriticalMode.java",
+      "values": [
+        "DISALLOWED",
+        "SOURCE_CRIT_CHANCE",
+        "FORCED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectDamageDeliveryKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageDeliveryKind.java",
+      "values": [
+        "SKILL",
+        "BASIC_ATTACK"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectDamageFilterDeliveryKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageFilterDeliveryKind.java",
+      "values": [
+        "ANY",
+        "SKILL",
+        "BASIC_ATTACK"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectDamageFilterOriginKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageFilterOriginKind.java",
+      "values": [
+        "ANY",
+        "DIRECT",
+        "REFLECTED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectDamageModifierDirection",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageModifierDirection.java",
+      "values": [
+        "DEALT",
+        "TAKEN"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectDamageOriginKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageOriginKind.java",
+      "values": [
+        "DIRECT",
+        "REFLECTED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectHealingKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectHealingKind.java",
+      "values": [
+        "ANY",
+        "DIRECT",
+        "VAMP"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectHealingModifierDirection",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectHealingModifierDirection.java",
+      "values": [
+        "DONE",
+        "RECEIVED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectLifecycleExpiryMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleExpiryMode.java",
+      "values": [
+        "ALL_AT_ONCE",
+        "ONE_BY_ONE",
+        "INDEPENDENT",
+        "EXPLICIT_ONLY"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectLifecycleFirstPeriodicExecution",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleFirstPeriodicExecution.java",
+      "values": [
+        "IMMEDIATE",
+        "AFTER_INTERVAL"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectLifecycleInstanceScope",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleInstanceScope.java",
+      "values": [
+        "SKILL",
+        "SOURCE",
+        "TARGET",
+        "SOURCE_TARGET"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectLifecycleMoment",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleMoment.java",
+      "values": [
+        "APPLICATION",
+        "PERSISTENT",
+        "FULL_STACKS",
+        "PERIODIC",
+        "NATURAL_END",
+        "EARLY_REMOVE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectLifecycleOperation",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleOperation.java",
+      "values": [
+        "INCREASE",
+        "DECREASE",
+        "SET",
+        "REFRESH",
+        "EXTEND_DURATION",
+        "CONSUME",
+        "REMOVE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectLifecyclePeriodicExecutionMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecyclePeriodicExecutionMode.java",
+      "values": [
+        "ONCE_PER_INSTANCE",
+        "ONCE_PER_ACTIVE_STACK"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectLifecycleReapplicationDurationMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleReapplicationDurationMode.java",
+      "values": [
+        "REFRESH_ALL",
+        "KEEP_REMAINING",
+        "INDEPENDENT"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectLifecycleReapplicationStackMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleReapplicationStackMode.java",
+      "values": [
+        "KEEP",
+        "INCREASE",
+        "REPLACE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectLifecycleReapplicationValueMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleReapplicationValueMode.java",
+      "values": [
+        "KEEP",
+        "REPLACE",
+        "ADD"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectLifecycleStackValueMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleStackValueMode.java",
+      "values": [
+        "SHARED",
+        "PER_STACK"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectLifecycleValueReadMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleValueReadMode.java",
+      "values": [
+        "APPLICATION_SNAPSHOT",
+        "MOMENT_EVALUATION"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectModifierOperation",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectModifierOperation.java",
+      "values": [
+        "INCREASE",
+        "DECREASE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectNormalShieldDecayMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectNormalShieldDecayMode.java",
+      "values": [
+        "NONE",
+        "LINEAR_TO_ZERO"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectResourceChangeOperation",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectResourceChangeOperation.java",
+      "values": [
+        "RESTORE",
+        "CONSUME",
+        "REFUND"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectResultType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectResultType.java",
+      "values": [
+        "DAMAGE",
+        "DIRECT_HEAL",
+        "NORMAL_SHIELD",
+        "ATTRIBUTE_CHANGE",
+        "RESOURCE_CHANGE",
+        "COOLDOWN_CHANGE",
+        "STATUS_OPERATION",
+        "LIFECYCLE_OPERATION",
+        "DAMAGE_MODIFIER",
+        "HEALING_MODIFIER",
+        "SHIELD_RECEIVED_MODIFIER",
+        "DAMAGE_IMMUNITY",
+        "HEALTH_FLOOR",
+        "SPELL_SHIELD",
+        "EXECUTE",
+        "HIT_LINK_APPLICATION",
+        "ATTACK_LINK_APPLICATION",
+        "SKILL_HASTE_MODIFIER",
+        "ATTACK_TIMER_RESET"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectSkillScopeMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectSkillScopeMode.java",
+      "values": [
+        "ALL",
+        "SKILLS",
+        "CATEGORIES"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectSpellShieldBlockScope",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectSpellShieldBlockScope.java",
+      "values": [
+        "SKILL",
+        "EFFECT",
+        "DAMAGE_INSTANCE",
+        "RESULT"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectStatusOperation",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectStatusOperation.java",
+      "values": [
+        "APPLY",
+        "REMOVE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectTarget",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectTarget.java",
+      "values": [
+        "SOURCE",
+        "TARGET"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectVampBasisOutputKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectVampBasisOutputKind.java",
+      "values": [
+        "POST_DEFENSE_DAMAGE",
+        "ACTUAL_HP_LOSS"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectVampOverrideMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectVampOverrideMode.java",
+      "values": [
+        "DISABLED",
+        "OVERRIDE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectVampQualification",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectVampQualification.java",
+      "values": [
+        "RESOLVED",
+        "UNRESOLVED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillEffectVampType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectVampType.java",
+      "values": [
+        "LIFE_STEAL",
+        "OMNIVAMP",
+        "PHYSICAL_VAMP",
+        "SPELL_VAMP"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillProcessActivationType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessActivationType.java",
+      "values": [
+        "ACTIVE",
+        "PASSIVE",
+        "CONSUMABLE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillProcessEmpoweredConsumeMoment",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessEmpoweredConsumeMoment.java",
+      "values": [
+        "ATTACK_START",
+        "ATTACK_HIT"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillProcessFirstExecution",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessFirstExecution.java",
+      "values": [
+        "IMMEDIATE",
+        "AFTER_INTERVAL"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillProcessMomentType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessMomentType.java",
+      "values": [
+        "PROCESS_START",
+        "STEP_START",
+        "STEP_EXECUTION",
+        "STEP_COMPLETE",
+        "STEP_TIMEOUT",
+        "PROCESS_COMPLETE",
+        "PROCESS_FAILURE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillProcessStateOperationKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessStateOperationKind.java",
+      "values": [
+        "INCREASE",
+        "DECREASE",
+        "CONSUME",
+        "SET",
+        "RESET",
+        "SELECT",
+        "ENABLE",
+        "DISABLE",
+        "TOGGLE",
+        "START"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillProcessStepType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessStepType.java",
+      "values": [
+        "IMMEDIATE",
+        "DELAY",
+        "MULTI_HIT",
+        "PERIODIC",
+        "CHANNEL",
+        "CHARGE",
+        "RECAST",
+        "EMPOWERED_BASIC_ATTACK"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillInternalStateAmmoRecoveryMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateAmmoRecoveryMode.java",
+      "values": [
+        "ONE_BY_ONE",
+        "ALL_AT_ONCE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillInternalStateScope",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateScope.java",
+      "values": [
+        "SKILL",
+        "TARGET"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillInternalStateType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateType.java",
+      "values": [
+        "COUNTER",
+        "AMMO",
+        "MODE",
+        "FLAG",
+        "INTERNAL_COOLDOWN"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerActionType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerActionType.java",
+      "values": [
+        "EXECUTE_EFFECT",
+        "START_PROCESS",
+        "FAIL_PROCESS",
+        "ADVANCE_PROCESS"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerCastPhase",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerCastPhase.java",
+      "values": [
+        "INITIAL",
+        "RECAST",
+        "CHARGE_RELEASE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerCombatStatusValueKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerCombatStatusValueKind.java",
+      "values": [
+        "PRESENT",
+        "STACKS",
+        "REMAINING_MS"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerComparator",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerComparator.java",
+      "values": [
+        "LT",
+        "LTE",
+        "EQ",
+        "NE",
+        "GTE",
+        "GT"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerConditionType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerConditionType.java",
+      "values": [
+        "ATTRIBUTE_COMPARE",
+        "STATUS_CHECK",
+        "INTERNAL_STATE_CHECK",
+        "LIFECYCLE_CHECK",
+        "TARGET_CATEGORY_CHECK",
+        "EXPLICIT_TARGET_IS_SOURCE",
+        "SKILL_HIT_TARGET_IS_ENEMY",
+        "EVENT_VALUE_COMPARE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerDamageDeliveryKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerDamageDeliveryKind.java",
+      "values": [
+        "ANY",
+        "SKILL",
+        "BASIC_ATTACK"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerDamageOriginKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerDamageOriginKind.java",
+      "values": [
+        "ANY",
+        "DIRECT",
+        "REFLECTED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerEventType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventType.java",
+      "values": [
+        "SOURCE_INITIALIZED",
+        "SKILL_USED",
+        "BASIC_ATTACK_START",
+        "BASIC_ATTACK_HIT",
+        "SKILL_HIT",
+        "PROCESS_MOMENT",
+        "RESULT_AVAILABLE",
+        "LIFECYCLE_MOMENT",
+        "DAMAGE_PENDING",
+        "DAMAGE_DEALT",
+        "DAMAGE_TAKEN",
+        "STATUS_CHANGED",
+        "HEALTH_THRESHOLD_CROSSED",
+        "INTERNAL_STATE_CHANGED",
+        "CONTROL_RECEIVED",
+        "ENTITY_DIED",
+        "ENTITY_UNTARGETABLE",
+        "KILL",
+        "TAKEDOWN",
+        "PROCESS_CANCEL_REQUESTED",
+        "SPELL_SHIELD_BLOCKED",
+        "HIT_LINK_APPLIED",
+        "ATTACK_LINK_APPLIED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerEventUseKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventUseKind.java",
+      "values": [
+        "ACTIVE",
+        "CONSUMABLE",
+        "ANY"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerEventValueKey",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventValueKey.java",
+      "values": [
+        "STEP_EXECUTION_INDEX",
+        "CHARGE_DURATION_MS",
+        "RECAST_COUNT",
+        "HIT_INDEX",
+        "SKILL_HIT_FIRST_CONTACT",
+        "LIFECYCLE_STACKS",
+        "PERIOD_INDEX",
+        "REMAINING_MS",
+        "STATE_BEFORE",
+        "STATE_AFTER",
+        "ATTRIBUTE_BEFORE",
+        "ATTRIBUTE_AFTER",
+        "THRESHOLD_VALUE",
+        "RAW_DAMAGE",
+        "POST_DEFENSE_DAMAGE",
+        "HEALTH_BEFORE",
+        "PROJECTED_HEALTH_AFTER",
+        "SHIELD_ABSORBED",
+        "ACTUAL_HP_LOSS",
+        "BLOCKED",
+        "IMMUNE",
+        "KILLED",
+        "LINK_INDEX",
+        "LINK_COUNT",
+        "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerHealthDirection",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerHealthDirection.java",
+      "values": [
+        "UPWARD",
+        "DOWNWARD"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerInternalStateChangeKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerInternalStateChangeKind.java",
+      "values": [
+        "VALUE_CHANGED",
+        "OPTION_SELECTED",
+        "FLAG_CHANGED",
+        "COOLDOWN_READY"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerInternalStateValueKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerInternalStateValueKind.java",
+      "values": [
+        "VALUE",
+        "OPTION_SELECTED",
+        "ENABLED",
+        "REMAINING_MS"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerLifecycleCheckKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerLifecycleCheckKind.java",
+      "values": [
+        "PRESENT",
+        "ABSENT",
+        "STACKS_COMPARE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerLifecycleEventMoment",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerLifecycleEventMoment.java",
+      "values": [
+        "APPLICATION",
+        "FULL_STACKS",
+        "PERIODIC",
+        "NATURAL_END",
+        "EARLY_REMOVE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerOncePerUseScope",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerOncePerUseScope.java",
+      "values": [
+        "SKILL",
+        "TARGET"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerPriorResultOutputKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerPriorResultOutputKind.java",
+      "values": [
+        "CONFIGURED_VALUE",
+        "RAW_DAMAGE",
+        "POST_DEFENSE_DAMAGE",
+        "SHIELD_ABSORBED",
+        "ACTUAL_HP_LOSS",
+        "ACTUAL_HEALING",
+        "BLOCKED",
+        "IMMUNE",
+        "STATUS_APPLIED",
+        "KILLED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerProcessFailureReason",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerProcessFailureReason.java",
+      "values": [
+        "CONTROLLED",
+        "SOURCE_DIED",
+        "TARGET_UNTARGETABLE",
+        "ACTIVE_CANCELLED",
+        "EVENT_ABORTED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerRuntimeInputSourceType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerRuntimeInputSourceType.java",
+      "values": [
+        "INTERNAL_STATE",
+        "COMBAT_STATUS",
+        "EVENT_VALUE",
+        "SOURCE_CAST_RESOURCE_COST",
+        "PRIOR_ACTION_RESULT"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerStatusChangeKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerStatusChangeKind.java",
+      "values": [
+        "APPLY",
+        "REMOVE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerStatusCheckKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerStatusCheckKind.java",
+      "values": [
+        "PRESENT",
+        "ABSENT",
+        "STACKS_COMPARE",
+        "REMAINING_MS_COMPARE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerSubject",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerSubject.java",
+      "values": [
+        "SOURCE",
+        "CURRENT_TARGET",
+        "EVENT_SOURCE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerTargetCategory",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerTargetCategory.java",
+      "values": [
+        "CHAMPION",
+        "EPIC_MONSTER",
+        "MINION",
+        "NON_EPIC_MONSTER",
+        "STRUCTURE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerTargetContext",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerTargetContext.java",
+      "values": [
+        "CURRENT_TARGET",
+        "EVENT_SOURCE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillTriggerValueDomain",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerValueDomain.java",
+      "values": [
+        "INTEGER",
+        "DECIMAL"
+      ],
+      "missing": []
+    },
+    {
+      "name": "AttributeOwner",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillformula/AttributeOwner.java",
+      "values": [
+        "SOURCE",
+        "TARGET"
+      ],
+      "missing": []
+    },
+    {
+      "name": "AttributeValueKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillformula/AttributeValueKind.java",
+      "values": [
+        "BASE",
+        "BONUS",
+        "TOTAL",
+        "CURRENT",
+        "MISSING",
+        "CURRENT_RATIO",
+        "MISSING_RATIO"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillFormulaNodeType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillformula/SkillFormulaNodeType.java",
+      "values": [
+        "OPERATION",
+        "PARAMETER",
+        "ATTRIBUTE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillFormulaOperation",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillformula/SkillFormulaOperation.java",
+      "values": [
+        "ADD",
+        "SUBTRACT",
+        "MULTIPLY",
+        "DIVIDE",
+        "MIN",
+        "MAX"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillParameterValueMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillparameter/SkillParameterValueMode.java",
+      "values": [
+        "FIXED",
+        "SKILL_LEVEL",
+        "CHARACTER_LEVEL",
+        "RUNTIME_INPUT"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillParameterValueType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillparameter/SkillParameterValueType.java",
+      "values": [
+        "INTEGER",
+        "DECIMAL"
+      ],
+      "missing": []
+    },
+    {
+      "name": "Kind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/value/SkillNumericValue.java",
+      "values": [
+        "FIXED",
+        "PARAMETER",
+        "FORMULA"
+      ],
+      "missing": []
+    },
+    {
+      "name": "AttributeStatus",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/attribute/AttributeStatus.java",
+      "values": [
+        "ENABLED",
+        "DISABLED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "AttributeValueType",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/attribute/AttributeValueType.java",
+      "values": [
+        "DECIMAL",
+        "INTEGER"
+      ],
+      "missing": []
+    },
+    {
+      "name": "ModifierZoneApplicationStage",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/modifierzone/ModifierZoneApplicationStage.java",
+      "values": [
+        "ATTRIBUTE_FLAT",
+        "ATTRIBUTE_PERCENT",
+        "DAMAGE_PRE_DEFENSE",
+        "DAMAGE_POST_DEFENSE",
+        "HEALING_RESULT",
+        "SHIELD_RESULT"
+      ],
+      "missing": []
+    },
+    {
+      "name": "ModifierZoneCalculationMode",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/modifierzone/ModifierZoneCalculationMode.java",
+      "values": [
+        "FLAT_ADD",
+        "RATIO_ADD",
+        "RATIO_MAX"
+      ],
+      "missing": []
+    },
+    {
+      "name": "ModifierZoneDomain",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/modifierzone/ModifierZoneDomain.java",
+      "values": [
+        "ATTRIBUTE",
+        "DAMAGE",
+        "HEALING",
+        "SHIELD"
+      ],
+      "missing": []
+    },
+    {
+      "name": "ModifierZoneStatus",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/modifierzone/ModifierZoneStatus.java",
+      "values": [
+        "ENABLED",
+        "DISABLED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "StatusKind",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java",
+      "values": [
+        "STUN",
+        "MOVEMENT_SLOW",
+        "ROOT",
+        "SILENCE",
+        "CHARM",
+        "AIRBORNE"
+      ],
+      "missing": []
+    },
+    {
+      "name": "StatusRecordStatus",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusRecordStatus.java",
+      "values": [
+        "ENABLED",
+        "DISABLED"
+      ],
+      "missing": []
+    },
+    {
+      "name": "SkillStatus",
+      "sourcePath": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skill/SkillStatus.java",
+      "values": [
+        "ENABLED",
+        "DISABLED"
+      ],
+      "missing": []
+    }
+  ],
+  "sources": [
+    {
+      "path": "C:/project/damage_backend_dev/db/game_manage/schema.sql",
+      "sha256": "11ca426aad15b545a21d6fef890fa308aad3f9f79f4f44e6538e1146fad090da",
+      "lineCount": 774,
+      "referencedLines": [
+        1,
+        193,
+        166,
+        223,
+        243,
+        301,
+        436,
+        503,
+        465,
+        537,
+        684,
+        618,
+        634,
+        759,
+        13,
+        330,
+        357,
+        411,
+        48,
+        75,
+        3,
+        650,
+        582,
+        90,
+        111,
+        128,
+        149,
+        719,
+        737,
+        379,
+        670,
+        672,
+        678
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/README.md",
+      "sha256": "4080699295bc6b038ffbf78f0aa661a3246d14cf10dbd67b1da019af369defe1",
+      "lineCount": 343,
+      "referencedLines": [
+        5,
+        68,
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/attribute/AttributeStatus.java",
+      "sha256": "1d88d9b8ac63db6eeb4897eb9a780013b1a7c08163068c2b67abf47d8f5e916c",
+      "lineCount": 21,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/attribute/AttributeValueType.java",
+      "sha256": "7262fe6be5d955de32468f4746d49a73c395ffee4ee5fccdc866a4296349a0aa",
+      "lineCount": 21,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/modifierzone/ModifierZoneApplicationStage.java",
+      "sha256": "357fcb5d7e2d2b6d2e7d7806971b53d2672e922f179268868fb8e6af10909037",
+      "lineCount": 11,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/modifierzone/ModifierZoneCalculationMode.java",
+      "sha256": "6984affd1577ae253adc61719e62b378b7baf37e12b6bf48eef62bd99dba4224",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/modifierzone/ModifierZoneDomain.java",
+      "sha256": "fe7f9319e06d74e6214b40f14511792a2542d0242716f1a1320fbd2447964f20",
+      "lineCount": 9,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/modifierzone/ModifierZoneStatus.java",
+      "sha256": "3dc55a09f47e65e61dfcfb8931c9bb34b2b1ac4f9790f6d5fa9c087e7089954c",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/rune/RuneSlot.java",
+      "sha256": "b240a9ae542cee637ea9ae4df114330e858dd48740cee6304693ad9482909780",
+      "lineCount": 6,
+      "referencedLines": [
+        5
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skill/SkillStatus.java",
+      "sha256": "1630b19f33e652206d6230ab02a0c60d2b269b59b336b6d3382919e2277fa7d9",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectAttackLinkApplicationDetail.java",
+      "sha256": "471bbfebf80cb4fba82e4183ac8209c470028358b03350538a758545e34b14d6",
+      "lineCount": 52,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectAttackTimerResetDetail.java",
+      "sha256": "d1cf7ba3e086607d3d5bcee9359b38e18a1a5eafa9cd04e2bf1e2906220943bc",
+      "lineCount": 31,
+      "referencedLines": [
+        11
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectAttributeChangeDetail.java",
+      "sha256": "3c54c0dff3f7c2d3ee24d9760d58563c7a75dffd0b299353da23b67e3a76df85",
+      "lineCount": 66,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectAttributeChangeOperation.java",
+      "sha256": "9f6a04438a2e2f27fe23df4fccd85b477ec9aa6fb4c7d97081f93a3636bad1a2",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectCooldownChangeDetail.java",
+      "sha256": "c5198025315122a2384516c423cef28ff9d23b99caa1f83f4b94474f5010e0e9",
+      "lineCount": 55,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectCooldownChangeOperation.java",
+      "sha256": "961aaef767fca0bced7bcd0e0fdc154d3308b3d2ca9bdcc74fdca086ca019b6d",
+      "lineCount": 10,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectCriticalFilter.java",
+      "sha256": "d4874f8b20c8d255cda915e0e0c3dc793bd484c848e61a8e7d075f8ec6f61a32",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectCriticalMode.java",
+      "sha256": "9a2479e3291d1f3c9adc1bc05b953679fc0401d359afc812928b3dc6d0b1cc37",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectCriticalPolicy.java",
+      "sha256": "1ae26f5c4196ba0cb7ac25a4d6318bd8d8836803c3a52d1a0db7172baf46faff",
+      "lineCount": 17,
+      "referencedLines": [
+        8
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageDeliveryKind.java",
+      "sha256": "6d6c356d8db659b3ecbec8f2eac48859dc805cb7fabd9079626ad1e1d191d2eb",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageDetail.java",
+      "sha256": "6dd5ea567f0ce7e2aac0ce97dbdbca4faa4a63a6108b0691a6ee6332744c4919",
+      "lineCount": 97,
+      "referencedLines": [
+        14
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageFilterDeliveryKind.java",
+      "sha256": "69a763f1353f868d50ed37cc638ea8e79c3ecaf6aabc3bd7cd3e5245423a39d6",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageFilterOriginKind.java",
+      "sha256": "1c39f42bfc82b23bf10adf4e0446e3d28ecdcca9835983faf6935c5602d7d87e",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageImmunityDetail.java",
+      "sha256": "e79925984c1f6183d41efeecee6ab81ed4c6db5f9c87259e65d74469c3551bb1",
+      "lineCount": 49,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageModifierDetail.java",
+      "sha256": "6117b618ad27052a680c2ad7eec271ff29d5fc549efc7b81f56dbdebdaa6fbe8",
+      "lineCount": 94,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageModifierDirection.java",
+      "sha256": "aefeadedd2403068aab1a2651796ed120bc5aea533bd6cd24977d36fd280bf21",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectDamageOriginKind.java",
+      "sha256": "c262612c1ae461d841aea482599ee2463e67397957e329cedc6a59e4eed4e16f",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectExecuteDetail.java",
+      "sha256": "135ec4665d34468528cf8195106587ffcf58ac91f8444ecade3df78ce8cdcce5",
+      "lineCount": 39,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectHasteModifierDetail.java",
+      "sha256": "beb5371f1f79d743757f52a6b1627daf1b73c72d91d91c4a69bbdb77f4c56f17",
+      "lineCount": 57,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectHealingKind.java",
+      "sha256": "6ef69323b2f52727bad194ad708a3284d5ac41da1c06ad79fba8ad067158ddf7",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectHealingModifierDetail.java",
+      "sha256": "09a69988b639ae3a04d3f67a137bfeb4069275f3912a9baec4abb3c8de8618f7",
+      "lineCount": 61,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectHealingModifierDirection.java",
+      "sha256": "65af548d1bf305cef935c8b01e54772a5df5ed404f2fdbbccb04f71d3c749ef1",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectHitLinkApplicationDetail.java",
+      "sha256": "20bc202302ade8d3c9f971beeb922a8ba3f6d8a4e2cb9e7ef5595b0b809a67cd",
+      "lineCount": 52,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleExpiryMode.java",
+      "sha256": "20579df10855426e91dc2a8aefffb29c0d7574454342a6381b42722a0e05a2a4",
+      "lineCount": 9,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleFirstPeriodicExecution.java",
+      "sha256": "d5ddf3b98868766fec6b62e2ce93b74fc3d23170b73c5312a7ffc8c41253a187",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleInstanceScope.java",
+      "sha256": "faf35421971ae4fad735de55cd55b39289e177ec8e259212710c29d57d00c59f",
+      "lineCount": 9,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleMoment.java",
+      "sha256": "8e5f8148100cbc9049dc7a04b4e5ade24f61e99db62a5b749d1706fe4e638e9a",
+      "lineCount": 11,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleOperation.java",
+      "sha256": "15de46b1faba5a07d88a9a36c9400cd27d856f164b5f4e60b92cfeba2e0e053c",
+      "lineCount": 12,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleOperationDetail.java",
+      "sha256": "d6882d70ddb40db5694af4e0ea9264817e67e191b9a1d9972f93b40db11c20e8",
+      "lineCount": 54,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecyclePeriodicExecutionMode.java",
+      "sha256": "a025347fcf150b45ec6fc0f0c64943533b165eb834efced47b11ad025e76e7cd",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleReapplicationDurationMode.java",
+      "sha256": "eae89f3d415232a0dca5cbdf05ca7d0a8f31f479a95528dab390fefe9f69da55",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleReapplicationStackMode.java",
+      "sha256": "d5a1db48dc868e98f3172255b62a0f51ddb1c0afdcba8a7c786c300ea8671806",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleReapplicationValueMode.java",
+      "sha256": "dc6804a7b8e35363dac544c8479c2406978ec951793e396fc27c4feb12bb970a",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleRequest.java",
+      "sha256": "7a0c2e902599260a594323f4778bab85e14b73d2d9e76fb6ca2275cefdb63344",
+      "lineCount": 28,
+      "referencedLines": [
+        7
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleStackValueMode.java",
+      "sha256": "8acb9e8b818fa219b508231eb9dfa404e22af54c30d50f159cfa912b62c5fa3d",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectLifecycleValueReadMode.java",
+      "sha256": "cd107b0aa61bfc26605c6a7239a9e341b9fe5138b64e6478760f933581032d5c",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectModifierOperation.java",
+      "sha256": "192a61e7c3c69c7aa265988de93365abcd5b9431de250ebddfe845c16a5075ff",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectNormalShieldDecayMode.java",
+      "sha256": "649a9c0375c78d8ddd950b7be9b9ab72b57b73bd5b9bc82dc80d33249aa1ccec",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectNormalShieldDetail.java",
+      "sha256": "a8324d8a5811c4effb87f5a78608c77ecf93db17bd7e4e4d83cd555bcb885eeb",
+      "lineCount": 74,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectResourceChangeDetail.java",
+      "sha256": "c9f69b12ea77f6431517c2ac1f7c63c911cb100714b705be8933dbb1b4c52c88",
+      "lineCount": 54,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectResourceChangeOperation.java",
+      "sha256": "aa84b7d53babccf8ce831c267dd3d9736e9ad971ab5fa82acd518e64fcc3e2b6",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectResultRequest.java",
+      "sha256": "494e7d04dbafe3facfae7b8acd004eb00daddb4029d7a577565f65a6ed94cef4",
+      "lineCount": 84,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectResultRequestDeserializer.java",
+      "sha256": "a772c5d6348bfe722cd38d8c35ae2ef7aba3c85f3128ac997cb55e2ac458e3ec",
+      "lineCount": 80,
+      "referencedLines": [
+        19,
+        20,
+        28
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectResultType.java",
+      "sha256": "1993fe962e24c9458e43fceb9e1e54d8aef5fb64e1fcae504cc0932c74012881",
+      "lineCount": 24,
+      "referencedLines": [
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectShieldReceivedModifierDetail.java",
+      "sha256": "c27f0fb23d64a71baa3d67738d4beeb4b28dafee8089165795b0038e3dd429a7",
+      "lineCount": 38,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectSkillScopeMode.java",
+      "sha256": "b59354289f5756fd0e0fe2fcbd614c6346274829b6babe1bdee58de50c6053ca",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectSpellShieldBlockScope.java",
+      "sha256": "14da7bfec61059734f80c68d344d8bc5f8b278a70c4a994b0dfd3ea868ac10e5",
+      "lineCount": 9,
+      "referencedLines": [
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectStatusOperation.java",
+      "sha256": "adc640f140a748d38be2365ede16b0d18e92b007038470e8b2fecb042fe4372e",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectStatusOperationDetail.java",
+      "sha256": "90dc3076e96df7115aaf19b04541c467e8df4da77a02fa188d76c4fbe0210bc8",
+      "lineCount": 51,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectTarget.java",
+      "sha256": "aa7cc104aed0fc68a29895fcdfbc19a508177607de0f8bba73ee3ff01bd52939",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectValueRuleRequest.java",
+      "sha256": "8b8965575acefa8f2422f063ba176e06e1145423d04cafb33d126fd07eba1565",
+      "lineCount": 25,
+      "referencedLines": [
+        10
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectVampBasisOutputKind.java",
+      "sha256": "1df8a142a68447f685977a24fb294d6c30b6d49a1453fdacba5eba2c517afab3",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectVampOverride.java",
+      "sha256": "01145e08471b4c5fae61a52cb458b5e1b5b9f89c004a6de064eb88c3da5652e8",
+      "lineCount": 19,
+      "referencedLines": [
+        9
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectVampOverrideMode.java",
+      "sha256": "8a7d2a4e007f7c156bf7529b2d74b81e0cee793f5a895085e3ff7a97c8ac879d",
+      "lineCount": 4,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectVampQualification.java",
+      "sha256": "af06f0bd94ac9b7fc143e1e50e7147bcb684cd3eda9fc481d6ce6c2eaafb4384",
+      "lineCount": 4,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilleffect/SkillEffectVampType.java",
+      "sha256": "bc46260b5a3b0a36661e9d0ded3a479ab35053ff8fe18b84dc0ffcfb196d4bda",
+      "lineCount": 9,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillformula/AttributeOwner.java",
+      "sha256": "577e419bdcb58465ebf714d5d41c1ea4fadfecc9ed68787400e011088ff43800",
+      "lineCount": 21,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillformula/AttributeValueKind.java",
+      "sha256": "f17ad5f522085df291e94b61247efab3ebc4cfa53eec4d8c92e48c48848e5a39",
+      "lineCount": 26,
+      "referencedLines": [
+        5
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillformula/SkillFormulaAttributeNode.java",
+      "sha256": "6103675a3ef63b88c3e581f127c4fe4a38241840226a03c108c601f5a7515c53",
+      "lineCount": 56,
+      "referencedLines": [
+        10
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillformula/SkillFormulaExpressionNode.java",
+      "sha256": "de894e0af49bbe7839cbf744518f15b8d8f28acef78770f1851428626c6af622",
+      "lineCount": 29,
+      "referencedLines": [
+        9
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillformula/SkillFormulaNodeType.java",
+      "sha256": "580e182b1130ec365fa5f12bc8a7b7bacabf38c06ca160049f6037cb5c06978e",
+      "lineCount": 22,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillformula/SkillFormulaOperation.java",
+      "sha256": "ef24317b0cbedbec7aeca6cdcb2f5027478205dceff13626471a39a44512e155",
+      "lineCount": 25,
+      "referencedLines": [
+        5
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateAmmoDetail.java",
+      "sha256": "b9e1a1be7f154b0fed2f3e625028435beb78f470a5bf4ee99956ee1d58f7b5a6",
+      "lineCount": 71,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateAmmoRecoveryMode.java",
+      "sha256": "ce20ac9d2a0fe4749daf3066159c8cf3bb44624b092c04435a3f1c3b2a7fcded",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateCooldownDetail.java",
+      "sha256": "a822b12be8ca6b1b49145b8f0f4157a1376407d21219cf3ba35f76c0f2fa7ab7",
+      "lineCount": 54,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateCounterDetail.java",
+      "sha256": "934363698b0e53179d1686ba0b22db36b1039c0ea3249608b7fc3da816a54a30",
+      "lineCount": 56,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateDetailBinder.java",
+      "sha256": "ecf431a3cac870ec240ae12414c6c699d9f733e820f79d1fd2634e3c1b93d403",
+      "lineCount": 35,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateFlagDetail.java",
+      "sha256": "1087c36c63fadfa2a92a6441433268b03b8a6a34f7562b376988ff7b2b69b267",
+      "lineCount": 51,
+      "referencedLines": [
+        11
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateModeDetail.java",
+      "sha256": "dfb1a57eeafc4240a29e8240d66f09497ea33f4d1cbac3a960fba3811826a037",
+      "lineCount": 57,
+      "referencedLines": [
+        14
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateModeOption.java",
+      "sha256": "5d3e8b561798478e4749ced7c95763c19e6df495a5afd82c39ad84941cce217d",
+      "lineCount": 27,
+      "referencedLines": [
+        9
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateScope.java",
+      "sha256": "a293834b2f7149fb36c11c03ff2244166096fc3b3f4e2d72de8550b3569161c8",
+      "lineCount": 7,
+      "referencedLines": [
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillinternalstate/SkillInternalStateType.java",
+      "sha256": "8afca6de953275c036affc83b24f609661a2287bb02a7079f2f0c2fa699fa674",
+      "lineCount": 10,
+      "referencedLines": [
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillparameter/SkillParameterCreateRequest.java",
+      "sha256": "f04a9cbb997aa96ef4b239d974b5878a2f6f75047fd1ff17fbe2d044bb507e22",
+      "lineCount": 48,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillparameter/SkillParameterValueMode.java",
+      "sha256": "3793aba797f98c3c43953d932c02586d5afd5a66540937d14e697e1aa2fe22f8",
+      "lineCount": 23,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillparameter/SkillParameterValueType.java",
+      "sha256": "121c76c141d751cef2f6e6505941e1c14f1b86eba0ac912b295332ca36fdc6f6",
+      "lineCount": 21,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessActivationType.java",
+      "sha256": "0605c1722ab0537972d6fb17e9f6d5a238761bf14b2632466d8699dbd907ac2d",
+      "lineCount": 8,
+      "referencedLines": [
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessChannelStepDetail.java",
+      "sha256": "8967f4ee5fe3f562a6c142e1392033c407792da8f3a6d2ab50809f25cc492f8f",
+      "lineCount": 71,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessChargeStepDetail.java",
+      "sha256": "aafd0d31044aa542f40315551d088f2d4bb78084b906a685d0a660153a4ee8a4",
+      "lineCount": 71,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessCooldown.java",
+      "sha256": "662bf40bb9ee3f0bbf3ad874ab1fb330604399857b83b7fda7f9ef0049bd53cb",
+      "lineCount": 21,
+      "referencedLines": [
+        10
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessCreateRequest.java",
+      "sha256": "7a046dc8429f65b5ed03eaef476790332dfcb38816634efbf06303383924b5a1",
+      "lineCount": 48,
+      "referencedLines": [
+        15
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessDelayStepDetail.java",
+      "sha256": "75e896b5d9db46b534c0e59b8bce7021f10b2469fb3abfc87fd05600213ba0fb",
+      "lineCount": 64,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessEffectBindingRequest.java",
+      "sha256": "cbdd119b06632277fff4a9a470ead4ba1de669d658481a61111ed6be1543697e",
+      "lineCount": 27,
+      "referencedLines": [
+        10
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessEmpoweredAttackStepDetail.java",
+      "sha256": "910502a167d45e92606a8ef1a19ec43b60a774df36f54f82a56ac215b71a9e37",
+      "lineCount": 68,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessEmpoweredConsumeMoment.java",
+      "sha256": "5d3e9350509116fcb4ec02877c2fdf9d0975243819dc78ba711a79bd608ed607",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessFirstExecution.java",
+      "sha256": "c749a7f000c44338e1217b505aa1c0a200a04232ef094a6de4082de34cde57f9",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessImmediateStepDetail.java",
+      "sha256": "6767b068f3a977ee40bd5ff7af89187a5f62a79bf0ce7f90d3f1c1620238ede0",
+      "lineCount": 60,
+      "referencedLines": [
+        11
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessMoment.java",
+      "sha256": "cf1fc3423dd6a1073c990563facd38d99b276641f7759ec58795ebd037e44eca",
+      "lineCount": 54,
+      "referencedLines": [
+        16,
+        14
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessMomentType.java",
+      "sha256": "9d23166db6e31dc253ef94be917086d3a30472b75b78235cf4f90853ecab46a9",
+      "lineCount": 12,
+      "referencedLines": [
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessMultiHitStepDetail.java",
+      "sha256": "6e550ba83098bbaf22a6c70c4a7c667ca8dc398b085d3fb9e9c486ad87046275",
+      "lineCount": 66,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessPeriodicStepDetail.java",
+      "sha256": "95f2d034c80ac118d9a9a6b0a93d84aef370d72d8137bfd607200f16a83ff0eb",
+      "lineCount": 71,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessRecastStepDetail.java",
+      "sha256": "436db8bdc413eb04dbe81629f360a5ba928db43b7840d1e2ce0b7c613dd37782",
+      "lineCount": 66,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessStateOperationKind.java",
+      "sha256": "2db54405f02f61dbe7ce6fd75678a058b3121ee229e740af2ffe1d0137a617e4",
+      "lineCount": 15,
+      "referencedLines": [
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessStateOperationRequest.java",
+      "sha256": "4aff2cfa2248a8fb53234431c7f0babc1818b7c273129092ed94d6e2980973c4",
+      "lineCount": 45,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessStepRequest.java",
+      "sha256": "a1b4937f8f89f0ef3ddcf9aaf4e6f768db5f4eef3ddb8d4b87a84291d6930ec8",
+      "lineCount": 39,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessStepRequestDeserializer.java",
+      "sha256": "38cdd35b28d6927cbe2f2c9a386fcc06b5df83d8bd827d1d42b1ca85832279f3",
+      "lineCount": 51,
+      "referencedLines": [
+        17
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessStepType.java",
+      "sha256": "3fbbad2af3937e2a3ee9f745fbee8c48dcf590518b7f7dee740210aabfb68104",
+      "lineCount": 13,
+      "referencedLines": [
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerAction.java",
+      "sha256": "b27132198c8bbfec03f4b40a04b50a72f420570300f708d8c8b1fe6ad7d2571e",
+      "lineCount": 45,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerActionType.java",
+      "sha256": "f4f7a01eb304988651187ae1ca31241982aba5f93e21a965daf2ed6ebeafe757",
+      "lineCount": 9,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerCastPhase.java",
+      "sha256": "e6db1716ede79fcdae0ef96b23f3bb4c541341a6eab916c4a52e3d4d3c345701",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerCombatStatusValueKind.java",
+      "sha256": "936949adb5106f110958138c2bc8ef569d7b9480c1b64be0a6e5225ac482c13b",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerComparator.java",
+      "sha256": "385a6b18d19399c89cff87efb3d2148d0f30166163cea617d814ec11ca1082b4",
+      "lineCount": 11,
+      "referencedLines": [
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerCondition.java",
+      "sha256": "c591c696a565f602fbe43a29acc7465379b102b2a656c5df70f107a99f18c03c",
+      "lineCount": 30,
+      "referencedLines": [
+        11
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerConditionGroup.java",
+      "sha256": "a3662487852309d8f1cfff417b114f5b9710a97e0a1d9f132ec75416323ea702",
+      "lineCount": 34,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerConditionType.java",
+      "sha256": "4d36e9d85de5b7a76d240fecfbf0d2c242026196ecc4180ceb0c42355aa0e828",
+      "lineCount": 13,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerDamageDeliveryKind.java",
+      "sha256": "3018912cfcade0ecb8d00dfbce522ddd4606bc5efbe6ffa693b1778c4993ed17",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerDamageOriginKind.java",
+      "sha256": "111952c274a9577e1552afd4771d6f7139b55e67fc8f8bb7fa8d26c2afcf5ea5",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventCapabilities.java",
+      "sha256": "6af81c50fdec3acd28f337288c6e2222881b8b40ae3602d3a12d56be1c524663",
+      "lineCount": 182,
+      "referencedLines": [
+        11,
+        154,
+        59,
+        82
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventSourceDeserializer.java",
+      "sha256": "a78d0fb8a8c3855bbcb6dea89a8ab3f2daa5897138fd1951a5c7893f05cb1d38",
+      "lineCount": 42,
+      "referencedLines": [
+        21
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventType.java",
+      "sha256": "9651ef48a13cba4096944dd319da7918630c8ca61b38092f72507b33b4d4ab1c",
+      "lineCount": 28,
+      "referencedLines": [
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventUseKind.java",
+      "sha256": "7cd411ab45a467d8fd81c8647995706540910f0b6c5941baa36a6b3b45361ce7",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerEventValueKey.java",
+      "sha256": "4bdf1f7d4522a17dd4c599e099482c598ec5ed956c216173e909ce3986bff4fa",
+      "lineCount": 40,
+      "referencedLines": [
+        6
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerHealthDirection.java",
+      "sha256": "b06288bb19e6bd430d070f07a48dd843878d47c929538d53ddc6bc6ec58a5977",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerInternalStateChangeKind.java",
+      "sha256": "8fd27b57ba60c8578d4eb67e9aed73ee9d7bd720aabed027e459dbeefaf50825",
+      "lineCount": 9,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerInternalStateValueKind.java",
+      "sha256": "6d1869d28a6b819bbb69bba39ce2711d65834280e77b68899f8f8d8682661414",
+      "lineCount": 9,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerLifecycleCheckKind.java",
+      "sha256": "a924d28f0b17db9b41c858efe7b94fc475ac7c9a239038de2e725e80159f4fea",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerLifecycleEventMoment.java",
+      "sha256": "01970afa2ff834a919b6a27af7e0559defc39d28877c82977eba97cb240723af",
+      "lineCount": 10,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerOncePerUse.java",
+      "sha256": "f267b1f3f9eb05b2c9ec4556b5348cce0dcb1ef92d6c64a70bc33542329ac573",
+      "lineCount": 63,
+      "referencedLines": [
+        12
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerOncePerUseScope.java",
+      "sha256": "59e40fba87565cb98548c9359a39dc4d4685a18095f6e109510cb3f7f57203ae",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerPerTargetCooldown.java",
+      "sha256": "65923a0bbe46e8373a9cb9d3c87c70520223233e979c4de17a0e296303cff433",
+      "lineCount": 20,
+      "referencedLines": [
+        8
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerPriorResultBindingDetail.java",
+      "sha256": "98f8dfdd86c24fb97465510c2e350685865d0e478318ad178a7b77266344bfb4",
+      "lineCount": 62,
+      "referencedLines": [
+        19
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerPriorResultOutputKind.java",
+      "sha256": "9e92183dbde60c41994fc176063287c68d8598fb9902be7a06c27e394bc34660",
+      "lineCount": 15,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerPriorResultOutputs.java",
+      "sha256": "d75f5ee7e6ec03114c77ff1d889893b68c78b9978a013cfe4053c2d9be6f47e4",
+      "lineCount": 168,
+      "referencedLines": [
+        90,
+        18,
+        139
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerProcessFailureReason.java",
+      "sha256": "a60bf5168828b3f8b3f1b29515789b556d1a72eb92bd433e0068717f60a92513",
+      "lineCount": 10,
+      "referencedLines": [
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerProcessLimit.java",
+      "sha256": "6e7f479008b9ea0bd8467a52cd590b84fdc20142adf99ce92221b0fdeb33e073",
+      "lineCount": 27,
+      "referencedLines": [
+        10
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerResultModifier.java",
+      "sha256": "8fc3578fcd24ae60d92c3cb94e642e173a5b1131de9a1ab2c5ae2ff5fc95b126",
+      "lineCount": 21,
+      "referencedLines": [
+        8
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerRuleDetailResponse.java",
+      "sha256": "6ef85b2c23eab68302e73d4f2eea001845426b4a880c5e1fa2c5df9c2114517c",
+      "lineCount": 18,
+      "referencedLines": [
+        5
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerRuntimeInputBinding.java",
+      "sha256": "7e53d3c2f8c02e18c0e9719cf7e2a80313d141038aec3a81e4f4eb89eea8e359",
+      "lineCount": 28,
+      "referencedLines": [
+        9
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerRuntimeInputBindingDeserializer.java",
+      "sha256": "81cdc40e50f6da01615c15ce4a41f73b1ef4185935daa34eaa70d17178646733",
+      "lineCount": 48,
+      "referencedLines": [
+        23
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerRuntimeInputSourceType.java",
+      "sha256": "a8074a95bcddf0b8de7a4264d4efb85099eb5fd0298d94e95bf4f8cb80afd125",
+      "lineCount": 10,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerStatusChangeKind.java",
+      "sha256": "91ddcf83c29feebc715893f31032b311ebd5b6d44f32713588cf088e231d501c",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerStatusCheckKind.java",
+      "sha256": "b880cb247da371dda6da598ddd4609ddaa69d388b62d0ff78a76c16235c105e1",
+      "lineCount": 9,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerSubject.java",
+      "sha256": "3b2811e48a152898a08f5421eb7f9a4b3bfcc2ad0711babc6000e231dcedb458",
+      "lineCount": 8,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerTargetCategory.java",
+      "sha256": "423f5695b475541b45ec608116838b934faec9ddd140bd086fd489e200f70346",
+      "lineCount": 10,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerTargetContext.java",
+      "sha256": "5c0c79152b473208c0702d55d8ae2316483b7f99acf0b1a72c8cda65a271abe0",
+      "lineCount": 7,
+      "referencedLines": [
+        3
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skilltrigger/SkillTriggerValueDomain.java",
+      "sha256": "01d93176dffd0e711b5629cbb9765afc6d26e31fb15c0b7ba84a477b6ea252d0",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusKind.java",
+      "sha256": "179dee6aa27836881d0f2c897f066dc12df5612384c7dc01f065e501307e041e",
+      "lineCount": 11,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/status/StatusRecordStatus.java",
+      "sha256": "0223410a5af5ae1d33c4f3836164981d8dd31cfbaaa60b02d96f47d1df61d376",
+      "lineCount": 7,
+      "referencedLines": [],
+      "usage": "枚举名称覆盖核对"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/value/SkillNumericValue.java",
+      "sha256": "f8c74f3292df05af821886ce5ceb72eb8ddd344e852458e41596b2cbe0cfa3cc",
+      "lineCount": 59,
+      "referencedLines": [
+        11,
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/gamevamp/GameVampRuleService.java",
+      "sha256": "ebb84d72674faf55f97fdf6eecb1e8d511509c841902d25c1e8b77364143c40e",
+      "lineCount": 66,
+      "referencedLines": [
+        1
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/rune/RuneService.java",
+      "sha256": "12f9c1357a1e1b2191fbf156ad0960218710d1d09fcf675c6078a56d3a2aa151",
+      "lineCount": 457,
+      "referencedLines": [
+        264,
+        198
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skill/SkillService.java",
+      "sha256": "4bb4bfdfdb5d10a7a1b66258821ffd68f75054a3cba35f49a643d24fa70265c7",
+      "lineCount": 604,
+      "referencedLines": [
+        219
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectAggregate.java",
+      "sha256": "c72e8f0843aa6a0f6622387da4987f151e3485990b9482a5091fe98bb4221dfa",
+      "lineCount": 64,
+      "referencedLines": [
+        14
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+      "sha256": "cc14b39dd85aaabbd67c2b2acb0efab8e3a3d5f87cf3c9b34d00e560a3b49db5",
+      "lineCount": 2735,
+      "referencedLines": [
+        154,
+        505,
+        1916,
+        1481,
+        1867,
+        1589,
+        1709,
+        984,
+        593,
+        866,
+        887,
+        1042,
+        1216,
+        1396,
+        2608,
+        632,
+        1829,
+        817,
+        2000,
+        792,
+        842,
+        773
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skillformula/SkillFormulaService.java",
+      "sha256": "930cab78e8a5b6e5a051c4a2e7e4683010e62830854d403db45f33358f2b6867",
+      "lineCount": 670,
+      "referencedLines": [
+        52,
+        269
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skillinternalstate/SkillInternalStateService.java",
+      "sha256": "bd8bf765d5b442aeda94d56caad6dc6a2533edecc8071ba1dd0e88499a1decb5",
+      "lineCount": 627,
+      "referencedLines": [
+        317,
+        286,
+        137,
+        321,
+        364,
+        396,
+        234
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skillparameter/SkillParameterLevelService.java",
+      "sha256": "46576357aa97ab4fd7fa10649b9c54dc6ed782ee4302d971925b374246088074",
+      "lineCount": 166,
+      "referencedLines": [
+        29,
+        101
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skillparameter/SkillParameterService.java",
+      "sha256": "2daf51e45184e0b4ae6937994756ec6d25687aa8526a4379f12413400d4c7143",
+      "lineCount": 506,
+      "referencedLines": [
+        321
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skillprocess/SkillProcessService.java",
+      "sha256": "3d7e66731adb96ae51d2d4ed7bfc9a290dbc73535eb865db3cd0061cab475609",
+      "lineCount": 1055,
+      "referencedLines": [
+        418,
+        390,
+        429,
+        319,
+        472,
+        634,
+        651,
+        456,
+        564,
+        709,
+        324,
+        589,
+        676,
+        329,
+        743
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerCycleValidator.java",
+      "sha256": "fca28185c7ef3fb282ce316205ad2f16bd0739386d3e6a9db8fb370027e12dac",
+      "lineCount": 1140,
+      "referencedLines": [
+        94,
+        603
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleAssembler.java",
+      "sha256": "6e4193492ac1d433b073ec2a6395da93ef1692da60e5b59b064a095453c4aba8",
+      "lineCount": 43,
+      "referencedLines": [
+        11
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java",
+      "sha256": "10d1add4ae9b1582465aa02fdb423a1734fb585aee8224d525f10bfb6c0cf468",
+      "lineCount": 3353,
+      "referencedLines": [
+        874,
+        2306,
+        2219,
+        1019,
+        2870,
+        1182,
+        1386,
+        1795,
+        2266,
+        2716,
+        910,
+        2881,
+        1307,
+        1867,
+        2899,
+        1459,
+        1917,
+        2024,
+        2160,
+        964,
+        1994,
+        986,
+        3221,
+        200,
+        1506,
+        2772
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/DamageModifierConditionSemantics.java",
+      "sha256": "9d337647cded0cc591dcfb51507e4c66082bda3fb6664f2900b136e4c762d70f",
+      "lineCount": 80,
+      "referencedLines": [
+        13
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/GameConfigurationWriteGuard.java",
+      "sha256": "ec985807b79188a1fca031d1c5c1a7158a3c67e77f20aef25dba79b585326937",
+      "lineCount": 200,
+      "referencedLines": [
+        36,
+        87
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/GameVampRuleSemantics.java",
+      "sha256": "531a576aa9304c4764e49576b987cc988ed95c862e058773f5a0e962f741af2b",
+      "lineCount": 235,
+      "referencedLines": [
+        128
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/HealingRatioMaxSemantics.java",
+      "sha256": "bc3e83908b878bae9cd8765b6d68e097138426721b947969e1235043b129631c",
+      "lineCount": 169,
+      "referencedLines": [
+        101,
+        95
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/ShieldEndLifecycleSemantics.java",
+      "sha256": "c643329ed1ebf4eee483b39c289926276d2fb381acf9cdd8ed29121d8be42b4b",
+      "lineCount": 125,
+      "referencedLines": [
+        27
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillExplicitTargetIsSourceConditionSemantics.java",
+      "sha256": "35dd3fd95899228d3c5943f1f5e0af30e5071160751d8b7444d69a9e5eaf8969",
+      "lineCount": 101,
+      "referencedLines": [
+        15
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillHitTargetIsEnemyConditionSemantics.java",
+      "sha256": "36933b08df5af98f60f21e74eb0c305ef2bfa1a94bd5352ce26e64db541a1134",
+      "lineCount": 101,
+      "referencedLines": [
+        15
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillLifecycleConditionSemantics.java",
+      "sha256": "ae59c5af4b6a87d60b3cbdf9deefdc97bad2be0f4f57ebe28bc0f99bd1fb6342",
+      "lineCount": 94,
+      "referencedLines": [
+        23
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillNumericSemantics.java",
+      "sha256": "8efa61034f5097ff8616abaede0de41426b03c9aca539b22239b9919e7ba1c92",
+      "lineCount": 817,
+      "referencedLines": [
+        1,
+        139,
+        273,
+        151,
+        630,
+        345,
+        30,
+        209,
+        335,
+        237,
+        195,
+        462,
+        242,
+        316,
+        750,
+        501,
+        520,
+        539,
+        267
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillObjectReferences.java",
+      "sha256": "27c8d7daa277ba228edc506b98137ef2d22c02448da61d99c53e171986534636",
+      "lineCount": 457,
+      "referencedLines": [
+        20,
+        43,
+        63,
+        249
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillTargetCategoryConditionSemantics.java",
+      "sha256": "2d78d577d6ace22f972399d9607da4092b443d9db20850c14e6ef6e872b8db8a",
+      "lineCount": 88,
+      "referencedLines": [
+        22
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillTriggerOncePerUseSemantics.java",
+      "sha256": "66cd7da421e8b3be61ebfc97839fb7cbeed1509028021455cfbba8b2d2a99666",
+      "lineCount": 284,
+      "referencedLines": [
+        23
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/resources/mapper/skilleffect/SkillEffectMapper.xml",
+      "sha256": "328be78f85640c3be4a44ca7b98b651a7c3f406f75097ce062c838b0915ef9dc",
+      "lineCount": 312,
+      "referencedLines": [
+        82
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/resources/mapper/skillformula/SkillFormulaMapper.xml",
+      "sha256": "fd98f1b5427aef0c81bbc385e1f522a6adc2ece0c65eae176d935e539faba2be",
+      "lineCount": 134,
+      "referencedLines": [
+        38
+      ]
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/resources/mapper/skilltrigger/SkillTriggerRuleMapper.xml",
+      "sha256": "8d332d6330585d5d45ec66ccf64c9f80e15ec7071ef803e2e376b67ad8fb4213",
+      "lineCount": 1482,
+      "referencedLines": [
+        640
+      ]
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/管理页面与共性机制迭代计划.md",
+      "sha256": "147218de528205a08ce6a7541e067435876579892b4e8a03ce444fd25362f7af",
+      "lineCount": 890,
+      "referencedLines": [
+        875
+      ]
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/系统精简实施说明.md",
+      "sha256": "2602e16c8e79d7c2a07e044d52d506ccfe379af6c0da4e289bd05fa6a6c72e81",
+      "lineCount": 568,
+      "referencedLines": [
+        46
+      ]
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/effectForm.ts",
+      "sha256": "d1b920f0214d3e7d8304877e437c5006d0b940ee125240aa0345e6ea30e24e32",
+      "lineCount": 4025,
+      "referencedLines": [
+        94
+      ]
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/processes/internalStateForm.ts",
+      "sha256": "919e7d854343a0b6f309bf8af7c638fc1869eb7a2600e09e1175195d3de00c16",
+      "lineCount": 697,
+      "referencedLines": [
+        27
+      ]
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/processes/processForm.ts",
+      "sha256": "738ba1befead1635c99e58a9d8385cb64009442b0d455080f401bb3511cadef0",
+      "lineCount": 1633,
+      "referencedLines": [
+        125,
+        88
+      ]
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/SkillManagementPage.tsx",
+      "sha256": "ada68e980d390e0ca0b6dc4ea8b82ae4a5ff121873418c1fde56a9c01aedf3c8",
+      "lineCount": 731,
+      "referencedLines": [
+        482
+      ]
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "sha256": "83334674eca69aced3e3f69e6687e880e8e06510a7eddd1a030de570bcfb87a2",
+      "lineCount": 3928,
+      "referencedLines": [
+        97,
+        572
+      ]
+    }
+  ],
+  "artifact": {
+    "file": "技能配置数据库字段字典.md",
+    "sha256": "a09136c9aa377026e5bc24c6731933c1e99d2f38e75ee0bc63a88f00cc65f7d7",
+    "bytes": 181638
+  }
+}

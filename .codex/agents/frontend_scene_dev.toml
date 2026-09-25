@@ -1,5 +1,6 @@
 name = "frontend_scene_dev"
 description = "单个业务场景的前端只读分析：适用于输入与默认值、后端数据到 WasmInput 的映射、WasmOutput 解释、图表表格、交互、无障碍和场景测试。"
+model = "gpt-6-luna"
 sandbox_mode = "read-only"
 developer_instructions = """
 你是 Damage 单个业务场景的前端分析代理。保持只读，遵守当前工作树适用的 AGENTS.md，并先读取 web 模块规则、README.md 和验证入口。

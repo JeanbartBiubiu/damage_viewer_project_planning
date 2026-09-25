@@ -1,0 +1,34 @@
+{
+  "at": "2026-09-24T01:28:54.850Z",
+  "executionMode": "PLAYWRIGHT_UI_ONLY",
+  "reason": "效果说明纠正后，完整主体回查发现技能说明仍声称不自动触发；须一并纠正上层陈旧说明",
+  "method": "PUT",
+  "route": "/skills/rune_9111_passive",
+  "before": {
+    "createdAt": "2026-09-09T01:35:14.553927Z",
+    "description": "本批仅录入：保存完整治疗数值公式与独立自身治疗，不自动触发。其他分支见候选剩余事实，未代表完整符文机制。",
+    "gameId": "lol",
+    "maxLevel": 1,
+    "name": "符文·凯旋",
+    "skillCategoryKeys": [
+      "passive"
+    ],
+    "skillKey": "rune_9111_passive",
+    "sortOrder": 0,
+    "status": "ENABLED",
+    "updatedAt": "2026-09-09T01:35:14.553927Z"
+  },
+  "body": {
+    "description": "严格一对一范围内，击杀敌方英雄后，按来源对象5%已损失生命值加2.5%最大生命值治疗自身。采用击杀事件结算时一次治疗的模拟口径；多人助攻及额外金币不在本轮范围。",
+    "maxLevel": 1,
+    "name": "符文·凯旋",
+    "skillCategoryKeys": [
+      "passive"
+    ],
+    "sortOrder": 0,
+    "status": "ENABLED"
+  },
+  "businessWrites": 0,
+  "protected": "除description和服务更新时间外全部字段、所有参数公式效果过程规则及关联保持",
+  "scope": "凯旋主体说明补充；不改事件或金额，不将近似时点写成实测事实"
+}

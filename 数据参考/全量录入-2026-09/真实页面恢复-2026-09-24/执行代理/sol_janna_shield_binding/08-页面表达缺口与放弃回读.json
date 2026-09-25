@@ -1,0 +1,299 @@
+{
+  "at": "2026-09-24T13:49:20.428Z",
+  "object": "champion_janna / janna_e / self_shield",
+  "question": "攻击力增益能否只在指定 shield 结果实际存续时生效，破裂或到期即时撤销",
+  "source": {
+    "version": "16.17.1",
+    "spell": "Eye Of The Storm",
+    "tooltipFragment": "While shielded, they gain ",
+    "sourceSnapshot": "迦娜护盾存续准备/01-现值与来源只读准备.json"
+  },
+  "browser": {
+    "nodePid": 15124,
+    "chromiumPid": 40860,
+    "contexts": 1,
+    "pages": 1
+  },
+  "preflight": {
+    "selectedRoutesExactToSnapshot": 8,
+    "originalShieldDurationMs": 4000,
+    "originalShieldResultCount": 1,
+    "originalEffectResultType": "NORMAL_SHIELD",
+    "originalShieldDecay": "NONE",
+    "originalFormula": "total_attack_damage_bonus"
+  },
+  "pageObserved": {
+    "parentLifecycleLabels": [
+      " 效果标识",
+      " 效果名称",
+      " 说明",
+      " 排序",
+      " 生命周期",
+      " 持续时间取值",
+      " 最大层数取值",
+      " 每次施加层数取值",
+      " 实例范围",
+      " 重复层数",
+      " 重复持续",
+      " 到期方式"
+    ],
+    "existingShieldResult": "shield / NORMAL_SHIELD / SOURCE / PERSISTENT / total_shield",
+    "temporaryResult": {
+      "resultKey": "temporary_shielded_attack_damage",
+      "resultType": "ATTRIBUTE_CHANGE",
+      "target": "SOURCE",
+      "attributeKey": "attack_damage",
+      "operation": "INCREASE",
+      "formulaKey": "total_attack_damage_bonus",
+      "moment": "PERSISTENT",
+      "modifierZoneForDraft": "attribute_flat_add",
+      "reapplicationValueModeForDraft": "REPLACE"
+    },
+    "childLabels": [
+      " 结果标识",
+      " 结果名称",
+      " 结果种类",
+      " 作用对象",
+      " 排序",
+      " 说明",
+      " 数值",
+      " 固定倍率",
+      " 固定最小值",
+      " 固定最大值",
+      " 属性",
+      " 操作",
+      " 乘区",
+      " 生命周期时点",
+      " 数值读取",
+      " 层数值方式",
+      " 重复值方式"
+    ],
+    "childValidationRequired": [
+      "乘区",
+      "重复值方式"
+    ],
+    "localChildConfirmedIntoParent": true,
+    "parentResultCountInDraft": 2,
+    "parentDurationStillParameter": "shield_duration_ms",
+    "explicitShieldResultBindingControlFound": false,
+    "parentSaveClicked": false
+  },
+  "gap": {
+    "object": "janna_e / self_shield 编辑效果与临时属性变化结果",
+    "location": "父效果生命周期和新增结果编辑器",
+    "steps": "正常打开既有护盾结果；新增未保存属性变化结果，选择施法者/攻击力/total_attack_damage_bonus/持续生效，确认子结果后查看父生命周期与两行摘要",
+    "expected": "可指定同父普通护盾结果 shield；护盾提前耗尽或自然到期时同一攻击力增益立即撤销",
+    "actual": "父生命周期仅有盾时长参数、层数、实例范围、刷新和到期方式；属性变化结果只有公式、属性、操作、乘区、时点、数值读取及重复值方式，无 shield 结果引用或护盾耗尽联动；两行同为持续生效只表示共享固定期限",
+    "impact": "无法通过真实页面表达 While shielded 的提前破盾撤销，按4秒固定持续会产生错误攻击力增益",
+    "blocking": true,
+    "liveRuntimeVerified": false,
+    "screenshots": [
+      "01-原护盾父效果与单结果.png",
+      "02-原盾结果编辑器.png",
+      "03-攻击力增益临时结果表单.png",
+      "05-同父两结果与生命周期草稿现场.png",
+      "06-已完整填写的攻击力增益子草稿.png"
+    ]
+  },
+  "discard": {
+    "dialog": [
+      {
+        "type": "confirm",
+        "message": "当前修改尚未保存，确定要离开吗？"
+      }
+    ],
+    "acceptedOnlyExactExpectedConfirmation": true,
+    "afterReopenResultCount": 1,
+    "afterReopenOnlyShield": true,
+    "afterReopenDuration": "shield_duration_ms",
+    "finalDialogs": 0
+  },
+  "guard": {
+    "policy": "所有非GET浏览器请求均拒绝",
+    "blockedNonGet": [],
+    "businessWrites": 0
+  },
+  "finalGETs": [
+    {
+      "method": "GET",
+      "route": "/skills/janna_e",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/characters/champion_janna",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/characters/champion_janna/attributes",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/characters/champion_janna/representative-image",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/representative-image",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/character-skill-relations?characterKey=champion_janna",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/character-skill-relations?skillKey=janna_e",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/cc_cooldown_refund_ratio",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/empower_duration_ms",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/decay_grace_period_ms",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/base_shield",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/shield_ap_ratio",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/bonus_attack_damage",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/attack_damage_ap_ratio",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/shield_duration_ms",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/cooldown_ms",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/mana_cost",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/formulas",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/formulas/total_shield",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/formulas/total_attack_damage_bonus",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/effects",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/effects/mana_cost",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/effects/self_shield",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/processes",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/internal-states",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/trigger-rules",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/trigger-rules/on_used_self_shield",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/processes/use_cost_and_cooldown",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    }
+  ],
+  "staticHintBoundary": "宿主混合结果支持状况仅为主负责人给出的静态提示，本证据只判定亲见管理页面控件与未保存草稿；未声称运行时已验证"
+}

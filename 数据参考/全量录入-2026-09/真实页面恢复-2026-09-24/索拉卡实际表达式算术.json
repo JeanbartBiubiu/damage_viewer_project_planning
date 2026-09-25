@@ -1,0 +1,172 @@
+{
+  "at": "2026-09-24T04:55:33.997Z",
+  "status": "PASS",
+  "source": "索拉卡首次阶段-01-写前现值.json",
+  "sourceSha256": "540cc3287a0aae349ff99fbbad4bafc8519c853520bc115cf88a076f0c2cefe3",
+  "cases": [
+    {
+      "level": 1,
+      "ap": 0,
+      "hp": 399,
+      "maxHP": 1000,
+      "branch": "self_low_health_heal",
+      "amount": 225,
+      "expected": 225
+    },
+    {
+      "level": 1,
+      "ap": 0,
+      "hp": 400,
+      "maxHP": 1000,
+      "branch": "self_heal",
+      "amount": 150,
+      "expected": 150
+    },
+    {
+      "level": 1,
+      "ap": 100,
+      "hp": 399,
+      "maxHP": 1000,
+      "branch": "self_low_health_heal",
+      "amount": 300,
+      "expected": 300
+    },
+    {
+      "level": 1,
+      "ap": 100,
+      "hp": 400,
+      "maxHP": 1000,
+      "branch": "self_heal",
+      "amount": 200,
+      "expected": 200
+    },
+    {
+      "level": 1,
+      "ap": 400,
+      "hp": 399,
+      "maxHP": 1000,
+      "branch": "self_low_health_heal",
+      "amount": 525,
+      "expected": 525
+    },
+    {
+      "level": 1,
+      "ap": 400,
+      "hp": 400,
+      "maxHP": 1000,
+      "branch": "self_heal",
+      "amount": 350,
+      "expected": 350
+    },
+    {
+      "level": 2,
+      "ap": 0,
+      "hp": 399,
+      "maxHP": 1000,
+      "branch": "self_low_health_heal",
+      "amount": 375,
+      "expected": 375
+    },
+    {
+      "level": 2,
+      "ap": 0,
+      "hp": 400,
+      "maxHP": 1000,
+      "branch": "self_heal",
+      "amount": 250,
+      "expected": 250
+    },
+    {
+      "level": 2,
+      "ap": 100,
+      "hp": 399,
+      "maxHP": 1000,
+      "branch": "self_low_health_heal",
+      "amount": 450,
+      "expected": 450
+    },
+    {
+      "level": 2,
+      "ap": 100,
+      "hp": 400,
+      "maxHP": 1000,
+      "branch": "self_heal",
+      "amount": 300,
+      "expected": 300
+    },
+    {
+      "level": 2,
+      "ap": 400,
+      "hp": 399,
+      "maxHP": 1000,
+      "branch": "self_low_health_heal",
+      "amount": 675,
+      "expected": 675
+    },
+    {
+      "level": 2,
+      "ap": 400,
+      "hp": 400,
+      "maxHP": 1000,
+      "branch": "self_heal",
+      "amount": 450,
+      "expected": 450
+    },
+    {
+      "level": 3,
+      "ap": 0,
+      "hp": 399,
+      "maxHP": 1000,
+      "branch": "self_low_health_heal",
+      "amount": 525,
+      "expected": 525
+    },
+    {
+      "level": 3,
+      "ap": 0,
+      "hp": 400,
+      "maxHP": 1000,
+      "branch": "self_heal",
+      "amount": 350,
+      "expected": 350
+    },
+    {
+      "level": 3,
+      "ap": 100,
+      "hp": 399,
+      "maxHP": 1000,
+      "branch": "self_low_health_heal",
+      "amount": 600,
+      "expected": 600
+    },
+    {
+      "level": 3,
+      "ap": 100,
+      "hp": 400,
+      "maxHP": 1000,
+      "branch": "self_heal",
+      "amount": 400,
+      "expected": 400
+    },
+    {
+      "level": 3,
+      "ap": 400,
+      "hp": 399,
+      "maxHP": 1000,
+      "branch": "self_low_health_heal",
+      "amount": 825,
+      "expected": 825
+    },
+    {
+      "level": 3,
+      "ap": 400,
+      "hp": 400,
+      "maxHP": 1000,
+      "branch": "self_heal",
+      "amount": 550,
+      "expected": 550
+    }
+  ],
+  "businessWrites": 0,
+  "boundary": "实际保存公式和互斥条件的独立算术核对；不是事件顺序、治疗上限或运行验证"
+}

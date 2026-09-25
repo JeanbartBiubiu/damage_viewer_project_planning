@@ -1,0 +1,97 @@
+{
+  "method": "POST",
+  "path": "/api/admin/games/lol/skills/neeko_e/trigger-rules",
+  "body": {
+    "ruleKey": "apply_root_on_first_contact",
+    "name": "首个接触敌方英雄的最短禁锢",
+    "description": "同组要求本技能真实命中敌方英雄、本次使用首次目标接触明确为1、同次法术护盾阻挡明确为0以及无本来源实例；缺值不默认，筛选后的首个英雄不等于首次接触。值为0不推定强化禁锢。",
+    "sortOrder": 30,
+    "eventSource": {
+      "eventType": "SKILL_HIT",
+      "detail": {
+        "sourceSkillKey": "neeko_e"
+      }
+    },
+    "conditionGroups": [
+      {
+        "groupKey": "root_eligible",
+        "name": "首个接触且允许首次施加",
+        "sortOrder": 10,
+        "conditions": [
+          {
+            "conditionKey": "champion_target",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "sortOrder": 10,
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            }
+          },
+          {
+            "conditionKey": "enemy_target",
+            "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+            "sortOrder": 20,
+            "detail": {}
+          },
+          {
+            "conditionKey": "not_spell_shield_blocked",
+            "conditionType": "EVENT_VALUE_COMPARE",
+            "sortOrder": 30,
+            "detail": {
+              "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+              "comparator": "EQ",
+              "comparisonValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            }
+          },
+          {
+            "conditionKey": "first_contact",
+            "conditionType": "EVENT_VALUE_COMPARE",
+            "sortOrder": 40,
+            "detail": {
+              "eventValueKey": "SKILL_HIT_FIRST_CONTACT",
+              "comparator": "EQ",
+              "comparisonValue": {
+                "kind": "FIXED",
+                "value": 1
+              }
+            }
+          },
+          {
+            "conditionKey": "own_root_absent",
+            "conditionType": "LIFECYCLE_CHECK",
+            "sortOrder": 50,
+            "detail": {
+              "effectKey": "first_contact_root",
+              "subject": "CURRENT_TARGET",
+              "checkKind": "ABSENT",
+              "comparator": null,
+              "comparisonValue": null
+            }
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "actionKey": "apply_root",
+        "name": "施加本次禁锢",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "first_contact_root"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null,
+    "oncePerUse": null
+  },
+  "status": 201
+}

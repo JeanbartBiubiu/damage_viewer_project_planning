@@ -1,0 +1,19 @@
+{
+  "getRecords": [
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/internal-states",
+      "status": 200,
+      "body": "[]"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/internal-states/spellblade_ready",
+      "status": 404,
+      "body": "{\"error\":{\"code\":\"404.SKILL_INTERNAL_STATE_NOT_FOUND\",\"details\":{\"stateKey\":\"spellblade_ready\"},\"message\":\"技能内部状态不存在\"}}"
+    }
+  ],
+  "responseHeadersOrCookiesStored": false,
+  "listEmpty": true,
+  "targetDetail404": true
+}

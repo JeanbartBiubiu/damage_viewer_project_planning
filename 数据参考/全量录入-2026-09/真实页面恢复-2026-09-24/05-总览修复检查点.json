@@ -1,0 +1,34 @@
+{
+  "at": "2026-09-24T01:27:15.752Z",
+  "issue": "规则说明被总览丢弃；动作上下文与实际结果对象脱节",
+  "originalRegression": "新增击杀治疗语义回归检查在原实现失败：规则notes为空",
+  "fix": "显示已保存规则说明、动作目标上下文及所执行效果的结果作用对象；缺失详情不推断",
+  "sourceHashes": [
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/overview/skillBehaviorOverview.ts",
+      "sha256": "47bd187cf072723281de0fe4fdb1d65d67ba8e4b9467f4e58c01d7b9811e365e"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/overview/skillBehaviorOverview.test.ts",
+      "sha256": "b04efb6e520a4d95bb2eba2c033433062f0f2e3a8598834883b07738a3de7348"
+    }
+  ],
+  "validation": {
+    "overviewTests": 9,
+    "webUnitTests": 1040,
+    "webUnitFiles": 88,
+    "typecheck": "PASS",
+    "lint": "PASS,171生产文件",
+    "build": "PASS,1317模块"
+  },
+  "originalPageReturn": {
+    "object": "rune_9111_passive",
+    "agent": "gpt-6-luna",
+    "effort": "max",
+    "screenshot": "执行代理/page_entry_first/凯旋-总览修正复核.png",
+    "ownerInspectedScreenshot": true,
+    "extraBusinessWrites": 0
+  },
+  "peerReturn": "妮蔻E页面录入进行中，尚未计通过",
+  "runtimeValidation": false
+}

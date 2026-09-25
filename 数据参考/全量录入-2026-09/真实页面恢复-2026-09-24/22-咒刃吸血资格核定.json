@@ -1,0 +1,31 @@
+{
+  "date": "2026-09-24",
+  "status": "主负责人核定且独立评审READY；尚未批准具体业务保存正文",
+  "objects": ["item_3508_passive/spellblade_damage", "item_3057_passive/spellblade_damage"],
+  "question": "两项物理攻击特效能否直接标为已核定并使用空例外",
+  "observed": "不可直接使用空例外来表达生命偷取：两技能均为passive，而现有LIFE_STEAL默认匹配basic_attack；全能吸血默认含passive。旧空vampRules迁移成UNRESOLVED，不代表明确禁止。",
+  "source": {
+    "title": "Riot Patch 10.23 notes — Vamp Effects",
+    "url": "https://www.leagueoflegends.com/en-us/news/game-updates/patch-10-23-notes/",
+    "verified": "主负责人本次通过网页工具打开并定位Vamp Effects段，独立评审复核",
+    "supportedFact": "历史官方通用规则明确生命偷取包含普攻产生的物理攻击特效伤害。",
+    "timeBoundary": "历史通用资格依据，不声称是16.17同版本实测；不引入该旧补丁装备数值或旧全能吸血范围效率。"
+  },
+  "projectDecision": {
+    "reasoning": "结合冻结两对象和现值的物理、实际普攻附伤身份，将官方通用资格应用于本项目普通首次主动施法后实际普攻命中的有限场景。",
+    "qualification": "RESOLVED",
+    "necessaryOverride": {
+      "vampType": "LIFE_STEAL",
+      "mode": "OVERRIDE",
+      "basisOutputKind": "POST_DEFENSE_DAMAGE",
+      "efficiencyValue": {"kind": "FIXED", "value": 1}
+    },
+    "basisAndEfficiency": "防御后伤害基数与效率1沿用当前游戏已确定口径；来源比例继续读取游戏生命偷取比例属性。",
+    "omnivamp": "继续继承当前游戏规则，不复制普通全能吸血配置",
+    "protected": "保留真实passive技能分类、原物理伤害与公式、装备属性和关系，不扩大游戏级匹配器，不新增运行结构"
+  },
+  "next": "各自完成原批准前四笔及独立回读后，以最新全详情冻结剩余说明与资格的合并批准；已保存内容不重做，尚未执行的过时未核定说明与资格一次处理，避免重复保存。指定代理正常页面保存后独立回读并做真实工作线程验证。",
+  "independentReview": "READY：新官方依据补足资格；项目基数和效率与历史规则依据分开记录",
+  "businessWrites": 0,
+  "wholeEquipmentRuntime": false
+}

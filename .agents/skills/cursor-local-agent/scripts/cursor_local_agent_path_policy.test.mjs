@@ -555,7 +555,7 @@ function testRunLevelFailureNotInStartupRetryPath() {
   assert.match(runSource, /startAgentRunWithRetry/);
   // Terminal RunResult failure must be classified as run phase, not fed to startup retry.
   assert.match(runSource, /summary\.failurePhase = "run"/);
-  assert.equal(EXPECTED_CURSOR_SDK_VERSION, "1.0.24");
+  assert.equal(EXPECTED_CURSOR_SDK_VERSION, "1.0.32");
 }
 
 testContainment();

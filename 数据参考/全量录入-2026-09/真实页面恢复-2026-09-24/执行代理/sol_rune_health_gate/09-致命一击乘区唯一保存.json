@@ -1,0 +1,71 @@
+{
+  "at": "2026-09-24T09:58:33.717Z",
+  "candidateSha256": "cf7061fd916f39c8774f671828074d3434f107df82f7f6990609da919d402732",
+  "browser": {
+    "nodePid": 24176,
+    "chromiumPid": 6040,
+    "contexts": 1,
+    "pages": 1
+  },
+  "before": {
+    "modifierZones": 9,
+    "keysEqual": true,
+    "targetStatus": 404
+  },
+  "write": {
+    "method": "POST",
+    "path": "/api/admin/games/lol/modifier-zones",
+    "body": {
+      "modifierZoneKey": "rune_8014_damage_increase",
+      "name": "致命一击独立增伤乘区",
+      "domain": "DAMAGE",
+      "calculationMode": "RATIO_ADD",
+      "applicationStage": "DAMAGE_PRE_DEFENSE",
+      "description": "致命一击合格伤害的独立增幅；同区比例加算，与其他独立增幅分区相乘。具体伤害资格由引用结果限定。",
+      "status": "ENABLED",
+      "sortOrder": 270
+    },
+    "status": 201
+  },
+  "rejectedWrites": 0,
+  "reopened": {
+    "inputs": [
+      {
+        "label": "乘区标识",
+        "value": "rune_8014_damage_increase"
+      },
+      {
+        "label": "乘区名称",
+        "value": "致命一击独立增伤乘区"
+      },
+      {
+        "label": "说明",
+        "value": "致命一击合格伤害的独立增幅；同区比例加算，与其他独立增幅分区相乘。具体伤害资格由引用结果限定。"
+      },
+      {
+        "label": "排序",
+        "value": "270"
+      }
+    ],
+    "combos": [
+      {
+        "label": "乘区作用域",
+        "text": "伤害"
+      },
+      {
+        "label": "乘区计算方式",
+        "text": "比例加算"
+      },
+      {
+        "label": "乘区应用阶段",
+        "text": "防御计算前伤害"
+      }
+    ],
+    "status": 1,
+    "exactApprovedFields": true
+  },
+  "after": {
+    "modifierZones": 10,
+    "visibleDialogs": 0
+  }
+}

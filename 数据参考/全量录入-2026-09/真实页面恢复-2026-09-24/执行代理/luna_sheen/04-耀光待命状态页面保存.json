@@ -1,0 +1,97 @@
+{
+  "approval": {
+    "file": "耀光-02-页面批准.json",
+    "fileSha256": "4AEB315BE6093839E631C983A431AADF620B79F120FCA532D80BF0CF6C4D0A99",
+    "candidateSha256": "75335ee18f040eb0e0083589cbb3bbf646a16da8f18fbb155a224bc81802b7ab",
+    "requestIndex": 1,
+    "method": "POST",
+    "route": "/skills/item_3057_passive/internal-states",
+    "detailRoute": "/skills/item_3057_passive/internal-states/spellblade_ready"
+  },
+  "preflight": {
+    "evidenceFile": "03-preflight-state.json",
+    "listEmpty": true,
+    "targetDetail404": true,
+    "pageListRead": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+      "status": 200
+    }
+  },
+  "pageWrite": {
+    "source": "正常页面控件：新增内部状态表单点保存",
+    "allowedWriteCount": 1,
+    "blockedMutationRequests": [],
+    "requestCapturedBeforeForwarding": {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+      "body": {
+        "stateKey": "spellblade_ready",
+        "name": "咒刃待命",
+        "scope": "SKILL",
+        "description": "普通成功首次主动施法且冷却就绪时开启；重复施法刷新窗口，强化普攻命中或超时关闭。窗口与刷新按项目近似。",
+        "sortOrder": 10,
+        "stateType": "FLAG",
+        "detail": {
+          "initialEnabled": false
+        }
+      }
+    },
+    "requestBodyDeepEqualToApproved": true,
+    "response": {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+      "status": 201,
+      "body": "{\"createdAt\":\"2026-09-24T03:32:38.200374Z\",\"description\":\"普通成功首次主动施法且冷却就绪时开启；重复施法刷新窗口，强化普攻命中或超时关闭。窗口与刷新按项目近似。\",\"detail\":{\"initialEnabled\":false},\"gameId\":\"lol\",\"name\":\"咒刃待命\",\"scope\":\"SKILL\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":10,\"stateKey\":\"spellblade_ready\",\"stateType\":\"FLAG\",\"updatedAt\":\"2026-09-24T03:32:38.200374Z\"}"
+    }
+  },
+  "closeAndReopen": {
+    "stateListReopened": true,
+    "stateListReads": [
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+        "status": 200
+      }
+    ],
+    "targetRowText": "咒刃待命 | spellblade_ready | 准备标记 | 技能自身 | 10",
+    "targetDetailRead": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states/spellblade_ready",
+      "status": 200
+    },
+    "detailViewEchoProjection": {
+      "stateKey": "spellblade_ready",
+      "name": "咒刃待命",
+      "stateType": "FLAG",
+      "scope": "SKILL",
+      "description": "普通成功首次主动施法且冷却就绪时开启；重复施法刷新窗口，强化普攻命中或超时关闭。窗口与刷新按项目近似。",
+      "sortOrder": 10,
+      "detail": {
+        "initialEnabled": false
+      }
+    },
+    "detailViewEchoDeepEqualToApproved": true,
+    "viewControlsDisabled": true
+  },
+  "requestLogPolicy": {
+    "storedFieldsOnly": [
+      "method",
+      "path",
+      "body",
+      "status"
+    ],
+    "responseHeadersStored": false,
+    "cookiesStored": false
+  }
+}

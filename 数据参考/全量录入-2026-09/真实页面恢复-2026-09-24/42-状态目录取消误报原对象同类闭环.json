@@ -1,0 +1,40 @@
+{
+  "at": "2026-09-24T07:54:33.983Z",
+  "status": "PASS_ORIGINAL_AND_PEER_RETURN",
+  "question": "只查看已保存控制结果及异步目录，能否正常取消且仍保护真实草稿修改",
+  "problem": "目录补入派生状态种类被误认用户改动，取消误报未保存",
+  "fix": "父效果和结果子编辑器复用同一单结果比较规范化，只用于比较，不回写或改变保存内容",
+  "original": {
+    "object": "chogath_w/silence_first_application/silence",
+    "executor": "gpt-6-sol/max",
+    "evidence": "执行代理/sol_chogath_peer/10-科加斯W取消误报修复原对象回验.json",
+    "cleanCancelDialogs": 0,
+    "dirtyCancelRejectedAndDraftRetained": true,
+    "discardThenReopenOriginalName": true
+  },
+  "peer": {
+    "object": "chogath_q/knockup/apply_knockup",
+    "executor": "gpt-6-luna/max",
+    "evidence": "执行代理/luna_chogath/18-取消误报回归证据.json",
+    "cleanCancelDialogs": 0
+  },
+  "codeEvidence": "41-状态目录取消误报修复检查点.json",
+  "finalCodeHashesVerified": true,
+  "oldIsolatedFailures": 2,
+  "newIsolatedPasses": 2,
+  "frontendUnitTests": 1096,
+  "lint": true,
+  "typecheck": true,
+  "build": true,
+  "independentReview": "READY",
+  "independentReadbacks": [
+    36,
+    22
+  ],
+  "totalGETs": 58,
+  "allSavedValuesAndTimestampsUnchanged": true,
+  "businessWritesForFixReturn": 0,
+  "toolIssue": "Sol一次残留原生弹窗监听冲突，无业务写入；清理后重做完整两项真实页面检查通过，不计产品缺陷",
+  "runtimeValidated": false,
+  "wholeSkillComplete": false
+}

@@ -1,0 +1,185 @@
+{
+  "recordedAt": "2026-09-24T06:16:31.386Z",
+  "sourceEvidence": "35-希维尔空结果保存后录入检查.json",
+  "page": {
+    "url": "http://127.0.0.1:4182/#/characters",
+    "location": "角色管理 -> 希维尔 -> 录入检查 -> 问题与待核对项",
+    "dialogTitle": "录入检查 · 希维尔",
+    "buttonPath": "角色管理筛选希维尔后，在 champion_sivir 行点击“录入检查”"
+  },
+  "reproduction": {
+    "steps": [
+      "保持最近伤害标记 results=[] 的已保存状态。",
+      "在角色管理按“希维尔”筛选。",
+      "点击 champion_sivir 行“录入检查”。",
+      "页面发起只读 GET /api/admin/games/lol/characters/champion_sivir/authoring-check。"
+    ],
+    "request": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/characters/champion_sivir/authoring-check",
+      "status": 200,
+      "body": {
+        "characterKey": "champion_sivir",
+        "checkedAt": "2026-09-24T06:12:21.4311828Z",
+        "conclusions": {
+          "mechanics": "NOT_CHECKED",
+          "runtime": "NOT_RUN",
+          "structure": "HAS_ERRORS"
+        },
+        "summary": {
+          "attachedSkillCount": 6,
+          "configuredAttributeCount": 10,
+          "errorCount": 1,
+          "reviewCount": 2
+        },
+        "issue": {
+          "code": "BASIC_FIELD_INVALID",
+          "fieldPath": "results",
+          "location": {
+            "degradeReason": null,
+            "editor": "EFFECT",
+            "fieldPath": "results",
+            "formulaSnapshot": null,
+            "objectKey": "recent_damage_mark",
+            "objectType": "EFFECT",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "results",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "sivir_r"
+          },
+          "message": "该对象至少需要一个子项",
+          "objectKey": "recent_damage_mark",
+          "objectType": "EFFECT",
+          "severity": "ERROR",
+          "skillKey": "sivir_r"
+        },
+        "unattachedEffectReviews": [
+          {
+            "code": "EFFECT_NOT_CONNECTED",
+            "fieldPath": "",
+            "location": {
+              "degradeReason": "UNKNOWN_FIELD",
+              "editor": "EFFECT",
+              "fieldPath": "",
+              "formulaSnapshot": null,
+              "objectKey": "recent_damage_mark",
+              "objectType": "EFFECT",
+              "precision": "OBJECT",
+              "segments": [],
+              "skillKey": "sivir_r"
+            },
+            "message": "效果未发现过程挂接或执行效果动作，请人工核对用途",
+            "objectKey": "recent_damage_mark",
+            "objectType": "EFFECT",
+            "severity": "REVIEW",
+            "skillKey": "sivir_r"
+          },
+          {
+            "code": "EFFECT_NOT_CONNECTED",
+            "fieldPath": "",
+            "location": {
+              "degradeReason": "UNKNOWN_FIELD",
+              "editor": "EFFECT",
+              "fieldPath": "",
+              "formulaSnapshot": null,
+              "objectKey": "refresh_on_the_hunt",
+              "objectType": "EFFECT",
+              "precision": "OBJECT",
+              "segments": [],
+              "skillKey": "sivir_r"
+            },
+            "message": "效果未发现过程挂接或执行效果动作，请人工核对用途",
+            "objectKey": "refresh_on_the_hunt",
+            "objectType": "EFFECT",
+            "severity": "REVIEW",
+            "skillKey": "sivir_r"
+          }
+        ],
+        "markerDurationReference": {
+          "fieldPath": "lifecycle.durationValue.parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "EFFECT",
+            "fieldPath": "lifecycle.durationValue.parameterKey",
+            "formulaSnapshot": null,
+            "objectKey": "recent_damage_mark",
+            "objectType": "EFFECT",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "lifecycle",
+                "kind": "FIELD"
+              },
+              {
+                "field": "durationValue",
+                "kind": "FIELD"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "sivir_r"
+          },
+          "sourceKey": "recent_damage_mark",
+          "sourceSkillKey": "sivir_r",
+          "sourceType": "EFFECT",
+          "targetKey": "recent_damage_ms",
+          "targetSkillKey": "sivir_r",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        "sivirR": {
+          "effectCount": 5,
+          "maxLevel": 3,
+          "name": "希维尔·狩猎",
+          "processCount": 1,
+          "skillKey": "sivir_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "triggerRuleCount": 1
+        }
+      }
+    },
+    "visibleResult": {
+      "summary": "结构检查：发现 1 项错误；2 项待核对。机制完整性：待人工核对。战斗运行：未执行。",
+      "problemLocation": "sivir_r / 效果 / recent_damage_mark / results",
+      "message": "该对象至少需要一个子项",
+      "level": "错误",
+      "operation": "定位问题"
+    }
+  },
+  "expected": {
+    "approvedMarkerResults": [],
+    "savedResults": [],
+    "structureShouldNotFailOnlyBecauseLifecycleMarkerHasNoNumericOrStatusResults": true,
+    "unattachedMarkerMayRemainReview": true
+  },
+  "actual": {
+    "structureConclusion": "HAS_ERRORS",
+    "errorCount": 1,
+    "reviewCount": 2,
+    "errorCode": "BASIC_FIELD_INVALID",
+    "errorFieldPath": "results",
+    "errorMessage": "该对象至少需要一个子项",
+    "lifecycleDurationReferenceRetained": true
+  },
+  "impact": "合法的空结果生命周期资格标记无法通过结构验收；这是录入检查 GET 返回的校验错误，不是业务保存失败。标记已保存且正文、空结果、生命周期此前均由批准写入和重开 GET 确认。",
+  "businessData": {
+    "originalApprovedWriteStatus": 201,
+    "originalWriteBodyMatchedApproval": true,
+    "originalReadbackStatus": 200,
+    "businessWritesDuringThisReproduction": 0,
+    "dialogDraftsAfterClose": 0
+  },
+  "screenshotFile": "06-希维尔空结果结构错误录入检查截图.png",
+  "requestLogPolicy": {
+    "storedFieldsOnly": "method/path/status/body",
+    "responseHeadersStored": false,
+    "cookiesStored": false
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "at": "2026-09-24T04:47:07.406Z",
+  "question": "强化步骤唯一命中来源能否在总览准确展示，避免作者误以为缺少命中入口而重复配置",
+  "issue": {
+    "object": "item_3508_passive",
+    "location": "装备关联技能→行为总览→命中及补充入口",
+    "reproduce": "保存单强化步骤、命中伤害/回蓝绑定及状态操作后打开行为总览",
+    "expected": "命中组显示强化步骤及其步骤执行绑定与操作，超时在结束",
+    "actualBefore": "命中组为空；强化步骤和已挂接效果被收进补充入口",
+    "impact": "同类强化普攻过程摘要误导作者，可能诱发重复入口",
+    "blocking": false,
+    "source": "执行代理/sol_essence/15-夺萃页面收尾观察.json"
+  },
+  "fix": "只读总览根据对应过程和强化步骤解释步骤执行；区分消费时点，展示待击窗口毫秒；超时、未知引用、真正孤立效果及定位保持",
+  "validation": {
+    "oldRegressionFailures": 4,
+    "fullUnit": 1089,
+    "lint": true,
+    "typecheck": true,
+    "build": true,
+    "independentReview": "READY",
+    "realOriginalReturn": true,
+    "realPeerReturn": false
+  },
+  "files": {
+    "web/src/pages/admin/skills/overview/skillBehaviorOverview.ts": "43465fbc89add416c6510711dcf4989002a62dd86d678e807e71f5ee522f6175",
+    "web/src/pages/admin/skills/overview/skillBehaviorOverview.test.ts": "4f296f9d7ad26754379137b10a5450e9b43aded38062bd7946fb67878a9ba826"
+  },
+  "originalEvidence": "执行代理/sol_essence/21-夺萃总览修复页面回验.json",
+  "rootScreenshotReview": [
+    "18-夺萃命中分组修复回验上.png",
+    "19-夺萃命中分组修复回验下.png"
+  ],
+  "boundary": "总览只读返回0业务写入；真正孤立效果由回归用例验证，正式夺萃无孤立效果；同类耀光返回待执行"
+}

@@ -1,0 +1,47 @@
+{
+  "approvedFileSha256": "4AEB315BE6093839E631C983A431AADF620B79F120FCA532D80BF0CF6C4D0A99",
+  "baselineFileSha256": "9EE579B0BD6E2D4B08391329B74F2DEFE824EB2210A666B53E40B85C7B9EB53F",
+  "approvedBaselineSha256": "9ee579b0bd6e2d4b08391329b74f2defe824eb2210a666b53e40b85c7b9eb53f",
+  "approvedCandidateSha256": "75335ee18f040eb0e0083589cbb3bbf646a16da8f18fbb155a224bc81802b7ab",
+  "currentChecks": {
+    "skillMatchesSnapshot": true,
+    "parameterListMatchesSnapshot": true,
+    "baseAttackRatioMatchesSnapshot": true,
+    "cooldownMatchesSnapshot": true,
+    "targetDetailIs404": true,
+    "targetAbsentFromCurrentList": true
+  },
+  "getRecords": [
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-07T16:06:31.681911Z\",\"description\":\"施放技能后，下一次普通攻击造成来源基础攻击力1倍的额外物理伤害。本批保存数值组成；施放后就绪、下一次攻击消费和冷却运行时接线待补。\",\"gameId\":\"lol\",\"maxLevel\":1,\"name\":\"耀光·咒刃\",\"skillCategoryKeys\":[\"passive\"],\"skillKey\":\"item_3057_passive\",\"sortOrder\":0,\"status\":\"ENABLED\",\"updatedAt\":\"2026-09-07T16:06:31.681911Z\"}"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/parameters",
+      "status": 200,
+      "body": "[{\"createdAt\":\"2026-09-07T16:06:31.967601Z\",\"description\":\"咒刃额外物理伤害对来源基础攻击力的倍率，小数1表示100%。\",\"fixedValue\":1,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"咒刃基础攻击力倍率\",\"parameterKey\":\"spellblade_ad_ratio\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":10,\"updatedAt\":\"2026-09-07T16:06:31.967601Z\",\"valueMode\":\"FIXED\",\"valueType\":\"DECIMAL\"},{\"createdAt\":\"2026-09-07T16:06:32.311716Z\",\"description\":\"客户端咒刃冷却时间，单位：毫秒；冷却消费规则待运行时接线。\",\"fixedValue\":1500,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"咒刃冷却时间\",\"parameterKey\":\"spellblade_cooldown_ms\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":20,\"updatedAt\":\"2026-09-07T16:06:32.311716Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"}]"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/parameters/spellblade_ad_ratio",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-07T16:06:31.967601Z\",\"description\":\"咒刃额外物理伤害对来源基础攻击力的倍率，小数1表示100%。\",\"fixedValue\":1,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"咒刃基础攻击力倍率\",\"parameterKey\":\"spellblade_ad_ratio\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":10,\"updatedAt\":\"2026-09-07T16:06:31.967601Z\",\"valueMode\":\"FIXED\",\"valueType\":\"DECIMAL\"}"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-07T16:06:32.311716Z\",\"description\":\"客户端咒刃冷却时间，单位：毫秒；冷却消费规则待运行时接线。\",\"fixedValue\":1500,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"咒刃冷却时间\",\"parameterKey\":\"spellblade_cooldown_ms\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":20,\"updatedAt\":\"2026-09-07T16:06:32.311716Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"}"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/parameters/spellblade_window_ms",
+      "status": 404,
+      "body": "{\"error\":{\"code\":\"404.SKILL_PARAMETER_NOT_FOUND\",\"details\":{\"parameterKey\":\"spellblade_window_ms\"},\"message\":\"技能参数不存在\"}}"
+    }
+  ],
+  "responseHeadersOrCookiesStored": false
+}

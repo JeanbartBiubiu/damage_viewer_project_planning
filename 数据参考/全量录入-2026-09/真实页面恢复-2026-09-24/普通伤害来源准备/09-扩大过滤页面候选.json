@@ -1,0 +1,452 @@
+{
+  "at": "2026-09-24T11:48:25.385Z",
+  "status": "PREPARED_PENDING_SOURCE_AUDIT_ACCEPTANCE",
+  "question": "已核普通魔法与真实伤害能否沿正常页面放宽过滤，并保留逐笔门槛及完整关联",
+  "gatesBeforeApproval": [
+    "来源审计最终独立审查通过",
+    "最终代码必要检查通过",
+    "真实来源候选工作线程通过"
+  ],
+  "protection": "38项现值及11乘区；参数、公式、主体、挂载、结果/规则/动作稳定键、条件、金额、生命周期和引用保持",
+  "runtimeEvidence": "07-来源候选与反向拥有者运行.json",
+  "businessWrites": 0,
+  "wholeRunesComplete": false,
+  "writes": [
+    {
+      "runeKey": "rune_8014",
+      "skillKey": "rune_8014_passive",
+      "method": "PUT",
+      "route": "/skills/rune_8014_passive/effects/basic_attack_health_bonus",
+      "detailRoute": "/skills/rune_8014_passive/effects/basic_attack_health_bonus",
+      "body": {
+        "description": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格低于40%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "致命一击普通直接伤害生命门槛增伤",
+        "results": [
+          {
+            "description": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格低于40%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+            "detail": {
+              "condition": {
+                "receiver": "ENEMY_CHAMPION",
+                "comparator": "LT",
+                "attributeKey": "hp",
+                "comparisonValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "target_health_threshold_ratio"
+                },
+                "attributeValueKind": "CURRENT_RATIO"
+              },
+              "criticalFilter": "ANY",
+              "damageTypeKey": null,
+              "deliveryKind": "ANY",
+              "direction": "DEALT",
+              "modifierZoneKey": "rune_8014_damage_increase",
+              "operation": "INCREASE",
+              "originKind": "DIRECT"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "符合生命门槛时提高普通直接伤害",
+            "resultKey": "increase_damage",
+            "resultType": "DAMAGE_MODIFIER",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "bonus_damage_ratio"
+              }
+            }
+          }
+        ],
+        "sortOrder": 10
+      },
+      "allowedChanges": [
+        "效果及结果名称和说明",
+        "damageTypeKey: physics → null",
+        "deliveryKind: BASIC_ATTACK → ANY"
+      ],
+      "before": {
+        "createdAt": "2026-09-24T10:12:30.051567Z",
+        "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格低于40%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+        "effectKey": "basic_attack_health_bonus",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "致命一击普通物理普攻生命门槛增伤",
+        "results": [
+          {
+            "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格低于40%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+            "detail": {
+              "condition": {
+                "receiver": "ENEMY_CHAMPION",
+                "comparator": "LT",
+                "attributeKey": "hp",
+                "comparisonValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "target_health_threshold_ratio"
+                },
+                "attributeValueKind": "CURRENT_RATIO"
+              },
+              "criticalFilter": "ANY",
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "direction": "DEALT",
+              "modifierZoneKey": "rune_8014_damage_increase",
+              "operation": "INCREASE",
+              "originKind": "DIRECT"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "符合生命门槛时提高普通物理普攻伤害",
+            "resultKey": "increase_damage",
+            "resultType": "DAMAGE_MODIFIER",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "bonus_damage_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "rune_8014_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-24T10:12:30.051567Z"
+      }
+    },
+    {
+      "runeKey": "rune_8014",
+      "skillKey": "rune_8014_passive",
+      "method": "PUT",
+      "route": "/skills/rune_8014_passive/trigger-rules/initialize_basic_attack_bonus",
+      "detailRoute": "/skills/rune_8014_passive/trigger-rules/initialize_basic_attack_bonus",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "apply_bonus",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "basic_attack_health_bonus"
+            },
+            "name": "施加常驻生命门槛增伤",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格低于40%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化致命一击普通直接伤害增幅",
+        "oncePerUse": null,
+        "perTargetCooldown": null,
+        "sortOrder": 10
+      },
+      "allowedChanges": [
+        "规则名称和说明"
+      ],
+      "before": {
+        "actions": [
+          {
+            "actionKey": "apply_bonus",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "basic_attack_health_bonus"
+            },
+            "name": "施加常驻生命门槛增伤",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格低于40%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化致命一击普通物理普攻增伤",
+        "oncePerUse": null,
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_basic_attack_bonus",
+        "sortOrder": 10
+      }
+    },
+    {
+      "runeKey": "rune_8017",
+      "skillKey": "rune_8017_passive",
+      "method": "PUT",
+      "route": "/skills/rune_8017_passive/effects/basic_attack_health_bonus",
+      "detailRoute": "/skills/rune_8017_passive/effects/basic_attack_health_bonus",
+      "body": {
+        "description": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格高于60%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "砍倒普通直接伤害生命门槛增伤",
+        "results": [
+          {
+            "description": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格高于60%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+            "detail": {
+              "condition": {
+                "receiver": "ENEMY_CHAMPION",
+                "comparator": "GT",
+                "attributeKey": "hp",
+                "comparisonValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "target_health_threshold_ratio"
+                },
+                "attributeValueKind": "CURRENT_RATIO"
+              },
+              "criticalFilter": "ANY",
+              "damageTypeKey": null,
+              "deliveryKind": "ANY",
+              "direction": "DEALT",
+              "modifierZoneKey": "rune_8017_damage_increase",
+              "operation": "INCREASE",
+              "originKind": "DIRECT"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "符合生命门槛时提高普通直接伤害",
+            "resultKey": "increase_damage",
+            "resultType": "DAMAGE_MODIFIER",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "bonus_damage_ratio"
+              }
+            }
+          }
+        ],
+        "sortOrder": 10
+      },
+      "allowedChanges": [
+        "效果及结果名称和说明",
+        "damageTypeKey: physics → null",
+        "deliveryKind: BASIC_ATTACK → ANY"
+      ],
+      "before": {
+        "createdAt": "2026-09-24T10:42:32.607302Z",
+        "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格高于60%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+        "effectKey": "basic_attack_health_bonus",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "砍倒普通物理普攻生命门槛增伤",
+        "results": [
+          {
+            "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格高于60%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+            "detail": {
+              "condition": {
+                "receiver": "ENEMY_CHAMPION",
+                "comparator": "GT",
+                "attributeKey": "hp",
+                "comparisonValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "target_health_threshold_ratio"
+                },
+                "attributeValueKind": "CURRENT_RATIO"
+              },
+              "criticalFilter": "ANY",
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "direction": "DEALT",
+              "modifierZoneKey": "rune_8017_damage_increase",
+              "operation": "INCREASE",
+              "originKind": "DIRECT"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "符合生命门槛时提高普通物理普攻伤害",
+            "resultKey": "increase_damage",
+            "resultType": "DAMAGE_MODIFIER",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": null,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "bonus_damage_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "rune_8017_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-24T10:42:32.607302Z"
+      }
+    },
+    {
+      "runeKey": "rune_8017",
+      "skillKey": "rune_8017_passive",
+      "method": "PUT",
+      "route": "/skills/rune_8017_passive/trigger-rules/initialize_basic_attack_bonus",
+      "detailRoute": "/skills/rune_8017_passive/trigger-rules/initialize_basic_attack_bonus",
+      "body": {
+        "actions": [
+          {
+            "actionKey": "apply_bonus",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "basic_attack_health_bonus"
+            },
+            "name": "施加常驻生命门槛增伤",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格高于60%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化砍倒普通直接伤害增幅",
+        "oncePerUse": null,
+        "perTargetCooldown": null,
+        "sortOrder": 10
+      },
+      "allowedChanges": [
+        "规则名称和说明"
+      ],
+      "before": {
+        "actions": [
+          {
+            "actionKey": "apply_bonus",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "basic_attack_health_bonus"
+            },
+            "name": "施加常驻生命门槛增伤",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格高于60%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化砍倒普通物理普攻增伤",
+        "oncePerUse": null,
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_basic_attack_bonus",
+        "sortOrder": 10
+      }
+    }
+  ]
+}

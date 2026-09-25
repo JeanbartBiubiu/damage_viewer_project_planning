@@ -1,0 +1,30 @@
+
+ RUN  v2.1.9 C:/project/damage_web_dev/web
+
+ ❯ src/engine/triggerAdapter.test.ts (64 tests | 1 failed | 63 skipped) 9ms
+   × 有界触发与过程适配 > 接受服务端省略空失败原因的正式过程时点，保持实际输入不变 8ms
+     → adapter.triggerPlan.skills.synth_spellblade.processes.spellblade.stateOperations.arm.moment: 待击状态操作不能携带失败原因
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/triggerAdapter.test.ts > 有界触发与过程适配 > 接受服务端省略空失败原因的正式过程时点，保持实际输入不变
+TriggerAdaptationError: adapter.triggerPlan.skills.synth_spellblade.processes.spellblade.stateOperations.arm.moment: 待击状态操作不能携带失败原因
+ ❯ fail src/engine/triggerAdapter.ts:134:9
+    132| 
+    133| function fail(path: string, message: string): never {
+    134|   throw new TriggerAdaptationError(path, message);
+       |         ^
+    135| }
+    136| const finite = (value: unknown, path: string): number => finiteNumber(…
+ ❯ classifyEmpowered src/engine/triggerAdapter.ts:471:43
+ ❯ classifyTriggerProgram src/engine/triggerAdapter.ts:588:73
+ ❯ Module.adaptTriggerProgram src/engine/triggerAdapter.ts:1128:17
+ ❯ src/engine/triggerAdapter.test.ts:317:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 63 skipped (64)
+   Start at  11:39:49
+   Duration  404ms (transform 142ms, setup 0ms, collect 176ms, tests 9ms, environment 0ms, prepare 76ms)
+

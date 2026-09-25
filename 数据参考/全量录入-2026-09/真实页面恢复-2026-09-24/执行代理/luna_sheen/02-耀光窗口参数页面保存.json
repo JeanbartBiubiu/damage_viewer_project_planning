@@ -1,0 +1,103 @@
+{
+  "approval": {
+    "file": "耀光-02-页面批准.json",
+    "fileSha256": "4AEB315BE6093839E631C983A431AADF620B79F120FCA532D80BF0CF6C4D0A99",
+    "candidateSha256": "75335ee18f040eb0e0083589cbb3bbf646a16da8f18fbb155a224bc81802b7ab",
+    "requestIndex": 0,
+    "method": "POST",
+    "route": "/skills/item_3057_passive/parameters",
+    "detailRoute": "/skills/item_3057_passive/parameters/spellblade_window_ms"
+  },
+  "preflight": {
+    "evidenceFile": "01-preflight.json",
+    "checks": {
+      "skillMatchesSnapshot": true,
+      "parameterListMatchesSnapshot": true,
+      "baseAttackRatioMatchesSnapshot": true,
+      "cooldownMatchesSnapshot": true,
+      "targetDetailIs404": true,
+      "targetAbsentFromCurrentList": true
+    },
+    "target404": {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/parameters/spellblade_window_ms",
+      "status": 404,
+      "body": "{\"error\":{\"code\":\"404.SKILL_PARAMETER_NOT_FOUND\",\"details\":{\"parameterKey\":\"spellblade_window_ms\"},\"message\":\"技能参数不存在\"}}"
+    }
+  },
+  "pageWrite": {
+    "source": "正常页面控件：新增参数表单点保存",
+    "allowedWriteCount": 1,
+    "blockedMutationRequests": [],
+    "requestCapturedBeforeForwarding": {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/parameters",
+      "body": {
+        "parameterKey": "spellblade_window_ms",
+        "name": "咒刃待击窗口",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10000,
+        "levelValues": null,
+        "description": "本项目采用10000毫秒待击窗口；重复符合条件的施法刷新期限，不叠加次数。时长与刷新为模拟近似。",
+        "sortOrder": 30
+      }
+    },
+    "requestBodyDeepEqualToApproved": true,
+    "response": {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/parameters",
+      "status": 201,
+      "body": "{\"createdAt\":\"2026-09-24T03:23:23.492928Z\",\"description\":\"本项目采用10000毫秒待击窗口；重复符合条件的施法刷新期限，不叠加次数。时长与刷新为模拟近似。\",\"fixedValue\":10000,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"咒刃待击窗口\",\"parameterKey\":\"spellblade_window_ms\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":30,\"updatedAt\":\"2026-09-24T03:23:23.492928Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"}"
+    }
+  },
+  "closeAndReopen": {
+    "parameterListReopened": true,
+    "reopenedListReads": [
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/parameters",
+        "status": 200
+      }
+    ],
+    "targetRowText": "咒刃待击窗口 | spellblade_window_ms | 整数 | 10000",
+    "detailViewEcho": {
+      "title": "查看参数",
+      "parameterKey": "spellblade_window_ms",
+      "name": "咒刃待击窗口",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 10000,
+      "description": "本项目采用10000毫秒待击窗口；重复符合条件的施法刷新期限，不叠加次数。时长与刷新为模拟近似。",
+      "sortOrder": 30,
+      "controlsDisabled": true
+    },
+    "detailViewEchoDeepEqualToApproved": true,
+    "targetSpecificDetailGetObservedFromUi": false,
+    "detailViewEchoProjection": {
+      "parameterKey": "spellblade_window_ms",
+      "name": "咒刃待击窗口",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 10000,
+      "levelValues": null,
+      "description": "本项目采用10000毫秒待击窗口；重复符合条件的施法刷新期限，不叠加次数。时长与刷新为模拟近似。",
+      "sortOrder": 30
+    }
+  },
+  "requestLogPolicy": {
+    "storedFieldsOnly": [
+      "method",
+      "path",
+      "body",
+      "status"
+    ],
+    "responseHeadersStored": false,
+    "cookiesStored": false
+  }
+}

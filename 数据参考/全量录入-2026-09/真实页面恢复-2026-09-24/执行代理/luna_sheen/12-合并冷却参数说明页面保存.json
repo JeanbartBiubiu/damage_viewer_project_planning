@@ -1,0 +1,84 @@
+{
+  "approval": {
+    "file": "耀光-合并-02-页面批准.json",
+    "fileSha256": "A95C450C2E0A281D3C34BC7B784D2C25C3E12AF3C6D6706CA08D4057C93F440D",
+    "requestIndex": 1,
+    "method": "PUT",
+    "route": "/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+    "detailRoute": "/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+    "requestBodyUnchangedSinceDraft": true
+  },
+  "baseline": {
+    "file": "耀光-合并-01-写前现值.json",
+    "fileSha256": "32CDFA601A17518E19A21B2ABAC0834DEE948C61899DBA70FE0626686ADFD00D"
+  },
+  "preflight": {
+    "evidenceFile": "11-preflight-cooldown-description.json",
+    "currentMatchesFrozenBaseline": true,
+    "approvedChangesOnlyDescription": true,
+    "response": {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-07T16:06:32.311716Z\",\"description\":\"客户端咒刃冷却时间，单位：毫秒；冷却消费规则待运行时接线。\",\"fixedValue\":1500,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"咒刃冷却时间\",\"parameterKey\":\"spellblade_cooldown_ms\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":20,\"updatedAt\":\"2026-09-07T16:06:32.311716Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"}"
+    }
+  },
+  "pageWrite": {
+    "source": "正常页面控件：编辑既有参数，只改说明",
+    "allowedWriteCount": 1,
+    "blockedMutationRequests": [],
+    "requestCapturedBeforeForwarding": {
+      "method": "PUT",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+      "body": {
+        "name": "咒刃冷却时间",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端已证的耀光咒刃冷却数值，单位毫秒，保持1500。强化普攻实际命中消费后起算、超时不启动为本批项目统一近似，未声明游戏实测。",
+        "sortOrder": 20
+      }
+    },
+    "requestBodyDeepEqualToApproved": true,
+    "response": {
+      "method": "PUT",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-07T16:06:32.311716Z\",\"description\":\"客户端已证的耀光咒刃冷却数值，单位毫秒，保持1500。强化普攻实际命中消费后起算、超时不启动为本批项目统一近似，未声明游戏实测。\",\"fixedValue\":1500,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"咒刃冷却时间\",\"parameterKey\":\"spellblade_cooldown_ms\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":20,\"updatedAt\":\"2026-09-24T04:23:31.989637Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"}"
+    }
+  },
+  "closeAndReopen": {
+    "parameterListReopened": true,
+    "listRead": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/parameters",
+      "status": 200
+    },
+    "targetRowText": "咒刃冷却时间 | spellblade_cooldown_ms | 整数 | 1500",
+    "readOnlyParameterEcho": {
+      "description": "客户端已证的耀光咒刃冷却数值，单位毫秒，保持1500。强化普攻实际命中消费后起算、超时不启动为本批项目统一近似，未声明游戏实测。",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "name": "咒刃冷却时间",
+      "sortOrder": 20,
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "echoDeepEqualToApprovedBody": true,
+    "fixedValueRemains1500": true,
+    "levelValuesRemainNull": true,
+    "nameTypeModeSortUnchanged": true,
+    "separateDetailGetObservedAfterReopen": false
+  },
+  "requestLogPolicy": {
+    "storedFieldsOnly": [
+      "method",
+      "path",
+      "body",
+      "status"
+    ],
+    "responseHeadersStored": false,
+    "cookiesStored": false
+  }
+}

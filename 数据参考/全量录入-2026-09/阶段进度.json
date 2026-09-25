@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T14:53:14.771Z",
+  "generatedAt": "2026-09-24T03:25:14.258Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。；基兰W冷却回退返回：7次保存、41次独立GET与5类页面通过，有效施放时间仍待核，管理完整8项/开放831项保持，见zileanWCooldownReductionReturn。；系统-16装备技能直达录入已完成，728单测/3项定向页面及两件真实装备往返通过，6条独立回读不变，业务写入0。；中娅主体说明1次页面更正、独立13GET及重开通过，装备开放234项保持；百分比穿透候选与两份历史来源的边界另见percentPenetrationSourceContractAudit，尚未批准实施。；崔丝塔娜W明确组成返回8次保存、108次独立GET、20组算例及8类页面通过；复用旧本人击杀入口，整技能仍系统暂缓，管理完整8项/开放831项保持。；正式参与击杀事件已返回崔丝塔娜W：3次页面保存、36次独立GET、4项拒绝验证通过，原4规则数量保持；剩余系统1项、资料1项，整技能未记完整。；剩余冷却比例已返回易大师R和纳沃利：3次页面保存、49次独立GET及3项数值越界拒绝通过，无新表或触发；纳沃利改资料待核，整技能完成数保持。；第7项状态合并返回：1乘区+2原装备重伤效果经3次真实页面保存及独立回读，实际Wasm治疗60/60/100通过，整件装备结论及完成数保持。",
@@ -28,8 +28,8 @@
     "priorityScope": {
       "selectedAt": "2026-09-21T16:04:46.411Z",
       "decisionDate": "2026-09-22",
-      "status": "已选定50名优先英雄（原40名与特殊机制补充10名）；数据录入保持暂停，功能迭代后按用户明确恢复继续",
-      "purpose": "从已有录入中收敛代表样本，先将50名英雄范围内数据补齐，不再横向铺开其余英雄",
+      "status": "既有50名英雄范围内真实页面录入与能力验证进行中；不自动扩为全部英雄",
+      "purpose": "本次英雄工作集严格限于既有50名及其250个来源技能槽，在已定1V1边界内补齐数据并通过实际录入发现和修复系统不足；不横向铺开其余英雄",
       "sourceLedgerGeneratedAt": "2026-09-21T14:53:14.771Z",
       "selectionCriteria": [
         "复用已保存与独立回读的主体、属性、参数、公式及组成",
@@ -38,8 +38,8 @@
         "保留少量能暴露共性缺口的进阶英雄，不引入完整变形或独立召唤物作为新范围",
         "追加10名仅用于补齐原40尚未充分覆盖的关键结算与管理场景；机制不同不等于必须新增专用结构"
       ],
-      "completionBoundary": "每名英雄本轮1V1范围内的主体、完整等级属性、关系、图片及P/Q/W/E/R相关分支完成管理配置、独立回读和适当页面验收；原明确排除分支保留依据。战斗运行单独计，不在本轮新增宿主或Wasm。",
-      "nonSelectedPolicy": "未入选英雄暂时后置，保留原数据、逐项结论及来源；不批量删除，不改为明确排除。装备和符文原清单保持，本次只收敛英雄优先范围。",
+      "completionBoundary": "每名英雄本轮1V1范围内的主体、完整等级属性、关系、图片及P/Q/W/E/R相关分支完成管理配置、独立回读和适当页面验收；原明确排除分支保留依据。管理完整与运行证据分开，必要宿主或Wasm修复按真实录入需要推进，不把完整技能模拟作为所有页面录入的统一前置。",
+      "nonSelectedPolicy": "未入选英雄不属于本任务范围，不进入后续自动选批；保留其原数据、逐项结论及来源，不删除，也不改为明确排除。英雄严格限于既有50名；装备和符文沿原清单，不因历史全量盘点扩张目标。",
       "progressRule": "后续进度按此处稳定英雄标识筛选inventoryConclusions.skills及characters实时统计；下方selectionSnapshot仅为选定当日快照，不另设累计进度真源。",
       "selectionSnapshot": {
         "ledgerGeneratedAt": "2026-09-21T14:53:14.771Z",
@@ -1011,7 +1011,18 @@
       "updatedAt": "2026-09-21T16:17:02.585Z",
       "originalHeroCount": 40,
       "supplementHeroCount": 10,
-      "supplementBoundary": "赛拉斯、厄斐琉斯及既定完整变形、独立召唤物边界保持，本次不新增排除范围；没有声称50名覆盖游戏全部机制。其余控制身份和组合行为仍需真实语义与交互核对，先按专项用例检验，不仅为增加状态名就扩整名英雄。"
+      "supplementBoundary": "赛拉斯、厄斐琉斯及既定完整变形、独立召唤物边界保持，本次不新增排除范围；没有声称50名覆盖游戏全部机制。其余控制身份和组合行为仍需真实语义与交互核对，先按专项用例检验，不仅为增加状态名就扩整名英雄。",
+      "scopeConfirmation": {
+        "at": "2026-09-24T12:11:47.900Z",
+        "heroCount": 50,
+        "sourceSkillSlots": 250,
+        "selectionUnchanged": true,
+        "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/60-五十名范围核对与续记入口.json",
+        "mainDoc": "文档记录/详细设计/项目/英雄装备符文全量实录.md",
+        "continuationDoc": "文档记录/测试记录/项目/英雄装备符文实录续记-2026-09-24.md",
+        "selectionRule": "选批及批准英雄写入前核对skillKey属于本名单；共享机制依赖、只读目录或通用代码修复不增加英雄名额",
+        "otherCategories": "装备与符文沿主文档原清单，本次确认不扩大其范围"
+      }
     }
   },
   "skills": {
@@ -13463,7 +13474,7 @@
         "status": "PASS",
         "cases": 15,
         "parametersOrFormulaChanged": false,
-        "maxAbsoluteDifference": 7.674097901144705e-06,
+        "maxAbsoluteDifference": 0.000007674097901144705,
         "tolerance": 0.0001
       },
       "currentComponentCounts": {
@@ -13943,7 +13954,7 @@
     },
     "masterYiRDurationExtensionAudit": {
       "at": "2026-09-20T17:52:48.123Z",
-      "status": "IMPLEMENTATION_PASS_LIVE_BROWSER_RETURN_PENDING",
+      "status": "延长辅助效果正式页面保存重开与独立回读通过；触发、暂停和免疫等分支继续开放",
       "skillKey": "masteryi_r",
       "businessWrites": 0,
       "additionalHTTPReads": 0,
@@ -13994,16 +14005,39 @@
         "backendErrors": 0
       },
       "latestCurrentGETs": 8,
-      "browserBlocker": "浏览器工具连接凭据不可用；重置后仍失败，已请求恢复连接。不能以隔离模拟页面替代首次正式页面录入。",
-      "next": "先继续希维尔R参与击杀刷新来源与现值核对；连接恢复后返回本单元正式页面写入。",
+      "browserBlocker": null,
+      "next": "核定参与击杀接线、学习门槛、主动窗口、封顶和临界时序，减速免疫及Q/W暂停继续独立处理。",
       "implementationEvidence": {
         "relativePath": "数据参考/全量录入-2026-09/易大师R持续延长核对/14-实现检查点.json",
         "sha256": "406b033271042e72f800aa78abc5152046192e7e86e0d189adb81020a5d2627f"
+      },
+      "pageReturnPreparation": {
+        "at": "2026-09-24T05:54:35.645Z",
+        "status": "已由主负责人明确改派获授权Sol/max完成唯一页面新增；冻结业务正文不变",
+        "question": "延长剩余时间与刷新完整期限能否在正常控件和摘要中清楚区分",
+        "pagePlan": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/易大师延长-02-页面批准.json",
+        "baseline": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/易大师延长-01-写前现值.json",
+        "confirmedPageWrites": 1,
+        "protected": "仅新增双目标延长辅助效果，原8参数4效果1规则和引用保持，不接未核定触发",
+        "runtimeValidated": false,
+        "result": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/38-易大师延长组成真实页面验收.json"
+      },
+      "formalPageReturn": {
+        "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/38-易大师延长组成真实页面验收.json",
+        "actualExecutor": "gpt-6-sol/max",
+        "confirmedPageWrites": 1,
+        "pageReopened": true,
+        "independentGETs": 32,
+        "protectedResponses": 29,
+        "oldReferencesPreserved": 19,
+        "addedReferences": 4,
+        "runtimeValidated": false,
+        "wholeSkillComplete": false
       }
     },
     "sivirRRefreshComponentReturn": {
       "at": "2026-09-21T02:30:43.045Z",
-      "status": "准确刷新组成已保存；最近伤害标记能力已实现，首次页面与资格接线仍开放",
+      "status": "最近伤害零结果标记真实页面保存重开和26项独立回读通过；角色检查误报已最小修复，原对象与易大师普通结果同类返回均通过，完整入口继续开放",
       "sourceVersion": {
         "client": "16.17",
         "official": "16.17.1"
@@ -14042,21 +14076,20 @@
         "技能主体和角色关联"
       ],
       "remaining": [
-        "首次真实页面保存最近伤害标记并独立回读",
         "护盾吸收是否计入最近伤害与死亡清理可见顺序",
         "使用真正刷新辅助结果的参与击杀规则",
-        "普通R使用到既有cast过程的入口",
-        "已保存刷新辅助效果的代表页面验收"
+        "普通R使用到既有cast过程的入口"
       ],
       "boundary": [
         "500毫秒普攻冷却减少已在原效果与规则中，不重建。",
         "最近3秒参数不是已经存在的资格状态；不以一般助攻时间或任意参与击杀代替。",
         "刷新完整时长不是重新施加原属性效果；辅助效果不改变原层数或属性结果。",
-        "过程重复启动缺少旧计时取消或替换的可靠约定；仅生命周期标记的管理表达已修复，首次业务返回仍待真实页面。"
+        "过程重复启动的完整约定继续独立核对；仅生命周期标记及既有刷新效果已完成正式页面返回，未接完整伤害和击杀入口。"
       ],
       "browser": {
-        "verified": false,
-        "reason": "Codex浏览器工具连接凭据不可用，本次复核仍失败；沿用已发出的恢复请求，不重复要求用户确认写入。"
+        "verified": true,
+        "reason": "Luna正常页面保存重开标记，查看既有刷新效果，并返回原角色检查；结构错误0，保留2项未接线提示和83条引用",
+        "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/39-零结果录入检查原对象闭环.json"
       },
       "runtime": {
         "host": false,
@@ -14064,7 +14097,7 @@
         "battle": false
       },
       "wholeSkillComplete": false,
-      "next": "浏览器恢复后先重新定点读取并通过页面保存最近伤害标记，同时完成易大师延长组成和既有刷新组成页面验收；资格与完整入口继续核定。",
+      "next": "核定最近伤害资格、死亡清理和参与击杀接线及普通R入口，不重复已保存标记或辅助效果。",
       "evidence": {
         "worktree": "damage_viewer_project_planning",
         "relativePath": "数据参考/全量录入-2026-09/希维尔R参与击杀刷新返回/09-证据清单.json",
@@ -14083,12 +14116,12 @@
         }
       },
       "lifecycleOnlyIncrement": {
-        "status": "代码与分层验证通过，首次正式页面待恢复",
+        "status": "正式页面保存重开、独立回读及角色检查修复原对象返回通过",
         "commits": {
           "web": "ca3600ab5aeb526c2c9a5f572e8c22340a1a23dc",
           "backend": "23955d9602cab037c377a2310673c75910977ce4"
         },
-        "formalAuthoringWrites": 0,
+        "formalAuthoringWrites": 1,
         "ddl": 0,
         "verification": {
           "webUnit": 770,
@@ -14102,7 +14135,32 @@
         "evidence": {
           "relativePath": "数据参考/全量录入-2026-09/希维尔R参与击杀刷新返回/23-仅生命周期增量证据清单.json",
           "sha256": "855ea263b387ec6ce786c89727567195779ebaa8d79d6693395482c55554a451"
-        }
+        },
+        "pagePlan": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/希维尔标记-02-页面批准.json",
+        "createdEffect": "recent_damage_mark",
+        "pageSaved": true,
+        "pageReopened": true,
+        "entryAgent": "gpt-6-luna/max",
+        "pageEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/执行代理/luna_sivir/03-page-save-and-reopen.json",
+        "bodyReadback": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/希维尔标记-03-独立回读.json",
+        "independentGETs": 26,
+        "protectedResponses": 23,
+        "referenceCount": 1,
+        "diagnosticFix": {
+          "issue": "有生命周期的空结果被角色录入检查无条件非空规则误拒绝",
+          "originalEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/35-希维尔空结果保存后录入检查.json",
+          "pageReproduction": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/执行代理/luna_sivir/05-录入检查空结果结构错误复现.json",
+          "targetedTests": 87,
+          "fullBackendTests": 1264,
+          "independentReview": "READY",
+          "liveReturn": true,
+          "originalStructure": "NO_ERRORS",
+          "unconnectedReviewsPreserved": 2,
+          "markerReferencePreserved": true,
+          "peer": "masteryi_r",
+          "closureEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/39-零结果录入检查原对象闭环.json"
+        },
+        "closureEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/39-零结果录入检查原对象闭环.json"
       }
     },
     "sivirEDescriptionReturn": {
@@ -14890,7 +14948,7 @@
       "wholeSkillComplete": false
     },
     "airborneStatusKindIncrement": {
-      "status": "击飞身份代码、单次约束迁移及独立实库核对通过；首次目录创建与科加斯Q返回待真实页面",
+      "status": "击飞目录、科加斯Q持续效果及每目标一次控制入口已真实页面保存重开并独立回读；整技能与运行继续开放",
       "sourceSkill": "chogath_q",
       "commits": {
         "frontend": "fc8738f469b570889c18de6a10d0dbcef264a326",
@@ -14911,13 +14969,28 @@
         "preserved": true
       },
       "finalServiceGETs": 14,
-      "airborneBusinessRows": 0,
+      "airborneBusinessRows": 1,
       "evidence": "击飞状态管理补齐/09-实库独立比对.json",
-      "browser": false,
-      "newKindPositiveHttp": false,
+      "browser": true,
+      "newKindPositiveHttp": true,
       "wholeSkillComplete": false,
       "runtime": false,
-      "next": "真实页面先建击飞目录，再按1秒来源准备科加斯Q首次施加与明确未阻挡入口；不预置API业务行"
+      "next": "核对落地减速和原伤害去重、吸血资格、完整施法链路，不重复已保存击飞控制。",
+      "formalPageReturn": {
+        "at": "2026-09-24T08:49:55.508Z",
+        "actualExecutor": "gpt-6-luna/max",
+        "confirmedPageWrites": 3,
+        "question": "独立击飞身份、无强度持续状态及每目标一次控制能否准确表达和保存",
+        "pagePlan": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/科加斯击飞-02-页面批准.json",
+        "readback": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/科加斯击飞-03-独立回读-3.json",
+        "independentGETsPerStep": 36,
+        "cumulativeIndependentGETs": 108,
+        "protectedResponses": 29,
+        "addedReferences": 5,
+        "perTargetOnceIsIndependentOfDamage": true,
+        "runtimeValidated": false,
+        "wholeSkillComplete": false
+      }
     },
     "gragasECooldownRefundEffectReturn": {
       "at": "2026-09-21T12:36:44.787Z",
@@ -15160,14 +15233,22 @@
     },
     "hitAndTriggerRuntimeReturn": {
       "status": "命中与法术护盾、同次使用限制、固定窗口、普攻消费和限时普通护盾已经实际Wasm工作线程验证；原星蚀护盾组成已返回，正式触发资料缺口保持",
-      "skills": ["urgot_q", "sivir_e", "item_6692_passive", "item_3508_passive"],
+      "skills": [
+        "urgot_q",
+        "sivir_e",
+        "item_6692_passive",
+        "item_3508_passive"
+      ],
       "formalDataWrites": 0,
       "browser": true,
       "runtime": true,
       "wholeSkillComplete": false,
       "wholeEquipmentComplete": false,
       "recordedAt": "2026-09-23T08:21:00+08:00",
-      "evidence": ["管理机制迭代验收/2026-09-23-命中与触发运行.json", "管理机制迭代验收/2026-09-23-同次使用管理.json"],
+      "evidence": [
+        "管理机制迭代验收/2026-09-23-命中与触发运行.json",
+        "管理机制迭代验收/2026-09-23-同次使用管理.json"
+      ],
       "boundary": "厄加特只运行所选减速，原未核定伤害仍拒绝；希维尔所选盾与治疗通过。星蚀只返回原护盾、公式与期限，合格使用和计数过程为专项明确输入；夺萃只完成通用机制合成验收。来源不全不补默认，不增加整技能或整装备完成数。"
     },
     "castingPhaseRuntimeReturn": {
@@ -15188,6 +15269,324 @@
         "管理机制迭代验收/2026-09-23-施放阶段运行.json"
       ],
       "boundary": "只返回原成本、已存步骤及明确挂接的冷却；首次入口和完整蓄力/重施/取消场景为合成机制验收。没有补写正式规则，没有增加整技能完成数或重算历史待核总数，批量录入仍暂停。"
+    },
+    "realPageRecoveryFirst": {
+      "at": "2026-09-24T02:43:46.803Z",
+      "status": "凯旋原对象与妮蔻同类总览返回通过；妮蔻首次接触禁锢效果及五条件规则已页面保存并独立回读",
+      "purpose": "真实录入发现目标上下文误解及说明遗漏，修复后原对象与同类返回",
+      "entryAgent": {
+        "model": "gpt-6-luna",
+        "reasoningEffort": "max",
+        "configuredContext": 600000,
+        "reportedUsableContext": 570000,
+        "actualRuntimeVerified": true
+      },
+      "pageWritesConfirmed": 4,
+      "confirmedRoutes": [
+        "/skills/rune_9111_passive/effects/triumph_heal",
+        "/skills/rune_9111_passive",
+        "/skills/neeko_e/effects/first_contact_root",
+        "/skills/neeko_e/trigger-rules/apply_root_on_first_contact"
+      ],
+      "independentReadback": {
+        "firstGETs": 43,
+        "finalGETs": 43,
+        "finalProtectedResponses": 36,
+        "status": "PASS",
+        "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/04-本批独立回读.json"
+      },
+      "systemFix": {
+        "issue": "行为总览丢弃规则说明，动作目标上下文与效果结果对象未关联展示",
+        "original": "凯旋",
+        "originalPageReturn": true,
+        "peer": "妮蔻E",
+        "peerPageReturn": true,
+        "codeEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/05-总览修复检查点.json",
+        "webTests": 1040,
+        "typecheck": true,
+        "lint": true,
+        "build": true,
+        "peerEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/执行代理/sol_neeko/03-妮蔻页面执行记录.md"
+      },
+      "pending": [],
+      "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24",
+      "wholeSkillCompletionChanged": false,
+      "runtimeValidation": "本批未执行",
+      "complexEntryAgent": {
+        "model": "gpt-6-sol",
+        "reasoningEffort": "max",
+        "configuredContext": 600000,
+        "reportedUsableContext": 570000,
+        "actualRuntimeVerified": true,
+        "handoff": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/09-妮蔻执行模型交接.json"
+      },
+      "runeManagementCompletionChanged": true,
+      "runeManagementDelta": 1,
+      "neekoEffectReadback": {
+        "status": "PASS",
+        "GETs": 43,
+        "protectedResponses": 38,
+        "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/14-妮蔻效果独立回读.json"
+      },
+      "pageProof": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/执行代理/sol_neeko/03-妮蔻页面执行记录.md",
+      "newlyObservedBurden": "新规则未保存的默认条件cond_1及动作action_1在子编辑器中标识只读，命名需删除重建草稿；继续独立调查，未阻塞本批保存",
+      "followUpFix": {
+        "issue": "未保存默认条件和动作误锁标识，命名需删除重建",
+        "code": "已修复并独立复核",
+        "unit": 1076,
+        "isolatedBrowser": 6,
+        "original": "neeko_e未保存草稿",
+        "originalReturn": true,
+        "peer": "item_3508_passive新启动规则",
+        "peerReturn": true,
+        "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/19-草稿标识修复检查点.json",
+        "originalEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/21-妮蔻草稿标识返回验收.json",
+        "peerEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/执行代理/sol_essence/15-夺萃页面收尾观察.json",
+        "additionalPeer": "item_3057_passive",
+        "additionalPeerEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/执行代理/luna_sheen/10-合并单启动规则页面保存.json"
+      }
+    },
+    "singleStepAuthoringReturn": {
+      "at": "2026-09-24T05:36:29.145Z",
+      "status": "夺萃八笔、耀光十笔页面保存重开及独立回读完成；单一强化步骤原对象与同类命中总览、正式附伤/吸血及一次消费有限运行通过",
+      "reason": "原有界适配要求作者在过程和命中规则重复配置同样效果，并从待命真假双组推断刷新；发现攻击发起提前结算的不正确历史断言",
+      "authoritativePlan": "文档记录/详细设计/项目/管理页面与共性机制迭代计划.md",
+      "code": {
+        "fullUnit": 1072,
+        "actualWorker": 22,
+        "liveGETCasesIncluded": 2,
+        "independentReview": "READY",
+        "nativeChanged": false,
+        "wasmChanged": false,
+        "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/15-单一步骤实现验收.json"
+      },
+      "target": "item_3508_passive",
+      "businessWrites": 8,
+      "pageReturn": true,
+      "approvedPagePlan": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/夺萃-02-页面批准.json",
+      "expectedNewComposition": {
+        "internalStates": 2,
+        "processes": 1,
+        "triggerRules": 1
+      },
+      "retainedGap": "特殊使用、近远程差异及完整装备属性装配仍未验证；两项必要生命偷取覆盖已保存，不再列未核定",
+      "wholeEquipmentComplete": false,
+      "planSection": "真实页面恢复返回：强化步骤的单一结算来源（2026-09-24）",
+      "lastReadback": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/夺萃装备说明-03-独立回读.json",
+      "peer": {
+        "target": "item_3057_passive",
+        "status": "十笔页面保存重开、最终27项独立回读、单绑定命中总览及正式有限运行通过",
+        "approvedPagePlan": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/耀光-02-页面批准.json",
+        "businessWrites": 10,
+        "wholeEquipmentComplete": false,
+        "entryAgent": {
+          "model": "gpt-6-luna",
+          "reasoningEffort": "max",
+          "configuredContext": 600000,
+          "reportedUsableContext": 570000,
+          "verified": true,
+          "browserPID": 21808,
+          "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/耀光-03-执行隔离核验.json"
+        },
+        "lastReadback": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/耀光-合并-回读-6.json",
+        "mergedPagePlan": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/耀光-合并-02-页面批准.json",
+        "pageReturn": true,
+        "runtimeReturn": {
+          "status": "PASS_FINITE_SCENARIO",
+          "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/31-耀光正式配置与同类总览验收.json",
+          "GETs": 42,
+          "matchedFinalRoutes": 19,
+          "rawDamage": 100,
+          "postDefenseDamage": 50,
+          "lifeSteal": 5,
+          "omnivamp": 10,
+          "manaRestore": 0
+        }
+      },
+      "vampFollowUp": {
+        "status": "两项伤害结果均由指定模型正常页面保存并重开，独立回读通过；各一条必要生命偷取覆盖，全能继承",
+        "scope": "仅两咒刃结果增加必要生命偷取覆盖，全能吸血继承；不改全局规则或技能分类",
+        "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/22-咒刃吸血资格核定.json",
+        "businessWrites": 2,
+        "readback": [
+          "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/夺萃-合并-回读-3.json",
+          "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/耀光-合并-回读-3.json"
+        ]
+      },
+      "approvedPagePlans": [
+        "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/夺萃-02-页面批准.json",
+        "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/夺萃-合并-02-页面批准.json",
+        "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/夺萃装备说明-02-页面批准.json"
+      ],
+      "runtimeReturn": {
+        "status": "PASS_FINITE_SCENARIO",
+        "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/26-夺萃正式配置独立验收.json",
+        "GETs": 50,
+        "matchedFinalRoutes": 21,
+        "rawDamage": 145,
+        "postDefenseDamage": 72.5,
+        "manaRestore": 90,
+        "lifeSteal": 7.25,
+        "omnivamp": 14.5,
+        "boundary": "正式作者配置；英雄属性和事件为场景输入，不含普攻主体和整装备装配"
+      }
+    },
+    "empoweredHitOverviewReturn": {
+      "at": "2026-09-24T05:36:29.145Z",
+      "question": "已保存单强化步骤是否在命中总览正确显示，避免重复配置入口",
+      "status": "夺萃双绑定原对象与耀光单绑定同类真实返回通过，独立回读保持",
+      "original": "item_3508_passive",
+      "originalReturn": true,
+      "peer": "item_3057_passive",
+      "peerReturn": true,
+      "fullUnit": 1089,
+      "independentReview": "READY",
+      "pageWritesForOverview": 0,
+      "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/27-强化命中总览原对象返回.json",
+      "peerEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/31-耀光正式配置与同类总览验收.json"
+    },
+    "initialSelfHealingReturn": {
+      "at": "2026-09-24T05:36:29.145Z",
+      "question": "成功首次施放能否按治疗前生命条件固定匹配并只治疗一次，结束和恢复不重复",
+      "target": "soraka_r",
+      "status": "三规则首次阶段页面保存重开及最终31项独立回读完成；来源条件固定、成功准入与自身治疗有限运行通过，独立终审发现的生成定义别名复用缺口已修复并返回验证",
+      "businessWrites": 3,
+      "pagePlan": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/索拉卡首次阶段-02-页面批准.json",
+      "authoritativePlan": "文档记录/详细设计/项目/管理页面与共性机制迭代计划.md",
+      "planSection": "真实页面恢复下一能力：成功首次施放的条件自身治疗（2026-09-24）",
+      "wholeSkillCompletionChanged": false,
+      "runtimeValidated": true,
+      "pageReturn": true,
+      "lastReadback": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/索拉卡首次阶段-回读-3.json",
+      "pageEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/执行代理/sol_soraka/19-索拉卡条件摘要修复原对象回验.json",
+      "arithmeticCases": 18,
+      "runtimeScope": "成功首次施放的条件自身治疗有限场景，不代表整英雄战斗装配",
+      "runtimeEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/32-索拉卡挂载保护最终验收.json",
+      "fullUnit": 1096,
+      "finalAffectedWorkerCases": 2,
+      "unaffectedExistingP4Cases": 11,
+      "independentReview": "READY",
+      "runtimeMountBoundary": "每次正常绑定生成独立拥有者/挂载定义；固定生成定义禁止额外挂载直接别名复用"
+    },
+    "conditionOverviewSummaryReturn": {
+      "at": "2026-09-24T05:36:29.145Z",
+      "status": "原对象索拉卡R与同类耀光内部冷却摘要真实页面返回、正确编辑定位及独立回读通过",
+      "question": "作者能否直接在总览核对实际比较式而不依赖自由说明",
+      "original": "soraka_r",
+      "peer": "item_3057_passive",
+      "originalReturn": true,
+      "peerReturn": true,
+      "businessWrites": 0,
+      "fullIndependentGETs": 58,
+      "afterCloseGETs": 6,
+      "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/33-条件摘要原对象与同类返回验收.json",
+      "sideObservation": "耀光取消时短暂出现空白新增窗口，索拉卡未复现；无数据变化，保留为非阻塞待验证观察"
+    },
+    "statusCatalogResultDraftReturn": {
+      "at": "2026-09-24T07:54:33.983Z",
+      "status": "原W与同类Q实际返回均通过；真实修改保护保持",
+      "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/42-状态目录取消误报原对象同类闭环.json",
+      "originalObject": "chogath_w",
+      "peerObject": "chogath_q",
+      "independentGETs": 58,
+      "pageBusinessWrites": 0,
+      "oldPageTestsFailed": 2,
+      "newPageTestsPassed": 2,
+      "unitTests": 1096,
+      "runtimeValidated": false,
+      "coverageChanged": false
+    },
+    "conditionalDamageModifierReturn": {
+      "at": "2026-09-24T09:34:54.388Z",
+      "status": "ORIGINAL_AND_PEER_BOUNDED_COMPONENT_CLOSED",
+      "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/57-两符文门槛原对象同类与正式运行验收.json",
+      "question": "逐笔敌方英雄生命比例条件能否与已有伤害过滤、乘区、引用和初始化入口完整表达",
+      "originalObject": "rune_8014",
+      "peerObject": "rune_8017",
+      "pageBusinessWrites": 6,
+      "protectedGETs": 32,
+      "candidatePreflightGETs": 38,
+      "runtimeValidated": false,
+      "wholeRuneComplete": false,
+      "coverageChanged": false,
+      "nativeCodeReviewed": true,
+      "syntheticRuntimeValidated": true,
+      "formalRuntimeValidated": true,
+      "pageState": "原对象与同类6笔保存及正式组成运行通过；原对象安全草稿返回0写、38次独立回读不变；普通伤害来源范围继续核定",
+      "independentlyVerifiedWrites": 6,
+      "originalObjectPageConnected": true,
+      "peerObjectPageConnected": true,
+      "formalRuntimeObjects": [
+        "rune_8014",
+        "rune_8017"
+      ],
+      "nativeFullSuite": {
+        "status": "PASS",
+        "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/54-原生全量检查与历史断言迁移验收.json",
+        "independentReview": "READY",
+        "businessSourceAndWasmUnchanged": true
+      },
+      "runtimeScope": "两符文的普通直接物理普攻条件增伤组成；基础伤害、身份及双方生命为明确场景输入",
+      "additionalDraftReturnPending": false,
+      "additionalDraftReturn": {
+        "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/58-符文安全草稿返回独立验收.json",
+        "status": "PASSED",
+        "pageBusinessWrites": 0,
+        "independentGETs": 38,
+        "formulaPreflightPassed": true,
+        "cleanupConfirmationPassed": true,
+        "persistedDataUnchanged": true
+      },
+      "sourceQualification": {
+        "status": "ORIGINAL_AND_PEER_ORDINARY_SOURCE_COMPONENT_CLOSED",
+        "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/66-两符文扩大范围正式保存与运行验收.json",
+        "reviewedSourceSkills": [
+          "annie_q",
+          "garen_r"
+        ],
+        "expandedRunePageWrites": 4,
+        "formalExpandedRuntimePassed": true,
+        "sharedBasicAttackAdapterGaps": [
+          "SOURCE_CRIT_CHANCE",
+          "HIT_LINK_APPLICATION"
+        ],
+        "sourceAuditIndependentReview": "READY",
+        "candidateRuntimeScenes": 16,
+        "finalFrontendTests": 1176,
+        "pageUpdateApprovedThrough": 4,
+        "pageUpdatesSaved": 4,
+        "independentlyVerifiedUpdates": 4,
+        "independentGETs": 152,
+        "passedWorkerTests": 6,
+        "formalSourceRuntimeScenes": 16,
+        "runtimeGETs": 92,
+        "runtimeScope": "已保存两符文的逐笔门槛与过滤组成；安妮Q/盖伦R完整所选命中伤害来源及明确物理普攻输入；其余技能分支和来源不由本批证明",
+        "presentationReturnPending": false,
+        "presentationReturn": {
+          "status": "PASSED",
+          "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/67-两符文摘要原对象同类返回独立验收.json",
+          "pageBusinessWrites": 0,
+          "independentGETs": 38,
+          "originalAndPeerPassed": true,
+          "draftDiscardPassed": true,
+          "persistedDataUnchanged": true,
+          "nonBlockingObservation": "具体伤害类型摘要保留稳定键，中文名称回退改进尚未实施"
+        }
+      }
+    },
+    "shieldBoundAttributeReturn": {
+      "status": "PAGE_EXPRESSION_PROBE_PENDING",
+      "objects": [
+        "janna_e"
+      ],
+      "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/迦娜护盾存续准备/02-页面表达核对委派.json",
+      "capabilityQuestion": "指定自身护盾提前耗尽或到期时，关联攻击力增益是否同步结束",
+      "independentPreparationGETs": 30,
+      "writesApproved": 0,
+      "pageWrites": 0,
+      "originalPageReturnPending": true,
+      "runtimeVerified": false,
+      "wholeSkillComplete": false
     }
   },
   "runtimeValidation": "部分机制已验证：重伤取强、普通减速、命中与法术护盾、同次使用限制、固定窗口及普攻消费；原星蚀护盾组成进入实际Wasm。整技能与整装备未全量验证，见crossSourceStateMergeReturn与hitAndTriggerRuntimeReturn。 本次七项装备规则已按用户核定返回，含刷新及消费后恢复、施法绑定隔离和原回蓝组成，见confirmedItemRulesReturn；批量录入仍暂停。 第4项主动阶段、实际成本与冷却及恢复已验证，三名代表原组成已返回，见castingPhaseRuntimeReturn；正式完整阶段和伤害等装配未全量完成。",
@@ -16112,15 +16511,15 @@
         "sourceItems": 69,
         "concludedItems": 69,
         "conclusions": {
-          "已录入": 3,
+          "已录入": 4,
           "明确排除": 9,
           "资料待核": 35,
-          "系统暂缓": 22
+          "系统暂缓": 21
         },
         "mountedInScopeItems": 60,
         "explicitExclusions": 9,
         "remainingInScopeItems": 0,
-        "openQueueItems": 57,
+        "openQueueItems": 56,
         "status": "FULL_COVERAGE_WITH_OPEN_QUEUE"
       }
     },
@@ -21715,7 +22114,7 @@
         "name": "科加斯·破裂",
         "conclusion": "资料待核",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "普通使用成本冷却及明确未被法术护盾阻挡的本体魔法伤害已保存并独立回读，原数学表达式和引用保持；控制、重复碰撞资格、被挡或缺值分支、完整施法时序及代表页面继续处理，不计整技能管理完成。",
+        "reason": "既有普通使用与伤害保持；1秒独立击飞目录、持续效果和明确未阻挡敌方英雄的每目标一次控制规则均页面保存重开并独立回读，新增5条引用。原伤害去重/吸血资格、落地减速及完整时序继续开放，不计整技能完成。",
         "pendingCounts": {
           "source": 1,
           "system": 0,
@@ -21734,10 +22133,10 @@
         "currentComponentCounts": {
           "parameters": 7,
           "formulas": 1,
-          "effects": 2,
+          "effects": 3,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 2
+          "triggerRules": 3
         },
         "authoredUseEntry": {
           "processKey": "use_cost_and_cooldown",
@@ -21749,7 +22148,7 @@
         },
         "remainingBranches": [
           "法术护盾被阻挡或判定缺失的本体伤害分支",
-          "击飞和减速",
+          "落地后减速；复杂来源控制叠加及免疫/解除交互另行核定",
           "完整施法时序及特殊取消失败情形",
           "代表页面验收",
           "原候选其余未决项逐项核对",
@@ -21765,7 +22164,23 @@
           "basisOutputKind": "POST_DEFENSE_DAMAGE",
           "efficiency": 1,
           "browser": "待验"
-        }
+        },
+        "authoredKnockup": {
+          "effectKey": "knockup",
+          "statusKey": "airborne",
+          "durationParameter": "knockup_duration_ms",
+          "durationMs": 1000,
+          "ruleKey": "actual_unblocked_knockup",
+          "pageSaved": true,
+          "pageReopened": true,
+          "httpReadback": "PASS",
+          "oncePerUseScope": "TARGET",
+          "runtimeValidated": false,
+          "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/科加斯击飞-03-独立回读-3.json"
+        },
+        "completedBranches": [
+          "独立击飞状态与1000毫秒无强度持续效果；明确未阻挡敌方英雄按同次使用每目标一次施加，真实页面与独立回读通过"
+        ]
       },
       {
         "sourceChampionId": "Chogath",
@@ -25300,6 +25715,13 @@
           "httpReadback": "PASS",
           "browser": "待验",
           "castDurationClaim": "未声明，立即步骤只用于使用登记"
+        },
+        "realPageRecovery": {
+          "status": "PAGE_EXPRESSION_PROBE_PENDING",
+          "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/迦娜护盾存续准备/02-页面表达核对委派.json",
+          "pageWrites": 0,
+          "managementComplete": false,
+          "runtimeVerified": false
         }
       },
       {
@@ -30022,7 +30444,7 @@
         "name": "易·高原血统",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "70%剩余冷却效果已保存，学习门槛及时序仍待核；主动7秒剩余时长延长能力已实现并通过代码检查，首次真实页面返回尚未完成。减速免疫与Q/W期间暂停仍待处理，整技能未完成。",
+        "reason": "70%剩余冷却效果保持；主动7秒剩余时长延长辅助效果已由Sol页面保存重开，32次独立GET与29项保护通过，新增4条引用。学习门槛、减速免疫、Q/W暂停及参与击杀接线仍开放，整技能未完成。",
         "pendingCounts": {
           "source": 1,
           "system": 2,
@@ -30040,8 +30462,18 @@
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联",
-          "Q/W/E分别按当前剩余冷却减少70%的独立效果（未接触发）"
-        ]
+          "Q/W/E分别按当前剩余冷却减少70%的独立效果（未接触发）",
+          "现有攻速和移速生命周期各延长7000毫秒的辅助效果，真实页面保存重开和独立回读通过，未接触发"
+        ],
+        "currentComponentCounts": {
+          "parameters": 8,
+          "formulas": 0,
+          "effects": 5,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "pageReturnEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/38-易大师延长组成真实页面验收.json"
       },
       {
         "sourceChampionId": "Mel",
@@ -31616,7 +32048,7 @@
         "name": "妮蔻·缠结倒刺",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "本体直接伤害与普通使用已保存并独立回读；既有命中序号为步骤序号，新增首次目标接触管理值已通过检查，最短禁锢待首次真实页面返回；强化资格及代表页面继续处理。",
+        "reason": "本体伤害与普通使用已保存；首次接触最短禁锢及五条件规则通过Sol真实页面保存、关闭重开和独立回读。首次接触、敌方英雄、同次未被法术护盾阻挡及无本来源实例可组合；后续强化和已有实例重施仍未完成，不计整技能管理完整。",
         "batchKey": "heroFortyFourthBatch",
         "candidateSha256": "0b029b59ead40cd28f3757265fdd7d557f00d347159f02b22d7753f264d7f91c",
         "evidenceRefs": [
@@ -31624,20 +32056,20 @@
           "heroSourceInventory",
           "eightControlBodyDamageBackfill",
           "lissandraRootNeekoUseReturn",
-          "firstContactValueManagement"
+          "firstContactValueManagement",
+          "realPageRecoveryFirst"
         ],
         "currentComponentCounts": {
           "parameters": 6,
           "formulas": 2,
-          "effects": 2,
+          "effects": 3,
           "processes": 1,
           "internalStates": 0,
-          "triggerRules": 2
+          "triggerRules": 3
         },
         "remainingBranches": [
-          "首次目标接触新值的真实首例页面及最短禁锢返回",
           "后续接触的强化资格、阻挡与缺值分支、已有实例重施",
-          "代表正式页面"
+          "原伤害与普通使用组成的代表页面验收及必要运行验证"
         ],
         "authoredDirectHit": {
           "effectKey": "primary_hit",
@@ -31658,7 +32090,8 @@
         },
         "managementComplete": false,
         "completedBranches": [
-          "普通使用来源法力、普通冷却与250毫秒根施法延迟"
+          "普通使用来源法力、普通冷却与250毫秒根施法延迟",
+          "首次接触最短禁锢：五条件单动作真实页面保存、关闭重开与独立回读"
         ],
         "authoredUseEntry": {
           "processKey": "cast",
@@ -31667,6 +32100,16 @@
           "castTimeMs": 250,
           "httpReadback": "PASS",
           "browser": "待验"
+        },
+        "currentPageReturn": {
+          "batchKey": "realPageRecoveryFirst",
+          "actor": "gpt-6-sol/max",
+          "firstContactEffect": "已页面保存、关闭重开并独立回读",
+          "firstContactRule": "已页面保存、关闭重开并独立回读",
+          "behaviorOverview": "规则说明、动作目标上下文和效果实际对象同类返回通过",
+          "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/04-本批独立回读.json",
+          "pageEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/执行代理/sol_neeko/03-妮蔻页面执行记录.md",
+          "runtimeValidated": false
         }
       },
       {
@@ -35917,7 +36360,7 @@
         "name": "希维尔·狩猎",
         "conclusion": "系统暂缓",
         "conclusionScope": "技能范围内数据与机制",
-        "reason": "准确刷新辅助效果已保存并独立回读；仅生命周期标记能力已实现并通过分层检查，首次页面仍未录入。护盾吸收是否计入最近伤害、死亡清理时序与参与击杀接线未完成，普通R使用入口及代表页面仍开放，不计整技能管理完整。",
+        "reason": "最近伤害资格标记已正常页面保存、重开并独立核对；角色检查空结果误报已修复并返回，生命周期引用和未接线提示保持。伤害资格、死亡清理、参与击杀接线及普通R入口继续开放，整技能未完成。",
         "batchKey": "heroThirdBatch",
         "candidateSha256": null,
         "evidenceRefs": [
@@ -35928,7 +36371,9 @@
         ],
         "completedBranches": [
           "固定来源主R终极技能分类关联",
-          "独立生命周期刷新辅助效果（接口保存与独立回读通过，页面待验，未接触发）"
+          "独立生命周期刷新辅助效果（既有保存、独立回读及代表页面查看通过，未接触发）",
+          "最近伤害资格标记：3000毫秒、来源与目标隔离、完整期限刷新、零结果，页面保存重开和独立正文回读通过",
+          "合法空结果标记的角色录入检查修复，原对象与普通有结果对象真实页面返回通过"
         ],
         "historicalPendingCounts": {
           "source": 0,
@@ -35937,13 +36382,20 @@
           "other": 0
         },
         "remainingBranches": [
-          "首次真实页面保存最近伤害标记并独立回读",
           "护盾吸收是否计入最近伤害与死亡清理可见顺序",
           "使用真正刷新辅助结果的参与击杀规则",
-          "普通R使用到既有cast过程的入口",
-          "已保存刷新辅助效果的代表页面验收"
+          "普通R使用到既有cast过程的入口"
         ],
-        "remainingBranchesBoundary": "按最新明确分支列举，原pendingCounts只保留为历史计数；标记能力实现不等于正式录入和完整入口。"
+        "remainingBranchesBoundary": "按当前未完成分支列举；标记和辅助效果的管理返回不等于完整技能入口或运行完成。",
+        "currentComponentCounts": {
+          "parameters": 7,
+          "formulas": 0,
+          "effects": 5,
+          "processes": 1,
+          "internalStates": 0,
+          "triggerRules": 1
+        },
+        "pageReturnEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/39-零结果录入检查原对象闭环.json"
       },
       {
         "sourceChampionId": "Skarner",
@@ -36580,7 +37032,10 @@
           "internalStates": 0,
           "triggerRules": 3
         },
-        "runtimeValidation": "事件生产、条件匹配集合执行、扣费冷却与治疗结算未实现或验证，独立于管理完整性"
+        "runtimeValidation": "已保存完整组成的有限自身治疗场景进入真实工作线程，首次成功、治疗前条件固定、399/400边界、成本冷却、结束和恢复、归属、上限及治疗修正通过；完整英雄属性与战斗装配未验证",
+        "runtimeEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/32-索拉卡挂载保护最终验收.json",
+        "pageReturnEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/33-条件摘要原对象与同类返回验收.json",
+        "firstCastPhaseExplicit": true
       },
       {
         "sourceChampionId": "Swain",
@@ -42727,14 +43182,38 @@
         "category": "MINOR",
         "conclusion": "系统暂缓",
         "conclusionScope": "符文范围内数据与机制",
-        "reason": "来源确定组成已保存或可表达；仍有1项事件、条件、状态、选择或作用范围缺口。",
+        "reason": "已保存普通直接伤害生命门槛与初始化组成，并完成原对象/同类及安妮Q魔法、盖伦R真实伤害的正式组成工作线程验证；父表与总览摘要修复已由原对象和同类0写返回及38次独立回读验收。共享普攻完整暴击/命中联动、未核定来源及整符文范围继续开放。",
         "sourcePendingCount": 0,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "runeCurrentReadback",
           "runeMechanismInventory",
-          "runeFinalCoverage"
-        ]
+          "runeFinalCoverage",
+          "conditionalDamageModifierReturn"
+        ],
+        "realPageRecovery": {
+          "status": "ORIGINAL_AND_PEER_BOUNDED_COMPONENT_CLOSED",
+          "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/57-两符文门槛原对象同类与正式运行验收.json",
+          "pageBusinessWrites": 3,
+          "independentGETs": 114,
+          "savedObjects": [
+            "/modifier-zones/rune_8014_damage_increase",
+            "/skills/rune_8014_passive/effects/basic_attack_health_bonus",
+            "/skills/rune_8014_passive/trigger-rules/initialize_basic_attack_bonus"
+          ],
+          "wholeRuneComplete": false,
+          "runtimeValidated": true,
+          "runtimeScope": "两符文的普通直接物理普攻条件增伤组成；基础伤害、身份及双方生命为明确场景输入",
+          "sourceScopeReturn": {
+            "status": "ORIGINAL_AND_PEER_ORDINARY_SOURCE_COMPONENT_CLOSED",
+            "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/66-两符文扩大范围正式保存与运行验收.json",
+            "effectAndRuleUpdatesSaved": 2,
+            "formalExpandedRuntimePassed": true,
+            "runtimeScope": "已保存两符文的逐笔门槛与过滤组成；安妮Q/盖伦R完整所选命中伤害来源及明确物理普攻输入；其余技能分支和来源不由本批证明",
+            "presentationReturnPending": false,
+            "presentationEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/67-两符文摘要原对象同类返回独立验收.json"
+          }
+        }
       },
       {
         "sourceRuneId": 8017,
@@ -42743,14 +43222,38 @@
         "category": "MINOR",
         "conclusion": "系统暂缓",
         "conclusionScope": "符文范围内数据与机制",
-        "reason": "来源确定组成已保存或可表达；仍有1项事件、条件、状态、选择或作用范围缺口。",
+        "reason": "已保存普通直接伤害生命门槛与初始化组成，并完成原对象/同类及安妮Q魔法、盖伦R真实伤害的正式组成工作线程验证；父表与总览摘要修复已由原对象和同类0写返回及38次独立回读验收。共享普攻完整暴击/命中联动、未核定来源及整符文范围继续开放。",
         "sourcePendingCount": 0,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "runeCurrentReadback",
           "runeMechanismInventory",
-          "runeFinalCoverage"
-        ]
+          "runeFinalCoverage",
+          "conditionalDamageModifierReturn"
+        ],
+        "realPageRecovery": {
+          "status": "ORIGINAL_AND_PEER_BOUNDED_COMPONENT_CLOSED",
+          "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/57-两符文门槛原对象同类与正式运行验收.json",
+          "pageBusinessWrites": 3,
+          "independentGETs": 114,
+          "savedObjects": [
+            "/modifier-zones/rune_8017_damage_increase",
+            "/skills/rune_8017_passive/effects/basic_attack_health_bonus",
+            "/skills/rune_8017_passive/trigger-rules/initialize_basic_attack_bonus"
+          ],
+          "wholeRuneComplete": false,
+          "runtimeValidated": true,
+          "runtimeScope": "两符文的普通直接物理普攻条件增伤组成；基础伤害、身份及双方生命为明确场景输入",
+          "sourceScopeReturn": {
+            "status": "ORIGINAL_AND_PEER_ORDINARY_SOURCE_COMPONENT_CLOSED",
+            "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/66-两符文扩大范围正式保存与运行验收.json",
+            "effectAndRuleUpdatesSaved": 2,
+            "formalExpandedRuntimePassed": true,
+            "runtimeScope": "已保存两符文的逐笔门槛与过滤组成；安妮Q/盖伦R完整所选命中伤害来源及明确物理普攻输入；其余技能分支和来源不由本批证明",
+            "presentationReturnPending": false,
+            "presentationEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/67-两符文摘要原对象同类返回独立验收.json"
+          }
+        }
       },
       {
         "sourceRuneId": 8021,
@@ -43622,16 +44125,39 @@
         "runeKey": "rune_9111",
         "name": "凯旋",
         "category": "MINOR",
-        "conclusion": "系统暂缓",
-        "conclusionScope": "符文范围内数据与机制",
-        "reason": "来源确定组成已保存或可表达；仍有1项事件、条件、状态、选择或作用范围缺口。",
+        "conclusion": "已录入",
+        "conclusionScope": "严格1V1自身击杀治疗的管理配置；不代表战斗运行",
+        "reason": "两比例参数、实际治疗公式、来源对象治疗结果、本人击杀敌方英雄入口、技能挂载与代表图均已核对；效果和主体旧说明通过页面纠正并关闭重开，独立GET及三个实际表达式算例通过。采用击杀事件结算时一次治疗的模拟口径；多人助攻和金币分支排除。行为总览原对象返回通过，运行未验证。",
         "sourcePendingCount": 0,
-        "systemPendingCount": 1,
+        "systemPendingCount": 0,
         "evidenceRefs": [
           "runeCurrentReadback",
           "runeMechanismInventory",
-          "runeFinalCoverage"
-        ]
+          "runeFinalCoverage",
+          "realPageRecoveryFirst"
+        ],
+        "currentPageReturn": {
+          "batchKey": "realPageRecoveryFirst",
+          "effectDescription": "PASS",
+          "subjectDescription": "PASS",
+          "overviewOriginalReturn": "PASS",
+          "independentReadback": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/10-凯旋主体独立回读.json",
+          "arithmetic": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/凯旋实际表达式算术.json",
+          "actor": "gpt-6-luna/max",
+          "browserWrites": 2
+        },
+        "historicalPendingCounts": {
+          "source": 0,
+          "system": 1,
+          "note": "原盘点结论保留；本人击杀入口已有，精细治疗时点按本轮模拟口径处理。"
+        },
+        "managementComplete": true,
+        "remainingBranches": [],
+        "excludedBranches": [
+          "多人助攻（不在严格1V1本人击杀范围）",
+          "额外金币"
+        ],
+        "runtimeValidation": "未执行，不以管理配置代替"
       },
       {
         "sourceRuneId": 9923,
@@ -46498,14 +47024,25 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "仍有1项来源数值、范围、模式、取得方式或机制事实待核，不能猜值或直接排除。",
+        "reason": "单强化步骤、唯一启动规则、窗口参数、内部状态及必要生命偷取覆盖已页面保存重开并独立核对，三处过时说明已更正；单绑定命中总览与正式附伤/吸血/一次消费有限运行通过。特殊使用及完整装备装配仍开放，不计整装备完成。",
         "sourcePendingCount": 1,
         "systemPendingCount": 1,
         "evidenceRefs": [
           "equipmentCurrentReadback",
           "equipmentSourceInventory",
           "equipmentEffectReview"
-        ]
+        ],
+        "currentComponentCounts": {
+          "parameters": 3,
+          "formulas": 1,
+          "effects": 1,
+          "processes": 1,
+          "internalStates": 2,
+          "triggerRules": 1
+        },
+        "pageReturnEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/耀光-合并-回读-6.json",
+        "runtimeValidation": "正式组成进入实际工作线程，有限附伤、吸血与一次消费通过；完整装备战斗未验证",
+        "runtimeEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/31-耀光正式配置与同类总览验收.json"
       },
       {
         "sourceItemId": "3065",
@@ -48135,7 +48672,7 @@
         "scopeCategory": "可购买普通装备候选",
         "conclusion": "资料待核",
         "conclusionScope": "装备当前1V1数据与机制",
-        "reason": "用户已核定10秒窗口、重复施法刷新、命中后冷却及结算前普攻主体近似回蓝；三项原配置已保存并独立回读，原回蓝组成进入真实Wasm。原附伤吸血资格、近远程分支和完整装备装配仍待处理，整装备未记完成。",
+        "reason": "已定窗口、刷新、命中消费及内部冷却以单一过程表达；七笔技能配置和装备过时说明一笔均正常页面保存、重开及独立回读。正式附伤、近似回蓝、吸血与一次消费有限运行通过；特殊使用、近远程差异及整装备装配仍开放。",
         "sourcePendingCount": 1,
         "systemPendingCount": 1,
         "evidenceRefs": [
@@ -48143,7 +48680,17 @@
           "equipmentSourceInventory",
           "equipmentEffectReview",
           "hitAndTriggerRuntimeReturn"
-        ]
+        ],
+        "currentComponentCounts": {
+          "parameters": 5,
+          "formulas": 2,
+          "effects": 2,
+          "processes": 1,
+          "internalStates": 2,
+          "triggerRules": 1
+        },
+        "pageReturnEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/夺萃装备说明-03-独立回读.json",
+        "runtimeValidation": "正式组成进入真实工作线程，有限伤害/回蓝/吸血及一次消费通过；完整装备战斗未验证"
       },
       {
         "sourceItemId": "3513",

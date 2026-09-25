@@ -1,0 +1,205 @@
+{
+  "task": "科加斯Q击飞结果取消误报回归验证",
+  "at": "2026-09-24T07:52:33.685Z",
+  "scope": "已保存的knockup效果下apply_knockup结果编辑；仅正常页面打开、展开状态目录、Escape、取消；不保存",
+  "browser": {
+    "pages": 1,
+    "listenerDuring": 1,
+    "listenerAfter": 0,
+    "nativeDialogEvents": [],
+    "handlerAction": "仅在意外弹出时记录并dismiss；未发生事件"
+  },
+  "directory": {
+    "firstObservedLabel": "airborne",
+    "readyLabel": "击飞",
+    "readiness": "击飞名称已载入",
+    "options": "眩晕\n普通移动减速\n禁锢\n沉默\n魅惑\n击飞",
+    "expandedThenEscape": true,
+    "formFieldsEqualAfterEscape": true
+  },
+  "cancel": {
+    "resultEditor": "hidden",
+    "visibleConfirmations": [],
+    "nativeDialogCount": 0,
+    "parentEffect": "parent-hidden",
+    "finalVisibleDialogs": [
+      {
+        "text": "效果与结果 - 科加斯·破裂 刷新 新增效果 图片 \t 效果名称 \t 稳定标识 \t 结果数量 \t 生命周期 \t 排序 \t 更新时间 \t 操作   未设置 \t 施放法力消耗 \t ma",
+        "visible": true
+      }
+    ],
+    "draftsOpen": 0
+  },
+  "network": {
+    "requestCountBefore": 937,
+    "requestCountAfter": 952,
+    "responseCountBefore": 937,
+    "responseCountAfter": 952,
+    "requests": [
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/effects"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/effects/mana_cost/representative-image"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/effects/primary_hit/representative-image"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/effects/knockup/representative-image"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/parameters"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/vamp-rules"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/effects/knockup"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/formulas"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/statuses"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/attributes"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skill-categories"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/effects"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/statuses"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/statuses"
+      }
+    ],
+    "responses": [
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/effects/mana_cost/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/effects/primary_hit/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/effects/knockup/representative-image",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/statuses",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/vamp-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/attributes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/effects/knockup",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skill-categories",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/chogath_q/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/statuses",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/statuses",
+        "status": 200
+      }
+    ],
+    "nonGetRequests": [],
+    "guardWriteAllowedBefore": 1,
+    "guardBlockedAfter": 0
+  },
+  "screenshots": [
+    "15-修复后目录展开并Escape截图.png",
+    "16-修复后取消结果无确认截图.png",
+    "17-修复后父效果关闭截图.png"
+  ],
+  "notes": [
+    "status目录GET完成后，结果选择框显示名称从初始airborne变为击飞；等待击飞名称与选项列表就绪后才展开。",
+    "取消结果编辑和关闭父效果均直接成功；本次原生dialog事件0、可见确认框0、保存/非GET请求0。",
+    "父效果编辑器已关闭，当前只保留科加斯Q只读效果列表。"
+  ],
+  "listenerCounts": {
+    "preexistingBeforeCounterInstall": {
+      "count": 0,
+      "checked": "安装临时监听之前的单独检查；位于repeatStart初始化调用中"
+    },
+    "duringTestAfterCounterInstall": {
+      "count": 1,
+      "checkedAt": "2026-09-24T07:48:24.309Z"
+    },
+    "afterCounterRemoval": {
+      "count": 0,
+      "checked": "临时监听移除后、保存证据文件时检查"
+    }
+  }
+}

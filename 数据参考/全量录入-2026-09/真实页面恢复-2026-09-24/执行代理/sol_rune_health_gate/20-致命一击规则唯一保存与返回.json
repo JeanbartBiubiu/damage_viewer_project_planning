@@ -1,0 +1,96 @@
+{
+  "at": "2026-09-24T10:25:11.575Z",
+  "approval": "10-页面候选待前端审查.json candidates[0].writes[2]",
+  "candidateSha256": "cf7061fd916f39c8774f671828074d3434f107df82f7f6990609da919d402732",
+  "browser": {
+    "nodePid": 24176,
+    "chromiumPid": 6040,
+    "contexts": 1,
+    "pages": 1
+  },
+  "before": {
+    "ruleStatus": 404,
+    "effectStatus": 200
+  },
+  "write": {
+    "method": "POST",
+    "path": "/api/admin/games/lol/skills/rune_8014_passive/trigger-rules",
+    "body": {
+      "ruleKey": "initialize_basic_attack_bonus",
+      "name": "初始化致命一击普通物理普攻增伤",
+      "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格低于40%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+      "sortOrder": 10,
+      "eventSource": {
+        "eventType": "SOURCE_INITIALIZED",
+        "detail": {}
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "apply_bonus",
+          "name": "施加常驻生命门槛增伤",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "basic_attack_health_bonus"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null,
+      "oncePerUse": null
+    },
+    "status": 201
+  },
+  "rejectedWrites": 0,
+  "reopened": {
+    "inputs": [
+      {
+        "label": "规则标识",
+        "value": "initialize_basic_attack_bonus"
+      },
+      {
+        "label": "规则名称",
+        "value": "初始化致命一击普通物理普攻增伤"
+      },
+      {
+        "label": "规则说明",
+        "value": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格低于40%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。"
+      },
+      {
+        "label": "规则排序",
+        "value": "10"
+      }
+    ],
+    "event": "来源对象初始化完成",
+    "switches": [
+      {
+        "label": "每目标冷却",
+        "checked": "false"
+      },
+      {
+        "label": "同次使用仅触发一次",
+        "checked": "false"
+      }
+    ],
+    "actionText": "1. 施加常驻生命门槛增伤\n上移\n下移\n编辑\n删除\n执行效果 / 当前目标 / basic_attack_health_bonus / 绑定 0 / 修正 0\n执行效果"
+  },
+  "reopenCancelPrompt": null,
+  "overview": {
+    "initialized": true,
+    "actionTargetCurrent": true,
+    "effectResultSource": true,
+    "noUnattached": true
+  },
+  "runeRelation": {
+    "skillKeyPresent": true,
+    "enabled": true
+  },
+  "after": {
+    "visibleDialogs": 0,
+    "noDraft": true
+  }
+}

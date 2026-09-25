@@ -1,0 +1,409 @@
+{
+  "at": "2026-09-24T08:22:00.326Z",
+  "actualPath": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+  "approvedBodyDeepEqualToCurrentDraft": false,
+  "currentDraft": {
+    "inputs": [
+      {
+        "i": 0,
+        "type": "text",
+        "value": "actual_unblocked_knockup",
+        "aria": "规则标识",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 1,
+        "type": "text",
+        "value": "明确未阻挡破裂命中每目标一次击飞",
+        "aria": "规则名称",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 2,
+        "type": "text",
+        "value": "20",
+        "aria": "规则排序",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 3,
+        "type": "text",
+        "value": "",
+        "aria": null,
+        "placeholder": "技能命中",
+        "checked": false
+      },
+      {
+        "i": 4,
+        "type": "text",
+        "value": "",
+        "aria": null,
+        "placeholder": "科加斯·破裂（chogath_q）",
+        "checked": false
+      },
+      {
+        "i": 5,
+        "type": "text",
+        "value": "champion_target",
+        "aria": "条件组标识",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 6,
+        "type": "text",
+        "value": "本轮明确未阻挡敌方英雄",
+        "aria": "条件组名称",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 7,
+        "type": "text",
+        "value": "10",
+        "aria": "条件组排序",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 8,
+        "type": "text",
+        "value": "q_knockup_per_target",
+        "aria": "共享限制键",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 9,
+        "type": "radio",
+        "value": "SKILL",
+        "aria": null,
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 10,
+        "type": "radio",
+        "value": "TARGET",
+        "aria": null,
+        "placeholder": "",
+        "checked": true
+      }
+    ],
+    "areas": [
+      "沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。"
+    ],
+    "combos": [
+      {
+        "label": "事件类型",
+        "text": "技能命中"
+      },
+      {
+        "label": "命中来源技能",
+        "text": "科加斯·破裂（chogath_q）"
+      }
+    ],
+    "cards": [
+      "本轮明确未阻挡敌方英雄\n新增条件\n删除\n 条件组标识\n 条件组名称\n 排序\n事件对方类别 / 英雄 并且 技能命中敌方对象 并且 事件值比较 / 技能命中被法术护盾阻挡 / 等于 / 0\n事件对方类别 / 英雄\n编辑\n删除\n并且\n技能命中敌方对象\n编辑\n删除\n并且\n事件值比较 / 技能命中被法术护盾阻挡 / 等于 / 0\n编辑\n删除",
+      "1. 施加破裂击飞\n上移\n下移\n编辑\n删除\n执行效果 / 当前目标 / knockup / 绑定 0 / 修正 0\n执行效果"
+    ],
+    "switches": [
+      {
+        "label": "每目标冷却",
+        "checked": "false"
+      },
+      {
+        "label": "同次使用仅触发一次",
+        "checked": "true"
+      }
+    ],
+    "radios": [
+      {
+        "value": "SKILL",
+        "checked": false
+      },
+      {
+        "value": "TARGET",
+        "checked": true
+      }
+    ]
+  },
+  "previousLocalBlockConfirmed404": {
+    "method": "GET",
+    "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules/actual_unblocked_knockup",
+    "status": 404,
+    "body": "{\"error\":{\"code\":\"404.SKILL_TRIGGER_RULE_NOT_FOUND\",\"details\":{\"ruleKey\":\"actual_unblocked_knockup\"},\"message\":\"技能触发规则不存在\"}}"
+  },
+  "routeGuard": "精确匹配完整API路径，只允许一笔与批准body深比较完全一致的UI POST；GET回退到旧只读记录守卫；任何其他写均拒绝",
+  "afterFailedFetch": {
+    "at": "2026-09-24T08:23:34.065Z",
+    "uiText": "Failed to fetch",
+    "controlsMatchPreSave": true,
+    "inputs": [
+      {
+        "i": 0,
+        "type": "text",
+        "value": "actual_unblocked_knockup",
+        "aria": "规则标识",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 1,
+        "type": "text",
+        "value": "明确未阻挡破裂命中每目标一次击飞",
+        "aria": "规则名称",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 2,
+        "type": "text",
+        "value": "20",
+        "aria": "规则排序",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 3,
+        "type": "text",
+        "value": "",
+        "aria": null,
+        "placeholder": "技能命中",
+        "checked": false
+      },
+      {
+        "i": 4,
+        "type": "text",
+        "value": "",
+        "aria": null,
+        "placeholder": "科加斯·破裂（chogath_q）",
+        "checked": false
+      },
+      {
+        "i": 5,
+        "type": "text",
+        "value": "champion_target",
+        "aria": "条件组标识",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 6,
+        "type": "text",
+        "value": "本轮明确未阻挡敌方英雄",
+        "aria": "条件组名称",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 7,
+        "type": "text",
+        "value": "10",
+        "aria": "条件组排序",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 8,
+        "type": "text",
+        "value": "q_knockup_per_target",
+        "aria": "共享限制键",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 9,
+        "type": "radio",
+        "value": "SKILL",
+        "aria": null,
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 10,
+        "type": "radio",
+        "value": "TARGET",
+        "aria": null,
+        "placeholder": "",
+        "checked": true
+      }
+    ],
+    "description": "沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。",
+    "combos": [
+      {
+        "label": "事件类型",
+        "text": "技能命中"
+      },
+      {
+        "label": "命中来源技能",
+        "text": "科加斯·破裂（chogath_q）"
+      }
+    ],
+    "switches": [
+      {
+        "label": "每目标冷却",
+        "checked": "false"
+      },
+      {
+        "label": "同次使用仅触发一次",
+        "checked": "true"
+      }
+    ],
+    "scopeRadios": [
+      {
+        "value": "SKILL",
+        "checked": false
+      },
+      {
+        "value": "TARGET",
+        "checked": true
+      }
+    ],
+    "conditionCount": 3,
+    "conditionSummary": "本轮明确未阻挡敌方英雄\n新增条件\n删除\n 条件组标识\n 条件组名称\n 排序\n事件对方类别 / 英雄 并且 技能命中敌方对象 并且 事件值比较 / 技能命中被法术护盾阻挡 / 等于 / 0\n事件对方类别 / 英雄\n编辑\n删除\n并且\n技能命中敌方对象\n编辑\n删除\n并且\n事件值比较 / 技能命中被法术护盾阻挡 / 等于 / 0\n编辑\n删除",
+    "actionSummary": "1. 施加破裂击飞\n上移\n下移\n编辑\n删除\n执行效果 / 当前目标 / knockup / 绑定 0 / 修正 0\n执行效果",
+    "attemptedRequestBodyStillDeepEqualApproved": true,
+    "compositeCardTextChangedAfterFailure": true,
+    "noServerResponse": true,
+    "targetStill404": true,
+    "controlComparison": {
+      "inputs": true,
+      "areas": true,
+      "combos": true,
+      "switches": true,
+      "radios": true
+    },
+    "comparisonMethod": "将当前输入、说明、下拉选值、开关与范围单选框转为JSON后逐项比对；均一致。复合卡片innerText的“并且”排版文本不同，不作为字段变化。"
+  },
+  "draftControlsAfterFailure": {
+    "inputs": [
+      {
+        "i": 0,
+        "type": "text",
+        "value": "actual_unblocked_knockup",
+        "aria": "规则标识",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 1,
+        "type": "text",
+        "value": "明确未阻挡破裂命中每目标一次击飞",
+        "aria": "规则名称",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 2,
+        "type": "text",
+        "value": "20",
+        "aria": "规则排序",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 3,
+        "type": "text",
+        "value": "",
+        "aria": null,
+        "placeholder": "技能命中",
+        "checked": false
+      },
+      {
+        "i": 4,
+        "type": "text",
+        "value": "",
+        "aria": null,
+        "placeholder": "科加斯·破裂（chogath_q）",
+        "checked": false
+      },
+      {
+        "i": 5,
+        "type": "text",
+        "value": "champion_target",
+        "aria": "条件组标识",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 6,
+        "type": "text",
+        "value": "本轮明确未阻挡敌方英雄",
+        "aria": "条件组名称",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 7,
+        "type": "text",
+        "value": "10",
+        "aria": "条件组排序",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 8,
+        "type": "text",
+        "value": "q_knockup_per_target",
+        "aria": "共享限制键",
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 9,
+        "type": "radio",
+        "value": "SKILL",
+        "aria": null,
+        "placeholder": "",
+        "checked": false
+      },
+      {
+        "i": 10,
+        "type": "radio",
+        "value": "TARGET",
+        "aria": null,
+        "placeholder": "",
+        "checked": true
+      }
+    ],
+    "areas": [
+      "沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。"
+    ],
+    "combos": [
+      {
+        "label": "事件类型",
+        "text": "技能命中"
+      },
+      {
+        "label": "命中来源技能",
+        "text": "科加斯·破裂（chogath_q）"
+      }
+    ],
+    "switches": [
+      {
+        "label": "每目标冷却",
+        "checked": "false"
+      },
+      {
+        "label": "同次使用仅触发一次",
+        "checked": "true"
+      }
+    ],
+    "radios": [
+      {
+        "value": "SKILL",
+        "checked": false
+      },
+      {
+        "value": "TARGET",
+        "checked": true
+      }
+    ]
+  },
+  "formFieldsUnchangedAfterLocalBlock": true,
+  "screenshotAfterFailedFetch": "22-本地守卫中止后草稿完整.png"
+}

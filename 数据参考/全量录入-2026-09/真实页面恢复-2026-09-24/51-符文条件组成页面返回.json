@@ -1,0 +1,44 @@
+{
+  "at": "2026-09-24T10:26:49.188Z",
+  "status": "ONE_PARTIAL_RUNE_COMPONENT_CONNECTED",
+  "capability": "每笔敌方英雄生命比例严格门槛与已有伤害过滤、乘区和引用能否正常表达并保存",
+  "actualExecutor": {
+    "model": "gpt-6-sol",
+    "effort": "max",
+    "browser": {
+      "nodePid": 24176,
+      "chromiumPid": 6040,
+      "contexts": 1,
+      "pages": 1
+    }
+  },
+  "step": 3,
+  "runeKey": "rune_8014",
+  "currentObject": "/skills/rune_8014_passive/trigger-rules/initialize_basic_attack_bonus",
+  "uniquePostStatus": 201,
+  "savedBodyExactlyApproved": true,
+  "closedAndReopened": true,
+  "pageEvidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/执行代理/sol_rune_health_gate/20-致命一击规则唯一保存与返回.json",
+  "independentReadback": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/符文生命门槛准备/11-页面独立回读-3.json",
+  "independentGETs": 38,
+  "independentlyVerifiedWrites": 3,
+  "cumulativeIndependentGETs": 114,
+  "protectedOriginalResponses": 32,
+  "references": [
+    {
+      "skill": "rune_8014_passive",
+      "attribute": "hp",
+      "thresholdParameter": "target_health_threshold_ratio",
+      "amountParameter": "bonus_damage_ratio",
+      "zone": "rune_8014_damage_increase"
+    }
+  ],
+  "scope": "本组成明确普通直接物理普攻；技能、其他伤害及特殊来源资格仍继续推进",
+  "historicalDescriptionsPreserved": true,
+  "sourceRuntimeInputStillWithoutDefault": true,
+  "originalObjectPageConnected": true,
+  "peerObjectPageConnected": false,
+  "formalRuntimeValidated": false,
+  "wholeRuneComplete": false,
+  "coverageChanged": false
+}

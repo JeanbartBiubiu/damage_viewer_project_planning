@@ -1,0 +1,427 @@
+{
+  "at": "2026-09-24T08:28:33.199Z",
+  "approvalPath": "科加斯击飞-02-页面批准.json requests[2]",
+  "approvedMethod": "POST",
+  "approvedPath": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+  "approvedBody": {
+    "ruleKey": "actual_unblocked_knockup",
+    "name": "明确未阻挡破裂命中每目标一次击飞",
+    "description": "沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。",
+    "sortOrder": 20,
+    "eventSource": {
+      "detail": {
+        "sourceSkillKey": "chogath_q"
+      },
+      "eventType": "SKILL_HIT"
+    },
+    "conditionGroups": [
+      {
+        "conditions": [
+          {
+            "conditionKey": "champion_target",
+            "conditionType": "TARGET_CATEGORY_CHECK",
+            "detail": {
+              "categories": [
+                "CHAMPION"
+              ]
+            },
+            "sortOrder": 10
+          },
+          {
+            "conditionKey": "enemy_target",
+            "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+            "detail": {},
+            "sortOrder": 20
+          },
+          {
+            "conditionKey": "not_spell_shield_blocked",
+            "conditionType": "EVENT_VALUE_COMPARE",
+            "detail": {
+              "comparator": "EQ",
+              "comparisonValue": {
+                "kind": "FIXED",
+                "value": 0
+              },
+              "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+            },
+            "sortOrder": 30
+          }
+        ],
+        "groupKey": "champion_target",
+        "name": "本轮明确未阻挡敌方英雄",
+        "sortOrder": 10
+      }
+    ],
+    "actions": [
+      {
+        "actionKey": "apply_knockup",
+        "name": "施加破裂击飞",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "knockup"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null,
+    "oncePerUse": {
+      "groupKey": "q_knockup_per_target",
+      "scope": "TARGET"
+    }
+  },
+  "attempts": [
+    {
+      "number": 1,
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+      "body": {
+        "ruleKey": "actual_unblocked_knockup",
+        "name": "明确未阻挡破裂命中每目标一次击飞",
+        "description": "沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "chogath_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮明确未阻挡敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_knockup",
+            "name": "施加破裂击飞",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "knockup"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": {
+          "groupKey": "q_knockup_per_target",
+          "scope": "TARGET"
+        }
+      },
+      "localAction": "old broad guard aborted due new path not installed; no server response",
+      "recursiveFieldValueDifferences": [],
+      "propertyOrderDifferences": [
+        {
+          "path": "body.eventSource",
+          "actualKeyOrder": [
+            "eventType",
+            "detail"
+          ],
+          "approvedKeyOrder": [
+            "detail",
+            "eventType"
+          ]
+        },
+        {
+          "path": "body.conditionGroups[0]",
+          "actualKeyOrder": [
+            "groupKey",
+            "name",
+            "sortOrder",
+            "conditions"
+          ],
+          "approvedKeyOrder": [
+            "conditions",
+            "groupKey",
+            "name",
+            "sortOrder"
+          ]
+        },
+        {
+          "path": "body.conditionGroups[0].conditions[0]",
+          "actualKeyOrder": [
+            "conditionKey",
+            "conditionType",
+            "sortOrder",
+            "detail"
+          ],
+          "approvedKeyOrder": [
+            "conditionKey",
+            "conditionType",
+            "detail",
+            "sortOrder"
+          ]
+        },
+        {
+          "path": "body.conditionGroups[0].conditions[1]",
+          "actualKeyOrder": [
+            "conditionKey",
+            "conditionType",
+            "sortOrder",
+            "detail"
+          ],
+          "approvedKeyOrder": [
+            "conditionKey",
+            "conditionType",
+            "detail",
+            "sortOrder"
+          ]
+        },
+        {
+          "path": "body.conditionGroups[0].conditions[2]",
+          "actualKeyOrder": [
+            "conditionKey",
+            "conditionType",
+            "sortOrder",
+            "detail"
+          ],
+          "approvedKeyOrder": [
+            "conditionKey",
+            "conditionType",
+            "detail",
+            "sortOrder"
+          ]
+        },
+        {
+          "path": "body.conditionGroups[0].conditions[2].detail",
+          "actualKeyOrder": [
+            "eventValueKey",
+            "comparator",
+            "comparisonValue"
+          ],
+          "approvedKeyOrder": [
+            "comparator",
+            "comparisonValue",
+            "eventValueKey"
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+      "body": {
+        "ruleKey": "actual_unblocked_knockup",
+        "name": "明确未阻挡破裂命中每目标一次击飞",
+        "description": "沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。",
+        "sortOrder": 20,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "chogath_q"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "champion_target",
+            "name": "本轮明确未阻挡敌方英雄",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_knockup",
+            "name": "施加破裂击飞",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "knockup"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": {
+          "groupKey": "q_knockup_per_target",
+          "scope": "TARGET"
+        }
+      },
+      "localAction": "full-path exact guard aborted because Node strict comparison returned false; no server response",
+      "recursiveFieldValueDifferences": [],
+      "propertyOrderDifferences": [
+        {
+          "path": "body.eventSource",
+          "actualKeyOrder": [
+            "eventType",
+            "detail"
+          ],
+          "approvedKeyOrder": [
+            "detail",
+            "eventType"
+          ]
+        },
+        {
+          "path": "body.conditionGroups[0]",
+          "actualKeyOrder": [
+            "groupKey",
+            "name",
+            "sortOrder",
+            "conditions"
+          ],
+          "approvedKeyOrder": [
+            "conditions",
+            "groupKey",
+            "name",
+            "sortOrder"
+          ]
+        },
+        {
+          "path": "body.conditionGroups[0].conditions[0]",
+          "actualKeyOrder": [
+            "conditionKey",
+            "conditionType",
+            "sortOrder",
+            "detail"
+          ],
+          "approvedKeyOrder": [
+            "conditionKey",
+            "conditionType",
+            "detail",
+            "sortOrder"
+          ]
+        },
+        {
+          "path": "body.conditionGroups[0].conditions[1]",
+          "actualKeyOrder": [
+            "conditionKey",
+            "conditionType",
+            "sortOrder",
+            "detail"
+          ],
+          "approvedKeyOrder": [
+            "conditionKey",
+            "conditionType",
+            "detail",
+            "sortOrder"
+          ]
+        },
+        {
+          "path": "body.conditionGroups[0].conditions[2]",
+          "actualKeyOrder": [
+            "conditionKey",
+            "conditionType",
+            "sortOrder",
+            "detail"
+          ],
+          "approvedKeyOrder": [
+            "conditionKey",
+            "conditionType",
+            "detail",
+            "sortOrder"
+          ]
+        },
+        {
+          "path": "body.conditionGroups[0].conditions[2].detail",
+          "actualKeyOrder": [
+            "eventValueKey",
+            "comparator",
+            "comparisonValue"
+          ],
+          "approvedKeyOrder": [
+            "comparator",
+            "comparisonValue",
+            "eventValueKey"
+          ]
+        }
+      ]
+    }
+  ],
+  "arrayOrderPreservedInComparison": true,
+  "recursionMethod": "递归逐字段比较JSON类型、键存在和值；对象键顺序不作业务差异；数组长度和值及顺序严格比较",
+  "currentInterpretation": "两次实际UI POST均被本地守卫在发送前abort，没有服务器响应；本地首轮路径匹配错误，第二轮守卫比较结果误判。主负责人同环境独立深比较确认两次正文均与批准相同。对象键顺序差异已列为观察数据，但不能据此归因比较器误判，具体原因未查明。当前批次此前实际保存2笔；本规则服务器成功0笔；本规则本地abort 2次。",
+  "targetReadBeforeSecondAttempt": {
+    "method": "GET",
+    "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules/actual_unblocked_knockup",
+    "status": 404,
+    "body": "{\"error\":{\"code\":\"404.SKILL_TRIGGER_RULE_NOT_FOUND\",\"details\":{\"ruleKey\":\"actual_unblocked_knockup\"},\"message\":\"技能触发规则不存在\"}}"
+  },
+  "postResponsesCaptured": [],
+  "localAborts": 2,
+  "formScreenshot": "22-本地守卫中止后草稿完整.png",
+  "nextAction": "等待主负责人只读核验并明确确认结构比对方式后再操作；当前不再次点击保存",
+  "oldLocalGuardAllowedCount": 1,
+  "currentBatchBusinessWritesBeforeRule": 2,
+  "actualUnblockedKnockupServerSuccesses": 0,
+  "parentIndependentAudit": {
+    "result": "PASS",
+    "evidence": "44-规则正文与第二次中止后核对.json",
+    "bodyComparison": "assert.deepEqual与util.isDeepStrictEqual均true；字段/值/数组顺序相同",
+    "targetDetailGet404": true
+  },
+  "serverFailureCount": 0
+}

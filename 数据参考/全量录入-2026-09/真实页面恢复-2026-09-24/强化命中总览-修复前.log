@@ -1,0 +1,35 @@
+
+ RUN  v2.1.9 C:/project/damage_web_dev/web
+
+ ❯ src/pages/admin/skills/overview/skillBehaviorOverview.test.ts (7 tests | 4 failed | 3 skipped) 9ms
+   × skill behavior overview grouping > groups 1 empowered bindings by hit with ATTACK_HIT consumption and retains ending/orphans 7ms
+     → expected [] to include 'process:blade:step:attack'
+   × skill behavior overview grouping > groups 2 empowered bindings by hit with ATTACK_HIT consumption and retains ending/orphans 1ms
+     → expected [] to include 'process:blade:step:attack'
+   × skill behavior overview grouping > groups 1 empowered bindings by hit with ATTACK_START consumption and retains ending/orphans 0ms
+     → expected [] to include 'process:blade:step:attack'
+   × skill behavior overview grouping > groups 2 empowered bindings by hit with ATTACK_START consumption and retains ending/orphans 0ms
+     → expected [] to include 'process:blade:step:attack'
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/pages/admin/skills/overview/skillBehaviorOverview.test.ts > skill behavior overview grouping > groups 1 empowered bindings by hit with ATTACK_HIT consumption and retains ending/orphans
+ FAIL  src/pages/admin/skills/overview/skillBehaviorOverview.test.ts > skill behavior overview grouping > groups 2 empowered bindings by hit with ATTACK_HIT consumption and retains ending/orphans
+ FAIL  src/pages/admin/skills/overview/skillBehaviorOverview.test.ts > skill behavior overview grouping > groups 1 empowered bindings by hit with ATTACK_START consumption and retains ending/orphans
+ FAIL  src/pages/admin/skills/overview/skillBehaviorOverview.test.ts > skill behavior overview grouping > groups 2 empowered bindings by hit with ATTACK_START consumption and retains ending/orphans
+AssertionError: expected [] to include 'process:blade:step:attack'
+ ❯ src/pages/admin/skills/overview/skillBehaviorOverview.test.ts:69:24
+     67|     });
+     68|     const ids = (group: keyof typeof model.groups) => model.groups[gro…
+     69|     expect(ids('hit')).toContain('process:blade:step:attack');
+       |                        ^
+     70|     expect(ids('hit')).toContain('rule:on_step');
+     71|     const step = model.groups.hit.find(row => row.id === 'process:blad…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 3 skipped (7)
+   Start at  12:32:46
+   Duration  512ms (transform 218ms, setup 0ms, collect 295ms, tests 9ms, environment 0ms, prepare 67ms)
+

@@ -1,0 +1,87 @@
+{
+  "at": "2026-09-24T12:30:04.435Z",
+  "object": "rune_8014_passive/trigger-rules/initialize_basic_attack_bonus",
+  "candidate": "普通伤害来源准备/09-扩大过滤页面候选.json writes[1]",
+  "browser": {
+    "nodePid": 15124,
+    "chromiumPid": 40860,
+    "contexts": 1,
+    "pages": 1
+  },
+  "request": {
+    "method": "PUT",
+    "path": "/api/admin/games/lol/skills/rune_8014_passive/trigger-rules/initialize_basic_attack_bonus",
+    "body": {
+      "name": "初始化致命一击普通直接伤害增幅",
+      "description": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格低于40%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+      "sortOrder": 10,
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "conditionGroups": [],
+      "actions": [
+        {
+          "actionKey": "apply_bonus",
+          "name": "施加常驻生命门槛增伤",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "basic_attack_health_bonus"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null,
+      "oncePerUse": null
+    },
+    "status": 200
+  },
+  "guard": {
+    "exactApprovedBody": true,
+    "rejectedNonGet": []
+  },
+  "readback": {
+    "getMatchesApprovedBody": true,
+    "protectedFieldsUnchanged": true,
+    "ruleKey": "initialize_basic_attack_bonus",
+    "actionCount": 1,
+    "conditionGroupCount": 0,
+    "eventType": "SOURCE_INITIALIZED"
+  },
+  "uiReopen": {
+    "name": "初始化致命一击普通直接伤害增幅",
+    "description": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格低于40%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+    "actionSummary": "执行效果 / 当前目标 / basic_attack_health_bonus / 绑定0 / 修正0",
+    "dialogsAfterClose": 0
+  },
+  "overview": {
+    "initializationShown": true,
+    "actionCurrentTarget": true,
+    "resultSource": true,
+    "unattachedNone": true,
+    "ruleDescriptionShowsUnknownSourceRejection": true,
+    "effectRowDescription": "—",
+    "effectRowShowsStructuredHpCondition": false
+  },
+  "observation": {
+    "object": "rune_8014_passive / 行为总览 / 效果结果行",
+    "steps": "打开符文关联技能后查看行为总览的效果组",
+    "expected": "快速浏览时可看出已保存的逐笔敌方英雄生命门槛和过滤范围，或明确引导打开结果详情",
+    "actual": "效果结果行仅显示伤害修正与 bonus_damage_ratio，说明为—；门槛和来源限制只在规则说明及结果编辑器中可见",
+    "impact": "总览单看效果行无法核对门槛与物理/魔法/真实范围",
+    "blocking": false,
+    "screenshot": "54-致命一击扩大过滤总览效果组.png"
+  },
+  "screenshots": [
+    "50-致命一击扩大过滤规则保存前.png",
+    "51-致命一击扩大过滤规则保存后列表.png",
+    "52-致命一击扩大过滤规则重开.png",
+    "53-致命一击扩大过滤行为总览.png",
+    "54-致命一击扩大过滤总览效果组.png"
+  ],
+  "businessWrites": 1
+}

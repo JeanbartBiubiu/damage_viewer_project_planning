@@ -1,0 +1,45 @@
+{
+  "at": "2026-09-24T03:07:23.947Z",
+  "status": "PASS",
+  "basis": "实际独立GET中的公式AST与参数详情",
+  "readbackSha256": "01e352eceb68b853f77448f52f163d7149fe224758db2a7c999d3bf34f7a9629",
+  "cases": [
+    {
+      "baseAttack": 60,
+      "totalAttack": 80,
+      "critChance": 0,
+      "rawDamage": 75,
+      "manaRefund": 40
+    },
+    {
+      "baseAttack": 100,
+      "totalAttack": 150,
+      "critChance": 0.2,
+      "rawDamage": 135,
+      "manaRefund": 75
+    },
+    {
+      "baseAttack": 100,
+      "totalAttack": 200,
+      "critChance": 1,
+      "rawDamage": 175,
+      "manaRefund": 100
+    },
+    {
+      "baseAttack": 100,
+      "totalAttack": 200,
+      "critChance": 0.5,
+      "rawDamage": 150,
+      "manaRefund": 100
+    },
+    {
+      "baseAttack": 200,
+      "totalAttack": 350,
+      "critChance": 0.5,
+      "rawDamage": 275,
+      "manaRefund": 175
+    }
+  ],
+  "scope": "只核对原始附伤与项目近似回蓝；未执行防御、吸血、资源上限或整装备运行",
+  "businessWrites": 0
+}

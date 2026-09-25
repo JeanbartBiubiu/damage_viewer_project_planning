@@ -1,0 +1,59 @@
+{
+  "method": "PUT",
+  "path": "/api/admin/games/lol/skills/soraka_r/trigger-rules/on_used_self_heal",
+  "body": {
+    "name": "主动使用回复自身生命",
+    "description": "主动使用祈愿且索拉卡自身生命比例不低于40%时执行正常自身治疗。 同一次事件先完成全部条件求值再执行匹配动作，治疗后不追加另一分支。",
+    "sortOrder": 10,
+    "eventSource": {
+      "eventType": "SKILL_USED",
+      "detail": {
+        "sourceSkillKey": "soraka_r",
+        "useKind": "ACTIVE",
+        "castPhase": "INITIAL"
+      }
+    },
+    "conditionGroups": [
+      {
+        "groupKey": "source_not_low_health",
+        "name": "来源对象不低于低生命阈值",
+        "sortOrder": 10,
+        "conditions": [
+          {
+            "conditionKey": "source_hp_at_or_above_threshold",
+            "conditionType": "ATTRIBUTE_COMPARE",
+            "sortOrder": 10,
+            "detail": {
+              "attributeKey": "hp",
+              "attributeValueKind": "CURRENT_RATIO",
+              "comparator": "GTE",
+              "comparisonValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "low_health_threshold_ratio"
+              },
+              "subject": "SOURCE"
+            }
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "actionKey": "heal_self",
+        "name": "执行自身正常治疗",
+        "actionType": "EXECUTE_EFFECT",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "effectKey": "self_heal"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null,
+    "oncePerUse": null
+  },
+  "status": 200
+}

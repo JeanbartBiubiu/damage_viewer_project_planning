@@ -22,8 +22,8 @@ function parseArgs(argv) {
     cwd: process.cwd(),
     send: false,
     dryRun: false,
-    prompt: "Do not create, edit, or delete files. Reply exactly: GROK_46_NONFAST_SMOKE_OK",
-    name: "codex-grok-46-nonfast-smoke",
+    prompt: "Do not create, edit, or delete files. Reply exactly: GROK_47_256K_XHIGH_NONFAST_SMOKE_OK",
+    name: "codex-grok-47-256k-xhigh-nonfast-smoke",
     jsonOut: "",
     eventsOut: "",
     outDir: "",
@@ -138,7 +138,7 @@ async function main() {
   // Smoke uses a single create+send attempt (no startup retry) to expose raw SDK health.
   const requireSdk = createRequire(import.meta.url);
   const { Agent, JsonlLocalAgentStore } = requireSdk(sdkPath);
-  const cwd = existsSync(args.cwd) ? args.cwd : mkdtempSync(join(tmpdir(), "cursor-sdk-fastfalse-smoke-"));
+  const cwd = existsSync(args.cwd) ? args.cwd : mkdtempSync(join(tmpdir(), "cursor-sdk-grok47-smoke-"));
   // Per-invocation store: avoid the old fixed shared temp path that accumulated across runs.
   const storePath = args.outDir
     ? join(args.outDir, "sdk-local-agent-store")

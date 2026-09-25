@@ -1,0 +1,145 @@
+{
+  "approval": {
+    "file": "耀光-合并-02-页面批准.json",
+    "fileSha256": "A95C450C2E0A281D3C34BC7B784D2C25C3E12AF3C6D6706CA08D4057C93F440D",
+    "requestIndex": 2,
+    "method": "PUT",
+    "route": "/skills/item_3057_passive/effects/spellblade_damage",
+    "detailRoute": "/skills/item_3057_passive/effects/spellblade_damage"
+  },
+  "baseline": {
+    "file": "耀光-合并-01-写前现值.json",
+    "fileSha256": "32CDFA601A17518E19A21B2ABAC0834DEE948C61899DBA70FE0626686ADFD00D"
+  },
+  "preflight": {
+    "evidenceFile": "13-preflight-effect.json",
+    "currentMatchesFrozenBaseline": true,
+    "protectedFormulaDamageAndResultShapeMatchApproved": true,
+    "response": {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/effects/spellblade_damage",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-07T16:06:32.942759Z\",\"description\":\"保存下一次普通攻击的额外物理伤害组成；技能施放后就绪与消费规则待补。\",\"effectKey\":\"spellblade_damage\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"咒刃额外物理伤害\",\"results\":[{\"description\":\"来源基础攻击力1倍的额外物理伤害。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"physics\",\"deliveryKind\":\"BASIC_ATTACK\",\"originKind\":\"DIRECT\",\"vampOverrides\":[],\"vampQualification\":\"UNRESOLVED\"},\"lifecycleBehavior\":null,\"name\":\"咒刃物理伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"spellblade_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"item_3057_passive\",\"sortOrder\":10,\"updatedAt\":\"2026-09-07T16:06:32.942759Z\"}"
+    }
+  },
+  "pageWrite": {
+    "source": "正常页面控件：编辑原伤害结果",
+    "allowedWriteCount": 1,
+    "blockedMutationRequests": [],
+    "requestCapturedBeforeForwarding": {
+      "method": "PUT",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/effects/spellblade_damage",
+      "body": {
+        "name": "咒刃额外物理伤害",
+        "description": "咒刃附加物理伤害，由单强化步骤在实际普攻命中时结算。吸血按项目核定：生命偷取使用本结果的必要覆盖，全能吸血继承游戏规则。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "damage",
+            "name": "咒刃物理伤害",
+            "target": "TARGET",
+            "description": "来源基础攻击力1倍的额外物理伤害。",
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "resultType": "DAMAGE",
+            "valueRule": {
+              "value": {
+                "formulaKey": "spellblade_damage",
+                "kind": "FORMULA"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "vampQualification": "RESOLVED",
+              "vampOverrides": [
+                {
+                  "vampType": "LIFE_STEAL",
+                  "mode": "OVERRIDE",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "bodyDerivedFromSnapshotDeepEqualToApproved": true,
+    "requestBodyDeepEqualToApproved": true,
+    "response": {
+      "method": "PUT",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/effects/spellblade_damage",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-07T16:06:32.942759Z\",\"description\":\"咒刃附加物理伤害，由单强化步骤在实际普攻命中时结算。吸血按项目核定：生命偷取使用本结果的必要覆盖，全能吸血继承游戏规则。\",\"effectKey\":\"spellblade_damage\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"咒刃额外物理伤害\",\"results\":[{\"description\":\"来源基础攻击力1倍的额外物理伤害。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"physics\",\"deliveryKind\":\"BASIC_ATTACK\",\"originKind\":\"DIRECT\",\"vampOverrides\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"mode\":\"OVERRIDE\",\"vampType\":\"LIFE_STEAL\"}],\"vampQualification\":\"RESOLVED\"},\"lifecycleBehavior\":null,\"name\":\"咒刃物理伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"spellblade_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"item_3057_passive\",\"sortOrder\":10,\"updatedAt\":\"2026-09-24T04:48:36.18964Z\"}"
+    }
+  },
+  "closeAndReopen": {
+    "effectListReopened": true,
+    "effectListRead": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/effects",
+      "status": 200
+    },
+    "targetRowText": "咒刃额外物理伤害 | spellblade_damage | 1 result | 无生命周期",
+    "resultRowText": "咒刃物理伤害\n\t\ndamage\n\t\n伤害\n\t\n当前目标\n\t\n—\n\t\n当前目标 · physics · 咒刃额外物理伤害（spellblade_damage） × 1 下界 0\n\t\n普通攻击 / 直接伤害 / 不允许暴击 / 继承游戏规则，另有 1 条吸血例外\n\t\n10\n\t\n查看",
+    "detailRead": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/effects/spellblade_damage",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-07T16:06:32.942759Z\",\"description\":\"咒刃附加物理伤害，由单强化步骤在实际普攻命中时结算。吸血按项目核定：生命偷取使用本结果的必要覆盖，全能吸血继承游戏规则。\",\"effectKey\":\"spellblade_damage\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"咒刃额外物理伤害\",\"results\":[{\"description\":\"来源基础攻击力1倍的额外物理伤害。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"physics\",\"deliveryKind\":\"BASIC_ATTACK\",\"originKind\":\"DIRECT\",\"vampOverrides\":[{\"basisOutputKind\":\"POST_DEFENSE_DAMAGE\",\"efficiencyValue\":{\"kind\":\"FIXED\",\"value\":1},\"mode\":\"OVERRIDE\",\"vampType\":\"LIFE_STEAL\"}],\"vampQualification\":\"RESOLVED\"},\"lifecycleBehavior\":null,\"name\":\"咒刃物理伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"spellblade_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"item_3057_passive\",\"sortOrder\":10,\"updatedAt\":\"2026-09-24T04:48:36.18964Z\"}"
+    },
+    "detailReadSemanticMatchApprovedAllowingNullsOmitted": true,
+    "qualification": "RESOLVED",
+    "overrideList": [
+      {
+        "basisOutputKind": "POST_DEFENSE_DAMAGE",
+        "efficiencyValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "mode": "OVERRIDE",
+        "vampType": "LIFE_STEAL"
+      }
+    ],
+    "omnivampInheritedAccordingToPageSummary": true,
+    "originalFormulaAndDamageShapePreserved": {
+      "formulaKey": "spellblade_damage",
+      "damageTypeKey": "physics",
+      "deliveryKind": "BASIC_ATTACK",
+      "originKind": "DIRECT",
+      "critical": {
+        "mode": "DISALLOWED",
+        "multiplierValue": null
+      },
+      "target": "TARGET",
+      "fixedMultiplier": 1,
+      "fixedMinValue": 0,
+      "lifecycle": null
+    },
+    "noResponseNullCorrection": true
+  },
+  "requestLogPolicy": {
+    "storedFieldsOnly": [
+      "method",
+      "path",
+      "body",
+      "status"
+    ],
+    "responseHeadersStored": false,
+    "cookiesStored": false
+  }
+}

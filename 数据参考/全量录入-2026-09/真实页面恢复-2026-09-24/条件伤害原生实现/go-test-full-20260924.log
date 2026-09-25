@@ -1,0 +1,107 @@
+?   	tinygo_engine_v2/cmd/bench	[no test files]
+?   	tinygo_engine_v2/cmd/engine_wasm	[no test files]
+ok  	tinygo_engine_v2/internal/abi	0.327s
+ok  	tinygo_engine_v2/internal/attribute	0.311s
+?   	tinygo_engine_v2/internal/augment	[no test files]
+?   	tinygo_engine_v2/internal/command	[no test files]
+ok  	tinygo_engine_v2/internal/compile	0.407s
+?   	tinygo_engine_v2/internal/control	[no test files]
+?   	tinygo_engine_v2/internal/crit	[no test files]
+ok  	tinygo_engine_v2/internal/formula	0.345s
+?   	tinygo_engine_v2/internal/mark	[no test files]
+ok  	tinygo_engine_v2/internal/model	0.333s
+ok  	tinygo_engine_v2/internal/pipeline	0.334s
+?   	tinygo_engine_v2/internal/resource	[no test files]
+--- FAIL: TestAkshanAvengerangFirstOutboundHitSourceSeedProviderFormulaShape (0.00s)
+    generic_akshan_avengerang_first_outbound_hit_test.go:899: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_akshan_avengerang_first_outbound_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_akshan_avengerang_first_outbound_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestAzirConqueringSandsOneSoldierPrimaryHitWikiSeedShape (0.00s)
+    generic_azir_conquering_sands_one_soldier_primary_hit_test.go:866: missing backend path C:\project\damage_backend_dev\db\game_manage\seeds\lol_generic_azir_conquering_sands_one_soldier_primary_hit_seed.sql: GetFileAttributesEx C:\project\damage_backend_dev\db\game_manage\seeds\lol_generic_azir_conquering_sands_one_soldier_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestAzirConqueringSandsOneSoldierPrimaryHitGovernanceExclusionsAndNonclaims (0.05s)
+    generic_azir_conquering_sands_one_soldier_primary_hit_test.go:1586: production/non-allowed path dirty: "wasm/tinygo_engine_v2/internal/compile/generic.go" (only "wasm/tinygo_engine_v2/internal/runtime/generic_azir_conquering_sands_one_soldier_primary_hit_test.go" may change)
+--- FAIL: TestCaitlyn90CaliberNetSourceSeedProviderFormulaShape (0.00s)
+    generic_caitlyn_90_caliber_net_primary_hit_test.go:705: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_caitlyn_90_caliber_net_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_caitlyn_90_caliber_net_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestCaitlynAceInTheHoleSingleBulletQuantumSourceSeedProviderFormulaShape (0.00s)
+    generic_caitlyn_ace_in_the_hole_single_bullet_quantum_test.go:855: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_caitlyn_ace_in_the_hole_single_bullet_quantum_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_caitlyn_ace_in_the_hole_single_bullet_quantum_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestCaitlynPiltoverPeacemakerFirstEnemyHitSourceSeedProviderFormulaShape (0.00s)
+    generic_caitlyn_piltover_peacemaker_first_enemy_hit_test.go:761: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_caitlyn_piltover_peacemaker_first_enemy_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestCorkiPhosphorusBombPrimaryImpactSourceSeedProviderFormulaShape (0.00s)
+    generic_corki_phosphorus_bomb_primary_impact_test.go:908: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestEzrealArcaneShiftSourceSeedProviderFormulaShape (0.00s)
+    generic_ezreal_arcane_shift_primary_hit_test.go:606: missing ..\..\..\..\db\game_manage\seeds\lol_generic_ezreal_arcane_shift_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_ezreal_arcane_shift_primary_hit_seed.sql: The system cannot find the path specified.
+--- FAIL: TestEzrealMysticShotPrimaryHitSourceSeedProviderFormulaShape (0.00s)
+    generic_ezreal_mystic_shot_primary_hit_test.go:954: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_ezreal_mystic_shot_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_ezreal_mystic_shot_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestEzrealTrueshotBarragePrimaryHitWikiSidecarIdentityAndBoundary (0.00s)
+    generic_ezreal_trueshot_barrage_primary_hit_test.go:848: backend seed missing at ..\..\..\..\db\game_manage\seeds\lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestEzrealTrueshotBarragePrimaryHitSeedGraphShape (0.00s)
+    generic_ezreal_trueshot_barrage_primary_hit_test.go:883: backend seed missing at ..\..\..\..\db\game_manage\seeds\lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestGravesEndOfTheLineFirstOutboundPassSourceSeedProviderFormulaShape (0.00s)
+    generic_graves_end_of_the_line_first_outbound_pass_test.go:897: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestJhinDancingGrenadePrimaryFirstHitSourceSeedProviderFormulaShape (0.00s)
+    generic_jhin_dancing_grenade_primary_first_hit_test.go:855: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_jhin_dancing_grenade_primary_first_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_jhin_dancing_grenade_primary_first_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestJhinDeadlyFlourishSourceSeedProviderFormulaShape (0.00s)
+    generic_jhin_deadly_flourish_primary_hit_test.go:748: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_jhin_deadly_flourish_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_jhin_deadly_flourish_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestJinxFlameChompersPrimaryExplosionHitSourceSeedProviderFormulaShape (0.00s)
+    generic_jinx_flame_chompers_primary_explosion_hit_test.go:799: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_jinx_flame_chompers_primary_explosion_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_jinx_flame_chompers_primary_explosion_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestJinxZapSourceSeedProviderFormulaShape (0.00s)
+    generic_jinx_zap_primary_hit_test.go:717: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_jinx_zap_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_jinx_zap_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestKalistaPiercePrimaryHitSourceSeedProviderFormulaShape (0.00s)
+    generic_kalista_pierce_primary_hit_test.go:758: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_kalista_pierce_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_kalista_pierce_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestGenericKogmawLivingArtilleryBackendSeedAndREADMEIdentity (0.00s)
+    generic_kogmaw_living_artillery_test.go:1065: backend seed missing at ..\..\..\..\db\game_manage\seeds\lol_generic_kogmaw_living_artillery_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_kogmaw_living_artillery_seed.sql: The system cannot find the path specified.
+--- FAIL: TestLucianArdentBlazePrimaryHitSourceSeedProviderFormulaShape (0.00s)
+    generic_lucian_ardent_blaze_primary_hit_test.go:772: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_lucian_ardent_blaze_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_lucian_ardent_blaze_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestLucianPiercingLightSelectedTargetHitSourceSeedProviderFormulaShape (0.00s)
+    generic_lucian_piercing_light_selected_target_hit_test.go:758: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_lucian_piercing_light_selected_target_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_lucian_piercing_light_selected_target_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestLucianTheCullingSingleShotQuantumSourceSeedProviderFormulaShape (0.00s)
+    generic_lucian_the_culling_single_shot_quantum_test.go:878: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_lucian_the_culling_single_shot_quantum_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_lucian_the_culling_single_shot_quantum_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestMissFortuneMakeItRainMaxTotalSelectedPrimaryGovernanceExclusionsAndNonclaims (0.05s)
+    generic_miss_fortune_make_it_rain_max_total_selected_primary_test.go:1402: production/non-allowed path dirty: "wasm/tinygo_engine_v2/internal/compile/generic.go" (only "wasm/tinygo_engine_v2/internal/runtime/generic_miss_fortune_make_it_rain_max_total_selected_primary_test.go" may change)
+--- FAIL: TestGenericQuinnBlindingAssaultBackendSeedAndREADMEIdentity (0.00s)
+    generic_quinn_blinding_assault_primary_hit_test.go:884: backend seed missing at ..\..\..\..\db\game_manage\seeds\lol_generic_quinn_blinding_assault_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_quinn_blinding_assault_primary_hit_seed.sql: The system cannot find the path specified. (fail closed; assert after Backend materialization)
+--- FAIL: TestGenericQuinnHarrierWikiAndBackendIdentityContract (0.00s)
+    generic_quinn_harrier_premarked_consume_test.go:750: backend seed missing at ..\..\..\..\db\game_manage\seeds\lol_generic_quinn_p_harrier_premarked_consume_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_quinn_p_harrier_premarked_consume_seed.sql: The system cannot find the path specified.
+--- FAIL: TestGenericQuinnHarrierIsolationDeterminismCompileShapeTags (0.00s)
+    generic_quinn_harrier_premarked_consume_test.go:1231: backend seed missing at ..\..\..\..\db\game_manage\seeds\lol_generic_quinn_p_harrier_premarked_consume_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_quinn_p_harrier_premarked_consume_seed.sql: The system cannot find the path specified.
+--- FAIL: TestGenericQuinnVaultBackendSeedAndREADMEIdentity (0.00s)
+    generic_quinn_vault_primary_hit_test.go:873: backend seed missing at ..\..\..\..\db\game_manage\seeds\lol_generic_quinn_vault_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_quinn_vault_primary_hit_seed.sql: The system cannot find the path specified. (fail closed; assert after Backend materialization)
+--- FAIL: TestSamiraFlairSourceSeedProviderFormulaShape (0.00s)
+    generic_samira_flair_max_distance_primary_hit_test.go:747: missing backend path C:\project\damage_backend_dev\db\game_manage\seeds\lol_generic_samira_flair_max_distance_primary_hit_seed.sql: GetFileAttributesEx C:\project\damage_backend_dev\db\game_manage\seeds\lol_generic_samira_flair_max_distance_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestSennaDawningShadowPrimaryHitSourceSeedProviderFormulaShape (0.00s)
+    generic_senna_dawning_shadow_primary_hit_test.go:941: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_senna_dawning_shadow_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_senna_dawning_shadow_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestSennaLastEmbraceFirstEnemyHitSourceSeedProviderFormulaShape (0.00s)
+    generic_senna_last_embrace_first_enemy_hit_test.go:861: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_senna_last_embrace_first_enemy_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_senna_last_embrace_first_enemy_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestSivirBoomerangBladeFirstOutboundHitSourceSeedProviderFormulaShape (0.00s)
+    generic_sivir_boomerang_blade_first_outbound_hit_test.go:1033: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestTristanaBusterShotPrimaryHitSourceSeedProviderFormulaShape (0.00s)
+    generic_tristana_buster_shot_primary_hit_test.go:883: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_tristana_buster_shot_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_tristana_buster_shot_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestGenericTristanaRapidFireWikiSidecarSeedGraphAndIdentity (0.00s)
+    generic_tristana_rapid_fire_timed_bonus_attack_speed_test.go:899: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestTristanaRocketJumpPrimaryLandingHitSourceSeedProviderFormulaShape (0.00s)
+    generic_tristana_rocket_jump_primary_landing_hit_test.go:930: missing path ..\..\..\..\db\game_manage\seeds\lol_generic_tristana_rocket_jump_primary_landing_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_tristana_rocket_jump_primary_landing_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestVarusChainOfCorruptionPrimaryHitWikiSidecarIdentityAndBoundary (0.00s)
+    generic_varus_chain_of_corruption_primary_hit_test.go:776: backend seed missing at ..\..\..\..\db\game_manage\seeds\lol_generic_varus_chain_of_corruption_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_varus_chain_of_corruption_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestVarusChainOfCorruptionPrimaryHitSeedGraphShape (0.00s)
+    generic_varus_chain_of_corruption_primary_hit_test.go:811: backend seed missing at ..\..\..\..\db\game_manage\seeds\lol_generic_varus_chain_of_corruption_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_varus_chain_of_corruption_primary_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestVarusPiercingArrowMaxChargePrimaryFirstHitWikiSeedShape (0.00s)
+    generic_varus_piercing_arrow_max_charge_primary_first_hit_test.go:884: missing backend path C:\project\damage_backend_dev\db\game_manage\seeds\lol_generic_varus_piercing_arrow_max_charge_primary_first_hit_seed.sql: GetFileAttributesEx C:\project\damage_backend_dev\db\game_manage\seeds\lol_generic_varus_piercing_arrow_max_charge_primary_first_hit_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestVarusPiercingArrowMaxChargePrimaryFirstHitGovernanceExclusionsAndNonclaims (0.05s)
+    generic_varus_piercing_arrow_max_charge_primary_first_hit_test.go:1494: production/non-allowed path dirty: "wasm/tinygo_engine_v2/internal/compile/generic.go" (only "wasm/tinygo_engine_v2/internal/runtime/generic_varus_piercing_arrow_max_charge_primary_first_hit_test.go" may change)
+--- FAIL: TestGenericVayneFinalHourBackendSeedDirectStateChangeGraph (0.00s)
+    generic_vayne_final_hour_timed_bonus_ad_test.go:960: backend seed missing at ..\..\..\..\db\game_manage\seeds\lol_generic_vayne_final_hour_timed_bonus_ad_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_vayne_final_hour_timed_bonus_ad_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestGenericVayneTumbleWikiSidecarAndBackendContract (0.00s)
+    generic_vayne_tumble_next_basic_attack_bonus_test.go:1004: missing backend path C:\project\damage_backend_dev\db\game_manage\seeds\lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql: GetFileAttributesEx C:\project\damage_backend_dev\db\game_manage\seeds\lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql: The system cannot find the path specified. (fail closed)
+--- FAIL: TestXayahCleanCutsStructuralNoProductionMutation (0.05s)
+    generic_xayah_clean_cuts_three_attack_budget_test.go:1085: production/non-allowed path dirty: "wasm/tinygo_engine_v2/internal/compile/generic.go" (only "wasm/tinygo_engine_v2/internal/runtime/generic_xayah_clean_cuts_three_attack_budget_test.go" may change)
+--- FAIL: TestXayahDoubleDaggersSourceSeedProviderFormulaShape (0.00s)
+    generic_xayah_double_daggers_primary_two_hit_test.go:617: missing ..\..\..\..\db\game_manage\seeds\lol_generic_xayah_double_daggers_primary_two_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_xayah_double_daggers_primary_two_hit_seed.sql: The system cannot find the path specified.
+--- FAIL: TestXayahFeatherstormSourceSeedProviderFormulaShape (0.00s)
+    generic_xayah_featherstorm_primary_hit_test.go:626: missing ..\..\..\..\db\game_manage\seeds\lol_generic_xayah_featherstorm_primary_hit_seed.sql: GetFileAttributesEx ..\..\..\..\db\game_manage\seeds\lol_generic_xayah_featherstorm_primary_hit_seed.sql: The system cannot find the path specified.
+FAIL
+FAIL	tinygo_engine_v2/internal/runtime	1.018s
+ok  	tinygo_engine_v2/internal/scheduler	0.287s
+ok  	tinygo_engine_v2/internal/shield	0.262s
+ok  	tinygo_engine_v2/internal/status	0.280s
+ok  	tinygo_engine_v2/internal/testkit	0.295s
+?   	tinygo_engine_v2/internal/trigger	[no test files]
+ok  	tinygo_engine_v2/internal/typeset	0.271s
+FAIL

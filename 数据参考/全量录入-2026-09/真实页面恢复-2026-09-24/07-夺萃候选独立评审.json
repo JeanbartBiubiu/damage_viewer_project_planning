@@ -1,0 +1,29 @@
+{
+  "at": "2026-09-24T01:35:39.382Z",
+  "status": "过程与触发候选不批准；尚无正式写入",
+  "reviewer": "独立Astra只读评审",
+  "candidateSha256": "051e9e685307bab37b9020093e598155f8e93d69be41fc17b75264dd67c3b815",
+  "findings": [
+    {
+      "kind": "统一语义未闭合",
+      "problem": "同一伤害和回蓝同时位于强化步骤STEP_EXECUTION挂接与BASIC_ATTACK_HIT的EXECUTE_EFFECT；专项适配只编一份不等于正式定义只有一次",
+      "evidence": [
+        "文档记录/详细设计/项目/技能过程内部状态与效果录入详细设计.md:429",
+        "web/src/engine/triggerAdapter.ts:575",
+        "web/src/engine/triggerAdapter.ts:1083"
+      ],
+      "resolution": "强化步骤保留唯一结算来源，移除作者重复录入的命中执行规则；宿主从正式过程派生一次消费"
+    },
+    {
+      "kind": "统一语义未闭合",
+      "problem": "对称条件组逻辑仅代表内部冷却就绪；重复START_PROCESS刷新依赖专项识别，正式启动语义尚需说明",
+      "evidence": [
+        "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md:329",
+        "文档记录/详细设计/项目/条件事件与动态输入供值管理详细设计.md:420",
+        "web/src/engine/triggerAdapter.ts:179"
+      ],
+      "resolution": "同拥有者、挂载、待击过程只有一个逻辑待击实例；再次启动刷新期限，消费目标取本次普攻实际命中对象"
+    }
+  ],
+  "boundary": "静态契约核对，不冒充已发生重复伤害或真实页面字段故障；不影响妮蔻等独立对象继续。UNRESOLVED保持，不能擅自核定吸血。"
+}

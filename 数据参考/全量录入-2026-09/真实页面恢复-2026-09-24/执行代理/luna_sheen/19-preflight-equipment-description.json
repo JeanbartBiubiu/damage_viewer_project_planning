@@ -1,0 +1,53 @@
+{
+  "approval": {
+    "file": "耀光-合并-02-页面批准.json",
+    "sha256": "A95C450C2E0A281D3C34BC7B784D2C25C3E12AF3C6D6706CA08D4057C93F440D",
+    "requestIndex": 5,
+    "method": "PUT",
+    "route": "/equipment/item_3057",
+    "purpose": "仅移除装备入口过时吸血待核说明",
+    "approvedBody": {
+      "description": "来源：官方16.17.1装备3057。原始说明：10技能急速；咒刃，施放技能后下一次普通攻击造成额外物理伤害攻击特效。咒刃组成通过唯一挂载的耀光·咒刃技能维护。待击、刷新与冷却起算为本批有限模拟场景的项目近似；特殊使用仍未验证，未声明完整装备运行。",
+      "name": "耀光"
+    }
+  },
+  "baseline": {
+    "file": "耀光-合并-01-写前现值.json",
+    "sha256": "32CDFA601A17518E19A21B2ABAC0834DEE948C61899DBA70FE0626686ADFD00D",
+    "detailValue": {
+      "createdAt": "2026-09-06T17:16:51.914783Z",
+      "description": "来源：官方16.17.1装备3057。 原始说明：10技能急速 咒刃 施放技能后，你的下一次普通攻击会造成额外物理伤害攻击特效。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_3057",
+      "gameId": "lol",
+      "name": "耀光",
+      "updatedAt": "2026-09-06T17:16:51.914783Z"
+    }
+  },
+  "preflight": {
+    "source": "装备管理页刷新后，结果列表含 item_3057；正常打开查看/编辑控件",
+    "method": "GET",
+    "path": "/api/admin/games/lol/equipment",
+    "status": 200,
+    "total": 1,
+    "response": {
+      "createdAt": "2026-09-06T17:16:51.914783Z",
+      "description": "来源：官方16.17.1装备3057。 原始说明：10技能急速 咒刃 施放技能后，你的下一次普通攻击会造成额外物理伤害攻击特效。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_3057",
+      "gameId": "lol",
+      "name": "耀光",
+      "updatedAt": "2026-09-06T17:16:51.914783Z"
+    },
+    "currentMatchesFrozenBaseline": true,
+    "editFormValues": {
+      "equipmentKey": "item_3057",
+      "name": "耀光",
+      "description": "来源：官方16.17.1装备3057。 原始说明：10技能急速 咒刃 施放技能后，你的下一次普通攻击会造成额外物理伤害攻击特效。 被动与主动效果尚待配置。"
+    },
+    "onlyPlannedChange": "顶层 description"
+  },
+  "requestLogPolicy": {
+    "storedFieldsOnly": "method/path/status/body",
+    "headersStored": false,
+    "cookiesStored": false
+  }
+}

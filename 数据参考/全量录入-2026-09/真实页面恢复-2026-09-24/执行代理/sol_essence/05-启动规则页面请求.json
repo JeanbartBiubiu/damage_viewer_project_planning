@@ -1,0 +1,61 @@
+{
+  "method": "POST",
+  "path": "/api/admin/games/lol/skills/item_3508_passive/trigger-rules",
+  "body": {
+    "ruleKey": "spellblade_arm",
+    "name": "首次主动施法进入或刷新待命",
+    "description": "任意主动非普攻技能成功首次施放且咒刃内部冷却就绪时，启动同一待击过程；已有待击刷新完整十秒窗口，不新增次数。命中消费及伤害、回蓝、清待命和冷却只由强化步骤执行。",
+    "sortOrder": 10,
+    "eventSource": {
+      "eventType": "SKILL_USED",
+      "detail": {
+        "sourceSkillKey": null,
+        "useKind": "ACTIVE",
+        "castPhase": "INITIAL"
+      }
+    },
+    "conditionGroups": [
+      {
+        "groupKey": "cooldown_ready",
+        "name": "咒刃内部冷却就绪",
+        "sortOrder": 10,
+        "conditions": [
+          {
+            "conditionKey": "cond_1",
+            "conditionType": "INTERNAL_STATE_CHECK",
+            "sortOrder": 10,
+            "detail": {
+              "stateKey": "spellblade_icd",
+              "valueKind": "REMAINING_MS",
+              "optionKey": null,
+              "expectedBoolean": null,
+              "comparator": "EQ",
+              "comparisonValue": {
+                "kind": "FIXED",
+                "value": 0
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "actionKey": "start_spellblade",
+        "name": "开启或刷新待击",
+        "actionType": "START_PROCESS",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "processKey": "spellblade_consume"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null,
+    "oncePerUse": null
+  },
+  "status": 201
+}

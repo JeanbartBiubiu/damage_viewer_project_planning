@@ -1,0 +1,31 @@
+{
+  "at": "2026-09-24T04:59:57.062Z",
+  "sheen": {
+    "object": "item_3057_passive",
+    "operation": "合并第4笔，仅技能主体说明",
+    "observation": "执行代理写后发现REPL全局为空；主负责人和代理分别实时核验原Chromium PID21808及Node父PID8332不存在",
+    "classification": "工具或执行环境中断，根因未知，不认定为管理页面缺陷",
+    "authoritativeReadback": "耀光-合并-回读-4.json",
+    "status": "保存已通过27次独立GET确认，20项保护响应保持",
+    "action": "允许Luna按既有权限重建独立进程后返回原对象；禁止重放第4笔",
+    "pageReopenAfterRecovery": "待执行",
+    "productDefectClaimed": false
+  },
+  "sorakaReadback": {
+    "object": "soraka_r/trigger-rules/on_used",
+    "firstAttempt": {
+      "GETs": 31,
+      "bodyMatched": true,
+      "failure": "核对器从不返回时间戳的规则详情读取updatedAt，错误地把已更新列表时间戳期望设为undefined"
+    },
+    "correction": "仅允许本次已保存规则列表的合法更新时间变化；规则完整正文、其余列表字段和其他对象仍逐字段保护",
+    "secondAttempt": {
+      "GETs": 31,
+      "status": "PASS",
+      "protectedResponses": 29,
+      "evidence": "索拉卡首次阶段-回读-1.json"
+    },
+    "pageWriteReplayed": false,
+    "productDefectClaimed": false
+  }
+}

@@ -1,0 +1,591 @@
+{
+  "recordedAt": "2026-09-24T02:50:10.918Z",
+  "stage": {
+    "file": "数据参考/全量录入-2026-09/阶段进度.json",
+    "sha256AtRead": "3ebefef7f04fed4e0593249d2e2090dcc67fda7a5ec5d254b85ef4cf33cf031f",
+    "rows": [
+      {
+        "path": "$.inventoryConclusions.equipment.167",
+        "value": {
+          "sourceItemId": "3057",
+          "sourceEquipmentKey": "item_3057",
+          "currentEquipmentKey": "item_3057",
+          "name": "耀光",
+          "scopeCategory": "可购买普通装备候选",
+          "conclusion": "资料待核",
+          "conclusionScope": "装备当前1V1数据与机制",
+          "reason": "仍有1项来源数值、范围、模式、取得方式或机制事实待核，不能猜值或直接排除。",
+          "sourcePendingCount": 1,
+          "systemPendingCount": 1,
+          "evidenceRefs": [
+            "equipmentCurrentReadback",
+            "equipmentSourceInventory",
+            "equipmentEffectReview"
+          ]
+        }
+      },
+      {
+        "path": "$.inventoryConclusions.equipment.180",
+        "value": {
+          "sourceItemId": "3078",
+          "sourceEquipmentKey": "item_3078",
+          "currentEquipmentKey": "item_3078",
+          "name": "三相之力",
+          "scopeCategory": "可购买普通装备候选",
+          "conclusion": "资料待核",
+          "conclusionScope": "装备当前1V1数据与机制",
+          "reason": "仍有1项来源数值、范围、模式、取得方式或机制事实待核，不能猜值或直接排除。",
+          "sourcePendingCount": 1,
+          "systemPendingCount": 1,
+          "evidenceRefs": [
+            "equipmentCurrentReadback",
+            "equipmentSourceInventory",
+            "equipmentEffectReview"
+          ]
+        }
+      },
+      {
+        "path": "$.inventoryConclusions.equipment.191",
+        "value": {
+          "sourceItemId": "3100",
+          "sourceEquipmentKey": "item_3100",
+          "currentEquipmentKey": "item_3100",
+          "name": "巫妖之祸",
+          "scopeCategory": "可购买普通装备候选",
+          "conclusion": "资料待核",
+          "conclusionScope": "装备当前1V1数据与机制",
+          "reason": "仍有1项来源数值、范围、模式、取得方式或机制事实待核，不能猜值或直接排除。",
+          "sourcePendingCount": 1,
+          "systemPendingCount": 1,
+          "evidenceRefs": [
+            "equipmentCurrentReadback",
+            "equipmentSourceInventory",
+            "equipmentEffectReview"
+          ]
+        }
+      }
+    ],
+    "deferred": [
+      {
+        "skillKey": "item_3057_passive",
+        "reason": "缺技能使用到下一击的待命状态、失效、消费、刷新和命中后冷却。"
+      }
+    ]
+  },
+  "fixedSources": [
+    {
+      "file": "数据参考/全量录入-2026-09/装备效果补证/逐件补证结果.json",
+      "sha256": "6fd6876648a467b59aa8b2e5815beb06e6d51373d8596f9a0e83cae01ed10e74",
+      "selected": [
+        {
+          "itemId": "3057",
+          "name": "耀光",
+          "version": "16.17.1",
+          "clientVersion": "16.17",
+          "description": "咒刃：施放技能后，下一次普通攻击附带100%基础攻击力的额外物理伤害，属于攻击特效。冷却1.5秒。等待下一击的有效时限仍待证实。",
+          "proven": [
+            {
+              "结论": "咒刃伤害是1倍基础攻击力，物理攻击特效",
+              "来源证据": [
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13057/mItemCalculations/SpellbladeDamage",
+                  "原值": {
+                    "mFormulaParts": [
+                      {
+                        "mStat": 2,
+                        "mStatFormula": 1,
+                        "mCoefficient": 1,
+                        "__type": "StatByCoefficientCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+                  "版本": "16.17",
+                  "JSON指针": "/entries/item_3057_tooltip",
+                  "原值": "<passive>咒刃</passive> {{ Item_Cooldown }}<br>施放技能后，你的下一次普通攻击会造成<physicalDamage>@SpellbladeDamage@额外物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}。<br>"
+                }
+              ]
+            },
+            {
+              "结论": "冷却1.5秒",
+              "来源证据": [
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13057/mDataValues/0",
+                  "原值": {
+                    "mName": "SpellbladeCooldown",
+                    "mValue": 1.5,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13057/mDataValues/1",
+                  "原值": {
+                    "mName": "Cooldown",
+                    "mValue": 1.5,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+                  "版本": "16.17",
+                  "JSON指针": "/entries/item_3057_tooltip",
+                  "原值": "<passive>咒刃</passive> {{ Item_Cooldown }}<br>施放技能后，你的下一次普通攻击会造成<physicalDamage>@SpellbladeDamage@额外物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}。<br>"
+                },
+                {
+                  "来源文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+                  "版本": "16.17",
+                  "JSON指针": "/entries/item_cooldown",
+                  "原值": "%i:cooldown% (@Cooldown@秒)"
+                }
+              ]
+            }
+          ],
+          "missing": [
+            "施法后等待下一次攻击的有效时限"
+          ],
+          "boundaries": [
+            "冷却从施法还是消耗攻击开始、重复施法能否刷新待击状态，仍需脚本或实际战斗验证"
+          ],
+          "doNotUse": [
+            "不能把巫妖之祸的10秒等待时限复制给耀光"
+          ]
+        },
+        {
+          "itemId": "3078",
+          "name": "三相之力",
+          "version": "16.17.1",
+          "clientVersion": "16.17",
+          "description": "咒刃：施放技能后，下一次普通攻击附带200%基础攻击力的额外物理伤害，属于攻击特效，冷却1.5秒。加快：攻击单位后获得20固定移动速度，持续2秒。咒刃等待下一击的时限仍待证实。",
+          "proven": [
+            {
+              "结论": "咒刃伤害2倍基础攻击力；冷却1.5秒",
+              "来源证据": [
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13078/mDataValues/0",
+                  "原值": {
+                    "mName": "SpellbladeMultiplier",
+                    "mValue": 2,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13078/mDataValues/3",
+                  "原值": {
+                    "mName": "SpellbladeCooldown",
+                    "mValue": 1.5,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13078/mDataValues/4",
+                  "原值": {
+                    "mName": "Cooldown",
+                    "mValue": 1.5,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13078/mItemCalculations/SpellbladeDamage",
+                  "原值": {
+                    "mFormulaParts": [
+                      {
+                        "mStat": 2,
+                        "mStatFormula": 1,
+                        "mDataValue": "SpellbladeMultiplier",
+                        "__type": "StatByNamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+                  "版本": "16.17",
+                  "JSON指针": "/entries/item_3078_tooltip",
+                  "原值": "<passive>咒刃</passive> {{ Item_Cooldown }}<br>施放技能后，你的下一次普通攻击会造成<physicalDamage>@SpellbladeDamage@额外物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}。<br> <br><passive>加快</passive><br>攻击一个单位时会提供持续@MSDuration@秒的<speed>@MoveSpeedBonus@移动速度</speed>。"
+                },
+                {
+                  "来源文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+                  "版本": "16.17",
+                  "JSON指针": "/entries/item_cooldown",
+                  "原值": "%i:cooldown% (@Cooldown@秒)"
+                }
+              ]
+            },
+            {
+              "结论": "攻击单位获得20固定移速，持续2秒",
+              "来源证据": [
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13078/mDataValues/1",
+                  "原值": {
+                    "mName": "MoveSpeedBonus",
+                    "mValue": 20,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13078/mDataValues/2",
+                  "原值": {
+                    "mName": "MSDuration",
+                    "mValue": 2,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+                  "版本": "16.17",
+                  "JSON指针": "/entries/item_3078_tooltip",
+                  "原值": "<passive>咒刃</passive> {{ Item_Cooldown }}<br>施放技能后，你的下一次普通攻击会造成<physicalDamage>@SpellbladeDamage@额外物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}。<br> <br><passive>加快</passive><br>攻击一个单位时会提供持续@MSDuration@秒的<speed>@MoveSpeedBonus@移动速度</speed>。"
+                }
+              ]
+            }
+          ],
+          "missing": [
+            "施法后等待下一击的有效时限"
+          ],
+          "boundaries": [
+            "加快的重复刷新与咒刃冷却起算时点仍需运行证据"
+          ],
+          "doNotUse": [
+            "不沿用巫妖之祸的10秒时限；加快20是固定移速，不是20%移速"
+          ]
+        },
+        {
+          "itemId": "3100",
+          "name": "巫妖之祸",
+          "version": "16.17.1",
+          "clientVersion": "16.17",
+          "description": "咒刃：施放技能后，10秒内的下一次攻击获得50%额外攻击速度，并附带75%基础攻击力+45%法术强度的额外魔法伤害，属于攻击特效。冷却1.5秒。50%攻速属于咒刃待击效果，不能录成永久装备属性。",
+          "proven": [
+            {
+              "结论": "咒刃魔法伤害为75%基础攻击力+45%法术强度",
+              "来源证据": [
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13100/mDataValues/2",
+                  "原值": {
+                    "mName": "SpellbladeADRatio",
+                    "mValue": 0.75,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13100/mDataValues/1",
+                  "原值": {
+                    "mName": "LichBaneAPValue",
+                    "mValue": 0.44999998807907104,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13100/mItemCalculations/SpellbladeDamage",
+                  "原值": {
+                    "mFormulaParts": [
+                      {
+                        "mStat": 2,
+                        "mStatFormula": 1,
+                        "mDataValue": "SpellbladeADRatio",
+                        "__type": "StatByNamedDataValueCalculationPart"
+                      },
+                      {
+                        "mDataValue": "LichBaneAPValue",
+                        "__type": "StatByNamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+                  "版本": "16.17",
+                  "JSON指针": "/entries/item_3100_tooltip",
+                  "原值": "<passive>咒刃</passive>{{ Item_Cooldown}}<br>施放技能后，你在@SpellBladeDuration@秒内的下一次攻击会获得<attackSpeed>@SheenASBuff*100@%攻击速度</attackSpeed>并造成<magicDamage>@SpellbladeDamage@额外魔法伤害</magicDamage>{{ Item_Keyword_OnHit }}。"
+                }
+              ]
+            },
+            {
+              "结论": "施法后10秒内下一击获得50%攻速；冷却1.5秒",
+              "来源证据": [
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13100/mDataValues/5",
+                  "原值": {
+                    "mName": "SpellBladeDuration",
+                    "mValue": 10,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13100/mDataValues/3",
+                  "原值": {
+                    "mName": "SheenASBuff",
+                    "mValue": 0.5,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13100/mDataValues/0",
+                  "原值": {
+                    "mName": "SpellbladeCooldown",
+                    "mValue": 1.5,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+                  "版本": "16.17",
+                  "JSON指针": "/Items~13100/mDataValues/4",
+                  "原值": {
+                    "mName": "Cooldown",
+                    "mValue": 1.5,
+                    "__type": "ItemDataValue"
+                  }
+                },
+                {
+                  "来源文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+                  "版本": "16.17",
+                  "JSON指针": "/entries/item_3100_tooltip",
+                  "原值": "<passive>咒刃</passive>{{ Item_Cooldown}}<br>施放技能后，你在@SpellBladeDuration@秒内的下一次攻击会获得<attackSpeed>@SheenASBuff*100@%攻击速度</attackSpeed>并造成<magicDamage>@SpellbladeDamage@额外魔法伤害</magicDamage>{{ Item_Keyword_OnHit }}。"
+                },
+                {
+                  "来源文件": "客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+                  "来源地址": "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+                  "版本": "16.17",
+                  "JSON指针": "/entries/item_cooldown",
+                  "原值": "%i:cooldown% (@Cooldown@秒)"
+                }
+              ]
+            }
+          ],
+          "missing": [],
+          "boundaries": [
+            "触发攻击类型、重复施法刷新以及冷却起算点没有战斗验证"
+          ],
+          "doNotUse": [
+            "Data Dragon外部简介省略了10秒等待和50%攻速，不能据此删除当前正式Tooltip明示的效果",
+            "item_3100_tooltipextended的就绪状态文字未由本对象keyTooltipExtended直接绑定，不单独扩展为不施法也常驻50%攻速"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/装备效果补证/选定原始对象.json",
+      "sha256": "08d4a51dfe1e7f5fa543dcfe6ec662776d4c43c4606eef265afff48ee4d5ae43",
+      "pointer": "/装备对象/Items~13057",
+      "item": {
+        "mDisplayName": "Item_3057_Name",
+        "itemID": 3057,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{8b55a7b3}"
+        ],
+        "price": 650,
+        "ShowCooldownVfxToAllies": false,
+        "ShowCooldownInPings": false,
+        "mCanBeSold": true,
+        "epicness": 4,
+        "recipeItemLinks": [
+          "Items/2022"
+        ],
+        "mEffectAmount": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "SpellbladeCooldown",
+            "mValue": 1.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Cooldown",
+            "mValue": 1.5,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "SpellbladeDamage": {
+            "mFormulaParts": [
+              {
+                "mStat": 2,
+                "mStatFormula": 1,
+                "mCoefficient": 1,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mAbilityHasteMod": 10,
+        "mCategories": [
+          "OnHit",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          1,
+          16,
+          2,
+          8
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3057",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3057_Name",
+              "keyTooltip": "Item_3057_Tooltip",
+              "keyColloquialism": "Item_3057_Colloquialism",
+              "keySecondaryBrief": "Item_Unique_Spellblade",
+              "keyTooltipExternal": "Item_3057_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3057_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3057_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3057_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3057_fighter_t2_sheen.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3057_Fighter_T2_Sheen.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3057_Fighter_T2_Sheen.png",
+          "epicness": 4,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      }
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973",
+      "pointer": "/data/3057",
+      "item": {
+        "name": "耀光",
+        "description": "<mainText><stats><attention>10</attention>技能急速</stats><br><br><passive>咒刃</passive><br>施放技能后，你的下一次普通攻击会造成<physicalDamage>额外物理伤害</physicalDamage><OnHit>攻击特效</OnHit>。<br></mainText>",
+        "colloq": ";咒刃;Jimmy Neutron;Sheen;yaoguang;yg",
+        "plaintext": "在施法后，为下次普攻提供加成效果",
+        "from": [
+          "2022"
+        ],
+        "into": [
+          "3078",
+          "3100",
+          "2510",
+          "3508",
+          "6632",
+          "6662"
+        ],
+        "image": {
+          "full": "3057.png",
+          "sprite": "item3.png",
+          "group": "item",
+          "x": 288,
+          "y": 192,
+          "w": 48,
+          "h": 48
+        },
+        "gold": {
+          "base": 650,
+          "purchasable": true,
+          "total": 900,
+          "sell": 630
+        },
+        "tags": [
+          "OnHit",
+          "AbilityHaste"
+        ],
+        "maps": {
+          "11": true,
+          "12": true,
+          "22": false,
+          "30": false,
+          "453": true
+        },
+        "stats": {},
+        "depth": 2
+      }
+    },
+    {
+      "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "sha256Compressed": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "sha256Decoded": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+      "pointer": "/Items~13057",
+      "selectedMatchesRaw": true
+    }
+  ],
+  "noCurrentVersionClaim": "固定资料为Data Dragon 16.17.1与客户端提取目录16.17，未声称当前正式游戏版本。"
+}

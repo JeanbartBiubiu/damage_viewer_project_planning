@@ -1,0 +1,77 @@
+{
+  "at": "2026-09-24T10:04:28.467Z",
+  "status": "FIRST_PAGE_WRITE_VERIFIED_EFFECT_ENTRY_IN_PROGRESS",
+  "arithmeticGap": {
+    "description": "JS中间折叠0.1+0.2导致300/1000错误满足严格LT",
+    "oldDamage": 108,
+    "expectedDamage": 100,
+    "oldUnit": "22项中1项失败，实际修正因子1.08而非1",
+    "fix": "保留静态表达式树，按十进制精确分数计算门槛，最后一次转换运行数值",
+    "precisionBoundary": "非零下溢0或精确小于1却舍入1时明确拒绝，不替换成端点",
+    "review": "READY",
+    "targetedUnitTests": 22,
+    "finalUnitFiles": 91,
+    "finalUnitTests": 1130,
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "build": "PASS"
+  },
+  "runtime": {
+    "syntheticTests": 5,
+    "report": "符文生命门槛准备/14-最终Wasm门槛精度.json",
+    "wasmSha256": "25844991e66d5e189cee0b168869de07c265c5c3cc3336c7b1a9c793ac0d736d",
+    "previous63RegressionsRemainApplicable": true,
+    "formalRuneRuntimeValidated": false
+  },
+  "page": {
+    "executor": "gpt-6-sol",
+    "effort": "max",
+    "startupProof": "09-妮蔻执行模型交接.json",
+    "browser": {
+      "nodePid": 24176,
+      "chromiumPid": 6040,
+      "contexts": 1,
+      "pages": 1
+    },
+    "uniquePost": 1,
+    "status": 201,
+    "reopened": true,
+    "object": "rune_8014_damage_increase",
+    "independentGETs": 38,
+    "protectedOriginalResponses": 32,
+    "oldModifierZonesPreserved": 9,
+    "modifierZoneCount": 10,
+    "evidence": "执行代理/sol_rune_health_gate/09-致命一击乘区唯一保存.json",
+    "readback": "符文生命门槛准备/11-页面独立回读-1.json",
+    "approvedNextStep": 2,
+    "nextObject": "rune_8014_passive/basic_attack_health_bonus",
+    "nextWriteVerified": false
+  },
+  "files": [
+    {
+      "file": "web/src/engine/damageModifierAdapter.ts",
+      "sha256": "ccd5ccf593840abcf7dd02edf86617d06bf3e8f44df4b0e674ded368999406da"
+    },
+    {
+      "file": "web/src/engine/damageModifierAdapter.test.ts",
+      "sha256": "222900dd806787e0d6ecc5dab32ebb76913f8e9c10e732b02ace5d6b1073c5da"
+    },
+    {
+      "file": "web/src/engine/staticRatioValue.ts",
+      "sha256": "f0bd9539204ddaf1e618e5dfcc7e00a69229ba0a66e81320c077d958fdf75605"
+    },
+    {
+      "file": "web/tests/e2e/damage-modifier-runtime.spec.ts",
+      "sha256": "7fd6d8705fb57fc12e2f6e22717bc23fe1bc8bc03751e56dc82cd8accc831e65"
+    }
+  ],
+  "completeRunes": 0,
+  "coverageChanged": false,
+  "remaining": [
+    "致命一击效果及初始化规则页面保存回读",
+    "砍倒三笔同类返回",
+    "正式保存组成进入实际Worker",
+    "其他合格伤害及特殊来源例外",
+    "42项退役链/瞬时工作树测试迁移及全量重验"
+  ]
+}

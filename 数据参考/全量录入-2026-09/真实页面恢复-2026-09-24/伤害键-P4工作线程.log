@@ -1,0 +1,50 @@
+
+[WebServer] (node:15728) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:27908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:43156) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 11 tests using 1 worker
+
+[1/11] tests\e2e\p4-runtime.spec.ts:16:1 › 施放阶段验收使用最终Wasm产物
+[2/11] tests\e2e\p4-runtime.spec.ts:221:1 › 真实Worker：同次首次不重付，太早释放无副作用，正常释放只结算一次
+[3/11] tests\e2e\p4-runtime.spec.ts:230:1 › 真实Worker：重施到期优先，蓄力最大值两种明确分支
+[4/11] tests\e2e\p4-runtime.spec.ts:242:1 › 真实Worker：退款读实际60成本，属性变化不重算，反向拥有者保持
+[5/11] tests\e2e\p4-runtime.spec.ts:253:1 › 真实Worker：受控失败不借用主动取消退款，死亡停机前终结
+[6/11] tests\e2e\p4-runtime.spec.ts:260:1 › 真实Worker：活动及终结快照恢复不会重复扣费、退款或冷却
+[7/11] tests\e2e\p4-runtime.spec.ts:270:1 › 真实Worker：损坏恢复与混入过去普通驱动均明确失败
+[8/11] tests\e2e\p4-runtime.spec.ts:278:1 › 真实Worker：多挂载独立；多资源不足时原子拒绝
+[9/11] tests\e2e\p4-runtime.spec.ts:291:1 › 真实Worker：失败绑定和规则保持作者顺序，最后设置为3000毫秒
+[10/11] tests\e2e\p4-runtime.spec.ts:300:1 › 真实Worker：过程首次接第6项待击，重施与同use第5项命中不重发首次事件
+  1) tests\e2e\p4-runtime.spec.ts:300:1 › 真实Worker：过程首次接第6项待击，重施与同use第5项命中不重发首次事件 ──────────────────
+
+    Error: expect(received).toBeUndefined()
+
+    Received: "TriggerAdaptationError: adapter.triggerPlan.skills.probe_blade.rules: 单强化步骤只接受一条首次主动启动规则，不能另配命中或过程事件规则"
+
+      212 | async function passed(result: Result, info: TestInfo): Promise<DoneResult> {
+      213 |   if (!result.done || result.runError || result.adapterError || result.compileErrors) await info.attach('p4-failure', { contentType: 'application/json', body: Buffer.from(JSON.stringify(result, null, 2)) });
+    > 214 |   expect(result.adapterError).toBeUndefined(); expect(result.compileErrors).toBeUndefined(); expect(result.runError).toBeUndefined(); expect(result.done).toBeDefined(); expect(result.released).toBe(true);
+          |                               ^
+      215 |   return result.done!;
+      216 | }
+      217 | const actor = (done: DoneResult, owner: 'source' | 'target' = 'source') => done.finalSnapshot.combatants.find(row => row.key === owner)!;
+        at passed (C:\project\damage_web_dev\web\tests\e2e\p4-runtime.spec.ts:214:31)
+        at C:\project\damage_web_dev\web\tests\e2e\p4-runtime.spec.ts:301:16
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\output\damage-type-p4\p4-runtime-真实Worker：过程首次接第6项待击，重施与同use第5项命中不重发首次事件\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\output\damage-type-p4\p4-runtime-真实Worker：过程首次接第6项待击，重施与同use第5项命中不重发首次事件\error-context.md
+
+
+[11/11] tests\e2e\p4-runtime.spec.ts:309:1 › 真实API三名代表的原成本、已挂冷却及延时进入Worker，原规则不补写
+  1 failed
+    tests\e2e\p4-runtime.spec.ts:300:1 › 真实Worker：过程首次接第6项待击，重施与同use第5项命中不重发首次事件 ───────────────────
+  1 skipped
+  9 passed (9.2s)

@@ -1,0 +1,105 @@
+{
+  "at": "2026-09-24T03:56:40.106Z",
+  "executionMode": "PLAYWRIGHT_UI_ONLY",
+  "model": "gpt-6-sol",
+  "effort": "max",
+  "baseBatch": "夺萃-回读-4.json",
+  "baselineSha256": "31702b102f317361861a0c72863438f542ea3e0239e3f97b0d98723cb3be1f69",
+  "replaces": "原页面批准第5笔起尚未执行的请求，以本合并批准替代；前4笔已保存，不重做",
+  "originalPlanSha256": "bccdefd50e1b204fc84f7277906dfe4bc4495c8ac82d1ca01a7391e7d16d85e4",
+  "decision": "22-咒刃吸血资格核定.json",
+  "decisionSha256": "2f4a7b047c176e3f445ab87c8cd00ed0617afb7e4164bf82ffb2ac798ee74265",
+  "question": "单启动入口与必要生命偷取覆盖能否准确保存，保留全能默认及真实被动分类，并减少过时说明的重复保存",
+  "requests": [
+    {
+      "method": "PUT",
+      "route": "/skills/item_3508_passive/parameters/mana_refund_damage_multiplier",
+      "detailRoute": "/skills/item_3508_passive/parameters/mana_refund_damage_multiplier",
+      "key": "parameterKey",
+      "body": {
+        "description": "本项目核定的普攻主体近似回蓝倍率：来源总攻击力乘0.5；不按咒刃附加伤害、暴击增量、其他附伤或减伤及护盾后的实际扣血计算。",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "name": "法力回复伤害倍率",
+        "sortOrder": 30,
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3508_passive/effects/spellblade_damage",
+      "detailRoute": "/skills/item_3508_passive/effects/spellblade_damage",
+      "key": "effectKey",
+      "body": {
+        "description": "咒刃附加物理伤害，由单强化步骤在实际普攻命中时结算。吸血按项目核定：生命偷取使用本结果的必要覆盖，全能吸血继承游戏规则。",
+        "lifecycle": null,
+        "name": "咒刃额外物理伤害",
+        "results": [
+          {
+            "description": "1.25倍来源基础攻击力加50倍来源暴击率的额外物理伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampOverrides": [
+                {
+                  "vampType": "LIFE_STEAL",
+                  "mode": "OVERRIDE",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ],
+              "vampQualification": "RESOLVED"
+            },
+            "lifecycleBehavior": null,
+            "name": "咒刃物理伤害",
+            "resultKey": "spellblade_damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "spellblade_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 10
+      },
+      "purpose": "核定资格，仅增加必要生命偷取覆盖，原伤害及数值保持"
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3508_passive",
+      "detailRoute": "/skills/item_3508_passive",
+      "key": "skillKey",
+      "body": {
+        "description": "主动技能首次施放后，咒刃进入10000毫秒待击窗口；未消费前再次符合条件的施放刷新窗口，不叠加次数。下一次强化普通攻击命中时一次消费，造成1.25倍来源基础攻击力加50倍来源暴击率的额外物理伤害，并按来源总攻击力的50%回复法力；此时开始1500毫秒内部冷却。待击超时只清除待命，不启动冷却。回蓝为本项目核定近似，不计暴击增量、其他附伤或减伤及护盾后的实际扣血。额外伤害已按项目口径核定吸血：生命偷取使用必要覆盖，全能吸血继承游戏规则。装备属性由装备本体提供，不在本技能重复施加。",
+        "maxLevel": 1,
+        "name": "夺萃之镰·咒刃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "sortOrder": 0,
+        "status": "ENABLED"
+      },
+      "purpose": "仅移除过时未核定说明，保留有限模拟边界"
+    }
+  ],
+  "protected": "原公式、参数数值、伤害数值、分类、游戏吸血规则、装备属性/引用/图片保持；仅新增本批准列出的单启动规则；既有对象除说明更正外，仅伤害结果的资格与一项生命偷取覆盖允许改变",
+  "runtimeValidated": false,
+  "wholeEquipmentComplete": false
+}

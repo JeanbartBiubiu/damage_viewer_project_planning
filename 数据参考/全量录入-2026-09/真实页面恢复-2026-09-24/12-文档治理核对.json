@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-24T01:56:21.597Z",
+  "command": "node tools/task-governance/cli.mjs check",
+  "exitCode": 1,
+  "invalidRules": 0,
+  "duplicateAssignments": 0,
+  "invalidHeaders": 0,
+  "missingDocs": [
+    "文档记录/临时review存档/cursor-slice-fix-abc-prompt.md",
+    "文档记录/临时review存档/WASM通用引擎P0实现Review-契约核对.md",
+    "文档记录/临时review存档/WASM通用引擎P0实现Review-二轮契约核对-2026-07-09.md"
+  ],
+  "unassignedDocs": [
+    "文档记录/需求澄清/临时目录/deep-research-report (6).md"
+  ],
+  "mappingChanged": false,
+  "sqliteRebuilt": false,
+  "fixHeadersRun": false,
+  "note": "HEAD同样没有上述三篇文档；未映射文档在HEAD已有，task_rules.json本轮无变化。本轮文档头合法，既有治理问题不扩展处理。"
+}

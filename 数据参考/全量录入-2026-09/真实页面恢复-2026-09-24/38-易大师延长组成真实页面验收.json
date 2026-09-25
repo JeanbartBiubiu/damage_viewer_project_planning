@@ -1,0 +1,48 @@
+{
+  "at": "2026-09-24T06:47:23.228Z",
+  "status": "PASS_MANAGEMENT_COMPONENT",
+  "question": "延长剩余时间和刷新完整期限能否正确选择、解释并保存两个已有生命周期引用",
+  "actualExecutor": {
+    "model": "gpt-6-sol",
+    "reasoningEffort": "max",
+    "configuredContext": 600000,
+    "reportedUsableContext": 570000,
+    "modelProof": "09-妮蔻执行模型交接.json",
+    "browserPid": 49940,
+    "nodePid": 29596,
+    "contexts": 1,
+    "pages": 1
+  },
+  "executorRouting": {
+    "pagePlanModel": "gpt-6-luna",
+    "actualModel": "gpt-6-sol",
+    "authorization": "主负责人在本轮明确指派并授权既有Sol/max执行此唯一POST，两个模型均已获用户授权；批准请求正文未改变",
+    "independentBrowserVerified": true,
+    "simultaneousBusinessWriters": 1
+  },
+  "pageWrites": 1,
+  "pageReopen": true,
+  "pageEvidence": "执行代理/sol_masteryi/07-易大师真实页面操作与回显.json",
+  "checkEvidence": "执行代理/sol_masteryi/10-重启后原角色录入检查回验.json",
+  "independentGETs": 32,
+  "protectedResponses": 29,
+  "preservedOldRelevantReferences": 19,
+  "addedReferences": 4,
+  "postRestartGETs": 32,
+  "postRestartDataUnchanged": true,
+  "normalResultPeerForSivirFix": true,
+  "expectedUnconnectedReviewPreserved": true,
+  "operationObservation": {
+    "firstResult": "先选参数再切换操作，跨层数/毫秒清除旧值后需要重选参数",
+    "secondResult": "先选操作再选参数，无重复填写",
+    "classification": "现有防止单位误用的清值保护；记录操作顺序，保留保护，不为保留旧值增加分支"
+  },
+  "runtimeValidated": false,
+  "wholeSkillComplete": false,
+  "remaining": [
+    "学习门槛、减速免疫及Q/W暂停",
+    "完整主动窗口、封顶和临界时序",
+    "参与击杀接线",
+    "真实负向引用与数值拒绝的旧审计项未在本笔执行"
+  ]
+}

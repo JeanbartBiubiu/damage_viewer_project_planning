@@ -1,0 +1,140 @@
+{
+  "recordedAt": "2026-09-24T05:57:41.177Z",
+  "approval": {
+    "file": "希维尔标记-02-页面批准.json",
+    "sha256": "06FD34C5C80E790458E40D5D6DC44577C357963C8A55ECC1CA8DB24E575A92DD",
+    "requestIndex": 0,
+    "request": {
+      "method": "POST",
+      "route": "/skills/sivir_r/effects",
+      "detailRoute": "/skills/sivir_r/effects/recent_damage_mark",
+      "body": {
+        "effectKey": "recent_damage_mark",
+        "name": "最近伤害资格标记",
+        "description": "仅记录同一来源对同一目标的3000毫秒窗口，重复登记刷新完整期限。具体伤害资格、死亡清理时序与参与击杀入口尚未核定，本标记当前未接入触发。",
+        "sortOrder": 50,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "recent_damage_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": []
+      }
+    }
+  },
+  "preflightFile": "01-preflight.json",
+  "currentEffectsList": [
+    {
+      "createdAt": "2026-09-07T17:58:56.811581Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycleEnabled": false,
+      "name": "施放法力消耗",
+      "resultCount": 1,
+      "skillKey": "sivir_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T17:58:56.811581Z"
+    },
+    {
+      "createdAt": "2026-09-07T17:58:57.283704Z",
+      "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+      "effectKey": "on_the_hunt",
+      "gameId": "lol",
+      "lifecycleEnabled": true,
+      "name": "狩猎自身移速",
+      "resultCount": 1,
+      "skillKey": "sivir_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T17:58:57.283704Z"
+    },
+    {
+      "createdAt": "2026-09-07T17:58:57.713308Z",
+      "description": null,
+      "effectKey": "attack_basic_refund",
+      "gameId": "lol",
+      "lifecycleEnabled": false,
+      "name": "狩猎攻击基础技能冷却返还",
+      "resultCount": 1,
+      "skillKey": "sivir_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T17:58:57.713308Z"
+    },
+    {
+      "createdAt": "2026-09-21T01:28:50.810908Z",
+      "description": "只将来源对象仍存在的狩猎自身移速实例刷新为完整持续时间，不增加层数或重新施加属性数值。仅保存刷新组成；最近3秒本人伤害资格与参与击杀入口尚未配置，本效果未接入触发。",
+      "effectKey": "refresh_on_the_hunt",
+      "gameId": "lol",
+      "lifecycleEnabled": false,
+      "name": "刷新狩猎完整持续时间",
+      "resultCount": 1,
+      "skillKey": "sivir_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-21T01:28:50.810908Z"
+    }
+  ],
+  "missingEffectAbsentFromList": true,
+  "formSource": "希维尔角色关联的 sivir_r 技能录入页 -> 效果与结果 -> 新增效果",
+  "visibleDraft": {
+    "effectKey": "recent_damage_mark",
+    "name": "最近伤害资格标记",
+    "description": "仅记录同一来源对同一目标的3000毫秒窗口，重复登记刷新完整期限。具体伤害资格、死亡清理时序与参与击杀入口尚未核定，本标记当前未接入触发。",
+    "sortOrder": 50,
+    "durationKind": "PARAMETER",
+    "durationKindChecked": true,
+    "durationParameter": "近期伤害参与击杀窗口（毫秒）（recent_damage_ms）",
+    "maxStacksValue": 1,
+    "applicationStacksValue": 1,
+    "instanceScope": "按来源与承受对象",
+    "reapplicationStackMode": "保留层数",
+    "reapplicationDurationMode": "刷新全部时间",
+    "expiryMode": "一次全部到期",
+    "noResultsVisible": true
+  },
+  "approvedBodySemanticChecks": {
+    "identity": true,
+    "description": true,
+    "sort": true,
+    "durationKind": true,
+    "durationParameter": true,
+    "maxStacks": true,
+    "applicationStacks": true,
+    "scope": true,
+    "stackMode": true,
+    "durationMode": true,
+    "expiryMode": true,
+    "resultsEmpty": true
+  },
+  "uiDraftMatchesApproved": true,
+  "results": [],
+  "noResultsRowVisible": true,
+  "requestGuard": {
+    "methodsAllowed": [
+      "GET",
+      "HEAD"
+    ],
+    "businessWritesBeforeSubmit": 0,
+    "blocked": []
+  },
+  "interactionNote": "单选框输入节点不可见，改点同组可见“技能参数”文本后成功选择；其他字段均用普通可见表单和下拉控件填写。",
+  "requestLogPolicy": {
+    "storedFieldsOnly": "method/path/status/body",
+    "responseHeadersStored": false,
+    "cookiesStored": false
+  }
+}

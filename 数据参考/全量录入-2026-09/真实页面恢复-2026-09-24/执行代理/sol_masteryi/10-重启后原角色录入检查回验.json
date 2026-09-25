@@ -1,0 +1,39 @@
+{
+  "object": "champion_masteryi / masteryi_r",
+  "path": "角色易筛选结果→录入检查（后端8080重启后）",
+  "browserNonGetTotal": 1,
+  "newBusinessWritesAfterRestart": 0,
+  "structure": {
+    "errors": 0,
+    "pending": 6,
+    "mechanism": "待人工核对",
+    "battleRuntime": "未执行"
+  },
+  "masterYiR": {
+    "effects": 5,
+    "processes": 0,
+    "rules": 1,
+    "pendingUnwired": [
+      "active_duration_extension",
+      "basic_cooldown_refund",
+      "mana_cost"
+    ],
+    "directReferenceRows": 23
+  },
+  "character": {
+    "mountedSkills": 6,
+    "configuredLevelAttributes": 10,
+    "allDirectReferences": 87,
+    "otherPending": [
+      "masteryi_q/basic_attack_cooldown_reduction",
+      "masteryi_q/mana_cost",
+      "masteryi_w/mana_cost"
+    ]
+  },
+  "verificationBoundary": "页面显示23条R直接引用与预期待核项；32项响应及引用内容不变由主负责人独立GET核对，不把页面检查当运行证明",
+  "finalState": "角色champion_masteryi筛选结果，无弹窗/草稿，路由已恢复仅GET",
+  "screenshots": [
+    "08-重启后角色录入检查摘要.png",
+    "09-易大师R延长未接线提示.png"
+  ]
+}

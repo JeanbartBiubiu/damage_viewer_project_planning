@@ -1,0 +1,546 @@
+{
+  "at": "2026-09-24T07:19:40.180Z",
+  "status": "MANAGEMENT_EXPRESSION_GAP_NO_BUSINESS_REQUESTS",
+  "businessWrites": 0,
+  "readCount": 32,
+  "baseline": {
+    "file": "01-两符文现值只读快照-20260924T071142Z.json",
+    "sha256": "5fb02a4765685850eff2d19ddef8b176f1a1c0b84981e75da95c29150d38136b"
+  },
+  "records": [
+    {
+      "runeKey": "rune_8014",
+      "skillKey": "rune_8014_passive",
+      "mount": {
+        "items": [
+          {
+            "gameId": "lol",
+            "runeKey": "rune_8014",
+            "runeName": "致命一击",
+            "skillKey": "rune_8014_passive",
+            "skillName": "符文·致命一击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          }
+        ],
+        "total": 1
+      },
+      "comparisons": [
+        {
+          "route": "/skills/rune_8014_passive/parameters/target_health_threshold_ratio",
+          "unchanged": true
+        },
+        {
+          "route": "/skills/rune_8014_passive/parameters/bonus_damage_ratio",
+          "unchanged": true
+        },
+        {
+          "route": "/skills/rune_8014_passive/parameters/confirmed_eligible_damage",
+          "unchanged": true
+        },
+        {
+          "route": "/skills/rune_8014_passive/formulas/target_health_threshold",
+          "unchanged": true
+        },
+        {
+          "route": "/skills/rune_8014_passive/formulas/extra_damage_amount",
+          "unchanged": true
+        }
+      ],
+      "references": [
+        {
+          "sourceSkillKey": "rune_8014_passive",
+          "sourceType": "FORMULA",
+          "sourceKey": "target_health_threshold",
+          "fieldPath": "expression.operands[0].attributeKey",
+          "targetType": "ATTRIBUTE",
+          "targetKey": "hp",
+          "owner": "TARGET",
+          "valueKind": "TOTAL",
+          "verified": true
+        },
+        {
+          "sourceSkillKey": "rune_8014_passive",
+          "sourceType": "FORMULA",
+          "sourceKey": "target_health_threshold",
+          "fieldPath": "expression.operands[1].parameterKey",
+          "targetType": "PARAMETER",
+          "targetKey": "target_health_threshold_ratio",
+          "verified": true,
+          "inputMode": "FIXED"
+        },
+        {
+          "sourceSkillKey": "rune_8014_passive",
+          "sourceType": "FORMULA",
+          "sourceKey": "extra_damage_amount",
+          "fieldPath": "expression.operands[0].parameterKey",
+          "targetType": "PARAMETER",
+          "targetKey": "confirmed_eligible_damage",
+          "verified": true,
+          "inputMode": "RUNTIME_INPUT"
+        },
+        {
+          "sourceSkillKey": "rune_8014_passive",
+          "sourceType": "FORMULA",
+          "sourceKey": "extra_damage_amount",
+          "fieldPath": "expression.operands[1].parameterKey",
+          "targetType": "PARAMETER",
+          "targetKey": "bonus_damage_ratio",
+          "verified": true,
+          "inputMode": "FIXED"
+        }
+      ],
+      "referenceEvidenceKind": "由本次完整公式详情字段逐项核对引用目标，非数据库引用索引或符文录入检查接口证据",
+      "counts": {
+        "parameters": 3,
+        "formulas": 2,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "runeKey": "rune_8017",
+      "skillKey": "rune_8017_passive",
+      "mount": {
+        "items": [
+          {
+            "gameId": "lol",
+            "runeKey": "rune_8017",
+            "runeName": "砍倒",
+            "skillKey": "rune_8017_passive",
+            "skillName": "符文·砍倒",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          }
+        ],
+        "total": 1
+      },
+      "comparisons": [
+        {
+          "route": "/skills/rune_8017_passive/parameters/target_health_threshold_ratio",
+          "unchanged": true
+        },
+        {
+          "route": "/skills/rune_8017_passive/parameters/bonus_damage_ratio",
+          "unchanged": true
+        },
+        {
+          "route": "/skills/rune_8017_passive/parameters/confirmed_eligible_damage",
+          "unchanged": true
+        },
+        {
+          "route": "/skills/rune_8017_passive/formulas/target_health_threshold",
+          "unchanged": true
+        },
+        {
+          "route": "/skills/rune_8017_passive/formulas/extra_damage_amount",
+          "unchanged": true
+        }
+      ],
+      "references": [
+        {
+          "sourceSkillKey": "rune_8017_passive",
+          "sourceType": "FORMULA",
+          "sourceKey": "target_health_threshold",
+          "fieldPath": "expression.operands[0].attributeKey",
+          "targetType": "ATTRIBUTE",
+          "targetKey": "hp",
+          "owner": "TARGET",
+          "valueKind": "TOTAL",
+          "verified": true
+        },
+        {
+          "sourceSkillKey": "rune_8017_passive",
+          "sourceType": "FORMULA",
+          "sourceKey": "target_health_threshold",
+          "fieldPath": "expression.operands[1].parameterKey",
+          "targetType": "PARAMETER",
+          "targetKey": "target_health_threshold_ratio",
+          "verified": true,
+          "inputMode": "FIXED"
+        },
+        {
+          "sourceSkillKey": "rune_8017_passive",
+          "sourceType": "FORMULA",
+          "sourceKey": "extra_damage_amount",
+          "fieldPath": "expression.operands[0].parameterKey",
+          "targetType": "PARAMETER",
+          "targetKey": "confirmed_eligible_damage",
+          "verified": true,
+          "inputMode": "RUNTIME_INPUT"
+        },
+        {
+          "sourceSkillKey": "rune_8017_passive",
+          "sourceType": "FORMULA",
+          "sourceKey": "extra_damage_amount",
+          "fieldPath": "expression.operands[1].parameterKey",
+          "targetType": "PARAMETER",
+          "targetKey": "bonus_damage_ratio",
+          "verified": true,
+          "inputMode": "FIXED"
+        }
+      ],
+      "referenceEvidenceKind": "由本次完整公式详情字段逐项核对引用目标，非数据库引用索引或符文录入检查接口证据",
+      "counts": {
+        "parameters": 3,
+        "formulas": 2,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    }
+  ],
+  "source": {
+    "officialVersion": "16.17.1",
+    "clientVersion": "16.17",
+    "officialFile": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备符文/官方原始资料/runesReforged-16.17.1-zh_CN.json",
+    "officialSha256": "a6330b50b15a735d5b33543d5485d5ce3abac6b6e310a2182f70327ee5484ab0",
+    "clientTextFile": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备符文/客户端提取资料/perks-16.17-zh_CN.json",
+    "clientTextSha256": "be0bb4eedde39f3a8e1dc245f9b4382379d87674c2fdc62b2650b6af4d9f565b",
+    "sourcePackageFile": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/API实录/符文效果第三批/冻结来源.json",
+    "sourcePackageSha256": "f8545f8b63ef3276c3dc95c2c17107ec24b49efb8d67dd51652dbd2ccfa32332",
+    "entries": [
+      {
+        "id": 8014,
+        "name": "致命一击",
+        "path": "Perks/Styles/Precision/CoupDeGrace",
+        "objectSha256": "cfdbb5e914b8316eafc6641fde790a9810c7232387965895fdb3fbc455b65666",
+        "defaultEffectAmounts": {
+          "EnemyHealthPercentageThreshold": 0.4000000059604645,
+          "BonusPercentDamage": 0.07999999821186066
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_CoupDeGrace",
+            "resolvedKey": "perk_displayname_coupdegrace",
+            "text": "致命一击"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_CoupDeGrace",
+            "resolvedKey": "perk_tooltip_coupdegrace",
+            "text": "{{perk_long_desc_CoupDeGrace}}<br><hr><br>造成的额外伤害总和：<scaleAD>@f1@</scaleAD>"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_CoupDeGrace",
+            "resolvedKey": "perk_short_desc_coupdegrace",
+            "text": "对低生命值的敌方英雄造成更多伤害。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_CoupDeGrace",
+            "resolvedKey": "perk_long_desc_coupdegrace",
+            "text": "对生命值低于@EnemyHealthPercentageThreshold*100@%的英雄多造成@BonusPercentDamage.0 *100@%伤害。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_total",
+            "resolvedKey": "perk_display_stat_total",
+            "text": "@f1@"
+          }
+        },
+        "officialLong": "对生命值低于40%的英雄多造成8%伤害。",
+        "clientLong": "对生命值低于40%的英雄多造成8%伤害。",
+        "previousScope": {
+          "runeKey": "rune_8014",
+          "skillKey": "rune_8014_passive",
+          "id": 8014,
+          "name": "致命一击",
+          "category": "MINOR",
+          "pathKey": "rune_path_8000",
+          "pathName": "精密",
+          "scope": "范围内",
+          "branches": [
+            {
+              "scope": "范围内",
+              "summary": "目标低生命值伤害增幅",
+              "quote": "低于40%的英雄",
+              "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+              "evidence": {
+                "sourceId": 8014,
+                "field": "officialLong",
+                "exactText": "低于40%的英雄"
+              }
+            }
+          ],
+          "confirmedFacts": [
+            "目标生命比例严格<0.40；伤害+0.08"
+          ],
+          "missingFacts": [
+            "伤害乘区/伤害包范围，伤害前还是事件后目标生命采样"
+          ],
+          "recordableComponents": [
+            "阈值0.40及0.08参数；目录无DAMAGE区，暂不生成持续伤害修正"
+          ],
+          "sourceReferences": {
+            "official": "/2/slots/3/runes/0",
+            "client": "/59"
+          },
+          "sourceHasGameplayPlaceholders": false,
+          "clientDescriptionDiffers": false,
+          "missingSourceValueFacts": [],
+          "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+        }
+      },
+      {
+        "id": 8017,
+        "name": "砍倒",
+        "path": "Perks/Styles/Precision/CutDown",
+        "objectSha256": "935db43bd32a5bbf448dbd30089715029cc2ead59f44567de07754c99a5c3be5",
+        "defaultEffectAmounts": {
+          "MinBonusDamagePercent": 0.05000000074505806,
+          "MaxBonusDamagePercent": 0.15000000596046448,
+          "MinHealthDifference": 0.10000000149011612,
+          "MaxHealthDifference": 1,
+          "EnemyHealthPercentageThreshold": 0.6000000238418579,
+          "BonusPercentDamage": 0.07999999821186066
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_CutDown",
+            "resolvedKey": "perk_displayname_cutdown",
+            "text": "砍倒"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_CutDown",
+            "resolvedKey": "perk_tooltip_cutdown",
+            "text": "{{perk_long_desc_CutDown}}<br><hr><br>额外伤害总和：<scaleAD>@f1@</scaleAD>"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_CutDown",
+            "resolvedKey": "perk_short_desc_cutdown",
+            "text": "对高生命值的敌方英雄造成更多伤害。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_CutDown",
+            "resolvedKey": "perk_long_desc_cutdown",
+            "text": "对生命值多于@EnemyHealthPercentageThreshold*100@%的英雄多造成@BonusPercentDamage*100@%伤害。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_total",
+            "resolvedKey": "perk_display_stat_total",
+            "text": "@f1@"
+          }
+        },
+        "officialLong": "对生命值多于60%的英雄多造成8%伤害。",
+        "clientLong": "对生命值多于60%的英雄多造成8%伤害。",
+        "previousScope": {
+          "runeKey": "rune_8017",
+          "skillKey": "rune_8017_passive",
+          "id": 8017,
+          "name": "砍倒",
+          "category": "MINOR",
+          "pathKey": "rune_path_8000",
+          "pathName": "精密",
+          "scope": "范围内",
+          "branches": [
+            {
+              "scope": "范围内",
+              "summary": "目标高生命值伤害增幅",
+              "quote": "多于60%的英雄",
+              "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+              "evidence": {
+                "sourceId": 8017,
+                "field": "officialLong",
+                "exactText": "多于60%的英雄"
+              }
+            }
+          ],
+          "confirmedFacts": [
+            "目标生命比例严格>0.60；伤害+0.08"
+          ],
+          "missingFacts": [
+            "伤害乘区及目标生命采样时点；不采用旧版最大生命差公式"
+          ],
+          "recordableComponents": [
+            "阈值0.60及0.08参数"
+          ],
+          "sourceReferences": {
+            "official": "/2/slots/3/runes/1",
+            "client": "/26"
+          },
+          "sourceHasGameplayPlaceholders": false,
+          "clientDescriptionDiffers": false,
+          "missingSourceValueFacts": [],
+          "sourceValueStatus": "已见明确数值，条件与组合单独核对"
+        }
+      }
+    ]
+  },
+  "finding": {
+    "sharedGap": "伤害修正结果没有每笔伤害生效条件；数值公式只有六种算术运算，没有严格比较后产生0或8%的合法表达。",
+    "sourceValuesResolved": true,
+    "eligibleTimingMayBeProjectDecision": true,
+    "firstObject": "rune_8014 / rune_8014_passive 致命一击",
+    "peer": "rune_8017 / rune_8017_passive 砍倒",
+    "noNewRequestNow": "已有阈值/比例/公式和挂载均已保存，不为了返回数量新增无条件8%效果或事后伤害结果。"
+  },
+  "existingReusable": [
+    "DAMAGE_MODIFIER的DEALT/INCREASE方向、伤害类型/产生方式/来源性质/暴击过滤",
+    "DAMAGE_PRE_DEFENSE + RATIO_ADD的独立乘区模型",
+    "MOMENT_EVALUATION表示每次对应伤害进入乘区重新读取",
+    "现有ATTRIBUTE_COMPARE严格比较枚举与统一参数/属性引用",
+    "原生ModifierDefinition.condition及outgoing_pre_mitigation管道按当前伤害逐次求值"
+  ],
+  "invalidShortcuts": [
+    "直接初始化固定8%：会丢失生命门槛。",
+    "把extra_damage_amount接DAMAGE_DEALT再补DAMAGE：时点已是事后，改变护盾、击杀、吸血及事件次数，不是原伤害修正。",
+    "把DAMAGE_PENDING当造成伤害前入口：其拥有者是即将受伤者、当前目标自身，且观察点在防御后。",
+    "SOURCE_INITIALIZED时读取TARGET作对手：该事件当前目标是拥有者自身，且初始化快照不能跟随后续生命变化。",
+    "用MIN/MAX连续裁剪近似严格0/8%阶跃，或用0/0制造条件：不能保持40%/60%等值边界与有效值规则。",
+    "把confirmed_eligible_damage运行输入用于MOMENT_EVALUATION：现行动态公式明确禁止运行输入，不能复用施加时旧伤害值。"
+  ],
+  "minimumRepairProposal": {
+    "status": "设计建议，须父任务定稿与独立评审，非实施或业务写入授权",
+    "authoring": "在现有伤害修正结果提供可空生效条件入口，首版只承接本次伤害承受者的生命比例比较与明确敌方英雄资格；复用既有比较、NumericValue和引用校验，不创建任意伤前事件体系，也不要求扩全部公式语言。",
+    "sampling": "统一在每一笔匹配伤害进入防御前乘区时，用该笔伤害尚未改变生命前的实际承受者当前生命比例判断一次。多段逐笔重读，当前伤害把生命打过门槛不能追溯增幅自己。",
+    "minimalScenario": "先限定单挑中的普通直接物理普攻；既有damageTypeKey=physics、deliveryKind=BASIC_ATTACK、originKind=DIRECT承载范围，敌方英雄身份须来自明确场景事实，缺失拒绝，不默认。真实伤害、反射、其它特殊包及跨增幅组合后置，不阻塞此有限场景。",
+    "effect": "符文拥有者初始化建立持续的造成伤害修正，资格在每笔伤害中判断；它不是永久生效的无条件8%。使用独立防御前比例乘区，数值直接引用bonus_damage_ratio，不使用extra_damage_amount补伤。",
+    "backend": "扩现有DAMAGE_MODIFIER联合明细、聚合校验、条件引用收集与最终保护；保留原数值/生命周期/乘区校验，结构仍在既有JSONB内，不先加表。",
+    "frontend": "类型/严格解析、结果编辑器的条件与取样说明、摘要、引用定位；页面明确显示本次伤害承受者而非初始化当前目标。",
+    "host": "增加仅该完整合法形状的管理到原生modifier.condition有界映射，复用数值比较翻译与现有伤害管道；当前persistentResultAdapter仅移动减速和受到治疗取强，不能声称已有管理接入。",
+    "native": "原生条件及管道入口已存在，先复用并验证拥有者反向、实际目标、生命采样和恢复；本调查不证明无需任何原生修正，也不要求预扩运行架构。"
+  },
+  "acceptanceExamples": [
+    {
+      "rune": "8014",
+      "maxHp": 1000,
+      "hpBefore": 399,
+      "basePhysicalDamage": 100,
+      "expectedPreDefenseDamage": 108
+    },
+    {
+      "rune": "8014",
+      "maxHp": 1000,
+      "hpBefore": 400,
+      "basePhysicalDamage": 100,
+      "expectedPreDefenseDamage": 100
+    },
+    {
+      "rune": "8014",
+      "maxHp": 1000,
+      "hpBefore": 401,
+      "basePhysicalDamage": 100,
+      "expectedPreDefenseDamage": 100,
+      "note": "本笔扣血后降至301，不得追补8；下一笔再按301触发。"
+    },
+    {
+      "rune": "8017",
+      "maxHp": 1000,
+      "hpBefore": 601,
+      "basePhysicalDamage": 100,
+      "expectedPreDefenseDamage": 108
+    },
+    {
+      "rune": "8017",
+      "maxHp": 1000,
+      "hpBefore": 600,
+      "basePhysicalDamage": 100,
+      "expectedPreDefenseDamage": 100
+    },
+    {
+      "rune": "8017",
+      "maxHp": 1000,
+      "hpBefore": 599,
+      "basePhysicalDamage": 100,
+      "expectedPreDefenseDamage": 100
+    }
+  ],
+  "additionalAcceptance": [
+    "目标在施加与伤害之间被治疗/受伤后重新采样",
+    "一次伤害只经过一次8%修正，护盾和吸血继续由同笔伤害处理",
+    "来源/目标交换与两拥有者绑定不串用",
+    "非本轮伤害范围不增幅，未知属性/身份不得补零或默认通过",
+    "保存重开保留严格比较、门槛参数、真实对象与伤害范围；旧无条件修正不被隐式加条件"
+  ],
+  "protected": {
+    "currentRoutes": [
+      "/runes/rune_8014",
+      "/runes/rune_8017",
+      "/rune-skill-relations?runeKey=rune_8014",
+      "/rune-skill-relations?runeKey=rune_8017",
+      "/skills/rune_8014_passive",
+      "/skills/rune_8014_passive/formulas",
+      "/skills/rune_8014_passive/effects",
+      "/skills/rune_8014_passive/internal-states",
+      "/skills/rune_8014_passive/parameters",
+      "/skills/rune_8014_passive/processes",
+      "/skills/rune_8017_passive/formulas",
+      "/skills/rune_8017_passive",
+      "/skills/rune_8017_passive/parameters",
+      "/skills/rune_8014_passive/trigger-rules",
+      "/skills/rune_8017_passive/processes",
+      "/skills/rune_8017_passive/effects",
+      "/skills/rune_8017_passive/trigger-rules",
+      "/skills/rune_8017_passive/internal-states",
+      "/skills/rune_8017_passive/formulas/extra_damage_amount",
+      "/skills/rune_8017_passive/formulas/target_health_threshold",
+      "/skills/rune_8014_passive/parameters/confirmed_eligible_damage",
+      "/skills/rune_8014_passive/formulas/target_health_threshold",
+      "/skills/rune_8017_passive/parameters/bonus_damage_ratio",
+      "/skills/rune_8017_passive/parameters/target_health_threshold_ratio",
+      "/skills/rune_8014_passive/formulas/extra_damage_amount",
+      "/skills/rune_8014_passive/parameters/bonus_damage_ratio",
+      "/skills/rune_8014_passive/parameters/target_health_threshold_ratio",
+      "/skills/rune_8017_passive/parameters/confirmed_eligible_damage",
+      "/attributes/hp",
+      "/skill-categories/passive",
+      "/damage-types",
+      "/modifier-zones"
+    ],
+    "rootRunes": true,
+    "oneMountEach": true,
+    "existingSixParametersAndFourFormulas": true,
+    "noDefaultForConfirmedEligibleDamage": true,
+    "noDeleteOrRepurposeLegacyFormulas": true,
+    "modifierZoneCatalogUnchanged": true
+  },
+  "businessCandidates": [],
+  "staticEvidence": [
+    {
+      "path": "C:/project/damage_web_dev/web/src/types/skillEffect.ts",
+      "line": 140,
+      "claim": "伤害修正明细无属性条件字段"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/types/skillFormula.ts",
+      "line": 12,
+      "claim": "管理公式只有六种二元算术"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "line": 386,
+      "claim": "初始化当前目标为自身"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "line": 450,
+      "claim": "DAMAGE_PENDING观察即将受伤拥有者"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/乘区管理与修正结果补充详细设计.md",
+      "line": 255,
+      "claim": "伤害乘区每次动态读取及运行输入禁用"
+    },
+    {
+      "path": "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/internal/model/generic_compile.go",
+      "line": 231,
+      "claim": "原生ModifierDefinition已有Condition"
+    },
+    {
+      "path": "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/internal/runtime/generic_execution.go",
+      "line": 1223,
+      "claim": "来源防御前修正入口"
+    },
+    {
+      "path": "C:/project/damage_wasm_dev/wasm/tinygo_engine_v2/internal/runtime/generic_execution.go",
+      "line": 1487,
+      "claim": "每次伤害修正先评估条件"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/engine/persistentResultAdapter.ts",
+      "line": 285,
+      "claim": "当前有界持续结果适配未覆盖伤害修正"
+    }
+  ]
+}

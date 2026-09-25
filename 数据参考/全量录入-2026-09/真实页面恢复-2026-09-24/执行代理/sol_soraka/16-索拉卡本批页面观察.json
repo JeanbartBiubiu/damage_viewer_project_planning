@@ -1,0 +1,42 @@
+{
+  "object": "champion_soraka / soraka_r",
+  "writeBatch": {
+    "approvedRequests": 3,
+    "actualNonGetIncrement": 3,
+    "allRequestBodiesExact": true,
+    "allStatuses": [
+      200,
+      200,
+      200
+    ],
+    "noExtraWrites": true
+  },
+  "pageValidation": {
+    "route": "角色索拉卡→关联技能→索拉卡·祈愿→行为总览",
+    "threeRulesPhase": "使用分组的on_used、on_used_self_heal、on_used_self_low_health_heal均显示技能被主动或消耗使用·首次施放",
+    "conditions": "正常分支来源对象hp当前值比例≥low_health_threshold_ratio，低生命分支<该阈值；编辑器可读，页面总览规则说明写40%",
+    "targets": "两条执行效果动作显示动作目标上下文：当前目标；同时明确效果结果作用对象：施法者（技能拥有者）",
+    "process": "cast主动过程仅有1个cast_delay延迟步骤，引用cast_time_ms=250；1个mana_cost挂接在过程开始；无治疗效果挂接，普通冷却引用cooldown_ms",
+    "return": "返回角色技能后回到champion_soraka筛选结果，无弹窗草稿"
+  },
+  "issue": {
+    "object": "soraka_r / on_used_self_heal与on_used_self_low_health_heal",
+    "position": "行为总览／使用与效果中的触发条件行",
+    "reproduce": "角色索拉卡→关联技能→祈愿→行为总览，查看两条触发条件行；其唯一操作为编辑，点击后进入规则与条件编辑弹窗",
+    "expected": "总览直接展示来源hp当前值比例、≥或<及low_health_threshold_ratio比较值，供核对两分支互斥边界",
+    "actual": "条件行只显示来源对象、数值或引用来源“—”、说明“属性比较”；无查看或展开控件。完整比较式仅在编辑条件弹窗显示；总览需依赖人工写入的规则说明40%来理解",
+    "impact": "作者无法只凭行为总览的结构化摘要复核阈值条件与互斥边界，易把描述当作配置真值；真实配置及保存不受阻",
+    "blocker": false,
+    "screenshot": "10-索拉卡总览互斥治疗入口.png",
+    "detailScreenshot": "15-索拉卡总览条件需进入编辑器.png"
+  },
+  "screenshots": [
+    "09-索拉卡总览首次施放与过程入口.png",
+    "10-索拉卡总览互斥治疗入口.png",
+    "11-索拉卡总览自身治疗对象.png",
+    "12-索拉卡250毫秒延迟步骤查看.png",
+    "13-索拉卡施放过程仅成本挂接.png",
+    "14-索拉卡施法时间参数250.png",
+    "15-索拉卡总览条件需进入编辑器.png"
+  ]
+}

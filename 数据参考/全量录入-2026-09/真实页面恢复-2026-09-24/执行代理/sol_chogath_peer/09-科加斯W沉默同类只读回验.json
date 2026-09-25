@@ -1,0 +1,67 @@
+{
+  "object": "champion_chogath / chogath_w",
+  "browser": {
+    "nodePid": 29596,
+    "chromiumPid": 49940,
+    "chromiumParentPid": 29596,
+    "contexts": 1,
+    "pages": [
+      1
+    ]
+  },
+  "route": "角色科加斯→关联技能→野性尖叫W",
+  "newBusinessWrites": 0,
+  "existingControl": {
+    "effectKey": "silence_first_application",
+    "resultKey": "silence",
+    "resultName": "野性尖叫沉默",
+    "resultType": "STATUS_OPERATION",
+    "statusKey": "silence",
+    "statusName": "沉默",
+    "statusKind": "SILENCE",
+    "operation": "APPLY",
+    "target": "TARGET",
+    "spellShieldBlockScope": "RESULT",
+    "lifecycleMoment": "PERSISTENT",
+    "valueRule": null,
+    "noStrengthInputInViewOrEdit": true,
+    "durationParameter": "silence_duration_ms",
+    "durationMillisecondsBySkillLevel": [
+      1600,
+      1700,
+      1800,
+      1900,
+      2000
+    ],
+    "instanceScope": "SOURCE_TARGET",
+    "expiry": "ALL_AT_ONCE"
+  },
+  "statusDirectory": "同一下拉并列“沉默”已选和“击飞”未选，W结果未变更",
+  "rules": {
+    "count": 3,
+    "actual_hit": "同一组2条件：英雄且敌方命中→primary_hit；有沉默实例仍可伤害",
+    "on_used_cost_and_cooldown": "0条件，独立启动成本/冷却过程",
+    "apply_silence_on_unblocked_hit": "同一组4个并且条件：英雄、敌方命中、同次法术护盾阻挡值等于0、当前目标无silence_first_application实例；执行silence_first_application"
+  },
+  "overview": "同次未阻挡条件行直接显示事件值比较 / 技能命中被法术护盾阻挡 / 等于 / 0；效果结果行显示持续生效及当前目标",
+  "observation": {
+    "object": "chogath_w / silence_first_application / silence",
+    "position": "效果与结果→已保存沉默效果→编辑结果→状态目录→取消",
+    "reproduce": "仅展开状态下拉，确认沉默已选且击飞未选；按Escape收起；重复展开截图并按Escape；未选择选项或改任何字段；首次点取消",
+    "expected": "无字段更改时直接关闭子编辑器",
+    "actual": "原生确认“当前修改尚未保存，确定要离开吗？”；首次无监听自动取消离开，第二次核对文案后仅对该次accept才关闭",
+    "impact": "只读核对被误报为未保存草稿，增加一次确认；没有写入或数据变化",
+    "blocker": false,
+    "screenshot": "04-科加斯W状态目录两类分列.png"
+  },
+  "finalState": "已退出所有编辑/查看弹窗并回角色科加斯筛选结果，无草稿，保持GET-only",
+  "screenshots": [
+    "01-科加斯W沉默结果查看.png",
+    "02-科加斯W沉默生命周期查看.png",
+    "04-科加斯W状态目录两类分列.png",
+    "05-科加斯W沉默四条件同组.png",
+    "06-科加斯W伤害两条件.png",
+    "07-科加斯W总览护盾零条件.png",
+    "08-科加斯W总览沉默持续时点.png"
+  ]
+}

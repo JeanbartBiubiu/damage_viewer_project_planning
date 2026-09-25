@@ -1,0 +1,299 @@
+
+ RUN  v2.1.9 C:/project/damage_web_dev/web
+
+ ❯ src/engine/hitAdapter.test.ts (19 tests | 3 failed | 15 skipped) 14ms
+   × 有界命中适配 > 管理伤害键physics转换为原生damage/physical且不改作者对象 9ms
+     → expected [ …(8) ] to deep equally contain { key: 'damage/physical', …(1) }
+   × 有界命中适配 > 管理伤害键real转换为原生damage/true且不改作者对象 1ms
+     → expected [ …(8) ] to deep equally contain { Object (key, domain) }
+   × 有界命中适配 > 未知管理伤害键在原字段路径拒绝，不透传给原生引擎 2ms
+     → expected [Function] to throw an error
+ ❯ src/engine/triggerAdapter.test.ts (63 tests | 3 failed | 59 skipped) 17ms
+   × 有界触发与过程适配 > 管理伤害键physics转换为原生damage/physical且不改作者对象 11ms
+     → expected [ { …(2) }, { …(2) }, { …(2) }, …(7) ] to deep equally contain { key: 'damage/physical', …(1) }
+   × 有界触发与过程适配 > 管理伤害键real转换为原生damage/true且不改作者对象 1ms
+     → expected [ { …(2) }, { …(2) }, { …(2) }, …(7) ] to deep equally contain { Object (key, domain) }
+   × 有界触发与过程适配 > 未知管理伤害键在原字段路径拒绝，不透传给原生引擎 2ms
+     → expected [Function] to throw an error
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/hitAdapter.test.ts > 有界命中适配 > 管理伤害键physics转换为原生damage/physical且不改作者对象
+AssertionError: expected [ …(8) ] to deep equally contain { key: 'damage/physical', …(1) }
+
+- Expected: 
+Object {
+  "domain": "damage",
+  "key": "damage/physical",
+}
+
++ Received: 
+Array [
+  Object {
+    "domain": "event",
+    "key": "event/skill_hit",
+  },
+  Object {
+    "domain": "damage",
+    "key": "damage/physics",
+  },
+  Object {
+    "domain": "combatant",
+    "key": "combatant/champion",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/delivery_skill",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/delivery_basic_attack",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/origin_direct",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/origin_reflected",
+  },
+  Object {
+    "domain": "ability",
+    "key": "ability/common",
+  },
+]
+
+ ❯ src/engine/hitAdapter.test.ts:149:33
+    147|     const before = structuredClone(authored);
+    148|     const adapted = adaptHitProgram(authored);
+    149|     expect(adapted.typeEntries).toContainEqual({ key: runtimeType, dom…
+       |                                 ^
+    150|     expect(adapted.skillHit.candidates[0]?.operations[0]).toMatchObjec…
+    151|     expect(authored).toEqual(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  src/engine/hitAdapter.test.ts > 有界命中适配 > 管理伤害键real转换为原生damage/true且不改作者对象
+AssertionError: expected [ …(8) ] to deep equally contain { Object (key, domain) }
+
+- Expected: 
+Object {
+  "domain": "damage",
+  "key": "damage/true",
+}
+
++ Received: 
+Array [
+  Object {
+    "domain": "event",
+    "key": "event/skill_hit",
+  },
+  Object {
+    "domain": "damage",
+    "key": "damage/real",
+  },
+  Object {
+    "domain": "combatant",
+    "key": "combatant/champion",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/delivery_skill",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/delivery_basic_attack",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/origin_direct",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/origin_reflected",
+  },
+  Object {
+    "domain": "ability",
+    "key": "ability/common",
+  },
+]
+
+ ❯ src/engine/hitAdapter.test.ts:149:33
+    147|     const before = structuredClone(authored);
+    148|     const adapted = adaptHitProgram(authored);
+    149|     expect(adapted.typeEntries).toContainEqual({ key: runtimeType, dom…
+       |                                 ^
+    150|     expect(adapted.skillHit.candidates[0]?.operations[0]).toMatchObjec…
+    151|     expect(authored).toEqual(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  src/engine/hitAdapter.test.ts > 有界命中适配 > 未知管理伤害键在原字段路径拒绝，不透传给原生引擎
+AssertionError: expected [Function] to throw an error
+
+- Expected: 
+null
+
++ Received: 
+undefined
+
+ ❯ src/engine/hitAdapter.test.ts:159:45
+    157|       if (result.resultType === 'DAMAGE') result.detail.damageTypeKey …
+    158|     }
+    159|     expect(() => adaptHitProgram(authored)).toThrow(/damageTypeKey/);
+       |                                             ^
+    160|   });
+    161| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/engine/triggerAdapter.test.ts > 有界触发与过程适配 > 管理伤害键physics转换为原生damage/physical且不改作者对象
+AssertionError: expected [ { …(2) }, { …(2) }, { …(2) }, …(7) ] to deep equally contain { key: 'damage/physical', …(1) }
+
+- Expected: 
+Object {
+  "domain": "damage",
+  "key": "damage/physical",
+}
+
++ Received: 
+Array [
+  Object {
+    "domain": "event",
+    "key": "event/source_owner",
+  },
+  Object {
+    "domain": "state_scope",
+    "key": "state_scope/provider",
+  },
+  Object {
+    "domain": "event",
+    "key": "event/skill_hit",
+  },
+  Object {
+    "domain": "damage",
+    "key": "damage/physics",
+  },
+  Object {
+    "domain": "combatant",
+    "key": "combatant/champion",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/delivery_skill",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/delivery_basic_attack",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/origin_direct",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/origin_reflected",
+  },
+  Object {
+    "domain": "ability",
+    "key": "ability/common",
+  },
+]
+
+ ❯ src/engine/triggerAdapter.test.ts:315:33
+    313|     const before = structuredClone(authored);
+    314|     const adapted = adaptTriggerProgram(authored);
+    315|     expect(adapted.typeEntries).toContainEqual({ key: runtimeType, dom…
+       |                                 ^
+    316|     expect(JSON.stringify(adapted)).toContain(`"damageType":"${runtime…
+    317|     expect(authored).toEqual(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/engine/triggerAdapter.test.ts > 有界触发与过程适配 > 管理伤害键real转换为原生damage/true且不改作者对象
+AssertionError: expected [ { …(2) }, { …(2) }, { …(2) }, …(7) ] to deep equally contain { Object (key, domain) }
+
+- Expected: 
+Object {
+  "domain": "damage",
+  "key": "damage/true",
+}
+
++ Received: 
+Array [
+  Object {
+    "domain": "event",
+    "key": "event/source_owner",
+  },
+  Object {
+    "domain": "state_scope",
+    "key": "state_scope/provider",
+  },
+  Object {
+    "domain": "event",
+    "key": "event/skill_hit",
+  },
+  Object {
+    "domain": "damage",
+    "key": "damage/real",
+  },
+  Object {
+    "domain": "combatant",
+    "key": "combatant/champion",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/delivery_skill",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/delivery_basic_attack",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/origin_direct",
+  },
+  Object {
+    "domain": "damage_trait",
+    "key": "damage_trait/origin_reflected",
+  },
+  Object {
+    "domain": "ability",
+    "key": "ability/common",
+  },
+]
+
+ ❯ src/engine/triggerAdapter.test.ts:315:33
+    313|     const before = structuredClone(authored);
+    314|     const adapted = adaptTriggerProgram(authored);
+    315|     expect(adapted.typeEntries).toContainEqual({ key: runtimeType, dom…
+       |                                 ^
+    316|     expect(JSON.stringify(adapted)).toContain(`"damageType":"${runtime…
+    317|     expect(authored).toEqual(before);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  src/engine/triggerAdapter.test.ts > 有界触发与过程适配 > 未知管理伤害键在原字段路径拒绝，不透传给原生引擎
+AssertionError: expected [Function] to throw an error
+
+- Expected: 
+null
+
++ Received: 
+undefined
+
+ ❯ src/engine/triggerAdapter.test.ts:325:49
+    323|       if (result.resultType === 'DAMAGE') result.detail.damageTypeKey …
+    324|     }
+    325|     expect(() => adaptTriggerProgram(authored)).toThrow(/damageTypeKey…
+       |                                                 ^
+    326|   });
+    327| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+ Test Files  2 failed (2)
+      Tests  6 failed | 2 passed | 74 skipped (82)
+   Start at  11:31:10
+   Duration  423ms (transform 206ms, setup 0ms, collect 337ms, tests 31ms, environment 0ms, prepare 161ms)
+

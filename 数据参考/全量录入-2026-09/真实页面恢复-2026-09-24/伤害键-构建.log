@@ -1,0 +1,18 @@
+
+> damage-viewer-web@0.1.0 build
+> tsc -b && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 1317 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.64 kB │ gzip:   0.46 kB
+dist/assets/index-BFSkgx7m.css    584.83 kB │ gzip:  66.83 kB
+dist/assets/index-H64op3ON.js   1,355.20 kB │ gzip: 381.45 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.66s

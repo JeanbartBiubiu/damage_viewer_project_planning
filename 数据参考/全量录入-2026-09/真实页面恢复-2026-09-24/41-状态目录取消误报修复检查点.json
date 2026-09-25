@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-24T07:42:25.831Z",
+  "status": "CODE_PASS_REAL_PAGE_RETURN_PENDING",
+  "problem": "已保存状态结果只打开目录未改值，目录补派生statusKind后取消误报未保存",
+  "original": "执行代理/sol_chogath_peer/09-科加斯W沉默同类只读回验.json",
+  "fix": "父子复用单结果比较规范化，不回写草稿，不改保存正文",
+  "oldPageTestsFailed": 2,
+  "newPageTestsPassed": 2,
+  "unitTests": 1096,
+  "unitFiles": 89,
+  "lint": true,
+  "typecheck": true,
+  "build": true,
+  "independentReview": "READY",
+  "protectedWGETs": 22,
+  "WUnchanged": true,
+  "sourceHashes": {
+    "web/src/pages/admin/skills/effects/effectForm.ts": "d5bbe9baaedcf35c9e46c716122958c8587d3d9de95a13e5c6061f45b3193cf3",
+    "web/src/pages/admin/skills/effects/SkillEffectResultEditorModal.tsx": "b3b11afe9ad311a1951f6f24e4c13cf7b2f918851fb2416680d2c4160dfd910d",
+    "web/tests/e2e/non-wasm-pages.spec.ts": "2b5aab110c65cf551c24782b4b1f660c399bc3b70e2dc0d21b7f427af928a47c"
+  },
+  "businessWritesByRoot": 0,
+  "originalReturnPending": "Sol chogath_w",
+  "peerReturnPending": "Luna chogath_q"
+}

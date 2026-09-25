@@ -1,0 +1,110 @@
+{
+  "at": "2026-09-24T13:20:33.800Z",
+  "scope": [
+    "rune_8014_passive",
+    "rune_8017_passive"
+  ],
+  "baseline": "普通伤害来源准备/11-扩大过滤独立回读-4.json",
+  "browser": {
+    "nodePid": 15124,
+    "chromiumPid": 40860,
+    "contexts": 1,
+    "pages": 1
+  },
+  "guard": {
+    "policy": "全部非GET请求拒绝",
+    "blockedNonGet": [],
+    "businessWrites": 0
+  },
+  "savedSummary": {
+    "rune8014": {
+      "parentSpecial": "伤害类型：全部 / 产生方式：全部 / 来源性质：直接伤害 / 暴击筛选：全部；敌方英雄扣血前hp当前比例严格低于参数 target_health_threshold_ratio",
+      "overviewEffect": "伤害类型：全部；产生方式：全部；来源性质：直接伤害；暴击筛选：全部；仅本笔敌方英雄承受者 · 扣血前hp当前比例严格低于参数 target_health_threshold_ratio",
+      "amount": "bonus_damage_ratio",
+      "target": "效果施法者，动作当前目标"
+    },
+    "rune8017": {
+      "parentSpecial": "伤害类型：全部 / 产生方式：全部 / 来源性质：直接伤害 / 暴击筛选：全部；敌方英雄扣血前hp当前比例严格高于参数 target_health_threshold_ratio",
+      "overviewEffect": "伤害类型：全部；产生方式：全部；来源性质：直接伤害；暴击筛选：全部；仅本笔敌方英雄承受者 · 扣血前hp当前比例严格高于参数 target_health_threshold_ratio",
+      "amount": "bonus_damage_ratio",
+      "target": "效果施法者，动作当前目标"
+    }
+  },
+  "temporaryDraft": {
+    "object": "rune_8014_passive/basic_attack_health_bonus/increase_damage",
+    "normalControlChanges": {
+      "damageTypeKey": "physics",
+      "deliveryKind": "BASIC_ATTACK",
+      "criticalFilter": "CRITICAL_ONLY"
+    },
+    "retained": {
+      "originKind": "DIRECT",
+      "conditionComparator": "LT",
+      "thresholdParameter": "target_health_threshold_ratio",
+      "amountParameter": "bonus_damage_ratio"
+    },
+    "confirmedChildIntoParent": true,
+    "parentSaveClicked": false,
+    "parentSpecial": "伤害类型：physics / 产生方式：普通攻击 / 来源性质：直接伤害 / 暴击筛选：仅暴击",
+    "discardDialogs": [
+      {
+        "type": "confirm",
+        "message": "当前修改尚未保存，确定要离开吗？"
+      }
+    ],
+    "afterReopen": {
+      "damageTypeKey": null,
+      "deliveryKind": "ANY",
+      "criticalFilter": "ANY",
+      "conditionComparator": "LT",
+      "thresholdParameter": "target_health_threshold_ratio",
+      "amountParameter": "bonus_damage_ratio"
+    }
+  },
+  "observation": {
+    "object": "rune_8014_passive / 效果父表 / 未保存结果草稿特殊交互列",
+    "steps": "编辑既有结果，临时选择物理伤害、普通攻击、仅暴击，确认子结果后查看父表",
+    "expected": "四字段均以可读中文展示具体过滤",
+    "actual": "产生方式、来源性质、暴击筛选为中文，伤害类型显示稳定键 physics",
+    "impact": "可区分具体范围，但非技术录入者须理解 physics 键",
+    "blocking": false,
+    "screenshot": "71-致命一击具体过滤父表草稿摘要.png"
+  },
+  "finalGetComparisons": [
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/effects/basic_attack_health_bonus",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/trigger-rules/initialize_basic_attack_bonus",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/effects/basic_attack_health_bonus",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/trigger-rules/initialize_basic_attack_bonus",
+      "status": 200,
+      "exactIncludingTimestamps": true
+    }
+  ],
+  "finalDialogs": 0,
+  "screenshots": [
+    "67-致命一击父表结构化摘要.png",
+    "68-致命一击总览结构化门槛.png",
+    "69-致命一击父表特殊交互原值.png",
+    "70-致命一击具体过滤未保存子草稿.png",
+    "71-致命一击具体过滤父表草稿摘要.png",
+    "72-致命一击放弃草稿后结果重开.png",
+    "73-砍倒父表结构化摘要.png",
+    "74-砍倒总览结构化门槛.png"
+  ]
+}

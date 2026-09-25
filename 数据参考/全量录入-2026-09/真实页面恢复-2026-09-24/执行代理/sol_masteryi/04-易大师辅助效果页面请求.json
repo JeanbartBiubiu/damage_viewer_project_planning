@@ -1,0 +1,60 @@
+{
+  "method": "POST",
+  "path": "/api/admin/games/lol/skills/masteryi_r/effects",
+  "body": {
+    "effectKey": "active_duration_extension",
+    "name": "高原血统主动时长延长",
+    "description": "分别将现有攻速与移速实例的剩余时长增加明确的7000毫秒，不创建已结束实例或刷新完整时长。仅保存延长组成；主动窗口、封顶及临界时序仍待核，尚未接入参与击杀触发。",
+    "sortOrder": 50,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "extend_attack_speed",
+        "name": "延长攻速剩余时长",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "resultType": "LIFECYCLE_OPERATION",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "kill_assist_extension_ms"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": null,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "targetEffectKey": "attack_speed",
+          "operation": "EXTEND_DURATION"
+        }
+      },
+      {
+        "resultKey": "extend_move_speed",
+        "name": "延长移速剩余时长",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 20,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "resultType": "LIFECYCLE_OPERATION",
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "kill_assist_extension_ms"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": null,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "targetEffectKey": "move_speed",
+          "operation": "EXTEND_DURATION"
+        }
+      }
+    ]
+  },
+  "status": 201
+}

@@ -1,0 +1,180 @@
+{
+  "at": "2026-09-24T02:42:59.871Z",
+  "reads": [
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/parameters",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/parameters/spellblade_base_ad_ratio",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/parameters/spellblade_crit_chance_multiplier",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/parameters/mana_refund_damage_multiplier",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/parameters/spellblade_cooldown_ms",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/parameters/spellblade_window_ms",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/formulas",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/formulas/spellblade_damage",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/formulas/total_mana_refund",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/effects",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/effects/spellblade_damage",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/effects/total_mana_refund",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/processes",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/internal-states",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/trigger-rules",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3508",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3508/representative-image",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3508",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/representative-image",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/vamp-rules",
+      "status": 200,
+      "expectedStatus": 200,
+      "bodyEqual": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/internal-states/spellblade_ready",
+      "status": 404,
+      "expectedStatus": 404,
+      "bodyEqual": null
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/internal-states/spellblade_icd",
+      "status": 404,
+      "expectedStatus": 404,
+      "bodyEqual": null
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/processes/spellblade_consume",
+      "status": 404,
+      "expectedStatus": 404,
+      "bodyEqual": null
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3508_passive/trigger-rules/spellblade_arm",
+      "status": 404,
+      "expectedStatus": 404,
+      "bodyEqual": null
+    }
+  ]
+}

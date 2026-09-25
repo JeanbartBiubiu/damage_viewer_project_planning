@@ -1,0 +1,110 @@
+{
+  "at": "2026-09-24T10:45:17.374Z",
+  "approval": "10-页面候选待前端审查.json candidates[1].writes[1]",
+  "candidateSha256": "cf7061fd916f39c8774f671828074d3434f107df82f7f6990609da919d402732",
+  "browser": {
+    "nodePid": 24176,
+    "chromiumPid": 6040,
+    "contexts": 1,
+    "pages": 1
+  },
+  "before": {
+    "rune": "rune_8017",
+    "skill": "rune_8017_passive",
+    "parameters": {
+      "target_health_threshold_ratio": 0.6,
+      "bonus_damage_ratio": 0.08
+    },
+    "formulas": 2,
+    "zoneStatus": 200,
+    "effectStatus": 404
+  },
+  "write": {
+    "method": "POST",
+    "path": "/api/admin/games/lol/skills/rune_8017_passive/effects",
+    "body": {
+      "effectKey": "basic_attack_health_bonus",
+      "name": "砍倒普通物理普攻生命门槛增伤",
+      "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格高于60%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+      "sortOrder": 10,
+      "lifecycle": {
+        "durationValue": null,
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "increase_damage",
+          "name": "符合生命门槛时提高普通物理普攻伤害",
+          "target": "SOURCE",
+          "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格高于60%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "MOMENT_EVALUATION",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": null,
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "resultType": "DAMAGE_MODIFIER",
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "bonus_damage_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": null,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "modifierZoneKey": "rune_8017_damage_increase",
+            "direction": "DEALT",
+            "operation": "INCREASE",
+            "damageTypeKey": "physics",
+            "deliveryKind": "BASIC_ATTACK",
+            "originKind": "DIRECT",
+            "criticalFilter": "ANY",
+            "condition": {
+              "receiver": "ENEMY_CHAMPION",
+              "attributeKey": "hp",
+              "attributeValueKind": "CURRENT_RATIO",
+              "comparator": "GT",
+              "comparisonValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "target_health_threshold_ratio"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "status": 201
+  },
+  "rejectedWrites": 0,
+  "reopened": {
+    "parentSummaryHasGT": true,
+    "resultStrictGT": true,
+    "resultOwnerSource": true,
+    "thresholdParameter": true,
+    "amountParameter": true,
+    "zone": true,
+    "filters": true
+  },
+  "after": {
+    "visibleDialogs": 0,
+    "noDraft": true
+  }
+}

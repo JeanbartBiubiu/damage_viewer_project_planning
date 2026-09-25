@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "at": "2026-09-24T01:13:40.977Z",
+  "source": "01-写前现值.json 的实际保存表达式及参数",
+  "cases": [
+    {
+      "max": 2000,
+      "missing": 1000,
+      "expected": 100,
+      "actual": 100
+    },
+    {
+      "max": 2000,
+      "missing": 0,
+      "expected": 50,
+      "actual": 50
+    },
+    {
+      "max": 1000,
+      "missing": 900,
+      "expected": 70,
+      "actual": 70
+    }
+  ],
+  "boundary": "原始治疗金额，不代表治疗上限或运行结算验证"
+}

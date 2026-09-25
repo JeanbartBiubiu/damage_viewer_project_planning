@@ -1,0 +1,35 @@
+
+[WebServer] (node:40152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:4576) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:35964) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 22 tests using 1 worker
+
+[1/22] tests\e2e\p6-runtime.spec.ts:694:1 › 最终Wasm产物身份
+[2/22] tests\e2e\p6-runtime.spec.ts:700:1 › 合成配置拒绝首次接触与未核定星蚀窗口，不补默认
+[3/22] tests\e2e\p6-runtime.spec.ts:707:1 › 实际 Worker：合成计数窗口同 use 多段只计一次，下一真实 use 触发奖励
+[4/22] tests\e2e\p6-runtime.spec.ts:734:1 › 实际 Worker：固定窗口不续期，恰好到期后重开
+[5/22] tests\e2e\p6-runtime.spec.ts:756:1 › 实际 Worker：快照恢复期限与历史 use 额度，新命中走下一真实 use
+[6/22] tests\e2e\p6-runtime.spec.ts:785:1 › 实际 Worker：合成待击消费开始与命中分开，伤害回蓝后清 ready 并开冷却
+[7/22] tests\e2e\p6-runtime.spec.ts:803:1 › 实际 Worker：普攻开始门禁失败不消费 ready
+[8/22] tests\e2e\p6-runtime.spec.ts:814:1 › 实际 Worker：内部冷却中不会重新开窗或重复奖励
+[9/22] tests\e2e\p6-runtime.spec.ts:825:1 › 实际 Worker：ATTACK_START 按字段拒绝，普通攻击发起不得提前伤害或回蓝
+[10/22] tests\e2e\p6-runtime.spec.ts:837:1 › 实际 Worker：反向拥有者的回蓝、命中与同次使用账本归属一致
+[11/22] tests\e2e\p6-runtime.spec.ts:847:1 › 实际 Worker：目标范围状态使用声明的非零初值，按原命中目标记录额度
+[12/22] tests\e2e\p6-runtime.spec.ts:870:1 › 实际 Worker：限时护盾在第二次独立使用生效，到期边界不再吸收
+[13/22] tests\e2e\p6-runtime.spec.ts:888:1 › 原库星蚀普通护盾组成→GET→Worker，保留原公式与期限且不升格完整触发资格
+[14/22] tests\e2e\p6-runtime.spec.ts:921:1 › 实际 Worker：技能与普攻四种命中组合，同 use 多段与跳伤只计一次
+[15/22] tests\e2e\p6-runtime.spec.ts:967:1 › 实际 Worker：单组启动在9000刷新，旧期限无效且19000到期
+[16/22] tests\e2e\p6-runtime.spec.ts:1008:1 › 实际 Worker：未绑定主动施法不刷新，真实 use 与 owner 保持
+[17/22] tests\e2e\p6-runtime.spec.ts:1027:1 › 实际 Worker：待命恢复可消费，消费后恢复重开仍拒绝旧命中
+[18/22] tests\e2e\p6-runtime.spec.ts:1053:1 › 实际 Worker：实际普攻目标决定结算，同次重复及重开后的旧事件不能再消费
+[19/22] tests\e2e\p6-runtime.spec.ts:1078:1 › 实际 Worker：刷新期限同刻的普攻已过期，缺真实使用事实拒绝运行
+[20/22] tests\e2e\p6-runtime.spec.ts:1096:1 › 实际 Worker：同定义另一个挂载未绑定时不能刷新窗口
+[21/22] tests\e2e\p6-runtime.spec.ts:1110:1 › 实际 Worker：重新绑定W后，旧Q入口不能刷新窗口
+[22/22] tests\e2e\p6-runtime.spec.ts:1124:1 › 原库夺萃回蓝组成→GET→Worker，护甲与护盾扣血不同但回蓝相同
+  22 passed (9.4s)

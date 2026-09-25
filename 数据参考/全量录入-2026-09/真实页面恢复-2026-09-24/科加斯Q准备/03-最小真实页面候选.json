@@ -1,0 +1,1038 @@
+{
+  "at": "2026-09-24T06:58:38.572Z",
+  "status": "CANDIDATE_ONLY_ROOT_TO_CONFIRM_LIMITED_SIMULATION",
+  "businessWrites": 0,
+  "scope": "现有50代表范围内科加斯Q击飞目录与控制管理返回，不改落地减速、原伤害或运行架构",
+  "baseline": {
+    "file": "01-状态与Q组成引用只读基线-20260924T065256Z.json",
+    "sha256": "d24ccfce4b4e7db4933318a6ddc291b2fe26c7677051ae5c561448055fb5015f",
+    "GETs": 33,
+    "absenceFile": "02-拟新增键缺失只读核对.json",
+    "absenceGETs": 3,
+    "totalGETs": 36
+  },
+  "current": {
+    "statuses": 5,
+    "airborneStatuses": 0,
+    "parameters": 7,
+    "formulas": 1,
+    "effects": 2,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 2,
+    "relevantReferences": 13,
+    "authoringIssuesForQ": 0,
+    "knockupDurationMs": 1000,
+    "existingDamageOncePerUse": null,
+    "existingDamageVampQualification": "UNRESOLVED"
+  },
+  "oldCandidate": {
+    "heroCandidatePath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十批/修订一-完整候选.json",
+    "heroCandidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+    "verdict": "原英雄候选仅数值/公式/消耗，均已保存；原击飞04为约束迁移冻结，不能重放。未发现待执行的击飞业务正文，本文件是新增准备，不把旧文件当未执行写入列表。",
+    "oldEffectKeys": [
+      "mana_cost"
+    ],
+    "oldRuleCount": 0,
+    "migrationFields": [
+      "at",
+      "status",
+      "target",
+      "change",
+      "approvedFiles",
+      "planSha256",
+      "expected",
+      "firstRealUi"
+    ]
+  },
+  "source": {
+    "officialFile": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Chogath.json",
+    "sha256": "a132ad9f7eba390af39efe75a61d2bce5d76ae03e33e047552d9612b482c6843",
+    "version": "16.17.1",
+    "facts": [
+      "Q描述明确将敌人击飞",
+      "effect[5]五级均1秒",
+      "现有knockup_duration_ms固定1000且未变化"
+    ],
+    "priorApprovedPlan": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/击飞状态管理补齐/01-最小方案.md"
+  },
+  "implementation": {
+    "frontendCommit": "fc8738f469b570889c18de6a10d0dbcef264a326",
+    "backendCommit": "97601b5c1d0db2e480df32b426759c23edca5585",
+    "bothInCurrentHistory": true,
+    "migrationAlreadyExecuted": true,
+    "migrationReplayForbidden": true,
+    "positiveAirborneLiveSaveNotYetVerified": true,
+    "currentServiceRead": "36次GET可读，拟新增3键均404；现有目录GET不能替代首次AIRBORNE保存接受性证据"
+  },
+  "suggestedSimulationBoundary": [
+    "只接本体实际命中敌方英雄，沿用原规则的英雄类别、敌方、同次blocked=0三条件，不另发明输入。",
+    "同次真实Q使用对每个实际目标最多一次控制；TARGET范围包括原命中target，不能用SKILL范围或SKILL_HIT_FIRST_CONTACT。",
+    "独立限制键只属于控制规则，不与原伤害规则共享，否则并列的伤害和控制可能互相消耗额度；原伤害去重结论本次不改变。",
+    "同来源同目标新一次Q可重新施加1秒；来源与目标组合实例、单层、重施刷新为有限模拟约定，不冒称复杂跨来源控制合并实测。",
+    "明确未阻挡的入口下控制结果不再次判盾；null阻挡粒度不表示控制免疫于法术护盾。",
+    "细帧碰撞、飞行轨迹、命中生成、免疫/解除与落地减速不作为保存该管理组成的统一阻塞，也不在本候选中假装实现。"
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/statuses",
+      "detailPath": "/statuses/airborne",
+      "body": {
+        "statusKind": "AIRBORNE",
+        "statusKey": "airborne",
+        "name": "击飞",
+        "description": "击飞控制状态身份；具体期限由技能效果生命周期维护，不配置强度、位移距离或方向。",
+        "status": "ENABLED",
+        "sortOrder": 50
+      },
+      "expectedAbsent": true
+    },
+    {
+      "method": "POST",
+      "path": "/skills/chogath_q/effects",
+      "detailPath": "/skills/chogath_q/effects/knockup",
+      "body": {
+        "effectKey": "knockup",
+        "name": "破裂明确未阻挡击飞",
+        "description": "固定16.17.1资料明确击飞1秒，复用knockup_duration_ms。仅供本技能本体实际命中敌方英雄且同次法术护盾结果明确为0的入口；持续施加击飞，无强度数值。空间轨迹、免疫和落地后减速不在本组成中表达。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "instanceScope": "SOURCE_TARGET",
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "knockup_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "apply_knockup",
+            "name": "持续施加击飞",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "无强度控制；期限由父生命周期的1000毫秒参数决定。空法术护盾粒度不表示穿盾，未阻挡资格由同次命中规则明确要求。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": null,
+            "detail": {
+              "statusKey": "airborne",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      },
+      "expectedAbsent": true
+    },
+    {
+      "method": "POST",
+      "path": "/skills/chogath_q/trigger-rules",
+      "detailPath": "/skills/chogath_q/trigger-rules/actual_unblocked_knockup",
+      "body": {
+        "ruleKey": "actual_unblocked_knockup",
+        "name": "明确未阻挡破裂命中每目标一次击飞",
+        "description": "沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。",
+        "sortOrder": 20,
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "chogath_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 10
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 20
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "detail": {
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  },
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+                },
+                "sortOrder": 30
+              }
+            ],
+            "groupKey": "champion_target",
+            "name": "本轮明确未阻挡敌方英雄",
+            "sortOrder": 10
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_knockup",
+            "name": "施加破裂击飞",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "knockup"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": {
+          "groupKey": "q_knockup_per_target",
+          "scope": "TARGET"
+        }
+      },
+      "expectedAbsent": true
+    }
+  ],
+  "expectedCounts": {
+    "statuses": 6,
+    "parameters": 7,
+    "formulas": 1,
+    "effects": 3,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 3,
+    "relevantReferences": 18
+  },
+  "protected": {
+    "routes": [
+      "/characters/champion_chogath",
+      "/skills/chogath_q/formulas",
+      "/skills/chogath_q",
+      "/skills/chogath_q/processes",
+      "/skills/chogath_q/parameters",
+      "/skills/chogath_q/internal-states",
+      "/character-skill-relations?skillKey=chogath_q",
+      "/skills/chogath_q/parameters/cooldown_ms",
+      "/skills/chogath_q/effects/mana_cost",
+      "/skills/chogath_q/effects/primary_hit",
+      "/skills/chogath_q/parameters/knockup_duration_ms",
+      "/skills/chogath_q/parameters/ap_ratio",
+      "/skills/chogath_q/parameters/base_damage",
+      "/skills/chogath_q/parameters/mana_cost",
+      "/skills/chogath_q/formulas/magic_damage",
+      "/skills/chogath_q/parameters/slow_duration_ms",
+      "/skills/chogath_q/parameters/slow_percent_points",
+      "/statuses/charm",
+      "/statuses/root",
+      "/statuses/movement_slow",
+      "/statuses/vertigo",
+      "/statuses/silence",
+      "/skills/chogath_q/trigger-rules/on_used_cost_and_cooldown",
+      "/skills/chogath_q/processes/use_cost_and_cooldown",
+      "/skills/chogath_q/trigger-rules/actual_unblocked_hit",
+      "/damage-types/magic",
+      "/attributes/ability_power",
+      "/attributes/mana",
+      "/skill-categories/common"
+    ],
+    "existingListItems": [
+      "5个状态全部正文与时间戳",
+      "2个原效果摘要及详情",
+      "2条原规则摘要及详情"
+    ],
+    "allExistingRelevantReferences": [
+      {
+        "fieldPath": "results[0].detail.attributeKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].detail.attributeKey",
+          "formulaSnapshot": null,
+          "objectKey": "mana_cost",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "consume_mana",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "RESOURCE_CHANGE"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "CONSUME"
+            },
+            {
+              "field": "attributeKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "mana_cost",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "EFFECT",
+        "targetKey": "mana",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "ATTRIBUTE"
+      },
+      {
+        "fieldPath": "results[0].valueRule.value.parameterKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].valueRule.value.parameterKey",
+          "formulaSnapshot": null,
+          "objectKey": "mana_cost",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "consume_mana",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "RESOURCE_CHANGE"
+            },
+            {
+              "field": "valueRule",
+              "kind": "FIELD"
+            },
+            {
+              "field": "value",
+              "kind": "FIELD"
+            },
+            {
+              "field": "parameterKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "mana_cost",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "EFFECT",
+        "targetKey": "mana_cost",
+        "targetSkillKey": "chogath_q",
+        "targetSubKey": "",
+        "targetType": "PARAMETER"
+      },
+      {
+        "fieldPath": "results[0].detail.damageTypeKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].detail.damageTypeKey",
+          "formulaSnapshot": null,
+          "objectKey": "primary_hit",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "damage",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "DAMAGE"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "damageTypeKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "primary_hit",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "EFFECT",
+        "targetKey": "magic",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "DAMAGE_TYPE"
+      },
+      {
+        "fieldPath": "results[0].valueRule.value.formulaKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].valueRule.value.formulaKey",
+          "formulaSnapshot": null,
+          "objectKey": "primary_hit",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "damage",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "DAMAGE"
+            },
+            {
+              "field": "valueRule",
+              "kind": "FIELD"
+            },
+            {
+              "field": "value",
+              "kind": "FIELD"
+            },
+            {
+              "field": "formulaKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "primary_hit",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "EFFECT",
+        "targetKey": "magic_damage",
+        "targetSkillKey": "chogath_q",
+        "targetSubKey": "",
+        "targetType": "FORMULA"
+      },
+      {
+        "fieldPath": "expression.operands[0].parameterKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "FORMULA",
+          "fieldPath": "expression.operands[0].parameterKey",
+          "formulaSnapshot": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "objectKey": "magic_damage",
+          "objectType": "FORMULA",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "field": "expression",
+              "kind": "FIELD"
+            },
+            {
+              "field": "nodeType",
+              "kind": "EXPECT_VALUE",
+              "value": "OPERATION"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "ADD"
+            },
+            {
+              "kind": "FORMULA_OPERAND",
+              "operand": 0
+            },
+            {
+              "field": "nodeType",
+              "kind": "EXPECT_VALUE",
+              "value": "PARAMETER"
+            },
+            {
+              "field": "parameterKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "magic_damage",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "FORMULA",
+        "targetKey": "base_damage",
+        "targetSkillKey": "chogath_q",
+        "targetSubKey": "",
+        "targetType": "PARAMETER"
+      },
+      {
+        "fieldPath": "expression.operands[1].operands[0].parameterKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "FORMULA",
+          "fieldPath": "expression.operands[1].operands[0].parameterKey",
+          "formulaSnapshot": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "objectKey": "magic_damage",
+          "objectType": "FORMULA",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "field": "expression",
+              "kind": "FIELD"
+            },
+            {
+              "field": "nodeType",
+              "kind": "EXPECT_VALUE",
+              "value": "OPERATION"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "ADD"
+            },
+            {
+              "kind": "FORMULA_OPERAND",
+              "operand": 1
+            },
+            {
+              "field": "nodeType",
+              "kind": "EXPECT_VALUE",
+              "value": "OPERATION"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "MULTIPLY"
+            },
+            {
+              "kind": "FORMULA_OPERAND",
+              "operand": 0
+            },
+            {
+              "field": "nodeType",
+              "kind": "EXPECT_VALUE",
+              "value": "PARAMETER"
+            },
+            {
+              "field": "parameterKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "magic_damage",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "FORMULA",
+        "targetKey": "ap_ratio",
+        "targetSkillKey": "chogath_q",
+        "targetSubKey": "",
+        "targetType": "PARAMETER"
+      },
+      {
+        "fieldPath": "expression.operands[1].operands[1].attributeKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "FORMULA",
+          "fieldPath": "expression.operands[1].operands[1].attributeKey",
+          "formulaSnapshot": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          "objectKey": "magic_damage",
+          "objectType": "FORMULA",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "field": "expression",
+              "kind": "FIELD"
+            },
+            {
+              "field": "nodeType",
+              "kind": "EXPECT_VALUE",
+              "value": "OPERATION"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "ADD"
+            },
+            {
+              "kind": "FORMULA_OPERAND",
+              "operand": 1
+            },
+            {
+              "field": "nodeType",
+              "kind": "EXPECT_VALUE",
+              "value": "OPERATION"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "MULTIPLY"
+            },
+            {
+              "kind": "FORMULA_OPERAND",
+              "operand": 1
+            },
+            {
+              "field": "nodeType",
+              "kind": "EXPECT_VALUE",
+              "value": "ATTRIBUTE"
+            },
+            {
+              "field": "attributeKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "magic_damage",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "FORMULA",
+        "targetKey": "ability_power",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "ATTRIBUTE"
+      },
+      {
+        "fieldPath": "cooldown.durationValue.parameterKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "PROCESS",
+          "fieldPath": "cooldown.durationValue.parameterKey",
+          "formulaSnapshot": null,
+          "objectKey": "use_cost_and_cooldown",
+          "objectType": "PROCESS",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "field": "cooldown",
+              "kind": "FIELD"
+            },
+            {
+              "field": "durationValue",
+              "kind": "FIELD"
+            },
+            {
+              "field": "parameterKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "use_cost_and_cooldown",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "PROCESS",
+        "targetKey": "cooldown_ms",
+        "targetSkillKey": "chogath_q",
+        "targetSubKey": "",
+        "targetType": "PARAMETER"
+      },
+      {
+        "fieldPath": "effectBindings[0].effectKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "PROCESS",
+          "fieldPath": "effectBindings[0].effectKey",
+          "formulaSnapshot": null,
+          "objectKey": "use_cost_and_cooldown",
+          "objectType": "PROCESS",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "effectBindings",
+              "key": "mana_cost",
+              "keyField": "bindingKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "effectKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "use_cost_and_cooldown",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "PROCESS",
+        "targetKey": "mana_cost",
+        "targetSkillKey": "chogath_q",
+        "targetSubKey": "",
+        "targetType": "EFFECT"
+      },
+      {
+        "fieldPath": "actions[0].detail.effectKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "TRIGGER_RULE",
+          "fieldPath": "actions[0].detail.effectKey",
+          "formulaSnapshot": null,
+          "objectKey": "actual_unblocked_hit",
+          "objectType": "TRIGGER",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "actions",
+              "key": "execute_primary_hit",
+              "keyField": "actionKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "actionType",
+              "kind": "EXPECT_VALUE",
+              "value": "EXECUTE_EFFECT"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "effectKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "actual_unblocked_hit",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "TRIGGER",
+        "targetKey": "primary_hit",
+        "targetSkillKey": "chogath_q",
+        "targetSubKey": "",
+        "targetType": "EFFECT"
+      },
+      {
+        "fieldPath": "eventSource.detail.sourceSkillKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "TRIGGER_RULE",
+          "fieldPath": "eventSource.detail.sourceSkillKey",
+          "formulaSnapshot": null,
+          "objectKey": "actual_unblocked_hit",
+          "objectType": "TRIGGER",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "field": "eventSource",
+              "kind": "FIELD"
+            },
+            {
+              "field": "eventType",
+              "kind": "EXPECT_VALUE",
+              "value": "SKILL_HIT"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "sourceSkillKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "actual_unblocked_hit",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "TRIGGER",
+        "targetKey": "chogath_q",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "SKILL"
+      },
+      {
+        "fieldPath": "actions[0].detail.processKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "TRIGGER_RULE",
+          "fieldPath": "actions[0].detail.processKey",
+          "formulaSnapshot": null,
+          "objectKey": "on_used_cost_and_cooldown",
+          "objectType": "TRIGGER",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "actions",
+              "key": "start_use_cost",
+              "keyField": "actionKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "actionType",
+              "kind": "EXPECT_VALUE",
+              "value": "START_PROCESS"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "processKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "on_used_cost_and_cooldown",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "TRIGGER",
+        "targetKey": "use_cost_and_cooldown",
+        "targetSkillKey": "chogath_q",
+        "targetSubKey": "",
+        "targetType": "PROCESS"
+      },
+      {
+        "fieldPath": "eventSource.detail.sourceSkillKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "TRIGGER_RULE",
+          "fieldPath": "eventSource.detail.sourceSkillKey",
+          "formulaSnapshot": null,
+          "objectKey": "on_used_cost_and_cooldown",
+          "objectType": "TRIGGER",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "field": "eventSource",
+              "kind": "FIELD"
+            },
+            {
+              "field": "eventType",
+              "kind": "EXPECT_VALUE",
+              "value": "SKILL_USED"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "sourceSkillKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "chogath_q"
+        },
+        "sourceKey": "on_used_cost_and_cooldown",
+        "sourceSkillKey": "chogath_q",
+        "sourceType": "TRIGGER",
+        "targetKey": "chogath_q",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "SKILL"
+      }
+    ],
+    "noUpdatesOrDeletes": true,
+    "oldDamageAndVampUnchanged": true,
+    "oldCostCooldownAndInitialPhaseUnchanged": true,
+    "parametersAndFormulaUnchanged": true
+  },
+  "expectedReferenceAdditions": [
+    {
+      "sourceSkillKey": "chogath_q",
+      "sourceType": "EFFECT",
+      "sourceKey": "knockup",
+      "fieldPath": "lifecycle.durationValue.parameterKey",
+      "targetType": "PARAMETER",
+      "targetSkillKey": "chogath_q",
+      "targetKey": "knockup_duration_ms",
+      "targetSubKey": ""
+    },
+    {
+      "sourceSkillKey": "chogath_q",
+      "sourceType": "EFFECT",
+      "sourceKey": "knockup",
+      "fieldPath": "results[0].detail.statusKey",
+      "targetType": "STATUS",
+      "targetSkillKey": "",
+      "targetKey": "airborne",
+      "targetSubKey": ""
+    },
+    {
+      "sourceSkillKey": "chogath_q",
+      "sourceType": "EFFECT",
+      "sourceKey": "knockup",
+      "fieldPath": "results[0].lifecycleBehavior",
+      "targetType": "LIFECYCLE",
+      "targetSkillKey": "chogath_q",
+      "targetKey": "knockup",
+      "targetSubKey": ""
+    },
+    {
+      "sourceSkillKey": "chogath_q",
+      "sourceType": "TRIGGER",
+      "sourceKey": "actual_unblocked_knockup",
+      "fieldPath": "actions[0].detail.effectKey",
+      "targetType": "EFFECT",
+      "targetSkillKey": "chogath_q",
+      "targetKey": "knockup",
+      "targetSubKey": ""
+    },
+    {
+      "sourceSkillKey": "chogath_q",
+      "sourceType": "TRIGGER",
+      "sourceKey": "actual_unblocked_knockup",
+      "fieldPath": "eventSource.detail.sourceSkillKey",
+      "targetType": "SKILL",
+      "targetSkillKey": "",
+      "targetKey": "chogath_q",
+      "targetSubKey": ""
+    }
+  ],
+  "pageAcceptance": [
+    "状态目录首次选择击飞而非眩晕；保存重开为AIRBORNE且种类只读，不含期限或强度字段。",
+    "效果结果通过状态目录选择airborne，摘要展示施加、击飞名称与键；不出现或发送强度值、倍率、百分比。",
+    "父生命周期使用knockup_duration_ms=1000毫秒，SOURCE_TARGET、单层、KEEP、REFRESH_ALL、ALL_AT_ONCE；持续结果全部数值读取字段及valueRule为空。",
+    "规则显示英雄类别、敌方、明确未被法术护盾阻挡，以及同次使用每个目标一次；不得选择全局首次接触条件。",
+    "逐笔保存后重开与独立GET。原对象保护不变；新效果在规则未保存前的未接线REVIEW可预期，规则保存后应消失。"
+  ],
+  "staticEvidence": [
+    {
+      "path": "C:/project/damage_web_dev/web/src/types/status.ts",
+      "line": 2,
+      "purpose": "击飞独立种类、标签及响应守卫"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/SkillEffectResultEditorModal.tsx",
+      "line": 1993,
+      "purpose": "选择状态后按种类切换无强度分支"
+    },
+    {
+      "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/resultReferenceSummary.ts",
+      "line": 247,
+      "purpose": "非减速状态摘要不输出强度单位"
+    },
+    {
+      "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+      "line": 1370,
+      "purpose": "非普通减速施加禁止valueRule"
+    },
+    {
+      "path": "C:/project/damage_viewer_project_planning/文档记录/详细设计/项目/管理页面与共性机制迭代计划.md",
+      "line": 231,
+      "purpose": "同次使用TARGET及真实命中目标语义"
+    }
+  ],
+  "remaining": [
+    "三笔首次真实页面及当前服务正向接受性待验",
+    "原伤害UNRESOLVED不改，不因其阻塞独立控制管理；完整Q运行仍未完成",
+    "用户允许合理简化，由主负责人核定本文件控制入口与每目标一次的有限模拟口径后再冻结执行"
+  ],
+  "previousSummaryDelta": [
+    {
+      "ruleKey": "on_used_cost_and_cooldown",
+      "added": {
+        "oncePerUseEnabled": false
+      },
+      "allOtherFieldsSame": true
+    },
+    {
+      "ruleKey": "actual_unblocked_hit",
+      "added": {
+        "oncePerUseEnabled": false
+      },
+      "allOtherFieldsSame": true
+    }
+  ]
+}

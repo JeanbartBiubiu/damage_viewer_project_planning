@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-24T08:46:33.791Z",
+  "method": "正常页面打开录入检查，仅GET",
+  "endpoint": "/api/admin/games/lol/characters/champion_chogath/authoring-check",
+  "responses": [
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/characters/champion_chogath/authoring-check",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/characters/champion_chogath/authoring-check",
+      "status": 200
+    }
+  ],
+  "summary": "结构检查：未发现错误；2 项待核对。机制完整性：待人工核对。战斗运行：未执行。",
+  "mechanismAndRuntime": "结构检查：未发现错误；2 项待核对。机制完整性：待人工核对。战斗运行：未执行。",
+  "qSkillRow": "科加斯·破裂（chogath_q） | \t | 启用 | \t | 5 | \t | 3 | \t | 1 | \t | 3 | \t | 录入技能",
+  "issueRows": [
+    "待核对 | \t | chogath_e / 效果 / mana_cost | \t | 效果未发现过程挂接或执行效果动作，请人工核对用途 | \t | 定位问题",
+    "待核对 | \t | chogath_r / 效果 / mana_cost | \t | 效果未发现过程挂接或执行效果动作，请人工核对用途 | \t | 定位问题"
+  ],
+  "qRuleCountInSkillOverview": true,
+  "knockupUnconnectedIssue": false,
+  "unrelatedPendingItems": [
+    [
+      "chogath_e / 效果 / mana_cost",
+      "效果未发现过程挂接或执行效果动作，请人工核对用途"
+    ],
+    [
+      "chogath_r / 效果 / mana_cost",
+      "效果未发现过程挂接或执行效果动作，请人工核对用途"
+    ]
+  ],
+  "authoringCheckText": "录入检查 · 科加斯\n重新检查\n编辑基础资料\n维护等级属性\n维护关联技能\n结构检查：未发现错误；2 项待核对。机制完整性：待人工核对。战斗运行：未执行。\n检查时间：2026/9/24 16:45:13。已挂载 6 个技能，已配置 10 项等级属性。\n问题与待核对项\n级别\n\t\n位置\n\t\n说明\n\t\n操作\n\n\n待核对\n\t\nchogath_e / 效果 / mana_cost\n\t\n效果未发现过程挂接或执行效果动作，请人工核对用途\n\t\n定位问题\n\n\n待核对\n\t\nchogath_r / 效果 / mana_cost\n\t\n效果未发现过程挂接或执行效果动作，请人工核对用途\n\t\n定位问题\n挂载技能\n技能\n\t\n状态\n\t\n最高等级\n\t\n效果\n\t\n过程\n\t\n规则\n\t\n操作\n\n\n科加斯·肉食者（chogath_p）\n\t\n启用\n\t\n1\n\t\n0\n\t\n0\n\t\n0\n\t\n录入技能\n\n\n科加斯·破裂（chogath_q）\n\t\n启用\n\t\n5\n\t\n3\n\t\n1\n\t\n3\n\t\n录入技能\n\n\n科加斯·野性尖叫（chogath_w）\n\t\n启用\n\t\n5\n\t\n3\n\t\n1\n\t\n3\n\t\n录入技能\n\n\n科加斯·恐惧之刺（chogath_e）\n\t\n启用\n\t\n5\n\t\n1\n\t\n0\n\t\n0\n\t\n录入技能\n\n\n科加斯·盛宴（chogath_r）\n\t\n启用\n\t\n3\n\t\n1\n\t\n0\n\t\n0\n\t\n录入技能\n\n\n普通攻击·共享（shared_basic_attack）\n\t\n启用\n\t\n1\n\t\n2\n\t\n1\n\t\n2\n\t\n录入技能\n直接引用（74）\n引用来源\n\t\n原字段\n\t\n引用目标\n\t\n操作\n\n\n科加斯·恐惧之刺（chogath_e） / 效果：施放法力消耗（mana_cost）\n\t\nresults[0].detail.attributeKey\n\t\n属性 / 法力值（mana）\n\t\n定位引用处\n\n\n科加斯·恐惧之刺（chogath_e） / 效果：施放法力消耗（mana_cost）\n\t\nresults[0].valueRule.value.parameterKey\n\t\n参数 / chogath_e / 基础法力消耗（mana_cost）\n\t\n定位引用处\n\n\n科加斯·恐惧之刺（chogath_e） / 公式：恐惧之刺基础伤害（flat_damage）\n\t\nexpression.operands[0].parameterKey\n\t\n参数 / chogath_e / 基础魔法伤害（base_damage）\n\t\n定位引用处\n展开全部（共 74 项）\n逐项人工核对资料版本、施法消耗、实际命中与目标范围、持续和提前结束、动态输入来源及护盾交互。结构检查不判断完整游戏机制；没有直接执行入口的对象也可能需要保留。\n关闭"
+}

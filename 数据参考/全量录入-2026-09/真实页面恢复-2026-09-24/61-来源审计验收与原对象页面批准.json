@@ -1,0 +1,109 @@
+{
+  "at": "2026-09-24T12:13:59.423Z",
+  "status": "FIRST_PAGE_UPDATE_APPROVED",
+  "model": "gpt-6-sol",
+  "effort": "max",
+  "sourceSha256": "3199c6b831425b30b8c9e08ac075c27dc239a5d641fb9593cc731724c359ebe6",
+  "candidate": "普通伤害来源准备/09-扩大过滤页面候选.json",
+  "candidateSha256": "5451abb835c56b841fa969a2616e353ffc875db8910e190925ce3fc2f7061bff",
+  "independentReview": {
+    "reviewer": "damage_native_review",
+    "status": "READY",
+    "verifiedFinalSourceSha256": "3199c6b831425b30b8c9e08ac075c27dc239a5d641fb9593cc731724c359ebe6",
+    "auditAndInventoryTests": 46,
+    "fixedIssues": [
+      "最终能力分类与作者重编结果完全一致",
+      "角色本体命中来源不接受显式宠物或其他不符来源"
+    ],
+    "pageCandidateReview": "四笔前后差异与请求体、条件、金额、生命周期及引用核对通过"
+  },
+  "finalRuntime": "普通伤害来源准备/16-最终来源候选运行独立核对.json",
+  "runtimeScenes": 16,
+  "frontendTests": 1176,
+  "lintTypecheckBuildPassed": true,
+  "approvedNow": {
+    "index": 1,
+    "method": "PUT",
+    "route": "/skills/rune_8014_passive/effects/basic_attack_health_bonus",
+    "body": {
+      "description": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格低于40%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "致命一击普通直接伤害生命门槛增伤",
+      "results": [
+        {
+          "description": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格低于40%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+          "detail": {
+            "condition": {
+              "receiver": "ENEMY_CHAMPION",
+              "comparator": "LT",
+              "attributeKey": "hp",
+              "comparisonValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "target_health_threshold_ratio"
+              },
+              "attributeValueKind": "CURRENT_RATIO"
+            },
+            "criticalFilter": "ANY",
+            "damageTypeKey": null,
+            "deliveryKind": "ANY",
+            "direction": "DEALT",
+            "modifierZoneKey": "rune_8014_damage_increase",
+            "operation": "INCREASE",
+            "originKind": "DIRECT"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "name": "符合生命门槛时提高普通直接伤害",
+          "resultKey": "increase_damage",
+          "resultType": "DAMAGE_MODIFIER",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "bonus_damage_ratio"
+            }
+          }
+        }
+      ],
+      "sortOrder": 10
+    }
+  },
+  "subsequentUpdates": "第1笔真实页面保存重开并独立回读通过后再逐笔批准",
+  "heroScope": {
+    "count": 50,
+    "sourceSkillsInScope": [
+      "annie_q",
+      "garen_r"
+    ],
+    "expanded": false
+  },
+  "formalWritesByThisScript": 0,
+  "formalExpandedRuntimePassed": false,
+  "wholeRunesComplete": false
+}

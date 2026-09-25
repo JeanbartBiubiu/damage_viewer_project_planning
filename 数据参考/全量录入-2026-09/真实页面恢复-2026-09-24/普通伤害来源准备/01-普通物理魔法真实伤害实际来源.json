@@ -1,0 +1,3317 @@
+{
+  "at": "2026-09-24T10:39:46.846Z",
+  "purpose": "扩大两符文伤害范围前，核对现行已保存普通伤害生产来源及挂载，准备来源批准边界",
+  "status": "READ_ONLY_PREPARATION",
+  "businessWrites": 0,
+  "audit": [
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/character-skill-relations?skillKey=shared_basic_attack",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/parameters/base_critical_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/parameters/milliseconds_per_second",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/formulas/attack_interval_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/formulas/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/formulas/critical_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/effects/attack_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/effects/attack_start",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/trigger-rules/on_attack_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/shared_basic_attack/trigger-rules/on_attack_start",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/character-skill-relations?skillKey=annie_q",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/parameters/kill_cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/effects/spell_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/effects/kill_mana_refund",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/annie_q/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/character-skill-relations?skillKey=garen_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/parameters/missing_hp_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/parameters/reveal_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/parameters/cast_range",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/effects/justice_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/trigger-rules/on_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/garen_r/trigger-rules/on_used",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/shared_basic_attack": {
+      "createdAt": "2026-09-21T16:04:04.509379Z",
+      "description": "普通英雄共享的单次普通攻击。主伤害为来源当前总攻击力的100%物理伤害；基础暴击倍率2，加上额外暴击伤害比例；攻击间隔为1000除以来源当前总攻击速度，单位毫秒。只归入普通攻击分类，常规技能急速与冷却返还不包含本类。英雄被动、强化攻击和附加伤害由各自技能配置；泽丽、卡莉丝塔及其他本体例外使用独立定义。来源：固定16.17/16.17.1及官方26.1暴击规则；2026-09-22用户确认分类口径。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "普通攻击·共享",
+      "skillCategoryKeys": [
+        "basic_attack"
+      ],
+      "skillKey": "shared_basic_attack",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-21T16:05:27.435586Z"
+    },
+    "/character-skill-relations?skillKey=shared_basic_attack": {
+      "items": [
+        {
+          "characterKey": "champion_lissandra",
+          "characterName": "丽桑卓",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_udyr",
+          "characterName": "乌迪尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_leblanc",
+          "characterName": "乐芙兰",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_zaahen",
+          "characterName": "亚恒",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_aatrox",
+          "characterName": "亚托克斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "ez",
+          "characterName": "伊泽瑞尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_evelynn",
+          "characterName": "伊芙琳",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_elise",
+          "characterName": "伊莉丝",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_zoe",
+          "characterName": "佐伊",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_viego",
+          "characterName": "佛耶戈",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_illaoi",
+          "characterName": "俄洛伊",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_kogmaw",
+          "characterName": "克格莫",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_kled",
+          "characterName": "克烈",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_rumble",
+          "characterName": "兰博",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_nasus",
+          "characterName": "内瑟斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_kennen",
+          "characterName": "凯南",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_kayle",
+          "characterName": "凯尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_caitlyn",
+          "characterName": "凯特琳",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_kayn",
+          "characterName": "凯隐",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_galio",
+          "characterName": "加里奥",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_nunu",
+          "characterName": "努努和威朗普",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_zed",
+          "characterName": "劫",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_kindred",
+          "characterName": "千珏",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_belveth",
+          "characterName": "卑尔维斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_khazix",
+          "characterName": "卡兹克",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_karma",
+          "characterName": "卡尔玛",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_karthus",
+          "characterName": "卡尔萨斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_katarina",
+          "characterName": "卡特琳娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_kaisa",
+          "characterName": "卡莎",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_kassadin",
+          "characterName": "卡萨丁",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_camille",
+          "characterName": "卡蜜尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_cassiopeia",
+          "characterName": "卡西奥佩娅",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_lucian",
+          "characterName": "卢锡安",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_urgot",
+          "characterName": "厄加特",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_missfortune",
+          "characterName": "厄运小姐",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_gragas",
+          "characterName": "古拉加斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_ziggs",
+          "characterName": "吉格斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_jarvaniv",
+          "characterName": "嘉文四世",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_twitch",
+          "characterName": "图奇",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_zilean",
+          "characterName": "基兰",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_tahmkench",
+          "characterName": "塔姆",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_taliyah",
+          "characterName": "塔莉垭",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_taric",
+          "characterName": "塔里克",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_malphite",
+          "characterName": "墨菲特",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_qiyana",
+          "characterName": "奇亚娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_nidalee",
+          "characterName": "奈德丽",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_quinn",
+          "characterName": "奎因",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_ksante",
+          "characterName": "奎桑提",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_ornn",
+          "characterName": "奥恩",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_olaf",
+          "characterName": "奥拉夫",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_aurelionsol",
+          "characterName": "奥瑞利安·索尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_orianna",
+          "characterName": "奥莉安娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_sona",
+          "characterName": "娑娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_nami",
+          "characterName": "娜美",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_zyra",
+          "characterName": "婕拉",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_monkeyking",
+          "characterName": "孙悟空",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_annie",
+          "characterName": "安妮",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_ambessa",
+          "characterName": "安蓓萨",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_nilah",
+          "characterName": "尼菈",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_tristana",
+          "characterName": "崔丝塔娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_twistedfate",
+          "characterName": "崔斯特",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_bard",
+          "characterName": "巴德",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_brand",
+          "characterName": "布兰德",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_blitzcrank",
+          "characterName": "布里茨",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_braum",
+          "characterName": "布隆",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_shyvana",
+          "characterName": "希瓦娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_sivir",
+          "characterName": "希维尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_corki",
+          "characterName": "库奇",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_vladimir",
+          "characterName": "弗拉基米尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_hwei",
+          "characterName": "彗",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_darius",
+          "characterName": "德莱厄斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_draven",
+          "characterName": "德莱文",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_yuumi",
+          "characterName": "悠米",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_shen",
+          "characterName": "慎",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_zac",
+          "characterName": "扎克",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_lux",
+          "characterName": "拉克丝",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_rammus",
+          "characterName": "拉莫斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_teemo",
+          "characterName": "提莫",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_skarner",
+          "characterName": "斯卡纳",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_swain",
+          "characterName": "斯维因",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_smolder",
+          "characterName": "斯莫德",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_masteryi",
+          "characterName": "易",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_gangplank",
+          "characterName": "普朗克",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_leesin",
+          "characterName": "李青",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_jayce",
+          "characterName": "杰斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_gwen",
+          "characterName": "格温",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_mel",
+          "characterName": "梅尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_volibear",
+          "characterName": "沃利贝尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_warwick",
+          "characterName": "沃里克",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_poppy",
+          "characterName": "波比",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_tryndamere",
+          "characterName": "泰达米尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_talon",
+          "characterName": "泰隆",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_xerath",
+          "characterName": "泽拉斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_rakan",
+          "characterName": "洛",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_locke",
+          "characterName": "洛克",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_pyke",
+          "characterName": "派克",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_pantheon",
+          "characterName": "潘森",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_renata",
+          "characterName": "烈娜塔 · 戈拉斯克",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_trundle",
+          "characterName": "特朗德尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_malzahar",
+          "characterName": "玛尔扎哈",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_ryze",
+          "characterName": "瑞兹",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_sejuani",
+          "characterName": "瑟庄妮",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_lulu",
+          "characterName": "璐璐",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_garen",
+          "characterName": "盖伦",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_chogath",
+          "characterName": "科加斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_milio",
+          "characterName": "米利欧",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_yorick",
+          "characterName": "约里克",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_naafiri",
+          "characterName": "纳亚菲利",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_gnar",
+          "characterName": "纳尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_velkoz",
+          "characterName": "维克兹",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_viktor",
+          "characterName": "维克托",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_veigar",
+          "characterName": "维迦",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_ekko",
+          "characterName": "艾克",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_anivia",
+          "characterName": "艾尼维亚",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_irelia",
+          "characterName": "艾瑞莉娅",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_ivern",
+          "characterName": "艾翁",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_rell",
+          "characterName": "芮尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_yunara",
+          "characterName": "芸阿娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_maokai",
+          "characterName": "茂凯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_lillia",
+          "characterName": "莉莉娅",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_samira",
+          "characterName": "莎弥拉",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_mordekaiser",
+          "characterName": "莫德凯撒",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_morgana",
+          "characterName": "莫甘娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_fizz",
+          "characterName": "菲兹",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_fiora",
+          "characterName": "菲奥娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_seraphine",
+          "characterName": "萨勒芬妮",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_shaco",
+          "characterName": "萨科",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_drmundo",
+          "characterName": "蒙多医生",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_vi",
+          "characterName": "蔚",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_leona",
+          "characterName": "蕾欧娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_vex",
+          "characterName": "薇古丝",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_vayne",
+          "characterName": "薇恩",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_nautilus",
+          "characterName": "诺提勒斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_briar",
+          "characterName": "贝蕾亚",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_fiddlesticks",
+          "characterName": "费德提克",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_jax",
+          "characterName": "贾克斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_sion",
+          "characterName": "赛恩",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_hecarim",
+          "characterName": "赫卡里姆",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_xinzhao",
+          "characterName": "赵信",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_singed",
+          "characterName": "辛吉德",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_syndra",
+          "characterName": "辛德拉",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_janna",
+          "characterName": "迦娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_jinx",
+          "characterName": "金克丝",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_riven",
+          "characterName": "锐雯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_thresh",
+          "characterName": "锤石",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_azir",
+          "characterName": "阿兹尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_alistar",
+          "characterName": "阿利斯塔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_akali",
+          "characterName": "阿卡丽",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_amumu",
+          "characterName": "阿木木",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_ahri",
+          "characterName": "阿狸",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_aurora",
+          "characterName": "阿萝拉",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_reksai",
+          "characterName": "雷克塞",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_renekton",
+          "characterName": "雷克顿",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_rengar",
+          "characterName": "雷恩加尔",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_xayah",
+          "characterName": "霞",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_varus",
+          "characterName": "韦鲁斯",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_nocturne",
+          "characterName": "魔腾",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_heimerdinger",
+          "characterName": "黑默丁格",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        },
+        {
+          "characterKey": "champion_diana",
+          "characterName": "黛安娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        }
+      ],
+      "total": 161
+    },
+    "/skills/shared_basic_attack/parameters": [
+      {
+        "createdAt": "2026-09-21T16:07:22.355821Z",
+        "description": "固定16.17角色根critDamageMultiplier=2；官方26.1起基础暴击伤害为200%。额外暴击伤害比例在公式中另行加算。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础暴击伤害倍率",
+        "parameterKey": "base_critical_multiplier",
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:07:22.355821Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-21T16:06:25.424567Z",
+        "description": "将1/当前总攻速得到的秒数转换为毫秒；攻击间隔公式的固定分子。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每秒毫秒数",
+        "parameterKey": "milliseconds_per_second",
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:06:25.424567Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/shared_basic_attack/parameters/base_critical_multiplier": {
+      "createdAt": "2026-09-21T16:07:22.355821Z",
+      "description": "固定16.17角色根critDamageMultiplier=2；官方26.1起基础暴击伤害为200%。额外暴击伤害比例在公式中另行加算。",
+      "fixedValue": 2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础暴击伤害倍率",
+      "parameterKey": "base_critical_multiplier",
+      "skillKey": "shared_basic_attack",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-21T16:07:22.355821Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/shared_basic_attack/parameters/milliseconds_per_second": {
+      "createdAt": "2026-09-21T16:06:25.424567Z",
+      "description": "将1/当前总攻速得到的秒数转换为毫秒；攻击间隔公式的固定分子。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "每秒毫秒数",
+      "parameterKey": "milliseconds_per_second",
+      "skillKey": "shared_basic_attack",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-21T16:06:25.424567Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/shared_basic_attack/formulas": [
+      {
+        "createdAt": "2026-09-21T16:11:41.616322Z",
+        "description": "每秒毫秒数 / 施法者攻击速度最终值；单位毫秒，不使用技能急速。读取合法的当前总攻速，零攻速不能发起攻击。",
+        "formulaKey": "attack_interval_ms",
+        "gameId": "lol",
+        "name": "当前攻速对应攻击间隔",
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:11:41.616322Z"
+      },
+      {
+        "createdAt": "2026-09-21T16:09:56.829786Z",
+        "description": "读取来源当前总攻击力。暴击在伤害结果中独立配置，避免重复计入。",
+        "formulaKey": "attack_damage",
+        "gameId": "lol",
+        "name": "普通攻击基础物理伤害",
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:09:56.829786Z"
+      },
+      {
+        "createdAt": "2026-09-21T16:11:59.700822Z",
+        "description": "基础暴击倍率2，加上来源当前额外暴击伤害比例。供伤害结果按来源暴击率判定时使用。",
+        "formulaKey": "critical_multiplier",
+        "gameId": "lol",
+        "name": "普通攻击暴击伤害倍率",
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:11:59.700822Z"
+      }
+    ],
+    "/skills/shared_basic_attack/formulas/attack_interval_ms": {
+      "createdAt": "2026-09-21T16:11:41.616322Z",
+      "description": "每秒毫秒数 / 施法者攻击速度最终值；单位毫秒，不使用技能急速。读取合法的当前总攻速，零攻速不能发起攻击。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "milliseconds_per_second"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "DIVIDE"
+      },
+      "formulaKey": "attack_interval_ms",
+      "gameId": "lol",
+      "name": "当前攻速对应攻击间隔",
+      "skillKey": "shared_basic_attack",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-21T16:11:41.616322Z"
+    },
+    "/skills/shared_basic_attack/formulas/attack_damage": {
+      "createdAt": "2026-09-21T16:09:56.829786Z",
+      "description": "读取来源当前总攻击力。暴击在伤害结果中独立配置，避免重复计入。",
+      "expression": {
+        "attributeKey": "attack_damage",
+        "attributeOwner": "SOURCE",
+        "attributeValueKind": "TOTAL",
+        "nodeType": "ATTRIBUTE"
+      },
+      "formulaKey": "attack_damage",
+      "gameId": "lol",
+      "name": "普通攻击基础物理伤害",
+      "skillKey": "shared_basic_attack",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-21T16:09:56.829786Z"
+    },
+    "/skills/shared_basic_attack/formulas/critical_multiplier": {
+      "createdAt": "2026-09-21T16:11:59.700822Z",
+      "description": "基础暴击倍率2，加上来源当前额外暴击伤害比例。供伤害结果按来源暴击率判定时使用。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_critical_multiplier"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "critical_multiplier",
+      "gameId": "lol",
+      "name": "普通攻击暴击伤害倍率",
+      "skillKey": "shared_basic_attack",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-21T16:11:59.700822Z"
+    },
+    "/skills/shared_basic_attack/effects": [
+      {
+        "createdAt": "2026-09-21T16:15:46.56472Z",
+        "description": "单次实际普通攻击命中后结算一次本体物理伤害和一次命中联动；附带伤害由所属技能另行监听，不重复本体伤害。",
+        "effectKey": "attack_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "普通攻击命中",
+        "resultCount": 2,
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T18:16:11.033807Z"
+      },
+      {
+        "createdAt": "2026-09-21T16:16:34.671393Z",
+        "description": "每次真实普通攻击发起应用一次攻击联动；不直接造成伤害，不重复发起普通攻击事件。",
+        "effectKey": "attack_start",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "普通攻击发起联动",
+        "resultCount": 1,
+        "skillKey": "shared_basic_attack",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:16:34.671393Z"
+      }
+    ],
+    "/skills/shared_basic_attack/effects/attack_hit": {
+      "createdAt": "2026-09-21T16:15:46.56472Z",
+      "description": "单次实际普通攻击命中后结算一次本体物理伤害和一次命中联动；附带伤害由所属技能另行监听，不重复本体伤害。",
+      "effectKey": "attack_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "普通攻击命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "SOURCE_CRIT_CHANCE",
+              "multiplierValue": {
+                "formulaKey": "critical_multiplier",
+                "kind": "FORMULA"
+              }
+            },
+            "damageTypeKey": "physics",
+            "deliveryKind": "BASIC_ATTACK",
+            "originKind": "DIRECT",
+            "vampOverrides": [],
+            "vampQualification": "RESOLVED"
+          },
+          "lifecycleBehavior": null,
+          "name": "普通攻击本体物理伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "attack_damage",
+              "kind": "FORMULA"
+            }
+          }
+        },
+        {
+          "description": null,
+          "detail": {},
+          "lifecycleBehavior": null,
+          "name": "应用一次命中联动",
+          "resultKey": "hit_link",
+          "resultType": "HIT_LINK_APPLICATION",
+          "sortOrder": 20,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "FIXED",
+              "value": 1
+            }
+          }
+        }
+      ],
+      "skillKey": "shared_basic_attack",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-21T18:16:11.033807Z"
+    },
+    "/skills/shared_basic_attack/effects/attack_start": {
+      "createdAt": "2026-09-21T16:16:34.671393Z",
+      "description": "每次真实普通攻击发起应用一次攻击联动；不直接造成伤害，不重复发起普通攻击事件。",
+      "effectKey": "attack_start",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "普通攻击发起联动",
+      "results": [
+        {
+          "description": null,
+          "detail": {},
+          "lifecycleBehavior": null,
+          "name": "应用一次攻击联动",
+          "resultKey": "attack_link",
+          "resultType": "ATTACK_LINK_APPLICATION",
+          "sortOrder": 0,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "FIXED",
+              "value": 1
+            }
+          }
+        }
+      ],
+      "skillKey": "shared_basic_attack",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-21T16:16:34.671393Z"
+    },
+    "/skills/shared_basic_attack/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "只响应本次实际普通攻击命中对象，结算一次本体伤害和一次命中联动。来源对象只挂共享或专属普攻其中一套。",
+        "eventType": "BASIC_ATTACK_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "普通攻击命中时结算本体",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_attack_hit",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:22:28.419903Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "仅在来源对象实际发起普通攻击时启动本技能攻击过程；不自行发起攻击或生成命中。",
+        "eventType": "BASIC_ATTACK_START",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "普通攻击发起时记录间隔",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_attack_start",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T16:21:35.221106Z"
+      }
+    ],
+    "/skills/shared_basic_attack/trigger-rules/on_attack_hit": {
+      "actions": [
+        {
+          "actionKey": "action_1",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "attack_hit"
+          },
+          "name": "结算普通攻击命中",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "只响应本次实际普通攻击命中对象，结算一次本体伤害和一次命中联动。来源对象只挂共享或专属普攻其中一套。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "BASIC_ATTACK_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "普通攻击命中时结算本体",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_attack_hit",
+      "sortOrder": 0
+    },
+    "/skills/shared_basic_attack/trigger-rules/on_attack_start": {
+      "actions": [
+        {
+          "actionKey": "action_1",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "attack"
+          },
+          "name": "启动普通攻击过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "仅在来源对象实际发起普通攻击时启动本技能攻击过程；不自行发起攻击或生成命中。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "BASIC_ATTACK_START"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "普通攻击发起时记录间隔",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_attack_start",
+      "sortOrder": 0
+    },
+    "/skills/annie_q": {
+      "createdAt": "2026-09-06T18:16:26.185014Z",
+      "description": "安妮向目标投出注入了法力值的火球，对目标造成魔法伤害。如果目标死于碎裂之火，则碎裂之火消耗的法力值会返还给安妮，且碎裂之火的冷却时间减半。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "安妮·碎裂之火",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "annie_q",
+      "sortOrder": 1,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:16:26.185014Z"
+    },
+    "/character-skill-relations?skillKey=annie_q": {
+      "items": [
+        {
+          "characterKey": "champion_annie",
+          "characterName": "安妮",
+          "gameId": "lol",
+          "skillKey": "annie_q",
+          "skillName": "安妮·碎裂之火",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        }
+      ],
+      "total": 1
+    },
+    "/skills/annie_q/parameters": [
+      {
+        "createdAt": "2026-09-07T16:37:37.370399Z",
+        "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "annie_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:37.370399Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:37.697231Z",
+        "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "annie_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:37:37.697231Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:38.104236Z",
+        "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "annie_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:38.104236Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:38.711728Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "annie_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-07T16:37:38.711728Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:39.175526Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "annie_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-07T16:37:39.175526Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:39.570449Z",
+        "description": "官方Q说明目标阵亡返还法力并缩短50%冷却。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "击杀冷却缩短比例",
+        "parameterKey": "kill_cooldown_refund_ratio",
+        "skillKey": "annie_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-07T16:37:39.570449Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/annie_q/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T16:37:37.370399Z",
+      "description": "官方16.17.1冷却与当前主技能 cooldownTime[1..等级上限]一致；仅基础冷却，不含急速和重置。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "annie_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:37.370399Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_q/parameters/mana_cost": {
+      "createdAt": "2026-09-07T16:37:37.697231Z",
+      "description": "官方16.17.1 cost与主技能mana索引0..等级上限-1一致。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "annie_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:37:37.697231Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_q/parameters/cast_time_ms": {
+      "createdAt": "2026-09-07T16:37:38.104236Z",
+      "description": "当前主技能 spellCastTime；仅施法延迟，不代替实际命中。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "annie_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:38.104236Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_q/parameters/base_damage": {
+      "createdAt": "2026-09-07T16:37:38.711728Z",
+      "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 125,
+        "3": 170,
+        "4": 215,
+        "5": 260
+      },
+      "name": "基础伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "annie_q",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-07T16:37:38.711728Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/annie_q/parameters/ap_ratio": {
+      "createdAt": "2026-09-07T16:37:39.175526Z",
+      "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+      "fixedValue": 0.8,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "annie_q",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-07T16:37:39.175526Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/annie_q/parameters/kill_cooldown_refund_ratio": {
+      "createdAt": "2026-09-07T16:37:39.570449Z",
+      "description": "官方Q说明目标阵亡返还法力并缩短50%冷却。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "击杀冷却缩短比例",
+      "parameterKey": "kill_cooldown_refund_ratio",
+      "skillKey": "annie_q",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-07T16:37:39.570449Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/annie_q/formulas": [
+      {
+        "createdAt": "2026-09-07T16:37:39.983262Z",
+        "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "碎裂之火伤害",
+        "skillKey": "annie_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:39.983262Z"
+      }
+    ],
+    "/skills/annie_q/formulas/damage": {
+      "createdAt": "2026-09-07T16:37:39.983262Z",
+      "description": "当前根技能 TotalDamage：基础伤害+来源总法术强度×倍率。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "碎裂之火伤害",
+      "skillKey": "annie_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:39.983262Z"
+    },
+    "/skills/annie_q/effects": [
+      {
+        "createdAt": "2026-09-07T16:37:40.326971Z",
+        "description": "仅施放法力消耗；具体过程单独绑定。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "annie_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:40.326971Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:40.698135Z",
+        "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，吸血资格已核定，继承游戏通用规则，当前无逐结果例外。其他控制、被动和目标分支分别维护。",
+        "effectKey": "spell_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "碎裂之火命中",
+        "resultCount": 1,
+        "skillKey": "annie_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-21T18:16:13.070188Z"
+      },
+      {
+        "createdAt": "2026-09-07T16:37:41.030486Z",
+        "description": "仅Q导致目标阵亡时使用；未挂任意击杀事件。",
+        "effectKey": "kill_mana_refund",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "Q击杀返还法力",
+        "resultCount": 1,
+        "skillKey": "annie_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-07T16:37:41.030486Z"
+      }
+    ],
+    "/skills/annie_q/effects/mana_cost": {
+      "createdAt": "2026-09-07T16:37:40.326971Z",
+      "description": "仅施放法力消耗；具体过程单独绑定。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_q",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:37:40.326971Z"
+    },
+    "/skills/annie_q/effects/spell_hit": {
+      "createdAt": "2026-09-07T16:37:40.698135Z",
+      "description": "本轮1V1唯一敌方英雄的普通直接魔法技能伤害；实际命中入口已配置，吸血资格已核定，继承游戏通用规则，当前无逐结果例外。其他控制、被动和目标分支分别维护。",
+      "effectKey": "spell_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "碎裂之火命中",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampOverrides": [],
+            "vampQualification": "RESOLVED"
+          },
+          "lifecycleBehavior": null,
+          "name": "碎裂之火命中",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_q",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-21T18:16:13.070188Z"
+    },
+    "/skills/annie_q/effects/kill_mana_refund": {
+      "createdAt": "2026-09-07T16:37:41.030486Z",
+      "description": "仅Q导致目标阵亡时使用；未挂任意击杀事件。",
+      "effectKey": "kill_mana_refund",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "Q击杀返还法力",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "REFUND"
+          },
+          "lifecycleBehavior": null,
+          "name": "返还施放法力",
+          "resultKey": "refund_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "annie_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-07T16:37:41.030486Z"
+    },
+    "/skills/annie_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "碎裂之火实际命中",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:37:41.869179Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "主动使用时启动本技能施法过程；法力消耗、普通冷却及施法延迟沿用过程配置，实际命中由独立规则处理。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用启动碎裂之火施法过程",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T23:47:00.375837Z"
+      }
+    ],
+    "/skills/annie_q/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "spell_hit"
+          },
+          "name": "执行命中伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "annie_q",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "碎裂之火实际命中",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/annie_q/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动碎裂之火施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "主动使用时启动本技能施法过程；法力消耗、普通冷却及施法延迟沿用过程配置，实际命中由独立规则处理。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "annie_q",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用启动碎裂之火施法过程",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    },
+    "/skills/garen_r": {
+      "createdAt": "2026-09-06T15:35:07.212771Z",
+      "description": "固定客户端16.17与官方16.17.1：对敌方英雄实际命中时造成125/200/275加25/30/35%目标已损失生命值的单次真实伤害，不暴击，当前结果参与法术护盾阻挡；按防御后伤害配置全能吸血效率1。无资源消耗，435毫秒基础施放与120/100/80秒普通冷却已接入主动使用过程，施法距离参数400。角色关系、终极技能分类和代表图已具备；纯视野分支按本轮范围排除并保留原参数。上述管理配置已保存，实际施放资格、失败取消与战斗结算未验证。",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "盖伦·德玛西亚正义",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "garen_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T15:59:30.975216Z"
+    },
+    "/character-skill-relations?skillKey=garen_r": {
+      "items": [
+        {
+          "characterKey": "champion_garen",
+          "characterName": "盖伦",
+          "gameId": "lol",
+          "skillKey": "garen_r",
+          "skillName": "盖伦·德玛西亚正义",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/skills/garen_r/parameters": [
+      {
+        "createdAt": "2026-09-06T15:40:23.991105Z",
+        "description": "16.17客户端及已冻结盖伦技能补证。官方26.14与当前客户端确认。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 125,
+          "2": 200,
+          "3": 275
+        },
+        "name": "基础真实伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "garen_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T15:40:23.991105Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-06T15:40:25.439656Z",
+        "description": "16.17客户端及已冻结盖伦技能补证。25/30/35%，不是无条件处决。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.25,
+          "2": 0.3,
+          "3": 0.35
+        },
+        "name": "目标已损失生命系数",
+        "parameterKey": "missing_hp_ratio",
+        "skillKey": "garen_r",
+        "sortOrder": 1,
+        "updatedAt": "2026-09-06T15:40:25.439656Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-06T15:40:27.206893Z",
+        "description": "官方16.17.1与固定客户端当前R一致，等级1至3为120000/100000/80000毫秒。已用于主动使用过程的普通冷却，从过程开始登记；无资源成本，不以冷却登记替代实际命中或失败取消语义，战斗运行另证。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "garen_r",
+        "sortOrder": 2,
+        "updatedAt": "2026-09-19T15:59:33.912359Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-06T15:40:28.614453Z",
+        "description": "固定16.17当前GarenR根spellCastTime为0.435秒，换算为435毫秒；不存在mCastTime冲突。已由基础施放延迟步骤直接引用，spellTotalTime和castFrame不替代此数值；过程不生成实际命中，失败取消和战斗运行另证。",
+        "fixedValue": 435,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "garen_r",
+        "sortOrder": 3,
+        "updatedAt": "2026-09-19T15:59:32.396168Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-06T15:40:30.018167Z",
+        "description": "16.17客户端及已冻结盖伦技能补证。官方9.20及当前客户端RevealDuration。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "提供视野时长（毫秒）",
+        "parameterKey": "reveal_duration_ms",
+        "skillKey": "garen_r",
+        "sortOrder": 4,
+        "updatedAt": "2026-09-06T15:40:30.018167Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-06T15:40:31.41488Z",
+        "description": "16.17客户端及已冻结盖伦技能补证。官方静态资料400。",
+        "fixedValue": 400,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法距离",
+        "parameterKey": "cast_range",
+        "skillKey": "garen_r",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-06T15:40:31.41488Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/garen_r/parameters/base_damage": {
+      "createdAt": "2026-09-06T15:40:23.991105Z",
+      "description": "16.17客户端及已冻结盖伦技能补证。官方26.14与当前客户端确认。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 125,
+        "2": 200,
+        "3": 275
+      },
+      "name": "基础真实伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "garen_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-06T15:40:23.991105Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/garen_r/parameters/missing_hp_ratio": {
+      "createdAt": "2026-09-06T15:40:25.439656Z",
+      "description": "16.17客户端及已冻结盖伦技能补证。25/30/35%，不是无条件处决。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 0.25,
+        "2": 0.3,
+        "3": 0.35
+      },
+      "name": "目标已损失生命系数",
+      "parameterKey": "missing_hp_ratio",
+      "skillKey": "garen_r",
+      "sortOrder": 1,
+      "updatedAt": "2026-09-06T15:40:25.439656Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "DECIMAL"
+    },
+    "/skills/garen_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-06T15:40:27.206893Z",
+      "description": "官方16.17.1与固定客户端当前R一致，等级1至3为120000/100000/80000毫秒。已用于主动使用过程的普通冷却，从过程开始登记；无资源成本，不以冷却登记替代实际命中或失败取消语义，战斗运行另证。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 120000,
+        "2": 100000,
+        "3": 80000
+      },
+      "name": "基础冷却（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "garen_r",
+      "sortOrder": 2,
+      "updatedAt": "2026-09-19T15:59:33.912359Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/garen_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-06T15:40:28.614453Z",
+      "description": "固定16.17当前GarenR根spellCastTime为0.435秒，换算为435毫秒；不存在mCastTime冲突。已由基础施放延迟步骤直接引用，spellTotalTime和castFrame不替代此数值；过程不生成实际命中，失败取消和战斗运行另证。",
+      "fixedValue": 435,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "garen_r",
+      "sortOrder": 3,
+      "updatedAt": "2026-09-19T15:59:32.396168Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/garen_r/parameters/reveal_duration_ms": {
+      "createdAt": "2026-09-06T15:40:30.018167Z",
+      "description": "16.17客户端及已冻结盖伦技能补证。官方9.20及当前客户端RevealDuration。",
+      "fixedValue": 1000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "提供视野时长（毫秒）",
+      "parameterKey": "reveal_duration_ms",
+      "skillKey": "garen_r",
+      "sortOrder": 4,
+      "updatedAt": "2026-09-06T15:40:30.018167Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/garen_r/parameters/cast_range": {
+      "createdAt": "2026-09-06T15:40:31.41488Z",
+      "description": "16.17客户端及已冻结盖伦技能补证。官方静态资料400。",
+      "fixedValue": 400,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "施法距离",
+      "parameterKey": "cast_range",
+      "skillKey": "garen_r",
+      "sortOrder": 5,
+      "updatedAt": "2026-09-06T15:40:31.41488Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/garen_r/formulas": [
+      {
+        "createdAt": "2026-09-06T15:59:37.797715Z",
+        "description": "命中时目标已损失生命；不用施法时快照替代命中时生命。来源：16.17固定资料。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "德玛西亚正义真实伤害",
+        "skillKey": "garen_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-06T15:59:37.797715Z"
+      }
+    ],
+    "/skills/garen_r/formulas/damage": {
+      "createdAt": "2026-09-06T15:59:37.797715Z",
+      "description": "命中时目标已损失生命；不用施法时快照替代命中时生命。来源：16.17固定资料。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "TARGET",
+                "attributeValueKind": "MISSING",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "missing_hp_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "德玛西亚正义真实伤害",
+      "skillKey": "garen_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-06T15:59:37.797715Z"
+    },
+    "/skills/garen_r/effects": [
+      {
+        "createdAt": "2026-09-06T16:05:27.00363Z",
+        "description": "敌方英雄实际命中时执行单次真实技能伤害，按命中时目标已损失生命取值，仍服从护盾、免疫和生命下限。全能吸血按防御后伤害效率1配置，不直接处决，也不从施放过程伪造命中。",
+        "effectKey": "justice_damage",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "德玛西亚正义命中伤害",
+        "resultCount": 1,
+        "skillKey": "garen_r",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-21T18:28:31.42705Z"
+      }
+    ],
+    "/skills/garen_r/effects/justice_damage": {
+      "createdAt": "2026-09-06T16:05:27.00363Z",
+      "description": "敌方英雄实际命中时执行单次真实技能伤害，按命中时目标已损失生命取值，仍服从护盾、免疫和生命下限。全能吸血按防御后伤害效率1配置，不直接处决，也不从施放过程伪造命中。",
+      "effectKey": "justice_damage",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "德玛西亚正义命中伤害",
+      "results": [
+        {
+          "description": "对英雄的普通技能伤害适用全能吸血，按防御处理后伤害及效率1计算吸血机会；实际扣血、护盾吸收及战斗结算另证。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "real",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampOverrides": [],
+            "vampQualification": "RESOLVED"
+          },
+          "lifecycleBehavior": null,
+          "name": "真实伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 0,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "garen_r",
+      "sortOrder": 0,
+      "updatedAt": "2026-09-21T18:28:31.42705Z"
+    },
+    "/skills/garen_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "以实际 SKILL_HIT 为输入；施法与目标有效性由宿主确认，此规则本身不产生命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "德玛西亚正义实际命中",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_hit",
+        "sortOrder": 0,
+        "updatedAt": "2026-09-19T15:51:00.763203Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "本次已成立的盖伦R主动使用启动施放登记过程，维护基础施放与普通冷却；无资源消耗，不以步骤完成伪造实际命中或伤害。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "德玛西亚正义主动使用登记",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T15:37:15.343158Z"
+      }
+    ],
+    "/skills/garen_r/trigger-rules/on_hit": {
+      "actions": [
+        {
+          "actionKey": "damage",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "justice_damage"
+          },
+          "name": "执行效果",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 0,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "category",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 0
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "allowed_target",
+          "name": "允许的命中目标",
+          "sortOrder": 0
+        }
+      ],
+      "description": "以实际 SKILL_HIT 为输入；施法与目标有效性由宿主确认，此规则本身不产生命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "garen_r",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "德玛西亚正义实际命中",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_hit",
+      "sortOrder": 0
+    },
+    "/skills/garen_r/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动德玛西亚正义施放登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "本次已成立的盖伦R主动使用启动施放登记过程，维护基础施放与普通冷却；无资源消耗，不以步骤完成伪造实际命中或伤害。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "garen_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "德玛西亚正义主动使用登记",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 10
+    }
+  },
+  "summary": [
+    {
+      "skillKey": "shared_basic_attack",
+      "name": "普通攻击·共享",
+      "characterOwners": [
+        "champion_lissandra",
+        "champion_udyr",
+        "champion_leblanc",
+        "champion_zaahen",
+        "champion_aatrox",
+        "ez",
+        "champion_evelynn",
+        "champion_elise",
+        "champion_zoe",
+        "champion_viego",
+        "champion_illaoi",
+        "champion_kogmaw",
+        "champion_kled",
+        "champion_rumble",
+        "champion_nasus",
+        "champion_kennen",
+        "champion_kayle",
+        "champion_caitlyn",
+        "champion_kayn",
+        "champion_galio",
+        "champion_nunu",
+        "champion_zed",
+        "champion_kindred",
+        "champion_belveth",
+        "champion_khazix",
+        "champion_karma",
+        "champion_karthus",
+        "champion_katarina",
+        "champion_kaisa",
+        "champion_kassadin",
+        "champion_camille",
+        "champion_cassiopeia",
+        "champion_lucian",
+        "champion_urgot",
+        "champion_missfortune",
+        "champion_gragas",
+        "champion_ziggs",
+        "champion_jarvaniv",
+        "champion_twitch",
+        "champion_zilean",
+        "champion_tahmkench",
+        "champion_taliyah",
+        "champion_taric",
+        "champion_malphite",
+        "champion_qiyana",
+        "champion_nidalee",
+        "champion_quinn",
+        "champion_ksante",
+        "champion_ornn",
+        "champion_olaf",
+        "champion_aurelionsol",
+        "champion_orianna",
+        "champion_neeko",
+        "champion_sona",
+        "champion_nami",
+        "champion_zyra",
+        "champion_monkeyking",
+        "champion_annie",
+        "champion_ambessa",
+        "champion_nilah",
+        "champion_tristana",
+        "champion_twistedfate",
+        "champion_bard",
+        "champion_brand",
+        "champion_blitzcrank",
+        "champion_braum",
+        "champion_shyvana",
+        "champion_sivir",
+        "champion_corki",
+        "champion_vladimir",
+        "champion_hwei",
+        "champion_darius",
+        "champion_draven",
+        "champion_yuumi",
+        "champion_shen",
+        "champion_zac",
+        "champion_lux",
+        "champion_rammus",
+        "champion_teemo",
+        "champion_skarner",
+        "champion_swain",
+        "champion_smolder",
+        "champion_masteryi",
+        "champion_gangplank",
+        "champion_leesin",
+        "champion_jayce",
+        "champion_gwen",
+        "champion_mel",
+        "champion_volibear",
+        "champion_warwick",
+        "champion_poppy",
+        "champion_tryndamere",
+        "champion_talon",
+        "champion_xerath",
+        "champion_rakan",
+        "champion_locke",
+        "champion_pyke",
+        "champion_pantheon",
+        "champion_renata",
+        "champion_trundle",
+        "champion_malzahar",
+        "champion_ryze",
+        "champion_sejuani",
+        "champion_lulu",
+        "champion_garen",
+        "champion_chogath",
+        "champion_milio",
+        "champion_soraka",
+        "champion_yorick",
+        "champion_naafiri",
+        "champion_gnar",
+        "champion_velkoz",
+        "champion_viktor",
+        "champion_veigar",
+        "champion_ekko",
+        "champion_anivia",
+        "champion_irelia",
+        "champion_ivern",
+        "champion_rell",
+        "champion_yunara",
+        "champion_maokai",
+        "champion_lillia",
+        "champion_samira",
+        "champion_mordekaiser",
+        "champion_morgana",
+        "champion_fizz",
+        "champion_fiora",
+        "champion_seraphine",
+        "champion_shaco",
+        "champion_drmundo",
+        "champion_vi",
+        "champion_leona",
+        "champion_vex",
+        "champion_vayne",
+        "champion_nautilus",
+        "champion_briar",
+        "champion_fiddlesticks",
+        "champion_jax",
+        "champion_sion",
+        "champion_hecarim",
+        "champion_xinzhao",
+        "champion_singed",
+        "champion_syndra",
+        "champion_janna",
+        "champion_jinx",
+        "champion_riven",
+        "champion_thresh",
+        "champion_azir",
+        "champion_alistar",
+        "champion_akali",
+        "champion_amumu",
+        "champion_ahri",
+        "champion_aurora",
+        "champion_reksai",
+        "champion_renekton",
+        "champion_rengar",
+        "champion_xayah",
+        "champion_varus",
+        "champion_nocturne",
+        "champion_heimerdinger",
+        "champion_diana"
+      ],
+      "counts": {
+        "parameters": 2,
+        "formulas": 3,
+        "effects": 2,
+        "trigger-rules": 2
+      },
+      "damageResults": [
+        {
+          "effectKey": "attack_hit",
+          "resultKey": "damage",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "attack_damage",
+              "kind": "FORMULA"
+            }
+          },
+          "damageType": "physics",
+          "delivery": "BASIC_ATTACK",
+          "origin": "DIRECT",
+          "vampQualification": "RESOLVED",
+          "spellShieldBlockScope": null,
+          "lifecycle": null,
+          "lifecycleBehavior": null
+        }
+      ],
+      "sourceClassification": "待根据来源与实际构造核定，不因字段形状或挂载关系自动批准普通伤害"
+    },
+    {
+      "skillKey": "annie_q",
+      "name": "安妮·碎裂之火",
+      "characterOwners": [
+        "champion_annie"
+      ],
+      "counts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 3,
+        "trigger-rules": 2
+      },
+      "damageResults": [
+        {
+          "effectKey": "spell_hit",
+          "resultKey": "damage",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          },
+          "damageType": "magic",
+          "delivery": "SKILL",
+          "origin": "DIRECT",
+          "vampQualification": "RESOLVED",
+          "spellShieldBlockScope": "RESULT",
+          "lifecycle": null,
+          "lifecycleBehavior": null
+        }
+      ],
+      "sourceClassification": "待根据来源与实际构造核定，不因字段形状或挂载关系自动批准普通伤害"
+    },
+    {
+      "skillKey": "garen_r",
+      "name": "盖伦·德玛西亚正义",
+      "characterOwners": [
+        "champion_garen"
+      ],
+      "counts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 1,
+        "trigger-rules": 2
+      },
+      "damageResults": [
+        {
+          "effectKey": "justice_damage",
+          "resultKey": "damage",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          },
+          "damageType": "real",
+          "delivery": "SKILL",
+          "origin": "DIRECT",
+          "vampQualification": "RESOLVED",
+          "spellShieldBlockScope": "RESULT",
+          "lifecycle": null,
+          "lifecycleBehavior": null
+        }
+      ],
+      "sourceClassification": "待根据来源与实际构造核定，不因字段形状或挂载关系自动批准普通伤害"
+    }
+  ]
+}

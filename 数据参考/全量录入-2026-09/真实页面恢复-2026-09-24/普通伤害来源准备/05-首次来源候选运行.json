@@ -1,0 +1,156 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\project\\damage_web_dev\\web\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "playwright.damage-modifier.config.ts",
+      "--reporter=json",
+      "-g",
+      "annie_q.*8014"
+    ],
+    "configFile": "C:\\project\\damage_web_dev\\web\\playwright.damage-modifier.config.ts",
+    "rootDir": "C:/project/damage_web_dev/web/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/project/damage_web_dev/web/output/playwright-damage-modifier",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/project/damage_web_dev/web/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/(?:damage-modifier|ordinary-damage)-runtime\\.spec\\.ts/"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.61.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run dev -- --host 127.0.0.1 --port 4191 --strictPort",
+      "url": "http://127.0.0.1:4191",
+      "reuseExistingServer": false,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "ordinary-damage-runtime.spec.ts",
+      "file": "ordinary-damage-runtime.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "候选扩大范围：annie_q完整伤害组成与符文8014来源核对后运行",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1055,
+                  "error": {
+                    "message": "Error: page.evaluate: TypeError: abilityKey2 is not a function\n    at auditAuthoredOrdinaryDamageSources (http://127.0.0.1:4191/src/engine/ordinaryDamageSourceAudit.ts:287:27)\n    at withAuthoredOrdinaryDamageModifiers (http://127.0.0.1:4191/src/engine/damageModifierAdapter.ts:275:23)\n    at async eval (eval at evaluate (:303:30), <anonymous>:78:26)\n    at async <anonymous>:329:30",
+                    "stack": "Error: page.evaluate: TypeError: abilityKey2 is not a function\n    at auditAuthoredOrdinaryDamageSources (http://127.0.0.1:4191/src/engine/ordinaryDamageSourceAudit.ts:287:27)\n    at withAuthoredOrdinaryDamageModifiers (http://127.0.0.1:4191/src/engine/damageModifierAdapter.ts:275:23)\n    at async eval (eval at evaluate (:303:30), <anonymous>:78:26)\n    at async <anonymous>:329:30\n    at auditAuthoredOrdinaryDamageSources (http://127.0.0.1:4191/src/engine/ordinaryDamageSourceAudit.ts:287:27)\n    at withAuthoredOrdinaryDamageModifiers (http://127.0.0.1:4191/src/engine/damageModifierAdapter.ts:275:23)\n    at async eval (eval at evaluate (:303:30), <anonymous>:78:26)\n    at async <anonymous>:329:30\n    at C:\\project\\damage_web_dev\\web\\tests\\e2e\\ordinary-damage-runtime.spec.ts:130:31",
+                    "location": {
+                      "file": "http://127.0.0.1:4191/src/engine/ordinaryDamageSourceAudit.ts",
+                      "column": 27,
+                      "line": 287
+                    }
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "http://127.0.0.1:4191/src/engine/ordinaryDamageSourceAudit.ts",
+                        "column": 27,
+                        "line": 287
+                      },
+                      "message": "Error: page.evaluate: TypeError: abilityKey2 is not a function\n    at auditAuthoredOrdinaryDamageSources (http://127.0.0.1:4191/src/engine/ordinaryDamageSourceAudit.ts:287:27)\n    at withAuthoredOrdinaryDamageModifiers (http://127.0.0.1:4191/src/engine/damageModifierAdapter.ts:275:23)\n    at async eval (eval at evaluate (:303:30), <anonymous>:78:26)\n    at async <anonymous>:329:30\n    at auditAuthoredOrdinaryDamageSources (http://127.0.0.1:4191/src/engine/ordinaryDamageSourceAudit.ts:287:27)\n    at withAuthoredOrdinaryDamageModifiers (http://127.0.0.1:4191/src/engine/damageModifierAdapter.ts:275:23)\n    at async eval (eval at evaluate (:303:30), <anonymous>:78:26)\n    at async <anonymous>:329:30\n    at C:\\project\\damage_web_dev\\web\\tests\\e2e\\ordinary-damage-runtime.spec.ts:130:31"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-24T11:43:34.557Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\project\\damage_web_dev\\web\\output\\playwright-damage-modifier\\ordinary-damage-runtime-候选扩大范围：annie-q完整伤害组成与符文8014来源核对后运行\\test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\project\\damage_web_dev\\web\\output\\playwright-damage-modifier\\ordinary-damage-runtime-候选扩大范围：annie-q完整伤害组成与符文8014来源核对后运行\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "http://127.0.0.1:4191/src/engine/ordinaryDamageSourceAudit.ts",
+                    "column": 27,
+                    "line": 287
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9b7d9ef08ab1adefda7a-faf2099e13a9c15ae960",
+          "file": "ordinary-damage-runtime.spec.ts",
+          "line": 114,
+          "column": 3
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-24T11:43:32.063Z",
+    "duration": 4046.787,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

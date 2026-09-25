@@ -1,0 +1,3933 @@
+{
+  "at": "2026-09-24T05:02:18.329Z",
+  "status": "PASS",
+  "completedPageWrites": 2,
+  "audit": [
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/character-skill-relations?skillKey=soraka_r",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/attributes/hp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/attributes/mana",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/attributes/ability_power",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skill-categories/ultimate",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/characters/champion_soraka",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/characters/champion_soraka/authoring-check",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/parameters/base_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/parameters/ability_power_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/parameters/low_health_threshold_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/parameters/low_health_multiplier",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/formulas/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/formulas/self_low_health_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/effects/self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/effects/self_low_health_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/trigger-rules/on_used_self_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/soraka_r/trigger-rules/on_used_self_low_health_heal",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/soraka_r": {
+      "createdAt": "2026-09-06T18:20:29.366202Z",
+      "description": "索拉卡施放祈愿，使自身及所有友方英雄回复生命值。正常治疗量为150/250/350加50%总法术强度；本次施放前生命比例低于40%的受疗者获得完整治疗量的1.5倍。本轮1V1管理配置仅接入自身治疗，正常与低生命分支互斥；基础施法时间250毫秒，开始时消耗100法力并进入150/135/120秒普通冷却。其他友方英雄治疗不在本轮范围，战斗运行尚未验证。（来源：官方中文静态资料16.17.1及客户端16.17。）",
+      "gameId": "lol",
+      "maxLevel": 3,
+      "name": "索拉卡·祈愿",
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "skillKey": "soraka_r",
+      "sortOrder": 4,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T10:52:52.722716Z"
+    },
+    "/skills/soraka_r/parameters": [
+      {
+        "createdAt": "2026-09-09T18:37:43.687273Z",
+        "description": "当前BaseHeal技能等级1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "name": "祈愿自身基础治疗值",
+        "parameterKey": "base_heal",
+        "skillKey": "soraka_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:37:43.687273Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:44.799484Z",
+        "description": "当前HealingCalc树AP比例为0.5。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "祈愿法强比例",
+        "parameterKey": "ability_power_ratio",
+        "skillKey": "soraka_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:37:44.799484Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:45.97064Z",
+        "description": "当前低于40%生命值分支。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "祈愿低生命阈值",
+        "parameterKey": "low_health_threshold_ratio",
+        "skillKey": "soraka_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T18:37:45.97064Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:47.072411Z",
+        "description": "当前AmpedHealing为完整治疗的1.5倍。",
+        "fixedValue": 1.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "祈愿低生命治疗倍率",
+        "parameterKey": "low_health_multiplier",
+        "skillKey": "soraka_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T18:37:47.072411Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:48.175152Z",
+        "description": "当前mCastTime=0.25秒，转换为250毫秒；spellCastTime未提供。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础施法时间",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "soraka_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T18:37:48.175152Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:39.185776Z",
+        "description": "DDragon16.17.1 Soraka.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 150000,
+          "2": 135000,
+          "3": 120000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "soraka_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:39.185776Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T01:03:39.612347Z",
+        "description": "各技能等级均消耗100法力，官方中文静态资料16.17.1与客户端16.17根技能数值一致。基础施放过程在开始时引用本参数扣除法力；本参数保存基础消耗，不含其他消耗修正。管理配置已接入，实际战斗执行尚未验证。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "soraka_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-19T10:52:54.27459Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/soraka_r/formulas": [
+      {
+        "createdAt": "2026-09-09T18:37:49.277413Z",
+        "description": "自身目标的正常治疗式。",
+        "formulaKey": "self_heal",
+        "gameId": "lol",
+        "name": "祈愿自身治疗",
+        "skillKey": "soraka_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T18:37:49.277413Z"
+      },
+      {
+        "createdAt": "2026-09-09T18:37:50.426765Z",
+        "description": "目标低于40%生命时按完整治疗式乘1.5；不能把两个阶段同时叠加。",
+        "formulaKey": "self_low_health_heal",
+        "gameId": "lol",
+        "name": "祈愿自身低生命治疗",
+        "skillKey": "soraka_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T18:37:50.426765Z"
+      }
+    ],
+    "/skills/soraka_r/effects": [
+      {
+        "createdAt": "2026-09-19T10:08:41.675926Z",
+        "description": "本技能主动使用开始时消耗100法力，复用既有法力参数。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "soraka_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T10:08:41.675926Z"
+      },
+      {
+        "createdAt": "2026-09-19T09:25:04.850271Z",
+        "description": "主动使用时为索拉卡自身回复正常生命值；低生命由互斥规则执行增强公式。",
+        "effectKey": "self_heal",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "祈愿自身正常治疗",
+        "resultCount": 1,
+        "skillKey": "soraka_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T09:25:04.850271Z"
+      },
+      {
+        "createdAt": "2026-09-19T09:30:17.674001Z",
+        "description": "主动使用时索拉卡自身生命比例低于40%才执行；按完整治疗值1.5倍回复。",
+        "effectKey": "self_low_health_heal",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "祈愿自身低生命治疗",
+        "resultCount": 1,
+        "skillKey": "soraka_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T09:30:17.674001Z"
+      }
+    ],
+    "/skills/soraka_r/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T10:08:43.288393Z",
+        "description": "登记250毫秒基础施法，以及开始时100法力消耗和普通冷却；自身治疗仍由本次使用的正常与低生命互斥规则执行，不重复挂接治疗。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "祈愿基础施放与消耗冷却",
+        "processKey": "cast",
+        "skillKey": "soraka_r",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T10:08:43.288393Z"
+      }
+    ],
+    "/skills/soraka_r/internal-states": [],
+    "/skills/soraka_r/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "自身ACTIVE使用仅启动基础施放与消耗冷却过程；本次治疗匹配由两条原互斥规则独立负责，过程不重复治疗。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "祈愿主动使用登记消耗冷却",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-24T04:56:11.025801Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "主动使用祈愿且索拉卡自身生命比例不低于40%时执行正常自身治疗。 同一次事件先完成全部条件求值再执行匹配动作，治疗后不追加另一分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用回复自身生命",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_self_heal",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-24T05:00:53.072815Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "主动使用祈愿且索拉卡自身生命比例低于40%时执行增强自身治疗；不与正常分支叠加。 同一次事件先完成全部条件求值再执行匹配动作，治疗后不追加另一分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "低生命时主动使用回复自身生命",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_self_low_health_heal",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T09:46:19.864593Z"
+      }
+    ],
+    "/character-skill-relations?skillKey=soraka_r": {
+      "items": [
+        {
+          "characterKey": "champion_soraka",
+          "characterName": "索拉卡",
+          "gameId": "lol",
+          "skillKey": "soraka_r",
+          "skillName": "索拉卡·祈愿",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        }
+      ],
+      "total": 1
+    },
+    "/attributes/hp": {
+      "attributeKey": "hp",
+      "createdAt": "2026-08-22T15:27:36.051116Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "生命值",
+      "sortOrder": 300,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.051116Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/mana": {
+      "attributeKey": "mana",
+      "createdAt": "2026-08-22T15:27:36.139767Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法力值",
+      "sortOrder": 310,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.139767Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/ability_power": {
+      "attributeKey": "ability_power",
+      "createdAt": "2026-08-30T16:26:39.898635Z",
+      "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "法术强度",
+      "sortOrder": 510,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:39.898635Z",
+      "valueType": "DECIMAL"
+    },
+    "/skill-categories/ultimate": {
+      "createdAt": "2026-09-19T10:47:38.978523Z",
+      "description": "用于已确认属于终极技能的技能分类。",
+      "gameId": "lol",
+      "name": "终极技能",
+      "skillCategoryKey": "ultimate",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T10:47:38.978523Z"
+    },
+    "/characters/champion_soraka": {
+      "characterKey": "champion_soraka",
+      "createdAt": "2026-09-06T17:46:02.127947Z",
+      "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+      "gameId": "lol",
+      "name": "索拉卡",
+      "updatedAt": "2026-09-06T17:46:02.127947Z"
+    },
+    "/skills/soraka_r/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_soraka_r",
+        "name": "soraka_r"
+      }
+    },
+    "/characters/champion_soraka/authoring-check": {
+      "characterKey": "champion_soraka",
+      "characterName": "索拉卡",
+      "checkedAt": "2026-09-24T05:02:17.56007Z",
+      "conclusions": {
+        "mechanics": "NOT_CHECKED",
+        "runtime": "NOT_RUN",
+        "structure": "NO_ERRORS"
+      },
+      "gameId": "lol",
+      "issues": [],
+      "references": [
+        {
+          "fieldPath": "results[0].detail.critical.multiplierValue.formulaKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "EFFECT",
+            "fieldPath": "results[0].detail.critical.multiplierValue.formulaKey",
+            "formulaSnapshot": null,
+            "objectKey": "attack_hit",
+            "objectType": "EFFECT",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "results",
+                "key": "damage",
+                "keyField": "resultKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "resultType",
+                "kind": "EXPECT_VALUE",
+                "value": "DAMAGE"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "critical",
+                "kind": "FIELD"
+              },
+              {
+                "field": "mode",
+                "kind": "EXPECT_VALUE",
+                "value": "SOURCE_CRIT_CHANCE"
+              },
+              {
+                "field": "multiplierValue",
+                "kind": "FIELD"
+              },
+              {
+                "field": "formulaKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "shared_basic_attack"
+          },
+          "sourceKey": "attack_hit",
+          "sourceSkillKey": "shared_basic_attack",
+          "sourceType": "EFFECT",
+          "targetKey": "critical_multiplier",
+          "targetSkillKey": "shared_basic_attack",
+          "targetSubKey": "",
+          "targetType": "FORMULA"
+        },
+        {
+          "fieldPath": "results[0].detail.damageTypeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "EFFECT",
+            "fieldPath": "results[0].detail.damageTypeKey",
+            "formulaSnapshot": null,
+            "objectKey": "attack_hit",
+            "objectType": "EFFECT",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "results",
+                "key": "damage",
+                "keyField": "resultKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "resultType",
+                "kind": "EXPECT_VALUE",
+                "value": "DAMAGE"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "damageTypeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "shared_basic_attack"
+          },
+          "sourceKey": "attack_hit",
+          "sourceSkillKey": "shared_basic_attack",
+          "sourceType": "EFFECT",
+          "targetKey": "physics",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "DAMAGE_TYPE"
+        },
+        {
+          "fieldPath": "results[0].valueRule.value.formulaKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "EFFECT",
+            "fieldPath": "results[0].valueRule.value.formulaKey",
+            "formulaSnapshot": null,
+            "objectKey": "attack_hit",
+            "objectType": "EFFECT",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "results",
+                "key": "damage",
+                "keyField": "resultKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "resultType",
+                "kind": "EXPECT_VALUE",
+                "value": "DAMAGE"
+              },
+              {
+                "field": "valueRule",
+                "kind": "FIELD"
+              },
+              {
+                "field": "value",
+                "kind": "FIELD"
+              },
+              {
+                "field": "formulaKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "shared_basic_attack"
+          },
+          "sourceKey": "attack_hit",
+          "sourceSkillKey": "shared_basic_attack",
+          "sourceType": "EFFECT",
+          "targetKey": "attack_damage",
+          "targetSkillKey": "shared_basic_attack",
+          "targetSubKey": "",
+          "targetType": "FORMULA"
+        },
+        {
+          "fieldPath": "expression.attributeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.attributeKey",
+            "formulaSnapshot": {
+              "nodeType": "ATTRIBUTE",
+              "attributeKey": "attack_damage",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL"
+            },
+            "objectKey": "attack_damage",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "ATTRIBUTE"
+              },
+              {
+                "field": "attributeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "shared_basic_attack"
+          },
+          "sourceKey": "attack_damage",
+          "sourceSkillKey": "shared_basic_attack",
+          "sourceType": "FORMULA",
+          "targetKey": "attack_damage",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "ATTRIBUTE"
+        },
+        {
+          "fieldPath": "expression.operands[0].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[0].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "milliseconds_per_second"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeKey": "attack_speed",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL"
+                }
+              ],
+              "operation": "DIVIDE"
+            },
+            "objectKey": "attack_interval_ms",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "DIVIDE"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "shared_basic_attack"
+          },
+          "sourceKey": "attack_interval_ms",
+          "sourceSkillKey": "shared_basic_attack",
+          "sourceType": "FORMULA",
+          "targetKey": "milliseconds_per_second",
+          "targetSkillKey": "shared_basic_attack",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "expression.operands[1].attributeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[1].attributeKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "milliseconds_per_second"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeKey": "attack_speed",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL"
+                }
+              ],
+              "operation": "DIVIDE"
+            },
+            "objectKey": "attack_interval_ms",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "DIVIDE"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "ATTRIBUTE"
+              },
+              {
+                "field": "attributeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "shared_basic_attack"
+          },
+          "sourceKey": "attack_interval_ms",
+          "sourceSkillKey": "shared_basic_attack",
+          "sourceType": "FORMULA",
+          "targetKey": "attack_speed",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "ATTRIBUTE"
+        },
+        {
+          "fieldPath": "expression.operands[0].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[0].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_critical_multiplier"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeKey": "critical_strike_damage_bonus_percent",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "critical_multiplier",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "shared_basic_attack"
+          },
+          "sourceKey": "critical_multiplier",
+          "sourceSkillKey": "shared_basic_attack",
+          "sourceType": "FORMULA",
+          "targetKey": "base_critical_multiplier",
+          "targetSkillKey": "shared_basic_attack",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "expression.operands[1].attributeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[1].attributeKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_critical_multiplier"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeKey": "critical_strike_damage_bonus_percent",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "critical_multiplier",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "ATTRIBUTE"
+              },
+              {
+                "field": "attributeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "shared_basic_attack"
+          },
+          "sourceKey": "critical_multiplier",
+          "sourceSkillKey": "shared_basic_attack",
+          "sourceType": "FORMULA",
+          "targetKey": "critical_strike_damage_bonus_percent",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "ATTRIBUTE"
+        },
+        {
+          "fieldPath": "cooldown.durationValue.formulaKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "PROCESS",
+            "fieldPath": "cooldown.durationValue.formulaKey",
+            "formulaSnapshot": null,
+            "objectKey": "attack",
+            "objectType": "PROCESS",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "cooldown",
+                "kind": "FIELD"
+              },
+              {
+                "field": "durationValue",
+                "kind": "FIELD"
+              },
+              {
+                "field": "formulaKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "shared_basic_attack"
+          },
+          "sourceKey": "attack",
+          "sourceSkillKey": "shared_basic_attack",
+          "sourceType": "PROCESS",
+          "targetKey": "attack_interval_ms",
+          "targetSkillKey": "shared_basic_attack",
+          "targetSubKey": "",
+          "targetType": "FORMULA"
+        },
+        {
+          "fieldPath": "effectBindings[0].effectKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "PROCESS",
+            "fieldPath": "effectBindings[0].effectKey",
+            "formulaSnapshot": null,
+            "objectKey": "attack",
+            "objectType": "PROCESS",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "effectBindings",
+                "key": "attack_start_link",
+                "keyField": "bindingKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "effectKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "shared_basic_attack"
+          },
+          "sourceKey": "attack",
+          "sourceSkillKey": "shared_basic_attack",
+          "sourceType": "PROCESS",
+          "targetKey": "attack_start",
+          "targetSkillKey": "shared_basic_attack",
+          "targetSubKey": "",
+          "targetType": "EFFECT"
+        },
+        {
+          "fieldPath": "actions[0].detail.effectKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "actions[0].detail.effectKey",
+            "formulaSnapshot": null,
+            "objectKey": "on_attack_hit",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "actions",
+                "key": "action_1",
+                "keyField": "actionKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "actionType",
+                "kind": "EXPECT_VALUE",
+                "value": "EXECUTE_EFFECT"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "effectKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "shared_basic_attack"
+          },
+          "sourceKey": "on_attack_hit",
+          "sourceSkillKey": "shared_basic_attack",
+          "sourceType": "TRIGGER",
+          "targetKey": "attack_hit",
+          "targetSkillKey": "shared_basic_attack",
+          "targetSubKey": "",
+          "targetType": "EFFECT"
+        },
+        {
+          "fieldPath": "actions[0].detail.processKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "actions[0].detail.processKey",
+            "formulaSnapshot": null,
+            "objectKey": "on_attack_start",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "actions",
+                "key": "action_1",
+                "keyField": "actionKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "actionType",
+                "kind": "EXPECT_VALUE",
+                "value": "START_PROCESS"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "processKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "shared_basic_attack"
+          },
+          "sourceKey": "on_attack_start",
+          "sourceSkillKey": "shared_basic_attack",
+          "sourceType": "TRIGGER",
+          "targetKey": "attack",
+          "targetSkillKey": "shared_basic_attack",
+          "targetSubKey": "",
+          "targetType": "PROCESS"
+        },
+        {
+          "fieldPath": "expression.operands[0].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[0].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "magic_damage",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_e"
+          },
+          "sourceKey": "magic_damage",
+          "sourceSkillKey": "soraka_e",
+          "sourceType": "FORMULA",
+          "targetKey": "base_damage",
+          "targetSkillKey": "soraka_e",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "expression.operands[1].operands[0].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[1].operands[0].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "magic_damage",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_e"
+          },
+          "sourceKey": "magic_damage",
+          "sourceSkillKey": "soraka_e",
+          "sourceType": "FORMULA",
+          "targetKey": "ability_power_ratio",
+          "targetSkillKey": "soraka_e",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "expression.operands[1].operands[1].attributeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[1].operands[1].attributeKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "magic_damage",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "ATTRIBUTE"
+              },
+              {
+                "field": "attributeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_e"
+          },
+          "sourceKey": "magic_damage",
+          "sourceSkillKey": "soraka_e",
+          "sourceType": "FORMULA",
+          "targetKey": "ability_power",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "ATTRIBUTE"
+        },
+        {
+          "fieldPath": "results[0].detail.damageTypeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "EFFECT",
+            "fieldPath": "results[0].detail.damageTypeKey",
+            "formulaSnapshot": null,
+            "objectKey": "primary_hit",
+            "objectType": "EFFECT",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "results",
+                "key": "damage",
+                "keyField": "resultKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "resultType",
+                "kind": "EXPECT_VALUE",
+                "value": "DAMAGE"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "damageTypeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_q"
+          },
+          "sourceKey": "primary_hit",
+          "sourceSkillKey": "soraka_q",
+          "sourceType": "EFFECT",
+          "targetKey": "magic",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "DAMAGE_TYPE"
+        },
+        {
+          "fieldPath": "results[0].valueRule.value.formulaKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "EFFECT",
+            "fieldPath": "results[0].valueRule.value.formulaKey",
+            "formulaSnapshot": null,
+            "objectKey": "primary_hit",
+            "objectType": "EFFECT",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "results",
+                "key": "damage",
+                "keyField": "resultKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "resultType",
+                "kind": "EXPECT_VALUE",
+                "value": "DAMAGE"
+              },
+              {
+                "field": "valueRule",
+                "kind": "FIELD"
+              },
+              {
+                "field": "value",
+                "kind": "FIELD"
+              },
+              {
+                "field": "formulaKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_q"
+          },
+          "sourceKey": "primary_hit",
+          "sourceSkillKey": "soraka_q",
+          "sourceType": "EFFECT",
+          "targetKey": "magic_damage",
+          "targetSkillKey": "soraka_q",
+          "targetSubKey": "",
+          "targetType": "FORMULA"
+        },
+        {
+          "fieldPath": "expression.operands[0].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[0].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "magic_damage",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_q"
+          },
+          "sourceKey": "magic_damage",
+          "sourceSkillKey": "soraka_q",
+          "sourceType": "FORMULA",
+          "targetKey": "base_damage",
+          "targetSkillKey": "soraka_q",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "expression.operands[1].operands[0].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[1].operands[0].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "magic_damage",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_q"
+          },
+          "sourceKey": "magic_damage",
+          "sourceSkillKey": "soraka_q",
+          "sourceType": "FORMULA",
+          "targetKey": "ability_power_ratio",
+          "targetSkillKey": "soraka_q",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "expression.operands[1].operands[1].attributeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[1].operands[1].attributeKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "magic_damage",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "ATTRIBUTE"
+              },
+              {
+                "field": "attributeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_q"
+          },
+          "sourceKey": "magic_damage",
+          "sourceSkillKey": "soraka_q",
+          "sourceType": "FORMULA",
+          "targetKey": "ability_power",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "ATTRIBUTE"
+        },
+        {
+          "fieldPath": "expression.operands[0].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[0].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_heal_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "self_heal_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "self_heal_total",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_q"
+          },
+          "sourceKey": "self_heal_total",
+          "sourceSkillKey": "soraka_q",
+          "sourceType": "FORMULA",
+          "targetKey": "self_heal_base",
+          "targetSkillKey": "soraka_q",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "expression.operands[1].operands[0].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[1].operands[0].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_heal_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "self_heal_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "self_heal_total",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_q"
+          },
+          "sourceKey": "self_heal_total",
+          "sourceSkillKey": "soraka_q",
+          "sourceType": "FORMULA",
+          "targetKey": "self_heal_ap_ratio",
+          "targetSkillKey": "soraka_q",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "expression.operands[1].operands[1].attributeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[1].operands[1].attributeKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_heal_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "self_heal_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "self_heal_total",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "ATTRIBUTE"
+              },
+              {
+                "field": "attributeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_q"
+          },
+          "sourceKey": "self_heal_total",
+          "sourceSkillKey": "soraka_q",
+          "sourceType": "FORMULA",
+          "targetKey": "ability_power",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "ATTRIBUTE"
+        },
+        {
+          "fieldPath": "actions[0].detail.effectKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "actions[0].detail.effectKey",
+            "formulaSnapshot": null,
+            "objectKey": "actual_hit",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "actions",
+                "key": "execute_primary_hit",
+                "keyField": "actionKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "actionType",
+                "kind": "EXPECT_VALUE",
+                "value": "EXECUTE_EFFECT"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "effectKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_q"
+          },
+          "sourceKey": "actual_hit",
+          "sourceSkillKey": "soraka_q",
+          "sourceType": "TRIGGER",
+          "targetKey": "primary_hit",
+          "targetSkillKey": "soraka_q",
+          "targetSubKey": "",
+          "targetType": "EFFECT"
+        },
+        {
+          "fieldPath": "eventSource.detail.sourceSkillKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "formulaSnapshot": null,
+            "objectKey": "actual_hit",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "eventSource",
+                "kind": "FIELD"
+              },
+              {
+                "field": "eventType",
+                "kind": "EXPECT_VALUE",
+                "value": "SKILL_HIT"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "sourceSkillKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_q"
+          },
+          "sourceKey": "actual_hit",
+          "sourceSkillKey": "soraka_q",
+          "sourceType": "TRIGGER",
+          "targetKey": "soraka_q",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "SKILL"
+        },
+        {
+          "fieldPath": "results[0].detail.attributeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "EFFECT",
+            "fieldPath": "results[0].detail.attributeKey",
+            "formulaSnapshot": null,
+            "objectKey": "mana_cost",
+            "objectType": "EFFECT",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "results",
+                "key": "consume_mana",
+                "keyField": "resultKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "resultType",
+                "kind": "EXPECT_VALUE",
+                "value": "RESOURCE_CHANGE"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "CONSUME"
+              },
+              {
+                "field": "attributeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "mana_cost",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "EFFECT",
+          "targetKey": "mana",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "ATTRIBUTE"
+        },
+        {
+          "fieldPath": "results[0].valueRule.value.parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "EFFECT",
+            "fieldPath": "results[0].valueRule.value.parameterKey",
+            "formulaSnapshot": null,
+            "objectKey": "mana_cost",
+            "objectType": "EFFECT",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "results",
+                "key": "consume_mana",
+                "keyField": "resultKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "resultType",
+                "kind": "EXPECT_VALUE",
+                "value": "RESOURCE_CHANGE"
+              },
+              {
+                "field": "valueRule",
+                "kind": "FIELD"
+              },
+              {
+                "field": "value",
+                "kind": "FIELD"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "mana_cost",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "EFFECT",
+          "targetKey": "mana_cost",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "results[0].valueRule.value.formulaKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "EFFECT",
+            "fieldPath": "results[0].valueRule.value.formulaKey",
+            "formulaSnapshot": null,
+            "objectKey": "self_heal",
+            "objectType": "EFFECT",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "results",
+                "key": "heal",
+                "keyField": "resultKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "resultType",
+                "kind": "EXPECT_VALUE",
+                "value": "DIRECT_HEAL"
+              },
+              {
+                "field": "valueRule",
+                "kind": "FIELD"
+              },
+              {
+                "field": "value",
+                "kind": "FIELD"
+              },
+              {
+                "field": "formulaKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "self_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "EFFECT",
+          "targetKey": "self_heal",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "FORMULA"
+        },
+        {
+          "fieldPath": "results[0].valueRule.value.formulaKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "EFFECT",
+            "fieldPath": "results[0].valueRule.value.formulaKey",
+            "formulaSnapshot": null,
+            "objectKey": "self_low_health_heal",
+            "objectType": "EFFECT",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "results",
+                "key": "heal",
+                "keyField": "resultKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "resultType",
+                "kind": "EXPECT_VALUE",
+                "value": "DIRECT_HEAL"
+              },
+              {
+                "field": "valueRule",
+                "kind": "FIELD"
+              },
+              {
+                "field": "value",
+                "kind": "FIELD"
+              },
+              {
+                "field": "formulaKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "self_low_health_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "EFFECT",
+          "targetKey": "self_low_health_heal",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "FORMULA"
+        },
+        {
+          "fieldPath": "expression.operands[0].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[0].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "self_heal",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "self_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "FORMULA",
+          "targetKey": "base_heal",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "expression.operands[1].operands[0].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[1].operands[0].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "self_heal",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "self_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "FORMULA",
+          "targetKey": "ability_power_ratio",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "expression.operands[1].operands[1].attributeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[1].operands[1].attributeKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            "objectKey": "self_heal",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "ATTRIBUTE"
+              },
+              {
+                "field": "attributeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "self_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "FORMULA",
+          "targetKey": "ability_power",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "ATTRIBUTE"
+        },
+        {
+          "fieldPath": "expression.operands[0].operands[0].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[0].operands[0].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_heal"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ability_power_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "low_health_multiplier"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "objectKey": "self_low_health_heal",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "self_low_health_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "FORMULA",
+          "targetKey": "base_heal",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "expression.operands[0].operands[1].operands[0].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[0].operands[1].operands[0].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_heal"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ability_power_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "low_health_multiplier"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "objectKey": "self_low_health_heal",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "self_low_health_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "FORMULA",
+          "targetKey": "ability_power_ratio",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "expression.operands[0].operands[1].operands[1].attributeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[0].operands[1].operands[1].attributeKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_heal"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ability_power_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "low_health_multiplier"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "objectKey": "self_low_health_heal",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 0
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "ADD"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "ATTRIBUTE"
+              },
+              {
+                "field": "attributeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "self_low_health_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "FORMULA",
+          "targetKey": "ability_power",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "ATTRIBUTE"
+        },
+        {
+          "fieldPath": "expression.operands[1].parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "FORMULA",
+            "fieldPath": "expression.operands[1].parameterKey",
+            "formulaSnapshot": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_heal"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ability_power_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "low_health_multiplier"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "objectKey": "self_low_health_heal",
+            "objectType": "FORMULA",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "expression",
+                "kind": "FIELD"
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "OPERATION"
+              },
+              {
+                "field": "operation",
+                "kind": "EXPECT_VALUE",
+                "value": "MULTIPLY"
+              },
+              {
+                "kind": "FORMULA_OPERAND",
+                "operand": 1
+              },
+              {
+                "field": "nodeType",
+                "kind": "EXPECT_VALUE",
+                "value": "PARAMETER"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "self_low_health_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "FORMULA",
+          "targetKey": "low_health_multiplier",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "cooldown.durationValue.parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "PROCESS",
+            "fieldPath": "cooldown.durationValue.parameterKey",
+            "formulaSnapshot": null,
+            "objectKey": "cast",
+            "objectType": "PROCESS",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "cooldown",
+                "kind": "FIELD"
+              },
+              {
+                "field": "durationValue",
+                "kind": "FIELD"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "cast",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "PROCESS",
+          "targetKey": "cooldown_ms",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "effectBindings[0].effectKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "PROCESS",
+            "fieldPath": "effectBindings[0].effectKey",
+            "formulaSnapshot": null,
+            "objectKey": "cast",
+            "objectType": "PROCESS",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "effectBindings",
+                "key": "mana_cost",
+                "keyField": "bindingKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "effectKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "cast",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "PROCESS",
+          "targetKey": "mana_cost",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "EFFECT"
+        },
+        {
+          "fieldPath": "steps[0].detail.delayValue.parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "PROCESS",
+            "fieldPath": "steps[0].detail.delayValue.parameterKey",
+            "formulaSnapshot": null,
+            "objectKey": "cast",
+            "objectType": "PROCESS",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "steps",
+                "key": "cast_delay",
+                "keyField": "stepKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "stepType",
+                "kind": "EXPECT_VALUE",
+                "value": "DELAY"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "delayValue",
+                "kind": "FIELD"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "cast",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "PROCESS",
+          "targetKey": "cast_time_ms",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "actions[0].detail.processKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "actions[0].detail.processKey",
+            "formulaSnapshot": null,
+            "objectKey": "on_used",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "actions",
+                "key": "start_cast",
+                "keyField": "actionKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "actionType",
+                "kind": "EXPECT_VALUE",
+                "value": "START_PROCESS"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "processKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "on_used",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "TRIGGER",
+          "targetKey": "cast",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "PROCESS"
+        },
+        {
+          "fieldPath": "eventSource.detail.sourceSkillKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "formulaSnapshot": null,
+            "objectKey": "on_used",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "eventSource",
+                "kind": "FIELD"
+              },
+              {
+                "field": "eventType",
+                "kind": "EXPECT_VALUE",
+                "value": "SKILL_USED"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "sourceSkillKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "on_used",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "TRIGGER",
+          "targetKey": "soraka_r",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "SKILL"
+        },
+        {
+          "fieldPath": "actions[0].detail.effectKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "actions[0].detail.effectKey",
+            "formulaSnapshot": null,
+            "objectKey": "on_used_self_heal",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "actions",
+                "key": "heal_self",
+                "keyField": "actionKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "actionType",
+                "kind": "EXPECT_VALUE",
+                "value": "EXECUTE_EFFECT"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "effectKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "on_used_self_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "TRIGGER",
+          "targetKey": "self_heal",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "EFFECT"
+        },
+        {
+          "fieldPath": "conditionGroups[0].conditions[0].detail.attributeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "conditionGroups[0].conditions[0].detail.attributeKey",
+            "formulaSnapshot": null,
+            "objectKey": "on_used_self_heal",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "conditionGroups",
+                "key": "source_not_low_health",
+                "keyField": "groupKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "collection": "conditions",
+                "key": "source_hp_at_or_above_threshold",
+                "keyField": "conditionKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "conditionType",
+                "kind": "EXPECT_VALUE",
+                "value": "ATTRIBUTE_COMPARE"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "attributeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "on_used_self_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "TRIGGER",
+          "targetKey": "hp",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "ATTRIBUTE"
+        },
+        {
+          "fieldPath": "conditionGroups[0].conditions[0].detail.comparisonValue.parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "conditionGroups[0].conditions[0].detail.comparisonValue.parameterKey",
+            "formulaSnapshot": null,
+            "objectKey": "on_used_self_heal",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "conditionGroups",
+                "key": "source_not_low_health",
+                "keyField": "groupKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "collection": "conditions",
+                "key": "source_hp_at_or_above_threshold",
+                "keyField": "conditionKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "conditionType",
+                "kind": "EXPECT_VALUE",
+                "value": "ATTRIBUTE_COMPARE"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "comparisonValue",
+                "kind": "FIELD"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "on_used_self_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "TRIGGER",
+          "targetKey": "low_health_threshold_ratio",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "eventSource.detail.sourceSkillKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "formulaSnapshot": null,
+            "objectKey": "on_used_self_heal",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "eventSource",
+                "kind": "FIELD"
+              },
+              {
+                "field": "eventType",
+                "kind": "EXPECT_VALUE",
+                "value": "SKILL_USED"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "sourceSkillKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "on_used_self_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "TRIGGER",
+          "targetKey": "soraka_r",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "SKILL"
+        },
+        {
+          "fieldPath": "actions[0].detail.effectKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "actions[0].detail.effectKey",
+            "formulaSnapshot": null,
+            "objectKey": "on_used_self_low_health_heal",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "actions",
+                "key": "heal_self",
+                "keyField": "actionKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "actionType",
+                "kind": "EXPECT_VALUE",
+                "value": "EXECUTE_EFFECT"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "effectKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "on_used_self_low_health_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "TRIGGER",
+          "targetKey": "self_low_health_heal",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "EFFECT"
+        },
+        {
+          "fieldPath": "conditionGroups[0].conditions[0].detail.attributeKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "conditionGroups[0].conditions[0].detail.attributeKey",
+            "formulaSnapshot": null,
+            "objectKey": "on_used_self_low_health_heal",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "conditionGroups",
+                "key": "source_low_health",
+                "keyField": "groupKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "collection": "conditions",
+                "key": "source_hp_below_threshold",
+                "keyField": "conditionKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "conditionType",
+                "kind": "EXPECT_VALUE",
+                "value": "ATTRIBUTE_COMPARE"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "attributeKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "on_used_self_low_health_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "TRIGGER",
+          "targetKey": "hp",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "ATTRIBUTE"
+        },
+        {
+          "fieldPath": "conditionGroups[0].conditions[0].detail.comparisonValue.parameterKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "conditionGroups[0].conditions[0].detail.comparisonValue.parameterKey",
+            "formulaSnapshot": null,
+            "objectKey": "on_used_self_low_health_heal",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "collection": "conditionGroups",
+                "key": "source_low_health",
+                "keyField": "groupKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "collection": "conditions",
+                "key": "source_hp_below_threshold",
+                "keyField": "conditionKey",
+                "kind": "KEYED_CHILD"
+              },
+              {
+                "field": "conditionType",
+                "kind": "EXPECT_VALUE",
+                "value": "ATTRIBUTE_COMPARE"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "comparisonValue",
+                "kind": "FIELD"
+              },
+              {
+                "field": "parameterKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "on_used_self_low_health_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "TRIGGER",
+          "targetKey": "low_health_threshold_ratio",
+          "targetSkillKey": "soraka_r",
+          "targetSubKey": "",
+          "targetType": "PARAMETER"
+        },
+        {
+          "fieldPath": "eventSource.detail.sourceSkillKey",
+          "location": {
+            "degradeReason": null,
+            "editor": "TRIGGER_RULE",
+            "fieldPath": "eventSource.detail.sourceSkillKey",
+            "formulaSnapshot": null,
+            "objectKey": "on_used_self_low_health_heal",
+            "objectType": "TRIGGER",
+            "precision": "FIELD",
+            "segments": [
+              {
+                "field": "eventSource",
+                "kind": "FIELD"
+              },
+              {
+                "field": "eventType",
+                "kind": "EXPECT_VALUE",
+                "value": "SKILL_USED"
+              },
+              {
+                "field": "detail",
+                "kind": "FIELD"
+              },
+              {
+                "field": "sourceSkillKey",
+                "kind": "FIELD"
+              }
+            ],
+            "skillKey": "soraka_r"
+          },
+          "sourceKey": "on_used_self_low_health_heal",
+          "sourceSkillKey": "soraka_r",
+          "sourceType": "TRIGGER",
+          "targetKey": "soraka_r",
+          "targetSkillKey": "",
+          "targetSubKey": "",
+          "targetType": "SKILL"
+        }
+      ],
+      "skills": [
+        {
+          "effectCount": 0,
+          "maxLevel": 1,
+          "name": "索拉卡·拯救",
+          "processCount": 0,
+          "skillKey": "soraka_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "triggerRuleCount": 0
+        },
+        {
+          "effectCount": 1,
+          "maxLevel": 5,
+          "name": "索拉卡·流星坠落",
+          "processCount": 0,
+          "skillKey": "soraka_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "triggerRuleCount": 1
+        },
+        {
+          "effectCount": 0,
+          "maxLevel": 5,
+          "name": "索拉卡·星之灌注",
+          "processCount": 0,
+          "skillKey": "soraka_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "triggerRuleCount": 0
+        },
+        {
+          "effectCount": 0,
+          "maxLevel": 5,
+          "name": "索拉卡·星体结界",
+          "processCount": 0,
+          "skillKey": "soraka_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "triggerRuleCount": 0
+        },
+        {
+          "effectCount": 3,
+          "maxLevel": 3,
+          "name": "索拉卡·祈愿",
+          "processCount": 1,
+          "skillKey": "soraka_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "triggerRuleCount": 3
+        },
+        {
+          "effectCount": 2,
+          "maxLevel": 1,
+          "name": "普通攻击·共享",
+          "processCount": 1,
+          "skillKey": "shared_basic_attack",
+          "sortOrder": 5,
+          "status": "ENABLED",
+          "triggerRuleCount": 2
+        }
+      ],
+      "summary": {
+        "attachedSkillCount": 6,
+        "configuredAttributeCount": 10,
+        "errorCount": 0,
+        "reviewCount": 0
+      }
+    },
+    "/skills/soraka_r/parameters/base_heal": {
+      "createdAt": "2026-09-09T18:37:43.687273Z",
+      "description": "当前BaseHeal技能等级1至3。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "name": "祈愿自身基础治疗值",
+      "parameterKey": "base_heal",
+      "skillKey": "soraka_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:37:43.687273Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_r/parameters/ability_power_ratio": {
+      "createdAt": "2026-09-09T18:37:44.799484Z",
+      "description": "当前HealingCalc树AP比例为0.5。",
+      "fixedValue": 0.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "祈愿法强比例",
+      "parameterKey": "ability_power_ratio",
+      "skillKey": "soraka_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:37:44.799484Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/soraka_r/parameters/low_health_threshold_ratio": {
+      "createdAt": "2026-09-09T18:37:45.97064Z",
+      "description": "当前低于40%生命值分支。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "祈愿低生命阈值",
+      "parameterKey": "low_health_threshold_ratio",
+      "skillKey": "soraka_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T18:37:45.97064Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/soraka_r/parameters/low_health_multiplier": {
+      "createdAt": "2026-09-09T18:37:47.072411Z",
+      "description": "当前AmpedHealing为完整治疗的1.5倍。",
+      "fixedValue": 1.5,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "祈愿低生命治疗倍率",
+      "parameterKey": "low_health_multiplier",
+      "skillKey": "soraka_r",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T18:37:47.072411Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/soraka_r/parameters/cast_time_ms": {
+      "createdAt": "2026-09-09T18:37:48.175152Z",
+      "description": "当前mCastTime=0.25秒，转换为250毫秒；spellCastTime未提供。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础施法时间",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "soraka_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T18:37:48.175152Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_r/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T01:03:39.185776Z",
+      "description": "DDragon16.17.1 Soraka.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 150000,
+        "2": 135000,
+        "3": 120000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "soraka_r",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T01:03:39.185776Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_r/parameters/mana_cost": {
+      "createdAt": "2026-09-08T01:03:39.612347Z",
+      "description": "各技能等级均消耗100法力，官方中文静态资料16.17.1与客户端16.17根技能数值一致。基础施放过程在开始时引用本参数扣除法力；本参数保存基础消耗，不含其他消耗修正。管理配置已接入，实际战斗执行尚未验证。",
+      "fixedValue": 100,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "soraka_r",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-19T10:52:54.27459Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/soraka_r/formulas/self_heal": {
+      "createdAt": "2026-09-09T18:37:49.277413Z",
+      "description": "自身目标的正常治疗式。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_heal"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "self_heal",
+      "gameId": "lol",
+      "name": "祈愿自身治疗",
+      "skillKey": "soraka_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T18:37:49.277413Z"
+    },
+    "/skills/soraka_r/formulas/self_low_health_heal": {
+      "createdAt": "2026-09-09T18:37:50.426765Z",
+      "description": "目标低于40%生命时按完整治疗式乘1.5；不能把两个阶段同时叠加。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_heal"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "low_health_multiplier"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "self_low_health_heal",
+      "gameId": "lol",
+      "name": "祈愿自身低生命治疗",
+      "skillKey": "soraka_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T18:37:50.426765Z"
+    },
+    "/skills/soraka_r/effects/mana_cost": {
+      "createdAt": "2026-09-19T10:08:41.675926Z",
+      "description": "本技能主动使用开始时消耗100法力，复用既有法力参数。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "soraka_r",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-19T10:08:41.675926Z"
+    },
+    "/skills/soraka_r/effects/self_heal": {
+      "createdAt": "2026-09-19T09:25:04.850271Z",
+      "description": "主动使用时为索拉卡自身回复正常生命值；低生命由互斥规则执行增强公式。",
+      "effectKey": "self_heal",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "祈愿自身正常治疗",
+      "results": [
+        {
+          "description": null,
+          "detail": {},
+          "lifecycleBehavior": null,
+          "name": "自身回复生命值",
+          "resultKey": "heal",
+          "resultType": "DIRECT_HEAL",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "self_heal",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "soraka_r",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T09:25:04.850271Z"
+    },
+    "/skills/soraka_r/effects/self_low_health_heal": {
+      "createdAt": "2026-09-19T09:30:17.674001Z",
+      "description": "主动使用时索拉卡自身生命比例低于40%才执行；按完整治疗值1.5倍回复。",
+      "effectKey": "self_low_health_heal",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "祈愿自身低生命治疗",
+      "results": [
+        {
+          "description": null,
+          "detail": {},
+          "lifecycleBehavior": null,
+          "name": "自身回复生命值",
+          "resultKey": "heal",
+          "resultType": "DIRECT_HEAL",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "self_low_health_heal",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "soraka_r",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-19T09:30:17.674001Z"
+    },
+    "/skills/soraka_r/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T10:08:43.288393Z",
+      "description": "登记250毫秒基础施法，以及开始时100法力消耗和普通冷却；自身治疗仍由本次使用的正常与低生命互斥规则执行，不重复挂接治疗。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "祈愿基础施放与消耗冷却",
+      "processKey": "cast",
+      "skillKey": "soraka_r",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "客户端mCastTime为0.25秒，读取既有250毫秒参数；不从延迟结束再次执行治疗。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "基础施法时间",
+          "sortOrder": 10,
+          "stepKey": "cast_delay",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-19T10:08:43.288393Z"
+    },
+    "/skills/soraka_r/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动基础施放",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "自身ACTIVE使用仅启动基础施放与消耗冷却过程；本次治疗匹配由两条原互斥规则独立负责，过程不重复治疗。",
+      "eventSource": {
+        "detail": {
+          "castPhase": "INITIAL",
+          "sourceSkillKey": "soraka_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "祈愿主动使用登记消耗冷却",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 5
+    },
+    "/skills/soraka_r/trigger-rules/on_used_self_heal": {
+      "actions": [
+        {
+          "actionKey": "heal_self",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_heal"
+          },
+          "name": "执行自身正常治疗",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "source_hp_at_or_above_threshold",
+              "conditionType": "ATTRIBUTE_COMPARE",
+              "detail": {
+                "attributeKey": "hp",
+                "attributeValueKind": "CURRENT_RATIO",
+                "comparator": "GTE",
+                "comparisonValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "low_health_threshold_ratio"
+                },
+                "subject": "SOURCE"
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "source_not_low_health",
+          "name": "来源对象不低于低生命阈值",
+          "sortOrder": 10
+        }
+      ],
+      "description": "主动使用祈愿且索拉卡自身生命比例不低于40%时执行正常自身治疗。 同一次事件先完成全部条件求值再执行匹配动作，治疗后不追加另一分支。",
+      "eventSource": {
+        "detail": {
+          "castPhase": "INITIAL",
+          "sourceSkillKey": "soraka_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用回复自身生命",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_heal",
+      "sortOrder": 10
+    },
+    "/skills/soraka_r/trigger-rules/on_used_self_low_health_heal": {
+      "actions": [
+        {
+          "actionKey": "heal_self",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_low_health_heal"
+          },
+          "name": "执行自身低生命治疗",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "source_hp_below_threshold",
+              "conditionType": "ATTRIBUTE_COMPARE",
+              "detail": {
+                "attributeKey": "hp",
+                "attributeValueKind": "CURRENT_RATIO",
+                "comparator": "LT",
+                "comparisonValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "low_health_threshold_ratio"
+                },
+                "subject": "SOURCE"
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "source_low_health",
+          "name": "来源对象低于低生命阈值",
+          "sortOrder": 10
+        }
+      ],
+      "description": "主动使用祈愿且索拉卡自身生命比例低于40%时执行增强自身治疗；不与正常分支叠加。 同一次事件先完成全部条件求值再执行匹配动作，治疗后不追加另一分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "soraka_r",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "低生命时主动使用回复自身生命",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_low_health_heal",
+      "sortOrder": 20
+    }
+  },
+  "protectedResponses": 28,
+  "volatileFieldsExcluded": [
+    "authoring-check.checkedAt"
+  ],
+  "businessWrites": 0,
+  "runtimeValidated": false
+}

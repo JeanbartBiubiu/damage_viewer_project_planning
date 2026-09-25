@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-24T08:00:23.411Z",
+  "object": "lol/skills/chogath_q/trigger-rules",
+  "approval": "科加斯击飞-02-页面批准.json requests[2]",
+  "preflight": {
+    "listGet": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+      "status": 200
+    },
+    "visibleRuleRows": [
+      "名称\n\t\n稳定标识\n\t\n事件类型\n\t\n条件组\n\t\n动作\n\t\n每目标冷却\n\t\n过程次数\n\t\n同次使用\n\t\n排序\n\t\n更新时间\n\t\n操作",
+      "主动使用登记消耗与冷却\n\t\non_used_cost_and_cooldown\n\t\n技能被主动或消耗使用\n\t\n0\n\t\n1\n\t\n—\n\t\n—\n\t\n—\n\t\n5\n\t\n2026/9/21 18:02:47\n\t\n编辑\n删除",
+      "明确未阻挡破裂本体命中伤害\n\t\nactual_unblocked_hit\n\t\n技能命中\n\t\n1\n\t\n1\n\t\n—\n\t\n—\n\t\n—\n\t\n10\n\t\n2026/9/21 18:25:17\n\t\n编辑\n删除"
+    ],
+    "expectedRuleKeyVisible": true,
+    "detailGet": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules/actual_unblocked_knockup",
+      "status": 404,
+      "body": "{\"error\":{\"code\":\"404.SKILL_TRIGGER_RULE_NOT_FOUND\",\"details\":{\"ruleKey\":\"actual_unblocked_knockup\"},\"message\":\"技能触发规则不存在\"}}"
+    },
+    "rootIndependentConfirmation": "主负责人同轮36 GET核对目标仍缺失"
+  },
+  "scope": {
+    "existingRuleKeys": [
+      "on_used_cost_and_cooldown",
+      "actual_unblocked_hit"
+    ],
+    "newWriteOnly": "actual_unblocked_knockup"
+  },
+  "browserWriteGuard": {
+    "currentOldAllowedEffectWrites": 1,
+    "currentOldBlocked": 0
+  }
+}

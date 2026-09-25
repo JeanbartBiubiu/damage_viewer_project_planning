@@ -1,0 +1,32 @@
+{
+  "browser": {
+    "nodePid": 29596,
+    "chromiumPid": 49940,
+    "chromiumParentPid": 29596,
+    "contexts": 1,
+    "pages": [
+      1
+    ],
+    "independentFromLuna": {
+      "lunaChromiumPid": 48548,
+      "lunaParentPid": 25624
+    }
+  },
+  "entry": "角色易→关联技能→masteryi_r",
+  "existingEffectKeys": [
+    "mana_cost",
+    "attack_speed",
+    "move_speed",
+    "basic_cooldown_refund"
+  ],
+  "candidateAbsent": true,
+  "existingDuration": {
+    "attack_speed": "duration_ms；按来源对象；重复持续刷新全部时间",
+    "move_speed": "duration_ms；按来源对象；重复持续刷新全部时间"
+  },
+  "parameterValues": {
+    "duration_ms": 7000,
+    "kill_assist_extension_ms": 7000
+  },
+  "nonGetBefore": 0
+}

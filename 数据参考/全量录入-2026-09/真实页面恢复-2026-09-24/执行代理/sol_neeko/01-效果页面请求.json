@@ -1,0 +1,54 @@
+{
+  "method": "POST",
+  "path": "/api/admin/games/lol/skills/neeko_e/effects",
+  "body": {
+    "effectKey": "first_contact_root",
+    "name": "缠结倒刺首个接触目标禁锢",
+    "description": "仅用于本次妮蔻E首次合资格单位接触为敌方英雄、同次法术护盾判定明确未阻挡且无本来源实例的最短禁锢分支；其他接触、强化及重施仍待核。",
+    "sortOrder": 30,
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "min_root_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE_TARGET",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "results": [
+      {
+        "resultKey": "root",
+        "name": "缠结倒刺最短禁锢",
+        "target": "TARGET",
+        "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+        "sortOrder": 10,
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "valueReadMode": null,
+          "stackValueMode": null,
+          "reapplicationValueMode": null,
+          "periodicExecutionMode": null
+        },
+        "spellShieldBlockScope": null,
+        "resultType": "STATUS_OPERATION",
+        "valueRule": null,
+        "detail": {
+          "statusKey": "root",
+          "operation": "APPLY"
+        }
+      }
+    ]
+  },
+  "status": 201
+}

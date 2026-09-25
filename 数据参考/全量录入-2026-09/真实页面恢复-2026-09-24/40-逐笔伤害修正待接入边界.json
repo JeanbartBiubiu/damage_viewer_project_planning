@@ -1,0 +1,38 @@
+{
+  "date": "2026-09-24",
+  "status": "STATIC_REVIEW_ONLY_REAL_PAGE_REPRODUCTION_PENDING",
+  "objects": ["rune_8014", "rune_8017"],
+  "sourceAndCurrentData": "符文生命门槛准备/02-来源引用与能力核对.json",
+  "businessWrites": 0,
+  "runtimeValidated": false,
+  "findings": [
+    "现有伤害修正缺少每笔伤害的目标资格条件；须由指定代理在真实表单确认后收敛修复。",
+    "原生 modifier.condition 的 source/target 来自执行帧，修正拥有者只改变 provider.state/target_state。",
+    "伤害命令的 Target 可能经 operation 重定向，不能直接将 frame.target 的生命称为本笔实际承受者生命。",
+    "现有伤害类别、特征、施放来源标签不等于承受者敌方英雄身份；需复用明确身份事实并拒绝缺失。",
+    "符文固定参数须来自符文实际参数，不借用造成伤害的能力参数；缺生命或非正最大生命必须拒绝，不补零。",
+    "每笔条件重新求值的入口存在，但反向双方、实际目标重定向和跨门槛恢复仍需针对性验证。"
+  ],
+  "designDecisions": [
+    "按每笔匹配伤害进入对应乘区且本笔扣血前的承受者生命判一次，当前一笔跨门槛不追补自己。",
+    "保留现有伤害过滤能力；物理普攻仅作为首个验证算例，不作为管理能力的硬限制或符文完整证明。",
+    "已有6参数、4公式、无默认运行输入、符文主体和挂载均保护。",
+    "不添加常驻无条件8%，不以伤后追加伤害替代原伤害修正，不修改原生实现前宣称已接通。"
+  ],
+  "reviewEvidence": {
+    "agent": "/root/essence_review",
+    "mode": "readonly",
+    "entryPoints": [
+      "wasm/tinygo_engine_v2/internal/runtime/generic_execution.go:343",
+      "wasm/tinygo_engine_v2/internal/runtime/generic_execution.go:618",
+      "wasm/tinygo_engine_v2/internal/runtime/generic_execution.go:1463",
+      "wasm/tinygo_engine_v2/internal/runtime/generic_bound_modifiers.go:47",
+      "wasm/tinygo_engine_v2/internal/runtime/generic_run.go:328",
+      "web/src/engine/hitAdapter.ts:210"
+    ],
+    "existingTestsAreNotNewProof": [
+      "generic_pipeline_damage_modifier_test.go:305",
+      "generic_c1_damage_event_pipeline_test.go:420"
+    ]
+  }
+}

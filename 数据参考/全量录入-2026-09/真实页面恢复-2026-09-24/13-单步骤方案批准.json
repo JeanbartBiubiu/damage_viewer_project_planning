@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-24T02:02:19.291Z",
+  "status": "READY",
+  "reviewer": "独立Astra只读评审",
+  "plan": "文档记录/详细设计/项目/管理页面与共性机制迭代计划.md",
+  "sectionHeading": "## 真实页面恢复返回：强化步骤的单一结算来源（2026-09-24）",
+  "wholePlanFileSha256AtApproval": "c128fbc5acb751769b231190c219f3a55e3eaf053428e870ba3f90c61574deaf",
+  "approvedSectionTextSha256": "9c3ce92c39718b9b5a142e40c56b73cae45a695ac3aa24c4680410b319a0a580",
+  "acceptedCorrections": [
+    "仅ATTACK_HIT；ATTACK_START按步骤路径拒绝，更正旧提前伤害的测试与完成声明",
+    "所有效果绑定排序小于清待命，清待命小于启动冷却；重复或逆序拒绝",
+    "作者仅单组单个对应ICD剩余时间EQ0条件，不再使用待命真假双组",
+    "单ACTIVE强化步骤唯一结算来源；作者不再保存第二份命中执行规则",
+    "额外规则与过程事件不得静默忽略；计数窗口保持",
+    "同拥有者/挂载/过程逻辑实例刷新，实际普攻目标、同次去重和恢复受既有状态及账本约束"
+  ],
+  "implementationOwner": "single_step_runtime（Astra worker，禁止业务录入）",
+  "implementationStatus": "实施中，尚未记验收通过",
+  "businessWrites": 0
+}

@@ -1,0 +1,38 @@
+{
+  "object": "item_3508 / item_3508_passive",
+  "writes": {
+    "approvedOriginal": 4,
+    "approvedMerged": 3,
+    "totalNonGet": 7,
+    "extraWrites": 0
+  },
+  "reopen": {
+    "parameter": "mana_refund_damage_multiplier 值0.5、排序30及获批新说明回显",
+    "effect": "spellblade_damage 资格已核定；仅1条生命偷取覆盖，防御后伤害，固定效率1；全能吸血继承",
+    "skill": "最终说明与合并批准正文逐字一致",
+    "ruleAction": "默认动作草稿直接命名start_spellblade后随spellblade_arm保存；重开子编辑器标识仍为start_spellblade且禁用"
+  },
+  "route": "装备管理搜索item_3508→关联技能→item_3508_passive录入技能→行为总览→返回装备技能，回到item_3508关联技能弹窗后正常关闭",
+  "observations": [
+    {
+      "object": "item_3508_passive",
+      "position": "行为总览／命中",
+      "repro": "从装备关联技能点录入技能，打开行为总览",
+      "expected": "强化普通攻击命中执行步骤或绑定可在命中分组辨识",
+      "actual": "命中分组显示没有已归入命中的已保存配置；强化步骤位于补充入口，两个步骤效果绑定还出现在效果与补充入口",
+      "impact": "作者需跨分组阅读才能确认命中消费，易误读为空；不影响已保存配置与运行",
+      "blocker": false,
+      "screenshot": "13-夺萃行为总览命中分类.png"
+    },
+    {
+      "object": "item_3508",
+      "position": "装备管理列表说明",
+      "repro": "从技能录入页点返回装备技能并关闭关联弹窗",
+      "expected": "说明不再笼统提示本被动待配置",
+      "actual": "装备原始说明仍含被动与主动效果尚待配置",
+      "impact": "列表文案与已配置被动不一致；本批保护装备说明，未修改",
+      "blocker": false,
+      "screenshot": "17-夺萃装备查看旧说明.png"
+    }
+  ]
+}

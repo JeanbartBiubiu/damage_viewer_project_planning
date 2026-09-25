@@ -1,0 +1,44 @@
+{
+  "at": "2026-09-24T12:02:33.275Z",
+  "stage": "DRAFT_READY_NO_PARENT_SAVE",
+  "object": "rune_8014_passive/effects/basic_attack_health_bonus",
+  "candidate": "普通伤害来源准备/09-扩大过滤页面候选.json writes[0]",
+  "baselineGetMatchesBefore": true,
+  "afterDraftGetMatchesBefore": true,
+  "browser": {
+    "nodePid": 15124,
+    "chromiumPid": 40860,
+    "contexts": 1,
+    "pages": 1
+  },
+  "ui": {
+    "effectName": "致命一击普通直接伤害生命门槛增伤",
+    "effectDescription": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格低于40%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+    "resultName": "符合生命门槛时提高普通直接伤害",
+    "resultDescription": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格低于40%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+    "resultCount": 1,
+    "resultKey": "increase_damage",
+    "damageType": "全部伤害（null）",
+    "delivery": "全部（ANY）",
+    "direction": "DEALT",
+    "origin": "DIRECT",
+    "criticalFilter": "ANY",
+    "target": "SOURCE",
+    "condition": "ENEMY_CHAMPION hp CURRENT_RATIO LT 参数 target_health_threshold_ratio",
+    "amount": "参数 bonus_damage_ratio × 1",
+    "modifierZone": "rune_8014_damage_increase",
+    "lifecycle": "SOURCE 永久单层，EXPLICIT_ONLY，PERSISTENT / MOMENT_EVALUATION / SHARED",
+    "parentSaveButtonVisible": true,
+    "parentSaveClicked": false
+  },
+  "guard": {
+    "policy": "全部非GET请求中止",
+    "blockedNonGet": [],
+    "businessWriteCount": 0
+  },
+  "screenshots": [
+    "43-致命一击扩大过滤结果草稿.png",
+    "44-致命一击扩大过滤父效果草稿.png"
+  ],
+  "note": "正常结果子编辑器确认后仅更新父草稿；父效果仍打开，待最终批准。"
+}

@@ -1,0 +1,53 @@
+{
+  "method": "PUT",
+  "path": "/api/admin/games/lol/skills/item_3508_passive/effects/spellblade_damage",
+  "body": {
+    "name": "咒刃额外物理伤害",
+    "description": "咒刃附加物理伤害，由单强化步骤在实际普攻命中时结算。吸血按项目核定：生命偷取使用本结果的必要覆盖，全能吸血继承游戏规则。",
+    "sortOrder": 10,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "spellblade_damage",
+        "name": "咒刃物理伤害",
+        "target": "TARGET",
+        "description": "1.25倍来源基础攻击力加50倍来源暴击率的额外物理伤害。",
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "resultType": "DAMAGE",
+        "valueRule": {
+          "value": {
+            "formulaKey": "spellblade_damage",
+            "kind": "FORMULA"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "damageTypeKey": "physics",
+          "deliveryKind": "BASIC_ATTACK",
+          "originKind": "DIRECT",
+          "critical": {
+            "mode": "DISALLOWED",
+            "multiplierValue": null
+          },
+          "vampQualification": "RESOLVED",
+          "vampOverrides": [
+            {
+              "vampType": "LIFE_STEAL",
+              "mode": "OVERRIDE",
+              "basisOutputKind": "POST_DEFENSE_DAMAGE",
+              "efficiencyValue": {
+                "kind": "FIXED",
+                "value": 1
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "status": 200
+}

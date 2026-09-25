@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-24T03:40:59.087Z",
+  "route": "/skills/item_3508_passive/processes/spellblade_consume",
+  "paths": [
+    "effectBindings[0].moment.failureReason",
+    "effectBindings[1].moment.failureReason",
+    "stateOperations[0].moment.failureReason",
+    "stateOperations[1].moment.failureReason",
+    "stateOperations[2].moment.failureReason",
+    "stateOperations[3].moment.failureReason"
+  ],
+  "readbackStatus": "PASS",
+  "GETs": 25,
+  "protectedResponses": 20,
+  "backendEvidence": "server/data_manage/src/main/java/xyz/game/datamanage/model/skillprocess/SkillProcessMoment.java:18 @JsonInclude(NON_NULL)",
+  "requestBodyUnchanged": true,
+  "businessReplay": false,
+  "verifierCorrection": "只从期望GET的过程绑定与操作时点删除已知空failureReason，其他空字段和全文继续严格对比",
+  "runtimeFinding": "待击适配原先!==null误拒绝合法省略；1项定向检查复现，改为同时接受null/undefined后通过，非空失败原因仍拒绝",
+  "wholeEquipmentRuntime": false
+}

@@ -1,0 +1,210 @@
+{
+  "at": "2026-09-24T08:36:29.594Z",
+  "approvedRequest": {
+    "method": "POST",
+    "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+    "body": {
+      "ruleKey": "actual_unblocked_knockup",
+      "name": "明确未阻挡破裂命中每目标一次击飞",
+      "description": "沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。",
+      "sortOrder": 20,
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "chogath_q"
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮明确未阻挡敌方英雄",
+          "sortOrder": 10
+        }
+      ],
+      "actions": [
+        {
+          "actionKey": "apply_knockup",
+          "name": "施加破裂击飞",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "knockup"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null,
+      "oncePerUse": {
+        "groupKey": "q_knockup_per_target",
+        "scope": "TARGET"
+      }
+    }
+  },
+  "actualUiRequest": {
+    "at": "2026-09-24T08:35:00.351Z",
+    "method": "POST",
+    "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+    "body": {
+      "ruleKey": "actual_unblocked_knockup",
+      "name": "明确未阻挡破裂命中每目标一次击飞",
+      "description": "沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。",
+      "sortOrder": 20,
+      "eventSource": {
+        "eventType": "SKILL_HIT",
+        "detail": {
+          "sourceSkillKey": "chogath_q"
+        }
+      },
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮明确未阻挡敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "sortOrder": 30,
+              "detail": {
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "actionKey": "apply_knockup",
+          "name": "施加破裂击飞",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "knockup"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null,
+      "oncePerUse": {
+        "groupKey": "q_knockup_per_target",
+        "scope": "TARGET"
+      }
+    },
+    "bodyMatchesApproved": true,
+    "action": "forward-ui-request"
+  },
+  "httpResponse": {
+    "method": "POST",
+    "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+    "status": 201,
+    "body": "{\"actions\":[{\"actionKey\":\"apply_knockup\",\"actionType\":\"EXECUTE_EFFECT\",\"detail\":{\"effectKey\":\"knockup\"},\"name\":\"施加破裂击飞\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"champion_target\",\"conditionType\":\"TARGET_CATEGORY_CHECK\",\"detail\":{\"categories\":[\"CHAMPION\"]},\"sortOrder\":10},{\"conditionKey\":\"enemy_target\",\"conditionType\":\"SKILL_HIT_TARGET_IS_ENEMY\",\"detail\":{},\"sortOrder\":20},{\"conditionKey\":\"not_spell_shield_blocked\",\"conditionType\":\"EVENT_VALUE_COMPARE\",\"detail\":{\"comparator\":\"EQ\",\"comparisonValue\":{\"kind\":\"FIXED\",\"value\":0},\"eventValueKey\":\"SKILL_HIT_SPELL_SHIELD_BLOCKED\"},\"sortOrder\":30}],\"groupKey\":\"champion_target\",\"name\":\"本轮明确未阻挡敌方英雄\",\"sortOrder\":10}],\"description\":\"沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。\",\"eventSource\":{\"detail\":{\"sourceSkillKey\":\"chogath_q\",\"useKind\":null},\"eventType\":\"SKILL_HIT\"},\"maxTriggersPerProcess\":null,\"name\":\"明确未阻挡破裂命中每目标一次击飞\",\"oncePerUse\":{\"groupKey\":\"q_knockup_per_target\",\"scope\":\"TARGET\"},\"perTargetCooldown\":null,\"ruleKey\":\"actual_unblocked_knockup\",\"sortOrder\":20}"
+  },
+  "loggedRequests": [
+    {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules"
+    }
+  ],
+  "loggedResponses": [
+    {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+      "status": 200
+    }
+  ],
+  "localAbortsBeforeServer": 2,
+  "serverSuccessCount": 1,
+  "status": "201",
+  "listReload": {
+    "method": "GET",
+    "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+    "status": 200
+  },
+  "visibleRuleKeys": [
+    "on_used_cost_and_cooldown",
+    "actual_unblocked_hit",
+    "actual_unblocked_knockup"
+  ],
+  "protectedOldRulesStillVisible": true,
+  "newRuleSummary": "明确未阻挡破裂命中每目标一次击飞」已保存。\n名称\n\t\n稳定标识\n\t\n事件类型\n\t\n条件组\n\t\n动作\n\t\n每目标冷却\n\t\n过程次数\n\t\n同次使用\n\t\n排序\n\t\n更新时间\n\t\n操作\n\n\n主动使用登记消耗与冷却\n\t\non_used_cost_and_cooldown\n\t\n技能被主动或消耗使用\n\t\n0\n\t\n1\n\t\n—\n\t\n—\n\t\n—\n\t\n5\n\t\n2026/9/21 18:02:47\n\t\n编辑\n删除\n\n\n明确未阻挡破裂本体命中伤害\n\t\nactual_unblocked_hit\n\t\n技能命中\n\t\n1\n\t\n1\n\t\n—\n\t\n—\n\t\n—\n\t\n10\n\t\n2026/9",
+  "currentVisiblePanel": "科加斯Q条件与触发列表；新增规则表单已自动关闭，无草稿",
+  "guard": {
+    "method": "POST",
+    "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+    "allowed": 1,
+    "blocked": 0,
+    "bodyMatchesApproved": true
+  },
+  "oldGuardCounts": {
+    "priorEffectWriteAllowed": 1,
+    "priorGuardBlocked": 1,
+    "secondGuardBlocked": 1
+  }
+}

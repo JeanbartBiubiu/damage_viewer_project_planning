@@ -1,0 +1,52 @@
+{
+  "记录时间": "2026-09-24 11:04:56 Asia/Shanghai（Chromium 主进程启动时间）",
+  "浏览器": {
+    "启动方式": "Playwright chromium.launch({ headless: true }) 新建进程",
+    "进程号": 21808,
+    "父进程号": 8332,
+    "父进程类型": "node.exe",
+    "版本": "149.0.7827.55",
+    "Playwright 标识": "browser@a68ee7dc318d320d27df6d319853b856"
+  },
+  "隔离页面": {
+    "创建方式": "browser.newContext() 后 context.newPage()",
+    "页面上下文标识": "browser-context@4a2512c9ee5a988fbc7bf09f1d78e1a7",
+    "浏览器上下文数": 1,
+    "本上下文页面数": 1,
+    "页面属于本上下文": true,
+    "页面标识": "page@6c96879bae96693a7fdbe61d105eacfe",
+    "CDP 目标标识": "672416313FBE1CEF78AD8EEDC1F47E9D"
+  },
+  "管理页": {
+    "地址": "http://127.0.0.1:4182/#/equipment",
+    "标题": "Damage Viewer Web",
+    "文档响应状态": 200,
+    "游戏为 lol": true,
+    "装备管理页可见": true,
+    "耀光 item_3057 行可见": true,
+    "顶部占位标记已通过可见控件应用": true
+  },
+  "只读请求记录": [
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/equipment",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/equipment",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/equipment",
+      "status": 200
+    }
+  ],
+  "隐私与操作边界": {
+    "未保存响应头或 Cookie": true,
+    "未保存响应正文": true,
+    "未执行业务保存操作": true
+  },
+  "模型运行证据": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\真实页面恢复-2026-09-24\\20-耀光执行模型核验.json"
+}

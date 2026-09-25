@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-24T09:48:09.984Z",
+  "status": "APPROVED_STEP_1_ONLY",
+  "candidate": "10-页面候选待前端审查.json",
+  "candidateSha256": "cf7061fd916f39c8774f671828074d3434f107df82f7f6990609da919d402732",
+  "actualExecutor": "gpt-6-sol",
+  "effort": "max",
+  "existingStartupProof": "../09-妮蔻执行模型交接.json",
+  "allowed": {
+    "step": 1,
+    "method": "POST",
+    "route": "/modifier-zones",
+    "object": "rune_8014_damage_increase"
+  },
+  "prerequisites": {
+    "frontendCodeReview": "READY",
+    "frontendChecks": "1129 tests plus lint typecheck build PASS",
+    "isolatedBrowser": "PASS including formula preflight and cancel preservation",
+    "nativeCodeReview": "READY",
+    "nativeWorkerSynthetic": "4 PASS; separate from page authoring"
+  },
+  "instruction": "仅通过真实页面正常控件创建第一项乘区；保存关闭重开后回报并等待主负责人独立回读，禁止开始第2笔或其他业务写入。保护原32响应及9乘区。"
+}

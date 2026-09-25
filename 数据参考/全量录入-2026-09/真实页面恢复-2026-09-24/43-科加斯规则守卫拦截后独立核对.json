@@ -1,0 +1,109 @@
+{
+  "at": "2026-09-24T08:21:26.612Z",
+  "status": "PASS_RULE_STILL_ABSENT",
+  "audit": [
+    {
+      "method": "GET",
+      "route": "/skills/chogath_q/trigger-rules/actual_unblocked_knockup",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_q/effects/knockup",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/chogath_q/trigger-rules/actual_unblocked_knockup": {
+      "http": 404
+    },
+    "/skills/chogath_q/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "本技能每次已接受普通主动使用时启动基础消耗与普通冷却登记；不由命中反推使用，不把事件后的动作作为施放前许可，也不触发伤害或控制。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-21T10:02:47.865574Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "同组要求chogath_q本体合资格实际命中敌方英雄且同次法术护盾结果明确为0；缺值或1均不执行，不从空护盾粒度、零伤害或当前护盾状态推定0。不生成命中、重复碰撞资格或控制结果。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "明确未阻挡破裂本体命中伤害",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_unblocked_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-21T10:25:17.142212Z"
+      }
+    ],
+    "/skills/chogath_q/effects/knockup": {
+      "createdAt": "2026-09-24T07:30:49.784508Z",
+      "description": "固定16.17.1资料明确击飞1秒，复用knockup_duration_ms。仅供本技能本体实际命中敌方英雄且同次法术护盾结果明确为0的入口；持续施加击飞，无强度数值。空间轨迹、免疫和落地后减速不在本组成中表达。",
+      "effectKey": "knockup",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "knockup_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE_TARGET",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "破裂明确未阻挡击飞",
+      "results": [
+        {
+          "description": "无强度控制；期限由父生命周期的1000毫秒参数决定。空法术护盾粒度不表示穿盾，未阻挡资格由同次命中规则明确要求。",
+          "detail": {
+            "operation": "APPLY",
+            "statusKey": "airborne"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": null,
+            "valueReadMode": null
+          },
+          "name": "持续施加击飞",
+          "resultKey": "apply_knockup",
+          "resultType": "STATUS_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "chogath_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-24T07:30:49.784508Z"
+    }
+  },
+  "confirmedPageWrites": 2,
+  "businessWrites": 0
+}

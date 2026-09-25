@@ -1,0 +1,19 @@
+{
+  "method": "POST",
+  "path": "/api/admin/games/lol/skills/item_3508_passive/internal-states",
+  "body": {
+    "stateKey": "spellblade_icd",
+    "name": "咒刃内部冷却",
+    "scope": "SKILL",
+    "description": "强化普通攻击命中消费后启动；窗口超时不启动。",
+    "sortOrder": 20,
+    "stateType": "INTERNAL_COOLDOWN",
+    "detail": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "spellblade_cooldown_ms"
+      }
+    }
+  },
+  "status": 201
+}

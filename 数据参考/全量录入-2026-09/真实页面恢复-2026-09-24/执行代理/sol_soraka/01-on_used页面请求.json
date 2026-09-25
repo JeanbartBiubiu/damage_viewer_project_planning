@@ -1,0 +1,36 @@
+{
+  "method": "PUT",
+  "path": "/api/admin/games/lol/skills/soraka_r/trigger-rules/on_used",
+  "body": {
+    "name": "祈愿主动使用登记消耗冷却",
+    "description": "自身ACTIVE使用仅启动基础施放与消耗冷却过程；本次治疗匹配由两条原互斥规则独立负责，过程不重复治疗。",
+    "sortOrder": 5,
+    "eventSource": {
+      "eventType": "SKILL_USED",
+      "detail": {
+        "sourceSkillKey": "soraka_r",
+        "useKind": "ACTIVE",
+        "castPhase": "INITIAL"
+      }
+    },
+    "conditionGroups": [],
+    "actions": [
+      {
+        "actionKey": "start_cast",
+        "name": "启动基础施放",
+        "actionType": "START_PROCESS",
+        "sortOrder": 10,
+        "targetContext": "CURRENT_TARGET",
+        "detail": {
+          "processKey": "cast"
+        },
+        "runtimeInputBindings": [],
+        "resultModifiers": []
+      }
+    ],
+    "perTargetCooldown": null,
+    "maxTriggersPerProcess": null,
+    "oncePerUse": null
+  },
+  "status": 200
+}

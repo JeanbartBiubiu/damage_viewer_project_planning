@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-24T05:06:22.266Z",
+  "executionMode": "PLAYWRIGHT_UI_ONLY",
+  "model": "gpt-6-luna",
+  "effort": "max",
+  "question": "仅记录来源与目标资格窗口的效果，能否保留真实空结果而正常保存、重开和解释未接线边界",
+  "baseline": "希维尔标记-01-写前现值.json",
+  "baselineSha256": "708ce3b0aa42d925aff85a9ba083812bed91cb3a4efea206e02240d5e48d976a",
+  "candidateSource": "../希维尔R参与击杀刷新返回/16-最近伤害标记页面返回候选.json",
+  "candidateSha256": "1fd77ceb17376586c739b09230d233226700dbe21fddd7be85b518831567d012",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/sivir_r/effects",
+      "detailRoute": "/skills/sivir_r/effects/recent_damage_mark",
+      "body": {
+        "effectKey": "recent_damage_mark",
+        "name": "最近伤害资格标记",
+        "description": "仅记录同一来源对同一目标的3000毫秒窗口，重复登记刷新完整期限。具体伤害资格、死亡清理时序与参与击杀入口尚未核定，本标记当前未接入触发。",
+        "sortOrder": 50,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "recent_damage_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": []
+      }
+    }
+  ],
+  "protected": "原四效果含刷新辅助效果、全部参数/过程/规则/图片/角色关系完整保持；只新增已有明确用途的资格标记，不接尚未核定的伤害资格和参与击杀规则",
+  "verification": "结果数零，生命周期开启，3000毫秒参数，同来源同目标实例，重复刷新完整期限；总览应保留未挂接提示；查看原刷新辅助效果证明原对象未变",
+  "runtimeValidated": false,
+  "wholeSkillComplete": false
+}

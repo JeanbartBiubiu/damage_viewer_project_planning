@@ -1,0 +1,836 @@
+{
+  "at": "2026-09-24T07:52:17.250Z",
+  "status": "PASS",
+  "scope": "w",
+  "before": "科加斯沉默同类-只读前值.json",
+  "audit": [
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/parameters/base_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/parameters/silence_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/formulas/magic_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/effects/silence_first_application",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/statuses/silence",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/character-skill-relations?skillKey=chogath_w",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/chogath_w": {
+      "createdAt": "2026-09-06T18:18:04.921171Z",
+      "description": "科加斯向前方锥形区域发出声波，造成魔法伤害并沉默命中的敌人。已录入敌方英雄实际命中伤害、无本来源实例时的首次沉默，以及普通主动使用的法力消耗与基础冷却登记。五级伤害为80/130/180/230/280加0.7倍来源总法强，沉默1600/1700/1800/1900/2000毫秒。使用登记的立即步骤不表示零施放时长；完整施放时长和沉默重施仍待核。固定来源：客户端16.17、官方静态资料16.17.1。",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "科加斯·野性尖叫",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "chogath_w",
+      "sortOrder": 2,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-19T18:03:04.184062Z"
+    },
+    "/skills/chogath_w/parameters": [
+      {
+        "createdAt": "2026-09-09T12:47:26.86309Z",
+        "description": "客户端根mEffectAmount第一项索引1至5；保留技能等级值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 130,
+          "3": 180,
+          "4": 230,
+          "5": 280
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "chogath_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:47:26.86309Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T12:47:27.823508Z",
+        "description": "TotalDamageTooltip的StatByCoefficientCalculationPart系数0.7，mStat省略按同版窄口径取来源总法强。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法术强度倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "chogath_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T12:47:27.823508Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T12:47:28.793743Z",
+        "description": "客户端根mEffectAmount第二项为秒，转毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1600,
+          "2": 1700,
+          "3": 1800,
+          "4": 1900,
+          "5": 2000
+        },
+        "name": "沉默持续（毫秒）",
+        "parameterKey": "silence_duration_ms",
+        "skillKey": "chogath_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T12:47:28.793743Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:14.519164Z",
+        "description": "DDragon16.17.1 Chogath.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10500,
+          "3": 10000,
+          "4": 9500,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "chogath_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:14.519164Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:36:15.037827Z",
+        "description": "DDragon16.17.1 Chogath.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "chogath_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:15.037827Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/chogath_w/parameters/base_damage": {
+      "createdAt": "2026-09-09T12:47:26.86309Z",
+      "description": "客户端根mEffectAmount第一项索引1至5；保留技能等级值。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 130,
+        "3": 180,
+        "4": 230,
+        "5": 280
+      },
+      "name": "基础魔法伤害",
+      "parameterKey": "base_damage",
+      "skillKey": "chogath_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T12:47:26.86309Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_w/parameters/ap_ratio": {
+      "createdAt": "2026-09-09T12:47:27.823508Z",
+      "description": "TotalDamageTooltip的StatByCoefficientCalculationPart系数0.7，mStat省略按同版窄口径取来源总法强。",
+      "fixedValue": 0.7,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法术强度倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "chogath_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T12:47:27.823508Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/chogath_w/parameters/silence_duration_ms": {
+      "createdAt": "2026-09-09T12:47:28.793743Z",
+      "description": "客户端根mEffectAmount第二项为秒，转毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 1600,
+        "2": 1700,
+        "3": 1800,
+        "4": 1900,
+        "5": 2000
+      },
+      "name": "沉默持续（毫秒）",
+      "parameterKey": "silence_duration_ms",
+      "skillKey": "chogath_w",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T12:47:28.793743Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_w/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:36:14.519164Z",
+      "description": "DDragon16.17.1 Chogath.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 11000,
+        "2": 10500,
+        "3": 10000,
+        "4": 9500,
+        "5": 9000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "chogath_w",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:36:14.519164Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_w/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:36:15.037827Z",
+      "description": "DDragon16.17.1 Chogath.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "chogath_w",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-07T18:36:15.037827Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/chogath_w/formulas": [
+      {
+        "createdAt": "2026-09-09T12:47:29.842217Z",
+        "description": "基础伤害加来源总法强的0.7倍；已有命中伤害效果引用本公式，五级基础值及属性取值口径保持。",
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "野性尖叫魔法伤害",
+        "skillKey": "chogath_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T17:25:02.536765Z"
+      }
+    ],
+    "/skills/chogath_w/formulas/magic_damage": {
+      "createdAt": "2026-09-09T12:47:29.842217Z",
+      "description": "基础伤害加来源总法强的0.7倍；已有命中伤害效果引用本公式，五级基础值及属性取值口径保持。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "magic_damage",
+      "gameId": "lol",
+      "name": "野性尖叫魔法伤害",
+      "skillKey": "chogath_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-19T17:25:02.536765Z"
+    },
+    "/skills/chogath_w/effects": [
+      {
+        "createdAt": "2026-09-09T12:47:30.868461Z",
+        "description": "普通主动使用时的基础法力消耗，五级为70/75/80/85/90；使用登记过程在开始时引用本效果。实际施放资格与失败取消退款由对应分支另行处理。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "chogath_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T18:03:05.65631Z"
+      },
+      {
+        "createdAt": "2026-09-19T17:18:46.507978Z",
+        "description": "实际命中敌方英雄时执行一次直接魔法技能伤害，引用已有完整公式；不以目标没有沉默实例为伤害前置。沉默、主动使用及成本冷却分开维护。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "科加斯·野性尖叫命中伤害",
+        "resultCount": 1,
+        "skillKey": "chogath_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T17:18:46.507978Z"
+      },
+      {
+        "createdAt": "2026-09-19T17:00:47.249796Z",
+        "description": "本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+        "effectKey": "silence_first_application",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "野性尖叫首次沉默",
+        "resultCount": 1,
+        "skillKey": "chogath_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T17:00:47.249796Z"
+      }
+    ],
+    "/skills/chogath_w/effects/mana_cost": {
+      "createdAt": "2026-09-09T12:47:30.868461Z",
+      "description": "普通主动使用时的基础法力消耗，五级为70/75/80/85/90；使用登记过程在开始时引用本效果。实际施放资格与失败取消退款由对应分支另行处理。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "消耗法力",
+          "resultKey": "consume_mana",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "chogath_w",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-19T18:03:05.65631Z"
+    },
+    "/skills/chogath_w/effects/primary_hit": {
+      "createdAt": "2026-09-19T17:18:46.507978Z",
+      "description": "实际命中敌方英雄时执行一次直接魔法技能伤害，引用已有完整公式；不以目标没有沉默实例为伤害前置。沉默、主动使用及成本冷却分开维护。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "科加斯·野性尖叫命中伤害",
+      "results": [
+        {
+          "description": "引用同技能magic_damage公式：基础伤害加来源总法强的0.7倍。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampOverrides": [],
+            "vampQualification": "UNRESOLVED"
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "magic_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "chogath_w",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T17:18:46.507978Z"
+    },
+    "/skills/chogath_w/effects/silence_first_application": {
+      "createdAt": "2026-09-19T17:00:47.249796Z",
+      "description": "本来源当前目标无本沉默实例时施加一次沉默，期限引用已有五级参数；入口同时要求敌方英雄实际命中且同次命中明确未被法术护盾阻挡。已有实例时不执行，重复层数与刷新字段在本入口不可达，重施分支待补证。",
+      "effectKey": "silence_first_application",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "silence_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE_TARGET",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "野性尖叫首次沉默",
+      "results": [
+        {
+          "description": "施加无强度沉默并随父效果期限结束，只在本次施加时按当前结果参与法术护盾判断。",
+          "detail": {
+            "operation": "APPLY",
+            "statusKey": "silence"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": null,
+            "valueReadMode": null
+          },
+          "name": "野性尖叫沉默",
+          "resultKey": "silence",
+          "resultType": "STATUS_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "RESULT",
+          "target": "TARGET",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "chogath_w",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-19T17:00:47.249796Z"
+    },
+    "/skills/chogath_w/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-19T17:58:20.031424Z",
+        "description": "只登记本次普通主动使用的法力消耗与基础冷却；立即步骤不代表完整施放时长，伤害与沉默仍由实际命中入口处理。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "野性尖叫使用登记",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "chogath_w",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-19T17:58:20.031424Z"
+      }
+    ],
+    "/skills/chogath_w/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-19T17:58:20.031424Z",
+      "description": "只登记本次普通主动使用的法力消耗与基础冷却；立即步骤不代表完整施放时长，伤害与沉默仍由实际命中入口处理。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "野性尖叫使用登记",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "chogath_w",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-19T17:58:20.031424Z"
+    },
+    "/skills/chogath_w/internal-states": [],
+    "/skills/chogath_w/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只消费本技能实际命中敌方英雄的事件，不从施放或延迟结束生成命中；目标已有沉默实例仍可受到本次伤害。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "科加斯·野性尖叫实际命中",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T17:18:48.081895Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "本技能普通主动使用时启动成本冷却登记，不以实际命中或沉默首次施加为费用前置；施放时长和运行资格仍单列。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "野性尖叫普通主动使用",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T17:58:21.378189Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "无本沉默实例时施加",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "apply_silence_on_unblocked_hit",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-19T17:00:49.023867Z"
+      }
+    ],
+    "/skills/chogath_w/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行野性尖叫伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只消费本技能实际命中敌方英雄的事件，不从施放或延迟结束生成命中；目标已有沉默实例仍可受到本次伤害。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "chogath_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "科加斯·野性尖叫实际命中",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/chogath_w/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动消耗与冷却登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "本技能普通主动使用时启动成本冷却登记，不以实际命中或沉默首次施加为费用前置；施放时长和运行资格仍单列。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "chogath_w",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "野性尖叫普通主动使用",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 20
+    },
+    "/skills/chogath_w/trigger-rules/apply_silence_on_unblocked_hit": {
+      "actions": [
+        {
+          "actionKey": "apply_silence",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "silence_first_application"
+          },
+          "name": "施加本次沉默",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            },
+            {
+              "conditionKey": "own_silence_absent",
+              "conditionType": "LIFECYCLE_CHECK",
+              "detail": {
+                "checkKind": "ABSENT",
+                "comparator": null,
+                "comparisonValue": null,
+                "effectKey": "silence_first_application",
+                "subject": "CURRENT_TARGET"
+              },
+              "sortOrder": 40
+            }
+          ],
+          "groupKey": "silence_eligible",
+          "name": "本次沉默可施加",
+          "sortOrder": 10
+        }
+      ],
+      "description": "只在同一次实际命中明确为敌方英雄、法术护盾阻挡值为0且当前目标无本来源沉默实例时执行沉默；缺少护盾值不得默认0。有实例的重复命中分支未录，原伤害与成本入口保持。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "chogath_w",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "无本沉默实例时施加",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "apply_silence_on_unblocked_hit",
+      "sortOrder": 30
+    },
+    "/statuses/silence": {
+      "createdAt": "2026-09-19T16:42:34.531835Z",
+      "description": "沉默状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+      "gameId": "lol",
+      "name": "沉默",
+      "sortOrder": 30,
+      "status": "ENABLED",
+      "statusKey": "silence",
+      "statusKind": "SILENCE",
+      "updatedAt": "2026-09-19T16:42:34.531835Z"
+    },
+    "/character-skill-relations?skillKey=chogath_w": {
+      "items": [
+        {
+          "characterKey": "champion_chogath",
+          "characterName": "科加斯",
+          "gameId": "lol",
+          "skillKey": "chogath_w",
+          "skillName": "科加斯·野性尖叫",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        }
+      ],
+      "total": 1
+    }
+  },
+  "unchanged": true,
+  "businessWrites": 0
+}

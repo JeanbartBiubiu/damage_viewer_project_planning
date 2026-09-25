@@ -1,0 +1,1155 @@
+{
+  "at": "2026-09-24T11:16:45.930Z",
+  "actualExecutor": {
+    "model": "gpt-6-sol",
+    "effort": "max"
+  },
+  "pageEvidence": "执行代理/sol_rune_health_gate/42-致命一击原对象安全草稿返回.json",
+  "originalObject": "rune_8014_passive/basic_attack_health_bonus",
+  "pageBusinessWrites": 0,
+  "independentGETs": 38,
+  "formulaPreflight": {
+    "selected": "extra_damage_amount",
+    "expressionParameters": [
+      "confirmed_eligible_damage",
+      "bonus_damage_ratio"
+    ],
+    "getObserved": true,
+    "saveAlert": "逐笔生命门槛公式核对未通过，请检查对应结果。",
+    "fieldError": "门槛公式不能引用计算时传入的参数。",
+    "draftRetained": true,
+    "saveRequestCount": 0
+  },
+  "unsavedResultCleanup": {
+    "typeBefore": "伤害修正",
+    "conditionBefore": "生命值（hp） CURRENT_RATIO LT 参数target_health_threshold_ratio",
+    "dialog": "当前修改会清除逐笔生命门槛。是否继续？",
+    "cancelKept": true,
+    "confirmChangedTo": "直接治疗",
+    "conditionRemovedAfterConfirm": true,
+    "discardPrompt": "当前修改尚未保存，确定要离开吗？",
+    "parentResultCountAfterDiscard": 1
+  },
+  "savedResultTypeLockedAsExpected": true,
+  "unchangedIncludingTimestamps": true,
+  "noDraftOrDialogs": true,
+  "scope": "原对象动态门槛公式提交前校验、草稿保留及新结果切种类清理确认；不是整符文完成",
+  "audit": [
+    {
+      "method": "GET",
+      "route": "/runes/rune_8014",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/runes/rune_8017",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/rune-skill-relations?runeKey=rune_8014",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/rune-skill-relations?runeKey=rune_8017",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/formulas",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/effects",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/internal-states",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/parameters",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/processes",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/formulas",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/parameters",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/trigger-rules",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/processes",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/effects",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/trigger-rules",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/internal-states",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/formulas/extra_damage_amount",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/formulas/target_health_threshold",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/parameters/confirmed_eligible_damage",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/formulas/target_health_threshold",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/parameters/bonus_damage_ratio",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/parameters/target_health_threshold_ratio",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/formulas/extra_damage_amount",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/parameters/bonus_damage_ratio",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/parameters/target_health_threshold_ratio",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/parameters/confirmed_eligible_damage",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/attributes/hp",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skill-categories/passive",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/damage-types",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/modifier-zones",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/modifier-zones/rune_8014_damage_increase",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/effects/basic_attack_health_bonus",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8014_passive/trigger-rules/initialize_basic_attack_bonus",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/modifier-zones/rune_8017_damage_increase",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/effects/basic_attack_health_bonus",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_8017_passive/trigger-rules/initialize_basic_attack_bonus",
+      "status": 200,
+      "unchanged": true
+    }
+  ],
+  "values": {
+    "/runes/rune_8014": {
+      "category": "MINOR",
+      "createdAt": "2026-09-08T18:47:32.972047Z",
+      "description": "对生命值低于40%的英雄多造成8%伤害。",
+      "gameId": "lol",
+      "name": "致命一击",
+      "runeKey": "rune_8014",
+      "updatedAt": "2026-09-08T18:47:32.972047Z"
+    },
+    "/runes/rune_8017": {
+      "category": "MINOR",
+      "createdAt": "2026-09-08T18:47:33.619025Z",
+      "description": "对生命值多于60%的英雄多造成8%伤害。",
+      "gameId": "lol",
+      "name": "砍倒",
+      "runeKey": "rune_8017",
+      "updatedAt": "2026-09-08T18:47:33.619025Z"
+    },
+    "/rune-skill-relations?runeKey=rune_8014": {
+      "items": [
+        {
+          "gameId": "lol",
+          "runeKey": "rune_8014",
+          "runeName": "致命一击",
+          "skillKey": "rune_8014_passive",
+          "skillName": "符文·致命一击",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "total": 1
+    },
+    "/rune-skill-relations?runeKey=rune_8017": {
+      "items": [
+        {
+          "gameId": "lol",
+          "runeKey": "rune_8017",
+          "runeName": "砍倒",
+          "skillKey": "rune_8017_passive",
+          "skillName": "符文·砍倒",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "total": 1
+    },
+    "/skills/rune_8014_passive": {
+      "createdAt": "2026-09-09T02:57:36.220573Z",
+      "description": "本批仅录入：低于40%英雄生命时的8%伤害增幅参数及阈值数值；未连接伤害修正。其余条件及组合尚未连接，不代表完整符文。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "符文·致命一击",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "rune_8014_passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-09T02:57:36.220573Z"
+    },
+    "/skills/rune_8014_passive/formulas": [
+      {
+        "createdAt": "2026-09-09T02:57:39.216824Z",
+        "description": "只计算门槛值；比较和取样时点尚未绑定。",
+        "formulaKey": "target_health_threshold",
+        "gameId": "lol",
+        "name": "目标生命门槛数值",
+        "skillKey": "rune_8014_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:57:39.216824Z"
+      },
+      {
+        "createdAt": "2026-09-09T02:57:39.994817Z",
+        "description": "只算已确认基数的8%；不是自动参与伤害结算的乘区。",
+        "formulaKey": "extra_damage_amount",
+        "gameId": "lol",
+        "name": "合格伤害额外数值",
+        "skillKey": "rune_8014_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:57:39.994817Z"
+      }
+    ],
+    "/skills/rune_8014_passive/effects": [
+      {
+        "createdAt": "2026-09-24T10:12:30.051567Z",
+        "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格低于40%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+        "effectKey": "basic_attack_health_bonus",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "致命一击普通物理普攻生命门槛增伤",
+        "resultCount": 1,
+        "skillKey": "rune_8014_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-24T10:12:30.051567Z"
+      }
+    ],
+    "/skills/rune_8014_passive/internal-states": [],
+    "/skills/rune_8014_passive/parameters": [
+      {
+        "createdAt": "2026-09-09T02:57:36.972209Z",
+        "description": "目标英雄当前生命严格低于此门槛；等于门槛不成立。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "目标生命门槛比例",
+        "parameterKey": "target_health_threshold_ratio",
+        "skillKey": "rune_8014_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:57:36.972209Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T02:57:37.737283Z",
+        "description": "仅合格伤害的增幅；尚未确定真实伤害等例外，不创建DAMAGE结果。",
+        "fixedValue": 0.08,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外伤害比例",
+        "parameterKey": "bonus_damage_ratio",
+        "skillKey": "rune_8014_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:57:37.737283Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T02:57:38.485502Z",
+        "description": "由已核实伤害阶段及资格供值；不假设包含所有伤害类型，不默认抗性前或后。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认适用伤害基数",
+        "parameterKey": "confirmed_eligible_damage",
+        "skillKey": "rune_8014_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:57:38.485502Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/rune_8014_passive/processes": [],
+    "/skills/rune_8017_passive/formulas": [
+      {
+        "createdAt": "2026-09-09T02:57:45.968936Z",
+        "description": "只计算门槛值；比较和取样时点尚未绑定。",
+        "formulaKey": "target_health_threshold",
+        "gameId": "lol",
+        "name": "目标生命门槛数值",
+        "skillKey": "rune_8017_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:57:45.968936Z"
+      },
+      {
+        "createdAt": "2026-09-09T02:57:46.777102Z",
+        "description": "只算已确认基数的8%；不是自动参与伤害结算的乘区。",
+        "formulaKey": "extra_damage_amount",
+        "gameId": "lol",
+        "name": "合格伤害额外数值",
+        "skillKey": "rune_8017_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:57:46.777102Z"
+      }
+    ],
+    "/skills/rune_8017_passive": {
+      "createdAt": "2026-09-09T02:57:41.533102Z",
+      "description": "本批仅录入：高于60%英雄生命时的8%伤害增幅参数及阈值数值；未连接伤害修正。其余条件及组合尚未连接，不代表完整符文。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "符文·砍倒",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "rune_8017_passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-09T02:57:41.533102Z"
+    },
+    "/skills/rune_8017_passive/parameters": [
+      {
+        "createdAt": "2026-09-09T02:57:42.943066Z",
+        "description": "目标英雄当前生命严格高于此门槛；等于门槛不成立。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "目标生命门槛比例",
+        "parameterKey": "target_health_threshold_ratio",
+        "skillKey": "rune_8017_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:57:42.943066Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T02:57:44.12238Z",
+        "description": "仅合格伤害的增幅；尚未确定真实伤害等例外，不创建DAMAGE结果。",
+        "fixedValue": 0.08,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外伤害比例",
+        "parameterKey": "bonus_damage_ratio",
+        "skillKey": "rune_8017_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:57:44.12238Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T02:57:45.03479Z",
+        "description": "由已核实伤害阶段及资格供值；不假设包含所有伤害类型，不默认抗性前或后。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认适用伤害基数",
+        "parameterKey": "confirmed_eligible_damage",
+        "skillKey": "rune_8017_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:57:45.03479Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/rune_8014_passive/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格低于40%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化致命一击普通物理普攻增伤",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_basic_attack_bonus",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-24T10:21:48.219374Z"
+      }
+    ],
+    "/skills/rune_8017_passive/processes": [],
+    "/skills/rune_8017_passive/effects": [
+      {
+        "createdAt": "2026-09-24T10:42:32.607302Z",
+        "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格高于60%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+        "effectKey": "basic_attack_health_bonus",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "砍倒普通物理普攻生命门槛增伤",
+        "resultCount": 1,
+        "skillKey": "rune_8017_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-24T10:42:32.607302Z"
+      }
+    ],
+    "/skills/rune_8017_passive/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格高于60%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+        "eventType": "SOURCE_INITIALIZED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "初始化砍倒普通物理普攻增伤",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "initialize_basic_attack_bonus",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-24T10:50:35.329892Z"
+      }
+    ],
+    "/skills/rune_8017_passive/internal-states": [],
+    "/skills/rune_8017_passive/formulas/extra_damage_amount": {
+      "createdAt": "2026-09-09T02:57:46.777102Z",
+      "description": "只算已确认基数的8%；不是自动参与伤害结算的乘区。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_eligible_damage"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_damage_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "extra_damage_amount",
+      "gameId": "lol",
+      "name": "合格伤害额外数值",
+      "skillKey": "rune_8017_passive",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T02:57:46.777102Z"
+    },
+    "/skills/rune_8017_passive/formulas/target_health_threshold": {
+      "createdAt": "2026-09-09T02:57:45.968936Z",
+      "description": "只计算门槛值；比较和取样时点尚未绑定。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "TARGET",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "target_health_threshold_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "target_health_threshold",
+      "gameId": "lol",
+      "name": "目标生命门槛数值",
+      "skillKey": "rune_8017_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T02:57:45.968936Z"
+    },
+    "/skills/rune_8014_passive/parameters/confirmed_eligible_damage": {
+      "createdAt": "2026-09-09T02:57:38.485502Z",
+      "description": "由已核实伤害阶段及资格供值；不假设包含所有伤害类型，不默认抗性前或后。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "已确认适用伤害基数",
+      "parameterKey": "confirmed_eligible_damage",
+      "skillKey": "rune_8014_passive",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T02:57:38.485502Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rune_8014_passive/formulas/target_health_threshold": {
+      "createdAt": "2026-09-09T02:57:39.216824Z",
+      "description": "只计算门槛值；比较和取样时点尚未绑定。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "TARGET",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "target_health_threshold_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "target_health_threshold",
+      "gameId": "lol",
+      "name": "目标生命门槛数值",
+      "skillKey": "rune_8014_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T02:57:39.216824Z"
+    },
+    "/skills/rune_8017_passive/parameters/bonus_damage_ratio": {
+      "createdAt": "2026-09-09T02:57:44.12238Z",
+      "description": "仅合格伤害的增幅；尚未确定真实伤害等例外，不创建DAMAGE结果。",
+      "fixedValue": 0.08,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "额外伤害比例",
+      "parameterKey": "bonus_damage_ratio",
+      "skillKey": "rune_8017_passive",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T02:57:44.12238Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rune_8017_passive/parameters/target_health_threshold_ratio": {
+      "createdAt": "2026-09-09T02:57:42.943066Z",
+      "description": "目标英雄当前生命严格高于此门槛；等于门槛不成立。",
+      "fixedValue": 0.6,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "目标生命门槛比例",
+      "parameterKey": "target_health_threshold_ratio",
+      "skillKey": "rune_8017_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T02:57:42.943066Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rune_8014_passive/formulas/extra_damage_amount": {
+      "createdAt": "2026-09-09T02:57:39.994817Z",
+      "description": "只算已确认基数的8%；不是自动参与伤害结算的乘区。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "confirmed_eligible_damage"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_damage_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "extra_damage_amount",
+      "gameId": "lol",
+      "name": "合格伤害额外数值",
+      "skillKey": "rune_8014_passive",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T02:57:39.994817Z"
+    },
+    "/skills/rune_8014_passive/parameters/bonus_damage_ratio": {
+      "createdAt": "2026-09-09T02:57:37.737283Z",
+      "description": "仅合格伤害的增幅；尚未确定真实伤害等例外，不创建DAMAGE结果。",
+      "fixedValue": 0.08,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "额外伤害比例",
+      "parameterKey": "bonus_damage_ratio",
+      "skillKey": "rune_8014_passive",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T02:57:37.737283Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rune_8014_passive/parameters/target_health_threshold_ratio": {
+      "createdAt": "2026-09-09T02:57:36.972209Z",
+      "description": "目标英雄当前生命严格低于此门槛；等于门槛不成立。",
+      "fixedValue": 0.4,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "目标生命门槛比例",
+      "parameterKey": "target_health_threshold_ratio",
+      "skillKey": "rune_8014_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T02:57:36.972209Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rune_8017_passive/parameters/confirmed_eligible_damage": {
+      "createdAt": "2026-09-09T02:57:45.03479Z",
+      "description": "由已核实伤害阶段及资格供值；不假设包含所有伤害类型，不默认抗性前或后。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "已确认适用伤害基数",
+      "parameterKey": "confirmed_eligible_damage",
+      "skillKey": "rune_8017_passive",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T02:57:45.03479Z",
+      "valueMode": "RUNTIME_INPUT",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/hp": {
+      "attributeKey": "hp",
+      "createdAt": "2026-08-22T15:27:36.051116Z",
+      "description": null,
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "生命值",
+      "sortOrder": 300,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-22T15:27:36.051116Z",
+      "valueType": "DECIMAL"
+    },
+    "/skill-categories/passive": {
+      "createdAt": "2026-08-26T05:59:36.038429Z",
+      "description": null,
+      "gameId": "lol",
+      "name": "被动技能",
+      "skillCategoryKey": "passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:36.038429Z"
+    },
+    "/damage-types": {
+      "items": [
+        {
+          "createdAt": "2026-08-26T05:59:09.635701Z",
+          "damageTypeKey": "physics",
+          "description": null,
+          "gameId": "lol",
+          "name": "物理伤害",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:09.635701Z"
+        },
+        {
+          "createdAt": "2026-08-26T05:58:49.612762Z",
+          "damageTypeKey": "real",
+          "description": null,
+          "gameId": "lol",
+          "name": "真实伤害",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:58:49.612762Z"
+        },
+        {
+          "createdAt": "2026-08-26T05:59:15.870937Z",
+          "damageTypeKey": "magic",
+          "description": null,
+          "gameId": "lol",
+          "name": "魔法伤害",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:15.870937Z"
+        }
+      ],
+      "total": 3
+    },
+    "/modifier-zones": {
+      "items": [
+        {
+          "applicationStage": "ATTRIBUTE_PERCENT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-08-31T05:44:18.601181Z",
+          "description": null,
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "attribute_percent_bonus",
+          "name": "属性百分比加成",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-31T05:44:18.601181Z"
+        },
+        {
+          "applicationStage": "ATTRIBUTE_FLAT",
+          "calculationMode": "FLAT_ADD",
+          "createdAt": "2026-09-06T16:50:52.756989Z",
+          "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "attribute_flat_add",
+          "name": "属性固定加算",
+          "sortOrder": 10,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T16:50:52.756989Z"
+        },
+        {
+          "applicationStage": "ATTRIBUTE_PERCENT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-08T02:16:34.032171Z",
+          "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "item_3071_armor_reduction",
+          "name": "黑色切割者护甲削减乘区",
+          "sortOrder": 200,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:34.032171Z"
+        },
+        {
+          "applicationStage": "ATTRIBUTE_PERCENT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-08T02:16:39.681338Z",
+          "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+          "domain": "ATTRIBUTE",
+          "gameId": "lol",
+          "modifierZoneKey": "item_8010_magic_resistance_reduction",
+          "name": "放血者的诅咒魔抗削减乘区",
+          "sortOrder": 210,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-08T02:16:39.681338Z"
+        },
+        {
+          "applicationStage": "DAMAGE_PRE_DEFENSE",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-12T05:42:45.604997Z",
+          "description": "铁板靴镀板的10%基础攻击伤害减免独立乘区；与其他来源分乘区相乘，避免在叠加规则未确认时直接相加。",
+          "domain": "DAMAGE",
+          "gameId": "lol",
+          "modifierZoneKey": "item_3047_basic_damage_reduction",
+          "name": "铁板靴基础攻击伤害减免",
+          "sortOrder": 220,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-12T05:42:45.604997Z"
+        },
+        {
+          "applicationStage": "DAMAGE_PRE_DEFENSE",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-12T05:42:47.402895Z",
+          "description": "兰顿之兆复原力的30%暴击伤害减免独立乘区；与其他来源分乘区相乘，避免在叠加规则未确认时直接相加。",
+          "domain": "DAMAGE",
+          "gameId": "lol",
+          "modifierZoneKey": "item_3143_critical_damage_reduction",
+          "name": "兰顿暴击伤害减免",
+          "sortOrder": 230,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-12T05:42:47.402895Z"
+        },
+        {
+          "applicationStage": "HEALING_RESULT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-16T17:07:18.885451Z",
+          "description": "振奋盔甲对来源对象受到治疗的25%提高使用独立治疗结果比例乘区；跨来源组合和战斗结算仍需运行验证。",
+          "domain": "HEALING",
+          "gameId": "lol",
+          "modifierZoneKey": "item_3065_received_healing_increase",
+          "name": "振奋盔甲受到治疗增幅",
+          "sortOrder": 240,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-16T17:07:18.885451Z"
+        },
+        {
+          "applicationStage": "SHIELD_RESULT",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-19T12:30:25.533985Z",
+          "description": "振奋盔甲对持有者本次收到的普通护盾量提高25%使用独立护盾结果比例乘区；不修正已有剩余量、期限或法术护盾次数。",
+          "domain": "SHIELD",
+          "gameId": "lol",
+          "modifierZoneKey": "item_3065_received_shield_increase",
+          "name": "振奋盔甲收到护盾增幅",
+          "sortOrder": 250,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-19T12:30:25.533985Z"
+        },
+        {
+          "applicationStage": "HEALING_RESULT",
+          "calculationMode": "RATIO_MAX",
+          "createdAt": "2026-09-22T22:09:59.484631Z",
+          "description": "重伤降低受到治疗的通用乘区。同组选择最大减少比例；每个来源的持续效果保留自己的期限，强者结束后仍有效的弱者继续生效。",
+          "domain": "HEALING",
+          "gameId": "lol",
+          "modifierZoneKey": "grievous_wounds",
+          "name": "重伤受到治疗取强",
+          "sortOrder": 260,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-22T22:09:59.484631Z"
+        },
+        {
+          "applicationStage": "DAMAGE_PRE_DEFENSE",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-24T09:56:45.134864Z",
+          "description": "致命一击合格伤害的独立增幅；同区比例加算，与其他独立增幅分区相乘。具体伤害资格由引用结果限定。",
+          "domain": "DAMAGE",
+          "gameId": "lol",
+          "modifierZoneKey": "rune_8014_damage_increase",
+          "name": "致命一击独立增伤乘区",
+          "sortOrder": 270,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-24T09:56:45.134864Z"
+        },
+        {
+          "applicationStage": "DAMAGE_PRE_DEFENSE",
+          "calculationMode": "RATIO_ADD",
+          "createdAt": "2026-09-24T10:29:58.791828Z",
+          "description": "砍倒合格伤害的独立增幅；同区比例加算，与其他独立增幅分区相乘。具体伤害资格由引用结果限定。",
+          "domain": "DAMAGE",
+          "gameId": "lol",
+          "modifierZoneKey": "rune_8017_damage_increase",
+          "name": "砍倒独立增伤乘区",
+          "sortOrder": 280,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-24T10:29:58.791828Z"
+        }
+      ],
+      "total": 11
+    },
+    "/modifier-zones/rune_8014_damage_increase": {
+      "applicationStage": "DAMAGE_PRE_DEFENSE",
+      "calculationMode": "RATIO_ADD",
+      "createdAt": "2026-09-24T09:56:45.134864Z",
+      "description": "致命一击合格伤害的独立增幅；同区比例加算，与其他独立增幅分区相乘。具体伤害资格由引用结果限定。",
+      "domain": "DAMAGE",
+      "gameId": "lol",
+      "modifierZoneKey": "rune_8014_damage_increase",
+      "name": "致命一击独立增伤乘区",
+      "sortOrder": 270,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-24T09:56:45.134864Z"
+    },
+    "/skills/rune_8014_passive/effects/basic_attack_health_bonus": {
+      "createdAt": "2026-09-24T10:12:30.051567Z",
+      "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格低于40%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+      "effectKey": "basic_attack_health_bonus",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "致命一击普通物理普攻生命门槛增伤",
+      "results": [
+        {
+          "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格低于40%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+          "detail": {
+            "condition": {
+              "receiver": "ENEMY_CHAMPION",
+              "comparator": "LT",
+              "attributeKey": "hp",
+              "comparisonValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "target_health_threshold_ratio"
+              },
+              "attributeValueKind": "CURRENT_RATIO"
+            },
+            "criticalFilter": "ANY",
+            "damageTypeKey": "physics",
+            "deliveryKind": "BASIC_ATTACK",
+            "direction": "DEALT",
+            "modifierZoneKey": "rune_8014_damage_increase",
+            "operation": "INCREASE",
+            "originKind": "DIRECT"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "name": "符合生命门槛时提高普通物理普攻伤害",
+          "resultKey": "increase_damage",
+          "resultType": "DAMAGE_MODIFIER",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "bonus_damage_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "rune_8014_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-24T10:12:30.051567Z"
+    },
+    "/skills/rune_8014_passive/trigger-rules/initialize_basic_attack_bonus": {
+      "actions": [
+        {
+          "actionKey": "apply_bonus",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "basic_attack_health_bonus"
+          },
+          "name": "施加常驻生命门槛增伤",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格低于40%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化致命一击普通物理普攻增伤",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_basic_attack_bonus",
+      "sortOrder": 10
+    },
+    "/modifier-zones/rune_8017_damage_increase": {
+      "applicationStage": "DAMAGE_PRE_DEFENSE",
+      "calculationMode": "RATIO_ADD",
+      "createdAt": "2026-09-24T10:29:58.791828Z",
+      "description": "砍倒合格伤害的独立增幅；同区比例加算，与其他独立增幅分区相乘。具体伤害资格由引用结果限定。",
+      "domain": "DAMAGE",
+      "gameId": "lol",
+      "modifierZoneKey": "rune_8017_damage_increase",
+      "name": "砍倒独立增伤乘区",
+      "sortOrder": 280,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-24T10:29:58.791828Z"
+    },
+    "/skills/rune_8017_passive/effects/basic_attack_health_bonus": {
+      "createdAt": "2026-09-24T10:42:32.607302Z",
+      "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格高于60%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+      "effectKey": "basic_attack_health_bonus",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": null,
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "砍倒普通物理普攻生命门槛增伤",
+      "results": [
+        {
+          "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格高于60%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+          "detail": {
+            "condition": {
+              "receiver": "ENEMY_CHAMPION",
+              "comparator": "GT",
+              "attributeKey": "hp",
+              "comparisonValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "target_health_threshold_ratio"
+              },
+              "attributeValueKind": "CURRENT_RATIO"
+            },
+            "criticalFilter": "ANY",
+            "damageTypeKey": "physics",
+            "deliveryKind": "BASIC_ATTACK",
+            "direction": "DEALT",
+            "modifierZoneKey": "rune_8017_damage_increase",
+            "operation": "INCREASE",
+            "originKind": "DIRECT"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": "SHARED",
+            "valueReadMode": "MOMENT_EVALUATION"
+          },
+          "name": "符合生命门槛时提高普通物理普攻伤害",
+          "resultKey": "increase_damage",
+          "resultType": "DAMAGE_MODIFIER",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": null,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "bonus_damage_ratio"
+            }
+          }
+        }
+      ],
+      "skillKey": "rune_8017_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-24T10:42:32.607302Z"
+    },
+    "/skills/rune_8017_passive/trigger-rules/initialize_basic_attack_bonus": {
+      "actions": [
+        {
+          "actionKey": "apply_bonus",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "basic_attack_health_bonus"
+          },
+          "name": "施加常驻生命门槛增伤",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "本组成仅覆盖普通直接物理普攻；每笔结算前对敌方英雄判断生命当前比例严格高于60%，等值不成立。技能及其他伤害来源另行接线，不表示整符文完成。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "SOURCE_INITIALIZED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "初始化砍倒普通物理普攻增伤",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "initialize_basic_attack_bonus",
+      "sortOrder": 10
+    }
+  }
+}

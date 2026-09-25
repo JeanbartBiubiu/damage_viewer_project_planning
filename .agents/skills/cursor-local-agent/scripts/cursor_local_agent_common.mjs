@@ -5,9 +5,10 @@ import { tmpdir } from "node:os";
 import { createRequire } from "node:module";
 
 export const MODEL = {
-  id: "grok-4.6",
+  id: "grok-4.7",
   params: [
-    { id: "effort", value: "high" },
+    { id: "context", value: "256k" },
+    { id: "reasoning_effort", value: "xhigh" },
     { id: "fast", value: "false" },
   ],
 };
@@ -19,7 +20,7 @@ export const REAL_RUN_SETTING_SOURCES = Object.freeze(["project"]);
 export const SMOKE_SETTING_SOURCES = Object.freeze([]);
 
 /** Exact shared-cache pin / expected @cursor/sdk version. */
-export const EXPECTED_CURSOR_SDK_VERSION = "1.0.24";
+export const EXPECTED_CURSOR_SDK_VERSION = "1.0.32";
 
 const SHARED_SDK_CACHE_DIR = join(tmpdir(), "cursor-sdk-smoke-deps");
 
@@ -482,7 +483,7 @@ export function probeCursorCli() {
     probe.supportsModelSelection = true;
     probe.status = "best_effort";
     probe.note =
-      "cursor-agent is available, but current CLI fallback cannot prove grok-4.6 with fast=false because it does not pass model params.";
+      "cursor-agent is available, but current CLI fallback cannot prove grok-4.7 with context=256k, reasoning_effort=xhigh, and fast=false because it does not pass model params.";
     return probe;
   }
 
@@ -551,7 +552,7 @@ export function performPreflight({ cwd, requireApiKey = true, requireSdk = true 
   if (!cliProbe.cursorAgentPath) {
     warnings.push(cliProbe.note);
   } else if (!cliProbe.strictModelFallbackAllowed) {
-    warnings.push("Strict CLI fallback is unavailable because current CLI flags cannot prove grok-4.6 with fast=false.");
+    warnings.push("Strict CLI fallback is unavailable because current CLI flags cannot prove grok-4.7 with context=256k, reasoning_effort=xhigh, and fast=false.");
   }
 
   checks.push({

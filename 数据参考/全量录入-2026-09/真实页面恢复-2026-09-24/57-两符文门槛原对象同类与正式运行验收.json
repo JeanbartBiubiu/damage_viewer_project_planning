@@ -1,0 +1,111 @@
+{
+  "at": "2026-09-24T11:05:51.449Z",
+  "status": "ORIGINAL_AND_PEER_BOUNDED_COMPONENT_CLOSED",
+  "question": "实际表单能否表达本笔敌方英雄生命门槛，并在保存和运行中保持严格比较、引用和实际双方",
+  "original": "rune_8014",
+  "peer": "rune_8017",
+  "actualExecutor": {
+    "model": "gpt-6-sol",
+    "effort": "max"
+  },
+  "uniquePagePosts": 6,
+  "successful201": 6,
+  "pageClosedAndReopened": true,
+  "independentPageGETs": 228,
+  "protectedOriginalResponses": 32,
+  "protectedOriginalModifierZones": 9,
+  "currentModifierZones": 11,
+  "normalUIObservedNewBlockingIssues": false,
+  "runtimeReport": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/符文生命门槛准备/18-两符文正式组成与不同生命工作线程.json",
+  "runtimeGETs": 20,
+  "runtimeDataMatchesIndependentReadback": true,
+  "rows": [
+    {
+      "runeKey": "rune_8014",
+      "boundaries": [
+        {
+          "ownerHp": 900,
+          "receiverHp": 399,
+          "maxHp": 1000,
+          "rawDamage": 100,
+          "damage": 108
+        },
+        {
+          "ownerHp": 900,
+          "receiverHp": 400,
+          "maxHp": 1000,
+          "rawDamage": 100,
+          "damage": 100
+        },
+        {
+          "ownerHp": 900,
+          "receiverHp": 401,
+          "maxHp": 1000,
+          "rawDamage": 100,
+          "damage": 100
+        }
+      ],
+      "runtimeGETs": 10,
+      "restored": {
+        "startHp": 450,
+        "firstDamage": 100,
+        "nextDamage": 108,
+        "finalHp": 242
+      },
+      "reverseOwnerDamage": 108,
+      "reverseOwnerHpPreserved": 900,
+      "approvedFilters": "physics/BASIC_ATTACK/DIRECT/ANY critical",
+      "formalRuntimeValidated": true,
+      "wholeRuneComplete": false
+    },
+    {
+      "runeKey": "rune_8017",
+      "boundaries": [
+        {
+          "ownerHp": 900,
+          "receiverHp": 599,
+          "maxHp": 1000,
+          "rawDamage": 100,
+          "damage": 100
+        },
+        {
+          "ownerHp": 900,
+          "receiverHp": 600,
+          "maxHp": 1000,
+          "rawDamage": 100,
+          "damage": 100
+        },
+        {
+          "ownerHp": 900,
+          "receiverHp": 601,
+          "maxHp": 1000,
+          "rawDamage": 100,
+          "damage": 108
+        }
+      ],
+      "runtimeGETs": 10,
+      "restored": {
+        "startHp": 650,
+        "firstDamage": 108,
+        "nextDamage": 100,
+        "finalHp": 442
+      },
+      "reverseOwnerDamage": 108,
+      "reverseOwnerHpPreserved": 900,
+      "approvedFilters": "physics/BASIC_ATTACK/DIRECT/ANY critical",
+      "formalRuntimeValidated": true,
+      "wholeRuneComplete": false
+    }
+  ],
+  "oneRealDamageInstancePerHit": true,
+  "noPostDamageSupplement": true,
+  "scope": "两符文的普通直接物理普攻条件增伤组成；基础伤害、身份及双方生命为明确场景输入",
+  "pending": [
+    "原对象安全草稿回验的公式保存前拦截与新结果清理确认",
+    "来源核定清单及完整产伤路径扫描，再扩大普通魔法/真实与技能伤害范围",
+    "特殊来源、反射及整符文范围继续核定"
+  ],
+  "nativeFullSuite": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/54-原生全量检查与历史断言迁移验收.json",
+  "wholeRunesComplete": false,
+  "coverageChanged": false
+}

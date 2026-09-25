@@ -1,0 +1,278 @@
+{
+  "at": "2026-09-24T04:02:47.642Z",
+  "executionMode": "PLAYWRIGHT_UI_ONLY",
+  "model": "gpt-6-luna",
+  "effort": "max",
+  "baseBatch": "耀光-回读-4.json",
+  "baselineSha256": "32cdfa601a17518e19a21b2abac0834dee948c61899dba70fe0626686adfd00d",
+  "replaces": "原页面批准第5笔起尚未执行的请求，以本合并批准替代；前4笔已保存，不重做",
+  "originalPlanSha256": "4aeb315be6093839e631c983a431aadf620b79f120fca532d80bf0cf6c4d0a99",
+  "decision": "22-咒刃吸血资格核定.json",
+  "decisionSha256": "2f4a7b047c176e3f445ab87c8cd00ed0617afb7e4164bf82ffb2ac798ee74265",
+  "question": "单启动入口与必要生命偷取覆盖能否准确保存，保留全能默认及真实被动分类，并减少过时说明的重复保存",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/item_3057_passive/trigger-rules",
+      "detailRoute": "/skills/item_3057_passive/trigger-rules/spellblade_arm",
+      "key": "ruleKey",
+      "body": {
+        "ruleKey": "spellblade_arm",
+        "name": "首次主动施法开启或刷新咒刃待命",
+        "description": "普通成功首次主动施法且咒刃内部冷却就绪时启动或刷新同一待击过程；强化步骤负责唯一伤害与消费。窗口、刷新和冷却起算按项目近似；重施、开关等特殊使用未验证。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": null,
+            "useKind": "ACTIVE",
+            "castPhase": "INITIAL"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "cooldown_ready",
+            "name": "咒刃内部冷却就绪",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "cond_1",
+                "conditionType": "INTERNAL_STATE_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "stateKey": "spellblade_icd",
+                  "valueKind": "REMAINING_MS",
+                  "optionKey": null,
+                  "expectedBoolean": null,
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "start_spellblade",
+            "name": "开启或刷新待击",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "spellblade_consume"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": null
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+      "detailRoute": "/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+      "key": "parameterKey",
+      "body": {
+        "description": "客户端已证的耀光咒刃冷却数值，单位毫秒，保持1500。强化普攻实际命中消费后起算、超时不启动为本批项目统一近似，未声明游戏实测。",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "name": "咒刃冷却时间",
+        "sortOrder": 20,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3057_passive/effects/spellblade_damage",
+      "detailRoute": "/skills/item_3057_passive/effects/spellblade_damage",
+      "key": "effectKey",
+      "body": {
+        "description": "咒刃附加物理伤害，由单强化步骤在实际普攻命中时结算。吸血按项目核定：生命偷取使用本结果的必要覆盖，全能吸血继承游戏规则。",
+        "lifecycle": null,
+        "name": "咒刃额外物理伤害",
+        "results": [
+          {
+            "description": "来源基础攻击力1倍的额外物理伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampOverrides": [
+                {
+                  "vampType": "LIFE_STEAL",
+                  "mode": "OVERRIDE",
+                  "basisOutputKind": "POST_DEFENSE_DAMAGE",
+                  "efficiencyValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              ],
+              "vampQualification": "RESOLVED"
+            },
+            "lifecycleBehavior": null,
+            "name": "咒刃物理伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "spellblade_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 10
+      },
+      "purpose": "核定资格，仅增加必要生命偷取覆盖，原伤害及数值保持"
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3057_passive",
+      "detailRoute": "/skills/item_3057_passive",
+      "key": "skillKey",
+      "body": {
+        "description": "耀光咒刃造成来源基础攻击力1倍的额外物理伤害，冷却1500毫秒，数值沿用本物品冻结来源。本批有限模拟场景为普通成功首次主动施法且内部冷却就绪时开启10000毫秒待击；重复合格施法刷新完整窗口，不叠加次数。下一次强化普通攻击实际命中时一次消费，并从此时起算内部冷却；超时只清待命。窗口、刷新和冷却起算点为项目统一近似，不是游戏实测。重施、开关等特殊使用未验证；附伤已按项目口径核定吸血：生命偷取使用必要覆盖，全能吸血继承游戏规则；尚不代表完整装备运行。装备属性由装备本体提供。",
+        "maxLevel": 1,
+        "name": "耀光·咒刃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "sortOrder": 0,
+        "status": "ENABLED"
+      },
+      "purpose": "仅移除过时未核定说明，保留有限模拟边界"
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3057_passive/processes/spellblade_consume",
+      "detailRoute": "/skills/item_3057_passive/processes/spellblade_consume",
+      "key": "processKey",
+      "body": {
+        "activationType": "ACTIVE",
+        "cooldown": null,
+        "description": "普通成功首次主动施法后待击10秒，重复施法刷新，不叠次数；普攻命中执行原咒刃伤害并启动1500毫秒冷却，超时只清待命。窗口、刷新及冷却起算点为项目近似；特殊使用仍待核。",
+        "effectBindings": [
+          {
+            "bindingKey": "deal_spellblade_damage",
+            "effectKey": "spellblade_damage",
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "name": "咒刃待击与命中消费",
+        "sortOrder": 10,
+        "stateOperations": [
+          {
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null,
+              "failureReason": null
+            },
+            "name": "进入待命",
+            "operation": "ENABLE",
+            "operationKey": "set_ready",
+            "optionKey": null,
+            "sortOrder": 10,
+            "stateKey": "spellblade_ready",
+            "value": null
+          },
+          {
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "name": "命中消费待命",
+            "operation": "DISABLE",
+            "operationKey": "consume_ready",
+            "optionKey": null,
+            "sortOrder": 30,
+            "stateKey": "spellblade_ready",
+            "value": null
+          },
+          {
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "name": "命中开始冷却",
+            "operation": "START",
+            "operationKey": "start_icd",
+            "optionKey": null,
+            "sortOrder": 40,
+            "stateKey": "spellblade_icd",
+            "value": null
+          },
+          {
+            "moment": {
+              "momentType": "STEP_TIMEOUT",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "name": "超时结束待命",
+            "operation": "DISABLE",
+            "operationKey": "timeout_ready",
+            "optionKey": null,
+            "sortOrder": 50,
+            "stateKey": "spellblade_ready",
+            "value": null
+          }
+        ],
+        "steps": [
+          {
+            "description": "等待实际普攻命中，取该次普攻目标；待击窗口为项目近似。",
+            "detail": {
+              "consumeMoment": "ATTACK_HIT",
+              "windowValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "spellblade_window_ms"
+              }
+            },
+            "name": "等待强化普通攻击命中",
+            "sortOrder": 10,
+            "stepKey": "empowered_hit",
+            "stepType": "EMPOWERED_BASIC_ATTACK"
+          }
+        ]
+      },
+      "purpose": "只纠正过程顶层过时说明；步骤、绑定、操作和时序保持"
+    },
+    {
+      "method": "PUT",
+      "route": "/equipment/item_3057",
+      "detailRoute": "/equipment/item_3057",
+      "key": "equipmentKey",
+      "body": {
+        "description": "来源：官方16.17.1装备3057。原始说明：10技能急速；咒刃，施放技能后下一次普通攻击造成额外物理伤害攻击特效。咒刃组成通过唯一挂载的耀光·咒刃技能维护。待击、刷新与冷却起算为本批有限模拟场景的项目近似；特殊使用仍未验证，未声明完整装备运行。",
+        "name": "耀光"
+      },
+      "purpose": "仅移除装备入口过时吸血待核说明"
+    }
+  ],
+  "protected": "原公式、参数数值、伤害数值、分类、游戏吸血规则、装备属性/引用/图片保持；仅新增本批准列出的单启动规则；既有对象除说明更正外，仅伤害结果的资格与一项生命偷取覆盖允许改变",
+  "runtimeValidated": false,
+  "wholeEquipmentComplete": false
+}

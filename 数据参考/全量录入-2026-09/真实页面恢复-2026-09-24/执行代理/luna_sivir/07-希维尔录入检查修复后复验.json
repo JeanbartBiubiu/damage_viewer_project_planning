@@ -1,0 +1,194 @@
+{
+  "recordedAt": "2026-09-24T06:49:46.612Z",
+  "approvalContext": "希维尔标记-02-页面批准.json; existing saved effect was not replayed or modified",
+  "browser": {
+    "pid": 48548,
+    "parentPid": 25624,
+    "contextCount": 1,
+    "pageCount": 1,
+    "reusedOriginalIsolatedPage": true,
+    "url": "http://127.0.0.1:4182/#/characters"
+  },
+  "pageLocation": "角色管理 -> 希维尔 -> 录入检查",
+  "actions": [
+    "在希维尔角色行正常点击“录入检查”",
+    "在检查窗口正常点击“重新检查”",
+    "展开引用列表，只读定位生命周期参数引用"
+  ],
+  "checkRequest": {
+    "method": "GET",
+    "path": "/api/admin/games/lol/characters/champion_sivir/authoring-check",
+    "status": 200,
+    "body": {
+      "characterKey": "champion_sivir",
+      "checkedAt": "2026-09-24T06:40:53.0504602Z",
+      "conclusions": {
+        "mechanics": "NOT_CHECKED",
+        "runtime": "NOT_RUN",
+        "structure": "NO_ERRORS"
+      },
+      "summary": {
+        "attachedSkillCount": 6,
+        "configuredAttributeCount": 10,
+        "errorCount": 0,
+        "reviewCount": 2
+      },
+      "issues": [
+        {
+          "code": "EFFECT_NOT_CONNECTED",
+          "fieldPath": "",
+          "location": {
+            "degradeReason": "UNKNOWN_FIELD",
+            "editor": "EFFECT",
+            "fieldPath": "",
+            "formulaSnapshot": null,
+            "objectKey": "recent_damage_mark",
+            "objectType": "EFFECT",
+            "precision": "OBJECT",
+            "segments": [],
+            "skillKey": "sivir_r"
+          },
+          "message": "效果未发现过程挂接或执行效果动作，请人工核对用途",
+          "objectKey": "recent_damage_mark",
+          "objectType": "EFFECT",
+          "severity": "REVIEW",
+          "skillKey": "sivir_r"
+        },
+        {
+          "code": "EFFECT_NOT_CONNECTED",
+          "fieldPath": "",
+          "location": {
+            "degradeReason": "UNKNOWN_FIELD",
+            "editor": "EFFECT",
+            "fieldPath": "",
+            "formulaSnapshot": null,
+            "objectKey": "refresh_on_the_hunt",
+            "objectType": "EFFECT",
+            "precision": "OBJECT",
+            "segments": [],
+            "skillKey": "sivir_r"
+          },
+          "message": "效果未发现过程挂接或执行效果动作，请人工核对用途",
+          "objectKey": "refresh_on_the_hunt",
+          "objectType": "EFFECT",
+          "severity": "REVIEW",
+          "skillKey": "sivir_r"
+        }
+      ],
+      "markerLifecycleParameterReference": {
+        "fieldPath": "lifecycle.durationValue.parameterKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "lifecycle.durationValue.parameterKey",
+          "formulaSnapshot": null,
+          "objectKey": "recent_damage_mark",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "field": "lifecycle",
+              "kind": "FIELD"
+            },
+            {
+              "field": "durationValue",
+              "kind": "FIELD"
+            },
+            {
+              "field": "parameterKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "sivir_r"
+        },
+        "sourceKey": "recent_damage_mark",
+        "sourceSkillKey": "sivir_r",
+        "sourceType": "EFFECT",
+        "targetKey": "recent_damage_ms",
+        "targetSkillKey": "sivir_r",
+        "targetSubKey": "",
+        "targetType": "PARAMETER"
+      },
+      "sivirR": {
+        "effectCount": 5,
+        "maxLevel": 3,
+        "name": "希维尔·狩猎",
+        "processCount": 1,
+        "skillKey": "sivir_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "triggerRuleCount": 1
+      }
+    }
+  },
+  "result": {
+    "structure": "NO_ERRORS",
+    "errorCount": 0,
+    "reviewCount": 2,
+    "errorIssues": [],
+    "unattachedReviewObjects": [
+      "recent_damage_mark",
+      "refresh_on_the_hunt"
+    ],
+    "markerReference": {
+      "fieldPath": "lifecycle.durationValue.parameterKey",
+      "location": {
+        "degradeReason": null,
+        "editor": "EFFECT",
+        "fieldPath": "lifecycle.durationValue.parameterKey",
+        "formulaSnapshot": null,
+        "objectKey": "recent_damage_mark",
+        "objectType": "EFFECT",
+        "precision": "FIELD",
+        "segments": [
+          {
+            "field": "lifecycle",
+            "kind": "FIELD"
+          },
+          {
+            "field": "durationValue",
+            "kind": "FIELD"
+          },
+          {
+            "field": "parameterKey",
+            "kind": "FIELD"
+          }
+        ],
+        "skillKey": "sivir_r"
+      },
+      "sourceKey": "recent_damage_mark",
+      "sourceSkillKey": "sivir_r",
+      "sourceType": "EFFECT",
+      "targetKey": "recent_damage_ms",
+      "targetSkillKey": "sivir_r",
+      "targetSubKey": "",
+      "targetType": "PARAMETER"
+    },
+    "markerReferencePointsToRecentDamageParameter": true,
+    "visibleSummary": "结构检查：未发现错误；2 项待核对。机制完整性：待人工核对。战斗运行：未执行。",
+    "existingOrdinaryResultEffectsIntroducedNoStructuralErrors": true
+  },
+  "screenshots": {
+    "checkSummary": "08-希维尔录入检查修复后无错误截图.png",
+    "markerLifecycleParameterReference": "09-希维尔标记生命周期参数引用截图.png"
+  },
+  "priorSavedMarker": {
+    "originalWriteWasSuccessfulAndMatchedApproval": true,
+    "resultsRemainEmpty": true,
+    "lifecycleAndReferenceWereAlreadyVerifiedOnReopen": true,
+    "originalEvidence": "03-page-save-and-reopen.json"
+  },
+  "serviceEvidence": "主负责人确认已切换到通过审查的新后端，PID12180；公开游戏 GET 200",
+  "noWrite": {
+    "businessWritesDuringThisVerification": 0,
+    "priorSingleApprovedWriteCount": 1,
+    "blockedBusinessWrites": [],
+    "dialogsAfterClose": 0,
+    "unsavedDrafts": false
+  },
+  "requestLogPolicy": {
+    "storedFieldsOnly": "method/path/status/body",
+    "responseHeadersStored": false,
+    "cookiesStored": false
+  }
+}

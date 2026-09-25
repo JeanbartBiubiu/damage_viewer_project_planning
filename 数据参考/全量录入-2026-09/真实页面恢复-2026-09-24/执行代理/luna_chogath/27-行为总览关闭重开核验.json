@@ -1,0 +1,103 @@
+{
+  "at": "2026-09-24T08:41:41.537Z",
+  "view": "技能录入-行为总览",
+  "loadComplete": true,
+  "readOnly": true,
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/parameters"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/formulas"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/effects"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/processes"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/internal-states"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/effects/mana_cost"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/effects/primary_hit"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/effects/knockup"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/processes/use_cost_and_cooldown"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules/on_used_cost_and_cooldown"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules/actual_unblocked_hit"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules/actual_unblocked_knockup"
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules/actual_unblocked_knockup",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules/actual_unblocked_hit",
+      "status": 200
+    }
+  ],
+  "oldRulesPresent": true,
+  "newRulePresent": true,
+  "newActionAndEffectPresent": true,
+  "unconnectedWarningsFound": false,
+  "relevantLines": [
+    "触发规则：主动使用登记消耗与冷却（on_used_cost_and_cooldown）",
+    "触发动作：主动使用登记消耗与冷却 / 启动消耗与冷却登记（on_used_cost_and_cooldown / start_use_cost）",
+    "触发规则：明确未阻挡破裂本体命中伤害（actual_unblocked_hit）",
+    "触发条件：明确未阻挡破裂本体命中伤害 / 本轮明确未阻挡敌方英雄（actual_unblocked_hit / champion_target）",
+    "触发条件：明确未阻挡破裂本体命中伤害 / 本轮明确未阻挡敌方英雄（actual_unblocked_hit / enemy_target）",
+    "触发条件：明确未阻挡破裂本体命中伤害 / 本轮明确未阻挡敌方英雄（actual_unblocked_hit / not_spell_shield_blocked）",
+    "触发动作：明确未阻挡破裂本体命中伤害 / 执行破裂本体伤害（actual_unblocked_hit / execute_primary_hit）",
+    "触发规则：明确未阻挡破裂命中每目标一次击飞（actual_unblocked_knockup）",
+    "触发条件：明确未阻挡破裂命中每目标一次击飞 / 本轮明确未阻挡敌方英雄（actual_unblocked_knockup / champion_target）",
+    "触发条件：明确未阻挡破裂命中每目标一次击飞 / 本轮明确未阻挡敌方英雄（actual_unblocked_knockup / enemy_target）",
+    "触发条件：明确未阻挡破裂命中每目标一次击飞 / 本轮明确未阻挡敌方英雄（actual_unblocked_knockup / not_spell_shield_blocked）",
+    "触发动作：明确未阻挡破裂命中每目标一次击飞 / 施加破裂击飞（actual_unblocked_knockup / apply_knockup）",
+    "效果：破裂明确未阻挡击飞（knockup）",
+    "效果结果：破裂明确未阻挡击飞 / 持续施加击飞（knockup / apply_knockup）",
+    "触发规则：明确未阻挡破裂本体命中伤害（actual_unblocked_hit）",
+    "触发条件：明确未阻挡破裂本体命中伤害 / 本轮明确未阻挡敌方英雄（actual_unblocked_hit / champion_target）",
+    "触发条件：明确未阻挡破裂本体命中伤害 / 本轮明确未阻挡敌方英雄（actual_unblocked_hit / enemy_target）",
+    "触发条件：明确未阻挡破裂本体命中伤害 / 本轮明确未阻挡敌方英雄（actual_unblocked_hit / not_spell_shield_blocked）",
+    "触发动作：明确未阻挡破裂本体命中伤害 / 执行破裂本体伤害（actual_unblocked_hit / execute_primary_hit）",
+    "触发规则：明确未阻挡破裂命中每目标一次击飞（actual_unblocked_knockup）",
+    "触发条件：明确未阻挡破裂命中每目标一次击飞 / 本轮明确未阻挡敌方英雄（actual_unblocked_knockup / champion_target）",
+    "触发条件：明确未阻挡破裂命中每目标一次击飞 / 本轮明确未阻挡敌方英雄（actual_unblocked_knockup / enemy_target）",
+    "触发条件：明确未阻挡破裂命中每目标一次击飞 / 本轮明确未阻挡敌方英雄（actual_unblocked_knockup / not_spell_shield_blocked）",
+    "触发动作：明确未阻挡破裂命中每目标一次击飞 / 施加破裂击飞（actual_unblocked_knockup / apply_knockup）",
+    "效果：破裂明确未阻挡击飞（knockup）",
+    "参数：击飞持续（毫秒）（knockup_duration_ms）"
+  ],
+  "overviewText": "行为总览 · 科加斯·破裂\n重试\n本页只汇总已保存配置，不表示机制已核对或战斗运行已验证。\n使用\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n过程效果挂接：使用消耗与普通冷却 → 施放法力消耗（mana_cost）（use_cost_and_cooldown / mana_cost）\n\t\n过程开始\n\t\n施法者（技能拥有者）\n\t\n—\n\t\n—\n\t\n编辑\n\n\n触发规则：主动使用登记消耗与冷却（on_used_cost_and_cooldown）\n\t\n技能被主动或消耗使用 · 使用阶段待核定\n\t\n—\n\t\n启动过程\n\t\n规则说明：本技能每次已接受普通主动使用时启动基础消耗与普通冷却登记；不由命中反推使用，不把事件后的动作作为施放前许可，也不触发伤害或控制。\n\t\n编辑\n\n\n触发动作：主动使用登记消耗与冷却 / 启动消耗与冷却登记（on_used_cost_and_cooldown / start_use_cost）\n\t\n技能被主动或消耗使用 · 使用阶段待核定\n\t\n动作目标上下文：当前目标\n\t\n过程：使用消耗与普通冷却（use_cost_and_cooldown）\n\t\n启动过程\n\t\n编辑\n消耗与冷却\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n效果结果：施放法力消耗 / 消耗法力（mana_cost / consume_mana）\n\t\n—\n\t\n施法者（技能拥有者）\n\t\n资源变化 · 扣除 · 参数 mana_cost\n\t\n资源扣减，是否属于施放消耗需按来源核对\n\t\n编辑\n\n\n过程冷却：使用消耗与普通冷却（use_cost_and_cooldown）\n\t\n过程开始\n\t\n—\n\t\n参数 cooldown_ms\n\t\n—\n\t\n编辑\n命中\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n触发规则：明确未阻挡破裂本体命中伤害（actual_unblocked_hit）\n\t\n技能命中\n\t\n—\n\t\n执行效果\n\t\n规则说明：同组要求chogath_q本体合资格实际命中敌方英雄且同次法术护盾结果明确为0；缺值或1均不执行，不从空护盾粒度、零伤害或当前护盾状态推定0。不生成命中、重复碰撞资格或控制结果。\n\t\n编辑\n\n\n触发条件：明确未阻挡破裂本体命中伤害 / 本轮明确未阻挡敌方英雄（actual_unblocked_hit / champion_target）\n\t\n技能命中\n\t\n事件对方\n\t\n—\n\t\n事件对方类别 / 英雄\n\t\n编辑\n\n\n触发条件：明确未阻挡破裂本体命中伤害 / 本轮明确未阻挡敌方英雄（actual_unblocked_hit / enemy_target）\n\t\n技能命中\n\t\n事件对方\n\t\n—\n\t\n技能命中敌方对象\n\t\n编辑\n\n\n触发条件：明确未阻挡破裂本体命中伤害 / 本轮明确未阻挡敌方英雄（actual_unblocked_hit / not_spell_shield_blocked）\n\t\n技能命中\n\t\n—\n\t\n—\n\t\n事件值比较 / 技能命中被法术护盾阻挡 / 等于 / 0\n\t\n编辑\n\n\n触发动作：明确未阻挡破裂本体命中伤害 / 执行破裂本体伤害（actual_unblocked_hit / execute_primary_hit）\n\t\n技能命中\n\t\n动作目标上下文：当前目标\n\t\n效果：破裂明确未阻挡本体伤害（primary_hit）\n\t\n执行效果；效果结果作用对象：当前目标（由执行入口确定）\n\t\n编辑\n\n\n触发规则：明确未阻挡破裂命中每目标一次击飞（actual_unblocked_knockup）\n\t\n技能命中\n\t\n—\n\t\n执行效果\n\t\n规则说明：沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。\n\t\n编辑\n\n\n触发条件：明确未阻挡破裂命中每目标一次击飞 / 本轮明确未阻挡敌方英雄（actual_unblocked_knockup / champion_target）\n\t\n技能命中\n\t\n事件对方\n\t\n—\n\t\n事件对方类别 / 英雄\n\t\n编辑\n\n\n触发条件：明确未阻挡破裂命中每目标一次击飞 / 本轮明确未阻挡敌方英雄（actual_unblocked_knockup / enemy_target）\n\t\n技能命中\n\t\n事件对方\n\t\n—\n\t\n技能命中敌方对象\n\t\n编辑\n\n\n触发条件：明确未阻挡破裂命中每目标一次击飞 / 本轮明确未阻挡敌方英雄（actual_unblocked_knockup / not_spell_shield_blocked）\n\t\n技能命中\n\t\n—\n\t\n—\n\t\n事件值比较 / 技能命中被法术护盾阻挡 / 等于 / 0\n\t\n编辑\n\n\n触发动作：明确未阻挡破裂命中每目标一次击飞 / 施加破裂击飞（actual_unblocked_knockup / apply_knockup）\n\t\n技能命中\n\t\n动作目标上下文：当前目标\n\t\n效果：破裂明确未阻挡击飞（knockup）\n\t\n执行效果；效果结果作用对象：当前目标（由执行入口确定）\n\t\n编辑\n效果\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n效果结果：施放法力消耗 / 消耗法力（mana_cost / consume_mana）\n\t\n—\n\t\n施法者（技能拥有者）\n\t\n资源变化 · 扣除 · 参数 mana_cost\n\t\n资源扣减，是否属于施放消耗需按来源核对\n\t\n编辑\n\n\n效果结果：破裂明确未阻挡本体伤害 / 魔法伤害（primary_hit / damage）\n\t\n—\n\t\n当前目标（由执行入口确定）\n\t\n伤害 · 公式 magic_damage\n\t\n—\n\t\n编辑\n\n\n效果结果：破裂明确未阻挡击飞 / 持续施加击飞（knockup / apply_knockup）\n\t\n持续生效\n\t\n当前目标（由执行入口确定）\n\t\n状态操作\n\t\n—\n\t\n编辑\n\n\n过程效果挂接：使用消耗与普通冷却 → 施放法力消耗（mana_cost）（use_cost_and_cooldown / mana_cost）\n\t\n过程开始\n\t\n施法者（技能拥有者）\n\t\n—\n\t\n—\n\t\n编辑\n\n\n触发规则：明确未阻挡破裂本体命中伤害（actual_unblocked_hit）\n\t\n技能命中\n\t\n—\n\t\n执行效果\n\t\n规则说明：同组要求chogath_q本体合资格实际命中敌方英雄且同次法术护盾结果明确为0；缺值或1均不执行，不从空护盾粒度、零伤害或当前护盾状态推定0。不生成命中、重复碰撞资格或控制结果。\n\t\n编辑\n\n\n触发条件：明确未阻挡破裂本体命中伤害 / 本轮明确未阻挡敌方英雄（actual_unblocked_hit / champion_target）\n\t\n技能命中\n\t\n事件对方\n\t\n—\n\t\n事件对方类别 / 英雄\n\t\n编辑\n\n\n触发条件：明确未阻挡破裂本体命中伤害 / 本轮明确未阻挡敌方英雄（actual_unblocked_hit / enemy_target）\n\t\n技能命中\n\t\n事件对方\n\t\n—\n\t\n技能命中敌方对象\n\t\n编辑\n\n\n触发条件：明确未阻挡破裂本体命中伤害 / 本轮明确未阻挡敌方英雄（actual_unblocked_hit / not_spell_shield_blocked）\n\t\n技能命中\n\t\n—\n\t\n—\n\t\n事件值比较 / 技能命中被法术护盾阻挡 / 等于 / 0\n\t\n编辑\n\n\n触发动作：明确未阻挡破裂本体命中伤害 / 执行破裂本体伤害（actual_unblocked_hit / execute_primary_hit）\n\t\n技能命中\n\t\n动作目标上下文：当前目标\n\t\n效果：破裂明确未阻挡本体伤害（primary_hit）\n\t\n执行效果；效果结果作用对象：当前目标（由执行入口确定）\n\t\n编辑\n\n\n触发规则：明确未阻挡破裂命中每目标一次击飞（actual_unblocked_knockup）\n\t\n技能命中\n\t\n—\n\t\n执行效果\n\t\n规则说明：沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。\n\t\n编辑\n\n\n触发条件：明确未阻挡破裂命中每目标一次击飞 / 本轮明确未阻挡敌方英雄（actual_unblocked_knockup / champion_target）\n\t\n技能命中\n\t\n事件对方\n\t\n—\n\t\n事件对方类别 / 英雄\n\t\n编辑\n\n\n触发条件：明确未阻挡破裂命中每目标一次击飞 / 本轮明确未阻挡敌方英雄（actual_unblocked_knockup / enemy_target）\n\t\n技能命中\n\t\n事件对方\n\t\n—\n\t\n技能命中敌方对象\n\t\n编辑\n\n\n触发条件：明确未阻挡破裂命中每目标一次击飞 / 本轮明确未阻挡敌方英雄（actual_unblocked_knockup / not_spell_shield_blocked）\n\t\n技能命中\n\t\n—\n\t\n—\n\t\n事件值比较 / 技能命中被法术护盾阻挡 / 等于 / 0\n\t\n编辑\n\n\n触发动作：明确未阻挡破裂命中每目标一次击飞 / 施加破裂击飞（actual_unblocked_knockup / apply_knockup）\n\t\n技能命中\n\t\n动作目标上下文：当前目标\n\t\n效果：破裂明确未阻挡击飞（knockup）\n\t\n执行效果；效果结果作用对象：当前目标（由执行入口确定）\n\t\n编辑\n结束\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n没有已归入「结束」的已保存配置\n补充入口\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n过程步骤：使用消耗与普通冷却 / 登记本次使用（use_cost_and_cooldown / register_use）\n\t\n立即\n\t\n—\n\t\n—\n\t\n—\n\t\n编辑\n参数、公式与内部状态\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n参数：基础魔法伤害（base_damage）\n\t\n—\n\t\n—\n\t\nSKILL_LEVEL\n\t\n—\n\t\n编辑\n\n\n参数：法术强度倍率（ap_ratio）\n\t\n—\n\t\n—\n\t\n固定 1\n\t\n—\n\t\n编辑\n\n\n参数：击飞持续（毫秒）（knockup_duration_ms）\n\t\n—\n\t\n—\n\t\n固定 1000\n\t\n—\n\t\n编辑\n\n\n参数：减速百分数点（slow_percent_points）\n\t\n—\n\t\n—\n\t\nSKILL_LEVEL\n\t\n—\n\t\n编辑\n\n\n参数：减速持续（毫秒）（slow_duration_ms）\n\t\n—\n\t\n—\n\t\nSKILL_LEVEL\n\t\n—\n\t\n编辑\n\n\n参数：基础冷却时间（毫秒）（cooldown_ms）\n\t\n—\n\t\n—\n\t\n固定 6000\n\t\n—\n\t\n编辑\n\n\n参数：基础法力消耗（mana_cost）\n\t\n—\n\t\n—\n\t\n固定 50\n\t\n—\n\t\n编辑\n\n\n公式：破裂魔法伤害（magic_damage）\n\t\n—\n\t\n—\n\t\n已保存表达式\n\t\n公式只展示来源，不执行动态计算\n\t\n编辑\n关闭"
+}

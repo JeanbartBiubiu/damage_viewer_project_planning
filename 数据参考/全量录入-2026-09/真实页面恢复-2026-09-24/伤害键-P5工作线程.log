@@ -1,0 +1,23 @@
+
+[WebServer] (node:42128) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:8152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:30192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+[1/10] tests\e2e\p5-runtime.spec.ts:277:1 › 正式 Wasm 产物身份
+[2/10] tests\e2e\p5-runtime.spec.ts:283:1 › 实际 Worker：无盾时伤害与控制都生效，明确零吸血仍经过共性规则
+[3/10] tests\e2e\p5-runtime.spec.ts:296:1 › 实际 Worker：命中伤害继承游戏吸血，规则及能力分类实际参与计算
+[4/10] tests\e2e\p5-runtime.spec.ts:309:1 › 实际 Worker：有盾时伤害与控制同挡，显式消费正确实例并治疗 owner
+[5/10] tests\e2e\p5-runtime.spec.ts:327:1 › 实际 Worker：null 仍执行，只有 null 不消盾
+[6/10] tests\e2e\p5-runtime.spec.ts:352:1 › 实际 Worker：EFFECT/RESULT/DAMAGE_INSTANCE 不连带下一次发生
+[7/10] tests\e2e\p5-runtime.spec.ts:370:1 › 实际 Worker：SKILL 旧使用复用、新使用独立
+[8/10] tests\e2e\p5-runtime.spec.ts:396:1 › 实际 Worker：首次/历史/零伤挡/同刻未知与已证明非首次0
+[9/10] tests\e2e\p5-runtime.spec.ts:443:1 › 实际 Worker：阈值小数、缺事实错误、同会话重跑不泄漏、恢复实例被消费
+[10/10] tests\e2e\p5-runtime.spec.ts:510:1 › 真实 API GET→adapter→Worker 或明确错误，404 不算通过
+  10 passed (8.6s)

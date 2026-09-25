@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-24T02:59:35.379Z",
+  "status": "候选静态自查；非独立审核、非写入批准、非运行完成",
+  "candidateFile": "04-耀光页面候选.json",
+  "candidateSha256": "75335ee18f040eb0e0083589cbb3bbf646a16da8f18fbb155a224bc81802b7ab",
+  "candidatePostCount": 5,
+  "descriptionOnlyPuts": [
+    {
+      "route": "/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+      "onlyDescriptionChanges": true
+    },
+    {
+      "route": "/skills/item_3057_passive",
+      "onlyDescriptionChanges": true
+    },
+    {
+      "route": "/skills/item_3057_passive/effects/spellblade_damage",
+      "onlyDescriptionChanges": true
+    },
+    {
+      "route": "/equipment/item_3057",
+      "onlyDescriptionChanges": true
+    }
+  ],
+  "shapeCheck": "通过：单窗口、两个SKILL状态、单ACTIVE强化命中步骤、单ICD=0启动规则",
+  "formulaMath": [
+    {
+      "base": 100,
+      "total": 150,
+      "bonus": 50,
+      "expected": 100,
+      "actual": 100,
+      "basis": "读取原公式表达式；不是Wasm运行"
+    },
+    {
+      "base": 70,
+      "total": 220,
+      "bonus": 150,
+      "expected": 70,
+      "actual": 70,
+      "basis": "读取原公式表达式；不是Wasm运行"
+    }
+  ],
+  "keptVampQualification": "UNRESOLVED",
+  "protectedOriginalEffectResults": true,
+  "networkRequests": 0,
+  "businessWrites": 0,
+  "next": "主负责人另行刷新现值、复核候选及算术后决定页面录入。"
+}

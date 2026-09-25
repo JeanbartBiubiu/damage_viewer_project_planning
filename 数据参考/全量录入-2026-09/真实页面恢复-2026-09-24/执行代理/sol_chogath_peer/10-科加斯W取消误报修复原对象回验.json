@@ -1,0 +1,53 @@
+{
+  "object": "champion_chogath / chogath_w / silence_first_application / silence",
+  "browser": {
+    "nodePid": 29596,
+    "chromiumPid": 49940,
+    "chromiumParentPid": 29596,
+    "contexts": 1,
+    "pages": [
+      1
+    ]
+  },
+  "scope": "仅正常页面读与取消；不保存业务数据",
+  "cleanProbe": {
+    "steps": "刷新后从W编辑效果→编辑沉默结果，等目录加载，展开状态目录确认沉默已选/击飞未选，再按Escape；未更改任一字段，点取消",
+    "nativeConfirmMessages": [],
+    "childClosed": true,
+    "parentConfirmMessages": [],
+    "passed": true
+  },
+  "dirtyProbe": {
+    "changedDraftOnly": "结果名称 野性尖叫沉默→野性尖叫沉默测（仅临时加一字）",
+    "firstCancel": {
+      "messages": [
+        "当前修改尚未保存，确定要离开吗？"
+      ],
+      "choice": "拒绝离开",
+      "draftNameAfterReject": "野性尖叫沉默测",
+      "childStayedOpen": true
+    },
+    "secondCancel": {
+      "messages": [
+        "当前修改尚未保存，确定要离开吗？"
+      ],
+      "choice": "确认放弃",
+      "childClosed": true
+    },
+    "parentCancel": {
+      "messages": [],
+      "closed": true
+    },
+    "reopenOriginalName": "野性尖叫沉默",
+    "passed": true
+  },
+  "toolListenerConflict": "第一次真实草稿试验中残留的上一轮一次性dialog监听先接受，随后本轮拒绝监听报already handled；该次草稿被放弃，无业务写入。清空并核对监听数0后重新完整执行上述clean/dirty两试验；不计产品缺陷。",
+  "final": {
+    "newBusinessWrites": 0,
+    "dialogs": 0,
+    "dialogListeners": 0,
+    "url": "http://127.0.0.1:4182/#/characters",
+    "noDraft": true
+  },
+  "result": "PASS"
+}

@@ -1,0 +1,24 @@
+[WebServer] (node:9996) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:49992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:37504) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 11 tests using 1 worker
+
+[1/11] tests\e2e\p4-runtime.spec.ts:16:1 › 施放阶段验收使用最终Wasm产物
+[2/11] tests\e2e\p4-runtime.spec.ts:216:1 › 真实Worker：同次首次不重付，太早释放无副作用，正常释放只结算一次
+[3/11] tests\e2e\p4-runtime.spec.ts:225:1 › 真实Worker：重施到期优先，蓄力最大值两种明确分支
+[4/11] tests\e2e\p4-runtime.spec.ts:237:1 › 真实Worker：退款读实际60成本，属性变化不重算，反向拥有者保持
+[5/11] tests\e2e\p4-runtime.spec.ts:248:1 › 真实Worker：受控失败不借用主动取消退款，死亡停机前终结
+[6/11] tests\e2e\p4-runtime.spec.ts:255:1 › 真实Worker：活动及终结快照恢复不会重复扣费、退款或冷却
+[7/11] tests\e2e\p4-runtime.spec.ts:265:1 › 真实Worker：损坏恢复与混入过去普通驱动均明确失败
+[8/11] tests\e2e\p4-runtime.spec.ts:273:1 › 真实Worker：多挂载独立；多资源不足时原子拒绝
+[9/11] tests\e2e\p4-runtime.spec.ts:286:1 › 真实Worker：失败绑定和规则保持作者顺序，最后设置为3000毫秒
+[10/11] tests\e2e\p4-runtime.spec.ts:295:1 › 真实Worker：过程首次接第6项待击，重施与同use第5项命中不重发首次事件
+[11/11] tests\e2e\p4-runtime.spec.ts:304:1 › 真实API三名代表的原成本、已挂冷却及延时进入Worker，原规则不补写
+  11 passed (7.1s)

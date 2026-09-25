@@ -1,0 +1,52 @@
+{
+  "at": "2026-09-24T09:34:54.388Z",
+  "status": "IMPLEMENTING_NOT_PAGE_CLOSED",
+  "originalObject": "rune_8014",
+  "peerObject": "rune_8017",
+  "question": "逐笔敌方英雄生命比例条件能否与已有伤害过滤、乘区、引用和初始化入口完整表达",
+  "actualPageGap": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/执行代理/sol_rune_health_gate/06-致命一击真实表单能力核验.json",
+  "independentPreflight": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/符文生命门槛准备/09-返回前独立现值.json",
+  "protectedGETs": 32,
+  "newObjectsAbsent": 6,
+  "preflightGETs": 38,
+  "businessWrites": 0,
+  "backend": {
+    "fullTests": 1274,
+    "failures": 0,
+    "servicePID": 37204,
+    "restartReadback": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/46-条件伤害后端更新后独立核验.json"
+  },
+  "host": {
+    "targetedTests": 21,
+    "typecheck": "PASS",
+    "independentReview": "READY_STATIC",
+    "files": [
+      {
+        "file": "web/src/engine/damageModifierAdapter.ts",
+        "sha256": "be71bd5ac1751383e279e4efddb2032f907880337cb759520a140d1692852e68"
+      },
+      {
+        "file": "web/src/engine/damageModifierAdapter.test.ts",
+        "sha256": "40f855b44bd3da17ca8ae0087c2a1f0d1fa6c9e59a108a2baaf6ff35de9f572a"
+      }
+    ]
+  },
+  "native": {
+    "status": "短路条件内部运算正在实施，先前暴击来源证据P2已修复，最终产物待重新验收",
+    "fullSuite": "FAIL",
+    "missingSeedTests": 38,
+    "exclusiveWorktreeTests": 4,
+    "evidence": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/条件伤害原生实现/验收记录.md"
+  },
+  "firstPageScope": "有真实用途的普通直接物理普攻条件增伤组成；已有过滤可完整表达，不用空类型掩盖特殊来源例外，不能记整符文完整",
+  "remaining": [
+    "前端独立审查与真实页面原对象/同类返回",
+    "逐笔保存关闭重开及独立回读",
+    "最终原生短路运算与真实Wasm验证",
+    "符文其余合格伤害范围及惩戒/打野宠物来源例外接线，反射待核"
+  ],
+  "pageClosed": false,
+  "runtimeValidated": false,
+  "wholeRuneComplete": false,
+  "coverageChanged": false
+}

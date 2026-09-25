@@ -1,0 +1,16 @@
+{
+  "method": "POST",
+  "path": "/api/admin/games/lol/skills/item_3508_passive/internal-states",
+  "body": {
+    "stateKey": "spellblade_ready",
+    "name": "咒刃待命",
+    "scope": "SKILL",
+    "description": "首次主动施法开启；待命期间再次施法刷新待击期限；强化普通攻击命中或窗口超时关闭。",
+    "sortOrder": 10,
+    "stateType": "FLAG",
+    "detail": {
+      "initialEnabled": false
+    }
+  },
+  "status": 201
+}

@@ -1,0 +1,46 @@
+{
+  "at": "2026-09-24T02:58:01.7352005Z",
+  "status": "代码与隔离页面通过；妮蔻原对象及夺萃同类正式返回待执行",
+  "problem": "未持久化默认条件/动作误锁标识，作者需删除重建",
+  "scope": "父规则及原始详情判断持久化身份；改名原子更新草稿内前序结果引用；无后端修改",
+  "checks": {
+    "unit": 1076,
+    "independentReview": "READY",
+    "targetedUnit": 26,
+    "build": "PASS",
+    "typecheckViaBuild": "PASS",
+    "lint": "PASS",
+    "browser": 6
+  },
+  "browserBefore": "C:/project/damage_web_dev/output/draft-child-keys-before/non-wasm-pages-unsaved-tri-ca295--persisted-keys-stay-locked-Desktop-Chrome/test-failed-1.png",
+  "browserAfter": "草稿标识-隔离页面.log",
+  "files": [
+    {
+      "path": "web/src/pages/admin/skills/triggers/triggerRuleForm.ts",
+      "sha256": "83334674ECA69ACED3E3F69E6687E880E8E06510A7EDDD1A030DE570BCFB87A2"
+    },
+    {
+      "path": "web/src/pages/admin/skills/triggers/SkillTriggerRuleEditorModal.tsx",
+      "sha256": "ACB9C29A8FFE8D15455DE63FAC527BA71F7558070F2CA8723DF000FE24F56A3A"
+    },
+    {
+      "path": "web/src/pages/admin/skills/triggers/SkillTriggerActionEditorModal.tsx",
+      "sha256": "47D77E6746E613410FBEC967E0F0E28E54D405AED0AFF2A6D9BA239FBEE1397C"
+    },
+    {
+      "path": "web/src/pages/admin/skills/triggers/SkillTriggerConditionEditorModal.tsx",
+      "sha256": "F2D29DD509485EB68DA9A0E98547223726797627F1FA187D14B9819B98E577D5"
+    },
+    {
+      "path": "web/src/pages/admin/skills/triggers/triggerRuleForm.draftKeys.test.ts",
+      "sha256": "E3B00714B6351F89D516CFEC9D281BFA84B8B6EE3894D7365B8E78565E61E7C3"
+    },
+    {
+      "path": "web/tests/e2e/non-wasm-pages.spec.ts",
+      "sha256": "A4375AD102C252282D3D1C582BBA104CA271D9D4ECF8FFD44C142F76C05FBB70"
+    }
+  ],
+  "originalPageReturn": false,
+  "peerPageReturn": false,
+  "businessWrites": 0
+}

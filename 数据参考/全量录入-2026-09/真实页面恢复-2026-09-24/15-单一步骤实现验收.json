@@ -1,0 +1,58 @@
+{
+  "at": "2026-09-24T02:28:58.727Z",
+  "status": "有界宿主实现及独立复核通过；正式夺萃页面返回待执行",
+  "files": [
+    {
+      "path": "web/src/engine/triggerAdapter.ts",
+      "sha256": "E184BA05EEFA4BEF9B1CF51CCEA05FF4D08A24CB6E7251EDADFEA1613609F8EB"
+    },
+    {
+      "path": "web/src/engine/triggerAdapter.test.ts",
+      "sha256": "1091C81EC77D070DFEA19C7CC6E1DCDBB6A5E17C7F2C8E5BA292E6DB084DA26C"
+    },
+    {
+      "path": "web/tests/e2e/p6-runtime.spec.ts",
+      "sha256": "1417A9C310A6C63EE1B83DF454BE6A24DB9D87C9DC7F57DD6FC4ED0B3A332CE2"
+    },
+    {
+      "path": "web/src/engine/processAdapter.test.ts",
+      "sha256": "94958CF3F2DA5EDC5A70612415D563DD2B9C42F99D8B0F95CA7E6C9D96E40C7C"
+    }
+  ],
+  "wasm": {
+    "path": "web/src/engine/wasm/tinygo_engine_v2.wasm",
+    "bytes": 976767,
+    "sha256": "0FD141CE054160F765E0DA176F43EE0E6866177C805576EF5D7FD04ADA11CD3C"
+  },
+  "checks": {
+    "targetedUnit": 59,
+    "processIntegrationUnit": 13,
+    "fullFrontendUnit": 1072,
+    "fullFrontendFiles": 88,
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "finalActualWorker": 22,
+    "liveGETCasesIncluded": 2,
+    "diffCheck": "PASS"
+  },
+  "independentReview": {
+    "implementation": "READY",
+    "processFixtureMigration": "READY",
+    "assertionsPreserved": true
+  },
+  "finalWorkerLog": "宿主修订-最终实际工作线程.log",
+  "fullUnitLog": "宿主修订-前端单测-最终.log",
+  "firstFullRun": "发现旧processAdapter组合夹具仍为双规则；只迁移配置表达，原首次/重施断言保留，随后全部通过",
+  "authoringReduction": {
+    "oldRules": 2,
+    "newRules": 1,
+    "oldConditions": 6,
+    "newConditions": 1,
+    "note": "配置结构比较，尚非真实页面操作次数对比"
+  },
+  "businessWrites": 0,
+  "formalPageReturn": false,
+  "wholeEquipmentRuntime": false,
+  "boundary": "实库回蓝为原组成+单一过程专项，未核定附伤仍拒绝。原生/Wasm产物未修改。"
+}

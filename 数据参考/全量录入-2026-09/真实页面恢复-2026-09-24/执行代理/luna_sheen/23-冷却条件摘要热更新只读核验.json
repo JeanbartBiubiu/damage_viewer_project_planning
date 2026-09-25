@@ -1,0 +1,116 @@
+{
+  "recordedAt": "2026-09-24T05:29:24.819Z",
+  "source": "技能管理页重新加载后，通过耀光·咒刃技能行的“行为总览”只读查看",
+  "reload": {
+    "browserPageReloadStatus": 200,
+    "skillListGet": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills",
+      "status": 200
+    },
+    "pageUrl": "http://127.0.0.1:4182/#/skills"
+  },
+  "overviewCondition": {
+    "ruleKey": "spellblade_arm",
+    "conditionKey": "cond_1",
+    "stage": "技能被主动或消耗使用 · 首次施放",
+    "visibleRowText": "触发条件：首次主动施法开启或刷新咒刃待命 / 咒刃内部冷却就绪（spellblade_arm / cond_1）\n\t\n技能被主动或消耗使用 · 首次施放\n\t\n—\n\t\n—\n\t\n技能内部状态检查 / spellblade_icd / 剩余毫秒 / 等于 / 0\n\t\n编辑\n",
+    "checkType": "技能内部状态检查",
+    "stateKey": "spellblade_icd",
+    "comparisonField": "剩余毫秒",
+    "operator": "等于",
+    "comparisonValue": {
+      "mode": "固定数值",
+      "value": 0
+    },
+    "freshGetResponses": [
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/effects/spellblade_damage",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/processes/spellblade_consume",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states/spellblade_ready",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states/spellblade_icd",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/trigger-rules/spellblade_arm",
+        "status": 200
+      }
+    ]
+  },
+  "editEntry": {
+    "sourceRow": "行为总览中 rule spellblade_arm / cond_1 的“编辑”按钮",
+    "editorTitle": "编辑条件",
+    "existingConditionFields": {
+      "conditionKey": "cond_1",
+      "sortOrder": 10,
+      "conditionType": "技能内部状态检查",
+      "stateKey": "spellblade_icd",
+      "valueType": "剩余毫秒",
+      "operator": "等于",
+      "comparisonValueMode": "固定数值",
+      "comparisonValue": 0
+    },
+    "mapsToOriginalCooldownCondition": true,
+    "additionalNestedBlankAddConditionOrRuleDialogsObserved": true,
+    "allAdditionalDialogsCanceled": true,
+    "noValuesChanged": true,
+    "noSaveClicked": true
+  },
+  "screenshotFile": "24-冷却条件摘要热更新截图.png",
+  "screenshotSizeBytes": 236199,
+  "postCheck": {
+    "dialogsOpen": 0,
+    "noUnsavedDrafts": true,
+    "blockedWriteAttempts": 0
+  },
+  "requestLogPolicy": {
+    "storedFieldsOnly": "method/path/status/body",
+    "headersStored": false,
+    "cookiesStored": false
+  },
+  "visibleOverviewText": "行为总览 · 耀光·咒刃\n重试\n本页只汇总已保存配置，不表示机制已核对或战斗运行已验证。\n使用\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n过程状态操作：咒刃待击与命中消费 / 进入待命（spellblade_consume / set_ready）\n\t\n过程开始\n\t\n内部状态：咒刃待命（spellblade_ready）\n\t\n—\n\t\n—\n\t\n编辑\n\n\n触发规则：首次主动施法开启或刷新咒刃待命（spellblade_arm）\n\t\n技能被主动或消耗使用 · 首次施放\n\t\n—\n\t\n启动过程\n\t\n规则说明：普通成功首次主动施法且咒刃内部冷却就绪时启动或刷新同一待击过程；强化步骤负责唯一伤害与消费。窗口、刷新和冷却起算按项目近似；重施、开关等特殊使用未验证。\n\t\n编辑\n\n\n触发条件：首次主动施法开启或刷新咒刃待命 / 咒刃内部冷却就绪（spellblade_arm / cond_1）\n\t\n技能被主动或消耗使用 · 首次施放\n\t\n—\n\t\n—\n\t\n技能内部状态检查 / spellblade_icd / 剩余毫秒 / 等于 / 0\n\t\n编辑\n\n\n触发动作：首次主动施法开启或刷新咒刃待命 / 开启或刷新待击（spellblade_arm / start_spellblade）\n\t\n技能被主动或消耗使用 · 首次施放\n\t\n动作目标上下文：当前目标\n\t\n过程：咒刃待击与命中消费（spellblade_consume）\n\t\n启动过程\n\t\n编辑\n消耗与冷却\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n过程状态操作：咒刃待击与命中消费 / 命中开始冷却（spellblade_consume / start_icd）\n\t\n普攻命中 / 步骤执行 / empowered_hit\n\t\n内部状态：咒刃内部冷却（spellblade_icd）\n\t\n—\n\t\n—\n\t\n编辑\n命中\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n过程步骤：咒刃待击与命中消费 / 等待强化普通攻击命中（spellblade_consume / empowered_hit）\n\t\n强化下一次普通攻击 · 命中时消费\n\t\n—\n\t\n待击窗口（毫秒）：参数 spellblade_window_ms\n\t\n普攻命中时执行步骤效果\n\t\n编辑\n\n\n过程效果挂接：咒刃待击与命中消费 → 咒刃额外物理伤害（spellblade_damage）（spellblade_consume / deal_spellblade_damage）\n\t\n普攻命中 / 步骤执行 / empowered_hit\n\t\n当前目标（由执行入口确定）\n\t\n—\n\t\n—\n\t\n编辑\n\n\n过程状态操作：咒刃待击与命中消费 / 命中消费待命（spellblade_consume / consume_ready）\n\t\n普攻命中 / 步骤执行 / empowered_hit\n\t\n内部状态：咒刃待命（spellblade_ready）\n\t\n—\n\t\n—\n\t\n编辑\n\n\n过程状态操作：咒刃待击与命中消费 / 命中开始冷却（spellblade_consume / start_icd）\n\t\n普攻命中 / 步骤执行 / empowered_hit\n\t\n内部状态：咒刃内部冷却（spellblade_icd）\n\t\n—\n\t\n—\n\t\n编辑\n效果\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n效果结果：咒刃额外物理伤害 / 咒刃物理伤害（spellblade_damage / damage）\n\t\n—\n\t\n当前目标（由执行入口确定）\n\t\n伤害 · 公式 spellblade_damage\n\t\n—\n\t\n编辑\n\n\n过程效果挂接：咒刃待击与命中消费 → 咒刃额外物理伤害（spellblade_damage）（spellblade_consume / deal_spellblade_damage）\n\t\n普攻命中 / 步骤执行 / empowered_hit\n\t\n当前目标（由执行入口确定）\n\t\n—\n\t\n—\n\t\n编辑\n结束\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n过程状态操作：咒刃待击与命中消费 / 超时结束待命（spellblade_consume / timeout_ready）\n\t\n步骤超时 / empowered_hit\n\t\n内部状态：咒刃待命（spellblade_ready）\n\t\n—\n\t\n—\n\t\n编辑\n补充入口\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n没有未归类规则、未挂接效果或五组未覆盖的过程\n参数、公式与内部状态\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n参数：咒刃基础攻击力倍率（spellblade_ad_ratio）\n\t\n—\n\t\n—\n\t\n固定 1\n\t\n—\n\t\n编辑\n\n\n参数：咒刃冷却时间（spellblade_cooldown_ms）\n\t\n—\n\t\n—\n\t\n固定 1500\n\t\n—\n\t\n编辑\n\n\n参数：咒刃待击窗口（spellblade_window_ms）\n\t\n—\n\t\n—\n\t\n固定 10000\n\t\n—\n\t\n编辑\n\n\n公式：咒刃额外物理伤害（spellblade_damage）\n\t\n—\n\t\n—\n\t\n已保存表达式\n\t\n公式只展示来源，不执行动态计算\n\t\n编辑\n\n\n内部状态：咒刃待命（spellblade_ready）\n\t\n准备标记\n\t\n—\n\t\n—\n\t\n—\n\t\n编辑\n\n\n内部状态：咒刃内部冷却（spellblade_icd）\n\t\n内部冷却\n\t\n—\n\t\n—\n\t\n—\n\t\n编辑\n关闭"
+}

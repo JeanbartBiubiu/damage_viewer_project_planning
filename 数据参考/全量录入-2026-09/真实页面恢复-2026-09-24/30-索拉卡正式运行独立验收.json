@@ -1,0 +1,34 @@
+{
+  "at": "2026-09-24T05:15:17.788Z",
+  "status": "PASS_FINITE_SCENARIO",
+  "independentRunner": "主负责人，JSON报告保留实际输入和所有运行快照",
+  "additionalGETs": 19,
+  "matchedAuthoringDetails": 16,
+  "pageWrites": 3,
+  "readback": "索拉卡首次阶段-回读-3.json",
+  "runtimeEvidence": "C:/project/damage_web_dev/output/soraka-live-return/索拉卡正式配置与实际运行原始证据.json",
+  "asserted": {
+    "lowHealth": [
+      399,
+      699
+    ],
+    "threshold": [
+      400,
+      600
+    ],
+    "manaCost": 100,
+    "cooldownMs": 150000,
+    "processEndMs": 250,
+    "reversedRules": true,
+    "admissionFailure": true,
+    "noDuplicate": true,
+    "bothResumeStates": true,
+    "reverseOwner": true,
+    "twoMounts": true,
+    "healingCap": true,
+    "receivedHealingModifier": true
+  },
+  "sourceSha256": "290a769b278760ac3464837e6f17e7678f770c31e858ee8c384d6a5b902b852c",
+  "boundary": "作者配置按调用场景注明来源；HP、AP、资源、反序及受到治疗修正均为明确的合成验收输入，不写业务数据。",
+  "wholeHeroBattleComplete": false
+}

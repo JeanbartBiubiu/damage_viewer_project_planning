@@ -1,0 +1,107 @@
+{
+  "at": "2026-09-24T08:21:05.214Z",
+  "event": "UI保存请求由旧本地守卫拒绝，未送达服务端；修正守卫前再次只读核对",
+  "firstAttempt": {
+    "method": "POST",
+    "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+    "body": {
+      "ruleKey": "actual_unblocked_knockup",
+      "name": "明确未阻挡破裂命中每目标一次击飞",
+      "description": "沿用已保存本体实际命中资格：敌方英雄，且同次法术护盾结果明确为0。按本项目有限模拟，同次真实Q使用对每个实际目标仅执行一次击飞；其他目标仍可执行，重复事件不刷新该目标期限。缺值或被挡不执行。本规则不生成命中，不改本体伤害，也不接落地后减速。",
+      "sortOrder": 20,
+      "eventSource": {
+        "eventType": "SKILL_HIT",
+        "detail": {
+          "sourceSkillKey": "chogath_q"
+        }
+      },
+      "conditionGroups": [
+        {
+          "groupKey": "champion_target",
+          "name": "本轮明确未阻挡敌方英雄",
+          "sortOrder": 10,
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "sortOrder": 10,
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              }
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "sortOrder": 20,
+              "detail": {}
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "sortOrder": 30,
+              "detail": {
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "actionKey": "apply_knockup",
+          "name": "施加破裂击飞",
+          "actionType": "EXECUTE_EFFECT",
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET",
+          "detail": {
+            "effectKey": "knockup"
+          },
+          "runtimeInputBindings": [],
+          "resultModifiers": []
+        }
+      ],
+      "perTargetCooldown": null,
+      "maxTriggersPerProcess": null,
+      "oncePerUse": {
+        "groupKey": "q_knockup_per_target",
+        "scope": "TARGET"
+      }
+    },
+    "bodyDeepEqualApproved": true,
+    "oldGuardAction": "blocked locally; no HTTP response",
+    "uiText": "Failed to fetch"
+  },
+  "responseLogLatest": [
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/effects/knockup",
+      "status": 200
+    }
+  ],
+  "targetReadback": {
+    "method": "GET",
+    "path": "/api/admin/games/lol/skills/chogath_q/trigger-rules/actual_unblocked_knockup",
+    "status": 404,
+    "body": "{\"error\":{\"code\":\"404.SKILL_TRIGGER_RULE_NOT_FOUND\",\"details\":{\"ruleKey\":\"actual_unblocked_knockup\"},\"message\":\"技能触发规则不存在\"}}"
+  },
+  "postAttemptResponseCount": 0,
+  "oldGuardAllowedWrites": 1,
+  "oldGuardBlocked": 1
+}

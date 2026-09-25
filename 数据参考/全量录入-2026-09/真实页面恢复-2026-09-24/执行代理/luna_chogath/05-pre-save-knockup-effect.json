@@ -1,0 +1,135 @@
+{
+  "recordedAt": "2026-09-24T07:29:58.635Z",
+  "approval": {
+    "file": "科加斯击飞-02-页面批准.json",
+    "sha256": "E459617920632DD36F0B90ED8ECB789C4B4757B9065758389FC61B7AA6F8BB10",
+    "requestIndex": 1,
+    "request": {
+      "method": "POST",
+      "path": "/skills/chogath_q/effects",
+      "detailPath": "/skills/chogath_q/effects/knockup",
+      "body": {
+        "effectKey": "knockup",
+        "name": "破裂明确未阻挡击飞",
+        "description": "固定16.17.1资料明确击飞1秒，复用knockup_duration_ms。仅供本技能本体实际命中敌方英雄且同次法术护盾结果明确为0的入口；持续施加击飞，无强度数值。空间轨迹、免疫和落地后减速不在本组成中表达。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "instanceScope": "SOURCE_TARGET",
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "knockup_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "apply_knockup",
+            "name": "持续施加击飞",
+            "resultType": "STATUS_OPERATION",
+            "target": "TARGET",
+            "description": "无强度控制；期限由父生命周期的1000毫秒参数决定。空法术护盾粒度不表示穿盾，未阻挡资格由同次命中规则明确要求。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": null,
+            "detail": {
+              "statusKey": "airborne",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      },
+      "expectedAbsent": true
+    }
+  },
+  "preflightFile": "04-preflight-knockup-effect.json",
+  "formSource": "科加斯角色关联页 -> chogath_q -> 效果与结果 -> 新增效果；结果子表单保存到父草稿",
+  "draft": {
+    "effectKey": "knockup",
+    "name": "破裂明确未阻挡击飞",
+    "description": "固定16.17.1资料明确击飞1秒，复用knockup_duration_ms。仅供本技能本体实际命中敌方英雄且同次法术护盾结果明确为0的入口；持续施加击飞，无强度数值。空间轨迹、免疫和落地后减速不在本组成中表达。",
+    "sortOrder": 30,
+    "durationKind": "PARAMETER",
+    "durationKindChecked": true,
+    "durationParameter": "击飞持续（毫秒）（knockup_duration_ms）",
+    "maxStacksValue": 1,
+    "applicationStacksValue": 1,
+    "instanceScope": "按来源与承受对象",
+    "reapplicationStackMode": "保留层数",
+    "reapplicationDurationMode": "刷新全部时间",
+    "expiryMode": "一次全部到期",
+    "resultRow": "持续施加击飞\n\t\napply_knockup\n\t\n状态操作\n\t\n当前目标\n\t\n—\n\t\n持续生效\n\t\n—\n\t\n—\n\t\n—\n\t\n当前目标 · 施加 · 击飞（airborne）\n\t\n—\n\t\n10\n\t\n查看\n编辑\n删除",
+    "resultCount": 1
+  },
+  "approvedVisibleChecks": {
+    "identity": true,
+    "durationParam": true,
+    "stacks": true,
+    "scope": true,
+    "refresh": true,
+    "resultIsStatusApplyToTarget": true,
+    "persistentNoStrengthValues": true
+  },
+  "uiDraftMatchesApproved": true,
+  "statusSelection": {
+    "statusKey": "airborne",
+    "statusKind": "AIRBORNE",
+    "visibleLabel": "击飞",
+    "preflightStatus": {
+      "createdAt": "2026-09-24T07:08:18.773029Z",
+      "description": "击飞控制状态身份；具体期限由技能效果生命周期维护，不配置强度、位移距离或方向。",
+      "gameId": "lol",
+      "name": "击飞",
+      "sortOrder": 50,
+      "status": "ENABLED",
+      "statusKey": "airborne",
+      "statusKind": "AIRBORNE",
+      "updatedAt": "2026-09-24T07:08:18.773029Z"
+    }
+  },
+  "durationParameter": {
+    "key": "knockup_duration_ms",
+    "fixedValue": 1000,
+    "valueType": "INTEGER",
+    "unit": "毫秒",
+    "preflightPath": "/api/admin/games/lol/skills/chogath_q/parameters"
+  },
+  "resultRepresentation": {
+    "resultType": "STATUS_OPERATION",
+    "target": "TARGET",
+    "operation": "APPLY",
+    "statusKey": "airborne",
+    "lifecycleMoment": "PERSISTENT",
+    "valueRule": null,
+    "spellShieldBlockScope": null,
+    "noIntensityValue": true
+  },
+  "businessWritesForThisRequestBeforeSubmit": 0,
+  "routeGuardAtPreSave": {
+    "allowOnly": "GET/HEAD",
+    "rejectedOtherMutationRequests": []
+  },
+  "requestLogPolicy": {
+    "storedFieldsOnly": "method/path/status/body",
+    "responseHeadersStored": false,
+    "cookiesStored": false
+  }
+}

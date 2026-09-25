@@ -1,0 +1,51 @@
+
+ RUN  v2.1.9 C:/project/damage_web_dev/web
+
+ ❯ src/pages/admin/skills/overview/skillBehaviorOverview.test.ts (10 tests | 3 failed) 14ms
+   × skill behavior overview grouping > shows saved attribute comparison LT without relying on the rule description 6ms
+     → expected '属性比较' to contain '来源对象'
+   × skill behavior overview grouping > shows saved attribute comparison GTE without relying on the rule description 1ms
+     → expected '属性比较' to contain '来源对象'
+   × skill behavior overview grouping > also shows the saved internal cooldown comparison in the shared condition summary 1ms
+     → expected '技能内部状态检查' to contain 'spellblade_icd'
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/pages/admin/skills/overview/skillBehaviorOverview.test.ts > skill behavior overview grouping > shows saved attribute comparison LT without relying on the rule description
+ FAIL  src/pages/admin/skills/overview/skillBehaviorOverview.test.ts > skill behavior overview grouping > shows saved attribute comparison GTE without relying on the rule description
+AssertionError: expected '属性比较' to contain '来源对象'
+
+Expected: "来源对象"
+Received: "属性比较"
+
+ ❯ src/pages/admin/skills/overview/skillBehaviorOverview.test.ts:48:115
+     46|       processes: [], internalStates: [], effects: [], rules: [saved], …
+     47|     const row = model.groups.use.find(item => item.id === 'rule:heal:c…
+     48|     for (const value of ['来源对象', 'hp', '当前值比例', label, 'low_h…
+       |                                                                                                                   ^
+     49|     expect(row.location?.segments).toEqual(expect.arrayContaining([
+     50|       { kind: 'KEYED_CHILD', collection: 'conditions', keyField: 'cond…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/pages/admin/skills/overview/skillBehaviorOverview.test.ts > skill behavior overview grouping > also shows the saved internal cooldown comparison in the shared condition summary
+AssertionError: expected '技能内部状态检查' to contain 'spellblade_icd'
+
+Expected: "spellblade_icd"
+Received: "技能内部状态检查"
+
+ ❯ src/pages/admin/skills/overview/skillBehaviorOverview.test.ts:66:92
+     64|       })] });
+     65|     const row = model.groups.use.find(item => item.id === 'rule:arm:co…
+     66|     for (const value of ['spellblade_icd', '剩余时间', '等于', '0']) e…
+       |                                                                                            ^
+     67|   });
+     68| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 7 passed (10)
+   Start at  13:19:35
+   Duration  537ms (transform 215ms, setup 0ms, collect 292ms, tests 14ms, environment 0ms, prepare 63ms)
+

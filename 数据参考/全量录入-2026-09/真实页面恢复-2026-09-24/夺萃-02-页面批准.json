@@ -1,0 +1,252 @@
+{
+  "at": "2026-09-24T02:26:01.613Z",
+  "executionMode": "PLAYWRIGHT_UI_ONLY",
+  "model": "gpt-6-sol",
+  "effort": "max",
+  "baselineSha256": "aee35e58d4f17a32dcc347a0c9333844ca6a9d7997bceef248f37f5f978ba5ae",
+  "question": "单一强化步骤及单启动规则能否在真实页面完整表达刷新、命中消费、目标及冷却，避免重复配置",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/item_3508_passive/internal-states",
+      "detailRoute": "/skills/item_3508_passive/internal-states/spellblade_ready",
+      "key": "stateKey",
+      "body": {
+        "stateKey": "spellblade_ready",
+        "name": "咒刃待命",
+        "stateType": "FLAG",
+        "scope": "SKILL",
+        "description": "首次主动施法开启；待命期间再次施法刷新待击期限；强化普通攻击命中或窗口超时关闭。",
+        "sortOrder": 10,
+        "detail": {
+          "initialEnabled": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3508_passive/internal-states",
+      "detailRoute": "/skills/item_3508_passive/internal-states/spellblade_icd",
+      "key": "stateKey",
+      "body": {
+        "stateKey": "spellblade_icd",
+        "name": "咒刃内部冷却",
+        "stateType": "INTERNAL_COOLDOWN",
+        "scope": "SKILL",
+        "description": "强化普通攻击命中消费后启动；窗口超时不启动。",
+        "sortOrder": 20,
+        "detail": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "spellblade_cooldown_ms"
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3508_passive/processes",
+      "detailRoute": "/skills/item_3508_passive/processes/spellblade_consume",
+      "key": "processKey",
+      "body": {
+        "processKey": "spellblade_consume",
+        "name": "咒刃待击与命中消费",
+        "activationType": "ACTIVE",
+        "description": "首次主动施法进入待击；重复施法刷新；强化普通攻击命中消费并启动内部冷却，超时仅清待命。",
+        "sortOrder": 10,
+        "cooldown": null,
+        "steps": [
+          {
+            "stepKey": "empowered_hit",
+            "name": "等待强化普通攻击命中",
+            "description": null,
+            "sortOrder": 10,
+            "stepType": "EMPOWERED_BASIC_ATTACK",
+            "detail": {
+              "windowValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "spellblade_window_ms"
+              },
+              "consumeMoment": "ATTACK_HIT"
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "deal_spellblade_damage",
+            "effectKey": "spellblade_damage",
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "sortOrder": 10
+          },
+          {
+            "bindingKey": "restore_mana",
+            "effectKey": "total_mana_refund",
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "sortOrder": 20
+          }
+        ],
+        "stateOperations": [
+          {
+            "operationKey": "set_ready",
+            "name": "进入待命",
+            "stateKey": "spellblade_ready",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null,
+              "failureReason": null
+            },
+            "sortOrder": 10,
+            "operation": "ENABLE",
+            "value": null,
+            "optionKey": null
+          },
+          {
+            "operationKey": "consume_ready",
+            "name": "命中消费待命",
+            "stateKey": "spellblade_ready",
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "sortOrder": 30,
+            "operation": "DISABLE",
+            "value": null,
+            "optionKey": null
+          },
+          {
+            "operationKey": "start_icd",
+            "name": "命中开始冷却",
+            "stateKey": "spellblade_icd",
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "sortOrder": 40,
+            "operation": "START",
+            "value": null,
+            "optionKey": null
+          },
+          {
+            "operationKey": "timeout_ready",
+            "name": "超时结束待命",
+            "stateKey": "spellblade_ready",
+            "moment": {
+              "momentType": "STEP_TIMEOUT",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "sortOrder": 50,
+            "operation": "DISABLE",
+            "value": null,
+            "optionKey": null
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3508_passive/trigger-rules",
+      "detailRoute": "/skills/item_3508_passive/trigger-rules/spellblade_arm",
+      "key": "ruleKey",
+      "body": {
+        "ruleKey": "spellblade_arm",
+        "name": "首次主动施法进入或刷新待命",
+        "description": "任意主动非普攻技能成功首次施放且咒刃内部冷却就绪时，启动同一待击过程；已有待击刷新完整十秒窗口，不新增次数。命中消费及伤害、回蓝、清待命和冷却只由强化步骤执行。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": null,
+            "useKind": "ACTIVE",
+            "castPhase": "INITIAL"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "cooldown_ready",
+            "name": "咒刃内部冷却就绪",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "cond_1",
+                "conditionType": "INTERNAL_STATE_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "stateKey": "spellblade_icd",
+                  "valueKind": "REMAINING_MS",
+                  "optionKey": null,
+                  "expectedBoolean": null,
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "start_spellblade",
+            "name": "开启或刷新待击",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "spellblade_consume"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": null
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3508_passive/parameters/mana_refund_damage_multiplier",
+      "detailRoute": "/skills/item_3508_passive/parameters/mana_refund_damage_multiplier",
+      "key": "parameterKey",
+      "body": {
+        "description": "本项目核定的普攻主体近似回蓝倍率：来源总攻击力乘0.5；不按咒刃附加伤害、暴击增量、其他附伤或减伤及护盾后的实际扣血计算。",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "name": "法力回复伤害倍率",
+        "sortOrder": 30,
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3508_passive",
+      "detailRoute": "/skills/item_3508_passive",
+      "key": "skillKey",
+      "body": {
+        "description": "主动技能首次施放后，咒刃进入10000毫秒待击窗口；未消费前再次符合条件的施放刷新窗口，不叠加次数。下一次强化普通攻击命中时一次消费，造成1.25倍来源基础攻击力加50倍来源暴击率的额外物理伤害，并按来源总攻击力的50%回复法力；此时开始1500毫秒内部冷却。待击超时只清除待命，不启动冷却。回蓝为本项目核定近似，不计暴击增量、其他附伤或减伤及护盾后的实际扣血。额外伤害的吸血资格尚未核定。装备属性由装备本体提供，不在本技能重复施加。",
+        "maxLevel": 1,
+        "name": "夺萃之镰·咒刃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "sortOrder": 0,
+        "status": "ENABLED"
+      }
+    }
+  ],
+  "protected": "原参数数值、公式、效果和未核定吸血、装备与技能关系、目录及图片保持；只改两处已批准说明，新增四个组成",
+  "boundary": "删除了历史候选第二条命中规则及真假双组；本批准不核定原附伤吸血，也不代表整装备运行"
+}

@@ -1,0 +1,28 @@
+{
+  "scope": "DAMAGE_MODIFIER.detail.condition 前端表单、严格读回、草稿与保存前静态公式核对",
+  "changedFiles": [
+    "web/src/types/skillEffect.ts",
+    "web/src/services/skillEffectClient.ts",
+    "web/src/services/skillEffectClient.test.ts",
+    "web/src/pages/admin/skills/authoringFocus.ts",
+    "web/src/pages/admin/skills/authoringFocus.test.ts",
+    "web/src/pages/admin/skills/effects/SkillEffectEditorModal.tsx",
+    "web/src/pages/admin/skills/effects/SkillEffectResultEditorModal.tsx",
+    "web/src/pages/admin/skills/effects/effectForm.ts",
+    "web/src/pages/admin/skills/effects/effectForm.test.ts",
+    "web/src/pages/admin/skills/effects/resultReferenceSummary.ts",
+    "web/src/pages/admin/skills/effects/resultReferenceSummary.test.ts",
+    "web/src/pages/admin/skills/effects/damageModifierConditionFormula.ts",
+    "web/src/pages/admin/skills/effects/damageModifierConditionFormula.test.ts"
+  ],
+  "checks": {
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "unitTests": "91 files, 1129 tests PASS",
+    "build": "PASS",
+    "existingModifierZoneBrowserTest": "PASS",
+    "isolatedConditionBrowser": "PASS, GET of formula detail observed, 0 business writes, 1 independent context/page"
+  },
+  "browserEvidence": "隔离页面-条件控件.json",
+  "originalRuneReturn": "待主负责人批准真实页面逐笔返回，本次未写业务数据"
+}

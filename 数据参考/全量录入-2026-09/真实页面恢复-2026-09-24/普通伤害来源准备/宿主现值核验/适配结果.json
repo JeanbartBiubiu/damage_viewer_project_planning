@@ -1,0 +1,803 @@
+{
+  "at": "2026-09-24T11:25:59.105Z",
+  "sourceSnapshot": {
+    "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\真实页面恢复-2026-09-24\\普通伤害来源准备\\01-普通物理魔法真实伤害实际来源.json",
+    "sha256Before": "c8af30755dbf008809ff69d241fba39ef7e1cde604290f30df90dd2fdd6a350c",
+    "sha256After": "c8af30755dbf008809ff69d241fba39ef7e1cde604290f30df90dd2fdd6a350c"
+  },
+  "method": "当前工作树 hitAdapter.ts 经 Vite 服务器端模块加载；游戏目录无凭据 GET；只选明确命中规则，效果详情全量保留。",
+  "catalog": [
+    {
+      "route": "/vamp-rules",
+      "status": 200,
+      "data": {
+        "rules": [
+          {
+            "basisOutputKind": "POST_DEFENSE_DAMAGE",
+            "defaultEfficiency": 1,
+            "deliveryKinds": [
+              "BASIC_ATTACK"
+            ],
+            "originKinds": [
+              "DIRECT"
+            ],
+            "skillCategoryKeys": [
+              "basic_attack"
+            ],
+            "sourceAttributeKey": "life_steal_percent",
+            "vampType": "LIFE_STEAL"
+          },
+          {
+            "basisOutputKind": "POST_DEFENSE_DAMAGE",
+            "defaultEfficiency": 1,
+            "deliveryKinds": [
+              "SKILL",
+              "BASIC_ATTACK"
+            ],
+            "originKinds": [
+              "DIRECT"
+            ],
+            "skillCategoryKeys": [
+              "basic_attack",
+              "common",
+              "passive",
+              "ultimate"
+            ],
+            "sourceAttributeKey": "omnivamp_percent",
+            "vampType": "OMNIVAMP"
+          }
+        ]
+      }
+    },
+    {
+      "route": "/skill-categories/basic_attack",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-21T16:03:03.460117Z",
+        "description": "普通攻击身份；攻击间隔由所属技能过程的当前总攻速公式保存，不同时归入普通技能或终极技能。常规技能急速和冷却返还按普通技能、终极技能分类选择。泽丽Q按攻击处理，右键电击按普通技能处理。",
+        "gameId": "lol",
+        "name": "普通攻击",
+        "skillCategoryKey": "basic_attack",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-21T16:03:03.460117Z"
+      }
+    },
+    {
+      "route": "/skill-categories/common",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-08-26T05:59:27.858757Z",
+        "description": null,
+        "gameId": "lol",
+        "name": "普通技能",
+        "skillCategoryKey": "common",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-26T05:59:27.858757Z"
+      }
+    },
+    {
+      "route": "/skill-categories/ultimate",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-19T10:47:38.978523Z",
+        "description": "用于已确认属于终极技能的技能分类。",
+        "gameId": "lol",
+        "name": "终极技能",
+        "skillCategoryKey": "ultimate",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-19T10:47:38.978523Z"
+      }
+    }
+  ],
+  "results": [
+    {
+      "skillKey": "shared_basic_attack",
+      "selectedRuleKey": "on_attack_hit",
+      "scenario": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "source": {
+          "category": "CHAMPION",
+          "hostility": "SELF"
+        },
+        "target": {
+          "category": "CHAMPION",
+          "hostility": "ENEMY"
+        }
+      },
+      "skillCategoryKeys": [
+        "basic_attack"
+      ],
+      "selectedRule": {
+        "actions": [
+          {
+            "actionKey": "action_1",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "attack_hit"
+            },
+            "name": "结算普通攻击命中",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只响应本次实际普通攻击命中对象，结算一次本体伤害和一次命中联动。来源对象只挂共享或专属普攻其中一套。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "BASIC_ATTACK_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "普通攻击命中时结算本体",
+        "oncePerUse": null,
+        "perTargetCooldown": null,
+        "ruleKey": "on_attack_hit",
+        "sortOrder": 0
+      },
+      "allEffectsPreserved": [
+        {
+          "effectKey": "attack_hit",
+          "results": [
+            {
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "criticalMode": "SOURCE_CRIT_CHANCE"
+            },
+            {
+              "resultKey": "hit_link",
+              "resultType": "HIT_LINK_APPLICATION",
+              "sortOrder": 20,
+              "criticalMode": null
+            }
+          ]
+        },
+        {
+          "effectKey": "attack_start",
+          "results": [
+            {
+              "resultKey": "attack_link",
+              "resultType": "ATTACK_LINK_APPLICATION",
+              "sortOrder": 0,
+              "criticalMode": null
+            }
+          ]
+        }
+      ],
+      "parameterKeys": [
+        "base_critical_multiplier",
+        "milliseconds_per_second"
+      ],
+      "formulaKeys": [
+        "attack_interval_ms",
+        "attack_damage",
+        "critical_multiplier"
+      ],
+      "actual": {
+        "ok": false,
+        "error": {
+          "name": "HitAdaptationError",
+          "path": "adapter.hitPlan.skills.shared_basic_attack.effects.attack_hit.results.damage.detail.critical",
+          "message": "adapter.hitPlan.skills.shared_basic_attack.effects.attack_hit.results.damage.detail.critical: 未支持的暴击策略"
+        }
+      },
+      "diagnosticOrderProbe": {
+        "explanation": "仅在内存副本中把并列 hit_link 排在伤害之前；未删结果、未改暴击策略或数值，不代表原作者顺序。",
+        "before": [
+          [
+            "damage",
+            10,
+            "SOURCE_CRIT_CHANCE"
+          ],
+          [
+            "hit_link",
+            20,
+            null
+          ]
+        ],
+        "after": [
+          [
+            "damage",
+            10,
+            "SOURCE_CRIT_CHANCE"
+          ],
+          [
+            "hit_link",
+            0,
+            null
+          ]
+        ],
+        "result": {
+          "ok": false,
+          "error": {
+            "name": "HitAdaptationError",
+            "path": "adapter.hitPlan.skills.shared_basic_attack.effects.attack_hit.results.hit_link.resultType",
+            "message": "adapter.hitPlan.skills.shared_basic_attack.effects.attack_hit.results.hit_link.resultType: 未支持的命中结果，按共享契约整体拒绝"
+          }
+        }
+      }
+    },
+    {
+      "skillKey": "annie_q",
+      "selectedRuleKey": "actual_hit",
+      "scenario": {
+        "skillLevel": 1,
+        "characterLevel": 1,
+        "source": {
+          "category": "CHAMPION",
+          "hostility": "SELF"
+        },
+        "target": {
+          "category": "CHAMPION",
+          "hostility": "ENEMY"
+        }
+      },
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "selectedRule": {
+        "actions": [
+          {
+            "actionKey": "damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "spell_hit"
+            },
+            "name": "执行命中伤害",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "接收该技能实际命中，仅执行所述直接伤害；规则本身不生成命中，也不替代控制或跨技能联动。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "annie_q",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "碎裂之火实际命中",
+        "oncePerUse": null,
+        "perTargetCooldown": null,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10
+      },
+      "allEffectsPreserved": [
+        {
+          "effectKey": "mana_cost",
+          "results": [
+            {
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "criticalMode": null
+            }
+          ]
+        },
+        {
+          "effectKey": "spell_hit",
+          "results": [
+            {
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 10,
+              "criticalMode": "DISALLOWED"
+            }
+          ]
+        },
+        {
+          "effectKey": "kill_mana_refund",
+          "results": [
+            {
+              "resultKey": "refund_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "sortOrder": 10,
+              "criticalMode": null
+            }
+          ]
+        }
+      ],
+      "parameterKeys": [
+        "cooldown_ms",
+        "mana_cost",
+        "cast_time_ms",
+        "base_damage",
+        "ap_ratio",
+        "kill_cooldown_refund_ratio"
+      ],
+      "formulaKeys": [
+        "damage"
+      ],
+      "actual": {
+        "ok": true,
+        "output": {
+          "skillHit": {
+            "skillKey": "annie_q",
+            "candidates": [
+              {
+                "candidateKey": "actual_hit:damage:damage",
+                "effectOccurrenceKey": "actual_hit:damage",
+                "effectKey": "spell_hit",
+                "resultKey": "damage",
+                "semantic": {
+                  "resultType": "DAMAGE",
+                  "target": "TARGET",
+                  "moment": "INSTANT"
+                },
+                "spellShieldBlockScope": "RESULT",
+                "operations": [
+                  {
+                    "operation": "damage",
+                    "target": "target",
+                    "damageType": "damage/magic",
+                    "amount": {
+                      "op": "max",
+                      "args": [
+                        {
+                          "op": "ref",
+                          "ref": "hit/annie_q/damage"
+                        },
+                        {
+                          "op": "const",
+                          "value": 0
+                        }
+                      ]
+                    },
+                    "ref": "damage",
+                    "critEligible": false,
+                    "types": [
+                      "damage_trait/delivery_skill",
+                      "damage_trait/origin_direct"
+                    ],
+                    "vampQualification": "RESOLVED",
+                    "vampOverrides": []
+                  }
+                ]
+              }
+            ]
+          },
+          "resolveKind": "skill",
+          "providers": [],
+          "params": {
+            "base_damage": 80,
+            "ap_ratio": 0.8
+          },
+          "formulas": [
+            {
+              "key": "hit/annie_q/damage",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "op": "read",
+                    "path": "ability.param.base_damage"
+                  },
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "read",
+                        "path": "ability.param.ap_ratio"
+                      },
+                      {
+                        "op": "read",
+                        "path": "source.attr.ability_power.resolved"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "requiredAttributes": [
+            "ability_power",
+            "life_steal_percent",
+            "omnivamp_percent"
+          ],
+          "typeEntries": [
+            {
+              "key": "event/skill_hit",
+              "domain": "event"
+            },
+            {
+              "key": "damage/magic",
+              "domain": "damage"
+            },
+            {
+              "key": "combatant/champion",
+              "domain": "combatant"
+            },
+            {
+              "key": "damage_trait/delivery_skill",
+              "domain": "damage_trait"
+            },
+            {
+              "key": "damage_trait/delivery_basic_attack",
+              "domain": "damage_trait"
+            },
+            {
+              "key": "damage_trait/origin_direct",
+              "domain": "damage_trait"
+            },
+            {
+              "key": "damage_trait/origin_reflected",
+              "domain": "damage_trait"
+            },
+            {
+              "key": "ability/basic_attack",
+              "domain": "ability"
+            },
+            {
+              "key": "ability/common",
+              "domain": "ability"
+            },
+            {
+              "key": "ability/passive",
+              "domain": "ability"
+            },
+            {
+              "key": "ability/ultimate",
+              "domain": "ability"
+            }
+          ],
+          "vampRules": [
+            {
+              "vampType": "LIFE_STEAL",
+              "sourceAttributeKey": "life_steal_percent",
+              "basisOutputKind": "POST_DEFENSE_DAMAGE",
+              "defaultEfficiency": 1,
+              "targetMatcher": {
+                "all": [
+                  "combatant/champion"
+                ]
+              },
+              "abilityMatcher": {
+                "any": [
+                  "ability/basic_attack"
+                ]
+              },
+              "damageMatcher": {
+                "all": [
+                  "damage_trait/delivery_basic_attack",
+                  "damage_trait/origin_direct"
+                ]
+              }
+            },
+            {
+              "vampType": "OMNIVAMP",
+              "sourceAttributeKey": "omnivamp_percent",
+              "basisOutputKind": "POST_DEFENSE_DAMAGE",
+              "defaultEfficiency": 1,
+              "targetMatcher": {
+                "all": [
+                  "combatant/champion"
+                ]
+              },
+              "abilityMatcher": {
+                "any": [
+                  "ability/basic_attack",
+                  "ability/common",
+                  "ability/passive",
+                  "ability/ultimate"
+                ]
+              },
+              "damageMatcher": {
+                "all": [
+                  "damage_trait/origin_direct"
+                ]
+              }
+            }
+          ],
+          "abilityTypes": [
+            "ability/common"
+          ]
+        }
+      }
+    },
+    {
+      "skillKey": "garen_r",
+      "selectedRuleKey": "on_hit",
+      "scenario": {
+        "skillLevel": 1,
+        "characterLevel": 6,
+        "source": {
+          "category": "CHAMPION",
+          "hostility": "SELF"
+        },
+        "target": {
+          "category": "CHAMPION",
+          "hostility": "ENEMY"
+        }
+      },
+      "skillCategoryKeys": [
+        "ultimate"
+      ],
+      "selectedRule": {
+        "actions": [
+          {
+            "actionKey": "damage",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "justice_damage"
+            },
+            "name": "执行效果",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 0,
+            "targetContext": "CURRENT_TARGET"
+          }
+        ],
+        "conditionGroups": [
+          {
+            "conditions": [
+              {
+                "conditionKey": "category",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                },
+                "sortOrder": 0
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "detail": {},
+                "sortOrder": 10
+              }
+            ],
+            "groupKey": "allowed_target",
+            "name": "允许的命中目标",
+            "sortOrder": 0
+          }
+        ],
+        "description": "以实际 SKILL_HIT 为输入；施法与目标有效性由宿主确认，此规则本身不产生命中。",
+        "eventSource": {
+          "detail": {
+            "sourceSkillKey": "garen_r",
+            "useKind": null
+          },
+          "eventType": "SKILL_HIT"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "德玛西亚正义实际命中",
+        "oncePerUse": null,
+        "perTargetCooldown": null,
+        "ruleKey": "on_hit",
+        "sortOrder": 0
+      },
+      "allEffectsPreserved": [
+        {
+          "effectKey": "justice_damage",
+          "results": [
+            {
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "sortOrder": 0,
+              "criticalMode": "DISALLOWED"
+            }
+          ]
+        }
+      ],
+      "parameterKeys": [
+        "base_damage",
+        "missing_hp_ratio",
+        "cooldown_ms",
+        "cast_time_ms",
+        "reveal_duration_ms",
+        "cast_range"
+      ],
+      "formulaKeys": [
+        "damage"
+      ],
+      "actual": {
+        "ok": true,
+        "output": {
+          "skillHit": {
+            "skillKey": "garen_r",
+            "candidates": [
+              {
+                "candidateKey": "on_hit:damage:damage",
+                "effectOccurrenceKey": "on_hit:damage",
+                "effectKey": "justice_damage",
+                "resultKey": "damage",
+                "semantic": {
+                  "resultType": "DAMAGE",
+                  "target": "TARGET",
+                  "moment": "INSTANT"
+                },
+                "spellShieldBlockScope": "RESULT",
+                "participationCondition": {
+                  "op": "min",
+                  "args": [
+                    {
+                      "op": "const",
+                      "value": 1
+                    },
+                    {
+                      "op": "const",
+                      "value": 1
+                    }
+                  ]
+                },
+                "operations": [
+                  {
+                    "operation": "damage",
+                    "target": "target",
+                    "damageType": "damage/true",
+                    "amount": {
+                      "op": "ref",
+                      "ref": "hit/garen_r/damage"
+                    },
+                    "ref": "damage",
+                    "critEligible": false,
+                    "types": [
+                      "damage_trait/delivery_skill",
+                      "damage_trait/origin_direct"
+                    ],
+                    "vampQualification": "RESOLVED",
+                    "vampOverrides": []
+                  }
+                ]
+              }
+            ]
+          },
+          "resolveKind": "skill",
+          "providers": [],
+          "params": {
+            "base_damage": 125,
+            "missing_hp_ratio": 0.25
+          },
+          "formulas": [
+            {
+              "key": "hit/garen_r/damage",
+              "expression": {
+                "op": "add",
+                "args": [
+                  {
+                    "op": "read",
+                    "path": "ability.param.base_damage"
+                  },
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "sub",
+                        "args": [
+                          {
+                            "op": "read",
+                            "path": "target.attr.hp.max"
+                          },
+                          {
+                            "op": "read",
+                            "path": "target.attr.hp.current"
+                          }
+                        ]
+                      },
+                      {
+                        "op": "read",
+                        "path": "ability.param.missing_hp_ratio"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "requiredAttributes": [
+            "hp",
+            "life_steal_percent",
+            "omnivamp_percent"
+          ],
+          "typeEntries": [
+            {
+              "key": "event/skill_hit",
+              "domain": "event"
+            },
+            {
+              "key": "damage/true",
+              "domain": "damage"
+            },
+            {
+              "key": "combatant/champion",
+              "domain": "combatant"
+            },
+            {
+              "key": "damage_trait/delivery_skill",
+              "domain": "damage_trait"
+            },
+            {
+              "key": "damage_trait/delivery_basic_attack",
+              "domain": "damage_trait"
+            },
+            {
+              "key": "damage_trait/origin_direct",
+              "domain": "damage_trait"
+            },
+            {
+              "key": "damage_trait/origin_reflected",
+              "domain": "damage_trait"
+            },
+            {
+              "key": "ability/basic_attack",
+              "domain": "ability"
+            },
+            {
+              "key": "ability/common",
+              "domain": "ability"
+            },
+            {
+              "key": "ability/passive",
+              "domain": "ability"
+            },
+            {
+              "key": "ability/ultimate",
+              "domain": "ability"
+            }
+          ],
+          "vampRules": [
+            {
+              "vampType": "LIFE_STEAL",
+              "sourceAttributeKey": "life_steal_percent",
+              "basisOutputKind": "POST_DEFENSE_DAMAGE",
+              "defaultEfficiency": 1,
+              "targetMatcher": {
+                "all": [
+                  "combatant/champion"
+                ]
+              },
+              "abilityMatcher": {
+                "any": [
+                  "ability/basic_attack"
+                ]
+              },
+              "damageMatcher": {
+                "all": [
+                  "damage_trait/delivery_basic_attack",
+                  "damage_trait/origin_direct"
+                ]
+              }
+            },
+            {
+              "vampType": "OMNIVAMP",
+              "sourceAttributeKey": "omnivamp_percent",
+              "basisOutputKind": "POST_DEFENSE_DAMAGE",
+              "defaultEfficiency": 1,
+              "targetMatcher": {
+                "all": [
+                  "combatant/champion"
+                ]
+              },
+              "abilityMatcher": {
+                "any": [
+                  "ability/basic_attack",
+                  "ability/common",
+                  "ability/passive",
+                  "ability/ultimate"
+                ]
+              },
+              "damageMatcher": {
+                "all": [
+                  "damage_trait/origin_direct"
+                ]
+              }
+            }
+          ],
+          "abilityTypes": [
+            "ability/ultimate"
+          ]
+        }
+      }
+    }
+  ]
+}

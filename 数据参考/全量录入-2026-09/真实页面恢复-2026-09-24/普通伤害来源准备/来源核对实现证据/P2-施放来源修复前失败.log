@@ -1,0 +1,40 @@
+
+ RUN  v2.1.9 C:/project/damage_web_dev/web
+
+ ❯ src/engine/ordinaryDamageSourceAudit.test.ts (27 tests | 3 failed | 23 skipped) 23ms
+   × 已核普通直接伤害来源 > 宠物施放来源按具体路径拒绝 7ms
+     → expected false to be true // Object.is equality
+   × 已核普通直接伤害来源 > 装备施放来源按具体路径拒绝 1ms
+     → expected false to be true // Object.is equality
+   × 已核普通直接伤害来源 > 固有施放来源按具体路径拒绝 1ms
+     → expected false to be true // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/ordinaryDamageSourceAudit.test.ts > 已核普通直接伤害来源 > 宠物施放来源按具体路径拒绝
+ FAIL  src/engine/ordinaryDamageSourceAudit.test.ts > 已核普通直接伤害来源 > 装备施放来源按具体路径拒绝
+ FAIL  src/engine/ordinaryDamageSourceAudit.test.ts > 已核普通直接伤害来源 > 固有施放来源按具体路径拒绝
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ expectAuditError src/engine/ordinaryDamageSourceAudit.test.ts:195:108
+    193|     throw new Error('应拒绝');
+    194|   } catch (error) {
+    195|     expect(error instanceof OrdinaryDamageSourceAuditError || error in…
+       |                                                                                                            ^
+    196|     expect(error).toMatchObject({ path, ...(code ? { code } : {}) });
+    197|   }
+ ❯ src/engine/ordinaryDamageSourceAudit.test.ts:401:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 1 passed | 23 skipped (27)
+   Start at  20:01:24
+   Duration  451ms (transform 138ms, setup 0ms, collect 174ms, tests 23ms, environment 0ms, prepare 76ms)
+

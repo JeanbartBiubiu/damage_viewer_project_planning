@@ -1,0 +1,106 @@
+{
+  "catalogKey": "ordinary_direct_20260924_annie_q_garen_r",
+  "gameId": "lol",
+  "scope": "ORDINARY_DIRECT_DAMAGE",
+  "reviews": [
+    {
+      "reviewKey": "annie_q_spell_hit_damage",
+      "gameId": "lol",
+      "characterKey": "champion_annie",
+      "skillKey": "annie_q",
+      "ruleKey": "actual_hit",
+      "actionKey": "damage",
+      "effectKey": "spell_hit",
+      "resultKey": "damage",
+      "damageTypeKey": "magic",
+      "deliveryKind": "SKILL",
+      "originKind": "DIRECT",
+      "classification": "ORDINARY_DIRECT",
+      "rationale": "固定官方说明为英雄自身Q火球造成魔法伤害，实际直接技能结果与挂载一致；本条只批准命中伤害组成，不包含击杀退款或被动。",
+      "evidenceRefs": [
+        "英雄/原始资料/en_US/champion/Annie.json",
+        "真实页面恢复-2026-09-24/符文生命门槛准备/08-伤害范围与乘区口径.md"
+      ],
+      "reviewedResult": {
+        "description": null,
+        "detail": {
+          "critical": {
+            "mode": "DISALLOWED",
+            "multiplierValue": null
+          },
+          "damageTypeKey": "magic",
+          "deliveryKind": "SKILL",
+          "originKind": "DIRECT",
+          "vampOverrides": [],
+          "vampQualification": "RESOLVED"
+        },
+        "lifecycleBehavior": null,
+        "name": "碎裂之火命中",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "sortOrder": 10,
+        "spellShieldBlockScope": "RESULT",
+        "target": "TARGET",
+        "valueRule": {
+          "fixedMaxValue": null,
+          "fixedMinValue": 0,
+          "fixedMultiplier": 1,
+          "value": {
+            "formulaKey": "damage",
+            "kind": "FORMULA"
+          }
+        }
+      }
+    },
+    {
+      "reviewKey": "garen_r_justice_damage_damage",
+      "gameId": "lol",
+      "characterKey": "champion_garen",
+      "skillKey": "garen_r",
+      "ruleKey": "on_hit",
+      "actionKey": "damage",
+      "effectKey": "justice_damage",
+      "resultKey": "damage",
+      "damageTypeKey": "real",
+      "deliveryKind": "SKILL",
+      "originKind": "DIRECT",
+      "classification": "ORDINARY_DIRECT",
+      "rationale": "固定官方提示为基础值加目标已损失生命比例的真实伤害，实际结果为DAMAGE而非直接处决；按已采用的官方历史增幅规则纳入普通直接伤害，非惩戒或打野宠物。",
+      "evidenceRefs": [
+        "英雄/原始资料/en_US/champion/Garen.json",
+        "真实页面恢复-2026-09-24/符文生命门槛准备/08-伤害范围与乘区口径.md",
+        "盖伦技能候选/README.md"
+      ],
+      "reviewedResult": {
+        "description": "对英雄的普通技能伤害适用全能吸血，按防御处理后伤害及效率1计算吸血机会；实际扣血、护盾吸收及战斗结算另证。",
+        "detail": {
+          "critical": {
+            "mode": "DISALLOWED",
+            "multiplierValue": null
+          },
+          "damageTypeKey": "real",
+          "deliveryKind": "SKILL",
+          "originKind": "DIRECT",
+          "vampOverrides": [],
+          "vampQualification": "RESOLVED"
+        },
+        "lifecycleBehavior": null,
+        "name": "真实伤害",
+        "resultKey": "damage",
+        "resultType": "DAMAGE",
+        "sortOrder": 0,
+        "spellShieldBlockScope": "RESULT",
+        "target": "TARGET",
+        "valueRule": {
+          "fixedMaxValue": null,
+          "fixedMinValue": null,
+          "fixedMultiplier": 1,
+          "value": {
+            "formulaKey": "damage",
+            "kind": "FORMULA"
+          }
+        }
+      }
+    }
+  ]
+}

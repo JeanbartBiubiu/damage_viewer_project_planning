@@ -1,0 +1,469 @@
+{
+  "at": "2026-09-24T02:58:27.176Z",
+  "status": "只读页面候选；非批准、非完成，未执行业务写入",
+  "gameId": "lol",
+  "skillKey": "item_3057_passive",
+  "equipmentKey": "item_3057",
+  "expectedNewRequests": 5,
+  "scope": "仅普通成功首次主动施法后的下一次真实强化普攻；重施、开关等特殊使用未验证。",
+  "responsibility": "主负责人将刷新现值、审核候选及算术，再决定是否委派真实页面操作。本文件不授予写入权限。",
+  "derivation": {
+    "template": {
+      "file": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/夺萃-02-页面批准.json",
+      "sha256": "bccdefd50e1b204fc84f7277906dfe4bc4495c8ac82d1ca01a7391e7d16d85e4",
+      "purpose": "只复用最终单强化步骤、单启动规则结构，不继承夺萃专属事实或批准"
+    },
+    "baseline": {
+      "file": "01-耀光当前GET.json",
+      "sha256": "f22fae4889bbda032ba6f2cde836d1f6b7c79456d69c95956d90e6c55bcfa8a3",
+      "readAt": "2026-09-24T02:47:33.800Z",
+      "lastReadAt": "2026-09-24T02:48:55.128Z"
+    },
+    "sourceExcerpt": {
+      "file": "03-账本与冻结来源摘录.json",
+      "sha256": "5430cbbaad47157f95a3f9fd0d147343436d609f984f1f9b19e8fed9ff212efb"
+    },
+    "sourceHashes": [
+      {
+        "file": "数据参考/全量录入-2026-09/装备效果补证/逐件补证结果.json",
+        "sha256": "6fd6876648a467b59aa8b2e5815beb06e6d51373d8596f9a0e83cae01ed10e74"
+      },
+      {
+        "file": "数据参考/全量录入-2026-09/装备效果补证/选定原始对象.json",
+        "sha256": "08d4a51dfe1e7f5fa543dcfe6ec662776d4c43c4606eef265afff48ee4d5ae43"
+      },
+      {
+        "file": "数据参考/全量录入-2026-09/装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+        "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+      },
+      {
+        "file": "数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+        "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+        "decodedSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+      }
+    ]
+  },
+  "sourceFacts": [
+    "耀光1倍来源基础攻击力的额外物理攻击特效伤害",
+    "耀光冷却1.5秒，现有参数为1500毫秒",
+    "施放技能后下一次普通攻击触发；本批只选普通成功首次主动施法的有限场景"
+  ],
+  "projectApproximations": {
+    "authority": "主负责人在本批交接中明确确定",
+    "windowMs": 10000,
+    "repeat": "重复合格施法刷新完整窗口，不叠次数",
+    "consume": "实际强化普攻命中时消费",
+    "cooldownStart": "消费命中后起算已证1500毫秒冷却，超时不启动",
+    "boundary": "窗口、刷新和起算点为项目统一近似，不是游戏实测，不引用夺萃七条核定为耀光来源"
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/item_3057_passive/parameters",
+      "detailRoute": "/skills/item_3057_passive/parameters/spellblade_window_ms",
+      "key": "parameterKey",
+      "body": {
+        "parameterKey": "spellblade_window_ms",
+        "name": "咒刃待击窗口",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10000,
+        "levelValues": null,
+        "description": "本批有限模拟场景采用的10000毫秒待击窗口，属于项目统一近似；重复合格首次主动施法刷新完整窗口，不叠次数。现有耀光冻结资料未证明该时长，不是游戏实测，也不引用夺萃或巫妖时长作耀光来源。",
+        "sortOrder": 30
+      },
+      "order": 1,
+      "bodySha256": "28da7f332651d0365e87ec874f3e6fd41c5e813ecdd264eed78d261d97747f91",
+      "note": "仅候选；须主负责人刷新现值并复核后才能安排真实页面操作。"
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3057_passive/internal-states",
+      "detailRoute": "/skills/item_3057_passive/internal-states/spellblade_ready",
+      "key": "stateKey",
+      "body": {
+        "stateKey": "spellblade_ready",
+        "name": "咒刃待命",
+        "stateType": "FLAG",
+        "scope": "SKILL",
+        "description": "本批有限模拟场景：普通成功首次主动施法且内部冷却就绪时开启待命；重复合格施法刷新完整10000毫秒窗口，不叠加次数；真实强化普攻命中或超时关闭。窗口与刷新为项目统一近似，不是耀光游戏实测。",
+        "sortOrder": 10,
+        "detail": {
+          "initialEnabled": false
+        }
+      },
+      "order": 2,
+      "bodySha256": "1bfe8c74763729a2f3f3654ee2d251f5dafcf20a3ed9ebd73b4e7e927d6543fa",
+      "note": "仅候选；须主负责人刷新现值并复核后才能安排真实页面操作。"
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3057_passive/internal-states",
+      "detailRoute": "/skills/item_3057_passive/internal-states/spellblade_icd",
+      "key": "stateKey",
+      "body": {
+        "stateKey": "spellblade_icd",
+        "name": "咒刃内部冷却",
+        "stateType": "INTERNAL_COOLDOWN",
+        "scope": "SKILL",
+        "description": "复用耀光客户端已证的1500毫秒冷却数值。真实强化普攻命中消费后起算、超时不启动为本项目统一近似，不是耀光游戏实测。",
+        "sortOrder": 20,
+        "detail": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "spellblade_cooldown_ms"
+          }
+        }
+      },
+      "order": 3,
+      "bodySha256": "e633492afb3ca619c11c8a9203be569778a27168319f1cd79ca377558a1bfd88",
+      "note": "仅候选；须主负责人刷新现值并复核后才能安排真实页面操作。"
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3057_passive/processes",
+      "detailRoute": "/skills/item_3057_passive/processes/spellblade_consume",
+      "key": "processKey",
+      "body": {
+        "processKey": "spellblade_consume",
+        "name": "咒刃待击与命中消费",
+        "activationType": "ACTIVE",
+        "description": "耀光有限模拟场景：普通成功首次主动施法进入待击；10000毫秒窗口、重复合格施法刷新且不叠次数、实际强化普攻命中消费后起算1500毫秒内部冷却，超时只清待命。窗口、刷新与冷却起算点为项目统一近似；重施、开关等特殊使用未验证。强化步骤仅执行原咒刃伤害，正式吸血资格仍未核定。",
+        "sortOrder": 10,
+        "cooldown": null,
+        "steps": [
+          {
+            "stepKey": "empowered_hit",
+            "name": "等待强化普通攻击命中",
+            "description": "等待实际强化普通攻击命中，窗口10000毫秒为项目近似；消费目标取该次真实普攻目标，不锁定施法时目标。",
+            "sortOrder": 10,
+            "stepType": "EMPOWERED_BASIC_ATTACK",
+            "detail": {
+              "windowValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "spellblade_window_ms"
+              },
+              "consumeMoment": "ATTACK_HIT"
+            }
+          }
+        ],
+        "effectBindings": [
+          {
+            "bindingKey": "deal_spellblade_damage",
+            "effectKey": "spellblade_damage",
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "sortOrder": 10
+          }
+        ],
+        "stateOperations": [
+          {
+            "operationKey": "set_ready",
+            "name": "进入待命",
+            "stateKey": "spellblade_ready",
+            "moment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null,
+              "failureReason": null
+            },
+            "sortOrder": 10,
+            "operation": "ENABLE",
+            "value": null,
+            "optionKey": null
+          },
+          {
+            "operationKey": "consume_ready",
+            "name": "命中消费待命",
+            "stateKey": "spellblade_ready",
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "sortOrder": 30,
+            "operation": "DISABLE",
+            "value": null,
+            "optionKey": null
+          },
+          {
+            "operationKey": "start_icd",
+            "name": "命中开始冷却",
+            "stateKey": "spellblade_icd",
+            "moment": {
+              "momentType": "STEP_EXECUTION",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "sortOrder": 40,
+            "operation": "START",
+            "value": null,
+            "optionKey": null
+          },
+          {
+            "operationKey": "timeout_ready",
+            "name": "超时结束待命",
+            "stateKey": "spellblade_ready",
+            "moment": {
+              "momentType": "STEP_TIMEOUT",
+              "stepKey": "empowered_hit",
+              "failureReason": null
+            },
+            "sortOrder": 50,
+            "operation": "DISABLE",
+            "value": null,
+            "optionKey": null
+          }
+        ]
+      },
+      "order": 4,
+      "bodySha256": "84b0f5ee6b0dd5a783123e2e91a23b73a20a051c3abf38ed7d370012d60ec5b1",
+      "note": "仅候选；须主负责人刷新现值并复核后才能安排真实页面操作。"
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3057_passive/trigger-rules",
+      "detailRoute": "/skills/item_3057_passive/trigger-rules/spellblade_arm",
+      "key": "ruleKey",
+      "body": {
+        "ruleKey": "spellblade_arm",
+        "name": "首次主动施法开启或刷新咒刃待命",
+        "description": "仅用于普通成功首次主动施法的有限模拟场景：咒刃内部冷却就绪时启动同一待击过程；已有待击刷新完整10000毫秒窗口，不叠加次数。窗口与刷新为项目统一近似，不是耀光游戏实测；重施、开关等特殊使用未验证。伤害、消费待命和命中起算冷却仅由强化步骤执行，不另配命中规则。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": null,
+            "useKind": "ACTIVE",
+            "castPhase": "INITIAL"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "cooldown_ready",
+            "name": "咒刃内部冷却就绪",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "cond_1",
+                "conditionType": "INTERNAL_STATE_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "stateKey": "spellblade_icd",
+                  "valueKind": "REMAINING_MS",
+                  "optionKey": null,
+                  "expectedBoolean": null,
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "start_spellblade",
+            "name": "开启或刷新待击",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "spellblade_consume"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": null
+      },
+      "order": 5,
+      "bodySha256": "c6fb5504510e2a427213ab48bf6ca6c588489847ac77c74db0a3223ccd3ecd5f",
+      "note": "仅候选；须主负责人刷新现值并复核后才能安排真实页面操作。"
+    }
+  ],
+  "descriptionOnlyPutCandidates": [
+    {
+      "method": "PUT",
+      "route": "/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+      "detailRoute": "/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+      "key": "parameterKey",
+      "precondition": "仅在五项新增保存、重开与独立回读成功后考虑；主负责人刷新现值并审核。",
+      "reason": "原说明仍写冷却消费规则待接线；新增过程保存后应明确项目近似和原数值边界。",
+      "changedFields": [
+        "description"
+      ],
+      "beforeDescription": "客户端咒刃冷却时间，单位：毫秒；冷却消费规则待运行时接线。",
+      "afterDescription": "客户端已证的耀光咒刃冷却数值，单位毫秒，保持1500。强化普攻实际命中消费后起算、超时不启动为本批项目统一近似，未声明游戏实测。",
+      "beforeBodySha256": "78a389882f3f18815fe213a6b13b72008ff33770fa544da49164f0e53f6a088c",
+      "body": {
+        "description": "客户端已证的耀光咒刃冷却数值，单位毫秒，保持1500。强化普攻实际命中消费后起算、超时不启动为本批项目统一近似，未声明游戏实测。",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "name": "咒刃冷却时间",
+        "sortOrder": 20,
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "bodySha256": "67746ee66dd79b147cdc98b97a91a725868900b1f1ec36d3a5db0191c7912809"
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3057_passive",
+      "detailRoute": "/skills/item_3057_passive",
+      "key": "skillKey",
+      "precondition": "仅在五项新增保存、重开与独立回读成功后考虑；主负责人刷新现值并审核。",
+      "reason": "原说明仍写施放后就绪、下一次攻击消费和冷却接线待补；新增过程和规则保存后已不准确。",
+      "changedFields": [
+        "description"
+      ],
+      "beforeDescription": "施放技能后，下一次普通攻击造成来源基础攻击力1倍的额外物理伤害。本批保存数值组成；施放后就绪、下一次攻击消费和冷却运行时接线待补。",
+      "afterDescription": "耀光咒刃造成来源基础攻击力1倍的额外物理伤害，冷却1500毫秒，数值沿用本物品冻结来源。本批有限模拟场景为普通成功首次主动施法且内部冷却就绪时开启10000毫秒待击；重复合格施法刷新完整窗口，不叠加次数。下一次强化普通攻击实际命中时一次消费，并从此时起算内部冷却；超时只清待命。窗口、刷新和冷却起算点为项目统一近似，不是游戏实测。重施、开关等特殊使用未验证；正式伤害吸血资格仍未核定，尚不代表完整装备运行。装备属性由装备本体提供。",
+      "beforeBodySha256": "0e3fa51b70747a750d822804a232cfc7053a1e042984f1af1a9061ef7584cf58",
+      "body": {
+        "description": "耀光咒刃造成来源基础攻击力1倍的额外物理伤害，冷却1500毫秒，数值沿用本物品冻结来源。本批有限模拟场景为普通成功首次主动施法且内部冷却就绪时开启10000毫秒待击；重复合格施法刷新完整窗口，不叠加次数。下一次强化普通攻击实际命中时一次消费，并从此时起算内部冷却；超时只清待命。窗口、刷新和冷却起算点为项目统一近似，不是游戏实测。重施、开关等特殊使用未验证；正式伤害吸血资格仍未核定，尚不代表完整装备运行。装备属性由装备本体提供。",
+        "maxLevel": 1,
+        "name": "耀光·咒刃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "sortOrder": 0,
+        "status": "ENABLED"
+      },
+      "bodySha256": "41cb2ccf9fe8ef82ca0e9ddc290cc35fb3f95a9c174a971cee9b26f3df9964ba"
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3057_passive/effects/spellblade_damage",
+      "detailRoute": "/skills/item_3057_passive/effects/spellblade_damage",
+      "key": "effectKey",
+      "precondition": "仅在五项新增保存、重开与独立回读成功后考虑；主负责人刷新现值并审核。",
+      "reason": "原效果说明仍写就绪与消费规则待补；只改效果顶层说明，结果、公式引用和吸血资格全部保留。",
+      "changedFields": [
+        "description"
+      ],
+      "beforeDescription": "保存下一次普通攻击的额外物理伤害组成；技能施放后就绪与消费规则待补。",
+      "afterDescription": "耀光咒刃的1倍来源基础攻击力额外物理伤害组成。由单强化步骤在实际普攻命中时唯一结算，不另录执行同效果的命中规则。待击、刷新与冷却起算采用项目统一近似；原伤害数值和未核定吸血资格保持，未声明完整装备运行。",
+      "beforeBodySha256": "da0f188619464ebab93047f88058f915e6178de78e43bd15d8dc8969036af30b",
+      "body": {
+        "description": "耀光咒刃的1倍来源基础攻击力额外物理伤害组成。由单强化步骤在实际普攻命中时唯一结算，不另录执行同效果的命中规则。待击、刷新与冷却起算采用项目统一近似；原伤害数值和未核定吸血资格保持，未声明完整装备运行。",
+        "lifecycle": null,
+        "name": "咒刃额外物理伤害",
+        "results": [
+          {
+            "description": "来源基础攻击力1倍的额外物理伤害。",
+            "detail": {
+              "critical": {
+                "mode": "DISALLOWED",
+                "multiplierValue": null
+              },
+              "damageTypeKey": "physics",
+              "deliveryKind": "BASIC_ATTACK",
+              "originKind": "DIRECT",
+              "vampOverrides": [],
+              "vampQualification": "UNRESOLVED"
+            },
+            "lifecycleBehavior": null,
+            "name": "咒刃物理伤害",
+            "resultKey": "damage",
+            "resultType": "DAMAGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "spellblade_damage",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 10
+      },
+      "bodySha256": "e6c0f824b1f68f1b973bfd6d788c1cd02b0a8a43903d87d969cb2e553b5f6040"
+    },
+    {
+      "method": "PUT",
+      "route": "/equipment/item_3057",
+      "detailRoute": "/equipment/item_3057",
+      "key": "equipmentKey",
+      "precondition": "仅在五项新增保存、重开与独立回读成功后考虑；主负责人刷新现值并审核。",
+      "reason": "原装备说明仍笼统写被动与主动效果尚待配置；可在本批配置闭环后同步为准确入口说明，不改属性或挂载。",
+      "changedFields": [
+        "description"
+      ],
+      "beforeDescription": "来源：官方16.17.1装备3057。 原始说明：10技能急速 咒刃 施放技能后，你的下一次普通攻击会造成额外物理伤害攻击特效。 被动与主动效果尚待配置。",
+      "afterDescription": "来源：官方16.17.1装备3057。原始说明：10技能急速；咒刃，施放技能后下一次普通攻击造成额外物理伤害攻击特效。咒刃组成通过唯一挂载的耀光·咒刃技能维护。待击、刷新与冷却起算为本批有限模拟场景的项目近似；特殊使用和正式伤害吸血资格仍未验证，未声明完整装备运行。",
+      "beforeBodySha256": "7b474f309225288f761a30aa45d262b790b47044f0575dcbea69140a6fa2bad5",
+      "body": {
+        "description": "来源：官方16.17.1装备3057。原始说明：10技能急速；咒刃，施放技能后下一次普通攻击造成额外物理伤害攻击特效。咒刃组成通过唯一挂载的耀光·咒刃技能维护。待击、刷新与冷却起算为本批有限模拟场景的项目近似；特殊使用和正式伤害吸血资格仍未验证，未声明完整装备运行。",
+        "name": "耀光"
+      },
+      "bodySha256": "d6b22dfe0c0e77e085c35cce640f2ce3fa2fec6625e638e6d11e38e85d9eaeff"
+    }
+  ],
+  "protected": {
+    "rules": "原参数数值、公式表达式、效果结果及UNRESOLVED吸血保持；装备属性、挂载、图片、共享目录不更改。说明候选只修改各对象description。",
+    "beforeHashes": [
+      {
+        "route": "/skills/item_3057_passive/parameters",
+        "bodySha256": "dc62c4d7d5a5ebf0c336691f9ff3481882b689ca475378cd6a2e55732911d310"
+      },
+      {
+        "route": "/skills/item_3057_passive/formulas/spellblade_damage",
+        "bodySha256": "f6f008d39657701c29a325bc6d5d7cb7a01cd51b8dc3a3c3ae2cf6be9a230abe"
+      },
+      {
+        "route": "/skills/item_3057_passive/effects/spellblade_damage",
+        "bodySha256": "cb3d51e0baa23b15641ec42f11a217e0898a1a452cc6d84197a71292679162f1"
+      },
+      {
+        "route": "/equipment/item_3057/attributes",
+        "bodySha256": "11bf276695a4d6f5968c64ebca12eba552b648b643f79756c533bce1674168d9"
+      },
+      {
+        "route": "/equipment-skill-relations?equipmentKey=item_3057",
+        "bodySha256": "3a28ec15957b364d3241ef6227e624718617bb78acd03b0b8a801ec9f3b93449"
+      },
+      {
+        "route": "/equipment-skill-relations?skillKey=item_3057_passive",
+        "bodySha256": "3a28ec15957b364d3241ef6227e624718617bb78acd03b0b8a801ec9f3b93449"
+      },
+      {
+        "route": "/damage-types/physics",
+        "bodySha256": "42e8e78d9aae131978d2899620c832836ceb2ae5e701eb4b73118391cf2177b5"
+      },
+      {
+        "route": "/attributes/attack_damage",
+        "bodySha256": "f83a821d6f09e223b06581b7f5d3c495956cbc1ded7e560dd3354a57ea59cd97"
+      },
+      {
+        "route": "/skill-categories/passive",
+        "bodySha256": "2fde0843d144bb9249c3afc6baf1dc4a6fd4e8f8e6919799b788afc1d88758fe"
+      }
+    ]
+  },
+  "expectedAfterCounts": {
+    "parameters": 3,
+    "formulas": 1,
+    "effects": 1,
+    "internalStates": 2,
+    "processes": 1,
+    "triggerRules": 1
+  },
+  "notCompleted": [
+    "尚未刷新写前现值",
+    "尚未主负责人审核候选和算术",
+    "尚未业务页面保存、重开或独立回读",
+    "尚未耀光实际运行；未核定吸血仍应拒绝完整编译"
+  ]
+}

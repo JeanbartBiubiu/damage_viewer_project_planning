@@ -1,0 +1,79 @@
+{
+  "at": "2026-09-24T12:51:19.532Z",
+  "object": "rune_8017_passive/trigger-rules/initialize_basic_attack_bonus",
+  "candidate": "普通伤害来源准备/09-扩大过滤页面候选.json writes[3]",
+  "browser": {
+    "nodePid": 15124,
+    "chromiumPid": 40860,
+    "contexts": 1,
+    "pages": 1
+  },
+  "requests": [
+    {
+      "method": "PUT",
+      "path": "/api/admin/games/lol/skills/rune_8017_passive/trigger-rules/initialize_basic_attack_bonus",
+      "body": {
+        "name": "初始化砍倒普通直接伤害增幅",
+        "description": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格高于60%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+        "sortOrder": 10,
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "conditionGroups": [],
+        "actions": [
+          {
+            "actionKey": "apply_bonus",
+            "name": "施加常驻生命门槛增伤",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "basic_attack_health_bonus"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": null
+      },
+      "status": 200
+    }
+  ],
+  "guard": {
+    "exactApprovedBody": true,
+    "rejectedNonGet": []
+  },
+  "readback": {
+    "getMatchesApprovedBody": true,
+    "protectedFieldsUnchanged": true,
+    "ruleKey": "initialize_basic_attack_bonus",
+    "eventType": "SOURCE_INITIALIZED",
+    "actionCount": 1,
+    "conditionGroupCount": 0
+  },
+  "uiReopen": {
+    "name": "初始化砍倒普通直接伤害增幅",
+    "description": "每笔普通直接伤害结算前，对敌方英雄判断生命当前比例严格高于60%，等值不成立。不限物理、魔法、真实类型及普攻或技能；惩戒和打野宠物不适用，反射仍待核定。本组成须在完成来源核定的场景使用，未知来源拒绝运行；不表示整符文或任意技能组合完成。",
+    "actionSummary": "执行效果 / 当前目标 / basic_attack_health_bonus / 绑定0 / 修正0",
+    "dialogsAfterClose": 0
+  },
+  "overview": {
+    "initializationShown": true,
+    "actionCurrentTarget": true,
+    "resultSource": true,
+    "unattachedNone": true,
+    "ruleDescriptionShowsStrictAbove60AndUnknownSourceRejection": true,
+    "effectRowShowsStructuredHpCondition": false,
+    "summaryGapPreviouslyRecorded": "55-致命一击扩大过滤规则唯一保存.json"
+  },
+  "screenshots": [
+    "62-砍倒扩大过滤规则保存前.png",
+    "63-砍倒扩大过滤规则保存后列表.png",
+    "64-砍倒扩大过滤规则重开.png",
+    "65-砍倒扩大过滤行为总览效果组.png"
+  ],
+  "businessWrites": 1
+}

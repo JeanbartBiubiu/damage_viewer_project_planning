@@ -1,0 +1,230 @@
+{
+  "at": "2026-09-24T01:08:11.247Z",
+  "executionMode": "PLAYWRIGHT_UI_ONLY",
+  "model": "gpt-6-luna",
+  "effort": "max",
+  "contextConfigured": 600000,
+  "contextUsableAccepted": 570000,
+  "questions": [
+    "凯旋动作目标与治疗承受者的页面含义及旧说明是否一致",
+    "妮蔻E首次接触与敌方英雄、同次阻挡及已有实例条件能否清楚组合"
+  ],
+  "sources": [
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Neeko.json.gz",
+      "sha256": "1f65e7a0cc866b9c65e0829c0355109afea3e09c0c427c5ad51ff23b9a2660fc",
+      "verified": true
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Neeko.json",
+      "sha256": "de6adfb1b9c6d0d31cf682d0f092993959f91f7bb0a77d6f17c89862f28b3ef0",
+      "verified": true
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/命中序号语义核对/07-首次目标接触判定最小方案.json",
+      "sha256": "fca3b3d4b19f8e45e64d413807696871e25e3b2f95f8a8b5e34a63c69c150b8f",
+      "verified": true
+    }
+  ],
+  "candidatePath": "数据参考/全量录入-2026-09/妮蔻E首次接触禁锢返回/01-首次页面专用候选.json",
+  "candidateSha256": "8df54582d1b582518d0a15c9f53f2f75c062b6df8d089e152b8e6b283b405fb2",
+  "baselineSha256": "252b2e00ee50f6c1fbdab54047b46ed17006f741a186f132b01634a5ec688b6c",
+  "allowedRequests": [
+    {
+      "method": "PUT",
+      "route": "/skills/rune_9111_passive/effects/triumph_heal",
+      "body": {
+        "description": "严格一对一范围内，由击杀英雄规则触发，按来源对象5%已损生命值与2.5%最大生命值之和治疗技能拥有者。规则动作的当前目标用于事件上下文，治疗结果仍作用于来源对象；多人助攻和金币分支不在本轮范围。",
+        "lifecycle": null,
+        "name": "凯旋独立治疗",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "凯旋独立治疗",
+            "resultKey": "result",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "triumph_heal",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "sortOrder": 10
+      },
+      "purpose": "只纠正过时说明，全部数值、结果、公式、目标和关联保持"
+    },
+    {
+      "method": "POST",
+      "route": "/skills/neeko_e/effects",
+      "body": {
+        "description": "仅用于本次妮蔻E首次合资格单位接触为敌方英雄、同次法术护盾判定明确未阻挡且无本来源实例的最短禁锢分支；其他接触、强化及重施仍待核。",
+        "effectKey": "first_contact_root",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "min_root_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "缠结倒刺首个接触目标禁锢",
+        "results": [
+          {
+            "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "root"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "缠结倒刺最短禁锢",
+            "resultKey": "root",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "sortOrder": 30
+      },
+      "purpose": "首次接触最短禁锢正式页面返回"
+    },
+    {
+      "method": "POST",
+      "route": "/skills/neeko_e/trigger-rules",
+      "body": {
+        "ruleKey": "apply_root_on_first_contact",
+        "name": "首个接触敌方英雄的最短禁锢",
+        "description": "同组要求本技能真实命中敌方英雄、本次使用首次目标接触明确为1、同次法术护盾阻挡明确为0以及无本来源实例；缺值不默认，筛选后的首个英雄不等于首次接触。值为0不推定强化禁锢。",
+        "sortOrder": 30,
+        "eventSource": {
+          "eventType": "SKILL_HIT",
+          "detail": {
+            "sourceSkillKey": "neeko_e"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "root_eligible",
+            "name": "首个接触且允许首次施加",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "champion_target",
+                "conditionType": "TARGET_CATEGORY_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "categories": [
+                    "CHAMPION"
+                  ]
+                }
+              },
+              {
+                "conditionKey": "enemy_target",
+                "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                "sortOrder": 20,
+                "detail": {}
+              },
+              {
+                "conditionKey": "not_spell_shield_blocked",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 30,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "conditionKey": "first_contact",
+                "conditionType": "EVENT_VALUE_COMPARE",
+                "sortOrder": 40,
+                "detail": {
+                  "eventValueKey": "SKILL_HIT_FIRST_CONTACT",
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 1
+                  }
+                }
+              },
+              {
+                "conditionKey": "own_root_absent",
+                "conditionType": "LIFECYCLE_CHECK",
+                "sortOrder": 50,
+                "detail": {
+                  "effectKey": "first_contact_root",
+                  "subject": "CURRENT_TARGET",
+                  "checkKind": "ABSENT",
+                  "comparator": null,
+                  "comparisonValue": null
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "apply_root",
+            "name": "施加本次禁锢",
+            "actionType": "EXECUTE_EFFECT",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "effectKey": "first_contact_root"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": null
+      },
+      "purpose": "连接首次接触、未阻挡、敌方英雄及无本来源实例资格"
+    }
+  ],
+  "arithmetic": {
+    "neekoDurationMs": [
+      700,
+      900,
+      1100,
+      1300,
+      1500
+    ],
+    "triumphAt2000Max1000Missing": 100
+  },
+  "wholeSkillComplete": false,
+  "runtimeValidated": false
+}

@@ -1,0 +1,33 @@
+{
+  "getRecords": [
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/trigger-rules",
+      "status": 200,
+      "body": "[]"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/trigger-rules/spellblade_arm",
+      "status": 404,
+      "body": "{\"error\":{\"code\":\"404.SKILL_TRIGGER_RULE_NOT_FOUND\",\"details\":{\"ruleKey\":\"spellblade_arm\"},\"message\":\"技能触发规则不存在\"}}"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/processes/spellblade_consume",
+      "status": 200,
+      "body": "{\"activationType\":\"ACTIVE\",\"cooldown\":null,\"createdAt\":\"2026-09-24T03:58:52.964669Z\",\"description\":\"普通成功首次主动施法后待击10秒，重复施法刷新，不叠次数；普攻命中执行原咒刃伤害并启动1500毫秒冷却，超时只清待命。窗口、刷新及冷却起算点为项目近似；特殊使用和吸血资格仍待核。\",\"effectBindings\":[{\"bindingKey\":\"deal_spellblade_damage\",\"effectKey\":\"spellblade_damage\",\"moment\":{\"momentType\":\"STEP_EXECUTION\",\"stepKey\":\"empowered_hit\"},\"sortOrder\":10}],\"gameId\":\"lol\",\"name\":\"咒刃待击与命中消费\",\"processKey\":\"spellblade_consume\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":10,\"stateOperations\":[{\"moment\":{\"momentType\":\"PROCESS_START\",\"stepKey\":null},\"name\":\"进入待命\",\"operation\":\"ENABLE\",\"operationKey\":\"set_ready\",\"optionKey\":null,\"sortOrder\":10,\"stateKey\":\"spellblade_ready\",\"value\":null},{\"moment\":{\"momentType\":\"STEP_EXECUTION\",\"stepKey\":\"empowered_hit\"},\"name\":\"命中消费待命\",\"operation\":\"DISABLE\",\"operationKey\":\"consume_ready\",\"optionKey\":null,\"sortOrder\":30,\"stateKey\":\"spellblade_ready\",\"value\":null},{\"moment\":{\"momentType\":\"STEP_EXECUTION\",\"stepKey\":\"empowered_hit\"},\"name\":\"命中开始冷却\",\"operation\":\"START\",\"operationKey\":\"start_icd\",\"optionKey\":null,\"sortOrder\":40,\"stateKey\":\"spellblade_icd\",\"value\":null},{\"moment\":{\"momentType\":\"STEP_TIMEOUT\",\"stepKey\":\"empowered_hit\"},\"name\":\"超时结束待命\",\"operation\":\"DISABLE\",\"operationKey\":\"timeout_ready\",\"optionKey\":null,\"sortOrder\":50,\"stateKey\":\"spellblade_ready\",\"value\":null}],\"steps\":[{\"description\":\"等待实际普攻命中，取该次普攻目标；待击窗口为项目近似。\",\"detail\":{\"consumeMoment\":\"ATTACK_HIT\",\"windowValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"spellblade_window_ms\"}},\"name\":\"等待强化普通攻击命中\",\"sortOrder\":10,\"stepKey\":\"empowered_hit\",\"stepType\":\"EMPOWERED_BASIC_ATTACK\"}],\"updatedAt\":\"2026-09-24T03:58:52.964669Z\"}"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/internal-states/spellblade_icd",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-24T03:41:05.583581Z\",\"description\":\"冷却1500毫秒来自本物品资料。命中消费后起算、超时不启动为项目近似。\",\"detail\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"spellblade_cooldown_ms\"}},\"gameId\":\"lol\",\"name\":\"咒刃内部冷却\",\"scope\":\"SKILL\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":20,\"stateKey\":\"spellblade_icd\",\"stateType\":\"INTERNAL_COOLDOWN\",\"updatedAt\":\"2026-09-24T03:41:05.583581Z\"}"
+    }
+  ],
+  "responseHeadersOrCookiesStored": false,
+  "triggerListEmpty": true,
+  "targetRule404": true,
+  "referencedProcessExists": true,
+  "cooldownStateExists": true
+}

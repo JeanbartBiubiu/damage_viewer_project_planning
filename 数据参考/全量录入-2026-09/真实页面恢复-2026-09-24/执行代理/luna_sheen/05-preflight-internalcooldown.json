@@ -1,0 +1,26 @@
+{
+  "getRecords": [
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/internal-states",
+      "status": 200,
+      "body": "[{\"createdAt\":\"2026-09-24T03:32:38.200374Z\",\"description\":\"普通成功首次主动施法且冷却就绪时开启；重复施法刷新窗口，强化普攻命中或超时关闭。窗口与刷新按项目近似。\",\"gameId\":\"lol\",\"name\":\"咒刃待命\",\"scope\":\"SKILL\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":10,\"stateKey\":\"spellblade_ready\",\"stateType\":\"FLAG\",\"updatedAt\":\"2026-09-24T03:32:38.200374Z\"}]"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/internal-states/spellblade_icd",
+      "status": 404,
+      "body": "{\"error\":{\"code\":\"404.SKILL_INTERNAL_STATE_NOT_FOUND\",\"details\":{\"stateKey\":\"spellblade_icd\"},\"message\":\"技能内部状态不存在\"}}"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-07T16:06:32.311716Z\",\"description\":\"客户端咒刃冷却时间，单位：毫秒；冷却消费规则待运行时接线。\",\"fixedValue\":1500,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"咒刃冷却时间\",\"parameterKey\":\"spellblade_cooldown_ms\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":20,\"updatedAt\":\"2026-09-07T16:06:32.311716Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"}"
+    }
+  ],
+  "responseHeadersOrCookiesStored": false,
+  "targetDetail404": true,
+  "statesContainOnlyApprovedPreviousState": true,
+  "existingCooldownParameterUnchanged": true
+}

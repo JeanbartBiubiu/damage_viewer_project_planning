@@ -1,0 +1,205 @@
+{
+  "at": "2026-09-24T12:58:43.309Z",
+  "status": "ORIGINAL_AND_PEER_ORDINARY_SOURCE_COMPONENT_CLOSED",
+  "actualExecutor": {
+    "model": "gpt-6-sol",
+    "effort": "max"
+  },
+  "realPageUpdates": 4,
+  "successful200": 4,
+  "independentSavedWriteGETs": 152,
+  "protectedModifierZones": 11,
+  "sourceAuditSha256": "3199c6b831425b30b8c9e08ac075c27dc239a5d641fb9593cc731724c359ebe6",
+  "runtimeReport": "普通伤害来源准备/17-正式保存来源范围工作线程.json",
+  "passedWorkerTests": 6,
+  "runtimeGETs": 92,
+  "finalSavedDataMatchesRuntimeInputs": true,
+  "sourceCases": [
+    {
+      "skillKey": "annie_q",
+      "runeSkillKey": "rune_8014_passive",
+      "cases": [
+        {
+          "owner": "source",
+          "receiverHp": 399,
+          "raw": 160,
+          "expectedDamage": 86.4,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 400,
+          "raw": 160,
+          "expectedDamage": 80,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 401,
+          "raw": 160,
+          "expectedDamage": 80,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "target",
+          "receiverHp": 399,
+          "raw": 160,
+          "expectedDamage": 86.4,
+          "unknownDamageRejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "annie_q",
+      "runeSkillKey": "rune_8017_passive",
+      "cases": [
+        {
+          "owner": "source",
+          "receiverHp": 599,
+          "raw": 160,
+          "expectedDamage": 80,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 600,
+          "raw": 160,
+          "expectedDamage": 80,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 601,
+          "raw": 160,
+          "expectedDamage": 86.4,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "target",
+          "receiverHp": 601,
+          "raw": 160,
+          "expectedDamage": 86.4,
+          "unknownDamageRejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "garen_r",
+      "runeSkillKey": "rune_8014_passive",
+      "cases": [
+        {
+          "owner": "source",
+          "receiverHp": 399,
+          "raw": 275.25,
+          "expectedDamage": 297.27000000000004,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 400,
+          "raw": 275,
+          "expectedDamage": 275,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 401,
+          "raw": 274.75,
+          "expectedDamage": 274.75,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "target",
+          "receiverHp": 399,
+          "raw": 275.25,
+          "expectedDamage": 297.27000000000004,
+          "unknownDamageRejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "garen_r",
+      "runeSkillKey": "rune_8017_passive",
+      "cases": [
+        {
+          "owner": "source",
+          "receiverHp": 599,
+          "raw": 225.25,
+          "expectedDamage": 225.25,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 600,
+          "raw": 225,
+          "expectedDamage": 225,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 601,
+          "raw": 224.75,
+          "expectedDamage": 242.73000000000002,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "target",
+          "receiverHp": 601,
+          "raw": 224.75,
+          "expectedDamage": 242.73000000000002,
+          "unknownDamageRejected": true
+        }
+      ]
+    }
+  ],
+  "physicalCases": [
+    {
+      "runeSkillKey": "rune_8014_passive",
+      "scope": "已保存符文加明确普通物理普攻输入；不是共享普攻正式组成",
+      "hps": [
+        399,
+        400,
+        401
+      ],
+      "damages": [
+        108,
+        100,
+        100
+      ],
+      "restoredDamage": [
+        100,
+        108
+      ],
+      "reverseDamage": 108
+    },
+    {
+      "runeSkillKey": "rune_8017_passive",
+      "scope": "已保存符文加明确普通物理普攻输入；不是共享普攻正式组成",
+      "hps": [
+        599,
+        600,
+        601
+      ],
+      "damages": [
+        100,
+        100,
+        108
+      ],
+      "restoredDamage": [
+        108,
+        100
+      ],
+      "reverseDamage": 108
+    }
+  ],
+  "formalSourceRuntimeScenes": 16,
+  "formalExpandedRuntimePassed": true,
+  "scope": "已保存两符文的逐笔门槛与过滤组成；安妮Q/盖伦R完整所选命中伤害来源及明确物理普攻输入；其余技能分支和来源不由本批证明",
+  "pending": [
+    "父效果表与行为总览过滤/门槛摘要遗漏的修复及原对象同类0写返回",
+    "共享普攻结果级暴击倍率与命中联动运行缺口",
+    "其他未核定来源、特殊来源及整符文范围"
+  ],
+  "wholeRunesComplete": false,
+  "coverageChanged": false
+}

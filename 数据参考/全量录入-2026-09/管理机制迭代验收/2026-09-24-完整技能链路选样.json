@@ -1,0 +1,1347 @@
+{
+  "recordedAt": "2026-09-23T17:41:18.363Z",
+  "capturedAt": "2026-09-23T17:32:45.559Z",
+  "recordType": "首批选样与只读依据，不是开发完成或运行验收",
+  "baselineCommit": "5724e5644b074b92a31c0c681d7f4dd1d00b5bd7",
+  "sourceVersion": {
+    "client": "16.17",
+    "ddragon": "16.17.1"
+  },
+  "businessWrites": 0,
+  "selectedOrder": [
+    "corki_q",
+    "garen_r",
+    "soraka_r"
+  ],
+  "unchangedScope": "不变更50名优先英雄名单、逐对象结论或完成数量；批量录入保持暂停",
+  "objects": [
+    {
+      "skillKey": "corki_q",
+      "name": "库奇·磷光炸弹",
+      "counts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 2,
+        "processes": 1,
+        "rules": 2
+      },
+      "missingInitialPhase": [
+        "on_used"
+      ],
+      "processKeys": [
+        "cast"
+      ],
+      "effectResults": [
+        {
+          "effectKey": "mana_cost",
+          "results": [
+            {
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "primary_hit",
+          "results": [
+            {
+              "resultKey": "magic_damage",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "magic_damage",
+                  "kind": "FORMULA"
+                }
+              },
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "magic",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampOverrides": [],
+                "vampQualification": "RESOLVED"
+              }
+            }
+          ]
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "magic_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_attack_damage_ratio"
+                      },
+                      {
+                        "attributeKey": "attack_damage",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "BONUS",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        }
+      ],
+      "events": [
+        {
+          "ruleKey": "on_used",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "corki_q",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动磷光炸弹施法过程",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ]
+        },
+        {
+          "ruleKey": "resolve_on_q_hit",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "corki_q",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "champion_target",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 10
+                },
+                {
+                  "conditionKey": "enemy_target",
+                  "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                  "detail": {},
+                  "sortOrder": 20
+                }
+              ],
+              "groupKey": "champion_target",
+              "name": "本轮敌方英雄",
+              "sortOrder": 10
+            }
+          ],
+          "actions": [
+            {
+              "actionKey": "action_1",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "primary_hit"
+              },
+              "name": "对当前目标命中伤害",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ]
+        }
+      ],
+      "processes": [
+        {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-18T19:05:53.933491Z",
+          "description": "负责法力消耗、施法延迟和基础冷却；命中效果由实际 SKILL_HIT 规则触发。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "施放磷光炸弹",
+          "processKey": "cast",
+          "skillKey": "corki_q",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "读取当前技能 250 毫秒施法参数。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "施法时间",
+              "sortOrder": 10,
+              "stepKey": "cast_time",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-18T19:05:53.933491Z"
+        }
+      ],
+      "parameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 105,
+            "3": 150,
+            "4": 195,
+            "5": 240
+          }
+        },
+        {
+          "parameterKey": "bonus_attack_damage_ratio",
+          "valueMode": "FIXED",
+          "fixedValue": 1.25,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 9000,
+            "2": 8500,
+            "3": 8000,
+            "4": 7500,
+            "5": 7000
+          }
+        },
+        {
+          "parameterKey": "mana_cost",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          }
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ]
+    },
+    {
+      "skillKey": "garen_r",
+      "name": "盖伦·德玛西亚正义",
+      "counts": {
+        "parameters": 6,
+        "formulas": 1,
+        "effects": 1,
+        "processes": 1,
+        "rules": 2
+      },
+      "missingInitialPhase": [
+        "on_used"
+      ],
+      "processKeys": [
+        "cast"
+      ],
+      "effectResults": [
+        {
+          "effectKey": "justice_damage",
+          "results": [
+            {
+              "resultKey": "damage",
+              "resultType": "DAMAGE",
+              "target": "TARGET",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": null,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "damage",
+                  "kind": "FORMULA"
+                }
+              },
+              "detail": {
+                "critical": {
+                  "mode": "DISALLOWED",
+                  "multiplierValue": null
+                },
+                "damageTypeKey": "real",
+                "deliveryKind": "SKILL",
+                "originKind": "DIRECT",
+                "vampOverrides": [],
+                "vampQualification": "RESOLVED"
+              }
+            }
+          ]
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "TARGET",
+                    "attributeValueKind": "MISSING",
+                    "nodeType": "ATTRIBUTE"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "missing_hp_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        }
+      ],
+      "events": [
+        {
+          "ruleKey": "on_hit",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "garen_r",
+              "useKind": null
+            },
+            "eventType": "SKILL_HIT"
+          },
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "category",
+                  "conditionType": "TARGET_CATEGORY_CHECK",
+                  "detail": {
+                    "categories": [
+                      "CHAMPION"
+                    ]
+                  },
+                  "sortOrder": 0
+                },
+                {
+                  "conditionKey": "enemy_target",
+                  "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+                  "detail": {},
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "allowed_target",
+              "name": "允许的命中目标",
+              "sortOrder": 0
+            }
+          ],
+          "actions": [
+            {
+              "actionKey": "damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "justice_damage"
+              },
+              "name": "执行效果",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 0,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ]
+        },
+        {
+          "ruleKey": "on_used",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "garen_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动德玛西亚正义施放登记",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ]
+        }
+      ],
+      "processes": [
+        {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-19T15:37:13.654865Z",
+          "description": "本次已成立主动使用登记三级普通冷却，并保留固定435毫秒基础施放步骤。该过程不生成命中，也不执行伤害；实际命中继续由独立规则处理，失败取消与运行资格另证。",
+          "effectBindings": [],
+          "gameId": "lol",
+          "name": "德玛西亚正义施放登记",
+          "processKey": "cast",
+          "skillKey": "garen_r",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "固定客户端当前R根435毫秒，不用spellTotalTime替代。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "基础施放",
+              "sortOrder": 10,
+              "stepKey": "cast_delay",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-19T15:37:13.654865Z"
+        }
+      ],
+      "parameters": [
+        {
+          "parameterKey": "base_damage",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 125,
+            "2": 200,
+            "3": 275
+          }
+        },
+        {
+          "parameterKey": "missing_hp_ratio",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.25,
+            "2": 0.3,
+            "3": 0.35
+          }
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          }
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueMode": "FIXED",
+          "fixedValue": 435,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "reveal_duration_ms",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_range",
+          "valueMode": "FIXED",
+          "fixedValue": 400,
+          "levelValues": null
+        }
+      ]
+    },
+    {
+      "skillKey": "soraka_r",
+      "name": "索拉卡·祈愿",
+      "counts": {
+        "parameters": 7,
+        "formulas": 2,
+        "effects": 3,
+        "processes": 1,
+        "rules": 3
+      },
+      "missingInitialPhase": [
+        "on_used",
+        "on_used_self_heal",
+        "on_used_self_low_health_heal"
+      ],
+      "processKeys": [
+        "cast"
+      ],
+      "effectResults": [
+        {
+          "effectKey": "mana_cost",
+          "results": [
+            {
+              "resultKey": "consume_mana",
+              "resultType": "RESOURCE_CHANGE",
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "mana_cost"
+                }
+              },
+              "detail": {
+                "attributeKey": "mana",
+                "operation": "CONSUME"
+              }
+            }
+          ]
+        },
+        {
+          "effectKey": "self_heal",
+          "results": [
+            {
+              "resultKey": "heal",
+              "resultType": "DIRECT_HEAL",
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "self_heal",
+                  "kind": "FORMULA"
+                }
+              },
+              "detail": {}
+            }
+          ]
+        },
+        {
+          "effectKey": "self_low_health_heal",
+          "results": [
+            {
+              "resultKey": "heal",
+              "resultType": "DIRECT_HEAL",
+              "target": "SOURCE",
+              "valueRule": {
+                "fixedMaxValue": null,
+                "fixedMinValue": 0,
+                "fixedMultiplier": 1,
+                "value": {
+                  "formulaKey": "self_low_health_heal",
+                  "kind": "FORMULA"
+                }
+              },
+              "detail": {}
+            }
+          ]
+        }
+      ],
+      "formulas": [
+        {
+          "formulaKey": "self_heal",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_heal"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        },
+        {
+          "formulaKey": "self_low_health_heal",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_heal"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ability_power_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "low_health_multiplier"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        }
+      ],
+      "events": [
+        {
+          "ruleKey": "on_used",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "soraka_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "conditionGroups": [],
+          "actions": [
+            {
+              "actionKey": "start_cast",
+              "actionType": "START_PROCESS",
+              "detail": {
+                "processKey": "cast"
+              },
+              "name": "启动基础施放",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ]
+        },
+        {
+          "ruleKey": "on_used_self_heal",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "soraka_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "source_hp_at_or_above_threshold",
+                  "conditionType": "ATTRIBUTE_COMPARE",
+                  "detail": {
+                    "attributeKey": "hp",
+                    "attributeValueKind": "CURRENT_RATIO",
+                    "comparator": "GTE",
+                    "comparisonValue": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "low_health_threshold_ratio"
+                    },
+                    "subject": "SOURCE"
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "source_not_low_health",
+              "name": "来源对象不低于低生命阈值",
+              "sortOrder": 10
+            }
+          ],
+          "actions": [
+            {
+              "actionKey": "heal_self",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "self_heal"
+              },
+              "name": "执行自身正常治疗",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ]
+        },
+        {
+          "ruleKey": "on_used_self_low_health_heal",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "soraka_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "conditionGroups": [
+            {
+              "conditions": [
+                {
+                  "conditionKey": "source_hp_below_threshold",
+                  "conditionType": "ATTRIBUTE_COMPARE",
+                  "detail": {
+                    "attributeKey": "hp",
+                    "attributeValueKind": "CURRENT_RATIO",
+                    "comparator": "LT",
+                    "comparisonValue": {
+                      "kind": "PARAMETER",
+                      "parameterKey": "low_health_threshold_ratio"
+                    },
+                    "subject": "SOURCE"
+                  },
+                  "sortOrder": 10
+                }
+              ],
+              "groupKey": "source_low_health",
+              "name": "来源对象低于低生命阈值",
+              "sortOrder": 10
+            }
+          ],
+          "actions": [
+            {
+              "actionKey": "heal_self",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "self_low_health_heal"
+              },
+              "name": "执行自身低生命治疗",
+              "resultModifiers": [],
+              "runtimeInputBindings": [],
+              "sortOrder": 10,
+              "targetContext": "CURRENT_TARGET"
+            }
+          ]
+        }
+      ],
+      "processes": [
+        {
+          "activationType": "ACTIVE",
+          "cooldown": {
+            "durationValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cooldown_ms"
+            },
+            "startMoment": {
+              "momentType": "PROCESS_START",
+              "stepKey": null
+            }
+          },
+          "createdAt": "2026-09-19T10:08:43.288393Z",
+          "description": "登记250毫秒基础施法，以及开始时100法力消耗和普通冷却；自身治疗仍由本次使用的正常与低生命互斥规则执行，不重复挂接治疗。",
+          "effectBindings": [
+            {
+              "bindingKey": "mana_cost",
+              "effectKey": "mana_cost",
+              "moment": {
+                "momentType": "PROCESS_START",
+                "stepKey": null
+              },
+              "sortOrder": 10
+            }
+          ],
+          "gameId": "lol",
+          "name": "祈愿基础施放与消耗冷却",
+          "processKey": "cast",
+          "skillKey": "soraka_r",
+          "sortOrder": 10,
+          "stateOperations": [],
+          "steps": [
+            {
+              "description": "客户端mCastTime为0.25秒，读取既有250毫秒参数；不从延迟结束再次执行治疗。",
+              "detail": {
+                "delayValue": {
+                  "kind": "PARAMETER",
+                  "parameterKey": "cast_time_ms"
+                }
+              },
+              "name": "基础施法时间",
+              "sortOrder": 10,
+              "stepKey": "cast_delay",
+              "stepType": "DELAY"
+            }
+          ],
+          "updatedAt": "2026-09-19T10:08:43.288393Z"
+        }
+      ],
+      "parameters": [
+        {
+          "parameterKey": "base_heal",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 150,
+            "2": 250,
+            "3": 350
+          }
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "low_health_threshold_ratio",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "low_health_multiplier",
+          "valueMode": "FIXED",
+          "fixedValue": 1.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cooldown_ms",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 150000,
+            "2": 135000,
+            "3": 120000
+          }
+        },
+        {
+          "parameterKey": "mana_cost",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null
+        }
+      ]
+    }
+  ],
+  "evidenceRefs": {
+    "corki_q": "交叉试录/库奇崔斯特Q完整补录/配置算术复核.json",
+    "garen_r": "交叉试录/盖伦R管理返回核对/03-既有伤害表达式算术.json",
+    "soraka_r": "交叉试录/索拉卡R条件治疗首次页面/00-当前固定来源与范围.json",
+    "vi_q": "交叉试录/Cursor/英雄机制第七批/前十技能审查说明.md"
+  },
+  "sourceGapAudit": {
+    "soraka_r": {
+      "known": [
+        "正常治疗150/250/350加0.5总法强",
+        "严格低于40%整体乘1.5",
+        "100法力及原冷却数组",
+        "mCastTime=0.25、castFrame=7.5"
+      ],
+      "reason": "原资料仍不证明精确生效帧；按用户授权采用模拟口径即可，这一事实不再阻塞开发或验收。",
+      "originalSources": [
+        "英雄/原始资料/zh_CN/champion/Soraka.json",
+        "技能公共参数实录/客户端原文/Soraka.json.gz"
+      ],
+      "sourceUnknownButNonBlocking": [
+        "S1：治疗实际生效时点",
+        "S2：施放期间跨过40%时的条件采样时点"
+      ],
+      "userDataRequestWithdrawn": true
+    },
+    "vi_q": {
+      "status": "后续复杂代表，不进入首批；不提前要求精細时序补证",
+      "known": [
+        "6000毫秒保持窗口",
+        "3000毫秒取消冷却参数",
+        "0.5退款参数",
+        "最小伤害与额外攻击力系数",
+        "2.5最大伤害倍率",
+        "原法力与普通冷却数组"
+      ],
+      "remainingBoundary": "伤害资格由执行方先对照通用吸血规则核对；位移、碰撞、W联动不因补齐上述资料即视为完成",
+      "sourceUnknownButNonBlocking": [
+        "V1：最早释放、满伤时间与中间曲线",
+        "V2：自然到期行为及正常冷却起算",
+        "V3：主动取消/受控/死亡各自退款及冷却",
+        "V4：伤害属性读取时点"
+      ],
+      "userDataRequestWithdrawn": true
+    }
+  },
+  "implementationFindings": [
+    "5条旧使用规则缺castPhase，需正式配置补首次，不在适配器默认",
+    "管理伤害键real需与原生damage/true建立明确目录语义映射",
+    "同use身份不等于施放已准入，组合命中需与实际成功的施放及阶段关联",
+    "索拉卡直接治疗及条件需要完整宿主适配；条件冻结已有原生能力",
+    "完整加载与事件分派、支持资格、引用覆盖和产品入口目前需开发"
+  ],
+  "plan": "文档记录/详细设计/项目/管理页面与共性机制迭代计划.md：首批完整技能链路方案与模拟口径",
+  "audit": [
+    {
+      "path": "corki_q",
+      "status": 200,
+      "sha256": "ac3adcc222b46d75ad20681d71992644fac8d4b13ef04a987fdce4666e1237a0"
+    },
+    {
+      "path": "corki_q/effects",
+      "status": 200,
+      "sha256": "80c025672e6158e3910124d6be1394b5650952c247d9ad2e7406002c59255649"
+    },
+    {
+      "path": "corki_q/effects/mana_cost",
+      "status": 200,
+      "sha256": "3d988a7efc21cc6c5bfe56db499a34259f982344b352a637ed9383034c57d8d1"
+    },
+    {
+      "path": "corki_q/effects/primary_hit",
+      "status": 200,
+      "sha256": "60a1294693c56ba5720ba123943929c06c727ec0cc0f6690a86ddd2dc2540ae4"
+    },
+    {
+      "path": "corki_q/processes",
+      "status": 200,
+      "sha256": "234164b9961ba57ab9bcf2321c3ed53e0fa07126a9ff3a4e47dc7e835e2970a6"
+    },
+    {
+      "path": "corki_q/processes/cast",
+      "status": 200,
+      "sha256": "2031a8c18aa9183d140d066e95e16b6d67f04c17a23fda01fa3b29308052c0da"
+    },
+    {
+      "path": "corki_q/trigger-rules",
+      "status": 200,
+      "sha256": "95c9e50f8a064ee5800cbdb08e8fdd1344395239e7d454ae87db25f89572376c"
+    },
+    {
+      "path": "corki_q/trigger-rules/on_used",
+      "status": 200,
+      "sha256": "77f75476c28c66d0878c08ce03d4b0b346c588c26ea0e7565fa455dbeb6174ef"
+    },
+    {
+      "path": "corki_q/trigger-rules/resolve_on_q_hit",
+      "status": 200,
+      "sha256": "86d416f5a921b8ba1c5b7340bbbf8649fc8871a752bc630248fa5d442004a8a2"
+    },
+    {
+      "path": "corki_q/parameters",
+      "status": 200,
+      "sha256": "97f94b8bc987b61f7c462d5c2d57bf36c3019da19b7f3ec5fabd3769a31accc2"
+    },
+    {
+      "path": "corki_q/formulas",
+      "status": 200,
+      "sha256": "e99d676aa6450caed841400126d55b9dcfe8ea7be9ededd3afcce4e0412377a0"
+    },
+    {
+      "path": "corki_q/formulas/magic_damage",
+      "status": 200,
+      "sha256": "fe7b071de8e1abad1ad19de3aeed9c58aea7143da081a8408a8a525f17091679"
+    },
+    {
+      "path": "corki_q/internal-states",
+      "status": 200,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "soraka_r",
+      "status": 200,
+      "sha256": "523da592d12aeac727be6a033d06e83f9f76b274b1424a89e104ed512328bc30"
+    },
+    {
+      "path": "soraka_r/effects",
+      "status": 200,
+      "sha256": "d7afcc5538bf84f4f0377ab43c4775b75b677d7ed92eb0aa09124e2351bc78d4"
+    },
+    {
+      "path": "soraka_r/effects/mana_cost",
+      "status": 200,
+      "sha256": "e91082cd55378d7fc23796ef75d0e91093c3d361a18443ecb8b33f7b64dad647"
+    },
+    {
+      "path": "soraka_r/effects/self_heal",
+      "status": 200,
+      "sha256": "e506ce68c6c319cd8ec26728e431814ebb1fbe8bc1d825d90e51c56953ee7b58"
+    },
+    {
+      "path": "soraka_r/effects/self_low_health_heal",
+      "status": 200,
+      "sha256": "e8b7a0fa131d9d005d0833275e2ab6a4ce43cdf8aa713ab5cb34ae4af17b89b5"
+    },
+    {
+      "path": "soraka_r/processes",
+      "status": 200,
+      "sha256": "a2f9af785595b7652599a45f1703b23fc54927dbeea46f9fdb6967cb7136f1a4"
+    },
+    {
+      "path": "soraka_r/processes/cast",
+      "status": 200,
+      "sha256": "6b1a8cfae8653bd4812500da28188fe187b506308a7227a544870d12ffc058a8"
+    },
+    {
+      "path": "soraka_r/trigger-rules",
+      "status": 200,
+      "sha256": "7999befe07933ab3dca888868096702fe0d7d30d0eb7a8f67c0188f669896a69"
+    },
+    {
+      "path": "soraka_r/trigger-rules/on_used",
+      "status": 200,
+      "sha256": "b7bd33902b530c70bdef764b692d59436f3632f4c4a05c1984069420df6f8008"
+    },
+    {
+      "path": "soraka_r/trigger-rules/on_used_self_heal",
+      "status": 200,
+      "sha256": "e1baea825f652133f867608a4caf32dd1481e712ab97d5a6042085dfb23ce5ee"
+    },
+    {
+      "path": "soraka_r/trigger-rules/on_used_self_low_health_heal",
+      "status": 200,
+      "sha256": "fd6ff0bdbc822f522893b34b9427447775e49296dc5d6629aa880e1db28e691d"
+    },
+    {
+      "path": "soraka_r/parameters",
+      "status": 200,
+      "sha256": "184232169965185e23e144943ba06528b4ddc6c124038dd1ef61399ef8303ed9"
+    },
+    {
+      "path": "soraka_r/formulas",
+      "status": 200,
+      "sha256": "1f7aa389feaae4c230d1faaed3fe8a9fce1b7939680a845ed09d04d92fcaadeb"
+    },
+    {
+      "path": "soraka_r/formulas/self_heal",
+      "status": 200,
+      "sha256": "ca67a13ba3dddd160f969e2f46fd4f39a81bed0a06d66a8e2ef28b7ca5be2e12"
+    },
+    {
+      "path": "soraka_r/formulas/self_low_health_heal",
+      "status": 200,
+      "sha256": "aaf95f81f3fbf8da8de2bd792d88bd8e4436a433a2bab44199ea6af95f11388f"
+    },
+    {
+      "path": "soraka_r/internal-states",
+      "status": 200,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "garen_r",
+      "status": 200,
+      "sha256": "be7659ad35a7d3321ce582c359b93c09c92d5fad0b7fc94ed211dfc810a007c3"
+    },
+    {
+      "path": "garen_r/effects",
+      "status": 200,
+      "sha256": "2dc60c6f3241cb859f89bbcfbe807a72692de95515e7d5c8e315326f5b52faa8"
+    },
+    {
+      "path": "garen_r/effects/justice_damage",
+      "status": 200,
+      "sha256": "c5b370df0d167ae0573ed2f11640b0fe23b50690635de1620ccd5142e32a5868"
+    },
+    {
+      "path": "garen_r/processes",
+      "status": 200,
+      "sha256": "4f896bc962cab6b4abfb49d36aa7a5f3133e98f10d3c8a0350a1148008db1572"
+    },
+    {
+      "path": "garen_r/processes/cast",
+      "status": 200,
+      "sha256": "4eb0974e0828fab93bea295d0f7b2c3f7e015dfc342961855a0c80a1c348ddf5"
+    },
+    {
+      "path": "garen_r/trigger-rules",
+      "status": 200,
+      "sha256": "ff47d0c0cb76b5712893c60496cfd014980295d191f0aefe72943213c2b1c849"
+    },
+    {
+      "path": "garen_r/trigger-rules/on_hit",
+      "status": 200,
+      "sha256": "029997f365e25a5c3abc40e7e412abbd16f0d3fb76dbc4ab19785e170493cce4"
+    },
+    {
+      "path": "garen_r/trigger-rules/on_used",
+      "status": 200,
+      "sha256": "ce11164bd97c6e648b9d2d7bef0d78bf60c1d0d7f7cfef90ad89a9f762e4ca95"
+    },
+    {
+      "path": "garen_r/parameters",
+      "status": 200,
+      "sha256": "f7fb54fd2a90c389c9a02fd6348688954c8ba808e727a60d95a562e0933b5cfe"
+    },
+    {
+      "path": "garen_r/formulas",
+      "status": 200,
+      "sha256": "b6708985319c62c087147bab48f95a815d8eeac229823b8e6305cfbb8a25643c"
+    },
+    {
+      "path": "garen_r/formulas/damage",
+      "status": 200,
+      "sha256": "17872fdca4e673a722b744bd8f60cec37bc3ef347dcb600d3d7700b51b1f40f6"
+    },
+    {
+      "path": "garen_r/internal-states",
+      "status": 200,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "nasus_p",
+      "status": 200,
+      "sha256": "7429a53b7eb5c03c2e7644c1b1627e9485278b86567248f0e7317eb53edeed28"
+    },
+    {
+      "path": "nasus_p/effects",
+      "status": 200,
+      "sha256": "b8f22fb33b1002e554e4578f957b2b2b7384d2b80443ef8efd2b71e235c13c30"
+    },
+    {
+      "path": "nasus_p/effects/soul_eater_lifesteal",
+      "status": 200,
+      "sha256": "41f2e3a3b1e3b30280dcaeef0f5dcb9a4d9b5ef890dba45272303e977d0c3130"
+    },
+    {
+      "path": "nasus_p/processes",
+      "status": 200,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "nasus_p/trigger-rules",
+      "status": 200,
+      "sha256": "7f51df257ca175ecde4f6c269593356783d64a7b4f01dcf25ee8f69be04166ac"
+    },
+    {
+      "path": "nasus_p/trigger-rules/initialize_lifesteal",
+      "status": 200,
+      "sha256": "0891d65f3955c3ffe1b79e5d3d95d35a51c6b09f868a7abe9699458a18393251"
+    },
+    {
+      "path": "nasus_p/parameters",
+      "status": 200,
+      "sha256": "a39589243aae12d984ebda992f0c231ce4c01b0c94ba94afc7cf60ca4b5a5896"
+    },
+    {
+      "path": "nasus_p/formulas",
+      "status": 200,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "nasus_p/internal-states",
+      "status": 200,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "vi_q",
+      "status": 200,
+      "sha256": "ae5264e1c53de06713d5d5e16a6c173ca10c22fe4cd613e62750a6c3c71da45d"
+    },
+    {
+      "path": "vi_q/effects",
+      "status": 200,
+      "sha256": "ae5cb10aaf95908457d4bc379de369e16f04894374509a23bc98cd8c68559cec"
+    },
+    {
+      "path": "vi_q/effects/mana_cost",
+      "status": 200,
+      "sha256": "c3b26f8fb40a9406f8100f4fb56cd77647a087576c2adfb48404ed244d470f97"
+    },
+    {
+      "path": "vi_q/effects/min_damage",
+      "status": 200,
+      "sha256": "dd4813ae7cada30733dd3fc954cdad8f4a712bb2fa3185f97820f0f55e47cba0"
+    },
+    {
+      "path": "vi_q/effects/max_damage",
+      "status": 200,
+      "sha256": "493ef072b32a1fa51452ea8ca5e15e0db98d86455796ddfa96f5dd2c5e3a3a98"
+    },
+    {
+      "path": "vi_q/processes",
+      "status": 200,
+      "sha256": "4efed2166c4746da2dd9ea5a21b6ba4cf41e09c9eab18487eafe0f2defa9953e"
+    },
+    {
+      "path": "vi_q/processes/cast",
+      "status": 200,
+      "sha256": "a9056d2a2647104112c75557d18335cf2ab9182bf480c36cd3c7b53efc99125c"
+    },
+    {
+      "path": "vi_q/trigger-rules",
+      "status": 200,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "vi_q/parameters",
+      "status": 200,
+      "sha256": "bfc868c7beaf5d522377f93a6fe8ae2dcf7c180a3bbc28b4be460d4d3441955a"
+    },
+    {
+      "path": "vi_q/formulas",
+      "status": 200,
+      "sha256": "1a7886d86331ce788a542cafe0e1f9defac91e0554ca13fa86797e3f8c72c435"
+    },
+    {
+      "path": "vi_q/formulas/min_damage",
+      "status": 200,
+      "sha256": "bb7e084bd9666414dea74c538ff0c2579bad644e3b314d0ed7af972e1f5be0d1"
+    },
+    {
+      "path": "vi_q/formulas/max_damage",
+      "status": 200,
+      "sha256": "e3a22ddc7ad6bf8fab50f04b7d61247f935f47aea3dfefd9bcf5946ab450d939"
+    },
+    {
+      "path": "vi_q/internal-states",
+      "status": 200,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ],
+  "validation": {
+    "staticDocumentAndReadbackOnly": true,
+    "newRuntimeChecks": false,
+    "formalDataChanged": false,
+    "countsChanged": false
+  },
+  "planReview": {
+    "scope": "此前只读复核选样、实施顺序与拒绝边界；随后用户直接决定按描述模拟，原精细时点补证要求已撤销",
+    "blockingIssues": 0,
+    "reviewer": "独立代码定位代理",
+    "verdict": "READY",
+    "implementationContract": "命中关联字段与错误路径在实施前进一步冻结"
+  },
+  "precisionDecision": {
+    "requiredUserData": [],
+    "rule": "优先描述中的伤害/治疗/倍率/资格/次数与主要冷却；细微时点可合理简化并记录",
+    "source": "2026-09-24用户明确：按描述即可，后续偏差再调整，伤害模拟器不要求完全一致",
+    "sorakaR": {
+      "processEnd": "250毫秒过程结束不重复治疗",
+      "healMoment": "首次施放准入成功时",
+      "conditionMoment": "本次治疗结算前生命比例，匹配集合只固定一次",
+      "threshold": "严格低于0.4用1.5倍，否则普通治疗"
+    },
+    "hitPreset": "可采用施放完成后单目标立即命中预设，明示模拟假设，仍执行资源/冷却/阶段准入",
+    "viQ": "后续按描述与已有数值收敛模拟口径，不提前要求负责人补查V1至V4"
+  }
+}

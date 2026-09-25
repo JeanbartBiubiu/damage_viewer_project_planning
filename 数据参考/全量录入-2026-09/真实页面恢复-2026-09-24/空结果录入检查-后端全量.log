@@ -1,0 +1,1135 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< xyz.game:data_manage >------------------------
+[INFO] Building data_manage 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ data_manage ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 24 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ data_manage ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ data_manage ---
+[INFO] Copying 3 resources from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ data_manage ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.3:test (default-test) @ data_manage ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running xyz.game.datamanage.config.JsonNumericPrecisionTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.328 s -- in xyz.game.datamanage.config.JsonNumericPrecisionTest
+[INFO] Running xyz.game.datamanage.config.RedisLettuceConfigTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.111 s -- in xyz.game.datamanage.config.RedisLettuceConfigTest
+[INFO] Running xyz.game.datamanage.config.WebCorsConfigTest
+14:18:13.465 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [xyz.game.datamanage.config.WebCorsConfigTest]: WebCorsConfigTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:18:13.626 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.config.WebCorsConfigTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:13.928+08:00  INFO 5116 --- [           main] x.g.datamanage.config.WebCorsConfigTest  : Starting WebCorsConfigTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:13.930+08:00  INFO 5116 --- [           main] x.g.datamanage.config.WebCorsConfigTest  : No active profile set, falling back to 1 default profile: "default"
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\Administrator\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.5\byte-buddy-agent-1.17.5.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-09-24T14:18:16.340+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:16.340+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:16.342+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-09-24T14:18:16.366+08:00  INFO 5116 --- [           main] x.g.datamanage.config.WebCorsConfigTest  : Started WebCorsConfigTest in 2.694 seconds (process running for 5.216)
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.065 s -- in xyz.game.datamanage.config.WebCorsConfigTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.AdminEditLogHelperTest
+2026-09-24T14:18:16.597+08:00  WARN 5116 --- [           main] x.g.d.c.adminapi.AdminEditLogHelper      : Admin edit log write failed and was skipped. email=admin@example.com, method=PUT, path=/api/admin/games/lol/attributes, responseCode=200
+
+java.lang.RuntimeException: db unavailable
+	at xyz.game.datamanage.service.GameDataService.recordEditLog(GameDataService.java:28) ~[classes/:na]
+	at xyz.game.datamanage.controller.adminapi.AdminEditLogHelper.log(AdminEditLogHelper.java:24) ~[classes/:na]
+	at xyz.game.datamanage.controller.adminapi.AdminEditLogHelperTest.lambda$logIsFailOpenWhenEditLogPersistenceFails$0(AdminEditLogHelperTest.java:36) ~[test-classes/:na]
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:49) ~[junit-jupiter-api-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.api.AssertDoesNotThrow.assertDoesNotThrow(AssertDoesNotThrow.java:36) ~[junit-jupiter-api-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.api.Assertions.assertDoesNotThrow(Assertions.java:3199) ~[junit-jupiter-api-5.12.2.jar:5.12.2]
+	at xyz.game.datamanage.controller.adminapi.AdminEditLogHelperTest.logIsFailOpenWhenEditLogPersistenceFails(AdminEditLogHelperTest.java:36) ~[test-classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:775) ~[junit-platform-commons-1.12.2.jar:1.12.2]
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:479) ~[junit-platform-commons-1.12.2.jar:1.12.2]
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:161) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:152) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:91) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:112) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:94) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:93) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:87) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:216) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:212) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:137) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:156) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:201) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:170) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:94) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:59) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:142) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:58) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$1(InterceptingLauncher.java:39) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:38) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:194) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:150) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:124) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385) ~[surefire-booter-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162) ~[surefire-booter-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507) ~[surefire-booter-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495) ~[surefire-booter-3.5.3.jar:3.5.3]
+
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.129 s -- in xyz.game.datamanage.controller.adminapi.AdminEditLogHelperTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.attribute.AttributeAdminControllerTest
+2026-09-24T14:18:16.612+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.attribute.AttributeAdminControllerTest]: AttributeAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:16.685+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.attribute.AttributeAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:16.716+08:00  INFO 5116 --- [           main] x.g.d.c.a.a.AttributeAdminControllerTest : Starting AttributeAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:16.716+08:00  INFO 5116 --- [           main] x.g.d.c.a.a.AttributeAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:17.138+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:17.138+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:17.139+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-09-24T14:18:17.144+08:00  INFO 5116 --- [           main] x.g.d.c.a.a.AttributeAdminControllerTest : Started AttributeAdminControllerTest in 0.455 seconds (process running for 5.995)
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.812 s -- in xyz.game.datamanage.controller.adminapi.attribute.AttributeAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.character.CharacterAuthoringCheckAdminControllerTest
+2026-09-24T14:18:17.488+08:00  INFO 5116 --- [           main] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:17.488+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:17.489+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-09-24T14:18:17.495+08:00 ERROR 5116 --- [           main] x.g.d.s.error.GlobalExceptionHandler     : Unhandled exception
+
+java.lang.IllegalStateException: authoring-check test read failure
+	at xyz.game.datamanage.service.character.CharacterAuthoringCheckService.check(CharacterAuthoringCheckService.java:70) ~[classes/:na]
+	at xyz.game.datamanage.controller.adminapi.character.CharacterAuthoringCheckAdminController.check(CharacterAuthoringCheckAdminController.java:22) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.41.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72) ~[spring-test-6.2.7.jar:6.2.7]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.41.jar:6.0]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.7.jar:6.2.7]
+	at xyz.game.datamanage.support.auth.AdminAuthFilter.doFilterInternal(AdminAuthFilter.java:46) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201) ~[spring-test-6.2.7.jar:6.2.7]
+	at xyz.game.datamanage.controller.adminapi.character.CharacterAuthoringCheckAdminControllerTest.missingResourceKeepsExisting404AndReadFailureDoesNotLookLikeAReport(CharacterAuthoringCheckAdminControllerTest.java:88) ~[test-classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:775) ~[junit-platform-commons-1.12.2.jar:1.12.2]
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:479) ~[junit-platform-commons-1.12.2.jar:1.12.2]
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:161) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:152) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:91) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:112) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:94) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:93) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:87) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:216) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:212) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:137) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:156) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:201) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:170) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:94) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:59) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:142) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:58) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$1(InterceptingLauncher.java:39) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:38) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:194) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:150) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:124) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385) ~[surefire-booter-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162) ~[surefire-booter-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507) ~[surefire-booter-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495) ~[surefire-booter-3.5.3.jar:3.5.3]
+
+2026-09-24T14:18:17.502+08:00  INFO 5116 --- [           main] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:17.502+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:17.502+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:17.528+08:00  INFO 5116 --- [           main] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:17.528+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:17.528+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.107 s -- in xyz.game.datamanage.controller.adminapi.character.CharacterAuthoringCheckAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.damagetype.DamageTypeAdminControllerTest
+2026-09-24T14:18:17.535+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.damagetype.DamageTypeAdminControllerTest]: DamageTypeAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:17.597+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.damagetype.DamageTypeAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:17.618+08:00  INFO 5116 --- [           main] .g.d.c.a.d.DamageTypeAdminControllerTest : Starting DamageTypeAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:17.618+08:00  INFO 5116 --- [           main] .g.d.c.a.d.DamageTypeAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:17.947+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:17.948+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:17.948+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:17.955+08:00  INFO 5116 --- [           main] .g.d.c.a.d.DamageTypeAdminControllerTest : Started DamageTypeAdminControllerTest in 0.355 seconds (process running for 6.806)
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.459 s -- in xyz.game.datamanage.controller.adminapi.damagetype.DamageTypeAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.gamevamp.GameVampRuleAdminControllerTest
+2026-09-24T14:18:17.995+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.gamevamp.GameVampRuleAdminControllerTest]: GameVampRuleAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:18.053+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.gamevamp.GameVampRuleAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:18.071+08:00  INFO 5116 --- [           main] .d.c.a.g.GameVampRuleAdminControllerTest : Starting GameVampRuleAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:18.071+08:00  INFO 5116 --- [           main] .d.c.a.g.GameVampRuleAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:18.382+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:18.382+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:18.382+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:18.388+08:00  INFO 5116 --- [           main] .d.c.a.g.GameVampRuleAdminControllerTest : Started GameVampRuleAdminControllerTest in 0.333 seconds (process running for 7.239)
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.502 s -- in xyz.game.datamanage.controller.adminapi.gamevamp.GameVampRuleAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.image.ImageAdminControllerTest
+2026-09-24T14:18:18.499+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.image.ImageAdminControllerTest]: ImageAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:18.558+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.image.ImageAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:18.579+08:00  INFO 5116 --- [           main] x.g.d.c.a.i.ImageAdminControllerTest     : Starting ImageAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:18.579+08:00  INFO 5116 --- [           main] x.g.d.c.a.i.ImageAdminControllerTest     : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:18.873+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:18.873+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:18.873+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:18.878+08:00  INFO 5116 --- [           main] x.g.d.c.a.i.ImageAdminControllerTest     : Started ImageAdminControllerTest in 0.318 seconds (process running for 7.729)
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.425 s -- in xyz.game.datamanage.controller.adminapi.image.ImageAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.imagerelation.ImageRelationAdminControllerTest
+2026-09-24T14:18:18.926+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.imagerelation.ImageRelationAdminControllerTest]: ImageRelationAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:18.977+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.imagerelation.ImageRelationAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:18.991+08:00  INFO 5116 --- [           main] d.c.a.i.ImageRelationAdminControllerTest : Starting ImageRelationAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:18.992+08:00  INFO 5116 --- [           main] d.c.a.i.ImageRelationAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:19.407+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:19.407+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:19.407+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:19.411+08:00  INFO 5116 --- [           main] d.c.a.i.ImageRelationAdminControllerTest : Started ImageRelationAdminControllerTest in 0.432 seconds (process running for 8.263)
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.656 s -- in xyz.game.datamanage.controller.adminapi.imagerelation.ImageRelationAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.imagerelation.ImageRelationWriteTransactionTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.126 s -- in xyz.game.datamanage.controller.adminapi.imagerelation.ImageRelationWriteTransactionTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.modifierzone.ModifierZoneAdminControllerTest
+2026-09-24T14:18:19.712+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.modifierzone.ModifierZoneAdminControllerTest]: ModifierZoneAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:19.763+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.modifierzone.ModifierZoneAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:19.778+08:00  INFO 5116 --- [           main] .d.c.a.m.ModifierZoneAdminControllerTest : Starting ModifierZoneAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:19.778+08:00  INFO 5116 --- [           main] .d.c.a.m.ModifierZoneAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:20.087+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:20.087+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:20.087+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:20.092+08:00  INFO 5116 --- [           main] .d.c.a.m.ModifierZoneAdminControllerTest : Started ModifierZoneAdminControllerTest in 0.327 seconds (process running for 8.943)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.412 s -- in xyz.game.datamanage.controller.adminapi.modifierzone.ModifierZoneAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.rune.RuneAdminControllerTest
+2026-09-24T14:18:20.185+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.rune.RuneAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:20.202+08:00  INFO 5116 --- [           main] x.g.d.c.a.rune.RuneAdminControllerTest   : Starting RuneAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:20.202+08:00  INFO 5116 --- [           main] x.g.d.c.a.rune.RuneAdminControllerTest   : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:20.638+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:20.638+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:20.638+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:20.643+08:00  INFO 5116 --- [           main] x.g.d.c.a.rune.RuneAdminControllerTest   : Started RuneAdminControllerTest in 0.456 seconds (process running for 9.494)
+2026-09-24T14:18:20.659+08:00 ERROR 5116 --- [           main] x.g.d.s.error.GlobalExceptionHandler     : Unhandled exception
+
+java.lang.IllegalStateException: ģ����־ʧ��
+	at xyz.game.datamanage.controller.adminapi.rune.RuneAdminControllerTest.lambda$editLogFailureRollsBackWholeConfigurationWriteTransaction$2(RuneAdminControllerTest.java:175) ~[test-classes/:na]
+	at org.mockito.internal.stubbing.StubbedInvocationMatcher.answer(StubbedInvocationMatcher.java:42) ~[mockito-core-5.17.0.jar:na]
+	at org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:103) ~[mockito-core-5.17.0.jar:na]
+	at org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29) ~[mockito-core-5.17.0.jar:na]
+	at org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:34) ~[mockito-core-5.17.0.jar:na]
+	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:84) ~[mockito-core-5.17.0.jar:na]
+	at org.mockito.internal.creation.bytebuddy.MockMethodAdvice.handle(MockMethodAdvice.java:136) ~[mockito-core-5.17.0.jar:na]
+	at xyz.game.datamanage.service.GameDataService.recordEditLog(GameDataService.java:28) ~[classes/:na]
+	at xyz.game.datamanage.controller.adminapi.rune.RuneAdminController.create(RuneAdminController.java:47) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-6.2.7.jar:6.2.7]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196) ~[spring-aop-6.2.7.jar:6.2.7]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-6.2.7.jar:6.2.7]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380) ~[spring-tx-6.2.7.jar:6.2.7]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119) ~[spring-tx-6.2.7.jar:6.2.7]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.2.7.jar:6.2.7]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:728) ~[spring-aop-6.2.7.jar:6.2.7]
+	at xyz.game.datamanage.controller.adminapi.rune.RuneAdminController$$SpringCGLIB$$0.create(<generated>) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590) ~[tomcat-embed-core-10.1.41.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72) ~[spring-test-6.2.7.jar:6.2.7]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.41.jar:6.0]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.7.jar:6.2.7]
+	at xyz.game.datamanage.support.auth.AdminAuthFilter.doFilterInternal(AdminAuthFilter.java:46) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:162) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:162) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:162) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:162) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201) ~[spring-test-6.2.7.jar:6.2.7]
+	at xyz.game.datamanage.controller.adminapi.rune.RuneAdminControllerTest.editLogFailureRollsBackWholeConfigurationWriteTransaction(RuneAdminControllerTest.java:177) ~[test-classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:775) ~[junit-platform-commons-1.12.2.jar:1.12.2]
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:479) ~[junit-platform-commons-1.12.2.jar:1.12.2]
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:161) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:152) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:91) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:112) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:94) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:93) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:87) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:216) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:212) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:137) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:156) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:201) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:170) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:94) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:59) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:142) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:58) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$1(InterceptingLauncher.java:39) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:38) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:194) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:150) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:124) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385) ~[surefire-booter-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162) ~[surefire-booter-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507) ~[surefire-booter-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495) ~[surefire-booter-3.5.3.jar:3.5.3]
+
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.593 s -- in xyz.game.datamanage.controller.adminapi.rune.RuneAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.skill.SkillAdminControllerTest
+2026-09-24T14:18:20.721+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.skill.SkillAdminControllerTest]: SkillAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:20.774+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.skill.SkillAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:20.791+08:00  INFO 5116 --- [           main] x.g.d.c.a.s.SkillAdminControllerTest     : Starting SkillAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:20.791+08:00  INFO 5116 --- [           main] x.g.d.c.a.s.SkillAdminControllerTest     : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:21.096+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:21.096+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:21.096+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:21.100+08:00  INFO 5116 --- [           main] x.g.d.c.a.s.SkillAdminControllerTest     : Started SkillAdminControllerTest in 0.324 seconds (process running for 9.951)
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.426 s -- in xyz.game.datamanage.controller.adminapi.skill.SkillAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.skillcategory.SkillCategoryAdminControllerTest
+2026-09-24T14:18:21.148+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.skillcategory.SkillCategoryAdminControllerTest]: SkillCategoryAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:21.196+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.skillcategory.SkillCategoryAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:21.211+08:00  INFO 5116 --- [           main] d.c.a.s.SkillCategoryAdminControllerTest : Starting SkillCategoryAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:21.211+08:00  INFO 5116 --- [           main] d.c.a.s.SkillCategoryAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:21.501+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:21.502+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:21.502+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:21.505+08:00  INFO 5116 --- [           main] d.c.a.s.SkillCategoryAdminControllerTest : Started SkillCategoryAdminControllerTest in 0.307 seconds (process running for 10.357)
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.388 s -- in xyz.game.datamanage.controller.adminapi.skillcategory.SkillCategoryAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.skilleffect.SkillEffectAdminControllerTest
+2026-09-24T14:18:21.536+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.skilleffect.SkillEffectAdminControllerTest]: SkillEffectAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:21.585+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.skilleffect.SkillEffectAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:21.601+08:00  INFO 5116 --- [           main] g.d.c.a.s.SkillEffectAdminControllerTest : Starting SkillEffectAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:21.601+08:00  INFO 5116 --- [           main] g.d.c.a.s.SkillEffectAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:21.907+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:21.907+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:21.907+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:21.911+08:00  INFO 5116 --- [           main] g.d.c.a.s.SkillEffectAdminControllerTest : Started SkillEffectAdminControllerTest in 0.323 seconds (process running for 10.761)
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.656 s -- in xyz.game.datamanage.controller.adminapi.skilleffect.SkillEffectAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.skillformula.SkillFormulaAdminControllerTest
+2026-09-24T14:18:22.195+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.skillformula.SkillFormulaAdminControllerTest]: SkillFormulaAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:22.251+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.skillformula.SkillFormulaAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:22.264+08:00  INFO 5116 --- [           main] .d.c.a.s.SkillFormulaAdminControllerTest : Starting SkillFormulaAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:22.264+08:00  INFO 5116 --- [           main] .d.c.a.s.SkillFormulaAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:22.543+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:22.543+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:22.543+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:22.546+08:00  INFO 5116 --- [           main] .d.c.a.s.SkillFormulaAdminControllerTest : Started SkillFormulaAdminControllerTest in 0.294 seconds (process running for 11.397)
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.482 s -- in xyz.game.datamanage.controller.adminapi.skillformula.SkillFormulaAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.skillinternalstate.SkillInternalStateAdminControllerTest
+2026-09-24T14:18:22.677+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.skillinternalstate.SkillInternalStateAdminControllerTest]: SkillInternalStateAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:22.730+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.skillinternalstate.SkillInternalStateAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:22.747+08:00  INFO 5116 --- [           main] .s.SkillInternalStateAdminControllerTest : Starting SkillInternalStateAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:22.747+08:00  INFO 5116 --- [           main] .s.SkillInternalStateAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:23.029+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:23.029+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:23.029+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:23.033+08:00  INFO 5116 --- [           main] .s.SkillInternalStateAdminControllerTest : Started SkillInternalStateAdminControllerTest in 0.301 seconds (process running for 11.884)
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.451 s -- in xyz.game.datamanage.controller.adminapi.skillinternalstate.SkillInternalStateAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.skillparameter.SkillParameterAdminControllerTest
+2026-09-24T14:18:23.128+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.skillparameter.SkillParameterAdminControllerTest]: SkillParameterAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:23.176+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.skillparameter.SkillParameterAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:23.188+08:00  INFO 5116 --- [           main] .c.a.s.SkillParameterAdminControllerTest : Starting SkillParameterAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:23.189+08:00  INFO 5116 --- [           main] .c.a.s.SkillParameterAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:23.471+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:23.471+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:23.471+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:23.473+08:00  INFO 5116 --- [           main] .c.a.s.SkillParameterAdminControllerTest : Started SkillParameterAdminControllerTest in 0.295 seconds (process running for 12.324)
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.382 s -- in xyz.game.datamanage.controller.adminapi.skillparameter.SkillParameterAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.skillprocess.SkillProcessAdminControllerTest
+2026-09-24T14:18:23.511+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.skillprocess.SkillProcessAdminControllerTest]: SkillProcessAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:23.560+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.skillprocess.SkillProcessAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:23.577+08:00  INFO 5116 --- [           main] .d.c.a.s.SkillProcessAdminControllerTest : Starting SkillProcessAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:23.577+08:00  INFO 5116 --- [           main] .d.c.a.s.SkillProcessAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:23.861+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:23.861+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:23.861+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:23.865+08:00  INFO 5116 --- [           main] .d.c.a.s.SkillProcessAdminControllerTest : Started SkillProcessAdminControllerTest in 0.303 seconds (process running for 12.716)
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.473 s -- in xyz.game.datamanage.controller.adminapi.skillprocess.SkillProcessAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.skillrelation.SkillRelationAdminControllerTest
+2026-09-24T14:18:24.027+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.skillrelation.SkillRelationAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:24.039+08:00  INFO 5116 --- [           main] d.c.a.s.SkillRelationAdminControllerTest : Starting SkillRelationAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:24.039+08:00  INFO 5116 --- [           main] d.c.a.s.SkillRelationAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:24.426+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:24.426+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:24.426+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:24.430+08:00  INFO 5116 --- [           main] d.c.a.s.SkillRelationAdminControllerTest : Started SkillRelationAdminControllerTest in 0.401 seconds (process running for 13.281)
+2026-09-24T14:18:24.511+08:00 ERROR 5116 --- [           main] x.g.d.s.error.GlobalExceptionHandler     : Unhandled exception
+
+java.lang.IllegalStateException: ������־д��ʧ��
+	at xyz.game.datamanage.controller.adminapi.skillrelation.SkillRelationAdminControllerTest.lambda$logFailureRollsBackSameTransactionAsRelationWrite$1(SkillRelationAdminControllerTest.java:196) ~[test-classes/:na]
+	at org.mockito.internal.stubbing.StubbedInvocationMatcher.answer(StubbedInvocationMatcher.java:42) ~[mockito-core-5.17.0.jar:na]
+	at org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:103) ~[mockito-core-5.17.0.jar:na]
+	at org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29) ~[mockito-core-5.17.0.jar:na]
+	at org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:34) ~[mockito-core-5.17.0.jar:na]
+	at org.mockito.internal.creation.bytebuddy.access.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:84) ~[mockito-core-5.17.0.jar:na]
+	at org.mockito.internal.creation.bytebuddy.MockMethodAdvice.handle(MockMethodAdvice.java:136) ~[mockito-core-5.17.0.jar:na]
+	at xyz.game.datamanage.service.GameDataService.recordEditLog(GameDataService.java:28) ~[classes/:na]
+	at xyz.game.datamanage.controller.adminapi.skillrelation.CharacterSkillRelationAdminController.create(CharacterSkillRelationAdminController.java:62) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-6.2.7.jar:6.2.7]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196) ~[spring-aop-6.2.7.jar:6.2.7]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-6.2.7.jar:6.2.7]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:380) ~[spring-tx-6.2.7.jar:6.2.7]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119) ~[spring-tx-6.2.7.jar:6.2.7]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184) ~[spring-aop-6.2.7.jar:6.2.7]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:728) ~[spring-aop-6.2.7.jar:6.2.7]
+	at xyz.game.datamanage.controller.adminapi.skillrelation.CharacterSkillRelationAdminController$$SpringCGLIB$$0.create(<generated>) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590) ~[tomcat-embed-core-10.1.41.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72) ~[spring-test-6.2.7.jar:6.2.7]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.41.jar:6.0]
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.7.jar:6.2.7]
+	at xyz.game.datamanage.support.auth.AdminAuthFilter.doFilterInternal(AdminAuthFilter.java:46) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:162) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:162) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:162) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:162) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132) ~[spring-test-6.2.7.jar:6.2.7]
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201) ~[spring-test-6.2.7.jar:6.2.7]
+	at xyz.game.datamanage.controller.adminapi.skillrelation.SkillRelationAdminControllerTest.logFailureRollsBackSameTransactionAsRelationWrite(SkillRelationAdminControllerTest.java:199) ~[test-classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:775) ~[junit-platform-commons-1.12.2.jar:1.12.2]
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:479) ~[junit-platform-commons-1.12.2.jar:1.12.2]
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:161) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:152) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:91) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:112) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:94) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:93) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:87) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:216) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:212) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:137) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:69) ~[junit-jupiter-engine-5.12.2.jar:5.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:156) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596) ~[na:na]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:160) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:146) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:144) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:143) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:100) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54) ~[junit-platform-engine-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:201) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:170) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:94) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:59) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:142) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:58) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$1(InterceptingLauncher.java:39) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:38) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47) ~[junit-platform-launcher-1.12.2.jar:1.12.2]
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:194) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:150) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:124) ~[surefire-junit-platform-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385) ~[surefire-booter-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162) ~[surefire-booter-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507) ~[surefire-booter-3.5.3.jar:3.5.3]
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495) ~[surefire-booter-3.5.3.jar:3.5.3]
+
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.536 s -- in xyz.game.datamanage.controller.adminapi.skillrelation.SkillRelationAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.skilltrigger.SkillTriggerRuleAdminControllerTest
+2026-09-24T14:18:24.521+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.skilltrigger.SkillTriggerRuleAdminControllerTest]: SkillTriggerRuleAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:24.573+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.skilltrigger.SkillTriggerRuleAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:24.586+08:00  INFO 5116 --- [           main] .a.s.SkillTriggerRuleAdminControllerTest : Starting SkillTriggerRuleAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:24.586+08:00  INFO 5116 --- [           main] .a.s.SkillTriggerRuleAdminControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:24.825+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:24.826+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:24.826+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:24.829+08:00  INFO 5116 --- [           main] .a.s.SkillTriggerRuleAdminControllerTest : Started SkillTriggerRuleAdminControllerTest in 0.254 seconds (process running for 13.68)
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.434 s -- in xyz.game.datamanage.controller.adminapi.skilltrigger.SkillTriggerRuleAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.adminapi.status.StatusAdminControllerTest
+2026-09-24T14:18:24.955+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.adminapi.status.StatusAdminControllerTest]: StatusAdminControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:24.998+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.adminapi.status.StatusAdminControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:25.030+08:00  INFO 5116 --- [           main] x.g.d.c.a.s.StatusAdminControllerTest    : Starting StatusAdminControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:25.030+08:00  INFO 5116 --- [           main] x.g.d.c.a.s.StatusAdminControllerTest    : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:25.320+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:25.321+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:25.321+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:25.324+08:00  INFO 5116 --- [           main] x.g.d.c.a.s.StatusAdminControllerTest    : Started StatusAdminControllerTest in 0.306 seconds (process running for 14.175)
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.424 s -- in xyz.game.datamanage.controller.adminapi.status.StatusAdminControllerTest
+[INFO] Running xyz.game.datamanage.controller.LegacyCombatDataHttpNotFoundTest
+2026-09-24T14:18:25.379+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.LegacyCombatDataHttpNotFoundTest]: LegacyCombatDataHttpNotFoundTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:25.424+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.LegacyCombatDataHttpNotFoundTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:25.438+08:00  INFO 5116 --- [           main] x.g.d.c.LegacyCombatDataHttpNotFoundTest : Starting LegacyCombatDataHttpNotFoundTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:25.438+08:00  INFO 5116 --- [           main] x.g.d.c.LegacyCombatDataHttpNotFoundTest : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:25.649+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:25.649+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:25.650+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-09-24T14:18:25.652+08:00  INFO 5116 --- [           main] x.g.d.c.LegacyCombatDataHttpNotFoundTest : Started LegacyCombatDataHttpNotFoundTest in 0.226 seconds (process running for 14.503)
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.297 s -- in xyz.game.datamanage.controller.LegacyCombatDataHttpNotFoundTest
+[INFO] Running xyz.game.datamanage.controller.publicapi.GamePublicControllerTest
+2026-09-24T14:18:25.677+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.publicapi.GamePublicControllerTest]: GamePublicControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:25.723+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.publicapi.GamePublicControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:25.738+08:00  INFO 5116 --- [           main] x.g.d.c.p.GamePublicControllerTest       : Starting GamePublicControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:25.738+08:00  INFO 5116 --- [           main] x.g.d.c.p.GamePublicControllerTest       : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:25.975+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:25.976+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:25.976+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:25.978+08:00  INFO 5116 --- [           main] x.g.d.c.p.GamePublicControllerTest       : Started GamePublicControllerTest in 0.253 seconds (process running for 14.83)
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.313 s -- in xyz.game.datamanage.controller.publicapi.GamePublicControllerTest
+[INFO] Running xyz.game.datamanage.controller.publicapi.ImagePublicControllerTest
+2026-09-24T14:18:25.989+08:00  INFO 5116 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [xyz.game.datamanage.controller.publicapi.ImagePublicControllerTest]: ImagePublicControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-24T14:18:25.995+08:00  INFO 5116 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration xyz.game.datamanage.DataManageApplication for test class xyz.game.datamanage.controller.publicapi.ImagePublicControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-09-24T14:18:26.008+08:00  INFO 5116 --- [           main] x.g.d.c.p.ImagePublicControllerTest      : Starting ImagePublicControllerTest using Java 21.0.2 with PID 5116 (started by Administrator in C:\project\damage_backend_dev\server\data_manage)
+2026-09-24T14:18:26.008+08:00  INFO 5116 --- [           main] x.g.d.c.p.ImagePublicControllerTest      : No active profile set, falling back to 1 default profile: "default"
+2026-09-24T14:18:26.226+08:00  INFO 5116 --- [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-24T14:18:26.226+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-24T14:18:26.226+08:00  INFO 5116 --- [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-09-24T14:18:26.228+08:00  INFO 5116 --- [           main] x.g.d.c.p.ImagePublicControllerTest      : Started ImagePublicControllerTest in 0.232 seconds (process running for 15.079)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.246 s -- in xyz.game.datamanage.controller.publicapi.ImagePublicControllerTest
+[INFO] Running xyz.game.datamanage.db.attribute.AttributeSchemaSqlTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in xyz.game.datamanage.db.attribute.AttributeSchemaSqlTest
+[INFO] Running xyz.game.datamanage.db.character.CharacterSchemaSqlTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in xyz.game.datamanage.db.character.CharacterSchemaSqlTest
+[INFO] Running xyz.game.datamanage.db.equipment.EquipmentSchemaSqlTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in xyz.game.datamanage.db.equipment.EquipmentSchemaSqlTest
+[INFO] Running xyz.game.datamanage.db.GameVampRuleSchemaSqlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in xyz.game.datamanage.db.GameVampRuleSchemaSqlTest
+[INFO] Running xyz.game.datamanage.db.image.ImageManagementDbContractSqlTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in xyz.game.datamanage.db.image.ImageManagementDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.LegacyCombatDataCleanupDbContractSqlTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 s -- in xyz.game.datamanage.db.LegacyCombatDataCleanupDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.modifierzone.ModifierZoneManagementDbContractSqlTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in xyz.game.datamanage.db.modifierzone.ModifierZoneManagementDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.RelationManagementDbContractSqlTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in xyz.game.datamanage.db.RelationManagementDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.rune.RuneSchemaSqlTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in xyz.game.datamanage.db.rune.RuneSchemaSqlTest
+[INFO] Running xyz.game.datamanage.db.skill.SkillManagementDbContractSqlTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in xyz.game.datamanage.db.skill.SkillManagementDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skill.SkillParameterFormulaManagementDbContractSqlTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in xyz.game.datamanage.db.skill.SkillParameterFormulaManagementDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skillcategory.SkillCategoryDamageTypeSchemaSqlTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in xyz.game.datamanage.db.skillcategory.SkillCategoryDamageTypeSchemaSqlTest
+[INFO] Running xyz.game.datamanage.db.skilleffect.DamageNormalShieldInteractionFoundationDbContractSqlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in xyz.game.datamanage.db.skilleffect.DamageNormalShieldInteractionFoundationDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skilleffect.EnrichedPriorResultIntegratedLinkageDbContractSqlTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in xyz.game.datamanage.db.skilleffect.EnrichedPriorResultIntegratedLinkageDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skilleffect.ExecuteHitAttackLinkageDbContractSqlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in xyz.game.datamanage.db.skilleffect.ExecuteHitAttackLinkageDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skilleffect.PersistentModifierPreDamageProtectionDbContractSqlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in xyz.game.datamanage.db.skilleffect.PersistentModifierPreDamageProtectionDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skilleffect.SkillCooldownMultiSelectDbContractSqlTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.030 s -- in xyz.game.datamanage.db.skilleffect.SkillCooldownMultiSelectDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skilleffect.SkillEffectAggregateStorageTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.131 s -- in xyz.game.datamanage.db.skilleffect.SkillEffectAggregateStorageTest
+[INFO] Running xyz.game.datamanage.db.skilleffect.SkillEffectBasicResultManagementDbContractSqlTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in xyz.game.datamanage.db.skilleffect.SkillEffectBasicResultManagementDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skilleffect.SkillEffectStatusLifecycleManagementDbContractSqlTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in xyz.game.datamanage.db.skilleffect.SkillEffectStatusLifecycleManagementDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skilleffect.SkillScopeManagementDbContractSqlTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in xyz.game.datamanage.db.skilleffect.SkillScopeManagementDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skilleffect.SpellShieldClosedLoopDbContractSqlTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in xyz.game.datamanage.db.skilleffect.SpellShieldClosedLoopDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skillprocess.SkillProcessInternalStateAuthoringDbContractSqlTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s -- in xyz.game.datamanage.db.skillprocess.SkillProcessInternalStateAuthoringDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skilltrigger.ConditionEventDynamicInputManagementDbContractSqlTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.085 s -- in xyz.game.datamanage.db.skilltrigger.ConditionEventDynamicInputManagementDbContractSqlTest
+[INFO] Running xyz.game.datamanage.db.skilltrigger.SkillTriggerEventSchemaContractTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in xyz.game.datamanage.db.skilltrigger.SkillTriggerEventSchemaContractTest
+[INFO] Running xyz.game.datamanage.db.skilltrigger.TriggerAggregateFieldContractTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in xyz.game.datamanage.db.skilltrigger.TriggerAggregateFieldContractTest
+[INFO] Running xyz.game.datamanage.db.status.StatusBasicManagementSchemaSqlTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in xyz.game.datamanage.db.status.StatusBasicManagementSchemaSqlTest
+[INFO] Running xyz.game.datamanage.mapper.MapperXmlQuotedAliasTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in xyz.game.datamanage.mapper.MapperXmlQuotedAliasTest
+[INFO] Running xyz.game.datamanage.mapper.skillformula.SkillFormulaMapperXmlParseContractTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 s -- in xyz.game.datamanage.mapper.skillformula.SkillFormulaMapperXmlParseContractTest
+[INFO] Running xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in xyz.game.datamanage.model.skilleffect.SkillEffectCooldownChangeOperationTest
+[INFO] Running xyz.game.datamanage.model.value.SkillNumericValueTest
+[INFO] Tests run: 43, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.044 s -- in xyz.game.datamanage.model.value.SkillNumericValueTest
+[INFO] Running xyz.game.datamanage.service.attribute.AttributeServiceTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.086 s -- in xyz.game.datamanage.service.attribute.AttributeServiceTest
+[INFO] Running xyz.game.datamanage.service.character.AuthoringCheckLocationResolverTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in xyz.game.datamanage.service.character.AuthoringCheckLocationResolverTest
+[INFO] Running xyz.game.datamanage.service.character.CharacterAuthoringCheckMapperTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s -- in xyz.game.datamanage.service.character.CharacterAuthoringCheckMapperTest
+[INFO] Running xyz.game.datamanage.service.character.CharacterAuthoringCheckOncePerUseTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.062 s -- in xyz.game.datamanage.service.character.CharacterAuthoringCheckOncePerUseTest
+[INFO] Running xyz.game.datamanage.service.character.CharacterAuthoringCheckServiceTest
+[INFO] Tests run: 80, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.110 s -- in xyz.game.datamanage.service.character.CharacterAuthoringCheckServiceTest
+[INFO] Running xyz.game.datamanage.service.character.CharacterServiceTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.081 s -- in xyz.game.datamanage.service.character.CharacterServiceTest
+[INFO] Running xyz.game.datamanage.service.damagetype.DamageTypeServiceTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.061 s -- in xyz.game.datamanage.service.damagetype.DamageTypeServiceTest
+[INFO] Running xyz.game.datamanage.service.equipment.EquipmentServiceTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in xyz.game.datamanage.service.equipment.EquipmentServiceTest
+[INFO] Running xyz.game.datamanage.service.GameDataServiceTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.112 s -- in xyz.game.datamanage.service.GameDataServiceTest
+[INFO] Running xyz.game.datamanage.service.gamevamp.GameVampRuleServiceTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.103 s -- in xyz.game.datamanage.service.gamevamp.GameVampRuleServiceTest
+[INFO] Running xyz.game.datamanage.service.image.ImageContentValidatorTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.095 s -- in xyz.game.datamanage.service.image.ImageContentValidatorTest
+[INFO] Running xyz.game.datamanage.service.image.ImageServiceTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.068 s -- in xyz.game.datamanage.service.image.ImageServiceTest
+[INFO] Running xyz.game.datamanage.service.imagerelation.ImageRelationMapperContractTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in xyz.game.datamanage.service.imagerelation.ImageRelationMapperContractTest
+[INFO] Running xyz.game.datamanage.service.imagerelation.ImageRelationServiceTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in xyz.game.datamanage.service.imagerelation.ImageRelationServiceTest
+[INFO] Running xyz.game.datamanage.service.ImageSourceDeletionServiceTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.251 s -- in xyz.game.datamanage.service.ImageSourceDeletionServiceTest
+[INFO] Running xyz.game.datamanage.service.modifierzone.ModifierZoneServiceTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.062 s -- in xyz.game.datamanage.service.modifierzone.ModifierZoneServiceTest
+[INFO] Running xyz.game.datamanage.service.PostgresJsonSupportTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in xyz.game.datamanage.service.PostgresJsonSupportTest
+[INFO] Running xyz.game.datamanage.service.PostgresReadStoreTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in xyz.game.datamanage.service.PostgresReadStoreTest
+[INFO] Running xyz.game.datamanage.service.PostgresWriteStoreTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in xyz.game.datamanage.service.PostgresWriteStoreTest
+[INFO] Running xyz.game.datamanage.service.rune.RuneMapperTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in xyz.game.datamanage.service.rune.RuneMapperTest
+[INFO] Running xyz.game.datamanage.service.rune.RuneServiceTest
+[INFO] Tests run: 44, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.049 s -- in xyz.game.datamanage.service.rune.RuneServiceTest
+[INFO] Running xyz.game.datamanage.service.skill.SkillServiceTest
+[INFO] Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.082 s -- in xyz.game.datamanage.service.skill.SkillServiceTest
+[INFO] Running xyz.game.datamanage.service.skillcategory.SkillCategoryServiceTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.059 s -- in xyz.game.datamanage.service.skillcategory.SkillCategoryServiceTest
+[INFO] Running xyz.game.datamanage.service.skilleffect.SkillEffectServiceTest
+2026-09-24T14:18:28.637+08:00 ERROR 5116 --- [           main] x.g.d.s.skilleffect.SkillEffectService   : Skill effect data corruption detected. gameId=lol, skillKey=ezreal_q, effectKey=on_hit_results, resultKey=physical_hit, reason=Ч���ṹ�����ݲ��Ϸ�
+[INFO] Tests run: 64, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.219 s -- in xyz.game.datamanage.service.skilleffect.SkillEffectServiceTest
+[INFO] Running xyz.game.datamanage.service.skilleffect.SkillMovementSlowServiceTest
+[INFO] Tests run: 44, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.091 s -- in xyz.game.datamanage.service.skilleffect.SkillMovementSlowServiceTest
+[INFO] Running xyz.game.datamanage.service.skillformula.SkillFormulaServiceTest
+2026-09-24T14:18:28.758+08:00 ERROR 5116 --- [           main] x.g.d.s.s.SkillFormulaService            : Skill formula data corruption detected. gameId=lol, skillKey=varus_w, formulaKey=missing_health_damage, reason=��ʽ����ʽ��״���Ϸ�
+2026-09-24T14:18:28.759+08:00 ERROR 5116 --- [           main] x.g.d.s.s.SkillFormulaService            : Skill formula data corruption detected. gameId=lol, skillKey=varus_w, formulaKey=missing_health_damage, reason=��ʽ����ʽ��״���Ϸ�
+2026-09-24T14:18:28.760+08:00 ERROR 5116 --- [           main] x.g.d.s.s.SkillFormulaService            : Skill formula data corruption detected. gameId=lol, skillKey=varus_w, formulaKey=missing_health_damage, reason=��ʽ����ʽ��״���Ϸ�
+2026-09-24T14:18:28.760+08:00 ERROR 5116 --- [           main] x.g.d.s.s.SkillFormulaService            : Skill formula data corruption detected. gameId=lol, skillKey=varus_w, formulaKey=missing_health_damage, reason=��ʽ����ʽ��״���Ϸ�
+2026-09-24T14:18:28.762+08:00 ERROR 5116 --- [           main] x.g.d.s.s.SkillFormulaService            : Skill formula data corruption detected. gameId=lol, skillKey=varus_w, formulaKey=missing_health_damage, reason=��ʽ����ʽ��״���Ϸ�
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.036 s -- in xyz.game.datamanage.service.skillformula.SkillFormulaServiceTest
+[INFO] Running xyz.game.datamanage.service.skillinternalstate.SkillInternalStateServiceTest
+2026-09-24T14:18:28.810+08:00 ERROR 5116 --- [           main] x.g.d.s.s.SkillInternalStateService      : Skill internal state data corruption detected. gameId=lol, skillKey=ezreal_q, stateKey=mark_stacks, reason=�ڲ�״̬��ϸ��
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.035 s -- in xyz.game.datamanage.service.skillinternalstate.SkillInternalStateServiceTest
+[INFO] Running xyz.game.datamanage.service.skillparameter.SkillParameterServiceTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in xyz.game.datamanage.service.skillparameter.SkillParameterServiceTest
+[INFO] Running xyz.game.datamanage.service.skillprocess.SkillProcessServiceTest
+2026-09-24T14:18:28.844+08:00 ERROR 5116 --- [           main] x.g.d.s.s.SkillProcessService            : Skill process data corruption detected. gameId=lol, skillKey=ezreal_q, processKey=cast, stepKey=null, reason=���̾ۺ�������
+2026-09-24T14:18:28.844+08:00 ERROR 5116 --- [           main] x.g.d.s.s.SkillProcessService            : Skill process data corruption detected. gameId=lol, skillKey=ezreal_q, processKey=cast, stepKey=null, reason=���̾ۺ�������
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 s -- in xyz.game.datamanage.service.skillprocess.SkillProcessServiceTest
+[INFO] Running xyz.game.datamanage.service.skillrelation.RuneRelationServiceTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in xyz.game.datamanage.service.skillrelation.RuneRelationServiceTest
+[INFO] Running xyz.game.datamanage.service.skillrelation.SkillRelationMapperTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.035 s -- in xyz.game.datamanage.service.skillrelation.SkillRelationMapperTest
+[INFO] Running xyz.game.datamanage.service.skillrelation.SkillRelationServiceTest
+[INFO] Tests run: 30, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.039 s -- in xyz.game.datamanage.service.skillrelation.SkillRelationServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerAdvanceCycleServiceTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.098 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerAdvanceCycleServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerCastingPhaseServiceTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerCastingPhaseServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerExplicitTargetIsSourceConditionServiceTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerExplicitTargetIsSourceConditionServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerFirstContactValueServiceTest
+[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.054 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerFirstContactValueServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerLifecycleConditionServiceTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.087 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerLifecycleConditionServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerLifecycleOnlyEffectServiceTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerLifecycleOnlyEffectServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerOncePerUseServiceTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.036 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerOncePerUseServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleConditionActionSourceServiceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleConditionActionSourceServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleCycleServiceTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.042 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleCycleServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleEventShapeServiceTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleEventShapeServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleReverseProtectionServiceTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleReverseProtectionServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleRuntimeInputServiceTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleRuntimeInputServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleServiceTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.069 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerSkillHitShieldValueServiceTest
+[INFO] Tests run: 35, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerSkillHitShieldValueServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerSkillHitTargetIsEnemyConditionServiceTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerSkillHitTargetIsEnemyConditionServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerSourceCastResourceCostServiceTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerSourceCastResourceCostServiceTest
+[INFO] Running xyz.game.datamanage.service.skilltrigger.SkillTriggerTargetCategoryConditionServiceTest
+[INFO] Tests run: 26, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 s -- in xyz.game.datamanage.service.skilltrigger.SkillTriggerTargetCategoryConditionServiceTest
+[INFO] Running xyz.game.datamanage.service.status.StatusServiceTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 s -- in xyz.game.datamanage.service.status.StatusServiceTest
+[INFO] Running xyz.game.datamanage.support.auth.AdminAuthFilterTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.060 s -- in xyz.game.datamanage.support.auth.AdminAuthFilterTest
+[INFO] Running xyz.game.datamanage.support.auth.JwtVerifierTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.130 s -- in xyz.game.datamanage.support.auth.JwtVerifierTest
+[INFO] Running xyz.game.datamanage.support.authoring.GameConfigurationWriteGuardTest
+[INFO] Tests run: 27, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.182 s -- in xyz.game.datamanage.support.authoring.GameConfigurationWriteGuardTest
+[INFO] Running xyz.game.datamanage.support.authoring.GameVampRuleSemanticsTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in xyz.game.datamanage.support.authoring.GameVampRuleSemanticsTest
+[INFO] Running xyz.game.datamanage.support.authoring.HealingRatioMaxSemanticsTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in xyz.game.datamanage.support.authoring.HealingRatioMaxSemanticsTest
+[INFO] Running xyz.game.datamanage.support.authoring.SkillCastingPhaseSemanticsTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in xyz.game.datamanage.support.authoring.SkillCastingPhaseSemanticsTest
+[INFO] Running xyz.game.datamanage.support.authoring.SkillExplicitTargetIsSourceConditionSemanticsTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in xyz.game.datamanage.support.authoring.SkillExplicitTargetIsSourceConditionSemanticsTest
+[INFO] Running xyz.game.datamanage.support.authoring.SkillHitShieldValueSemanticsTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in xyz.game.datamanage.support.authoring.SkillHitShieldValueSemanticsTest
+[INFO] Running xyz.game.datamanage.support.authoring.SkillHitTargetIsEnemyConditionSemanticsTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in xyz.game.datamanage.support.authoring.SkillHitTargetIsEnemyConditionSemanticsTest
+[INFO] Running xyz.game.datamanage.support.authoring.SkillLifecycleConditionSemanticsTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in xyz.game.datamanage.support.authoring.SkillLifecycleConditionSemanticsTest
+[INFO] Running xyz.game.datamanage.support.authoring.SkillNumericSemanticsTest
+[INFO] Tests run: 87, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.055 s -- in xyz.game.datamanage.support.authoring.SkillNumericSemanticsTest
+[INFO] Running xyz.game.datamanage.support.authoring.SkillObjectReferencesTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in xyz.game.datamanage.support.authoring.SkillObjectReferencesTest
+[INFO] Running xyz.game.datamanage.support.authoring.SkillTargetCategoryConditionSemanticsTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in xyz.game.datamanage.support.authoring.SkillTargetCategoryConditionSemanticsTest
+[INFO] Running xyz.game.datamanage.support.authoring.SkillTriggerOncePerUseSemanticsTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in xyz.game.datamanage.support.authoring.SkillTriggerOncePerUseSemanticsTest
+[INFO] Running xyz.game.datamanage.support.authoring.SourceCastResourceCostSemanticsTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in xyz.game.datamanage.support.authoring.SourceCastResourceCostSemanticsTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1264, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  20.346 s
+[INFO] Finished at: 2026-09-24T14:18:30+08:00
+[INFO] ------------------------------------------------------------------------

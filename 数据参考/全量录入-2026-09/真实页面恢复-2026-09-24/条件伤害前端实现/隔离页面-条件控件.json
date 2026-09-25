@@ -1,0 +1,24 @@
+{
+  "conditionVisible": {
+    "target": 1,
+    "ratio": 1,
+    "hp": "生命值",
+    "threshold": "目标生命门槛比例（target_health_threshold_ratio）",
+    "strictLess": 1,
+    "strictGreater": 1
+  },
+  "cancelKeptCondition": true,
+  "confirmClearedCondition": true,
+  "controlsCleared": true,
+  "formulaBlocked": true,
+  "discardConfirmations": [
+    "当前修改尚未保存，确定要离开吗？",
+    "当前修改尚未保存，确定要离开吗？"
+  ],
+  "writes": [],
+  "responses": [
+    "FORMULA_GET threshold_formula"
+  ],
+  "browserContexts": 1,
+  "pages": 1
+}

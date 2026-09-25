@@ -1,0 +1,64 @@
+{
+  "object": "skills/neeko_e/effects/first_contact_root",
+  "approvedWriteNotPerformed": true,
+  "businessWrites": 0,
+  "attemptedDraft": {
+    "effectKey": "first_contact_root",
+    "name": "缠结倒刺首个接触目标禁锢",
+    "description": "仅用于本次妮蔻E首次合资格单位接触为敌方英雄、同次法术护盾判定明确未阻挡且无本来源实例的最短禁锢分支；其他接触、强化及重施仍待核。",
+    "sortOrder": 30,
+    "lifecycleEnabled": true,
+    "durationValueMode": "PARAMETER",
+    "durationParameterKey": null,
+    "maxStacksValueMode": "FIXED",
+    "maxStacksValue": null,
+    "applicationStacksValueMode": "FIXED",
+    "applicationStacksValue": null,
+    "instanceScope": null,
+    "reapplicationStackMode": null,
+    "reapplicationDurationMode": null,
+    "expiryMode": null,
+    "resultCount": 0
+  },
+  "targetDetailReads": [
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/neeko_e/effects/first_contact_root",
+      "status": 404
+    },
+    {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/neeko_e/trigger-rules/apply_root_on_first_contact",
+      "status": 404
+    }
+  ],
+  "pageCollections": {
+    "effectsStatus": 200,
+    "effectKeys": [
+      "primary_hit",
+      "mana_cost"
+    ],
+    "rulesStatus": 200,
+    "ruleKeys": [
+      "on_used",
+      "actual_hit"
+    ]
+  },
+  "draftExit": {
+    "control": "取消",
+    "browserDialogType": "confirm",
+    "message": "当前修改尚未保存，确定要离开吗？",
+    "accepted": true,
+    "openReadOnlyDialogsAfterClose": {
+      "count": 1,
+      "kind": "效果与结果列表"
+    }
+  },
+  "toolInteractionNotes": [
+    "The add-effect form title was 新增效果; an earlier locator expected 新建效果 and timed out before any save.",
+    "Radio inputs were hidden; the visible labels were used instead of forcing hidden inputs.",
+    "The parameter selection input was covered by its visible-value mirror during a click attempt; no forced click or save was used.",
+    "The browser confirm defaulted to dismiss once; a later single listener verified the exact message and accepted the user's authorized discard."
+  ],
+  "evidenceScreenshot": "妮蔻-新增效果-生命周期.png"
+}

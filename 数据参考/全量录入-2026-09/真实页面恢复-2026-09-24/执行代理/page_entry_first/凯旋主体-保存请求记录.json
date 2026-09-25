@@ -1,0 +1,35 @@
+{
+  "object": "skills/rune_9111_passive",
+  "approvedMethod": "PUT",
+  "approvedRoute": "/skills/rune_9111_passive",
+  "actualRequest": {
+    "method": "PUT",
+    "path": "/api/admin/games/lol/skills/rune_9111_passive",
+    "body": {
+      "name": "符文·凯旋",
+      "description": "严格一对一范围内，击杀敌方英雄后，按来源对象5%已损失生命值加2.5%最大生命值治疗自身。采用击杀事件结算时一次治疗的模拟口径；多人助攻及额外金币不在本轮范围。",
+      "maxLevel": 1,
+      "status": "ENABLED",
+      "sortOrder": 0,
+      "skillCategoryKeys": [
+        "passive"
+      ]
+    }
+  },
+  "responseStatus": 200,
+  "capturedResponse": {
+    "method": "PUT",
+    "path": "/api/admin/games/lol/skills/rune_9111_passive",
+    "status": 200
+  },
+  "exactApprovedBodyMatch": true,
+  "preSave": {
+    "skillKey": "rune_9111_passive",
+    "name": "符文·凯旋",
+    "maxLevel": "1",
+    "description": "本批仅录入：保存完整治疗数值公式与独立自身治疗，不自动触发。其他分支见候选剩余事实，未代表完整符文机制。",
+    "categoryLabel": "被动技能",
+    "enabled": true,
+    "sortOrder": "0"
+  }
+}

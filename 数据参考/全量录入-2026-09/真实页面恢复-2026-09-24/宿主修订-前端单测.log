@@ -1,0 +1,123 @@
+
+> damage-viewer-web@0.1.0 test
+> vitest run --config vitest.config.ts
+
+
+ RUN  v2.1.9 C:/project/damage_web_dev/web
+
+ ✓ src/engine/persistentResultAdapter.test.ts (9 tests) 9ms
+ ✓ src/pages/admin/skills/processes/processForm.test.ts (11 tests) 11ms
+ ✓ src/engine/hitAdapter.test.ts (15 tests) 16ms
+ ❯ src/engine/processAdapter.test.ts (13 tests | 1 failed) 26ms
+   × processAdapter > 初次能力可绑定待击启动，推进能力不能当成首次施法 10ms
+     → adapter.triggerPlan.skills.blade.rules: 单强化步骤只接受一条首次主动启动规则，不能另配命中或过程事件规则
+ ✓ src/engine/triggerAdapter.test.ts (59 tests) 49ms
+ ✓ src/services/skillEffectClient.test.ts (23 tests) 34ms
+ ✓ src/services/skillTriggerRuleClient.test.ts (116 tests) 51ms
+ ✓ src/pages/admin/skills/triggers/triggerRuleForm.bindings.test.ts (13 tests) 9ms
+ ✓ src/pages/admin/skills/triggers/triggerRuleForm.outputs.test.ts (9 tests) 13ms
+ ✓ src/pages/admin/skills/triggers/triggerRuleForm.mapping.test.ts (23 tests) 16ms
+ ✓ src/pages/admin/skills/overview/skillBehaviorOverview.test.ts (3 tests) 6ms
+ ✓ src/pages/admin/skills/triggers/triggerRuleForm.test.ts (27 tests) 22ms
+ ✓ src/pages/admin/skills/effects/effectForm.test.ts (52 tests) 38ms
+ ✓ src/pages/admin/skills/effects/movementSlow.test.ts (24 tests) 13ms
+ ✓ src/pages/admin/skills/triggers/castingPhase.test.ts (8 tests) 8ms
+ ✓ src/engine/vampAdapter.test.ts (17 tests) 10ms
+ ✓ src/pages/admin/skills/processes/internalStateForm.test.ts (7 tests) 6ms
+ ✓ src/pages/admin/skills/formulaExpression.test.ts (7 tests) 5ms
+ ✓ src/pages/admin/skills/parameterForm.test.ts (22 tests) 10ms
+ ✓ src/services/representativeImageUpload.test.ts (14 tests) 9ms
+ ✓ src/pages/admin/skills/authoringLocation.test.ts (20 tests) 7ms
+ ✓ src/pages/admin/skills/skillForm.test.ts (12 tests) 5ms
+ ✓ src/pages/admin/skills/numericValueForm.test.ts (19 tests) 9ms
+ ✓ src/services/skillRelationClient.test.ts (21 tests) 32ms
+ ✓ src/pages/admin/skills/effects/resultReferenceSummary.test.ts (6 tests) 5ms
+ ✓ src/services/imageRelationClient.test.ts (31 tests) 33ms
+ ✓ src/pages/admin/skills/triggers/sourceCastResourceCost.test.ts (12 tests) 11ms
+ ✓ src/pages/admin/statuses/statusForm.test.ts (11 tests) 5ms
+ ✓ src/pages/admin/characters/characterForm.test.ts (20 tests) 6ms
+ ✓ src/pages/admin/skills/triggers/lifecycleCondition.test.ts (15 tests) 10ms
+ ✓ src/pages/admin/skills/triggers/targetCategoryCondition.test.ts (25 tests) 11ms
+ ✓ src/pages/admin/skills/effects/attackTimerReset.test.ts (24 tests) 10ms
+ ✓ src/pages/admin/skills/effects/lifecycleExtension.test.ts (14 tests) 11ms
+ ✓ src/services/attributeClient.test.ts (8 tests) 20ms
+ ✓ src/services/characterAuthoringCheckClient.test.ts (7 tests) 19ms
+ ✓ src/pages/admin/skills/effects/healingRatioMax.test.ts (15 tests) 9ms
+ ✓ src/pages/admin/skills/effects/shieldReceivedModifier.test.ts (15 tests) 9ms
+ ✓ src/pages/admin/attributes/attributeForm.test.ts (10 tests) 4ms
+ ✓ src/services/skillProcessClient.test.ts (2 tests) 21ms
+ ✓ src/services/statusClient.test.ts (18 tests) 26ms
+ ✓ src/pages/admin/skills/overview/loadSkillBehaviorOverview.test.ts (4 tests) 61ms
+ ✓ src/pages/admin/skills/effects/cooldownRatio.test.ts (14 tests) 11ms
+ ✓ src/pages/admin/skills/triggers/triggerRuleForm.oncePerUse.test.ts (8 tests) 8ms
+ ✓ src/pages/admin/skills/triggers/skillHitFirstContactValue.test.ts (33 tests) 21ms
+ ✓ src/pages/admin/skills/effects/cooldownRemaining.test.ts (4 tests) 8ms
+ ✓ src/services/resourceImage.test.ts (6 tests) 9ms
+ ✓ src/services/skillParameterClient.test.ts (2 tests) 18ms
+ ✓ src/services/skillInternalStateClient.test.ts (2 tests) 19ms
+ ✓ src/services/numericValue.test.ts (36 tests) 19ms
+ ✓ src/pages/admin/skills/triggers/SkillTriggerRuntimeInputBindingEditorModal.test.ts (5 tests) 4ms
+ ✓ src/services/characterClient.test.ts (5 tests) 19ms
+ ✓ src/engine/numericAdapter.test.ts (4 tests) 4ms
+ ✓ src/engine/genericEngineClient.test.ts (4 tests) 5ms
+ ✓ src/services/imageClient.test.ts (4 tests) 18ms
+ ✓ src/services/runeClient.test.ts (13 tests) 25ms
+ ✓ src/pages/admin/skills/effects/vampForm.test.ts (5 tests) 6ms
+ ✓ src/services/skillFormulaClient.test.ts (2 tests) 18ms
+ ✓ src/pages/admin/characters/authoringReferenceNames.test.ts (4 tests) 68ms
+ ✓ src/services/skillClient.test.ts (3 tests) 21ms
+ ✓ src/services/modifierZoneClient.test.ts (4 tests) 21ms
+ ✓ src/services/authoringLocation.test.ts (9 tests) 5ms
+ ✓ src/pages/admin/skills/triggers/triggerRuleForm.summary.test.ts (9 tests) 4ms
+ ✓ src/pages/admin/skills/triggers/skillHitSpellShieldValue.test.ts (11 tests) 13ms
+ ✓ src/pages/admin/skills/triggers/explicitTargetCondition.test.ts (5 tests) 7ms
+ ✓ src/pages/admin/relations/imageRelationForm.test.ts (5 tests) 3ms
+ ✓ src/pages/admin/relations/skillRelationForm.test.ts (13 tests) 5ms
+ ✓ src/pages/admin/skills/triggers/movementSlow.test.ts (3 tests) 4ms
+ ✓ src/pages/admin/skills/triggers/skillHitEnemyCondition.test.ts (5 tests) 7ms
+ ✓ src/config/navigation.test.ts (2 tests) 3ms
+ ✓ src/pages/admin/modifier-zones/modifierZoneForm.test.ts (4 tests) 3ms
+ ✓ src/services/equipmentClient.test.ts (3 tests) 18ms
+ ✓ src/services/imageCache.test.ts (6 tests) 3ms
+ ✓ src/services/damageTypeClient.test.ts (3 tests) 18ms
+ ✓ src/services/skillCategoryClient.test.ts (3 tests) 16ms
+ ✓ src/pages/admin/runes/runeForm.test.ts (4 tests) 3ms
+ ✓ src/pages/admin/shared/referenceListModel.test.ts (2 tests) 3ms
+ ✓ src/pages/admin/skills/focusedSkill.test.ts (5 tests) 19ms
+ ✓ src/services/gameVampClient.test.ts (11 tests) 20ms
+ ✓ src/pages/admin/equipment/equipmentForm.test.ts (3 tests) 3ms
+ ✓ src/pages/admin/skills/authoringFocus.test.ts (3 tests) 3ms
+ ✓ src/pages/admin/game-settings/gameVampForm.test.ts (9 tests) 4ms
+ ✓ src/services/apiClient.test.ts (2 tests) 15ms
+ ✓ src/services/skillProcessMoment.test.ts (1 test) 3ms
+ ✓ src/pages/admin/images/imageForm.test.ts (3 tests) 3ms
+ ✓ src/pages/admin/skills/overview/mapWithConcurrency.test.ts (2 tests) 46ms
+ ✓ src/pages/admin/skill-categories/skillCategoryForm.test.ts (2 tests) 3ms
+ ✓ src/pages/admin/damage-types/damageTypeForm.test.ts (2 tests) 3ms
+ ✓ src/pages/admin/relations/representativeImageRequests.test.ts (3 tests) 2272ms
+   ✓ table representative image requests > loads 900 rows with at most six in flight, including after a failed request 2259ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/processAdapter.test.ts > processAdapter > 初次能力可绑定待击启动，推进能力不能当成首次施法
+TriggerAdaptationError: adapter.triggerPlan.skills.blade.rules: 单强化步骤只接受一条首次主动启动规则，不能另配命中或过程事件规则
+ ❯ fail src/engine/triggerAdapter.ts:133:9
+    131| 
+    132| function fail(path: string, message: string): never {
+    133|   throw new TriggerAdaptationError(path, message);
+       |         ^
+    134| }
+    135| const finite = (value: unknown, path: string): number => finiteNumber(…
+ ❯ classifyEmpowered src/engine/triggerAdapter.ts:533:36
+ ❯ classifyTriggerProgram src/engine/triggerAdapter.ts:587:73
+ ❯ adaptTriggerProgram src/engine/triggerAdapter.ts:1127:17
+ ❯ Module.withTriggerProgram src/engine/triggerAdapter.ts:1179:19
+ ❯ src/engine/processAdapter.test.ts:483:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 87 passed (88)
+      Tests  1 failed | 1071 passed (1072)
+   Start at  10:08:44
+   Duration  5.08s (transform 5.22s, setup 0ms, collect 12.41s, tests 3.51s, environment 14ms, prepare 7.65s)
+

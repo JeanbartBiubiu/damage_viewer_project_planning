@@ -1,0 +1,51 @@
+{
+  "at": "2026-09-24T10:42:06.620Z",
+  "status": "PASS",
+  "originalFailedTests": 42,
+  "oldSeedTests": 38,
+  "deletedSeedFiles": 35,
+  "deletedCommit": "4e448817b4ed404fd050f4437ccf2838f4c254cb",
+  "exclusiveWorktreeChecks": 4,
+  "changedTestFiles": 37,
+  "documentationFiles": 1,
+  "delta": {
+    "added": 255,
+    "removed": 7300
+  },
+  "finalFileHashesVerified": 38,
+  "verification": {
+    "command": "go test -count=1 ./...",
+    "exitCode": 0,
+    "log": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/原生历史检查迁移/go-test-full-20260924.log",
+    "passedPackages": [
+      "tinygo_engine_v2/internal/abi",
+      "tinygo_engine_v2/internal/attribute",
+      "tinygo_engine_v2/internal/compile",
+      "tinygo_engine_v2/internal/formula",
+      "tinygo_engine_v2/internal/model",
+      "tinygo_engine_v2/internal/pipeline",
+      "tinygo_engine_v2/internal/runtime",
+      "tinygo_engine_v2/internal/scheduler",
+      "tinygo_engine_v2/internal/shield",
+      "tinygo_engine_v2/internal/status",
+      "tinygo_engine_v2/internal/testkit",
+      "tinygo_engine_v2/internal/typeset"
+    ],
+    "independentCoverageReview": "READY",
+    "independentHighRiskTests": 11,
+    "noSkippedWholeTests": true,
+    "quinnIsolationAndFramesPreserved": true,
+    "fourProductionScansPreserved": true
+  },
+  "audit": {
+    "mapping": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/原生历史检查迁移/迁移映射.json",
+    "manifest": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/原生历史检查迁移/文件摘要.json",
+    "preciseEvidenceWordingCorrected": true
+  },
+  "implementationChangedInThisMigration": false,
+  "wasmRebuiltInThisMigration": false,
+  "wasmSha256": "25844991e66d5e189cee0b168869de07c265c5c3cc3336c7b1a9c793ac0d736d",
+  "businessWrites": 0,
+  "actualManagementDataProvenByTheseTests": false,
+  "limitation": "历史维基与原生构造样例通过不等于现行管理数据、真实页面或整技能通过；这些证据分别验收"
+}

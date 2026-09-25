@@ -1,0 +1,103 @@
+{
+  "at": "2026-09-24T03:56:16.448Z",
+  "status": "最小宿主修复及检查通过；原对象最终正式配置运行待页面完成",
+  "catalog": {
+    "method": "GET",
+    "route": "/damage-types",
+    "status": 200,
+    "rows": [
+      {
+        "createdAt": "2026-08-26T05:59:09.635701Z",
+        "damageTypeKey": "physics",
+        "description": null,
+        "gameId": "lol",
+        "name": "物理伤害",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-26T05:59:09.635701Z"
+      },
+      {
+        "createdAt": "2026-08-26T05:58:49.612762Z",
+        "damageTypeKey": "real",
+        "description": null,
+        "gameId": "lol",
+        "name": "真实伤害",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-26T05:58:49.612762Z"
+      },
+      {
+        "createdAt": "2026-08-26T05:59:15.870937Z",
+        "damageTypeKey": "magic",
+        "description": null,
+        "gameId": "lol",
+        "name": "魔法伤害",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-26T05:59:15.870937Z"
+      }
+    ]
+  },
+  "fixes": [
+    "当前目录伤害键转换原生结算种类",
+    "当前接口省略空失败原因不再误拒绝"
+  ],
+  "checks": {
+    "targetedUnit": 96,
+    "fullUnit": 1085,
+    "typecheckViaBuild": true,
+    "lint": true,
+    "build": true,
+    "existingWorker": {
+      "p4": 11,
+      "p5": 10,
+      "p6": 22
+    },
+    "newFormalEquipmentCases": "已准备2项，未执行"
+  },
+  "independentReview": "READY：伤害映射、原P4断言保留、合法空原因与非空拒绝分别复核",
+  "files": [
+    {
+      "path": "web/src/engine/damageTypeAdapter.ts",
+      "sha256": "088f5f67ecf6bc4232c673cbbbe723d67f2033f603be5646e71ca130794ee41c"
+    },
+    {
+      "path": "web/src/engine/hitAdapter.ts",
+      "sha256": "458de1b27c41ef2614e0a979c051d71ac73c3518848edd325d61974385e369c8"
+    },
+    {
+      "path": "web/src/engine/triggerAdapter.ts",
+      "sha256": "e78d007cb99a602be051cb8ef55cbc68dcf098e0337de9bc500289a6a6678be5"
+    },
+    {
+      "path": "web/src/engine/hitAdapter.test.ts",
+      "sha256": "c4ab8fa78a9c08595d67f9a94d254b0af51578044ff15a55c2ce966660f4f971"
+    },
+    {
+      "path": "web/src/engine/triggerAdapter.test.ts",
+      "sha256": "61b62652935f09718a006ab2aecc27dd17bd58e7956b153c3dc1ce54d52c14d6"
+    },
+    {
+      "path": "web/src/engine/processAdapter.test.ts",
+      "sha256": "bc6a2f4610a218462d423e97df06664e87935e7a4594349c460cad6ee647c697"
+    },
+    {
+      "path": "web/tests/e2e/p4-runtime.spec.ts",
+      "sha256": "33763348af3509130b7eac8a27d46f66fb85d2ef9ebeb10a3ca2b166e63fbc82"
+    },
+    {
+      "path": "web/tests/e2e/p5-runtime.spec.ts",
+      "sha256": "6cbc568a94dfce221e8d345b3f16ece9c84f21a2c12412c1fae32e2cd24a0823"
+    },
+    {
+      "path": "web/tests/e2e/p6-runtime.spec.ts",
+      "sha256": "591433c437ee3c7a859d78155b063627325f425026f32525f058895227e07f08"
+    }
+  ],
+  "wasm": {
+    "bytes": 976767,
+    "sha256": "0fd141ce054160f765e0da176f43ee0e6866177c805576ef5d7fd04ada11cd3c"
+  },
+  "scope": "P4/P5既有实库输入和P6原回蓝/星蚀护盾专项不代表当前两件正式咒刃完整运行；省略空值的新检查证明编译输出与带null完全相等，原既有工作线程输入行为保持",
+  "businessWrites": 0
+}

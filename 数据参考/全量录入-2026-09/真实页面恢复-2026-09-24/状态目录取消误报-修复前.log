@@ -1,0 +1,64 @@
+
+Running 2 tests using 1 worker
+
+[1/2] [Desktop Chrome] › tests\e2e\non-wasm-pages.spec.ts:8653:3 › resolved SILENCE catalog does not create unsaved result changes
+  1) [Desktop Chrome] › tests\e2e\non-wasm-pages.spec.ts:8653:3 › resolved SILENCE catalog does not create unsaved result changes 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "当前修改尚未保存，确定要离开吗？",
+    + ]
+
+      8689 |     await result.getByRole('button', { name: '取消', exact: true }).click();
+      8690 |     page.off('dialog', rejectUnexpected);
+    > 8691 |     expect(unexpected).toEqual([]);
+           |                        ^
+      8692 |     await expect(result).toBeHidden();
+      8693 |
+      8694 |     result = await openResult();
+        at C:\project\damage_web_dev\web\tests\e2e\non-wasm-pages.spec.ts:8691:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    output\playwright-non-wasm\non-wasm-pages-resolved-SI-33c21-eate-unsaved-result-changes-Desktop-Chrome\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: output\playwright-non-wasm\non-wasm-pages-resolved-SI-33c21-eate-unsaved-result-changes-Desktop-Chrome\error-context.md
+
+
+[2/2] [Desktop Chrome] › tests\e2e\non-wasm-pages.spec.ts:8653:3 › resolved AIRBORNE catalog does not create unsaved result changes
+  2) [Desktop Chrome] › tests\e2e\non-wasm-pages.spec.ts:8653:3 › resolved AIRBORNE catalog does not create unsaved result changes 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "当前修改尚未保存，确定要离开吗？",
+    + ]
+
+      8689 |     await result.getByRole('button', { name: '取消', exact: true }).click();
+      8690 |     page.off('dialog', rejectUnexpected);
+    > 8691 |     expect(unexpected).toEqual([]);
+           |                        ^
+      8692 |     await expect(result).toBeHidden();
+      8693 |
+      8694 |     result = await openResult();
+        at C:\project\damage_web_dev\web\tests\e2e\non-wasm-pages.spec.ts:8691:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    output\playwright-non-wasm\non-wasm-pages-resolved-AI-0ec46-eate-unsaved-result-changes-Desktop-Chrome\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: output\playwright-non-wasm\non-wasm-pages-resolved-AI-0ec46-eate-unsaved-result-changes-Desktop-Chrome\error-context.md
+
+
+  2 failed
+    [Desktop Chrome] › tests\e2e\non-wasm-pages.spec.ts:8653:3 › resolved SILENCE catalog does not create unsaved result changes 
+    [Desktop Chrome] › tests\e2e\non-wasm-pages.spec.ts:8653:3 › resolved AIRBORNE catalog does not create unsaved result changes 

@@ -1,0 +1,29 @@
+{
+  "object": "champion_soraka / soraka_r",
+  "session": "原REPL 80948失效后重新独立launch Chromium并newContext；正常页面选择lol并应用local-entry",
+  "route": "正常刷新→角色索拉卡→关联技能→祈愿→行为总览",
+  "businessWrites": 0,
+  "guard": "新浏览器路由仅允许GET",
+  "conditions": [
+    {
+      "key": "source_hp_at_or_above_threshold",
+      "overview": "属性比较 / 来源对象 / hp / 当前值比例 / 大于等于 / low_health_threshold_ratio",
+      "editTargetKey": "source_hp_at_or_above_threshold",
+      "editComparator": "大于等于"
+    },
+    {
+      "key": "source_hp_below_threshold",
+      "overview": "属性比较 / 来源对象 / hp / 当前值比例 / 小于 / low_health_threshold_ratio",
+      "editTargetKey": "source_hp_below_threshold",
+      "editComparator": "小于"
+    }
+  ],
+  "displayLocation": "两行完整结构化比较显示在行为总览触发条件行的说明列；数值或引用来源列仍为—，但核对不再依赖人工规则说明",
+  "editorRouting": "两行编辑按钮分别直达原条件子编辑器，打开核对后均按取消退出，没有修改或保存",
+  "result": "PASS",
+  "finalState": "返回角色champion_soraka筛选结果，无弹窗无草稿",
+  "screenshots": [
+    "17-索拉卡总览条件摘要修复上.png",
+    "18-索拉卡总览条件摘要修复下.png"
+  ]
+}

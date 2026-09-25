@@ -1,0 +1,213 @@
+{
+  "at": "2026-09-24T12:12:39.662Z",
+  "status": "CANDIDATE_RUNTIME_PASSED",
+  "runtimeReport": "14-来源审计修复后候选运行.json",
+  "GETs": 72,
+  "currentDataMatchesIndependentSnapshots": true,
+  "cases": [
+    {
+      "skillKey": "annie_q",
+      "runeSkillKey": "rune_8014_passive",
+      "runs": [
+        {
+          "owner": "source",
+          "receiverHp": 399,
+          "raw": 160,
+          "expectedDamage": 86.4,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 400,
+          "raw": 160,
+          "expectedDamage": 80,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 401,
+          "raw": 160,
+          "expectedDamage": 80,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "target",
+          "receiverHp": 399,
+          "raw": 160,
+          "expectedDamage": 86.4,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "annie_q",
+      "runeSkillKey": "rune_8017_passive",
+      "runs": [
+        {
+          "owner": "source",
+          "receiverHp": 599,
+          "raw": 160,
+          "expectedDamage": 80,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 600,
+          "raw": 160,
+          "expectedDamage": 80,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 601,
+          "raw": 160,
+          "expectedDamage": 86.4,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "target",
+          "receiverHp": 601,
+          "raw": 160,
+          "expectedDamage": 86.4,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "garen_r",
+      "runeSkillKey": "rune_8014_passive",
+      "runs": [
+        {
+          "owner": "source",
+          "receiverHp": 399,
+          "raw": 275.25,
+          "expectedDamage": 297.27000000000004,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 400,
+          "raw": 275,
+          "expectedDamage": 275,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 401,
+          "raw": 274.75,
+          "expectedDamage": 274.75,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "target",
+          "receiverHp": 399,
+          "raw": 275.25,
+          "expectedDamage": 297.27000000000004,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "garen_r",
+      "runeSkillKey": "rune_8017_passive",
+      "runs": [
+        {
+          "owner": "source",
+          "receiverHp": 599,
+          "raw": 225.25,
+          "expectedDamage": 225.25,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 600,
+          "raw": 225,
+          "expectedDamage": 225,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "source",
+          "receiverHp": 601,
+          "raw": 224.75,
+          "expectedDamage": 242.73000000000002,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        },
+        {
+          "owner": "target",
+          "receiverHp": 601,
+          "raw": 224.75,
+          "expectedDamage": 242.73000000000002,
+          "ownerHpPreserved": 900,
+          "oneDamageInstance": true,
+          "unknownDamageRejected": true
+        }
+      ]
+    }
+  ],
+  "runtimeScenes": 16,
+  "businessWrites": 0,
+  "savedExpandedRuneScope": false,
+  "wholeRunesComplete": false,
+  "files": [
+    {
+      "file": "src/engine/ordinaryDamageSourceAudit.ts",
+      "sha256": "3199c6b831425b30b8c9e08ac075c27dc239a5d641fb9593cc731724c359ebe6"
+    },
+    {
+      "file": "src/engine/ordinaryDamageSourceAudit.test.ts",
+      "sha256": "e74f9421c791f95fc6293647b25fdea5395a085efdd7dbf892f6945ad68ea365"
+    },
+    {
+      "file": "src/engine/damageSourceInventory.ts",
+      "sha256": "699575bdf6623e8b980acc60c5aa42300aa974a88b19a8725f5da7abc1a0e019"
+    },
+    {
+      "file": "src/engine/damageSourceInventory.test.ts",
+      "sha256": "29267fbdf2c1c337514035b96014db019a3b9321c1fda1162b2b27bfa10ce390"
+    },
+    {
+      "file": "src/engine/damageModifierAdapter.ts",
+      "sha256": "ec4c0dfd947040e639024fcbd6a246807d78e045a1fc247764f59774379b7611"
+    },
+    {
+      "file": "tests/e2e/ordinary-damage-runtime.spec.ts",
+      "sha256": "86d32afe272968389648412a1c3b458d4911a3111eef471d61df14f51615b0f6"
+    },
+    {
+      "file": "src/engine/wasm/tinygo_engine_v2.wasm",
+      "sha256": "25844991e66d5e189cee0b168869de07c265c5c3cc3336c7b1a9c793ac0d736d"
+    }
+  ],
+  "independentSourceAuditReview": "Recorded separately before page approval",
+  "pageCandidate": "09-扩大过滤页面候选.json"
+}

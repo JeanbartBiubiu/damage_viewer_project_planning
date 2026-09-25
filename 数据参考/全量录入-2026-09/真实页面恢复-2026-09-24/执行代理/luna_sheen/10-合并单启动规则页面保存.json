@@ -1,0 +1,123 @@
+{
+  "approval": {
+    "file": "耀光-合并-02-页面批准.json",
+    "fileSha256": "A95C450C2E0A281D3C34BC7B784D2C25C3E12AF3C6D6706CA08D4057C93F440D",
+    "requestIndex": 0,
+    "method": "POST",
+    "route": "/skills/item_3057_passive/trigger-rules",
+    "detailRoute": "/skills/item_3057_passive/trigger-rules/spellblade_arm",
+    "requestBodyUnchangedSincePagePreparation": true
+  },
+  "baseline": {
+    "file": "耀光-合并-01-写前现值.json",
+    "fileSha256": "32CDFA601A17518E19A21B2ABAC0834DEE948C61899DBA70FE0626686ADFD00D"
+  },
+  "preflight": {
+    "evidenceFile": "09-preflight-trigger.json",
+    "targetRule404": true,
+    "triggerListEmpty": true,
+    "referencedProcessExists": true,
+    "cooldownStateExists": true
+  },
+  "pageWrite": {
+    "source": "正常页面控件：新增规则后原位编辑默认动作标识",
+    "existingDefaultActionKeyChangedFrom": "action_1",
+    "toActionKey": "start_spellblade",
+    "defaultActionDeletedOrRecreated": false,
+    "allowedWriteCount": 1,
+    "blockedMutationRequests": [],
+    "requestCapturedBeforeForwarding": {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/trigger-rules",
+      "body": {
+        "ruleKey": "spellblade_arm",
+        "name": "首次主动施法开启或刷新咒刃待命",
+        "description": "普通成功首次主动施法且咒刃内部冷却就绪时启动或刷新同一待击过程；强化步骤负责唯一伤害与消费。窗口、刷新和冷却起算按项目近似；重施、开关等特殊使用未验证。",
+        "sortOrder": 10,
+        "eventSource": {
+          "eventType": "SKILL_USED",
+          "detail": {
+            "sourceSkillKey": null,
+            "useKind": "ACTIVE",
+            "castPhase": "INITIAL"
+          }
+        },
+        "conditionGroups": [
+          {
+            "groupKey": "cooldown_ready",
+            "name": "咒刃内部冷却就绪",
+            "sortOrder": 10,
+            "conditions": [
+              {
+                "conditionKey": "cond_1",
+                "conditionType": "INTERNAL_STATE_CHECK",
+                "sortOrder": 10,
+                "detail": {
+                  "stateKey": "spellblade_icd",
+                  "valueKind": "REMAINING_MS",
+                  "optionKey": null,
+                  "expectedBoolean": null,
+                  "comparator": "EQ",
+                  "comparisonValue": {
+                    "kind": "FIXED",
+                    "value": 0
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "actionKey": "start_spellblade",
+            "name": "开启或刷新待击",
+            "actionType": "START_PROCESS",
+            "sortOrder": 10,
+            "targetContext": "CURRENT_TARGET",
+            "detail": {
+              "processKey": "spellblade_consume"
+            },
+            "runtimeInputBindings": [],
+            "resultModifiers": []
+          }
+        ],
+        "perTargetCooldown": null,
+        "maxTriggersPerProcess": null,
+        "oncePerUse": null
+      }
+    },
+    "requestBodyDeepEqualToApproved": true,
+    "response": {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/trigger-rules",
+      "status": 201,
+      "body": "{\"actions\":[{\"actionKey\":\"start_spellblade\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"spellblade_consume\"},\"name\":\"开启或刷新待击\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"cond_1\",\"conditionType\":\"INTERNAL_STATE_CHECK\",\"detail\":{\"comparator\":\"EQ\",\"comparisonValue\":{\"kind\":\"FIXED\",\"value\":0},\"expectedBoolean\":null,\"optionKey\":null,\"stateKey\":\"spellblade_icd\",\"valueKind\":\"REMAINING_MS\"},\"sortOrder\":10}],\"groupKey\":\"cooldown_ready\",\"name\":\"咒刃内部冷却就绪\",\"sortOrder\":10}],\"description\":\"普通成功首次主动施法且咒刃内部冷却就绪时启动或刷新同一待击过程；强化步骤负责唯一伤害与消费。窗口、刷新和冷却起算按项目近似；重施、开关等特殊使用未验证。\",\"eventSource\":{\"detail\":{\"castPhase\":\"INITIAL\",\"sourceSkillKey\":null,\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"首次主动施法开启或刷新咒刃待命\",\"oncePerUse\":null,\"perTargetCooldown\":null,\"ruleKey\":\"spellblade_arm\",\"sortOrder\":10}"
+    }
+  },
+  "closeAndReopen": {
+    "ruleListReopened": true,
+    "listRead": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/trigger-rules",
+      "status": 200
+    },
+    "reopenedRowText": "首次主动施法开启或刷新咒刃待命 | spellblade_arm | 技能被主动或消耗使用 | 1条件组 | 1动作 | 10",
+    "detailRead": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/trigger-rules/spellblade_arm",
+      "status": 200,
+      "body": "{\"actions\":[{\"actionKey\":\"start_spellblade\",\"actionType\":\"START_PROCESS\",\"detail\":{\"processKey\":\"spellblade_consume\"},\"name\":\"开启或刷新待击\",\"resultModifiers\":[],\"runtimeInputBindings\":[],\"sortOrder\":10,\"targetContext\":\"CURRENT_TARGET\"}],\"conditionGroups\":[{\"conditions\":[{\"conditionKey\":\"cond_1\",\"conditionType\":\"INTERNAL_STATE_CHECK\",\"detail\":{\"comparator\":\"EQ\",\"comparisonValue\":{\"kind\":\"FIXED\",\"value\":0},\"expectedBoolean\":null,\"optionKey\":null,\"stateKey\":\"spellblade_icd\",\"valueKind\":\"REMAINING_MS\"},\"sortOrder\":10}],\"groupKey\":\"cooldown_ready\",\"name\":\"咒刃内部冷却就绪\",\"sortOrder\":10}],\"description\":\"普通成功首次主动施法且咒刃内部冷却就绪时启动或刷新同一待击过程；强化步骤负责唯一伤害与消费。窗口、刷新和冷却起算按项目近似；重施、开关等特殊使用未验证。\",\"eventSource\":{\"detail\":{\"castPhase\":\"INITIAL\",\"sourceSkillKey\":null,\"useKind\":\"ACTIVE\"},\"eventType\":\"SKILL_USED\"},\"maxTriggersPerProcess\":null,\"name\":\"首次主动施法开启或刷新咒刃待命\",\"oncePerUse\":null,\"perTargetCooldown\":null,\"ruleKey\":\"spellblade_arm\",\"sortOrder\":10}"
+    },
+    "detailReadSemanticMatchApprovedAllowingNullsOmitted": true
+  },
+  "requestLogPolicy": {
+    "storedFieldsOnly": [
+      "method",
+      "path",
+      "body",
+      "status"
+    ],
+    "responseHeadersStored": false,
+    "cookiesStored": false
+  }
+}

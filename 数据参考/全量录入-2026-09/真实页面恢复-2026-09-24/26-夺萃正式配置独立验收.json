@@ -1,0 +1,33 @@
+{
+  "at": "2026-09-24T04:28:59.552Z",
+  "status": "正式夺萃有限场景通过；总览分组与装备过时说明继续返回",
+  "actor": "gpt-6-sol/max",
+  "pageWrites": 7,
+  "pageReopen": true,
+  "independentReadback": "夺萃-合并-回读-3.json",
+  "matchedRuntimeRoutes": 21,
+  "runtimeGETs": 50,
+  "compiled": true,
+  "run": true,
+  "released": true,
+  "actual": {
+    "baseAD": 100,
+    "totalAD": 180,
+    "rawDamage": 145,
+    "postDefenseDamage": 72.5,
+    "mana": 90,
+    "lifeSteal": 7.25,
+    "omnivamp": 14.5,
+    "healing": 21.75,
+    "ledgerEntries": 1
+  },
+  "inputCorrection": "初次场景手写resolved180被基础值重算成100；改用显式+80属性贡献，不改公式、正式数据或原金额期望",
+  "runtimeEvidence": "C:/project/damage_web_dev/output/spellblade-live-return/夺萃属性贡献修正验收.json",
+  "runtimeTestSha256": "0ff37c430fb514d90b8cf0ca1f5fbc0188eda035d846d428f32b61ddf92727be",
+  "pending": [
+    "命中分组显示没有已归入命中的已保存配置；强化步骤位于补充入口，两个步骤效果绑定还出现在效果与补充入口",
+    "装备原始说明仍含被动与主动效果尚待配置"
+  ],
+  "boundary": "作者配置全来自实际GET；英雄属性和事件是合成场景，未加入普攻主体或完整装备属性装配，不表示完整战斗",
+  "wholeEquipmentComplete": false
+}

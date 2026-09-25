@@ -1,0 +1,52 @@
+{
+  "object": "rune_9111_passive/effects/triumph_heal",
+  "approvedMethod": "PUT",
+  "approvedRoute": "/skills/rune_9111_passive/effects/triumph_heal",
+  "actualRequest": {
+    "method": "PUT",
+    "path": "/api/admin/games/lol/skills/rune_9111_passive/effects/triumph_heal",
+    "body": {
+      "name": "凯旋独立治疗",
+      "description": "严格一对一范围内，由击杀英雄规则触发，按来源对象5%已损生命值与2.5%最大生命值之和治疗技能拥有者。规则动作的当前目标用于事件上下文，治疗结果仍作用于来源对象；多人助攻和金币分支不在本轮范围。",
+      "sortOrder": 10,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "result",
+          "name": "凯旋独立治疗",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "resultType": "DIRECT_HEAL",
+          "valueRule": {
+            "value": {
+              "formulaKey": "triumph_heal",
+              "kind": "FORMULA"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {}
+        }
+      ]
+    }
+  },
+  "responseStatus": 200,
+  "capturedResponse": {
+    "method": "PUT",
+    "path": "/api/admin/games/lol/skills/rune_9111_passive/effects/triumph_heal",
+    "status": 200
+  },
+  "exactApprovedBodyMatch": true,
+  "preSave": {
+    "effectKey": "triumph_heal",
+    "name": "凯旋独立治疗",
+    "description": "独立数值结果；没有自动初始化或命中/击杀触发规则。",
+    "sortOrder": "10",
+    "resultCount": 1,
+    "resultSummary": "凯旋独立治疗\n\t\nresult\n\t\n直接治疗\n\t\n施法者\n\t\n—\n\t\n施法者 · 凯旋治疗值（triumph_heal） × 1 下界 0\n\t\n—\n\t\n10\n\t\n查看\n编辑\n删除"
+  }
+}

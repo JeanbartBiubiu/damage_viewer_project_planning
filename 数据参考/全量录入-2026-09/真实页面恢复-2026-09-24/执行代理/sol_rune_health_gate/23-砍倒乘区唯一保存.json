@@ -1,0 +1,73 @@
+{
+  "at": "2026-09-24T10:31:40.179Z",
+  "approval": "10-页面候选待前端审查.json candidates[1].writes[0]",
+  "candidateSha256": "cf7061fd916f39c8774f671828074d3434f107df82f7f6990609da919d402732",
+  "browser": {
+    "nodePid": 24176,
+    "chromiumPid": 6040,
+    "contexts": 1,
+    "pages": 1
+  },
+  "before": {
+    "modifierZones": 10,
+    "keysEqual": true,
+    "targetStatus": 404
+  },
+  "write": {
+    "method": "POST",
+    "path": "/api/admin/games/lol/modifier-zones",
+    "body": {
+      "modifierZoneKey": "rune_8017_damage_increase",
+      "name": "砍倒独立增伤乘区",
+      "domain": "DAMAGE",
+      "calculationMode": "RATIO_ADD",
+      "applicationStage": "DAMAGE_PRE_DEFENSE",
+      "description": "砍倒合格伤害的独立增幅；同区比例加算，与其他独立增幅分区相乘。具体伤害资格由引用结果限定。",
+      "status": "ENABLED",
+      "sortOrder": 280
+    },
+    "status": 201
+  },
+  "rejectedWrites": 0,
+  "reopened": {
+    "inputs": [
+      {
+        "label": "乘区标识",
+        "value": "rune_8017_damage_increase"
+      },
+      {
+        "label": "乘区名称",
+        "value": "砍倒独立增伤乘区"
+      },
+      {
+        "label": "说明",
+        "value": "砍倒合格伤害的独立增幅；同区比例加算，与其他独立增幅分区相乘。具体伤害资格由引用结果限定。"
+      },
+      {
+        "label": "排序",
+        "value": "280"
+      }
+    ],
+    "combos": [
+      {
+        "label": "乘区作用域",
+        "text": "伤害"
+      },
+      {
+        "label": "乘区计算方式",
+        "text": "比例加算"
+      },
+      {
+        "label": "乘区应用阶段",
+        "text": "防御计算前伤害"
+      }
+    ],
+    "enabled": true,
+    "exactApprovedFields": true
+  },
+  "after": {
+    "modifierZones": 11,
+    "visibleDialogs": 0,
+    "noDraft": true
+  }
+}

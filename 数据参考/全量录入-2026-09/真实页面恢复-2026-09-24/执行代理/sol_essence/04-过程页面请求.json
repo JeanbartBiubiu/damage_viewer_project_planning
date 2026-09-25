@@ -1,0 +1,109 @@
+{
+  "method": "POST",
+  "path": "/api/admin/games/lol/skills/item_3508_passive/processes",
+  "body": {
+    "processKey": "spellblade_consume",
+    "name": "咒刃待击与命中消费",
+    "activationType": "ACTIVE",
+    "description": "首次主动施法进入待击；重复施法刷新；强化普通攻击命中消费并启动内部冷却，超时仅清待命。",
+    "sortOrder": 10,
+    "cooldown": null,
+    "steps": [
+      {
+        "stepKey": "empowered_hit",
+        "name": "等待强化普通攻击命中",
+        "description": null,
+        "sortOrder": 10,
+        "stepType": "EMPOWERED_BASIC_ATTACK",
+        "detail": {
+          "windowValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "spellblade_window_ms"
+          },
+          "consumeMoment": "ATTACK_HIT"
+        }
+      }
+    ],
+    "effectBindings": [
+      {
+        "bindingKey": "deal_spellblade_damage",
+        "effectKey": "spellblade_damage",
+        "moment": {
+          "momentType": "STEP_EXECUTION",
+          "stepKey": "empowered_hit",
+          "failureReason": null
+        },
+        "sortOrder": 10
+      },
+      {
+        "bindingKey": "restore_mana",
+        "effectKey": "total_mana_refund",
+        "moment": {
+          "momentType": "STEP_EXECUTION",
+          "stepKey": "empowered_hit",
+          "failureReason": null
+        },
+        "sortOrder": 20
+      }
+    ],
+    "stateOperations": [
+      {
+        "operationKey": "set_ready",
+        "name": "进入待命",
+        "stateKey": "spellblade_ready",
+        "moment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null,
+          "failureReason": null
+        },
+        "sortOrder": 10,
+        "operation": "ENABLE",
+        "value": null,
+        "optionKey": null
+      },
+      {
+        "operationKey": "consume_ready",
+        "name": "命中消费待命",
+        "stateKey": "spellblade_ready",
+        "moment": {
+          "momentType": "STEP_EXECUTION",
+          "stepKey": "empowered_hit",
+          "failureReason": null
+        },
+        "sortOrder": 30,
+        "operation": "DISABLE",
+        "value": null,
+        "optionKey": null
+      },
+      {
+        "operationKey": "start_icd",
+        "name": "命中开始冷却",
+        "stateKey": "spellblade_icd",
+        "moment": {
+          "momentType": "STEP_EXECUTION",
+          "stepKey": "empowered_hit",
+          "failureReason": null
+        },
+        "sortOrder": 40,
+        "operation": "START",
+        "value": null,
+        "optionKey": null
+      },
+      {
+        "operationKey": "timeout_ready",
+        "name": "超时结束待命",
+        "stateKey": "spellblade_ready",
+        "moment": {
+          "momentType": "STEP_TIMEOUT",
+          "stepKey": "empowered_hit",
+          "failureReason": null
+        },
+        "sortOrder": 50,
+        "operation": "DISABLE",
+        "value": null,
+        "optionKey": null
+      }
+    ]
+  },
+  "status": 201
+}

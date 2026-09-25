@@ -1,0 +1,654 @@
+{
+  "status": "PASS",
+  "at": "2026-09-24T04:02:45.981Z",
+  "completedPageWrites": 4,
+  "audit": [
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/parameters/spellblade_ad_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/parameters/spellblade_window_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/formulas/spellblade_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/effects/spellblade_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/processes/spellblade_consume",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/internal-states/spellblade_ready",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/internal-states/spellblade_icd",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3057",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3057/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/equipment/item_3057/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3057",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/equipment-skill-relations?skillKey=item_3057_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/vamp-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skill-categories/passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/attributes/attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/attributes/ability_haste",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/damage-types/physics",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/item_3057_passive/trigger-rules/spellblade_arm",
+      "status": 404
+    }
+  ],
+  "values": {
+    "/skills/item_3057_passive": {
+      "createdAt": "2026-09-07T16:06:31.681911Z",
+      "description": "施放技能后，下一次普通攻击造成来源基础攻击力1倍的额外物理伤害。本批保存数值组成；施放后就绪、下一次攻击消费和冷却运行时接线待补。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "耀光·咒刃",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "item_3057_passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-07T16:06:31.681911Z"
+    },
+    "/skills/item_3057_passive/parameters": [
+      {
+        "createdAt": "2026-09-07T16:06:31.967601Z",
+        "description": "咒刃额外物理伤害对来源基础攻击力的倍率，小数1表示100%。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃基础攻击力倍率",
+        "parameterKey": "spellblade_ad_ratio",
+        "skillKey": "item_3057_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:06:31.967601Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-07T16:06:32.311716Z",
+        "description": "客户端咒刃冷却时间，单位：毫秒；冷却消费规则待运行时接线。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃冷却时间",
+        "parameterKey": "spellblade_cooldown_ms",
+        "skillKey": "item_3057_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-07T16:06:32.311716Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-24T03:23:23.492928Z",
+        "description": "本项目采用10000毫秒待击窗口；重复符合条件的施法刷新期限，不叠加次数。时长与刷新为模拟近似。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃待击窗口",
+        "parameterKey": "spellblade_window_ms",
+        "skillKey": "item_3057_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-24T03:23:23.492928Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/item_3057_passive/parameters/spellblade_ad_ratio": {
+      "createdAt": "2026-09-07T16:06:31.967601Z",
+      "description": "咒刃额外物理伤害对来源基础攻击力的倍率，小数1表示100%。",
+      "fixedValue": 1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "咒刃基础攻击力倍率",
+      "parameterKey": "spellblade_ad_ratio",
+      "skillKey": "item_3057_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:06:31.967601Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/item_3057_passive/parameters/spellblade_cooldown_ms": {
+      "createdAt": "2026-09-07T16:06:32.311716Z",
+      "description": "客户端咒刃冷却时间，单位：毫秒；冷却消费规则待运行时接线。",
+      "fixedValue": 1500,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "咒刃冷却时间",
+      "parameterKey": "spellblade_cooldown_ms",
+      "skillKey": "item_3057_passive",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-07T16:06:32.311716Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/item_3057_passive/parameters/spellblade_window_ms": {
+      "createdAt": "2026-09-24T03:23:23.492928Z",
+      "description": "本项目采用10000毫秒待击窗口；重复符合条件的施法刷新期限，不叠加次数。时长与刷新为模拟近似。",
+      "fixedValue": 10000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "咒刃待击窗口",
+      "parameterKey": "spellblade_window_ms",
+      "skillKey": "item_3057_passive",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-24T03:23:23.492928Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/item_3057_passive/formulas": [
+      {
+        "createdAt": "2026-09-07T16:06:32.598176Z",
+        "description": "来源基础攻击力乘以1倍咒刃倍率。",
+        "formulaKey": "spellblade_damage",
+        "gameId": "lol",
+        "name": "咒刃额外物理伤害",
+        "skillKey": "item_3057_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:06:32.598176Z"
+      }
+    ],
+    "/skills/item_3057_passive/formulas/spellblade_damage": {
+      "createdAt": "2026-09-07T16:06:32.598176Z",
+      "description": "来源基础攻击力乘以1倍咒刃倍率。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "spellblade_ad_ratio"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "BASE",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "spellblade_damage",
+      "gameId": "lol",
+      "name": "咒刃额外物理伤害",
+      "skillKey": "item_3057_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:06:32.598176Z"
+    },
+    "/skills/item_3057_passive/effects": [
+      {
+        "createdAt": "2026-09-07T16:06:32.942759Z",
+        "description": "保存下一次普通攻击的额外物理伤害组成；技能施放后就绪与消费规则待补。",
+        "effectKey": "spellblade_damage",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "咒刃额外物理伤害",
+        "resultCount": 1,
+        "skillKey": "item_3057_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-07T16:06:32.942759Z"
+      }
+    ],
+    "/skills/item_3057_passive/effects/spellblade_damage": {
+      "createdAt": "2026-09-07T16:06:32.942759Z",
+      "description": "保存下一次普通攻击的额外物理伤害组成；技能施放后就绪与消费规则待补。",
+      "effectKey": "spellblade_damage",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "咒刃额外物理伤害",
+      "results": [
+        {
+          "description": "来源基础攻击力1倍的额外物理伤害。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "physics",
+            "deliveryKind": "BASIC_ATTACK",
+            "originKind": "DIRECT",
+            "vampOverrides": [],
+            "vampQualification": "UNRESOLVED"
+          },
+          "lifecycleBehavior": null,
+          "name": "咒刃物理伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "spellblade_damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "item_3057_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-07T16:06:32.942759Z"
+    },
+    "/skills/item_3057_passive/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-24T03:58:52.964669Z",
+        "description": "普通成功首次主动施法后待击10秒，重复施法刷新，不叠次数；普攻命中执行原咒刃伤害并启动1500毫秒冷却，超时只清待命。窗口、刷新及冷却起算点为项目近似；特殊使用和吸血资格仍待核。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "咒刃待击与命中消费",
+        "processKey": "spellblade_consume",
+        "skillKey": "item_3057_passive",
+        "sortOrder": 10,
+        "stateOperationCount": 4,
+        "stepCount": 1,
+        "updatedAt": "2026-09-24T03:58:52.964669Z"
+      }
+    ],
+    "/skills/item_3057_passive/processes/spellblade_consume": {
+      "activationType": "ACTIVE",
+      "cooldown": null,
+      "createdAt": "2026-09-24T03:58:52.964669Z",
+      "description": "普通成功首次主动施法后待击10秒，重复施法刷新，不叠次数；普攻命中执行原咒刃伤害并启动1500毫秒冷却，超时只清待命。窗口、刷新及冷却起算点为项目近似；特殊使用和吸血资格仍待核。",
+      "effectBindings": [
+        {
+          "bindingKey": "deal_spellblade_damage",
+          "effectKey": "spellblade_damage",
+          "moment": {
+            "momentType": "STEP_EXECUTION",
+            "stepKey": "empowered_hit"
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "咒刃待击与命中消费",
+      "processKey": "spellblade_consume",
+      "skillKey": "item_3057_passive",
+      "sortOrder": 10,
+      "stateOperations": [
+        {
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "name": "进入待命",
+          "operation": "ENABLE",
+          "operationKey": "set_ready",
+          "optionKey": null,
+          "sortOrder": 10,
+          "stateKey": "spellblade_ready",
+          "value": null
+        },
+        {
+          "moment": {
+            "momentType": "STEP_EXECUTION",
+            "stepKey": "empowered_hit"
+          },
+          "name": "命中消费待命",
+          "operation": "DISABLE",
+          "operationKey": "consume_ready",
+          "optionKey": null,
+          "sortOrder": 30,
+          "stateKey": "spellblade_ready",
+          "value": null
+        },
+        {
+          "moment": {
+            "momentType": "STEP_EXECUTION",
+            "stepKey": "empowered_hit"
+          },
+          "name": "命中开始冷却",
+          "operation": "START",
+          "operationKey": "start_icd",
+          "optionKey": null,
+          "sortOrder": 40,
+          "stateKey": "spellblade_icd",
+          "value": null
+        },
+        {
+          "moment": {
+            "momentType": "STEP_TIMEOUT",
+            "stepKey": "empowered_hit"
+          },
+          "name": "超时结束待命",
+          "operation": "DISABLE",
+          "operationKey": "timeout_ready",
+          "optionKey": null,
+          "sortOrder": 50,
+          "stateKey": "spellblade_ready",
+          "value": null
+        }
+      ],
+      "steps": [
+        {
+          "description": "等待实际普攻命中，取该次普攻目标；待击窗口为项目近似。",
+          "detail": {
+            "consumeMoment": "ATTACK_HIT",
+            "windowValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "spellblade_window_ms"
+            }
+          },
+          "name": "等待强化普通攻击命中",
+          "sortOrder": 10,
+          "stepKey": "empowered_hit",
+          "stepType": "EMPOWERED_BASIC_ATTACK"
+        }
+      ],
+      "updatedAt": "2026-09-24T03:58:52.964669Z"
+    },
+    "/skills/item_3057_passive/internal-states": [
+      {
+        "createdAt": "2026-09-24T03:32:38.200374Z",
+        "description": "普通成功首次主动施法且冷却就绪时开启；重复施法刷新窗口，强化普攻命中或超时关闭。窗口与刷新按项目近似。",
+        "gameId": "lol",
+        "name": "咒刃待命",
+        "scope": "SKILL",
+        "skillKey": "item_3057_passive",
+        "sortOrder": 10,
+        "stateKey": "spellblade_ready",
+        "stateType": "FLAG",
+        "updatedAt": "2026-09-24T03:32:38.200374Z"
+      },
+      {
+        "createdAt": "2026-09-24T03:41:05.583581Z",
+        "description": "冷却1500毫秒来自本物品资料。命中消费后起算、超时不启动为项目近似。",
+        "gameId": "lol",
+        "name": "咒刃内部冷却",
+        "scope": "SKILL",
+        "skillKey": "item_3057_passive",
+        "sortOrder": 20,
+        "stateKey": "spellblade_icd",
+        "stateType": "INTERNAL_COOLDOWN",
+        "updatedAt": "2026-09-24T03:41:05.583581Z"
+      }
+    ],
+    "/skills/item_3057_passive/internal-states/spellblade_ready": {
+      "createdAt": "2026-09-24T03:32:38.200374Z",
+      "description": "普通成功首次主动施法且冷却就绪时开启；重复施法刷新窗口，强化普攻命中或超时关闭。窗口与刷新按项目近似。",
+      "detail": {
+        "initialEnabled": false
+      },
+      "gameId": "lol",
+      "name": "咒刃待命",
+      "scope": "SKILL",
+      "skillKey": "item_3057_passive",
+      "sortOrder": 10,
+      "stateKey": "spellblade_ready",
+      "stateType": "FLAG",
+      "updatedAt": "2026-09-24T03:32:38.200374Z"
+    },
+    "/skills/item_3057_passive/internal-states/spellblade_icd": {
+      "createdAt": "2026-09-24T03:41:05.583581Z",
+      "description": "冷却1500毫秒来自本物品资料。命中消费后起算、超时不启动为项目近似。",
+      "detail": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "spellblade_cooldown_ms"
+        }
+      },
+      "gameId": "lol",
+      "name": "咒刃内部冷却",
+      "scope": "SKILL",
+      "skillKey": "item_3057_passive",
+      "sortOrder": 20,
+      "stateKey": "spellblade_icd",
+      "stateType": "INTERNAL_COOLDOWN",
+      "updatedAt": "2026-09-24T03:41:05.583581Z"
+    },
+    "/skills/item_3057_passive/trigger-rules": [],
+    "/equipment/item_3057": {
+      "createdAt": "2026-09-06T17:16:51.914783Z",
+      "description": "来源：官方16.17.1装备3057。 原始说明：10技能急速 咒刃 施放技能后，你的下一次普通攻击会造成额外物理伤害攻击特效。 被动与主动效果尚待配置。",
+      "equipmentKey": "item_3057",
+      "gameId": "lol",
+      "name": "耀光",
+      "updatedAt": "2026-09-06T17:16:51.914783Z"
+    },
+    "/equipment/item_3057/attributes": {
+      "attributeValues": {
+        "ability_haste": 10
+      },
+      "equipmentKey": "item_3057"
+    },
+    "/equipment/item_3057/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_item_3057",
+        "name": "item_3057"
+      }
+    },
+    "/equipment-skill-relations?equipmentKey=item_3057": {
+      "items": [
+        {
+          "equipmentKey": "item_3057",
+          "equipmentName": "耀光",
+          "gameId": "lol",
+          "skillKey": "item_3057_passive",
+          "skillName": "耀光·咒刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "total": 1
+    },
+    "/equipment-skill-relations?skillKey=item_3057_passive": {
+      "items": [
+        {
+          "equipmentKey": "item_3057",
+          "equipmentName": "耀光",
+          "gameId": "lol",
+          "skillKey": "item_3057_passive",
+          "skillName": "耀光·咒刃",
+          "skillStatus": "ENABLED",
+          "sortOrder": 10
+        }
+      ],
+      "total": 1
+    },
+    "/skills/item_3057_passive/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_item_3057",
+        "name": "item_3057"
+      }
+    },
+    "/vamp-rules": {
+      "rules": [
+        {
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "defaultEfficiency": 1,
+          "deliveryKinds": [
+            "BASIC_ATTACK"
+          ],
+          "originKinds": [
+            "DIRECT"
+          ],
+          "skillCategoryKeys": [
+            "basic_attack"
+          ],
+          "sourceAttributeKey": "life_steal_percent",
+          "vampType": "LIFE_STEAL"
+        },
+        {
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "defaultEfficiency": 1,
+          "deliveryKinds": [
+            "SKILL",
+            "BASIC_ATTACK"
+          ],
+          "originKinds": [
+            "DIRECT"
+          ],
+          "skillCategoryKeys": [
+            "basic_attack",
+            "common",
+            "passive",
+            "ultimate"
+          ],
+          "sourceAttributeKey": "omnivamp_percent",
+          "vampType": "OMNIVAMP"
+        }
+      ]
+    },
+    "/skill-categories/passive": {
+      "createdAt": "2026-08-26T05:59:36.038429Z",
+      "description": null,
+      "gameId": "lol",
+      "name": "被动技能",
+      "skillCategoryKey": "passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:36.038429Z"
+    },
+    "/attributes/attack_damage": {
+      "attributeKey": "attack_damage",
+      "createdAt": "2026-08-30T16:26:29.341938Z",
+      "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": 0,
+      "name": "攻击力",
+      "sortOrder": 500,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-30T16:26:29.341938Z",
+      "valueType": "DECIMAL"
+    },
+    "/attributes/ability_haste": {
+      "attributeKey": "ability_haste",
+      "createdAt": "2026-09-06T14:29:52.533949Z",
+      "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+      "gameId": "lol",
+      "maxValue": null,
+      "minValue": null,
+      "name": "技能急速",
+      "sortOrder": 550,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T14:29:52.533949Z",
+      "valueType": "DECIMAL"
+    },
+    "/damage-types/physics": {
+      "createdAt": "2026-08-26T05:59:09.635701Z",
+      "damageTypeKey": "physics",
+      "description": null,
+      "gameId": "lol",
+      "name": "物理伤害",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-08-26T05:59:09.635701Z"
+    },
+    "/skills/item_3057_passive/trigger-rules/spellblade_arm": {
+      "http": 404
+    }
+  },
+  "protectedResponses": 20,
+  "businessWrites": 0,
+  "wholeEquipmentRuntime": false
+}

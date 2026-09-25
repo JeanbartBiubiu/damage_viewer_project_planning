@@ -1,0 +1,28 @@
+{
+  "object": "item_3508_passive",
+  "route": "刷新装备3508→关联技能→录入技能→行为总览",
+  "nonGetBefore": 7,
+  "nonGetAfter": 7,
+  "sections": {
+    "hit": [
+      "强化下一次普通攻击 · 命中时消费",
+      "待击窗口（毫秒）：参数 spellblade_window_ms",
+      "deal_spellblade_damage",
+      "restore_mana",
+      "consume_ready",
+      "start_icd"
+    ],
+    "end": [
+      "timeout_ready",
+      "步骤超时 / empowered_hit"
+    ],
+    "supplement": "没有未归类规则、未挂接效果或五组未覆盖的过程"
+  },
+  "result": "原对象已挂接的单强化步骤与效果/状态操作正确归入命中；超时归结束；补充入口不再误收这些项目。此对象两效果均已挂接，不能凭本对象单独实证未挂接效果保留；页面仍声明该类项归补充入口。",
+  "blocker": false,
+  "screenshots": [
+    "18-夺萃命中分组修复回验上.png",
+    "19-夺萃命中分组修复回验下.png",
+    "20-夺萃超时与补充入口修复回验.png"
+  ]
+}

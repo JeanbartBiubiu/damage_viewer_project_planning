@@ -1,0 +1,19 @@
+
+[WebServer] (node:21456) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:5728) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:44704) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+[1/6] [Desktop Chrome] › tests\e2e\non-wasm-pages.spec.ts:6729:3 › skill management without Wasm › creates a low-health condition and trigger rule, blocks duplicate save, then deletes it
+[2/6] [Desktop Chrome] › tests\e2e\non-wasm-pages.spec.ts:6818:63 › skill management without Wasm › binds a later condition and trigger execute-effect action to the earlier configured-value result (FORMULA)
+[3/6] [Desktop Chrome] › tests\e2e\non-wasm-pages.spec.ts:6818:63 › skill management without Wasm › binds a later condition and trigger execute-effect action to the earlier configured-value result (PARAMETER)
+[4/6] [Desktop Chrome] › tests\e2e\non-wasm-pages.spec.ts:7043:3 › skill management without Wasm › confirms stale prior-result cleanup after reordering actions and can cancel
+[5/6] [Desktop Chrome] › tests\e2e\non-wasm-pages.spec.ts:7103:3 › skill management without Wasm › retries source-effect loading without dropping the prior-result draft
+[6/6] [Desktop Chrome] › tests\e2e\non-wasm-pages.spec.ts:8099:1 › unsaved trigger child keys can be named while persisted keys stay locked
+  6 passed (1.7m)

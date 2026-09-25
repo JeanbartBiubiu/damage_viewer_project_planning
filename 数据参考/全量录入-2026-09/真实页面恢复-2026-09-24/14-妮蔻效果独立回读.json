@@ -1,0 +1,1280 @@
+{
+  "status": "PASS",
+  "at": "2026-09-24T02:03:02.958Z",
+  "businessWrites": 0,
+  "protectedResponses": 38,
+  "audit": [
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive/parameters/missing_health_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive/parameters/maximum_health_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive/formulas/triumph_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive/effects/triumph_heal",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive/trigger-rules/on_champion_kill",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/rune_9111_passive/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/parameters/damage_base",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/parameters/ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/parameters/min_root_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/parameters/cast_time_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/formulas/damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/formulas/first_target_root_duration",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/effects/primary_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/effects/first_contact_root",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/processes/cast",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/trigger-rules/on_used",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/trigger-rules/actual_hit",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/runes/rune_9111",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/rune-skill-relations?runeKey=rune_9111",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/character-skill-relations?skillKey=neeko_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/runes/rune_9111/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/statuses",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/level-config",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/vamp-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/neeko_e/trigger-rules/apply_root_on_first_contact",
+      "status": 404
+    }
+  ],
+  "values": {
+    "/skills/rune_9111_passive": {
+      "createdAt": "2026-09-09T01:35:14.553927Z",
+      "description": "严格一对一范围内，击杀敌方英雄后，按来源对象5%已损失生命值加2.5%最大生命值治疗自身。采用击杀事件结算时一次治疗的模拟口径；多人助攻及额外金币不在本轮范围。",
+      "gameId": "lol",
+      "maxLevel": 1,
+      "name": "符文·凯旋",
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "skillKey": "rune_9111_passive",
+      "sortOrder": 0,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-24T01:47:24.87036Z"
+    },
+    "/skills/rune_9111_passive/parameters": [
+      {
+        "createdAt": "2026-09-09T01:35:15.271803Z",
+        "description": "5%已损失生命值",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已损生命治疗比例",
+        "parameterKey": "missing_health_ratio",
+        "skillKey": "rune_9111_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:15.271803Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T01:35:15.907484Z",
+        "description": "2.5%最大生命值",
+        "fixedValue": 0.025,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最大生命治疗比例",
+        "parameterKey": "maximum_health_ratio",
+        "skillKey": "rune_9111_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:15.907484Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    ],
+    "/skills/rune_9111_passive/parameters/missing_health_ratio": {
+      "createdAt": "2026-09-09T01:35:15.271803Z",
+      "description": "5%已损失生命值",
+      "fixedValue": 0.05,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "已损生命治疗比例",
+      "parameterKey": "missing_health_ratio",
+      "skillKey": "rune_9111_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T01:35:15.271803Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rune_9111_passive/parameters/maximum_health_ratio": {
+      "createdAt": "2026-09-09T01:35:15.907484Z",
+      "description": "2.5%最大生命值",
+      "fixedValue": 0.025,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "最大生命治疗比例",
+      "parameterKey": "maximum_health_ratio",
+      "skillKey": "rune_9111_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T01:35:15.907484Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/rune_9111_passive/formulas": [
+      {
+        "createdAt": "2026-09-09T01:35:16.64199Z",
+        "description": "最大生命与已损生命来自SOURCE不同属性视图",
+        "formulaKey": "triumph_heal",
+        "gameId": "lol",
+        "name": "凯旋治疗值",
+        "skillKey": "rune_9111_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:16.64199Z"
+      }
+    ],
+    "/skills/rune_9111_passive/formulas/triumph_heal": {
+      "createdAt": "2026-09-09T01:35:16.64199Z",
+      "description": "最大生命与已损生命来自SOURCE不同属性视图",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "MISSING",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "missing_health_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "maximum_health_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "triumph_heal",
+      "gameId": "lol",
+      "name": "凯旋治疗值",
+      "skillKey": "rune_9111_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T01:35:16.64199Z"
+    },
+    "/skills/rune_9111_passive/effects": [
+      {
+        "createdAt": "2026-09-09T01:35:17.455237Z",
+        "description": "严格一对一范围内，由击杀英雄规则触发，按来源对象5%已损生命值与2.5%最大生命值之和治疗技能拥有者。规则动作的当前目标用于事件上下文，治疗结果仍作用于来源对象；多人助攻和金币分支不在本轮范围。",
+        "effectKey": "triumph_heal",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "凯旋独立治疗",
+        "resultCount": 1,
+        "skillKey": "rune_9111_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-24T01:18:44.680386Z"
+      }
+    ],
+    "/skills/rune_9111_passive/effects/triumph_heal": {
+      "createdAt": "2026-09-09T01:35:17.455237Z",
+      "description": "严格一对一范围内，由击杀英雄规则触发，按来源对象5%已损生命值与2.5%最大生命值之和治疗技能拥有者。规则动作的当前目标用于事件上下文，治疗结果仍作用于来源对象；多人助攻和金币分支不在本轮范围。",
+      "effectKey": "triumph_heal",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "凯旋独立治疗",
+      "results": [
+        {
+          "description": null,
+          "detail": {},
+          "lifecycleBehavior": null,
+          "name": "凯旋独立治疗",
+          "resultKey": "result",
+          "resultType": "DIRECT_HEAL",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "triumph_heal",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "rune_9111_passive",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-24T01:18:44.680386Z"
+    },
+    "/skills/rune_9111_passive/processes": [],
+    "/skills/rune_9111_passive/internal-states": [],
+    "/skills/rune_9111_passive/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "严格一对一模型中，来源对象击杀当前英雄目标后，在当前目标上下文执行已有的 triumph_heal；KILL 没有 EVENT_SOURCE，已有结果 target=SOURCE，因此治疗技能拥有者。多人助攻和完整参与击杀不由本规则描述。",
+        "eventType": "KILL",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "击杀英雄触发凯旋治疗",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_champion_kill",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-12T14:35:53.115176Z"
+      }
+    ],
+    "/skills/rune_9111_passive/trigger-rules/on_champion_kill": {
+      "actions": [
+        {
+          "actionKey": "execute_triumph_heal",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "triumph_heal"
+          },
+          "name": "执行凯旋治疗",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "被击杀对象为英雄",
+          "sortOrder": 10
+        }
+      ],
+      "description": "严格一对一模型中，来源对象击杀当前英雄目标后，在当前目标上下文执行已有的 triumph_heal；KILL 没有 EVENT_SOURCE，已有结果 target=SOURCE，因此治疗技能拥有者。多人助攻和完整参与击杀不由本规则描述。",
+      "eventSource": {
+        "detail": {},
+        "eventType": "KILL"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "击杀英雄触发凯旋治疗",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_champion_kill",
+      "sortOrder": 10
+    },
+    "/skills/rune_9111_passive/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "rune_9111",
+        "name": "符文·凯旋"
+      }
+    },
+    "/skills/neeko_e": {
+      "createdAt": "2026-09-06T18:19:37.686699Z",
+      "description": "妮蔻投出一团倒刺，对它沿途的所有东西造成伤害和禁锢效果。如果倒刺击杀了一个敌人或穿过了一名英雄，就会变得更大、更快并且禁锢时间更长。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "妮蔻·缠结倒刺",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "neeko_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:19:37.686699Z"
+    },
+    "/skills/neeko_e/parameters": [
+      {
+        "createdAt": "2026-09-10T02:04:49.362356Z",
+        "description": "来源70/105/140/175/210。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "首个目标基础魔法伤害",
+        "parameterKey": "damage_base",
+        "skillKey": "neeko_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:04:49.362356Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:51.124215Z",
+        "description": "当前树系数0.65。",
+        "fixedValue": 0.6499999762,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强倍率",
+        "parameterKey": "ap_ratio",
+        "skillKey": "neeko_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:04:51.124215Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:52.746604Z",
+        "description": "当前正文首个目标为0.7/0.9/1.1/1.3/1.5秒，转为毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 700,
+          "2": 900,
+          "3": 1100,
+          "4": 1300,
+          "5": 1500
+        },
+        "name": "首个目标禁锢持续（毫秒）",
+        "parameterKey": "min_root_duration_ms",
+        "skillKey": "neeko_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-10T02:04:52.746604Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:54.397258Z",
+        "description": "根spellCastTime为0.25秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "根施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "neeko_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-10T02:04:54.397258Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:40:51.535042Z",
+        "description": "DDragon16.17.1 Neeko.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "neeko_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:51.535042Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-08T02:40:51.965249Z",
+        "description": "DDragon16.17.1 Neeko.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "neeko_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:51.965249Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/neeko_e/parameters/damage_base": {
+      "createdAt": "2026-09-10T02:04:49.362356Z",
+      "description": "来源70/105/140/175/210。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 105,
+        "3": 140,
+        "4": 175,
+        "5": 210
+      },
+      "name": "首个目标基础魔法伤害",
+      "parameterKey": "damage_base",
+      "skillKey": "neeko_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:04:49.362356Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/parameters/ap_ratio": {
+      "createdAt": "2026-09-10T02:04:51.124215Z",
+      "description": "当前树系数0.65。",
+      "fixedValue": 0.6499999762,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "法强倍率",
+      "parameterKey": "ap_ratio",
+      "skillKey": "neeko_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T02:04:51.124215Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/neeko_e/parameters/min_root_duration_ms": {
+      "createdAt": "2026-09-10T02:04:52.746604Z",
+      "description": "当前正文首个目标为0.7/0.9/1.1/1.3/1.5秒，转为毫秒。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 700,
+        "2": 900,
+        "3": 1100,
+        "4": 1300,
+        "5": 1500
+      },
+      "name": "首个目标禁锢持续（毫秒）",
+      "parameterKey": "min_root_duration_ms",
+      "skillKey": "neeko_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-10T02:04:52.746604Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/parameters/cast_time_ms": {
+      "createdAt": "2026-09-10T02:04:54.397258Z",
+      "description": "根spellCastTime为0.25秒。",
+      "fixedValue": 250,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "根施法时间（毫秒）",
+      "parameterKey": "cast_time_ms",
+      "skillKey": "neeko_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-10T02:04:54.397258Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-08T02:40:51.535042Z",
+      "description": "DDragon16.17.1 Neeko.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 12000,
+        "2": 11500,
+        "3": 11000,
+        "4": 10500,
+        "5": 10000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "neeko_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-08T02:40:51.535042Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/parameters/mana_cost": {
+      "createdAt": "2026-09-08T02:40:51.965249Z",
+      "description": "DDragon16.17.1 Neeko.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "neeko_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-08T02:40:51.965249Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/neeko_e/formulas": [
+      {
+        "createdAt": "2026-09-10T02:04:55.953888Z",
+        "description": "对应BaseDamage；本轮只保留首个目标。",
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "缠结倒刺本体魔法伤害",
+        "skillKey": "neeko_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-10T02:04:55.953888Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:57.463316Z",
+        "description": "首个目标第一次命中使用最小禁锢；强化后续目标需要额外敌人，排除。",
+        "formulaKey": "first_target_root_duration",
+        "gameId": "lol",
+        "name": "缠结倒刺首个目标禁锢",
+        "skillKey": "neeko_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-10T02:04:57.463316Z"
+      }
+    ],
+    "/skills/neeko_e/formulas/damage": {
+      "createdAt": "2026-09-10T02:04:55.953888Z",
+      "description": "对应BaseDamage；本轮只保留首个目标。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "damage",
+      "gameId": "lol",
+      "name": "缠结倒刺本体魔法伤害",
+      "skillKey": "neeko_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-10T02:04:55.953888Z"
+    },
+    "/skills/neeko_e/formulas/first_target_root_duration": {
+      "createdAt": "2026-09-10T02:04:57.463316Z",
+      "description": "首个目标第一次命中使用最小禁锢；强化后续目标需要额外敌人，排除。",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "min_root_duration_ms"
+      },
+      "formulaKey": "first_target_root_duration",
+      "gameId": "lol",
+      "name": "缠结倒刺首个目标禁锢",
+      "skillKey": "neeko_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-10T02:04:57.463316Z"
+    },
+    "/skills/neeko_e/effects": [
+      {
+        "createdAt": "2026-09-19T03:40:18.95223Z",
+        "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+        "effectKey": "primary_hit",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "妮蔻·缠结倒刺本体直接伤害",
+        "resultCount": 1,
+        "skillKey": "neeko_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-19T03:40:18.95223Z"
+      },
+      {
+        "createdAt": "2026-09-24T02:01:35.171858Z",
+        "description": "仅用于本次妮蔻E首次合资格单位接触为敌方英雄、同次法术护盾判定明确未阻挡且无本来源实例的最短禁锢分支；其他接触、强化及重施仍待核。",
+        "effectKey": "first_contact_root",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "缠结倒刺首个接触目标禁锢",
+        "resultCount": 1,
+        "skillKey": "neeko_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-24T02:01:35.171858Z"
+      },
+      {
+        "createdAt": "2026-09-10T02:04:59.071785Z",
+        "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "neeko_e",
+        "sortOrder": 900,
+        "updatedAt": "2026-09-10T02:04:59.071785Z"
+      }
+    ],
+    "/skills/neeko_e/effects/primary_hit": {
+      "createdAt": "2026-09-19T03:40:18.95223Z",
+      "description": "本轮1V1根技能本体实际命中敌方英雄的直接魔法伤害；引用已有公式，控制、回复、印记、球位置与其他联动另行处理。",
+      "effectKey": "primary_hit",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "妮蔻·缠结倒刺本体直接伤害",
+      "results": [
+        {
+          "description": "引用同技能damage，保留已有属性口径和等级系数。",
+          "detail": {
+            "critical": {
+              "mode": "DISALLOWED",
+              "multiplierValue": null
+            },
+            "damageTypeKey": "magic",
+            "deliveryKind": "SKILL",
+            "originKind": "DIRECT",
+            "vampOverrides": [],
+            "vampQualification": "UNRESOLVED"
+          },
+          "lifecycleBehavior": null,
+          "name": "魔法伤害",
+          "resultKey": "damage",
+          "resultType": "DAMAGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": "SKILL",
+          "target": "TARGET",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "damage",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "neeko_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-19T03:40:18.95223Z"
+    },
+    "/skills/neeko_e/effects/first_contact_root": {
+      "createdAt": "2026-09-24T02:01:35.171858Z",
+      "description": "仅用于本次妮蔻E首次合资格单位接触为敌方英雄、同次法术护盾判定明确未阻挡且无本来源实例的最短禁锢分支；其他接触、强化及重施仍待核。",
+      "effectKey": "first_contact_root",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "min_root_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE_TARGET",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "缠结倒刺首个接触目标禁锢",
+      "results": [
+        {
+          "description": "控制资格由受限入口核对；本结果不再次独立判断法术护盾，持续状态随本来源与目标实例到期结束。",
+          "detail": {
+            "operation": "APPLY",
+            "statusKey": "root"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": null,
+            "stackValueMode": null,
+            "valueReadMode": null
+          },
+          "name": "缠结倒刺最短禁锢",
+          "resultKey": "root",
+          "resultType": "STATUS_OPERATION",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "TARGET",
+          "valueRule": null
+        }
+      ],
+      "skillKey": "neeko_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-24T02:01:35.171858Z"
+    },
+    "/skills/neeko_e/effects/mana_cost": {
+      "createdAt": "2026-09-10T02:04:59.071785Z",
+      "description": "复用冻结公共法力参数；仅记录基础资源消耗，实际扣除时点由事件层接线。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": "不表示战斗事件已经接线。",
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放资源消耗",
+          "resultKey": "consume_resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "neeko_e",
+      "sortOrder": 900,
+      "updatedAt": "2026-09-10T02:04:59.071785Z"
+    },
+    "/skills/neeko_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-21T05:29:51.612635Z",
+        "description": "只登记本次施放法力、普通冷却及当前根字段支持的250毫秒施法延迟；不在过程结束时生成实际命中或禁锢。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "施放缠结倒刺",
+        "processKey": "cast",
+        "skillKey": "neeko_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-21T05:29:51.612635Z"
+      }
+    ],
+    "/skills/neeko_e/processes/cast": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-21T05:29:51.612635Z",
+      "description": "只登记本次施放法力、普通冷却及当前根字段支持的250毫秒施法延迟；不在过程结束时生成实际命中或禁锢。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "施放缠结倒刺",
+      "processKey": "cast",
+      "skillKey": "neeko_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "当前主技能spellCastTime为0.25秒；不表示弹道完成或命中。",
+          "detail": {
+            "delayValue": {
+              "kind": "PARAMETER",
+              "parameterKey": "cast_time_ms"
+            }
+          },
+          "name": "施法延迟",
+          "sortOrder": 10,
+          "stepKey": "cast_time",
+          "stepType": "DELAY"
+        }
+      ],
+      "updatedAt": "2026-09-21T05:29:51.612635Z"
+    },
+    "/skills/neeko_e/internal-states": [],
+    "/skills/neeko_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "本技能主动使用时启动法力、普通冷却与施法延迟过程；实际命中独立接收，首个目标及强化禁锢资格继续单独核定。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "缠结倒刺普通使用",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-21T05:29:53.038651Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "消费neeko_e根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+        "eventType": "SKILL_HIT",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "妮蔻·缠结倒刺本体实际命中",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "actual_hit",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-19T03:40:20.336026Z"
+      }
+    ],
+    "/skills/neeko_e/trigger-rules/on_used": {
+      "actions": [
+        {
+          "actionKey": "start_cast",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "cast"
+          },
+          "name": "启动已有施法过程",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "本技能主动使用时启动法力、普通冷却与施法延迟过程；实际命中独立接收，首个目标及强化禁锢资格继续单独核定。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "neeko_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "缠结倒刺普通使用",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_used",
+      "sortOrder": 5
+    },
+    "/skills/neeko_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行妮蔻·缠结倒刺直接伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "消费neeko_e根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "neeko_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "妮蔻·缠结倒刺本体实际命中",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    },
+    "/skills/neeko_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_neeko_e",
+        "name": "neeko_e"
+      }
+    },
+    "/runes/rune_9111": {
+      "category": "MINOR",
+      "createdAt": "2026-09-08T18:47:29.883463Z",
+      "description": "参与击杀会回复你5%已损失生命值，你2.5%最大生命值，并提供额外的20金币。\n\n\n“最危险的游戏带来最伟大的荣光。”\n—诺克萨斯清算人",
+      "gameId": "lol",
+      "name": "凯旋",
+      "runeKey": "rune_9111",
+      "updatedAt": "2026-09-08T18:47:29.883463Z"
+    },
+    "/rune-skill-relations?runeKey=rune_9111": {
+      "items": [
+        {
+          "gameId": "lol",
+          "runeKey": "rune_9111",
+          "runeName": "凯旋",
+          "skillKey": "rune_9111_passive",
+          "skillName": "符文·凯旋",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        }
+      ],
+      "total": 1
+    },
+    "/character-skill-relations?skillKey=neeko_e": {
+      "items": [
+        {
+          "characterKey": "champion_neeko",
+          "characterName": "妮蔻",
+          "gameId": "lol",
+          "skillKey": "neeko_e",
+          "skillName": "妮蔻·缠结倒刺",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/runes/rune_9111/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "rune_9111",
+        "name": "符文·凯旋"
+      }
+    },
+    "/statuses": {
+      "items": [
+        {
+          "createdAt": "2026-08-28T14:55:06.53067Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "眩晕",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "statusKey": "vertigo",
+          "statusKind": "STUN",
+          "updatedAt": "2026-08-28T14:55:06.53067Z"
+        },
+        {
+          "createdAt": "2026-09-19T06:37:05.092208Z",
+          "description": "普通移动减速状态身份；具体减速比例与持续时间由技能效果维护。",
+          "gameId": "lol",
+          "name": "普通移动减速",
+          "sortOrder": 10,
+          "status": "ENABLED",
+          "statusKey": "movement_slow",
+          "statusKind": "MOVEMENT_SLOW",
+          "updatedAt": "2026-09-19T08:22:48.378088Z"
+        },
+        {
+          "createdAt": "2026-09-19T04:52:01.232803Z",
+          "description": "禁锢状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+          "gameId": "lol",
+          "name": "禁锢",
+          "sortOrder": 20,
+          "status": "ENABLED",
+          "statusKey": "root",
+          "statusKind": "ROOT",
+          "updatedAt": "2026-09-19T04:52:01.232803Z"
+        },
+        {
+          "createdAt": "2026-09-19T16:42:34.531835Z",
+          "description": "沉默状态身份；具体持续时间由技能效果生命周期维护，本状态不另设强度数值。",
+          "gameId": "lol",
+          "name": "沉默",
+          "sortOrder": 30,
+          "status": "ENABLED",
+          "statusKey": "silence",
+          "statusKind": "SILENCE",
+          "updatedAt": "2026-09-19T16:42:34.531835Z"
+        },
+        {
+          "createdAt": "2026-09-19T20:24:19.522892Z",
+          "description": "魅惑状态身份：目标被迫接近技能来源；具体期限由效果生命周期维护，本状态不另设强度数值。",
+          "gameId": "lol",
+          "name": "魅惑",
+          "sortOrder": 40,
+          "status": "ENABLED",
+          "statusKey": "charm",
+          "statusKind": "CHARM",
+          "updatedAt": "2026-09-19T20:24:19.522892Z"
+        }
+      ],
+      "total": 5
+    },
+    "/level-config": {
+      "gameId": "lol",
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/vamp-rules": {
+      "rules": [
+        {
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "defaultEfficiency": 1,
+          "deliveryKinds": [
+            "BASIC_ATTACK"
+          ],
+          "originKinds": [
+            "DIRECT"
+          ],
+          "skillCategoryKeys": [
+            "basic_attack"
+          ],
+          "sourceAttributeKey": "life_steal_percent",
+          "vampType": "LIFE_STEAL"
+        },
+        {
+          "basisOutputKind": "POST_DEFENSE_DAMAGE",
+          "defaultEfficiency": 1,
+          "deliveryKinds": [
+            "SKILL",
+            "BASIC_ATTACK"
+          ],
+          "originKinds": [
+            "DIRECT"
+          ],
+          "skillCategoryKeys": [
+            "basic_attack",
+            "common",
+            "passive",
+            "ultimate"
+          ],
+          "sourceAttributeKey": "omnivamp_percent",
+          "vampType": "OMNIVAMP"
+        }
+      ]
+    },
+    "/skills/neeko_e/trigger-rules/apply_root_on_first_contact": {
+      "http": 404
+    }
+  },
+  "scope": "readback-neeko-effect",
+  "runtimeValidated": false
+}

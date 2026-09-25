@@ -1,0 +1,84 @@
+{
+  "at": "2026-09-24T05:34:57.225Z",
+  "status": "PASS",
+  "issue": "索拉卡R总览只有属性比较类型，需进入嵌套编辑器才能核对真实字段、比较符和阈值引用",
+  "fix": "只读复用现有conditionSummary，已保存结构决定展示，不依赖人工说明",
+  "original": {
+    "object": "soraka_r",
+    "agent": "gpt-6-sol/max",
+    "evidence": "执行代理/sol_soraka/19-索拉卡条件摘要修复原对象回验.json",
+    "bothComparators": true,
+    "correctEditLocations": true,
+    "businessWrites": 0
+  },
+  "peer": {
+    "object": "item_3057_passive",
+    "agent": "gpt-6-luna/max",
+    "evidence": "执行代理/luna_sheen/23-冷却条件摘要热更新只读核验.json",
+    "remainingMillisecondsEqualsZero": true,
+    "correctEditLocation": true,
+    "businessWrites": 0
+  },
+  "checks": {
+    "oldRegressionFailures": 3,
+    "overviewTests": 10,
+    "fullUnit": 1096,
+    "typecheck": true,
+    "lint": true,
+    "build": true,
+    "independentReview": "READY"
+  },
+  "readback": {
+    "fullGETs": 58,
+    "evidence": "条件摘要返回-独立现值保持.json",
+    "afterFinalCloseGETs": 6,
+    "audit": [
+      {
+        "method": "GET",
+        "route": "/skills/soraka_r/trigger-rules",
+        "status": 200,
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "route": "/skills/soraka_r/trigger-rules/on_used",
+        "status": 200,
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "route": "/skills/soraka_r/trigger-rules/on_used_self_heal",
+        "status": 200,
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "route": "/skills/soraka_r/trigger-rules/on_used_self_low_health_heal",
+        "status": 200,
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "route": "/skills/item_3057_passive/trigger-rules",
+        "status": 200,
+        "unchanged": true
+      },
+      {
+        "method": "GET",
+        "route": "/skills/item_3057_passive/trigger-rules/spellblade_arm",
+        "status": 200,
+        "unchanged": true
+      }
+    ]
+  },
+  "sourceHashes": {
+    "web/src/pages/admin/skills/overview/skillBehaviorOverview.ts": "672d2290134ddb2117fa2cd853504942a5abe265336e4359a412faf312f03532",
+    "web/src/pages/admin/skills/overview/skillBehaviorOverview.test.ts": "3f85102ca00f0235368fe0f7e4bf13d28fbebb3a6b1155b5b4bb5750621af254"
+  },
+  "sideObservation": {
+    "status": "待验证、非阻塞",
+    "observation": "耀光取消嵌套编辑时短暂显示空白新增窗口，未保存；索拉卡同类未复现",
+    "dataChanged": false,
+    "next": "后续条件直达取消操作再定点复现，当前不据此宣称新增业务或数据错误"
+  }
+}

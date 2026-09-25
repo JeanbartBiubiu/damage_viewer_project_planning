@@ -1,0 +1,1226 @@
+{
+  "at": "2026-09-24T13:19:12.421Z",
+  "skillKey": "janna_e",
+  "characterKey": "champion_janna",
+  "inSelected50": true,
+  "capabilityQuestion": "现有护盾与攻击力增益能否绑定同一指定护盾的存续，提前破裂或到期时不留下攻击力增益",
+  "businessWrites": 0,
+  "pageWriteApproved": false,
+  "boundary": "先做真实页面表达能力验证；不更改原护盾期限、公式、自施资格、过程或规则，不把固定时长增益冒充护盾存续资格",
+  "independentGETs": 30,
+  "sources": [
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/en_US/champion/Janna.json",
+      "sha256": "c665a98569145613b2207f92c5861cac396cfc8f526d1eb4d6213cab77b51b36"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/英雄/原始资料/zh_CN/champion/Janna.json",
+      "sha256": "8c316afb077627ac96c26f4b36cf401ce8a73d65a94e62c473f30419bd7f5f90"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/技能公共参数实录/客户端原文/Janna.json.gz",
+      "sha256": "0e391039ad77b2b0d39527efc10a702783073e2da50e42a57c927907652b4e10"
+    },
+    {
+      "path": "数据参考/全量录入-2026-09/四项自施来源复核/自施目标补证-2026-09-19.json",
+      "sha256": "414985c59703ca171aa94c1e908b8586622e464bb4338dd8ea506c1d2e877bc1"
+    }
+  ],
+  "audit": [
+    {
+      "method": "GET",
+      "route": "/skills/janna_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/characters/champion_janna",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/characters/champion_janna/attributes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/characters/champion_janna/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/representative-image",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/character-skill-relations?characterKey=champion_janna",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/character-skill-relations?skillKey=janna_e",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/cc_cooldown_refund_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/empower_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/decay_grace_period_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/base_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/shield_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/bonus_attack_damage",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/attack_damage_ap_ratio",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/shield_duration_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/formulas",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/formulas/total_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/formulas/total_attack_damage_bonus",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/effects",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/effects/mana_cost",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/effects/self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/processes",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/internal-states",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/trigger-rules/on_used_self_shield",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/processes/use_cost_and_cooldown",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/skills/janna_e/trigger-rules/on_used_cost_and_cooldown",
+      "status": 200
+    }
+  ],
+  "values": {
+    "/skills/janna_e": {
+      "createdAt": "2026-09-06T18:18:39.369155Z",
+      "description": "迦娜制造出一阵防御性的气旋，来为目标友军或防御塔吸收即将到来的伤害，并提高目标的攻击力。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+      "gameId": "lol",
+      "maxLevel": 5,
+      "name": "迦娜·风暴之眼",
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "skillKey": "janna_e",
+      "sortOrder": 3,
+      "status": "ENABLED",
+      "updatedAt": "2026-09-06T18:18:39.369155Z"
+    },
+    "/characters/champion_janna": {
+      "characterKey": "champion_janna",
+      "createdAt": "2026-09-06T16:47:41.296051Z",
+      "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+      "gameId": "lol",
+      "name": "迦娜",
+      "updatedAt": "2026-09-06T16:47:41.296051Z"
+    },
+    "/characters/champion_janna/attributes": {
+      "characterKey": "champion_janna",
+      "levelValues": {
+        "1": {
+          "move_speed": 325,
+          "hp": 570,
+          "hp_regen": 5.5,
+          "mana": 360,
+          "mana_regen": 11.5,
+          "armor": 28,
+          "magic_resistance": 30,
+          "attack_damage": 47,
+          "attack_speed": 0.625,
+          "attack_range": 550
+        },
+        "2": {
+          "move_speed": 325,
+          "hp": 634.8,
+          "hp_regen": 5.896,
+          "mana": 396,
+          "mana_regen": 11.788,
+          "armor": 31.24,
+          "magic_resistance": 30.936,
+          "attack_damage": 48.8,
+          "attack_speed": 0.6385,
+          "attack_range": 550
+        },
+        "3": {
+          "move_speed": 325,
+          "hp": 702.75,
+          "hp_regen": 6.31125,
+          "mana": 433.75,
+          "mana_regen": 12.09,
+          "armor": 34.6375,
+          "magic_resistance": 31.9175,
+          "attack_damage": 50.6875,
+          "attack_speed": 0.652656,
+          "attack_range": 550
+        },
+        "4": {
+          "move_speed": 325,
+          "hp": 773.85,
+          "hp_regen": 6.74575,
+          "mana": 473.25,
+          "mana_regen": 12.406,
+          "armor": 38.1925,
+          "magic_resistance": 32.9445,
+          "attack_damage": 52.6625,
+          "attack_speed": 0.667469,
+          "attack_range": 550
+        },
+        "5": {
+          "move_speed": 325,
+          "hp": 848.1,
+          "hp_regen": 7.1995,
+          "mana": 514.5,
+          "mana_regen": 12.736,
+          "armor": 41.905,
+          "magic_resistance": 34.017,
+          "attack_damage": 54.725,
+          "attack_speed": 0.682937,
+          "attack_range": 550
+        },
+        "6": {
+          "move_speed": 325,
+          "hp": 925.5,
+          "hp_regen": 7.6725,
+          "mana": 557.5,
+          "mana_regen": 13.08,
+          "armor": 45.775,
+          "magic_resistance": 35.135,
+          "attack_damage": 56.875,
+          "attack_speed": 0.699063,
+          "attack_range": 550
+        },
+        "7": {
+          "move_speed": 325,
+          "hp": 1006.05,
+          "hp_regen": 8.16475,
+          "mana": 602.25,
+          "mana_regen": 13.438,
+          "armor": 49.8025,
+          "magic_resistance": 36.2985,
+          "attack_damage": 59.1125,
+          "attack_speed": 0.715844,
+          "attack_range": 550
+        },
+        "8": {
+          "move_speed": 325,
+          "hp": 1089.75,
+          "hp_regen": 8.67625,
+          "mana": 648.75,
+          "mana_regen": 13.81,
+          "armor": 53.9875,
+          "magic_resistance": 37.5075,
+          "attack_damage": 61.4375,
+          "attack_speed": 0.733281,
+          "attack_range": 550
+        },
+        "9": {
+          "move_speed": 325,
+          "hp": 1176.6,
+          "hp_regen": 9.207,
+          "mana": 697,
+          "mana_regen": 14.196,
+          "armor": 58.33,
+          "magic_resistance": 38.762,
+          "attack_damage": 63.85,
+          "attack_speed": 0.751375,
+          "attack_range": 550
+        },
+        "10": {
+          "move_speed": 325,
+          "hp": 1266.6,
+          "hp_regen": 9.757,
+          "mana": 747,
+          "mana_regen": 14.596,
+          "armor": 62.83,
+          "magic_resistance": 40.062,
+          "attack_damage": 66.35,
+          "attack_speed": 0.770125,
+          "attack_range": 550
+        },
+        "11": {
+          "move_speed": 325,
+          "hp": 1359.75,
+          "hp_regen": 10.32625,
+          "mana": 798.75,
+          "mana_regen": 15.01,
+          "armor": 67.4875,
+          "magic_resistance": 41.4075,
+          "attack_damage": 68.9375,
+          "attack_speed": 0.789531,
+          "attack_range": 550
+        },
+        "12": {
+          "move_speed": 325,
+          "hp": 1456.05,
+          "hp_regen": 10.91475,
+          "mana": 852.25,
+          "mana_regen": 15.438,
+          "armor": 72.3025,
+          "magic_resistance": 42.7985,
+          "attack_damage": 71.6125,
+          "attack_speed": 0.809594,
+          "attack_range": 550
+        },
+        "13": {
+          "move_speed": 325,
+          "hp": 1555.5,
+          "hp_regen": 11.5225,
+          "mana": 907.5,
+          "mana_regen": 15.88,
+          "armor": 77.275,
+          "magic_resistance": 44.235,
+          "attack_damage": 74.375,
+          "attack_speed": 0.830313,
+          "attack_range": 550
+        },
+        "14": {
+          "move_speed": 325,
+          "hp": 1658.1,
+          "hp_regen": 12.1495,
+          "mana": 964.5,
+          "mana_regen": 16.336,
+          "armor": 82.405,
+          "magic_resistance": 45.717,
+          "attack_damage": 77.225,
+          "attack_speed": 0.851687,
+          "attack_range": 550
+        },
+        "15": {
+          "move_speed": 325,
+          "hp": 1763.85,
+          "hp_regen": 12.79575,
+          "mana": 1023.25,
+          "mana_regen": 16.806,
+          "armor": 87.6925,
+          "magic_resistance": 47.2445,
+          "attack_damage": 80.1625,
+          "attack_speed": 0.873719,
+          "attack_range": 550
+        },
+        "16": {
+          "move_speed": 325,
+          "hp": 1872.75,
+          "hp_regen": 13.46125,
+          "mana": 1083.75,
+          "mana_regen": 17.29,
+          "armor": 93.1375,
+          "magic_resistance": 48.8175,
+          "attack_damage": 83.1875,
+          "attack_speed": 0.896406,
+          "attack_range": 550
+        },
+        "17": {
+          "move_speed": 325,
+          "hp": 1984.8,
+          "hp_regen": 14.146,
+          "mana": 1146,
+          "mana_regen": 17.788,
+          "armor": 98.74,
+          "magic_resistance": 50.436,
+          "attack_damage": 86.3,
+          "attack_speed": 0.91975,
+          "attack_range": 550
+        },
+        "18": {
+          "move_speed": 325,
+          "hp": 2100,
+          "hp_regen": 14.85,
+          "mana": 1210,
+          "mana_regen": 18.3,
+          "armor": 104.5,
+          "magic_resistance": 52.1,
+          "attack_damage": 89.5,
+          "attack_speed": 0.94375,
+          "attack_range": 550
+        }
+      },
+      "maxLevel": 18,
+      "minLevel": 1
+    },
+    "/characters/champion_janna/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_champion_janna",
+        "name": "champion_janna"
+      }
+    },
+    "/skills/janna_e/representative-image": {
+      "image": {
+        "enabled": true,
+        "imageKey": "entry_16171_janna_e",
+        "name": "janna_e"
+      }
+    },
+    "/character-skill-relations?characterKey=champion_janna": {
+      "items": [
+        {
+          "characterKey": "champion_janna",
+          "characterName": "迦娜",
+          "gameId": "lol",
+          "skillKey": "janna_p",
+          "skillName": "迦娜·顺风而行",
+          "skillStatus": "ENABLED",
+          "sortOrder": 0
+        },
+        {
+          "characterKey": "champion_janna",
+          "characterName": "迦娜",
+          "gameId": "lol",
+          "skillKey": "janna_q",
+          "skillName": "迦娜·飓风呼啸",
+          "skillStatus": "ENABLED",
+          "sortOrder": 1
+        },
+        {
+          "characterKey": "champion_janna",
+          "characterName": "迦娜",
+          "gameId": "lol",
+          "skillKey": "janna_w",
+          "skillName": "迦娜·和风守护",
+          "skillStatus": "ENABLED",
+          "sortOrder": 2
+        },
+        {
+          "characterKey": "champion_janna",
+          "characterName": "迦娜",
+          "gameId": "lol",
+          "skillKey": "janna_e",
+          "skillName": "迦娜·风暴之眼",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        },
+        {
+          "characterKey": "champion_janna",
+          "characterName": "迦娜",
+          "gameId": "lol",
+          "skillKey": "janna_r",
+          "skillName": "迦娜·复苏季风",
+          "skillStatus": "ENABLED",
+          "sortOrder": 4
+        },
+        {
+          "characterKey": "champion_janna",
+          "characterName": "迦娜",
+          "gameId": "lol",
+          "skillKey": "shared_basic_attack",
+          "skillName": "普通攻击·共享",
+          "skillStatus": "ENABLED",
+          "sortOrder": 5
+        }
+      ],
+      "total": 6
+    },
+    "/character-skill-relations?skillKey=janna_e": {
+      "items": [
+        {
+          "characterKey": "champion_janna",
+          "characterName": "迦娜",
+          "gameId": "lol",
+          "skillKey": "janna_e",
+          "skillName": "迦娜·风暴之眼",
+          "skillStatus": "ENABLED",
+          "sortOrder": 3
+        }
+      ],
+      "total": 1
+    },
+    "/skills/janna_e/parameters": [
+      {
+        "createdAt": "2026-09-09T17:42:47.660027Z",
+        "description": "客户端DataValues.ECDRefundforCC按等级索引1取0.2；控制命中条件仅作来源参数，未创建无条件冷却效果。",
+        "fixedValue": 0.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "控制命中时冷却返还比例",
+        "parameterKey": "cc_cooldown_refund_ratio",
+        "skillKey": "janna_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:42:47.660027Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:48.931305Z",
+        "description": "客户端EmpowerDuration按等级索引1取5秒，转换为5000毫秒；当前候选不把它作为独立攻击力增益生命周期。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "旧强化字段持续时间（毫秒）",
+        "parameterKey": "empower_duration_ms",
+        "skillKey": "janna_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:42:48.931305Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:50.239659Z",
+        "description": "客户端DecayGracePeriod按等级索引1取4秒，转换为4000毫秒；衰减过程不在本轮展开。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "衰减宽限时间（毫秒）",
+        "parameterKey": "decay_grace_period_ms",
+        "skillKey": "janna_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:42:50.239659Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:51.5362Z",
+        "description": "客户端DataValues.BaseShield取等级索引1至5，得到80/120/160/200/240。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础护盾值",
+        "parameterKey": "base_shield",
+        "skillKey": "janna_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T17:42:51.5362Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:52.980111Z",
+        "description": "TotalShield树按等级索引1消费ShieldAPRatio=0.55×来源总法强。",
+        "fixedValue": 0.55,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾法强比例",
+        "parameterKey": "shield_ap_ratio",
+        "skillKey": "janna_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T17:42:52.980111Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:54.25039Z",
+        "description": "客户端DataValues.BonusAD取等级索引1至5，得到10/15/20/25/30；TotalAD树消费该基础值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10,
+          "2": 15,
+          "3": 20,
+          "4": 25,
+          "5": 30
+        },
+        "name": "强化额外攻击力",
+        "parameterKey": "bonus_attack_damage",
+        "skillKey": "janna_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T17:42:54.25039Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:55.549869Z",
+        "description": "客户端TotalAD树按等级索引1消费ADAPRatio=0.1×来源总法强。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "额外攻击力法强比例",
+        "parameterKey": "attack_damage_ap_ratio",
+        "skillKey": "janna_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T17:42:55.549869Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:56.811278Z",
+        "description": "客户端ShieldDuration按等级索引1取4秒，转换为4000毫秒。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "护盾持续时间（毫秒）",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "janna_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T17:42:56.811278Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:02.988367Z",
+        "description": "DDragon16.17.1 Janna.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "janna_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:02.988367Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      {
+        "createdAt": "2026-09-07T18:00:03.378982Z",
+        "description": "DDragon16.17.1 Janna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 75,
+          "3": 80,
+          "4": 85,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "janna_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-18T19:55:28.973267Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    ],
+    "/skills/janna_e/parameters/cc_cooldown_refund_ratio": {
+      "createdAt": "2026-09-09T17:42:47.660027Z",
+      "description": "客户端DataValues.ECDRefundforCC按等级索引1取0.2；控制命中条件仅作来源参数，未创建无条件冷却效果。",
+      "fixedValue": 0.2,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "控制命中时冷却返还比例",
+      "parameterKey": "cc_cooldown_refund_ratio",
+      "skillKey": "janna_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:42:47.660027Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/janna_e/parameters/empower_duration_ms": {
+      "createdAt": "2026-09-09T17:42:48.931305Z",
+      "description": "客户端EmpowerDuration按等级索引1取5秒，转换为5000毫秒；当前候选不把它作为独立攻击力增益生命周期。",
+      "fixedValue": 5000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "旧强化字段持续时间（毫秒）",
+      "parameterKey": "empower_duration_ms",
+      "skillKey": "janna_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:42:48.931305Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/parameters/decay_grace_period_ms": {
+      "createdAt": "2026-09-09T17:42:50.239659Z",
+      "description": "客户端DecayGracePeriod按等级索引1取4秒，转换为4000毫秒；衰减过程不在本轮展开。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "衰减宽限时间（毫秒）",
+      "parameterKey": "decay_grace_period_ms",
+      "skillKey": "janna_e",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-09T17:42:50.239659Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/parameters/base_shield": {
+      "createdAt": "2026-09-09T17:42:51.5362Z",
+      "description": "客户端DataValues.BaseShield取等级索引1至5，得到80/120/160/200/240。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "name": "基础护盾值",
+      "parameterKey": "base_shield",
+      "skillKey": "janna_e",
+      "sortOrder": 40,
+      "updatedAt": "2026-09-09T17:42:51.5362Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/parameters/shield_ap_ratio": {
+      "createdAt": "2026-09-09T17:42:52.980111Z",
+      "description": "TotalShield树按等级索引1消费ShieldAPRatio=0.55×来源总法强。",
+      "fixedValue": 0.55,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾法强比例",
+      "parameterKey": "shield_ap_ratio",
+      "skillKey": "janna_e",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T17:42:52.980111Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/janna_e/parameters/bonus_attack_damage": {
+      "createdAt": "2026-09-09T17:42:54.25039Z",
+      "description": "客户端DataValues.BonusAD取等级索引1至5，得到10/15/20/25/30；TotalAD树消费该基础值。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "name": "强化额外攻击力",
+      "parameterKey": "bonus_attack_damage",
+      "skillKey": "janna_e",
+      "sortOrder": 60,
+      "updatedAt": "2026-09-09T17:42:54.25039Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/parameters/attack_damage_ap_ratio": {
+      "createdAt": "2026-09-09T17:42:55.549869Z",
+      "description": "客户端TotalAD树按等级索引1消费ADAPRatio=0.1×来源总法强。",
+      "fixedValue": 0.1,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "额外攻击力法强比例",
+      "parameterKey": "attack_damage_ap_ratio",
+      "skillKey": "janna_e",
+      "sortOrder": 70,
+      "updatedAt": "2026-09-09T17:42:55.549869Z",
+      "valueMode": "FIXED",
+      "valueType": "DECIMAL"
+    },
+    "/skills/janna_e/parameters/shield_duration_ms": {
+      "createdAt": "2026-09-09T17:42:56.811278Z",
+      "description": "客户端ShieldDuration按等级索引1取4秒，转换为4000毫秒。",
+      "fixedValue": 4000,
+      "gameId": "lol",
+      "levelValues": null,
+      "name": "护盾持续时间（毫秒）",
+      "parameterKey": "shield_duration_ms",
+      "skillKey": "janna_e",
+      "sortOrder": 80,
+      "updatedAt": "2026-09-09T17:42:56.811278Z",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/parameters/cooldown_ms": {
+      "createdAt": "2026-09-07T18:00:02.988367Z",
+      "description": "DDragon16.17.1 Janna.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 16000,
+        "2": 15000,
+        "3": 14000,
+        "4": 13000,
+        "5": 12000
+      },
+      "name": "基础冷却时间（毫秒）",
+      "parameterKey": "cooldown_ms",
+      "skillKey": "janna_e",
+      "sortOrder": 100,
+      "updatedAt": "2026-09-07T18:00:02.988367Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/parameters/mana_cost": {
+      "createdAt": "2026-09-07T18:00:03.378982Z",
+      "description": "DDragon16.17.1 Janna.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；具体使用时点由引用过程定义。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+      "fixedValue": null,
+      "gameId": "lol",
+      "levelValues": {
+        "1": 70,
+        "2": 75,
+        "3": 80,
+        "4": 85,
+        "5": 90
+      },
+      "name": "基础法力消耗",
+      "parameterKey": "mana_cost",
+      "skillKey": "janna_e",
+      "sortOrder": 110,
+      "updatedAt": "2026-09-18T19:55:28.973267Z",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER"
+    },
+    "/skills/janna_e/formulas": [
+      {
+        "createdAt": "2026-09-09T17:42:58.09414Z",
+        "description": "TotalShield = BaseShield + ShieldAPRatio×来源总法强。目标为自身路径，实际友方目标资格待补。",
+        "formulaKey": "total_shield",
+        "gameId": "lol",
+        "name": "风暴之眼自身护盾值",
+        "skillKey": "janna_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:42:58.09414Z"
+      },
+      {
+        "createdAt": "2026-09-09T17:42:59.323674Z",
+        "description": "TotalAD = BonusAD + ADAPRatio×来源总法强。",
+        "formulaKey": "total_attack_damage_bonus",
+        "gameId": "lol",
+        "name": "风暴之眼自身额外攻击力",
+        "skillKey": "janna_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:42:59.323674Z"
+      }
+    ],
+    "/skills/janna_e/formulas/total_shield": {
+      "createdAt": "2026-09-09T17:42:58.09414Z",
+      "description": "TotalShield = BaseShield + ShieldAPRatio×来源总法强。目标为自身路径，实际友方目标资格待补。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "total_shield",
+      "gameId": "lol",
+      "name": "风暴之眼自身护盾值",
+      "skillKey": "janna_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-09T17:42:58.09414Z"
+    },
+    "/skills/janna_e/formulas/total_attack_damage_bonus": {
+      "createdAt": "2026-09-09T17:42:59.323674Z",
+      "description": "TotalAD = BonusAD + ADAPRatio×来源总法强。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_attack_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_damage_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "formulaKey": "total_attack_damage_bonus",
+      "gameId": "lol",
+      "name": "风暴之眼自身额外攻击力",
+      "skillKey": "janna_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-09T17:42:59.323674Z"
+    },
+    "/skills/janna_e/effects": [
+      {
+        "createdAt": "2026-09-09T17:43:00.709916Z",
+        "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+        "effectKey": "mana_cost",
+        "gameId": "lol",
+        "lifecycleEnabled": false,
+        "name": "施放法力消耗",
+        "resultCount": 1,
+        "skillKey": "janna_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T19:55:30.283968Z"
+      },
+      {
+        "createdAt": "2026-09-09T17:43:02.179374Z",
+        "description": "风暴之眼的自身护盾，持续4秒且不衰减；攻击力增益作为独立组成处理。",
+        "effectKey": "self_shield",
+        "gameId": "lol",
+        "lifecycleEnabled": true,
+        "name": "风暴之眼自身护盾",
+        "resultCount": 1,
+        "skillKey": "janna_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-18T17:22:52.656198Z"
+      }
+    ],
+    "/skills/janna_e/effects/mana_cost": {
+      "createdAt": "2026-09-09T17:43:00.709916Z",
+      "description": "施放本技能时消耗对应技能等级的法力；具体使用流程由引用本效果的过程定义。",
+      "effectKey": "mana_cost",
+      "gameId": "lol",
+      "lifecycle": null,
+      "name": "施放法力消耗",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          },
+          "lifecycleBehavior": null,
+          "name": "施放法力消耗",
+          "resultKey": "resource",
+          "resultType": "RESOURCE_CHANGE",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            }
+          }
+        }
+      ],
+      "skillKey": "janna_e",
+      "sortOrder": 10,
+      "updatedAt": "2026-09-18T19:55:30.283968Z"
+    },
+    "/skills/janna_e/effects/self_shield": {
+      "createdAt": "2026-09-09T17:43:02.179374Z",
+      "description": "风暴之眼的自身护盾，持续4秒且不衰减；攻击力增益作为独立组成处理。",
+      "effectKey": "self_shield",
+      "gameId": "lol",
+      "lifecycle": {
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "expiryMode": "ALL_AT_ONCE",
+        "firstPeriodicExecution": null,
+        "instanceScope": "SOURCE",
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "periodicIntervalValue": null,
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "reapplicationStackMode": "KEEP"
+      },
+      "name": "风暴之眼自身护盾",
+      "results": [
+        {
+          "description": null,
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          },
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "periodicExecutionMode": null,
+            "reapplicationValueMode": "REPLACE",
+            "stackValueMode": "SHARED",
+            "valueReadMode": "APPLICATION_SNAPSHOT"
+          },
+          "name": "风暴之眼自身护盾",
+          "resultKey": "shield",
+          "resultType": "NORMAL_SHIELD",
+          "sortOrder": 10,
+          "spellShieldBlockScope": null,
+          "target": "SOURCE",
+          "valueRule": {
+            "fixedMaxValue": null,
+            "fixedMinValue": 0,
+            "fixedMultiplier": 1,
+            "value": {
+              "formulaKey": "total_shield",
+              "kind": "FORMULA"
+            }
+          }
+        }
+      ],
+      "skillKey": "janna_e",
+      "sortOrder": 20,
+      "updatedAt": "2026-09-18T17:22:52.656198Z"
+    },
+    "/skills/janna_e/processes": [
+      {
+        "activationType": "ACTIVE",
+        "createdAt": "2026-09-18T19:48:55.562843Z",
+        "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+        "effectBindingCount": 1,
+        "gameId": "lol",
+        "name": "使用消耗与普通冷却",
+        "processKey": "use_cost_and_cooldown",
+        "skillKey": "janna_e",
+        "sortOrder": 10,
+        "stateOperationCount": 0,
+        "stepCount": 1,
+        "updatedAt": "2026-09-18T19:48:55.562843Z"
+      }
+    ],
+    "/skills/janna_e/internal-states": [],
+    "/skills/janna_e/trigger-rules": [
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 0,
+        "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动使用登记消耗与冷却",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_cost_and_cooldown",
+        "sortOrder": 5,
+        "updatedAt": "2026-09-18T19:48:56.770187Z"
+      },
+      {
+        "actionCount": 1,
+        "conditionGroupCount": 1,
+        "description": "主动使用风暴之眼且回退前显式目标为本人时执行自身护盾；无显式目标不匹配。攻击力增益、控制返还冷却、法力和冷却入口另行配置。",
+        "eventType": "SKILL_USED",
+        "maxTriggersPerProcessEnabled": false,
+        "name": "主动自施风暴之眼护盾",
+        "oncePerUseEnabled": false,
+        "perTargetCooldownEnabled": false,
+        "ruleKey": "on_used_self_shield",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-18T17:22:46.74199Z"
+      }
+    ],
+    "/skills/janna_e/trigger-rules/on_used_self_shield": {
+      "actions": [
+        {
+          "actionKey": "apply_self_shield",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "self_shield"
+          },
+          "name": "执行风暴之眼自身护盾",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "explicit_self",
+              "conditionType": "EXPLICIT_TARGET_IS_SOURCE",
+              "detail": {},
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "self_cast",
+          "name": "明确对自身施放",
+          "sortOrder": 10
+        }
+      ],
+      "description": "主动使用风暴之眼且回退前显式目标为本人时执行自身护盾；无显式目标不匹配。攻击力增益、控制返还冷却、法力和冷却入口另行配置。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "janna_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动自施风暴之眼护盾",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_self_shield",
+      "sortOrder": 10
+    },
+    "/skills/janna_e/processes/use_cost_and_cooldown": {
+      "activationType": "ACTIVE",
+      "cooldown": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "cooldown_ms"
+        },
+        "startMoment": {
+          "momentType": "PROCESS_START",
+          "stepKey": null
+        }
+      },
+      "createdAt": "2026-09-18T19:48:55.562843Z",
+      "description": "只登记本次主动使用的法力消耗与普通冷却；立即步骤不表示技能施法时长为零，护盾或增益仍由既有自施规则执行。",
+      "effectBindings": [
+        {
+          "bindingKey": "mana_cost",
+          "effectKey": "mana_cost",
+          "moment": {
+            "momentType": "PROCESS_START",
+            "stepKey": null
+          },
+          "sortOrder": 10
+        }
+      ],
+      "gameId": "lol",
+      "name": "使用消耗与普通冷却",
+      "processKey": "use_cost_and_cooldown",
+      "skillKey": "janna_e",
+      "sortOrder": 10,
+      "stateOperations": [],
+      "steps": [
+        {
+          "description": "即时登记消耗与冷却，不代表完整施法或命中时序。",
+          "detail": {},
+          "name": "登记本次使用",
+          "sortOrder": 10,
+          "stepKey": "register_use",
+          "stepType": "IMMEDIATE"
+        }
+      ],
+      "updatedAt": "2026-09-18T19:48:55.562843Z"
+    },
+    "/skills/janna_e/trigger-rules/on_used_cost_and_cooldown": {
+      "actions": [
+        {
+          "actionKey": "start_use_cost",
+          "actionType": "START_PROCESS",
+          "detail": {
+            "processKey": "use_cost_and_cooldown"
+          },
+          "name": "启动消耗与冷却登记",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [],
+      "description": "每次本技能主动使用启动专门的消耗与冷却过程；无自施条件，既有自施规则独立保留。本条不定义实际施法时长或其他未完成分支。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "janna_e",
+          "useKind": "ACTIVE"
+        },
+        "eventType": "SKILL_USED"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "主动使用登记消耗与冷却",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "on_used_cost_and_cooldown",
+      "sortOrder": 5
+    }
+  }
+}

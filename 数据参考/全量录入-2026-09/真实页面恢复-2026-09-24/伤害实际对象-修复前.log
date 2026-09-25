@@ -1,0 +1,12 @@
+--- FAIL: TestPipelineDamageModifierUsesActualParticipants (0.01s)
+    --- FAIL: TestPipelineDamageModifierUsesActualParticipants/forward_value (0.01s)
+        generic_damage_participants_test.go:47: actual receiver hp must drive condition/value: raw=800 want 399; frame target hp=800
+    --- FAIL: TestPipelineDamageModifierUsesActualParticipants/forward_condition_and_value (0.00s)
+        generic_damage_participants_test.go:47: actual receiver hp must drive condition/value: raw=100 want 399; frame target hp=800
+    --- FAIL: TestPipelineDamageModifierUsesActualParticipants/reverse_value (0.00s)
+        generic_damage_participants_test.go:47: actual receiver hp must drive condition/value: raw=800 want 399; frame target hp=800
+    --- FAIL: TestPipelineDamageModifierUsesActualParticipants/reverse_condition_and_value (0.00s)
+        generic_damage_participants_test.go:47: actual receiver hp must drive condition/value: raw=100 want 399; frame target hp=800
+FAIL
+FAIL	tinygo_engine_v2/internal/runtime	0.272s
+FAIL

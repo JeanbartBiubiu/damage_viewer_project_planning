@@ -1,0 +1,13 @@
+{
+  "approvedFileSha256": "A95C450C2E0A281D3C34BC7B784D2C25C3E12AF3C6D6706CA08D4057C93F440D",
+  "baselineFileSha256": "32CDFA601A17518E19A21B2ABAC0834DEE948C61899DBA70FE0626686ADFD00D",
+  "currentMatchesFrozenBaseline": true,
+  "protectedFormulaDamageAndResultShapeMatchApproved": true,
+  "getRecord": {
+    "method": "GET",
+    "path": "/skills/item_3057_passive/effects/spellblade_damage",
+    "status": 200,
+    "body": "{\"createdAt\":\"2026-09-07T16:06:32.942759Z\",\"description\":\"保存下一次普通攻击的额外物理伤害组成；技能施放后就绪与消费规则待补。\",\"effectKey\":\"spellblade_damage\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"咒刃额外物理伤害\",\"results\":[{\"description\":\"来源基础攻击力1倍的额外物理伤害。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"physics\",\"deliveryKind\":\"BASIC_ATTACK\",\"originKind\":\"DIRECT\",\"vampOverrides\":[],\"vampQualification\":\"UNRESOLVED\"},\"lifecycleBehavior\":null,\"name\":\"咒刃物理伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"spellblade_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"item_3057_passive\",\"sortOrder\":10,\"updatedAt\":\"2026-09-07T16:06:32.942759Z\"}"
+  },
+  "responseHeadersOrCookiesStored": false
+}

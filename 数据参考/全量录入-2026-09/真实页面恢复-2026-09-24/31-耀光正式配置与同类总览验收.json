@@ -1,0 +1,31 @@
+{
+  "at": "2026-09-24T05:24:08.924Z",
+  "status": "PASS_FINITE_SCENARIO",
+  "entryAgent": "gpt-6-luna/max",
+  "pageWrites": 10,
+  "pageReopen": true,
+  "independentReadback": "耀光-合并-回读-6.json",
+  "runtimeGETs": 42,
+  "matchedRuntimeRoutes": 19,
+  "actual": {
+    "baseAD": 100,
+    "totalAD": 180,
+    "rawDamage": 100,
+    "postDefenseDamage": 50,
+    "mana": 0,
+    "lifeSteal": 5,
+    "omnivamp": 10,
+    "healing": 15,
+    "ledgerEntries": 1
+  },
+  "runtimeEvidence": "C:/project/damage_web_dev/output/spellblade-live-return/item_3057_passive-正式组成运行证据.json",
+  "groupingReturn": {
+    "status": "PASS",
+    "evidence": "执行代理/luna_sheen/21-单绑定命中行为总览页面核验.json",
+    "sameBindingShownInHitAndEffect": "同一保存来源的两个查看维度，不是重复配置"
+  },
+  "conditionSummaryReturn": "新发现的条件摘要修复同类返回另记，当前待执行",
+  "browserRecovery": "旧PID21808与8332消失后重建独立PID30128/43052；先独立确认第4笔保存再只读重开，未重放",
+  "boundary": "实际Worker中的普通首次主动施法后一次强化普攻有限场景，不代表整装备或完整战斗。",
+  "wholeEquipmentComplete": false
+}

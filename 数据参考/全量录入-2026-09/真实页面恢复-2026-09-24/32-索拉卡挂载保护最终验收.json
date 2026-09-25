@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-24T05:26:01.636Z",
+  "status": "PASS_FINITE_SCENARIO",
+  "issue": "固定到具体挂载的生成定义若被同owner另一别名直接引用，可能重复监听治疗；原双挂载用例实际是两个独立生成定义，不能冒称直接共享同一定义",
+  "fix": "仅首次条件治疗生成定义拒绝其他owner/providerRef或重复指定挂载直接引用；同一作者配置分别生成的独立绑定继续支持",
+  "redTest": "旧代码允许返回同owner别名，拒绝断言失败",
+  "targetedUnit": 17,
+  "fullUnit": 1096,
+  "lint": true,
+  "typecheck": true,
+  "build": true,
+  "independentReview": "READY",
+  "actualWorkerFinalCases": 2,
+  "unaffectedExistingP4Cases": 11,
+  "matchedFormalDetails": 16,
+  "formalGETsThisRun": 19,
+  "rawEvidence": "C:/project/damage_web_dev/output/soraka-live-return/索拉卡最终配置与运行原始证据.json",
+  "sourceSha256": "4efa276816c306db2a62c6d7a3471a144f2ee8fdd1a265a6bca2ead9aca31e78",
+  "testSha256": "bba8cabdeb3de10da14862744c9e5b3db402ec140c06795f462d64c8ddfb4d03",
+  "nativeChanged": false,
+  "wasmChanged": false,
+  "boundary": "作者保存配置已逐字段匹配；场景属性、资源、顺序变体及治疗修正显式提供。两个正常挂载各自生成绑定定义，不宣称共享同一生成定义可直接别名复用。整英雄战斗未验证。"
+}

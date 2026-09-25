@@ -1,0 +1,118 @@
+{
+  "at": "2026-09-24T11:37:56.554Z",
+  "status": "IMPLEMENTING_SOURCE_AUDIT",
+  "businessWrites": 0,
+  "question": "符文放宽伤害过滤前，能否核定真实伤害来源并覆盖最终全部产伤路径，拒绝未核准的特殊来源",
+  "catalog": "普通伤害来源准备/02-已核定普通伤害来源目录.json",
+  "catalogSha256": "e4ab45d130c6f97828ca929e3866624726ed77bf17f4093e507c16cfee467803",
+  "reviewedSources": [
+    {
+      "reviewKey": "annie_q_spell_hit_damage",
+      "characterKey": "champion_annie",
+      "skillKey": "annie_q",
+      "ruleKey": "actual_hit",
+      "actionKey": "damage",
+      "effectKey": "spell_hit",
+      "resultKey": "damage",
+      "damageTypeKey": "magic"
+    },
+    {
+      "reviewKey": "garen_r_justice_damage_damage",
+      "characterKey": "champion_garen",
+      "skillKey": "garen_r",
+      "ruleKey": "on_hit",
+      "actionKey": "damage",
+      "effectKey": "justice_damage",
+      "resultKey": "damage",
+      "damageTypeKey": "real"
+    }
+  ],
+  "hostEvidence": "普通伤害来源准备/宿主现值核验/适配结果.json",
+  "hostActualResults": [
+    {
+      "skillKey": "shared_basic_attack",
+      "adapterPassed": false,
+      "error": {
+        "name": "HitAdaptationError",
+        "path": "adapter.hitPlan.skills.shared_basic_attack.effects.attack_hit.results.damage.detail.critical",
+        "message": "adapter.hitPlan.skills.shared_basic_attack.effects.attack_hit.results.damage.detail.critical: 未支持的暴击策略"
+      }
+    },
+    {
+      "skillKey": "annie_q",
+      "adapterPassed": true,
+      "error": null
+    },
+    {
+      "skillKey": "garen_r",
+      "adapterPassed": true,
+      "error": null
+    }
+  ],
+  "sharedAttackGap": {
+    "actualObject": "shared_basic_attack/attack_hit",
+    "firstRejection": {
+      "name": "HitAdaptationError",
+      "path": "adapter.hitPlan.skills.shared_basic_attack.effects.attack_hit.results.damage.detail.critical",
+      "message": "adapter.hitPlan.skills.shared_basic_attack.effects.attack_hit.results.damage.detail.critical: 未支持的暴击策略"
+    },
+    "secondRejection": {
+      "explanation": "仅在内存副本中把并列 hit_link 排在伤害之前；未删结果、未改暴击策略或数值，不代表原作者顺序。",
+      "before": [
+        [
+          "damage",
+          10,
+          "SOURCE_CRIT_CHANCE"
+        ],
+        [
+          "hit_link",
+          20,
+          null
+        ]
+      ],
+      "after": [
+        [
+          "damage",
+          10,
+          "SOURCE_CRIT_CHANCE"
+        ],
+        [
+          "hit_link",
+          0,
+          null
+        ]
+      ],
+      "result": {
+        "ok": false,
+        "error": {
+          "name": "HitAdaptationError",
+          "path": "adapter.hitPlan.skills.shared_basic_attack.effects.attack_hit.results.hit_link.resultType",
+          "message": "adapter.hitPlan.skills.shared_basic_attack.effects.attack_hit.results.hit_link.resultType: 未支持的命中结果，按共享契约整体拒绝"
+        }
+      }
+    },
+    "reproduced": true,
+    "expected": "完整命中伤害保留来源暴击与并列命中关联后进入通用运行",
+    "impact": "共享普攻正式组成及依赖其完整伤害和附带命中的来源；安妮Q和盖伦R不受此拒绝影响",
+    "localBlocker": true,
+    "globalBlocker": false,
+    "dataPreserved": true,
+    "repairPending": true
+  },
+  "inventoryComponent": {
+    "targetedTests": 19,
+    "independentReview": "READY",
+    "integrated": false
+  },
+  "sourceAuditComponent": {
+    "implementationPending": true,
+    "independentFinalReviewPending": true
+  },
+  "runtimeCasesPrepared": 4,
+  "runtimeCasesExecuted": 0,
+  "expandedRunePageWrites": 0,
+  "existingTwoRuneBoundedReturn": "57-两符文门槛原对象同类与正式运行验收.json",
+  "existingDraftReturn": "58-符文安全草稿返回独立验收.json",
+  "wholeRunesComplete": false,
+  "coverageChanged": false
+}

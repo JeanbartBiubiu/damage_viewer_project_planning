@@ -1,0 +1,66 @@
+{
+  "at": "2026-09-24T08:47:51.074Z",
+  "task": "科加斯Q击飞目录、效果、触发规则页面闭环",
+  "businessWrites": {
+    "approvedRequests": 3,
+    "serverSuccesses": 3,
+    "thirdRulePostStatus": 201,
+    "thirdRuleBodyExactApproved": true,
+    "locallyAbortedRuleAttempts": 2,
+    "serverFailureCount": 0
+  },
+  "readback": {
+    "uiRuleListGet": 200,
+    "uiRuleDetailGet": 200,
+    "behaviorOverview": {
+      "newRulePresent": true,
+      "actionAndEffectPresent": true,
+      "unconnectedWarningsFound": false
+    },
+    "characterAuthoringCheck": {
+      "summary": "结构检查：未发现错误；2 项待核对。机制完整性：待人工核对。战斗运行：未执行。",
+      "qSkillRow": "科加斯·破裂（chogath_q） | \t | 启用 | \t | 5 | \t | 3 | \t | 1 | \t | 3 | \t | 录入技能",
+      "issues": [
+        "待核对 | \t | chogath_e / 效果 / mana_cost | \t | 效果未发现过程挂接或执行效果动作，请人工核对用途 | \t | 定位问题",
+        "待核对 | \t | chogath_r / 效果 / mana_cost | \t | 效果未发现过程挂接或执行效果动作，请人工核对用途 | \t | 定位问题"
+      ],
+      "endpointResponses": [
+        {
+          "method": "GET",
+          "path": "/api/admin/games/lol/characters/champion_chogath/authoring-check",
+          "status": 200
+        },
+        {
+          "method": "GET",
+          "path": "/api/admin/games/lol/characters/champion_chogath/authoring-check",
+          "status": 200
+        }
+      ]
+    }
+  },
+  "afterSuccessfulSave": {
+    "nonGetRequests": [],
+    "getCount": 106
+  },
+  "finalBrowserState": {
+    "url": "http://127.0.0.1:4182/#/characters",
+    "visibleDialogs": [],
+    "visibleEditorDrafts": 0,
+    "temporaryDialogListeners": 0,
+    "semanticResponseListenerRemoved": true
+  },
+  "evidenceFiles": [
+    "18-取消误报回归证据.json",
+    "19-触发规则写前预检.json",
+    "20-actual_unblocked_knockup-保存前.json",
+    "21-精确守卫路径修正前核对.json",
+    "22-重设精确守卫与草稿核对.json",
+    "23-本地中止正文递归核对.json",
+    "24-actual_unblocked_knockup-保存与列表.json",
+    "25-规则保存后关闭重开列表.png",
+    "26-规则详情关闭重开只读核对.png",
+    "27-行为总览关闭重开核验.json",
+    "28-科加斯角色录入检查核验.json"
+  ],
+  "parentIndependentAudit": "科加斯击飞-03-独立回读-3.json PASS"
+}

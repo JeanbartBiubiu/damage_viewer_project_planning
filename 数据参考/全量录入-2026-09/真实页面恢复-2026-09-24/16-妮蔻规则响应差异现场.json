@@ -1,0 +1,149 @@
+{
+  "at": "2026-09-24T02:33:14.735Z",
+  "businessWrites": 0,
+  "problem": "GET详情比获批POST多useKind:null，先核对服务端规范化，不重放",
+  "responses": {
+    "/skills/neeko_e/trigger-rules/apply_root_on_first_contact": {
+      "actions": [
+        {
+          "actionKey": "apply_root",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "first_contact_root"
+          },
+          "name": "施加本次禁锢",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            },
+            {
+              "conditionKey": "enemy_target",
+              "conditionType": "SKILL_HIT_TARGET_IS_ENEMY",
+              "detail": {},
+              "sortOrder": 20
+            },
+            {
+              "conditionKey": "not_spell_shield_blocked",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 0
+                },
+                "eventValueKey": "SKILL_HIT_SPELL_SHIELD_BLOCKED"
+              },
+              "sortOrder": 30
+            },
+            {
+              "conditionKey": "first_contact",
+              "conditionType": "EVENT_VALUE_COMPARE",
+              "detail": {
+                "comparator": "EQ",
+                "comparisonValue": {
+                  "kind": "FIXED",
+                  "value": 1
+                },
+                "eventValueKey": "SKILL_HIT_FIRST_CONTACT"
+              },
+              "sortOrder": 40
+            },
+            {
+              "conditionKey": "own_root_absent",
+              "conditionType": "LIFECYCLE_CHECK",
+              "detail": {
+                "checkKind": "ABSENT",
+                "comparator": null,
+                "comparisonValue": null,
+                "effectKey": "first_contact_root",
+                "subject": "CURRENT_TARGET"
+              },
+              "sortOrder": 50
+            }
+          ],
+          "groupKey": "root_eligible",
+          "name": "首个接触且允许首次施加",
+          "sortOrder": 10
+        }
+      ],
+      "description": "同组要求本技能真实命中敌方英雄、本次使用首次目标接触明确为1、同次法术护盾阻挡明确为0以及无本来源实例；缺值不默认，筛选后的首个英雄不等于首次接触。值为0不推定强化禁锢。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "neeko_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "首个接触敌方英雄的最短禁锢",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "apply_root_on_first_contact",
+      "sortOrder": 30
+    },
+    "/skills/neeko_e/trigger-rules/actual_hit": {
+      "actions": [
+        {
+          "actionKey": "execute_primary_hit",
+          "actionType": "EXECUTE_EFFECT",
+          "detail": {
+            "effectKey": "primary_hit"
+          },
+          "name": "执行妮蔻·缠结倒刺直接伤害",
+          "resultModifiers": [],
+          "runtimeInputBindings": [],
+          "sortOrder": 10,
+          "targetContext": "CURRENT_TARGET"
+        }
+      ],
+      "conditionGroups": [
+        {
+          "conditions": [
+            {
+              "conditionKey": "champion_target",
+              "conditionType": "TARGET_CATEGORY_CHECK",
+              "detail": {
+                "categories": [
+                  "CHAMPION"
+                ]
+              },
+              "sortOrder": 10
+            }
+          ],
+          "groupKey": "champion_target",
+          "name": "本轮英雄目标",
+          "sortOrder": 10
+        }
+      ],
+      "description": "消费neeko_e根技能本体的合法实际英雄命中并执行primary_hit；不从使用、等待结束、位置变化或控制状态生成伤害命中。",
+      "eventSource": {
+        "detail": {
+          "sourceSkillKey": "neeko_e",
+          "useKind": null
+        },
+        "eventType": "SKILL_HIT"
+      },
+      "maxTriggersPerProcess": null,
+      "name": "妮蔻·缠结倒刺本体实际命中",
+      "oncePerUse": null,
+      "perTargetCooldown": null,
+      "ruleKey": "actual_hit",
+      "sortOrder": 10
+    }
+  }
+}

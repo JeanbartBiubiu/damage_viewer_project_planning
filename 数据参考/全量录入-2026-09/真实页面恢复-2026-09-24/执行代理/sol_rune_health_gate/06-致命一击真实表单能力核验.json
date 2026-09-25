@@ -1,0 +1,78 @@
+{
+  "object": "rune_8014 / rune_8014_passive 致命一击",
+  "route": "符文管理搜索rune_8014→关联技能→rune_8014_passive→效果与结果→新增效果→新增结果",
+  "baseline": {
+    "parameters": 3,
+    "formulas": 2,
+    "effects": 0,
+    "triggerRules": 0,
+    "targetHealthThresholdRatio": 0.4,
+    "bonusDamageRatio": 0.08,
+    "confirmedEligibleDamage": "RUNTIME_INPUT"
+  },
+  "reproduction": {
+    "selectedResultType": "伤害修正",
+    "requiredDraftStep": "页面提示该结果只能持续生效，需启用父效果生命周期；只在未保存草稿点启用并继续",
+    "selectedDirection": "造成的伤害",
+    "visibleFields": [
+      "修正比例公式（固定/参数/公式）",
+      "固定倍率/下界/上界",
+      "乘区",
+      "作用方向（造成/受到）",
+      "修正方式（提高/降低）",
+      "伤害类型",
+      "产生方式（全部/技能/普通攻击）",
+      "来源性质（全部/直接/反伤）",
+      "暴击过滤",
+      "生命周期时点",
+      "数值读取",
+      "层数值方式",
+      "重复值方式"
+    ],
+    "missing": [
+      "事件对方是否敌方英雄",
+      "本笔伤害承受者伤害前生命比例",
+      "严格小于0.4比较符与阈值参数条件"
+    ],
+    "currentZoneOptions": [
+      "铁板靴基础攻击伤害减免",
+      "兰顿暴击伤害减免"
+    ],
+    "noZoneSelected": true
+  },
+  "issue": {
+    "object": "rune_8014_passive / 伤害修正结果",
+    "position": "新增效果→新增结果→伤害修正表单",
+    "steps": "选择伤害修正；按页面提示在草稿启用生命周期；作用方向选造成的伤害；查看全部筛选字段及乘区下拉",
+    "expected": "能将8%增幅限制于每笔造成伤害前承受者为敌方英雄且HP比例严格<0.4",
+    "actual": "只有伤害种类/来源/暴击等静态筛选，没有敌方英雄目标类别或本笔伤害前HP比例比较入口；选现有公式/0.08只能产生无条件数值，不能合法表达门槛",
+    "impact": "无法在当前管理表单保存符合来源语义的致命一击效果；常驻8%或事后附伤会改变结果",
+    "blocker": true,
+    "screenshots": [
+      "01-伤害修正选择要求生命周期.png",
+      "03-伤害修正草稿筛选字段.png",
+      "04-伤害修正草稿时点字段.png",
+      "05-伤害修正可选乘区.png"
+    ]
+  },
+  "cleanup": {
+    "resultDraftCanceled": true,
+    "resultCancelPrompt": [
+      "当前修改尚未保存，确定要离开吗？"
+    ],
+    "parentDraftCanceled": true,
+    "parentCancelPrompt": [
+      "当前修改尚未保存，确定要离开吗？"
+    ],
+    "stillNoEffects": true,
+    "dialogs": 0,
+    "dialogListeners": 0,
+    "newBusinessWrites": 0,
+    "url": "http://127.0.0.1:4182/#/runes"
+  },
+  "peer": "rune_8017未打开；本对象已足以复现该表单契约缺口，未声称同类页面实证",
+  "sources": [
+    "符文生命门槛准备/01-两符文现值只读快照-20260924T071142Z.json",
+    "符文生命门槛准备/02-来源引用与能力核对.json"
+  ]
+}

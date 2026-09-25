@@ -1,0 +1,363 @@
+{
+  "recordedAt": "2026-09-24T06:04:54.978Z",
+  "approval": {
+    "file": "希维尔标记-02-页面批准.json",
+    "sha256": "06FD34C5C80E790458E40D5D6DC44577C357963C8A55ECC1CA8DB24E575A92DD",
+    "requestIndex": 0,
+    "method": "POST",
+    "route": "/skills/sivir_r/effects",
+    "approvedBody": {
+      "effectKey": "recent_damage_mark",
+      "name": "最近伤害资格标记",
+      "description": "仅记录同一来源对同一目标的3000毫秒窗口，重复登记刷新完整期限。具体伤害资格、死亡清理时序与参与击杀入口尚未核定，本标记当前未接入触发。",
+      "sortOrder": 50,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "recent_damage_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE_TARGET",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": []
+    }
+  },
+  "baseline": {
+    "file": "希维尔标记-01-写前现值.json",
+    "sha256": "708CE3B0AA42D925AFF85A9BA083812BED91CB3A4EFEA206E02240D5E48D976A",
+    "preflightEvidenceFiles": [
+      "01-preflight.json",
+      "02-pre-save-form.json"
+    ]
+  },
+  "browser": {
+    "pid": 48548,
+    "parentPid": 25624,
+    "contextCount": 1,
+    "pageCount": 1,
+    "route": "角色管理 -> 希维尔 -> 关联技能 -> sivir_r -> 效果与结果",
+    "browserConnected": true
+  },
+  "pageWrite": {
+    "source": "正常“新增效果”表单",
+    "allowedWriteCount": 1,
+    "blockedMutationRequests": [],
+    "requestCapturedBeforeForwarding": true,
+    "requestBodyDeepEqualToApproved": true,
+    "request": {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/sivir_r/effects",
+      "body": {
+        "effectKey": "recent_damage_mark",
+        "name": "最近伤害资格标记",
+        "description": "仅记录同一来源对同一目标的3000毫秒窗口，重复登记刷新完整期限。具体伤害资格、死亡清理时序与参与击杀入口尚未核定，本标记当前未接入触发。",
+        "sortOrder": 50,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "recent_damage_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": []
+      },
+      "bodyDeepEqualApproved": true
+    },
+    "response": {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/sivir_r/effects",
+      "status": 201,
+      "body": {
+        "createdAt": "2026-09-24T05:58:19.114091Z",
+        "description": "仅记录同一来源对同一目标的3000毫秒窗口，重复登记刷新完整期限。具体伤害资格、死亡清理时序与参与击杀入口尚未核定，本标记当前未接入触发。",
+        "effectKey": "recent_damage_mark",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "recent_damage_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "最近伤害资格标记",
+        "results": [],
+        "skillKey": "sivir_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-24T05:58:19.114091Z"
+      }
+    }
+  },
+  "closeAndReopen": {
+    "effectListRead": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/sivir_r/effects",
+      "status": 200,
+      "body": [
+        {
+          "createdAt": "2026-09-07T17:58:56.811581Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "sivir_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-07T17:58:56.811581Z"
+        },
+        {
+          "createdAt": "2026-09-07T17:58:57.283704Z",
+          "description": "独立持续属性。比例属性按百分点加算，1表示100%；不是把面板最终属性乘此比例。",
+          "effectKey": "on_the_hunt",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "狩猎自身移速",
+          "resultCount": 1,
+          "skillKey": "sivir_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-07T17:58:57.283704Z"
+        },
+        {
+          "createdAt": "2026-09-07T17:58:57.713308Z",
+          "description": null,
+          "effectKey": "attack_basic_refund",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "狩猎攻击基础技能冷却返还",
+          "resultCount": 1,
+          "skillKey": "sivir_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-07T17:58:57.713308Z"
+        },
+        {
+          "createdAt": "2026-09-21T01:28:50.810908Z",
+          "description": "只将来源对象仍存在的狩猎自身移速实例刷新为完整持续时间，不增加层数或重新施加属性数值。仅保存刷新组成；最近3秒本人伤害资格与参与击杀入口尚未配置，本效果未接入触发。",
+          "effectKey": "refresh_on_the_hunt",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "刷新狩猎完整持续时间",
+          "resultCount": 1,
+          "skillKey": "sivir_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-21T01:28:50.810908Z"
+        },
+        {
+          "createdAt": "2026-09-24T05:58:19.114091Z",
+          "description": "仅记录同一来源对同一目标的3000毫秒窗口，重复登记刷新完整期限。具体伤害资格、死亡清理时序与参与击杀入口尚未核定，本标记当前未接入触发。",
+          "effectKey": "recent_damage_mark",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "最近伤害资格标记",
+          "resultCount": 0,
+          "skillKey": "sivir_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-24T05:58:19.114091Z"
+        }
+      ]
+    },
+    "existingFourEffectsStillMatchFrozenBaseline": true,
+    "newEffectSummary": {
+      "createdAt": "2026-09-24T05:58:19.114091Z",
+      "description": "仅记录同一来源对同一目标的3000毫秒窗口，重复登记刷新完整期限。具体伤害资格、死亡清理时序与参与击杀入口尚未核定，本标记当前未接入触发。",
+      "effectKey": "recent_damage_mark",
+      "gameId": "lol",
+      "lifecycleEnabled": true,
+      "name": "最近伤害资格标记",
+      "resultCount": 0,
+      "skillKey": "sivir_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-24T05:58:19.114091Z"
+    },
+    "detailRead": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/sivir_r/effects/recent_damage_mark",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-24T05:58:19.114091Z",
+        "description": "仅记录同一来源对同一目标的3000毫秒窗口，重复登记刷新完整期限。具体伤害资格、死亡清理时序与参与击杀入口尚未核定，本标记当前未接入触发。",
+        "effectKey": "recent_damage_mark",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "recent_damage_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "最近伤害资格标记",
+        "results": [],
+        "skillKey": "sivir_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-24T05:58:19.114091Z"
+      }
+    },
+    "detailBusinessFieldsMatchApproved": true,
+    "resultsCount": 0,
+    "lifecycle": {
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "recent_damage_ms"
+      },
+      "expiryMode": "ALL_AT_ONCE",
+      "firstPeriodicExecution": null,
+      "instanceScope": "SOURCE_TARGET",
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "periodicIntervalValue": null,
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "reapplicationStackMode": "KEEP"
+    },
+    "parameterResolvedFromPreflight": {
+      "parameterKey": "recent_damage_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "value": 3000
+    },
+    "overviewGets": [
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/effects",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/parameters",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/processes",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/formulas",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/trigger-rules",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/effects/refresh_on_the_hunt",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/effects/on_the_hunt",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/effects/mana_cost",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/effects/attack_basic_refund",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/effects/recent_damage_mark",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/processes/cast",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/sivir_r/trigger-rules/active_attack_refund",
+        "status": 200
+      }
+    ],
+    "overviewClearlyMarksNewEffectUnattached": true,
+    "unattachedSummaryLines": [
+      "没有执行效果动作或过程挂接引用该效果",
+      "未挂接效果：最近伤害资格标记（recent_damage_mark）",
+      "无结果",
+      "没有执行效果动作或过程挂接引用该效果"
+    ],
+    "overviewText": "行为总览 · 希维尔·狩猎\n重试\n本页只汇总已保存配置，不表示机制已核对或战斗运行已验证。\n使用\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n过程效果挂接：施放狩猎 → 施放法力消耗（mana_cost）（cast / mana_cost）\n\t\n过程开始\n\t\n施法者（技能拥有者）\n\t\n—\n\t\n—\n\t\n编辑\n消耗与冷却\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n效果结果：施放法力消耗 / 消耗法力（mana_cost / consume_mana）\n\t\n—\n\t\n施法者（技能拥有者）\n\t\n资源变化 · 扣除 · 参数 mana_cost\n\t\n资源扣减，是否属于施放消耗需按来源核对\n\t\n编辑\n\n\n效果结果：狩猎攻击基础技能冷却返还 / 狩猎攻击基础技能冷却返还（attack_basic_refund / cooldown）\n\t\n—\n\t\n施法者（技能拥有者）\n\t\n冷却变化 · 减少 · 参数 attack_refund_ms\n\t\n—\n\t\n编辑\n\n\n过程冷却：施放狩猎（cast）\n\t\n过程开始\n\t\n—\n\t\n参数 cooldown_ms\n\t\n—\n\t\n编辑\n命中\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n触发规则：狩猎期间攻击英雄返还基础技能冷却（active_attack_refund）\n\t\n普通攻击命中\n\t\n—\n\t\n执行效果\n\t\n规则说明：只接收指定真实事件；不自行生成命中或补造事件。\n\t\n编辑\n\n\n触发条件：狩猎期间攻击英雄返还基础技能冷却 / 必要条件（active_attack_refund / champion）\n\t\n普通攻击命中\n\t\n事件对方\n\t\n—\n\t\n事件对方类别 / 英雄\n\t\n编辑\n\n\n触发条件：狩猎期间攻击英雄返还基础技能冷却 / 必要条件（active_attack_refund / hunt_active）\n\t\n普通攻击命中\n\t\n—\n\t\n—\n\t\n生命周期检查 / on_the_hunt / 存在\n\t\n编辑\n\n\n触发动作：狩猎期间攻击英雄返还基础技能冷却 / 执行attack_basic_refund（active_attack_refund / attack_basic_refund）\n\t\n普通攻击命中\n\t\n动作目标上下文：当前目标\n\t\n效果：狩猎攻击基础技能冷却返还（attack_basic_refund）\n\t\n执行效果；效果结果作用对象：施法者（技能拥有者）\n\t\n编辑\n效果\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n效果结果：施放法力消耗 / 消耗法力（mana_cost / consume_mana）\n\t\n—\n\t\n施法者（技能拥有者）\n\t\n资源变化 · 扣除 · 参数 mana_cost\n\t\n资源扣减，是否属于施放消耗需按来源核对\n\t\n编辑\n\n\n效果结果：狩猎自身移速 / 狩猎自身移速（on_the_hunt / attribute）\n\t\n持续生效\n\t\n施法者（技能拥有者）\n\t\n属性变化 · 参数 move_speed_ratio\n\t\n—\n\t\n编辑\n\n\n效果结果：狩猎攻击基础技能冷却返还 / 狩猎攻击基础技能冷却返还（attack_basic_refund / cooldown）\n\t\n—\n\t\n施法者（技能拥有者）\n\t\n冷却变化 · 减少 · 参数 attack_refund_ms\n\t\n—\n\t\n编辑\n\n\n效果结果：刷新狩猎完整持续时间 / 刷新狩猎完整持续时间（refresh_on_the_hunt / refresh）\n\t\n—\n\t\n施法者（技能拥有者）\n\t\n生命周期操作\n\t\n—\n\t\n编辑\n\n\n过程效果挂接：施放狩猎 → 施放法力消耗（mana_cost）（cast / mana_cost）\n\t\n过程开始\n\t\n施法者（技能拥有者）\n\t\n—\n\t\n—\n\t\n编辑\n\n\n过程效果挂接：施放狩猎 → 狩猎自身移速（on_the_hunt）（cast / on_the_hunt）\n\t\n步骤完成 / cast_time\n\t\n施法者（技能拥有者）\n\t\n—\n\t\n—\n\t\n编辑\n\n\n触发规则：狩猎期间攻击英雄返还基础技能冷却（active_attack_refund）\n\t\n普通攻击命中\n\t\n—\n\t\n执行效果\n\t\n规则说明：只接收指定真实事件；不自行生成命中或补造事件。\n\t\n编辑\n\n\n触发条件：狩猎期间攻击英雄返还基础技能冷却 / 必要条件（active_attack_refund / champion）\n\t\n普通攻击命中\n\t\n事件对方\n\t\n—\n\t\n事件对方类别 / 英雄\n\t\n编辑\n\n\n触发条件：狩猎期间攻击英雄返还基础技能冷却 / 必要条件（active_attack_refund / hunt_active）\n\t\n普通攻击命中\n\t\n—\n\t\n—\n\t\n生命周期检查 / on_the_hunt / 存在\n\t\n编辑\n\n\n触发动作：狩猎期间攻击英雄返还基础技能冷却 / 执行attack_basic_refund（active_attack_refund / attack_basic_refund）\n\t\n普通攻击命中\n\t\n动作目标上下文：当前目标\n\t\n效果：狩猎攻击基础技能冷却返还（attack_basic_refund）\n\t\n执行效果；效果结果作用对象：施法者（技能拥有者）\n\t\n编辑\n结束\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n过程效果挂接：施放狩猎 → 狩猎自身移速（on_the_hunt）（cast / on_the_hunt）\n\t\n步骤完成 / cast_time\n\t\n施法者（技能拥有者）\n\t\n—\n\t\n—\n\t\n编辑\n补充入口\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n未挂接效果：刷新狩猎完整持续时间（refresh_on_the_hunt）\n\t\n—\n\t\n—\n\t\n1 条结果\n\t\n没有执行效果动作或过程挂接引用该效果\n\t\n编辑\n\n\n未挂接效果：最近伤害资格标记（recent_damage_mark）\n\t\n—\n\t\n—\n\t\n无结果\n\t\n没有执行效果动作或过程挂接引用该效果\n\t\n编辑\n\n\n过程步骤：施放狩猎 / 施法延迟（cast / cast_time）\n\t\n延迟\n\t\n—\n\t\n—\n\t\n—\n\t\n编辑\n参数、公式与内部状态\n来源\n\t\n事件/过程时点\n\t\n作用对象\n\t\n数值或引用来源\n\t\n说明\n\t\n操作\n\n\n参数：基础冷却时间（毫秒）（cooldown_ms）\n\t\n—\n\t\n—\n\t\nSKILL_LEVEL\n\t\n—\n\t\n编辑\n\n\n参数：法力消耗（mana_cost）\n\t\n—\n\t\n—\n\t\n固定 100\n\t\n—\n\t\n编辑\n\n\n参数：施法时间（毫秒）（cast_time_ms）\n\t\n—\n\t\n—\n\t\n固定 250\n\t\n—\n\t\n编辑\n\n\n参数：主动移动速度加成比例（move_speed_ratio）\n\t\n—\n\t\n—\n\t\nSKILL_LEVEL\n\t\n—\n\t\n编辑\n\n\n参数：狩猎持续（毫秒）（buff_duration_ms）\n\t\n—\n\t\n—\n\t\nSKILL_LEVEL\n\t\n—\n\t\n编辑\n\n\n参数：攻击英雄基础技能冷却返还（毫秒）（attack_refund_ms）\n\t\n—\n\t\n—\n\t\n固定 500\n\t\n—\n\t\n编辑\n\n\n参数：近期伤害参与击杀窗口（毫秒）（recent_damage_ms）\n\t\n—\n\t\n—\n\t\n固定 3000\n\t\n—\n\t\n编辑\n关闭",
+    "screenshotFile": "04-希维尔R标记总览未挂接截图.png",
+    "dialogsAfterClose": 0
+  },
+  "toolInterruption": {
+    "previousReadOnlyBrowserProcessTerminated": true,
+    "previousReadOnlyStepHadZeroWrites": true,
+    "rootIndependentPreflight25GetMatchedBaselineAndTargetWas404": true,
+    "classification": "工具等待处理异常；非产品数据问题",
+    "newBrowserCreatedWithParentAuthorization": true
+  },
+  "requestLogPolicy": {
+    "storedFieldsOnly": "method/path/status/body",
+    "responseHeadersStored": false,
+    "cookiesStored": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-24T13:27:27.959Z",
+  "skillKey": "janna_e",
+  "characterKey": "champion_janna",
+  "inSelected50": true,
+  "capabilityQuestion": "指定自身护盾提前耗尽或到期时，关联攻击力增益是否同步结束",
+  "actualExecutor": {
+    "agent": "/root/essence_prepare",
+    "model": "gpt-6-sol",
+    "effort": "max",
+    "startupVerification": "09-妮蔻执行模型交接.json"
+  },
+  "freshBaseline": "迦娜护盾存续准备/01-现值与来源只读准备.json",
+  "independentPreparationGETs": 30,
+  "pageScope": "仅原护盾父/子编辑器与临时持续属性结果草稿；正常放弃后重开，全部非GET拦截",
+  "writesApproved": 0,
+  "businessWrites": 0,
+  "pageGapReproduced": false,
+  "staticFinding": "管理字段尚无指定盾耗尽联动，同父期限不足以保证；宿主混合结果仍拒绝。此为只读源码结论，等待真实页面复现",
+  "protected": [
+    "原4000毫秒自身护盾及其唯一结果",
+    "原公式参数",
+    "两条规则与显式自施资格",
+    "过程成本冷却",
+    "主体关联图片"
+  ],
+  "wholeSkillComplete": false
+}

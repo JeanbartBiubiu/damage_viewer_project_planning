@@ -1,0 +1,362 @@
+{
+  "recordedAt": "2026-09-24T07:36:36.430Z",
+  "approval": {
+    "file": "科加斯击飞-02-页面批准.json",
+    "sha256": "E459617920632DD36F0B90ED8ECB789C4B4757B9065758389FC61B7AA6F8BB10",
+    "requestIndex": 1,
+    "method": "POST",
+    "path": "/skills/chogath_q/effects",
+    "approvedBody": {
+      "effectKey": "knockup",
+      "name": "破裂明确未阻挡击飞",
+      "description": "固定16.17.1资料明确击飞1秒，复用knockup_duration_ms。仅供本技能本体实际命中敌方英雄且同次法术护盾结果明确为0的入口；持续施加击飞，无强度数值。空间轨迹、免疫和落地后减速不在本组成中表达。",
+      "sortOrder": 30,
+      "lifecycle": {
+        "instanceScope": "SOURCE_TARGET",
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "knockup_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "apply_knockup",
+          "name": "持续施加击飞",
+          "resultType": "STATUS_OPERATION",
+          "target": "TARGET",
+          "description": "无强度控制；期限由父生命周期的1000毫秒参数决定。空法术护盾粒度不表示穿盾，未阻挡资格由同次命中规则明确要求。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": null,
+            "stackValueMode": null,
+            "reapplicationValueMode": null,
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": null,
+          "detail": {
+            "statusKey": "airborne",
+            "operation": "APPLY"
+          }
+        }
+      ]
+    }
+  },
+  "baseline": {
+    "file": "科加斯击飞-01-写前现值.json",
+    "sha256": "9F071B7EB50915CDF5F1D9ACB4DF8E9561E6025B2DDB00C0AFA69F391D3962E2",
+    "preflightFile": "04-preflight-knockup-effect.json"
+  },
+  "pageWrite": {
+    "source": "科加斯Q技能录入页 -> 效果与结果 -> 新增效果，普通表单录入",
+    "allowedWriteCount": 1,
+    "blockedMutationRequests": [],
+    "requestCapturedBeforeForwarding": {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/chogath_q/effects",
+      "body": {
+        "effectKey": "knockup",
+        "name": "破裂明确未阻挡击飞",
+        "description": "固定16.17.1资料明确击飞1秒，复用knockup_duration_ms。仅供本技能本体实际命中敌方英雄且同次法术护盾结果明确为0的入口；持续施加击飞，无强度数值。空间轨迹、免疫和落地后减速不在本组成中表达。",
+        "sortOrder": 30,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "knockup_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE_TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "apply_knockup",
+            "name": "持续施加击飞",
+            "target": "TARGET",
+            "description": "无强度控制；期限由父生命周期的1000毫秒参数决定。空法术护盾粒度不表示穿盾，未阻挡资格由同次命中规则明确要求。",
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": null,
+              "stackValueMode": null,
+              "reapplicationValueMode": null,
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "resultType": "STATUS_OPERATION",
+            "valueRule": null,
+            "detail": {
+              "statusKey": "airborne",
+              "operation": "APPLY"
+            }
+          }
+        ]
+      },
+      "bodyDeepEqualApproved": true
+    },
+    "requestBodyDeepEqualToApproved": true,
+    "response": {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/chogath_q/effects",
+      "status": 201,
+      "body": {
+        "createdAt": "2026-09-24T07:30:49.784508Z",
+        "description": "固定16.17.1资料明确击飞1秒，复用knockup_duration_ms。仅供本技能本体实际命中敌方英雄且同次法术护盾结果明确为0的入口；持续施加击飞，无强度数值。空间轨迹、免疫和落地后减速不在本组成中表达。",
+        "effectKey": "knockup",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "knockup_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "破裂明确未阻挡击飞",
+        "results": [
+          {
+            "description": "无强度控制；期限由父生命周期的1000毫秒参数决定。空法术护盾粒度不表示穿盾，未阻挡资格由同次命中规则明确要求。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "airborne"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "持续施加击飞",
+            "resultKey": "apply_knockup",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "chogath_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-24T07:30:49.784508Z"
+      }
+    }
+  },
+  "closeAndReopen": {
+    "listRead": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/effects",
+      "status": 200,
+      "body": [
+        {
+          "createdAt": "2026-09-09T12:47:25.825733Z",
+          "description": "定义本技能每次已接受普通主动使用的基础法力消耗，读取同技能mana_cost参数并作用于来源对象；具体调用由使用过程挂接决定，本效果不负责施放许可、冷却或命中判断。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "chogath_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-21T09:30:14.982809Z"
+        },
+        {
+          "createdAt": "2026-09-21T10:25:15.679426Z",
+          "description": "专供同次chogath_q本体合资格实际命中法术护盾结果明确为0的敌方英雄入口；本结果不重复进行护盾判定，不表达穿盾或被阻挡时伤害。控制、距离变化及其他后续分支分别处理。",
+          "effectKey": "primary_hit",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "破裂明确未阻挡本体伤害",
+          "resultCount": 1,
+          "skillKey": "chogath_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-21T10:25:15.679426Z"
+        },
+        {
+          "createdAt": "2026-09-24T07:30:49.784508Z",
+          "description": "固定16.17.1资料明确击飞1秒，复用knockup_duration_ms。仅供本技能本体实际命中敌方英雄且同次法术护盾结果明确为0的入口；持续施加击飞，无强度数值。空间轨迹、免疫和落地后减速不在本组成中表达。",
+          "effectKey": "knockup",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "破裂明确未阻挡击飞",
+          "resultCount": 1,
+          "skillKey": "chogath_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-24T07:30:49.784508Z"
+        }
+      ]
+    },
+    "existingTwoEffectsMatchFrozenBaseline": true,
+    "knockupListRow": {
+      "createdAt": "2026-09-24T07:30:49.784508Z",
+      "description": "固定16.17.1资料明确击飞1秒，复用knockup_duration_ms。仅供本技能本体实际命中敌方英雄且同次法术护盾结果明确为0的入口；持续施加击飞，无强度数值。空间轨迹、免疫和落地后减速不在本组成中表达。",
+      "effectKey": "knockup",
+      "gameId": "lol",
+      "lifecycleEnabled": true,
+      "name": "破裂明确未阻挡击飞",
+      "resultCount": 1,
+      "skillKey": "chogath_q",
+      "sortOrder": 30,
+      "updatedAt": "2026-09-24T07:30:49.784508Z"
+    },
+    "detailRead": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/chogath_q/effects/knockup",
+      "status": 200,
+      "body": {
+        "createdAt": "2026-09-24T07:30:49.784508Z",
+        "description": "固定16.17.1资料明确击飞1秒，复用knockup_duration_ms。仅供本技能本体实际命中敌方英雄且同次法术护盾结果明确为0的入口；持续施加击飞，无强度数值。空间轨迹、免疫和落地后减速不在本组成中表达。",
+        "effectKey": "knockup",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "knockup_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE_TARGET",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "破裂明确未阻挡击飞",
+        "results": [
+          {
+            "description": "无强度控制；期限由父生命周期的1000毫秒参数决定。空法术护盾粒度不表示穿盾，未阻挡资格由同次命中规则明确要求。",
+            "detail": {
+              "operation": "APPLY",
+              "statusKey": "airborne"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": null,
+              "valueReadMode": null
+            },
+            "name": "持续施加击飞",
+            "resultKey": "apply_knockup",
+            "resultType": "STATUS_OPERATION",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "TARGET",
+            "valueRule": null
+          }
+        ],
+        "skillKey": "chogath_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-24T07:30:49.784508Z"
+      }
+    },
+    "detailBusinessFieldsMatchApproved": true,
+    "durationParameter": {
+      "key": "knockup_duration_ms",
+      "name": "击飞持续（毫秒）",
+      "type": "INTEGER",
+      "mode": "FIXED",
+      "value": 1000,
+      "unit": "毫秒"
+    },
+    "lifecycle": {
+      "instanceScope": "SOURCE_TARGET",
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "knockup_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "result": {
+      "resultKey": "apply_knockup",
+      "resultType": "STATUS_OPERATION",
+      "target": "TARGET",
+      "operation": "APPLY",
+      "statusKey": "airborne",
+      "lifecycleBehavior": {
+        "moment": "PERSISTENT",
+        "periodicExecutionMode": null,
+        "reapplicationValueMode": null,
+        "stackValueMode": null,
+        "valueReadMode": null
+      },
+      "valueRule": null,
+      "spellShieldBlockScope": null,
+      "noStrengthValue": true
+    },
+    "noStrengthOrDamageQuantity": true,
+    "noNewTriggerRuleInThisStep": true,
+    "dialogsAfterClose": 0,
+    "screenshotFile": "07-击飞效果详情重开截图.png"
+  },
+  "interactionNotes": {
+    "stateKindDropdownDisplayedHitFly": true,
+    "durationFieldUsesMillisecondParameter": true,
+    "numeric1000VisibleInParameterList": true,
+    "valueRuleNotConfigured": true,
+    "resultKindWasChangedFromFormDefaultDamageToStatusOperation": true,
+    "resultSummaryDisplaysCurrentTargetApplyAndAirborne": true,
+    "detailViewDisplaysParameterIdentityNotNumericValue": "效果详情显示knockup_duration_ms参数标识；1000毫秒数值在参数目录和效果说明中显示，需跨区查看。"
+  },
+  "requestLogPolicy": {
+    "storedFieldsOnly": "method/path/status/body",
+    "responseHeadersStored": false,
+    "cookiesStored": false
+  }
+}

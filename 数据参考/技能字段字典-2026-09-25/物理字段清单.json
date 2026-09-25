@@ -1,0 +1,2321 @@
+{
+  "at": "2026-09-24T16:35:21.633Z",
+  "source": "C:/project/damage_backend_dev/db/game_manage/schema.sql",
+  "sha256": "11ca426aad15b545a21d6fef890fa308aad3f9f79f4f44e6538e1146fad090da",
+  "tableCount": 28,
+  "columnCount": 219,
+  "tables": [
+    {
+      "name": "skills",
+      "title": "技能主体",
+      "sourceLine": 193,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏技能稳定标识；角色、装备、符文通过关系表挂载，技能本体不持有所属角色键。",
+          "definition": "skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "varchar(2000)",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description varchar(2000)"
+        },
+        {
+          "name": "max_level",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "description": "技能最大等级，数据库及创建请求均要求至少1；本字段没有写死为5，也不能套用角色等级上限100。",
+          "definition": "max_level integer NOT NULL"
+        },
+        {
+          "name": "status",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": null,
+          "description": "ENABLED＝启用；DISABLED＝停用。不是删除，也不是战斗中的生效标记。",
+          "definition": "status varchar(16) NOT NULL"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_skills PRIMARY KEY (game_id, skill_key)",
+        "CONSTRAINT fk_skills_game\n        FOREIGN KEY (game_id) REFERENCES public.games (game_id)",
+        "CONSTRAINT ck_skills_key\n        CHECK (skill_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_skills_name\n        CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_skills_max_level\n        CHECK (max_level >= 1)",
+        "CONSTRAINT ck_skills_status\n        CHECK (status IN ('ENABLED', 'DISABLED'))",
+        "CONSTRAINT ck_skills_sort_order\n        CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE INDEX ix_skills_list\n    ON public.skills (game_id, status, sort_order, name, skill_key);"
+      ],
+      "notes": "主键(game_id,skill_key)；name非空，max_level≥1，状态为ENABLED/DISABLED。DDL未对技能名称建立唯一索引；不能把名称当身份键。"
+    },
+    {
+      "name": "skill_categories",
+      "title": "技能分类目录",
+      "sourceLine": 166,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_category_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "分类目录标识；属于数据引用，不是写死的主动/被动等枚举。",
+          "definition": "skill_category_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description text"
+        },
+        {
+          "name": "status",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": "'ENABLED'",
+          "description": "ENABLED＝启用；DISABLED＝停用。不是删除，也不是战斗中的生效标记。",
+          "definition": "status varchar(16) NOT NULL DEFAULT 'ENABLED'"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_skill_categories PRIMARY KEY (game_id, skill_category_key)",
+        "CONSTRAINT fk_skill_categories_game\n        FOREIGN KEY (game_id) REFERENCES public.games (game_id)",
+        "CONSTRAINT ck_skill_categories_key\n        CHECK (skill_category_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_skill_categories_name\n        CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_skill_categories_status\n        CHECK (status IN ('ENABLED', 'DISABLED'))",
+        "CONSTRAINT ck_skill_categories_sort_order\n        CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE UNIQUE INDEX uq_skill_categories_name\n    ON public.skill_categories (game_id, lower(btrim(name)));"
+      ],
+      "notes": "同游戏名称忽略大小写唯一。分类键是可管理数据，不是固定枚举；多个分类可共同属于一个技能。"
+    },
+    {
+      "name": "skill_category_relations",
+      "title": "技能分类关系",
+      "sourceLine": 223,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏技能稳定标识；在技能组成表中表示该组成所属技能。",
+          "definition": "skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_category_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "分类目录标识；属于数据引用，不是写死的主动/被动等枚举。",
+          "definition": "skill_category_key varchar(64) NOT NULL"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_skill_category_relations PRIMARY KEY (game_id, skill_key, skill_category_key)",
+        "CONSTRAINT fk_skill_category_relations_skill\n        FOREIGN KEY (game_id, skill_key)\n        REFERENCES public.skills (game_id, skill_key)\n        ON DELETE CASCADE",
+        "CONSTRAINT fk_skill_category_relations_category\n        FOREIGN KEY (game_id, skill_category_key)\n        REFERENCES public.skill_categories (game_id, skill_category_key)\n        ON DELETE RESTRICT"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE INDEX ix_skill_category_relations_category\n    ON public.skill_category_relations (game_id, skill_category_key, skill_key);"
+      ],
+      "notes": "复合主键同时去重；删除技能级联清分类关系；被引用分类的删除受RESTRICT保护。本表没有排序列。"
+    },
+    {
+      "name": "skill_parameters",
+      "title": "技能参数",
+      "sourceLine": 243,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏技能稳定标识；在技能组成表中表示该组成所属技能。",
+          "definition": "skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "parameter_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同技能参数稳定标识；固定值、等级图或计算时输入均通过它被引用。",
+          "definition": "parameter_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "value_type",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": null,
+          "description": "INTEGER＝整数；DECIMAL＝可带小数的数值。整数语义由后端校验，不等于SQL numeric自动限制整数。",
+          "definition": "value_type varchar(16) NOT NULL"
+        },
+        {
+          "name": "value_mode",
+          "type": "varchar(24)",
+          "nullable": false,
+          "default": null,
+          "description": "FIXED＝固定值；SKILL_LEVEL＝按技能等级；CHARACTER_LEVEL＝按角色等级；RUNTIME_INPUT＝计算时由执行入口供值。",
+          "definition": "value_mode varchar(24) NOT NULL"
+        },
+        {
+          "name": "fixed_value",
+          "type": "numeric",
+          "nullable": true,
+          "default": null,
+          "description": "FIXED模式的数值；其他取值模式必须NULL。数值用途决定是否允许负数、零或小数。",
+          "definition": "fixed_value numeric"
+        },
+        {
+          "name": "level_values",
+          "type": "jsonb",
+          "nullable": true,
+          "default": null,
+          "description": "等级字符串→数值。SKILL_LEVEL覆盖1～技能max_level；CHARACTER_LEVEL覆盖游戏min_level～max_level，不得缺项或多项。",
+          "definition": "level_values jsonb"
+        },
+        {
+          "name": "description",
+          "type": "varchar(2000)",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description varchar(2000)"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_skill_parameters\n        PRIMARY KEY (game_id, skill_key, parameter_key)",
+        "CONSTRAINT fk_skill_parameters_skill\n        FOREIGN KEY (game_id, skill_key)\n        REFERENCES public.skills (game_id, skill_key)",
+        "CONSTRAINT ck_skill_parameters_key\n        CHECK (parameter_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_skill_parameters_name\n        CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_skill_parameters_value_type\n        CHECK (value_type IN ('DECIMAL', 'INTEGER'))",
+        "CONSTRAINT ck_skill_parameters_value_mode\n        CHECK (value_mode IN (\n            'FIXED', 'SKILL_LEVEL', 'CHARACTER_LEVEL', 'RUNTIME_INPUT'\n        ))",
+        "CONSTRAINT ck_skill_parameters_value_shape\n        CHECK (\n            (value_mode = 'FIXED'\n                AND fixed_value IS NOT NULL\n                AND level_values IS NULL)\n            OR\n            (value_mode IN ('SKILL_LEVEL', 'CHARACTER_LEVEL')\n                AND fixed_value IS NULL\n                AND level_values IS NOT NULL\n                AND jsonb_typeof(level_values) = 'object')\n            OR\n            (value_mode = 'RUNTIME_INPUT'\n                AND fixed_value IS NULL\n                AND level_values IS NULL)\n        )",
+        "CONSTRAINT ck_skill_parameters_sort_order\n        CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE INDEX ix_skill_parameters_list\n    ON public.skill_parameters\n    (game_id, skill_key, sort_order, name, parameter_key);",
+        "CREATE INDEX ix_skill_parameters_character_level\n    ON public.skill_parameters\n    (game_id, skill_key, parameter_key)\n    WHERE value_mode = 'CHARACTER_LEVEL';"
+      ],
+      "notes": "FIXED：fixed_value必填且level_values=NULL；两种等级模式反之；RUNTIME_INPUT：二者均NULL。DB只检查形状，整数及完整等级图由后端校验。参数数值没有通用非负约束，具体引用用途另限。"
+    },
+    {
+      "name": "skill_formulas",
+      "title": "技能公式",
+      "sourceLine": 301,
+      "columns": [
+        {
+          "name": "expression",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "description": "公式表达式树JSON；节点字段、运算枚举与属性取值口径见“数值与公式”章。",
+          "definition": "expression jsonb NOT NULL"
+        },
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏技能稳定标识；在技能组成表中表示该组成所属技能。",
+          "definition": "skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "formula_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同技能公式稳定标识；结果、过程等引用此键求值。",
+          "definition": "formula_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "varchar(2000)",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description varchar(2000)"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_skill_formulas\n        PRIMARY KEY (game_id, skill_key, formula_key)",
+        "CONSTRAINT fk_skill_formulas_skill\n        FOREIGN KEY (game_id, skill_key)\n        REFERENCES public.skills (game_id, skill_key)",
+        "CONSTRAINT ck_skill_formulas_key\n        CHECK (formula_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_skill_formulas_name\n        CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_skill_formulas_sort_order\n        CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [
+        "ALTER TABLE public.skill_formulas ADD CONSTRAINT ck_skill_formulas_expression CHECK (jsonb_typeof(expression) = 'object');"
+      ],
+      "indexes": [
+        "CREATE INDEX ix_skill_formulas_list\n    ON public.skill_formulas\n    (game_id, skill_key, sort_order, name, formula_key);"
+      ],
+      "notes": "expression必须JSON对象；节点类型、二元运算、引用、深度32/节点256限制由后端检查。公式列表摘要不带完整表达式，读取详情才有完整树。"
+    },
+    {
+      "name": "skill_effects",
+      "title": "技能效果",
+      "sourceLine": 436,
+      "columns": [
+        {
+          "name": "results",
+          "type": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "description": "有序结果JSON数组；包含结果身份、对象、数值规则、类型明细及生命周期行为。见效果章。",
+          "definition": "results jsonb NOT NULL DEFAULT '[]'::jsonb"
+        },
+        {
+          "name": "lifecycle",
+          "type": "jsonb",
+          "nullable": true,
+          "default": null,
+          "description": "效果生命周期JSON；NULL表示没有父生命周期，非NULL描述实例范围、期限、层数、重施与周期。",
+          "definition": "lifecycle jsonb"
+        },
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏技能稳定标识；在技能组成表中表示该组成所属技能。",
+          "definition": "skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "effect_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同技能效果稳定标识；效果是结果和可选生命周期的保存单元。",
+          "definition": "effect_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "varchar(2000)",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description varchar(2000)"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_skill_effects\n        PRIMARY KEY (game_id, skill_key, effect_key)",
+        "CONSTRAINT fk_skill_effects_skill\n        FOREIGN KEY (game_id, skill_key)\n        REFERENCES public.skills (game_id, skill_key)",
+        "CONSTRAINT ck_skill_effects_key\n        CHECK (effect_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_skill_effects_name\n        CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_skill_effects_sort_order\n        CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [
+        "ALTER TABLE public.skill_effects ADD CONSTRAINT ck_skill_effects_results_array CHECK (jsonb_typeof(results) = 'array');",
+        "ALTER TABLE public.skill_effects ADD CONSTRAINT ck_skill_effects_lifecycle_object CHECK (lifecycle IS NULL OR jsonb_typeof(lifecycle) = 'object');"
+      ],
+      "indexes": [
+        "CREATE INDEX ix_skill_effects_list\n    ON public.skill_effects (game_id, skill_key, sort_order, effect_key);"
+      ],
+      "notes": "DB只约束results数组、lifecycle对象或NULL。后端允许“合法生命周期＋零结果”的标记；无生命周期又无结果不能保存。结果类型、字段组合、引用、周期和数值限制详见效果章。"
+    },
+    {
+      "name": "skill_processes",
+      "title": "技能过程",
+      "sourceLine": 503,
+      "columns": [
+        {
+          "name": "steps",
+          "type": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "description": "有序过程步骤JSON数组；立即、延迟、多段、周期、引导、蓄力、重施、强化普攻八类。",
+          "definition": "steps jsonb NOT NULL DEFAULT '[]'::jsonb"
+        },
+        {
+          "name": "cooldown",
+          "type": "jsonb",
+          "nullable": true,
+          "default": null,
+          "description": "可空普通冷却JSON；保存时长取值和起算时点，不是当前剩余冷却。",
+          "definition": "cooldown jsonb"
+        },
+        {
+          "name": "effect_bindings",
+          "type": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "description": "过程时点→效果的有序挂接JSON数组；对应接口 effectBindings。",
+          "definition": "effect_bindings jsonb NOT NULL DEFAULT '[]'::jsonb"
+        },
+        {
+          "name": "state_operations",
+          "type": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "description": "过程时点→内部状态操作的有序JSON数组；对应接口 stateOperations。",
+          "definition": "state_operations jsonb NOT NULL DEFAULT '[]'::jsonb"
+        },
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏技能稳定标识；在技能组成表中表示该组成所属技能。",
+          "definition": "skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "process_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同技能过程稳定标识；过程拥有步骤、普通冷却和时点挂接。",
+          "definition": "process_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "activation_type",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": null,
+          "description": "ACTIVE＝主动；PASSIVE＝被动；CONSUMABLE＝消耗能力。它是过程使用方式，不代替技能分类。",
+          "definition": "activation_type varchar(16) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "varchar(2000)",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description varchar(2000)"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_skill_processes\n        PRIMARY KEY (game_id, skill_key, process_key)",
+        "CONSTRAINT fk_skill_processes_skill\n        FOREIGN KEY (game_id, skill_key)\n        REFERENCES public.skills (game_id, skill_key)",
+        "CONSTRAINT ck_skill_processes_key\n        CHECK (process_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_skill_processes_name\n        CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_skill_processes_activation\n        CHECK (activation_type IN ('ACTIVE', 'PASSIVE', 'CONSUMABLE'))",
+        "CONSTRAINT ck_skill_processes_sort_order\n        CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [
+        "ALTER TABLE public.skill_processes ADD CONSTRAINT ck_skill_processes_steps_array CHECK (jsonb_typeof(steps) = 'array');",
+        "ALTER TABLE public.skill_processes ADD CONSTRAINT ck_skill_processes_cooldown_object CHECK (cooldown IS NULL OR jsonb_typeof(cooldown) = 'object');",
+        "ALTER TABLE public.skill_processes ADD CONSTRAINT ck_skill_processes_bindings_array CHECK (jsonb_typeof(effect_bindings) = 'array');",
+        "ALTER TABLE public.skill_processes ADD CONSTRAINT ck_skill_processes_operations_array CHECK (jsonb_typeof(state_operations) = 'array');"
+      ],
+      "indexes": [
+        "CREATE INDEX ix_skill_processes_list\n    ON public.skill_processes (game_id, skill_key, sort_order, process_key);"
+      ],
+      "notes": "activation_type三选一；steps/effect_bindings/state_operations必须数组，cooldown对象或NULL。DB数组默认空不代表后端允许空过程；步骤数量、种类、时点和挂接限制详见过程章。"
+    },
+    {
+      "name": "skill_internal_states",
+      "title": "技能内部状态",
+      "sourceLine": 465,
+      "columns": [
+        {
+          "name": "detail",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "description": "随内部状态种类变化的JSON明细，五种结构详见过程与内部状态章。",
+          "definition": "detail jsonb NOT NULL"
+        },
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏技能稳定标识；在技能组成表中表示该组成所属技能。",
+          "definition": "skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "state_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同技能内部状态稳定标识；与公共战斗状态 status_key 不同。",
+          "definition": "state_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "state_type",
+          "type": "varchar(24)",
+          "nullable": false,
+          "default": null,
+          "description": "COUNTER＝计数；AMMO＝弹药；MODE＝模式；FLAG＝准备标记；INTERNAL_COOLDOWN＝内部冷却。",
+          "definition": "state_type varchar(24) NOT NULL"
+        },
+        {
+          "name": "scope",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": null,
+          "description": "SKILL＝技能范围；TARGET＝按目标分别保存。当前只有计数可选择TARGET。",
+          "definition": "scope varchar(16) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "varchar(2000)",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description varchar(2000)"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_skill_internal_states\n        PRIMARY KEY (game_id, skill_key, state_key)",
+        "CONSTRAINT fk_skill_internal_states_skill\n        FOREIGN KEY (game_id, skill_key)\n        REFERENCES public.skills (game_id, skill_key)",
+        "CONSTRAINT ck_skill_internal_states_key\n        CHECK (state_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_skill_internal_states_name\n        CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_skill_internal_states_type\n        CHECK (state_type IN (\n            'COUNTER', 'AMMO', 'MODE', 'FLAG', 'INTERNAL_COOLDOWN'\n        ))",
+        "CONSTRAINT ck_skill_internal_states_scope\n        CHECK (scope IN ('SKILL', 'TARGET'))",
+        "CONSTRAINT ck_skill_internal_states_scope_type\n        CHECK (state_type = 'COUNTER' OR scope = 'SKILL')",
+        "CONSTRAINT ck_skill_internal_states_sort_order\n        CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [
+        "ALTER TABLE public.skill_internal_states ADD CONSTRAINT ck_skill_internal_states_detail_object\n    CHECK (jsonb_typeof(detail) = 'object');"
+      ],
+      "indexes": [
+        "CREATE INDEX ix_skill_internal_states_list\n    ON public.skill_internal_states (game_id, skill_key, sort_order, state_key);"
+      ],
+      "notes": "state_type五选一；scope二选一；仅COUNTER允许TARGET。detail必须对象，各状态明细由后端按种类校验。"
+    },
+    {
+      "name": "skill_trigger_rules",
+      "title": "技能触发规则",
+      "sourceLine": 537,
+      "columns": [
+        {
+          "name": "event_source",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "description": "事件来源JSON：eventType加该事件专有detail。不是“事件发生次数”的运行记录。",
+          "definition": "event_source jsonb NOT NULL"
+        },
+        {
+          "name": "condition_groups",
+          "type": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "description": "条件组JSON数组；组内与、组间或，具体空数组与字段能力约束见触发章。",
+          "definition": "condition_groups jsonb NOT NULL DEFAULT '[]'::jsonb"
+        },
+        {
+          "name": "actions",
+          "type": "jsonb",
+          "nullable": false,
+          "default": "'[]'::jsonb",
+          "description": "触发后执行的有序动作JSON数组，含目标上下文、动态供值和结果修正。",
+          "definition": "actions jsonb NOT NULL DEFAULT '[]'::jsonb"
+        },
+        {
+          "name": "limits",
+          "type": "jsonb",
+          "nullable": false,
+          "default": "'{}'::jsonb",
+          "description": "触发限制JSON；内含perTargetCooldown、maxTriggersPerProcess、oncePerUse。接口将三项放在规则顶层。",
+          "definition": "limits jsonb NOT NULL DEFAULT '{}'::jsonb"
+        },
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏技能稳定标识；在技能组成表中表示该组成所属技能。",
+          "definition": "skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "rule_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同技能触发规则稳定标识；被引用动作属于此规则。",
+          "definition": "rule_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "varchar(1000)",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description varchar(1000)"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "规则非负顺序，最大999999；用于稳定规则排列，具体同事件执行及条件取样需按触发契约，不等同于任意全局优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        },
+        {
+          "name": "event_type",
+          "type": "varchar(32)",
+          "nullable": false,
+          "default": null,
+          "description": "事件种类检索列，来自event_source中的eventType；完整23类及各自detail见触发章，不能与JSON种类不一致。",
+          "definition": "event_type varchar(32) NOT NULL"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_skill_trigger_rules\n        PRIMARY KEY (game_id, skill_key, rule_key)",
+        "CONSTRAINT fk_skill_trigger_rules_skill\n        FOREIGN KEY (game_id, skill_key)\n        REFERENCES public.skills (game_id, skill_key)",
+        "CONSTRAINT ck_skill_trigger_rules_key\n        CHECK (rule_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_skill_trigger_rules_name\n        CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_skill_trigger_rules_sort_order\n        CHECK (sort_order >= 0 AND sort_order <= 999999)",
+        "CONSTRAINT ck_skill_trigger_rules_event_type\n        CHECK (event_type IN (\n            'SOURCE_INITIALIZED', 'SKILL_USED', 'BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'SKILL_HIT',\n            'PROCESS_MOMENT', 'RESULT_AVAILABLE', 'LIFECYCLE_MOMENT',\n            'DAMAGE_PENDING', 'DAMAGE_DEALT', 'DAMAGE_TAKEN', 'STATUS_CHANGED',\n            'HEALTH_THRESHOLD_CROSSED', 'INTERNAL_STATE_CHANGED',\n            'CONTROL_RECEIVED', 'ENTITY_DIED', 'ENTITY_UNTARGETABLE',\n            'KILL', 'TAKEDOWN', 'PROCESS_CANCEL_REQUESTED', 'SPELL_SHIELD_BLOCKED',\n            'HIT_LINK_APPLIED', 'ATTACK_LINK_APPLIED'\n        ))"
+      ],
+      "alterConstraints": [
+        "ALTER TABLE public.skill_trigger_rules ADD CONSTRAINT ck_skill_trigger_rules_event_source_object CHECK (jsonb_typeof(event_source) = 'object');",
+        "ALTER TABLE public.skill_trigger_rules ADD CONSTRAINT ck_skill_trigger_rules_condition_groups_array CHECK (jsonb_typeof(condition_groups) = 'array');",
+        "ALTER TABLE public.skill_trigger_rules ADD CONSTRAINT ck_skill_trigger_rules_actions_array CHECK (jsonb_typeof(actions) = 'array');",
+        "ALTER TABLE public.skill_trigger_rules ADD CONSTRAINT ck_skill_trigger_rules_limits_object CHECK (jsonb_typeof(limits) = 'object');"
+      ],
+      "indexes": [
+        "CREATE INDEX ix_skill_trigger_rules_list\n    ON public.skill_trigger_rules (game_id, skill_key, sort_order, rule_key);",
+        "CREATE INDEX ix_skill_trigger_rules_event_type\n    ON public.skill_trigger_rules (game_id, skill_key, event_type, rule_key);"
+      ],
+      "notes": "event_type为23类固定事件；JSON种类与检索列一致。规则名称≤100、说明≤1000、排序0～999999。事件/条件/动作/限制的具体合法组合详见触发章；DB形状CHECK本身不证明引用完整。"
+    },
+    {
+      "name": "skill_object_references",
+      "title": "系统生成的技能引用索引",
+      "sourceLine": 684,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "source_skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "引用索引中发起引用的技能键；不是运行时施法者身份。",
+          "definition": "source_skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "source_type",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": null,
+          "description": "FORMULA公式、EFFECT效果、STATE内部状态、PROCESS过程、TRIGGER触发规则。由系统提取。",
+          "definition": "source_type varchar(16) NOT NULL"
+        },
+        {
+          "name": "source_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "发起引用的根对象键；由source_type解释，始终与source_skill_key一起定位。",
+          "definition": "source_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "field_path",
+          "type": "text",
+          "nullable": false,
+          "default": null,
+          "description": "引用出现的位置，例 results[0].valueRule.value.parameterKey；用于反查和错误定位。",
+          "definition": "field_path text NOT NULL"
+        },
+        {
+          "name": "target_type",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": null,
+          "description": "ATTRIBUTE属性、PARAMETER参数、FORMULA公式、SKILL技能、CATEGORY分类、DAMAGE_TYPE伤害类型、MODIFIER_ZONE乘区、STATUS状态、EFFECT效果、RESULT结果、LIFECYCLE生命周期、STATE内部状态、OPTION模式选项、PROCESS过程、STEP步骤、ACTION动作。",
+          "definition": "target_type varchar(16) NOT NULL"
+        },
+        {
+          "name": "target_skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "目标属于技能组成时填写所属技能键；公共目录等目标使用空字符串，不能NULL。",
+          "definition": "target_skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "target_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "被引用对象的稳定标识，必须非空。",
+          "definition": "target_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "target_sub_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "被引用子项的键，如结果、模式选项、步骤、动作；引用根对象时为空字符串，不能NULL。",
+          "definition": "target_sub_key varchar(64) NOT NULL"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_skill_object_references PRIMARY KEY (\n        game_id, source_skill_key, source_type, source_key, field_path,\n        target_type, target_skill_key, target_key, target_sub_key\n    )",
+        "CONSTRAINT fk_skill_object_references_game FOREIGN KEY (game_id)\n        REFERENCES public.games (game_id) ON DELETE CASCADE",
+        "CONSTRAINT fk_skill_object_references_skill FOREIGN KEY (game_id, source_skill_key)\n        REFERENCES public.skills (game_id, skill_key) ON DELETE CASCADE",
+        "CONSTRAINT ck_skill_object_references_source_type CHECK (\n        source_type IN ('FORMULA', 'EFFECT', 'STATE', 'PROCESS', 'TRIGGER')\n    )",
+        "CONSTRAINT ck_skill_object_references_target_type CHECK (\n        target_type IN ('ATTRIBUTE', 'PARAMETER', 'FORMULA', 'SKILL', 'CATEGORY', 'DAMAGE_TYPE',\n            'MODIFIER_ZONE', 'STATUS', 'EFFECT', 'RESULT', 'LIFECYCLE', 'STATE', 'OPTION',\n            'PROCESS', 'STEP', 'ACTION')\n    )",
+        "CONSTRAINT ck_skill_object_references_path CHECK (btrim(field_path) <> '')",
+        "CONSTRAINT ck_skill_object_references_target CHECK (btrim(target_key) <> '')"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE INDEX ix_skill_object_references_target ON public.skill_object_references\n    (game_id, target_type, target_skill_key, target_key, target_sub_key);"
+      ],
+      "notes": "全部九列组成复合主键；来源技能删除级联清索引。目标不是逐类型SQL外键，由同游戏写事务读取完整聚合校验并重建；无独立手工编辑接口。"
+    },
+    {
+      "name": "character_skill_relations",
+      "title": "角色挂载技能",
+      "sourceLine": 618,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "character_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏角色稳定标识；在挂载表中指向技能拥有者，在角色属性表中指向属性拥有者。",
+          "definition": "character_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏技能稳定标识；在技能组成表中表示该组成所属技能。",
+          "definition": "skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_character_skill_relations PRIMARY KEY (game_id, character_key, skill_key)",
+        "CONSTRAINT fk_character_skill_relations_character FOREIGN KEY (game_id, character_key)\n        REFERENCES public.characters (game_id, character_key) ON DELETE CASCADE",
+        "CONSTRAINT fk_character_skill_relations_skill FOREIGN KEY (game_id, skill_key)\n        REFERENCES public.skills (game_id, skill_key) ON DELETE RESTRICT",
+        "CONSTRAINT ck_character_skill_relations_sort_order CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE INDEX ix_character_skill_relations_skill\n    ON public.character_skill_relations (skill_key, game_id, character_key);"
+      ],
+      "notes": "同一角色不能重复挂同一技能；角色删除级联清挂载，技能删除受RESTRICT保护。没有Q/W/E/R槽位列，不应从sort_order单独推断槽位语义。"
+    },
+    {
+      "name": "equipment_skill_relations",
+      "title": "装备挂载技能",
+      "sourceLine": 634,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "equipment_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏装备稳定标识；挂载的技能独立保存，可与其他主体共享。",
+          "definition": "equipment_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏技能稳定标识；在技能组成表中表示该组成所属技能。",
+          "definition": "skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_equipment_skill_relations PRIMARY KEY (game_id, equipment_key, skill_key)",
+        "CONSTRAINT fk_equipment_skill_relations_equipment FOREIGN KEY (game_id, equipment_key)\n        REFERENCES public.equipment (game_id, equipment_key) ON DELETE CASCADE",
+        "CONSTRAINT fk_equipment_skill_relations_skill FOREIGN KEY (game_id, skill_key)\n        REFERENCES public.skills (game_id, skill_key) ON DELETE RESTRICT",
+        "CONSTRAINT ck_equipment_skill_relations_sort_order CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE INDEX ix_equipment_skill_relations_skill\n    ON public.equipment_skill_relations (skill_key, game_id, equipment_key);"
+      ],
+      "notes": "同一装备不能重复挂同一技能；装备删除级联清挂载，技能删除受RESTRICT保护。"
+    },
+    {
+      "name": "rune_skill_relations",
+      "title": "符文挂载技能",
+      "sourceLine": 759,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "rune_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏符文稳定标识；符文效果通过技能挂载表达。",
+          "definition": "rune_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "skill_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏技能稳定标识；在技能组成表中表示该组成所属技能。",
+          "definition": "skill_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_rune_skill_relations PRIMARY KEY (game_id, rune_key, skill_key)",
+        "CONSTRAINT fk_rune_skill_relations_rune FOREIGN KEY (game_id, rune_key)\n        REFERENCES public.runes (game_id, rune_key) ON DELETE CASCADE",
+        "CONSTRAINT fk_rune_skill_relations_skill FOREIGN KEY (game_id, skill_key)\n        REFERENCES public.skills (game_id, skill_key) ON DELETE RESTRICT",
+        "CONSTRAINT ck_rune_skill_relations_sort_order CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE INDEX ix_rune_skill_relations_skill\n    ON public.rune_skill_relations (game_id, skill_key, rune_key);"
+      ],
+      "notes": "同符文不能重复挂同一技能；符文删除只级联清挂载，技能删除受RESTRICT保护。"
+    },
+    {
+      "name": "attributes",
+      "title": "公共属性目录",
+      "sourceLine": 13,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "attribute_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "属性目录稳定标识；实际属性的语义由目录及消费方约定，不从名称自动推断。",
+          "definition": "attribute_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "value_type",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": null,
+          "description": "INTEGER＝整数；DECIMAL＝可带小数的数值。整数语义由后端校验，不等于SQL numeric自动限制整数。",
+          "definition": "value_type varchar(16) NOT NULL"
+        },
+        {
+          "name": "min_value",
+          "type": "numeric",
+          "nullable": true,
+          "default": null,
+          "description": "属性允许的下界；NULL表示未配置下界。不是当前生命值或额外属性值。",
+          "definition": "min_value numeric"
+        },
+        {
+          "name": "max_value",
+          "type": "numeric",
+          "nullable": true,
+          "default": null,
+          "description": "属性允许的上界；NULL表示未配置上界。不能据此单独推断战斗中的最大生命值。",
+          "definition": "max_value numeric"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description text"
+        },
+        {
+          "name": "status",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": "'ENABLED'",
+          "description": "ENABLED＝启用；DISABLED＝停用。不是删除，也不是战斗中的生效标记。",
+          "definition": "status varchar(16) NOT NULL DEFAULT 'ENABLED'"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_attributes\n        PRIMARY KEY (game_id, attribute_key)",
+        "CONSTRAINT fk_attributes_game\n        FOREIGN KEY (game_id) REFERENCES public.games (game_id)",
+        "CONSTRAINT ck_attributes_key\n        CHECK (attribute_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_attributes_name\n        CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_attributes_value_type\n        CHECK (value_type IN ('DECIMAL', 'INTEGER'))",
+        "CONSTRAINT ck_attributes_status\n        CHECK (status IN ('ENABLED', 'DISABLED'))",
+        "CONSTRAINT ck_attributes_bounds\n        CHECK (min_value IS NULL OR max_value IS NULL OR min_value <= max_value)",
+        "CONSTRAINT ck_attributes_sort_order\n        CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE UNIQUE INDEX uq_attributes_name\n    ON public.attributes (game_id, lower(btrim(name)));"
+      ],
+      "notes": "同游戏名称按去空格、忽略大小写唯一；min/max同时存在时min≤max。值类型、状态、排序由DB直接约束。属性没有独立单位列。"
+    },
+    {
+      "name": "damage_types",
+      "title": "伤害类型目录",
+      "sourceLine": 330,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "damage_type_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏伤害类型目录标识，不是数据库内置的物理/魔法/真实枚举。",
+          "definition": "damage_type_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description text"
+        },
+        {
+          "name": "status",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": "'ENABLED'",
+          "description": "ENABLED＝启用；DISABLED＝停用。不是删除，也不是战斗中的生效标记。",
+          "definition": "status varchar(16) NOT NULL DEFAULT 'ENABLED'"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_damage_types PRIMARY KEY (game_id, damage_type_key)",
+        "CONSTRAINT fk_damage_types_game\n        FOREIGN KEY (game_id) REFERENCES public.games (game_id)",
+        "CONSTRAINT ck_damage_types_key\n        CHECK (damage_type_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_damage_types_name\n        CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_damage_types_status\n        CHECK (status IN ('ENABLED', 'DISABLED'))",
+        "CONSTRAINT ck_damage_types_sort_order\n        CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE UNIQUE INDEX uq_damage_types_name\n    ON public.damage_types (game_id, lower(btrim(name)));"
+      ],
+      "notes": "名称同游戏忽略大小写唯一。伤害类型键是目录数据，不是固定SQL枚举；当前游戏使用哪些键不由此DDL预置。"
+    },
+    {
+      "name": "modifier_zones",
+      "title": "修正乘区目录",
+      "sourceLine": 357,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "modifier_zone_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "修正乘区稳定标识；用于指明哪些修正属于同组及在哪个阶段合并。",
+          "definition": "modifier_zone_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "domain",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": null,
+          "description": "ATTRIBUTE＝属性；DAMAGE＝伤害；HEALING＝治疗；SHIELD＝收到护盾。",
+          "definition": "domain varchar(16) NOT NULL"
+        },
+        {
+          "name": "calculation_mode",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": null,
+          "description": "FLAT_ADD＝固定值加算；RATIO_ADD＝比例加算；RATIO_MAX＝比例取最大。组合限制见本表。",
+          "definition": "calculation_mode varchar(16) NOT NULL"
+        },
+        {
+          "name": "application_stage",
+          "type": "varchar(32)",
+          "nullable": false,
+          "default": null,
+          "description": "ATTRIBUTE_FLAT＝属性固定段；ATTRIBUTE_PERCENT＝属性比例段；DAMAGE_PRE_DEFENSE＝防御前伤害；DAMAGE_POST_DEFENSE＝防御后伤害；HEALING_RESULT＝治疗结果；SHIELD_RESULT＝收到护盾结果。",
+          "definition": "application_stage varchar(32) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description text"
+        },
+        {
+          "name": "status",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": "'ENABLED'",
+          "description": "ENABLED＝启用；DISABLED＝停用。不是删除，也不是战斗中的生效标记。",
+          "definition": "status varchar(16) NOT NULL DEFAULT 'ENABLED'"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_modifier_zones PRIMARY KEY (game_id, modifier_zone_key)",
+        "CONSTRAINT fk_modifier_zones_game\n        FOREIGN KEY (game_id) REFERENCES public.games (game_id)",
+        "CONSTRAINT ck_modifier_zones_key\n        CHECK (modifier_zone_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_modifier_zones_name\n        CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_modifier_zones_domain\n        CHECK (domain IN ('ATTRIBUTE', 'DAMAGE', 'HEALING', 'SHIELD'))",
+        "CONSTRAINT ck_modifier_zones_calculation_mode\n        CHECK (calculation_mode IN ('FLAT_ADD', 'RATIO_ADD', 'RATIO_MAX'))",
+        "CONSTRAINT ck_modifier_zones_application_stage\n        CHECK (application_stage IN (\n            'ATTRIBUTE_FLAT', 'ATTRIBUTE_PERCENT',\n            'DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE', 'HEALING_RESULT', 'SHIELD_RESULT'\n        ))",
+        "CONSTRAINT ck_modifier_zones_combination\n        CHECK (\n            (domain = 'ATTRIBUTE' AND calculation_mode = 'FLAT_ADD'\n                AND application_stage = 'ATTRIBUTE_FLAT')\n            OR (domain = 'ATTRIBUTE' AND calculation_mode = 'RATIO_ADD'\n                AND application_stage = 'ATTRIBUTE_PERCENT')\n            OR (domain = 'DAMAGE' AND calculation_mode = 'RATIO_ADD'\n                AND application_stage IN ('DAMAGE_PRE_DEFENSE', 'DAMAGE_POST_DEFENSE'))\n            OR (domain = 'HEALING' AND calculation_mode = 'RATIO_ADD'\n                AND application_stage = 'HEALING_RESULT')\n            OR (domain = 'HEALING' AND calculation_mode = 'RATIO_MAX'\n                AND application_stage = 'HEALING_RESULT')\n            OR (domain = 'SHIELD' AND calculation_mode = 'RATIO_ADD'\n                AND application_stage = 'SHIELD_RESULT')\n        )",
+        "CONSTRAINT ck_modifier_zones_status\n        CHECK (status IN ('ENABLED', 'DISABLED'))",
+        "CONSTRAINT ck_modifier_zones_sort_order\n        CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE UNIQUE INDEX uq_modifier_zones_name\n    ON public.modifier_zones (game_id, lower(btrim(name)));"
+      ],
+      "notes": "合法三元组：ATTRIBUTE/FLAT_ADD/ATTRIBUTE_FLAT；ATTRIBUTE/RATIO_ADD/ATTRIBUTE_PERCENT；DAMAGE/RATIO_ADD/防御前或防御后；HEALING/RATIO_ADD或RATIO_MAX/HEALING_RESULT；SHIELD/RATIO_ADD/SHIELD_RESULT。当前后端将RATIO_MAX引用限制为“受到治疗＋降低”。"
+    },
+    {
+      "name": "statuses",
+      "title": "战斗状态目录",
+      "sourceLine": 411,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "status_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "战斗状态稳定标识；效果引用它施加/移除状态，持续时间不在目录里。",
+          "definition": "status_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "status_kind",
+          "type": "varchar(32)",
+          "nullable": false,
+          "default": null,
+          "description": "STUN＝眩晕；MOVEMENT_SLOW＝普通移动减速；ROOT＝禁锢；SILENCE＝沉默；CHARM＝魅惑；AIRBORNE＝击飞。表示行为身份，不等于本次已验证所有运行行为。",
+          "definition": "status_kind varchar(32) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "varchar(2000)",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description varchar(2000)"
+        },
+        {
+          "name": "status",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": "'ENABLED'",
+          "description": "ENABLED＝启用；DISABLED＝停用。不是删除，也不是战斗中的生效标记。",
+          "definition": "status varchar(16) NOT NULL DEFAULT 'ENABLED'"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": "0",
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL DEFAULT 0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_statuses PRIMARY KEY (game_id, status_key)",
+        "CONSTRAINT fk_statuses_game FOREIGN KEY (game_id) REFERENCES public.games (game_id)",
+        "CONSTRAINT ck_statuses_key CHECK (status_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_statuses_name CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_statuses_kind CHECK (status_kind IN ('STUN', 'MOVEMENT_SLOW', 'ROOT', 'SILENCE', 'CHARM', 'AIRBORNE'))",
+        "CONSTRAINT ck_statuses_status CHECK (status IN ('ENABLED', 'DISABLED'))",
+        "CONSTRAINT ck_statuses_sort_order CHECK (sort_order >= 0)"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE UNIQUE INDEX uq_statuses_name\n    ON public.statuses (game_id, lower(btrim(name)));"
+      ],
+      "notes": "status_kind六选一，管理接口创建后不可改；名称同游戏忽略大小写唯一。目录不保存持续时间、强度或层数，它们属于效果配置。"
+    },
+    {
+      "name": "game_vamp_rules",
+      "title": "游戏通用吸血规则",
+      "sourceLine": 48,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "vamp_type",
+          "type": "varchar(32)",
+          "nullable": false,
+          "default": null,
+          "description": "LIFE_STEAL＝生命偷取；OMNIVAMP＝全能吸血；PHYSICAL_VAMP＝物理吸血；SPELL_VAMP＝法术吸血。",
+          "definition": "vamp_type varchar(32) NOT NULL"
+        },
+        {
+          "name": "source_attribute_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "吸血比例来源属性；同游戏真实属性外键，后端要求DECIMAL。不会因为属性名字像吸血而自动选取。",
+          "definition": "source_attribute_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "basis_output_kind",
+          "type": "varchar(32)",
+          "nullable": false,
+          "default": null,
+          "description": "POST_DEFENSE_DAMAGE＝防御后、护盾吸收前伤害；ACTUAL_HP_LOSS＝实际扣除生命。",
+          "definition": "basis_output_kind varchar(32) NOT NULL"
+        },
+        {
+          "name": "default_efficiency",
+          "type": "numeric",
+          "nullable": false,
+          "default": null,
+          "description": "非负有限效率倍率，1为100%；与来源对象吸血比例共同决定治疗，不是吸血比例本身。",
+          "definition": "default_efficiency numeric NOT NULL"
+        },
+        {
+          "name": "delivery_kinds",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "description": "非空去重数组：SKILL＝技能伤害；BASIC_ATTACK＝普通攻击伤害。",
+          "definition": "delivery_kinds jsonb NOT NULL"
+        },
+        {
+          "name": "origin_kinds",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "description": "非空去重数组：DIRECT＝直接伤害；REFLECTED＝反射伤害。",
+          "definition": "origin_kinds jsonb NOT NULL"
+        },
+        {
+          "name": "skill_category_keys",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏分类键的非空去重数组，任一分类匹配；与产生方式和来源性质两个筛选维度同时满足。",
+          "definition": "skill_category_keys jsonb NOT NULL"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_game_vamp_rules PRIMARY KEY (game_id, vamp_type)",
+        "CONSTRAINT fk_game_vamp_rules_game FOREIGN KEY (game_id) REFERENCES public.games (game_id)",
+        "CONSTRAINT fk_game_vamp_rules_attribute FOREIGN KEY (game_id, source_attribute_key)\n        REFERENCES public.attributes (game_id, attribute_key)",
+        "CONSTRAINT ck_game_vamp_rules_type CHECK (vamp_type IN ('LIFE_STEAL', 'OMNIVAMP', 'PHYSICAL_VAMP', 'SPELL_VAMP'))",
+        "CONSTRAINT ck_game_vamp_rules_basis CHECK (basis_output_kind IN ('POST_DEFENSE_DAMAGE', 'ACTUAL_HP_LOSS'))",
+        "CONSTRAINT ck_game_vamp_rules_efficiency CHECK (default_efficiency >= 0 AND default_efficiency < 'Infinity'::numeric)",
+        "CONSTRAINT ck_game_vamp_rules_delivery CHECK (jsonb_typeof(delivery_kinds) = 'array' AND jsonb_array_length(delivery_kinds) > 0\n        AND delivery_kinds <@ '[\"SKILL\", \"BASIC_ATTACK\"]'::jsonb)",
+        "CONSTRAINT ck_game_vamp_rules_origin CHECK (jsonb_typeof(origin_kinds) = 'array' AND jsonb_array_length(origin_kinds) > 0\n        AND origin_kinds <@ '[\"DIRECT\", \"REFLECTED\"]'::jsonb)",
+        "CONSTRAINT ck_game_vamp_rules_categories CHECK (jsonb_typeof(skill_category_keys) = 'array' AND jsonb_array_length(skill_category_keys) > 0)"
+      ],
+      "alterConstraints": [],
+      "indexes": [],
+      "notes": "以(game_id,vamp_type)唯一；效率必须有限且≥0；三个集合非空。产生方式/来源集合的合法值由DB检查，集合去重、分类存在性及DECIMAL比例属性由后端补充。"
+    },
+    {
+      "name": "game_level_configs",
+      "title": "角色等级范围",
+      "sourceLine": 75,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "min_level",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "description": "角色等级下界，至少1；用于完整角色等级图和按角色等级参数。",
+          "definition": "min_level integer NOT NULL"
+        },
+        {
+          "name": "max_level",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "description": "角色等级上界，要求min_level≤max_level≤100；与技能max_level是不同范围。",
+          "definition": "max_level integer NOT NULL"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_game_level_configs PRIMARY KEY (game_id)",
+        "CONSTRAINT fk_game_level_configs_game\n        FOREIGN KEY (game_id) REFERENCES public.games (game_id)",
+        "CONSTRAINT ck_game_level_configs_range\n        CHECK (min_level >= 1 AND max_level >= min_level AND max_level <= 100)"
+      ],
+      "alterConstraints": [],
+      "indexes": [],
+      "notes": "每游戏一条；1≤min_level≤max_level≤100。调整范围会影响按角色等级参数与角色等级属性完整图。"
+    },
+    {
+      "name": "games",
+      "title": "游戏范围",
+      "sourceLine": 3,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) PRIMARY KEY"
+        },
+        {
+          "name": "game_name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "游戏显示名称。",
+          "definition": "game_name varchar(100) NOT NULL"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp",
+          "nullable": true,
+          "default": "NOW()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamp DEFAULT NOW()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT ck_games_game_id_format CHECK (game_id ~ '^[a-z0-9_]+$')"
+      ],
+      "alterConstraints": [],
+      "indexes": [],
+      "notes": "game_id为主键，允许小写字母、数字、下划线；与其他对象键不同，它可由数字开头。created_at是可空timestamp，其余多数表审计列是非空timestamptz。"
+    },
+    {
+      "name": "image_relations",
+      "title": "对象与代表图片关系",
+      "sourceLine": 650,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "source_type",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": null,
+          "description": "GAME游戏、CHARACTER角色、ATTRIBUTE属性、EQUIPMENT装备、SKILL技能、SKILL_EFFECT技能效果、STATUS状态、RUNE符文、RUNE_PATH符文系。",
+          "definition": "source_type varchar(16) NOT NULL"
+        },
+        {
+          "name": "source_parent_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "图片来源为SKILL_EFFECT时填写所属技能键；其他来源必须是空字符串。",
+          "definition": "source_parent_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "source_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "图片来源对象键；GAME来源必须等于game_id，SKILL_EFFECT来源为效果键。",
+          "definition": "source_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "image_key",
+          "type": "varchar(128)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏图片稳定标识；允许字母、数字、点、下划线和短横线，长度不超过128。",
+          "definition": "image_key varchar(128) NOT NULL"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_image_relations PRIMARY KEY (game_id, source_type, source_parent_key, source_key)",
+        "CONSTRAINT ck_image_relations_source_type\n        CHECK (source_type IN ('GAME', 'CHARACTER', 'ATTRIBUTE', 'EQUIPMENT', 'SKILL', 'SKILL_EFFECT', 'STATUS', 'RUNE', 'RUNE_PATH'))",
+        "CONSTRAINT ck_image_relations_parent\n        CHECK ((source_type = 'SKILL_EFFECT' AND btrim(source_parent_key) <> '')\n            OR (source_type <> 'SKILL_EFFECT' AND source_parent_key = ''))",
+        "CONSTRAINT ck_image_relations_source_key CHECK (btrim(source_key) <> '')",
+        "CONSTRAINT ck_image_relations_game CHECK (source_type <> 'GAME' OR source_key = game_id)",
+        "CONSTRAINT ck_image_relations_image_key CHECK (btrim(image_key) <> '')"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE INDEX ix_image_relations_image ON public.image_relations (game_id, image_key, source_type);"
+      ],
+      "notes": "每个来源对象只对应一张代表图片；本表明确没有外键，由后端校验来源/图片存在并清理删除关联。不是技能战斗机制关系。"
+    },
+    {
+      "name": "images",
+      "title": "代表图片资源",
+      "sourceLine": 582,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "image_key",
+          "type": "varchar(128)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏图片稳定标识；允许字母、数字、点、下划线和短横线，长度不超过128。",
+          "definition": "image_key varchar(128) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "varchar(2000)",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description varchar(2000)"
+        },
+        {
+          "name": "image_base64",
+          "type": "text",
+          "nullable": false,
+          "default": null,
+          "description": "PNG/JPEG图片数据地址；期待用于展示，不参与伤害计算。本字典不读取任何图片内容。",
+          "definition": "image_base64 text NOT NULL"
+        },
+        {
+          "name": "mime_type",
+          "type": "varchar(32)",
+          "nullable": false,
+          "default": null,
+          "description": "image/png或image/jpeg；管理服务根据图片内容识别。",
+          "definition": "mime_type varchar(32) NOT NULL"
+        },
+        {
+          "name": "byte_size",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "description": "解码后字节数，1～262144（256KiB）。",
+          "definition": "byte_size integer NOT NULL"
+        },
+        {
+          "name": "width",
+          "type": "smallint",
+          "nullable": false,
+          "default": null,
+          "description": "图片像素宽度，1～64。",
+          "definition": "width smallint NOT NULL"
+        },
+        {
+          "name": "height",
+          "type": "smallint",
+          "nullable": false,
+          "default": null,
+          "description": "图片像素高度，1～64。",
+          "definition": "height smallint NOT NULL"
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "nullable": false,
+          "default": "TRUE",
+          "description": "图片是否启用；布尔值true/false，默认true。",
+          "definition": "enabled boolean NOT NULL DEFAULT TRUE"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_images PRIMARY KEY (game_id, image_key)",
+        "CONSTRAINT fk_images_game FOREIGN KEY (game_id) REFERENCES public.games(game_id)",
+        "CONSTRAINT ck_images_key CHECK (\n        image_key ~ '^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$'\n    )",
+        "CONSTRAINT ck_images_name CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_images_mime_type CHECK (mime_type IN ('image/png', 'image/jpeg'))",
+        "CONSTRAINT ck_images_byte_size CHECK (byte_size BETWEEN 1 AND 262144)",
+        "CONSTRAINT ck_images_width CHECK (width BETWEEN 1 AND 64)",
+        "CONSTRAINT ck_images_height CHECK (height BETWEEN 1 AND 64)"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE UNIQUE INDEX uq_images_name\n    ON public.images (game_id, lower(btrim(name)));"
+      ],
+      "notes": "按game_id列表分区；本字典只计逻辑父表，不计具体游戏分区。名字同游戏忽略大小写唯一；键、媒体类型、像素和字节数均有DB限制。"
+    },
+    {
+      "name": "characters",
+      "title": "角色主体",
+      "sourceLine": 90,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "character_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏角色稳定标识；不在此表重复保存技能配置。",
+          "definition": "character_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description text"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_characters PRIMARY KEY (game_id, character_key)",
+        "CONSTRAINT fk_characters_game\n        FOREIGN KEY (game_id) REFERENCES public.games (game_id)",
+        "CONSTRAINT ck_characters_key\n        CHECK (character_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_characters_name\n        CHECK (btrim(name) <> '')"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE UNIQUE INDEX uq_characters_name\n    ON public.characters (game_id, lower(btrim(name)));"
+      ],
+      "notes": "名称同游戏忽略大小写唯一；角色属性、技能挂载及图片另表保存。"
+    },
+    {
+      "name": "character_attributes",
+      "title": "角色等级属性",
+      "sourceLine": 111,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "character_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏角色稳定标识；在挂载表中指向技能拥有者，在角色属性表中指向属性拥有者。",
+          "definition": "character_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "level_values",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "description": "等级字符串→{属性键:数值}的完整角色自然成长图；不包含技能/装备/临时效果的运行后结果。",
+          "definition": "level_values jsonb NOT NULL"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_character_attributes PRIMARY KEY (game_id, character_key)",
+        "CONSTRAINT fk_character_attributes_character\n        FOREIGN KEY (game_id, character_key)\n        REFERENCES public.characters (game_id, character_key)\n        ON DELETE CASCADE",
+        "CONSTRAINT ck_character_attributes_level_values\n        CHECK (jsonb_typeof(level_values) = 'object')"
+      ],
+      "alterConstraints": [],
+      "indexes": [],
+      "notes": "每角色一行；DB只检查level_values是对象，等级和属性完整性、数值类型/边界由后端校验；删除角色级联删除本行。"
+    },
+    {
+      "name": "equipment",
+      "title": "装备主体",
+      "sourceLine": 128,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "equipment_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏装备稳定标识；主动/被动通过技能挂载。",
+          "definition": "equipment_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description text"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_equipment PRIMARY KEY (game_id, equipment_key)",
+        "CONSTRAINT fk_equipment_game\n        FOREIGN KEY (game_id) REFERENCES public.games (game_id)",
+        "CONSTRAINT ck_equipment_key\n        CHECK (equipment_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_equipment_name\n        CHECK (btrim(name) <> '')"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE UNIQUE INDEX uq_equipment_name\n    ON public.equipment (game_id, lower(btrim(name)));"
+      ],
+      "notes": "名称同游戏忽略大小写唯一；直接属性和技能挂载不在本表。"
+    },
+    {
+      "name": "equipment_attributes",
+      "title": "装备直接属性",
+      "sourceLine": 149,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "equipment_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "同游戏装备稳定标识；挂载的技能独立保存，可与其他主体共享。",
+          "definition": "equipment_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "attribute_values",
+          "type": "jsonb",
+          "nullable": false,
+          "default": "'{}'::jsonb",
+          "description": "属性键→数值的JSON对象，表示装备直接属性；主动/被动效果另由技能表达。",
+          "definition": "attribute_values jsonb NOT NULL DEFAULT '{}'::jsonb"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_equipment_attributes PRIMARY KEY (game_id, equipment_key)",
+        "CONSTRAINT fk_equipment_attributes_equipment\n        FOREIGN KEY (game_id, equipment_key)\n        REFERENCES public.equipment (game_id, equipment_key)\n        ON DELETE CASCADE",
+        "CONSTRAINT ck_equipment_attributes_values\n        CHECK (jsonb_typeof(attribute_values) = 'object')"
+      ],
+      "alterConstraints": [],
+      "indexes": [],
+      "notes": "每装备一行；DB检查attribute_values为对象。属性存在性、启停引用、数值类型与边界由后端处理；删除装备级联删除。"
+    },
+    {
+      "name": "runes",
+      "title": "符文主体",
+      "sourceLine": 719,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "rune_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "符文或属性碎片的身份键；不记录玩家选择。",
+          "definition": "rune_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description text"
+        },
+        {
+          "name": "category",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": null,
+          "description": "KEYSTONE＝基石符文；MINOR＝普通符文；SHARD＝属性碎片。",
+          "definition": "category varchar(16) NOT NULL"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_runes PRIMARY KEY (game_id, rune_key)",
+        "CONSTRAINT fk_runes_game FOREIGN KEY (game_id) REFERENCES public.games (game_id)",
+        "CONSTRAINT ck_runes_key CHECK (rune_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_runes_name CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_runes_description CHECK (description IS NULL OR length(description) <= 2000)",
+        "CONSTRAINT ck_runes_category CHECK (category IN ('KEYSTONE', 'MINOR', 'SHARD'))"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE UNIQUE INDEX uq_runes_name ON public.runes (game_id, lower(btrim(name)));"
+      ],
+      "notes": "名称同游戏忽略大小写唯一，说明≤2000。category三选一；技能通过rune_skill_relations挂载。"
+    },
+    {
+      "name": "rune_paths",
+      "title": "符文系与碎片组布局",
+      "sourceLine": 737,
+      "columns": [
+        {
+          "name": "game_id",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "所属游戏及隔离范围；所有同游戏引用以此为边界。",
+          "definition": "game_id varchar(64) NOT NULL"
+        },
+        {
+          "name": "path_key",
+          "type": "varchar(64)",
+          "nullable": false,
+          "default": null,
+          "description": "符文系或碎片组的稳定标识。",
+          "definition": "path_key varchar(64) NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "varchar(100)",
+          "nullable": false,
+          "default": null,
+          "description": "供作者识别的显示名称，不代替稳定标识或执行逻辑。",
+          "definition": "name varchar(100) NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true,
+          "default": null,
+          "description": "人工说明；不作为条件、公式或执行规则。",
+          "definition": "description text"
+        },
+        {
+          "name": "kind",
+          "type": "varchar(16)",
+          "nullable": false,
+          "default": null,
+          "description": "RUNE_PATH＝普通符文系；SHARD_GROUP＝属性碎片组。",
+          "definition": "kind varchar(16) NOT NULL"
+        },
+        {
+          "name": "sort_order",
+          "type": "integer",
+          "nullable": false,
+          "default": null,
+          "description": "非负排序值；普通目录用于显示顺序，不应自行解释为伤害或事件优先级。",
+          "definition": "sort_order integer NOT NULL"
+        },
+        {
+          "name": "slots",
+          "type": "jsonb",
+          "nullable": false,
+          "default": null,
+          "description": "有序槽位JSON数组，每项name、category、runeKeys；布局唯一来源，不保存玩家本次选择。",
+          "definition": "slots jsonb NOT NULL"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "创建时间；数据库默认写入当前时间。",
+          "definition": "created_at timestamptz NOT NULL DEFAULT now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "nullable": false,
+          "default": "now()",
+          "description": "最后修改时间；管理更新语句写入 now()，不是此DDL声明的自动更新触发器。",
+          "definition": "updated_at timestamptz NOT NULL DEFAULT now()"
+        }
+      ],
+      "constraints": [
+        "CONSTRAINT pk_rune_paths PRIMARY KEY (game_id, path_key)",
+        "CONSTRAINT fk_rune_paths_game FOREIGN KEY (game_id) REFERENCES public.games (game_id)",
+        "CONSTRAINT ck_rune_paths_key CHECK (path_key ~ '^[a-z][a-z0-9_]{0,63}$')",
+        "CONSTRAINT ck_rune_paths_name CHECK (btrim(name) <> '')",
+        "CONSTRAINT ck_rune_paths_description CHECK (description IS NULL OR length(description) <= 2000)",
+        "CONSTRAINT ck_rune_paths_kind CHECK (kind IN ('RUNE_PATH', 'SHARD_GROUP'))",
+        "CONSTRAINT ck_rune_paths_sort_order CHECK (sort_order >= 0)",
+        "CONSTRAINT ck_rune_paths_slots CHECK (jsonb_typeof(slots) = 'array')"
+      ],
+      "alterConstraints": [],
+      "indexes": [
+        "CREATE UNIQUE INDEX uq_rune_paths_name ON public.rune_paths (game_id, lower(btrim(name)));"
+      ],
+      "notes": "名称同游戏忽略大小写唯一，说明≤2000、sort_order≥0、slots数组；kind与槽位类别配对及符文存在性由后端校验。"
+    }
+  ]
+}

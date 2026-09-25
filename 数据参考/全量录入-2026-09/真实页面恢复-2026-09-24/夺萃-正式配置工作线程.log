@@ -1,0 +1,43 @@
+
+[WebServer] (node:23828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:14032) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:35612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+[1/1] tests\e2e\p6-runtime.spec.ts:1311:3 › 正式单强化步骤只读实库→Worker：夺萃附伤、吸血与同次消费
+  1) tests\e2e\p6-runtime.spec.ts:1311:3 › 正式单强化步骤只读实库→Worker：夺萃附伤、吸血与同次消费 ─────────────────────────
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 90
+    Received: 50
+
+    Expected precision:    9
+    Expected difference: < 0.0000000005
+    Received difference:   40
+
+      1336 |       expect(source.attributes.hp.current).toBeCloseTo(scene.sourceHp + expectedHealing, 9);
+      1337 |       expect(target.attributes.hp.current).toBeCloseTo(scene.targetHp - postDefense, 9);
+    > 1338 |       expect(source.resources.mana.current).toBeCloseTo(scene.sourceMana + scenario.manaRestored, 9);
+           |                                             ^
+      1339 |       expect(target.resources.mana.current).toBe(0);
+      1340 |       expect(done.evidence.items.filter(item => item.kind === 'damage')).toHaveLength(1);
+      1341 |       const vamp = done.evidence.items.filter(item => item.kind === 'vamp');
+        at checkAmounts (C:\project\damage_web_dev\web\tests\e2e\p6-runtime.spec.ts:1338:45)
+        at C:\project\damage_web_dev\web\tests\e2e\p6-runtime.spec.ts:1352:5
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ..\output\spellblade-live-return\essence-final\p6-runtime-正式单强化步骤只读实库→Worker：夺萃附伤、吸血与同次消费\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ..\output\spellblade-live-return\essence-final\p6-runtime-正式单强化步骤只读实库→Worker：夺萃附伤、吸血与同次消费\error-context.md
+
+
+  1 failed
+    tests\e2e\p6-runtime.spec.ts:1311:3 › 正式单强化步骤只读实库→Worker：夺萃附伤、吸血与同次消费 ──────────────────────────

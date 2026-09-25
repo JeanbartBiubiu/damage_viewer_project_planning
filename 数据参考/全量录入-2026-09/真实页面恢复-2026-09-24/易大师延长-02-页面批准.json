@@ -1,0 +1,1065 @@
+{
+  "at": "2026-09-24T05:49:46.105Z",
+  "executionMode": "PLAYWRIGHT_UI_ONLY",
+  "model": "gpt-6-luna",
+  "effort": "max",
+  "question": "作者能否明确区分延长现有实例的剩余时间与刷新完整期限，并保存两个准确目标引用",
+  "baseline": "易大师延长-01-写前现值.json",
+  "baselineSha256": "d35ef18a88ad1dd740882ecb1abf174426522f8ce54ed32e3f930864e944fdfe",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/masteryi_r/effects",
+      "detailRoute": "/skills/masteryi_r/effects/active_duration_extension",
+      "body": {
+        "effectKey": "active_duration_extension",
+        "name": "高原血统主动时长延长",
+        "description": "分别将现有攻速与移速实例的剩余时长增加明确的7000毫秒，不创建已结束实例或刷新完整时长。仅保存延长组成；主动窗口、封顶及临界时序仍待核，尚未接入参与击杀触发。",
+        "sortOrder": 50,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "extend_attack_speed",
+            "name": "延长攻速剩余时长",
+            "resultType": "LIFECYCLE_OPERATION",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "kill_assist_extension_ms"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": null,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "targetEffectKey": "attack_speed",
+              "operation": "EXTEND_DURATION"
+            },
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          },
+          {
+            "resultKey": "extend_move_speed",
+            "name": "延长移速剩余时长",
+            "resultType": "LIFECYCLE_OPERATION",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 20,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "kill_assist_extension_ms"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": null,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "targetEffectKey": "move_speed",
+              "operation": "EXTEND_DURATION"
+            },
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null
+          }
+        ]
+      }
+    }
+  ],
+  "protected": {
+    "routes": [
+      "/skills/masteryi_r",
+      "/skills/masteryi_r/parameters",
+      "/skills/masteryi_r/formulas",
+      "/skills/masteryi_r/processes",
+      "/skills/masteryi_r/internal-states",
+      "/skills/masteryi_r/trigger-rules",
+      "/character-skill-relations?skillKey=masteryi_r",
+      "/characters/champion_masteryi",
+      "/skills/masteryi_r/parameters/cast_time_ms",
+      "/skills/masteryi_r/parameters/duration_ms",
+      "/skills/masteryi_r/parameters/attack_speed_ratio",
+      "/skills/masteryi_r/parameters/move_speed_ratio",
+      "/skills/masteryi_r/parameters/kill_assist_extension_ms",
+      "/skills/masteryi_r/parameters/basic_cooldown_refund_ratio",
+      "/skills/masteryi_r/parameters/cooldown_ms",
+      "/skills/masteryi_r/parameters/mana_cost",
+      "/skills/masteryi_r/effects/mana_cost",
+      "/skills/masteryi_r/effects/attack_speed",
+      "/skills/masteryi_r/effects/move_speed",
+      "/skills/masteryi_r/effects/basic_cooldown_refund",
+      "/skills/masteryi_r/trigger-rules/on_used",
+      "/skill-categories/ultimate",
+      "/attributes/bonus_attack_speed_percent",
+      "/modifier-zones/attribute_flat_add",
+      "/skills/masteryi_q",
+      "/skills/masteryi_w",
+      "/skills/masteryi_e",
+      "/attributes/mana",
+      "/attributes/move_speed_percent"
+    ],
+    "allExistingEffectDetails": true,
+    "existingEffectListItemsUnchanged": true,
+    "existingOnUsedRule": "完整保护，包括当前缺省castPhase与oncePerUse:null，不借本次更改主动入口",
+    "basicCooldownRefundEffect": "完整保护，不接其学习门槛或参与击杀触发",
+    "allExistingParameters": true,
+    "allExistingRelevantReferences": [
+      {
+        "fieldPath": "lifecycle.durationValue.parameterKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "lifecycle.durationValue.parameterKey",
+          "formulaSnapshot": null,
+          "objectKey": "attack_speed",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "field": "lifecycle",
+              "kind": "FIELD"
+            },
+            {
+              "field": "durationValue",
+              "kind": "FIELD"
+            },
+            {
+              "field": "parameterKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "attack_speed",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "duration_ms",
+        "targetSkillKey": "masteryi_r",
+        "targetSubKey": "",
+        "targetType": "PARAMETER"
+      },
+      {
+        "fieldPath": "results[0].detail.attributeKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].detail.attributeKey",
+          "formulaSnapshot": null,
+          "objectKey": "attack_speed",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "attribute",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "ATTRIBUTE_CHANGE"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "INCREASE"
+            },
+            {
+              "field": "attributeKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "attack_speed",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "bonus_attack_speed_percent",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "ATTRIBUTE"
+      },
+      {
+        "fieldPath": "results[0].detail.modifierZoneKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].detail.modifierZoneKey",
+          "formulaSnapshot": null,
+          "objectKey": "attack_speed",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "attribute",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "ATTRIBUTE_CHANGE"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "INCREASE"
+            },
+            {
+              "field": "modifierZoneKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "attack_speed",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "attribute_flat_add",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "MODIFIER_ZONE"
+      },
+      {
+        "fieldPath": "results[0].lifecycleBehavior",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].lifecycleBehavior",
+          "formulaSnapshot": null,
+          "objectKey": "attack_speed",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "attribute",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "ATTRIBUTE_CHANGE"
+            },
+            {
+              "field": "lifecycleBehavior",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "attack_speed",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "attack_speed",
+        "targetSkillKey": "masteryi_r",
+        "targetSubKey": "",
+        "targetType": "LIFECYCLE"
+      },
+      {
+        "fieldPath": "results[0].valueRule.value.parameterKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].valueRule.value.parameterKey",
+          "formulaSnapshot": null,
+          "objectKey": "attack_speed",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "attribute",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "ATTRIBUTE_CHANGE"
+            },
+            {
+              "field": "valueRule",
+              "kind": "FIELD"
+            },
+            {
+              "field": "value",
+              "kind": "FIELD"
+            },
+            {
+              "field": "parameterKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "attack_speed",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "attack_speed_ratio",
+        "targetSkillKey": "masteryi_r",
+        "targetSubKey": "",
+        "targetType": "PARAMETER"
+      },
+      {
+        "fieldPath": "results[0].detail.affectedSkillScope.skillKeys[0]",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].detail.affectedSkillScope.skillKeys[0]",
+          "formulaSnapshot": null,
+          "objectKey": "basic_cooldown_refund",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "reduce_remaining",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "COOLDOWN_CHANGE"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "REDUCE_REMAINING_RATIO"
+            },
+            {
+              "field": "affectedSkillScope",
+              "kind": "FIELD"
+            },
+            {
+              "field": "mode",
+              "kind": "EXPECT_VALUE",
+              "value": "SKILLS"
+            },
+            {
+              "collection": "skillKeys",
+              "kind": "VALUE_CHILD",
+              "value": "masteryi_q"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "basic_cooldown_refund",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "masteryi_q",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "SKILL"
+      },
+      {
+        "fieldPath": "results[0].detail.affectedSkillScope.skillKeys[1]",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].detail.affectedSkillScope.skillKeys[1]",
+          "formulaSnapshot": null,
+          "objectKey": "basic_cooldown_refund",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "reduce_remaining",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "COOLDOWN_CHANGE"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "REDUCE_REMAINING_RATIO"
+            },
+            {
+              "field": "affectedSkillScope",
+              "kind": "FIELD"
+            },
+            {
+              "field": "mode",
+              "kind": "EXPECT_VALUE",
+              "value": "SKILLS"
+            },
+            {
+              "collection": "skillKeys",
+              "kind": "VALUE_CHILD",
+              "value": "masteryi_w"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "basic_cooldown_refund",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "masteryi_w",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "SKILL"
+      },
+      {
+        "fieldPath": "results[0].detail.affectedSkillScope.skillKeys[2]",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].detail.affectedSkillScope.skillKeys[2]",
+          "formulaSnapshot": null,
+          "objectKey": "basic_cooldown_refund",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "reduce_remaining",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "COOLDOWN_CHANGE"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "REDUCE_REMAINING_RATIO"
+            },
+            {
+              "field": "affectedSkillScope",
+              "kind": "FIELD"
+            },
+            {
+              "field": "mode",
+              "kind": "EXPECT_VALUE",
+              "value": "SKILLS"
+            },
+            {
+              "collection": "skillKeys",
+              "kind": "VALUE_CHILD",
+              "value": "masteryi_e"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "basic_cooldown_refund",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "masteryi_e",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "SKILL"
+      },
+      {
+        "fieldPath": "results[0].valueRule.value.parameterKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].valueRule.value.parameterKey",
+          "formulaSnapshot": null,
+          "objectKey": "basic_cooldown_refund",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "reduce_remaining",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "COOLDOWN_CHANGE"
+            },
+            {
+              "field": "valueRule",
+              "kind": "FIELD"
+            },
+            {
+              "field": "value",
+              "kind": "FIELD"
+            },
+            {
+              "field": "parameterKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "basic_cooldown_refund",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "basic_cooldown_refund_ratio",
+        "targetSkillKey": "masteryi_r",
+        "targetSubKey": "",
+        "targetType": "PARAMETER"
+      },
+      {
+        "fieldPath": "results[0].detail.attributeKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].detail.attributeKey",
+          "formulaSnapshot": null,
+          "objectKey": "mana_cost",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "consume_mana",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "RESOURCE_CHANGE"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "CONSUME"
+            },
+            {
+              "field": "attributeKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "mana_cost",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "mana",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "ATTRIBUTE"
+      },
+      {
+        "fieldPath": "results[0].valueRule.value.parameterKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].valueRule.value.parameterKey",
+          "formulaSnapshot": null,
+          "objectKey": "mana_cost",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "consume_mana",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "RESOURCE_CHANGE"
+            },
+            {
+              "field": "valueRule",
+              "kind": "FIELD"
+            },
+            {
+              "field": "value",
+              "kind": "FIELD"
+            },
+            {
+              "field": "parameterKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "mana_cost",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "mana_cost",
+        "targetSkillKey": "masteryi_r",
+        "targetSubKey": "",
+        "targetType": "PARAMETER"
+      },
+      {
+        "fieldPath": "lifecycle.durationValue.parameterKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "lifecycle.durationValue.parameterKey",
+          "formulaSnapshot": null,
+          "objectKey": "move_speed",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "field": "lifecycle",
+              "kind": "FIELD"
+            },
+            {
+              "field": "durationValue",
+              "kind": "FIELD"
+            },
+            {
+              "field": "parameterKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "move_speed",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "duration_ms",
+        "targetSkillKey": "masteryi_r",
+        "targetSubKey": "",
+        "targetType": "PARAMETER"
+      },
+      {
+        "fieldPath": "results[0].detail.attributeKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].detail.attributeKey",
+          "formulaSnapshot": null,
+          "objectKey": "move_speed",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "attribute",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "ATTRIBUTE_CHANGE"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "INCREASE"
+            },
+            {
+              "field": "attributeKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "move_speed",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "move_speed_percent",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "ATTRIBUTE"
+      },
+      {
+        "fieldPath": "results[0].detail.modifierZoneKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].detail.modifierZoneKey",
+          "formulaSnapshot": null,
+          "objectKey": "move_speed",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "attribute",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "ATTRIBUTE_CHANGE"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "operation",
+              "kind": "EXPECT_VALUE",
+              "value": "INCREASE"
+            },
+            {
+              "field": "modifierZoneKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "move_speed",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "attribute_flat_add",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "MODIFIER_ZONE"
+      },
+      {
+        "fieldPath": "results[0].lifecycleBehavior",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].lifecycleBehavior",
+          "formulaSnapshot": null,
+          "objectKey": "move_speed",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "attribute",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "ATTRIBUTE_CHANGE"
+            },
+            {
+              "field": "lifecycleBehavior",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "move_speed",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "move_speed",
+        "targetSkillKey": "masteryi_r",
+        "targetSubKey": "",
+        "targetType": "LIFECYCLE"
+      },
+      {
+        "fieldPath": "results[0].valueRule.value.parameterKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "EFFECT",
+          "fieldPath": "results[0].valueRule.value.parameterKey",
+          "formulaSnapshot": null,
+          "objectKey": "move_speed",
+          "objectType": "EFFECT",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "results",
+              "key": "attribute",
+              "keyField": "resultKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "resultType",
+              "kind": "EXPECT_VALUE",
+              "value": "ATTRIBUTE_CHANGE"
+            },
+            {
+              "field": "valueRule",
+              "kind": "FIELD"
+            },
+            {
+              "field": "value",
+              "kind": "FIELD"
+            },
+            {
+              "field": "parameterKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "move_speed",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "EFFECT",
+        "targetKey": "move_speed_ratio",
+        "targetSkillKey": "masteryi_r",
+        "targetSubKey": "",
+        "targetType": "PARAMETER"
+      },
+      {
+        "fieldPath": "actions[0].detail.effectKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "TRIGGER_RULE",
+          "fieldPath": "actions[0].detail.effectKey",
+          "formulaSnapshot": null,
+          "objectKey": "on_used",
+          "objectType": "TRIGGER",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "actions",
+              "key": "execute_attack_speed",
+              "keyField": "actionKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "actionType",
+              "kind": "EXPECT_VALUE",
+              "value": "EXECUTE_EFFECT"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "effectKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "on_used",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "TRIGGER",
+        "targetKey": "attack_speed",
+        "targetSkillKey": "masteryi_r",
+        "targetSubKey": "",
+        "targetType": "EFFECT"
+      },
+      {
+        "fieldPath": "actions[1].detail.effectKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "TRIGGER_RULE",
+          "fieldPath": "actions[1].detail.effectKey",
+          "formulaSnapshot": null,
+          "objectKey": "on_used",
+          "objectType": "TRIGGER",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "collection": "actions",
+              "key": "execute_move_speed",
+              "keyField": "actionKey",
+              "kind": "KEYED_CHILD"
+            },
+            {
+              "field": "actionType",
+              "kind": "EXPECT_VALUE",
+              "value": "EXECUTE_EFFECT"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "effectKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "on_used",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "TRIGGER",
+        "targetKey": "move_speed",
+        "targetSkillKey": "masteryi_r",
+        "targetSubKey": "",
+        "targetType": "EFFECT"
+      },
+      {
+        "fieldPath": "eventSource.detail.sourceSkillKey",
+        "location": {
+          "degradeReason": null,
+          "editor": "TRIGGER_RULE",
+          "fieldPath": "eventSource.detail.sourceSkillKey",
+          "formulaSnapshot": null,
+          "objectKey": "on_used",
+          "objectType": "TRIGGER",
+          "precision": "FIELD",
+          "segments": [
+            {
+              "field": "eventSource",
+              "kind": "FIELD"
+            },
+            {
+              "field": "eventType",
+              "kind": "EXPECT_VALUE",
+              "value": "SKILL_USED"
+            },
+            {
+              "field": "detail",
+              "kind": "FIELD"
+            },
+            {
+              "field": "sourceSkillKey",
+              "kind": "FIELD"
+            }
+          ],
+          "skillKey": "masteryi_r"
+        },
+        "sourceKey": "on_used",
+        "sourceSkillKey": "masteryi_r",
+        "sourceType": "TRIGGER",
+        "targetKey": "masteryi_r",
+        "targetSkillKey": "",
+        "targetSubKey": "",
+        "targetType": "SKILL"
+      }
+    ]
+  },
+  "expectedReferenceAdditions": [
+    {
+      "sourceSkillKey": "masteryi_r",
+      "sourceType": "EFFECT",
+      "sourceKey": "active_duration_extension",
+      "fieldPath": "results[0].detail.targetEffectKey",
+      "targetSkillKey": "masteryi_r",
+      "targetType": "LIFECYCLE",
+      "targetKey": "attack_speed",
+      "targetSubKey": ""
+    },
+    {
+      "sourceSkillKey": "masteryi_r",
+      "sourceType": "EFFECT",
+      "sourceKey": "active_duration_extension",
+      "fieldPath": "results[0].valueRule.value.parameterKey",
+      "targetSkillKey": "masteryi_r",
+      "targetType": "PARAMETER",
+      "targetKey": "kill_assist_extension_ms",
+      "targetSubKey": ""
+    },
+    {
+      "sourceSkillKey": "masteryi_r",
+      "sourceType": "EFFECT",
+      "sourceKey": "active_duration_extension",
+      "fieldPath": "results[1].detail.targetEffectKey",
+      "targetSkillKey": "masteryi_r",
+      "targetType": "LIFECYCLE",
+      "targetKey": "move_speed",
+      "targetSubKey": ""
+    },
+    {
+      "sourceSkillKey": "masteryi_r",
+      "sourceType": "EFFECT",
+      "sourceKey": "active_duration_extension",
+      "fieldPath": "results[1].valueRule.value.parameterKey",
+      "targetSkillKey": "masteryi_r",
+      "targetType": "PARAMETER",
+      "targetKey": "kill_assist_extension_ms",
+      "targetSubKey": ""
+    }
+  ],
+  "expectedRelevantReferenceCount": 23,
+  "verification": [
+    "真实页面操作选项明确区分刷新完整时长与延长剩余时长；延长显示毫秒、当前剩余时间和有效实例限制。",
+    "只保存本候选一个父效果，两个结果为SOURCE、EXTEND_DURATION，分别引用attack_speed与move_speed，共用kill_assist_extension_ms。",
+    "保存后重开，逐项核对结果键、目标、操作、数值参数、固定倍率1、空上下界、排序10/20及无父生命周期。",
+    "对照例仅用于解释：初始7000毫秒、已过2000毫秒，延长7000后剩余12000毫秒；完整刷新只恢复7000毫秒。此例不是实际运行证明。",
+    "独立GET逐项比对完整新效果及29条保护路由；既有4个效果列表项保持，新加1项；19条原相关引用保持且仅增加4条预期引用。",
+    "若关键字段无法区分、值未保留或出现非预期写入，停止该笔返回并带原草稿报告；不改其它组成补救。"
+  ],
+  "excluded": [
+    "学习门槛",
+    "减速免疫",
+    "Q/W期间暂停",
+    "任何新增或修改触发",
+    "封顶、到期边界、两实例与主动窗口的一致性核定",
+    "完整技能宿主或Wasm运行"
+  ],
+  "arithmeticIllustration": {
+    "initialMs": 7000,
+    "elapsedMs": 2000,
+    "extendByMs": 7000,
+    "remainingAfterExtendMs": 12000,
+    "remainingAfterRefreshMs": 7000,
+    "runtimeEvidence": false
+  },
+  "oldImplementationVerifiedPresent": {
+    "frontendCommitPresent": "8303d335e3349e17f8e3b5916382b67e539c3d19",
+    "backendCommitPresent": "0bcebd8ec23545286785a35491a640d39c2ad6c5",
+    "bothAreAncestorsOfCurrentHead": true,
+    "currentHead": "5724e5644b074b92a31c0c681d7f4dd1d00b5bd7",
+    "managementGap": "本有限新增组成未发现新的管理表达缺口；旧实现已在，不重复开发",
+    "staticEvidence": [
+      {
+        "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/effectForm.ts",
+        "line": 326,
+        "purpose": "刷新完整时长与延长剩余时长标签、毫秒及有效实例提示"
+      },
+      {
+        "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/effectForm.ts",
+        "line": 1165,
+        "purpose": "层数与毫秒切换清除旧数值"
+      },
+      {
+        "path": "C:/project/damage_web_dev/web/src/pages/admin/skills/effects/SkillEffectResultEditorModal.tsx",
+        "line": 1320,
+        "purpose": "结果编辑器显示延长提示"
+      },
+      {
+        "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+        "line": 249,
+        "purpose": "目标期限与统一到期反向保护"
+      },
+      {
+        "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java",
+        "line": 2580,
+        "purpose": "同技能非自身、有期限、统一到期目标校验"
+      },
+      {
+        "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillNumericSemantics.java",
+        "line": 533,
+        "purpose": "固定修正后有限、非负整数毫秒"
+      },
+      {
+        "path": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillObjectReferences.java",
+        "line": 168,
+        "purpose": "生命周期目标引用类型"
+      }
+    ]
+  },
+  "runtimeValidated": false,
+  "wholeSkillComplete": false
+}

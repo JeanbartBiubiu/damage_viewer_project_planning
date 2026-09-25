@@ -1,0 +1,51 @@
+{
+  "at": "2026-09-24T08:53:31.854Z",
+  "status": "PASS_MANAGEMENT_COMPONENT",
+  "actualExecutor": {
+    "model": "gpt-6-luna",
+    "effort": "max",
+    "modelProof": "20-耀光执行模型核验.json",
+    "configuredContext": 600000,
+    "reportedUsableContext": 570000
+  },
+  "question": "独立击飞目录、无强度持续效果、明确未阻挡且每目标一次入口能否正常表达和保存",
+  "pageWrites": {
+    "approvedRequests": 3,
+    "serverSuccesses": 3,
+    "thirdRulePostStatus": 201,
+    "thirdRuleBodyExactApproved": true,
+    "locallyAbortedRuleAttempts": 2,
+    "serverFailureCount": 0
+  },
+  "objects": [
+    "airborne",
+    "chogath_q/knockup",
+    "chogath_q/actual_unblocked_knockup"
+  ],
+  "pageEvidence": "执行代理/luna_chogath/29-最终无草稿核验.json",
+  "independentGETsPerStep": 36,
+  "totalIndependentStageGETs": 108,
+  "protectedResponses": 29,
+  "preservedOldQReferences": 13,
+  "addedReferences": 5,
+  "counts": {
+    "parameters": 7,
+    "formulas": 1,
+    "effects": 3,
+    "processes": 1,
+    "internalStates": 0,
+    "triggerRules": 3
+  },
+  "issueClosure": "42-状态目录取消误报原对象同类闭环.json",
+  "toolInterruptions": [
+    "43-科加斯规则守卫拦截后独立核对.json",
+    "44-规则正文与第二次中止后核对.json"
+  ],
+  "runtimeValidated": false,
+  "wholeSkillComplete": false,
+  "remaining": [
+    "落地减速",
+    "原伤害重复碰撞/吸血资格",
+    "完整施法时序与必要免疫解除交互"
+  ]
+}

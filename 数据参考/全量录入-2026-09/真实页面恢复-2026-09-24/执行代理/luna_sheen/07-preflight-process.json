@@ -1,0 +1,61 @@
+{
+  "getRecords": [
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/processes",
+      "status": 200,
+      "body": "[]"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/processes/spellblade_consume",
+      "status": 404,
+      "body": "{\"error\":{\"code\":\"404.SKILL_PROCESS_NOT_FOUND\",\"details\":{\"processKey\":\"spellblade_consume\"},\"message\":\"技能过程不存在\"}}"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/effects/spellblade_damage",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-07T16:06:32.942759Z\",\"description\":\"保存下一次普通攻击的额外物理伤害组成；技能施放后就绪与消费规则待补。\",\"effectKey\":\"spellblade_damage\",\"gameId\":\"lol\",\"lifecycle\":null,\"name\":\"咒刃额外物理伤害\",\"results\":[{\"description\":\"来源基础攻击力1倍的额外物理伤害。\",\"detail\":{\"critical\":{\"mode\":\"DISALLOWED\",\"multiplierValue\":null},\"damageTypeKey\":\"physics\",\"deliveryKind\":\"BASIC_ATTACK\",\"originKind\":\"DIRECT\",\"vampOverrides\":[],\"vampQualification\":\"UNRESOLVED\"},\"lifecycleBehavior\":null,\"name\":\"咒刃物理伤害\",\"resultKey\":\"damage\",\"resultType\":\"DAMAGE\",\"sortOrder\":10,\"spellShieldBlockScope\":null,\"target\":\"TARGET\",\"valueRule\":{\"fixedMaxValue\":null,\"fixedMinValue\":0,\"fixedMultiplier\":1,\"value\":{\"formulaKey\":\"spellblade_damage\",\"kind\":\"FORMULA\"}}}],\"skillKey\":\"item_3057_passive\",\"sortOrder\":10,\"updatedAt\":\"2026-09-07T16:06:32.942759Z\"}"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/internal-states",
+      "status": 200,
+      "body": "[{\"createdAt\":\"2026-09-24T03:32:38.200374Z\",\"description\":\"普通成功首次主动施法且冷却就绪时开启；重复施法刷新窗口，强化普攻命中或超时关闭。窗口与刷新按项目近似。\",\"gameId\":\"lol\",\"name\":\"咒刃待命\",\"scope\":\"SKILL\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":10,\"stateKey\":\"spellblade_ready\",\"stateType\":\"FLAG\",\"updatedAt\":\"2026-09-24T03:32:38.200374Z\"},{\"createdAt\":\"2026-09-24T03:41:05.583581Z\",\"description\":\"冷却1500毫秒来自本物品资料。命中消费后起算、超时不启动为项目近似。\",\"gameId\":\"lol\",\"name\":\"咒刃内部冷却\",\"scope\":\"SKILL\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":20,\"stateKey\":\"spellblade_icd\",\"stateType\":\"INTERNAL_COOLDOWN\",\"updatedAt\":\"2026-09-24T03:41:05.583581Z\"}]"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/internal-states/spellblade_ready",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-24T03:32:38.200374Z\",\"description\":\"普通成功首次主动施法且冷却就绪时开启；重复施法刷新窗口，强化普攻命中或超时关闭。窗口与刷新按项目近似。\",\"detail\":{\"initialEnabled\":false},\"gameId\":\"lol\",\"name\":\"咒刃待命\",\"scope\":\"SKILL\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":10,\"stateKey\":\"spellblade_ready\",\"stateType\":\"FLAG\",\"updatedAt\":\"2026-09-24T03:32:38.200374Z\"}"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/internal-states/spellblade_icd",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-24T03:41:05.583581Z\",\"description\":\"冷却1500毫秒来自本物品资料。命中消费后起算、超时不启动为项目近似。\",\"detail\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"spellblade_cooldown_ms\"}},\"gameId\":\"lol\",\"name\":\"咒刃内部冷却\",\"scope\":\"SKILL\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":20,\"stateKey\":\"spellblade_icd\",\"stateType\":\"INTERNAL_COOLDOWN\",\"updatedAt\":\"2026-09-24T03:41:05.583581Z\"}"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/parameters/spellblade_window_ms",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-24T03:23:23.492928Z\",\"description\":\"本项目采用10000毫秒待击窗口；重复符合条件的施法刷新期限，不叠加次数。时长与刷新为模拟近似。\",\"fixedValue\":10000,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"咒刃待击窗口\",\"parameterKey\":\"spellblade_window_ms\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":30,\"updatedAt\":\"2026-09-24T03:23:23.492928Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"}"
+    },
+    {
+      "method": "GET",
+      "path": "/skills/item_3057_passive/parameters/spellblade_cooldown_ms",
+      "status": 200,
+      "body": "{\"createdAt\":\"2026-09-07T16:06:32.311716Z\",\"description\":\"客户端咒刃冷却时间，单位：毫秒；冷却消费规则待运行时接线。\",\"fixedValue\":1500,\"gameId\":\"lol\",\"levelValues\":null,\"name\":\"咒刃冷却时间\",\"parameterKey\":\"spellblade_cooldown_ms\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":20,\"updatedAt\":\"2026-09-07T16:06:32.311716Z\",\"valueMode\":\"FIXED\",\"valueType\":\"INTEGER\"}"
+    }
+  ],
+  "responseHeadersOrCookiesStored": false,
+  "processListEmpty": true,
+  "processDetail404": true,
+  "originalDamageEffectExists": true,
+  "bothApprovedStatesExist": true,
+  "readyStateDetail200": true,
+  "cooldownStateDetail200": true,
+  "windowParameterUnchanged": true,
+  "cooldownParameterUnchanged": true
+}

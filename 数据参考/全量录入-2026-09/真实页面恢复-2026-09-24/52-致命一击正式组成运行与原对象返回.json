@@ -1,0 +1,58 @@
+{
+  "at": "2026-09-24T10:30:43.301Z",
+  "status": "ORIGINAL_OBJECT_PAGE_AND_BOUNDED_RUNTIME_PASS",
+  "question": "致命一击真实结果表单缺少逐笔敌方英雄生命门槛，修复后能否保持严格边界与原引用",
+  "executor": {
+    "model": "gpt-6-sol",
+    "effort": "max"
+  },
+  "pageWrites": 3,
+  "unique201Responses": 3,
+  "pageReopened": true,
+  "pageIndependentGETs": 114,
+  "protectedOriginalResponses": 32,
+  "oldModifierZonesPreserved": 9,
+  "lastPage": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/执行代理/sol_rune_health_gate/20-致命一击规则唯一保存与返回.json",
+  "runtimeReport": "数据参考/全量录入-2026-09/真实页面恢复-2026-09-24/符文生命门槛准备/16-致命一击正式保存组成工作线程.json",
+  "actualRuntimeGETs": 10,
+  "actualRuntimeSnapshotMatchesIndependentReadback": true,
+  "boundary": [
+    {
+      "hp": 399,
+      "maxHp": 1000,
+      "baseDamage": 100,
+      "damage": 108,
+      "targetFinalHp": 291
+    },
+    {
+      "hp": 400,
+      "maxHp": 1000,
+      "baseDamage": 100,
+      "damage": 100,
+      "targetFinalHp": 300
+    },
+    {
+      "hp": 401,
+      "maxHp": 1000,
+      "baseDamage": 100,
+      "damage": 100,
+      "targetFinalHp": 301
+    }
+  ],
+  "restored": {
+    "startHp": 450,
+    "firstDamage": 100,
+    "nextDamage": 108,
+    "finalHp": 242
+  },
+  "reverseOwner": {
+    "damage": 108,
+    "sourceFinalHp": 291
+  },
+  "runtimeScope": "仅正式保存的普通直接物理普攻条件增伤组成；基础100伤害和双方属性为明确场景输入",
+  "unusedRuntimeParameterProtectedWithoutDefault": true,
+  "originalPageGapReturned": true,
+  "peerPageReturnPending": true,
+  "wholeRuneComplete": false,
+  "coverageChanged": false
+}

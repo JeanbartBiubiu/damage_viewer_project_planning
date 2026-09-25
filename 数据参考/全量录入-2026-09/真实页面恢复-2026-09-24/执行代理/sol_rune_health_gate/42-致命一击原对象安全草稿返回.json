@@ -1,0 +1,57 @@
+{
+  "at": "2026-09-24T11:09:56.305Z",
+  "object": "rune_8014_passive/basic_attack_health_bonus",
+  "browser": {
+    "nodePid": 24176,
+    "chromiumPid": 6040,
+    "contexts": 1,
+    "pages": 1
+  },
+  "guard": {
+    "policy": "all non-GET aborted",
+    "blockedNonGet": [],
+    "formulaDetailGets": [
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/rune_8014_passive/formulas/extra_damage_amount"
+      }
+    ]
+  },
+  "savedResultType": {
+    "selectorDisabled": true,
+    "reason": "已保存结果种类由正常页面锁定",
+    "notBypassed": true
+  },
+  "formulaPreflight": {
+    "selected": "extra_damage_amount",
+    "expressionParameters": [
+      "confirmed_eligible_damage",
+      "bonus_damage_ratio"
+    ],
+    "getObserved": true,
+    "saveAlert": "逐笔生命门槛公式核对未通过，请检查对应结果。",
+    "fieldError": "门槛公式不能引用计算时传入的参数。",
+    "draftRetained": true,
+    "saveRequestCount": 0
+  },
+  "unsavedResultCleanup": {
+    "typeBefore": "伤害修正",
+    "conditionBefore": "生命值（hp） CURRENT_RATIO LT 参数target_health_threshold_ratio",
+    "dialog": "当前修改会清除逐笔生命门槛。是否继续？",
+    "cancelKept": true,
+    "confirmChangedTo": "直接治疗",
+    "conditionRemovedAfterConfirm": true,
+    "discardPrompt": "当前修改尚未保存，确定要离开吗？",
+    "parentResultCountAfterDiscard": 1
+  },
+  "after": {
+    "effectGetStatus": 200,
+    "approvedBodyStillMatches": true,
+    "resultCount": 1,
+    "conditionValueKind": "PARAMETER",
+    "conditionParameterKey": "target_health_threshold_ratio",
+    "comparator": "LT",
+    "visibleDialogs": 0,
+    "nonGetRequests": 0
+  }
+}

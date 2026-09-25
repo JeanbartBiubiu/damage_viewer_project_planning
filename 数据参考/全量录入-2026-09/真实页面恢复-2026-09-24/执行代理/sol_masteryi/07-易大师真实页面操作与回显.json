@@ -1,0 +1,62 @@
+{
+  "object": "champion_masteryi / masteryi_r",
+  "authorizedWrite": "active_duration_extension only",
+  "browser": {
+    "nodePid": 29596,
+    "chromiumPid": 49940,
+    "chromiumParentPid": 29596,
+    "contexts": 1,
+    "pages": [
+      1
+    ]
+  },
+  "uiPath": "角色易→关联技能→R→效果与结果→新增效果→新增2结果→父效果保存→关闭重开",
+  "visibleSemantics": {
+    "operationOptions": [
+      "刷新完整时长",
+      "延长剩余时长"
+    ],
+    "selected": "延长剩余时长",
+    "help": "增加量按毫秒填写，只延长仍有效且全部层统一到期的目标实例；不刷新完整时长，不改变层数或周期。目标期限与到期方式在保存时核对。",
+    "valueParameter": "kill_assist_extension_ms=7000",
+    "results": [
+      {
+        "key": "extend_attack_speed",
+        "targetEffectKey": "attack_speed",
+        "target": "SOURCE",
+        "multiplier": 1
+      },
+      {
+        "key": "extend_move_speed",
+        "targetEffectKey": "move_speed",
+        "target": "SOURCE",
+        "multiplier": 1
+      }
+    ]
+  },
+  "observedOperation": "第一条子结果先选参数后选生命周期操作，后者将数值模式恢复为固定数值；已通过正常控件重选技能参数与kill_assist_extension_ms，父请求完整守卫确认正确。第二条先选操作再选参数，无此重复。",
+  "save": {
+    "method": "POST",
+    "path": "/api/admin/games/lol/skills/masteryi_r/effects",
+    "status": 201,
+    "bodyMatchesApproved": true,
+    "nonGetRequests": 1
+  },
+  "reopen": {
+    "effectCount": 5,
+    "resultCount": 2,
+    "descriptionMatchesApproved": true,
+    "noLifecycle": true,
+    "bothResultsAndTargetsConfirmed": true,
+    "dialogsAfterClose": 0,
+    "noDraft": true
+  },
+  "scope": "仅保存辅助效果；未新建触发或修改on_used/原8参数4效果19引用，不声称运行机制完成",
+  "screenshots": [
+    "01-延长攻速结果填写.png",
+    "02-延长移速结果填写.png",
+    "03-父效果保存前两目标摘要.png",
+    "05-攻速延长结果重开.png",
+    "06-移速延长结果重开.png"
+  ]
+}

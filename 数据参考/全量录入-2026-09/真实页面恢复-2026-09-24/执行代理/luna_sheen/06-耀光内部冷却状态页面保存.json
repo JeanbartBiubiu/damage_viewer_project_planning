@@ -1,0 +1,117 @@
+{
+  "approval": {
+    "file": "耀光-02-页面批准.json",
+    "fileSha256": "4AEB315BE6093839E631C983A431AADF620B79F120FCA532D80BF0CF6C4D0A99",
+    "candidateSha256": "75335ee18f040eb0e0083589cbb3bbf646a16da8f18fbb155a224bc81802b7ab",
+    "requestIndex": 2,
+    "method": "POST",
+    "route": "/skills/item_3057_passive/internal-states",
+    "detailRoute": "/skills/item_3057_passive/internal-states/spellblade_icd"
+  },
+  "preflight": {
+    "evidenceFile": "05-preflight-internalcooldown.json",
+    "targetDetail404": true,
+    "onlyPriorStatePresent": true,
+    "existingCooldownParameterUnchanged": true,
+    "reusedParameterKey": "spellblade_cooldown_ms",
+    "reusedParameterFixedValue": 1500
+  },
+  "pageWrite": {
+    "source": "正常页面控件：新增内部状态表单点保存",
+    "allowedWriteCount": 1,
+    "blockedMutationRequests": [],
+    "requestCapturedBeforeForwarding": {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+      "body": {
+        "stateKey": "spellblade_icd",
+        "name": "咒刃内部冷却",
+        "scope": "SKILL",
+        "description": "冷却1500毫秒来自本物品资料。命中消费后起算、超时不启动为项目近似。",
+        "sortOrder": 20,
+        "stateType": "INTERNAL_COOLDOWN",
+        "detail": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "spellblade_cooldown_ms"
+          }
+        }
+      }
+    },
+    "requestBodyDeepEqualToApproved": true,
+    "response": {
+      "method": "POST",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+      "status": 201,
+      "body": "{\"createdAt\":\"2026-09-24T03:41:05.583581Z\",\"description\":\"冷却1500毫秒来自本物品资料。命中消费后起算、超时不启动为项目近似。\",\"detail\":{\"durationValue\":{\"kind\":\"PARAMETER\",\"parameterKey\":\"spellblade_cooldown_ms\"}},\"gameId\":\"lol\",\"name\":\"咒刃内部冷却\",\"scope\":\"SKILL\",\"skillKey\":\"item_3057_passive\",\"sortOrder\":20,\"stateKey\":\"spellblade_icd\",\"stateType\":\"INTERNAL_COOLDOWN\",\"updatedAt\":\"2026-09-24T03:41:05.583581Z\"}"
+    }
+  },
+  "closeAndReopen": {
+    "stateListReopened": true,
+    "stateListReads": [
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states",
+        "status": 200
+      }
+    ],
+    "targetRowText": "咒刃内部冷却 | spellblade_icd | 内部冷却 | 技能自身 | 20",
+    "targetDetailRead": {
+      "method": "GET",
+      "path": "/api/admin/games/lol/skills/item_3057_passive/internal-states/spellblade_icd",
+      "status": 200
+    },
+    "detailViewEchoProjection": {
+      "stateKey": "spellblade_icd",
+      "name": "咒刃内部冷却",
+      "stateType": "INTERNAL_COOLDOWN",
+      "scope": "SKILL",
+      "description": "冷却1500毫秒来自本物品资料。命中消费后起算、超时不启动为项目近似。",
+      "sortOrder": 20,
+      "detail": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "spellblade_cooldown_ms"
+        }
+      }
+    },
+    "detailViewEchoDeepEqualToApproved": true,
+    "viewControlsDisabled": true,
+    "cooldownParameterCreatedOrModified": false
+  },
+  "requestLogPolicy": {
+    "storedFieldsOnly": [
+      "method",
+      "path",
+      "body",
+      "status"
+    ],
+    "responseHeadersStored": false,
+    "cookiesStored": false
+  }
+}

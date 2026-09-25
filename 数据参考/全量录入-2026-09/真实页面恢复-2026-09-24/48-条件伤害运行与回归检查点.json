@@ -1,0 +1,172 @@
+{
+  "at": "2026-09-24T09:51:54.649Z",
+  "status": "CODE_AND_SYNTHETIC_RUNTIME_PASS_PAGE_RETURN_IN_PROGRESS",
+  "original": "rune_8014",
+  "peer": "rune_8017",
+  "fixes": [
+    "管理伤害修正加入逐笔生命资格与静态门槛引用",
+    "门槛公式保存前读取表达式并逐等级核对，拒绝时保草稿",
+    "切种类清除门槛纳入一次确认，取消完整保留",
+    "原生伤害与暴击修正读实际命令双方，保持供值器真实拥有者",
+    "复制伤害逐笔重算伤害修正，沿用冻结暴击与入场抗性，证据不混原笔暴击修正",
+    "通用内部三参条件短路，未命中金额与自伤排除不读取无关值",
+    "宿主身份与编译请求生成确定摘要，严格区分实际参与者属性"
+  ],
+  "review": {
+    "frontend": "READY",
+    "host": "READY",
+    "native": "READY",
+    "pageCandidateAndReadback": "READY"
+  },
+  "frontend": {
+    "checks": {
+      "lint": "PASS",
+      "typecheck": "PASS",
+      "unitTests": "91 files, 1129 tests PASS",
+      "build": "PASS",
+      "existingModifierZoneBrowserTest": "PASS",
+      "isolatedConditionBrowser": "PASS, GET of formula detail observed, 0 business writes, 1 independent context/page"
+    },
+    "evidence": "条件伤害前端实现/前端实现-核验.json",
+    "finalBuildAfterWasmCopy": "PASS, 1318 modules, exec session 97400 exit 0"
+  },
+  "wasm": {
+    "bytes": 983981,
+    "sha256": "25844991e66d5e189cee0b168869de07c265c5c3cc3336c7b1a9c793ac0d736d",
+    "actualCompileRunRelease": true,
+    "syntheticBrowserTests": 4,
+    "detailedReport": "符文生命门槛准备/12-最终Wasm合成工作线程.json",
+    "regression": {
+      "p4": {
+        "isolated": 11,
+        "liveGet": 2
+      },
+      "p5": {
+        "isolated": 9,
+        "liveGet": 1
+      },
+      "p6": {
+        "isolated": 20,
+        "liveGet": 4
+      },
+      "p7": {
+        "isolated": 6,
+        "liveGet": 2
+      },
+      "vamp": {
+        "isolated": 4,
+        "liveGet": 4
+      },
+      "total": 63,
+      "failures": 0
+    },
+    "liveTestsBusinessWrites": 0,
+    "nativeEvidence": "条件伤害原生实现/验收记录.md",
+    "fullNativeSuite": "FAIL: 38 missing historical seed tests and 4 exclusive-worktree checks; follow-up investigation active"
+  },
+  "page": {
+    "approvedStep": 1,
+    "independentlyVerifiedWrites": 0,
+    "state": "Sol/max已获第一笔真实乘区创建批准，尚未回读，不推测保存状态",
+    "approval": "符文生命门槛准备/13-致命一击乘区页面批准.json"
+  },
+  "limitations": [
+    "正式符文配置尚未进入本次Worker，现有4项为明确合成场景",
+    "完整符文与其他合格伤害来源及特殊来源例外仍待接线",
+    "延迟复制跨运行快照恢复尚未实现，当前有明确警告",
+    "未编译的暴击过滤、跨初始化组成同区及未知既有防御前乘区明确拒绝"
+  ],
+  "files": [
+    {
+      "file": "web/src/types/skillEffect.ts",
+      "sha256": "650796d895c1df9d29f4e01a14b743352d1b1bee917709718d6a8814ed48d361"
+    },
+    {
+      "file": "web/src/services/skillEffectClient.ts",
+      "sha256": "6a0f9855f147ec8f7c7b0291b39b56d9771622b5d5f7942702e47c37ec23af7b"
+    },
+    {
+      "file": "web/src/services/skillEffectClient.test.ts",
+      "sha256": "c5ad4799aaee14197b3fda0aec464d29a50b14db748c22bd84b96625fd8b35a6"
+    },
+    {
+      "file": "web/src/pages/admin/skills/authoringFocus.ts",
+      "sha256": "e625c60e8b3378518a21c44c76569df1544fffc1ca36b3bfb3da2ad74bf04821"
+    },
+    {
+      "file": "web/src/pages/admin/skills/authoringFocus.test.ts",
+      "sha256": "08cc2b5aa94e9869a4aa499bccf7d375c50778eed783599f7cfcdd1132ca676a"
+    },
+    {
+      "file": "web/src/pages/admin/skills/effects/SkillEffectEditorModal.tsx",
+      "sha256": "2e176e57e33cc019fa7bf21f94d13a4323631b0e43bc6b2c4f78a45f4fd3aad2"
+    },
+    {
+      "file": "web/src/pages/admin/skills/effects/SkillEffectResultEditorModal.tsx",
+      "sha256": "b6a8508aa74cc4b7517a3a0c6c092be3ce43af217b1547c2e9558bf57b33c03e"
+    },
+    {
+      "file": "web/src/pages/admin/skills/effects/effectForm.ts",
+      "sha256": "03f07ece81e7f05305f0f7f9823a7b15ffd17202573a2dd5a3c02b936666075b"
+    },
+    {
+      "file": "web/src/pages/admin/skills/effects/effectForm.test.ts",
+      "sha256": "e99b7396f9a4b97922f8c7e52f5c71b59532707997908f03cfe91f90da872fa7"
+    },
+    {
+      "file": "web/src/pages/admin/skills/effects/resultReferenceSummary.ts",
+      "sha256": "255413b8647ebcacb8b1abc85b5e2d4e58f2975b687e5823aa60d50bee6ed6c9"
+    },
+    {
+      "file": "web/src/pages/admin/skills/effects/resultReferenceSummary.test.ts",
+      "sha256": "dbb9ad341357e6579671b46c1c2db2c90476252907f14db2d14dd498521d3e73"
+    },
+    {
+      "file": "web/src/pages/admin/skills/effects/damageModifierConditionFormula.ts",
+      "sha256": "cc6988bdb2de5f9d0f7b493a375ec935a7265ba9d95a0458a4193cef66c21597"
+    },
+    {
+      "file": "web/src/pages/admin/skills/effects/damageModifierConditionFormula.test.ts",
+      "sha256": "36f115ec6ad9bac762a1479a976d36f144fe38672dc63fff221735b72807d8bb"
+    },
+    {
+      "file": "web/src/engine/damageModifierAdapter.ts",
+      "sha256": "be71bd5ac1751383e279e4efddb2032f907880337cb759520a140d1692852e68"
+    },
+    {
+      "file": "web/src/engine/damageModifierAdapter.test.ts",
+      "sha256": "40f855b44bd3da17ca8ae0087c2a1f0d1fa6c9e59a108a2baaf6ff35de9f572a"
+    },
+    {
+      "file": "web/playwright.damage-modifier.config.ts",
+      "sha256": "a04c8f1a18020d35092719e37ad697d6944514c7a3e042dea605e485e1359187"
+    },
+    {
+      "file": "web/tests/e2e/damage-modifier-runtime.spec.ts",
+      "sha256": "48efd3b7cc8061470bef3fb90eadce800fd1cddfca297807f11dda5b24c25e47"
+    },
+    {
+      "file": "web/tests/e2e/p4-runtime.spec.ts",
+      "sha256": "bf29f290b3dae81a4e7be970383ee93460274388857e2dec6cd11df6b4fa4a4e"
+    },
+    {
+      "file": "web/tests/e2e/p5-runtime.spec.ts",
+      "sha256": "74fa6ea0713cbbc2cb7a2f886d59cd5b4d91e0f3821eedf1e4a5314c7d21e614"
+    },
+    {
+      "file": "web/tests/e2e/p6-runtime.spec.ts",
+      "sha256": "12862d8bb4d395672c94c2e62eb30ae7e7a0ceea55a0e6698388d2e320f7fb0b"
+    },
+    {
+      "file": "web/tests/e2e/p7-runtime.spec.ts",
+      "sha256": "919dd23af90a51199d47f2dc35b2278d38fd89509f1672efce3d73f080ef5626"
+    },
+    {
+      "file": "web/src/engine/wasm/tinygo_engine_v2.wasm",
+      "sha256": "25844991e66d5e189cee0b168869de07c265c5c3cc3336c7b1a9c793ac0d736d"
+    }
+  ],
+  "unrelatedDirtyFilesPreserved": 15,
+  "coverageChanged": false,
+  "wholeRuneComplete": false
+}

@@ -1,0 +1,37 @@
+
+ RUN  v2.1.9 C:/project/damage_web_dev/web
+
+ ❯ src/engine/ordinaryDamageSourceAudit.test.ts (23 tests | 2 failed | 21 skipped) 18ms
+   × 已核普通直接伤害来源 > 额外普攻能力分类按具体路径拒绝 16ms
+     → expected false to be true // Object.is equality
+   × 已核普通直接伤害来源 > 额外终极能力分类按具体路径拒绝 2ms
+     → expected false to be true // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/engine/ordinaryDamageSourceAudit.test.ts > 已核普通直接伤害来源 > 额外普攻能力分类按具体路径拒绝
+ FAIL  src/engine/ordinaryDamageSourceAudit.test.ts > 已核普通直接伤害来源 > 额外终极能力分类按具体路径拒绝
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ expectAuditError src/engine/ordinaryDamageSourceAudit.test.ts:195:108
+    193|     throw new Error('应拒绝');
+    194|   } catch (error) {
+    195|     expect(error instanceof OrdinaryDamageSourceAuditError || error in…
+       |                                                                                                            ^
+    196|     expect(error).toMatchObject({ path, ...(code ? { code } : {}) });
+    197|   }
+ ❯ src/engine/ordinaryDamageSourceAudit.test.ts:385:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 21 skipped (23)
+   Start at  20:00:12
+   Duration  515ms (transform 148ms, setup 0ms, collect 194ms, tests 18ms, environment 0ms, prepare 101ms)
+
