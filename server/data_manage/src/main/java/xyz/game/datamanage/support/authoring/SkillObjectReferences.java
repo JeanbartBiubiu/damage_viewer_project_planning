@@ -136,6 +136,7 @@ public final class SkillObjectReferences {
             JsonNode data = source.data();
             formulas(data.path("lifecycle"), "lifecycle", "durationValue", "maxStacksValue",
                 "applicationStacksValue", "periodicIntervalValue");
+            child(data.path("lifecycle"), "lifecycle", "endWhenShieldEndsResultKey", TargetType.RESULT, source.key());
             JsonNode results = array(data, "results");
             for (int i = 0; i < results.size(); i++) {
                 JsonNode result = results.get(i);
@@ -169,6 +170,11 @@ public final class SkillObjectReferences {
                     case "DAMAGE_MODIFIER" -> {
                         dictionary(detail, dp, "modifierZoneKey", TargetType.MODIFIER_ZONE);
                         dictionary(detail, dp, "damageTypeKey", TargetType.DAMAGE_TYPE);
+                        JsonNode condition = detail.path("condition");
+                        if (present(condition)) {
+                            dictionary(condition, dp + ".condition", "attributeKey", TargetType.ATTRIBUTE);
+                            formulas(condition, dp + ".condition", "comparisonValue");
+                        }
                     }
                     case "HEALING_MODIFIER", "SHIELD_RECEIVED_MODIFIER" -> dictionary(detail, dp, "modifierZoneKey", TargetType.MODIFIER_ZONE);
                     case "DAMAGE_IMMUNITY" -> dictionary(detail, dp, "damageTypeKey", TargetType.DAMAGE_TYPE);
