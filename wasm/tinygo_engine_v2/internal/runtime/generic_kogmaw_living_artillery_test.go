@@ -7,7 +7,6 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 
 	"tinygo_engine_v2/internal/model"
@@ -95,45 +94,6 @@ const (
 	kogmawLivingArtilleryBaseRaw = 285.0 // 180 + 0.75*80 + 0.45*100
 
 	kogmawLivingArtilleryTol = 1e-9
-
-	kogmawLivingArtillerySeedManaCostJSON = `{"op":"mul","args":[{"op":"const","value":40},` +
-		`{"op":"add","args":[{"op":"const","value":1},` +
-		`{"op":"read","path":"provider.state.living_artillery_stacks"}]}]}`
-
-	// Exact Backend seed living_artillery_damage (nested binary add base so
-	// compileGenericNode keeps AP under mul.args[0]).
-	kogmawLivingArtillerySeedDamageJSON = `{"op":"mul","args":[{"op":"add","args":[{"op":"add","args":[{"op":"const","value":180},` +
-		`{"op":"mul","args":[{"op":"const","value":0.75},` +
-		`{"op":"sub","args":[{"op":"read","path":"source.attr.ad.resolved"},` +
-		`{"op":"read","path":"source.attr.ad.base"}]}]}]},` +
-		`{"op":"mul","args":[{"op":"const","value":0.45},` +
-		`{"op":"read","path":"source.attr.ap.resolved"}]}]},` +
-		`{"op":"add","args":[{"op":"mul","args":[{"op":"lt","args":[` +
-		`{"op":"clamp","expr":{"op":"div","args":[` +
-		`{"op":"read","path":"target.attr.hp.current"},` +
-		`{"op":"max","args":[{"op":"const","value":1},` +
-		`{"op":"read","path":"target.attr.hp.max"}]}]},` +
-		`"min":{"op":"const","value":0},"max":{"op":"const","value":1}},` +
-		`{"op":"const","value":0.4}]},{"op":"const","value":2}]},` +
-		`{"op":"mul","args":[{"op":"gte","args":[` +
-		`{"op":"clamp","expr":{"op":"div","args":[` +
-		`{"op":"read","path":"target.attr.hp.current"},` +
-		`{"op":"max","args":[{"op":"const","value":1},` +
-		`{"op":"read","path":"target.attr.hp.max"}]}]},` +
-		`"min":{"op":"const","value":0},"max":{"op":"const","value":1}},` +
-		`{"op":"const","value":0.4}]},` +
-		`{"op":"add","args":[{"op":"const","value":1},` +
-		`{"op":"min","args":[{"op":"const","value":0.5},` +
-		`{"op":"mul","args":[{"op":"div","args":[` +
-		`{"op":"const","value":5},{"op":"const","value":6}]},` +
-		`{"op":"max","args":[{"op":"const","value":0},` +
-		`{"op":"sub","args":[{"op":"const","value":1},` +
-		`{"op":"clamp","expr":{"op":"div","args":[` +
-		`{"op":"read","path":"target.attr.hp.current"},` +
-		`{"op":"max","args":[{"op":"const","value":1},` +
-		`{"op":"read","path":"target.attr.hp.max"}]}]},` +
-		`"min":{"op":"const","value":0},` +
-		`"max":{"op":"const","value":1}}]}]}]}]}]}]}]}]}`
 )
 
 func kogmawLivingArtilleryOrderedTags() []string {
@@ -761,25 +721,6 @@ func kogmawLivingArtilleryWikiRawPath(t *testing.T) string {
 	return path
 }
 
-func kogmawLivingArtillerySeedPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"db", "game_manage", "seeds", "lol_generic_kogmaw_living_artillery_seed.sql")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("backend seed missing at %s: %v", path, err)
-	}
-	return path
-}
-
-func kogmawLivingArtilleryREADMEPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..", "server", "data_manage", "README.md")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("README missing at %s: %v", path, err)
-	}
-	return path
-}
-
 type kogmawLivingArtilleryWikiSidecar struct {
 	CandidateKey      string `json:"candidateKey"`
 	RequestTitle      string `json:"requestTitle"`
@@ -805,25 +746,6 @@ func kogmawLivingArtilleryLoadWikiSidecar(t *testing.T) kogmawLivingArtilleryWik
 		t.Fatal(err)
 	}
 	return doc
-}
-
-func kogmawLivingArtilleryLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(kogmawLivingArtillerySeedPath(t))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
 }
 
 func kogmawLivingArtillerySHA256Hex(b []byte) string {
@@ -904,16 +826,16 @@ func kogmawLivingArtilleryAssertBinaryArity(t *testing.T, node interface{}, path
 	}
 }
 
-// Assert seed damage JSON uses nested binary base and keeps AP under mul.args[0].
-func kogmawLivingArtilleryAssertSeedDamageBinaryAST(t *testing.T, damageJSON string) {
+// Assert the constructed damage formula keeps AP under mul.args[0].
+func kogmawLivingArtilleryAssertConstructedDamageBinaryAST(t *testing.T, damageJSON string) {
 	t.Helper()
 	var root interface{}
 	if err := json.Unmarshal([]byte(damageJSON), &root); err != nil {
-		t.Fatalf("seed damage JSON: %v", err)
+		t.Fatalf("constructed damage JSON: %v", err)
 	}
 	obj, ok := root.(map[string]interface{})
 	if !ok {
-		t.Fatal("seed damage root must be object")
+		t.Fatal("constructed damage root must be object")
 	}
 	if op, _ := obj["op"].(string); op != "mul" {
 		t.Fatalf("outer damage op=%q want mul", op)
@@ -1061,109 +983,20 @@ func TestGenericKogmawLivingArtilleryWikiSidecarIdentityAndBoundary(t *testing.T
 	}
 }
 
-func TestGenericKogmawLivingArtilleryBackendSeedAndREADMEIdentity(t *testing.T) {
-	seed, sqlNoComments := kogmawLivingArtilleryLoadSeedSQL(t)
-	readme, err := os.ReadFile(kogmawLivingArtilleryREADMEPath(t))
+func TestGenericKogmawLivingArtilleryConstructedFixtureFormulaAndIdentity(t *testing.T) {
+
+	compileReq, _ := loadKogmawLivingArtilleryFixture(t, kogmawLivingArtilleryFixtureOpts{mana: 500})
+	assertKogmawLivingArtilleryProviderShape(t, compileReq)
+	damageJSON, err := json.Marshal(kogmawLivingArtilleryDamageAmount())
 	if err != nil {
 		t.Fatal(err)
 	}
-	readmeStr := string(readme)
-
-	for _, want := range []string{
-		kogmawLivingArtilleryCandidateKey,
-		kogmawLivingArtilleryTaskKey,
-		kogmawLivingArtilleryPlanRev,
-		kogmawLivingArtilleryRequestTitle,
-		kogmawLivingArtilleryResolvedTitle,
-		"1307963",
-		"4007636",
-		kogmawLivingArtilleryTimestamp,
-		kogmawLivingArtilleryContentSHA,
-		kogmawLivingArtilleryLocalRawSHA,
-		"2453",
-		"2452",
-		kogmawLivingArtilleryBoundary,
-		kogmawLivingArtilleryProviderRef,
-		kogmawLivingArtilleryAbilityID,
-		kogmawLivingArtilleryAbilityKey,
-		kogmawLivingArtilleryStacksKey,
-		kogmawLivingArtillerySeedManaCostJSON,
-		kogmawLivingArtillerySeedDamageJSON,
-		"living_artillery_damage",
-		"living_artillery_stack_add",
-		"r_mana_cost",
-		"r_cooldown_ms",
-		`{"op":"const","value":1000}`,
-		`{"op":"const","value":1}`,
+	kogmawLivingArtilleryAssertConstructedDamageBinaryAST(t, string(damageJSON))
+	for _, tc := range []struct{ hp, want float64 }{
+		{1000, 285}, {400, 427.5}, {399, 570},
 	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	kogmawLivingArtilleryAssertSeedDamageBinaryAST(t, kogmawLivingArtillerySeedDamageJSON)
-	for _, tag := range kogmawLivingArtilleryOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	tags := kogmawLivingArtilleryOrderedTags()
-	prev := -1
-	for _, tag := range tags {
-		i := strings.Index(seed, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	for _, needle := range []string{
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.state_effect_details",
-		"step_hero_kogmaw_r_living_artillery_damage",
-		"step_hero_kogmaw_r_living_artillery_stack_add",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 {
-		t.Fatal("seed must define exactly one ability phase")
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 {
-		t.Fatal("seed must define exactly one damage_effect_details")
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.state_effect_details") != 1 {
-		t.Fatal("seed must define exactly one state_effect_details")
-	}
-	if strings.Contains(sqlNoComments, "INSERT INTO public.provider_listeners") ||
-		strings.Contains(sqlNoComments, "INSERT INTO public.listener_match_types") ||
-		strings.Contains(sqlNoComments, "INSERT INTO public.listener_effect_sequences") {
-		t.Fatal("seed must not insert listener rows")
-	}
-	if !strings.Contains(seed, "零 listener") && !strings.Contains(seed, "零 provider_listeners") {
-		t.Fatal("seed must document zero listeners")
-	}
-	for _, preserved := range []string{
-		"provider_hero_kogmaw_basic_attack",
-		"provider_hero_kogmaw_bio_arcane_barrage",
-		"provider_hero_kogmaw_caustic_spittle",
-		"provider_hero_kogmaw_e_void_ooze_primary_hit",
-	} {
-		if !strings.Contains(seed, preserved) {
-			t.Fatalf("seed must document preserved provider %q", preserved)
-		}
-	}
-	for _, want := range []string{
-		kogmawLivingArtilleryCandidateKey,
-		kogmawLivingArtilleryTaskKey,
-		kogmawLivingArtilleryPlanRev,
-		kogmawLivingArtilleryBoundary,
-		"lol_generic_kogmaw_living_artillery_seed.sql",
-	} {
-		if !strings.Contains(readmeStr, want) {
-			t.Fatalf("README missing %q", want)
+		if raw := kogmawLivingArtilleryExpectedRaw(tc.hp, 1000); math.Abs(raw-tc.want) > kogmawLivingArtilleryTol {
+			t.Fatalf("constructed fixture hp=%v raw=%v want %v", tc.hp, raw, tc.want)
 		}
 	}
 }

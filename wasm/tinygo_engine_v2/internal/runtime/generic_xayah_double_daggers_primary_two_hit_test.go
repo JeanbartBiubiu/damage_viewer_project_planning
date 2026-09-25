@@ -7,7 +7,6 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"testing"
 
@@ -60,10 +59,6 @@ const (
 	xayahDDManaAfter2        = 35.0  // 105 - 35 - 35
 	xayahDDHPAfter2          = 740.0 // 1000 - 130 - 130
 	xayahDDTol               = 1e-9
-
-	xayahDDSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":105},` +
-		`{"op":"mul","args":[{"op":"const","value":0.50},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},{"op":"read","path":"source.attr.ad.base"}]}]}]}`
 )
 
 func xayahDDOrderedTags() []string {
@@ -510,28 +505,8 @@ func xayahDDSHA256Hex(b []byte) string {
 	return hex.EncodeToString(sum[:])
 }
 
-func xayahDDLoadSeed(t *testing.T) (full, noComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(xayahDDRepoPath(t, "db", "game_manage", "seeds",
-		"lol_generic_xayah_double_daggers_primary_two_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		if strings.HasPrefix(strings.TrimSpace(line), "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
-// TestXayahDoubleDaggersSourceSeedProviderFormulaShape locks wiki/sidecar/pages/
-// local-raw caveat, seed/README identifiers, and Q provider/formula shape.
-func TestXayahDoubleDaggersSourceSeedProviderFormulaShape(t *testing.T) {
+// TestXayahDoubleDaggersWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestXayahDoubleDaggersWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -614,52 +589,7 @@ func TestXayahDoubleDaggersSourceSeedProviderFormulaShape(t *testing.T) {
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seed, sqlNoComments := xayahDDLoadSeed(t)
-	_ = xayahDDRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericXayahDoubleDaggersPrimaryTwoHitSeedSqlTest.java")
-	readmeBytes, err := os.ReadFile(xayahDDRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-	for _, want := range []string{
-		xayahDDCandidateKey, xayahDDTaskKey, xayahDDPlanRev,
-		xayahDDRequestTitle, xayahDDResolvedTitle,
-		"1324541", "4008615", xayahDDTimestamp,
-		xayahDDContentSHA, xayahDDLocalRawSHA, "2615",
-		"1324536", "2864045",
-		xayahDDBoundary, xayahDDProviderRef, xayahDDAbilityID,
-		xayahDDAbilityKey, "double_daggers_damage", "q_mana_cost", "q_cooldown_ms",
-		`{"op":"const","value":35}`, `{"op":"const","value":8000}`,
-		xayahDDSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/xayah-q.json", "ability/xayah_deadly_plumage",
-		"provider_hero_xayah_w_deadly_plumage", "preserve_deadly_plumage",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range xayahDDOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing tag %q", tag)
-		}
-	}
-	if regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.modifier_definitions\b`).MatchString(sqlNoComments) ||
-		regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.provider_modifiers\b`).MatchString(sqlNoComments) {
-		t.Fatal("seed must not insert Q production modifier rows")
-	}
-	if regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.provider_listeners\b`).MatchString(sqlNoComments) ||
-		regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.listener_match_types\b`).MatchString(sqlNoComments) ||
-		regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.provider_state_schemas\b`).MatchString(sqlNoComments) {
-		t.Fatal("seed must not insert Q listeners/matchers/state")
-	}
-	if !strings.Contains(readme, xayahDDProviderRef) ||
-		!strings.Contains(readme, "8000") || !strings.Contains(readme, "0.50") {
-		t.Fatal("README missing Q identity/formula/cost-CD contract")
-	}
-	if strings.Contains(readme, xayahDDBonusADMod) {
-		t.Fatal("README must not claim fixture-only AD modifier as production Q behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadXayahDDFixture(t, xayahDDFixtureOpts{
 		resolvedAD: xayahDDADResolvedDefault,

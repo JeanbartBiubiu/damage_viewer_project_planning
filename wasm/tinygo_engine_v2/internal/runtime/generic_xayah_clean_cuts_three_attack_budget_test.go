@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"math"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -37,7 +36,7 @@ import (
 //	  5cfe6e5e30cdc8e6fde07791288f5a85e5ef01f543670ce2248323ccb6ead171
 //	数据参考/lol-wiki-current-champions/normalized/generic/xayah-p.json
 //
-// Phase-A contract (isolated generic provider; Backend seed already accepted):
+// Phase-A contract (isolated generic provider; 历史种子已退役，仅核对通用构造样例):
 //   - Provider state clean_cuts_attacks_remaining: defaultValue0 / maxValue3 /
 //     durationMs0 (ABI-side untimed; Backend DB NULL equivalent)
 //   - Arm ability clean_cuts_direct_post_cast_arm: active, champion-origin,
@@ -1040,51 +1039,9 @@ func TestXayahCleanCutsWikiSidecarIdentity(t *testing.T) {
 	}
 }
 
-// TestXayahCleanCutsStructuralNoProductionMutation: prove this slice only adds the
-// hero-named `_test.go` evidence file; production runtime/model/compile/ABI sources
-// are untouched and no hero switch is used.
-func TestXayahCleanCutsStructuralNoProductionMutation(t *testing.T) {
-	allowedTestRel := filepath.ToSlash(filepath.Join(
-		"wasm", "tinygo_engine_v2", "internal", "runtime",
-		"generic_xayah_clean_cuts_three_attack_budget_test.go",
-	))
-
-	cmd := exec.Command("git", "status", "--porcelain", "--",
-		"wasm/tinygo_engine_v2/internal/runtime",
-		"wasm/tinygo_engine_v2/internal/model",
-		"wasm/tinygo_engine_v2/internal/compile",
-		"wasm/tinygo_engine_v2/internal/abi",
-		"wasm/tinygo_engine_v2/cmd",
-	)
-	cmd.Dir = filepath.Join("..", "..", "..", "..")
-	out, err := cmd.CombinedOutput()
-	if err != nil {
-		t.Fatalf("git status failed: %v (%s)", err, string(out))
-	}
-	for _, line := range strings.Split(string(out), "\n") {
-		line = strings.TrimSpace(line)
-		if line == "" {
-			continue
-		}
-		// porcelain: XY PATH or XY ORIG -> PATH
-		path := line
-		if len(line) >= 3 {
-			path = strings.TrimSpace(line[2:])
-		}
-		if idx := strings.Index(path, " -> "); idx >= 0 {
-			path = path[idx+4:]
-		}
-		path = filepath.ToSlash(path)
-		if path == allowedTestRel {
-			continue
-		}
-		if strings.HasSuffix(path, "_test.go") {
-			// Preserve unrelated existing Xayah / generic tests; they must stay clean.
-			t.Fatalf("unexpected dirty test path %q (only %q may change)", path, allowedTestRel)
-		}
-		t.Fatalf("production/non-allowed path dirty: %q (only %q may change)", path, allowedTestRel)
-	}
-
+// TestXayahCleanCutsStructuralGenericProductionBoundary 核对测试文件身份与生产源码的通用性边界。
+func TestXayahCleanCutsStructuralGenericProductionBoundary(t *testing.T) {
+	// 保留生产源码扫描；工作树独占限制属于历史执行现场。
 	prodRoots := []string{
 		filepath.Join(".."),              // internal/
 		filepath.Join("..", "..", "cmd"), // cmd/
@@ -1097,7 +1054,7 @@ func TestXayahCleanCutsStructuralNoProductionMutation(t *testing.T) {
 		`clean_cuts_attacks_remaining`,
 		`clean_cuts_direct_post_cast_arm`,
 	}
-	err = filepath.Walk(filepath.Join(prodRoots[0]), func(path string, info os.FileInfo, err error) error {
+	err := filepath.Walk(filepath.Join(prodRoots[0]), func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}

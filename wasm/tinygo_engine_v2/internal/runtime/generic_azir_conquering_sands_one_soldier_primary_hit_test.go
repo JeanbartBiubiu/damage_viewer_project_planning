@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"math"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -43,7 +42,7 @@ import (
 //	pages/raw siblings: pages/azir-q.json (bytes 684 / SHA256
 //	  a15a3c54079cd8a75584c9725bb792441103ff27cafa31fa136d076791fa71f4),
 //	  raw/azir-q.wikitext
-//	Backend seed (cross-worktree absolute path; Backend owning commit
+//	已删除历史种子（原跨工作树路径； Backend owning commit
 //	  dd214a3501601098f73267900aa6a199626d5b31):
 //	  C:/project/damage_backend_dev/db/game_manage/seeds/
 //	  lol_generic_azir_conquering_sands_one_soldier_primary_hit_seed.sql
@@ -112,14 +111,6 @@ const (
 		"magic_140_plus_0_55_ap; mana110_listed_cooldown6000ms_scaffold; " +
 		"no_soldier_entity_spawn_count_formation_command_path_target_location_dash_collision_geometry_multitarget_slow_or_full_fidelity"
 
-	// Cross-worktree Backend evidence root (owning commit dd214a3501601098f73267900aa6a199626d5b31).
-	azirCSBackendRoot   = "C:/project/damage_backend_dev"
-	azirCSBackendOwning = "dd214a3501601098f73267900aa6a199626d5b31"
-	azirCSSeedBytes     = 29560
-	azirCSSeedBlobSHA   = "9263b65f6432ca39f5c095934513fe5358a5bf159664904f7d59d86c05eae149"
-	azirCSJUnitBytes    = 50880
-	azirCSJUnitBlobSHA  = "9409b991ea37f69d63c10f7811ee6e33f941fd9ce6eff554fb08d8f6d126e4fb"
-
 	azirCSProviderRef = "provider_hero_azir_q_conquering_sands_one_soldier_primary_hit"
 	azirCSStableID    = "hero_azir_q_conquering_sands_one_soldier_primary_hit"
 	azirCSAbilityID   = "ability_hero_azir_q_conquering_sands_one_soldier_primary_hit"
@@ -146,10 +137,6 @@ const (
 	azirCSExpectedMitAP100 = 97.5  // MR100
 	azirCSManaAfter2       = 110.0 // 330 - 110 - 110
 	azirCSHPAfter2         = 805.0 // 1000 - 97.5 - 97.5
-
-	azirCSSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":140},` +
-		`{"op":"mul","args":[{"op":"const","value":0.55},` +
-		`{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	azirCSTol = 1e-9
 )
@@ -640,35 +627,6 @@ func azirCSWasmRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func azirCSBackendPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{filepath.FromSlash(azirCSBackendRoot)}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing backend path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func azirCSLoadSeedSQL(t *testing.T) (full string, noLineComments string, raw []byte) {
-	t.Helper()
-	raw, err := os.ReadFile(azirCSBackendPath(t,
-		"db", "game_manage", "seeds", "lol_generic_azir_conquering_sands_one_soldier_primary_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String(), raw
-}
-
 func azirCSSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -710,11 +668,8 @@ func azirCSAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit 
 	}
 }
 
-// TestAzirConqueringSandsOneSoldierPrimaryHitWikiSeedShape locks wiki/sidecar/
-// pages/local-raw caveat, Backend seed/README/JUnit identities and blob hashes,
-// exact IDs/cardinality, formula binary shape/path-once, cost/CD/flags/types,
-// ordered governed tags, and one-soldier assumption non-gate framing.
-func TestAzirConqueringSandsOneSoldierPrimaryHitWikiSeedShape(t *testing.T) {
+// TestAzirConqueringSandsOneSoldierPrimaryHitWikiSourceAndConstructedFixtureShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestAzirConqueringSandsOneSoldierPrimaryHitWikiSourceAndConstructedFixtureShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -846,9 +801,6 @@ func TestAzirConqueringSandsOneSoldierPrimaryHitWikiSeedShape(t *testing.T) {
 	if azirCSTaskKey != "wasm-generic-azir-conquering-sands-one-soldier-selected-primary-hit" {
 		t.Fatal("task key drifted")
 	}
-	if azirCSBackendOwning != "dd214a3501601098f73267900aa6a199626d5b31" {
-		t.Fatal("Backend owning commit drifted")
-	}
 	tags := azirCSOrderedTags()
 	if len(tags) != 4 ||
 		tags[0] != "ability_cost_cooldown" ||
@@ -863,195 +815,7 @@ func TestAzirConqueringSandsOneSoldierPrimaryHitWikiSeedShape(t *testing.T) {
 		}
 	}
 
-	seed, sqlNoComments, seedRaw := azirCSLoadSeedSQL(t)
-	if len(seedRaw) != azirCSSeedBytes {
-		t.Fatalf("seed bytes=%d want %d", len(seedRaw), azirCSSeedBytes)
-	}
-	if got := azirCSSHA256Hex(seedRaw); got != azirCSSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, azirCSSeedBlobSHA)
-	}
-	junitPath := azirCSBackendPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(junitBytes) != azirCSJUnitBytes {
-		t.Fatalf("junit bytes=%d want %d", len(junitBytes), azirCSJUnitBytes)
-	}
-	if got := azirCSSHA256Hex(junitBytes); got != azirCSJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, azirCSJUnitBlobSHA)
-	}
-	readmeBytes, err := os.ReadFile(azirCSBackendPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		azirCSCandidateKey, azirCSTaskKey, azirCSPlanRev,
-		azirCSRequestTitle, azirCSResolvedTitle,
-		"1306850", "4024967", azirCSTimestamp, "2512", "3119", "684", "2510",
-		azirCSContentSHA, azirCSNormalizedSHA, azirCSPagesSHA, azirCSLocalRawSHA,
-		azirCSBoundary, azirCSProviderRef, azirCSAbilityID, azirCSAbilityKey,
-		"conquering_sands_one_soldier_primary_hit_damage", "q_mana_cost", "q_cooldown_ms",
-		`{"op":"const","value":110}`, `{"op":"const","value":6000}`,
-		azirCSSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/azir-q.json",
-		"external existing-data", "check-only",
-		"不物化", "非自包含",
-		"source.attr.ap.resolved",
-		"ability_started",
-		"20221", "20170",
-		"crit_eligible=false", "copyable_on_hit=false",
-		"caller/scenario assumption",
-		"one_existing_soldier_selected_primary_hit_scaffold",
-		"meta_or_non_target_dps",
-		"missing game_entities hero_azir",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_azir/ap",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_azir/mana",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range azirCSOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range azirCSOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ap.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ap.resolved exactly once")
-	}
-	for _, banned := range []string{
-		`"path":"source.attr.ap.base"`,
-		`"path":"source.attr.ad.resolved"`,
-		`"path":"source.attr.ad.base"`,
-		`"path":"source.attr.crit_chance.resolved"`,
-		`"path":"source.attr.crit_damage.resolved"`,
-	} {
-		if strings.Contains(sqlNoComments, banned) {
-			t.Fatalf("executable SQL must not invent forbidden read %s", banned)
-		}
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_costs",
-		"INSERT INTO public.ability_cooldowns",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.ability_phase_effect_sequences",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_azir_q_conquering_sands_one_soldier_primary_hit_impact",
-		"sequence_hero_azir_q_conquering_sands_one_soldier_primary_hit_impact",
-		"step_hero_azir_q_conquering_sands_one_soldier_primary_hit_damage",
-		"cost_hero_azir_q_conquering_sands_one_soldier_primary_hit_mana",
-		"cooldown_hero_azir_q_conquering_sands_one_soldier_primary_hit",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_costs") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_cooldowns") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.effect_sequences") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.effect_steps") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phase_effect_sequences") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/cost/cooldown/phase/sequence/step/detail/link/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_azir_q_conquering_sands_one_soldier_primary_hit'\s*,\s*` +
-		`'provider_hero_azir_q_conquering_sands_one_soldier_primary_hit'\s*,\s*` +
-		`'conquering_sands_one_soldier_primary_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("Q must be active ability with stable key conquering_sands_one_soldier_primary_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_azir_q_conquering_sands_one_soldier_primary_hit_damage'\s*,\s*` +
-		`'conquering_sands_one_soldier_primary_hit_damage'\s*,\s*20221\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be magic 20221 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_azir_[pwer]_|'ability_hero_azir_[pwer]_|` +
-		`'provider_hero_azir_basic_|'ability_hero_azir_basic_|` +
-		`'provider_hero_azir_soldier|'ability_hero_azir_soldier|'sand_soldier`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/W/E/R/basic/soldier graph rows")
-	}
-	if regexp.MustCompile(`(?is)\b62\d{3}\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not introduce game-local ability-specific 62xxx types")
-	}
-
-	for _, want := range []string{
-		azirCSCandidateKey, azirCSTaskKey, azirCSPlanRev,
-		"lol_generic_azir_conquering_sands_one_soldier_primary_hit_seed.sql",
-		"LolGenericAzirConqueringSandsOneSoldierPrimaryHitSeedSqlTest",
-		"external existing-data",
-		"magic_140_plus_0_55_ap",
-		"1306850", "4024967", azirCSContentSHA,
-		"caller/scenario assumption",
-		"非自包含",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") {
-		t.Fatal("README must document no repository materializer for Azir identity/panel/resource")
-	}
-	if strings.Contains(readme, "op:azir_conquering_sands_one_soldier_primary_hit_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadAzirCSFixture(t, azirCSFixtureOpts{
 		resolvedAP: azirCSFixtureAPDefault, mr: azirCSTargetMR, mana: azirCSFixtureManaCD,
@@ -1544,49 +1308,11 @@ func TestAzirConqueringSandsOneSoldierPrimaryHitDeterminismAndLifecycle(t *testi
 
 // TestAzirConqueringSandsOneSoldierPrimaryHitGovernanceExclusionsAndNonclaims:
 // prove hero-named `_test.go` status, one-soldier assumption is not a modeled gate,
-// allowed write surface, no production hero switch, and full-Q/soldier/geometry/
+// production generic source scan, no hero switch, and full-Q/soldier/geometry/
 // slow/live fidelity is not claimed.
 func TestAzirConqueringSandsOneSoldierPrimaryHitGovernanceExclusionsAndNonclaims(t *testing.T) {
-	allowedTestRel := filepath.ToSlash(filepath.Join(
-		"wasm", "tinygo_engine_v2", "internal", "runtime",
-		"generic_azir_conquering_sands_one_soldier_primary_hit_test.go",
-	))
-
-	cmd := exec.Command("git", "status", "--porcelain", "--",
-		"wasm/tinygo_engine_v2/internal/runtime",
-		"wasm/tinygo_engine_v2/internal/model",
-		"wasm/tinygo_engine_v2/internal/compile",
-		"wasm/tinygo_engine_v2/internal/abi",
-		"wasm/tinygo_engine_v2/cmd",
-	)
-	cmd.Dir = filepath.Join("..", "..", "..", "..")
-	out, err := cmd.CombinedOutput()
-	if err != nil {
-		t.Fatalf("git status failed: %v (%s)", err, string(out))
-	}
-	for _, line := range strings.Split(string(out), "\n") {
-		line = strings.TrimSpace(line)
-		if line == "" {
-			continue
-		}
-		path := line
-		if len(line) >= 3 {
-			path = strings.TrimSpace(line[2:])
-		}
-		if idx := strings.Index(path, " -> "); idx >= 0 {
-			path = path[idx+4:]
-		}
-		path = filepath.ToSlash(path)
-		if path == allowedTestRel {
-			continue
-		}
-		if strings.HasSuffix(path, "_test.go") {
-			t.Fatalf("unexpected dirty test path %q (only %q may change)", path, allowedTestRel)
-		}
-		t.Fatalf("production/non-allowed path dirty: %q (only %q may change)", path, allowedTestRel)
-	}
-
-	err = filepath.Walk(filepath.Join(".."), func(path string, info os.FileInfo, err error) error {
+	// 保留生产源码扫描；工作树独占限制属于历史执行现场。
+	err := filepath.Walk(filepath.Join(".."), func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}

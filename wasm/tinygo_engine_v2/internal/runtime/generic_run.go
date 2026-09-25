@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"math"
 	"sort"
+	"strconv"
 
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
@@ -1112,6 +1113,26 @@ func (s *genericRunState) truncatedEvidenceKinds() []string {
 
 func (s *genericRunState) buildWarnings(seriesDownsampled bool, droppedSeriesPoints int) ([]model.WarningItem, int) {
 	var candidates []model.WarningItem
+	if len(s.continuations) > 0 {
+		pendingCopies := 0
+		for _, payload := range s.continuations {
+			if payload == nil {
+				continue
+			}
+			times := payload.req.repeatCount
+			if times <= 0 {
+				times = 1
+			}
+			pendingCopies += times * len(payload.damages)
+		}
+		candidates = append(candidates, model.WarningItem{
+			Code:     "pending_continuations_not_in_snapshot",
+			Message:  "finalSnapshot omits " + strconv.Itoa(pendingCopies) + " pending delayed damage copies across " + strconv.Itoa(len(s.continuations)) + " continuations; restoring it will not replay them",
+			Severity: model.WarningSeverityWarning,
+			Refs:     []string{"finalSnapshot"},
+			Count:    pendingCopies,
+		})
+	}
 
 	if s.evidenceTruncated {
 		candidates = append(candidates, model.WarningItem{

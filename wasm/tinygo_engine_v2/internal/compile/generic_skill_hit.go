@@ -395,7 +395,7 @@ func formulaHasForbiddenHitReads(instr []formula.GenericInstr) bool {
 			continue
 		}
 		switch item.ReadKind {
-		case formula.ReadEventSkillHit, formula.ReadEventDamage, formula.ReadDamageAmount,
+		case formula.ReadEventSkillHit, formula.ReadEventDamage, formula.ReadDamageAmount, formula.ReadDamageSelf,
 			formula.ReadDamageTrait, formula.ReadDamageType, formula.ReadDamageCastOrigin, formula.ReadDamageAbilityType,
 			formula.ReadEventSourceAttr, formula.ReadEventTargetAttr, formula.ReadEventSourceResource, formula.ReadEventTargetResource,
 			formula.ReadEventEntrySourceAttr, formula.ReadEventEntryTargetAttr, formula.ReadEventEntrySourceResource, formula.ReadEventEntryTargetResource:

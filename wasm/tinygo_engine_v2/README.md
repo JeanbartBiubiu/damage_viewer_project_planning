@@ -84,6 +84,8 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 
 ## 常用命令
 
+运行时的英雄命名测试保留历史 Wiki 来源、数值边界、排除项和通用构造样例的编译运行检查。旧战斗链的 35 份种子及其后端检查已在 2026-08-29 的 `4e448817b` 删除，因此当前测试不再读取旧种子、旧后端检查文件或旧说明字节，也不以测试时工作树只能修改某一文件作为产品断言。构造样例的通过只证明原生通用机制，不表示现行管理配置已经保存或通过真实页面、工作线程验证；迁移逐项记录见本轮原生历史检查迁移证据。
+
 在 `wasm/tinygo_engine_v2/` 目录执行：
 
 ```powershell
@@ -153,6 +155,8 @@ engine_outbox_clear()
 
 ## Generic runtime 精度契约（事件快照 / 抗性 / expected crit）
 
+内部通用公式允许 `op:"if"`（按条件取值）的固定三个 `args`：条件非零求第二项，否则求第三项。编译会完整校验两支的引用、读取路径、循环和深度，并生成只向前跳转的指令；运行只读取选中的分支，未选中的金额公式不会触发缺值或除零错误。宿主可先判身份与自伤，再在合格分支读取生命比例，按同乘区的各条件结果求和。此运算不增加管理作者公式节点。
+
 ### Event snapshot formula reads
 
 Listener / child ability 公式可读：
@@ -197,7 +201,7 @@ critAdjustedRaw = baseRaw*(1-chanceEffective) + baseRaw*chanceEffective*multipli
 
 缺省 / 非 finite 的 `crit_chance` / `crit_damage` 结构化失败，不静默造值。非 eligible damage 跳过整段。Canonical Infinity Edge：chance `0.25`、multiplier `2.3`、标量 `1.325`。
 
-Evidence kind 仍为 `damage`：eligible 行含 `policy=expected`、chance*/multiplier、base/parts/`critAdjustedRawAmount`；`rawAmount` = post-crit raw。Phantom replay 冻结真实命中的 post-crit raw 与 crit 证据，不二次结算、不额外 emit、不增加 crit 专用 command budget。
+Evidence kind 仍为 `damage`：eligible 行含 `policy=expected`、chance*/multiplier、base/parts/`critAdjustedRawAmount`；`rawAmount` = post-crit raw。Phantom replay 冻结真实命中的 post-crit raw 与 crit 证据，不二次结算、不额外 emit、不增加 crit 专用 command budget。复制逐笔重走伤害修正与抗性、护盾、扣血数值段，条件和金额读取当笔真实双方及当前生命；抗性与穿透仍用原事件入场快照。原笔和复制共享 `first_per_cast` 的已消费记录，复制证据的 `modifiers` 只记录本笔重新执行的伤害修正；原笔暴击乘区的数值结果由冻结的暴击字段承接，不伪作复制当笔修正。复制证据还保存修正前、防御后金额。
 
 ### Provider tick / TickSpec（含 target-state-anchored）
 
@@ -223,7 +227,7 @@ ABI（向后兼容，字段均可省略）：
 - 每次成功顶层 cast（driver / TickSpec / Listener `AbilityRef` 完整 child ability）mint 单调 `uint64` cast instance ID（从 1 起）；同 cast 多 op / listener Operations 子伤害继承 ID+origin。
 - Event TypeSet 附加恰好一个已知 `cast_origin/<origin>`；damage evidence / emitted event data 暴露 `castInstanceId`（float64）与 `castOrigin`（非公式输入）。
 - Pipeline damage context 可读：`damage.cast_origin.<key>`、`damage.ability_type.<key>`（catalog 校验；未知 compile 拒绝；运行时不匹配返回 0）。casting ability TypeSet 在 pipeline 前可用。
-- 延迟 repeat：listener flush 先完成全部 delay=0 即时回放；再评估正延迟触发并 enqueue。continuation handler 消费 run-local payload、按冻结 raw/crit/entry 抗性施加 phantom，不重收集、不二次 repeat。超出 duration 或原 hit 已 death-stop 时不执行；堆 push 失败为 run error。
+- 延迟 repeat：listener flush 先完成全部 delay=0 即时回放；再评估正延迟触发并 enqueue。continuation handler 消费 run-local payload、按冻结 raw/crit/entry 抗性施加 phantom，不重收集、不二次 repeat。超出 duration 或原 hit 已 death-stop 时不执行；堆 push 失败为 run error。若本次输出仍有待执行复制，`warnings` 以 `pending_continuations_not_in_snapshot` 明示待执行份数；`finalSnapshot` 不含延迟队列，从它恢复不会补放这些复制。该警告只披露既有恢复缺口，不提供恢复能力。
 
 Per-cast throttle 安全边界：
 

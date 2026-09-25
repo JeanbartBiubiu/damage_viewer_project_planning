@@ -134,22 +134,25 @@ type executionFrame struct {
 
 // copyableDamageFrozen 冻结一次 CopyableOnHit damage 的 replay 输入（不做公式重算 / 不二次 crit 结算）。
 type copyableDamageFrozen struct {
-	rawAmount        float64
-	damageType       string
-	sourceKey        string
-	targetKey        string
-	providerRef      string
-	originRef        string // abilityRef 或 listener:<key>
-	operationRef     string // op.Ref；有则写入 evidence / replayedFrom
-	entrySourceAttrs map[string]model.AttributeSlotDef
-	entryTargetAttrs map[string]model.AttributeSlotDef
-	eventSourceKey   string
-	eventTargetKey   string
-	crit             frozenCritEvidence
-	ability          compilebundle.CompiledAbility
-	operation        compilebundle.CompiledOperation
-	castInstanceID   uint64
-	castOrigin       string
+	rawAmount            float64
+	damageType           string
+	sourceKey            string
+	targetKey            string
+	providerRef          string
+	originRef            string // abilityRef 或 listener:<key>
+	operationRef         string // op.Ref；有则写入 evidence / replayedFrom
+	entrySourceAttrs     map[string]model.AttributeSlotDef
+	entryTargetAttrs     map[string]model.AttributeSlotDef
+	eventSourceKey       string
+	eventTargetKey       string
+	crit                 frozenCritEvidence
+	ability              compilebundle.CompiledAbility
+	operation            compilebundle.CompiledOperation
+	castInstanceID       uint64
+	castOrigin           string
+	consumedFirstPerCast map[string]bool
+	ownerCombatantKey    string
+	eventCtx             *eventFormulaSnapshot
 }
 
 // frozenCritEvidence 冻结真实命中时的 expected crit 证据；phantom 原样回放，不重读属性。
@@ -445,17 +448,21 @@ func (f *executionFrame) resolveProviderStateFieldDefs(combatantKey, providerRef
 // mounts hosted on another combatant use that mount host as the pair-state target key.
 // Callback only sets HasProviderContext / ProviderState / ProviderTargetState.
 func (f *executionFrame) providerFormulaContextFunc(combatantKey string) pipeline.ProviderFormulaContextFunc {
+	strict := f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit)
+	return f.providerFormulaContextForTarget(combatantKey, f.targetKey, strict)
+}
+
+func (f *executionFrame) providerFormulaContextForTarget(combatantKey, targetKey string, strict bool) pipeline.ProviderFormulaContextFunc {
 	return func(ownerCombatantKey, providerRef string) formula.GenericEvalContext {
 		bagOwner := ownerCombatantKey
 		if bagOwner == "" {
 			bagOwner = combatantKey
 		}
-		strict := f.strictReads || f.skillHitOccurrenceID != 0 || (f.eventCtx != nil && f.eventCtx.hasSkillHit)
 		bag := f.providerStateBag(bagOwner, providerRef, strict)
 		if bag != nil {
 			bag.lazyExpireProviderTargetState(f.run.nowMs)
 		}
-		return providerFormulaContextFromBag(bag, providerTargetActiveKey(combatantKey, ownerCombatantKey, f.targetKey))
+		return providerFormulaContextFromBag(bag, providerTargetActiveKey(combatantKey, ownerCombatantKey, targetKey))
 	}
 }
 
@@ -608,7 +615,7 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			// Ordering: expected crit (branch pipeline) → outgoing_pre_mitigation →
 			// resistance → incoming_crit_part_post_mitigation → incoming_post_mitigation →
 			// shields/HP. CopyableOnHit freezes the post-crit / pre-outgoing amount.
-			critEv, amount, critMods, err := f.settleExpectedCrit(op, ability, amount)
+			critEv, amount, critMods, err := f.settleExpectedCrit(op, ability, amount, targetKey)
 			if err != nil {
 				return err
 			}
@@ -1211,156 +1218,26 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundl
 	sc := f.stageFor(cmd.Target)
 	view := pipeline.CombatantView{Attributes: sc.attributes, Shields: sc.shields}
 
-	var err *model.EngineError
-	preOutgoingMerged := cmd.Amount
-	normalPart := 0.0
-	critPart := 0.0
-	if critEv.present && critEv.eligible {
-		normalPart = critEv.normalPart
-		critPart = critEv.critPart
-	}
-
-	cmd.Amount, modEvidence, err = f.applyPipelineDamageModifiers(
-		cmd.Source, "damage", "outgoing_pre_mitigation", cmd.Amount, ability, cmd.DamageType, traits, modEvidence)
+	numbers, err := f.resolveDamageNumbers(cmd, op, critEv, ability, modEvidence,
+		view.Attributes, f.stageFor(cmd.Source).attributes)
 	if err != nil {
 		return err
 	}
-
-	if critEv.present && critEv.eligible {
-		normalPart, critPart = projectCritPartsAfterOutgoing(preOutgoingMerged, normalPart, critPart, cmd.Amount)
-		critEv.normalPart = normalPart
-		critEv.critPart = critPart
-	}
-
-	rawForEvidence := cmd.Amount
-	if math.IsNaN(cmd.Amount) || math.IsInf(cmd.Amount, 0) || cmd.Amount < 0 {
-		// Non-finite / negative after outgoing mods: fail closed, no damage_instance.
+	cmd.Amount, critEv, modEvidence = numbers.rawAmount, numbers.crit, numbers.modifiers
+	rawForEvidence := numbers.rawAmount
+	if numbers.failClosed {
 		result := command.Result{Kind: cmd.Kind, Applied: false, Amount: 0}
 		f.applyDamageResult(cmd, result, sc)
 		f.run.recordGenericDamageEvidence(genericDamageEvidence{
-			source:          cmd.Source,
-			target:          cmd.Target,
-			damageType:      cmd.DamageType,
-			rawAmount:       rawForEvidence,
-			mitigatedAmount: 0,
-			providerRef:     f.ownerProviderRef,
-			abilityRef:      f.abilityRef,
-			operationRef:    operationRef,
-			phantom:         false,
-			crit:            critEv,
-			modifiers:       modEvidence,
-			traits:          traits,
+			source: cmd.Source, target: cmd.Target, damageType: cmd.DamageType,
+			rawAmount: rawForEvidence, mitigatedAmount: 0,
+			providerRef: f.ownerProviderRef, abilityRef: f.abilityRef,
+			operationRef: operationRef, phantom: false, crit: critEv,
+			modifiers: modEvidence, traits: traits,
 		})
 		return nil
 	}
-
-	// Post-resistance part evidence is captured before incoming modifiers; only written
-	// on successful settlement (not fail-closed non-finite / unknown-type paths).
-	var (
-		resistanceFactor            float64
-		normalPartPostResistance    float64
-		critPartPostResistance      float64
-		resistanceBeforePenetration float64
-		penetrationPercent          float64
-		penetrationFlat             float64
-		effectiveResistance         float64
-		mitigationDetail            pipeline.MitigationResult
-	)
-
-	var mitigated float64
-	sourceAttrs := f.stageFor(cmd.Source).attributes
-	if cmd.Amount == 0 {
-		// Successful zero pre-mitigation: factor 1, both parts zero before incoming mods.
-		resistanceFactor = 1
-		normalPartPostResistance = 0
-		critPartPostResistance = 0
-		mitigatedNormal := 0.0
-		mitigatedCrit := 0.0
-		if critEv.present && critEv.eligible {
-			mitigatedCrit, modEvidence, err = f.applyPipelineDamageModifiers(
-				cmd.Target, "damage", "incoming_crit_part_post_mitigation", mitigatedCrit, ability, cmd.DamageType, traits, modEvidence)
-			if err != nil {
-				return err
-			}
-		}
-		mitigated = mitigatedNormal + mitigatedCrit
-		mitigated, modEvidence, err = f.applyPipelineDamageModifiers(
-			cmd.Target, "damage", "incoming_post_mitigation", mitigated, ability, cmd.DamageType, traits, modEvidence)
-		if err != nil {
-			return err
-		}
-	} else {
-		var ok bool
-		mitigationDetail, ok = pipeline.MitigateRawDamageWithSource(cmd.Amount, cmd.DamageType, view.Attributes, sourceAttrs)
-		if !ok {
-			// Fail closed (unknown type / non-finite mitigation): no shield/HP mutation; no damage_instance.
-			result := command.Result{Kind: cmd.Kind, Applied: false, Amount: 0}
-			f.applyDamageResult(cmd, result, sc)
-			f.run.recordGenericDamageEvidence(genericDamageEvidence{
-				source:          cmd.Source,
-				target:          cmd.Target,
-				damageType:      cmd.DamageType,
-				rawAmount:       rawForEvidence,
-				mitigatedAmount: 0,
-				providerRef:     f.ownerProviderRef,
-				abilityRef:      f.abilityRef,
-				operationRef:    operationRef,
-				phantom:         false,
-				crit:            critEv,
-				modifiers:       modEvidence,
-				traits:          traits,
-			})
-			return nil
-		}
-		mitigatedMerged := mitigationDetail.Amount
-		resistFactor := mitigationDetail.ResistanceFactor
-		resistanceBeforePenetration = mitigationDetail.ResistanceBeforePenetration
-		penetrationPercent = mitigationDetail.PenetrationPercent
-		penetrationFlat = mitigationDetail.PenetrationFlat
-		effectiveResistance = mitigationDetail.EffectiveResistance
-		mitigatedNormal := mitigatedMerged
-		mitigatedCrit := 0.0
-		if critEv.present && critEv.eligible {
-			mitigatedNormal = normalPart * resistFactor
-			mitigatedCrit = critPart * resistFactor
-		}
-		resistanceFactor = resistFactor
-		normalPartPostResistance = mitigatedNormal
-		critPartPostResistance = mitigatedCrit
-		if critEv.present && critEv.eligible {
-			mitigatedCrit, modEvidence, err = f.applyPipelineDamageModifiers(
-				cmd.Target, "damage", "incoming_crit_part_post_mitigation", mitigatedCrit, ability, cmd.DamageType, traits, modEvidence)
-			if err != nil {
-				return err
-			}
-		}
-		mitigated = mitigatedNormal + mitigatedCrit
-		mitigated, modEvidence, err = f.applyPipelineDamageModifiers(
-			cmd.Target, "damage", "incoming_post_mitigation", mitigated, ability, cmd.DamageType, traits, modEvidence)
-		if err != nil {
-			return err
-		}
-	}
-	if math.IsNaN(mitigated) || math.IsInf(mitigated, 0) || mitigated < 0 {
-		result := command.Result{Kind: cmd.Kind, Applied: false, Amount: 0}
-		f.applyDamageResult(cmd, result, sc)
-		f.run.recordGenericDamageEvidence(genericDamageEvidence{
-			source:          cmd.Source,
-			target:          cmd.Target,
-			damageType:      cmd.DamageType,
-			rawAmount:       rawForEvidence,
-			mitigatedAmount: 0,
-			providerRef:     f.ownerProviderRef,
-			abilityRef:      f.abilityRef,
-			operationRef:    operationRef,
-			phantom:         false,
-			crit:            critEv,
-			modifiers:       modEvidence,
-			traits:          traits,
-		})
-		return nil
-	}
-
+	mitigated := numbers.mitigatedAmount
 	targetHPBefore := attribute.ReadHP(view.Attributes)
 	outcome, next := pipeline.ApplyMitigatedDamage(rawForEvidence, mitigated, view, f.run.nowMs)
 	f.recordOperationOutput(op, outcome)
@@ -1391,13 +1268,13 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundl
 		castInstanceID:              f.castInstanceID,
 		castOrigin:                  f.castOrigin,
 		hasPostResistanceEvidence:   true,
-		resistanceFactor:            resistanceFactor,
-		normalPartPostResistance:    normalPartPostResistance,
-		critPartPostResistance:      critPartPostResistance,
-		resistanceBeforePenetration: resistanceBeforePenetration,
-		penetrationPercent:          penetrationPercent,
-		penetrationFlat:             penetrationFlat,
-		effectiveResistance:         effectiveResistance,
+		resistanceFactor:            numbers.resistanceFactor,
+		normalPartPostResistance:    numbers.normalPartPostResistance,
+		critPartPostResistance:      numbers.critPartPostResistance,
+		resistanceBeforePenetration: numbers.resistanceBeforePenetration,
+		penetrationPercent:          numbers.penetrationPercent,
+		penetrationFlat:             numbers.penetrationFlat,
+		effectiveResistance:         numbers.effectiveResistance,
 		damageID:                    damageID,
 		outcome:                     &outcome,
 	})
@@ -1447,7 +1324,7 @@ func pipelineModifierIdentity(mod pipeline.MountedDamageModifier) string {
 // hostKey is the combatant whose damageResolver is consulted (source for crit/outgoing, target for incoming).
 // Channel matching is the union of all_damage plus every qualifying specific channel.
 func (f *executionFrame) applyPipelineDamageModifiers(
-	hostKey, command, stage string,
+	hostKey, sourceKey, targetKey, command, stage string,
 	amount float64,
 	ability compilebundle.CompiledAbility,
 	damageType string,
@@ -1461,7 +1338,15 @@ func (f *executionFrame) applyPipelineDamageModifiers(
 		return amount, evidence, nil
 	}
 	baseCtx := f.evalContext(ability)
-	providerCtxFn := f.providerFormulaContextFunc(hostKey)
+	baseCtx.StrictReads = true
+	// 伤害命令可以重定向目标；条件和金额必须读取同一笔实际参与者。
+	baseCtx.SourceAttrs = f.stageFor(sourceKey).attributes
+	baseCtx.TargetAttrs = f.stageFor(targetKey).attributes
+	baseCtx.SourceResources = f.stageFor(sourceKey).resources
+	baseCtx.TargetResources = f.stageFor(targetKey).resources
+	baseCtx.HasDamageParticipants = true
+	baseCtx.DamageSelf = sourceKey == targetKey
+	providerCtxFn := f.providerFormulaContextForTarget(hostKey, targetKey, true)
 	for _, collected := range mods {
 		mod := collected.Modifier
 		if mod.Bucket == "first_per_cast" {
@@ -1689,7 +1574,7 @@ func writeCritEvidenceFields(data map[string]interface{}, critEv frozenCritEvide
 // settleExpectedCrit applies the unified deterministic expected-crit branch pipeline
 // before outgoing modifiers / resistance. Only CritEligible damage settles; otherwise
 // amount is unchanged. No command-budget cost. No RNG.
-func (f *executionFrame) settleExpectedCrit(op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility, baseRawAmount float64) (frozenCritEvidence, float64, []map[string]interface{}, *model.EngineError) {
+func (f *executionFrame) settleExpectedCrit(op compilebundle.CompiledOperation, ability compilebundle.CompiledAbility, baseRawAmount float64, targetKey string) (frozenCritEvidence, float64, []map[string]interface{}, *model.EngineError) {
 	if !op.CritEligible {
 		return frozenCritEvidence{}, baseRawAmount, nil, nil
 	}
@@ -1708,7 +1593,7 @@ func (f *executionFrame) settleExpectedCrit(op compilebundle.CompiledOperation, 
 
 	q := p
 	q, modEvidence, err = f.applyPipelineDamageModifiers(
-		f.sourceKey, "crit", "crit_chance_pre_settlement", q, ability, op.DamageType, traits, modEvidence)
+		f.sourceKey, f.sourceKey, targetKey, "crit", "crit_chance_pre_settlement", q, ability, op.DamageType, traits, modEvidence)
 	if err != nil {
 		return frozenCritEvidence{}, 0, nil, err
 	}
@@ -1719,7 +1604,7 @@ func (f *executionFrame) settleExpectedCrit(op compilebundle.CompiledOperation, 
 		mForced = 1
 	}
 	mForced, modEvidence, err = f.applyPipelineDamageModifiers(
-		f.sourceKey, "crit", "crit_multiplier_forced_branch", mForced, ability, op.DamageType, traits, modEvidence)
+		f.sourceKey, f.sourceKey, targetKey, "crit", "crit_multiplier_forced_branch", mForced, ability, op.DamageType, traits, modEvidence)
 	if err != nil {
 		return frozenCritEvidence{}, 0, nil, err
 	}
@@ -1732,7 +1617,7 @@ func (f *executionFrame) settleExpectedCrit(op compilebundle.CompiledOperation, 
 		mNatural = 1
 	}
 	mNatural, modEvidence, err = f.applyPipelineDamageModifiers(
-		f.sourceKey, "crit", "crit_multiplier_natural_branch", mNatural, ability, op.DamageType, traits, modEvidence)
+		f.sourceKey, f.sourceKey, targetKey, "crit", "crit_multiplier_natural_branch", mNatural, ability, op.DamageType, traits, modEvidence)
 	if err != nil {
 		return frozenCritEvidence{}, 0, nil, err
 	}
@@ -2867,19 +2752,25 @@ func (f *executionFrame) maybeCollectCopyableDamage(op compilebundle.CompiledOpe
 	if collector.commandCount > f.run.budget.MaxCommandsPerEvent {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max commands per event exceeded", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 	}
+	if f.consumedFirstPerCast == nil {
+		f.consumedFirstPerCast = map[string]bool{}
+	}
 	rec := copyableDamageFrozen{
-		rawAmount:      rawAmount,
-		damageType:     op.DamageType,
-		sourceKey:      f.sourceKey,
-		targetKey:      targetKey,
-		providerRef:    f.ownerProviderRef,
-		originRef:      f.abilityRef,
-		operationRef:   op.Ref,
-		crit:           critEv,
-		ability:        ability,
-		operation:      op,
-		castInstanceID: f.castInstanceID,
-		castOrigin:     f.castOrigin,
+		rawAmount:            rawAmount,
+		damageType:           op.DamageType,
+		sourceKey:            f.sourceKey,
+		targetKey:            targetKey,
+		providerRef:          f.ownerProviderRef,
+		originRef:            f.abilityRef,
+		operationRef:         op.Ref,
+		crit:                 critEv,
+		ability:              ability,
+		operation:            op,
+		castInstanceID:       f.castInstanceID,
+		castOrigin:           f.castOrigin,
+		consumedFirstPerCast: f.consumedFirstPerCast,
+		ownerCombatantKey:    f.providerOwnerKey(),
+		eventCtx:             cloneEventSnapshot(f.eventCtx),
 	}
 	if f.eventCtx != nil {
 		rec.eventSourceKey = f.eventCtx.eventSourceKey
@@ -3109,22 +3000,20 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 	if collector.commandCount > s.budget.MaxCommandsPerEvent {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max commands per event exceeded", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
-	target, ok := s.combatants[dmg.targetKey]
-	if !ok {
+	if _, ok := s.combatants[dmg.targetKey]; !ok {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrOperationTargetMissing, "operation target unavailable", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
-
-	attrs := cloneAttributeMap(target.attributes)
-	// Live HP must follow Current; Resolved may have been reset to Base by attribute resolve.
-	if hp, ok := attrs["hp"]; ok {
-		hp.Resolved = hp.Current
-		attrs["hp"] = hp
-	}
-	overlayEntryResistance(attrs, dmg.entryAttrsForCombatant(dmg.targetKey))
-	view := pipeline.CombatantView{
-		Attributes: attrs,
-		Shields:    pipeline.ShieldsFromRuntime(target.shields, s.nowMs),
-	}
+	frame := s.newExecutionFrame(dmg.sourceKey, dmg.targetKey, dmg.originRef)
+	frame.ownerCombatantKey = dmg.ownerCombatantKey
+	frame.ownerProviderRef = dmg.providerRef
+	frame.castInstanceID, frame.castOrigin = dmg.castInstanceID, dmg.castOrigin
+	frame.consumedFirstPerCast = dmg.consumedFirstPerCast
+	frame.eventCtx = cloneEventSnapshot(dmg.eventCtx)
+	targetStage := frame.stageFor(dmg.targetKey)
+	// 冻结抗性仅用于本笔减伤；提交仍保留目标当前属性与生命。
+	mitigationAttrs := cloneAttributeMap(targetStage.attributes)
+	overlayEntryResistance(mitigationAttrs, dmg.entryAttrsForCombatant(dmg.targetKey))
+	view := pipeline.CombatantView{Attributes: targetStage.attributes, Shields: targetStage.shields}
 	cmd := command.Command{
 		Kind:       command.KindDamage,
 		Source:     dmg.sourceKey,
@@ -3134,21 +3023,37 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 	}
 	// Phantom uses frozen event-entry source attrs for penetration; target resistance already overlaid.
 	sourcePenAttrs := dmg.entryAttrsForCombatant(dmg.sourceKey)
+	// 暴击分支已冻结在 dmg.crit；本笔 modifiers 只登记重新执行的伤害修正。
+	numbers, err := frame.resolveDamageNumbers(cmd, dmg.operation, dmg.crit, dmg.ability,
+		nil, mitigationAttrs, sourcePenAttrs)
+	if err != nil {
+		return err
+	}
+	if numbers.failClosed {
+		s.recordGenericDamageEvidence(genericDamageEvidence{
+			source: dmg.sourceKey, target: dmg.targetKey, damageType: dmg.damageType,
+			rawAmount: numbers.rawAmount, mitigatedAmount: 0,
+			providerRef: dmg.providerRef, abilityRef: dmg.originRef, operationRef: dmg.operationRef,
+			phantom: true, repeatTag: repeatTag,
+			replayedFrom: stableDamageReplayedFrom(dmg.providerRef, dmg.originRef, dmg.operationRef),
+			crit:         numbers.crit, modifiers: numbers.modifiers, traits: dmg.operation.Types,
+		})
+		return nil
+	}
 	targetHPBefore := attribute.ReadHP(view.Attributes)
-	outcome, next := pipeline.ResolveDamageWithSource(cmd, view, sourcePenAttrs, s.nowMs)
+	outcome, next := pipeline.ApplyMitigatedDamage(numbers.rawAmount, numbers.mitigatedAmount, view, s.nowMs)
 	result := command.Result{Kind: cmd.Kind, Applied: outcome.HPDamage > 0 || outcome.ShieldAbsorbed > 0, Amount: outcome.MitigatedAmount}
 	s.nextDamageID++
 	damageID := s.nextDamageID
-	target.attributes = next.Attributes
-	target.shields = pipeline.RuntimeShieldsFromView(next.Shields, dmg.targetKey, dmg.sourceKey)
-	s.combatants[dmg.targetKey] = target
-	s.reResolveLiveAttributesTwoPass(dmg.sourceKey, dmg.targetKey)
+	targetStage.attributes = next.Attributes
+	targetStage.shields = next.Shields
+	frame.reResolveStagedAttributesTwoPass(dmg.ability)
 	s.recordDamage(dmg.sourceKey, dmg.targetKey, result.Amount, s.nowMs)
 	s.recordGenericDamageEvidence(genericDamageEvidence{
 		source:          dmg.sourceKey,
 		target:          dmg.targetKey,
 		damageType:      dmg.damageType,
-		rawAmount:       dmg.rawAmount,
+		rawAmount:       numbers.rawAmount,
 		mitigatedAmount: result.Amount,
 		providerRef:     dmg.providerRef,
 		abilityRef:      dmg.originRef,
@@ -3156,16 +3061,14 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 		phantom:         true,
 		repeatTag:       repeatTag,
 		replayedFrom:    stableDamageReplayedFrom(dmg.providerRef, dmg.originRef, dmg.operationRef),
-		crit:            dmg.crit,
+		crit:            numbers.crit,
+		modifiers:       numbers.modifiers,
 		traits:          dmg.operation.Types,
 		castInstanceID:  dmg.castInstanceID,
 		castOrigin:      dmg.castOrigin,
 		damageID:        damageID,
 		outcome:         &outcome,
 	})
-	frame := s.newExecutionFrame(dmg.sourceKey, dmg.targetKey, dmg.originRef)
-	frame.ownerProviderRef = dmg.providerRef
-	frame.castInstanceID, frame.castOrigin = dmg.castInstanceID, dmg.castOrigin
 	if err := frame.settleDamageVamp(cmd, dmg.operation, dmg.ability, outcome, targetHPBefore, damageID, true); err != nil {
 		return err
 	}

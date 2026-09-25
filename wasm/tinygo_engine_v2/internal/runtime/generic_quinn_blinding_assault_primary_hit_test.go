@@ -7,7 +7,6 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"testing"
 
@@ -33,7 +32,7 @@ import (
 //	  abce6abdc2eefd069beba2d4297a1c9da5b1a675a426edb747346d9679d8085d
 //	数据参考/lol-wiki-current-champions/normalized/generic/quinn-q.json
 //	pages/raw siblings: pages/quinn-q.json, raw/quinn-q.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_quinn_blinding_assault_primary_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_quinn_blinding_assault_primary_hit_seed.sql
 //	Local raw materialization caveat (same length, different SHA): 1742 bytes /
 //	  SHA256 be8878560c7d6541440d952788e40aeba0bef25a49955379df26f45ec82737bd.
 //	Assert both identities/caveat; do not claim equivalence or source contradiction.
@@ -102,13 +101,6 @@ const (
 	quinnBAExpectedRawDefault = 335.0 // 205 + 80 + 50
 	quinnBAExpectedMitDefault = 167.5
 	quinnBAManaAfter2         = 70.0 // 210 - 70 - 70
-
-	quinnBASeedDamageJSON = `{"op":"add","args":[{"op":"add","args":[{"op":"const","value":205},` +
-		`{"op":"mul","args":[{"op":"const","value":1.00},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},` +
-		`{"op":"read","path":"source.attr.ad.base"}]}]}]},` +
-		`{"op":"mul","args":[{"op":"const","value":0.50},` +
-		`{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	quinnBATol = 1e-9
 )
@@ -643,25 +635,6 @@ func quinnBAWikiPagesPath(t *testing.T) string {
 	return path
 }
 
-func quinnBASeedPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"db", "game_manage", "seeds", "lol_generic_quinn_blinding_assault_primary_hit_seed.sql")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("backend seed missing at %s: %v (fail closed; assert after Backend materialization)", path, err)
-	}
-	return path
-}
-
-func quinnBAREADMEPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..", "server", "data_manage", "README.md")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("README missing at %s: %v", path, err)
-	}
-	return path
-}
-
 type quinnBAWikiSidecar struct {
 	CandidateKey      string `json:"candidateKey"`
 	RequestTitle      string `json:"requestTitle"`
@@ -725,25 +698,6 @@ func quinnBALoadWikiPages(t *testing.T) quinnBAWikiPages {
 		t.Fatalf("parse wiki pages: %v", err)
 	}
 	return doc
-}
-
-func quinnBALoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(quinnBASeedPath(t))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
 }
 
 func quinnBASHA256Hex(b []byte) string {
@@ -878,171 +832,19 @@ func TestGenericQuinnBlindingAssaultWikiSidecarIdentityAndBoundary(t *testing.T)
 	}
 }
 
-// TestGenericQuinnBlindingAssaultBackendSeedAndREADMEIdentity locks Backend seed /
-// README contract after that separate run has materialized it.
-func TestGenericQuinnBlindingAssaultBackendSeedAndREADMEIdentity(t *testing.T) {
-	seed, sqlNoComments := quinnBALoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(quinnBAREADMEPath(t))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
+// TestGenericQuinnBlindingAssaultConstructedFixtureFormulaAndIdentity 核对历史数值边界在现有通用运行构造样例中的身份与公式。
+func TestGenericQuinnBlindingAssaultConstructedFixtureFormulaAndIdentity(t *testing.T) {
 
-	for _, want := range []string{
-		quinnBACandidateKey,
-		quinnBATaskKey,
-		quinnBAPlanRev,
-		quinnBARequestTitle,
-		quinnBAResolvedTitle,
-		"1308954",
-		"4024766",
-		quinnBATimestamp,
-		quinnBAContentSHA,
-		quinnBALocalRawSHA,
-		"1742",
-		quinnBABoundary,
-		quinnBAProviderRef,
-		quinnBAAbilityID,
-		quinnBAAbilityKey,
-		"blinding_assault_damage",
-		"q_mana_cost",
-		"q_cooldown_ms",
-		`{"op":"const","value":70}`,
-		`{"op":"const","value":9000}`,
-		quinnBASeedDamageJSON,
-		"NB-ZERO-EMITTED-EVENTS-SCOPE",
-		"local raw materialization caveat",
-		"normalized/generic/quinn-q.json",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
+	compileReq, _ := loadQuinnBAFixture(t, quinnBAFixtureOpts{
+		resolvedAD: quinnBAADResolvedDefault, ap: quinnBAAPDefault, mana: quinnBAFixtureManaCD,
+	})
+	assertQuinnBAProviderShape(t, compileReq, 1, true)
+	raw := quinnBAExpectedRawFromStats(quinnBAADResolvedDefault, quinnBAADBase, quinnBAAPDefault)
+	if math.Abs(raw-quinnBAExpectedRawDefault) > quinnBATol {
+		t.Fatalf("constructed fixture raw=%v want %v", raw, quinnBAExpectedRawDefault)
 	}
-	for _, tag := range quinnBAOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	// Order is asserted inside the dedicated "Ordered tags" block (boundary also
-	// embeds immediate_impact_scaffold earlier).
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range quinnBAOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_quinn_q_blinding_assault_primary_hit_impact",
-		"sequence_hero_quinn_q_blinding_assault_primary_hit_impact",
-		"step_hero_quinn_q_blinding_assault_primary_hit_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 {
-		t.Fatal("seed must define exactly one provider")
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 {
-		t.Fatal("seed must define exactly one ability phase")
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 {
-		t.Fatal("seed must define exactly one damage_effect_details")
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must mount exactly one Q provider")
-	}
-
-	if !regexp.MustCompile(`(?s)'ability_hero_quinn_q_blinding_assault_primary_hit'\s*,\s*` +
-		`'provider_hero_quinn_q_blinding_assault_primary_hit'\s*,\s*` +
-		`'blinding_assault_primary_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("Q must be active ability with stable key blinding_assault_primary_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_quinn_q_blinding_assault_primary_hit_damage'\s*,\s*` +
-		`'blinding_assault_damage'\s*,\s*20220\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be physical 20220 add policy copyable_on_hit=false")
-	}
-	if !strings.Contains(sqlNoComments, `"op":"add","args":[{"op":"add"`) {
-		t.Fatal("seed formula must use nested binary add (not three-arg add)")
-	}
-	if strings.Contains(sqlNoComments, `"op":"add","args":[{"op":"const","value":205},{"op":"mul"`) &&
-		!strings.Contains(sqlNoComments, `"op":"add","args":[{"op":"add"`) {
-		t.Fatal("seed must not use legacy three-argument add for damage")
-	}
-
-	for _, preserved := range []string{
-		quinnBABasicAttackProviderAlias,
-		quinnBAHSProviderAlias,
-	} {
-		if !strings.Contains(seed, preserved) {
-			t.Fatalf("seed must document coexistence / prerequisite for %q", preserved)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_quinn_basic_attack'`).MatchString(sqlNoComments) &&
-		regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.provider_definitions[\s\S]*'provider_hero_quinn_basic_attack'`).MatchString(sqlNoComments) {
-		t.Fatal("must not write/replace basic-attack provider identity rows")
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_quinn_heightened_senses'`).MatchString(sqlNoComments) &&
-		regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.provider_definitions[\s\S]*'provider_hero_quinn_heightened_senses'`).MatchString(sqlNoComments) {
-		t.Fatal("must not write/replace Heightened Senses provider identity rows")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners",
-		"provider_state_fields",
-		"state_effect_details",
-		"event_effect_details",
-		"modifier_effect_details",
-		"modifier_definitions",
-		"provider_modifiers",
-		"repeat_effect_details",
-		"control_effect_details",
-		"projectile_effect_details",
-		"aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	if regexp.MustCompile(`(?i)emit_event|basic_attack_hit`).MatchString(sqlNoComments) {
-		t.Fatal("executable seed must not model emit_event / basic_attack_hit")
-	}
-
-	for _, want := range []string{
-		quinnBACandidateKey,
-		quinnBATaskKey,
-		quinnBAPlanRev,
-		"lol_generic_quinn_blinding_assault_primary_hit_seed.sql",
-		"LolGenericQuinnBlindingAssaultPrimaryHitSeedSqlTest",
-		"lol_generic_quinn_heightened_senses_seed.sql",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "physical_205_plus_1_00_bonus_ad_plus_0_50_ap") &&
-		!strings.Contains(readme, quinnBABoundary) {
-		t.Fatal("README must include frozen boundary")
+	if mit := expectedMitigatedPhysical(raw, quinnBATargetArmor); math.Abs(mit-quinnBAExpectedMitDefault) > quinnBATol {
+		t.Fatalf("constructed fixture mitigated=%v want %v", mit, quinnBAExpectedMitDefault)
 	}
 }
 

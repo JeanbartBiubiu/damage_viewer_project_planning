@@ -7,7 +7,6 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"testing"
 
@@ -39,7 +38,7 @@ import (
 //	  f6465863035c4634510ecc96e9ee04f4a998d150871d88e498e6636e27a9d4da
 //	数据参考/lol-wiki-current-champions/normalized/generic/tristana-q.json
 //	pages/raw siblings: pages/tristana-q.json, raw/tristana-q.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql
 //	Local raw materialization caveat: 866 bytes / SHA256
 //	  db084b4142559f0775af841fe163e1b80880e2661b26b6d82fb26261e1f5d170.
 //	Serialization caveat only; assert sidecar/pages canonical identity + caveat;
@@ -109,9 +108,6 @@ const (
 	tristanaRFCastEvent   = "event/ability_started"
 	tristanaRFProbeKey    = "fixture_tristana_rapid_fire_as_probe"
 	tristanaRFProbeOpRef  = "op:fixture_tristana_rapid_fire_as_probe"
-
-	tristanaRFSeedBlobSHA  = "146a1c6ead2c42e76133da184860adc01d006cca33784b441001f93d60f8e09d"
-	tristanaRFJUnitBlobSHA = "fa2e8658b82dca7389d9b86a4f01c78bc90b284355bcd689dcbdc874f8e01d08"
 
 	tristanaRFManaCost   = 35.0
 	tristanaRFCDMs       = 16000.0
@@ -748,40 +744,13 @@ func tristanaRFRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func tristanaRFLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(tristanaRFRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func tristanaRFSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
 }
 
-func tristanaRFCountOccurrences(s, needle string) int {
-	return strings.Count(s, needle)
-}
-
-// TestGenericTristanaRapidFireWikiSidecarSeedGraphAndIdentity locks repository
-// sidecar/pages/raw identity, mirrored seed/JUnit hashes, exact seed graph
-// cardinality, collision guards, empty ability_id, matcher/type-relation,
-// formula, ordered tags/boundary, and exclusions.
-func TestGenericTristanaRapidFireWikiSidecarSeedGraphAndIdentity(t *testing.T) {
+// TestGenericTristanaRapidFireWikiSourceAndConstructedFixtureIdentity 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestGenericTristanaRapidFireWikiSourceAndConstructedFixtureIdentity(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -896,179 +865,7 @@ func TestGenericTristanaRapidFireWikiSidecarSeedGraphAndIdentity(t *testing.T) {
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := tristanaRFRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_tristana_rapid_fire_timed_bonus_attack_speed_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := tristanaRFSHA256Hex(seedBytes); got != tristanaRFSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, tristanaRFSeedBlobSHA)
-	}
-	junitPath := tristanaRFRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericTristanaRapidFireTimedBonusAttackSpeedSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := tristanaRFSHA256Hex(junitBytes); got != tristanaRFJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, tristanaRFJUnitBlobSHA)
-	}
-	_ = tristanaRFRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := tristanaRFLoadSeedSQL(t)
-	for _, want := range []string{
-		tristanaRFCandidateKey, tristanaRFTaskKey, tristanaRFPlanRev,
-		tristanaRFRequestTitle, tristanaRFResolvedTitle,
-		"1308522", "4026462", tristanaRFTimestamp, "872", "866",
-		tristanaRFContentSHA, tristanaRFLocalRawSHA,
-		tristanaRFBoundary, tristanaRFProviderRef, tristanaRFAbilityID, tristanaRFAbilityKey,
-		tristanaRFStableID, tristanaRFStateKey, tristanaRFASModKey,
-		"rapid_fire_active_arm", "q_mana_cost", "q_cooldown_ms",
-		`{"op":"const","value":35}`, `{"op":"const","value":16000}`, `{"op":"const","value":1}`,
-		`{"op":"mul","args":[{"op":"const","value":1.20},{"op":"read","path":"provider.state.rapid_fire_active"}]}`,
-		"local raw materialization caveat",
-		"normalized/generic/tristana-q.json",
-		"external existing-data", "check-only",
-		"无 materializer", "不物化",
-		"ability/tristana_rapid_fire", "62013",
-		"ability_id", "NULL",
-		"20205", "20212", "20190", "20173", "20172", "20160", "20250",
-		"missing game_entities hero_tristana",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_tristana/attack_speed",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_tristana/mana",
-		"missing reserved_type",
-		"AS0.60", "1.32", "t6999", "t7000", "mana105", "t15999", "t16000",
-		"readyAt16000", "mana34", "Buster Shot",
-		"1.20", "7000", "16000", "35",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range tristanaRFOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range tristanaRFOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_costs",
-		"INSERT INTO public.ability_cooldowns",
-		"INSERT INTO public.provider_state_fields",
-		"INSERT INTO public.provider_modifiers",
-		"INSERT INTO public.provider_listeners",
-		"INSERT INTO public.listener_match_types",
-		"INSERT INTO public.listener_effect_sequences",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.state_effect_details",
-		"INSERT INTO public.type_relations",
-		"INSERT INTO public.entity_provider_mounts",
-		"sequence_hero_tristana_q_rapid_fire_timed_bonus_attack_speed_arm",
-		"step_hero_tristana_q_rapid_fire_timed_bonus_attack_speed_active_arm",
-		"listener_hero_tristana_q_rapid_fire_timed_bonus_attack_speed_ability_started",
-		"modifier_hero_tristana_q_rapid_fire_timed_bonus_attack_speed",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	card := map[string]int{
-		"INSERT INTO public.provider_definitions":      1,
-		"INSERT INTO public.ability_definitions":       1,
-		"INSERT INTO public.ability_costs":             1,
-		"INSERT INTO public.ability_cooldowns":         1,
-		"INSERT INTO public.provider_state_fields":     1,
-		"INSERT INTO public.provider_modifiers":        1,
-		"INSERT INTO public.provider_listeners":        1,
-		"INSERT INTO public.effect_sequences":          1,
-		"INSERT INTO public.effect_steps":              1,
-		"INSERT INTO public.state_effect_details":      1,
-		"INSERT INTO public.type_relations":            1,
-		"INSERT INTO public.listener_effect_sequences": 1,
-		"INSERT INTO public.entity_provider_mounts":    1,
-	}
-	for needle, want := range card {
-		if got := tristanaRFCountOccurrences(sqlNoComments, needle); got != want {
-			t.Fatalf("%s count=%d want %d", needle, got, want)
-		}
-	}
-	if got := tristanaRFCountOccurrences(sqlNoComments,
-		"'listener_hero_tristana_q_rapid_fire_timed_bonus_attack_speed_ability_started', 20181,"); got != 3 {
-		t.Fatalf("ALL matchers=%d want exactly 3 {20205,20212,62013}", got)
-	}
-	if !regexp.MustCompile(`(?s)'listener_hero_tristana_q_rapid_fire_timed_bonus_attack_speed` +
-		`_ability_started'\s*,\s*` +
-		`'provider_hero_tristana_q_rapid_fire_timed_bonus_attack_speed'\s*,\s*` +
-		`'rapid_fire_on_ability_started'\s*,\s*20205\s*,\s*NULL`).MatchString(seed) {
-		t.Fatal("listener ability_id must be NULL")
-	}
-	if !regexp.MustCompile(`(?s)62013\s*,\s*'ability/tristana_rapid_fire'[\s\S]{0,400}NULL`).MatchString(seed) {
-		t.Fatal("62013 must bind ability/tristana_rapid_fire with reserved_type_id=NULL")
-	}
-	if !regexp.MustCompile(`(?i)type_id=62013 already bound`).MatchString(seed) ||
-		!regexp.MustCompile(`(?i)type_key=ability/tristana_rapid_fire already bound`).MatchString(seed) {
-		t.Fatal("seed must include bidirectional 62013 collision guards")
-	}
-	if regexp.MustCompile(`(?is)ability_kind_type_id\s*=\s*62013`).MatchString(sqlNoComments) {
-		t.Fatal("must not write 62013 into ability_kind_type_id")
-	}
-	if regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.ability_phases\b`).MatchString(sqlNoComments) {
-		t.Fatal("seed must not write ability_phases (zero Q damage scaffold)")
-	}
-	for _, table := range []string{
-		"damage_effect_details", "heal_effect_details", "shield_effect_details",
-		"control_effect_details", "repeat_effect_details", "event_effect_details",
-	} {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_tristana_[pwer]_|'ability_hero_tristana_[pwer]_|` +
-		`'provider_hero_tristana_basic_|'ability_hero_tristana_basic_|explosive_charge|buster_shot`).MatchString(sqlNoComments) {
-		t.Fatal("must not create/mutate P/W/E/R/basic/Explosive Charge/Buster Shot graph rows")
-	}
-	if !strings.Contains(seed, "不 claim") && !strings.Contains(seed, "不得把 runtime") {
-		t.Fatal("seed must not claim runtime refresh_policy itself is non-refresh")
-	}
-	if !strings.Contains(seed, "16000") || !(strings.Contains(seed, "正常路径无法") ||
-		strings.Contains(seed, "无法 refresh") || strings.Contains(seed, "non-refreshing")) {
-		t.Fatal("seed must document CD16000 > duration7000 normal non-refresh path")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadTristanaRFFixture(t, tristanaRFFixtureManaCast)
 	assertTristanaRFProviderShape(t, compileReq, 1)

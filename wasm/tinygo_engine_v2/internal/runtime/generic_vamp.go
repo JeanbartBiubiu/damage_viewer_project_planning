@@ -61,6 +61,8 @@ func (f *executionFrame) settleDamageVamp(cmd command.Command, op compilebundle.
 	ctx := f.evalContext(ability)
 	ctx.StrictReads = true
 	ctx.HasDamageContext = true
+	ctx.HasDamageParticipants = true
+	ctx.DamageSelf = cmd.Source == cmd.Target
 	ctx.DamageAmount = outcome.MitigatedAmount
 	ctx.DamageTypeKey = cmd.DamageType
 	ctx.DamageTraits = op.Types

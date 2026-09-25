@@ -35,7 +35,7 @@ import (
 //	  b1ea7bc7a2e48be9ab97acfa1fc5addb80b8dd236dc97bd3d57c5e90951418c5
 //	数据参考/lol-wiki-current-champions/normalized/generic/lucian-w.json
 //	pages/raw siblings: pages/lucian-w.json, raw/lucian-w.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_lucian_ardent_blaze_primary_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_lucian_ardent_blaze_primary_hit_seed.sql
 //	Local raw materialization caveat: also 2542 bytes / SHA256
 //	  a57b0e49765ab5a9bdd30ad295d24e406a90015b083c8a0e817855c6bc152236.
 //	Same-size caveat; assert sidecar/pages canonical identity + caveat; do not claim
@@ -93,9 +93,6 @@ const (
 	lucianABAbilityKey  = "ardent_blaze_primary_hit"
 	lucianABDamageOpRef = "op:lucian_ardent_blaze_primary_hit_damage"
 
-	lucianABSeedBlobSHA  = "E9F8F30AB7055300C038FC1AE25460E430A943FB9D2CB4C19F0BA5B489573942"
-	lucianABJUnitBlobSHA = "8F5CA7AB895F75D42B1583E18D3745EA25E566BC7E545780FE01375CD0E95466"
-
 	lucianABBaseDamage = 215.0
 	lucianABAPRatio    = 0.90
 	lucianABManaCost   = 60.0
@@ -111,10 +108,6 @@ const (
 	lucianABExpectedMitDefault = 152.5 // MR100
 	lucianABManaAfter2         = 60.0  // 180 - 60 - 60
 	lucianABHPAfter2           = 695.0 // 1000 - 152.5 - 152.5
-
-	lucianABSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":215},` +
-		`{"op":"mul","args":[{"op":"const","value":0.90},` +
-		`{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	lucianABTol = 1e-9
 )
@@ -568,26 +561,6 @@ func lucianABRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func lucianABLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(lucianABRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_lucian_ardent_blaze_primary_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func lucianABSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -633,11 +606,8 @@ func lucianABAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMi
 	}
 }
 
-// TestLucianArdentBlazePrimaryHitSourceSeedProviderFormulaShape locks wiki/sidecar/
-// pages/local-raw same-size caveat, seed/README/JUnit identities and source blob
-// hashes, external-existing-data check-only prerequisites / non-materialization,
-// ordered tags, type-policy evidence, and W provider/AP formula shape (AP once).
-func TestLucianArdentBlazePrimaryHitSourceSeedProviderFormulaShape(t *testing.T) {
+// TestLucianArdentBlazePrimaryHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestLucianArdentBlazePrimaryHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -769,173 +739,7 @@ func TestLucianArdentBlazePrimaryHitSourceSeedProviderFormulaShape(t *testing.T)
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := lucianABRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_lucian_ardent_blaze_primary_hit_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := lucianABSHA256HexUpper(seedBytes); got != lucianABSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, lucianABSeedBlobSHA)
-	}
-	junitPath := lucianABRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericLucianArdentBlazePrimaryHitSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := lucianABSHA256HexUpper(junitBytes); got != lucianABJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, lucianABJUnitBlobSHA)
-	}
-	_ = lucianABRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := lucianABLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(lucianABRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		lucianABCandidateKey, lucianABTaskKey, lucianABPlanRev,
-		lucianABRequestTitle, lucianABResolvedTitle,
-		"1308178", "3594941", lucianABTimestamp, "2542",
-		lucianABContentSHA, lucianABLocalRawSHA,
-		lucianABBoundary, lucianABProviderRef, lucianABAbilityID, lucianABAbilityKey,
-		"ardent_blaze_primary_hit_damage", "w_mana_cost", "w_cooldown_ms",
-		`{"op":"const","value":60}`, `{"op":"const","value":10000}`,
-		lucianABSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/lucian-w.json",
-		"external existing-data", "check-only",
-		"无 materializer", "不物化",
-		"source.attr.ap.resolved",
-		"ability_started",
-		"20221", "20170",
-		"Piercing Light",
-		"不要求 Lucian Q publication",
-		"missing game_entities hero_lucian",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_lucian/ap",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_lucian/mana",
-		"missing reserved_type",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range lucianABOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range lucianABOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ap.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ap.resolved exactly once")
-	}
-	if strings.Contains(sqlNoComments, `"path":"source.attr.ap.base"`) {
-		t.Fatal("executable SQL must not invent ap.base reads")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_lucian_w_ardent_blaze_primary_hit_impact",
-		"sequence_hero_lucian_w_ardent_blaze_primary_hit_impact",
-		"step_hero_lucian_w_ardent_blaze_primary_hit_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_lucian_w_ardent_blaze_primary_hit'\s*,\s*` +
-		`'provider_hero_lucian_w_ardent_blaze_primary_hit'\s*,\s*` +
-		`'ardent_blaze_primary_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("W must be active ability with stable key ardent_blaze_primary_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_lucian_w_ardent_blaze_primary_hit_damage'\s*,\s*` +
-		`'ardent_blaze_primary_hit_damage'\s*,\s*20221\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be magic 20221 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_lucian_[pqer]_|'ability_hero_lucian_[pqer]_|` +
-		`'provider_hero_lucian_basic_|'ability_hero_lucian_basic_`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/Q/E/R/basic graph rows")
-	}
-
-	for _, want := range []string{
-		lucianABCandidateKey, lucianABTaskKey, lucianABPlanRev,
-		"lol_generic_lucian_ardent_blaze_primary_hit_seed.sql",
-		"LolGenericLucianArdentBlazePrimaryHitSeedSqlTest",
-		"external existing-data",
-		"magic_215_plus_0_90_ap",
-		"Piercing Light",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦无 seed") {
-		t.Fatal("README must document no repository materializer for Lucian identity/panel/resource")
-	}
-	if strings.Contains(readme, "op:lucian_ardent_blaze_primary_hit_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadLucianABFixture(t, lucianABFixtureOpts{
 		resolvedAP: lucianABFixtureAPDefault, mr: lucianABTargetMR, mana: lucianABFixtureManaCD,

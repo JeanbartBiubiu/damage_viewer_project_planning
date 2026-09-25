@@ -38,7 +38,7 @@ import (
 //	pages/raw siblings: pages/samira-q.json (bytes 666 / SHA256
 //	  c572e9baffa2c4ec196fe5a410c3ca89ddfc717e63be43be6428626ef7e93976),
 //	  raw/samira-q.wikitext
-//	Backend seed (cross-worktree absolute path; committed Backend c89841a):
+//	已删除历史种子（原跨工作树路径； committed Backend c89841a):
 //	  C:/project/damage_backend_dev/db/game_manage/seeds/
 //	  lol_generic_samira_flair_max_distance_primary_hit_seed.sql
 //	Local raw materialization caveat: 3596 bytes / SHA256
@@ -97,9 +97,6 @@ const (
 		"no_distance_range_direction_projectile_collision_melee_slash_wild_rush_e_explosives_crit_" +
 		"expected_crit_rng_150_percent_lifesteal_style_multitarget_other_ranks_or_full_fidelity"
 
-	// Cross-worktree Backend evidence root (committed Backend slice c89841a).
-	samiraFlairBackendRoot = "C:/project/damage_backend_dev"
-
 	samiraFlairProviderRef = "provider_hero_samira_q_flair_max_distance_primary_hit"
 	samiraFlairStableID    = "hero_samira_q_flair_max_distance_primary_hit"
 	samiraFlairAbilityID   = "ability_hero_samira_q_flair_max_distance_primary_hit"
@@ -126,10 +123,6 @@ const (
 	samiraFlairManaAfter2         = 240.0 // 300 - 30 - 30
 	samiraFlairHPAfter1           = 935.0 // 1000 - 65
 	samiraFlairHPAfter2           = 870.0 // 1000 - 65 - 65
-
-	samiraFlairSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":20},` +
-		`{"op":"mul","args":[{"op":"const","value":1.10},` +
-		`{"op":"read","path":"source.attr.ad.resolved"}]}]}`
 
 	samiraFlairTol = 1e-9
 )
@@ -554,36 +547,6 @@ func samiraFlairWasmRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-// samiraFlairBackendPath reads committed Backend evidence by absolute cross-worktree path.
-func samiraFlairBackendPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{filepath.FromSlash(samiraFlairBackendRoot)}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing backend path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func samiraFlairLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(samiraFlairBackendPath(t,
-		"db", "game_manage", "seeds", "lol_generic_samira_flair_max_distance_primary_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func samiraFlairSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -622,17 +585,15 @@ func samiraFlairAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wan
 	}
 }
 
-// TestSamiraFlairSourceSeedProviderFormulaShape locks wiki/sidecar/pages/local-raw
-// caveat, Backend seed/README/JUnit identities (absolute cross-worktree path),
-// external-existing-data wording, and Q provider/total-AD formula shape.
-func TestSamiraFlairSourceSeedProviderFormulaShape(t *testing.T) {
+// TestSamiraFlairWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestSamiraFlairWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
 		WikiPageID, RevisionID, RawByteSize                      int
 		Fields                                                   struct {
 			Description, Leveling, Description2, Description3, Description4 string
-			Cooldown, Cost, Costtype, Damagetype, Notes                       string
+			Cooldown, Cost, Costtype, Damagetype, Notes                     string
 		}
 		FieldPresence map[string]bool
 	}
@@ -744,179 +705,7 @@ func TestSamiraFlairSourceSeedProviderFormulaShape(t *testing.T) {
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seed, sqlNoComments := samiraFlairLoadSeedSQL(t)
-	_ = samiraFlairBackendPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericSamiraFlairMaxDistancePrimaryHitSeedSqlTest.java")
-	readmeBytes, err := os.ReadFile(samiraFlairBackendPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		samiraFlairCandidateKey, samiraFlairTaskKey, samiraFlairPlanRev,
-		samiraFlairRequestTitle, samiraFlairResolvedTitle,
-		"1459315", "4008027", samiraFlairTimestamp, "3596", "666",
-		samiraFlairContentSHA, samiraFlairNormalizedSHA, samiraFlairPagesSHA, samiraFlairLocalRawSHA,
-		samiraFlairBoundary, samiraFlairProviderRef, samiraFlairAbilityID, samiraFlairAbilityKey,
-		"flair_max_distance_primary_hit_damage", "q_mana_cost", "q_cooldown_ms",
-		`{"op":"const","value":30}`, `{"op":"const","value":2000}`,
-		samiraFlairSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/samira-q.json",
-		"external existing-data", "check-only",
-		"不物化",
-		"total AD", "source.attr.ad.resolved",
-		"ability_started",
-		"Maximum-distance", "no distance multiplier",
-		"crit_eligible=false", "copyable_on_hit=false",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range samiraFlairOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range samiraFlairOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if !strings.Contains(ordSection, "不包含 total_ad_ratio") &&
-		!strings.Contains(ordSection, "显式不包含 total_ad_ratio") &&
-		!strings.Contains(ordSection, "禁止该 governed tag") {
-		t.Fatal("ordered tags section must explicitly exclude governed tag total_ad_ratio")
-	}
-	if regexp.MustCompile(`(?is)\d+\.\s*total_ad_ratio`).MatchString(ordSection) {
-		t.Fatal("ordered tags numbered list must not include governed tag total_ad_ratio")
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Contains(sqlNoComments, "source.attr.ad.base") {
-		t.Fatal("executable SQL must not read ad.base (total AD, not bonus AD)")
-	}
-	if regexp.MustCompile(`(?i)bonus\s*AD|bonus_ad`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not claim bonus AD")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_costs",
-		"INSERT INTO public.ability_cooldowns",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.ability_phase_effect_sequences",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_samira_q_flair_max_distance_primary_hit_impact",
-		"sequence_hero_samira_q_flair_max_distance_primary_hit_impact",
-		"step_hero_samira_q_flair_max_distance_primary_hit_damage",
-		"cost_hero_samira_q_flair_max_distance_primary_hit_mana",
-		"cooldown_hero_samira_q_flair_max_distance_primary_hit",
-		"missing game_entities hero_samira",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_samira/ad",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_samira/mana",
-	} {
-		if !strings.Contains(sqlNoComments, needle) && !strings.Contains(seed, needle) {
-			t.Fatalf("seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_samira_q_flair_max_distance_primary_hit'\s*,\s*` +
-		`'provider_hero_samira_q_flair_max_distance_primary_hit'\s*,\s*` +
-		`'flair_max_distance_primary_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("Q must be active ability with stable key flair_max_distance_primary_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_samira_q_flair_max_distance_primary_hit_damage'\s*,\s*` +
-		`'flair_max_distance_primary_hit_damage'\s*,\s*20220\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be physical 20220 add policy copyable_on_hit=false")
-	}
-	if !regexp.MustCompile(`(?s)'cost_hero_samira_q_flair_max_distance_primary_hit_mana'\s*,\s*` +
-		`'ability_hero_samira_q_flair_max_distance_primary_hit'\s*,\s*` +
-		`NULL\s*,\s*'mana'\s*,\s*'q_mana_cost'\s*,\s*false`).MatchString(seed) {
-		t.Fatal("Q mana cost must be ability-level 30 via ability_costs")
-	}
-	if !regexp.MustCompile(`(?s)'cooldown_hero_samira_q_flair_max_distance_primary_hit'\s*,\s*` +
-		`'ability_hero_samira_q_flair_max_distance_primary_hit'\s*,\s*` +
-		`'q_cooldown_ms'\s*,\s*NULL`).MatchString(seed) {
-		t.Fatal("Q cooldown must be 2000ms via ability_cooldowns")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_samira_[pwer]_|'ability_hero_samira_[pwer]_|` +
-		`'provider_hero_samira_basic_|'ability_hero_samira_basic_`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/W/E/R/basic graph rows")
-	}
-	if regexp.MustCompile(`(?is)\b62\d{3}\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not introduce game-local ability-specific 62xxx types")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not use provider_action/apply 20230")
-	}
-
-	for _, want := range []string{
-		samiraFlairCandidateKey, samiraFlairTaskKey, samiraFlairPlanRev,
-		"lol_generic_samira_flair_max_distance_primary_hit_seed.sql",
-		"LolGenericSamiraFlairMaxDistancePrimaryHitSeedSqlTest",
-		"external existing-data",
-		"physical_20_plus_1_10_total_ad",
-		"1459315", "4008027", samiraFlairContentSHA,
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦无 seed") {
-		t.Fatal("README must document no repository materializer for Samira identity/panel/resource")
-	}
-	if strings.Contains(readme, "fixture_samira_flair_max_distance_primary_hit_total_ad") {
-		t.Fatal("README must not claim fixture-only AD modifier as production Q behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadSamiraFlairFixture(t, samiraFlairFixtureOpts{
 		baseAD: samiraFlairADBaseDefault, resolvedAD: samiraFlairADResolvedDefault,
