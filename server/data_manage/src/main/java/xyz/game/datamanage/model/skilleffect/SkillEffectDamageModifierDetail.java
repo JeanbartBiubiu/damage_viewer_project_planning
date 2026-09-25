@@ -16,6 +16,7 @@ public record SkillEffectDamageModifierDetail(
     SkillEffectDamageFilterDeliveryKind deliveryKind,
     SkillEffectDamageFilterOriginKind originKind,
     SkillEffectCriticalFilter criticalFilter,
+    JsonNode condition,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillEffectResultDetail {
@@ -23,6 +24,7 @@ public record SkillEffectDamageModifierDetail(
     public SkillEffectDamageModifierDetail {
         modifierZoneKey = modifierZoneKey == null ? null : modifierZoneKey.trim();
         damageTypeKey = damageTypeKey == null ? null : damageTypeKey.trim();
+        condition = condition == null || condition.isNull() ? null : condition;
         foreignFields = SkillEffectDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillEffectDetailFieldCapture.normalize(unknownFields);
     }
@@ -35,7 +37,7 @@ public record SkillEffectDamageModifierDetail(
         SkillEffectDamageFilterOriginKind originKind,
         SkillEffectCriticalFilter criticalFilter
     ) {
-        this(null, direction, operation, damageTypeKey, deliveryKind, originKind, criticalFilter, Set.of(), Set.of());
+        this(null, direction, operation, damageTypeKey, deliveryKind, originKind, criticalFilter, null, Set.of(), Set.of());
     }
 
     public SkillEffectDamageModifierDetail(
@@ -47,7 +49,20 @@ public record SkillEffectDamageModifierDetail(
         SkillEffectDamageFilterOriginKind originKind,
         SkillEffectCriticalFilter criticalFilter
     ) {
-        this(modifierZoneKey, direction, operation, damageTypeKey, deliveryKind, originKind, criticalFilter, Set.of(), Set.of());
+        this(modifierZoneKey, direction, operation, damageTypeKey, deliveryKind, originKind, criticalFilter, null, Set.of(), Set.of());
+    }
+
+    public SkillEffectDamageModifierDetail(
+        String modifierZoneKey,
+        SkillEffectDamageModifierDirection direction,
+        SkillEffectModifierOperation operation,
+        String damageTypeKey,
+        SkillEffectDamageFilterDeliveryKind deliveryKind,
+        SkillEffectDamageFilterOriginKind originKind,
+        SkillEffectCriticalFilter criticalFilter,
+        JsonNode condition
+    ) {
+        this(modifierZoneKey, direction, operation, damageTypeKey, deliveryKind, originKind, criticalFilter, condition, Set.of(), Set.of());
     }
 
     @JsonCreator
@@ -59,6 +74,7 @@ public record SkillEffectDamageModifierDetail(
         @JsonProperty("deliveryKind") SkillEffectDamageFilterDeliveryKind deliveryKind,
         @JsonProperty("originKind") SkillEffectDamageFilterOriginKind originKind,
         @JsonProperty("criticalFilter") SkillEffectCriticalFilter criticalFilter,
+        @JsonProperty("condition") JsonNode condition,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillEffectDamageModifierDetail(
@@ -69,6 +85,7 @@ public record SkillEffectDamageModifierDetail(
             deliveryKind,
             originKind,
             criticalFilter,
+            condition,
             Set.of(),
             SkillEffectDetailFieldCapture.captureUnknown(unknown)
         );

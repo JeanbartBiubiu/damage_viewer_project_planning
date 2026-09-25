@@ -291,6 +291,28 @@ class SkillObjectReferencesTest {
             new Target(TargetType.LIFECYCLE, "s1", "own", ""))), refs);
     }
 
+    @Test
+    void damageModifierConditionIndexesAttributeAndThresholdDependencies() {
+        Aggregate effect = aggregate(SourceType.EFFECT, "s1", "modifier", """
+            {"results":[{"resultKey":"mod","resultType":"DAMAGE_MODIFIER",
+              "detail":{"modifierZoneKey":"zone","condition":{"receiver":"ENEMY_CHAMPION",
+                "attributeKey":"hp","attributeValueKind":"CURRENT_RATIO","comparator":"LT",
+                "comparisonValue":{"kind":"PARAMETER","parameterKey":"threshold"}}}}]}
+            """);
+        Target zone = new Target(TargetType.MODIFIER_ZONE, "", "zone", "");
+        Target hp = new Target(TargetType.ATTRIBUTE, "", "hp", "");
+        Target threshold = new Target(TargetType.PARAMETER, "s1", "threshold", "");
+        List<Reference> refs = SkillObjectReferences.extractAndValidate("lol", List.of(effect),
+            Set.of(zone, hp, threshold));
+        assertReference(refs, SourceType.EFFECT, "modifier", "results[0].detail.condition.attributeKey",
+            TargetType.ATTRIBUTE, "", "hp", "");
+        assertReference(refs, SourceType.EFFECT, "modifier", "results[0].detail.condition.comparisonValue.parameterKey",
+            TargetType.PARAMETER, "s1", "threshold", "");
+        ApiException removed = assertThrows(ApiException.class,
+            () -> SkillObjectReferences.extractAndValidate("lol", List.of(effect), Set.of(zone, hp)));
+        assertEquals("409.SKILL_OBJECT_REFERENCE_INVALID", removed.getCode());
+    }
+
     private static List<Aggregate> fixture() {
         List<Aggregate> result = new ArrayList<>();
         result.add(aggregate(SourceType.FORMULA, "s1", "f", """
