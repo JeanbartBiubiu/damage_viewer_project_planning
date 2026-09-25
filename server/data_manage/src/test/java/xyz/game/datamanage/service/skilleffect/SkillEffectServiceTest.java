@@ -38,6 +38,7 @@ import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
 import xyz.game.datamanage.mapper.skilleffect.SkillEffectMapper;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneCalculationMode;
+import xyz.game.datamanage.model.modifierzone.ModifierZoneApplicationStage;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
 import xyz.game.datamanage.model.skill.SkillRow;
@@ -879,6 +880,92 @@ class SkillEffectServiceTest {
         assertInstanceOf(SkillEffectDamageImmunityDetail.class, detail.results().get(2).detail());
         assertInstanceOf(SkillEffectHealthFloorDetail.class, detail.results().get(3).detail());
         assertNull(detail.results().get(2).valueRule());
+    }
+
+    @Test
+    void damageModifierConditionRoundTripsThroughAggregate() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow(DAMAGE_ZONE_KEY, ModifierZoneDomain.DAMAGE,
+                ModifierZoneCalculationMode.RATIO_ADD, ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE,
+                ModifierZoneStatus.ENABLED)));
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        var condition = AggregateJson.tree("""
+            {"receiver":"ENEMY_CHAMPION","attributeKey":"hp","attributeValueKind":"CURRENT_RATIO",
+             "comparator":"LT","comparisonValue":{"kind":"FIXED","value":0.4}}
+            """);
+        SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+            EFFECT_KEY, "致命一击", null, 0, timedLifecycle(), List.of(conditionedModifier(condition,
+                SkillEffectTarget.SOURCE, SkillEffectDamageModifierDirection.DEALT))));
+        var savedCondition = ((SkillEffectDamageModifierDetail) saved.results().getFirst().detail()).condition();
+        assertEquals("hp", savedCondition.path("attributeKey").asText());
+        assertEquals(0, savedCondition.path("comparisonValue").path("value").decimalValue()
+            .compareTo(new BigDecimal("0.4")));
+        assertEquals(savedCondition, ((SkillEffectDamageModifierDetail)
+            SkillEffectAggregate.readResults(savedEffect.results()).getFirst().detail()).condition());
+    }
+
+    @Test
+    void unconditionedDamageModifierKeepsTargetTakenAndPostDefenseZone() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow(DAMAGE_ZONE_KEY, ModifierZoneDomain.DAMAGE,
+                ModifierZoneCalculationMode.RATIO_ADD, ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE,
+                ModifierZoneStatus.ENABLED)));
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
+            EFFECT_KEY, "无条件受伤修正", null, 0, timedLifecycle(), List.of(
+                conditionedModifier(null, SkillEffectTarget.TARGET, SkillEffectDamageModifierDirection.TAKEN))));
+        var detail = (SkillEffectDamageModifierDetail) saved.results().getFirst().detail();
+        assertNull(detail.condition());
+        assertEquals(SkillEffectDamageFilterDeliveryKind.ANY, detail.deliveryKind());
+        assertEquals(SkillEffectDamageFilterOriginKind.DIRECT, detail.originKind());
+    }
+
+    @Test
+    void damageModifierConditionRejectsUnknownFieldWrongScopeAndStage() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.lockModifierZones(eq(GAME_ID), anyCollection())).thenReturn(List.of(
+            new SkillEffectModifierZoneLockRow(DAMAGE_ZONE_KEY, ModifierZoneDomain.DAMAGE,
+                ModifierZoneCalculationMode.RATIO_ADD, ModifierZoneApplicationStage.DAMAGE_POST_DEFENSE,
+                ModifierZoneStatus.ENABLED)));
+        var malformed = AggregateJson.tree("""
+            {"receiver":"ENEMY_CHAMPION","attributeKey":"hp","attributeValueKind":"CURRENT_RATIO",
+             "comparator":"LT","comparisonValue":{"kind":"FIXED","value":0.4},"unknown":true}
+            """);
+        ApiException shape = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "门槛", null, 0, timedLifecycle(), List.of(
+                conditionedModifier(malformed, SkillEffectTarget.TARGET, SkillEffectDamageModifierDirection.TAKEN)))));
+        assertField(shape, "results[0].detail.condition.unknown", "UNKNOWN_FIELD");
+        assertField(shape, "results[0].target", "CONDITION_TARGET_UNSUPPORTED");
+        assertField(shape, "results[0].detail.direction", "CONDITION_DIRECTION_UNSUPPORTED");
+
+        ApiException nested = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "门槛", null, 0, timedLifecycle(), List.of(
+                conditionedModifier(AggregateJson.tree("""
+                    {"receiver":"ENEMY_CHAMPION","attributeKey":"hp","attributeValueKind":"CURRENT_RATIO",
+                     "comparator":"LTE","comparisonValue":{"kind":"FIXED","value":0.4,"extra":true}}
+                    """), SkillEffectTarget.SOURCE, SkillEffectDamageModifierDirection.DEALT)))));
+        assertField(nested, "results[0].detail.condition.comparator", "INVALID_VALUE");
+        assertField(nested, "results[0].detail.condition.comparisonValue", "VALUE_SHAPE_INVALID");
+
+        ApiException notObject = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "门槛", null, 0, timedLifecycle(), List.of(
+                conditionedModifier(AggregateJson.tree("[]"), SkillEffectTarget.SOURCE,
+                    SkillEffectDamageModifierDirection.DEALT)))));
+        assertField(notObject, "results[0].detail.condition", "TYPE_MISMATCH");
+
+        var valid = AggregateJson.tree("""
+            {"receiver":"ENEMY_CHAMPION","attributeKey":"hp","attributeValueKind":"CURRENT_RATIO",
+             "comparator":"GT","comparisonValue":{"kind":"FIXED","value":0.6}}
+            """);
+        ApiException stage = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "门槛", null, 0, timedLifecycle(), List.of(
+                conditionedModifier(valid, SkillEffectTarget.SOURCE, SkillEffectDamageModifierDirection.DEALT)))));
+        assertField(stage, "results[0].detail.modifierZoneKey", "MODIFIER_ZONE_STAGE_INVALID");
     }
 
     @Test
@@ -3488,6 +3575,17 @@ class SkillEffectServiceTest {
             source.resultKey(), source.name(), source.resultType(), SkillEffectTarget.TARGET,
             source.description(), source.sortOrder(), source.valueRule(), source.detail(), source.lifecycleBehavior(), scope
         );
+    }
+
+    private static SkillEffectResultRequest conditionedModifier(com.fasterxml.jackson.databind.JsonNode condition,
+        SkillEffectTarget target, SkillEffectDamageModifierDirection direction) {
+        SkillEffectResultRequest source = persistentDamageModifierResult();
+        SkillEffectDamageModifierDetail detail = (SkillEffectDamageModifierDetail) source.detail();
+        return new SkillEffectResultRequest(source.resultKey(), source.name(), source.resultType(), target,
+            source.description(), source.sortOrder(), source.valueRule(),
+            new SkillEffectDamageModifierDetail(detail.modifierZoneKey(), direction, detail.operation(),
+                detail.damageTypeKey(), detail.deliveryKind(), detail.originKind(), detail.criticalFilter(), condition),
+            source.lifecycleBehavior());
     }
 
     private static SkillEffectResultRequest persistentDamageModifierResult() {

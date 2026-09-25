@@ -31,6 +31,27 @@ import xyz.game.datamanage.support.error.ApiException;
 
 class CharacterAuthoringCheckServiceTest {
     @Test
+    void damageModifierConditionShowsStructuralIssueAndIndexedReferenceLocation() {
+        String raw = """
+            {"lifecycle":{},"results":[{"resultKey":"modifier","name":"逐笔修正","sortOrder":0,
+              "resultType":"DAMAGE_MODIFIER","target":"SOURCE","detail":{
+                "modifierZoneKey":"zone","direction":"DEALT","condition":{
+                  "receiver":"ENEMY_CHAMPION","attributeKey":"hp","attributeValueKind":"CURRENT_RATIO",
+                  "comparisonValue":{"kind":"FIXED","value":0.4}}}}]}
+            """;
+        when(checks.listObjects("lol", "hero")).thenReturn(List.of(new ObjectRow("skill", "EFFECT", "modifier", "修正", 0, raw)));
+        when(checks.listReferences("lol", "hero")).thenReturn(List.of(new ReferenceRow("skill", "EFFECT", "modifier",
+            "results[0].detail.condition.attributeKey", "ATTRIBUTE", "", "hp", "", true)));
+        var response = check();
+        assertTrue(response.issues().stream().anyMatch(issue ->
+            issue.fieldPath().equals("results[0].detail.condition.comparator")
+                && issue.location().degradeReason().equals("UNKNOWN_FIELD")));
+        assertEquals("FIELD", response.references().getFirst().location().precision());
+        assertEquals(new AuthoringCheckLocation.AuthoringCheckLocationSegment.KeyedChild("results", "resultKey", "modifier"),
+            response.references().getFirst().location().segments().getFirst());
+    }
+
+    @Test
     void stableLocationsUseThisReportsRawOrderAndPreserveFindings() {
         String raw = """
             {"lifecycle":null,"results":[
@@ -187,6 +208,64 @@ class CharacterAuthoringCheckServiceTest {
         assertEquals("conditionGroups[0].conditions[0].detail.effectKey", response.issues().getFirst().fieldPath());
         assertEquals(type, response.references().getFirst().targetType());
         assertEquals("child", response.references().getFirst().targetSubKey());
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void lifecycleOnlyMarkerKeepsReferenceAndUnconnectedChecks(boolean parameterExists) {
+        when(checks.listObjects("lol", "hero")).thenReturn(List.of(
+            new ObjectRow("skill", "EFFECT", "recent_damage_mark", "最近伤害资格标记", 50, markerJson("[]")),
+            effect("ordinary_heal")));
+        when(checks.listReferences("lol", "hero")).thenReturn(List.of(new ReferenceRow(
+            "skill", "EFFECT", "recent_damage_mark", "lifecycle.durationValue.parameterKey",
+            "PARAMETER", "skill", "recent_damage_ms", "", parameterExists)));
+        var response = check();
+        assertEquals(parameterExists ? "NO_ERRORS" : "HAS_ERRORS", response.conclusions().structure());
+        assertTrue(response.issues().stream().noneMatch(issue -> issue.code().equals("BASIC_FIELD_INVALID")));
+        assertEquals(parameterExists ? 0 : 1, response.summary().errorCount());
+        assertTrue(response.issues().stream().anyMatch(issue -> issue.objectKey().equals("recent_damage_mark")
+            && issue.code().equals("EFFECT_NOT_CONNECTED") && issue.severity().equals("REVIEW")));
+        var reference = response.references().getFirst();
+        assertEquals("recent_damage_ms", reference.targetKey());
+        assertEquals("lifecycle.durationValue.parameterKey", reference.fieldPath());
+        assertEquals("FIELD", reference.location().precision());
+        assertEquals("NOT_CHECKED", response.conclusions().mechanics());
+        assertEquals("NOT_RUN", response.conclusions().runtime());
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @ValueSource(strings = {"null", "{}", "false"})
+    void lifecycleDoesNotMakeMissingOrNonArrayResultsValid(String results) {
+        when(checks.listObjects("lol", "hero")).thenReturn(List.of(
+            new ObjectRow("skill", "EFFECT", "mark", "标记", 0, markerJson(results))));
+        var response = check();
+        assertEquals("HAS_ERRORS", response.conclusions().structure());
+        assertTrue(response.issues().stream().anyMatch(issue -> issue.code().equals("BASIC_FIELD_INVALID")
+            && issue.fieldPath().equals("results")));
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @ValueSource(strings = {"null", "[]", "false", "\"invalid\""})
+    void zeroResultsStillNeedAnObjectLifecycle(String lifecycle) {
+        String json = lifecycle == null ? "{\"results\":[]}"
+            : "{\"results\":[],\"lifecycle\":" + lifecycle + "}";
+        when(checks.listObjects("lol", "hero")).thenReturn(List.of(new ObjectRow("skill", "EFFECT", "mark", "标记", 0, json)));
+        assertEquals("HAS_ERRORS", check().conclusions().structure());
+    }
+
+    private static String markerJson(String results) {
+        return "{" + (results == null ? "" : "\"results\":" + results + ",") + """
+            "lifecycle": {
+              "durationValue": {"kind":"PARAMETER","parameterKey":"recent_damage_ms"},
+              "maxStacksValue": {"kind":"FIXED","value":1},
+              "applicationStacksValue": {"kind":"FIXED","value":1},
+              "instanceScope":"SOURCE_TARGET","reapplicationStackMode":"KEEP",
+              "reapplicationDurationMode":"REFRESH_ALL","expiryMode":"ALL_AT_ONCE",
+              "periodicIntervalValue":null,"firstPeriodicExecution":null
+            }}
+            """;
     }
 
     @ParameterizedTest

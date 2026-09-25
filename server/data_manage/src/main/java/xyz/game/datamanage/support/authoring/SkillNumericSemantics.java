@@ -2,6 +2,7 @@ package xyz.game.datamanage.support.authoring;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -38,10 +39,15 @@ public final class SkillNumericSemantics {
                 AggregateJson.tree((String) row.get("level_values"))));
         }
         Map<String, String> zoneModes = new LinkedHashMap<>();
+        Map<String, String> zoneDomains = new LinkedHashMap<>();
+        Map<String, String> zoneStages = new LinkedHashMap<>();
         for (Map<String, Object> row : jdbc.queryForList(HealingRatioMaxSemantics.ZONES_SQL, gameId)) {
-            zoneModes.put((String) row.get("modifier_zone_key"), (String) row.get("calculation_mode"));
+            String key = (String) row.get("modifier_zone_key");
+            zoneModes.put(key, (String) row.get("calculation_mode"));
+            zoneDomains.put(key, (String) row.get("domain"));
+            zoneStages.put(key, (String) row.get("application_stage"));
         }
-        validate(aggregates, parameters, zoneModes);
+        validate(aggregates, parameters, zoneModes, zoneDomains, zoneStages);
     }
 
     public static void validate(List<Aggregate> aggregates, List<Parameter> parameters) {
@@ -49,7 +55,12 @@ public final class SkillNumericSemantics {
     }
 
     public static void validate(List<Aggregate> aggregates, List<Parameter> parameters, Map<String, String> zoneModes) {
-        Context context = new Context(aggregates, parameters, zoneModes);
+        validate(aggregates, parameters, zoneModes, Map.of(), Map.of());
+    }
+
+    public static void validate(List<Aggregate> aggregates, List<Parameter> parameters, Map<String, String> zoneModes,
+                                Map<String, String> zoneDomains, Map<String, String> zoneStages) {
+        Context context = new Context(aggregates, parameters, zoneModes, zoneDomains, zoneStages);
         for (Aggregate aggregate : aggregates) context.collect(aggregate);
         for (Aggregate aggregate : aggregates) if (aggregate.type() == SourceType.TRIGGER) context.bindings(aggregate);
     }
@@ -60,17 +71,64 @@ public final class SkillNumericSemantics {
     private record Id(String skill, SourceType type, String key) {}
     private record Use(Aggregate source, String path, SkillNumericValue value) {}
     private record StaticValues(String dimension, Map<String, BigDecimal> values) {}
+    private record Levels(String skill, String character) {
+        private boolean compatible(Levels other) {
+            return (skill.isEmpty() || other.skill.isEmpty() || skill.equals(other.skill))
+                && (character.isEmpty() || other.character.isEmpty() || character.equals(other.character));
+        }
+        private Levels merge(Levels other) {
+            return new Levels(skill.isEmpty() ? other.skill : skill,
+                character.isEmpty() ? other.character : character);
+        }
+    }
+    private record Fraction(BigInteger numerator, BigInteger denominator) implements Comparable<Fraction> {
+        private Fraction {
+            if (denominator.signum() == 0) throw new ArithmeticException("分母为零");
+            if (denominator.signum() < 0) { numerator = numerator.negate(); denominator = denominator.negate(); }
+            BigInteger gcd = numerator.gcd(denominator);
+            numerator = numerator.divide(gcd);
+            denominator = denominator.divide(gcd);
+        }
+        private static Fraction of(BigDecimal value) {
+            int scale = value.scale();
+            return scale >= 0
+                ? new Fraction(value.unscaledValue(), BigInteger.TEN.pow(scale))
+                : new Fraction(value.unscaledValue().multiply(BigInteger.TEN.pow(-scale)), BigInteger.ONE);
+        }
+        private Fraction add(Fraction other) {
+            return new Fraction(numerator.multiply(other.denominator).add(other.numerator.multiply(denominator)),
+                denominator.multiply(other.denominator));
+        }
+        private Fraction subtract(Fraction other) {
+            return new Fraction(numerator.multiply(other.denominator).subtract(other.numerator.multiply(denominator)),
+                denominator.multiply(other.denominator));
+        }
+        private Fraction multiply(Fraction other) {
+            return new Fraction(numerator.multiply(other.numerator), denominator.multiply(other.denominator));
+        }
+        private Fraction divide(Fraction other) {
+            return new Fraction(numerator.multiply(other.denominator), denominator.multiply(other.numerator));
+        }
+        @Override public int compareTo(Fraction other) {
+            return numerator.multiply(other.denominator).compareTo(other.numerator.multiply(denominator));
+        }
+    }
 
     private static final class Context {
         private final Map<Id, Aggregate> objects = new LinkedHashMap<>();
         private final Map<String, Parameter> parameters = new LinkedHashMap<>();
         private final Map<Id, List<Use>> uses = new LinkedHashMap<>();
         private final Map<String, String> zoneModes;
+        private final Map<String, String> zoneDomains;
+        private final Map<String, String> zoneStages;
 
-        private Context(List<Aggregate> aggregates, List<Parameter> parameters, Map<String, String> zoneModes) {
+        private Context(List<Aggregate> aggregates, List<Parameter> parameters, Map<String, String> zoneModes,
+                        Map<String, String> zoneDomains, Map<String, String> zoneStages) {
             for (Aggregate a : aggregates) objects.put(id(a), a);
             for (Parameter p : parameters) this.parameters.put(p.skillKey() + "/" + p.key(), p);
             this.zoneModes = zoneModes == null ? Map.of() : zoneModes;
+            this.zoneDomains = zoneDomains == null ? Map.of() : zoneDomains;
+            this.zoneStages = zoneStages == null ? Map.of() : zoneStages;
         }
 
         private void collect(Aggregate a) {
@@ -117,6 +175,9 @@ public final class SkillNumericSemantics {
                         }
                         if (isHealingRatioMaxDecrease(r)) {
                             validateHealingRatioMaxDecrease(a, valueUse, r.path("valueRule"), path + ".valueRule.value");
+                        }
+                        if ("DAMAGE_MODIFIER".equals(text(r, "resultType"))) {
+                            validateDamageModifierCondition(a, r, path);
                         }
                         if ("DAMAGE".equals(text(r, "resultType"))) {
                             JsonNode detail = r.path("detail");
@@ -280,6 +341,122 @@ public final class SkillNumericSemantics {
                     if (upper.getValue().compareTo(lower.getValue()) < 0) throw invalid(maximum.source(), maximum.path(), "CHARGE_RANGE_INVALID", "最大蓄力时间不能小于最小蓄力时间");
                 }
             }
+        }
+
+        private void validateDamageModifierCondition(Aggregate effect, JsonNode result, String path) {
+            JsonNode detail = result.path("detail");
+            JsonNode raw = detail.path("condition");
+            if (raw.isMissingNode() || raw.isNull()) return;
+            String conditionPath = path + ".detail.condition";
+            var parsed = DamageModifierConditionSemantics.parse(raw, conditionPath);
+            if (!parsed.issues().isEmpty()) {
+                Map<String, String> issue = parsed.issues().getFirst();
+                throw invalid(effect, issue.get("field"), issue.get("code"), issue.get("message"));
+            }
+            if (!"SOURCE".equals(text(result, "target"))) {
+                throw invalid(effect, path + ".target", "CONDITION_TARGET_UNSUPPORTED", "逐笔生命门槛只支持作用于来源对象");
+            }
+            if (!"DEALT".equals(text(detail, "direction"))) {
+                throw invalid(effect, path + ".detail.direction", "CONDITION_DIRECTION_UNSUPPORTED", "逐笔生命门槛只支持造成伤害方向");
+            }
+            if (!effect.data().path("lifecycle").isObject()
+                || !"PERSISTENT".equals(text(result.path("lifecycleBehavior"), "moment"))) {
+                throw invalid(effect, path + ".lifecycleBehavior.moment", "CONDITION_LIFECYCLE_UNSUPPORTED",
+                    "逐笔生命门槛要求父生命周期和持续生效结果");
+            }
+            String zoneKey = text(detail, "modifierZoneKey");
+            if (!"DAMAGE".equals(zoneDomains.get(zoneKey))
+                || !"DAMAGE_PRE_DEFENSE".equals(zoneStages.get(zoneKey))) {
+                throw invalid(effect, path + ".detail.modifierZoneKey", "CONDITION_ZONE_UNSUPPORTED",
+                    "逐笔生命门槛只支持防御前伤害乘区");
+            }
+            Use threshold = use(effect, raw, conditionPath, "comparisonValue", Bound.ANY, true);
+            for (Fraction value : staticConditionValues(threshold).values()) {
+                if (value.compareTo(Fraction.of(BigDecimal.ZERO)) < 0
+                    || value.compareTo(Fraction.of(BigDecimal.ONE)) > 0) {
+                    throw invalid(effect, conditionPath + ".comparisonValue", "VALUE_RANGE_INVALID",
+                        "逐笔生命门槛的全部等级比例必须有限且位于0到1之间");
+                }
+            }
+        }
+
+        private Map<Levels, Fraction> staticConditionValues(Use use) {
+            return switch (use.value().kind()) {
+                case FIXED -> Map.of(new Levels("", ""), Fraction.of(use.value().value()));
+                case PARAMETER -> staticParameterValues(use, parameter(use));
+                case FORMULA -> {
+                    Aggregate formula = objects.get(new Id(use.source().skillKey(), SourceType.FORMULA,
+                        use.value().formulaKey()));
+                    if (formula == null) throw invalid(use.source(), use.path(), "UNKNOWN_FORMULA", "公式不存在或不属于当前技能");
+                    yield evaluateFormula(use, formula.data().path("expression"), 1);
+                }
+            };
+        }
+
+        private Map<Levels, Fraction> staticParameterValues(Use use, Parameter parameter) {
+            if ("RUNTIME_INPUT".equals(parameter.valueMode())) {
+                throw invalid(use.source(), use.path(), "RUNTIME_INPUT_FORBIDDEN", "逐笔生命门槛不能使用计算时传入参数");
+            }
+            if ("FIXED".equals(parameter.valueMode())) {
+                if (parameter.fixedValue() == null) throw invalid(use.source(), use.path(), "PARAMETER_VALUES_INVALID", "固定参数缺少数值");
+                return Map.of(new Levels("", ""), Fraction.of(parameter.fixedValue()));
+            }
+            if (!Set.of("SKILL_LEVEL", "CHARACTER_LEVEL").contains(parameter.valueMode())
+                || parameter.levelValues() == null || !parameter.levelValues().isObject()
+                || parameter.levelValues().isEmpty()) {
+                throw invalid(use.source(), use.path(), "PARAMETER_VALUES_INVALID", "等级参数缺少完整取值图");
+            }
+            Map<Levels, Fraction> values = new LinkedHashMap<>();
+            parameter.levelValues().fields().forEachRemaining(entry -> {
+                if (!entry.getValue().isNumber()) throw invalid(use.source(), use.path(), "PARAMETER_VALUES_INVALID", "等级参数取值必须为数值");
+                Levels levels = "SKILL_LEVEL".equals(parameter.valueMode())
+                    ? new Levels(entry.getKey(), "") : new Levels("", entry.getKey());
+                values.put(levels, Fraction.of(entry.getValue().decimalValue()));
+            });
+            return values;
+        }
+
+        private Map<Levels, Fraction> evaluateFormula(Use use, JsonNode node, int depth) {
+            if (depth > 32) throw invalid(use.source(), use.path(), "FORMULA_INVALID", "门槛公式超过深度限制");
+            return switch (text(node, "nodeType")) {
+                case "PARAMETER" -> {
+                    Parameter parameter = parameters.get(use.source().skillKey() + "/" + text(node, "parameterKey"));
+                    if (parameter == null) throw invalid(use.source(), use.path(), "UNKNOWN_PARAMETER", "门槛公式引用的参数不存在");
+                    yield staticParameterValues(use, parameter);
+                }
+                case "ATTRIBUTE" -> throw invalid(use.source(), use.path(), "ATTRIBUTE_FORBIDDEN", "逐笔生命门槛的右值公式不能读取属性");
+                case "OPERATION" -> {
+                    JsonNode operands = node.path("operands");
+                    if (!operands.isArray() || operands.size() != 2) {
+                        throw invalid(use.source(), use.path(), "FORMULA_INVALID", "门槛公式运算必须有两个子节点");
+                    }
+                    Map<Levels, Fraction> left = evaluateFormula(use, operands.get(0), depth + 1);
+                    Map<Levels, Fraction> right = evaluateFormula(use, operands.get(1), depth + 1);
+                    String operation = text(node, "operation");
+                    Map<Levels, Fraction> values = new LinkedHashMap<>();
+                    for (var lhs : left.entrySet()) for (var rhs : right.entrySet()) {
+                        if (!lhs.getKey().compatible(rhs.getKey())) continue;
+                        Fraction value;
+                        try {
+                            value = switch (operation) {
+                                case "ADD" -> lhs.getValue().add(rhs.getValue());
+                                case "SUBTRACT" -> lhs.getValue().subtract(rhs.getValue());
+                                case "MULTIPLY" -> lhs.getValue().multiply(rhs.getValue());
+                                case "DIVIDE" -> lhs.getValue().divide(rhs.getValue());
+                                case "MIN" -> lhs.getValue().compareTo(rhs.getValue()) <= 0 ? lhs.getValue() : rhs.getValue();
+                                case "MAX" -> lhs.getValue().compareTo(rhs.getValue()) >= 0 ? lhs.getValue() : rhs.getValue();
+                                default -> throw invalid(use.source(), use.path(), "FORMULA_INVALID", "门槛公式运算方式不合法");
+                            };
+                        } catch (ArithmeticException ex) {
+                            throw invalid(use.source(), use.path(), "FORMULA_NOT_STATIC", "门槛公式存在除零，无法静态求值");
+                        }
+                        values.put(lhs.getKey().merge(rhs.getKey()), value);
+                    }
+                    if (values.isEmpty()) throw invalid(use.source(), use.path(), "FORMULA_NOT_STATIC", "门槛公式没有可求值的等级组合");
+                    yield values;
+                }
+                default -> throw invalid(use.source(), use.path(), "FORMULA_INVALID", "门槛公式节点类型不合法");
+            };
         }
 
         private Set<String> runtime(Use use) {
