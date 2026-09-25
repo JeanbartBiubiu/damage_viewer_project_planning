@@ -10,8 +10,8 @@ import type { GameVampRule } from '../../src/types/gameVamp';
 import type { AuthoredVampDamage } from '../../src/engine/vampAdapter';
 
 const WASM_PATH = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const WASM_SHA256 = '0FD141CE054160F765E0DA176F43EE0E6866177C805576EF5D7FD04ADA11CD3C';
-const WASM_BYTES = 976767;
+const WASM_SHA256 = '25844991E66D5E189CEE0B168869DE07C265C5C3CC3336C7B1A9C793AC0D736D';
+const WASM_BYTES = 983981;
 
 function slot(value: number, max = value) {
   return { base: value, current: value, max, resolved: value };

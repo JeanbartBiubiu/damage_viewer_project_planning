@@ -13,7 +13,8 @@ import {
   Modal,
   Radio,
   Select,
-  Space
+  Space,
+  Switch
 } from '@arco-design/web-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../../services/apiClient';
@@ -106,6 +107,8 @@ import {
   applyStackValueModeChange,
   clearHiddenLifecycleBehaviorFields,
   cooldownChangeAmountHint,
+  createEmptyDamageModifierConditionDraft,
+  normalizeResultDraftForDirtyComparison,
   healingModifierAmountHint,
   isCatalogOptionSelectable,
   isFixedPersistentSnapshotResult,
@@ -609,6 +612,7 @@ export function SkillEffectResultEditorModal({
     }
     if (
       draft.resultType === 'DAMAGE'
+      || (draft.resultType === 'DAMAGE_MODIFIER' && draft.damageModifierCondition !== null)
       || draft.resultType === 'ATTRIBUTE_CHANGE'
       || draft.resultType === 'RESOURCE_CHANGE'
       || draft.resultType === 'HEALTH_FLOOR'
@@ -633,6 +637,7 @@ export function SkillEffectResultEditorModal({
     draft.affectedSkillScope.mode,
     draft.affectedSkillScope.skillCategoryKeys.length,
     draft.attributeOperation,
+    draft.damageModifierCondition !== null,
     draft.lifecycleBehavior.moment,
     draft.originalSkillCategoryKeys.length,
     draft.resultType,
@@ -705,6 +710,12 @@ export function SkillEffectResultEditorModal({
   const attributeOptions = useMemo(
     () => listAttributeOptions(catalog, draft.attributeKey, draft.originalAttributeKey),
     [catalog, draft.attributeKey, draft.originalAttributeKey]
+  );
+  const conditionAttributeOptions = useMemo(
+    () => listAttributeOptions(catalog,
+      draft.damageModifierCondition?.attributeKey ?? '',
+      draft.damageModifierCondition?.originalAttributeKey ?? null),
+    [catalog, draft.damageModifierCondition]
   );
   const skillOptions = useMemo(
     () => listAffectedSkillOptions(
@@ -806,6 +817,12 @@ export function SkillEffectResultEditorModal({
     ) {
       return true;
     }
+    if (draft.resultType === 'DAMAGE_MODIFIER' && draft.damageModifierCondition) {
+      const condition = draft.damageModifierCondition;
+      if (hasUnknownOption(conditionAttributeOptions, condition.attributeKey)) return true;
+      if (hasUnknownOption(listFormulaOptions(catalog, condition.comparisonValue),
+        numericFormulaKey(condition.comparisonValue))) return true;
+    }
     if (isModifierZoneRequired(draft) && hasUnknownOption(modifierZoneOptions, draft.modifierZoneKey)) {
       return true;
     }
@@ -837,6 +854,7 @@ export function SkillEffectResultEditorModal({
     return false;
   }, [
     attributeOptions,
+    conditionAttributeOptions,
     absorbedDamageTypeOptions,
     catalog,
     criticalFormulaOptions,
@@ -849,6 +867,7 @@ export function SkillEffectResultEditorModal({
     draft.damageTypeKey,
     draft.absorbedDamageTypeKey,
     draft.criticalMultiplierValue,
+    draft.damageModifierCondition,
     draft.value,
     draft.lifecycleBehavior.moment,
     draft.modifierZoneKey,
@@ -878,7 +897,8 @@ export function SkillEffectResultEditorModal({
       && (catalogLoading.damageTypes || catalogLoadState.damageTypes === undefined)
     ) return true;
     if (
-      (draft.resultType === 'ATTRIBUTE_CHANGE'
+      ((draft.resultType === 'DAMAGE_MODIFIER' && draft.damageModifierCondition !== null)
+        || draft.resultType === 'ATTRIBUTE_CHANGE'
         || draft.resultType === 'RESOURCE_CHANGE'
         || draft.resultType === 'HEALTH_FLOOR'
         || draft.resultType === 'EXECUTE')
@@ -908,6 +928,7 @@ export function SkillEffectResultEditorModal({
     catalogLoading.statuses,
     draft.affectedSkillScope.mode,
     draft.attributeOperation,
+    draft.damageModifierCondition !== null,
     draft.lifecycleBehavior.moment,
     draft.resultType,
     effectsLoadState,
@@ -930,7 +951,8 @@ export function SkillEffectResultEditorModal({
       messages.push(catalogErrors.damageTypes);
     }
     if (
-      (draft.resultType === 'ATTRIBUTE_CHANGE'
+      ((draft.resultType === 'DAMAGE_MODIFIER' && draft.damageModifierCondition !== null)
+        || draft.resultType === 'ATTRIBUTE_CHANGE'
         || draft.resultType === 'RESOURCE_CHANGE'
         || draft.resultType === 'HEALTH_FLOOR'
         || draft.resultType === 'EXECUTE')
@@ -967,6 +989,7 @@ export function SkillEffectResultEditorModal({
     catalogErrors.statuses,
     draft.affectedSkillScope.mode,
     draft.attributeOperation,
+    draft.damageModifierCondition !== null,
     draft.lifecycleBehavior.moment,
     draft.resultType,
     effectsError,
@@ -980,12 +1003,20 @@ export function SkillEffectResultEditorModal({
     setSaveError(null);
   };
 
-  const patchDraftWithSpellShieldCleanup = (next: SkillEffectResultDraft) => {
+  const clearedFields = (next: SkillEffectResultDraft): string[] => {
+    const fields: string[] = [];
+    if (draft.spellShieldBlockScope && !next.spellShieldBlockScope) fields.push('法术护盾阻挡粒度');
+    if (draft.damageModifierCondition && !next.damageModifierCondition) fields.push('逐笔生命门槛');
+    return fields;
+  };
+
+  const patchDraftWithCleanupConfirmation = (next: SkillEffectResultDraft) => {
     const normalized = clearHiddenLifecycleBehaviorFields(next);
-    if (draft.spellShieldBlockScope && !normalized.spellShieldBlockScope) {
+    const cleared = clearedFields(normalized);
+    if (cleared.length > 0) {
       Modal.confirm({
-        title: '清除法术护盾阻挡粒度',
-        content: '当前修改会使这个结果不再适用法术护盾阻挡粒度，已配置的值将被清除。',
+        title: cleared.length === 1 ? `清除${cleared[0]}` : '清除已配置内容',
+        content: `当前修改会清除${cleared.join('和')}。是否继续？`,
         okText: '继续',
         cancelText: '取消',
         onOk: () => patchDraft(normalized)
@@ -1029,9 +1060,8 @@ export function SkillEffectResultEditorModal({
   const changeResultType = (nextType: SkillEffectResultType) => {
     const nextDraft = applyResultTypeChange(draft, nextType);
     if (isPersistentOnlyResultType(nextType) && !parentDraft.lifecycleEnabled) {
-      const cleanupNotice = draft.spellShieldBlockScope && !nextDraft.spellShieldBlockScope
-        ? '已配置的法术护盾阻挡粒度也会被清除。'
-        : '';
+      const cleared = clearedFields(nextDraft);
+      const cleanupNotice = cleared.length > 0 ? `已配置的${cleared.join('和')}也会被清除。` : '';
       Modal.confirm({
         title: '启用效果生命周期',
         content: `该结果只能持续生效。启用后还需要在效果弹窗中补齐最大层数、每次施加层数和实例范围。${cleanupNotice}`,
@@ -1044,7 +1074,7 @@ export function SkillEffectResultEditorModal({
       });
       return;
     }
-    patchDraftWithSpellShieldCleanup(nextDraft);
+    patchDraftWithCleanupConfirmation(nextDraft);
   };
 
   const changeShieldDecayMode = (nextMode: SkillEffectNormalShieldDecayMode) => {
@@ -1079,7 +1109,8 @@ export function SkillEffectResultEditorModal({
 
   const close = () => {
     if (modifierZoneEditorVisible || skillCategoryEditorVisible) return;
-    if (!readOnly && JSON.stringify(draft) !== JSON.stringify(resultDraft)
+    if (!readOnly && JSON.stringify(normalizeResultDraftForDirtyComparison(draft))
+      !== JSON.stringify(normalizeResultDraftForDirtyComparison(resultDraft))
       && !window.confirm(AUTHORING_UNSAVED_CONFIRM)) return;
     onClose();
   };
@@ -1137,7 +1168,8 @@ export function SkillEffectResultEditorModal({
       void loadDamageTypes();
     }
     if (
-      draft.resultType === 'ATTRIBUTE_CHANGE'
+      (draft.resultType === 'DAMAGE_MODIFIER' && draft.damageModifierCondition !== null)
+      || draft.resultType === 'ATTRIBUTE_CHANGE'
       || draft.resultType === 'RESOURCE_CHANGE'
       || draft.resultType === 'HEALTH_FLOOR'
       || draft.resultType === 'EXECUTE'
@@ -1268,7 +1300,7 @@ export function SkillEffectResultEditorModal({
               aria-label="作用对象"
               value={draft.target}
               disabled={readOnly}
-              onChange={(value) => patchDraftWithSpellShieldCleanup({
+              onChange={(value) => patchDraftWithCleanupConfirmation({
                 ...draft,
                 target: value as SkillEffectTarget
               })}
@@ -1681,6 +1713,78 @@ export function SkillEffectResultEditorModal({
                 showCritical
                 onChange={patchDraft}
               />
+              <AuthoringFieldAnchor field="condition" active={focusField === 'condition'
+                || focusField === 'receiver' || focusField === 'attributeValueKind'}>
+                <Form.Item label="逐笔生命门槛" validateStatus={errors.damageModifierCondition ? 'error' : undefined}
+                  help={errors.damageModifierCondition}>
+                  <Switch aria-label="启用逐笔生命门槛" checked={draft.damageModifierCondition !== null}
+                    disabled={readOnly}
+                    onChange={(enabled) => patchDraft({
+                      ...draft,
+                      damageModifierCondition: enabled ? createEmptyDamageModifierConditionDraft() : null
+                    })} />
+                </Form.Item>
+              </AuthoringFieldAnchor>
+              {draft.damageModifierCondition ? (
+                <>
+                  <Alert type="info" content="只在本笔造成伤害的承受者为敌方英雄时，进入防御前伤害乘区且扣血前读取当前生命比例；门槛只接受固定值、静态参数或可静态求值公式，全部等级须在0到1之间。修正金额的数值读取仍单独配置。" />
+                  <Form.Item label="本笔伤害承受者">敌方英雄（相对本笔实际伤害来源）</Form.Item>
+                  <Form.Item label="生命取值口径">扣血前当前生命比例</Form.Item>
+                  <AuthoringFieldAnchor field="attributeKey" active={focusField === 'attributeKey'}>
+                    <Form.Item label="承受者生命属性" required
+                      validateStatus={errors.conditionAttributeKey ? 'error' : undefined}
+                      help={errors.conditionAttributeKey}>
+                      <Select aria-label="承受者生命属性"
+                        value={draft.damageModifierCondition.attributeKey || undefined}
+                        disabled={readOnly}
+                        loading={Boolean(catalogLoading.attributes)}
+                        options={toSelectOptions(conditionAttributeOptions, attributeNames)}
+                        placeholder="请选择生命属性"
+                        onChange={(value) => patchDraft({
+                          ...draft,
+                          damageModifierCondition: {
+                            ...draft.damageModifierCondition!, attributeKey: String(value ?? '')
+                          }
+                        })} />
+                    </Form.Item>
+                  </AuthoringFieldAnchor>
+                  <AuthoringFieldAnchor field="comparator" active={focusField === 'comparator'}>
+                    <Form.Item label="严格比较" required
+                      validateStatus={errors.conditionComparator ? 'error' : undefined}
+                      help={errors.conditionComparator}>
+                      <Radio.Group aria-label="本笔生命比例严格比较"
+                        value={draft.damageModifierCondition.comparator} disabled={readOnly}
+                        onChange={(value) => patchDraft({
+                          ...draft,
+                          damageModifierCondition: {
+                            ...draft.damageModifierCondition!, comparator: value as 'LT' | 'GT'
+                          }
+                        })}>
+                        <Radio value="LT">严格低于（&lt;）</Radio>
+                        <Radio value="GT">严格高于（&gt;）</Radio>
+                      </Radio.Group>
+                    </Form.Item>
+                  </AuthoringFieldAnchor>
+                  <AuthoringFieldAnchor field="comparisonValue"
+                    active={focusField === 'comparisonValue' || focusField === 'parameterKey' || focusField === 'formulaKey'}>
+                    <Form.Item label="生命比例门槛" required
+                      validateStatus={errors.conditionComparisonValue ? 'error' : undefined}
+                      help={errors.conditionComparisonValue}>
+                      <NumericValueField aria-label="生命比例门槛"
+                        value={draft.damageModifierCondition.comparisonValue}
+                        onChange={(value) => patchDraft({
+                          ...draft,
+                          damageModifierCondition: {
+                            ...draft.damageModifierCondition!, comparisonValue: value
+                          }
+                        })}
+                        parameters={parameters} formulas={formulas}
+                        parametersLoadState={parametersLoadState} formulasLoadState={formulasLoadState}
+                        disabled={readOnly} />
+                    </Form.Item>
+                  </AuthoringFieldAnchor>
+                </>
+              ) : null}
             </>
           ) : null}
 
@@ -1992,7 +2096,7 @@ export function SkillEffectResultEditorModal({
                   placeholder="请选择状态"
                   onChange={(value) => {
                     const key = String(value ?? '');
-                    patchDraftWithSpellShieldCleanup(applyStatusSelection(
+                    patchDraftWithCleanupConfirmation(applyStatusSelection(
                       draft, key, statuses.find((item) => item.statusKey === key)?.statusKind ?? null
                     ));
                   }}
@@ -2008,7 +2112,7 @@ export function SkillEffectResultEditorModal({
                   aria-label="状态操作"
                   value={draft.statusOperation}
                   disabled={readOnly}
-                  onChange={(value) => patchDraftWithSpellShieldCleanup(applyStatusSelection(
+                  onChange={(value) => patchDraftWithCleanupConfirmation(applyStatusSelection(
                     draft, draft.statusKey, draft.statusKind, value as StatusOperation
                   ))}
                 >
@@ -2063,7 +2167,7 @@ export function SkillEffectResultEditorModal({
                     label: SKILL_EFFECT_LIFECYCLE_MOMENT_LABELS[value]
                   }))}
                   placeholder="请选择生命周期时点"
-                  onChange={(value) => patchDraftWithSpellShieldCleanup(
+                  onChange={(value) => patchDraftWithCleanupConfirmation(
                     applyLifecycleMomentChange(draft, value as SkillEffectLifecycleMoment)
                   )}
                 />

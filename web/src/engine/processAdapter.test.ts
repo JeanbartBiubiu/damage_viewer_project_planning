@@ -84,6 +84,35 @@ function program(overrides: Partial<AuthoredProcessProgram> = {}): AuthoredProce
   };
 }
 
+function healRule(ruleKey: string, comparator: 'LT' | 'GTE', effectKey: string, sortOrder: number): SkillTriggerRuleDetail {
+  return rule({ ruleKey, sortOrder,
+    eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'cast_skill', useKind: 'ACTIVE', castPhase: 'INITIAL' } },
+    conditionGroups: [{ groupKey: `${ruleKey}_hp`, name: '生命门槛', sortOrder: 10, conditions: [{
+      conditionKey: 'compare_hp', conditionType: 'ATTRIBUTE_COMPARE', sortOrder: 10,
+      detail: { subject: 'SOURCE', attributeKey: 'hp', attributeValueKind: 'CURRENT_RATIO', comparator,
+        comparisonValue: parameterValue('low_health_threshold_ratio') }
+    }] }],
+    actions: [{ actionKey: 'heal_self', name: '自身治疗', actionType: 'EXECUTE_EFFECT', sortOrder: 10,
+      targetContext: 'CURRENT_TARGET', detail: { effectKey }, runtimeInputBindings: [], resultModifiers: [] }]
+  });
+}
+
+function healEffect(effectKey: string, value = fixedValue(200)): SkillEffect {
+  return effect([{
+    resultKey: 'heal', name: '自身治疗', resultType: 'DIRECT_HEAL', target: 'SOURCE', description: null, sortOrder: 10,
+    lifecycleBehavior: null, spellShieldBlockScope: null,
+    valueRule: { value, fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null }, detail: {}
+  }], effectKey);
+}
+
+function healingProgram(): AuthoredProcessProgram {
+  const authored = program();
+  authored.rules.push(healRule('normal', 'GTE', 'normal_heal', 10), healRule('low', 'LT', 'low_heal', 20));
+  authored.effects.push(healEffect('normal_heal'), healEffect('low_heal', fixedValue(300)));
+  authored.parameters!.push(parameter({ parameterKey: 'low_health_threshold_ratio', valueType: 'DECIMAL', levelValues: { '1': 0.4 }, sortOrder: 30 }));
+  return authored;
+}
+
 function request(): CompileRequest {
   const slot = { base: 100, current: 100, max: 100, resolved: 100 };
   return {
@@ -97,6 +126,104 @@ function request(): CompileRequest {
 }
 
 describe('processAdapter', () => {
+  it('首次过程控制唯一，条件在两个监听上冻结，直接治疗保留原数值且不污染作者输入', () => {
+    const authored = healingProgram();
+    const before = structuredClone(authored);
+    const adapted = adaptProcessProgram(authored);
+    expect(authored).toEqual(before);
+    expect(adapted.controls).toEqual([{ abilityKey: 'cast_initial', action: 'INITIAL' }]);
+    expect(adapted.provider.abilities).toHaveLength(3);
+    expect(adapted.provider.abilities[0]).toMatchObject({ kind: 'active', types: ['ability/initial_cast/@mount'],
+      processControl: { processKey: 'cast', action: 'INITIAL' } });
+    for (const [index, op, amount] of [[1, 'gte', 200], [2, 'lt', 300]] as const) {
+      const listener = adapted.provider.abilities[index]!.listenerSpec!;
+      expect(listener.eventMatcher.all).toEqual(['event/ability_started', 'ability/initial_cast/@mount', 'event/source_owner']);
+      expect(listener.condition).toEqual({ op, args: [
+        { op: 'div', args: [{ op: 'read', path: 'source.attr.hp.current' }, { op: 'read', path: 'source.attr.hp.max' }] },
+        { op: 'const', value: 0.4 }
+      ] });
+      expect(listener.operations).toEqual([{ operation: 'heal', target: 'self', amount: { op: 'const', value: amount } }]);
+      expect(listener.operations![0]!.condition).toBeUndefined();
+    }
+    expect(adapted.requiredAttributes).toContain('hp');
+    const input = request();
+    const bound = withProcessProgram(input, { processProviderKey: 'cast_one', authored }, { rulesHash: 'healing' });
+    expect(input).toEqual(request());
+    expect(bound.typeCatalog.types).toEqual(expect.arrayContaining([
+      { key: 'ability/basic_attack', domain: 'ability' }, { key: 'event/ability_started', domain: 'event' },
+      { key: 'event/source_owner', domain: 'event' }, { key: 'ability/initial_cast/source/cast_one', domain: 'ability' }
+    ]));
+    const abilities = bound.sharedProviders![0]!.abilities!;
+    expect(abilities[0]!.types).toEqual(['ability/initial_cast/source/cast_one']);
+    expect(abilities[1]!.listenerSpec!.eventMatcher.all).toContain('ability/initial_cast/source/cast_one');
+  });
+
+  it('首次治疗生成定义不能由同拥有者别名或另一拥有者复用，独立绑定仍可并存', () => {
+    const authored = healingProgram();
+    const first = withProcessProgram(request(), { processProviderKey: 'cast_one', authored }, { rulesHash: 'first-heal' });
+    const second = withProcessProgram(first, { processProviderKey: 'cast_two', authored }, { rulesHash: 'second-heal' });
+    expect(second.combatants[0]!.providers).toEqual([
+      { providerRef: 'cast_one', definitionRef: 'process_source_cast_one' },
+      { providerRef: 'cast_two', definitionRef: 'process_source_cast_two' }
+    ]);
+    expect(second.sharedProviders?.filter(provider => provider.providerKey.startsWith('process_source_cast_'))).toHaveLength(2);
+
+    for (const [combatantIndex, providerRef, path] of [
+      [0, 'alias', /combatants\.source\.providers\.alias\.definitionRef/],
+      [1, 'foreign', /combatants\.target\.providers\.foreign\.definitionRef/]
+    ] as const) {
+      const polluted = structuredClone(first);
+      polluted.combatants[combatantIndex]!.providers.push({ providerRef, definitionRef: 'process_source_cast_one' });
+      const before = structuredClone(polluted);
+      expect(() => withProcessProgram(polluted, { processProviderKey: 'cast_one', authored }, { rulesHash: `retry_${providerRef}` })).toThrow(path);
+      expect(polluted).toEqual(before);
+    }
+    const duplicated = structuredClone(first);
+    duplicated.combatants[0]!.providers.push({ providerRef: 'cast_one', definitionRef: 'process_source_cast_one' });
+    expect(() => withProcessProgram(duplicated, { processProviderKey: 'cast_one', authored }, { rulesHash: 'retry_duplicate' }))
+      .toThrow(/combatants\.source\.providers\.cast_one/);
+  });
+
+  it('治疗公式使用原等级参数与来源属性，监听金额不依赖主动能力的参数帧', () => {
+    const authored = healingProgram();
+    authored.parameters!.push(parameter({ parameterKey: 'base_heal', levelValues: { '1': 100 }, sortOrder: 40 }));
+    authored.parameters!.push(parameter({ parameterKey: 'ap_ratio', valueType: 'DECIMAL', levelValues: { '1': 1 }, sortOrder: 50 }));
+    authored.formulas = [{ gameId: 'lol', skillKey: 'cast_skill', formulaKey: 'total_heal', name: '治疗公式',
+      description: null, sortOrder: 10, createdAt: '', updatedAt: '', expression: { nodeType: 'OPERATION', operation: 'ADD', operands: [
+        { nodeType: 'PARAMETER', parameterKey: 'base_heal' },
+        { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
+          { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'ap', attributeValueKind: 'TOTAL' },
+          { nodeType: 'PARAMETER', parameterKey: 'ap_ratio' }
+        ] }
+      ] } }];
+    authored.effects[1]!.results[0]!.valueRule!.value = formulaValue('total_heal');
+    const adapted = adaptProcessProgram(authored);
+    expect(adapted.requiredAttributes).toEqual(expect.arrayContaining(['hp', 'ap']));
+    expect(adapted.provider.abilities[1]!.listenerSpec!.operations![0]!.amount).toEqual({
+      op: 'max', args: [{ op: 'add', args: [{ op: 'const', value: 100 }, { op: 'mul', args: [
+        { op: 'read', path: 'source.attr.ap.resolved' }, { op: 'const', value: 1 }
+      ] }] }, { op: 'const', value: 0 }]
+    });
+  });
+
+  it('首次自身治疗以字段路径拒绝错误阶段、条件、动作和结果形状', () => {
+    const reject = (mutate: (authored: AuthoredProcessProgram) => void, path: RegExp) => {
+      const authored = healingProgram(); mutate(authored);
+      expect(() => adaptProcessProgram(authored)).toThrow(path);
+    };
+    reject((p) => { p.rules[1]!.eventSource = { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'cast_skill', useKind: 'ACTIVE', castPhase: null } }; }, /rules\.normal\.eventSource\.detail\.castPhase/);
+    reject((p) => { p.rules[1]!.eventSource = { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'cast_skill', useKind: 'ACTIVE', castPhase: 'RECAST' } }; }, /rules\.normal\.eventSource\.detail\.castPhase/);
+    reject((p) => { p.rules[1]!.conditionGroups = []; }, /rules\.normal\.conditionGroups/);
+    reject((p) => { p.rules[1]!.conditionGroups[0]!.conditions[0]!.detail.subject = 'CURRENT_TARGET'; }, /rules\.normal\.conditionGroups\.normal_hp\.conditions\.compare_hp\.detail\.subject/);
+    reject((p) => { p.rules[1]!.conditionGroups[0]!.conditions[0]!.conditionType = 'EVENT_VALUE_COMPARE' as 'ATTRIBUTE_COMPARE'; }, /rules\.normal\.conditionGroups\.normal_hp\.conditions\.compare_hp\.conditionType/);
+    reject((p) => { p.rules[1]!.conditionGroups[0]!.conditions[0]!.detail.attributeKey = 'Missing-Hp'; }, /rules\.normal\.conditionGroups\.normal_hp\.conditions\.compare_hp\.detail\.attributeKey/);
+    reject((p) => { p.rules[1]!.actions[0]!.runtimeInputBindings = [{} as never]; }, /rules\.normal\.actions\.heal_self\.runtimeInputBindings/);
+    reject((p) => { p.rules[1]!.actions[0]!.resultModifiers = [{} as never]; }, /rules\.normal\.actions\.heal_self\.resultModifiers/);
+    reject((p) => { p.effects[1]!.results[0]!.target = 'TARGET'; }, /effects\.normal_heal\.results\.heal\.target/);
+    reject((p) => { p.effects[1]!.lifecycle = {} as SkillEffect['lifecycle']; }, /effects\.normal_heal\.lifecycle/);
+    reject((p) => { (p.effects[1]!.results[0]!.detail as Record<string, unknown>).extra = true; }, /effects\.normal_heal\.results\.heal\.detail\.extra/);
+    reject((p) => { p.effects[1]!.results[0]!.valueRule!.value = parameterValue('unknown'); }, /effects\.normal_heal\.results\.heal\.valueRule\.value/);
+  });
   it('抽出开始时自身消耗，保留倍率与未声明冷却，且不把参数冷却补上', () => {
     const authored = program();
     const mana = authored.effects[0]!.results[0]!;
@@ -422,7 +549,7 @@ describe('processAdapter', () => {
         resultKey: 'damage', name: 'damage', resultType: 'DAMAGE', target: 'TARGET', description: null, sortOrder: 10,
         lifecycleBehavior: null, spellShieldBlockScope: null,
         valueRule: { value: fixedValue(10), fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
-        detail: { damageTypeKey: 'physical', deliveryKind: 'SKILL', originKind: 'DIRECT', critical: { mode: 'DISALLOWED', multiplierValue: null }, vampQualification: 'UNRESOLVED', vampOverrides: [] }
+        detail: { damageTypeKey: 'physics', deliveryKind: 'SKILL', originKind: 'DIRECT', critical: { mode: 'DISALLOWED', multiplierValue: null }, vampQualification: 'UNRESOLVED', vampOverrides: [] }
       }], 'hurt'));
       authored.process.effectBindings.push({ bindingKey: 'hurt', effectKey: 'hurt', moment: start(), sortOrder: 20 });
     }, /尚未核定/);
@@ -561,26 +688,12 @@ function spellblade(): AuthoredTriggerProgram {
         ruleKey: 'arm', sortOrder: 10,
         eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
         conditionGroups: [{
-          groupKey: 'idle', name: 'idle', sortOrder: 10,
+          groupKey: 'cooldown_ready', name: '冷却就绪', sortOrder: 10,
           conditions: [
-            { conditionKey: 'ready', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 10, detail: { stateKey: 'ready', valueKind: 'ENABLED', optionKey: null, expectedBoolean: false, comparator: null, comparisonValue: null } },
             { conditionKey: 'icd_ready', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 20, detail: { stateKey: 'icd', valueKind: 'REMAINING_MS', optionKey: null, expectedBoolean: null, comparator: 'EQ', comparisonValue: fixedValue(0) } }
           ]
         }],
         actions: [{ actionKey: 'start', name: 'start', actionType: 'START_PROCESS', sortOrder: 10, targetContext: 'CURRENT_TARGET', detail: { processKey: 'spellblade' }, runtimeInputBindings: [], resultModifiers: [] }]
-      }),
-      rule({
-        ruleKey: 'consume', sortOrder: 20,
-        eventSource: { eventType: 'BASIC_ATTACK_HIT', detail: {} },
-        conditionGroups: [{
-          groupKey: 'armed', name: 'armed', sortOrder: 10,
-          conditions: [
-            { conditionKey: 'ready', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 10, detail: { stateKey: 'ready', valueKind: 'ENABLED', optionKey: null, expectedBoolean: true, comparator: null, comparisonValue: null } },
-            { conditionKey: 'icd_ready', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 20, detail: { stateKey: 'icd', valueKind: 'REMAINING_MS', optionKey: null, expectedBoolean: null, comparator: 'EQ', comparisonValue: fixedValue(0) } }
-          ]
-        }],
-        actions: [{ actionKey: 'do_bonus', name: 'bonus', actionType: 'EXECUTE_EFFECT', sortOrder: 10, targetContext: 'CURRENT_TARGET', detail: { effectKey: 'bonus' }, runtimeInputBindings: [], resultModifiers: [] }],
-        oncePerUse: { groupKey: 'spellblade', scope: 'SKILL' }
       })
     ]
   };

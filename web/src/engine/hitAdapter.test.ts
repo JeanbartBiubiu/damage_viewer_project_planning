@@ -21,7 +21,7 @@ function damageResult(scope: SkillEffectResult['spellShieldBlockScope'] = 'SKILL
     spellShieldBlockScope: scope, lifecycleBehavior: null,
     valueRule: { value: fixedValue(100), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
     detail: {
-      damageTypeKey: 'physical', deliveryKind: 'SKILL', originKind: 'DIRECT',
+      damageTypeKey: 'physics', deliveryKind: 'SKILL', originKind: 'DIRECT',
       critical: { mode: 'DISALLOWED', multiplierValue: null }, vampQualification: 'RESOLVED', vampOverrides: []
     }
   };
@@ -139,6 +139,26 @@ function request(): CompileRequest {
 }
 
 describe('有界命中适配', () => {
+  it.each([['physics', 'damage/physical'], ['magic', 'damage/magic'], ['real', 'damage/true']])('管理伤害键%s转换为原生%s且不改作者对象', (key, runtimeType) => {
+    const authored = program();
+    for (const effect of authored.effects) for (const result of effect.results) {
+      if (result.resultType === 'DAMAGE') result.detail.damageTypeKey = key;
+    }
+    const before = structuredClone(authored);
+    const adapted = adaptHitProgram(authored);
+    expect(adapted.typeEntries).toContainEqual({ key: runtimeType, domain: 'damage' });
+    expect(adapted.skillHit.candidates[0]?.operations[0]).toMatchObject({ damageType: runtimeType });
+    expect(authored).toEqual(before);
+  });
+
+  it('未知管理伤害键在原字段路径拒绝，不透传给原生引擎', () => {
+    const authored = program();
+    for (const effect of authored.effects) for (const result of effect.results) {
+      if (result.resultType === 'DAMAGE') result.detail.damageTypeKey = 'heat';
+    }
+    expect(() => adaptHitProgram(authored)).toThrow(/damageTypeKey/);
+  });
+
   it('候选按规则/动作/结果 sortOrder 稳定排列，各规则只保留自己的命中条件', () => {
     const adapted = adaptHitProgram(program());
     expect(adapted.skillHit.candidates.map((row) => row.candidateKey)).toEqual([

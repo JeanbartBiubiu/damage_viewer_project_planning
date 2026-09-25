@@ -1,17 +1,27 @@
 import { type NumericValue } from '../../../../types/numericValue';
 import type { SkillParameter } from '../../../../types/skillParameter';
 import type { StatusKind } from '../../../../types/status';
+import type {
+  SkillEffectCriticalFilter,
+  SkillEffectDamageFilterDeliveryKind,
+  SkillEffectDamageFilterOriginKind,
+  SkillEffectDamageModifierCondition
+} from '../../../../types/skillEffect';
 import {
   AFFECTED_SKILL_SCOPE_MODE_LABELS,
   ATTRIBUTE_CHANGE_OPERATION_LABELS,
   COOLDOWN_CHANGE_OPERATION_LABELS,
   RESOURCE_CHANGE_OPERATION_LABELS,
   SKILL_EFFECT_LIFECYCLE_OPERATION_LABELS,
+  SKILL_EFFECT_DAMAGE_FILTER_DELIVERY_KIND_LABELS,
+  SKILL_EFFECT_DAMAGE_FILTER_ORIGIN_KIND_LABELS,
+  SKILL_EFFECT_CRITICAL_FILTER_LABELS,
   SKILL_EFFECT_MODIFIER_OPERATION_LABELS,
   SKILL_EFFECT_TARGET_LABELS,
   SKILL_HASTE_MODIFIER_OPERATION_LABELS,
   STATUS_OPERATION_LABELS,
   isMovementSlowApply,
+  type SkillEffectDamageModifierConditionDraft,
   type SkillEffectResultDraft
 } from './effectForm';
 import {
@@ -137,6 +147,54 @@ export function authoredNumericSummary(
   );
   if (!isUnitSafeNumericText(source)) return source;
   return attachDisplayUnit(`${source}${extraText}`, options.unit);
+}
+
+export type DamageModifierFilterSummaryInput = {
+  damageTypeKey: string | null | undefined;
+  deliveryKind: SkillEffectDamageFilterDeliveryKind | '';
+  originKind: SkillEffectDamageFilterOriginKind | '';
+  criticalFilter: SkillEffectCriticalFilter | '';
+};
+
+export function damageModifierFilterSummary(input: DamageModifierFilterSummaryInput): string[] {
+  return [
+    `伤害类型：${input.damageTypeKey || '全部'}`,
+    `产生方式：${input.deliveryKind ? SKILL_EFFECT_DAMAGE_FILTER_DELIVERY_KIND_LABELS[input.deliveryKind] : '—'}`,
+    `来源性质：${input.originKind ? SKILL_EFFECT_DAMAGE_FILTER_ORIGIN_KIND_LABELS[input.originKind] : '—'}`,
+    `暴击筛选：${input.criticalFilter ? SKILL_EFFECT_CRITICAL_FILTER_LABELS[input.criticalFilter] : '—'}`
+  ];
+}
+
+export function formatDamageModifierCondition(
+  condition: SkillEffectDamageModifierCondition | SkillEffectDamageModifierConditionDraft | null | undefined,
+  catalogs?: ResultReferenceCatalogs
+): string | null {
+  if (!condition) return null;
+  const attribute = catalogs
+    ? formatCatalogKey(condition.attributeKey, catalogs.attributesLoadState, catalogs.attributes)
+    : condition.attributeKey;
+  const comparison = condition.comparator === 'LT' ? '严格低于' : '严格高于';
+  const value = condition.comparisonValue;
+  const threshold = catalogs
+    ? authoredNumericSummary(value, {
+        parametersLoadState: catalogs.parametersLoadState,
+        formulasLoadState: catalogs.formulasLoadState,
+        parameterNames: catalogs.parameters,
+        formulaNames: catalogs.formulas
+      })
+    : !value ? UNCONFIGURED_TEXT
+      : value.kind === 'FIXED' ? String(value.value)
+        : value.kind === 'PARAMETER' ? `参数 ${value.parameterKey}` : `公式 ${value.formulaKey}`;
+  return `仅本笔敌方英雄承受者 · 扣血前${attribute}当前比例${comparison}${threshold}`;
+}
+
+export function damageModifierConditionSummary(
+  result: SkillEffectResultDraft,
+  catalogs: ResultReferenceCatalogs
+): string | null {
+  return result.resultType === 'DAMAGE_MODIFIER'
+    ? formatDamageModifierCondition(result.damageModifierCondition, catalogs)
+    : null;
 }
 
 export function parameterCatalogEntries(parameters: readonly SkillParameter[]): Map<string, CatalogEntry> {
@@ -265,7 +323,17 @@ export function buildResultReferenceSummary(
       const unit = result.lifecycleOperation === 'EXTEND_DURATION' ? MILLISECONDS_UNIT : STACKS_UNIT;
       return { target, segments: [operation, numeric(unit), effect] };
     }
-    case 'DAMAGE_MODIFIER':
+    case 'DAMAGE_MODIFIER': {
+      const operation = result.modifierOperation
+        ? SKILL_EFFECT_MODIFIER_OPERATION_LABELS[result.modifierOperation]
+        : '—';
+      return {
+        target,
+        segments: [operation, numeric(RATIO_UNIT), damageModifierConditionSummary(result, catalogs)].filter(
+          (item): item is string => item !== null
+        )
+      };
+    }
     case 'HEALING_MODIFIER':
     case 'SHIELD_RECEIVED_MODIFIER': {
       const operation = result.modifierOperation
