@@ -15,8 +15,8 @@ import { fixedValue, parameterValue } from '../../src/types/numericValue';
 const key = 'cast_skill';
 test('施放阶段验收使用最终Wasm产物', () => {
   const bytes = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
-  expect(bytes.length).toBe(976767);
-  expect(createHash('sha256').update(bytes).digest('hex').toUpperCase()).toBe('0FD141CE054160F765E0DA176F43EE0E6866177C805576EF5D7FD04ADA11CD3C');
+  expect(bytes.length).toBe(983981);
+  expect(createHash('sha256').update(bytes).digest('hex').toUpperCase()).toBe('25844991E66D5E189CEE0B168869DE07C265C5C3CC3336C7B1A9C793AC0D736D');
 });
 const moment = (momentType: SkillProcessMoment['momentType'], stepKey: string | null = null,
   failureReason: SkillProcessMoment['failureReason'] = null): SkillProcessMoment => ({ momentType, stepKey, failureReason } as SkillProcessMoment);
@@ -92,14 +92,38 @@ function refundProgram(): AuthoredProcessProgram {
   return p;
 }
 
+function healingProbe(): AuthoredProcessProgram {
+  const p = program('DELAY');
+  p.process.cooldown = { durationValue: fixedValue(120000), startMoment: moment('PROCESS_START') };
+  p.process.steps = [{ stepKey: 'wait', stepType: 'DELAY', name: '施放', description: null, sortOrder: 10, detail: { delayValue: fixedValue(250) } }];
+  p.process.effectBindings = [{ bindingKey: 'pay', effectKey: 'pay', moment: moment('PROCESS_START'), sortOrder: 10 }];
+  p.effects = [resource('pay', 'CONSUME', fixedValue(100)), ...(['normal', 'low'] as const).map((branch): SkillEffect => ({
+    gameId: 'lol', skillKey: key, effectKey: `${branch}_heal`, name: '自身治疗', description: null, sortOrder: branch === 'normal' ? 20 : 30,
+    lifecycle: null, createdAt: '', updatedAt: '', results: [{
+      resultKey: 'heal', name: '治疗', resultType: 'DIRECT_HEAL', target: 'SOURCE', description: null, sortOrder: 10,
+      lifecycleBehavior: null, spellShieldBlockScope: null,
+      valueRule: { value: fixedValue(branch === 'normal' ? 200 : 300), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null }, detail: {}
+    }]
+  }))];
+  p.castCosts = [{ bindingKey: 'pay', effectKey: 'pay', resultKey: 'pay' }];
+  p.parameters = [{ gameId: 'lol', skillKey: key, parameterKey: 'threshold', name: '阈值', valueType: 'DECIMAL',
+    valueMode: 'FIXED', fixedValue: 0.4, levelValues: null, description: null, sortOrder: 10, createdAt: '', updatedAt: '' }];
+  p.rules = [initial(), ...(['normal', 'low'] as const).map((branch, index): SkillTriggerRuleDetail => rule({
+    ruleKey: `${branch}_heal`, sortOrder: 20 + index * 10,
+    eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: key, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
+    conditionGroups: [{ groupKey: 'hp', name: '生命门槛', sortOrder: 10, conditions: [{
+      conditionKey: 'hp_ratio', conditionType: 'ATTRIBUTE_COMPARE', sortOrder: 10,
+      detail: { subject: 'SOURCE', attributeKey: 'hp', attributeValueKind: 'CURRENT_RATIO',
+        comparator: branch === 'normal' ? 'GTE' : 'LT', comparisonValue: parameterValue('threshold') }
+    }] }], actions: [execute(`${branch}_heal`, 'heal_self')]
+  }))];
+  return p;
+}
+
 function bladeProbe(): AuthoredTriggerProgram {
   const skillKey = 'probe_blade';
   const icd = { conditionKey: 'icd', conditionType: 'INTERNAL_STATE_CHECK' as const, sortOrder: 20,
     detail: { stateKey: 'icd', valueKind: 'REMAINING_MS' as const, optionKey: null, expectedBoolean: null, comparator: 'EQ' as const, comparisonValue: fixedValue(0) } };
-  const group = (enabled: boolean) => ({ groupKey: enabled ? 'armed' : 'idle', name: '待命', sortOrder: enabled ? 20 : 10, conditions: [
-    { conditionKey: 'flag', conditionType: 'INTERNAL_STATE_CHECK' as const, sortOrder: 10,
-      detail: { stateKey: 'ready', valueKind: 'ENABLED' as const, optionKey: null, expectedBoolean: enabled, comparator: null, comparisonValue: null } }, icd
-  ] });
   const effect = resource('bonus', 'RESTORE', fixedValue(1)); effect.skillKey = skillKey;
   return { gameId: 'lol', skillKey, skillLevel: 1, characterLevel: 1,
     identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
@@ -118,14 +142,13 @@ function bladeProbe(): AuthoredTriggerProgram {
         { operationKey: 'expire', name: '到期', stateKey: 'ready', moment: moment('STEP_TIMEOUT', 'aa'), sortOrder: 40, operation: 'DISABLE', value: null, optionKey: null }
       ], createdAt: '', updatedAt: '' }],
     rules: [
-      rule({ ruleKey: 'arm', eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } }, conditionGroups: [group(false), group(true)],
-        actions: [{ actionKey: 'arm', name: '启动', actionType: 'START_PROCESS', sortOrder: 10, targetContext: 'CURRENT_TARGET', detail: { processKey: 'blade' }, runtimeInputBindings: [], resultModifiers: [] }] }),
-      rule({ ruleKey: 'consume', sortOrder: 20, eventSource: { eventType: 'BASIC_ATTACK_HIT', detail: {} }, conditionGroups: [group(true)], actions: [execute('bonus')], oncePerUse: { groupKey: 'consume', scope: 'SKILL' } })
+      rule({ ruleKey: 'arm', eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } }, conditionGroups: [{ groupKey: 'ready', name: '冷却就绪', sortOrder: 10, conditions: [icd] }],
+        actions: [{ actionKey: 'arm', name: '启动', actionType: 'START_PROCESS', sortOrder: 10, targetContext: 'CURRENT_TARGET', detail: { processKey: 'blade' }, runtimeInputBindings: [], resultModifiers: [] }] })
     ] };
 }
 function hitProbe(): AuthoredHitProgram {
   const damage = resource('hit', 'RESTORE', fixedValue(10));
-  damage.results = [{ ...damage.results[0]!, resultType: 'DAMAGE', target: 'TARGET', detail: { damageTypeKey: 'physical', deliveryKind: 'SKILL', originKind: 'DIRECT',
+  damage.results = [{ ...damage.results[0]!, resultType: 'DAMAGE', target: 'TARGET', detail: { damageTypeKey: 'physics', deliveryKind: 'SKILL', originKind: 'DIRECT',
     critical: { mode: 'DISALLOWED', multiplierValue: null }, vampQualification: 'RESOLVED', vampOverrides: [] } } as SkillEffectResult];
   return { gameId: 'lol', skillKey: key, skillLevel: 1, characterLevel: 1,
     identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } },
@@ -136,7 +159,8 @@ function hitProbe(): AuthoredHitProgram {
 
 type Command = { action: ProcessControlAction | 'MUTATE' | 'KILL' | 'HIT'; at: number; useRef?: string; providerRef?: string };
 type Payload = { program: AuthoredProcessProgram; commands: Command[]; durationMs: number; initialMana?: number; initialEnergy?: number;
-  extraMount?: boolean; blade?: boolean; hit?: boolean; resume?: { commands: Command[]; durationMs: number; corrupt?: 'past_driver' | 'negative_cost' | 'past_expiry' }; budget?: number };
+  initialHp?: number; receivedHealChange?: number; extraMount?: boolean; blade?: boolean; hit?: boolean;
+  resume?: { commands: Command[]; durationMs: number; corrupt?: 'past_driver' | 'negative_cost' | 'past_expiry' }; budget?: number };
 type Result = { done?: DoneResult; resumed?: DoneResult; runError?: string; resumeError?: string; compileErrors?: unknown; adapterError?: string; released?: boolean };
 async function run(page: Page, payload: Payload): Promise<Result> {
   await page.route('**/p4-browser-harness', route => route.fulfill({ contentType: 'text/html', body: '<!doctype html><title>施放阶段运行验收</title>' }));
@@ -152,7 +176,8 @@ async function run(page: Page, payload: Payload): Promise<Result> {
       typeCatalog: { types: [{ key: 'damage/physical', domain: 'damage' }, { key: 'ability/spell', domain: 'ability' },
         { key: 'damage_trait/delivery_skill', domain: 'damage_trait' }, { key: 'damage_trait/origin_direct', domain: 'damage_trait' }], relations: [] }, rules: {},
       combatants: (['source', 'target'] as const).map(actor => ({ key: actor,
-        attributes: { hp: slot(1000), power: slot(60, 200), armor: slot(0), omnivamp_percent: slot(0) },
+        attributes: { hp: { base: 1000, current: actor === owner ? data.initialHp ?? 1000 : 1000, max: 1000, resolved: 1000 },
+          power: slot(60, 200), ability_power: slot(100), armor: slot(0), omnivamp_percent: slot(0) },
         resources: { mana: { current: data.initialMana ?? 100, max: 200 }, energy: { current: data.initialEnergy ?? 0, max: 200 } },
         providers: [{ providerRef: 'harness', definitionRef: 'harness' }, ...(actor === 'source' && data.hit ? [{ providerRef: 'hit', definitionRef: 'hit' }] : [])] })),
       sharedProviders: [{ providerKey: 'harness', kind: 'champion', stableId: 'harness', abilities: [
@@ -166,6 +191,13 @@ async function run(page: Page, payload: Payload): Promise<Result> {
       const adapted = adaptProcessProgram(data.program);
       request = withProcessProgram(request, { processProviderKey: 'casting', authored: data.program }, { rulesHash: 'p4-casting' });
       if (data.extraMount) request = withProcessProgram(request, { processProviderKey: 'other_casting', authored: data.program }, { rulesHash: 'p4-two' });
+      if (data.receivedHealChange !== undefined) {
+        request.sharedProviders!.push({ providerKey: 'healing_adjustment', kind: 'champion', stableId: 'healing_adjustment', modifiers: [{
+          modifierKey: 'received', kind: 'pipeline', command: 'heal', healDirection: 'RECEIVED', healCategory: 'DIRECT',
+          healGroupKey: 'received', valuePolicy: 'add_percent', value: { op: 'const', value: data.receivedHealChange }
+        }] });
+        request.combatants.find(actor => actor.key === owner)!.providers.push({ providerRef: 'healing_adjustment', definitionRef: 'healing_adjustment' });
+      }
       const mount = request.combatants.find(actor => actor.key === owner)!.providers.find(provider => provider.providerRef === 'casting')!;
       request.sharedProviders!.find(provider => provider.providerKey === mount.definitionRef)!.abilities!.push(explicitProcessInterrupt({ abilityKey: 'interrupt', processKey: 'cast', skillKey: data.program.skillKey, failureReason: 'CONTROLLED' }));
       if (data.blade) request = withTriggerProgram(request, { triggerProviderKey: 'probe_blade', authored: data.probeBlade,
@@ -217,6 +249,137 @@ async function passed(result: Result, info: TestInfo): Promise<DoneResult> {
 const actor = (done: DoneResult, owner: 'source' | 'target' = 'source') => done.finalSnapshot.combatants.find(row => row.key === owner)!;
 const instance = (done: DoneResult) => done.finalSnapshot.processInstances![0]!;
 const cooldown = (done: DoneResult, owner: 'source' | 'target' = 'source') => actor(done, owner).cooldowns[`${owner}.provider[casting].ability[cast_initial]`]?.readyAtMs;
+
+async function verifyFirstSelfHeal(page: Page, info: TestInfo, authored: AuthoredProcessProgram, expectedCooldownMs: number): Promise<void> {
+  const thresholdRuns: Array<{ hp: number; done: DoneResult }> = [];
+  const initialAbilityKey = authored.rules.flatMap(rule => rule.actions)
+    .find(action => action.actionType === 'START_PROCESS')?.actionKey;
+  expect(initialAbilityKey).toBeTruthy();
+  const healCooldown = (done: DoneResult, owner: 'source' | 'target' = 'source', providerRef = 'casting') =>
+    actor(done, owner).cooldowns[`${owner}.provider[${providerRef}].ability[${initialAbilityKey}]`]?.readyAtMs;
+  for (const [hp, healed] of [[399, 699], [400, 600]] as const) {
+    const value = await run(page, { program: authored, initialHp: hp, commands: [{ action: 'INITIAL', at: 0 }], durationMs: 300 });
+    const done = await passed(value, info);
+    expect(actor(done).attributes.ability_power.resolved).toBe(100);
+    expect(actor(done).attributes.hp.max).toBe(1000);
+    expect(actor(done).attributes.hp.current).toBe(healed);
+    expect(actor(done).resources.mana.current).toBe(0);
+    expect(healCooldown(done)).toBe(expectedCooldownMs);
+    expect(instance(done)).toMatchObject({ status: 'complete', finishedAtMs: 250, actualCosts: { mana: 100 } });
+    expect(done.evidence.items.filter(item => item.kind === 'emitted_event' && item.ref === 'event/ability_started')).toHaveLength(1);
+    thresholdRuns.push({ hp, done });
+  }
+  const lowFirst = structuredClone(authored);
+  const low = lowFirst.rules.find(rule => rule.ruleKey.includes('low'))!;
+  low.sortOrder = Math.min(...lowFirst.rules.map(rule => rule.sortOrder)) - 1;
+  const reordered = await passed(await run(page, { program: lowFirst, initialHp: 399,
+    commands: [{ action: 'INITIAL', at: 0 }], durationMs: 300 }), info);
+  expect(actor(reordered).attributes.hp.current).toBe(699);
+
+  const poor = await passed(await run(page, { program: authored, initialHp: 399, initialMana: 99,
+    commands: [{ action: 'INITIAL', at: 0 }], durationMs: 300 }), info);
+  expect(actor(poor).attributes.hp.current).toBe(399);
+  expect(actor(poor).resources.mana.current).toBe(99);
+  expect(poor.finalSnapshot.processInstances ?? []).toHaveLength(0);
+  expect(poor.evidence.items.filter(item => item.kind === 'emitted_event' && item.ref === 'event/ability_started')).toHaveLength(0);
+
+  const repeat = await passed(await run(page, { program: authored, initialHp: 399, initialMana: 200,
+    commands: [{ action: 'INITIAL', at: 0, useRef: 'first' }, { action: 'INITIAL', at: 10, useRef: 'first' },
+      { action: 'INITIAL', at: 1000, useRef: 'second' }], durationMs: 1200 }), info);
+  expect(actor(repeat).attributes.hp.current).toBe(699);
+  expect(actor(repeat).resources.mana.current).toBe(100);
+  expect(repeat.evidence.items.filter(item => item.kind === 'emitted_event' && item.ref === 'event/ability_started')).toHaveLength(1);
+
+  const active = await run(page, { program: authored, initialHp: 399, commands: [{ action: 'INITIAL', at: 0 }],
+    durationMs: 100, resume: { commands: [], durationMs: 200 } });
+  await passed(active, info);
+  expect(instance(active.done!)).toMatchObject({ status: 'active' });
+  expect(actor(active.done!).attributes.hp.current).toBe(699);
+  expect(active.resumeError).toBeUndefined();
+  expect(instance(active.resumed!)).toMatchObject({ status: 'complete', finishedAtMs: 250 });
+  expect(actor(active.resumed!).attributes.hp.current).toBe(699);
+  const ended = await run(page, { program: authored, initialHp: 399, commands: [{ action: 'INITIAL', at: 0 }],
+    durationMs: 300, resume: { commands: [], durationMs: 100 } });
+  await passed(ended, info);
+  expect(ended.resumeError).toBeUndefined();
+  expect(actor(ended.resumed!).attributes.hp.current).toBe(699);
+
+  const oppositeProgram = structuredClone(authored); oppositeProgram.owner = 'target';
+  const opposite = await passed(await run(page, { program: oppositeProgram, initialHp: 399,
+    commands: [{ action: 'INITIAL', at: 0 }], durationMs: 300 }), info);
+  expect(actor(opposite, 'target').attributes.hp.current).toBe(699);
+  expect(actor(opposite).attributes.hp.current).toBe(1000);
+  expect(actor(opposite, 'target').resources.mana.current).toBe(0);
+
+  const mounts = await passed(await run(page, { program: authored, initialHp: 100, initialMana: 200, extraMount: true,
+    commands: [{ action: 'INITIAL', at: 0, useRef: 'first' },
+      { action: 'INITIAL', at: 10, useRef: 'second', providerRef: 'other_casting' }], durationMs: 300 }), info);
+  expect(actor(mounts).attributes.hp.current).toBe(600);
+  expect(actor(mounts).resources.mana.current).toBe(0);
+  expect(mounts.finalSnapshot.processInstances).toHaveLength(2);
+  expect(healCooldown(mounts, 'source', 'other_casting')).toBe(expectedCooldownMs + 10);
+
+  const capped = await passed(await run(page, { program: authored, initialHp: 900,
+    commands: [{ action: 'INITIAL', at: 0 }], durationMs: 300 }), info);
+  expect(actor(capped).attributes.hp.current).toBe(1000);
+  const modified = await passed(await run(page, { program: authored, initialHp: 400, receivedHealChange: -0.5,
+    commands: [{ action: 'INITIAL', at: 0 }], durationMs: 300 }), info);
+  expect(actor(modified).attributes.hp.current).toBe(500);
+  await info.attach('首次自身治疗实际输入与运行结果', {
+    contentType: 'application/json', body: Buffer.from(JSON.stringify({
+      authored, expectedCooldownMs,
+      boundary: '作者配置按调用场景注明来源；HP、AP、资源、反序及受到治疗修正均为明确的合成验收输入，不写业务数据。',
+      reorderedRuleSortOrders: lowFirst.rules.map(rule => ({ ruleKey: rule.ruleKey, sortOrder: rule.sortOrder })),
+      thresholdRuns, reordered, poor, repeat, active, ended, opposite, mounts, capped, modified
+    }, null, 2))
+  });
+}
+
+test('真实Worker：首次自身治疗冻结互斥分支并隔离过程拥有者与挂载', async ({ page }, info) => {
+  await verifyFirstSelfHeal(page, info, healingProbe(), 120000);
+});
+
+test('真实API索拉卡R完整已保存组成进入Worker：首次互斥自身治疗', async ({ page, request }, info) => {
+  test.skip(process.env.P4_SORAKA_LIVE_API !== '1', '正式三条规则保存重开并独立回读后启用只读专项');
+  const base = 'http://127.0.0.1:8080/api/admin/games/lol/skills/soraka_r';
+  const read = async (path: string) => {
+    const response = await request.get(`${base}${path}`, { headers: { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` } });
+    expect(response.status(), path).toBe(200);
+    return response.json();
+  };
+  const parameterKeys = ['base_heal', 'ability_power_ratio', 'low_health_threshold_ratio', 'low_health_multiplier',
+    'cast_time_ms', 'cooldown_ms', 'mana_cost'];
+  const formulaKeys = ['self_heal', 'self_low_health_heal'];
+  const effectKeys = ['mana_cost', 'self_heal', 'self_low_health_heal'];
+  const ruleKeys = ['on_used', 'on_used_self_heal', 'on_used_self_low_health_heal'];
+  const [savedProcess, parameters, formulas, effects, rules] = await Promise.all([
+    read('/processes/cast'), Promise.all(parameterKeys.map(key => read(`/parameters/${key}`))),
+    Promise.all(formulaKeys.map(key => read(`/formulas/${key}`))),
+    Promise.all(effectKeys.map(key => read(`/effects/${key}`))),
+    Promise.all(ruleKeys.map(key => read(`/trigger-rules/${key}`)))
+  ]);
+  const program: AuthoredProcessProgram = { gameId: 'lol', skillKey: 'soraka_r', skillLevel: 1, characterLevel: 1,
+    owner: 'source', process: savedProcess, parameters, formulas, effects, rules,
+    castCosts: [{ bindingKey: 'mana_cost', effectKey: 'mana_cost', resultKey: 'consume_mana' }] };
+  expect(rules.map((row: SkillTriggerRuleDetail) => row.ruleKey)).toEqual(ruleKeys);
+  for (const row of rules) {
+    expect(row.eventSource).toEqual({ eventType: 'SKILL_USED',
+      detail: { sourceSkillKey: 'soraka_r', useKind: 'ACTIVE', castPhase: 'INITIAL' } });
+  }
+  expect(savedProcess.steps).toHaveLength(1);
+  expect(savedProcess.steps[0]).toMatchObject({ stepKey: 'cast_delay', stepType: 'DELAY', detail: { delayValue: parameterValue('cast_time_ms') } });
+  expect(savedProcess.cooldown).toMatchObject({ durationValue: parameterValue('cooldown_ms'), startMoment: { momentType: 'PROCESS_START' } });
+  expect(savedProcess.effectBindings).toEqual(expect.arrayContaining([{ bindingKey: 'mana_cost', effectKey: 'mana_cost',
+    moment: expect.objectContaining({ momentType: 'PROCESS_START' }), sortOrder: 10 }]));
+  const frozen = structuredClone(program);
+  await verifyFirstSelfHeal(page, info, program, 150000);
+  expect(program).toEqual(frozen);
+  expect(await Promise.all(ruleKeys.map(key => read(`/trigger-rules/${key}`)))).toEqual(rules);
+  await info.attach('索拉卡正式组成实际工作线程', { contentType: 'application/json', body: Buffer.from(JSON.stringify({
+    skillKey: program.skillKey, parameterKeys, formulaKeys, effectKeys, ruleKeys, businessWrites: 0,
+    boundary: '正式对象完整作者组成只读进入Worker；属性和100法力槽由受控1V1场景提供，不代表完整英雄战斗装配。'
+  }, null, 2)) });
+});
 
 test('真实Worker：同次首次不重付，太早释放无副作用，正常释放只结算一次', async ({ page }, info) => {
   const done = await passed(await run(page, { program: program(), durationMs: 450, commands: [

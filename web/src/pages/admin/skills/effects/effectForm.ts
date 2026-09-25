@@ -358,6 +358,7 @@ export const SKILL_EFFECT_LIFECYCLE_OPERATIONS = [
 ] as const satisfies readonly SkillEffectLifecycleOperation[];
 
 export type SkillEffectLifecycleDraft = {
+  endWhenShieldEndsResultKey: string;
   durationValue: NumericValue | null;
   maxStacksValue: NumericValue | null;
   applicationStacksValue: NumericValue | null;
@@ -382,6 +383,13 @@ export type SkillEffectVampOverrideDraft = {
   mode: 'DISABLED' | 'OVERRIDE';
   basisOutputKind: SkillEffectVampBasisOutputKind | '' | null;
   efficiencyValue: NumericValue | null;
+};
+
+export type SkillEffectDamageModifierConditionDraft = {
+  attributeKey: string;
+  comparator: 'LT' | 'GT';
+  comparisonValue: NumericValue | null;
+  originalAttributeKey: string | null;
 };
 
 export type AffectedSkillScopeDraft = {
@@ -415,6 +423,7 @@ export type SkillEffectResultDraft = {
   damageFilterDeliveryKind: SkillEffectDamageFilterDeliveryKind | '';
   damageFilterOriginKind: SkillEffectDamageFilterOriginKind | '';
   criticalFilter: SkillEffectCriticalFilter | '';
+  damageModifierCondition: SkillEffectDamageModifierConditionDraft | null;
   healingModifierDirection: SkillEffectHealingModifierDirection | '';
   healingKind: SkillEffectHealingKind | '';
   modifierZoneKey: string;
@@ -461,6 +470,7 @@ export type SkillEffectDraftField =
   | 'sortOrder'
   | 'results'
   | 'lifecycle'
+  | 'endWhenShieldEndsResultKey'
   | 'durationValue'
   | 'maxStacksValue'
   | 'applicationStacksValue'
@@ -497,6 +507,10 @@ export type SkillEffectResultDraftField =
   | 'damageFilterDeliveryKind'
   | 'damageFilterOriginKind'
   | 'criticalFilter'
+  | 'damageModifierCondition'
+  | 'conditionAttributeKey'
+  | 'conditionComparator'
+  | 'conditionComparisonValue'
   | 'healingModifierDirection'
   | 'healingKind'
   | 'modifierZoneKey'
@@ -573,7 +587,7 @@ export type EffectFormCatalog = {
   skills: ReadonlyArray<Pick<Skill, 'skillKey' | 'status'>>;
   skillCategories: ReadonlyArray<Pick<SkillCategory, 'skillCategoryKey' | 'status'>>;
   statuses: ReadonlyArray<Pick<GameStatus, 'statusKey' | 'status' | 'statusKind'>>;
-  modifierZones?: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'status' | 'calculationMode'>>;
+  modifierZones?: ReadonlyArray<Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'status' | 'calculationMode' | 'applicationStage'>>;
 };
 
 export type SkillEffectFormValidationOptions = {
@@ -622,6 +636,7 @@ const EFFECT_DRAFT_FIELDS = new Set<SkillEffectDraftField>([
   'sortOrder',
   'results',
   'lifecycle',
+  'endWhenShieldEndsResultKey',
   'durationValue',
   'maxStacksValue',
   'applicationStacksValue',
@@ -635,6 +650,7 @@ const EFFECT_DRAFT_FIELDS = new Set<SkillEffectDraftField>([
 
 const LIFECYCLE_FIELD_BY_PATH: { [path: string]: SkillEffectDraftField } = {
   lifecycle: 'lifecycle',
+  'lifecycle.endWhenShieldEndsResultKey': 'endWhenShieldEndsResultKey',
   'lifecycle.durationValue': 'durationValue',
   'lifecycle.maxStacksValue': 'maxStacksValue',
   'lifecycle.applicationStacksValue': 'applicationStacksValue',
@@ -670,6 +686,12 @@ const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
   'detail.absorbedDamageTypeKey': 'absorbedDamageTypeKey',
   'detail.decayMode': 'shieldDecayMode',
   'detail.criticalFilter': 'criticalFilter',
+  'detail.condition': 'damageModifierCondition',
+  'detail.condition.receiver': 'damageModifierCondition',
+  'detail.condition.attributeKey': 'conditionAttributeKey',
+  'detail.condition.attributeValueKind': 'damageModifierCondition',
+  'detail.condition.comparator': 'conditionComparator',
+  'detail.condition.comparisonValue': 'conditionComparisonValue',
   'detail.healingKind': 'healingKind',
   'detail.modifierZoneKey': 'modifierZoneKey',
   'detail.attributeKey': 'attributeKey',
@@ -700,6 +722,7 @@ export function createEmptyAffectedSkillScopeDraft(): AffectedSkillScopeDraft {
 
 export function createEmptyLifecycleDraft(): SkillEffectLifecycleDraft {
   return {
+    endWhenShieldEndsResultKey: '',
     durationValue: null,
     maxStacksValue: null,
     applicationStacksValue: null,
@@ -769,6 +792,7 @@ export function createEmptyResultDraft(
     damageFilterOriginKind:
       resultType === 'DAMAGE_MODIFIER' || resultType === 'DAMAGE_IMMUNITY' ? 'ANY' : '',
     criticalFilter: resultType === 'DAMAGE_MODIFIER' ? 'ANY' : '',
+    damageModifierCondition: null,
     healingModifierDirection: resultType === 'HEALING_MODIFIER' ? 'RECEIVED' : '',
     healingKind: resultType === 'HEALING_MODIFIER' ? 'ANY' : '',
     modifierZoneKey: '',
@@ -819,6 +843,9 @@ export function skillEffectToCopyDraft(effect: SkillEffect): SkillEffectDraft {
   draft.originalInstanceScope = '';
   draft.results = draft.results.map((result) => ({
     ...result,
+    damageModifierCondition: result.damageModifierCondition
+      ? { ...result.damageModifierCondition, originalAttributeKey: null }
+      : null,
     originalResultType: null,
     originalDamageTypeKey: null,
     originalModifierZoneKey: null,
@@ -908,6 +935,14 @@ export function skillEffectResultToDraft(result: SkillEffectResult): SkillEffect
       draft.damageFilterDeliveryKind = result.detail.deliveryKind;
       draft.damageFilterOriginKind = result.detail.originKind;
       draft.criticalFilter = result.detail.criticalFilter;
+      draft.damageModifierCondition = result.detail.condition
+        ? {
+            attributeKey: result.detail.condition.attributeKey,
+            comparator: result.detail.condition.comparator,
+            comparisonValue: { ...result.detail.condition.comparisonValue },
+            originalAttributeKey: result.detail.condition.attributeKey
+          }
+        : null;
       draft.originalDamageTypeKey = result.detail.damageTypeKey;
       draft.originalModifierZoneKey = result.detail.modifierZoneKey;
       break;
@@ -1102,6 +1137,7 @@ export function applyResultTypeChange(
     damageFilterOriginKind:
       nextType === 'DAMAGE_MODIFIER' || nextType === 'DAMAGE_IMMUNITY' ? 'ANY' : '',
     criticalFilter: nextType === 'DAMAGE_MODIFIER' ? 'ANY' : '',
+    damageModifierCondition: null,
     healingModifierDirection: nextType === 'HEALING_MODIFIER' ? 'RECEIVED' : '',
     healingKind: nextType === 'HEALING_MODIFIER' ? 'ANY' : '',
     attributeKey: '',
@@ -1255,6 +1291,9 @@ export function clearHiddenResultFields(draft: SkillEffectResultDraft): SkillEff
         : '',
     criticalFilter:
       draft.resultType === 'DAMAGE_MODIFIER' ? draft.criticalFilter || 'ANY' : '',
+    damageModifierCondition: draft.resultType === 'DAMAGE_MODIFIER'
+      ? draft.damageModifierCondition
+      : null,
     healingModifierDirection:
       draft.resultType === 'HEALING_MODIFIER'
         ? draft.healingModifierDirection || 'RECEIVED'
@@ -1693,24 +1732,35 @@ export function isSharedOnlyPersistentResult(draft: SkillEffectResultDraft): boo
   return isAttributeSetPersistent(draft) || draft.resultType === 'HEALTH_FLOOR';
 }
 
+export function normalizeResultDraftForDirtyComparison(result: SkillEffectResultDraft): SkillEffectResultDraft {
+  return {
+    ...result,
+    statusKind: null,
+    affectedSkillScope: usesAffectedSkillScope(result.resultType)
+      ? {
+          mode: result.affectedSkillScope.mode,
+          skillKeys: [...result.affectedSkillScope.skillKeys].map((item) => item.trim()).sort(),
+          skillCategoryKeys: [...result.affectedSkillScope.skillCategoryKeys].map((item) => item.trim()).sort()
+        }
+      : createEmptyAffectedSkillScopeDraft(),
+    originalAffectedSkillKeys: [...result.originalAffectedSkillKeys].sort(),
+    originalSkillCategoryKeys: [...result.originalSkillCategoryKeys].sort()
+  };
+}
+
+export function createEmptyDamageModifierConditionDraft(): SkillEffectDamageModifierConditionDraft {
+  return {
+    attributeKey: '',
+    comparator: 'LT',
+    comparisonValue: null,
+    originalAttributeKey: null
+  };
+}
+
 export function normalizeEffectDraftForDirtyComparison(draft: SkillEffectDraft): SkillEffectDraft {
   return {
     ...draft,
-    results: draft.results.map((result) => ({
-      ...result,
-      statusKind: null,
-      affectedSkillScope: usesAffectedSkillScope(result.resultType)
-        ? {
-            mode: result.affectedSkillScope.mode,
-            skillKeys: [...result.affectedSkillScope.skillKeys].map((item) => item.trim()).sort(),
-            skillCategoryKeys: [...result.affectedSkillScope.skillCategoryKeys]
-              .map((item) => item.trim())
-              .sort()
-          }
-        : createEmptyAffectedSkillScopeDraft(),
-      originalAffectedSkillKeys: [...result.originalAffectedSkillKeys].sort(),
-      originalSkillCategoryKeys: [...result.originalSkillCategoryKeys].sort()
-    }))
+    results: draft.results.map(normalizeResultDraftForDirtyComparison)
   };
 }
 
@@ -1771,7 +1821,7 @@ export function listStatusOptions(
 export function catalogModifierZone(
   catalog: EffectFormCatalog | null | undefined,
   modifierZoneKey: string
-): Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'status' | 'calculationMode'> | undefined {
+): Pick<ModifierZone, 'modifierZoneKey' | 'domain' | 'status' | 'calculationMode' | 'applicationStage'> | undefined {
   const trimmed = modifierZoneKey.trim();
   if (!trimmed) return undefined;
   return (catalog?.modifierZones ?? []).find((item) => item.modifierZoneKey === trimmed);
@@ -2190,6 +2240,7 @@ function lifecycleToDraft(lifecycle: SkillEffectLifecycle | null): SkillEffectLi
     return createEmptyLifecycleDraft();
   }
   return {
+    endWhenShieldEndsResultKey: lifecycle.endWhenShieldEndsResultKey ?? '',
     durationValue: lifecycle.durationValue ?? null,
     maxStacksValue: lifecycle.maxStacksValue,
     applicationStacksValue: lifecycle.applicationStacksValue,
@@ -2498,7 +2549,16 @@ function validateAndBuildResult(
           damageTypeKey: draft.damageTypeKey.trim() || null,
           deliveryKind: draft.damageFilterDeliveryKind as SkillEffectDamageFilterDeliveryKind,
           originKind: draft.damageFilterOriginKind as SkillEffectDamageFilterOriginKind,
-          criticalFilter: draft.criticalFilter as SkillEffectCriticalFilter
+          criticalFilter: draft.criticalFilter as SkillEffectCriticalFilter,
+          condition: draft.damageModifierCondition
+            ? {
+                receiver: 'ENEMY_CHAMPION',
+                attributeKey: draft.damageModifierCondition.attributeKey.trim(),
+                attributeValueKind: 'CURRENT_RATIO',
+                comparator: draft.damageModifierCondition.comparator,
+                comparisonValue: draft.damageModifierCondition.comparisonValue!
+              }
+            : null
         }
       };
     case 'SHIELD_RECEIVED_MODIFIER':
@@ -2667,6 +2727,51 @@ function validateValueRule(
     fixedMinValue,
     fixedMaxValue
   };
+}
+
+function validateDamageModifierCondition(
+  draft: SkillEffectResultDraft,
+  options: SkillEffectFormValidationOptions,
+  fieldErrors: SkillEffectResultDraftErrors,
+  context: ResultLifecycleContext
+): void {
+  const condition = draft.damageModifierCondition;
+  if (!condition) return;
+
+  if (draft.target !== 'SOURCE') fieldErrors.target = '逐笔生命门槛只支持作用于施法者。';
+  if (draft.modifierDirection !== 'DEALT') {
+    fieldErrors.modifierDirection = '逐笔生命门槛只支持造成伤害方向。';
+  }
+  if (!context.lifecycleEnabled || draft.lifecycleBehavior.moment !== 'PERSISTENT') {
+    fieldErrors.moment = '逐笔生命门槛需要父效果生命周期和持续生效结果。';
+  }
+  const zone = catalogModifierZone(options.catalog, draft.modifierZoneKey);
+  if (zone && zone.applicationStage !== 'DAMAGE_PRE_DEFENSE') {
+    fieldErrors.modifierZoneKey = '逐笔生命门槛只支持防御前伤害乘区。';
+  }
+
+  if (!condition.attributeKey.trim()) {
+    fieldErrors.conditionAttributeKey = '请选择本笔伤害承受者的生命属性。';
+  } else {
+    validateCatalogRef(options, 'attributes', condition.attributeKey, condition.originalAttributeKey,
+      fieldErrors, 'conditionAttributeKey');
+  }
+  if (condition.comparator !== 'LT' && condition.comparator !== 'GT') {
+    fieldErrors.conditionComparator = '请选择严格小于或严格大于。';
+  }
+  const valueError = numericValueError(condition.comparisonValue,
+    { parameters: options.parameters, formulas: options.catalog?.formulas },
+    { allowRuntimeInput: false, parametersState: options.parametersLoadState,
+      formulasState: options.catalogLoadState?.formulas });
+  if (valueError) {
+    fieldErrors.conditionComparisonValue = valueError;
+    return;
+  }
+  const staticValues = staticNumericValues(condition.comparisonValue, options.parameters);
+  if (staticValues && (staticValues.length === 0
+    || staticValues.some((value) => !Number.isFinite(value) || value < 0 || value > 1))) {
+    fieldErrors.conditionComparisonValue = '门槛全部等级必须是0到1之间的有限比例。';
+  }
 }
 
 function validateTypeSpecificFields(
@@ -2926,6 +3031,7 @@ function validateTypeSpecificFields(
         'value',
         { allowDisabled: true }
       );
+      validateDamageModifierCondition(draft, options, fieldErrors, context);
       break;
     case 'SHIELD_RECEIVED_MODIFIER':
       if (draft.modifierOperation !== 'INCREASE' && draft.modifierOperation !== 'DECREASE') {
@@ -3121,7 +3227,8 @@ function validateDisabledLifecycle(
 ): void {
   const lifecycle = draft.lifecycle;
   if (
-    lifecycle.durationValue
+    lifecycle.endWhenShieldEndsResultKey
+    || lifecycle.durationValue
     || lifecycle.maxStacksValue
     || lifecycle.applicationStacksValue
     || lifecycle.instanceScope
@@ -3685,7 +3792,15 @@ function cloneResultRequest(result: SkillEffectResultRequest): SkillEffectResult
         ...result,
         lifecycleBehavior,
         valueRule: { ...result.valueRule },
-        detail: { ...result.detail }
+        detail: {
+          ...result.detail,
+          condition: result.detail.condition
+            ? {
+                ...result.detail.condition,
+                comparisonValue: { ...result.detail.condition.comparisonValue }
+              }
+            : null
+        }
       };
     case 'HEALING_MODIFIER':
       return {
@@ -3819,6 +3934,8 @@ function mapResultIssueField(
   if (direct) {
     return direct;
   }
+  if (nested.startsWith('detail.condition.comparisonValue.')) return 'conditionComparisonValue';
+  if (nested.startsWith('detail.condition.')) return 'damageModifierCondition';
   if (/^detail\.affectedSkillScope\.skillKeys(?:\[\d+\])?$/.test(nested)) {
     return 'affectedSkillKeys';
   }

@@ -8,6 +8,7 @@ import {
 import type { CompileRequest, ProviderDefinition } from '../types/genericEngine';
 import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
 import type { SkillFormula } from '../types/skillFormula';
+import type { SkillEffect } from '../types/skillEffect';
 import type { SkillInternalState } from '../types/skillInternalState';
 import type { SkillProcess, SkillProcessMoment } from '../types/skillProcess';
 import type { SkillTriggerCondition, SkillTriggerRuleDetail } from '../types/skillTriggerRule';
@@ -99,22 +100,13 @@ function damageEffect(skillKey: string, delivery: 'SKILL' | 'BASIC_ATTACK', extr
         spellShieldBlockScope: null, lifecycleBehavior: null,
         valueRule: { value: fixedValue(40), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
         detail: {
-          damageTypeKey: 'physical', deliveryKind: delivery, originKind: 'DIRECT',
+          damageTypeKey: 'physics', deliveryKind: delivery, originKind: 'DIRECT',
           critical: { mode: 'DISALLOWED', multiplierValue: null }, vampQualification: 'RESOLVED', vampOverrides: []
         }
       },
       ...extra
     ],
     createdAt: '', updatedAt: ''
-  };
-}
-
-function manaResult(): SkillEffect['results'][number] {
-  return {
-    resultKey: 'mana', name: 'mana', resultType: 'RESOURCE_CHANGE', target: 'SOURCE', description: null, sortOrder: 20,
-    spellShieldBlockScope: null, lifecycleBehavior: null,
-    valueRule: { value: parameterValue('stolen'), fixedMultiplier: 0.5, fixedMinValue: 0, fixedMaxValue: null },
-    detail: { attributeKey: 'mana', operation: 'RESTORE' }
   };
 }
 
@@ -168,25 +160,11 @@ function dualEventWindow(patch: Partial<AuthoredTriggerProgram> = {}): AuthoredT
   return authored;
 }
 
-function refreshStartGroups(): SkillTriggerRuleDetail['conditionGroups'] {
-  return [
-    { groupKey: 'idle', name: 'idle', sortOrder: 10, conditions: [flagOn(false), cooldownReady()] },
-    {
-      groupKey: 'armed', name: 'armed', sortOrder: 20,
-      conditions: [{
-        conditionKey: 'ready_on', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 10,
-        detail: { stateKey: 'ready', valueKind: 'ENABLED', optionKey: null, expectedBoolean: true, comparator: null, comparisonValue: null }
-      }, cooldownReady()]
-    }
-  ];
-}
-
 function refreshSpellblade(windowMs = 10000): AuthoredTriggerProgram {
   const authored = spellbladeProgram();
   const step = authored.processes[0]!.steps[0]!;
   if (step.stepType !== 'EMPOWERED_BASIC_ATTACK') throw new Error('fixture');
   step.detail.windowValue = fixedValue(windowMs);
-  authored.rules[0]!.conditionGroups = refreshStartGroups();
   return authored;
 }
 
@@ -270,38 +248,19 @@ function spellbladeProgram(patch: Partial<AuthoredTriggerProgram> = {}): Authore
     statuses: [], modifierZones: [], skillCategoryKeys: ['common'], vampRules,
     internalStates: [flag(skillKey), icd(skillKey, 1500)],
     processes: [empoweredProcess(skillKey, 'ATTACK_HIT')],
-    effects: [damageEffect(skillKey, 'BASIC_ATTACK'), { ...damageEffect(skillKey, 'BASIC_ATTACK'), effectKey: 'refund', results: [manaResult()] }],
-    parameters: [{ gameId: 'lol', skillKey, parameterKey: 'stolen', name: '前序伤害', valueType: 'DECIMAL', valueMode: 'RUNTIME_INPUT', fixedValue: null, levelValues: null, description: null, sortOrder: 0, createdAt: '', updatedAt: '' }],
-    rules: [
-      {
-        ruleKey: 'arm', name: 'arm', description: 'synthetic', sortOrder: 10,
-        eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
-        conditionGroups: [{ groupKey: 'idle', name: 'idle', sortOrder: 10, conditions: [flagOn(false), cooldownReady()] }],
-        actions: [{
-          actionKey: 'start', name: 'start', actionType: 'START_PROCESS', sortOrder: 10,
-          targetContext: 'CURRENT_TARGET', detail: { processKey: 'spellblade' }, runtimeInputBindings: [], resultModifiers: []
-        }],
-        perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null
-      },
-      {
-        ruleKey: 'consume', name: 'consume', description: 'synthetic', sortOrder: 20,
-        eventSource: { eventType: 'BASIC_ATTACK_HIT', detail: {} },
-        conditionGroups: [{ groupKey: 'armed', name: 'armed', sortOrder: 10, conditions: [flagOn(true), cooldownReady()] }],
-        actions: [{
-          actionKey: 'do_bonus', name: 'bonus', actionType: 'EXECUTE_EFFECT', sortOrder: 10,
-          targetContext: 'CURRENT_TARGET', detail: { effectKey: 'bonus' }, runtimeInputBindings: [], resultModifiers: []
-        }, {
-          actionKey: 'do_refund', name: 'refund', actionType: 'EXECUTE_EFFECT', sortOrder: 20,
-          targetContext: 'CURRENT_TARGET', detail: { effectKey: 'refund' },
-          runtimeInputBindings: [{
-            bindingKey: 'from_hit', parameterKey: 'stolen', sourceType: 'PRIOR_ACTION_RESULT',
-            detail: { sourceActionKey: 'do_bonus', sourceResultKey: 'hit', outputKind: 'POST_DEFENSE_DAMAGE' }
-          }],
-          resultModifiers: []
-        }],
-        perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: { groupKey: 'spellblade', scope: 'SKILL' }
-      }
-    ],
+    effects: [damageEffect(skillKey, 'BASIC_ATTACK'), formulaRefundEffect(skillKey)],
+    parameters: [{ gameId: 'lol', skillKey, parameterKey: 'mana_refund_damage_multiplier', name: '回蓝倍率', valueType: 'DECIMAL', valueMode: 'FIXED', fixedValue: 0.5, levelValues: null, description: null, sortOrder: 0, createdAt: '', updatedAt: '' }],
+    formulas: [manaRefundFormula(skillKey)],
+    rules: [{
+      ruleKey: 'arm', name: 'arm', description: 'synthetic', sortOrder: 10,
+      eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
+      conditionGroups: [{ groupKey: 'available', name: 'available', sortOrder: 10, conditions: [cooldownReady()] }],
+      actions: [{
+        actionKey: 'start', name: 'start', actionType: 'START_PROCESS', sortOrder: 10,
+        targetContext: 'CURRENT_TARGET', detail: { processKey: 'spellblade' }, runtimeInputBindings: [], resultModifiers: []
+      }],
+      perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null
+    }],
     ...patch
   };
 }
@@ -346,6 +305,44 @@ function startMarker(input: CompileRequest, triggerProviderKey: string): string 
 }
 
 describe('有界触发与过程适配', () => {
+  it('接受服务端省略空失败原因的正式过程时点，保持实际输入不变', () => {
+    const withNulls = spellbladeProgram();
+    const fromApi = structuredClone(withNulls);
+    for (const process of fromApi.processes) {
+      for (const row of [...process.effectBindings, ...process.stateOperations]) {
+        Reflect.deleteProperty(row.moment, 'failureReason');
+      }
+    }
+    const before = structuredClone(fromApi);
+    expect(adaptTriggerProgram(fromApi)).toEqual(adaptTriggerProgram(withNulls));
+    expect(fromApi).toEqual(before);
+    for (const collection of ['stateOperations', 'effectBindings'] as const) {
+      const invalid = structuredClone(fromApi);
+      Reflect.set(invalid.processes[0][collection][0].moment, 'failureReason', 'OWNER_DEATH');
+      expect(() => adaptTriggerProgram(invalid)).toThrow(/\.moment/);
+    }
+  });
+
+  it.each([['physics', 'damage/physical'], ['magic', 'damage/magic'], ['real', 'damage/true']])('管理伤害键%s转换为原生%s且不改作者对象', (key, runtimeType) => {
+    const authored = windowProgram();
+    for (const effect of authored.effects) for (const result of effect.results) {
+      if (result.resultType === 'DAMAGE') result.detail.damageTypeKey = key;
+    }
+    const before = structuredClone(authored);
+    const adapted = adaptTriggerProgram(authored);
+    expect(adapted.typeEntries).toContainEqual({ key: runtimeType, domain: 'damage' });
+    expect(JSON.stringify(adapted)).toContain(`"damageType":"${runtimeType}"`);
+    expect(authored).toEqual(before);
+  });
+
+  it('未知管理伤害键在原字段路径拒绝，不透传给原生引擎', () => {
+    const authored = windowProgram();
+    for (const effect of authored.effects) for (const result of effect.results) {
+      if (result.resultType === 'DAMAGE') result.detail.damageTypeKey = 'heat';
+    }
+    expect(() => adaptTriggerProgram(authored)).toThrow(/damageTypeKey/);
+  });
+
   it('合成计数窗口：不改输入、共享 oncePerUse、首次写开窗且奖励单元含清计数与冷却', () => {
     const authored = windowProgram();
     const before = structuredClone(authored);
@@ -379,7 +376,7 @@ describe('有界触发与过程适配', () => {
     expect(adapted.provider.abilities?.[1]?.types).toEqual(['ability/common']);
   });
 
-  it('合成待击消费：INITIAL 身份、命中消费、伤害 outputRef 与同帧回蓝、清 ready 后开冷却', () => {
+  it('单作者待击过程派生命中监听，按绑定伤害与来源公式回蓝，再清待命和开冷却', () => {
     const authored = spellbladeProgram();
     const before = structuredClone(authored);
     const adapted = adaptTriggerProgram(authored);
@@ -398,11 +395,11 @@ describe('有界触发与过程适配', () => {
     ]);
     expect(consume?.listenerSpec?.eventMatcher.all).toEqual(['event/basic_attack_hit', 'event/source_owner']);
     expect(consume?.listenerSpec?.operations?.[0]).toMatchObject({
-      operation: 'damage', outputRef: 'do_bonus_hit', vampQualification: 'RESOLVED'
+      operation: 'damage', vampQualification: 'RESOLVED'
     });
     expect(consume?.listenerSpec?.operations?.[1]).toMatchObject({
       operation: 'resource_change', resourceKey: 'mana',
-      amount: { op: 'max', args: [{ op: 'mul', args: [{ op: 'read', path: 'operation.output.do_bonus_hit.POST_DEFENSE_DAMAGE' }, { op: 'const', value: 0.5 }] }, { op: 'const', value: 0 }] }
+      target: 'source'
     });
     expect(consume?.listenerSpec?.operations?.slice(2)).toEqual([
       expect.objectContaining({ ref: 'ready', valuePolicy: 'set', amount: { op: 'const', value: 0 } }),
@@ -478,38 +475,6 @@ describe('有界触发与过程适配', () => {
           : rule
       ))
     }))).toThrow('首次接触');
-    expect(() => adaptTriggerProgram(spellbladeProgram({
-      rules: spellbladeProgram().rules.map((rule) => (
-        rule.ruleKey === 'consume'
-          ? {
-              ...rule,
-              conditionGroups: [{
-                groupKey: 'blocked', name: 'blocked', sortOrder: 10,
-                conditions: [{
-                  conditionKey: 'blocked', conditionType: 'EVENT_VALUE_COMPARE', sortOrder: 10,
-                  detail: { eventValueKey: 'SKILL_HIT_SPELL_SHIELD_BLOCKED', comparator: 'EQ', comparisonValue: fixedValue(0) }
-                }]
-              }]
-            }
-          : rule
-      ))
-    }))).toThrow('blocked');
-    expect(() => adaptTriggerProgram(spellbladeProgram({
-      rules: spellbladeProgram().rules.map((rule) => (
-        rule.ruleKey === 'consume'
-          ? {
-              ...rule,
-              actions: [rule.actions[0]!, {
-                ...rule.actions[1]!,
-                runtimeInputBindings: [{
-                  bindingKey: 'bad', parameterKey: 'stolen', sourceType: 'PRIOR_ACTION_RESULT',
-                  detail: { sourceActionKey: 'do_bonus', sourceResultKey: 'hit', outputKind: 'RAW_DAMAGE' }
-                }]
-              }]
-            }
-          : rule
-      ))
-    }))).toThrow('未知伤害口径');
     const eclipse = windowProgram({ skillKey: 'item_eclipse' });
     expect(() => adaptTriggerProgram({
       ...eclipse,
@@ -617,24 +582,10 @@ describe('有界触发与过程适配', () => {
     expect(adapted.requiredAttributes).toContain('omnivamp_percent');
   });
 
-  it('ATTACK_START 消费与命中消费保持各自时点，开始能力保留成本与冷却门禁', () => {
-    const skillKey = 'synth_spellblade';
-    const authored = spellbladeProgram({
-      processes: [empoweredProcess(skillKey, 'ATTACK_START')],
-      rules: spellbladeProgram().rules.map((rule) => (
-        rule.ruleKey === 'consume'
-          ? { ...rule, eventSource: { eventType: 'BASIC_ATTACK_START', detail: {} } }
-          : rule
-      ))
-    });
-    const adapted = adaptTriggerProgram(authored);
-    expect(adapted.consumeEvent).toBe('event/basic_attack_start');
-    expect(adapted.provider.abilities?.[1]?.listenerSpec?.eventMatcher.all).toEqual([
-      'event/basic_attack_start', 'event/source_owner'
-    ]);
+  it('ATTACK_START 按步骤路径拒绝，普攻开始能力仍保留成本与冷却', () => {
     expect(() => adaptTriggerProgram(spellbladeProgram({
-      processes: [empoweredProcess(skillKey, 'ATTACK_START')]
-    }))).toThrow('各自时点');
+      processes: [empoweredProcess('synth_spellblade', 'ATTACK_START')]
+    }))).toThrow('processes.spellblade.steps.aa.detail.consumeMoment');
     const start = basicAttackStartAbility({
       abilityKey: 'aa_start', skillKey: 'aa_basic',
       cost: { resourceKey: 'mana', amount: { op: 'const', value: 10 } },
@@ -651,66 +602,6 @@ describe('有界触发与过程适配', () => {
         skillHit: { skillKey: 'aa_basic', candidates: [] }
       })
     ]);
-  });
-
-  it('SHIELD_ABSORBED 与 ACTUAL_HP_LOSS 走同帧 output；同源两效果相同 resultKey 不得合成同一引用', () => {
-    const shield = spellbladeProgram({
-      rules: spellbladeProgram().rules.map((rule) => (
-        rule.ruleKey === 'consume'
-          ? {
-              ...rule,
-              actions: [rule.actions[0]!, {
-                ...rule.actions[1]!,
-                runtimeInputBindings: [{
-                  bindingKey: 'from_hit', parameterKey: 'stolen', sourceType: 'PRIOR_ACTION_RESULT',
-                  detail: { sourceActionKey: 'do_bonus', sourceResultKey: 'hit', outputKind: 'SHIELD_ABSORBED' }
-                }]
-              }]
-            }
-          : rule
-      ))
-    });
-    const shieldOps = adaptTriggerProgram(shield).provider.abilities?.[1]?.listenerSpec?.operations ?? [];
-    expect(JSON.stringify(shieldOps)).toContain('operation.output.do_bonus_hit.SHIELD_ABSORBED');
-    const hpLoss = spellbladeProgram({
-      rules: spellbladeProgram().rules.map((rule) => (
-        rule.ruleKey === 'consume'
-          ? {
-              ...rule,
-              actions: [rule.actions[0]!, {
-                ...rule.actions[1]!,
-                runtimeInputBindings: [{
-                  bindingKey: 'from_hit', parameterKey: 'stolen', sourceType: 'PRIOR_ACTION_RESULT',
-                  detail: { sourceActionKey: 'do_bonus', sourceResultKey: 'hit', outputKind: 'ACTUAL_HP_LOSS' }
-                }]
-              }]
-            }
-          : rule
-      ))
-    });
-    expect(JSON.stringify(adaptTriggerProgram(hpLoss).provider.abilities?.[1]?.listenerSpec?.operations)).toContain(
-      'operation.output.do_bonus_hit.ACTUAL_HP_LOSS'
-    );
-    const collision = spellbladeProgram();
-    const first = collision.rules[1]!.actions[0]!;
-    const secondEffect = structuredClone(collision.effects[0]!);
-    secondEffect.effectKey = 'other_damage';
-    secondEffect.results[0]!.resultKey = 'b_c';
-    collision.effects[0]!.results[0]!.resultKey = 'c';
-    first.actionKey = 'a_b';
-    const refund = collision.rules[1]!.actions[1]!;
-    refund.sortOrder = 30;
-    const input = refund.runtimeInputBindings[0]!;
-    if (input.sourceType !== 'PRIOR_ACTION_RESULT') throw new Error('fixture');
-    input.detail.sourceActionKey = 'a_b'; input.detail.sourceResultKey = 'c';
-    collision.effects = [...collision.effects, secondEffect];
-    collision.rules[1]!.actions = [first, { ...first, actionKey: 'a', sortOrder: 20, detail: { effectKey: 'other_damage' } }, refund];
-    collision.processes[0]!.effectBindings = [
-      { bindingKey: 'first', effectKey: 'bonus', moment: stepExec('aa'), sortOrder: 10 },
-      { bindingKey: 'second', effectKey: 'other_damage', moment: stepExec('aa'), sortOrder: 20 },
-      { bindingKey: 'refund', effectKey: 'refund', moment: stepExec('aa'), sortOrder: 30 }
-    ];
-    expect(() => adaptTriggerProgram(collision)).toThrow('碰撞');
   });
 
   it('缺 oncePerUse、动态输入、技能命中来源身份与过程次数限制整条拒绝', () => {
@@ -781,16 +672,10 @@ describe('有界触发与过程适配', () => {
     }
   });
 
-  it('前序结果严格使用更早动作，不能同动作、前向或退回固定参数', () => {
+  it('强化步骤的计算时参数缺少正式供值时拒绝，不从伤害结果猜测回蓝', () => {
     const authored = spellbladeProgram();
-    const consumer = authored.rules[1]!.actions[1]!;
-    const binding = consumer.runtimeInputBindings[0]!;
-    if (binding.sourceType !== 'PRIOR_ACTION_RESULT') throw new Error('fixture');
-    binding.detail.sourceActionKey = consumer.actionKey;
-    expect(() => adaptTriggerProgram(authored)).toThrow(/更早|前序|前向/);
-    const fixed = spellbladeProgram();
-    fixed.parameters = fixed.parameters!.map((p) => ({ ...p, valueMode: 'FIXED', fixedValue: 999 }));
-    expect(() => adaptTriggerProgram(fixed)).toThrow(/计算时|RUNTIME_INPUT/);
+    authored.parameters = authored.parameters!.map((parameter) => ({ ...parameter, valueMode: 'RUNTIME_INPUT', fixedValue: null }));
+    expect(() => adaptTriggerProgram(authored)).toThrow(/计算时|RUNTIME_INPUT/);
   });
 
   it('来源绑定必须明确、唯一并指向拥有者的主动能力', () => {
@@ -818,7 +703,7 @@ describe('有界触发与过程适配', () => {
     expect(abilities.map(row => row.listenerSpec!.listenerKey)).toEqual(['second_hit', 'first_hit']);
     expect(abilities[0]!.listenerSpec!.operations!.at(-1)!.operation).toBe('damage');
     const unguarded = spellbladeProgram(); unguarded.rules[0]!.conditionGroups = [];
-    expect(() => adaptTriggerProgram(unguarded)).toThrow(/FLAG|待命|缺/);
+    expect(() => adaptTriggerProgram(unguarded)).toThrow(/待击启动/);
   });
 
   it('限时普通护盾保留期限与数值裁剪，重复施加和不足以证明不重叠的冷却门禁拒绝', () => {
@@ -914,43 +799,63 @@ describe('有界触发与过程适配', () => {
     expect(() => adaptTriggerProgram(duplicate)).toThrow('重复施加');
   });
 
-  it('FLAG 窗口：全 false 不刷新；false/true 对称才 refresh_on_write，反例路径拒绝', () => {
-    expect(adaptTriggerProgram(spellbladeProgram()).provider.initialStateSchema?.ready).toMatchObject({
-      durationMs: 1500, refreshPolicy: 'start_on_first_write'
+  const invalidEmpowered: Array<[string, (authored: AuthoredTriggerProgram) => void, string]> = [
+    ['被动过程', a => { a.processes[0]!.activationType = 'PASSIVE'; }, 'activationType'],
+    ['普通冷却', a => { a.processes[0]!.cooldown = { durationValue: fixedValue(100), startMoment: processStart }; }, 'cooldown'],
+    ['多步骤', a => { a.processes[0]!.steps.push({ ...a.processes[0]!.steps[0]!, stepKey: 'extra' }); }, 'steps'],
+    ['多状态', a => { a.internalStates = [...a.internalStates, counter(a.skillKey)]; }, 'internalStates'],
+    ['待命目标范围', a => { a.internalStates = a.internalStates.map(s => s.stateKey === 'ready' ? { ...s, scope: 'TARGET' } : s); }, 'internalStates.ready.scope'],
+    ['冷却目标范围', a => { a.internalStates = a.internalStates.map(s => s.stateKey === 'icd' ? { ...s, scope: 'TARGET' } : s); }, 'internalStates.icd.scope'],
+    ['缺开始操作', a => { a.processes[0]!.stateOperations.shift(); }, 'stateOperations'],
+    ['开始挂步骤时点', a => { a.processes[0]!.stateOperations[0]!.moment = { momentType: 'STEP_START', stepKey: 'aa', failureReason: null }; }, 'stateOperations'],
+    ['缺关闭操作', a => { a.processes[0]!.stateOperations.splice(1, 1); }, 'stateOperations'],
+    ['重复关闭', a => { a.processes[0]!.stateOperations.push({ ...a.processes[0]!.stateOperations[1]!, operationKey: 'again' }); }, 'stateOperations'],
+    ['缺超时', a => { a.processes[0]!.stateOperations.pop(); }, 'stateOperations'],
+    ['重复超时', a => { a.processes[0]!.stateOperations.push({ ...a.processes[0]!.stateOperations[3]!, operationKey: 'again' }); }, 'stateOperations'],
+    ['超时启动冷却', a => { Object.assign(a.processes[0]!.stateOperations[3]!, { operation: 'START', stateKey: 'icd' }); }, 'stateOperations.timeout'],
+    ['状态操作多余数值', a => { Object.assign(a.processes[0]!.stateOperations[0]!, { value: fixedValue(1) }); }, 'stateOperations.arm'],
+    ['状态操作错失败原因', a => { Object.assign(a.processes[0]!.stateOperations[0]!.moment, { failureReason: 'SOURCE_DIED' }); }, 'stateOperations.arm.moment'],
+    ['状态操作标识重复', a => { a.processes[0]!.stateOperations[3]!.operationKey = 'arm'; }, 'stateOperations.arm'],
+    ['缺效果挂接', a => { a.processes[0]!.effectBindings = []; }, 'effectBindings'],
+    ['重复效果挂接', a => { a.processes[0]!.effectBindings.push({ ...a.processes[0]!.effectBindings[0]!, bindingKey: 'again', sortOrder: 15 }); }, 'effectBindings.again'],
+    ['效果错误步骤', a => { a.processes[0]!.effectBindings[0]!.moment = stepExec('other'); }, 'effectBindings.do_bonus.moment'],
+    ['效果提前执行', a => { a.processes[0]!.effectBindings[0]!.moment = processStart; }, 'effectBindings.do_bonus.moment'],
+    ['效果迟于关闭', a => { a.processes[0]!.effectBindings[1]!.sortOrder = 35; }, 'effectBindings.do_refund.sortOrder'],
+    ['关闭迟于冷却', a => { a.processes[0]!.stateOperations[1]!.sortOrder = 45; }, 'stateOperations.start_icd.sortOrder'],
+    ['效果排序重复', a => { a.processes[0]!.effectBindings[1]!.sortOrder = 10; }, 'effectBindings.do_refund.sortOrder'],
+    ['旧双作者规则', a => { a.rules = [...a.rules, { ...a.rules[0]!, ruleKey: 'consume', eventSource: { eventType: 'BASIC_ATTACK_HIT', detail: {} } }]; }, 'rules'],
+    ['额外过程事件规则', a => { a.rules = [...a.rules, { ...a.rules[0]!, ruleKey: 'extra', eventSource: { eventType: 'PROCESS_MOMENT', detail: { processKey: 'spellblade', moment: processStart } } }]; }, 'rules'],
+    ['另一过程引用', a => { Object.assign(a.rules[0]!.actions[0]!.detail, { processKey: 'other' }); }, 'rules.arm.actions'],
+    ['旧真假双组', a => { a.rules[0]!.conditionGroups = [false, true].map((enabled, index) => ({ groupKey: `g${index}`, name: '旧组', sortOrder: index, conditions: [flagOn(enabled), cooldownReady()] })); }, 'conditionGroups'],
+    ['额外条件', a => { a.rules[0]!.conditionGroups[0]!.conditions.push(flagOn(false)); }, 'conditionGroups'],
+    ['缺冷却条件', a => { a.rules[0]!.conditionGroups = []; }, 'conditionGroups'],
+    ['错误冷却状态', a => { Object.assign(a.rules[0]!.conditionGroups[0]!.conditions[0]!.detail, { stateKey: 'ready' }); }, 'conditionGroups'],
+    ['非零冷却条件', a => { Object.assign(a.rules[0]!.conditionGroups[0]!.conditions[0]!.detail, { comparisonValue: fixedValue(1) }); }, 'conditionGroups'],
+    ['额外启动动作', a => { a.rules[0]!.actions.push({ ...a.rules[0]!.actions[0]!, actionKey: 'again' }); }, 'rules.arm.actions'],
+    ['未支持结果', a => { Object.assign(a.effects[0]!.results[0]!, { resultType: 'BASIC_ATTACK_RESET', valueRule: null, detail: {} }); }, 'effects.bonus.results.hit.resultType'],
+    ['未核定吸血', a => { Object.assign(a.effects[0]!.results[0]!.detail, { vampQualification: 'UNRESOLVED' }); }, 'vampQualification']
+  ];
+
+  it.each(invalidEmpowered)('单强化步骤按路径拒绝：%s', (_label, mutate, path) => {
+    const authored = structuredClone(spellbladeProgram());
+    mutate(authored);
+    expect(() => adaptTriggerProgram(authored)).toThrow(path);
+  });
+
+  it('单冷却组固定刷新完整待命窗口，内部冷却保持首次写入期限', () => {
+    const authored = refreshSpellblade();
+    const adapted = adaptTriggerProgram(authored);
+    expect(authored.rules).toHaveLength(1);
+    expect(authored.rules[0]!.conditionGroups[0]!.conditions).toHaveLength(1);
+    expect(adapted.provider.initialStateSchema?.ready).toMatchObject({ durationMs: 10000, refreshPolicy: 'refresh_on_write' });
+    expect(adapted.provider.initialStateSchema?.icd).toMatchObject({ durationMs: 1500, refreshPolicy: 'start_on_first_write' });
+    expect(adapted.provider.abilities?.[1]?.listenerSpec).toMatchObject({
+      listenerKey: 'consume_spellblade', oncePerUse: { groupKey: 'spellblade', scope: 'provider' },
+      condition: { op: 'min', args: [
+        { op: 'eq', args: [{ op: 'read', path: 'provider.state.ready' }, { op: 'const', value: 1 }] },
+        { op: 'eq', args: [{ op: 'read', path: 'provider.state.icd' }, { op: 'const', value: 0 }] }
+      ] }
     });
-    const refresh = refreshSpellblade();
-    expect(adaptTriggerProgram(refresh).provider.initialStateSchema?.ready).toMatchObject({
-      durationMs: 10000, refreshPolicy: 'refresh_on_write'
-    });
-    expect(adaptTriggerProgram(refresh).provider.initialStateSchema?.icd).toMatchObject({
-      durationMs: 1500, refreshPolicy: 'start_on_first_write'
-    });
-    const onlyTrue = spellbladeProgram();
-    onlyTrue.rules[0]!.conditionGroups = [refreshStartGroups()[1]!];
-    expect(() => adaptTriggerProgram(onlyTrue)).toThrow(/仅true|FLAG true/);
-    const missingFlag = spellbladeProgram();
-    missingFlag.rules[0]!.conditionGroups = [{ groupKey: 'idle', name: 'idle', sortOrder: 10, conditions: [cooldownReady()] }];
-    expect(() => adaptTriggerProgram(missingFlag)).toThrow(/FLAG/);
-    const missingIcd = spellbladeProgram();
-    missingIcd.rules[0]!.conditionGroups = [{ groupKey: 'idle', name: 'idle', sortOrder: 10, conditions: [flagOn(false)] }];
-    expect(() => adaptTriggerProgram(missingIcd)).toThrow(/冷却|ICD/);
-    const mixed = spellbladeProgram();
-    mixed.rules[0]!.conditionGroups = [{
-      groupKey: 'bad', name: 'bad', sortOrder: 10, conditions: [flagOn(false), {
-        conditionKey: 'ready_on', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 30,
-        detail: { stateKey: 'ready', valueKind: 'ENABLED', optionKey: null, expectedBoolean: true, comparator: null, comparisonValue: null }
-      }, cooldownReady()]
-    }];
-    expect(() => adaptTriggerProgram(mixed)).toThrow(/矛盾|既开又关/);
-    const asymmetric = refreshSpellblade();
-    asymmetric.rules[0]!.conditionGroups[1]!.conditions.push({
-      conditionKey: 'ad', conditionType: 'ATTRIBUTE_COMPARE', sortOrder: 30,
-      detail: {
-        subject: 'SOURCE', attributeKey: 'omnivamp_percent', attributeValueKind: 'CURRENT',
-        comparator: 'GTE', comparisonValue: fixedValue(0)
-      }
-    });
-    expect(() => adaptTriggerProgram(asymmetric)).toThrow(/对称/);
   });
 
   it('多真实主动技能绑定、未绑定不打标、错来源与无 skillKey 拒绝，不改写装备被动键', () => {
@@ -1089,7 +994,7 @@ describe('有界触发与过程适配', () => {
 
   it('刷新条件的明细与嵌套数值对象键顺序不改变含义', () => {
     const authored = refreshSpellblade();
-    const condition = authored.rules[0]!.conditionGroups[1]!.conditions.find((row) => (
+    const condition = authored.rules[0]!.conditionGroups[0]!.conditions.find((row) => (
       row.conditionType === 'INTERNAL_STATE_CHECK' && row.detail.valueKind === 'REMAINING_MS'
     ));
     if (condition?.conditionType !== 'INTERNAL_STATE_CHECK') throw new Error('missing test cooldown condition');
@@ -1098,48 +1003,8 @@ describe('有界触发与过程适配', () => {
     expect(adaptTriggerProgram(authored).provider.initialStateSchema?.ready).toMatchObject({ refreshPolicy: 'refresh_on_write' });
   });
 
-  it('待击刷新比较 false/true 剩余条件组集合，允许多组对称选择和重复组', () => {
-    const authored = refreshSpellblade();
-    const alternatives: SkillTriggerCondition[] = [
-      {
-        conditionKey: 'ad', conditionType: 'ATTRIBUTE_COMPARE', sortOrder: 30,
-        detail: { subject: 'SOURCE', attributeKey: 'attack_damage', attributeValueKind: 'CURRENT', comparator: 'GTE', comparisonValue: fixedValue(100) }
-      },
-      {
-        conditionKey: 'vamp', conditionType: 'ATTRIBUTE_COMPARE', sortOrder: 40,
-        detail: { subject: 'SOURCE', attributeKey: 'omnivamp_percent', attributeValueKind: 'CURRENT', comparator: 'GTE', comparisonValue: fixedValue(0.1) }
-      }
-    ];
-    const [idle, armed] = authored.rules[0]!.conditionGroups;
-    const groups = [idle!, armed!].flatMap((group, flagIndex) => alternatives.map((condition, index) => ({
-      ...structuredClone(group), groupKey: `${group.groupKey}_${index}`, sortOrder: flagIndex * 20 + index,
-      conditions: flagIndex === 0
-        ? [...structuredClone(group.conditions), structuredClone(condition)]
-        : [structuredClone(condition), ...structuredClone(group.conditions).reverse()]
-    })));
-    groups.push({ ...structuredClone(groups[0]!), groupKey: 'idle_duplicate', sortOrder: 50 });
-    authored.rules[0]!.conditionGroups = groups;
-    expect(adaptTriggerProgram(authored).provider.initialStateSchema?.ready).toMatchObject({ refreshPolicy: 'refresh_on_write' });
-    authored.rules[0]!.conditionGroups = groups.filter((group) => group.groupKey !== groups[3]!.groupKey);
-    expect(() => adaptTriggerProgram(authored)).toThrow(/对称/);
-  });
-
-  it('回蓝走来源总攻击力公式，不新增事件字段且保留同帧前序输出', () => {
+  it('回蓝走来源总攻击力公式，不新增事件字段或前序伤害依赖', () => {
     const authored = spellbladeProgram();
-    authored.parameters = [
-      ...authored.parameters!,
-      {
-        gameId: 'lol', skillKey: authored.skillKey, parameterKey: 'mana_refund_damage_multiplier', name: '倍率',
-        valueType: 'DECIMAL', valueMode: 'FIXED', fixedValue: 0.5, levelValues: null, description: null, sortOrder: 1,
-        createdAt: '', updatedAt: ''
-      }
-    ];
-    authored.formulas = [manaRefundFormula(authored.skillKey)];
-    authored.effects = [authored.effects[0]!, formulaRefundEffect(authored.skillKey)];
-    authored.rules[1]!.actions[1] = {
-      ...authored.rules[1]!.actions[1]!,
-      runtimeInputBindings: []
-    };
     const adapted = adaptTriggerProgram(authored);
     expect(JSON.stringify(adapted.formulas)).toContain('source.attr.attack_damage.resolved');
     expect(JSON.stringify(adapted.provider.abilities?.[1]?.listenerSpec?.operations)).toContain('trigger/synth_spellblade/total_mana_refund');

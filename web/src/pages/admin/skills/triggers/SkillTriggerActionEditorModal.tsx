@@ -48,6 +48,7 @@ import {
   switchActionType,
   targetContextOptionsForEvent,
   validateResultModifier,
+  validateDraftChildKey,
   type NestedFieldError,
   type CatalogLoadState,
   type SkillTriggerActionDraft
@@ -65,6 +66,7 @@ type BindingEditorState = {
 type SkillTriggerActionEditorModalProps = {
   visible: boolean;
   mode: SkillTriggerActionEditorMode;
+  keyReadOnly: boolean;
   draft: SkillTriggerActionDraft | null;
   existingKeys: readonly string[];
   originalBindings: readonly SkillTriggerRuntimeInputBinding[];
@@ -102,6 +104,7 @@ function titleFor(mode: SkillTriggerActionEditorMode): string {
 export function SkillTriggerActionEditorModal({
   visible,
   mode,
+  keyReadOnly,
   draft,
   existingKeys,
   originalBindings,
@@ -209,6 +212,8 @@ export function SkillTriggerActionEditorModal({
   };
 
   const confirm = () => {
+    const keyError = validateDraftChildKey(current.actionKey, '动作标识', existingKeys, mode === 'edit' ? draft?.actionKey : undefined);
+    if (keyError) { setLocalError(keyError); return; }
     if (current.actionType === 'EXECUTE_EFFECT') {
       for (const modifier of current.resultModifiers) {
         const targetError = resultModifierTargetError(selectedEffect, modifier.resultKey);
@@ -223,7 +228,7 @@ export function SkillTriggerActionEditorModal({
         }
       }
     }
-    onConfirm(current);
+    onConfirm({ ...current, actionKey: current.actionKey.trim() });
   };
 
   const retrySelectedEffect = async () => {
@@ -328,7 +333,7 @@ export function SkillTriggerActionEditorModal({
               <Input
                 aria-label="动作标识"
                 value={current.actionKey}
-                disabled={disabled || mode === 'edit'}
+                disabled={disabled || keyReadOnly}
                 maxLength={64}
                 onChange={(value) => setCurrent({ ...current, actionKey: value })}
               />

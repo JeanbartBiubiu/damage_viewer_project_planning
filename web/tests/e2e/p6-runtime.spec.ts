@@ -1,16 +1,26 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type APIRequestContext, type Page, type TestInfo } from '@playwright/test';
 import type { CompileRequest, DoneResult, EngineError } from '../../src/types/genericEngine';
-import { fixedValue, parameterValue } from '../../src/types/numericValue';
+import { fixedValue, formulaValue, parameterValue } from '../../src/types/numericValue';
 import type { AuthoredTriggerProgram } from '../../src/engine/triggerAdapter';
 import type { AuthoredHitProgram } from '../../src/engine/hitAdapter';
 import type { SkillEffect } from '../../src/types/skillEffect';
+import type { Skill } from '../../src/types/skill';
+import type { SkillParameter } from '../../src/types/skillParameter';
+import type { SkillFormula } from '../../src/types/skillFormula';
+import type { SkillInternalState } from '../../src/types/skillInternalState';
+import type { SkillProcess } from '../../src/types/skillProcess';
+import type { SkillTriggerRuleDetail } from '../../src/types/skillTriggerRule';
+import type { GameVampRulesResponse } from '../../src/types/gameVamp';
+import type { StatusListResponse } from '../../src/types/status';
+import type { ModifierZoneListResponse } from '../../src/types/modifierZone';
+import { parseGameVampRules } from '../../src/services/gameVampClient';
 
 const WASM_PATH = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const WASM_SHA256 = '0FD141CE054160F765E0DA176F43EE0E6866177C805576EF5D7FD04ADA11CD3C';
-const WASM_BYTES = 976767;
+const WASM_SHA256 = '25844991E66D5E189CEE0B168869DE07C265C5C3CC3336C7B1A9C793AC0D736D';
+const WASM_BYTES = 983981;
 
 function slot(value: number, max = value) {
   return { base: value, current: value, max, resolved: value };
@@ -86,7 +96,7 @@ function syntheticWindow(): AuthoredTriggerProgram {
         spellShieldBlockScope: null, lifecycleBehavior: null,
         valueRule: { value: fixedValue(40), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
         detail: {
-          damageTypeKey: 'physical', deliveryKind: 'SKILL', originKind: 'DIRECT',
+          damageTypeKey: 'physics', deliveryKind: 'SKILL', originKind: 'DIRECT',
           critical: { mode: 'DISALLOWED', multiplierValue: null }, vampQualification: 'RESOLVED', vampOverrides: []
         }
       }],
@@ -169,14 +179,14 @@ function syntheticSpellblade(): AuthoredTriggerProgram {
           spellShieldBlockScope: null, lifecycleBehavior: null,
           valueRule: { value: fixedValue(40), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
           detail: {
-            damageTypeKey: 'physical', deliveryKind: 'BASIC_ATTACK', originKind: 'DIRECT',
+            damageTypeKey: 'physics', deliveryKind: 'BASIC_ATTACK', originKind: 'DIRECT',
             critical: { mode: 'DISALLOWED', multiplierValue: null }, vampQualification: 'RESOLVED', vampOverrides: []
           }
         },
         {
           resultKey: 'mana', name: 'mana', resultType: 'RESOURCE_CHANGE', target: 'SOURCE', description: null, sortOrder: 20,
           spellShieldBlockScope: null, lifecycleBehavior: null,
-          valueRule: { value: parameterValue('stolen'), fixedMultiplier: 0.5, fixedMinValue: 0, fixedMaxValue: null },
+          valueRule: { value: formulaValue('total_mana_refund'), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
           detail: { attributeKey: 'mana', operation: 'RESTORE' }
         }
       ],
@@ -188,49 +198,28 @@ function syntheticSpellblade(): AuthoredTriggerProgram {
         eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
         conditionGroups: [{
           groupKey: 'idle', name: 'idle', sortOrder: 10,
-          conditions: [{
-            conditionKey: 'ready', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 10,
-            detail: { stateKey: 'ready', valueKind: 'ENABLED', optionKey: null, expectedBoolean: false, comparator: null, comparisonValue: null }
-          }, cooldownReady()]
+          conditions: [cooldownReady()]
         }],
         actions: [{
           actionKey: 'start', name: 'start', actionType: 'START_PROCESS', sortOrder: 10,
           targetContext: 'CURRENT_TARGET', detail: { processKey: 'spellblade' }, runtimeInputBindings: [], resultModifiers: []
         }],
         perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: null
-      },
-      {
-        ruleKey: 'consume', name: 'consume', description: 'synthetic', sortOrder: 20,
-        eventSource: { eventType: 'BASIC_ATTACK_HIT', detail: {} },
-        conditionGroups: [{
-          groupKey: 'armed', name: 'armed', sortOrder: 10,
-          conditions: [{
-            conditionKey: 'ready', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 10,
-            detail: { stateKey: 'ready', valueKind: 'ENABLED', optionKey: null, expectedBoolean: true, comparator: null, comparisonValue: null }
-          }, cooldownReady()]
-        }],
-        actions: [{
-          actionKey: 'do_bonus', name: 'bonus', actionType: 'EXECUTE_EFFECT', sortOrder: 10,
-          targetContext: 'CURRENT_TARGET', detail: { effectKey: 'bonus' },
-          runtimeInputBindings: [{
-            bindingKey: 'from_hit', parameterKey: 'stolen', sourceType: 'PRIOR_ACTION_RESULT',
-            detail: { sourceActionKey: 'do_bonus', sourceResultKey: 'hit', outputKind: 'POST_DEFENSE_DAMAGE' }
-          }],
-          resultModifiers: []
-        }],
-        perTargetCooldown: null, maxTriggersPerProcess: null, oncePerUse: { groupKey: 'spellblade', scope: 'SKILL' }
       }
     ]
   };
-  // The authoring API only permits earlier EXECUTE_EFFECT actions as output sources.
   const bonus = authored.effects[0]!;
   const refund = { ...bonus, effectKey: 'refund', name: 'refund', results: [bonus.results[1]!] };
   bonus.results = [bonus.results[0]!];
   authored.effects = [bonus, refund];
-  authored.parameters = [{ gameId: 'lol', skillKey, parameterKey: 'stolen', name: '前序伤害', valueType: 'DECIMAL', valueMode: 'RUNTIME_INPUT', fixedValue: null, levelValues: null, description: null, sortOrder: 0, createdAt: '', updatedAt: '' }];
-  const consume = authored.rules[1]!;
-  const damage = consume.actions[0]!;
-  consume.actions = [{ ...damage, runtimeInputBindings: [] }, { ...damage, actionKey: 'do_refund', name: 'refund', sortOrder: 20, detail: { effectKey: 'refund' } }];
+  authored.parameters = [{ gameId: 'lol', skillKey, parameterKey: 'mana_refund_damage_multiplier', name: '回蓝倍率', valueType: 'DECIMAL', valueMode: 'FIXED', fixedValue: 0.5, levelValues: null, description: null, sortOrder: 0, createdAt: '', updatedAt: '' }];
+  authored.formulas = [{
+    gameId: 'lol', skillKey, formulaKey: 'total_mana_refund', name: '回蓝', description: null, sortOrder: 0, createdAt: '', updatedAt: '',
+    expression: { nodeType: 'OPERATION', operation: 'MULTIPLY', operands: [
+      { nodeType: 'PARAMETER', parameterKey: 'mana_refund_damage_multiplier' },
+      { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'attack_damage', attributeValueKind: 'TOTAL' }
+    ] }
+  }];
   authored.processes[0]!.effectBindings.push({ bindingKey: 'do_refund', effectKey: 'refund', moment: stepExec('aa'), sortOrder: 20 });
   for (const op of authored.processes[0]!.stateOperations) if (op.moment.momentType === 'STEP_EXECUTION') op.sortOrder += 10;
   return authored;
@@ -253,16 +242,6 @@ function refreshSpellblade(windowMs = 10000): AuthoredTriggerProgram {
   const step = authored.processes[0]!.steps[0]!;
   if (step.stepType !== 'EMPOWERED_BASIC_ATTACK') throw new Error('fixture');
   step.detail.windowValue = fixedValue(windowMs);
-  authored.rules[0]!.conditionGroups = [
-    authored.rules[0]!.conditionGroups[0]!,
-    {
-      groupKey: 'armed', name: 'armed', sortOrder: 20,
-      conditions: [{
-        conditionKey: 'ready_on', conditionType: 'INTERNAL_STATE_CHECK' as const, sortOrder: 10,
-        detail: { stateKey: 'ready', valueKind: 'ENABLED' as const, optionKey: null, expectedBoolean: true, comparator: null, comparisonValue: null }
-      }, cooldownReady()]
-    }
-  ];
   return authored;
 }
 
@@ -289,10 +268,6 @@ function formulaManaProgram(input: {
   authored.vampRules = [];
   authored.skillCategoryKeys = [];
   authored.processes[0]!.effectBindings = [{ bindingKey: 'do_refund', effectKey: input.effect.effectKey, moment: stepExec('aa'), sortOrder: 10 }];
-  authored.rules[1]!.actions = [{
-    actionKey: 'do_refund', name: 'refund', actionType: 'EXECUTE_EFFECT', sortOrder: 10,
-    targetContext: 'CURRENT_TARGET', detail: { effectKey: input.effect.effectKey }, runtimeInputBindings: [], resultModifiers: []
-  }];
   return authored;
 }
 
@@ -402,15 +377,17 @@ async function runP6(page: Page, payload: {
   startOnly?: boolean;
   startAt?: number;
   hitAt?: number;
+  omitAttackUse?: boolean;
   program?: AuthoredTriggerProgram;
+  input?: CompileRequest;
   incoming?: Array<{ at: number; amount: number }>;
   restore?: { state: Record<string, number>; expireAt: Record<string, number>; ledger: RestoreLedgerRow[] };
   secondRun?: boolean;
   initialCastAbilities?: Array<{ providerRef: string; abilityKey: string }>;
-  casts?: Array<{ entryKey: string; abilityKey: string; at: number; skillKey: string; providerRef?: string }>;
+  casts?: Array<{ entryKey: string; abilityKey: string; at: number; skillKey: string; providerRef?: string; target?: 'source' | 'target' }>;
   additionalChampionMount?: string;
   rebindAbilities?: Array<{ providerRef: string; abilityKey: string }>;
-  resumeEmpowered?: { startAt: number; hitAt: number; durationMs: number; restoreDurationMs: number };
+  resumeEmpowered?: { startAt: number; hitAt: number; durationMs: number; restoreDurationMs: number; reopenAt: number };
   extraChampionAbilities?: Array<{ abilityKey: string; kind: string; skillKey?: string; types?: string[]; operations?: unknown[] }>;
   aaBodyDamage?: number;
   targetArmor?: number;
@@ -458,7 +435,6 @@ async function runP6(page: Page, payload: {
       }
       if (data.mode === 'spellblade-start') {
         authoredBlade.processes[0]!.steps[0]!.detail.consumeMoment = 'ATTACK_START';
-        authoredBlade.rules[1]!.eventSource = { eventType: 'BASIC_ATTACK_START', detail: {} };
       }
       const authored = data.mode === 'window' ? authoredWindow : authoredBlade;
       const owner = authored.owner ?? 'source';
@@ -558,18 +534,19 @@ async function runP6(page: Page, payload: {
           ...casts.map((row) => provenTriggerUse({ useKey: row.entryKey, source: owner, skillKey: row.skillKey })),
           ...(data.uses ?? []).map((row) => provenSkillUseFact({ useKey: row.useKey, source: owner, skillKey: row.skillKey }))
         ];
-        if (data.mode !== 'window' || data.aaHits?.length) {
+        if (!data.omitAttackUse && (data.mode !== 'window' || data.aaHits?.length)) {
           uses.push(provenTriggerUse({ useKey: 'aa1', source: owner, skillKey: 'aa_basic' }));
-          for (const row of data.aaHits ?? []) {
-            if (row.useKey !== 'aa1') uses.push(provenTriggerUse({ useKey: row.useKey, source: owner, skillKey: 'aa_basic' }));
+          for (const useKey of new Set((data.aaHits ?? []).map(row => row.useKey))) {
+            if (useKey !== 'aa1') uses.push(provenTriggerUse({ useKey, source: owner, skillKey: 'aa_basic' }));
           }
         }
+        const bladeHits = data.startOnly ? [] : (data.aaHits ?? [{ entryKey: 'hit', at: data.hitAt ?? 20, useKey: 'aa1' }]);
         const hits = data.mode === 'window'
           ? [
               ...(data.hits ?? []).map((row) => skillHitFact(row.entryKey, row.useKey)),
               ...(data.aaHits ?? []).map((row) => skillHitFact(row.entryKey, row.useKey))
             ]
-          : data.startOnly ? [] : [skillHitFact('hit', 'aa1')];
+          : bladeHits.map(row => skillHitFact(row.entryKey, row.useKey));
         const startAt = data.startAt ?? 10;
         const hitAt = data.hitAt ?? 20;
         const entries = data.mode === 'window'
@@ -586,11 +563,11 @@ async function runP6(page: Page, payload: {
           : [
               ...casts.map((row) => ({
                 entryKey: row.entryKey, abilityRef: `${owner}.provider[${row.providerRef ?? 'champion'}].ability[${row.abilityKey}]`,
-                source: owner, target: counterpart, firstAtMs: row.at
+                source: owner, target: row.target ?? counterpart, firstAtMs: row.at
               })),
               { entryKey: 'start', abilityRef: `${owner}.provider[champion].ability[aa_start]`, source: owner, target: counterpart, firstAtMs: startAt },
               ...(data.aaBodyDamage != null && !data.startOnly ? [{ entryKey: 'aa_body', abilityRef: `${owner}.provider[champion].ability[aa_body]`, source: owner, target: counterpart, firstAtMs: hitAt }] : []),
-              ...(data.startOnly ? [] : [{ entryKey: 'hit', abilityRef: `${owner}.provider[champion].ability[aa_hit]`, source: owner, target: counterpart, firstAtMs: hitAt }])
+              ...bladeHits.map(row => ({ entryKey: row.entryKey, abilityRef: `${owner}.provider[champion].ability[aa_hit]`, source: owner, target: counterpart, firstAtMs: row.at }))
             ];
         entries.push(...(data.incoming ?? []).map((hit, index) => ({ entryKey: `incoming_${index}`, abilityRef: `${counterpart}.provider[incoming].ability[hit_${index}]`, source: counterpart, target: owner, firstAtMs: hit.at })));
         if (data.targetShield) {
@@ -646,13 +623,16 @@ async function runP6(page: Page, payload: {
           });
           consumedRestoredDone = await client.run({
             ...runBody, initialSnapshot: resumedDone.finalSnapshot,
-            driverPlan: { entries: [{
-              entryKey: 'after_consumption', abilityRef: `${owner}.provider[champion].ability[aa_start]`,
-              source: owner, target: counterpart, firstAtMs: resumedDone.finalSnapshot.timeMs + 1
-            }] },
+            driverPlan: { entries: [
+              { entryKey: 'restore_cast', abilityRef: `${owner}.provider[champion].ability[${casts[0]!.abilityKey}]`, source: owner, target: owner, firstAtMs: resume.reopenAt },
+              { entryKey: 'old_hit', abilityRef: `${owner}.provider[champion].ability[aa_hit]`, source: owner, target: counterpart, firstAtMs: resume.reopenAt + 1 }
+            ] },
             stopPolicy: { ...runBody.stopPolicy, durationMs: resume.restoreDurationMs },
-            skillUses: [provenTriggerUse({ useKey: 'after_consumption_aa', source: owner, skillKey: 'aa_basic' })],
-            skillHitFacts: [], attackStartFacts: [attackStartFact('after_consumption', 'after_consumption_aa')]
+            skillUses: [
+              provenTriggerUse({ useKey: 'restore_cast', source: owner, skillKey: casts[0]!.skillKey }),
+              provenTriggerUse({ useKey: 'resume_aa', source: owner, skillKey: 'aa_basic' })
+            ],
+            skillHitFacts: [skillHitFact('old_hit', 'resume_aa')], attackStartFacts: []
           });
         }
         const secondDone = data.secondRun
@@ -692,7 +672,7 @@ async function runP6(page: Page, payload: {
     } catch (error) {
       return { adapterError: String(error) };
     }
-  }, { ...payload, window: syntheticWindow(), blade: syntheticSpellblade(), dummy: dummyHit(), input: baseRequest() });
+  }, { ...payload, window: syntheticWindow(), blade: syntheticSpellblade(), dummy: dummyHit(), input: payload.input ?? baseRequest() });
 }
 
 function providerState(done: DoneResult, providerRef: string): Record<string, unknown> {
@@ -807,23 +787,23 @@ test('实际 Worker：合成待击消费开始与命中分开，伤害回蓝后�
   expect(result.adapterError).toBeUndefined();
   expect(result.adapted?.combo).toBe('empowered');
   expect(result.adapted?.consumeEvent).toBe('event/basic_attack_hit');
-  expect(result.adapted?.outputRef).toBe('do_bonus_hit');
+  expect(result.adapted?.outputRef).toBeUndefined();
   await assertNativeResult(result, testInfo);
   const bag = providerState(result.done!, 'item:synth_spellblade');
   const state = (bag.state ?? {}) as Record<string, number>;
   expect(state.ready).toBe(0);
   expect(state.icd).toBe(1);
   const source = result.done!.finalSnapshot.combatants.find((row) => row.key === 'source')!;
-  expect(source.resources.mana.current).toBe(20);
+  expect(source.resources.mana.current).toBe(50);
   expect(result.done!.evidence.items.some((item) => item.kind === 'emitted_event' && item.ref === 'event/basic_attack_start')).toBe(true);
   expect(result.done!.evidence.items.some((item) => item.kind === 'emitted_event' && item.ref === 'event/basic_attack_hit')).toBe(true);
   expect(result.done!.evidence.items.some((item) => item.kind === 'emitted_event' && item.ref === 'event/skill_hit')).toBe(false);
 });
 
-test('实际 Worker：开始消费门禁失败不消费 ready', async ({ page }, testInfo) => {
-  const result = await runP6(page, { mode: 'spellblade-start', startCost: 50, startOnly: true, durationMs: 100 });
+test('实际 Worker：普攻开始门禁失败不消费 ready', async ({ page }, testInfo) => {
+  const result = await runP6(page, { mode: 'spellblade', startCost: 50, startOnly: true, durationMs: 100 });
   expect(result.adapterError).toBeUndefined();
-  expect(result.adapted?.consumeEvent).toBe('event/basic_attack_start');
+  expect(result.adapted?.consumeEvent).toBe('event/basic_attack_hit');
   await assertNativeResult(result, testInfo);
   const bag = providerState(result.done!, 'item:synth_spellblade');
   const state = (bag.state ?? {}) as Record<string, number>;
@@ -842,15 +822,15 @@ test('实际 Worker：内部冷却中不会重新开窗或重复奖励', async (
   expect(providerState(result.done!, 'item:synth_window').state).toMatchObject({ hits: 0, icd: 1 });
 });
 
-test('实际 Worker：同一攻击开始已消费、尚未命中时命中消费仍待命', async ({ page }, testInfo) => {
+test('实际 Worker：ATTACK_START 按字段拒绝，普通攻击发起不得提前伤害或回蓝', async ({ page }, testInfo) => {
   const start = await runP6(page, { mode: 'spellblade-start', durationMs: 15, startOnly: true });
-  await assertNativeResult(start, testInfo);
-  expect(start.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.resources.mana.current).toBe(20);
-  expect(providerState(start.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 1 });
-  expect(start.done!.evidence.items.some(item => item.kind === 'damage' && item.timeMs === 10)).toBe(true);
+  expect(start.adapterError).toContain('processes.spellblade.steps.aa.detail.consumeMoment');
+  expect(start.compileOk).toBeUndefined();
   const hit = await runP6(page, { mode: 'spellblade', durationMs: 15, startOnly: true });
   await assertNativeResult(hit, testInfo);
   expect(hit.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.resources.mana.current).toBe(0);
+  expect(hit.done!.finalSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp.current).toBe(1000);
+  expect(hit.done!.evidence.items.some(item => item.kind === 'damage')).toBe(false);
   expect(providerState(hit.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 1, icd: 0 });
 });
 
@@ -859,7 +839,7 @@ test('实际 Worker：反向拥有者的回蓝、命中与同次使用账本归�
   const result = await runP6(page, { mode: 'spellblade', program, durationMs: 100 });
   await assertNativeResult(result, testInfo);
   const owner = result.done!.finalSnapshot.combatants.find(actor => actor.key === 'target')!;
-  expect(owner.resources.mana.current).toBe(20);
+  expect(owner.resources.mana.current).toBe(50);
   expect(result.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.attributes.hp.current).toBe(960);
   expect(result.done!.finalSnapshot.useTriggerLedger).toEqual([expect.objectContaining({ owner: 'target', useSource: 'target', useKey: 'aa1', target: null })]);
 });
@@ -984,20 +964,9 @@ test('实际 Worker：技能与普攻四种命中组合，同 use 多段与跳�
   expect(providerState(sameUseOnly.done!, 'item:synth_window').state).toMatchObject({ hits: 1, icd: 0 });
 });
 
-test('实际 Worker：旧不刷新样例到期，刷新两组可将窗口续到19000', async ({ page }, testInfo) => {
-  const stale = await runP6(page, {
-    mode: 'spellblade', program: syntheticSpellblade(), durationMs: 1600, startOnly: true,
-    ...twoSkills,
-    casts: [
-      { entryKey: 'cast_q', abilityKey: 'q', at: 0, skillKey: 'champion_q' },
-      { entryKey: 'cast_w', abilityKey: 'w', at: 500, skillKey: 'champion_w' }
-    ]
-  });
-  await assertNativeResult(stale, testInfo);
-  expect(providerState(stale.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 0 });
-
+test('实际 Worker：单组启动在9000刷新，旧期限无效且19000到期', async ({ page }, testInfo) => {
   const armed = await runP6(page, {
-    mode: 'spellblade', program: refreshSpellblade(10000), durationMs: 10500, startOnly: true,
+    mode: 'spellblade', program: refreshSpellblade(10000), durationMs: 10000, startOnly: true,
     ...twoSkills,
     casts: [
       { entryKey: 'cast_q', abilityKey: 'q', at: 0, skillKey: 'champion_q' },
@@ -1019,10 +988,13 @@ test('实际 Worker：旧不刷新样例到期，刷新两组可将窗口续到1
     ]
   });
   await assertNativeResult(consumed, testInfo);
-  expect(providerState(consumed.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 1 });
+  expect(providerState(consumed.done!, 'item:synth_spellblade')).toMatchObject({ state: { ready: 0, icd: 1 }, expireAt: { icd: 12500 } });
+  expect(consumed.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.resources.mana.current).toBe(50);
+  expect(consumed.done!.finalSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp.current).toBe(960);
+  expect(consumed.done!.evidence.items.filter(item => item.kind === 'damage')).toHaveLength(1);
 
   const timeout = await runP6(page, {
-    mode: 'spellblade', program: refreshSpellblade(10000), durationMs: 19100, startOnly: true,
+    mode: 'spellblade', program: refreshSpellblade(10000), durationMs: 19000, startOnly: true,
     ...twoSkills,
     casts: [
       { entryKey: 'cast_q', abilityKey: 'q', at: 0, skillKey: 'champion_q' },
@@ -1052,7 +1024,7 @@ test('实际 Worker：未绑定主动施法不刷新，真实 use 与 owner 保�
   expect(qUse).toBe(true);
 });
 
-test('实际 Worker：刷新窗口与消费后的最终快照均可直接恢复', async ({ page }, testInfo) => {
+test('实际 Worker：待命恢复可消费，消费后恢复重开仍拒绝旧命中', async ({ page }, testInfo) => {
   const result = await runP6(page, {
     mode: 'spellblade', program: refreshSpellblade(10000), durationMs: 10500, startOnly: true,
     ...twoSkills,
@@ -1060,7 +1032,7 @@ test('实际 Worker：刷新窗口与消费后的最终快照均可直接恢复'
       { entryKey: 'q0', abilityKey: 'q', at: 0, skillKey: 'champion_q' },
       { entryKey: 'w9', abilityKey: 'w', at: 9000, skillKey: 'champion_w' }
     ],
-    resumeEmpowered: { startAt: 10900, hitAt: 11000, durationMs: 1000, restoreDurationMs: 2000 }
+    resumeEmpowered: { startAt: 10900, hitAt: 11000, durationMs: 1000, restoreDurationMs: 2000, reopenAt: 12500 }
   });
   await assertNativeResult(result, testInfo);
   expect(providerState(result.done!, 'item:synth_spellblade')).toMatchObject({ state: { ready: 1, icd: 0 }, expireAt: { ready: 19000 } });
@@ -1069,7 +1041,56 @@ test('实际 Worker：刷新窗口与消费后的最终快照均可直接恢复'
   expect(consumed).toMatchObject({ state: { ready: 0, icd: 1 }, expireAt: { icd: 12500 } });
   expect((consumed.expireAt as Record<string, number>).ready ?? 0).toBe(0);
   expect(result.consumedRestoredDone).toBeDefined();
-  expect(providerState(result.consumedRestoredDone!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 0 });
+  expect(providerState(result.consumedRestoredDone!, 'item:synth_spellblade')).toMatchObject({ state: { ready: 1, icd: 0 }, expireAt: { ready: 22500 } });
+  expect(result.consumedRestoredDone!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.resources.mana.current).toBe(50);
+  expect(result.consumedRestoredDone!.finalSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp.current).toBe(960);
+  expect(result.consumedRestoredDone!.evidence.items.filter(item => item.kind === 'damage')).toHaveLength(0);
+  expect(result.consumedRestoredDone!.finalSnapshot.useTriggerLedger).toEqual([
+    expect.objectContaining({ owner: 'source', providerRef: 'item:synth_spellblade', groupKey: 'spellblade', useKey: 'resume_aa' })
+  ]);
+});
+
+test('实际 Worker：实际普攻目标决定结算，同次重复及重开后的旧事件不能再消费', async ({ page }, testInfo) => {
+  const result = await runP6(page, {
+    mode: 'spellblade', program: refreshSpellblade(), durationMs: 13000, startAt: 10900,
+    casts: [
+      { entryKey: 'cast0', abilityKey: 'cast', at: 0, skillKey: 'champion_q', target: 'source' },
+      { entryKey: 'cast9', abilityKey: 'cast', at: 9000, skillKey: 'champion_q', target: 'source' },
+      { entryKey: 'reopen', abilityKey: 'cast', at: 12500, skillKey: 'champion_q', target: 'source' }
+    ],
+    aaHits: [
+      { entryKey: 'hit', at: 11000, useKey: 'aa1' },
+      { entryKey: 'same_time_repeat', at: 11000, useKey: 'aa1' },
+      { entryKey: 'repeat', at: 11001, useKey: 'aa1' },
+      { entryKey: 'old_after_reopen', at: 12501, useKey: 'aa1' }
+    ]
+  });
+  await assertNativeResult(result, testInfo);
+  expect(result.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.resources.mana.current).toBe(50);
+  expect(result.done!.finalSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp.current).toBe(960);
+  expect(result.done!.evidence.items.filter(item => item.kind === 'damage')).toHaveLength(1);
+  expect(providerState(result.done!, 'item:synth_spellblade')).toMatchObject({ state: { ready: 1, icd: 0 }, expireAt: { ready: 22500 } });
+  expect(result.done!.finalSnapshot.useTriggerLedger).toEqual([
+    expect.objectContaining({ owner: 'source', providerRef: 'item:synth_spellblade', groupKey: 'spellblade', scope: 'provider', useKey: 'aa1' })
+  ]);
+});
+
+test('实际 Worker：刷新期限同刻的普攻已过期，缺真实使用事实拒绝运行', async ({ page }, testInfo) => {
+  const expired = await runP6(page, {
+    mode: 'spellblade', program: refreshSpellblade(), durationMs: 19000, startAt: 18900, hitAt: 19000,
+    casts: [
+      { entryKey: 'cast0', abilityKey: 'cast', at: 0, skillKey: 'champion_q' },
+      { entryKey: 'cast9', abilityKey: 'cast', at: 9000, skillKey: 'champion_q' }
+    ]
+  });
+  await assertNativeResult(expired, testInfo);
+  expect(expired.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.resources.mana.current).toBe(0);
+  expect(expired.done!.finalSnapshot.combatants.find(actor => actor.key === 'target')!.attributes.hp.current).toBe(1000);
+  expect(providerState(expired.done!, 'item:synth_spellblade').state).toMatchObject({ ready: 0, icd: 0 });
+  const missing = await runP6(page, { mode: 'spellblade', durationMs: 100, omitAttackUse: true });
+  expect(missing.compileOk).toBe(true);
+  expect(missing.runError).toMatch(/useRef|使用|skillUses/);
+  expect(missing.done).toBeUndefined();
 });
 
 test('实际 Worker：同定义另一个挂载未绑定时不能刷新窗口', async ({ page }, testInfo) => {
@@ -1148,6 +1169,228 @@ test('原库夺萃回蓝组成→GET→Worker，护甲与护盾扣血不同但�
   expect(formulaRows.some((row: { formulaKey: string }) => row.formulaKey === 'spellblade_damage')).toBe(true);
   await testInfo.attach('原回蓝组成与核定过程专项', { contentType: 'application/json', body: Buffer.from(JSON.stringify({
     parameters, formula, effect, plainHp: hp(plain), armoredHp: hp(armored), shieldedHp: hp(shielded), mana: mana(plain),
-    boundary: '这是原回蓝组成加已核定过程专项，不是原完整装备已完成。主体伤害为显式合成原生普攻输入；原 spellblade_damage 与星蚀伤害仍 UNRESOLVED，未改、未绕过、未参与本次运行。'
+    boundary: '这是原回蓝组成加合成过程专项，不是原完整装备已完成。主体伤害为显式合成原生普攻输入；本专项没有读取或运行原 spellblade_damage，也没有读取或运行星蚀伤害，不评价它们当前的吸血资格或完整运行状态。'
   }, null, 2)) });
 });
+
+const liveSpellbladeScenarios = [
+  { skillKey: 'item_3508_passive', name: '夺萃', parameterCount: 5, effectCount: 2, formulaCount: 2, rawDamage: 145, manaRestored: 90 },
+  { skillKey: 'item_3057_passive', name: '耀光', parameterCount: 3, effectCount: 1, formulaCount: 1, rawDamage: 100, manaRestored: 0 }
+] as const;
+
+// 两英雄属性与事件驱动是显式场景输入，装备的所有作者配置及吸血规则必须来自实际 GET。
+// 本专项只运行咒刃附伤；普通攻击主体伤害未加入，不能据此声称一次普攻或整装备完整战斗。
+const liveSpellbladeInput = {
+  sourceBaseAd: 100, sourceTotalAd: 180, sourceCriticalChance: 0.4,
+  sourceHp: 100, sourceMaxHp: 500, sourceMana: 0, sourceMaxMana: 200,
+  targetBaseAd: 80, targetTotalAd: 80, targetCriticalChance: 0,
+  targetHp: 1000, targetMaxHp: 1000, targetArmor: 100,
+  lifeSteal: 0.1, omnivamp: 0.2, physicalVamp: 0, spellVamp: 0,
+  castAt: 0, refreshAt: 9000, attackStartAt: 10900, attackHitAt: 11000
+};
+
+async function readLiveSpellblade(
+  request: APIRequestContext,
+  testInfo: TestInfo,
+  scenario: typeof liveSpellbladeScenarios[number]
+): Promise<AuthoredTriggerProgram> {
+  if (process.env.P6_LIVE_API !== '1') throw new Error('正式配置预检未启用：需要显式 P6_LIVE_API=1');
+  const root = '/api/admin/games/lol';
+  const skillRoute = `${root}/skills/${scenario.skillKey}`;
+  const snapshots = new Map<string, unknown>();
+  const audit: Array<{ route: string; status: number }> = [];
+  const headers = { Authorization: `Bearer ${process.env.DAMAGE_ADMIN_TOKEN || 'test'}` };
+  const read = async <T,>(route: string): Promise<T> => {
+    const response = await request.get(`http://127.0.0.1:8080${route}`, { headers });
+    audit.push({ route, status: response.status() });
+    if (response.status() !== 200) throw new Error(`正式配置未就绪：GET ${route} 返回 ${response.status()}`);
+    const body: unknown = await response.json();
+    if (snapshots.has(route)) expect(body, `读取期间配置改变：${route}`).toEqual(snapshots.get(route));
+    else snapshots.set(route, body);
+    return body as T;
+  };
+  const details = async <T,>(collection: string, key: string): Promise<T[]> => {
+    const route = `${skillRoute}/${collection}`;
+    const rows = await read<Array<Record<string, string>>>(route);
+    expect(Array.isArray(rows), `正式配置未就绪：${route} 不是完整列表`).toBe(true);
+    const keys = rows.map(row => row[key]);
+    expect(keys.every(value => typeof value === 'string' && /^[a-z][a-z0-9_]{0,63}$/.test(value)), `${route} 缺稳定标识`).toBe(true);
+    expect(new Set(keys).size, `${route} 稳定标识重复`).toBe(keys.length);
+    return Promise.all(keys.map(value => read<T>(`${route}/${encodeURIComponent(value)}`)));
+  };
+  try {
+    const [skill, parameters, formulas, effects, processes, internalStates, rules, vampResponse, statuses, zones] = await Promise.all([
+      read<Skill>(skillRoute),
+      details<SkillParameter>('parameters', 'parameterKey'),
+      details<SkillFormula>('formulas', 'formulaKey'),
+      details<SkillEffect>('effects', 'effectKey'),
+      details<SkillProcess>('processes', 'processKey'),
+      details<SkillInternalState>('internal-states', 'stateKey'),
+      details<SkillTriggerRuleDetail>('trigger-rules', 'ruleKey'),
+      read<GameVampRulesResponse>(`${root}/vamp-rules`),
+      read<StatusListResponse>(`${root}/statuses`),
+      read<ModifierZoneListResponse>(`${root}/modifier-zones`)
+    ]);
+    expect(skill, '正式技能未就绪').toMatchObject({ gameId: 'lol', skillKey: scenario.skillKey, status: 'ENABLED', maxLevel: 1 });
+    expect(skill.skillCategoryKeys, '保留正式被动分类，不伪装成普通攻击分类').toEqual(['passive']);
+    expect(parameters, '正式参数未全部就绪').toHaveLength(scenario.parameterCount);
+    expect(formulas, '正式公式未全部就绪').toHaveLength(scenario.formulaCount);
+    expect(effects, '正式效果未全部就绪').toHaveLength(scenario.effectCount);
+    expect(internalStates, '正式待命与内部冷却尚未完整保存').toHaveLength(2);
+    expect(processes, '正式单强化步骤过程尚未完整保存').toHaveLength(1);
+    expect(rules, '正式单启动规则尚未完整保存').toHaveLength(1);
+    expect(parameters.find(row => row.parameterKey === 'spellblade_window_ms')).toMatchObject({ valueMode: 'FIXED', valueType: 'INTEGER', fixedValue: 10000 });
+    expect(parameters.find(row => row.parameterKey === 'spellblade_cooldown_ms')).toMatchObject({ valueMode: 'FIXED', valueType: 'INTEGER', fixedValue: 1500 });
+    expect(processes[0]).toMatchObject({ activationType: 'ACTIVE', cooldown: null });
+    expect(processes[0]!.steps).toHaveLength(1);
+    expect(processes[0]!.steps[0]).toMatchObject({ stepType: 'EMPOWERED_BASIC_ATTACK', detail: { consumeMoment: 'ATTACK_HIT' } });
+    expect(processes[0]!.effectBindings.map(row => row.effectKey).sort()).toEqual(effects.map(row => row.effectKey).sort());
+    expect(rules[0]!.eventSource).toEqual({ eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } });
+    const damage = effects.flatMap(effect => effect.results).filter(result => result.resultType === 'DAMAGE');
+    expect(damage, '必须运行唯一正式附伤结果').toHaveLength(1);
+    expect(damage[0]!.detail, '正式物理普攻附伤资格或例外尚未就绪').toMatchObject({
+      damageTypeKey: 'physics', deliveryKind: 'BASIC_ATTACK', originKind: 'DIRECT', vampQualification: 'RESOLVED'
+    });
+    expect(damage[0]!.detail.vampOverrides, '保留生命偷取必要覆盖，全能吸血继承').toEqual([
+      { vampType: 'LIFE_STEAL', mode: 'OVERRIDE', basisOutputKind: 'POST_DEFENSE_DAMAGE', efficiencyValue: { kind: 'FIXED', value: 1 } }
+    ]);
+    const vamp = parseGameVampRules(vampResponse).rules;
+    const lifeSteal = vamp.find(row => row.vampType === 'LIFE_STEAL');
+    const omnivamp = vamp.find(row => row.vampType === 'OMNIVAMP');
+    expect(lifeSteal, '缺实际游戏生命偷取规则').toBeDefined();
+    expect(lifeSteal!.skillCategoryKeys, '本场景必须由结果覆盖补足被动分类资格').not.toContain('passive');
+    expect(omnivamp, '缺实际游戏全能吸血规则').toMatchObject({ basisOutputKind: 'POST_DEFENSE_DAMAGE', defaultEfficiency: 1 });
+    expect(omnivamp!.skillCategoryKeys).toContain('passive');
+    expect(omnivamp!.deliveryKinds).toContain('BASIC_ATTACK');
+    expect(omnivamp!.originKinds).toContain('DIRECT');
+    const damageDirectory = await read<{ status: string; damageTypeKey: string }>(`${root}/damage-types/physics`);
+    expect(damageDirectory).toMatchObject({ damageTypeKey: 'physics', status: 'ENABLED' });
+    for (const key of skill.skillCategoryKeys) {
+      expect(await read<{ status: string }>(`${root}/skill-categories/${key}`)).toMatchObject({ status: 'ENABLED' });
+    }
+    expect(statuses.items).toHaveLength(statuses.total);
+    expect(zones.items).toHaveLength(zones.total);
+    // 第二轮逐路由回读，拒绝把同时变化的配置拼成一次“成功”输入。
+    for (const route of [...snapshots.keys()]) await read(route);
+    return {
+      gameId: 'lol', skillKey: skill.skillKey, skillLevel: 1, characterLevel: 1,
+      skillCategoryKeys: skill.skillCategoryKeys, parameters, formulas, effects, processes, internalStates, rules,
+      statuses: statuses.items, modifierZones: zones.items, vampRules: vamp,
+      identity: { source: { category: 'CHAMPION', hostility: 'SELF' }, target: { category: 'CHAMPION', hostility: 'ENEMY' } }
+    };
+  } finally {
+    await testInfo.attach(`${scenario.skillKey}-正式只读配置`, {
+      contentType: 'application/json', body: Buffer.from(JSON.stringify({
+        readAt: new Date().toISOString(), audit,
+        snapshots: [...snapshots].map(([route, body]) => ({ route, sha256: createHash('sha256').update(JSON.stringify(body)).digest('hex'), body }))
+      }, null, 2))
+    });
+  }
+}
+
+function liveSpellbladeRequest(authored: AuthoredTriggerProgram): CompileRequest {
+  const input = baseRequest();
+  const scene = liveSpellbladeInput;
+  // 原生会从基础值和已挂载贡献重算总值；current/resolved 不是额外攻击力的输入渠道。
+  input.sharedProviders![0]!.modifiers = [{
+    modifierKey: 'fixture_bonus_attack_damage', kind: 'attribute', target: 'attack_damage',
+    valuePolicy: 'add', value: { op: 'const', value: scene.sourceTotalAd - scene.sourceBaseAd }
+  }];
+  input.combatants = input.combatants.map(actor => {
+    const source = actor.key === 'source';
+    const baseAd = source ? scene.sourceBaseAd : scene.targetBaseAd;
+    const totalAd = source ? scene.sourceTotalAd : scene.targetTotalAd;
+    const attributes: CompileRequest['combatants'][number]['attributes'] = {
+      hp: slot(source ? scene.sourceHp : scene.targetHp, source ? scene.sourceMaxHp : scene.targetMaxHp),
+      attack_damage: { base: baseAd, current: baseAd, resolved: baseAd, max: totalAd },
+      critical_strike_chance: slot(source ? scene.sourceCriticalChance : scene.targetCriticalChance, 1),
+      armor: slot(source ? 0 : scene.targetArmor)
+    };
+    const ratios = { LIFE_STEAL: scene.lifeSteal, OMNIVAMP: scene.omnivamp, PHYSICAL_VAMP: scene.physicalVamp, SPELL_VAMP: scene.spellVamp };
+    for (const rule of authored.vampRules ?? []) attributes[rule.sourceAttributeKey] = slot(source ? ratios[rule.vampType] : 0, 1);
+    return { ...actor, attributes, resources: { mana: { current: scene.sourceMana, max: scene.sourceMaxMana } } };
+  });
+  return input;
+}
+
+for (const scenario of liveSpellbladeScenarios) {
+  test(`正式单强化步骤只读实库→Worker：${scenario.name}附伤、吸血与同次消费`, async ({ page, request }, testInfo) => {
+    test.skip(process.env.P6_LIVE_API !== '1', '仅显式开启实库检查；开启后未就绪配置必须失败');
+    const authored = await readLiveSpellblade(request, testInfo, scenario);
+    const input = liveSpellbladeRequest(authored);
+    const scene = liveSpellbladeInput;
+    const casts = [
+      { entryKey: 'cast0', abilityKey: 'cast', at: scene.castAt, skillKey: 'fixture_active_spell', target: 'source' as const },
+      { entryKey: 'refresh9', abilityKey: 'cast', at: scene.refreshAt, skillKey: 'fixture_active_spell', target: 'source' as const },
+      { entryKey: 'cooldown_cast', abilityKey: 'cast', at: scene.attackHitAt + 2, skillKey: 'fixture_active_spell', target: 'source' as const }
+    ];
+    const aaHits = [
+      { entryKey: 'real_hit', at: scene.attackHitAt, useKey: 'aa1' },
+      { entryKey: 'same_time_duplicate', at: scene.attackHitAt, useKey: 'aa1' },
+      { entryKey: 'duplicate', at: scene.attackHitAt + 1, useKey: 'aa1' }
+    ];
+    const payload: Parameters<typeof runP6>[1] = {
+      mode: 'spellblade', program: authored, input, casts, aaHits, startAt: scene.attackStartAt, durationMs: 12000
+    };
+    const result = await runP6(page, payload);
+    await assertNativeResult(result, testInfo);
+    await testInfo.attach(`${scenario.skillKey}-实际属性与首轮运行`, {
+      contentType: 'application/json', body: Buffer.from(JSON.stringify({
+        syntheticInputs: scene, attributeContribution: input.sharedProviders![0]!.modifiers,
+        sourceAttackDamage: result.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.attributes.attack_damage,
+        result
+      }, null, 2))
+    });
+    const postDefense = scenario.rawDamage / 2;
+    const expectedHealing = postDefense * (scene.lifeSteal + scene.omnivamp);
+    const checkAmounts = (done: DoneResult) => {
+      const source = done.finalSnapshot.combatants.find(actor => actor.key === 'source')!;
+      const target = done.finalSnapshot.combatants.find(actor => actor.key === 'target')!;
+      expect(source.attributes.attack_damage.base).toBe(scene.sourceBaseAd);
+      expect(source.attributes.attack_damage.resolved).toBe(scene.sourceTotalAd);
+      expect(source.attributes.attack_damage.resolved - source.attributes.attack_damage.base).toBe(80);
+      expect(target.attributes.attack_damage.base).toBe(scene.targetBaseAd);
+      expect(target.attributes.attack_damage.resolved).toBe(scene.targetTotalAd);
+      expect(source.attributes.hp.current).toBeCloseTo(scene.sourceHp + expectedHealing, 9);
+      expect(target.attributes.hp.current).toBeCloseTo(scene.targetHp - postDefense, 9);
+      expect(source.resources.mana.current).toBeCloseTo(scene.sourceMana + scenario.manaRestored, 9);
+      expect(target.resources.mana.current).toBe(0);
+      expect(done.evidence.items.filter(item => item.kind === 'damage')).toHaveLength(1);
+      const vamp = done.evidence.items.filter(item => item.kind === 'vamp');
+      expect(vamp).toHaveLength(1);
+      expect(vamp[0]!.data).toMatchObject({ postDefenseDamage: postDefense, actualHpLoss: postDefense });
+      expect(vamp[0]!.data.actualHealing).toBeCloseTo(expectedHealing, 9);
+      const contributions = vamp[0]!.data.contributions as Array<{ vampType: string; basisOutputKind: string; ratio: number; efficiency: number; amount: number }>;
+      expect(contributions.find(row => row.vampType === 'LIFE_STEAL')).toMatchObject({ basisOutputKind: 'POST_DEFENSE_DAMAGE', ratio: 0.1, efficiency: 1, amount: postDefense * 0.1 });
+      expect(contributions.find(row => row.vampType === 'OMNIVAMP')).toMatchObject({ basisOutputKind: 'POST_DEFENSE_DAMAGE', ratio: 0.2, efficiency: 1, amount: postDefense * 0.2 });
+      expect(done.finalSnapshot.useTriggerLedger).toEqual([
+        expect.objectContaining({ owner: 'source', providerRef: `item:${scenario.skillKey}`, groupKey: authored.processes[0]!.processKey, scope: 'provider', useKey: 'aa1' })
+      ]);
+    };
+    checkAmounts(result.done!);
+    const ready = authored.internalStates.find(state => state.stateType === 'FLAG')!.stateKey;
+    const icd = authored.internalStates.find(state => state.stateType === 'INTERNAL_COOLDOWN')!.stateKey;
+    expect(providerState(result.done!, `item:${scenario.skillKey}`)).toMatchObject({ state: { [ready]: 0, [icd]: 1 }, expireAt: { [icd]: 12500 } });
+    const reopened = await runP6(page, {
+      ...payload, durationMs: 13000,
+      casts: [...casts, { entryKey: 'reopen', abilityKey: 'cast', at: 12500, skillKey: 'fixture_active_spell', target: 'source' }],
+      aaHits: [...aaHits, { entryKey: 'old_after_reopen', at: 12501, useKey: 'aa1' }]
+    });
+    await assertNativeResult(reopened, testInfo);
+    checkAmounts(reopened.done!);
+    expect(providerState(reopened.done!, `item:${scenario.skillKey}`)).toMatchObject({ state: { [ready]: 1, [icd]: 0 }, expireAt: { [ready]: 22500 } });
+    await testInfo.attach(`${scenario.skillKey}-正式组成运行证据`, {
+      contentType: 'application/json', body: Buffer.from(JSON.stringify({
+        syntheticInputs: scene,
+        attributeContribution: input.sharedProviders![0]!.modifiers,
+        actualAttackDamage: {
+          firstRun: result.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.attributes.attack_damage,
+          reopened: reopened.done!.finalSnapshot.combatants.find(actor => actor.key === 'source')!.attributes.attack_damage
+        },
+        syntheticDrivers: '普通成功首次主动施法及真实普攻命中事件；不包含普通攻击主体伤害。作者过程、规则、参数、公式、效果和吸血规则均来自GET。',
+        expected: { rawDamage: scenario.rawDamage, postDefenseDamage: postDefense, manaRestored: scenario.manaRestored, lifeStealHealing: postDefense * 0.1, omnivampHealing: postDefense * 0.2, totalHealing: expectedHealing },
+        boundary: '实际Worker中的普通首次主动施法后一次强化普攻有限场景，不代表整装备或完整战斗。', result, reopened
+      }, null, 2))
+    });
+  });
+}

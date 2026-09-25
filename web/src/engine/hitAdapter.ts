@@ -20,6 +20,7 @@ import {
 } from './numericAdapter';
 import { compilePersistentResult, type AuthoredPersistentResult } from './persistentResultAdapter';
 import { adaptDamageVamp, type AdaptedVampDamage, type AuthoredVampDamage } from './vampAdapter';
+import { runtimeDamageType } from './damageTypeAdapter';
 
 export class HitAdaptationError extends NumericAdaptationError {
   constructor(path: string, message: string) {
@@ -341,7 +342,7 @@ function compileDamage(
   }
   if (result.detail.originKind !== 'DIRECT') return fail(`${path}.detail.originKind`, '未支持的来源性质');
   if (result.detail.critical.mode !== 'DISALLOWED') return fail(`${path}.detail.critical`, '未支持的暴击策略');
-  const damageType = `damage/${catalogKey(result.detail.damageTypeKey, `${path}.detail.damageTypeKey`)}`;
+  const damageType = runtimeDamageType(result.detail.damageTypeKey, `${path}.detail.damageTypeKey`, fail);
   typeEntries.set(damageType, 'damage');
   const amount = compileValue(result.valueRule, `${path}.valueRule`, state);
   if (result.detail.vampQualification === 'UNRESOLVED') {

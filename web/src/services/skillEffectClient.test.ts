@@ -1,4 +1,4 @@
-import { formulaValue } from '../types/numericValue';
+import { fixedValue, formulaValue, parameterValue } from '../types/numericValue';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   createSkillEffect,
@@ -130,6 +130,67 @@ const persistentStatusDetail: SkillEffect = {
   lifecycle: persistentStatusLifecycle,
   results: [persistentStatusResult]
 };
+
+describe('逐笔生命门槛效果读回', () => {
+  const modifier = {
+    ...damageResult,
+    resultKey: 'low_health_damage',
+    resultType: 'DAMAGE_MODIFIER',
+    target: 'SOURCE',
+    lifecycleBehavior: {
+      moment: 'PERSISTENT', valueReadMode: 'APPLICATION_SNAPSHOT',
+      stackValueMode: 'SHARED', reapplicationValueMode: 'KEEP', periodicExecutionMode: null
+    },
+    detail: {
+      modifierZoneKey: 'damage_ratio', direction: 'DEALT', operation: 'INCREASE',
+      damageTypeKey: 'physical', deliveryKind: 'ANY', originKind: 'ANY', criticalFilter: 'ANY'
+    }
+  };
+  const condition = {
+    receiver: 'ENEMY_CHAMPION', attributeKey: 'hp', attributeValueKind: 'CURRENT_RATIO',
+    comparator: 'LT', comparisonValue: fixedValue(0.4)
+  };
+  const effect = (patch: Record<string, unknown> = {}) => ({
+    ...detail,
+    lifecycle: persistentStatusLifecycle,
+    results: [{ ...modifier, ...patch }]
+  });
+
+  it('accepts legacy missing/null condition and preserves valid fixed, parameter and formula sources', () => {
+    expect(parseSkillEffect(effect()).results[0]).toMatchObject({ detail: modifier.detail });
+    expect(parseSkillEffect(effect({ detail: { ...modifier.detail, condition: null } })).results[0])
+      .toMatchObject({ detail: { condition: null } });
+    for (const comparisonValue of [fixedValue(0.4), parameterValue('threshold'), formulaValue('threshold_formula')]) {
+      const result = parseSkillEffect(effect({ detail: {
+        ...modifier.detail, condition: { ...condition, comparisonValue }
+      } })).results[0];
+      expect(result).toMatchObject({ detail: { condition: { comparisonValue } } });
+    }
+  });
+
+  it('rejects malformed non-null conditions instead of silently treating them as unconditional', () => {
+    const badConditions = [
+      [], {}, { ...condition, extra: true }, { ...condition, receiver: 'TARGET' },
+      { ...condition, attributeKey: '' }, { ...condition, attributeValueKind: 'MAX_RATIO' },
+      { ...condition, comparator: 'LTE' }, { ...condition, comparisonValue: { kind: 'FORMULA', formulaKey: '' } }
+    ];
+    for (const invalid of badConditions) {
+      expect(() => parseSkillEffect(effect({ detail: { ...modifier.detail, condition: invalid } })))
+        .toThrow(SkillEffectProtocolError);
+    }
+    for (const patch of [
+      { target: 'TARGET' },
+      { detail: { ...modifier.detail, direction: 'TAKEN', condition } },
+      { lifecycleBehavior: { ...modifier.lifecycleBehavior, moment: 'APPLICATION' } }
+    ]) {
+      expect(() => parseSkillEffect(effect({ ...patch, detail: {
+        ...modifier.detail, condition, ...(patch.detail ?? {})
+      } }))).toThrow(SkillEffectProtocolError);
+    }
+    expect(() => parseSkillEffect({ ...effect({ detail: { ...modifier.detail, condition } }), lifecycle: null }))
+      .toThrow(SkillEffectProtocolError);
+  });
+});
 
 describe('仅记录生命周期的效果响应', () => {
   it('保留合法空结果数组与生命周期，不生成结果占位项', () => {

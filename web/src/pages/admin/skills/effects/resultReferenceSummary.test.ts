@@ -16,6 +16,8 @@ import {
   attachDisplayUnit,
   authoredNumericSummary,
   buildResultReferenceSummary,
+  damageModifierFilterSummary,
+  formatDamageModifierCondition,
   formatCatalogKey,
   isUnitSafeNumericText,
   parameterCatalogEntries
@@ -197,6 +199,73 @@ describe('结果引用摘要语义', () => {
     modifier.fixedMultiplier = '1';
     expect(buildResultReferenceSummary(modifier).segments.join(' · ')).toContain(`0.25 × 1 ${RATIO_UNIT}`);
     expect(buildResultReferenceSummary(modifier).target).toBe('当前目标');
+  });
+
+  it('伤害修正摘要用实际生命属性、严格比较和门槛来源，不靠作者说明', () => {
+    const modifier = createEmptyResultDraft('DAMAGE_MODIFIER');
+    modifier.target = 'SOURCE';
+    modifier.modifierDirection = 'DEALT';
+    modifier.modifierOperation = 'INCREASE';
+    modifier.value = parameterValue('damage_bonus');
+    modifier.damageModifierCondition = {
+      attributeKey: 'hp', comparator: 'LT', comparisonValue: parameterValue('health_threshold'),
+      originalAttributeKey: 'hp'
+    };
+    const catalogs = {
+      attributesLoadState: 'ready' as const,
+      attributes: new Map([['hp', { name: '生命值' }]]),
+      parametersLoadState: 'ready' as const,
+      parameters: new Map([
+        ['damage_bonus', { name: '增幅' }],
+        ['health_threshold', { name: '生命门槛比例' }]
+      ])
+    };
+    const summary = buildResultReferenceSummary(modifier, catalogs);
+    expect(summary.target).toBe('施法者');
+    expect(summary.segments.join(' · '))
+      .toContain('仅本笔敌方英雄承受者 · 扣血前生命值（hp）当前比例严格低于生命门槛比例（health_threshold）');
+    modifier.damageModifierCondition = {
+      ...modifier.damageModifierCondition, comparator: 'GT', comparisonValue: fixedValue(0.6)
+    };
+    expect(buildResultReferenceSummary(modifier, catalogs).segments.join(' · '))
+      .toContain('严格高于0.6');
+    modifier.damageModifierCondition = null;
+    expect(buildResultReferenceSummary(modifier, catalogs).segments.join(' · '))
+      .not.toContain('本笔敌方英雄');
+  });
+
+  it('伤害修正过滤在全量和具体限定时均保留字段身份，门槛按目录状态显示', () => {
+    const modifier = createEmptyResultDraft('DAMAGE_MODIFIER');
+    expect(damageModifierFilterSummary({
+      damageTypeKey: null,
+      deliveryKind: modifier.damageFilterDeliveryKind,
+      originKind: modifier.damageFilterOriginKind,
+      criticalFilter: modifier.criticalFilter
+    })).toEqual(['伤害类型：全部', '产生方式：全部', '来源性质：全部', '暴击筛选：全部']);
+
+    modifier.damageTypeKey = 'physics';
+    modifier.damageFilterDeliveryKind = 'BASIC_ATTACK';
+    modifier.damageFilterOriginKind = 'DIRECT';
+    modifier.criticalFilter = 'CRITICAL_ONLY';
+    expect(damageModifierFilterSummary({
+      damageTypeKey: modifier.damageTypeKey,
+      deliveryKind: modifier.damageFilterDeliveryKind,
+      originKind: modifier.damageFilterOriginKind,
+      criticalFilter: modifier.criticalFilter
+    })).toEqual(['伤害类型：physics', '产生方式：普通攻击', '来源性质：直接伤害', '暴击筛选：仅暴击']);
+
+    modifier.damageModifierCondition = {
+      attributeKey: 'hp', comparator: 'LT', comparisonValue: parameterValue('threshold_ratio'),
+      originalAttributeKey: 'hp'
+    };
+    expect(formatDamageModifierCondition(modifier.damageModifierCondition))
+      .toBe('仅本笔敌方英雄承受者 · 扣血前hp当前比例严格低于参数 threshold_ratio');
+    expect(formatDamageModifierCondition(modifier.damageModifierCondition, {}))
+      .toContain(CATALOG_LOADING_TEXT);
+    expect(formatDamageModifierCondition(modifier.damageModifierCondition, {
+      attributesLoadState: 'failed', parametersLoadState: 'failed'
+    })).toContain(CATALOG_FAILED_TEXT);
+    expect(formatDamageModifierCondition(null)).toBeNull();
   });
 });
 

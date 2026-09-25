@@ -46,6 +46,13 @@ export type SkillEffectVampBasisOutputKind = 'POST_DEFENSE_DAMAGE' | 'ACTUAL_HP_
 export type SkillEffectNormalShieldDecayMode = 'NONE' | 'LINEAR_TO_ZERO';
 export type SkillEffectModifierOperation = 'INCREASE' | 'DECREASE';
 export type SkillEffectDamageModifierDirection = 'DEALT' | 'TAKEN';
+export type SkillEffectDamageModifierCondition = {
+  receiver: 'ENEMY_CHAMPION';
+  attributeKey: string;
+  attributeValueKind: 'CURRENT_RATIO';
+  comparator: 'LT' | 'GT';
+  comparisonValue: NumericValue;
+};
 export type SkillEffectHealingModifierDirection = 'DONE' | 'RECEIVED';
 export type SkillEffectDamageFilterDeliveryKind = 'ANY' | 'SKILL' | 'BASIC_ATTACK';
 export type SkillEffectDamageFilterOriginKind = 'ANY' | 'DIRECT' | 'REFLECTED';
@@ -104,6 +111,7 @@ export type SkillEffectLifecycleOperation =
   | 'REMOVE';
 
 export type SkillEffectLifecycle = {
+  endWhenShieldEndsResultKey?: string | null;
   durationValue: NumericValue | null;
   maxStacksValue: NumericValue;
   applicationStacksValue: NumericValue;
@@ -145,6 +153,7 @@ export type SkillEffectDamageModifierDetail = {
   deliveryKind: SkillEffectDamageFilterDeliveryKind;
   originKind: SkillEffectDamageFilterOriginKind;
   criticalFilter: SkillEffectCriticalFilter;
+  condition?: SkillEffectDamageModifierCondition | null;
 };
 
 export type SkillEffectHealingModifierDetail = {
