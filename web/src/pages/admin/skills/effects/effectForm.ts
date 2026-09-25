@@ -358,7 +358,6 @@ export const SKILL_EFFECT_LIFECYCLE_OPERATIONS = [
 ] as const satisfies readonly SkillEffectLifecycleOperation[];
 
 export type SkillEffectLifecycleDraft = {
-  endWhenShieldEndsResultKey: string;
   durationValue: NumericValue | null;
   maxStacksValue: NumericValue | null;
   applicationStacksValue: NumericValue | null;
@@ -470,7 +469,6 @@ export type SkillEffectDraftField =
   | 'sortOrder'
   | 'results'
   | 'lifecycle'
-  | 'endWhenShieldEndsResultKey'
   | 'durationValue'
   | 'maxStacksValue'
   | 'applicationStacksValue'
@@ -636,7 +634,6 @@ const EFFECT_DRAFT_FIELDS = new Set<SkillEffectDraftField>([
   'sortOrder',
   'results',
   'lifecycle',
-  'endWhenShieldEndsResultKey',
   'durationValue',
   'maxStacksValue',
   'applicationStacksValue',
@@ -650,7 +647,6 @@ const EFFECT_DRAFT_FIELDS = new Set<SkillEffectDraftField>([
 
 const LIFECYCLE_FIELD_BY_PATH: { [path: string]: SkillEffectDraftField } = {
   lifecycle: 'lifecycle',
-  'lifecycle.endWhenShieldEndsResultKey': 'endWhenShieldEndsResultKey',
   'lifecycle.durationValue': 'durationValue',
   'lifecycle.maxStacksValue': 'maxStacksValue',
   'lifecycle.applicationStacksValue': 'applicationStacksValue',
@@ -722,7 +718,6 @@ export function createEmptyAffectedSkillScopeDraft(): AffectedSkillScopeDraft {
 
 export function createEmptyLifecycleDraft(): SkillEffectLifecycleDraft {
   return {
-    endWhenShieldEndsResultKey: '',
     durationValue: null,
     maxStacksValue: null,
     applicationStacksValue: null,
@@ -2240,7 +2235,6 @@ function lifecycleToDraft(lifecycle: SkillEffectLifecycle | null): SkillEffectLi
     return createEmptyLifecycleDraft();
   }
   return {
-    endWhenShieldEndsResultKey: lifecycle.endWhenShieldEndsResultKey ?? '',
     durationValue: lifecycle.durationValue ?? null,
     maxStacksValue: lifecycle.maxStacksValue,
     applicationStacksValue: lifecycle.applicationStacksValue,
@@ -3227,8 +3221,7 @@ function validateDisabledLifecycle(
 ): void {
   const lifecycle = draft.lifecycle;
   if (
-    lifecycle.endWhenShieldEndsResultKey
-    || lifecycle.durationValue
+    lifecycle.durationValue
     || lifecycle.maxStacksValue
     || lifecycle.applicationStacksValue
     || lifecycle.instanceScope

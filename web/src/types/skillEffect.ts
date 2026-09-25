@@ -111,7 +111,6 @@ export type SkillEffectLifecycleOperation =
   | 'REMOVE';
 
 export type SkillEffectLifecycle = {
-  endWhenShieldEndsResultKey?: string | null;
   durationValue: NumericValue | null;
   maxStacksValue: NumericValue;
   applicationStacksValue: NumericValue;

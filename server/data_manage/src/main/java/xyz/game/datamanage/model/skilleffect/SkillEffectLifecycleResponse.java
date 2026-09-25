@@ -11,7 +11,6 @@ public record SkillEffectLifecycleResponse(
     SkillEffectLifecycleReapplicationDurationMode reapplicationDurationMode,
     SkillEffectLifecycleExpiryMode expiryMode,
     SkillNumericValue periodicIntervalValue,
-    SkillEffectLifecycleFirstPeriodicExecution firstPeriodicExecution,
-    String endWhenShieldEndsResultKey
+    SkillEffectLifecycleFirstPeriodicExecution firstPeriodicExecution
 ) {
 }

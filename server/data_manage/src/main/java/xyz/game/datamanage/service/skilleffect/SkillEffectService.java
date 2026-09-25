@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.support.authoring.DamageModifierConditionSemantics;
 import xyz.game.datamanage.support.authoring.HealingRatioMaxSemantics;
-import xyz.game.datamanage.support.authoring.ShieldEndLifecycleSemantics;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -495,7 +494,6 @@ public class SkillEffectService {
                 }
             }
         }
-        issues.addAll(ShieldEndLifecycleSemantics.issues(lifecycle, results));
         validateLifecyclePeriodicPair(lifecycle, hasPeriodic, hasNaturalEnd, issues);
         throwIfInvalidBody(bodyIssues);
         throwIfInvalid(issues);

@@ -136,7 +136,6 @@ public final class SkillObjectReferences {
             JsonNode data = source.data();
             formulas(data.path("lifecycle"), "lifecycle", "durationValue", "maxStacksValue",
                 "applicationStacksValue", "periodicIntervalValue");
-            child(data.path("lifecycle"), "lifecycle", "endWhenShieldEndsResultKey", TargetType.RESULT, source.key());
             JsonNode results = array(data, "results");
             for (int i = 0; i < results.size(); i++) {
                 JsonNode result = results.get(i);
