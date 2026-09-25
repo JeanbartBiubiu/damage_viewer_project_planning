@@ -34,7 +34,7 @@ import (
 //	  cf0e3ae91310ab5e7cc04408941671520e3464f75bc61da683b100ea82e56eec
 //	数据参考/lol-wiki-current-champions/normalized/generic/tristana-w.json
 //	pages/raw siblings: pages/tristana-w.json, raw/tristana-w.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_tristana_rocket_jump_primary_landing_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_tristana_rocket_jump_primary_landing_hit_seed.sql
 //	Local raw materialization caveat: 2443 bytes / SHA256
 //	  7283b2eb2020c20c6e48098e647ba4782b6dc134705c7c668d7e7279da1cabd9.
 //	Serialization caveat only; assert sidecar/pages canonical identity + caveat;
@@ -97,9 +97,6 @@ const (
 	tristanaRJDamageOpRef = "op:tristana_rocket_jump_primary_landing_hit_damage"
 	tristanaRJBonusADMod  = "fixture_tristana_rocket_jump_primary_landing_hit_bonus_ad"
 
-	tristanaRJSeedBlobSHA  = "6F11143C6774D3713FB00BB50D1C81816CA5913DA966B30E5082888D63EF8643"
-	tristanaRJJUnitBlobSHA = "706A8EAC3D0490A2C42EEE2F411D967B4B19B43A5B67834A611B8F43A5F2104D"
-
 	tristanaRJBaseDamage   = 210.0
 	tristanaRJBonusADRatio = 1.00
 	tristanaRJAPRatio      = 0.50
@@ -119,11 +116,6 @@ const (
 	tristanaRJExpectedMitDefault = 180.0
 	tristanaRJManaAfter2         = 50.0  // 150 - 50 - 50
 	tristanaRJHPAfter2           = 640.0 // 1000 - 180 - 180
-
-	tristanaRJSeedDamageJSON = `{"op":"add","args":[{"op":"add","args":[{"op":"const","value":210},` +
-		`{"op":"mul","args":[{"op":"const","value":1.00},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},{"op":"read","path":"source.attr.ad.base"}]}]}]},` +
-		`{"op":"mul","args":[{"op":"const","value":0.50},{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	tristanaRJTol = 1e-9
 )
@@ -718,26 +710,6 @@ func tristanaRJRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func tristanaRJLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(tristanaRJRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_tristana_rocket_jump_primary_landing_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func tristanaRJSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -783,11 +755,8 @@ func tristanaRJAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, want
 	}
 }
 
-// TestTristanaRocketJumpPrimaryLandingHitSourceSeedProviderFormulaShape locks wiki/sidecar/
-// pages/local-raw serialization caveat, seed/README/JUnit identities and source blob
-// hashes, external-existing-data check-only prerequisites / non-materialization,
-// ordered tags, type-policy evidence, and W provider/nested bonusAD+AP formula shape.
-func TestTristanaRocketJumpPrimaryLandingHitSourceSeedProviderFormulaShape(t *testing.T) {
+// TestTristanaRocketJumpPrimaryLandingHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestTristanaRocketJumpPrimaryLandingHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -927,195 +896,7 @@ func TestTristanaRocketJumpPrimaryLandingHitSourceSeedProviderFormulaShape(t *te
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := tristanaRJRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_tristana_rocket_jump_primary_landing_hit_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := tristanaRJSHA256HexUpper(seedBytes); got != tristanaRJSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, tristanaRJSeedBlobSHA)
-	}
-	junitPath := tristanaRJRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericTristanaRocketJumpPrimaryLandingHitSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := tristanaRJSHA256HexUpper(junitBytes); got != tristanaRJJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, tristanaRJJUnitBlobSHA)
-	}
-	_ = tristanaRJRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := tristanaRJLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(tristanaRJRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		tristanaRJCandidateKey, tristanaRJTaskKey, tristanaRJPlanRev,
-		tristanaRJRequestTitle, tristanaRJResolvedTitle,
-		"1308523", "4007758", tristanaRJTimestamp, "2444", "2443",
-		tristanaRJContentSHA, tristanaRJLocalRawSHA,
-		tristanaRJBoundary, tristanaRJProviderRef, tristanaRJAbilityID, tristanaRJAbilityKey,
-		"rocket_jump_primary_landing_hit_damage", "w_mana_cost", "w_cooldown_ms",
-		`{"op":"const","value":50}`, `{"op":"const","value":14000}`,
-		tristanaRJSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/tristana-w.json",
-		"external existing-data", "check-only",
-		"无 materializer", "不物化",
-		"bonus AD", "source.attr.ad.resolved", "source.attr.ad.base",
-		"source.attr.ap.resolved",
-		"ability_started",
-		"20221", "20170",
-		"Explosive Charge",
-		"不要求 P/Q/E/basic/Explosive Charge/R",
-		"ability/tristana_rapid_fire",
-		"missing game_entities hero_tristana",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_tristana/ad",
-		"missing entity_attribute_values hero_tristana/ap",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_tristana/mana",
-		"missing reserved_type",
-		"210", "1.00", "0.50",
-		"嵌套二元",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range tristanaRJOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range tristanaRJOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.resolved exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.base"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.base exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ap.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ap.resolved exactly once")
-	}
-	if strings.Contains(sqlNoComments, `"path":"source.attr.ap.base"`) {
-		t.Fatal("executable SQL must not invent ap.base reads")
-	}
-	if !strings.Contains(sqlNoComments, `"op":"sub"`) {
-		t.Fatal("executable SQL must use sub(resolved, base) for bonus AD")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_tristana_w_rocket_jump_primary_landing_hit_impact",
-		"sequence_hero_tristana_w_rocket_jump_primary_landing_hit_impact",
-		"step_hero_tristana_w_rocket_jump_primary_landing_hit_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_tristana_w_rocket_jump_primary_landing_hit'\s*,\s*` +
-		`'provider_hero_tristana_w_rocket_jump_primary_landing_hit'\s*,\s*` +
-		`'rocket_jump_primary_landing_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("W must be active ability with stable key rocket_jump_primary_landing_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_tristana_w_rocket_jump_primary_landing_hit_damage'\s*,\s*` +
-		`'rocket_jump_primary_landing_hit_damage'\s*,\s*20221\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be magic 20221 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-	if regexp.MustCompile(`(?is)\b62013\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not project Q ability type 62013 onto W")
-	}
-	if strings.Contains(sqlNoComments, "ability/tristana_rapid_fire") {
-		t.Fatal("executable SQL must not attach ability/tristana_rapid_fire to W")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_tristana_[pqer]_|'ability_hero_tristana_[pqer]_|` +
-		`'provider_hero_tristana_basic_|'ability_hero_tristana_basic_|explosive_charge`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/Q/E/R/basic/Explosive Charge graph rows")
-	}
-
-	for _, want := range []string{
-		tristanaRJCandidateKey, tristanaRJTaskKey, tristanaRJPlanRev,
-		"lol_generic_tristana_rocket_jump_primary_landing_hit_seed.sql",
-		"LolGenericTristanaRocketJumpPrimaryLandingHitSeedSqlTest",
-		"external existing-data",
-		"magic_210_plus_1_00_bonus_ad_plus_0_50_ap",
-		"bonus_ad_ratio", "ap_ratio",
-		"Explosive Charge",
-		"ability/tristana_rapid_fire",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦无 seed") {
-		t.Fatal("README must document no repository materializer for Tristana identity/panel/resource")
-	}
-	if strings.Contains(readme, "op:tristana_rocket_jump_primary_landing_hit_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadTristanaRJFixture(t, tristanaRJFixtureOpts{
 		baseAD: tristanaRJADBaseDefault, resolvedAD: tristanaRJADResolvedDefault,

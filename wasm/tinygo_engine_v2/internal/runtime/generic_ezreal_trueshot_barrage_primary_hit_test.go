@@ -7,7 +7,6 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"testing"
 
@@ -31,7 +30,7 @@ import (
 //	sidecar rawByteSize 1453 / SHA256 e9d7f9d7411bcbb1ab00aeb89fe03a4fb8511625fc0a64266f5f63ced53580e0
 //	数据参考/lol-wiki-current-champions/normalized/generic/ezreal-r.json
 //	pages/raw siblings: pages/ezreal-r.json, raw/ezreal-r.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql
 //	Local raw is a non-canonical materialization: 1450 bytes / SHA256
 //	ddc984665670fe9aee859ec740d63c101b04c7f504f610952f94fe67a014f943.
 //	Trimming terminal LF yields 1449 / 57a04bc0…; BOM-prepend yields 1453 /
@@ -48,7 +47,7 @@ import (
 //     impact / on_enter scaffold in production seed; Wasm models one op):
 //     750 + 1.00*(source.attr.ad.resolved - source.attr.ad.base)
 //       + 1.10*source.attr.ap.resolved
-//     (Backend seed uses multi-arg add; Wasm fixture uses nested binary add
+//     (历史种子曾使用 multi-arg add; Wasm fixture uses nested binary add
 //     with identical arithmetic — never bake fixture bonus-AD/AP constants)
 //   - CritEligible=false, CopyableOnHit=false; not ability/basic_attack
 //   - No listener / state / cast-delay / queue / projectile / travel /
@@ -119,12 +118,6 @@ const (
 	ezrealTrueshotBarragePrimaryHitHPAfter2          = 480.0 // 1500 - 510 - 510
 
 	ezrealTrueshotBarragePrimaryHitTol = 1e-9
-
-	// Backend seed multi-arg add (3-arg) — Wasm fixture uses nested binary add.
-	ezrealTrueshotBarragePrimaryHitSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":750},` +
-		`{"op":"mul","args":[{"op":"const","value":1.00},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},{"op":"read","path":"source.attr.ad.base"}]}]},` +
-		`{"op":"mul","args":[{"op":"const","value":1.10},{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 )
 
 func ezrealTrueshotBarragePrimaryHitExpectedRawFromStats(resolvedAD, baseAD, resolvedAP float64) float64 {
@@ -543,16 +536,6 @@ func ezrealTrueshotBarragePrimaryHitWikiPagesPath(t *testing.T) string {
 	return path
 }
 
-func ezrealTrueshotBarragePrimaryHitSeedPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"db", "game_manage", "seeds", "lol_generic_ezreal_trueshot_barrage_primary_hit_seed.sql")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("backend seed missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
 type ezrealTrueshotBarragePrimaryHitWikiSidecar struct {
 	CandidateKey      string `json:"candidateKey"`
 	RequestTitle      string `json:"requestTitle"`
@@ -619,35 +602,9 @@ func ezrealTrueshotBarragePrimaryHitLoadWikiPages(t *testing.T) ezrealTrueshotBa
 	return doc
 }
 
-func ezrealTrueshotBarragePrimaryHitLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(ezrealTrueshotBarragePrimaryHitSeedPath(t))
-	if err != nil {
-		t.Fatalf("read backend seed: %v", err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func ezrealTrueshotBarragePrimaryHitSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
-}
-
-func ezrealTrueshotBarragePrimaryHitCountOccurrences(haystack, needle string) int {
-	if needle == "" {
-		return 0
-	}
-	return strings.Count(haystack, needle)
 }
 
 // TestEzrealTrueshotBarragePrimaryHitWikiSidecarIdentityAndBoundary locks repository
@@ -845,28 +802,6 @@ func TestEzrealTrueshotBarragePrimaryHitWikiSidecarIdentityAndBoundary(t *testin
 		}
 	}
 
-	seed, _ := ezrealTrueshotBarragePrimaryHitLoadSeedSQL(t)
-	for _, want := range []string{
-		ezrealTrueshotBarragePrimaryHitCandidateKey,
-		ezrealTrueshotBarragePrimaryHitTaskKey,
-		ezrealTrueshotBarragePrimaryHitPlanRev,
-		ezrealTrueshotBarragePrimaryHitRequestTitle,
-		ezrealTrueshotBarragePrimaryHitResolvedTitle,
-		"1307113",
-		"4013235",
-		ezrealTrueshotBarragePrimaryHitTimestamp,
-		ezrealTrueshotBarragePrimaryHitContentSHA,
-		ezrealTrueshotBarragePrimaryHitLocalRawSHA,
-		ezrealTrueshotBarragePrimaryHitTrimRawSHA,
-		ezrealTrueshotBarragePrimaryHitBOMRawSHA,
-		ezrealTrueshotBarragePrimaryHitBoundary,
-		"normalized/generic/ezreal-r.json",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing identity/boundary evidence %q", want)
-		}
-	}
-
 	if ezrealTrueshotBarragePrimaryHitPlanRev != "ezreal-r-trueshot-barrage-primary-hit-phase-a-v2" {
 		t.Fatal("frozen plan-rev constant drifted")
 	}
@@ -876,176 +811,19 @@ func TestEzrealTrueshotBarragePrimaryHitWikiSidecarIdentityAndBoundary(t *testin
 	}
 }
 
-// TestEzrealTrueshotBarragePrimaryHitSeedGraphShape locks Backend seed check-only
-// prerequisites, forbidden identity/panel/resource writes, exact R graph shape,
-// non-mutation of Rising Spell Force / Q/W/E, and multi-arg add formula semantics.
-func TestEzrealTrueshotBarragePrimaryHitSeedGraphShape(t *testing.T) {
-	sql, sqlNoComments := ezrealTrueshotBarragePrimaryHitLoadSeedSQL(t)
+// TestEzrealTrueshotBarragePrimaryHitConstructedFixtureFormulaAndIdentity 核对历史数值边界在现有通用运行构造样例中的身份与公式。
+func TestEzrealTrueshotBarragePrimaryHitConstructedFixtureFormulaAndIdentity(t *testing.T) {
 
-	for _, want := range []string{
-		"missing reserved_type",
-		"missing attribute_definitions",
-		"missing game_entities hero_ezreal",
-		"missing entity_attribute_values hero_ezreal/ad",
-		"missing entity_attribute_values hero_ezreal/ap",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_ezreal/mana",
-		"check-only",
-		"Rising Spell Force",
-		"INSERT INTO public.types",
-		"provider_hero_ezreal_r_trueshot_barrage_primary_hit",
-		"ability_hero_ezreal_r_trueshot_barrage_primary_hit",
-		"trueshot_barrage",
-		"r_mana_cost",
-		"r_cooldown_ms",
-		"trueshot_barrage_damage",
-		"phase_hero_ezreal_r_trueshot_barrage_primary_hit_impact",
-		"sequence_hero_ezreal_r_trueshot_barrage_primary_hit_impact",
-		"step_hero_ezreal_r_trueshot_barrage_primary_hit_damage",
-		"cost_hero_ezreal_r_trueshot_barrage_primary_hit_mana",
-		"cooldown_hero_ezreal_r_trueshot_barrage_primary_hit",
-		`{"op":"const","value":100}`,
-		`{"op":"const","value":90000}`,
-		ezrealTrueshotBarragePrimaryHitSeedDamageJSON,
-	} {
-		if !strings.Contains(sql, want) {
-			t.Fatalf("seed missing required graph/check-only fragment %q", want)
-		}
+	compileReq, _ := loadEzrealTrueshotBarragePrimaryHitFixture(t)
+	assertEzrealTrueshotBarragePrimaryHitProviderShape(t, compileReq)
+	raw := ezrealTrueshotBarragePrimaryHitExpectedRawFromStats(
+		ezrealTrueshotBarragePrimaryHitADResolved, ezrealTrueshotBarragePrimaryHitADBase,
+		ezrealTrueshotBarragePrimaryHitFixtureAP)
+	if math.Abs(raw-ezrealTrueshotBarragePrimaryHitExpectedRaw) > ezrealTrueshotBarragePrimaryHitTol {
+		t.Fatalf("constructed fixture raw=%v want %v", raw, ezrealTrueshotBarragePrimaryHitExpectedRaw)
 	}
-
-	for _, typeID := range []string{"20111", "20120", "20130", "20142", "20150", "20170", "20221", "20260"} {
-		if !strings.Contains(sql, typeID) {
-			t.Fatalf("seed missing required reserved type %s", typeID)
-		}
-	}
-	if regexp.MustCompile(`(?i)\b20220\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable seed must not use physical damage type 20220")
-	}
-
-	forbiddenWriteTables := []string{
-		"attribute_definitions",
-		"resource_definitions",
-		"game_entities",
-		"entity_attribute_values",
-		"entity_resource_values",
-	}
-	for _, table := range forbiddenWriteTables {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("seed must not INSERT/UPDATE/MERGE/DELETE public.%s", table)
-		}
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(sql) {
-		t.Fatal("seed must not use the Batch-B prerequisite phrase")
-	}
-
-	if ezrealTrueshotBarragePrimaryHitCountOccurrences(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 {
-		t.Fatal("seed must define exactly one provider (R Trueshot Barrage primary-hit only)")
-	}
-	if ezrealTrueshotBarragePrimaryHitCountOccurrences(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must mount exactly one dedicated Trueshot Barrage primary-hit provider")
-	}
-	if ezrealTrueshotBarragePrimaryHitCountOccurrences(sqlNoComments, "INSERT INTO public.ability_phases") != 1 {
-		t.Fatal("seed must define exactly one ability phase (null-duration impact)")
-	}
-	if ezrealTrueshotBarragePrimaryHitCountOccurrences(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 {
-		t.Fatal("seed must have exactly one damage_effect_details insert block")
-	}
-
-	if !regexp.MustCompile(`(?s)'ability_hero_ezreal_r_trueshot_barrage_primary_hit'\s*,\s*` +
-		`'provider_hero_ezreal_r_trueshot_barrage_primary_hit'\s*,\s*` +
-		`'trueshot_barrage'\s*,\s*20130`).MatchString(sql) {
-		t.Fatal("R must be active ability with stable key trueshot_barrage")
-	}
-	if !regexp.MustCompile(`(?s)'phase_hero_ezreal_r_trueshot_barrage_primary_hit_impact'\s*,\s*` +
-		`'ability_hero_ezreal_r_trueshot_barrage_primary_hit'\s*,\s*` +
-		`0\s*,\s*20142\s*,\s*NULL\s*,\s*false`).MatchString(sql) {
-		t.Fatal("impact phase must be order 0 / type 20142 / null duration")
-	}
-	if !regexp.MustCompile(`(?s)'phase_hero_ezreal_r_trueshot_barrage_primary_hit_impact'\s*,\s*` +
-		`20260\s*,\s*` +
-		`'sequence_hero_ezreal_r_trueshot_barrage_primary_hit_impact'`).MatchString(sql) {
-		t.Fatal("impact phase must bind on_enter 20260 sequence")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_ezreal_r_trueshot_barrage_primary_hit_damage'\s*,\s*` +
-		`'sequence_hero_ezreal_r_trueshot_barrage_primary_hit_impact'\s*,\s*` +
-		`0\s*,\s*20150\s*,\s*20111\s*,\s*NULL`).MatchString(sql) {
-		t.Fatal("Trueshot Barrage damage must be sole step order 0 to opponent")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_ezreal_r_trueshot_barrage_primary_hit_damage'\s*,\s*` +
-		`'trueshot_barrage_damage'\s*,\s*20221\s*,\s*20170\s*,\s*false`).MatchString(sql) {
-		t.Fatal("Trueshot Barrage damage must be magic 20221 add policy copyable_on_hit=false")
-	}
-	if !regexp.MustCompile(`(?s)'hero_ezreal'\s*,\s*` +
-		`'provider_hero_ezreal_r_trueshot_barrage_primary_hit'`).MatchString(sql) {
-		t.Fatal("must mount Trueshot Barrage primary-hit provider to hero_ezreal")
-	}
-
-	if !strings.Contains(sql, "provider_hero_ezreal_rising_spell_force") {
-		t.Fatal("seed must document coexistence / non-mutation of Rising Spell Force provider")
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_ezreal_rising_spell_force'`).MatchString(sqlNoComments) {
-		t.Fatal("must not write / replace Rising Spell Force provider identity rows")
-	}
-	if regexp.MustCompile(`(?is)'listener_hero_ezreal_rising_spell_force|` +
-		`sequence_hero_ezreal_rising_spell_force|` +
-		`step_hero_ezreal_rising_spell_force|` +
-		`modifier_hero_ezreal_rising_spell_force|` +
-		`rising_spell_force_stacks'`).MatchString(sqlNoComments) {
-		t.Fatal("must not mutate Rising Spell Force graph rows")
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_ezreal_[qwe]_|'ability_hero_ezreal_[qwe]_|` +
-		`'phase_hero_ezreal_[qwe]_|'step_hero_ezreal_[qwe]_`).MatchString(sqlNoComments) {
-		t.Fatal("must not create/mutate Q/W/E graph rows")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners",
-		"provider_state_fields",
-		"state_effect_details",
-		"event_effect_details",
-		"modifier_effect_details",
-		"modifier_definitions",
-		"provider_modifiers",
-		"repeat_effect_details",
-		"control_effect_details",
-		"projectile_effect_details",
-		"aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	if regexp.MustCompile(`(?i)cast.?duration|cast.?delay|cast.?time|` +
-		`phase_hero_ezreal_r_trueshot_barrage_primary_hit_cast|` +
-		`queue.?0\.5|queue\s*=\s*0\.5|` +
-		`projectile|missile|travel|collision|geometry|direction|` +
-		`multi.?target|pass.?through|minimap|` +
-		`minion.?modified|monster.?modified|` +
-		`basic_attack_hit|emit_event|equipment|loadout|runes|` +
-		`aoe|area.?of.?effect|\brepeat\b`).MatchString(sqlNoComments) {
-		t.Fatal("must not model excluded cast-delay/queue/projectile/geometry/direction/multitarget/sight/minion surfaces")
-	}
-
-	// Multi-arg add: seed JSON has 3 top-level args under add (const + bonusAD mul + AP mul).
-	if !strings.Contains(sql, `"op":"add","args":[{"op":"const","value":750},{"op":"mul"`) {
-		t.Fatal("seed formula must use Backend multi-arg add starting with const 750 + mul")
-	}
-	if !strings.Contains(sql, `"path":"source.attr.ad.resolved"`) ||
-		!strings.Contains(sql, `"path":"source.attr.ad.base"`) ||
-		!strings.Contains(sql, `"path":"source.attr.ap.resolved"`) {
-		t.Fatal("seed formula must read ad.resolved/ad.base/ap.resolved")
-	}
-	if !strings.Contains(sql, `"value":1.00`) || !strings.Contains(sql, `"value":1.10`) {
-		t.Fatal("seed formula must encode 1.00 bonus-AD and 1.10 AP ratios")
-	}
-
-	for _, want := range []string{"cast time", "queue", "projectile", "minion", "monster", "300+1.00"} {
-		if !strings.Contains(sql, want) {
-			t.Fatalf("seed comments must document exclusion evidence containing %q", want)
-		}
+	if mit := expectedMitigatedMagic(raw, ezrealTrueshotBarragePrimaryHitTargetMR); math.Abs(mit-ezrealTrueshotBarragePrimaryHitExpectedMitigated) > ezrealTrueshotBarragePrimaryHitTol {
+		t.Fatalf("constructed fixture mitigated=%v want %v", mit, ezrealTrueshotBarragePrimaryHitExpectedMitigated)
 	}
 }
 

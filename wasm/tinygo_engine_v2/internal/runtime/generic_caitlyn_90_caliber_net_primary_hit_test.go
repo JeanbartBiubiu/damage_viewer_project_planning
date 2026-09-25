@@ -34,7 +34,7 @@ import (
 //	  9357e7b28b05f738cd8049a2d10a115e4033a54123c0e71f55d1262a92884db2
 //	数据参考/lol-wiki-current-champions/normalized/generic/caitlyn-e.json
 //	pages/raw siblings: pages/caitlyn-e.json, raw/caitlyn-e.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_caitlyn_90_caliber_net_primary_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_caitlyn_90_caliber_net_primary_hit_seed.sql
 //	Local raw materialization caveat: 2094 bytes / SHA256
 //	  3a5eba6df38ec34046440743d55de61490dc7b5a2488b8fc671851474d080073.
 //	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
@@ -92,9 +92,6 @@ const (
 	caitlynCNAbilityKey  = "caliber_net_primary_hit"
 	caitlynCNDamageOpRef = "op:caitlyn_90_caliber_net_primary_hit_damage"
 
-	caitlynCNSeedBlobSHA  = "863642ABA9C249673980047CFD16036C83E82DAEE4E03A0DBAF82113E6E88DE8"
-	caitlynCNJUnitBlobSHA = "0D04AF7A37EFF0F467D148A545A5DD46690FEF8F8D730DC3D55D8FB69A02E184"
-
 	caitlynCNBaseDamage = 280.0
 	caitlynCNAPRatio    = 0.80
 	caitlynCNManaCost   = 75.0
@@ -110,10 +107,6 @@ const (
 	caitlynCNExpectedMitDefault = 180.0 // MR100
 	caitlynCNManaAfter2         = 75.0  // 225 - 75 - 75
 	caitlynCNHPAfter2           = 640.0 // 1000 - 180 - 180
-
-	caitlynCNSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":280},` +
-		`{"op":"mul","args":[{"op":"const","value":0.80},` +
-		`{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	caitlynCNTol = 1e-9
 )
@@ -522,26 +515,6 @@ func caitlynCNRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func caitlynCNLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(caitlynCNRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_caitlyn_90_caliber_net_primary_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func caitlynCNSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -584,10 +557,8 @@ func caitlynCNAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantM
 	}
 }
 
-// TestCaitlyn90CaliberNetSourceSeedProviderFormulaShape locks wiki/sidecar/pages/
-// local-raw caveat, seed/README/JUnit identities and source blob hashes,
-// external-existing-data wording, and E provider/AP formula shape.
-func TestCaitlyn90CaliberNetSourceSeedProviderFormulaShape(t *testing.T) {
+// TestCaitlyn90CaliberNetWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestCaitlyn90CaliberNetWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -702,167 +673,7 @@ func TestCaitlyn90CaliberNetSourceSeedProviderFormulaShape(t *testing.T) {
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := caitlynCNRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_caitlyn_90_caliber_net_primary_hit_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := caitlynCNSHA256HexUpper(seedBytes); got != caitlynCNSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, caitlynCNSeedBlobSHA)
-	}
-	junitPath := caitlynCNRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := caitlynCNSHA256HexUpper(junitBytes); got != caitlynCNJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, caitlynCNJUnitBlobSHA)
-	}
-	_ = caitlynCNRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := caitlynCNLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(caitlynCNRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		caitlynCNCandidateKey, caitlynCNTaskKey, caitlynCNPlanRev,
-		caitlynCNRequestTitle, caitlynCNResolvedTitle,
-		"1306916", "4007584", caitlynCNTimestamp, "2095", "2094",
-		caitlynCNContentSHA, caitlynCNLocalRawSHA,
-		caitlynCNBoundary, caitlynCNProviderRef, caitlynCNAbilityID, caitlynCNAbilityKey,
-		"caliber_net_primary_hit_damage", "e_mana_cost", "e_cooldown_ms",
-		`{"op":"const","value":75}`, `{"op":"const","value":8000}`,
-		caitlynCNSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/caitlyn-e.json",
-		"external existing-data", "check-only",
-		"无 materializer", "不物化",
-		"source.attr.ap.resolved",
-		"ability_started",
-		"20221", "20170",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range caitlynCNOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range caitlynCNOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Contains(seed, "caitlyn-e-90-caliber-net-primary-hit-phase-a-v2") {
-		t.Fatal("seed must not retain Phase-A v2 frozen plan label")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_caitlyn_e_90_caliber_net_primary_hit_impact",
-		"sequence_hero_caitlyn_e_90_caliber_net_primary_hit_impact",
-		"step_hero_caitlyn_e_90_caliber_net_primary_hit_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_caitlyn_e_90_caliber_net_primary_hit'\s*,\s*` +
-		`'provider_hero_caitlyn_e_90_caliber_net_primary_hit'\s*,\s*` +
-		`'caliber_net_primary_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("E must be active ability with stable key caliber_net_primary_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_caitlyn_e_90_caliber_net_primary_hit_damage'\s*,\s*` +
-		`'caliber_net_primary_hit_damage'\s*,\s*20221\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be magic 20221 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_caitlyn_[pqwr]_|'ability_hero_caitlyn_[pqwr]_|` +
-		`'provider_hero_caitlyn_basic_|'ability_hero_caitlyn_basic_`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/Q/W/R/basic graph rows")
-	}
-	for _, banned := range []string{"slow", "recoil", "dash", "headshot", "mark", "projectile"} {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.\S*` + banned)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write excluded surface matching %q", banned)
-		}
-	}
-
-	for _, want := range []string{
-		caitlynCNCandidateKey, caitlynCNTaskKey, caitlynCNPlanRev,
-		"lol_generic_caitlyn_90_caliber_net_primary_hit_seed.sql",
-		"LolGenericCaitlyn90CaliberNetPrimaryHitSeedSqlTest",
-		"external existing-data",
-		"magic_280_plus_0_80_ap",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦无 seed") {
-		t.Fatal("README must document no repository materializer for Caitlyn identity/panel/resource")
-	}
-	if strings.Contains(readme, "op:caitlyn_90_caliber_net_primary_hit_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadCaitlynCNFixture(t, caitlynCNFixtureOpts{
 		resolvedAP: caitlynCNFixtureAPDefault, mr: caitlynCNTargetMR, mana: caitlynCNFixtureManaCD,

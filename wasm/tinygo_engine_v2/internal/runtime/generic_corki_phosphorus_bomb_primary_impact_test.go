@@ -39,7 +39,7 @@ import (
 //	pages/raw siblings: pages/corki-q.json (bytes 691 / SHA256
 //	  bff7e3533e2bba561c03e91da5d7c07ffc095e07a0669b321cc7fd480d18f42a),
 //	  raw/corki-q.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql
 //	Local raw materialization caveat: 1529 bytes / SHA256
 //	  c39556a0d90226462e8a939ebe58888ec91325a9ca4d10be23e43dd77d948ba6.
 //	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
@@ -107,9 +107,6 @@ const (
 	corkiPBDamageOpRef = "op:corki_phosphorus_bomb_primary_impact_damage"
 	corkiPBBonusADMod  = "fixture_corki_phosphorus_bomb_primary_impact_bonus_ad"
 
-	corkiPBSeedBlobSHA  = "FA1AC4873824073C354B80FD5DC6C18055C82C23AE336C4A214259DBA00ECDD3"
-	corkiPBJUnitBlobSHA = "16F0170EB37A0E9545EED9ECE169A30D81C90CDA1E4B92245986EE9404CD5752"
-
 	corkiPBBaseDamage   = 240.0
 	corkiPBBonusADRatio = 1.25
 	corkiPBAPRatio      = 1.00
@@ -129,11 +126,6 @@ const (
 	corkiPBExpectedMitDefault = 230.0
 	corkiPBManaAfter2         = 80.0  // 240 - 80 - 80
 	corkiPBHPAfter2           = 540.0 // 1000 - 230 - 230
-
-	corkiPBSeedDamageJSON = `{"op":"add","args":[{"op":"add","args":[{"op":"const","value":240},` +
-		`{"op":"mul","args":[{"op":"const","value":1.25},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},{"op":"read","path":"source.attr.ad.base"}]}]}]},` +
-		`{"op":"mul","args":[{"op":"const","value":1.00},{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	corkiPBTol = 1e-9
 )
@@ -694,26 +686,6 @@ func corkiPBRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func corkiPBLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(corkiPBRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func corkiPBSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -759,12 +731,8 @@ func corkiPBAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit
 	}
 }
 
-// TestCorkiPhosphorusBombPrimaryImpactSourceSeedProviderFormulaShape locks wiki/sidecar/
-// pages/local-raw caveat, seed/README/JUnit identities and source blob hashes,
-// external-existing-data check-only prerequisites / non-materialization,
-// ordered tags (no salvage / meta_or_non_target_dps), type-policy evidence, and Q
-// provider/nested bonusAD+AP formula shape.
-func TestCorkiPhosphorusBombPrimaryImpactSourceSeedProviderFormulaShape(t *testing.T) {
+// TestCorkiPhosphorusBombPrimaryImpactWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestCorkiPhosphorusBombPrimaryImpactWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -905,212 +873,7 @@ func TestCorkiPhosphorusBombPrimaryImpactSourceSeedProviderFormulaShape(t *testi
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := corkiPBRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := corkiPBSHA256HexUpper(seedBytes); got != corkiPBSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, corkiPBSeedBlobSHA)
-	}
-	junitPath := corkiPBRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericCorkiPhosphorusBombPrimaryImpactSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := corkiPBSHA256HexUpper(junitBytes); got != corkiPBJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, corkiPBJUnitBlobSHA)
-	}
-	_ = corkiPBRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := corkiPBLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(corkiPBRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		corkiPBCandidateKey, corkiPBTaskKey, corkiPBPlanRev,
-		corkiPBRequestTitle, corkiPBResolvedTitle,
-		"1306953", "4007588", corkiPBTimestamp, "1531", "1529", "2148", "691",
-		corkiPBContentSHA, corkiPBLocalRawSHA, corkiPBNormalizedSHA, corkiPBPagesSHA,
-		corkiPBBoundary, corkiPBProviderRef, corkiPBAbilityID, corkiPBAbilityKey,
-		"phosphorus_bomb_primary_impact_damage", "q_mana_cost", "q_cooldown_ms",
-		`{"op":"const","value":80}`, `{"op":"const","value":7000}`,
-		corkiPBSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/corki-q.json",
-		"external existing-data", "check-only",
-		"无 materializer", "不物化",
-		"bonus AD", "source.attr.ad.resolved", "source.attr.ad.base",
-		"source.attr.ap.resolved",
-		"ability_started",
-		"20221", "20170",
-		"missing game_entities hero_corki",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_corki/ad",
-		"missing entity_attribute_values hero_corki/ap",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_corki/mana",
-		"missing reserved_type",
-		"240", "1.25", "1.00",
-		"嵌套二元",
-		"meta_or_non_target_dps",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range corkiPBOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range corkiPBOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?m)^\s*(?:--\s*)?(?:[-*]?\s*)?\d+\.\s*`+"`?"+`salvage`+"`?"+`\b`).MatchString(ordSection) ||
-		regexp.MustCompile(`(?m)^\s*(?:--\s*)?(?:[-*]?\s*)?\d+\.\s*`+"`?"+`\S*salvage\S*`+"`?"+`\b`).MatchString(ordSection) {
-		t.Fatal("must not add a salvage governed ordered tag")
-	}
-	if !strings.Contains(ordSection, "salvage") {
-		t.Fatal("seed ordered-tags section must explicitly exclude salvage tags")
-	}
-	if regexp.MustCompile(`(?m)^\s*(?:--\s*)?(?:[-*]?\s*)?\d+\.\s*` + "`?" + `meta_or_non_target_dps` + "`?" + `\b`).MatchString(ordSection) {
-		t.Fatal("must not add a meta_or_non_target_dps governed ordered tag")
-	}
-	if !strings.Contains(ordSection, "meta_or_non_target_dps") {
-		t.Fatal("seed ordered-tags section must explicitly exclude meta_or_non_target_dps")
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.resolved exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.base"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.base exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ap.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ap.resolved exactly once")
-	}
-	if strings.Contains(sqlNoComments, `"path":"source.attr.ap.base"`) {
-		t.Fatal("executable SQL must not invent ap.base reads")
-	}
-	if !strings.Contains(sqlNoComments, `"op":"sub"`) {
-		t.Fatal("executable SQL must use sub(resolved, base) for bonus AD")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_corki_q_phosphorus_bomb_primary_impact_impact",
-		"sequence_hero_corki_q_phosphorus_bomb_primary_impact_impact",
-		"step_hero_corki_q_phosphorus_bomb_primary_impact_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_corki_q_phosphorus_bomb_primary_impact'\s*,\s*` +
-		`'provider_hero_corki_q_phosphorus_bomb_primary_impact'\s*,\s*` +
-		`'phosphorus_bomb_primary_impact'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("Q must be active ability with stable key phosphorus_bomb_primary_impact")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_corki_q_phosphorus_bomb_primary_impact_damage'\s*,\s*` +
-		`'phosphorus_bomb_primary_impact_damage'\s*,\s*20221\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be magic 20221 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_corki_[pwer]_|'ability_hero_corki_[pwer]_|` +
-		`'provider_hero_corki_basic_|'ability_hero_corki_basic_`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/W/E/R/basic graph rows")
-	}
-	for _, banned := range []string{
-		"projectile", "spellshield", "reveal", "aoe", "multitarget",
-	} {
-		if strings.Contains(sqlNoComments, banned) {
-			t.Fatalf("standalone Q seed must not contain excluded graph token %q", banned)
-		}
-	}
-
-	for _, want := range []string{
-		corkiPBCandidateKey, corkiPBTaskKey, corkiPBPlanRev,
-		"lol_generic_corki_phosphorus_bomb_primary_impact_seed.sql",
-		"LolGenericCorkiPhosphorusBombPrimaryImpactSeedSqlTest",
-		"external existing-data",
-		"magic_240_plus_1_25_bonus_ad_plus_1_00_ap",
-		"bonus_ad_ratio", "ap_ratio",
-		"meta_or_non_target_dps",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "salvage") {
-		t.Fatal("README must document salvage tag exclusion")
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦无 seed") {
-		t.Fatal("README must document no repository materializer for Corki identity/panel/resource")
-	}
-	if strings.Contains(readme, "op:corki_phosphorus_bomb_primary_impact_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
-	if strings.Contains(readme, "fixture_corki_phosphorus_bomb_primary_impact_bonus_ad") {
-		t.Fatal("README must not claim fixture-only AD modifier as production Q behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadCorkiPBFixture(t, corkiPBFixtureOpts{
 		baseAD: corkiPBADBaseDefault, resolvedAD: corkiPBADResolvedCD,

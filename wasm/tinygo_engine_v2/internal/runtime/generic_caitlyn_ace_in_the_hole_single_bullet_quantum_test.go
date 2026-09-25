@@ -35,7 +35,7 @@ import (
 //	  08b488c97fc694d9a3de711ffd4ea0b95fc1746c3a11b9c44b878844e586e8a8
 //	数据参考/lol-wiki-current-champions/normalized/generic/caitlyn-r.json
 //	pages/raw siblings: pages/caitlyn-r.json, raw/caitlyn-r.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_caitlyn_ace_in_the_hole_single_bullet_quantum_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_caitlyn_ace_in_the_hole_single_bullet_quantum_seed.sql
 //	Local raw materialization caveat: also 3119 bytes / SHA256
 //	  015c1dbe8f02dd5ac354e6a6da6def878f1acccf788b1f599ee4bfd589e05003.
 //	Same-size caveat; assert sidecar/pages canonical identity + caveat; do not claim
@@ -99,9 +99,6 @@ const (
 	caitlynAHDamageOpRef = "op:caitlyn_ace_in_the_hole_single_bullet_quantum_damage"
 	caitlynAHBonusADMod  = "fixture_caitlyn_ace_in_the_hole_single_bullet_quantum_bonus_ad"
 
-	caitlynAHSeedBlobSHA  = "E03973598DA762EAC989F49935407682C834044B9C23EC5A2FDDAED8E94C2422"
-	caitlynAHJUnitBlobSHA = "683C8063E8CD76811BCE2149AD0E7CF5FC417078AF770729DC10647830FBAEF6"
-
 	caitlynAHBaseDamage   = 650.0
 	caitlynAHBonusADRatio = 1.00
 	caitlynAHManaCost     = 100.0
@@ -118,10 +115,6 @@ const (
 	caitlynAHExpectedMitDefault = 375.0 // armor100
 	caitlynAHManaAfter2         = 100.0 // 300 - 100 - 100
 	caitlynAHHPAfter2           = 250.0 // 1000 - 375 - 375
-
-	caitlynAHSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":650},` +
-		`{"op":"mul","args":[{"op":"const","value":1.00},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},{"op":"read","path":"source.attr.ad.base"}]}]}]}`
 
 	caitlynAHTol = 1e-9
 )
@@ -638,26 +631,6 @@ func caitlynAHRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func caitlynAHLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(caitlynAHRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_caitlyn_ace_in_the_hole_single_bullet_quantum_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func caitlynAHSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -703,12 +676,8 @@ func caitlynAHAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantM
 	}
 }
 
-// TestCaitlynAceInTheHoleSingleBulletQuantumSourceSeedProviderFormulaShape locks wiki/sidecar/
-// pages/local-raw same-size caveat, seed/README/JUnit identities and source blob
-// hashes, external-existing-data check-only prerequisites / non-materialization,
-// ordered tags (bonus_ad_ratio), type-policy evidence, and R provider/bonus-AD
-// formula shape (resolved once, base once, no total-AD substitution/crit).
-func TestCaitlynAceInTheHoleSingleBulletQuantumSourceSeedProviderFormulaShape(t *testing.T) {
+// TestCaitlynAceInTheHoleSingleBulletQuantumWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestCaitlynAceInTheHoleSingleBulletQuantumWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -852,181 +821,7 @@ func TestCaitlynAceInTheHoleSingleBulletQuantumSourceSeedProviderFormulaShape(t 
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := caitlynAHRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_caitlyn_ace_in_the_hole_single_bullet_quantum_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := caitlynAHSHA256HexUpper(seedBytes); got != caitlynAHSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, caitlynAHSeedBlobSHA)
-	}
-	junitPath := caitlynAHRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericCaitlynAceInTheHoleSingleBulletQuantumSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := caitlynAHSHA256HexUpper(junitBytes); got != caitlynAHJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, caitlynAHJUnitBlobSHA)
-	}
-	_ = caitlynAHRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := caitlynAHLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(caitlynAHRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		caitlynAHCandidateKey, caitlynAHTaskKey, caitlynAHPlanRev,
-		caitlynAHRequestTitle, caitlynAHResolvedTitle,
-		"1306918", "3982561", caitlynAHTimestamp, "3119",
-		caitlynAHContentSHA, caitlynAHLocalRawSHA,
-		caitlynAHBoundary, caitlynAHProviderRef, caitlynAHAbilityID, caitlynAHAbilityKey,
-		"ace_in_the_hole_single_bullet_quantum_damage", "r_mana_cost", "r_cooldown_ms",
-		`{"op":"const","value":100}`, `{"op":"const","value":90000}`,
-		caitlynAHSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/caitlyn-r.json",
-		"external existing-data", "check-only",
-		"无 materializer", "不物化",
-		"bonus AD", "source.attr.ad.resolved", "source.attr.ad.base",
-		"ability_started",
-		"20220", "20170",
-		"Piltover Peacemaker", "90 Caliber Net",
-		"不要求 Caitlyn Q 或 E publication",
-		"missing game_entities hero_caitlyn",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_caitlyn/ad",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_caitlyn/mana",
-		"missing reserved_type",
-		"650", "1.00",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range caitlynAHOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range caitlynAHOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if !strings.Contains(ordSection, "暴击") && !strings.Contains(ordSection, "crit") {
-		t.Fatal("seed must explicitly document absence of crit-ratio governed tag")
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.resolved exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.base"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.base exactly once")
-	}
-	if !strings.Contains(sqlNoComments, `"op":"sub"`) {
-		t.Fatal("executable SQL must use sub(resolved, base) for bonus AD (no total-AD substitution)")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_caitlyn_r_ace_in_the_hole_single_bullet_quantum_impact",
-		"sequence_hero_caitlyn_r_ace_in_the_hole_single_bullet_quantum_impact",
-		"step_hero_caitlyn_r_ace_in_the_hole_single_bullet_quantum_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_caitlyn_r_ace_in_the_hole_single_bullet_quantum'\s*,\s*` +
-		`'provider_hero_caitlyn_r_ace_in_the_hole_single_bullet_quantum'\s*,\s*` +
-		`'ace_in_the_hole_single_bullet_quantum'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("R must be active ability with stable key ace_in_the_hole_single_bullet_quantum")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_caitlyn_r_ace_in_the_hole_single_bullet_quantum_damage'\s*,\s*` +
-		`'ace_in_the_hole_single_bullet_quantum_damage'\s*,\s*20220\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be physical 20220 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_caitlyn_[pqwe]_|'ability_hero_caitlyn_[pqwe]_|` +
-		`'provider_hero_caitlyn_basic_|'ability_hero_caitlyn_basic_`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/Q/W/E/basic graph rows")
-	}
-
-	for _, want := range []string{
-		caitlynAHCandidateKey, caitlynAHTaskKey, caitlynAHPlanRev,
-		"lol_generic_caitlyn_ace_in_the_hole_single_bullet_quantum_seed.sql",
-		"LolGenericCaitlynAceInTheHoleSingleBulletQuantumSeedSqlTest",
-		"external existing-data",
-		"physical_650_plus_1_00_bonus_ad",
-		"Piltover Peacemaker", "90 Caliber Net",
-		"bonus_ad_ratio",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦无 seed") {
-		t.Fatal("README must document no repository materializer for Caitlyn identity/panel/resource")
-	}
-	if strings.Contains(readme, "op:caitlyn_ace_in_the_hole_single_bullet_quantum_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadCaitlynAHFixture(t, caitlynAHFixtureOpts{
 		baseAD: caitlynAHADBaseDefault, resolvedAD: caitlynAHADResolvedDefault,
