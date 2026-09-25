@@ -97,7 +97,6 @@ public class GameConfigurationWriteGuard {
                 AggregateJson.tree((String) row.get("data"))));
         }
         List<Reference> references = SkillObjectReferences.extractAndValidate(gameId, aggregates, catalog);
-        ShieldEndLifecycleSemantics.validate(aggregates);
         SkillLifecycleConditionSemantics.validate(aggregates);
         SkillTargetCategoryConditionSemantics.validate(aggregates);
         SkillExplicitTargetIsSourceConditionSemantics.validate(aggregates);

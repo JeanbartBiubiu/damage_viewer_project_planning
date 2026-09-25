@@ -48,8 +48,7 @@ final class SkillEffectAggregate {
         return lifecycle == null ? null : new SkillEffectLifecycleResponse(lifecycle.durationValue(),
             lifecycle.maxStacksValue(), lifecycle.applicationStacksValue(), lifecycle.instanceScope(),
             lifecycle.reapplicationStackMode(), lifecycle.reapplicationDurationMode(), lifecycle.expiryMode(),
-            lifecycle.periodicIntervalValue(), lifecycle.firstPeriodicExecution(),
-            lifecycle.endWhenShieldEndsResultKey());
+            lifecycle.periodicIntervalValue(), lifecycle.firstPeriodicExecution());
     }
 
     static SkillEffectLifecycleRow lifecycleRow(SkillEffectRow effect) {
