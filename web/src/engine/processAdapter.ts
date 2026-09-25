@@ -8,10 +8,10 @@ import type {
   SkillProcess, SkillProcessFailureReason, SkillProcessMoment, SkillProcessStep
 } from '../types/skillProcess';
 import type {
-  SkillTriggerAction, SkillTriggerRuleDetail
+  SkillTriggerAction, SkillTriggerCondition, SkillTriggerRuleDetail
 } from '../types/skillTriggerRule';
 import type {
-  AbilityDefinition, CompileRequest, GenericFormulaExpr, NamedFormula, OperationDefinition,
+  AbilityDefinition, CompileRequest, GenericFormulaExpr, ListenerDefinition, NamedFormula, OperationDefinition,
   ProcessCommandFact, ProcessControlAction, ProcessCostDefinition, ProcessDefinition,
   ProcessFailureReason, ProcessMomentDefinition, ProcessMomentType, ProcessStepDefinition
 } from '../types/genericEngine';
@@ -28,6 +28,7 @@ export class ProcessAdaptationError extends NumericAdaptationError {
 }
 
 const MOUNT_TOKEN = '@mount';
+const INITIAL_CAST_TYPE = `ability/initial_cast/${MOUNT_TOKEN}`;
 const PROCESS_MOMENT_TYPES = new Set<ProcessMomentType>([
   'PROCESS_START', 'PROCESS_COMPLETE', 'PROCESS_FAILURE',
   'STEP_START', 'STEP_EXECUTION', 'STEP_COMPLETE', 'STEP_TIMEOUT'
@@ -471,8 +472,108 @@ function assertNoReplay(rule: SkillTriggerRuleDetail, path: string): void {
     'perTargetCooldown', 'maxTriggersPerProcess', 'oncePerUse'
   ], path);
   if (!Array.isArray(rule.conditionGroups)) fail(`${path}.conditionGroups`, '条件组必须是数组');
-  if (rule.conditionGroups.length) fail(`${path}.conditionGroups`, '本期过程不接受条件');
   if (rule.perTargetCooldown || rule.maxTriggersPerProcess || rule.oncePerUse) fail(`${path}.oncePerUse`, '未支持的重放限制');
+}
+
+function assertNoConditions(rule: SkillTriggerRuleDetail, path: string): void {
+  if (rule.conditionGroups.length) fail(`${path}.conditionGroups`, '过程控制与过程时点不接受条件');
+}
+
+const ATTRIBUTE_COMPARATORS: Record<string, string> = {
+  EQ: 'eq', NE: 'ne', LT: 'lt', LTE: 'lte', GT: 'gt', GTE: 'gte'
+};
+
+function sourceAttribute(condition: SkillTriggerCondition, path: string, state: NumericCompileState): GenericFormulaExpr {
+  exactKeys(condition, ['conditionKey', 'conditionType', 'sortOrder', 'detail'], path);
+  catalogKey(condition.conditionKey, `${path}.conditionKey`);
+  finiteNumber(condition.sortOrder, `${path}.sortOrder`, fail);
+  if (condition.conditionType !== 'ATTRIBUTE_COMPARE') fail(`${path}.conditionType`, '首次效果只接受来源属性比较');
+  exactKeys(condition.detail, ['subject', 'attributeKey', 'attributeValueKind', 'comparator', 'comparisonValue'], `${path}.detail`);
+  if (condition.detail.subject !== 'SOURCE') fail(`${path}.detail.subject`, '首次效果只接受来源属性');
+  const attributeKey = catalogKey(condition.detail.attributeKey, `${path}.detail.attributeKey`);
+  const read = (field: string): GenericFormulaExpr => ({ op: 'read', path: `source.attr.${attributeKey}.${field}` });
+  const missing: GenericFormulaExpr = { op: 'sub', args: [read('max'), read('current')] };
+  let left: GenericFormulaExpr;
+  switch (condition.detail.attributeValueKind) {
+    case 'BASE': left = read('base'); break;
+    case 'TOTAL': left = read('resolved'); break;
+    case 'CURRENT': left = read('current'); break;
+    case 'BONUS': left = { op: 'sub', args: [read('resolved'), read('base')] }; break;
+    case 'MISSING': left = missing; break;
+    case 'CURRENT_RATIO': left = { op: 'div', args: [read('current'), read('max')] }; break;
+    case 'MISSING_RATIO': left = { op: 'div', args: [missing, read('max')] }; break;
+    default: return fail(`${path}.detail.attributeValueKind`, '不支持的属性取值口径');
+  }
+  const comparator = ATTRIBUTE_COMPARATORS[condition.detail.comparator];
+  if (!comparator) fail(`${path}.detail.comparator`, '未知比较运算');
+  const rightPath = `${path}.detail.comparisonValue`;
+  assertNumericShape(condition.detail.comparisonValue, rightPath);
+  const right = compileNumericValue(condition.detail.comparisonValue, rightPath,
+    scratchState(state, '条件比较不能使用未供值的计算时输入', false), fail);
+  state.requiredAttributes.add(attributeKey);
+  return { op: comparator, args: [left, right] };
+}
+
+function combine(op: 'min' | 'max', expressions: GenericFormulaExpr[]): GenericFormulaExpr {
+  return expressions.reduce((left, right) => ({ op, args: [left, right] }));
+}
+
+function firstEffectCondition(rule: SkillTriggerRuleDetail, state: NumericCompileState): GenericFormulaExpr {
+  const root = planPath(state.skillKey, `rules.${rule.ruleKey}.conditionGroups`);
+  if (!rule.conditionGroups.length) fail(root, '首次效果必须明确来源属性条件');
+  const seen = new Set<string>();
+  const groups = stableSorted(rule.conditionGroups, (group) => {
+    if (!isRecord(group)) fail(root, '条件组必须是对象');
+    finiteNumber(group.sortOrder, `${root}.${group.groupKey}.sortOrder`, fail);
+    return group.sortOrder;
+  }).map((group) => {
+    const path = `${root}.${group.groupKey || 'missing'}`;
+    exactKeys(group, ['groupKey', 'name', 'sortOrder', 'conditions'], path);
+    const key = catalogKey(group.groupKey, `${path}.groupKey`);
+    if (typeof group.name !== 'string') fail(`${path}.name`, '条件组名称必须明确');
+    if (seen.has(key)) fail(`${path}.groupKey`, '条件组标识重复');
+    seen.add(key);
+    if (!Array.isArray(group.conditions) || !group.conditions.length) fail(`${path}.conditions`, '条件组必须有来源属性比较');
+    const conditionKeys = new Set<string>();
+    const conditions = stableSorted(group.conditions, (item) => {
+      if (!isRecord(item)) fail(`${path}.conditions`, '条件必须是对象');
+      return item.sortOrder;
+    }).map((condition) => {
+      const conditionPath = `${path}.conditions.${condition.conditionKey || 'missing'}`;
+      if (conditionKeys.has(condition.conditionKey)) fail(`${conditionPath}.conditionKey`, '条件标识重复');
+      conditionKeys.add(condition.conditionKey);
+      return sourceAttribute(condition, conditionPath, state);
+    });
+    return combine('min', conditions);
+  });
+  return combine('max', groups);
+}
+
+function firstHealOperations(authored: AuthoredProcessProgram, rule: SkillTriggerRuleDetail, state: NumericCompileState): OperationDefinition[] {
+  const action = rule.actions[0]!;
+  const actionPath = planPath(state.skillKey, `rules.${rule.ruleKey}.actions.${action.actionKey}`);
+  if (action.actionType !== 'EXECUTE_EFFECT') fail(actionPath, '首次效果只接受执行效果');
+  exactKeys(action.detail, ['effectKey'], `${actionPath}.detail`);
+  const effectKey = catalogKey(action.detail.effectKey, `${actionPath}.detail.effectKey`);
+  const effect = lookupEffect(authored, effectKey, `${actionPath}.detail.effectKey`);
+  const effectPath = planPath(state.skillKey, `effects.${effectKey}`);
+  if (effect.lifecycle !== null) fail(`${effectPath}.lifecycle`, '首次自身治疗不能有生命周期');
+  if (!effect.results.length) fail(`${effectPath}.results`, '效果没有可执行结果');
+  return stableSorted(effect.results, (result) => {
+    finiteNumber(result.sortOrder, `${effectPath}.results.${result.resultKey}.sortOrder`, fail);
+    return result.sortOrder;
+  }).map((result) => {
+    const path = `${effectPath}.results.${result.resultKey}`;
+    if (result.resultType !== 'DIRECT_HEAL') fail(`${path}.resultType`, '首次效果只接受直接治疗');
+    if (result.target !== 'SOURCE') fail(`${path}.target`, '首次效果只接受自身治疗');
+    if (result.lifecycleBehavior !== null) fail(`${path}.lifecycleBehavior`, '首次自身治疗不能有结果生命周期');
+    if (result.spellShieldBlockScope !== null) fail(`${path}.spellShieldBlockScope`, '首次自身治疗不能有法术护盾资格');
+    exactKeys(result.detail, [], `${path}.detail`);
+    const inlineState = scratchState(state, '首次自身治疗不能使用未供值的计算时输入', true);
+    const amount = compileScaled(result.valueRule, `${path}.valueRule`, inlineState);
+    for (const key of inlineState.requiredAttributes) state.requiredAttributes.add(key);
+    return { operation: 'heal', target: 'self', amount };
+  });
 }
 
 function assertIdleAction(action: SkillTriggerAction, path: string): void {
@@ -502,29 +603,40 @@ type ControlPlan = {
   advances: AdaptedProcessControl[];
   cancel?: AdaptedProcessControl;
   momentRules: SkillTriggerRuleDetail[];
+  firstEffectRules: SkillTriggerRuleDetail[];
 };
 
 function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDefinition[]): ControlPlan {
   const root = planPath(authored.skillKey, 'rules');
   if (!Array.isArray(authored.rules)) fail(root, '规则必须是数组');
+  for (const rule of authored.rules) {
+    if (!isRecord(rule)) fail(root, '规则必须是对象');
+    finiteNumber(rule.sortOrder, `${root}.${rule.ruleKey || 'missing'}.sortOrder`, fail);
+  }
   const terminal = steps[steps.length - 1];
   const terminalStep = terminal && (terminal.stepType === 'CHARGE' || terminal.stepType === 'RECAST') ? terminal : undefined;
   let initial: AdaptedProcessControl | undefined;
   const advances: AdaptedProcessControl[] = [];
   let cancel: AdaptedProcessControl | undefined;
   const momentRules: SkillTriggerRuleDetail[] = [];
+  const firstEffectRules: SkillTriggerRuleDetail[] = [];
+  const seenRules = new Set<string>();
   for (const rule of stableSorted(authored.rules, (item) => item.sortOrder)) {
     const path = `${root}.${rule.ruleKey || 'missing'}`;
     catalogKey(rule.ruleKey, `${path}.ruleKey`);
+    if (seenRules.has(rule.ruleKey)) fail(`${path}.ruleKey`, '规则标识重复');
+    seenRules.add(rule.ruleKey);
     assertNoReplay(rule, path);
     if (!isRecord(rule.eventSource)) fail(`${path}.eventSource`, '事件来源必须是对象');
     exactKeys(rule.eventSource, ['eventType', 'detail'], `${path}.eventSource`);
+    if (!Array.isArray(rule.actions)) fail(`${path}.actions`, '动作必须是数组');
     if (!rule.actions.length) fail(`${path}.actions`, '规则缺少动作');
     const eventType = rule.eventSource.eventType;
     if (eventType === 'CONTROL_RECEIVED' || eventType === 'ENTITY_DIED' || eventType === 'ENTITY_UNTARGETABLE') {
       fail(`${path}.eventSource`, '不能宣称自动控制判定');
     }
     if (eventType === 'PROCESS_MOMENT') {
+      assertNoConditions(rule, path);
       const detail = rule.eventSource.detail;
       if (!isRecord(detail)) fail(`${path}.eventSource.detail`, '过程时点明细必须是对象');
       exactKeys(detail, ['processKey', 'moment'], `${path}.eventSource.detail`);
@@ -546,6 +658,7 @@ function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDef
       fail(`${actionPath}.detail.failureReason`, '来源死亡由原生在停机前终结');
     }
     if (eventType === 'SKILL_USED' && action.actionType === 'START_PROCESS') {
+      assertNoConditions(rule, path);
       if (skillUsedPhase(rule, `${path}.eventSource`, authored.skillKey) !== 'INITIAL') {
         fail(`${path}.eventSource.detail.castPhase`, '首次施放只接受 INITIAL');
       }
@@ -556,7 +669,19 @@ function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDef
       initial = { abilityKey: action.actionKey, action: 'INITIAL' };
       continue;
     }
+    if (eventType === 'SKILL_USED' && action.actionType === 'EXECUTE_EFFECT') {
+      if (skillUsedPhase(rule, `${path}.eventSource`, authored.skillKey) !== 'INITIAL') {
+        fail(`${path}.eventSource.detail.castPhase`, '首次效果只接受 INITIAL');
+      }
+      if (action.targetContext !== 'CURRENT_TARGET') fail(`${actionPath}.targetContext`, '首次效果必须明确当前目标上下文');
+      if (typeof action.name !== 'string') fail(`${actionPath}.name`, '动作名称必须明确');
+      finiteNumber(action.sortOrder, `${actionPath}.sortOrder`, fail);
+      exactKeys(action.detail, ['effectKey'], `${actionPath}.detail`);
+      firstEffectRules.push(rule);
+      continue;
+    }
     if (eventType === 'SKILL_USED' && action.actionType === 'ADVANCE_PROCESS') {
+      assertNoConditions(rule, path);
       const phase = skillUsedPhase(rule, `${path}.eventSource`, authored.skillKey);
       exactKeys(action.detail, ['processKey', 'stepKey'], `${actionPath}.detail`);
       if (action.detail.processKey !== authored.process.processKey) fail(`${actionPath}.detail.processKey`, '跨过程');
@@ -569,6 +694,7 @@ function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDef
       continue;
     }
     if (eventType === 'PROCESS_CANCEL_REQUESTED' && action.actionType === 'FAIL_PROCESS') {
+      assertNoConditions(rule, path);
       const detail = rule.eventSource.detail;
       if (!isRecord(detail)) fail(`${path}.eventSource.detail`, '取消请求明细必须是对象');
       exactKeys(detail, ['processKey'], `${path}.eventSource.detail`);
@@ -589,7 +715,7 @@ function compileControls(authored: AuthoredProcessProgram, steps: ProcessStepDef
     fail(`${path}.eventSource.eventType`, '未支持的事件或动作，不能静默略过');
   }
   if (!initial) fail(root, '缺少首次施放入口');
-  return { initial, advances, cancel, momentRules };
+  return { initial, advances, cancel, momentRules, firstEffectRules };
 }
 
 function momentKey(moment: ProcessMomentDefinition): string {
@@ -730,8 +856,24 @@ export function adaptProcessProgram(authored: AuthoredProcessProgram): AdaptedPr
     seenAbilities.add(control.abilityKey);
   }
   const momentOperations = momentOperationsFor(authored, process, costs, controls, state);
+  const firstEffects = controls.firstEffectRules.map((rule): AbilityDefinition => {
+    const abilityKey = `listen_${rule.ruleKey}`;
+    if (seenAbilities.has(abilityKey)) fail(planPath(skillKey, `rules.${rule.ruleKey}.ruleKey`), '监听能力与控制能力标识重复');
+    seenAbilities.add(abilityKey);
+    const condition = firstEffectCondition(rule, state);
+    const operations = firstHealOperations(authored, rule, state);
+    const listenerSpec: ListenerDefinition = {
+      listenerKey: rule.ruleKey,
+      eventMatcher: { all: ['event/ability_started', INITIAL_CAST_TYPE, 'event/source_owner'] },
+      condition, operations
+    };
+    return { abilityKey, kind: 'passive_listener', listenerSpec };
+  });
   const params = { ...state.params };
-  const abilities = controlRows.map((control) => controlAbility(control, process.processKey, skillKey, params));
+  const abilities = controlRows.map((control) => ({
+    ...controlAbility(control, process.processKey, skillKey, params),
+    ...(firstEffects.length && control.action === 'INITIAL' ? { types: [INITIAL_CAST_TYPE] } : {})
+  })).concat(firstEffects);
   const providerKey = `process_${skillKey}`;
   return {
     provider: {
@@ -772,15 +914,51 @@ export function withProcessProgram(
   const provider = structuredClone(adapted.provider);
   provider.providerKey = definitionKey;
   provider.stableId = definitionKey;
+  const hasFirstHealListeners = provider.abilities.some((ability) => ability.kind === 'passive_listener');
+  if (hasFirstHealListeners) {
+    const boundType = `ability/initial_cast/${owner}/${encodeURIComponent(providerRef)}`;
+    for (const ability of provider.abilities) {
+      if (ability.types) ability.types = ability.types.map((type) => type === INITIAL_CAST_TYPE ? boundType : type);
+      const matcher = ability.listenerSpec?.eventMatcher;
+      if (matcher?.all) matcher.all = matcher.all.map((type) => type === INITIAL_CAST_TYPE ? boundType : type);
+    }
+    for (const [key, domain] of [
+      ['ability/basic_attack', 'ability'], ['event/ability_started', 'event'],
+      ['event/source_owner', 'event'], [boundType, 'ability']
+    ]) {
+      const existingType = request.typeCatalog.types.find((item) => item.key === key);
+      if (existingType && existingType.domain !== domain) fail(`typeCatalog.types.${key}`, '已有类型目录与过程监听冲突');
+      if (!existingType) request.typeCatalog.types.push({ key, domain });
+    }
+  }
   rewriteMount(provider, providerRef);
   const existing = request.sharedProviders.find((row) => row.providerKey === definitionKey);
   if (existing && !sameJson(existing, provider)) fail(`sharedProviders.${definitionKey}`, 'provider 与现有定义冲突');
   if (!existing) request.sharedProviders.push(provider);
   const actor = request.combatants.find((row) => row.key === owner);
   if (!actor) fail(`combatants.${owner}`, '过程拥有者必须是实际对象');
-  const mounted = actor.providers.find((row) => row.providerRef === providerRef);
+  const ownedMounts = actor.providers.filter((row) => row.providerRef === providerRef);
+  if (hasFirstHealListeners && ownedMounts.length > 1) {
+    fail(`combatants.${owner}.providers.${providerRef}`, '首次治疗生成定义只能有一个指定挂载');
+  }
+  const mounted = ownedMounts[0];
   if (mounted && mounted.definitionRef !== definitionKey) fail(`combatants.${owner}.providers`, '已有挂载指向不同定义');
   if (!mounted) actor.providers.push({ providerRef, definitionRef: definitionKey });
+  if (hasFirstHealListeners) {
+    let designatedMounts = 0;
+    for (const combatant of request.combatants) {
+      for (const mount of combatant.providers) {
+        if (mount.definitionRef !== definitionKey) continue;
+        if (combatant.key !== owner || mount.providerRef !== providerRef) {
+          fail(`combatants.${combatant.key}.providers.${mount.providerRef}.definitionRef`, '首次治疗生成定义只能由指定拥有者与挂载引用');
+        }
+        designatedMounts += 1;
+        if (designatedMounts > 1) {
+          fail(`combatants.${combatant.key}.providers.${mount.providerRef}.definitionRef`, '首次治疗生成定义的指定挂载不能重复');
+        }
+      }
+    }
+  }
   const process = provider.processes[0]!;
   for (const cost of process.costs) {
     const path = `combatants.${owner}.resources.${cost.resourceKey}`;

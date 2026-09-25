@@ -61,6 +61,7 @@ import {
   persistentStatusApplyResults,
   subjectOptionsForEvent,
   switchConditionType,
+  validateDraftChildKey,
   valueKindsForInternalState,
   type NestedFieldError,
   type SkillTriggerConditionDraft
@@ -74,6 +75,7 @@ type CatalogOption = { label: string; value: string; disabled?: boolean };
 type SkillTriggerConditionEditorModalProps = {
   visible: boolean;
   mode: SkillTriggerConditionEditorMode;
+  keyReadOnly: boolean;
   draft: SkillTriggerConditionDraft | null;
   existingKeys: readonly string[];
   skillKey: string;
@@ -107,6 +109,7 @@ function disabledLabel(name: string, disabled: boolean): string {
 export function SkillTriggerConditionEditorModal({
   visible,
   mode,
+  keyReadOnly,
   draft,
   existingKeys,
   skillKey,
@@ -169,6 +172,8 @@ export function SkillTriggerConditionEditorModal({
   };
 
   const confirm = () => {
+    const keyError = validateDraftChildKey(current.conditionKey, '条件标识', existingKeys, mode === 'edit' ? draft?.conditionKey : undefined);
+    if (keyError) { setLocalError(keyError); return; }
     if (current.conditionType === 'TARGET_CATEGORY_CHECK') {
       const error = targetCategoryConditionError(current.detail, eventSource.eventType);
       if (error) { setLocalError(error); return; }
@@ -197,7 +202,7 @@ export function SkillTriggerConditionEditorModal({
       const error = numericValueError(current.detail.comparisonValue, { parameters, formulas }, { allowRuntimeInput: false, parametersState: parametersLoadState });
       if (error) { setLocalError(error); return; }
     }
-    onConfirm(current);
+    onConfirm({ ...current, conditionKey: current.conditionKey.trim() });
   };
 
   const attributeOptions: CatalogOption[] = attributes.map((item) => ({
@@ -269,7 +274,7 @@ export function SkillTriggerConditionEditorModal({
             <Input
               aria-label="条件标识"
               value={current.conditionKey}
-              disabled={disabled || mode === 'edit'}
+              disabled={disabled || keyReadOnly}
               maxLength={64}
               onChange={(value) => setCurrent({ ...current, conditionKey: value })}
             />

@@ -1926,6 +1926,24 @@ export function sortActionDrafts(items: readonly SkillTriggerActionDraft[]): Ski
   ));
 }
 
+export function replaceDraftAction(
+  actions: readonly SkillTriggerActionDraft[], index: number, nextAction: SkillTriggerActionDraft
+): SkillTriggerActionDraft[] {
+  const previousKey = actions[index].actionKey;
+  return actions.map((action, position) => {
+    const next = position === index ? nextAction : action;
+    if (previousKey === nextAction.actionKey) return next;
+    return {
+      ...next,
+      runtimeInputBindings: next.runtimeInputBindings.map(binding => (
+        binding.sourceType === 'PRIOR_ACTION_RESULT' && binding.detail.sourceActionKey === previousKey
+          ? { ...binding, detail: { ...binding.detail, sourceActionKey: nextAction.actionKey } }
+          : binding
+      ))
+    };
+  });
+}
+
 export function failProcessIndex(actions: readonly SkillTriggerActionDraft[]): number {
   return actions.findIndex((item) => item.actionType === 'FAIL_PROCESS');
 }
@@ -3113,6 +3131,15 @@ function validateKey(value: string, label: string): string | undefined {
   if (!value.trim()) return `${label}不能为空。`;
   if (!SKILL_TRIGGER_KEY_PATTERN.test(value.trim())) return `${label}格式不合法。`;
   return undefined;
+}
+
+export function validateDraftChildKey(
+  value: string, label: string, existingKeys: readonly string[], originalKey?: string
+): string | null {
+  const error = validateKey(value, label);
+  if (error) return error;
+  const key = value.trim();
+  return key !== originalKey && existingKeys.includes(key) ? `${label}不能重复。` : null;
 }
 
 export function collectDirectValues(draft: SkillTriggerRuleDraft): NumericValue[] {

@@ -166,7 +166,7 @@ type ModifierZoneRow = {
 };
 
 type StatusRow = {
-  statusKind: 'STUN' | 'MOVEMENT_SLOW' | 'AIRBORNE';
+  statusKind: 'STUN' | 'MOVEMENT_SLOW' | 'AIRBORNE' | 'SILENCE';
   gameId: string;
   statusKey: string;
   name: string;
@@ -8096,6 +8096,71 @@ test('remaining cooldown ratio clears milliseconds, rejects invalid values and s
   diagnostics.assertClean('remaining cooldown ratio units, validation and round trip');
 });
 
+test('unsaved trigger child keys can be named while persisted keys stay locked', async ({ page }) => {
+  const mock = new MockApi();
+  seedSkillTriggerCatalog(mock);
+  const diagnostics = await prepare(page, mock);
+  await openSkills(page);
+  const shell = await openSkillTriggers(page, 'varus_w', '枯萎箭袋');
+  await shell.getByRole('button', { name: '新增规则', exact: true }).click();
+  const create = visibleModal(page, '新增规则');
+  await create.getByLabel('规则标识', { exact: true }).fill('draft_child_keys');
+  await create.getByLabel('规则名称', { exact: true }).fill('草稿标识验证');
+  await chooseTriggerEventType(page, create, '来源对象完成击杀');
+  await create.getByRole('button', { name: '编辑', exact: true }).first().click();
+  const action = visibleModal(page, '编辑动作');
+  await expect(action.getByLabel('动作标识', { exact: true })).toBeEnabled();
+  await action.getByLabel('动作标识', { exact: true }).fill('apply_kill');
+  await fillExecuteEffectAction(page, action, { name: '击杀伤害', effectName: '命中结果' });
+  await create.getByRole('button', { name: '新增条件组', exact: true }).click();
+  const card = (modal: Locator) => modal.locator('.arco-card').filter({ has: page.getByLabel('条件组名称', { exact: true }) });
+  await create.getByLabel('条件组名称', { exact: true }).fill('真实对方');
+  await card(create).getByRole('button', { name: '编辑', exact: true }).click();
+  const condition = visibleModal(page, '编辑条件');
+  await expect(condition.getByLabel('条件标识', { exact: true })).toBeEnabled();
+  await condition.getByLabel('条件标识', { exact: true }).fill('enemy_hero');
+  await chooseSelectOption(page, condition, '条件种类', '事件对方类别');
+  await condition.getByText('英雄', { exact: true }).click();
+  await condition.getByRole('button', { name: '确定', exact: true }).click();
+  await card(create).getByRole('button', { name: '编辑', exact: true }).click();
+  await expect(condition.getByLabel('条件标识', { exact: true })).toBeEnabled();
+  await condition.getByLabel('条件标识', { exact: true }).fill('discarded_key');
+  page.once('dialog', dialog => dialog.accept());
+  await condition.getByRole('button', { name: '取消', exact: true }).click();
+  await card(create).getByRole('button', { name: '编辑', exact: true }).click();
+  await expect(condition.getByLabel('条件标识', { exact: true })).toHaveValue('enemy_hero');
+  await condition.getByRole('button', { name: '取消', exact: true }).click();
+  await saveOpenModal(create);
+  expect(mock.skillTriggerRules[0].actions[0].actionKey).toBe('apply_kill');
+  expect(mock.skillTriggerRules[0].conditionGroups[0].conditions[0].conditionKey).toBe('enemy_hero');
+
+  await shell.locator('tr', { hasText: 'draft_child_keys' }).getByRole('button', { name: '编辑', exact: true }).click();
+  const edit = visibleModal(page, '编辑规则');
+  await card(edit).getByRole('button', { name: '编辑', exact: true }).click();
+  await expect(condition.getByLabel('条件标识', { exact: true })).toBeDisabled();
+  await condition.getByRole('button', { name: '取消', exact: true }).click();
+  await edit.getByRole('button', { name: '编辑', exact: true }).last().click();
+  await expect(action.getByLabel('动作标识', { exact: true })).toBeDisabled();
+  await action.getByRole('button', { name: '取消', exact: true }).click();
+  await card(edit).getByRole('button', { name: '新增条件', exact: true }).click();
+  const added = visibleModal(page, '新增条件');
+  await added.getByLabel('条件标识', { exact: true }).fill('enemy_hero');
+  await added.getByRole('button', { name: '确定', exact: true }).click();
+  await expect(added.getByText('条件标识不能重复。', { exact: true })).toBeVisible();
+  await added.getByLabel('条件标识', { exact: true }).fill('new_condition');
+  await chooseSelectOption(page, added, '条件种类', '事件对方类别');
+  await added.getByText('英雄', { exact: true }).click();
+  await added.getByRole('button', { name: '确定', exact: true }).click();
+  await card(edit).getByRole('button', { name: '编辑', exact: true }).last().click();
+  await expect(condition.getByLabel('条件标识', { exact: true })).toBeEnabled();
+  await condition.getByLabel('条件标识', { exact: true }).fill('renamed_new_condition');
+  await condition.getByRole('button', { name: '确定', exact: true }).click();
+  await saveOpenModal(edit);
+  expect(mock.skillTriggerRules[0].conditionGroups[0].conditions.map(item => item.conditionKey))
+    .toEqual(['enemy_hero', 'renamed_new_condition']);
+  diagnostics.assertClean('unsaved child keys, cancellation, duplicates and persisted lock');
+});
+
 test('event counterpart category supports kill, takedown, damage directions, legal switches and confirms invalid event cleanup', async ({ page }) => {
   const mock = new MockApi();
   seedSkillTriggerCatalog(mock);
@@ -8581,3 +8646,67 @@ test('lifecycle-only effect saves and reopens with zero results and recovers aft
   await expect(view.getByText('暂无结果', { exact: true })).toBeVisible();
   diagnostics.assertClean('lifecycle-only zero results save reopen and disable recovery');
 });
+
+for (const [statusKind, statusKey, statusName] of [
+  ['SILENCE', 'silence', '沉默'], ['AIRBORNE', 'airborne', '击飞']
+] as const) {
+  test(`resolved ${statusKind} catalog does not create unsaved result changes`, async ({ page }) => {
+    const mock = new MockApi();
+    seedSkillEffectCatalog(mock);
+    mock.statuses = [{ gameId: GAME_ID, statusKey, statusKind, name: statusName,
+      description: null, status: 'ENABLED', sortOrder: 0, createdAt: CREATED_AT, updatedAt: UPDATED_AT }];
+    mock.skillEffects = [{ gameId: GAME_ID, skillKey: 'varus_w', effectKey: 'control', name: '已有控制',
+      description: null, sortOrder: 0, createdAt: CREATED_AT, updatedAt: UPDATED_AT,
+      lifecycle: { durationValue: fixedValue(1000), maxStacksValue: fixedValue(1), applicationStacksValue: fixedValue(1),
+        instanceScope: 'SOURCE_TARGET', reapplicationStackMode: 'KEEP', reapplicationDurationMode: 'REFRESH_ALL',
+        expiryMode: 'ALL_AT_ONCE', periodicIntervalValue: null, firstPeriodicExecution: null },
+      results: [{ resultKey: 'apply_control', name: '已有控制结果', resultType: 'STATUS_OPERATION', target: 'TARGET',
+        description: null, sortOrder: 0, valueRule: null, spellShieldBlockScope: null,
+        lifecycleBehavior: { moment: 'PERSISTENT', valueReadMode: null, stackValueMode: null,
+          reapplicationValueMode: null, periodicExecutionMode: null }, detail: { statusKey, operation: 'APPLY' } }]
+    }];
+    const original = structuredClone(mock.skillEffects);
+    const diagnostics = await prepare(page, mock);
+    await openSkills(page);
+    const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
+    await shell.locator('tr', { hasText: 'control' }).getByRole('button', { name: '编辑', exact: true }).click();
+    const effect = visibleModal(page, '编辑效果');
+    const openResult = async () => {
+      await effect.locator('tr', { hasText: 'apply_control' }).getByRole('button', { name: '编辑', exact: true }).click();
+      const result = visibleModal(page, '编辑结果');
+      await expect(result.getByLabel('状态', { exact: true })).toContainText(statusName);
+      await result.getByLabel('状态', { exact: true }).click();
+      await expect(page.getByRole('option', { name: statusName, exact: true })).toBeVisible();
+      await page.keyboard.press('Escape');
+      return result;
+    };
+    let result = await openResult();
+    const unexpected: string[] = [];
+    const rejectUnexpected = async (dialog: import('@playwright/test').Dialog) => {
+      unexpected.push(dialog.message()); await dialog.dismiss();
+    };
+    page.on('dialog', rejectUnexpected);
+    await result.getByRole('button', { name: '取消', exact: true }).click();
+    page.off('dialog', rejectUnexpected);
+    expect(unexpected).toEqual([]);
+    await expect(result).toBeHidden();
+
+    result = await openResult();
+    await result.getByLabel('结果名称', { exact: true }).fill('应保留的真实修改');
+    const rejected = page.waitForEvent('dialog').then(async dialog => {
+      expect(dialog.message()).toContain('当前修改尚未保存'); await dialog.dismiss();
+    });
+    await result.getByRole('button', { name: '取消', exact: true }).click();
+    await rejected;
+    await expect(result).toBeVisible();
+    await expect(result.getByLabel('结果名称', { exact: true })).toHaveValue('应保留的真实修改');
+    page.once('dialog', dialog => dialog.accept());
+    await result.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(result).toBeHidden();
+    await effect.getByRole('button', { name: '取消', exact: true }).click();
+    await expect(effect).toBeHidden();
+    expect(mock.writes).toHaveLength(0);
+    expect(mock.skillEffects).toEqual(original);
+    diagnostics.assertClean('resolved status catalog and real result draft protection');
+  });
+}

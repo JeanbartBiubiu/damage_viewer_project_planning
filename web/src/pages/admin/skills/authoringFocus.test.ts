@@ -42,4 +42,16 @@ describe('authoring focus helpers', () => {
       unsupportedAnchor: true
     })).toContain(AUTHORING_UNSUPPORTED_ANCHOR);
   });
+
+  it('keeps saved damage-condition references on their real result controls', () => {
+    for (const field of ['condition', 'attributeKey', 'comparator', 'comparisonValue', 'parameterKey', 'formulaKey']) {
+      const segments: AuthoringLocationSegment[] = [
+        { kind: 'KEYED_CHILD', collection: 'results', keyField: 'resultKey', key: 'low_health_damage' },
+        { kind: 'FIELD', field: 'detail' },
+        { kind: 'FIELD', field: 'condition' },
+        { kind: 'FIELD', field }
+      ];
+      expect(shouldDegradeUnsupportedAnchor('EFFECT', segments, 'FIELD')).toBe(false);
+    }
+  });
 });

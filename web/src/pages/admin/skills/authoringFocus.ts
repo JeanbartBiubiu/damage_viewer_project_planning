@@ -129,6 +129,7 @@ const SUPPORTED_FIELDS: Record<AuthoringEditor, ReadonlySet<string>> = {
     'detail', 'valueRule', 'value', 'attributeKey', 'damageTypeKey', 'operation', 'statusKey', 'targetEffectKey',
     'affectedSkillScope', 'skillKeys', 'skillCategoryKeys', 'vampOverrides', 'vampType', 'modifierZoneKey',
     'lifecycleBehavior', 'moment', 'spellShieldBlockScope', 'deliveryKind', 'originKind', 'direction',
+    'condition', 'receiver', 'attributeValueKind', 'comparator', 'comparisonValue', 'parameterKey', 'formulaKey',
     'fixedMultiplier', 'fixedMinValue', 'fixedMaxValue', 'durationValue', 'maxStacksValue', 'applicationStacksValue',
     'instanceScope', 'expiryMode', 'periodicIntervalValue'
   ]),

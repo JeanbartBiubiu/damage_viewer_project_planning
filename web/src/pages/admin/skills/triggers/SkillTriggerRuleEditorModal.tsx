@@ -146,6 +146,7 @@ import {
   nestedErrorFor,
   reachableRuntimeInputParameters,
   removeBindingsByKeys,
+  replaceDraftAction,
   requiredCatalogsForDraft,
   shouldKeepDraftOnHttpStatus,
   sortActionDrafts,
@@ -1790,6 +1791,9 @@ export function SkillTriggerRuleEditorModal({
         parametersLoadState={catalogStates.parameters === 'error' ? 'failed' : catalogStates.parameters === 'ready' ? 'ready' : undefined}
         visible={conditionEditor !== null}
         mode={conditionEditor?.mode ?? 'create'}
+        keyReadOnly={mode === 'edit' && Boolean(conditionEditor && baseline.conditionGroups
+          .find(group => group.groupKey === sortedGroups[conditionEditor.groupIndex]?.groupKey)
+          ?.conditions.some(condition => condition.conditionKey === conditionEditor.draft.conditionKey))}
         draft={conditionEditor?.draft ?? null}
         existingKeys={
           conditionEditor
@@ -1828,6 +1832,7 @@ export function SkillTriggerRuleEditorModal({
         onRetryAttributes={loadAttributesCatalog}
         visible={actionEditor !== null}
         mode={actionEditor?.mode ?? 'create'}
+        keyReadOnly={mode === 'edit' && baseline.actions.some(action => action.actionKey === actionEditor?.draft.actionKey)}
         draft={actionEditor?.draft ?? null}
         existingKeys={draft.actions.map((item) => item.actionKey)}
         eventSource={draft.eventSource}
@@ -1852,11 +1857,20 @@ export function SkillTriggerRuleEditorModal({
         locateMessage={actionEditor?.locateMessage ?? null}
         focusBindingKey={actionEditor?.focusBindingKey ?? null}
         onConfirm={(nextAction) => {
-          const nextActions = actionEditor?.mode === 'edit' && actionEditor.index !== null
-            ? sortedActions.map((item, index) => (index === actionEditor.index ? nextAction : item))
+          const editIndex = actionEditor?.mode === 'edit' ? actionEditor.index : null;
+          const renamed = editIndex !== null && sortedActions[editIndex].actionKey !== nextAction.actionKey;
+          const nextActions = editIndex !== null
+            ? replaceDraftAction(sortedActions, editIndex, nextAction)
             : [...draft.actions, nextAction];
           const normalized = ensureFailProcessLast(nextActions);
           const impact = findStalePriorResultBindings(normalized, effectByKeyRef.current);
+          if (renamed && impact.length > 0) {
+            Modal.warning({
+              content: '修改标识后，前序动作结果引用不再有效。请检查动作排序及效果；当前草稿和引用均已保留。',
+              okText: '知道了'
+            });
+            return;
+          }
           const apply = () => {
             patchDraft({
               ...draft,

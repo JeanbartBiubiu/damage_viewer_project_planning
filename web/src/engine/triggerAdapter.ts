@@ -23,6 +23,7 @@ import {
   NumericAdaptationError, type NumericCompileState, wrapValueRuleExpression
 } from './numericAdapter';
 import { adaptDamageVamp, type AuthoredVampDamage } from './vampAdapter';
+import { runtimeDamageType } from './damageTypeAdapter';
 import type { CombatantCategory, CombatantHostility, CombatantIdentityFact } from './hitAdapter';
 
 export class TriggerAdaptationError extends NumericAdaptationError {
@@ -109,12 +110,9 @@ type EmpoweredCombo = {
   kind: 'empowered';
   process: SkillProcess;
   startRule: SkillTriggerRuleDetail;
-  consumeRule: SkillTriggerRuleDetail;
   flag: Extract<SkillInternalState, { stateType: 'FLAG' }>;
   icd: Extract<SkillInternalState, { stateType: 'INTERNAL_COOLDOWN' }>;
   windowMs: number;
-  consumeMoment: 'ATTACK_START' | 'ATTACK_HIT';
-  eventType: 'BASIC_ATTACK_START' | 'BASIC_ATTACK_HIT';
   oncePerUse: OncePerUseLimit;
 };
 
@@ -146,23 +144,6 @@ function sameJson(left: unknown, right: unknown): boolean {
   return JSON.stringify(left) === JSON.stringify(right);
 }
 
-function conditionSignature(condition: SkillTriggerCondition): string {
-  return JSON.stringify({ conditionType: condition.conditionType, detail: condition.detail }, (_key, value: unknown) => (
-    value !== null && typeof value === 'object' && !Array.isArray(value)
-      ? Object.fromEntries(Object.entries(value).sort(([left], [right]) => left < right ? -1 : left > right ? 1 : 0))
-      : value
-  ));
-}
-
-function isFlagEnabledCondition(
-  condition: SkillTriggerCondition,
-  stateKey: string
-): condition is Extract<SkillTriggerCondition, { conditionType: 'INTERNAL_STATE_CHECK' }> {
-  return condition.conditionType === 'INTERNAL_STATE_CHECK'
-    && condition.detail.stateKey === stateKey
-    && condition.detail.valueKind === 'ENABLED';
-}
-
 function isIcdReadyCondition(
   condition: SkillTriggerCondition,
   stateKey: string,
@@ -174,44 +155,6 @@ function isIcdReadyCondition(
     && condition.detail.valueKind === 'REMAINING_MS'
     && condition.detail.comparator === 'EQ'
     && compileConstNumber(condition.detail.comparisonValue, path, authored, '冷却比较值') === 0;
-}
-
-function resolveFlagWindowPolicy(
-  rule: SkillTriggerRuleDetail,
-  flag: Extract<SkillInternalState, { stateType: 'FLAG' }>,
-  icd: Extract<SkillInternalState, { stateType: 'INTERNAL_COOLDOWN' }>,
-  authored: AuthoredTriggerProgram
-): 'start_on_first_write' | 'refresh_on_write' {
-  const root = planPath(authored.skillKey, `rules.${rule.ruleKey}.conditionGroups`);
-  if (!rule.conditionGroups.length) fail(root, '待击启动必须明确待命FLAG与内部冷却就绪，不能缺FLAG或缺ICD');
-  const groups = rule.conditionGroups.map((group) => {
-    const path = `${root}.${group.groupKey}`;
-    const flags = group.conditions.filter((condition) => isFlagEnabledCondition(condition, flag.stateKey));
-    if (!flags.length) fail(path, '待击启动每个条件组必须明确FLAG ENABLED，缺FLAG不能运行');
-    const expected = new Set(flags.map((condition) => condition.detail.expectedBoolean));
-    if (expected.size !== 1 || ![true, false].includes([...expected][0] as boolean)) {
-      fail(path, '同一条件组待命FLAG不能既开又关');
-    }
-    if (!group.conditions.some((condition) => isIcdReadyCondition(condition, icd.stateKey, path, authored))) {
-      fail(path, '待击启动每个条件组必须明确内部冷却剩余时间等于零');
-    }
-    const remaining = group.conditions
-      .filter((condition) => !isFlagEnabledCondition(condition, flag.stateKey))
-      .map(conditionSignature)
-      .sort();
-    return { enabled: [...expected][0] === true, remaining };
-  });
-  const idle = groups.filter((group) => !group.enabled);
-  const armed = groups.filter((group) => group.enabled);
-  if (!idle.length && armed.length) fail(root, '待击启动不能只有FLAG true组');
-  if (!idle.length) fail(root, '待击启动必须包含FLAG false组');
-  if (!armed.length) return 'start_on_first_write';
-  const idleSignatures = [...new Set(idle.map((group) => JSON.stringify(group.remaining)))].sort();
-  const armedSignatures = [...new Set(armed.map((group) => JSON.stringify(group.remaining)))].sort();
-  if (!sameJson(idleSignatures, armedSignatures)) {
-    fail(root, '存在false/true两类时，剔除FLAG ENABLED后剩余条件类型与明细必须对称一致，不能退回不刷新');
-  }
-  return 'refresh_on_write';
 }
 
 function stableSorted<T>(items: readonly T[], order: (item: T) => number): T[] {
@@ -501,37 +444,43 @@ function classifyCountWindow(authored: AuthoredTriggerProgram, delay: SkillProce
   };
 }
 
-function consumeEvent(moment: 'ATTACK_START' | 'ATTACK_HIT'): 'BASIC_ATTACK_START' | 'BASIC_ATTACK_HIT' {
-  return moment === 'ATTACK_START' ? 'BASIC_ATTACK_START' : 'BASIC_ATTACK_HIT';
-}
-
 function classifyEmpowered(authored: AuthoredTriggerProgram, process: SkillProcess): EmpoweredCombo {
   const root = planPath(authored.skillKey, `processes.${process.processKey}`);
+  catalogKey(process.processKey, `${root}.processKey`);
+  if (process.activationType !== 'ACTIVE') fail(`${root}.activationType`, '单强化步骤只接受 ACTIVE 过程');
   if (process.steps.length !== 1 || process.steps[0]!.stepType !== 'EMPOWERED_BASIC_ATTACK') {
     fail(`${root}.steps`, '待击消费只接受单个 EMPOWERED_BASIC_ATTACK 步骤');
   }
-  if (process.cooldown) fail(`${root}.cooldown`, '待击冷却必须由 INTERNAL_COOLDOWN 表达');
+  if (process.cooldown !== null) fail(`${root}.cooldown`, '待击冷却必须由 INTERNAL_COOLDOWN 表达');
   const step = process.steps[0]!;
   const windowMs = foldPositiveInt(
     compileNumericValue(step.detail.windowValue, `${root}.steps.${step.stepKey}.detail.windowValue`, constantState(authored), fail),
     `${root}.steps.${step.stepKey}.detail.windowValue`,
     '待击窗口'
   );
-  const consumeMoment = step.detail.consumeMoment;
-  if (consumeMoment !== 'ATTACK_START' && consumeMoment !== 'ATTACK_HIT') {
-    fail(`${root}.steps.${step.stepKey}.detail.consumeMoment`, '消费时点必须明确为 ATTACK_START 或 ATTACK_HIT');
+  if (step.detail.consumeMoment !== 'ATTACK_HIT') {
+    fail(`${root}.steps.${step.stepKey}.detail.consumeMoment`, '强化步骤只支持 ATTACK_HIT；ATTACK_START 尚不支持命中时结算');
   }
-  const startOps = process.stateOperations.filter((item) => isProcessStart(item.moment) || (item.moment.momentType === 'STEP_START' && item.moment.stepKey === step.stepKey));
+  const operationKeys = new Set<string>();
+  for (const op of process.stateOperations) {
+    const path = `${root}.stateOperations.${op.operationKey}`;
+    catalogKey(op.operationKey, `${path}.operationKey`);
+    if (operationKeys.has(op.operationKey)) fail(path, '状态操作标识重复');
+    operationKeys.add(op.operationKey);
+    if (op.value !== null || op.optionKey !== null) fail(path, '待击状态操作不能携带数值或模式选项');
+    if (op.moment.failureReason != null) fail(`${path}.moment`, '待击状态操作不能携带失败原因');
+  }
+  const startOps = process.stateOperations.filter((item) => isProcessStart(item.moment));
   const consumeOps = process.stateOperations.filter((item) => item.moment.momentType === 'STEP_EXECUTION' && item.moment.stepKey === step.stepKey);
   const timeoutOps = process.stateOperations.filter((item) => isStepTimeout(item.moment) && item.moment.stepKey === step.stepKey);
   if (process.stateOperations.some((item) => !startOps.includes(item) && !consumeOps.includes(item) && !timeoutOps.includes(item))) {
     fail(`${root}.stateOperations`, '无法从完整过程核定启动、消费或超时操作');
   }
   const enable = startOps.find((item) => item.operation === 'ENABLE');
-  if (!enable || startOps.length !== 1) fail(`${root}.stateOperations`, '启动只接受设置待命 FLAG，重复启动或刷新无法核定时拒绝');
+  if (!enable || startOps.length !== 1) fail(`${root}.stateOperations`, '过程开始只接受一次开启待命 FLAG');
   const flagState = lookupState(authored, enable.stateKey, `${root}.stateOperations.${enable.operationKey}.stateKey`);
   if (flagState.stateType !== 'FLAG') fail(`${root}.stateOperations.${enable.operationKey}.stateKey`, '待命必须是 FLAG');
-  if (flagState.detail.initialEnabled) fail(planPath(authored.skillKey, `internalStates.${flagState.stateKey}.detail.initialEnabled`), '待命默认必须关闭');
+  if (flagState.detail.initialEnabled !== false) fail(planPath(authored.skillKey, `internalStates.${flagState.stateKey}.detail.initialEnabled`), '待命默认必须关闭');
   const disable = consumeOps.find((item) => item.operation === 'DISABLE' && item.stateKey === flagState.stateKey);
   const icdOp = consumeOps.find((item) => item.operation === 'START');
   if (!disable || !icdOp) fail(`${root}.stateOperations`, '消费单元必须清除待命并按作者时点启动内部冷却');
@@ -540,52 +489,68 @@ function classifyEmpowered(authored: AuthoredTriggerProgram, process: SkillProce
   }
   const icdState = lookupState(authored, icdOp.stateKey, `${root}.stateOperations.${icdOp.operationKey}.stateKey`);
   if (icdState.stateType !== 'INTERNAL_COOLDOWN') fail(`${root}.stateOperations.${icdOp.operationKey}.stateKey`, '内部冷却必须是 INTERNAL_COOLDOWN');
+  if (authored.internalStates.length !== 2) fail(planPath(authored.skillKey, 'internalStates'), '单强化步骤只接受待命和内部冷却两个状态');
+  for (const state of [flagState, icdState]) {
+    const path = planPath(authored.skillKey, `internalStates.${state.stateKey}`);
+    catalogKey(state.stateKey, `${path}.stateKey`);
+    if (state.scope !== 'SKILL') fail(`${path}.scope`, '单强化步骤状态必须使用 SKILL 范围');
+  }
   foldPositiveInt(
     compileNumericValue(icdState.detail.durationValue, planPath(authored.skillKey, `internalStates.${icdState.stateKey}.detail.durationValue`), constantState(authored), fail),
     planPath(authored.skillKey, `internalStates.${icdState.stateKey}.detail.durationValue`),
     '内部冷却'
   );
+  if (timeoutOps.length !== 1) fail(`${root}.stateOperations`, '步骤超时必须且只能关闭一次待命');
   for (const op of timeoutOps) {
     if (op.operation !== 'DISABLE' || op.stateKey !== flagState.stateKey) {
       fail(`${root}.stateOperations.${op.operationKey}`, '过程超时只结束待命，不能自动消费或启动冷却');
     }
   }
+  if (!process.effectBindings.length) fail(`${root}.effectBindings`, '强化步骤必须挂接完整消费效果');
+  const bindingKeys = new Set<string>();
+  const effectKeys = new Set<string>();
+  const executionOrders = new Set<number>();
+  for (const row of [...process.effectBindings, disable, icdOp]) {
+    const path = 'bindingKey' in row
+      ? `${root}.effectBindings.${row.bindingKey}.sortOrder`
+      : `${root}.stateOperations.${row.operationKey}.sortOrder`;
+    if (!Number.isSafeInteger(row.sortOrder) || executionOrders.has(row.sortOrder)) {
+      fail(path, '消费时点的效果与状态操作排序必须是唯一整数');
+    }
+    executionOrders.add(row.sortOrder);
+  }
   for (const binding of process.effectBindings) {
-    if (binding.moment.momentType !== 'STEP_EXECUTION' || binding.moment.stepKey !== step.stepKey) {
+    const path = `${root}.effectBindings.${binding.bindingKey}`;
+    catalogKey(binding.bindingKey, `${path}.bindingKey`);
+    if (bindingKeys.has(binding.bindingKey) || effectKeys.has(binding.effectKey)) fail(path, '强化步骤效果挂接重复');
+    bindingKeys.add(binding.bindingKey);
+    effectKeys.add(binding.effectKey);
+    if (binding.moment.momentType !== 'STEP_EXECUTION' || binding.moment.stepKey !== step.stepKey || binding.moment.failureReason != null) {
       fail(`${root}.effectBindings.${binding.bindingKey}.moment`, '绑定效果必须挂在明确消费时点');
     }
+    if (!(binding.sortOrder < disable.sortOrder)) fail(`${path}.sortOrder`, '效果挂接排序必须小于关闭待命排序');
   }
-  if (authored.rules.length !== 2) fail(planPath(authored.skillKey, 'rules'), '待击消费只接受启动规则与消费规则');
-  const expectedConsume = consumeEvent(consumeMoment);
-  const startRule = authored.rules.find((rule) => rule.eventSource.eventType === 'SKILL_USED');
-  const consumeRule = authored.rules.find((rule) => rule.eventSource.eventType === expectedConsume);
-  if (!startRule || !consumeRule) {
-    fail(planPath(authored.skillKey, 'rules'), 'ATTACK_START 与 ATTACK_HIT 必须保持各自时点，启动只接已核定 INITIAL');
-  }
+  if (!(disable.sortOrder < icdOp.sortOrder)) fail(`${root}.stateOperations.${icdOp.operationKey}.sortOrder`, '关闭待命排序必须小于启动内部冷却排序');
+  if (authored.rules.length !== 1) fail(planPath(authored.skillKey, 'rules'), '单强化步骤只接受一条首次主动启动规则，不能另配命中或过程事件规则');
+  const startRule = authored.rules[0]!;
+  assertInitialCast(startRule, authored);
   if (startProcessKey(startRule, authored.skillKey) !== process.processKey) {
     fail(planPath(authored.skillKey, `rules.${startRule.ruleKey}.actions`), '启动规则必须启动该待击过程');
   }
-  assertInitialCast(startRule, authored);
   assertNoExtraLimits(startRule, authored.skillKey);
-  assertNoExtraLimits(consumeRule, authored.skillKey);
-  if (consumeRule.eventSource.eventType !== expectedConsume) {
-    fail(planPath(authored.skillKey, `rules.${consumeRule.ruleKey}.eventSource`), '消费事件必须与过程消费时点一致，不能互换');
+  const groupPath = planPath(authored.skillKey, `rules.${startRule.ruleKey}.conditionGroups`);
+  if (startRule.conditionGroups.length !== 1 || startRule.conditionGroups[0]!.conditions.length !== 1) {
+    fail(groupPath, '待击启动只接受一组、一个本过程内部冷却剩余时间等于零的条件');
   }
-  const consumeActions = stableSorted(consumeRule.actions, (item) => item.sortOrder);
-  const boundKeys = stableSorted(process.effectBindings, (item) => item.sortOrder).map((item) => item.effectKey);
-  const actionKeys = consumeActions.map((item) => {
-    if (item.actionType !== 'EXECUTE_EFFECT') fail(planPath(authored.skillKey, `rules.${consumeRule.ruleKey}.actions.${item.actionKey}`), '消费规则只接受执行绑定效果');
-    assertUnitAction(item, planPath(authored.skillKey, `rules.${consumeRule.ruleKey}.actions.${item.actionKey}`));
-    return item.detail.effectKey;
-  });
-  if (!sameJson(actionKeys, boundKeys)) {
-    fail(planPath(authored.skillKey, `rules.${consumeRule.ruleKey}.actions`), '消费规则必须按顺序执行过程绑定的全部效果，不能截取');
+  const condition = startRule.conditionGroups[0]!.conditions[0]!;
+  if (!isIcdReadyCondition(condition, icdState.stateKey, groupPath, authored)
+    || condition.conditionType !== 'INTERNAL_STATE_CHECK' || condition.detail.optionKey !== null || condition.detail.expectedBoolean !== null) {
+    fail(groupPath, '待击启动条件必须是本过程内部冷却 REMAINING_MS EQ 0');
   }
-  const once = mapOncePerUse(consumeRule, authored.skillKey);
   if (startRule.oncePerUse) fail(planPath(authored.skillKey, `rules.${startRule.ruleKey}.oncePerUse`), '普通初次启动不是 oncePerUse 事件');
   return {
-    kind: 'empowered', process, startRule, consumeRule, flag: flagState, icd: icdState,
-    windowMs, consumeMoment, eventType: expectedConsume, oncePerUse: once
+    kind: 'empowered', process, startRule, flag: flagState, icd: icdState,
+    windowMs, oncePerUse: { groupKey: process.processKey, scope: 'provider' }
   };
 }
 
@@ -817,7 +782,7 @@ function compileDamage(
   }
   if (result.detail.originKind !== 'DIRECT') fail(`${path}.detail.originKind`, '未支持的来源性质');
   if (result.detail.critical.mode !== 'DISALLOWED') fail(`${path}.detail.critical`, '未支持的暴击策略');
-  const damageType = `damage/${catalogKey(result.detail.damageTypeKey, `${path}.detail.damageTypeKey`)}`;
+  const damageType = runtimeDamageType(result.detail.damageTypeKey, `${path}.detail.damageTypeKey`, fail);
   ctx.typeEntries.set(damageType, 'damage');
   if (result.detail.vampQualification === 'UNRESOLVED') fail(`${path}.detail.vampQualification`, '吸血资格尚未核定，不能运行');
   if (result.detail.vampQualification !== 'RESOLVED') fail(`${path}.detail.vampQualification`, '未知吸血资格');
@@ -1069,37 +1034,31 @@ function compileCountWindow(combo: CountWindowCombo, ctx: CompileCtx): { abiliti
 
 function compileEmpowered(combo: EmpoweredCombo, ctx: CompileCtx): { abilities: AbilityDefinition[]; schema: Record<string, ProviderStateFieldSchema> } {
   const startCondition = compileListenerCondition(combo.startRule, 'SKILL_USED', ctx);
-  const consumeCondition = compileListenerCondition(combo.consumeRule, combo.eventType, ctx);
-  const flagPolicy = resolveFlagWindowPolicy(combo.startRule, combo.flag, combo.icd, ctx.authored);
-  requireGroupGuard(combo.consumeRule, combo.flag.stateKey, true, ctx.authored);
+  const consumeCondition = combine('min', [
+    compareExpr('eq', { op: 'read', path: stateReadPath(combo.flag) }, constExpr(1)),
+    compareExpr('eq', { op: 'read', path: stateReadPath(combo.icd) }, constExpr(0))
+  ]);
   ctx.typeEntries.set('event/ability_started', 'event');
-  ctx.typeEntries.set(eventTypeKey(combo.eventType), 'event');
+  ctx.typeEntries.set('event/basic_attack_hit', 'event');
   ctx.typeEntries.set('event/source_owner', 'event');
   ctx.typeEntries.set(initialCastAbilityType(ctx.authored.skillKey), 'ability');
   ctx.typeEntries.set('ability/basic_attack', 'ability');
   ctx.typeEntries.set(stateScopeType(combo.flag), 'state_scope');
   ctx.typeEntries.set(stateScopeType(combo.icd), 'state_scope');
   const startOps = [stateChange(combo.flag, 'set', 1)];
-  const needed = neededDamageOutputs(combo.consumeRule.actions);
-  const scheduled: Array<{ sortOrder: number; ops: OperationDefinition[] }> = [];
-  for (const action of stableSorted(combo.consumeRule.actions, (item) => item.sortOrder)) {
-    if (action.actionType !== 'EXECUTE_EFFECT') continue;
-    scheduled.push({
-      sortOrder: action.sortOrder,
-      ops: compileEffectAction(action, planPath(ctx.authored.skillKey, `rules.${combo.consumeRule.ruleKey}.actions.${action.actionKey}`), ctx, needed)
-    });
-  }
-  for (const op of stableSorted(combo.process.stateOperations, (item) => item.sortOrder)) {
-    if (op.moment.momentType !== 'STEP_EXECUTION') continue;
-    if (op.operation === 'DISABLE' && op.stateKey === combo.flag.stateKey) {
-      scheduled.push({ sortOrder: op.sortOrder, ops: [stateChange(combo.flag, 'set', 0)] });
-    } else if (op.operation === 'START' && op.stateKey === combo.icd.stateKey) {
-      scheduled.push({ sortOrder: op.sortOrder, ops: [stateChange(combo.icd, 'set', 1)] });
-    }
-  }
+  // The validated step owns settlement. No authored hit rule or saved cast target is needed.
   const consumeOps: OperationDefinition[] = [];
-  for (const row of stableSorted(scheduled, (item) => item.sortOrder)) consumeOps.push(...row.ops);
-  assertPriorOutputsResolved(combo.consumeRule.actions, planPath(ctx.authored.skillKey, `rules.${combo.consumeRule.ruleKey}`), ctx);
+  for (const binding of stableSorted(combo.process.effectBindings, (item) => item.sortOrder)) {
+    const action: Extract<SkillTriggerAction, { actionType: 'EXECUTE_EFFECT' }> = {
+      actionKey: binding.bindingKey, name: binding.effectKey, actionType: 'EXECUTE_EFFECT',
+      sortOrder: binding.sortOrder, targetContext: 'CURRENT_TARGET', detail: { effectKey: binding.effectKey },
+      runtimeInputBindings: [], resultModifiers: []
+    };
+    consumeOps.push(...compileEffectAction(
+      action, planPath(ctx.authored.skillKey, `processes.${combo.process.processKey}.effectBindings.${binding.bindingKey}`), ctx, new Set()
+    ));
+  }
+  consumeOps.push(stateChange(combo.flag, 'set', 0), stateChange(combo.icd, 'set', 1));
   const castType = initialCastAbilityType(ctx.authored.skillKey);
   const start = listenerAbility(
     `listen_${combo.startRule.ruleKey}`, combo.startRule.ruleKey,
@@ -1107,8 +1066,8 @@ function compileEmpowered(combo: EmpoweredCombo, ctx: CompileCtx): { abilities: 
     startOps, ctx, undefined, startCondition
   );
   const consume = listenerAbility(
-    `listen_${combo.consumeRule.ruleKey}`, combo.consumeRule.ruleKey,
-    { all: [eventTypeKey(combo.eventType), 'event/source_owner'] },
+    `consume_${combo.process.processKey}`, `consume_${combo.process.processKey}`,
+    { all: ['event/basic_attack_hit', 'event/source_owner'] },
     consumeOps, ctx, combo.oncePerUse, consumeCondition
   );
   const icdMs = foldPositiveInt(
@@ -1120,7 +1079,7 @@ function compileEmpowered(combo: EmpoweredCombo, ctx: CompileCtx): { abilities: 
     abilities: [start, consume],
     schema: {
       [combo.flag.stateKey]: {
-        valueType: 'number', defaultValue: 0, maxValue: 1, durationMs: combo.windowMs, refreshPolicy: flagPolicy
+        valueType: 'number', defaultValue: 0, maxValue: 1, durationMs: combo.windowMs, refreshPolicy: 'refresh_on_write'
       },
       [combo.icd.stateKey]: {
         valueType: 'number', defaultValue: 0, maxValue: 1, durationMs: icdMs, refreshPolicy: 'start_on_first_write'
@@ -1171,14 +1130,16 @@ export function adaptTriggerProgram(authored: AuthoredTriggerProgram): AdaptedTr
     authored, state: numericState(authored), typeEntries: new Map(), abilityTypes: new Set(), outputRefs: new Map(),
     stateKeys: new Set([combo.kind === 'count_window' ? combo.counter.stateKey : combo.flag.stateKey, combo.icd.stateKey]),
     shieldGuard: {
-      rule: combo.kind === 'count_window' ? combo.pairs[0]!.rewardRule : combo.consumeRule,
+      rule: combo.kind === 'count_window' ? combo.pairs[0]!.rewardRule : combo.startRule,
       cooldown: combo.icd
     },
     shieldRefs: new Set()
   };
   const compiled = combo.kind === 'count_window' ? compileCountWindow(combo, ctx) : compileEmpowered(combo, ctx);
-  const authorOrder = stableSorted(authored.rules, (rule) => rule.sortOrder).map((rule) => rule.ruleKey);
-  compiled.abilities.sort((left, right) => authorOrder.indexOf(left.listenerSpec!.listenerKey) - authorOrder.indexOf(right.listenerSpec!.listenerKey));
+  if (combo.kind === 'count_window') {
+    const authorOrder = stableSorted(authored.rules, (rule) => rule.sortOrder).map((rule) => rule.ruleKey);
+    compiled.abilities.sort((left, right) => authorOrder.indexOf(left.listenerSpec!.listenerKey) - authorOrder.indexOf(right.listenerSpec!.listenerKey));
+  }
   const providerKey = `trigger:${authored.skillKey}`;
   const provider: ProviderDefinition = {
     providerKey, kind: 'item', stableId: providerKey,
@@ -1186,7 +1147,7 @@ export function adaptTriggerProgram(authored: AuthoredTriggerProgram): AdaptedTr
     initialStateSchema: compiled.schema
   };
   const consumeEvent = combo.kind === 'empowered'
-    ? eventTypeKey(combo.eventType) as AdaptedTriggerProgram['consumeEvent']
+    ? 'event/basic_attack_hit'
     : combo.pairs.length === 1
       ? eventTypeKey(combo.pairs[0]!.eventType) as AdaptedTriggerProgram['consumeEvent']
       : undefined;
