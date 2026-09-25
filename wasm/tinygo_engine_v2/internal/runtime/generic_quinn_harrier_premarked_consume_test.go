@@ -7,7 +7,6 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"testing"
 
@@ -33,7 +32,7 @@ import (
 //	  740debfb3b72dd7f926337f7eb4adbe3a65c88caec227ca16e00dff6634f798c
 //	数据参考/lol-wiki-current-champions/normalized/generic/quinn-p.json
 //	pages/raw siblings: pages/quinn-p.json, raw/quinn-p.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_quinn_p_harrier_premarked_consume_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_quinn_p_harrier_premarked_consume_seed.sql
 //	Local raw materialization caveat (same length, different SHA): 2390 bytes /
 //	  SHA256 08853c2c25ada7769e25908123dbb56f7b14dc0c1479a8a5842693874849a731.
 //	Assert both identities/caveat; do not claim equivalence or source contradiction.
@@ -51,7 +50,7 @@ import (
 //     3) Target "source", Types ["state_scope/provider_target"], override
 //        harrier_vulnerable=0 (never Target target/opponent; Backend 20110+20252)
 //   - Existing W listener may also arm; P step1 makes W-before-P and P-before-W
-//     equivalent for active=1. Do not assert W AS magnitude (Backend seed 0.40 vs
+//     equivalent for active=1. Do not assert W AS magnitude (历史种子 0.40 vs
 //     current Wiki Wasm W test 0.80 is pre-existing / out of P scope).
 //
 // Ordered tags: on_hit, formula_on_hit, bonus_ad_ratio, copyable_on_hit_false,
@@ -84,8 +83,8 @@ const (
 	quinnHarrierBonusADMod  = "fixture_quinn_harrier_p_bonus_ad"
 	quinnHarrierAAOpRef     = "op:aa"
 
-	quinnHarrierBackendProviderAlias = "provider_hero_quinn_heightened_senses"
-	quinnHarrierBasicAttackAlias     = "provider_hero_quinn_basic_attack"
+	quinnHarrierHeightenedSensesProviderAlias = "provider_hero_quinn_heightened_senses"
+	quinnHarrierBasicAttackAlias              = "provider_hero_quinn_basic_attack"
 
 	quinnHarrierBaseDamage   = 120.0
 	quinnHarrierBonusADRatio = 0.40
@@ -98,11 +97,6 @@ const (
 	quinnHarrierExpectedMit76     = 76.0
 	quinnHarrierExpectedRaw120    = 120.0
 	quinnHarrierExpectedMit60     = 60.0
-
-	quinnHarrierSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":120},` +
-		`{"op":"mul","args":[{"op":"const","value":0.40},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},` +
-		`{"op":"read","path":"source.attr.ad.base"}]}]}]}`
 
 	quinnHarrierTol = 1e-9
 )
@@ -432,7 +426,7 @@ func assertQuinnHarrierCompileShape(t *testing.T, compileReq model.CompileReques
 	if p.ProviderKey != quinnHSProviderRef || p.StableID != quinnHSStableID {
 		t.Fatalf("provider=%q/%q want %q/%q", p.ProviderKey, p.StableID, quinnHSProviderRef, quinnHSStableID)
 	}
-	if p.ProviderKey == quinnHarrierBackendProviderAlias || p.StableID == quinnHarrierBackendProviderAlias {
+	if p.ProviderKey == quinnHarrierHeightenedSensesProviderAlias || p.StableID == quinnHarrierHeightenedSensesProviderAlias {
 		t.Fatal("Wasm fixture uses hero:quinn; must not invent a second P provider identity")
 	}
 	if len(p.Listeners) != 2 {
@@ -536,36 +530,6 @@ func quinnHarrierWikiPagesPath(t *testing.T) string {
 	return path
 }
 
-func quinnHarrierSeedPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"db", "game_manage", "seeds", "lol_generic_quinn_p_harrier_premarked_consume_seed.sql")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("backend seed missing at %s: %v", path, err)
-	}
-	return path
-}
-
-func quinnHarrierJUnitPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"server", "data_manage", "src", "test", "java", "xyz", "game", "datamanage", "db",
-		"LolGenericQuinnPHarrierPremarkedConsumeSeedSqlTest.java")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("JUnit contract missing at %s: %v", path, err)
-	}
-	return path
-}
-
-func quinnHarrierREADMEPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..", "server", "data_manage", "README.md")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("README missing at %s: %v", path, err)
-	}
-	return path
-}
-
 type quinnHarrierWikiSidecar struct {
 	CandidateKey      string `json:"candidateKey"`
 	RequestTitle      string `json:"requestTitle"`
@@ -629,25 +593,6 @@ func quinnHarrierLoadWikiPages(t *testing.T) quinnHarrierWikiPages {
 	return doc
 }
 
-func quinnHarrierLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(quinnHarrierSeedPath(t))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func quinnHarrierSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -661,9 +606,8 @@ func quinnHarrierEvidenceFingerprint(done model.DoneResult) string {
 	return quinnHarrierSHA256Hex(raw)
 }
 
-// TestGenericQuinnHarrierWikiAndBackendIdentityContract locks sidecar/pages/local
-// identities plus integrated Backend seed/JUnit/README exact contract.
-func TestGenericQuinnHarrierWikiAndBackendIdentityContract(t *testing.T) {
+// TestGenericQuinnHarrierWikiAndConstructedFixtureIdentityContract 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestGenericQuinnHarrierWikiAndConstructedFixtureIdentityContract(t *testing.T) {
 	doc := quinnHarrierLoadWikiSidecar(t)
 	if doc.CandidateKey != quinnHarrierCandidateKey {
 		t.Fatalf("candidateKey=%q want %q", doc.CandidateKey, quinnHarrierCandidateKey)
@@ -747,189 +691,15 @@ func TestGenericQuinnHarrierWikiAndBackendIdentityContract(t *testing.T) {
 		t.Fatal("frozen plan-rev constant drifted")
 	}
 
-	seed, sqlNoComments := quinnHarrierLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(quinnHarrierREADMEPath(t))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-	junitBytes, err := os.ReadFile(quinnHarrierJUnitPath(t))
-	if err != nil {
-		t.Fatal(err)
-	}
-	junit := string(junitBytes)
-
-	for _, want := range []string{
-		quinnHarrierCandidateKey,
-		quinnHarrierTaskKey,
-		quinnHarrierPlanRev,
-		quinnHarrierRequestTitle,
-		quinnHarrierResolvedTitle,
-		"1308953",
-		"4024765",
-		quinnHarrierTimestamp,
-		quinnHarrierContentSHA,
-		quinnHarrierLocalRawSHA,
-		"2390",
-		quinnHarrierBoundary,
-		quinnHarrierBackendProviderAlias,
-		quinnHarrierBasicAttackAlias,
-		quinnHarrierListenerKey,
-		"harrier_p_level18_bonus_damage",
-		"harrier_p_mark_clear",
-		"heightened_senses_arm_condition",
-		"local raw materialization caveat",
-		"normalized/generic/quinn-p.json",
-		"20110",
-		"20252",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	if !strings.Contains(seed, "W → P") && !strings.Contains(seed, "W -> P") {
-		t.Fatal("seed must document W -> P order")
-	}
-	if !strings.Contains(seed, "Q / E") && !strings.Contains(seed, "Q/E") &&
-		!strings.Contains(seed, "Q·E") && !strings.Contains(seed, "Q · E") {
-		t.Fatal("seed must document Q/E are not prerequisites")
-	}
-	for _, tag := range quinnHarrierOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range quinnHarrierOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
+	// 历史种子身份已移出；以现有通用构造核对独立被动及额外攻击力公式。
+	compileReq, _ := loadQuinnHarrierFixture(t, quinnHarrierFixtureOpts{
+		resolvedAD: quinnHarrierADResolvedDefault, vulnerable: 1,
+	})
+	assertQuinnHarrierCompileShape(t, compileReq, true, "wp")
+	if raw := quinnHarrierExpectedRawFromStats(quinnHarrierADResolvedDefault, quinnHarrierADBase); math.Abs(raw-quinnHarrierExpectedRaw152) > quinnHarrierTol {
+		t.Fatalf("constructed fixture raw=%v want %v", raw, quinnHarrierExpectedRaw152)
 	}
 
-	if !strings.Contains(sqlNoComments, quinnHarrierSeedDamageJSON) {
-		t.Fatal("seed formula must use nested binary add(120,mul(0.40,sub(ad)))")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_quinn_p_harrier_premarked_consume_mark_clear'\s*,\s*` +
-		`'sequence_hero_quinn_p_harrier_premarked_consume'\s*,\s*` +
-		`2\s*,\s*20160\s*,\s*20110`).MatchString(sqlNoComments) {
-		t.Fatal("mark clear step must use selector/self 20110")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_quinn_p_harrier_premarked_consume_mark_clear'\s*,\s*` +
-		`20252\s*,\s*'harrier_vulnerable'`).MatchString(sqlNoComments) {
-		t.Fatal("mark clear detail must use provider_target 20252")
-	}
-	if regexp.MustCompile(`(?s)'step_hero_quinn_p_harrier_premarked_consume_mark_clear'[\s\S]{0,120}20111`).MatchString(sqlNoComments) {
-		t.Fatal("forbid consume encoding with opponent 20111")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_formulas",
-		"INSERT INTO public.provider_listeners",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.state_effect_details",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.listener_match_types",
-		"INSERT INTO public.listener_effect_sequences",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_listeners") != 1 {
-		t.Fatal("seed must define exactly one P listener insert")
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.effect_sequences") != 1 {
-		t.Fatal("seed must define exactly one P sequence insert")
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 {
-		t.Fatal("seed must define exactly one damage_effect_details")
-	}
-
-	forbiddenWrites := []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.entity_provider_mounts",
-		"INSERT INTO public.game_entities",
-		"INSERT INTO public.entity_attribute_values",
-		"INSERT INTO public.provider_state_fields",
-		"INSERT INTO public.provider_modifiers",
-		"INSERT INTO public.ability_definitions",
-	}
-	for _, needle := range forbiddenWrites {
-		if strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("must not write/mutate %q (no new provider / W-row mutation)", needle)
-		}
-	}
-	if regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.provider_formulas[\s\S]{0,500}'heightened_senses_arm_condition'`).MatchString(sqlNoComments) {
-		t.Fatal("must not upsert W heightened_senses_arm_condition")
-	}
-	if regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.provider_listeners[\s\S]{0,220}'listener_hero_quinn_heightened_senses_basic_attack_hit'`).MatchString(sqlNoComments) {
-		t.Fatal("must not upsert W basic-attack listener")
-	}
-
-	for _, want := range []string{
-		quinnHarrierCandidateKey,
-		quinnHarrierTaskKey,
-		quinnHarrierPlanRev,
-		"lol_generic_quinn_p_harrier_premarked_consume_seed.sql",
-		"LolGenericQuinnPHarrierPremarkedConsumeSeedSqlTest",
-		"lol_generic_quinn_heightened_senses_seed.sql",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, quinnHarrierBoundary) &&
-		!strings.Contains(readme, "bonus_physical_120_plus_0_40_bonus_ad") {
-		t.Fatal("README must include frozen boundary")
-	}
-	if !strings.Contains(readme, "W → P → Q(resource) → E") &&
-		!strings.Contains(readme, "W -> P -> Q(resource) -> E") {
-		t.Fatal("README must document W -> P -> Q(resource) -> E order")
-	}
-	wIdx := strings.Index(readme, "### LoL generic Quinn Heightened Senses seed")
-	pIdx := strings.Index(readme, "### LoL generic Quinn P Harrier pre-marked consume seed")
-	qIdx := strings.Index(readme, "### LoL generic Quinn Blinding Assault primary-hit seed")
-	eIdx := strings.Index(readme, "### LoL generic Quinn Vault primary-hit seed")
-	if !(wIdx >= 0 && pIdx > wIdx && qIdx > pIdx && eIdx > qIdx) {
-		t.Fatal("README registration order must be W -> P -> Q(resource) -> E")
-	}
-	pSectionEnd := qIdx
-	if pSectionEnd < 0 {
-		pSectionEnd = len(readme)
-	}
-	pSection := readme[pIdx:pSectionEnd]
-	if !strings.Contains(pSection, "P 仅需 W") &&
-		!regexp.MustCompile(`(?i)P.*needs W only|仅需\s*W|只依赖 W`).MatchString(pSection) {
-		t.Fatal("README must state P needs W only (Q/E independent)")
-	}
-
-	for _, want := range []string{
-		quinnHarrierCandidateKey,
-		quinnHarrierTaskKey,
-		quinnHarrierPlanRev,
-		"LolGenericQuinnPHarrierPremarkedConsumeSeedSqlTest",
-		`\"value\":120`,
-		`\"value\":0.40`,
-		`source.attr.ad.resolved`,
-		`source.attr.ad.base`,
-		"20110",
-		"20252",
-	} {
-		if !strings.Contains(junit, want) {
-			t.Fatalf("JUnit missing %q", want)
-		}
-	}
 }
 
 // TestGenericQuinnHarrierPremarkBonusADRaw152: premark1, baseAD59/resolved139,
@@ -1227,11 +997,5 @@ func TestGenericQuinnHarrierIsolationDeterminismCompileShapeTags(t *testing.T) {
 		!strings.Contains(doc.Fields.Description4, "Behind Enemy Lines") ||
 		!strings.Contains(doc.Fields.Notes, "parried") {
 		t.Fatalf("wiki must retain excluded Valor/monster75/R-disable/parry prose: %+v", doc.Fields)
-	}
-	seed, _ := quinnHarrierLoadSeedSQL(t)
-	for _, excl := range []string{"Valor", "monster", "parry", "reveal", "mark"} {
-		if !strings.Contains(seed, excl) && !strings.Contains(strings.ToLower(seed), strings.ToLower(excl)) {
-			t.Fatalf("seed comments must document exclusion surface %q", excl)
-		}
 	}
 }

@@ -39,7 +39,7 @@ import (
 //	pages/raw siblings: pages/sivir-q.json (bytes 691 / SHA256
 //	  adeab85889a4208b52f0b6cd3bcc3aef022a986dcad5168e1c817e3ab3323fa9),
 //	  raw/sivir-q.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql
 //	  bytes 32326 / SHA256
 //	  4ba04a00c1d67a67fd581eaa1cd4edfbb08eeb9699d9e3c8da8eed3f03dbf189
 //	JUnit: LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest.java
@@ -103,8 +103,6 @@ const (
 	sivirBBFOHLocalRawBytes   = 2745
 	sivirBBFOHNormalizedBytes = 3018
 	sivirBBFOHPagesBytes      = 691
-	sivirBBFOHSeedBytes       = 32326
-	sivirBBFOHJUnitBytes      = 63624
 	sivirBBFOHContentSHA      = "0adcf3916b63e8b0ae6c2c7ad74d1796e3362a3a22682c58ef92aaccfae43e5e"
 	sivirBBFOHLocalRawSHA     = "b8d46412519f211b27f2575684693f407806cbbca337a80e775a1baf4c2396a4"
 	sivirBBFOHNormalizedSHA   = "2320f7ada83cceee979c52cd314395c6b41e2f50c50e3114e9bca0d39386ff02"
@@ -120,9 +118,6 @@ const (
 	sivirBBFOHAbilityKey  = "boomerang_blade_first_outbound_hit"
 	sivirBBFOHDamageOpRef = "op:sivir_boomerang_blade_first_outbound_hit_damage"
 	sivirBBFOHBonusADMod  = "fixture_sivir_boomerang_blade_first_outbound_hit_bonus_ad"
-
-	sivirBBFOHSeedBlobSHA  = "4BA04A00C1D67A67FD581EAA1CD4EDFBB08EEB9699D9E3C8DA8EED3F03DBF189"
-	sivirBBFOHJUnitBlobSHA = "2F3368A98B132065BE78B184230C3AFA0B48C7F0D3DB387061AB909B631E467A"
 
 	sivirBBFOHBaseDamage   = 160.0
 	sivirBBFOHBonusADRatio = 0.70
@@ -149,14 +144,6 @@ const (
 	sivirBBFOHExpectedMitCrit1  = 203.0
 	sivirBBFOHManaAfter2        = 75.0  // 225 - 75 - 75
 	sivirBBFOHHPAfter2          = 652.0 // 1000 - 174 - 174
-
-	sivirBBFOHSeedDamageJSON = `{"op":"mul","args":[{"op":"add","args":[{"op":"add","args":[{"op":"const","value":160},` +
-		`{"op":"mul","args":[{"op":"const","value":0.70},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},{"op":"read","path":"source.attr.ad.base"}]}]}]},` +
-		`{"op":"mul","args":[{"op":"const","value":0.60},{"op":"read","path":"source.attr.ap.resolved"}]}]},` +
-		`{"op":"add","args":[{"op":"const","value":1.00},{"op":"mul","args":[{"op":"const","value":0.40},` +
-		`{"op":"min","args":[{"op":"const","value":1.00},{"op":"max","args":[{"op":"const","value":0.00},` +
-		`{"op":"read","path":"source.attr.crit_chance.resolved"}]}]}]}]}]}`
 
 	sivirBBFOHTol = 1e-9
 )
@@ -802,26 +789,6 @@ func sivirBBFOHRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func sivirBBFOHLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(sivirBBFOHRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func sivirBBFOHSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -876,11 +843,8 @@ func sivirBBFOHHasErrorCode(errors []model.EngineError, code model.GenericErrCod
 	return false
 }
 
-// TestSivirBoomerangBladeFirstOutboundHitSourceSeedProviderFormulaShape locks wiki/sidecar/
-// pages/local-raw serialization caveat, seed/README/JUnit identities and source blob
-// hashes, external-existing-data check-only prerequisites / non-materialization,
-// ordered tags, type-policy evidence, and Q provider/nested bonusAD+AP+crit formula shape.
-func TestSivirBoomerangBladeFirstOutboundHitSourceSeedProviderFormulaShape(t *testing.T) {
+// TestSivirBoomerangBladeFirstOutboundHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestSivirBoomerangBladeFirstOutboundHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -1030,212 +994,7 @@ func TestSivirBoomerangBladeFirstOutboundHitSourceSeedProviderFormulaShape(t *te
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := sivirBBFOHRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(seedBytes) != sivirBBFOHSeedBytes {
-		t.Fatalf("seed len=%d want %d", len(seedBytes), sivirBBFOHSeedBytes)
-	}
-	if got := sivirBBFOHSHA256HexUpper(seedBytes); got != sivirBBFOHSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, sivirBBFOHSeedBlobSHA)
-	}
-	junitPath := sivirBBFOHRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(junitBytes) != sivirBBFOHJUnitBytes {
-		t.Fatalf("junit len=%d want %d", len(junitBytes), sivirBBFOHJUnitBytes)
-	}
-	if got := sivirBBFOHSHA256HexUpper(junitBytes); got != sivirBBFOHJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, sivirBBFOHJUnitBlobSHA)
-	}
-	_ = sivirBBFOHRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := sivirBBFOHLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(sivirBBFOHRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		sivirBBFOHCandidateKey, sivirBBFOHTaskKey, sivirBBFOHPlanRev,
-		sivirBBFOHRequestTitle, sivirBBFOHResolvedTitle,
-		"1308837", "4016378", sivirBBFOHTimestamp, "2745", "3018", "691",
-		sivirBBFOHContentSHA, sivirBBFOHLocalRawSHA, sivirBBFOHNormalizedSHA, sivirBBFOHPagesSHA,
-		sivirBBFOHBoundary, sivirBBFOHProviderRef, sivirBBFOHAbilityID, sivirBBFOHAbilityKey,
-		"boomerang_blade_first_outbound_hit_damage", "q_mana_cost", "q_cooldown_ms",
-		`{"op":"const","value":75}`, `{"op":"const","value":8000}`,
-		sivirBBFOHSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/sivir-q.json",
-		"external existing-data", "check-only",
-		"无 Sivir", "materializer", "不物化",
-		"不连 live", "不检视", "DB min/max 元数据",
-		"bonus AD", "source.attr.ad.resolved", "source.attr.ad.base",
-		"source.attr.ap.resolved", "source.attr.crit_chance.resolved",
-		"formula-local clamp", "formula-local",
-		"ability_started",
-		"20220", "20170",
-		"missing game_entities hero_sivir",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_sivir/ad",
-		"missing entity_attribute_values hero_sivir/ap",
-		"missing entity_attribute_values hero_sivir/crit_chance",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_sivir/mana",
-		"missing reserved_type",
-		"160", "0.70", "0.60", "0.40",
-		"嵌套二元",
-		"standalone sibling absence",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range sivirBBFOHOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range sivirBBFOHOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.resolved exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.base"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.base exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ap.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ap.resolved exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.crit_chance.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.crit_chance.resolved exactly once")
-	}
-	if strings.Contains(sqlNoComments, `"path":"source.attr.ap.base"`) {
-		t.Fatal("executable SQL must not invent ap.base reads")
-	}
-	if !strings.Contains(sqlNoComments, `"op":"sub"`) {
-		t.Fatal("executable SQL must use sub(resolved, base) for bonus AD")
-	}
-	if !strings.Contains(sqlNoComments, `"op":"min"`) || !strings.Contains(sqlNoComments, `"op":"max"`) {
-		t.Fatal("executable SQL must use formula-local min/max clamp for crit_chance")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.provider_formulas",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_sivir_q_boomerang_blade_first_outbound_hit_impact",
-		"sequence_hero_sivir_q_boomerang_blade_first_outbound_hit_impact",
-		"step_hero_sivir_q_boomerang_blade_first_outbound_hit_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_sivir_q_boomerang_blade_first_outbound_hit'\s*,\s*` +
-		`'provider_hero_sivir_q_boomerang_blade_first_outbound_hit'\s*,\s*` +
-		`'boomerang_blade_first_outbound_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("Q must be active ability with stable key boomerang_blade_first_outbound_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_sivir_q_boomerang_blade_first_outbound_hit_damage'\s*,\s*` +
-		`'boomerang_blade_first_outbound_hit_damage'\s*,\s*20220\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be physical 20220 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-	if regexp.MustCompile(`(?is)\b62\d{3}\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not invent Q ability-specific 62xxx types")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (check-only identity/panel/resource; absent-only external data)", table)
-		}
-	}
-	for _, banned := range []string{
-		"provider_hero_sivir_p_", "provider_hero_sivir_w_", "provider_hero_sivir_e_",
-		"provider_hero_sivir_r_", "provider_hero_sivir_basic_",
-	} {
-		if strings.Contains(sqlNoComments, banned) {
-			t.Fatalf("standalone Q seed must not contain sibling/basic graph token %q", banned)
-		}
-	}
-
-	// README mechanism section semantics only — never whole-file bytes/SHA.
-	for _, want := range []string{
-		sivirBBFOHCandidateKey, sivirBBFOHTaskKey, sivirBBFOHPlanRev,
-		"lol_generic_sivir_boomerang_blade_first_outbound_hit_seed.sql",
-		"LolGenericSivirBoomerangBladeFirstOutboundHitSeedSqlTest",
-		"physical_base_160_plus_0_70_bonus_ad_plus_0_60_ap_scaled_by_0_to_0_40_formula_clamped_crit_chance",
-		"bonus_ad_ratio", "ap_ratio", "crit_scaling", "immediate_impact_scaffold",
-		"check-only", "external existing-data",
-		"无 Sivir", "materializer",
-		"不连 live", "不检视", "DB min/max 元数据", "formula-local",
-		"boomerang_blade_first_outbound_hit",
-		"hero-named Wasm `_test.go`", "回归/治理证据", "生产 runtime 仍为 generic",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if strings.Contains(readme, "op:sivir_boomerang_blade_first_outbound_hit_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
-	if strings.Contains(readme, "fixture_sivir_boomerang_blade_first_outbound_hit_bonus_ad") {
-		t.Fatal("README must not claim fixture-only AD modifier as production Q behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadSivirBBFOHFixture(t, sivirBBFOHFixtureOpts{
 		baseAD: sivirBBFOHADBaseDefault, resolvedAD: sivirBBFOHADResolvedDefault,

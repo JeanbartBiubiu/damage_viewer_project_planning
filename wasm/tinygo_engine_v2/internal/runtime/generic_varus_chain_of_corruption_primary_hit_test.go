@@ -7,7 +7,6 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"testing"
 
@@ -31,7 +30,7 @@ import (
 //	sidecar rawByteSize 5223 / SHA256 62b397cc7133a767427e00a1a5b435fcb3fd94b4ec5021be4a7869837683e4ed
 //	数据参考/lol-wiki-current-champions/normalized/generic/varus-r.json
 //	pages/raw siblings: pages/varus-r.json, raw/varus-r.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_varus_chain_of_corruption_primary_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_varus_chain_of_corruption_primary_hit_seed.sql
 //	Local raw is a non-canonical materialization: 5222 bytes / SHA256
 //	aa50685e07a4a974baa7f4a3bf43689f930dd20ac144fa03b72886daf8242207.
 //	Trimming terminal LF yields 5221 / a5b638836ce4976afc3e79852655826b82ecb357f2c54d36a0c885202129b585.
@@ -109,10 +108,6 @@ const (
 	varusChainOfCorruptionPrimaryHitHPAfter2          = 450.0 // 1000 - 275 - 275
 
 	varusChainOfCorruptionPrimaryHitTol = 1e-9
-
-	// Backend seed binary add — Wasm fixture uses identical tree semantics.
-	varusChainOfCorruptionPrimaryHitSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":350},` +
-		`{"op":"mul","args":[{"op":"const","value":1.00},{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 )
 
 func varusChainOfCorruptionPrimaryHitExpectedRawFromAP(resolvedAP float64) float64 {
@@ -469,16 +464,6 @@ func varusChainOfCorruptionPrimaryHitWikiPagesPath(t *testing.T) string {
 	return path
 }
 
-func varusChainOfCorruptionPrimaryHitSeedPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"db", "game_manage", "seeds", "lol_generic_varus_chain_of_corruption_primary_hit_seed.sql")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("backend seed missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
 type varusChainOfCorruptionPrimaryHitWikiSidecar struct {
 	CandidateKey      string `json:"candidateKey"`
 	RequestTitle      string `json:"requestTitle"`
@@ -545,35 +530,9 @@ func varusChainOfCorruptionPrimaryHitLoadWikiPages(t *testing.T) varusChainOfCor
 	return doc
 }
 
-func varusChainOfCorruptionPrimaryHitLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(varusChainOfCorruptionPrimaryHitSeedPath(t))
-	if err != nil {
-		t.Fatalf("read backend seed: %v", err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func varusChainOfCorruptionPrimaryHitSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
-}
-
-func varusChainOfCorruptionPrimaryHitCountOccurrences(haystack, needle string) int {
-	if needle == "" {
-		return 0
-	}
-	return strings.Count(haystack, needle)
 }
 
 // TestVarusChainOfCorruptionPrimaryHitWikiSidecarIdentityAndBoundary locks repository
@@ -773,27 +732,6 @@ func TestVarusChainOfCorruptionPrimaryHitWikiSidecarIdentityAndBoundary(t *testi
 		}
 	}
 
-	seed, _ := varusChainOfCorruptionPrimaryHitLoadSeedSQL(t)
-	for _, want := range []string{
-		varusChainOfCorruptionPrimaryHitCandidateKey,
-		varusChainOfCorruptionPrimaryHitTaskKey,
-		varusChainOfCorruptionPrimaryHitPlanRev,
-		varusChainOfCorruptionPrimaryHitRequestTitle,
-		varusChainOfCorruptionPrimaryHitResolvedTitle,
-		"1309977",
-		"4008213",
-		varusChainOfCorruptionPrimaryHitTimestamp,
-		varusChainOfCorruptionPrimaryHitContentSHA,
-		varusChainOfCorruptionPrimaryHitLocalRawSHA,
-		varusChainOfCorruptionPrimaryHitTrimRawSHA,
-		varusChainOfCorruptionPrimaryHitBoundary,
-		"normalized/generic/varus-r.json",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing identity/boundary evidence %q", want)
-		}
-	}
-
 	if varusChainOfCorruptionPrimaryHitPlanRev != "varus-r-chain-of-corruption-primary-hit-phase-a-v1" {
 		t.Fatal("frozen plan-rev constant drifted")
 	}
@@ -803,190 +741,17 @@ func TestVarusChainOfCorruptionPrimaryHitWikiSidecarIdentityAndBoundary(t *testi
 	}
 }
 
-// TestVarusChainOfCorruptionPrimaryHitSeedGraphShape locks Backend seed check-only
-// prerequisites (game/reserved/hero_varus/AP), self-contained mana ensure 320/320,
-// forbidden identity/panel writes, exact independent R graph shape, non-mutation of
-// Varus E/W/basic, and 350 + 1.00*AP formula semantics.
-func TestVarusChainOfCorruptionPrimaryHitSeedGraphShape(t *testing.T) {
-	sql, sqlNoComments := varusChainOfCorruptionPrimaryHitLoadSeedSQL(t)
+// TestVarusChainOfCorruptionPrimaryHitConstructedFixtureFormulaAndIdentity 核对历史数值边界在现有通用运行构造样例中的身份与公式。
+func TestVarusChainOfCorruptionPrimaryHitConstructedFixtureFormulaAndIdentity(t *testing.T) {
 
-	for _, want := range []string{
-		"missing reserved_type",
-		"missing game_entities hero_varus",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_varus/ap",
-		"check-only",
-		"Batch-B prerequisite",
-		"ensure mana",
-		"INSERT INTO public.types",
-		"INSERT INTO public.resource_definitions",
-		"INSERT INTO public.entity_resource_values",
-		"provider_hero_varus_r_chain_of_corruption_primary_hit",
-		"ability_hero_varus_r_chain_of_corruption_primary_hit",
-		"chain_of_corruption",
-		"r_mana_cost",
-		"r_cooldown_ms",
-		"chain_of_corruption_damage",
-		"phase_hero_varus_r_chain_of_corruption_primary_hit_impact",
-		"sequence_hero_varus_r_chain_of_corruption_primary_hit_impact",
-		"step_hero_varus_r_chain_of_corruption_primary_hit_damage",
-		"cost_hero_varus_r_chain_of_corruption_primary_hit_mana",
-		"cooldown_hero_varus_r_chain_of_corruption_primary_hit",
-		`{"op":"const","value":100}`,
-		`{"op":"const","value":60000}`,
-		varusChainOfCorruptionPrimaryHitSeedDamageJSON,
-		"320",
-	} {
-		if !strings.Contains(sql, want) {
-			t.Fatalf("seed missing required graph/check-only fragment %q", want)
-		}
+	compileReq, _ := loadVarusChainOfCorruptionPrimaryHitFixture(t)
+	assertVarusChainOfCorruptionPrimaryHitProviderShape(t, compileReq)
+	raw := varusChainOfCorruptionPrimaryHitExpectedRawFromAP(varusChainOfCorruptionPrimaryHitFixtureAP)
+	if math.Abs(raw-varusChainOfCorruptionPrimaryHitExpectedRaw) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("constructed fixture raw=%v want %v", raw, varusChainOfCorruptionPrimaryHitExpectedRaw)
 	}
-
-	for _, typeID := range []string{"20111", "20120", "20130", "20142", "20150", "20170", "20221", "20260"} {
-		if !strings.Contains(sql, typeID) {
-			t.Fatalf("seed missing required reserved type %s", typeID)
-		}
-	}
-	if regexp.MustCompile(`(?i)\b20220\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable seed must not use physical damage type 20220")
-	}
-
-	// Identity/panel rows are check-only; mana resource is self-contained ensure.
-	forbiddenWriteTables := []string{
-		"attribute_definitions",
-		"game_entities",
-		"entity_attribute_values",
-		"games",
-	}
-	for _, table := range forbiddenWriteTables {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("seed must not INSERT/UPDATE/MERGE/DELETE public.%s", table)
-		}
-	}
-	if !regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.resource_definitions\b`).MatchString(sqlNoComments) {
-		t.Fatal("seed must ensure resource_definitions mana (self-contained 320/320 projection)")
-	}
-	if !regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.entity_resource_values\b`).MatchString(sqlNoComments) {
-		t.Fatal("seed must ensure entity_resource_values hero_varus/mana 320/320")
-	}
-	if !regexp.MustCompile(`(?s)'hero_varus'\s*,\s*'mana'\s*,\s*320\s*,\s*320`).MatchString(sqlNoComments) {
-		t.Fatal("seed must ensure hero_varus mana resource values 320/320")
-	}
-
-	if varusChainOfCorruptionPrimaryHitCountOccurrences(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 {
-		t.Fatal("seed must define exactly one provider (R Chain of Corruption primary-hit only)")
-	}
-	if varusChainOfCorruptionPrimaryHitCountOccurrences(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must mount exactly one dedicated Chain of Corruption primary-hit provider")
-	}
-	if varusChainOfCorruptionPrimaryHitCountOccurrences(sqlNoComments, "INSERT INTO public.ability_phases") != 1 {
-		t.Fatal("seed must define exactly one ability phase (null-duration impact)")
-	}
-	if varusChainOfCorruptionPrimaryHitCountOccurrences(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 {
-		t.Fatal("seed must have exactly one damage_effect_details insert block")
-	}
-
-	if !regexp.MustCompile(`(?s)'ability_hero_varus_r_chain_of_corruption_primary_hit'\s*,\s*` +
-		`'provider_hero_varus_r_chain_of_corruption_primary_hit'\s*,\s*` +
-		`'chain_of_corruption'\s*,\s*20130`).MatchString(sql) {
-		t.Fatal("R must be active ability with stable key chain_of_corruption")
-	}
-	if !regexp.MustCompile(`(?s)'phase_hero_varus_r_chain_of_corruption_primary_hit_impact'\s*,\s*` +
-		`'ability_hero_varus_r_chain_of_corruption_primary_hit'\s*,\s*` +
-		`0\s*,\s*20142\s*,\s*NULL\s*,\s*false`).MatchString(sql) {
-		t.Fatal("impact phase must be order 0 / type 20142 / null duration")
-	}
-	if !regexp.MustCompile(`(?s)'phase_hero_varus_r_chain_of_corruption_primary_hit_impact'\s*,\s*` +
-		`20260\s*,\s*` +
-		`'sequence_hero_varus_r_chain_of_corruption_primary_hit_impact'`).MatchString(sql) {
-		t.Fatal("impact phase must bind on_enter 20260 sequence")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_varus_r_chain_of_corruption_primary_hit_damage'\s*,\s*` +
-		`'sequence_hero_varus_r_chain_of_corruption_primary_hit_impact'\s*,\s*` +
-		`0\s*,\s*20150\s*,\s*20111\s*,\s*NULL`).MatchString(sql) {
-		t.Fatal("Chain of Corruption damage must be sole step order 0 to opponent")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_varus_r_chain_of_corruption_primary_hit_damage'\s*,\s*` +
-		`'chain_of_corruption_damage'\s*,\s*20221\s*,\s*20170\s*,\s*false`).MatchString(sql) {
-		t.Fatal("Chain of Corruption damage must be magic 20221 add policy copyable_on_hit=false")
-	}
-	if !regexp.MustCompile(`(?s)'hero_varus'\s*,\s*` +
-		`'provider_hero_varus_r_chain_of_corruption_primary_hit'`).MatchString(sql) {
-		t.Fatal("must mount Chain of Corruption primary-hit provider to hero_varus")
-	}
-
-	if !strings.Contains(sql, "provider_hero_varus_e_hail_of_arrows_primary_hit") {
-		t.Fatal("seed must document coexistence / non-mutation of Varus E Hail of Arrows provider")
-	}
-	if !strings.Contains(sql, "provider_hero_varus_w_blighted_quiver_phase_a") {
-		t.Fatal("seed must document coexistence / non-mutation of Varus W Blighted Quiver provider")
-	}
-	if !strings.Contains(sql, "provider_hero_varus_basic_attack") {
-		t.Fatal("seed must document coexistence / non-mutation of Varus basic-attack provider")
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_varus_e_hail_of_arrows_primary_hit'|` +
-		`'provider_hero_varus_w_blighted_quiver_phase_a'|` +
-		`'provider_hero_varus_basic_attack'`).MatchString(sqlNoComments) {
-		t.Fatal("must not write / replace Varus E / W / basic provider identity rows")
-	}
-	if regexp.MustCompile(`(?is)'ability_hero_varus_e_|'phase_hero_varus_e_|'step_hero_varus_e_|` +
-		`'ability_hero_varus_w_|'phase_hero_varus_w_|'step_hero_varus_w_|` +
-		`'ability_hero_varus_basic_|'phase_hero_varus_basic_|'step_hero_varus_basic_`).MatchString(sqlNoComments) {
-		t.Fatal("must not create/mutate Varus E / W / basic graph rows")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners",
-		"provider_state_fields",
-		"state_effect_details",
-		"event_effect_details",
-		"modifier_effect_details",
-		"modifier_definitions",
-		"provider_modifiers",
-		"repeat_effect_details",
-		"control_effect_details",
-		"projectile_effect_details",
-		"aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	if regexp.MustCompile(`(?i)cast.?duration|cast.?delay|cast.?time|` +
-		`phase_hero_varus_r_chain_of_corruption_primary_hit_cast|` +
-		`projectile|missile|travel|collision|geometry|direction|` +
-		`multi.?target|spell.?shield|untargetable|` +
-		`\broot\b|\breveal\b|tenacity|cleanse|cc.?immun|` +
-		`blight|tendril|seek|spread|` +
-		`basic_attack_hit|emit_event|equipment|loadout|runes|` +
-		`aoe|area.?of.?effect|\brepeat\b`).MatchString(sqlNoComments) {
-		t.Fatal("must not model excluded cast-delay/projectile/root/reveal/blight/tendril/spread surfaces")
-	}
-
-	if !strings.Contains(sql, `"op":"add","args":[{"op":"const","value":350},{"op":"mul"`) {
-		t.Fatal("seed formula must use Backend add starting with const 350 + mul")
-	}
-	if !strings.Contains(sql, `"path":"source.attr.ap.resolved"`) {
-		t.Fatal("seed formula must read source.attr.ap.resolved")
-	}
-	if !strings.Contains(sql, `"value":1.00`) {
-		t.Fatal("seed formula must encode 1.00 AP ratio")
-	}
-	if strings.Contains(sqlNoComments, `"path":"source.attr.ad.resolved"`) ||
-		strings.Contains(sqlNoComments, `"path":"source.attr.ad.base"`) {
-		t.Fatal("seed formula must not read AD paths (AP-only primary-hit)")
-	}
-
-	for _, want := range []string{
-		"cast delay", "Effect at cast time end", "projectile", "root", "reveal",
-		"Blight", "0.65", "tendril", "0.25", "spread", "multitarget",
-	} {
-		if !strings.Contains(sql, want) {
-			t.Fatalf("seed comments must document exclusion evidence containing %q", want)
-		}
+	if mit := expectedMitigatedMagic(raw, varusChainOfCorruptionPrimaryHitTargetMR); math.Abs(mit-varusChainOfCorruptionPrimaryHitExpectedMitigated) > varusChainOfCorruptionPrimaryHitTol {
+		t.Fatalf("constructed fixture mitigated=%v want %v", mit, varusChainOfCorruptionPrimaryHitExpectedMitigated)
 	}
 }
 

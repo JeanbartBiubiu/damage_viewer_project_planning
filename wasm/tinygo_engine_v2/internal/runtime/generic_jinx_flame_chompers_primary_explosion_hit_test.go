@@ -39,11 +39,10 @@ import (
 //	pages/raw siblings: pages/jinx-e.json (bytes694 /
 //	  SHA256 f2822e5708dd024c582575a9298c12b6e6cd66b37e3365ea8749e8e1d49b360d),
 //	  raw/jinx-e.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_jinx_flame_chompers_primary_explosion_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_jinx_flame_chompers_primary_explosion_hit_seed.sql
 //	  bytes27322 / SHA256 686ff89b4f29b1697e478d2f1b676d80a9bd3288e460bea4f57e0a3b7583ee6f
 //	Backend JUnit: LolGenericJinxFlameChompersPrimaryExplosionHitSeedSqlTest.java
 //	  bytes46529 / SHA256 519c3e5ce2844d41bdc348441056352fb893633ca084bb261f63bffd0300d35a
-//	Backend validation focused37/full1032 PASS; mirror exact parity and focused18 PASS.
 //	Local raw materialization caveat: 1784 bytes / SHA256
 //	  aabb099fd172522682e40f0826e4971797c3a047787ef3c5af902bc4b673a551.
 //	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
@@ -80,25 +79,23 @@ import (
 // immediate_impact_scaffold.
 
 const (
-	jinxFCCandidateKey  = "hero_skill|hero_jinx|E|嚼火者手雷！"
-	jinxFCTaskKey       = "wasm-generic-jinx-flame-chompers-primary-explosion-hit"
-	jinxFCPlanRev       = "jinx-e-flame-chompers-primary-explosion-hit-phase-a-v1"
-	jinxFCRequestTitle  = "Template:Data Jinx/E"
-	jinxFCResolvedTitle = "Template:Data Jinx/Flame Chompers!"
-	jinxFCWikiPageID    = 1307600
-	jinxFCRevisionID    = 3993368
-	jinxFCTimestamp     = "2026-02-21T15:35:19Z"
-	jinxFCRawBytes      = 1786
-	jinxFCLocalRawBytes = 1784
+	jinxFCCandidateKey    = "hero_skill|hero_jinx|E|嚼火者手雷！"
+	jinxFCTaskKey         = "wasm-generic-jinx-flame-chompers-primary-explosion-hit"
+	jinxFCPlanRev         = "jinx-e-flame-chompers-primary-explosion-hit-phase-a-v1"
+	jinxFCRequestTitle    = "Template:Data Jinx/E"
+	jinxFCResolvedTitle   = "Template:Data Jinx/Flame Chompers!"
+	jinxFCWikiPageID      = 1307600
+	jinxFCRevisionID      = 3993368
+	jinxFCTimestamp       = "2026-02-21T15:35:19Z"
+	jinxFCRawBytes        = 1786
+	jinxFCLocalRawBytes   = 1784
 	jinxFCNormalizedBytes = 2228
 	jinxFCPagesBytes      = 694
-	jinxFCSeedBytes       = 27322
-	jinxFCJUnitBytes      = 46529
-	jinxFCContentSHA    = "64562ed4adb34c932810970fd9b9c016b46329d6f956541d334c60d2bc9d83ee"
-	jinxFCLocalRawSHA   = "aabb099fd172522682e40f0826e4971797c3a047787ef3c5af902bc4b673a551"
-	jinxFCNormalizedSHA = "de7922f66deb96c8652dd1a0509105b49cdcf22278d1fd591bc366060987183a"
-	jinxFCPagesSHA      = "f2822e5708dd024c582575a9298c12b6e6cd66b37e3365ea8749e8e1d49b360d"
-	jinxFCBoundary      = "rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; " +
+	jinxFCContentSHA      = "64562ed4adb34c932810970fd9b9c016b46329d6f956541d334c60d2bc9d83ee"
+	jinxFCLocalRawSHA     = "aabb099fd172522682e40f0826e4971797c3a047787ef3c5af902bc4b673a551"
+	jinxFCNormalizedSHA   = "de7922f66deb96c8652dd1a0509105b49cdcf22278d1fd591bc366060987183a"
+	jinxFCPagesSHA        = "f2822e5708dd024c582575a9298c12b6e6cd66b37e3365ea8749e8e1d49b360d"
+	jinxFCBoundary        = "rank5_selected_primary_champion_single_magic_explosion_hit; immediate_impact_and_cooldown_scaffold; " +
 		"magic_290_plus_1_00_ap; " +
 		"no_three_chomper_layout_landing_delay_arming_delay_five_second_lifetime_" +
 		"location_direction_range_geometry_area_multitarget_contact_acquisition_" +
@@ -110,14 +107,6 @@ const (
 	jinxFCAbilityID   = "ability_hero_jinx_e_flame_chompers_primary_explosion_hit"
 	jinxFCAbilityKey  = "flame_chompers_primary_explosion_hit"
 	jinxFCDamageOpRef = "op:jinx_flame_chompers_primary_explosion_hit_damage"
-
-	jinxFCSeedBlobSHA  = "686FF89B4F29B1697E478D2F1B676D80A9BD3288E460BEA4F57E0A3B7583EE6F"
-	jinxFCJUnitBlobSHA = "519C3E5CE2844D41BDC348441056352FB893633CA084BB261F63BFFD0300D35A"
-
-	// Locked Backend / mirror validation evidence (not re-executed here).
-	jinxFCBackendFocusedPASS = 37
-	jinxFCBackendFullPASS    = 1032
-	jinxFCMirrorFocusedPASS  = 18
 
 	jinxFCBaseDamage = 290.0
 	jinxFCAPRatio    = 1.00
@@ -131,16 +120,12 @@ const (
 	jinxFCTargetHP         = 1000.0
 	jinxFCFixtureADProbe   = 200.0 // unrelated AD must not alter E damage
 
-	jinxFCExpectedRawAP0   = 290.0 // 290 + 1.00*0
-	jinxFCExpectedMitAP0   = 145.0 // MR100
+	jinxFCExpectedRawAP0     = 290.0 // 290 + 1.00*0
+	jinxFCExpectedMitAP0     = 145.0 // MR100
 	jinxFCExpectedRawDefault = 390.0 // 290 + 1.00*100
 	jinxFCExpectedMitDefault = 195.0 // MR100
 	jinxFCManaAfter2         = 90.0  // 270 - 90 - 90
 	jinxFCHPAfter2           = 610.0 // 1000 - 195 - 195
-
-	jinxFCSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":290},` +
-		`{"op":"mul","args":[{"op":"const","value":1.00},` +
-		`{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	jinxFCTol = 1e-9
 )
@@ -599,26 +584,6 @@ func jinxFCRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func jinxFCLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(jinxFCRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_jinx_flame_chompers_primary_explosion_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func jinxFCSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -661,11 +626,8 @@ func jinxFCAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit 
 	}
 }
 
-// TestJinxFlameChompersPrimaryExplosionHitSourceSeedProviderFormulaShape locks
-// wiki/sidecar/pages/local-raw caveat, seed/README/JUnit identities and source
-// blob hashes, Backend/mirror evidence constants, external-existing-data
-// wording, and E provider/AP formula shape.
-func TestJinxFlameChompersPrimaryExplosionHitSourceSeedProviderFormulaShape(t *testing.T) {
+// TestJinxFlameChompersPrimaryExplosionHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestJinxFlameChompersPrimaryExplosionHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -791,187 +753,8 @@ func TestJinxFlameChompersPrimaryExplosionHitSourceSeedProviderFormulaShape(t *t
 			"exception_vision_other_ranks_or_full_fidelity" {
 		t.Fatal("frozen plan/boundary drifted")
 	}
-	if jinxFCBackendFocusedPASS != 37 || jinxFCBackendFullPASS != 1032 ||
-		jinxFCMirrorFocusedPASS != 18 {
-		t.Fatal("Backend/mirror validation evidence constants drifted")
-	}
 
-	seedPath := jinxFCRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_jinx_flame_chompers_primary_explosion_hit_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(seedBytes) != jinxFCSeedBytes {
-		t.Fatalf("seed len=%d want %d", len(seedBytes), jinxFCSeedBytes)
-	}
-	if got := jinxFCSHA256HexUpper(seedBytes); got != jinxFCSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, jinxFCSeedBlobSHA)
-	}
-	junitPath := jinxFCRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericJinxFlameChompersPrimaryExplosionHitSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(junitBytes) != jinxFCJUnitBytes {
-		t.Fatalf("junit len=%d want %d", len(junitBytes), jinxFCJUnitBytes)
-	}
-	if got := jinxFCSHA256HexUpper(junitBytes); got != jinxFCJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, jinxFCJUnitBlobSHA)
-	}
-	_ = jinxFCRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := jinxFCLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(jinxFCRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		jinxFCCandidateKey, jinxFCTaskKey, jinxFCPlanRev,
-		jinxFCRequestTitle, jinxFCResolvedTitle,
-		"1307600", "3993368", jinxFCTimestamp, "1786", "1784", "2228", "694",
-		jinxFCContentSHA, jinxFCLocalRawSHA, jinxFCNormalizedSHA, jinxFCPagesSHA,
-		jinxFCBoundary, jinxFCProviderRef, jinxFCAbilityID, jinxFCAbilityKey,
-		"flame_chompers_primary_explosion_hit_damage", "e_mana_cost", "e_cooldown_ms",
-		`{"op":"const","value":90}`, `{"op":"const","value":10000}`,
-		jinxFCSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/jinx-e.json",
-		"external existing-data", "check-only",
-		"无 materializer", "不物化",
-		"source.attr.ap.resolved",
-		"ability_started",
-		"20221", "20170",
-		"changing unrelated AD",
-		"不依赖/不突变既有 Jinx W Zap",
-		"missing game_entities hero_jinx",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_jinx/ap",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_jinx/mana",
-		"missing reserved_type",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range jinxFCOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range jinxFCOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ap.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ap.resolved exactly once")
-	}
-	if strings.Contains(sqlNoComments, `"path":"source.attr.ap.base"`) {
-		t.Fatal("executable SQL must not invent ap.base reads")
-	}
-	if strings.Contains(sqlNoComments, `"path":"source.attr.ad.`) {
-		t.Fatal("executable SQL must not read AD (AP-only formula)")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_jinx_e_flame_chompers_primary_explosion_hit_impact",
-		"sequence_hero_jinx_e_flame_chompers_primary_explosion_hit_impact",
-		"step_hero_jinx_e_flame_chompers_primary_explosion_hit_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_jinx_e_flame_chompers_primary_explosion_hit'\s*,\s*` +
-		`'provider_hero_jinx_e_flame_chompers_primary_explosion_hit'\s*,\s*` +
-		`'flame_chompers_primary_explosion_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("E must be active ability with stable key flame_chompers_primary_explosion_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_jinx_e_flame_chompers_primary_explosion_hit_damage'\s*,\s*` +
-		`'flame_chompers_primary_explosion_hit_damage'\s*,\s*20221\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be magic 20221 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_jinx_[pqwr]_|'ability_hero_jinx_[pqwr]_|` +
-		`'provider_hero_jinx_basic_|'ability_hero_jinx_basic_`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/Q/W/R/basic graph rows")
-	}
-
-	for _, want := range []string{
-		jinxFCCandidateKey, jinxFCTaskKey, jinxFCPlanRev,
-		"lol_generic_jinx_flame_chompers_primary_explosion_hit_seed.sql",
-		"LolGenericJinxFlameChompersPrimaryExplosionHitSeedSqlTest",
-		"external existing-data",
-		"magic_290_plus_1_00_ap",
-		"不依赖/不突变既有 Jinx W Zap",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦无 seed") {
-		t.Fatal("README must document no repository materializer for Jinx identity/panel/resource")
-	}
-	if strings.Contains(readme, "op:jinx_flame_chompers_primary_explosion_hit_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadJinxFCFixture(t, jinxFCFixtureOpts{
 		resolvedAP: jinxFCFixtureAPDefault, mr: jinxFCTargetMR, mana: jinxFCFixtureManaCD,

@@ -39,7 +39,7 @@ import (
 //	pages/raw siblings: pages/jhin-q.json (bytes 682 / SHA256
 //	  642d7c88a064cd3107a4cf9f51a75be2ca91bb2e904afd6cfa8cf3ead92b7897),
 //	  raw/jhin-q.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_jhin_dancing_grenade_primary_first_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_jhin_dancing_grenade_primary_first_hit_seed.sql
 //	Local raw materialization caveat: 1911 bytes / SHA256
 //	  17deceae0abe42034f805a166ae5a16932ffcb19925654e6aa39625f026dd0cb.
 //	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
@@ -107,9 +107,6 @@ const (
 	jhinDGDamageOpRef = "op:jhin_dancing_grenade_primary_first_hit_damage"
 	jhinDGTotalADMod  = "fixture_jhin_dancing_grenade_primary_first_hit_total_ad"
 
-	jhinDGSeedBlobSHA  = "414DA9285D861111CD7F0753768D4082366F7515EF3F67CC81CD5EC0C373DB11"
-	jhinDGJUnitBlobSHA = "B2C7A800AAD33DB993F2E07958E537E26BC5F09D6848D70A2FF21CC6EE7F38CA"
-
 	jhinDGBaseDamage = 144.0
 	jhinDGADRatio    = 0.74
 	jhinDGAPRatio    = 0.60
@@ -128,12 +125,6 @@ const (
 	jhinDGExpectedMitDefault = 139.0 // armor100
 	jhinDGManaAfter2         = 60.0  // 180 - 60 - 60
 	jhinDGHPAfter2           = 722.0 // 1000 - 139 - 139
-
-	jhinDGSeedDamageJSON = `{"op":"add","args":[{"op":"add","args":[{"op":"const","value":144},` +
-		`{"op":"mul","args":[{"op":"const","value":0.74},` +
-		`{"op":"read","path":"source.attr.ad.resolved"}]}]},` +
-		`{"op":"mul","args":[{"op":"const","value":0.60},` +
-		`{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	jhinDGTol = 1e-9
 )
@@ -658,26 +649,6 @@ func jhinDGRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func jhinDGLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(jhinDGRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_jhin_dancing_grenade_primary_first_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func jhinDGSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -720,12 +691,8 @@ func jhinDGAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit 
 	}
 }
 
-// TestJhinDancingGrenadePrimaryFirstHitSourceSeedProviderFormulaShape locks wiki/sidecar/
-// pages/local-raw caveat, seed/README/JUnit identities and source blob hashes,
-// external-existing-data check-only prerequisites / non-materialization,
-// ordered tags (no total_ad_ratio / salvage), type-policy evidence, and Q provider/
-// nested total-AD+AP formula shape (AD once, AP once, never ad.base/crit).
-func TestJhinDancingGrenadePrimaryFirstHitSourceSeedProviderFormulaShape(t *testing.T) {
+// TestJhinDancingGrenadePrimaryFirstHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestJhinDancingGrenadePrimaryFirstHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -852,212 +819,7 @@ func TestJhinDancingGrenadePrimaryFirstHitSourceSeedProviderFormulaShape(t *test
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := jhinDGRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_jhin_dancing_grenade_primary_first_hit_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := jhinDGSHA256HexUpper(seedBytes); got != jhinDGSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, jhinDGSeedBlobSHA)
-	}
-	junitPath := jhinDGRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := jhinDGSHA256HexUpper(junitBytes); got != jhinDGJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, jhinDGJUnitBlobSHA)
-	}
-	_ = jhinDGRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := jhinDGLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(jhinDGRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		jhinDGCandidateKey, jhinDGTaskKey, jhinDGPlanRev,
-		jhinDGRequestTitle, jhinDGResolvedTitle,
-		"1307579", "4007611", jhinDGTimestamp, "1913", "1911", "2388", "682",
-		jhinDGContentSHA, jhinDGLocalRawSHA, jhinDGNormalizedSHA, jhinDGPagesSHA,
-		jhinDGBoundary, jhinDGProviderRef, jhinDGAbilityID, jhinDGAbilityKey,
-		"dancing_grenade_primary_first_hit_damage", "q_mana_cost", "q_cooldown_ms",
-		`{"op":"const","value":60}`, `{"op":"const","value":5000}`,
-		jhinDGSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/jhin-q.json",
-		"external existing-data", "check-only",
-		"无 materializer", "不物化",
-		"total AD", "source.attr.ad.resolved", "source.attr.ap.resolved",
-		"ability_started",
-		"20220", "20170",
-		"Q seed contains no W rows",
-		"preserve existing W",
-		"missing game_entities hero_jhin",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_jhin/ad",
-		"missing entity_attribute_values hero_jhin/ap",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_jhin/mana",
-		"missing reserved_type",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range jhinDGOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range jhinDGOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	// Forbid declaring total_ad_ratio as a numbered/ordered governed tag; the
-	// explicit "不含/禁止 total_ad_ratio" caveat in the same section is required.
-	if regexp.MustCompile(`(?m)^\s*(?:--\s*)?(?:[-*]?\s*)?\d+\.\s*` + "`?" + `total_ad_ratio` + "`?" + `\b`).MatchString(seed) {
-		t.Fatal("must not add a total_ad_ratio governed ordered tag")
-	}
-	if !strings.Contains(ordSection, "total_ad_ratio") ||
-		!(strings.Contains(ordSection, "显式不包含") || strings.Contains(ordSection, "禁止")) {
-		t.Fatal("seed must explicitly document absence of total_ad_ratio governed tag")
-	}
-	if regexp.MustCompile(`(?i)salvage`).MatchString(ordSection) &&
-		regexp.MustCompile(`(?m)^\s*(?:--\s*)?(?:[-*]?\s*)?\d+\.\s*`+"`?"+`\S*salvage\S*`+"`?"+`\b`).MatchString(ordSection) {
-		t.Fatal("must not add a salvage governed ordered tag")
-	}
-	if !strings.Contains(ordSection, "salvage") {
-		t.Fatal("seed ordered-tags section must explicitly exclude salvage tags")
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.resolved exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ap.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ap.resolved exactly once")
-	}
-	if strings.Contains(sqlNoComments, `"path":"source.attr.ad.base"`) {
-		t.Fatal("executable SQL must not read ad.base (total AD, not bonus AD)")
-	}
-	if regexp.MustCompile(`(?i)bonus\s*AD|bonus_ad`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not claim bonus AD")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_jhin_q_dancing_grenade_primary_first_hit_impact",
-		"sequence_hero_jhin_q_dancing_grenade_primary_first_hit_impact",
-		"step_hero_jhin_q_dancing_grenade_primary_first_hit_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_jhin_q_dancing_grenade_primary_first_hit'\s*,\s*` +
-		`'provider_hero_jhin_q_dancing_grenade_primary_first_hit'\s*,\s*` +
-		`'dancing_grenade_primary_first_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("Q must be active ability with stable key dancing_grenade_primary_first_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_jhin_q_dancing_grenade_primary_first_hit_damage'\s*,\s*` +
-		`'dancing_grenade_primary_first_hit_damage'\s*,\s*20220\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be physical 20220 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_jhin_[pwer]_|'ability_hero_jhin_[pwer]_|` +
-		`'provider_hero_jhin_basic_|'ability_hero_jhin_basic_`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/W/E/R/basic graph rows")
-	}
-	for _, banned := range []string{
-		"deadly_flourish", "provider_hero_jhin_w_", "ability_hero_jhin_w_",
-		"bounce", "nearest_unhit", "death_amp", "spellshield", "projectile",
-	} {
-		if strings.Contains(sqlNoComments, banned) {
-			t.Fatalf("standalone Q seed must not contain W/excluded graph token %q", banned)
-		}
-	}
-
-	for _, want := range []string{
-		jhinDGCandidateKey, jhinDGTaskKey, jhinDGPlanRev,
-		"lol_generic_jhin_dancing_grenade_primary_first_hit_seed.sql",
-		"LolGenericJhinDancingGrenadePrimaryFirstHitSeedSqlTest",
-		"external existing-data",
-		"physical_144_plus_0_74_total_ad_plus_0_60_ap",
-		"total_ad_ratio",
-		"Q seed 不含任何 W rows",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "不含") && !strings.Contains(readme, "禁止") &&
-		!strings.Contains(readme, "不得") {
-		t.Fatal("README must document governed-tag exclusion framing for total_ad_ratio")
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦无 seed") {
-		t.Fatal("README must document no repository materializer for Jhin identity/panel/resource")
-	}
-	if strings.Contains(readme, "op:jhin_dancing_grenade_primary_first_hit_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
-	if strings.Contains(readme, "fixture_jhin_dancing_grenade_primary_first_hit_total_ad") {
-		t.Fatal("README must not claim fixture-only AD modifier as production Q behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadJhinDGFixture(t, jhinDGFixtureOpts{
 		baseAD: jhinDGADBaseDefault, resolvedAD: jhinDGADResolvedDefault,

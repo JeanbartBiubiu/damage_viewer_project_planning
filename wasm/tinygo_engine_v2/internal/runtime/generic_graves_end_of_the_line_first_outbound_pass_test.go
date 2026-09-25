@@ -35,7 +35,7 @@ import (
 //	  c18840004febd305484392c882680939efe9fc609d4f733f81824439741345c5
 //	数据参考/lol-wiki-current-champions/normalized/generic/graves-q.json
 //	pages/raw siblings: pages/graves-q.json, raw/graves-q.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql
 //	Local raw materialization caveat: 2265 bytes / SHA256
 //	  cd2744fb1f28e54bd3b5e25b96cb1d21babc0583bfd8e854d55c15ed83df0377.
 //	Serialization caveat only; assert sidecar/pages canonical identity + caveat;
@@ -100,9 +100,6 @@ const (
 	gravesEOLDamageOpRef = "op:graves_end_of_the_line_first_outbound_pass_damage"
 	gravesEOLBonusADMod  = "fixture_graves_end_of_the_line_first_outbound_pass_bonus_ad"
 
-	gravesEOLSeedBlobSHA  = "E17D4739F2D98D213C3A5FF3E6AB3943F9E2E474F882E03BCCCA01492AF88CA0"
-	gravesEOLJUnitBlobSHA = "16CAFE131D75221EB916E96619C14D3AE630D1BA8DEBB485B75AB9A61A6B00AC"
-
 	gravesEOLBaseDamage   = 150.0
 	gravesEOLBonusADRatio = 0.65
 	gravesEOLManaCost     = 80.0
@@ -120,10 +117,6 @@ const (
 	gravesEOLExpectedMitDefault = 107.5
 	gravesEOLManaAfter2         = 80.0  // 240 - 80 - 80
 	gravesEOLHPAfter2           = 785.0 // 1000 - 107.5 - 107.5
-
-	gravesEOLSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":150},` +
-		`{"op":"mul","args":[{"op":"const","value":0.65},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},{"op":"read","path":"source.attr.ad.base"}]}]}]}`
 
 	gravesEOLTol = 1e-9
 )
@@ -683,26 +676,6 @@ func gravesEOLRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func gravesEOLLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(gravesEOLRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func gravesEOLSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -748,11 +721,8 @@ func gravesEOLAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantM
 	}
 }
 
-// TestGravesEndOfTheLineFirstOutboundPassSourceSeedProviderFormulaShape locks wiki/sidecar/
-// pages/local-raw serialization caveat, seed/README/JUnit identities and source blob
-// hashes, external-existing-data check-only prerequisites / non-materialization,
-// ordered tags, type-policy evidence, and Q provider/bonusAD formula shape.
-func TestGravesEndOfTheLineFirstOutboundPassSourceSeedProviderFormulaShape(t *testing.T) {
+// TestGravesEndOfTheLineFirstOutboundPassWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestGravesEndOfTheLineFirstOutboundPassWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -894,192 +864,7 @@ func TestGravesEndOfTheLineFirstOutboundPassSourceSeedProviderFormulaShape(t *te
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := gravesEOLRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := gravesEOLSHA256HexUpper(seedBytes); got != gravesEOLSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, gravesEOLSeedBlobSHA)
-	}
-	junitPath := gravesEOLRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := gravesEOLSHA256HexUpper(junitBytes); got != gravesEOLJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, gravesEOLJUnitBlobSHA)
-	}
-	_ = gravesEOLRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := gravesEOLLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(gravesEOLRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		gravesEOLCandidateKey, gravesEOLTaskKey, gravesEOLPlanRev,
-		gravesEOLRequestTitle, gravesEOLResolvedTitle,
-		"1307367", "4007501", gravesEOLTimestamp, "2266", "2265",
-		gravesEOLContentSHA, gravesEOLLocalRawSHA,
-		gravesEOLBoundary, gravesEOLProviderRef, gravesEOLAbilityID, gravesEOLAbilityKey,
-		"end_of_the_line_first_outbound_pass_damage", "q_mana_cost", "q_cooldown_ms",
-		`{"op":"const","value":80}`, `{"op":"const","value":6000}`,
-		gravesEOLSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/graves-q.json",
-		"external existing-data", "check-only",
-		"不物化",
-		"bonus AD", "source.attr.ad.resolved", "source.attr.ad.base",
-		"ability_started",
-		"20220", "20170",
-		"true_grit_stacks",
-		"Do not copy E into this seed",
-		"不创建/突变 P/E/W/R/basic",
-		"standalone provider：preserve existing P/E/W/R/basic",
-		"missing game_entities hero_graves",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_graves/ad",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_graves/mana",
-		"missing reserved_type",
-		"150", "0.65",
-		"嵌套二元",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range gravesEOLOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range gravesEOLOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.resolved exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.base"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.base exactly once")
-	}
-	if !strings.Contains(sqlNoComments, `"op":"sub"`) {
-		t.Fatal("executable SQL must use sub(resolved, base) for bonus AD")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_graves_q_end_of_the_line_first_outbound_pass_impact",
-		"sequence_hero_graves_q_end_of_the_line_first_outbound_pass_impact",
-		"step_hero_graves_q_end_of_the_line_first_outbound_pass_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_graves_q_end_of_the_line_first_outbound_pass'\s*,\s*` +
-		`'provider_hero_graves_q_end_of_the_line_first_outbound_pass'\s*,\s*` +
-		`'end_of_the_line_first_outbound_pass'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("Q must be active ability with stable key end_of_the_line_first_outbound_pass")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_graves_q_end_of_the_line_first_outbound_pass_damage'\s*,\s*` +
-		`'end_of_the_line_first_outbound_pass_damage'\s*,\s*20220\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be physical 20220 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-	if regexp.MustCompile(`(?is)\b62\d{3}\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not invent Q ability-specific 62xxx types")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	for _, banned := range []string{
-		"true_grit_stacks", "bonus_armor", "bonus_magic_resist",
-		"provider_hero_graves_quickdraw", "ability_hero_graves_quickdraw",
-		"provider_hero_graves_e_", "provider_hero_graves_w_", "provider_hero_graves_r_",
-		"provider_hero_graves_p_", "provider_hero_graves_basic_",
-		"hero:graves_new_destiny",
-	} {
-		if strings.Contains(sqlNoComments, banned) {
-			t.Fatalf("standalone Q seed must not contain E/sibling graph token %q", banned)
-		}
-	}
-
-	for _, want := range []string{
-		gravesEOLCandidateKey, gravesEOLTaskKey, gravesEOLPlanRev,
-		"lol_generic_graves_end_of_the_line_first_outbound_pass_seed.sql",
-		"LolGenericGravesEndOfTheLineFirstOutboundPassSeedSqlTest",
-		"external existing-data",
-		"physical_150_plus_0_65_bonus_ad",
-		"bonus_ad_ratio",
-		"true_grit_stacks",
-		"Do not copy E into this seed",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦不") {
-		t.Fatal("README must document no repository materializer for Graves identity/panel/resource")
-	}
-	if strings.Contains(readme, "op:graves_end_of_the_line_first_outbound_pass_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadGravesEOLFixture(t, gravesEOLFixtureOpts{
 		baseAD: gravesEOLADBaseDefault, resolvedAD: gravesEOLADResolvedDefault,

@@ -39,7 +39,7 @@ import (
 //	pages/raw siblings: pages/senna-r.json (bytes 689 / SHA256
 //	  9b7fcb0a8e28dbbe38b6e890966421a6857772c2029315225e59bd041f9e704e),
 //	  raw/senna-r.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_senna_dawning_shadow_primary_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_senna_dawning_shadow_primary_hit_seed.sql
 //	Local raw materialization caveat: 2353 bytes / SHA256
 //	  1b448ff48b9fe906a13056f2f510e38ff96fcad410462972a93dbd3bb93195dc.
 //	Serialization caveat only; assert sidecar/pages canonical identity + caveat;
@@ -110,9 +110,6 @@ const (
 	sennaDSDamageOpRef = "op:senna_dawning_shadow_primary_hit_damage"
 	sennaDSBonusADMod  = "fixture_senna_dawning_shadow_primary_hit_bonus_ad"
 
-	sennaDSSeedBlobSHA  = "ECEC375B39B28326B511DCD691184A18A9E1399C30E7951930D0E55A801867BC"
-	sennaDSJUnitBlobSHA = "8854B329513B8D11063140204C7C6D7C7443E12A358D552D957E1DD8729AD71C"
-
 	sennaDSBaseDamage   = 550.0
 	sennaDSBonusADRatio = 1.15
 	sennaDSAPRatio      = 0.70
@@ -132,11 +129,6 @@ const (
 	sennaDSExpectedMitDefault = 356.0
 	sennaDSManaAfter2         = 100.0 // 300 - 100 - 100
 	sennaDSHPAfter2           = 288.0 // 1000 - 356 - 356
-
-	sennaDSSeedDamageJSON = `{"op":"add","args":[{"op":"add","args":[{"op":"const","value":550},` +
-		`{"op":"mul","args":[{"op":"const","value":1.15},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},{"op":"read","path":"source.attr.ad.base"}]}]}]},` +
-		`{"op":"mul","args":[{"op":"const","value":0.70},{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	sennaDSTol = 1e-9
 )
@@ -703,26 +695,6 @@ func sennaDSRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func sennaDSLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(sennaDSRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_senna_dawning_shadow_primary_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func sennaDSSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -768,11 +740,8 @@ func sennaDSAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit
 	}
 }
 
-// TestSennaDawningShadowPrimaryHitSourceSeedProviderFormulaShape locks wiki/sidecar/
-// pages/local-raw serialization caveat, seed/README/JUnit identities and source blob
-// hashes, external-existing-data check-only prerequisites / non-materialization,
-// ordered tags, type-policy evidence, and R provider/nested bonusAD+AP formula shape.
-func TestSennaDawningShadowPrimaryHitSourceSeedProviderFormulaShape(t *testing.T) {
+// TestSennaDawningShadowPrimaryHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestSennaDawningShadowPrimaryHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -938,200 +907,7 @@ func TestSennaDawningShadowPrimaryHitSourceSeedProviderFormulaShape(t *testing.T
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := sennaDSRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_senna_dawning_shadow_primary_hit_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := sennaDSSHA256HexUpper(seedBytes); got != sennaDSSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, sennaDSSeedBlobSHA)
-	}
-	junitPath := sennaDSRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericSennaDawningShadowPrimaryHitSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := sennaDSSHA256HexUpper(junitBytes); got != sennaDSJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, sennaDSJUnitBlobSHA)
-	}
-	_ = sennaDSRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := sennaDSLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(sennaDSRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		sennaDSCandidateKey, sennaDSTaskKey, sennaDSPlanRev,
-		sennaDSRequestTitle, sennaDSResolvedTitle,
-		"1409580", "4008033", sennaDSTimestamp, "2356", "2353", "2597", "689",
-		sennaDSContentSHA, sennaDSLocalRawSHA, sennaDSNormalizedSHA, sennaDSPagesSHA,
-		sennaDSBoundary, sennaDSProviderRef, sennaDSAbilityID, sennaDSAbilityKey,
-		"dawning_shadow_primary_hit_damage", "r_mana_cost", "r_cooldown_ms",
-		`{"op":"const","value":100}`, `{"op":"const","value":100000}`,
-		sennaDSSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/senna-r.json", "pages/senna-r.json",
-		"external existing-data", "check-only",
-		"不物化", "materializer",
-		"bonus AD", "source.attr.ad.resolved", "source.attr.ad.base",
-		"source.attr.ap.resolved",
-		"ability_started",
-		"20220", "20170",
-		"preserve existing W",
-		"不创建/突变/合成/复制 P/Q/W/E/basic",
-		"standalone isolation",
-		"missing game_entities hero_senna",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_senna/ad",
-		"missing entity_attribute_values hero_senna/ap",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_senna/mana",
-		"missing reserved_type",
-		"550", "1.15", "0.70",
-		"嵌套二元",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range sennaDSOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range sennaDSOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.resolved exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.base"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.base exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ap.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ap.resolved exactly once")
-	}
-	if strings.Contains(sqlNoComments, `"path":"source.attr.ap.base"`) {
-		t.Fatal("executable SQL must not invent ap.base reads")
-	}
-	if !strings.Contains(sqlNoComments, `"op":"sub"`) {
-		t.Fatal("executable SQL must use sub(resolved, base) for bonus AD")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_senna_r_dawning_shadow_primary_hit_impact",
-		"sequence_hero_senna_r_dawning_shadow_primary_hit_impact",
-		"step_hero_senna_r_dawning_shadow_primary_hit_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_senna_r_dawning_shadow_primary_hit'\s*,\s*` +
-		`'provider_hero_senna_r_dawning_shadow_primary_hit'\s*,\s*` +
-		`'dawning_shadow_primary_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("R must be active ability with stable key dawning_shadow_primary_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_senna_r_dawning_shadow_primary_hit_damage'\s*,\s*` +
-		`'dawning_shadow_primary_hit_damage'\s*,\s*20220\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be physical 20220 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-	if regexp.MustCompile(`(?is)\b62\d{3}\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not invent R ability-specific 62xxx types")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	for _, banned := range []string{
-		"provider_hero_senna_q_", "ability_hero_senna_q_",
-		"provider_hero_senna_e_", "ability_hero_senna_e_",
-		"provider_hero_senna_w_", "ability_hero_senna_w_",
-		"provider_hero_senna_p_", "ability_hero_senna_p_",
-		"provider_hero_senna_basic_", "ability_hero_senna_basic_",
-		"last_embrace_first_enemy_hit",
-	} {
-		if strings.Contains(sqlNoComments, banned) {
-			t.Fatalf("standalone R seed must not contain sibling/W graph token %q", banned)
-		}
-	}
-
-	for _, want := range []string{
-		sennaDSCandidateKey, sennaDSTaskKey, sennaDSPlanRev,
-		"lol_generic_senna_dawning_shadow_primary_hit_seed.sql",
-		"LolGenericSennaDawningShadowPrimaryHitSeedSqlTest",
-		"external existing-data",
-		"physical_550_plus_1_15_bonus_ad_plus_0_70_ap",
-		"bonus_ad_ratio", "ap_ratio",
-		"preserve existing W",
-		"不创建/突变/合成/复制 P/Q/W/E/basic",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦不") {
-		t.Fatal("README must document no repository materializer for Senna identity/panel/resource")
-	}
-	if strings.Contains(readme, "op:senna_dawning_shadow_primary_hit_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadSennaDSFixture(t, sennaDSFixtureOpts{
 		baseAD: sennaDSADBaseDefault, resolvedAD: sennaDSADResolvedDefault,

@@ -7,7 +7,6 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"testing"
 
@@ -38,7 +37,7 @@ import (
 //	pages/raw siblings: pages/akshan-q.json (bytes 688 / SHA256
 //	  11d2da87557737fed487fb106a9ffb7b4a6d7f1d32391ce3a5c142f9128509e0),
 //	  raw/akshan-q.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_akshan_avengerang_first_outbound_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_akshan_avengerang_first_outbound_hit_seed.sql
 //	  bytes 30848 / SHA256
 //	  d45d8297352597ecd4581fef40c80c1824e51e42b938b0bcfa6ae653cbc81dcd
 //	JUnit: LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest.java
@@ -92,8 +91,6 @@ const (
 	akshanAFOHLocalRawBytes   = 2570
 	akshanAFOHNormalizedBytes = 2948
 	akshanAFOHPagesBytes      = 688
-	akshanAFOHSeedBytes       = 30848
-	akshanAFOHJUnitBytes      = 59429
 	akshanAFOHContentSHA      = "1cbf7dda955849d05ad2d7e578ed9507f8f61fc7525c5ed006a25185915b5f5b"
 	akshanAFOHLocalRawSHA     = "407e4671cc05e87edcd0038a9efe614ad98f65cd57ce339c2c9d69afe5b8c973"
 	akshanAFOHNormalizedSHA   = "f6b0dd492d80c49a2259d366230f7d8f4c6d43a70688b42d0d0780e4866d9a1a"
@@ -112,9 +109,6 @@ const (
 
 	akshanAFOHBasicAttackProviderAlias = "provider_hero_akshan_basic_attack"
 
-	akshanAFOHSeedBlobSHA  = "D45D8297352597ECD4581FEF40C80C1824E51E42B938B0BCFA6AE653CBC81DCD"
-	akshanAFOHJUnitBlobSHA = "2F64E5C0BD960C8767D2B85847B342948DE266BD4E13A1E92743F376D7CAC296"
-
 	akshanAFOHBaseDamage   = 165.0
 	akshanAFOHBonusADRatio = 0.70
 	akshanAFOHManaCost     = 80.0
@@ -132,10 +126,6 @@ const (
 	akshanAFOHExpectedMitDefault = 117.5
 	akshanAFOHManaAfter2         = 80.0  // 240 - 80 - 80
 	akshanAFOHHPAfter2           = 765.0 // 1000 - 117.5 - 117.5
-
-	akshanAFOHSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":165},` +
-		`{"op":"mul","args":[{"op":"const","value":0.70},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},{"op":"read","path":"source.attr.ad.base"}]}]}]}`
 
 	akshanAFOHTol = 1e-9
 )
@@ -678,26 +668,6 @@ func akshanAFOHRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func akshanAFOHLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(akshanAFOHRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_akshan_avengerang_first_outbound_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func akshanAFOHSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -743,11 +713,8 @@ func akshanAFOHAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, want
 	}
 }
 
-// TestAkshanAvengerangFirstOutboundHitSourceSeedProviderFormulaShape locks wiki/sidecar/
-// pages/local-raw serialization caveat, seed/README/JUnit identities and source blob
-// hashes, absent-only mana resource / no-overwrite contract, ordered tags,
-// type-policy evidence, and Q provider/bonusAD formula shape.
-func TestAkshanAvengerangFirstOutboundHitSourceSeedProviderFormulaShape(t *testing.T) {
+// TestAkshanAvengerangFirstOutboundHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestAkshanAvengerangFirstOutboundHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -896,205 +863,7 @@ func TestAkshanAvengerangFirstOutboundHitSourceSeedProviderFormulaShape(t *testi
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := akshanAFOHRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_akshan_avengerang_first_outbound_hit_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(seedBytes) != akshanAFOHSeedBytes {
-		t.Fatalf("seed len=%d want %d", len(seedBytes), akshanAFOHSeedBytes)
-	}
-	if got := akshanAFOHSHA256HexUpper(seedBytes); got != akshanAFOHSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, akshanAFOHSeedBlobSHA)
-	}
-	junitPath := akshanAFOHRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if len(junitBytes) != akshanAFOHJUnitBytes {
-		t.Fatalf("junit len=%d want %d", len(junitBytes), akshanAFOHJUnitBytes)
-	}
-	if got := akshanAFOHSHA256HexUpper(junitBytes); got != akshanAFOHJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, akshanAFOHJUnitBlobSHA)
-	}
-	readmePath := akshanAFOHRepoPath(t, "server", "data_manage", "README.md")
-	readmeBytes, err := os.ReadFile(readmePath)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	seed, sqlNoComments := akshanAFOHLoadSeedSQL(t)
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		akshanAFOHCandidateKey, akshanAFOHTaskKey, akshanAFOHPlanRev,
-		akshanAFOHRequestTitle, akshanAFOHResolvedTitle,
-		"1502462", "4007510", akshanAFOHTimestamp, "2570", "2948", "688",
-		akshanAFOHContentSHA, akshanAFOHLocalRawSHA, akshanAFOHNormalizedSHA, akshanAFOHPagesSHA,
-		akshanAFOHBoundary, akshanAFOHProviderRef, akshanAFOHAbilityID, akshanAFOHAbilityKey,
-		"avengerang_first_outbound_hit_damage", "q_mana_cost", "q_cooldown_ms",
-		`{"op":"const","value":80}`, `{"op":"const","value":5000}`,
-		akshanAFOHSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/akshan-q.json",
-		"Frozen option A", "ON CONFLICT", "DO NOTHING",
-		"永不 UPDATE", "overwrite",
-		"bonus AD", "source.attr.ad.resolved", "source.attr.ad.base",
-		"ability_started",
-		"20220", "20170",
-		"dirty_fighting_stacks",
-		"provider_hero_akshan_basic_attack",
-		"lol_generic_akshan_dirty_fighting_seed.sql",
-		"Starts after the boomerang returns",
-		"cooldown-start-after-return",
-		"165", "0.70",
-		"嵌套二元",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range akshanAFOHOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range akshanAFOHOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.resolved exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.base"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.base exactly once")
-	}
-	if !strings.Contains(sqlNoComments, `"op":"sub"`) {
-		t.Fatal("executable SQL must use sub(resolved, base) for bonus AD")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"INSERT INTO public.resource_definitions",
-		"INSERT INTO public.entity_resource_values",
-		"phase_hero_akshan_q_avengerang_first_outbound_hit_impact",
-		"sequence_hero_akshan_q_avengerang_first_outbound_hit_impact",
-		"step_hero_akshan_q_avengerang_first_outbound_hit_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_akshan_q_avengerang_first_outbound_hit'\s*,\s*` +
-		`'provider_hero_akshan_q_avengerang_first_outbound_hit'\s*,\s*` +
-		`'avengerang_first_outbound_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("Q must be active ability with stable key avengerang_first_outbound_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_akshan_q_avengerang_first_outbound_hit_damage'\s*,\s*` +
-		`'avengerang_first_outbound_hit_damage'\s*,\s*20220\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be physical 20220 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-	if regexp.MustCompile(`(?is)\b62\d{3}\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not invent Q ability-specific 62xxx types")
-	}
-
-	// Absent-only mana resource / no-overwrite: DO NOTHING on both resource tables.
-	if !regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.resource_definitions[\s\S]*?ON\s+CONFLICT\s*\([^)]+\)\s*DO\s+NOTHING`).MatchString(sqlNoComments) {
-		t.Fatal("resource_definitions must be absent-only (ON CONFLICT DO NOTHING)")
-	}
-	if !regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.entity_resource_values[\s\S]*?ON\s+CONFLICT\s*\([^)]+\)\s*DO\s+NOTHING`).MatchString(sqlNoComments) {
-		t.Fatal("entity_resource_values must be absent-only (ON CONFLICT DO NOTHING)")
-	}
-	if regexp.MustCompile(`(?is)UPDATE\s+public\.resource_definitions\b`).MatchString(sqlNoComments) ||
-		regexp.MustCompile(`(?is)UPDATE\s+public\.entity_resource_values\b`).MatchString(sqlNoComments) ||
-		regexp.MustCompile(`(?is)DELETE\s+FROM\s+public\.resource_definitions\b`).MatchString(sqlNoComments) ||
-		regexp.MustCompile(`(?is)DELETE\s+FROM\s+public\.entity_resource_values\b`).MatchString(sqlNoComments) {
-		t.Fatal("must not UPDATE/DELETE resource definition/value rows (no-overwrite)")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "game_entities", "entity_attribute_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (check-only identity/panel; absent-only mana only)", table)
-		}
-	}
-	for _, banned := range []string{
-		"'dirty_fighting_stacks'", "dirty_fighting_stacks_add", "dirty_fighting_stacks_reset",
-		"dirty_fighting_proc_damage", "step_hero_akshan_dirty_fighting",
-	} {
-		if strings.Contains(sqlNoComments, banned) {
-			t.Fatalf("standalone Q seed must not contain Dirty Fighting graph token %q", banned)
-		}
-	}
-	if regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.provider_definitions[\s\S]*'provider_hero_akshan_basic_attack'`).MatchString(sqlNoComments) {
-		t.Fatal("must not write/replace Dirty Fighting / basic provider identity rows")
-	}
-
-	for _, want := range []string{
-		akshanAFOHCandidateKey, akshanAFOHTaskKey, akshanAFOHPlanRev,
-		"lol_generic_akshan_avengerang_first_outbound_hit_seed.sql",
-		"LolGenericAkshanAvengerangFirstOutboundHitSeedSqlTest",
-		"physical_165_plus_0_70_bonus_ad",
-		"bonus_ad_ratio",
-		"provider_hero_akshan_basic_attack",
-		"lol_generic_akshan_dirty_fighting_seed.sql",
-		"absent-only",
-		"cooldown-start-after-return",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if strings.Contains(readme, "op:akshan_avengerang_first_outbound_hit_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadAkshanAFOHFixture(t, akshanAFOHFixtureOpts{
 		baseAD: akshanAFOHADBaseDefault, resolvedAD: akshanAFOHADResolvedDefault,

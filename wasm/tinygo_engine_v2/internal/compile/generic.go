@@ -795,6 +795,18 @@ func compileRulesOperations(rules model.RulesContainer, ctx *genericCompileConte
 	}
 }
 
+func validateDamageParticipantReadContext(instr []formula.GenericInstr, mod model.ModifierDefinition, path string, collector *genericCollector) {
+	if mod.Kind == "pipeline" && (mod.Command == "damage" || mod.Command == "crit") {
+		return
+	}
+	for _, item := range instr {
+		if item.Op == formula.GenericOpRead && item.ReadKind == formula.ReadDamageSelf {
+			collector.addError(model.GenericErrFormulaTypeError, path, "damage.self requires a damage or crit pipeline modifier", model.FormulaPathDamageSelf)
+			return
+		}
+	}
+}
+
 func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *genericCompileContext) CompiledModifier {
 	collector := ctx.collector
 	compiled := CompiledModifier{
@@ -820,6 +832,7 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 	}
 	instr := formula.CompileGenericFormula(mod.Value, path+".value", ctx.namedFormulas, map[string]bool{}, collector.addError)
 	validateDamagePredicateReads(instr, path+".value", ctx.catalog, collector.addError)
+	validateDamageParticipantReadContext(instr, mod, path+".value", collector)
 	if len(instr) > 0 {
 		key := path + ".value"
 		compiled.ValueProgram = ctx.registerFormula(key, instr)
@@ -828,6 +841,7 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 	if mod.Condition != nil {
 		condInstr := formula.CompileGenericFormula(*mod.Condition, path+".condition", ctx.namedFormulas, map[string]bool{}, collector.addError)
 		validateDamagePredicateReads(condInstr, path+".condition", ctx.catalog, collector.addError)
+		validateDamageParticipantReadContext(condInstr, mod, path+".condition", collector)
 		if len(condInstr) > 0 {
 			key := path + ".condition"
 			compiled.ConditionProg = ctx.registerFormula(key, condInstr)

@@ -40,8 +40,10 @@ type GenericEvalContext struct {
 
 	// DamageAmount is transient: only set while evaluating a pipeline damage modifier.
 	// Missing damage context must fail structurally (never silently return zero).
-	HasDamageContext bool
-	DamageAmount     float64
+	HasDamageContext      bool
+	DamageAmount          float64
+	HasDamageParticipants bool
+	DamageSelf            bool
 	// DamageTraits lists catalog damage_trait/* keys on the current damage operation.
 	DamageTraits []string
 	// DamageTypeKey is the current operation damage type (catalog key / settlement alias).
@@ -92,15 +94,27 @@ type EventDamageSnapshot struct {
 
 // Eval 执行 generic formula 程序，非有限数返回 error。
 func (r GenericRegistry) Eval(id GenericProgramID, ctx GenericEvalContext) (float64, error) {
+	return r.eval(id, ctx, false)
+}
+
+var errConstFormulaRead = errors.New("formula requires runtime read")
+
+func (r GenericRegistry) eval(id GenericProgramID, ctx GenericEvalContext, constOnly bool) (float64, error) {
 	if int(id) >= len(r.Programs) {
 		return 0, errors.New("formula id out of range")
 	}
+	instrs := r.Programs[id].Instr
 	stack := make([]float64, 0, 16)
-	for _, instr := range r.Programs[id].Instr {
+	for pc := 0; pc < len(instrs); {
+		instr := instrs[pc]
+		nextPC := pc + 1
 		switch instr.Op {
 		case GenericOpConst:
 			stack = append(stack, instr.Value)
 		case GenericOpRead:
+			if constOnly {
+				return 0, errConstFormulaRead
+			}
 			value, err := evalRead(instr.ReadKind, instr.ReadKey, ctx)
 			if err != nil {
 				return 0, err
@@ -196,9 +210,30 @@ func (r GenericRegistry) Eval(id GenericProgramID, ctx GenericEvalContext) (floa
 				return 0, errors.New("non-finite formula result")
 			}
 			stack = append(stack, value)
+		case GenericOpJumpIfZero:
+			if len(stack) < 1 {
+				return 0, errors.New("formula stack underflow")
+			}
+			if !validForwardJump(pc, instr.JumpTarget, len(instrs)) {
+				return 0, errors.New("invalid formula jump target")
+			}
+			condition := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			if !finite(condition) {
+				return 0, errors.New("non-finite formula condition")
+			}
+			if condition == 0 {
+				nextPC = instr.JumpTarget
+			}
+		case GenericOpJump:
+			if !validForwardJump(pc, instr.JumpTarget, len(instrs)) {
+				return 0, errors.New("invalid formula jump target")
+			}
+			nextPC = instr.JumpTarget
 		default:
 			return 0, errors.New("unsupported formula opcode")
 		}
+		pc = nextPC
 	}
 	if len(stack) != 1 {
 		return 0, errors.New("formula stack did not settle to one value")
@@ -293,6 +328,14 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 			return 0, errors.New("damage.amount requires damage context")
 		}
 		return ctx.DamageAmount, nil
+	case ReadDamageSelf:
+		if !ctx.HasDamageContext || !ctx.HasDamageParticipants {
+			return 0, errors.New(model.FormulaPathDamageSelf + " requires damage participants")
+		}
+		if ctx.DamageSelf {
+			return 1, nil
+		}
+		return 0, nil
 	case ReadDamageTrait:
 		if !ctx.HasDamageContext {
 			return 0, errors.New("damage.trait requires damage context")

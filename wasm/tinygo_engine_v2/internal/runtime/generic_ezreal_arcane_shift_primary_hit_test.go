@@ -7,7 +7,6 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"testing"
 
@@ -59,11 +58,6 @@ const (
 	ezrealArcaneShiftManaAfter2        = 70.0  // 210 - 70 - 70
 	ezrealArcaneShiftHPAfter2          = 540.0 // 1000 - 230 - 230
 	ezrealArcaneShiftTol               = 1e-9
-
-	ezrealArcaneShiftSeedDamageJSON = `{"op":"add","args":[{"op":"add","args":[{"op":"const","value":280},` +
-		`{"op":"mul","args":[{"op":"const","value":0.60},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},{"op":"read","path":"source.attr.ad.base"}]}]}]},` +
-		`{"op":"mul","args":[{"op":"const","value":0.75},{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	ezrealArcaneShiftRSFProviderAlias = "provider_hero_ezreal_rising_spell_force"
 )
@@ -499,28 +493,8 @@ func ezrealArcaneShiftSHA256Hex(b []byte) string {
 	return hex.EncodeToString(sum[:])
 }
 
-func ezrealArcaneShiftLoadSeed(t *testing.T) (full, noComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(ezrealArcaneShiftRepoPath(t, "db", "game_manage", "seeds",
-		"lol_generic_ezreal_arcane_shift_primary_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		if strings.HasPrefix(strings.TrimSpace(line), "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
-// TestEzrealArcaneShiftSourceSeedProviderFormulaShape locks wiki/sidecar/pages/
-// local-raw caveat, seed/README/JUnit identifiers, and E provider/formula shape.
-func TestEzrealArcaneShiftSourceSeedProviderFormulaShape(t *testing.T) {
+// TestEzrealArcaneShiftWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestEzrealArcaneShiftWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -603,45 +577,7 @@ func TestEzrealArcaneShiftSourceSeedProviderFormulaShape(t *testing.T) {
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seed, sqlNoComments := ezrealArcaneShiftLoadSeed(t)
-	_ = ezrealArcaneShiftRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericEzrealArcaneShiftPrimaryHitSeedSqlTest.java")
-	readmeBytes, err := os.ReadFile(ezrealArcaneShiftRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-	for _, want := range []string{
-		ezrealArcaneShiftCandidateKey, ezrealArcaneShiftTaskKey, ezrealArcaneShiftPlanRev,
-		ezrealArcaneShiftRequestTitle, ezrealArcaneShiftResolvedTitle,
-		"1307111", "3989862", ezrealArcaneShiftTimestamp,
-		ezrealArcaneShiftContentSHA, ezrealArcaneShiftLocalRawSHA, "1661",
-		ezrealArcaneShiftBoundary, ezrealArcaneShiftProviderRef, ezrealArcaneShiftAbilityID,
-		ezrealArcaneShiftAbilityKey, "arcane_shift_damage", "e_mana_cost", "e_cooldown_ms",
-		`{"op":"const","value":70}`, `{"op":"const","value":14000}`,
-		ezrealArcaneShiftSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/ezreal-e.json", "Rising Spell Force",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range ezrealArcaneShiftOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing tag %q", tag)
-		}
-	}
-	if regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.modifier_definitions\b`).MatchString(sqlNoComments) ||
-		regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.provider_modifiers\b`).MatchString(sqlNoComments) {
-		t.Fatal("seed must not insert E production modifier rows")
-	}
-	if !strings.Contains(readme, ezrealArcaneShiftProviderRef) ||
-		!strings.Contains(readme, "14000") || !strings.Contains(readme, "0.60") {
-		t.Fatal("README missing E identity/formula/cost-CD contract")
-	}
-	if strings.Contains(readme, "fixture_ezreal_arcane_shift_primary_hit_bonus_ad") {
-		t.Fatal("README must not claim fixture-only AD modifier as production E behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadEzrealArcaneShiftFixture(t, ezrealArcaneShiftFixtureOpts{
 		resolvedAD: ezrealArcaneShiftADResolvedDefault,

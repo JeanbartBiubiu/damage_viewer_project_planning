@@ -34,7 +34,7 @@ import (
 //	  2dff322949f442acc00a7074458fd5ed9bc542d6fd143b818a9a7151e117c058
 //	数据参考/lol-wiki-current-champions/normalized/generic/tristana-r.json
 //	pages/raw siblings: pages/tristana-r.json, raw/tristana-r.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_tristana_buster_shot_primary_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_tristana_buster_shot_primary_hit_seed.sql
 //	Local raw materialization caveat: 2382 bytes / SHA256
 //	  42e07f07f3188aada86d18d782c05d291f031dbbf92171e4a1120e828ebf8c7b.
 //	Serialization caveat only; assert sidecar/pages canonical identity + caveat;
@@ -95,9 +95,6 @@ const (
 	tristanaBSDamageOpRef = "op:tristana_buster_shot_primary_hit_damage"
 	tristanaBSBonusADMod  = "fixture_tristana_buster_shot_primary_hit_bonus_ad"
 
-	tristanaBSSeedBlobSHA  = "4481B2AC143D0B610B5A6AA416C3C32A9CEBA323501C21CDBB100C8206589558"
-	tristanaBSJUnitBlobSHA = "1D929006D1AEFB0ECCD2BFD9476D7EF6FEF0AFE26C1A5F81EFB1D330FBEB70D9"
-
 	tristanaBSBaseDamage   = 325.0
 	tristanaBSBonusADRatio = 0.70
 	tristanaBSAPRatio      = 1.00
@@ -117,11 +114,6 @@ const (
 	tristanaBSExpectedMitDefault = 247.5
 	tristanaBSManaAfter2         = 100.0 // 300 - 100 - 100
 	tristanaBSHPAfter2           = 505.0 // 1000 - 247.5 - 247.5
-
-	tristanaBSSeedDamageJSON = `{"op":"add","args":[{"op":"add","args":[{"op":"const","value":325},` +
-		`{"op":"mul","args":[{"op":"const","value":0.70},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},{"op":"read","path":"source.attr.ad.base"}]}]}]},` +
-		`{"op":"mul","args":[{"op":"const","value":1.00},{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	tristanaBSTol = 1e-9
 )
@@ -673,26 +665,6 @@ func tristanaBSRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func tristanaBSLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(tristanaBSRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_tristana_buster_shot_primary_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func tristanaBSSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -738,11 +710,8 @@ func tristanaBSAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, want
 	}
 }
 
-// TestTristanaBusterShotPrimaryHitSourceSeedProviderFormulaShape locks wiki/sidecar/
-// pages/local-raw serialization caveat, seed/README/JUnit identities and source blob
-// hashes, external-existing-data check-only prerequisites / non-materialization,
-// ordered tags, type-policy evidence, and R provider/nested bonusAD+AP formula shape.
-func TestTristanaBusterShotPrimaryHitSourceSeedProviderFormulaShape(t *testing.T) {
+// TestTristanaBusterShotPrimaryHitWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestTristanaBusterShotPrimaryHitWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -880,187 +849,7 @@ func TestTristanaBusterShotPrimaryHitSourceSeedProviderFormulaShape(t *testing.T
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := tristanaBSRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_tristana_buster_shot_primary_hit_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := tristanaBSSHA256HexUpper(seedBytes); got != tristanaBSSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, tristanaBSSeedBlobSHA)
-	}
-	junitPath := tristanaBSRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericTristanaBusterShotPrimaryHitSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := tristanaBSSHA256HexUpper(junitBytes); got != tristanaBSJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, tristanaBSJUnitBlobSHA)
-	}
-	_ = tristanaBSRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := tristanaBSLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(tristanaBSRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		tristanaBSCandidateKey, tristanaBSTaskKey, tristanaBSPlanRev,
-		tristanaBSRequestTitle, tristanaBSResolvedTitle,
-		"1308525", "4008205", tristanaBSTimestamp, "2385", "2382",
-		tristanaBSContentSHA, tristanaBSLocalRawSHA,
-		tristanaBSBoundary, tristanaBSProviderRef, tristanaBSAbilityID, tristanaBSAbilityKey,
-		"buster_shot_primary_hit_damage", "r_mana_cost", "r_cooldown_ms",
-		`{"op":"const","value":100}`, `{"op":"const","value":100000}`,
-		tristanaBSSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/tristana-r.json",
-		"external existing-data", "check-only",
-		"无 materializer", "不物化",
-		"bonus AD", "source.attr.ad.resolved", "source.attr.ad.base",
-		"source.attr.ap.resolved",
-		"ability_started",
-		"20221", "20170",
-		"Explosive Charge",
-		"不要求 P/Q/W/E/basic/Explosive Charge",
-		"missing game_entities hero_tristana",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_tristana/ad",
-		"missing entity_attribute_values hero_tristana/ap",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_tristana/mana",
-		"missing reserved_type",
-		"325", "0.70", "1.00",
-		"嵌套二元",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range tristanaBSOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range tristanaBSOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.resolved exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.base"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.base exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ap.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ap.resolved exactly once")
-	}
-	if strings.Contains(sqlNoComments, `"path":"source.attr.ap.base"`) {
-		t.Fatal("executable SQL must not invent ap.base reads")
-	}
-	if !strings.Contains(sqlNoComments, `"op":"sub"`) {
-		t.Fatal("executable SQL must use sub(resolved, base) for bonus AD")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_tristana_r_buster_shot_primary_hit_impact",
-		"sequence_hero_tristana_r_buster_shot_primary_hit_impact",
-		"step_hero_tristana_r_buster_shot_primary_hit_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_tristana_r_buster_shot_primary_hit'\s*,\s*` +
-		`'provider_hero_tristana_r_buster_shot_primary_hit'\s*,\s*` +
-		`'buster_shot_primary_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("R must be active ability with stable key buster_shot_primary_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_tristana_r_buster_shot_primary_hit_damage'\s*,\s*` +
-		`'buster_shot_primary_hit_damage'\s*,\s*20221\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be magic 20221 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_tristana_[pqwe]_|'ability_hero_tristana_[pqwe]_|` +
-		`'provider_hero_tristana_basic_|'ability_hero_tristana_basic_|explosive_charge`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/Q/W/E/basic/Explosive Charge graph rows")
-	}
-
-	for _, want := range []string{
-		tristanaBSCandidateKey, tristanaBSTaskKey, tristanaBSPlanRev,
-		"lol_generic_tristana_buster_shot_primary_hit_seed.sql",
-		"LolGenericTristanaBusterShotPrimaryHitSeedSqlTest",
-		"external existing-data",
-		"magic_325_plus_0_70_bonus_ad_plus_1_00_ap",
-		"bonus_ad_ratio", "ap_ratio",
-		"Explosive Charge",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦无 seed") {
-		t.Fatal("README must document no repository materializer for Tristana identity/panel/resource")
-	}
-	if strings.Contains(readme, "op:tristana_buster_shot_primary_hit_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadTristanaBSFixture(t, tristanaBSFixtureOpts{
 		baseAD: tristanaBSADBaseDefault, resolvedAD: tristanaBSADResolvedDefault,
