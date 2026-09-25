@@ -9,7 +9,7 @@ description: "用户明确选择或要求排查 Cursor SDK 本地代理路线时
 
 ## 固定契约
 
-- 顶层代理使用 `@cursor/sdk@1.0.24`，模型固定为 `grok-4.6`、`effort=high`、`fast=false`。该限制不约束 Codex 或 Cursor 内部有界委派。
+- 顶层代理使用 `@cursor/sdk@1.0.32`，模型固定为 `grok-4.7`、本地上下文 `256k`、额外高推理 `reasoning_effort=xhigh`、`fast=false`。Cursor 虽已公布 `500k` 最大上下文，但本地 SDK 运行仍会拒绝该参数；在 `500k` 本地真实冒烟成功前不得启用，也不得未经用户另行选择改走云端代理。该限制不约束 Codex 或 Cursor 内部有界委派。
 - `Agent.create(...)` 必须显式传入 `apiKey`，真实运行请求 `settingSources: ["project"]`。不得输出密钥或片段；只报告密钥是否可用。
 - 优先使用 Node `>=22.13`；低于 `20` 阻塞运行。Codex 桌面系统 Node 过旧时，仅为本进程使用工作区依赖工具返回的 Node，不修改全局 `PATH`。
 - 每次真实运行至少提供一个 `--allowed-path`。它是运行前后文件变化的审计清单，不是操作系统沙箱；路径必须位于 `--cwd` 内。
