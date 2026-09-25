@@ -416,6 +416,25 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
       );
       assertEnum(detail.originKind, DAMAGE_FILTER_ORIGIN_KINDS, `${path}.detail.originKind`);
       assertEnum(detail.criticalFilter, CRITICAL_FILTERS, `${path}.detail.criticalFilter`);
+      if (detail.condition !== undefined && detail.condition !== null) {
+        const conditionPath = `${path}.detail.condition`;
+        if (!isRecord(detail.condition)) protocolError(conditionPath);
+        assertExactKeys(detail.condition,
+          ['receiver', 'attributeKey', 'attributeValueKind', 'comparator', 'comparisonValue'],
+          conditionPath);
+        assertEnum(detail.condition.receiver, new Set(['ENEMY_CHAMPION']), `${conditionPath}.receiver`);
+        if (!/^[a-z][a-z0-9_]{0,63}$/.test(assertString(detail.condition.attributeKey, `${conditionPath}.attributeKey`))) {
+          protocolError(`${conditionPath}.attributeKey`);
+        }
+        assertEnum(detail.condition.attributeValueKind, new Set(['CURRENT_RATIO']), `${conditionPath}.attributeValueKind`);
+        assertEnum(detail.condition.comparator, new Set(['LT', 'GT']), `${conditionPath}.comparator`);
+        if (!isNumericValue(detail.condition.comparisonValue)) protocolError(`${conditionPath}.comparisonValue`);
+        if (value.target !== 'SOURCE') protocolError(`${path}.target`);
+        if (detail.direction !== 'DEALT') protocolError(`${path}.detail.direction`);
+        if (!isRecord(value.lifecycleBehavior) || value.lifecycleBehavior.moment !== 'PERSISTENT') {
+          protocolError(`${path}.lifecycleBehavior.moment`);
+        }
+      }
       break;
     case 'SHIELD_RECEIVED_MODIFIER': {
       assertExactDetailKeys(detail, ['modifierZoneKey', 'operation'], path);
@@ -466,6 +485,10 @@ export function parseSkillEffect(value: unknown): SkillEffect {
   assertNumericUses(value, 'effect', protocolError);
   if (!isRecord(value) || !Array.isArray(value.results)) protocolError('effect');
   value.results.forEach((item, index) => assertResult(item, `effect.results[${index}]`));
+  if (value.lifecycle === null && value.results.some((item) => (
+    isRecord(item) && item.resultType === 'DAMAGE_MODIFIER'
+      && isRecord(item.detail) && item.detail.condition != null
+  ))) protocolError('effect.lifecycle');
   assertString(value.gameId, 'effect.gameId');
   assertString(value.skillKey, 'effect.skillKey');
   assertString(value.effectKey, 'effect.effectKey');

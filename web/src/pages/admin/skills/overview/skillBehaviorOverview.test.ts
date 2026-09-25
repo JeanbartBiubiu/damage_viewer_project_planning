@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { SkillEffect } from '../../../../types/skillEffect';
+import type { SkillEffect, SkillEffectResult } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
 import type { SkillProcess } from '../../../../types/skillProcess';
 import type { SkillTriggerRuleDetail } from '../../../../types/skillTriggerRule';
@@ -32,6 +32,178 @@ function rule(partial: Partial<SkillTriggerRuleDetail> & Pick<SkillTriggerRuleDe
 const emptyValue = { value: { kind: 'FIXED' as const, value: 10 }, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null };
 
 describe('skill behavior overview grouping', () => {
+  it.each([
+    ['LT', { kind: 'PARAMETER', parameterKey: 'low_health_ratio' }, '严格低于参数 low_health_ratio', '说明误写高于'],
+    ['GT', { kind: 'FORMULA', formulaKey: 'high_health_ratio' }, '严格高于公式 high_health_ratio', '说明误写低于']
+  ] as const)('shows authored damage modifier %s filter and threshold without trusting its description', (comparator, comparisonValue, expected, wrongDescription) => {
+    const result: Extract<SkillEffectResult, { resultType: 'DAMAGE_MODIFIER' }> = {
+      resultKey: 'gate', name: '生命门槛增伤', resultType: 'DAMAGE_MODIFIER', target: 'SOURCE',
+      description: wrongDescription, sortOrder: 10,
+      lifecycleBehavior: {
+        moment: 'PERSISTENT', valueReadMode: 'MOMENT_EVALUATION', stackValueMode: null,
+        reapplicationValueMode: null, periodicExecutionMode: null
+      },
+      spellShieldBlockScope: null,
+      valueRule: { value: { kind: 'PARAMETER', parameterKey: 'bonus_ratio' }, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+      detail: {
+        modifierZoneKey: 'damage', direction: 'DEALT', operation: 'INCREASE', damageTypeKey: 'physics',
+        deliveryKind: 'BASIC_ATTACK', originKind: 'DIRECT', criticalFilter: 'CRITICAL_ONLY',
+        condition: { receiver: 'ENEMY_CHAMPION', attributeKey: 'hp', attributeValueKind: 'CURRENT_RATIO', comparator, comparisonValue }
+      }
+    };
+    const saved = effect({
+      effectKey: 'gate_effect', name: '生命门槛',
+      lifecycle: {
+        durationValue: { kind: 'FIXED', value: 5000 }, maxStacksValue: { kind: 'FIXED', value: 1 },
+        applicationStacksValue: { kind: 'FIXED', value: 1 }, instanceScope: 'SKILL',
+        reapplicationStackMode: 'KEEP', reapplicationDurationMode: 'KEEP_REMAINING',
+        expiryMode: 'ALL_AT_ONCE', periodicIntervalValue: null, firstPeriodicExecution: null
+      },
+      results: [result]
+    });
+    const before = structuredClone(saved);
+    const model = buildSkillBehaviorOverview({
+      skillKey: 'q', skillName: '门槛', parameters: [], formulas: [], processes: [],
+      internalStates: [], effects: [saved], rules: [], detailsComplete: true
+    });
+    const row = model.groups.effect.find((item) => item.id === 'effect:gate_effect:result:gate')!;
+    expect(row.valueSourceLabel).toBe('伤害修正 · 参数 bonus_ratio');
+    expect(row.notes).toEqual([
+      '伤害类型：physics', '产生方式：普通攻击', '来源性质：直接伤害', '暴击筛选：仅暴击',
+      `仅本笔敌方英雄承受者 · 扣血前hp当前比例${expected}`
+    ]);
+    expect(row.notes.join(' ')).not.toContain(wrongDescription);
+    expect(saved).toEqual(before);
+  });
+
+  it.each([['LT', '小于'], ['GTE', '大于等于']] as const)('shows saved attribute comparison %s without relying on the rule description', (comparator, label) => {
+    const saved = rule({ ruleKey: 'heal', name: '自身治疗', description: '说明不能代替实际条件',
+      eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: 'q', useKind: 'ACTIVE', castPhase: 'INITIAL' } },
+      conditionGroups: [{ groupKey: 'health', name: '生命条件', sortOrder: 10, conditions: [{
+        conditionKey: 'threshold', conditionType: 'ATTRIBUTE_COMPARE', sortOrder: 10,
+        detail: { subject: 'SOURCE', attributeKey: 'hp', attributeValueKind: 'CURRENT_RATIO', comparator,
+          comparisonValue: { kind: 'PARAMETER', parameterKey: 'low_health_threshold_ratio' } }
+      }] }]
+    });
+    const before = structuredClone(saved);
+    const model = buildSkillBehaviorOverview({ skillKey: 'q', skillName: '治疗', parameters: [], formulas: [],
+      processes: [], internalStates: [], effects: [], rules: [saved], detailsComplete: true });
+    const row = model.groups.use.find(item => item.id === 'rule:heal:condition:threshold')!;
+    for (const value of ['来源对象', 'hp', '当前值比例', label, 'low_health_threshold_ratio']) expect(row.notes.join(' ')).toContain(value);
+    expect(row.location?.segments).toEqual(expect.arrayContaining([
+      { kind: 'KEYED_CHILD', collection: 'conditions', keyField: 'conditionKey', key: 'threshold' }
+    ]));
+    expect(saved).toEqual(before);
+  });
+
+  it('also shows the saved internal cooldown comparison in the shared condition summary', () => {
+    const model = buildSkillBehaviorOverview({ skillKey: 'q', skillName: '咒刃', parameters: [], formulas: [],
+      processes: [], internalStates: [], effects: [], detailsComplete: true,
+      rules: [rule({ ruleKey: 'arm', name: '待击', eventSource: { eventType: 'SKILL_USED', detail: { sourceSkillKey: null, useKind: 'ACTIVE', castPhase: 'INITIAL' } },
+        conditionGroups: [{ groupKey: 'ready', name: '就绪', sortOrder: 10, conditions: [{
+          conditionKey: 'icd_ready', conditionType: 'INTERNAL_STATE_CHECK', sortOrder: 10,
+          detail: { stateKey: 'spellblade_icd', valueKind: 'REMAINING_MS', optionKey: null, expectedBoolean: null,
+            comparator: 'EQ', comparisonValue: { kind: 'FIXED', value: 0 } }
+        }] }]
+      })] });
+    const row = model.groups.use.find(item => item.id === 'rule:arm:condition:icd_ready')!;
+    for (const value of ['spellblade_icd', '剩余毫秒', '等于', '0']) expect(row.notes.join(' ')).toContain(value);
+  });
+
+  it.each([
+    [1, 'ATTACK_HIT'], [2, 'ATTACK_HIT'], [1, 'ATTACK_START'], [2, 'ATTACK_START']
+  ] as const)('groups %i empowered bindings by hit with %s consumption and retains ending/orphans', (bindingCount, consumeMoment) => {
+    const p = process({
+      processKey: 'blade', name: '强化普攻', activationType: 'ACTIVE',
+      steps: [{ stepKey: 'attack', name: '等待普攻', description: null, sortOrder: 10, stepType: 'EMPOWERED_BASIC_ATTACK',
+        detail: { windowValue: { kind: 'PARAMETER', parameterKey: 'window_ms' }, consumeMoment } }],
+      effectBindings: Array.from({ length: bindingCount }, (_, index) => ({
+        bindingKey: `hit_${index}`, effectKey: `effect_${index}`, sortOrder: index * 10,
+        moment: { momentType: 'STEP_EXECUTION' as const, stepKey: 'attack', failureReason: null }
+      })),
+      stateOperations: [
+        { operationKey: 'arm', name: '待命', stateKey: 'ready', operation: 'ENABLE', sortOrder: 10,
+          moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null }, value: null, optionKey: null },
+        { operationKey: 'consume', name: '消费', stateKey: 'ready', operation: 'DISABLE', sortOrder: 30,
+          moment: { momentType: 'STEP_EXECUTION', stepKey: 'attack', failureReason: null }, value: null, optionKey: null },
+        { operationKey: 'cooldown', name: '冷却', stateKey: 'icd', operation: 'START', sortOrder: 40,
+          moment: { momentType: 'STEP_EXECUTION', stepKey: 'attack', failureReason: null }, value: null, optionKey: null },
+        { operationKey: 'expire', name: '超时', stateKey: 'ready', operation: 'DISABLE', sortOrder: 50,
+          moment: { momentType: 'STEP_TIMEOUT', stepKey: 'attack', failureReason: null }, value: null, optionKey: null }
+      ]
+    });
+    p.effectBindings.push({ bindingKey: 'timeout', effectKey: 'effect_0', sortOrder: 90,
+      moment: { momentType: 'STEP_TIMEOUT', stepKey: 'attack', failureReason: null } });
+    p.effectBindings.push({ bindingKey: 'unknown_step', effectKey: 'effect_0', sortOrder: 100,
+      moment: { momentType: 'STEP_EXECUTION', stepKey: 'unknown', failureReason: null } });
+    const model = buildSkillBehaviorOverview({
+      skillKey: 'q', skillName: '咒刃', parameters: [], formulas: [], internalStates: [], processes: [p], detailsComplete: true,
+      effects: [...Array.from({ length: bindingCount }, (_, i) => effect({ effectKey: `effect_${i}`, name: `效果${i}`, results: [] })), effect({ effectKey: 'orphan', name: '未挂接', results: [] })],
+      rules: [rule({ ruleKey: 'on_step', name: '步骤规则', eventSource: {
+        eventType: 'PROCESS_MOMENT', detail: { processKey: 'blade', moment: { momentType: 'STEP_EXECUTION', stepKey: 'attack', failureReason: null } }
+      } })]
+    });
+    const ids = (group: keyof typeof model.groups) => model.groups[group].map(row => row.id);
+    expect(ids('hit')).toContain('process:blade:step:attack');
+    expect(ids('hit')).toContain('rule:on_step');
+    const step = model.groups.hit.find(row => row.id === 'process:blade:step:attack')!;
+    expect(step.valueSourceLabel).toBe('待击窗口（毫秒）：参数 window_ms');
+    expect(step.notes).toContain('普攻命中时执行步骤效果');
+    expect(step.momentLabel).toContain(consumeMoment === 'ATTACK_HIT' ? '命中时消费' : '发起时消费');
+    expect(step.location.segments).toEqual([{ kind: 'KEYED_CHILD', collection: 'steps', keyField: 'stepKey', key: 'attack' }]);
+    for (let i = 0; i < bindingCount; i++) {
+      const id = `process:blade:binding:hit_${i}`;
+      expect(ids('hit')).toContain(id);
+      expect(ids('effect')).toContain(id);
+      expect(model.supplement.map(row => row.id)).not.toContain(id);
+    }
+    expect(ids('use')).toContain('process:blade:operation:arm');
+    expect(ids('hit')).toContain('process:blade:operation:consume');
+    expect(ids('hit')).toContain('process:blade:operation:cooldown');
+    expect(ids('costCooldown')).toContain('process:blade:operation:cooldown');
+    expect(ids('end')).toContain('process:blade:operation:expire');
+    expect(ids('end')).toContain('process:blade:binding:timeout');
+    expect(ids('hit')).not.toContain('process:blade:binding:timeout');
+    expect(ids('hit')).not.toContain('process:blade:binding:unknown_step');
+    expect(model.supplement.map(row => row.id)).toContain('process:blade:binding:unknown_step');
+    expect(model.supplement.map(row => row.id)).toContain('effect:orphan:unattached');
+  });
+
+  it('distinguishes kill-event action context from the saved healing recipients and retains the rule explanation', () => {
+    const healingResult = (resultKey: string, target: 'SOURCE' | 'TARGET') => ({
+      resultKey, name: resultKey, resultType: 'DIRECT_HEAL' as const, target, description: null, sortOrder: 0,
+      lifecycleBehavior: null, spellShieldBlockScope: null, valueRule: emptyValue, detail: {}
+    });
+    const savedExplanation = '当前目标是被击杀英雄；治疗结果作用于技能拥有者。';
+    const model = buildSkillBehaviorOverview({
+      skillKey: 'q', skillName: '凯旋', parameters: [], formulas: [], processes: [], internalStates: [],
+      effects: [
+        effect({ effectKey: 'self_heal', name: '自身治疗', results: [healingResult('self', 'SOURCE')] }),
+        effect({ effectKey: 'mixed_heal', name: '分别治疗', results: [healingResult('self', 'SOURCE'), healingResult('other', 'TARGET')] })
+      ],
+      rules: [rule({
+        ruleKey: 'on_kill', name: '击杀治疗', description: savedExplanation,
+        eventSource: { eventType: 'KILL', detail: {} },
+        actions: ['self_heal', 'mixed_heal', 'unavailable'].map((effectKey) => ({
+          actionKey: effectKey, name: effectKey, actionType: 'EXECUTE_EFFECT', sortOrder: 0,
+          targetContext: 'CURRENT_TARGET', detail: { effectKey }, runtimeInputBindings: [], resultModifiers: []
+        }))
+      })],
+      detailsComplete: false
+    });
+    expect(model.groups.effect.find((item) => item.id === 'rule:on_kill')?.notes).toContain(`规则说明：${savedExplanation}`);
+    expect(model.groups.effect.find((item) => item.id === 'rule:on_kill:action:self_heal')).toMatchObject({
+      targetLabel: '动作目标上下文：当前目标',
+      notes: ['执行效果', '效果结果作用对象：施法者（技能拥有者）']
+    });
+    expect(model.groups.effect.find((item) => item.id === 'rule:on_kill:action:mixed_heal')?.notes)
+      .toContain('效果结果作用对象：施法者（技能拥有者）、当前目标（由执行入口确定）');
+    expect(model.groups.effect.find((item) => item.id === 'rule:on_kill:action:unavailable')?.notes)
+      .toContain('效果详情未读取，无法确认结果作用对象');
+    expect(model.groups.effect.find((item) => item.id === 'effect:self_heal:result:self')?.targetLabel)
+      .toBe('施法者（技能拥有者）');
+  });
+
   it('places saved configs into the five groups, keeps unstarted passive processes, and does not call resource decrease a cast cost', () => {
     const damage = effect({
       effectKey: 'hit', name: '命中效果',
@@ -149,10 +321,11 @@ describe('skill behavior overview grouping', () => {
     expect(model.groups.costCooldown.some((item) => item.notes.includes(RESOURCE_DECREASE_REVIEW_NOTE) && item.id.includes('mark'))).toBe(false);
     expect(model.groups.use.some((item) => item.sourceKey === 'aura')).toBe(false);
     expect(model.groups.use.find((item) => item.id === 'process:cast:binding:on_start')).toMatchObject({
-      sourceName: '施放过程 → 扣蓝（mana）', targetLabel: '施法者'
+      sourceName: '施放过程 → 扣蓝（mana）', targetLabel: '施法者（技能拥有者）'
     });
     expect(model.groups.hit.find((item) => item.id === 'rule:on_hit:action:apply')).toMatchObject({
-      targetLabel: '动作目标：当前目标', valueSourceLabel: '效果：命中效果（hit）', notes: ['执行效果']
+      targetLabel: '动作目标上下文：当前目标', valueSourceLabel: '效果：命中效果（hit）',
+      notes: ['执行效果', '效果结果作用对象：当前目标（由执行入口确定）']
     });
     expect(model.groups.hit.find((item) => item.id === 'rule:on_hit:condition:enemy')?.targetLabel).toBe('事件对方');
     expect(model.groups.hit.find((item) => item.id === 'rule:on_hit:binding:first')?.targetLabel).toContain('参数：');

@@ -1,4 +1,5 @@
-import { formulaValue } from '../../../../types/numericValue';
+import { fixedValue, formulaValue, parameterValue } from '../../../../types/numericValue';
+import type { SkillParameter } from '../../../../types/skillParameter';
 import { describe, expect, it } from 'vitest';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type {
@@ -88,6 +89,7 @@ const CATALOG: EffectFormCatalog = {
     { damageTypeKey: 'true', status: 'DISABLED' }
   ],
   attributes: [
+    { attributeKey: 'hp', status: 'ENABLED' },
     { attributeKey: 'move_speed', status: 'ENABLED' },
     { attributeKey: 'mana', status: 'ENABLED' },
     { attributeKey: 'old_attr', status: 'DISABLED' }
@@ -106,9 +108,10 @@ const CATALOG: EffectFormCatalog = {
     { statusKey: 'old_poison', status: 'DISABLED', statusKind: 'STUN' }
   ],
   modifierZones: [
-    { modifierZoneKey: 'attribute_percent', domain: 'ATTRIBUTE', status: 'ENABLED', calculationMode: 'RATIO_ADD' },
-    { modifierZoneKey: 'damage_ratio', domain: 'DAMAGE', status: 'ENABLED', calculationMode: 'RATIO_ADD' },
-    { modifierZoneKey: 'healing_ratio', domain: 'HEALING', status: 'ENABLED', calculationMode: 'RATIO_ADD' }
+    { modifierZoneKey: 'attribute_percent', domain: 'ATTRIBUTE', status: 'ENABLED', calculationMode: 'RATIO_ADD', applicationStage: 'ATTRIBUTE_PERCENT' },
+    { modifierZoneKey: 'damage_ratio', domain: 'DAMAGE', status: 'ENABLED', calculationMode: 'RATIO_ADD', applicationStage: 'DAMAGE_PRE_DEFENSE' },
+    { modifierZoneKey: 'damage_post_defense', domain: 'DAMAGE', status: 'ENABLED', calculationMode: 'RATIO_ADD', applicationStage: 'DAMAGE_POST_DEFENSE' },
+    { modifierZoneKey: 'healing_ratio', domain: 'HEALING', status: 'ENABLED', calculationMode: 'RATIO_ADD', applicationStage: 'HEALING_RESULT' }
   ]
 };
 
@@ -252,10 +255,10 @@ function expectValid(draft: SkillEffectDraft, includeEffectKey = true) {
   const result = validateSkillEffectDraft(draft, {
     includeEffectKey, catalog: CATALOG, catalogLoadState: { statuses: 'ready' }
   });
-  expect(result.ok).toBe(true);
   if (!result.ok) {
     throw new Error(`expected valid draft: ${JSON.stringify(result)}`);
   }
+  expect(result.ok).toBe(true);
   return result.normalized;
 }
 
@@ -1389,6 +1392,35 @@ function lifecycleEnabledDraft(
   };
 }
 
+function healthThresholdModifier(): SkillEffectResultDraft {
+  const modifier = createEmptyResultDraft('DAMAGE_MODIFIER');
+  modifier.resultKey = 'low_hp_damage';
+  modifier.name = '低生命目标增伤';
+  modifier.target = 'SOURCE';
+  modifier.value = formulaValue('damage');
+  modifier.modifierZoneKey = 'damage_ratio';
+  modifier.modifierDirection = 'DEALT';
+  modifier.modifierOperation = 'INCREASE';
+  modifier.damageModifierCondition = {
+    attributeKey: 'hp',
+    comparator: 'LT',
+    comparisonValue: fixedValue(0.4),
+    originalAttributeKey: null
+  };
+  const persistent = applyStackValueModeChange(modifier, 'SHARED');
+  persistent.lifecycleBehavior.reapplicationValueMode = 'KEEP';
+  return persistent;
+}
+
+function thresholdParameter(valueMode: SkillParameter['valueMode'], fixed: number | null,
+  levels: SkillParameter['levelValues'] = null): SkillParameter {
+  return {
+    gameId: 'lol', skillKey: 'ezreal_q', parameterKey: 'health_threshold', name: '生命门槛',
+    valueType: 'DECIMAL', valueMode, fixedValue: fixed, levelValues: levels,
+    description: null, sortOrder: 0, createdAt: '', updatedAt: ''
+  };
+}
+
 describe('skill effect lifecycle drafts', () => {
   it('creates and updates lifecycle-only effects without inventing a result', () => {
     const draft = lifecycleEnabledDraft([]);
@@ -1673,7 +1705,8 @@ describe('skill effect lifecycle drafts', () => {
           damageTypeKey: 'physical',
           deliveryKind: 'SKILL',
           originKind: 'DIRECT',
-          criticalFilter: 'NON_CRITICAL_ONLY'
+          criticalFilter: 'NON_CRITICAL_ONLY',
+          condition: null
         }
       },
       {
@@ -1750,6 +1783,104 @@ describe('skill effect lifecycle drafts', () => {
         detail: { attributeKey: 'move_speed' }
       }
     ]);
+  });
+
+  it('round-trips a per-damage health threshold and clears it when disabled or changing result kind', () => {
+    const authored = healthThresholdModifier();
+    const normalized = expectValid(lifecycleEnabledDraft([authored]));
+    const request = buildCreateSkillEffectRequest(normalized);
+    expect(request.results[0]).toMatchObject({
+      target: 'SOURCE',
+      lifecycleBehavior: { moment: 'PERSISTENT' },
+      detail: {
+        direction: 'DEALT', modifierZoneKey: 'damage_ratio',
+        condition: {
+          receiver: 'ENEMY_CHAMPION', attributeKey: 'hp', attributeValueKind: 'CURRENT_RATIO',
+          comparator: 'LT', comparisonValue: fixedValue(0.4)
+        }
+      }
+    });
+
+    const loaded = skillEffectToDraft({ ...EFFECT, lifecycle: validLifecycle(), results: request.results });
+    expect(loaded.results[0]?.damageModifierCondition).toEqual({
+      attributeKey: 'hp', comparator: 'LT', comparisonValue: fixedValue(0.4), originalAttributeKey: 'hp'
+    });
+    const copied = skillEffectToCopyDraft({ ...EFFECT, lifecycle: validLifecycle(), results: request.results });
+    expect(copied.results[0]?.damageModifierCondition?.originalAttributeKey).toBeNull();
+    expect(buildUpdateSkillEffectRequest(expectValid(loaded, false)).results[0]?.detail).toEqual(request.results[0]?.detail);
+
+    const disabled = structuredClone(loaded);
+    disabled.results[0]!.damageModifierCondition = null;
+    expect(normalizeEffectDraftForDirtyComparison(disabled)).not.toEqual(
+      normalizeEffectDraftForDirtyComparison(loaded)
+    );
+    expect(buildUpdateSkillEffectRequest(expectValid(disabled, false)).results[0]?.detail).toMatchObject({
+      condition: null
+    });
+    expect(applyResultTypeChange(authored, 'DAMAGE').damageModifierCondition).toBeNull();
+    expect(clearHiddenResultFields({ ...authored, resultType: 'DAMAGE' }).damageModifierCondition).toBeNull();
+  });
+
+  it('validates the conditioned modifier scope, stage and static threshold at every level', () => {
+    const check = (result: SkillEffectResultDraft, options: Partial<Parameters<typeof validateSkillEffectDraft>[1]> = {}) =>
+      validateSkillEffectDraft(lifecycleEnabledDraft([result]), {
+        includeEffectKey: true, catalog: CATALOG, ...options
+      });
+    const authored = healthThresholdModifier();
+    const target = check({ ...authored, target: 'TARGET' });
+    expect(target.ok).toBe(false);
+    if (!target.ok) expect(target.resultErrors[0]?.fieldErrors.target).toBeTruthy();
+    const direction = check({ ...authored, modifierDirection: 'TAKEN' });
+    expect(direction.ok).toBe(false);
+    if (!direction.ok) expect(direction.resultErrors[0]?.fieldErrors.modifierDirection).toBeTruthy();
+    const zone = check({ ...authored, modifierZoneKey: 'damage_post_defense' });
+    expect(zone.ok).toBe(false);
+    if (!zone.ok) expect(zone.resultErrors[0]?.fieldErrors.modifierZoneKey).toBeTruthy();
+    const noLifecycle = validateSkillEffectDraft(validEffectDraft([authored]), {
+      includeEffectKey: true, catalog: CATALOG
+    });
+    expect(noLifecycle.ok).toBe(false);
+    if (!noLifecycle.ok) expect(noLifecycle.resultErrors[0]?.fieldErrors.moment).toBeTruthy();
+
+    const condition = authored.damageModifierCondition!;
+    for (const value of [fixedValue(-0.01), fixedValue(1.01), parameterValue('health_threshold')]) {
+      const params = value.kind === 'PARAMETER'
+        ? [thresholdParameter('SKILL_LEVEL', null, { '1': 0.4, '2': 1.1 })] : [];
+      const invalid = check({ ...authored, damageModifierCondition: { ...condition, comparisonValue: value } },
+        { parameters: params });
+      expect(invalid.ok).toBe(false);
+      if (!invalid.ok) expect(invalid.resultErrors[0]?.fieldErrors.conditionComparisonValue).toBeTruthy();
+    }
+    const runtime = check({ ...authored, damageModifierCondition: {
+      ...condition, comparisonValue: parameterValue('health_threshold')
+    } }, { parameters: [thresholdParameter('RUNTIME_INPUT', null)] });
+    expect(runtime.ok).toBe(false);
+    if (!runtime.ok) expect(runtime.resultErrors[0]?.fieldErrors.conditionComparisonValue)
+      .toContain('计算时传入');
+    const staticParameter = check({ ...authored, damageModifierCondition: {
+      ...condition, comparator: 'GT', comparisonValue: parameterValue('health_threshold')
+    } }, { parameters: [thresholdParameter('FIXED', 0.6)] });
+    if (!staticParameter.ok) throw new Error(JSON.stringify(staticParameter));
+    expect(staticParameter.ok).toBe(true);
+  });
+
+  it('locates backend condition field errors at the actual result editor fields', () => {
+    const error = new ApiRequestError('效果信息不合法', 400, '400.VALIDATION_FAILED', {
+      fieldIssues: [
+        { field: 'results[0].detail.condition.attributeKey', code: 'UNKNOWN_ATTRIBUTE', message: '生命属性不存在' },
+        { field: 'results[0].detail.condition.comparator', code: 'ENUM_INVALID', message: '比较符错误' },
+        { field: 'results[0].detail.condition.comparisonValue.parameterKey', code: 'UNKNOWN_PARAMETER', message: '门槛参数不存在' },
+        { field: 'results[0].detail.condition.receiver', code: 'ENUM_INVALID', message: '承受者错误' }
+      ]
+    });
+    expect(mapSkillEffectFieldIssues(error, [{ resultType: 'DAMAGE_MODIFIER' }])).toMatchObject({
+      resultErrors: [{ index: 0, fieldErrors: {
+        conditionAttributeKey: '生命属性不存在',
+        conditionComparator: '比较符错误',
+        conditionComparisonValue: '门槛参数不存在',
+        damageModifierCondition: '承受者错误'
+      } }], unmappedMessages: []
+    });
   });
 
   it('supports current-moment evaluation only for continuous adjustment results', () => {

@@ -4,9 +4,12 @@ import { useNumericParameters } from '../useNumericParameters';
 import { CollapsibleReferenceList } from '../../shared/CollapsibleReferenceList';
 import {
   buildResultReferenceSummary,
+  damageModifierConditionSummary,
+  damageModifierFilterSummary,
   parameterCatalogEntries,
   type ResultReferenceCatalogs
 } from './resultReferenceSummary';
+import { preflightDamageModifierConditionFormulas } from './damageModifierConditionFormula';
 import { NumericValueField } from '../NumericValueField';
 import { useGameVampRules } from './useGameVampRules';
 import {
@@ -62,7 +65,6 @@ import {
 import {
   LIFECYCLE_PENDING_BEHAVIOR_LABEL,
   SKILL_EFFECT_CRITICAL_MODE_LABELS,
-  SKILL_EFFECT_CRITICAL_FILTER_LABELS,
   SKILL_EFFECT_DAMAGE_DELIVERY_KIND_LABELS,
   SKILL_EFFECT_DAMAGE_FILTER_DELIVERY_KIND_LABELS,
   SKILL_EFFECT_DAMAGE_FILTER_ORIGIN_KIND_LABELS,
@@ -193,7 +195,7 @@ function ResultReferenceSummaryCell({
   );
 }
 
-function interactionSummary(result: SkillEffectResultDraft): string {
+function interactionSummary(result: SkillEffectResultDraft, catalogs: ResultReferenceCatalogs): string {
   if (result.resultType === 'DAMAGE') {
     const delivery = result.damageDeliveryKind
       ? SKILL_EFFECT_DAMAGE_DELIVERY_KIND_LABELS[result.damageDeliveryKind]
@@ -222,16 +224,14 @@ function interactionSummary(result: SkillEffectResultDraft): string {
     const operation = result.modifierOperation
       ? SKILL_EFFECT_MODIFIER_OPERATION_LABELS[result.modifierOperation]
       : '—';
-    const delivery = result.damageFilterDeliveryKind
-      ? SKILL_EFFECT_DAMAGE_FILTER_DELIVERY_KIND_LABELS[result.damageFilterDeliveryKind]
-      : '—';
-    const origin = result.damageFilterOriginKind
-      ? SKILL_EFFECT_DAMAGE_FILTER_ORIGIN_KIND_LABELS[result.damageFilterOriginKind]
-      : '—';
-    const critical = result.criticalFilter
-      ? SKILL_EFFECT_CRITICAL_FILTER_LABELS[result.criticalFilter]
-      : '—';
-    return `${direction} / ${operation} / ${delivery} / ${origin} / ${critical}`;
+    const filters = damageModifierFilterSummary({
+      damageTypeKey: result.damageTypeKey,
+      deliveryKind: result.damageFilterDeliveryKind,
+      originKind: result.damageFilterOriginKind,
+      criticalFilter: result.criticalFilter
+    });
+    const condition = damageModifierConditionSummary(result, catalogs);
+    return [direction, operation, ...filters, condition].filter((item): item is string => item !== null).join(' / ');
   }
   if (result.resultType === 'SHIELD_RECEIVED_MODIFIER') {
     const operation = result.modifierOperation
@@ -790,6 +790,18 @@ export function SkillEffectEditorModal({
     setSaving(true);
     setSaveError(null);
     try {
+      const conditionFormulaErrors = await preflightDamageModifierConditionFormulas(
+        sorted.results, parameters, parametersLoadState,
+        async (formulaKey) => (await getSkillFormula(
+          apiBaseUrl, selectedGameId, skill.skillKey, formulaKey, token
+        )).data
+      );
+      if (conditionFormulaErrors.length > 0) {
+        setDraft(sorted);
+        setResultErrors(conditionFormulaErrors);
+        setSaveError('逐笔生命门槛公式核对未通过，请检查对应结果。');
+        return;
+      }
       for (const resultDraft of sorted.results) {
         if (resultDraft.lifecycleBehavior.valueReadMode === 'MOMENT_EVALUATION' && resultDraft.value?.kind === 'FORMULA') {
           const formula = await getSkillFormula(apiBaseUrl, selectedGameId, skill.skillKey, resultDraft.value.formulaKey, token);
@@ -992,7 +1004,7 @@ export function SkillEffectEditorModal({
     },
     {
       title: '特殊交互',
-      render: (_value, row: { item: SkillEffectResultDraft }) => interactionSummary(row.item)
+      render: (_value, row: { item: SkillEffectResultDraft }) => interactionSummary(row.item, resultReferenceCatalogs)
     },
     {
       title: '排序',

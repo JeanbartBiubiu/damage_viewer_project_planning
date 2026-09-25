@@ -9,8 +9,8 @@ import type { SkillEffect, SkillEffectResult } from '../../src/types/skillEffect
 import type { SkillTriggerRuleDetail } from '../../src/types/skillTriggerRule';
 
 const WASM_PATH = resolve('src/engine/wasm/tinygo_engine_v2.wasm');
-const WASM_SHA256 = '0FD141CE054160F765E0DA176F43EE0E6866177C805576EF5D7FD04ADA11CD3C';
-const WASM_BYTES = 976767;
+const WASM_SHA256 = '25844991E66D5E189CEE0B168869DE07C265C5C3CC3336C7B1A9C793AC0D736D';
+const WASM_BYTES = 983981;
 
 function slot(value: number, max = value) {
   return { base: value, current: value, max, resolved: value };
@@ -30,7 +30,7 @@ function damageResult(scope: SkillEffectResult['spellShieldBlockScope'], amount 
     spellShieldBlockScope: scope, lifecycleBehavior: null,
     valueRule: { value: fixedValue(amount), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null },
     detail: {
-      damageTypeKey: 'physical', deliveryKind: 'SKILL', originKind: 'DIRECT',
+      damageTypeKey: 'physics', deliveryKind: 'SKILL', originKind: 'DIRECT',
       critical: { mode: 'DISALLOWED', multiplierValue: null }, vampQualification: 'RESOLVED', vampOverrides: []
     }
   };
