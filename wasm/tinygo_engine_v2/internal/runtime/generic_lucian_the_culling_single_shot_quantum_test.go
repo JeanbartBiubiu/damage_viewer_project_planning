@@ -35,7 +35,7 @@ import (
 //	  7a4679542eebdebf25da391a1222f08df2f416c641f48473d528e62296b9a2f7
 //	数据参考/lol-wiki-current-champions/normalized/generic/lucian-r.json
 //	pages/raw siblings: pages/lucian-r.json, raw/lucian-r.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_lucian_the_culling_single_shot_quantum_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_lucian_the_culling_single_shot_quantum_seed.sql
 //	Local raw materialization caveat: also 4477 bytes / SHA256
 //	  b63612287a8a965e7655829a2054aec7b019705225fd7e7b4736303a172bc74d.
 //	Same-size caveat; assert sidecar/pages canonical identity + caveat; do not claim
@@ -99,9 +99,6 @@ const (
 	lucianTCDamageOpRef = "op:lucian_the_culling_single_shot_quantum_damage"
 	lucianTCTotalADMod  = "fixture_lucian_the_culling_single_shot_quantum_total_ad"
 
-	lucianTCSeedBlobSHA  = "6A05EC9DF6672593AB403E9EDFC5CD81FB5DB2BC9E56CB5D70E27832DB717C73"
-	lucianTCJUnitBlobSHA = "C4716CDD9E2B4DBB92FC8FC60D317D947316555E0579E2012E1AED0895B1FEA3"
-
 	lucianTCBaseDamage = 45.0
 	lucianTCADRatio    = 0.25
 	lucianTCAPRatio    = 0.15
@@ -120,12 +117,6 @@ const (
 	lucianTCExpectedMitDefault = 50.0  // armor100
 	lucianTCManaAfter2         = 100.0 // 300 - 100 - 100
 	lucianTCHPAfter2           = 900.0 // 1000 - 50 - 50
-
-	lucianTCSeedDamageJSON = `{"op":"add","args":[{"op":"add","args":[{"op":"const","value":45},` +
-		`{"op":"mul","args":[{"op":"const","value":0.25},` +
-		`{"op":"read","path":"source.attr.ad.resolved"}]}]},` +
-		`{"op":"mul","args":[{"op":"const","value":0.15},` +
-		`{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	lucianTCTol = 1e-9
 )
@@ -662,26 +653,6 @@ func lucianTCRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func lucianTCLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(lucianTCRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_lucian_the_culling_single_shot_quantum_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func lucianTCSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -727,12 +698,8 @@ func lucianTCAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMi
 	}
 }
 
-// TestLucianTheCullingSingleShotQuantumSourceSeedProviderFormulaShape locks wiki/sidecar/
-// pages/local-raw same-size caveat, seed/README/JUnit identities and source blob
-// hashes, external-existing-data check-only prerequisites / non-materialization,
-// ordered tags (no total_ad_ratio), type-policy evidence, and R provider/nested
-// total-AD+AP formula shape (AD once, AP once, never ad.base/crit).
-func TestLucianTheCullingSingleShotQuantumSourceSeedProviderFormulaShape(t *testing.T) {
+// TestLucianTheCullingSingleShotQuantumWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestLucianTheCullingSingleShotQuantumWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -875,195 +842,7 @@ func TestLucianTheCullingSingleShotQuantumSourceSeedProviderFormulaShape(t *test
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := lucianTCRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_lucian_the_culling_single_shot_quantum_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := lucianTCSHA256HexUpper(seedBytes); got != lucianTCSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, lucianTCSeedBlobSHA)
-	}
-	junitPath := lucianTCRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := lucianTCSHA256HexUpper(junitBytes); got != lucianTCJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, lucianTCJUnitBlobSHA)
-	}
-	_ = lucianTCRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := lucianTCLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(lucianTCRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		lucianTCCandidateKey, lucianTCTaskKey, lucianTCPlanRev,
-		lucianTCRequestTitle, lucianTCResolvedTitle,
-		"1308182", "4007670", lucianTCTimestamp, "4477",
-		lucianTCContentSHA, lucianTCLocalRawSHA,
-		lucianTCBoundary, lucianTCProviderRef, lucianTCAbilityID, lucianTCAbilityKey,
-		"the_culling_single_shot_quantum_damage", "r_mana_cost", "r_cooldown_ms",
-		`{"op":"const","value":100}`, `{"op":"const","value":90000}`,
-		lucianTCSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/lucian-r.json",
-		"external existing-data", "check-only",
-		"无 materializer", "不物化",
-		"total AD", "source.attr.ad.resolved", "source.attr.ap.resolved",
-		"ability_started",
-		"20220", "20170",
-		"Piercing Light", "Ardent Blaze",
-		"不要求 Lucian Q 或 W publication",
-		"missing game_entities hero_lucian",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_lucian/ad",
-		"missing entity_attribute_values hero_lucian/ap",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_lucian/mana",
-		"missing reserved_type",
-		"r_d3=45", "r_ad=25", "r_ap=15",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range lucianTCOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range lucianTCOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	// Forbid declaring total_ad_ratio as a numbered/ordered governed tag; the
-	// explicit "不含/禁止 total_ad_ratio" caveat in the same section is required.
-	if regexp.MustCompile(`(?m)^\s*(?:--\s*)?(?:[-*]?\s*)?\d+\.\s*` + "`?" + `total_ad_ratio` + "`?" + `\b`).MatchString(seed) {
-		t.Fatal("must not add a total_ad_ratio governed ordered tag")
-	}
-	if !strings.Contains(ordSection, "total_ad_ratio") ||
-		!(strings.Contains(ordSection, "显式不包含") || strings.Contains(ordSection, "禁止")) {
-		t.Fatal("seed must explicitly document absence of total_ad_ratio governed tag")
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ad.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ad.resolved exactly once")
-	}
-	if strings.Count(sqlNoComments, `"path":"source.attr.ap.resolved"`) != 1 {
-		t.Fatal("executable SQL must read source.attr.ap.resolved exactly once")
-	}
-	if strings.Contains(sqlNoComments, `"path":"source.attr.ad.base"`) {
-		t.Fatal("executable SQL must not read ad.base (total AD, not bonus AD)")
-	}
-	if regexp.MustCompile(`(?i)bonus\s*AD|bonus_ad`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not claim bonus AD")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_lucian_r_the_culling_single_shot_quantum_impact",
-		"sequence_hero_lucian_r_the_culling_single_shot_quantum_impact",
-		"step_hero_lucian_r_the_culling_single_shot_quantum_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_lucian_r_the_culling_single_shot_quantum'\s*,\s*` +
-		`'provider_hero_lucian_r_the_culling_single_shot_quantum'\s*,\s*` +
-		`'the_culling_single_shot_quantum'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("R must be active ability with stable key the_culling_single_shot_quantum")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_lucian_r_the_culling_single_shot_quantum_damage'\s*,\s*` +
-		`'the_culling_single_shot_quantum_damage'\s*,\s*20220\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be physical 20220 add policy copyable_on_hit=false")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL/graph must not use provider_action/apply 20230")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_lucian_[pqwe]_|'ability_hero_lucian_[pqwe]_|` +
-		`'provider_hero_lucian_basic_|'ability_hero_lucian_basic_`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/Q/W/E/basic graph rows")
-	}
-
-	for _, want := range []string{
-		lucianTCCandidateKey, lucianTCTaskKey, lucianTCPlanRev,
-		"lol_generic_lucian_the_culling_single_shot_quantum_seed.sql",
-		"LolGenericLucianTheCullingSingleShotQuantumSeedSqlTest",
-		"external existing-data",
-		"physical_45_plus_0_25_total_ad_plus_0_15_ap",
-		"Piercing Light", "Ardent Blaze",
-		"total_ad_ratio",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "不含") && !strings.Contains(readme, "禁止") &&
-		!strings.Contains(readme, "不得") {
-		t.Fatal("README must document governed-tag exclusion framing for total_ad_ratio")
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦无 seed") {
-		t.Fatal("README must document no repository materializer for Lucian identity/panel/resource")
-	}
-	if strings.Contains(readme, "op:lucian_the_culling_single_shot_quantum_damage") {
-		t.Fatal("README must not claim fixture-only Wasm op ref as production seed behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadLucianTCFixture(t, lucianTCFixtureOpts{
 		baseAD: lucianTCADBaseDefault, resolvedAD: lucianTCADResolvedDefault,

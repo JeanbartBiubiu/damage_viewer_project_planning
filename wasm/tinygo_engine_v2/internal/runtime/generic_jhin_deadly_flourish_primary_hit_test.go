@@ -35,7 +35,7 @@ import (
 //	  14790ca09f6f320fc2fadc81c2fa7e783c7b81d48d792b7760494f2e8d788c65
 //	数据参考/lol-wiki-current-champions/normalized/generic/jhin-w.json
 //	pages/raw siblings: pages/jhin-w.json, raw/jhin-w.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_jhin_deadly_flourish_primary_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_jhin_deadly_flourish_primary_hit_seed.sql
 //	Local raw materialization caveat: 2940 bytes / SHA256
 //	  76790ba522dc101bb1f1c24ae620f80e8db6d10e890515cbc7da85005a67f78b.
 //	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
@@ -93,9 +93,6 @@ const (
 	jhinDFDamageOpRef = "op:jhin_deadly_flourish_primary_hit_damage"
 	jhinDFTotalADMod  = "fixture_jhin_deadly_flourish_primary_hit_total_ad"
 
-	jhinDFSeedBlobSHA  = "0759F3090FF6DBBFC4BAA0F32E2C6AE0273A3A27A78E83CD135873352458DC92"
-	jhinDFJUnitBlobSHA = "DDAFC3110337AECD3A73ACE37B068BA98AC1F0EE5DB0EE45526D2275C8B2F0B7"
-
 	jhinDFBaseDamage = 210.0
 	jhinDFADRatio    = 0.50
 	jhinDFManaCost   = 70.0
@@ -113,10 +110,6 @@ const (
 	jhinDFExpectedMitDefault = 130.0 // armor100
 	jhinDFManaAfter2         = 70.0  // 210 - 70 - 70
 	jhinDFHPAfter2           = 740.0 // 1000 - 130 - 130
-
-	jhinDFSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":210},` +
-		`{"op":"mul","args":[{"op":"const","value":0.50},` +
-		`{"op":"read","path":"source.attr.ad.resolved"}]}]}`
 
 	jhinDFTol = 1e-9
 )
@@ -563,26 +556,6 @@ func jhinDFRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func jhinDFLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(jhinDFRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_jhin_deadly_flourish_primary_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func jhinDFSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -625,10 +598,8 @@ func jhinDFAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit 
 	}
 }
 
-// TestJhinDeadlyFlourishSourceSeedProviderFormulaShape locks wiki/sidecar/pages/
-// local-raw caveat, seed/README/JUnit identities and source blob hashes,
-// external-existing-data wording, and W provider/total-AD formula shape.
-func TestJhinDeadlyFlourishSourceSeedProviderFormulaShape(t *testing.T) {
+// TestJhinDeadlyFlourishWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestJhinDeadlyFlourishWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -745,166 +716,7 @@ func TestJhinDeadlyFlourishSourceSeedProviderFormulaShape(t *testing.T) {
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seedPath := jhinDFRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_jhin_deadly_flourish_primary_hit_seed.sql")
-	seedBytes, err := os.ReadFile(seedPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := jhinDFSHA256HexUpper(seedBytes); got != jhinDFSeedBlobSHA {
-		t.Fatalf("seed blob sha=%q want %q", got, jhinDFSeedBlobSHA)
-	}
-	junitPath := jhinDFRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest.java")
-	junitBytes, err := os.ReadFile(junitPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if got := jhinDFSHA256HexUpper(junitBytes); got != jhinDFJUnitBlobSHA {
-		t.Fatalf("junit blob sha=%q want %q", got, jhinDFJUnitBlobSHA)
-	}
-	_ = jhinDFRepoPath(t, "server", "data_manage", "README.md")
-
-	seed, sqlNoComments := jhinDFLoadSeedSQL(t)
-	readmeBytes, err := os.ReadFile(jhinDFRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		jhinDFCandidateKey, jhinDFTaskKey, jhinDFPlanRev,
-		jhinDFRequestTitle, jhinDFResolvedTitle,
-		"1307581", "4021795", jhinDFTimestamp, "2942", "2940",
-		jhinDFContentSHA, jhinDFLocalRawSHA,
-		jhinDFBoundary, jhinDFProviderRef, jhinDFAbilityID, jhinDFAbilityKey,
-		"deadly_flourish_damage", "w_mana_cost", "w_cooldown_ms",
-		`{"op":"const","value":70}`, `{"op":"const","value":12000}`,
-		jhinDFSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/jhin-w.json",
-		"external existing-data", "check-only",
-		"无 materializer", "不物化",
-		"total AD", "source.attr.ad.resolved",
-		"ability_started",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range jhinDFOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range jhinDFOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Contains(sqlNoComments, "source.attr.ad.base") {
-		t.Fatal("executable SQL must not read ad.base (total AD, not bonus AD)")
-	}
-	if regexp.MustCompile(`(?i)bonus\s*AD|bonus_ad`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not claim bonus AD")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_jhin_w_deadly_flourish_primary_hit_impact",
-		"sequence_hero_jhin_w_deadly_flourish_primary_hit_impact",
-		"step_hero_jhin_w_deadly_flourish_primary_hit_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_jhin_w_deadly_flourish_primary_hit'\s*,\s*` +
-		`'provider_hero_jhin_w_deadly_flourish_primary_hit'\s*,\s*` +
-		`'deadly_flourish_primary_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("W must be active ability with stable key deadly_flourish_primary_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_jhin_w_deadly_flourish_primary_hit_damage'\s*,\s*` +
-		`'deadly_flourish_damage'\s*,\s*20220\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be physical 20220 add policy copyable_on_hit=false")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_jhin_[pqer]_|'ability_hero_jhin_[pqer]_|` +
-		`'provider_hero_jhin_basic_|'ability_hero_jhin_basic_`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/Q/E/R/basic graph rows")
-	}
-	for _, banned := range []string{"mark", "root", "movement_speed", "movement-speed"} {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.\S*` + banned)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write mark/root/movement-speed surface matching %q", banned)
-		}
-	}
-
-	for _, want := range []string{
-		jhinDFCandidateKey, jhinDFTaskKey, jhinDFPlanRev,
-		"lol_generic_jhin_deadly_flourish_primary_hit_seed.sql",
-		"LolGenericJhinDeadlyFlourishPrimaryHitSeedSqlTest",
-		"external existing-data",
-		"physical_210_plus_0_50_total_ad",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦无 seed") {
-		t.Fatal("README must document no repository materializer for Jhin identity/panel/resource")
-	}
-	if strings.Contains(readme, "fixture_jhin_deadly_flourish_primary_hit_total_ad") {
-		t.Fatal("README must not claim fixture-only AD modifier as production W behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadJhinDFFixture(t, jhinDFFixtureOpts{
 		resolvedAD: jhinDFADResolvedDefault, armor: jhinDFTargetArmor, mana: jhinDFFixtureManaCD,

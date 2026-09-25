@@ -44,6 +44,7 @@ const (
 	// ReadOperationOutput 读取 operation.output.<ref>.<kind>；仅同帧已结算伤害。
 	ReadOperationOutput
 	ReadProcessActualCost
+	ReadDamageSelf
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -70,16 +71,19 @@ const (
 	GenericOpLte
 	GenericOpGt
 	GenericOpGte
+	GenericOpJumpIfZero
+	GenericOpJump
 )
 
 // GenericInstr 是 generic formula 单条指令。
 type GenericInstr struct {
-	Op       GenericOp
-	Value    float64
-	ReadKind GenericReadKind
-	ReadKey  string
-	RefIndex uint16
-	Decimals int
+	Op         GenericOp
+	Value      float64
+	ReadKind   GenericReadKind
+	ReadKey    string
+	RefIndex   uint16
+	Decimals   int
+	JumpTarget int // 指令下标；仅前跳，可指向程序末尾。
 }
 
 // GenericProgram 是已编译的 generic formula 程序。
@@ -97,7 +101,15 @@ type GenericRegistry struct {
 // CompileGenericFormula 将单个 GenericFormulaExpr 编译为指令序列（collect-all）。
 func CompileGenericFormula(expr model.GenericFormulaExpr, path string, named map[string]model.GenericFormulaExpr, visiting map[string]bool, addError func(code model.GenericErrCode, path, message, ref string)) []GenericInstr {
 	var instr []GenericInstr
-	compileGenericNode(expr, path, named, visiting, &instr, addError)
+	hasError := false
+	report := func(code model.GenericErrCode, path, message, ref string) {
+		hasError = true
+		addError(code, path, message, ref)
+	}
+	compileGenericNode(expr, path, named, visiting, &instr, 1, report)
+	if !hasError && !validGenericProgramStack(instr) {
+		report(model.GenericErrFormulaTypeError, path, "formula bytecode stack or jump is invalid", "")
+	}
 	return instr
 }
 
@@ -133,7 +145,13 @@ func CompileNamedFormulas(formulas []model.NamedFormula, addError func(code mode
 	return reg
 }
 
-func compileGenericNode(expr model.GenericFormulaExpr, path string, named map[string]model.GenericFormulaExpr, visiting map[string]bool, out *[]GenericInstr, addError func(code model.GenericErrCode, path, message, ref string)) {
+const maxGenericFormulaDepth = 32
+
+func compileGenericNode(expr model.GenericFormulaExpr, path string, named map[string]model.GenericFormulaExpr, visiting map[string]bool, out *[]GenericInstr, depth int, addError func(code model.GenericErrCode, path, message, ref string)) {
+	if depth > maxGenericFormulaDepth {
+		addError(model.GenericErrFormulaTypeError, path, "formula exceeds maximum depth", "")
+		return
+	}
 	if expr.Op == "" {
 		addError(model.GenericErrFormulaTypeError, path+".op", "formula op is required", "")
 		return
@@ -170,24 +188,38 @@ func compileGenericNode(expr model.GenericFormulaExpr, path string, named map[st
 			return
 		}
 		visiting[expr.Ref] = true
-		compileGenericNode(named[expr.Ref], path+".ref:"+expr.Ref, named, visiting, out, addError)
+		compileGenericNode(named[expr.Ref], path+".ref:"+expr.Ref, named, visiting, out, depth+1, addError)
 		delete(visiting, expr.Ref)
 	case "add", "sub", "mul", "div", "min", "max":
 		if len(expr.Args) < 2 {
 			addError(model.GenericErrFormulaTypeError, path+".args", "binary formula requires two args", expr.Op)
 			return
 		}
-		compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, addError)
-		compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, addError)
+		compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, depth+1, addError)
+		compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, depth+1, addError)
 		*out = append(*out, GenericInstr{Op: genericOpFor(expr.Op)})
 	case "eq", "ne", "lt", "lte", "gt", "gte":
 		if len(expr.Args) != 2 {
 			addError(model.GenericErrFormulaTypeError, path+".args", "comparison formula requires exactly two args", expr.Op)
 			return
 		}
-		compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, addError)
-		compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, addError)
+		compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, depth+1, addError)
+		compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, depth+1, addError)
 		*out = append(*out, GenericInstr{Op: genericOpFor(expr.Op)})
+	case "if":
+		if len(expr.Args) != 3 {
+			addError(model.GenericErrFormulaTypeError, path+".args", "if formula requires exactly three args", expr.Op)
+			return
+		}
+		compileGenericNode(expr.Args[0], path+".args[0]", named, visiting, out, depth+1, addError)
+		conditionJump := len(*out)
+		*out = append(*out, GenericInstr{Op: GenericOpJumpIfZero})
+		compileGenericNode(expr.Args[1], path+".args[1]", named, visiting, out, depth+1, addError)
+		endJump := len(*out)
+		*out = append(*out, GenericInstr{Op: GenericOpJump})
+		(*out)[conditionJump].JumpTarget = len(*out)
+		compileGenericNode(expr.Args[2], path+".args[2]", named, visiting, out, depth+1, addError)
+		(*out)[endJump].JumpTarget = len(*out)
 	case "clamp":
 		valueExpr := expr.Expr
 		if valueExpr == nil && len(expr.Args) > 0 {
@@ -197,9 +229,9 @@ func compileGenericNode(expr model.GenericFormulaExpr, path string, named map[st
 			addError(model.GenericErrFormulaTypeError, path, "clamp requires value, min and max", "")
 			return
 		}
-		compileGenericNode(*valueExpr, path+".value", named, visiting, out, addError)
-		compileGenericNode(*expr.Min, path+".min", named, visiting, out, addError)
-		compileGenericNode(*expr.Max, path+".max", named, visiting, out, addError)
+		compileGenericNode(*valueExpr, path+".value", named, visiting, out, depth+1, addError)
+		compileGenericNode(*expr.Min, path+".min", named, visiting, out, depth+1, addError)
+		compileGenericNode(*expr.Max, path+".max", named, visiting, out, depth+1, addError)
 		*out = append(*out, GenericInstr{Op: GenericOpClamp})
 	case "round", "floor", "ceil", "trunc":
 		valueExpr := expr.Expr
@@ -210,7 +242,7 @@ func compileGenericNode(expr model.GenericFormulaExpr, path string, named map[st
 			addError(model.GenericErrFormulaTypeError, path, expr.Op+" requires value expression", "")
 			return
 		}
-		compileGenericNode(*valueExpr, path+".value", named, visiting, out, addError)
+		compileGenericNode(*valueExpr, path+".value", named, visiting, out, depth+1, addError)
 		decimals := 0
 		if expr.Decimals != nil {
 			decimals = *expr.Decimals
@@ -219,6 +251,66 @@ func compileGenericNode(expr model.GenericFormulaExpr, path string, named map[st
 	default:
 		addError(model.GenericErrFormulaTypeError, path+".op", "unsupported formula op", expr.Op)
 	}
+}
+
+// 按全部可达分支检查栈深度；只接受前跳，汇合处的栈深必须一致。
+func validGenericProgramStack(instr []GenericInstr) bool {
+	if len(instr) == 0 {
+		return false
+	}
+	depths := make([]int, len(instr)+1)
+	for i := range depths {
+		depths[i] = -1
+	}
+	depths[0] = 0
+	propagate := func(pc, depth int) bool {
+		if depths[pc] >= 0 && depths[pc] != depth {
+			return false
+		}
+		depths[pc] = depth
+		return true
+	}
+	for pc, in := range instr {
+		depth := depths[pc]
+		if depth < 0 {
+			continue
+		}
+		pop, push := 0, 0
+		switch in.Op {
+		case GenericOpConst, GenericOpRead:
+			push = 1
+		case GenericOpAdd, GenericOpSub, GenericOpMul, GenericOpDiv, GenericOpMin, GenericOpMax,
+			GenericOpEq, GenericOpNe, GenericOpLt, GenericOpLte, GenericOpGt, GenericOpGte:
+			pop, push = 2, 1
+		case GenericOpClamp:
+			pop, push = 3, 1
+		case GenericOpRound, GenericOpFloor, GenericOpCeil, GenericOpTrunc:
+			pop, push = 1, 1
+		case GenericOpJumpIfZero:
+			if depth < 1 || !validForwardJump(pc, in.JumpTarget, len(instr)) {
+				return false
+			}
+			if !propagate(pc+1, depth-1) || !propagate(in.JumpTarget, depth-1) {
+				return false
+			}
+			continue
+		case GenericOpJump:
+			if !validForwardJump(pc, in.JumpTarget, len(instr)) || !propagate(in.JumpTarget, depth) {
+				return false
+			}
+			continue
+		default:
+			return false
+		}
+		if depth < pop || !propagate(pc+1, depth-pop+push) {
+			return false
+		}
+	}
+	return depths[len(instr)] == 1
+}
+
+func validForwardJump(pc, target, length int) bool {
+	return target > pc && target <= length
 }
 
 func parseReadPath(path string) (GenericReadKind, string, bool) {
@@ -275,6 +367,9 @@ func parseReadPath(path string) (GenericReadKind, string, bool) {
 	}
 	if path == "damage.amount" {
 		return ReadDamageAmount, "amount", true
+	}
+	if path == model.FormulaPathDamageSelf {
+		return ReadDamageSelf, "self", true
 	}
 	if strings.HasPrefix(path, "damage.trait.") {
 		name := strings.TrimPrefix(path, "damage.trait.")
@@ -460,18 +555,17 @@ func ValidPositiveInt64DurationMs(value float64) bool {
 	return finite(value) && value == math.Trunc(value) && value > 0 && value < maxInt64ExclusiveFloat
 }
 
-// TryFoldConst 仅在程序不含 read 时折叠常量。折叠失败（非有限、除零等）仍视为已折叠的非法值。
+// TryFoldConst 仅在实际选中路径不读取运行值时折叠；未选分支仍由编译完整校验。
+// 已选路径的除零等计算错误仍视为已折叠的非法值。
 func TryFoldConst(instr []GenericInstr) (float64, bool) {
 	if len(instr) == 0 {
 		return 0, false
 	}
-	for _, in := range instr {
-		if in.Op == GenericOpRead {
-			return 0, false
-		}
-	}
 	reg := GenericRegistry{Programs: []GenericProgram{{Instr: instr}}}
-	value, err := reg.Eval(0, GenericEvalContext{})
+	value, err := reg.eval(0, GenericEvalContext{}, true)
+	if err == errConstFormulaRead {
+		return 0, false
+	}
 	if err != nil {
 		return math.NaN(), true
 	}

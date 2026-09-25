@@ -6,9 +6,7 @@ import (
 	"encoding/json"
 	"math"
 	"os"
-	"os/exec"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"testing"
 
@@ -40,7 +38,7 @@ import (
 //	pages/raw siblings: pages/varus-q.json (bytes 689 / SHA256
 //	  85975963850f79395fbeec142049176aa945a3728bcecc55ca01a7863d849f61),
 //	  raw/varus-q.wikitext
-//	Backend seed (cross-worktree absolute path; Backend owning commit d493781):
+//	已删除历史种子（原跨工作树路径； Backend owning commit d493781):
 //	  C:/project/damage_backend_dev/db/game_manage/seeds/
 //	  lol_generic_varus_piercing_arrow_max_charge_primary_first_hit_seed.sql
 //	Local raw materialization caveat: 3888 bytes / SHA256
@@ -59,7 +57,7 @@ import (
 //         read source.attr.ad.base)))
 //     (bonus AD; each AD path exactly once; no AP/crit reads)
 //   - CritEligible=false, CopyableOnHit=false; Types empty (no ability/basic_attack)
-//   - physical20220 / add20170 semantics in Backend seed; Wasm damage/physical
+//   - 当前通用构造样例使用 damage/physical；不核对历史目录编码
 //   - No Q state/modifier/listener/matcher/repeat/tick/control/scheduler/explicit
 //     event/Q-specific type — successful cast relies on runtime automatic
 //     ability_started. Fixture-only flat AD modifier may set resolved AD and is
@@ -107,9 +105,6 @@ const (
 		"no_real_charge_channel_post_effect_cooldown_start_charge_duration_cooldown_reduction_pierce_" +
 		"falloff_projectile_geometry_blight_or_full_fidelity"
 
-	// Cross-worktree Backend evidence root (owning commit d493781).
-	varusPAPBackendRoot = "C:/project/damage_backend_dev"
-
 	varusPAPProviderRef = "provider_hero_varus_q_piercing_arrow_max_charge_primary_first_hit"
 	varusPAPStableID    = "hero_varus_q_piercing_arrow_max_charge_primary_first_hit"
 	varusPAPAbilityID   = "ability_hero_varus_q_piercing_arrow_max_charge_primary_first_hit"
@@ -137,11 +132,6 @@ const (
 
 	// Zero-bonus baseline: base60/resolved60/armor0 → raw/final 360.
 	varusPAPExpectedRawBaseline = 360.0
-
-	varusPAPSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":360},` +
-		`{"op":"mul","args":[{"op":"const","value":1.20},` +
-		`{"op":"sub","args":[{"op":"read","path":"source.attr.ad.resolved"},` +
-		`{"op":"read","path":"source.attr.ad.base"}]}]}]}`
 
 	varusPAPTol = 1e-9
 )
@@ -679,35 +669,6 @@ func varusPAPWasmRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func varusPAPBackendPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{filepath.FromSlash(varusPAPBackendRoot)}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing backend path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func varusPAPLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(varusPAPBackendPath(t,
-		"db", "game_manage", "seeds", "lol_generic_varus_piercing_arrow_max_charge_primary_first_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func varusPAPSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -746,11 +707,8 @@ func varusPAPAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMi
 	}
 }
 
-// TestVarusPiercingArrowMaxChargePrimaryFirstHitWikiSeedShape locks wiki/sidecar/
-// pages/local-raw caveat, Backend seed/README identities, exact IDs, one damage
-// operation, formula binary shape/path counts, cost/CD/flags, ordered governed
-// tags, and bounded exclusions.
-func TestVarusPiercingArrowMaxChargePrimaryFirstHitWikiSeedShape(t *testing.T) {
+// TestVarusPiercingArrowMaxChargePrimaryFirstHitWikiSourceAndConstructedFixtureShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestVarusPiercingArrowMaxChargePrimaryFirstHitWikiSourceAndConstructedFixtureShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -881,135 +839,7 @@ func TestVarusPiercingArrowMaxChargePrimaryFirstHitWikiSeedShape(t *testing.T) {
 		}
 	}
 
-	seed, sqlNoComments := varusPAPLoadSeedSQL(t)
-	_ = varusPAPBackendPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest.java")
-	readmeBytes, err := os.ReadFile(varusPAPBackendPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		varusPAPCandidateKey, varusPAPTaskKey, varusPAPPlanRev,
-		varusPAPRequestTitle, varusPAPResolvedTitle,
-		"1309981", "4026469", varusPAPTimestamp, "3888", "4131",
-		varusPAPContentSHA, varusPAPNormalizedSHA, varusPAPLocalRawSHA,
-		varusPAPBoundary, varusPAPProviderRef, varusPAPAbilityID, varusPAPAbilityKey,
-		"piercing_arrow_max_charge_primary_first_hit_damage", "q_mana_cost", "q_cooldown_ms",
-		`{"op":"const","value":70}`, `{"op":"const","value":12000}`,
-		varusPAPSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/varus-q.json",
-		"external existing-data", "check-only",
-		"source.attr.ad.resolved", "source.attr.ad.base",
-		"ability_started", "bonus AD",
-		"crit_eligible=false", "copyable_on_hit=false",
-		"blighted_quiver_q_max_charge_carrier",
-		"provider_hero_varus_w_blighted_quiver_phase_a",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range []string{"ability_cost_cooldown", "active_physical_damage", "bonus_ad_ratio"} {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing shared ordered tag %q", tag)
-		}
-	}
-	// Wasm governed tag #4 must not be rewritten to immediate_impact_scaffold.
-	if !strings.Contains(strings.Join(tags, ","), "max_charge_max_range_selected_primary_first_hit_scaffold") {
-		t.Fatal("Wasm ordered tags must keep max_charge_max_range_selected_primary_first_hit_scaffold")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_costs",
-		"INSERT INTO public.ability_cooldowns",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.ability_phase_effect_sequences",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_varus_q_piercing_arrow_max_charge_primary_first_hit_impact",
-		"sequence_hero_varus_q_piercing_arrow_max_charge_primary_first_hit_impact",
-		"step_hero_varus_q_piercing_arrow_max_charge_primary_first_hit_damage",
-		"cost_hero_varus_q_piercing_arrow_max_charge_primary_first_hit_mana",
-		"cooldown_hero_varus_q_piercing_arrow_max_charge_primary_first_hit",
-		"missing game_entities hero_varus",
-		"missing attribute_definitions",
-		"missing entity_attribute_values hero_varus/ad",
-		"missing resource_definitions mana",
-		"missing entity_resource_values hero_varus/mana",
-	} {
-		if !strings.Contains(sqlNoComments, needle) && !strings.Contains(seed, needle) {
-			t.Fatalf("seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_varus_q_piercing_arrow_max_charge_primary_first_hit'\s*,\s*` +
-		`'provider_hero_varus_q_piercing_arrow_max_charge_primary_first_hit'\s*,\s*` +
-		`'piercing_arrow_max_charge_primary_first_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("Q must be active ability with stable key piercing_arrow_max_charge_primary_first_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_varus_q_piercing_arrow_max_charge_primary_first_hit_damage'\s*,\s*` +
-		`'piercing_arrow_max_charge_primary_first_hit_damage'\s*,\s*20220\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be physical 20220 add policy copyable_on_hit=false")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_varus_w_blighted_quiver_phase_a'|` +
-		`'blighted_quiver_q_max_charge_carrier'|` +
-		`'ability_hero_varus_w_piercing_arrow_max_charge_carrier'`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not write/mutate W provider or W Q-carrier rows")
-	}
-	if regexp.MustCompile(`(?is)\b62\d{3}\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not introduce game-local ability-specific 62xxx types")
-	}
-	if regexp.MustCompile(`(?is)\b20230\b`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not use provider_action/apply 20230")
-	}
-
-	for _, want := range []string{
-		varusPAPCandidateKey, varusPAPTaskKey, varusPAPPlanRev,
-		"lol_generic_varus_piercing_arrow_max_charge_primary_first_hit_seed.sql",
-		"LolGenericVarusPiercingArrowMaxChargePrimaryFirstHitSeedSqlTest",
-		"external existing-data",
-		"physical_360_plus_1_20_bonus_ad",
-		"1309981", "4026469", varusPAPContentSHA,
-		"blighted_quiver_q_max_charge_carrier",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadVarusPAPFixture(t, varusPAPFixtureOpts{
 		baseAD: varusPAPADBaseDefault, resolvedAD: varusPAPADResolvedDefault,
@@ -1452,49 +1282,11 @@ func TestVarusPiercingArrowMaxChargePrimaryFirstHitDeterminismAndLifecycle(t *te
 }
 
 // TestVarusPiercingArrowMaxChargePrimaryFirstHitGovernanceExclusionsAndNonclaims:
-// prove hero-named `_test.go` status, allowed write surface, no production hero
+// prove hero-named `_test.go` status, production generic source scan, no hero
 // switch, and explicit exclusions/nonclaims remain locked.
 func TestVarusPiercingArrowMaxChargePrimaryFirstHitGovernanceExclusionsAndNonclaims(t *testing.T) {
-	allowedTestRel := filepath.ToSlash(filepath.Join(
-		"wasm", "tinygo_engine_v2", "internal", "runtime",
-		"generic_varus_piercing_arrow_max_charge_primary_first_hit_test.go",
-	))
-
-	cmd := exec.Command("git", "status", "--porcelain", "--",
-		"wasm/tinygo_engine_v2/internal/runtime",
-		"wasm/tinygo_engine_v2/internal/model",
-		"wasm/tinygo_engine_v2/internal/compile",
-		"wasm/tinygo_engine_v2/internal/abi",
-		"wasm/tinygo_engine_v2/cmd",
-	)
-	cmd.Dir = filepath.Join("..", "..", "..", "..")
-	out, err := cmd.CombinedOutput()
-	if err != nil {
-		t.Fatalf("git status failed: %v (%s)", err, string(out))
-	}
-	for _, line := range strings.Split(string(out), "\n") {
-		line = strings.TrimSpace(line)
-		if line == "" {
-			continue
-		}
-		path := line
-		if len(line) >= 3 {
-			path = strings.TrimSpace(line[2:])
-		}
-		if idx := strings.Index(path, " -> "); idx >= 0 {
-			path = path[idx+4:]
-		}
-		path = filepath.ToSlash(path)
-		if path == allowedTestRel {
-			continue
-		}
-		if strings.HasSuffix(path, "_test.go") {
-			t.Fatalf("unexpected dirty test path %q (only %q may change)", path, allowedTestRel)
-		}
-		t.Fatalf("production/non-allowed path dirty: %q (only %q may change)", path, allowedTestRel)
-	}
-
-	err = filepath.Walk(filepath.Join(".."), func(path string, info os.FileInfo, err error) error {
+	// 保留生产源码扫描；工作树独占限制属于历史执行现场。
+	err := filepath.Walk(filepath.Join(".."), func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}

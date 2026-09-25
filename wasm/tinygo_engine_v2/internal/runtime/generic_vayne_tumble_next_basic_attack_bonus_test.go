@@ -30,7 +30,7 @@ import (
 //	  5ae387c07aa6c510a9da57df976b6e6ba9d3b52490fa91ce59e1221813fe9dad
 //	数据参考/lol-wiki-current-champions/normalized/generic/vayne-q.json
 //	pages/raw siblings: pages/vayne-q.json, raw/vayne-q.wikitext
-//	Backend seed (cross-worktree absolute path; committed Backend e88e172):
+//	已删除历史种子（原跨工作树路径； committed Backend e88e172):
 //	  C:/project/damage_backend_dev/db/game_manage/seeds/
 //	  lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql
 //	Local raw materialization caveat: 1733 bytes / SHA256
@@ -85,10 +85,6 @@ const (
 		"physical_1_15_ad_plus_0_50_ap; mana30_cooldown2000ms; " +
 		"no_dash_ba_reset_invisibility_lifesteal_crit_rng_or_full_tumble"
 
-	// Cross-worktree Backend evidence root (committed Backend e88e172).
-	vayneTumbleBackendRoot = "C:/project/damage_backend_dev"
-	vayneTumbleBackendCommit = "e88e172"
-
 	vayneTumbleProviderRef = "provider_hero_vayne_tumble"
 	vayneTumbleStableID    = "provider_hero_vayne_tumble"
 	vayneTumbleAbilityID   = "ability_hero_vayne_tumble"
@@ -118,25 +114,21 @@ const (
 	vayneTumbleCDMs     = 2000.0
 	vayneTumbleDuration = 3000.0
 
-	vayneTumbleFixtureAD    = 100.0
-	vayneTumbleFixtureAP    = 40.0
-	vayneTumbleFixtureMana  = 300.0
+	vayneTumbleFixtureAD     = 100.0
+	vayneTumbleFixtureAP     = 40.0
+	vayneTumbleFixtureMana   = 300.0
 	vayneTumbleFixtureMana29 = 29.0
-	vayneTumbleTargetArmor  = 100.0
-	vayneTumbleTargetHP     = 1000.0
+	vayneTumbleTargetArmor   = 100.0
+	vayneTumbleTargetHP      = 1000.0
 
-	vayneTumbleBonusRaw = 135.0 // 1.15*100 + 0.50*40
-	vayneTumbleBonusMit = 67.5  // armor100
-	vayneTumbleBARaw    = 100.0
-	vayneTumbleBAMit    = 50.0
-	vayneTumbleManaAfter1 = 270.0 // 300 - 30
-	vayneTumbleManaAfter2 = 240.0 // 300 - 30 - 30
-	vayneTumbleSpellDmg   = 25.0
+	vayneTumbleBonusRaw    = 135.0 // 1.15*100 + 0.50*40
+	vayneTumbleBonusMit    = 67.5  // armor100
+	vayneTumbleBARaw       = 100.0
+	vayneTumbleBAMit       = 50.0
+	vayneTumbleManaAfter1  = 270.0 // 300 - 30
+	vayneTumbleManaAfter2  = 240.0 // 300 - 30 - 30
+	vayneTumbleSpellDmg    = 25.0
 	vayneTumbleOpponentDmg = 15.0
-
-	vayneTumbleSeedBonusJSON = `{"op":"add","args":[{"op":"mul","args":[{"op":"const","value":1.15},` +
-		`{"op":"read","path":"source.attr.ad.resolved"}]},{"op":"mul","args":[{"op":"const","value":0.50},` +
-		`{"op":"read","path":"source.attr.ap.resolved"}]}]}`
 
 	vayneTumbleTol = 1e-9
 )
@@ -848,35 +840,6 @@ func vayneTumbleWasmRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func vayneTumbleBackendPath(t *testing.T, parts ...string) string {
-	t.Helper()
-	path := filepath.Join(append([]string{filepath.FromSlash(vayneTumbleBackendRoot)}, parts...)...)
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("missing backend path %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
-func vayneTumbleLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(vayneTumbleBackendPath(t,
-		"db", "game_manage", "seeds", "lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func vayneTumbleSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -886,15 +849,14 @@ func vayneTumbleSHA256Hex(b []byte) string {
 // Evidence tests
 // ---------------------------------------------------------------------------
 
-// TestGenericVayneTumbleWikiSidecarAndBackendContract locks wiki sidecar/pages/
-// local-raw caveat plus Backend seed/README/JUnit identities at e88e172.
-func TestGenericVayneTumbleWikiSidecarAndBackendContract(t *testing.T) {
+// TestGenericVayneTumbleWikiSidecarAndConstructedFixtureContract 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestGenericVayneTumbleWikiSidecarAndConstructedFixtureContract(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
 		WikiPageID, RevisionID, RawByteSize                      int
 		Fields                                                   struct {
-			Description, Leveling, Description2 string
+			Description, Leveling, Description2         string
 			Cooldown, Cost, Costtype, Damagetype, Notes string
 		}
 		FieldPresence map[string]bool
@@ -1001,76 +963,10 @@ func TestGenericVayneTumbleWikiSidecarAndBackendContract(t *testing.T) {
 		t.Fatalf("ordered tags drifted: %v", tags)
 	}
 
-	seed, sqlNoComments := vayneTumbleLoadSeedSQL(t)
-	_ = vayneTumbleBackendPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericVayneTumbleNextBasicAttackBonusSeedSqlTest.java")
-	readmeBytes, err := os.ReadFile(vayneTumbleBackendPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
+	// 下一次普攻、三秒窗口及公式由通用构造样例独立核对。
+	compileReq, _ := loadVayneTumbleFixture(t)
+	assertVayneTumbleProviderShape(t, compileReq)
 
-	for _, want := range []string{
-		vayneTumbleCandidateKey, vayneTumblePlanRev, vayneTumbleBoundary,
-		vayneTumbleRequestTitle, vayneTumbleResolvedTitle,
-		"1309988", "4015566", vayneTumbleTimestamp, "1735",
-		vayneTumbleContentSHA,
-		vayneTumbleProviderRef, vayneTumbleAbilityID, "tumble",
-		"tumble_empowered_attack_ready", "tumble_bonus_damage",
-		`{"op":"const","value":30}`, `{"op":"const","value":2000}`,
-		vayneTumbleSeedBonusJSON,
-		"normalized/generic/vayne-q.json",
-		"check-only", "不物化",
-		"event/basic_attack_hit", "event/source_owner", "20211", "20212",
-		"62003", "refresh_on_write", "3000",
-		"crit_eligible=false", "copyable_on_hit=false",
-		"provider_hero_vayne_silver_bolts", "provider_item_3078_spellblade",
-		"ability_started",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range vayneTumbleOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	if strings.Contains(sqlNoComments, "ability_hero_vayne_q_") ||
-		strings.Contains(sqlNoComments, "provider_hero_vayne_q_") {
-		t.Fatal("executable SQL must not create competing Q IDs")
-	}
-	if strings.Contains(sqlNoComments, "INSERT INTO public.event_effect_details") {
-		t.Fatal("executable SQL must not insert event_effect_details / emit_event graph")
-	}
-	// Matcher must lock 20211+20212 and forbid 62003 in executable inserts.
-	if !strings.Contains(seed, "MUST NOT") && !strings.Contains(seed, "不得") {
-		t.Fatal("seed must document forbid ability/basic_attack 62003 matcher")
-	}
-
-	for _, want := range []string{
-		"LoL generic Vayne Tumble next-basic-attack bonus seed",
-		"lol_generic_vayne_tumble_next_basic_attack_bonus_seed.sql",
-		"LolGenericVayneTumbleNextBasicAttackBonusSeedSqlTest",
-		vayneTumbleCandidateKey, vayneTumblePlanRev, vayneTumbleBoundary,
-		vayneTumbleProviderRef, vayneTumbleAbilityID,
-		"tumble_empowered_attack_ready", "check-only",
-		"20211", "20212", "62003", "1.15", "0.50", "30", "2000", "3000",
-		"provider_hero_vayne_silver_bolts", "provider_item_3078_spellblade",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, vayneTumbleBackendCommit) &&
-		!strings.Contains(seed, "e88e172") &&
-		!strings.Contains(seed, "20260726") {
-		// Commit pin is Wasm-side; seed uses publish suggestion date.
-		if !strings.Contains(seed, "20260726") {
-			t.Fatal("seed must document 20260726 publish suggestion")
-		}
-	}
-	_ = vayneTumbleBackendCommit
 }
 
 // TestGenericVayneTumbleProviderShapeAndIdleDefault0 locks enrich identity,

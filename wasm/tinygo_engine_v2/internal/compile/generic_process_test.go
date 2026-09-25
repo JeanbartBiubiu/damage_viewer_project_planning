@@ -341,7 +341,7 @@ func TestProcessCompileActualCostReadScopesAndNamedFormulas(t *testing.T) {
 }
 
 func TestProcessCompileRejectsMissingFormulaContexts(t *testing.T) {
-	for _, read := range []string{"damage.amount", "event.source.attr.attack_damage.resolved", "event.skill_hit.blocked"} {
+	for _, read := range []string{"damage.amount", model.FormulaPathDamageSelf, "event.source.attr.attack_damage.resolved", "event.skill_hit.blocked"} {
 		t.Run(read, func(t *testing.T) {
 			req := processCompileRequest()
 			req.SharedProviders[0].Processes[0].MomentOperations[0].Operations[0].Amount = &model.GenericFormulaExpr{Op: "read", Path: read}

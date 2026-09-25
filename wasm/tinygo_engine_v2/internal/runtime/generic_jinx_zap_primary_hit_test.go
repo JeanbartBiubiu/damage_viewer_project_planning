@@ -32,7 +32,7 @@ import (
 //	  8aa6ac3943076256fe6afea15f1dd6eebf892656be45784e2522abb6243f4d1f
 //	数据参考/lol-wiki-current-champions/normalized/generic/jinx-w.json
 //	pages/raw siblings: pages/jinx-w.json, raw/jinx-w.wikitext
-//	Backend seed: db/game_manage/seeds/lol_generic_jinx_zap_primary_hit_seed.sql
+//	已删除历史种子： db/game_manage/seeds/lol_generic_jinx_zap_primary_hit_seed.sql
 //	Local raw materialization caveat: 1319 bytes / SHA256
 //	  c373cc258c5c8c612930a32c5e851bd4b68dbbcb3c0d7f71ce1d25020ba12624.
 //	Assert sidecar/pages canonical identity + caveat; do not claim local-raw
@@ -103,10 +103,6 @@ const (
 	jinxZapExpectedMitDefault = 182.0 // armor100
 	jinxZapManaAfter2         = 60.0  // 180 - 60 - 60
 	jinxZapHPAfter2           = 636.0 // 1000 - 182 - 182
-
-	jinxZapSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":210},` +
-		`{"op":"mul","args":[{"op":"const","value":1.40},` +
-		`{"op":"read","path":"source.attr.ad.resolved"}]}]}`
 
 	jinxZapTol = 1e-9
 )
@@ -553,26 +549,6 @@ func jinxZapRepoPath(t *testing.T, parts ...string) string {
 	return path
 }
 
-func jinxZapLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(jinxZapRepoPath(t,
-		"db", "game_manage", "seeds", "lol_generic_jinx_zap_primary_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func jinxZapSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
@@ -611,10 +587,8 @@ func jinxZapAssertDamage(t *testing.T, item model.EvidenceItem, wantRaw, wantMit
 	}
 }
 
-// TestJinxZapSourceSeedProviderFormulaShape locks wiki/sidecar/pages/local-raw
-// caveat, seed/README/JUnit identities, external-existing-data wording, and W
-// provider/total-AD formula shape.
-func TestJinxZapSourceSeedProviderFormulaShape(t *testing.T) {
+// TestJinxZapWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestJinxZapWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -714,142 +688,7 @@ func TestJinxZapSourceSeedProviderFormulaShape(t *testing.T) {
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seed, sqlNoComments := jinxZapLoadSeedSQL(t)
-	_ = jinxZapRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericJinxZapPrimaryHitSeedSqlTest.java")
-	readmeBytes, err := os.ReadFile(jinxZapRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-
-	for _, want := range []string{
-		jinxZapCandidateKey, jinxZapTaskKey, jinxZapPlanRev,
-		jinxZapRequestTitle, jinxZapResolvedTitle,
-		"1307598", "3907092", jinxZapTimestamp, "1321", "1319",
-		jinxZapContentSHA, jinxZapLocalRawSHA,
-		jinxZapBoundary, jinxZapProviderRef, jinxZapAbilityID, jinxZapAbilityKey,
-		"zap_damage", "w_mana_cost", "w_cooldown_ms",
-		`{"op":"const","value":60}`, `{"op":"const","value":4000}`,
-		jinxZapSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/jinx-w.json",
-		"external existing-data", "check-only",
-		"无 materializer", "不物化",
-		"total AD", "source.attr.ad.resolved",
-		"ability_started",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range jinxZapOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	ordIdx := strings.Index(seed, "Ordered tags")
-	if ordIdx < 0 {
-		t.Fatal("seed missing Ordered tags section")
-	}
-	ordSection := seed[ordIdx:]
-	if end := strings.Index(ordSection, "契约要点"); end > 0 {
-		ordSection = ordSection[:end]
-	}
-	prev := -1
-	for _, tag := range jinxZapOrderedTags() {
-		i := strings.Index(ordSection, tag)
-		if i < 0 || i < prev {
-			t.Fatalf("ordered tags not in frozen order around %q", tag)
-		}
-		prev = i
-	}
-	if regexp.MustCompile(`(?i)Batch-B\s+prerequisite`).MatchString(seed) {
-		t.Fatal("seed must not use Batch-B prerequisite wording")
-	}
-	if strings.Contains(sqlNoComments, "source.attr.ad.base") {
-		t.Fatal("executable SQL must not read ad.base (total AD, not bonus AD)")
-	}
-	if regexp.MustCompile(`(?i)bonus\s*AD|bonus_ad`).MatchString(sqlNoComments) {
-		t.Fatal("executable SQL must not claim bonus AD")
-	}
-
-	for _, needle := range []string{
-		"INSERT INTO public.provider_definitions",
-		"INSERT INTO public.ability_definitions",
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.entity_provider_mounts",
-		"phase_hero_jinx_w_zap_primary_hit_impact",
-		"sequence_hero_jinx_w_zap_primary_hit_impact",
-		"step_hero_jinx_w_zap_primary_hit_damage",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_definitions") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.damage_effect_details") != 1 ||
-		strings.Count(sqlNoComments, "INSERT INTO public.entity_provider_mounts") != 1 {
-		t.Fatal("seed must define exactly one provider/ability/phase/detail/mount")
-	}
-	if !regexp.MustCompile(`(?s)'ability_hero_jinx_w_zap_primary_hit'\s*,\s*` +
-		`'provider_hero_jinx_w_zap_primary_hit'\s*,\s*` +
-		`'zap_primary_hit'\s*,\s*20130`).MatchString(seed) {
-		t.Fatal("W must be active ability with stable key zap_primary_hit")
-	}
-	if !regexp.MustCompile(`(?s)'step_hero_jinx_w_zap_primary_hit_damage'\s*,\s*` +
-		`'zap_damage'\s*,\s*20220\s*,\s*20170\s*,\s*false`).MatchString(seed) {
-		t.Fatal("damage must be physical 20220 add policy copyable_on_hit=false")
-	}
-
-	forbiddenSurfaces := []string{
-		"provider_listeners", "provider_state_fields", "state_effect_details",
-		"event_effect_details", "modifier_effect_details", "modifier_definitions",
-		"provider_modifiers", "repeat_effect_details", "control_effect_details",
-		"projectile_effect_details", "aoe_effect_details",
-	}
-	for _, table := range forbiddenSurfaces {
-		pat := regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s", table)
-		}
-	}
-	for _, table := range []string{
-		"attribute_definitions", "resource_definitions", "game_entities",
-		"entity_attribute_values", "entity_resource_values",
-	} {
-		pat := regexp.MustCompile(`(?is)(?:INSERT\s+INTO|UPDATE|MERGE\s+INTO|DELETE\s+FROM)\s+public\.` + table + `\b`)
-		if pat.MatchString(sqlNoComments) {
-			t.Fatalf("must not write public.%s (external existing-data / check-only)", table)
-		}
-	}
-	if regexp.MustCompile(`(?is)'provider_hero_jinx_[pqer]_|'ability_hero_jinx_[pqer]_|` +
-		`'provider_hero_jinx_basic_|'ability_hero_jinx_basic_`).MatchString(sqlNoComments) {
-		t.Fatal("must not create P/Q/E/R/basic graph rows")
-	}
-
-	for _, want := range []string{
-		jinxZapCandidateKey, jinxZapTaskKey, jinxZapPlanRev,
-		"lol_generic_jinx_zap_primary_hit_seed.sql",
-		"LolGenericJinxZapPrimaryHitSeedSqlTest",
-		"external existing-data",
-		"physical_210_plus_1_40_total_ad",
-	} {
-		if !strings.Contains(readme, want) {
-			t.Fatalf("README missing %q", want)
-		}
-	}
-	if !strings.Contains(readme, "materializer") && !strings.Contains(readme, "不物化") &&
-		!strings.Contains(readme, "亦无 seed") {
-		t.Fatal("README must document no repository materializer for Jinx identity/panel/resource")
-	}
-	if strings.Contains(readme, "fixture_jinx_zap_primary_hit_total_ad") {
-		t.Fatal("README must not claim fixture-only AD modifier as production W behavior")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadJinxZapFixture(t, jinxZapFixtureOpts{
 		resolvedAD: jinxZapADResolvedDefault, armor: jinxZapTargetArmor, mana: jinxZapFixtureManaCD,

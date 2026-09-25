@@ -284,7 +284,8 @@ type NamedFormula struct {
 	Expression GenericFormulaExpr `json:"expression"`
 }
 
-// GenericFormulaExpr 是 P0 numeric formula DSL 节点。
+// GenericFormulaExpr 是通用数值表达式节点。内部 if 固定三个 args：条件非零取第二项，
+// 否则取第三项；运行只求选中的分支，编译仍校验两支。管理作者公式不因此增加节点。
 type GenericFormulaExpr struct {
 	Op       string               `json:"op"`
 	Value    *float64             `json:"value,omitempty"`

@@ -7,7 +7,6 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"testing"
 
@@ -64,10 +63,6 @@ const (
 	xayahFSManaAfter2        = 100.0 // 300 - 100 - 100
 	xayahFSHPAfter2          = 550.0 // 1000 - 225 - 225
 	xayahFSTol               = 1e-9
-
-	xayahFSSeedDamageJSON = `{"op":"add","args":[{"op":"const","value":400},` +
-		`{"op":"mul","args":[{"op":"const","value":1.00},{"op":"sub","args":[` +
-		`{"op":"read","path":"source.attr.ad.resolved"},{"op":"read","path":"source.attr.ad.base"}]}]}]}`
 )
 
 func xayahFSOrderedTags() []string {
@@ -516,28 +511,8 @@ func xayahFSSHA256Hex(b []byte) string {
 	return hex.EncodeToString(sum[:])
 }
 
-func xayahFSLoadSeed(t *testing.T) (full, noComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(xayahFSRepoPath(t, "db", "game_manage", "seeds",
-		"lol_generic_xayah_featherstorm_primary_hit_seed.sql"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		if strings.HasPrefix(strings.TrimSpace(line), "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
-// TestXayahFeatherstormSourceSeedProviderFormulaShape locks wiki/sidecar/pages/
-// local-raw caveat, seed/README identifiers, and R provider/formula shape.
-func TestXayahFeatherstormSourceSeedProviderFormulaShape(t *testing.T) {
+// TestXayahFeatherstormWikiSourceAndConstructedFixtureFormulaShape 核对历史 Wiki 来源与当前通用运行构造样例的数值、身份和边界；不代表现行管理数据。
+func TestXayahFeatherstormWikiSourceAndConstructedFixtureFormulaShape(t *testing.T) {
 	type wikiDoc struct {
 		CandidateKey, RequestTitle, ResolvedTitle, ContentSHA256 string
 		RevisionTimestamp, SkillKey, ZhDisplayName, OwnerID      string
@@ -623,56 +598,7 @@ func TestXayahFeatherstormSourceSeedProviderFormulaShape(t *testing.T) {
 		t.Fatal("frozen plan/boundary drifted")
 	}
 
-	seed, sqlNoComments := xayahFSLoadSeed(t)
-	_ = xayahFSRepoPath(t, "server", "data_manage", "src", "test", "java", "xyz", "game",
-		"datamanage", "db", "LolGenericXayahFeatherstormPrimaryHitSeedSqlTest.java")
-	readmeBytes, err := os.ReadFile(xayahFSRepoPath(t, "server", "data_manage", "README.md"))
-	if err != nil {
-		t.Fatal(err)
-	}
-	readme := string(readmeBytes)
-	for _, want := range []string{
-		xayahFSCandidateKey, xayahFSTaskKey, xayahFSPlanRev,
-		xayahFSRequestTitle, xayahFSResolvedTitle,
-		"1324544", "4008617", xayahFSTimestamp,
-		xayahFSContentSHA, xayahFSLocalRawSHA, "1761",
-		xayahFSBoundary, xayahFSProviderRef, xayahFSAbilityID,
-		xayahFSAbilityKey, "featherstorm_primary_hit_damage", "r_mana_cost", "r_cooldown_ms",
-		`{"op":"const","value":100}`, `{"op":"const","value":100000}`,
-		xayahFSSeedDamageJSON, "local raw materialization caveat",
-		"normalized/generic/xayah-r.json", "ability/xayah_deadly_plumage",
-		"preserve_deadly_plumage", "damage quantum",
-		"no_claim_of_whole_r_single_total_hit",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing %q", want)
-		}
-	}
-	for _, tag := range xayahFSOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing tag %q", tag)
-		}
-	}
-	if regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.modifier_definitions\b`).MatchString(sqlNoComments) ||
-		regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.provider_modifiers\b`).MatchString(sqlNoComments) {
-		t.Fatal("seed must not insert R production modifier rows")
-	}
-	if regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.provider_listeners\b`).MatchString(sqlNoComments) ||
-		regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.listener_match_types\b`).MatchString(sqlNoComments) ||
-		regexp.MustCompile(`(?is)INSERT\s+INTO\s+public\.provider_state_schemas\b`).MatchString(sqlNoComments) {
-		t.Fatal("seed must not insert R listeners/matchers/state")
-	}
-	if !strings.Contains(readme, xayahFSProviderRef) ||
-		!strings.Contains(readme, "100000") || !strings.Contains(readme, "1.00") {
-		t.Fatal("README missing R identity/formula/cost-CD contract")
-	}
-	if strings.Contains(readme, xayahFSBonusADMod) {
-		t.Fatal("README must not claim fixture-only AD modifier as production R behavior")
-	}
-	if !strings.Contains(readme, "damage quantum") ||
-		!strings.Contains(readme, "不证明完整 Featherstorm") {
-		t.Fatal("README must retain quantum framing / no whole-R once-only claim")
-	}
+	// 退役种子、后端旧检查与旧说明字节已归入历史证据；此处核对通用构造样例。
 
 	compileReq, _ := loadXayahFSFixture(t, xayahFSFixtureOpts{
 		resolvedAD: xayahFSADResolvedDefault,

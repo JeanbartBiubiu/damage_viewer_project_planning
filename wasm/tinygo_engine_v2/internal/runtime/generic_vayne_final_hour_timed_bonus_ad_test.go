@@ -114,7 +114,7 @@ const (
 	vayneFinalHourADBuffed    = 125.0 // 60 + 65
 	vayneFinalHourTargetArmor = 100.0
 	vayneFinalHourTargetHP    = 100000.0
-	vayneFinalHourFixtureMana = 300.0 // fixture-only; Backend seed remains 232/232
+	vayneFinalHourFixtureMana = 300.0 // fixture-only; 历史种子曾使用 232/232
 	vayneFinalHourManaAfter1  = 220.0 // 300 - 80
 	vayneFinalHourManaAfter2  = 140.0 // 300 - 80 - 80
 
@@ -720,16 +720,6 @@ func vayneFinalHourWikiPagesPath(t *testing.T) string {
 	return path
 }
 
-func vayneFinalHourSeedPath(t *testing.T) string {
-	t.Helper()
-	path := filepath.Join("..", "..", "..", "..",
-		"db", "game_manage", "seeds", "lol_generic_vayne_final_hour_timed_bonus_ad_seed.sql")
-	if _, err := os.Stat(path); err != nil {
-		t.Fatalf("backend seed missing at %s: %v (fail closed)", path, err)
-	}
-	return path
-}
-
 type vayneFinalHourWikiSidecar struct {
 	CandidateKey      string `json:"candidateKey"`
 	RequestTitle      string `json:"requestTitle"`
@@ -796,53 +786,9 @@ func vayneFinalHourLoadWikiPages(t *testing.T) vayneFinalHourWikiPages {
 	return doc
 }
 
-func vayneFinalHourLoadSeedSQL(t *testing.T) (full string, noLineComments string) {
-	t.Helper()
-	raw, err := os.ReadFile(vayneFinalHourSeedPath(t))
-	if err != nil {
-		t.Fatalf("read backend seed: %v", err)
-	}
-	full = string(raw)
-	var b strings.Builder
-	for _, line := range strings.Split(full, "\n") {
-		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "--") {
-			continue
-		}
-		b.WriteString(line)
-		b.WriteByte('\n')
-	}
-	return full, b.String()
-}
-
 func vayneFinalHourSHA256Hex(b []byte) string {
 	sum := sha256.Sum256(b)
 	return hex.EncodeToString(sum[:])
-}
-
-func vayneFinalHourStripSQLStringLiterals(s string) string {
-	var b strings.Builder
-	inSingle := false
-	for i := 0; i < len(s); i++ {
-		ch := s[i]
-		if ch == '\'' {
-			if inSingle {
-				// SQL '' escape inside literal
-				if i+1 < len(s) && s[i+1] == '\'' {
-					i++
-					continue
-				}
-				inSingle = false
-				continue
-			}
-			inSingle = true
-			continue
-		}
-		if !inSingle {
-			b.WriteByte(ch)
-		}
-	}
-	return b.String()
 }
 
 // ---------------------------------------------------------------------------
@@ -953,150 +899,16 @@ func TestGenericVayneFinalHourWikiSidecarIdentityAndBoundary(t *testing.T) {
 	}
 }
 
-// TestGenericVayneFinalHourBackendSeedDirectStateChangeGraph asserts the integrated
-// Backend SQL matches the direct state-change graph, zero listener/event scaffold,
-// formula/numerics, independent provider mount, and Vayne coexistence guards.
-func TestGenericVayneFinalHourBackendSeedDirectStateChangeGraph(t *testing.T) {
-	seed, sqlNoComments := vayneFinalHourLoadSeedSQL(t)
-	sqlExec := vayneFinalHourStripSQLStringLiterals(sqlNoComments)
+// TestGenericVayneFinalHourConstructedFixtureTimedBonusAndIdentity 核对历史数值边界在现有通用运行构造样例中的身份与公式。
+func TestGenericVayneFinalHourConstructedFixtureTimedBonusAndIdentity(t *testing.T) {
 
-	for _, want := range []string{
-		vayneFinalHourCandidateKey,
-		vayneFinalHourPlanRev,
-		vayneFinalHourRequestTitle,
-		vayneFinalHourResolvedTitle,
-		"1309991",
-		"3807995",
-		vayneFinalHourTimestamp,
-		vayneFinalHourContentSHA,
-		vayneFinalHourLocalRawSHA,
-		"2015",
-		"2012",
-		vayneFinalHourBoundary,
-		vayneFinalHourProviderRef,
-		vayneFinalHourAbilityID,
-		vayneFinalHourAbilityKey,
-		vayneFinalHourStableID,
-		vayneFinalHourStateKey,
-		vayneFinalHourBonusADMod,
-		"final_hour_active_arm",
-		`{"op":"mul","args":[{"op":"const","value":65},{"op":"read","path":"provider.state.final_hour_active"}]}`,
-		`{"op":"const","value":80}`,
-		`{"op":"const","value":70000}`,
-		`{"op":"const","value":1}`,
-		"mana300",
-		"232/232",
-	} {
-		if !strings.Contains(seed, want) {
-			t.Fatalf("seed missing required substring %q", want)
-		}
+	compileReq, _ := loadVayneFinalHourFixture(t)
+	assertVayneFinalHourProviderShape(t, compileReq)
+	if got := vayneFinalHourADBase + vayneFinalHourBonusAD; math.Abs(got-vayneFinalHourADBuffed) > vayneFinalHourTol {
+		t.Fatalf("constructed fixture buffed AD=%v want %v", got, vayneFinalHourADBuffed)
 	}
-	// Fail closed: one authoritative key only; reject seed/wiki naming split and typo.
-	if !strings.Contains(seed, vayneFinalHourCandidateKey) {
-		t.Fatalf("seed missing exact stable candidateKey %q", vayneFinalHourCandidateKey)
-	}
-	bannedTypoKey := "hero_skill|hero_vayne|R|最终时刻"
-	if strings.Contains(seed, bannedTypoKey) {
-		t.Fatalf("seed must not contain typo candidateKey %q", bannedTypoKey)
-	}
-	if strings.Contains(seed, "最终时刻") {
-		t.Fatal("seed must not contain human-readable typo 最终时刻 (authoritative name is 终极时刻)")
-	}
-	for _, tag := range vayneFinalHourOrderedTags() {
-		if !strings.Contains(seed, tag) {
-			t.Fatalf("seed missing ordered tag %q", tag)
-		}
-	}
-	i0 := strings.Index(seed, vayneFinalHourTagCostCD)
-	i1 := strings.Index(seed, vayneFinalHourTagCastTimedAD)
-	i2 := strings.Index(seed, vayneFinalHourTagFlatADAdd)
-	i3 := strings.Index(seed, vayneFinalHourTagTimedProvSt)
-	if !(i0 >= 0 && i0 < i1 && i1 < i2 && i2 < i3) {
-		t.Fatal("ordered tags must appear in frozen order in seed comments")
-	}
-
-	// Direct state-change graph: one impact phase / sequence / step / state_effect_details.
-	for _, needle := range []string{
-		"INSERT INTO public.ability_phases",
-		"INSERT INTO public.effect_sequences",
-		"INSERT INTO public.effect_steps",
-		"INSERT INTO public.state_effect_details",
-		"INSERT INTO public.provider_modifiers",
-		"phase_hero_vayne_r_final_hour_timed_bonus_ad_impact",
-		"sequence_hero_vayne_r_final_hour_timed_bonus_ad_impact",
-		"step_hero_vayne_r_final_hour_timed_bonus_ad_active_arm",
-		"modifier_hero_vayne_r_final_hour_timed_bonus_ad",
-	} {
-		if !strings.Contains(sqlNoComments, needle) {
-			t.Fatalf("executable-ish seed missing %q", needle)
-		}
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.ability_phases") != 1 {
-		t.Fatal("seed must define exactly one ability phase")
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.state_effect_details") != 1 {
-		t.Fatal("seed must define exactly one state_effect_details")
-	}
-	if strings.Count(sqlNoComments, "INSERT INTO public.provider_modifiers") != 1 {
-		t.Fatal("seed must define exactly one provider modifier")
-	}
-	if !strings.Contains(seed, "12000") || !strings.Contains(seed, "20190") {
-		t.Fatal("seed must encode duration 12000ms / refresh_on_write 20190")
-	}
-	if !strings.Contains(seed, "20250") || !strings.Contains(seed, "20172") {
-		t.Fatal("seed must encode state_scope/provider 20250 / override 20172")
-	}
-	if !strings.Contains(seed, "20160") || !strings.Contains(seed, "20110") {
-		t.Fatal("seed must encode operation/state_change 20160 targeting self/source 20110")
-	}
-
-	// Zero listener / ability_started / source_owner scaffold.
-	for _, banned := range []string{
-		"INSERT INTO public.provider_listeners",
-		"INSERT INTO public.listener_match_types",
-		"INSERT INTO public.listener_effect_sequences",
-	} {
-		if strings.Contains(strings.ToLower(sqlNoComments), strings.ToLower(banned)) {
-			t.Fatalf("seed must not write listener scaffold: %s", banned)
-		}
-	}
-	if strings.Contains(sqlExec, "20205") || strings.Contains(sqlExec, "20212") {
-		t.Fatal("executable SQL must not depend on event/ability_started 20205 or event/source_owner 20212")
-	}
-	lowerExec := strings.ToLower(sqlExec)
-	if strings.Contains(lowerExec, "ability_started") || strings.Contains(lowerExec, "source_owner") {
-		t.Fatal("executable SQL must not embed ability_started/source_owner scaffold tokens")
-	}
-
-	// Independent mount + coexistence with existing Vayne providers (comments/guards).
-	if !strings.Contains(seed, "entity_provider_mounts") ||
-		!strings.Contains(seed, "'hero_vayne'") ||
-		!strings.Contains(seed, vayneFinalHourProviderRef) {
-		t.Fatal("seed must mount independent final-hour provider on hero_vayne")
-	}
-	for _, preserved := range []string{
-		vayneFinalHourBasicRef, vayneFinalHourSilverBoltsRef,
-		vayneFinalHourTumbleRef, vayneFinalHourCondemnRef,
-	} {
-		if !strings.Contains(seed, preserved) {
-			t.Fatalf("seed must document coexistence guard for %q", preserved)
-		}
-	}
-	if !strings.Contains(seed, "不更新") && !strings.Contains(seed, "永不更新") &&
-		!strings.Contains(strings.ToLower(seed), "never") {
-		t.Fatal("seed must preserve existing Vayne providers (no update/delete/rebuild)")
-	}
-
-	// Excluded damage/control surfaces absent from executable inserts.
-	for _, banned := range []string{
-		"INSERT INTO public.damage_effect_details",
-		"INSERT INTO public.control_effect_details",
-		"INSERT INTO public.event_effect_details",
-		"INSERT INTO public.repeat_effect_details",
-	} {
-		if strings.Contains(strings.ToLower(sqlNoComments), strings.ToLower(banned)) {
-			t.Fatalf("seed must not write excluded detail surface: %s", banned)
-		}
+	if vayneFinalHourDurationMs != 12000 || vayneFinalHourManaCost != 80 || vayneFinalHourCDMs != 70000 {
+		t.Fatal("constructed fixture duration/cost/cooldown drifted")
 	}
 }
 
