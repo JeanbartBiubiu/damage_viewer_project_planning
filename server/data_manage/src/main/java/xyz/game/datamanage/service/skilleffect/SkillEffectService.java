@@ -4,7 +4,9 @@ import xyz.game.datamanage.model.value.SkillNumericValue;
 
 import jakarta.validation.Valid;
 import xyz.game.datamanage.support.authoring.AggregateJson;
+import xyz.game.datamanage.support.authoring.DamageModifierConditionSemantics;
 import xyz.game.datamanage.support.authoring.HealingRatioMaxSemantics;
+import xyz.game.datamanage.support.authoring.ShieldEndLifecycleSemantics;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -85,6 +87,7 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectValueRuleRequest;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampOverride;
 import xyz.game.datamanage.model.skilleffect.SkillEffectVampType;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneDomain;
+import xyz.game.datamanage.model.modifierzone.ModifierZoneApplicationStage;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneStatus;
 import xyz.game.datamanage.service.skilltrigger.SkillTriggerRuleService;
 import xyz.game.datamanage.support.error.ApiException;
@@ -492,6 +495,7 @@ public class SkillEffectService {
                 }
             }
         }
+        issues.addAll(ShieldEndLifecycleSemantics.issues(lifecycle, results));
         validateLifecyclePeriodicPair(lifecycle, hasPeriodic, hasNaturalEnd, issues);
         throwIfInvalidBody(bodyIssues);
         throwIfInvalid(issues);
@@ -665,6 +669,28 @@ public class SkillEffectService {
         }
         if (detail.criticalFilter() == null) {
             issues.add(fieldIssue(resultPath(index, "detail.criticalFilter"), "REQUIRED", "暴击过滤不能为空"));
+        }
+        if (detail.condition() != null && !detail.condition().isNull()) {
+            String path = resultPath(index, "detail.condition");
+            var parsed = DamageModifierConditionSemantics.parse(detail.condition(), path);
+            issues.addAll(parsed.issues());
+            if (result.target() != xyz.game.datamanage.model.skilleffect.SkillEffectTarget.SOURCE) {
+                issues.add(fieldIssue(resultPath(index, "target"), "CONDITION_TARGET_UNSUPPORTED", "逐笔生命门槛只支持作用于来源对象"));
+            }
+            if (detail.direction() != xyz.game.datamanage.model.skilleffect.SkillEffectDamageModifierDirection.DEALT) {
+                issues.add(fieldIssue(resultPath(index, "detail.direction"), "CONDITION_DIRECTION_UNSUPPORTED", "逐笔生命门槛只支持造成伤害方向"));
+            }
+            if (parsed.condition() != null) {
+                String attributeKey = parsed.condition().attributeKey();
+                refs.attributes.add(new CatalogRef(path + ".attributeKey", attributeKey,
+                    isRetained(retained, result.resultKey(), CatalogKind.ATTRIBUTE, attributeKey)));
+                refs.attributeKeys.add(attributeKey);
+                SkillNumericValue threshold = parsed.condition().comparisonValue();
+                if (threshold.kind() == SkillNumericValue.Kind.FORMULA) {
+                    refs.formulas.add(new CatalogRef(path + ".comparisonValue.formulaKey", threshold.formulaKey(), true));
+                    refs.formulaKeys.add(threshold.formulaKey());
+                }
+            }
         }
     }
 
@@ -1089,7 +1115,9 @@ public class SkillEffectService {
             resultPath(index, ""),
             resultType,
             direction,
-            operation
+            operation,
+            result.detail() instanceof SkillEffectDamageModifierDetail damage
+                && damage.condition() != null && !damage.condition().isNull()
         ));
         refs.modifierZoneKeys.add(modifierZoneKey);
     }
@@ -2156,8 +2184,13 @@ public class SkillEffectService {
         for (SkillEffectResultRequest result : results) {
             var detail = AggregateJson.tree(AggregateJson.write(result.detail()));
             Set<String> damageTypes = new LinkedHashSet<>();
+            Set<String> attributes = new LinkedHashSet<>();
             for (String field : List.of("damageTypeKey", "absorbedDamageTypeKey")) {
                 if (detail.hasNonNull(field)) damageTypes.add(detail.get(field).asText());
+            }
+            if (detail.hasNonNull("attributeKey")) attributes.add(detail.get("attributeKey").asText());
+            if (detail.path("condition").hasNonNull("attributeKey")) {
+                attributes.add(detail.path("condition").get("attributeKey").asText());
             }
             var scope = detail.path("affectedSkillScope");
             Set<String> skills = new LinkedHashSet<>();
@@ -2165,7 +2198,7 @@ public class SkillEffectService {
             scope.path("skillKeys").forEach(value -> skills.add(value.asText()));
             scope.path("skillCategoryKeys").forEach(value -> categories.add(value.asText()));
             retained.put(result.resultKey(), new RetainedCatalog(
-                Set.copyOf(damageTypes), detail.hasNonNull("attributeKey") ? detail.get("attributeKey").asText() : null,
+                Set.copyOf(damageTypes), Set.copyOf(attributes),
                 Set.copyOf(skills), Set.copyOf(categories),
                 detail.hasNonNull("statusKey") ? detail.get("statusKey").asText() : null,
                 detail.hasNonNull("modifierZoneKey") ? detail.get("modifierZoneKey").asText() : null
@@ -2216,7 +2249,7 @@ public class SkillEffectService {
         }
         return switch (kind) {
             case DAMAGE_TYPE -> catalog.damageTypeKeys().contains(value);
-            case ATTRIBUTE -> Objects.equals(catalog.attributeKey(), value);
+            case ATTRIBUTE -> catalog.attributeKeys().contains(value);
             case SKILL -> catalog.affectedSkillKeys().contains(value);
             case SKILL_CATEGORY -> catalog.skillCategoryKeys().contains(value);
             case STATUS -> Objects.equals(catalog.statusKey(), value);
@@ -2268,6 +2301,9 @@ public class SkillEffectService {
             } else if (zone.domain() != ref.expectedDomain()) {
                 issues.add(fieldIssue(ref.path(), "MODIFIER_ZONE_DOMAIN_MISMATCH", "乘区作用域与结果种类不一致"));
             } else {
+                if (ref.conditioned() && zone.applicationStage() != ModifierZoneApplicationStage.DAMAGE_PRE_DEFENSE) {
+                    issues.add(fieldIssue(ref.path(), "MODIFIER_ZONE_STAGE_INVALID", "逐笔生命门槛只支持防御前伤害乘区"));
+                }
                 HealingRatioMaxSemantics.addReferenceIssues(
                     zone.calculationMode(),
                     ref.resultType(),
@@ -2658,7 +2694,8 @@ public class SkillEffectService {
         String resultPrefix,
         String resultType,
         String direction,
-        String operation
+        String operation,
+        boolean conditioned
     ) {
     }
 
@@ -2673,7 +2710,7 @@ public class SkillEffectService {
 
     private record RetainedCatalog(
         Set<String> damageTypeKeys,
-        String attributeKey,
+        Set<String> attributeKeys,
         Set<String> affectedSkillKeys,
         Set<String> skillCategoryKeys,
         String statusKey,

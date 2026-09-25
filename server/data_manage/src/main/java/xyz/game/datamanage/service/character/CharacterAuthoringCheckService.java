@@ -45,6 +45,7 @@ import xyz.game.datamanage.model.skillprocess.SkillProcessStepType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.support.authoring.SkillTriggerOncePerUseSemantics;
+import xyz.game.datamanage.support.authoring.DamageModifierConditionSemantics;
 import xyz.game.datamanage.support.error.ApiException;
 
 /** 只诊断保存结构与直接接入；不执行机制，也不修改派生引用。 */
@@ -242,9 +243,20 @@ public class CharacterAuthoringCheckService {
             switch (row.objectType()) {
                 case "FORMULA" -> checkExpression(data.get("expression"), row, "expression", issues);
                 case "EFFECT" -> {
-                    List<JsonNode> results = children(data.get("results"), row, "results", "resultKey", true, issues);
+                    boolean lifecycleOnlyAllowed = data.path("lifecycle").isObject();
+                    List<JsonNode> results = children(data.get("results"), row, "results", "resultKey", !lifecycleOnlyAllowed, issues);
                     typedDetails(results, "resultType", SkillEffectResultType.class, row, "results", issues);
                     for (int i = 0; i < results.size(); i++) requiredEnum(results.get(i), "target", SkillEffectTarget.class, row, "results[" + i + "].target", issues);
+                    for (int i = 0; i < results.size(); i++) {
+                        JsonNode result = results.get(i);
+                        if (!"DAMAGE_MODIFIER".equals(result.path("resultType").asText())) continue;
+                        JsonNode condition = result.path("detail").path("condition");
+                        if (condition.isMissingNode() || condition.isNull()) continue;
+                        for (Map<String, String> issue : DamageModifierConditionSemantics.parse(condition,
+                            "results[" + i + "].detail.condition").issues()) {
+                            objectIssue(issues, row, issue.get("field"), issue.get("message"));
+                        }
+                    }
                     requireObject(data.get("lifecycle"), row, "lifecycle", true, issues);
                 }
                 case "STATE" -> {

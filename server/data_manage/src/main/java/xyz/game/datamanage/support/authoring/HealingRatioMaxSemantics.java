@@ -125,7 +125,7 @@ public final class HealingRatioMaxSemantics {
     }
 
     static final String ZONES_SQL = """
-        SELECT modifier_zone_key, domain, calculation_mode
+        SELECT modifier_zone_key, domain, calculation_mode, application_stage
         FROM public.modifier_zones
         WHERE game_id = ?
         ORDER BY modifier_zone_key
