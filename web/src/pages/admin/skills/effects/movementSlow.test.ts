@@ -35,7 +35,7 @@ function effect(value: NumericValue = fixedValue(0.3), multiplier = 1): SkillEff
       durationValue: fixedValue(1000), maxStacksValue: fixedValue(1), applicationStacksValue: fixedValue(1),
       instanceScope: 'SOURCE_TARGET', reapplicationStackMode: 'KEEP',
       reapplicationDurationMode: 'REFRESH_ALL', expiryMode: 'ALL_AT_ONCE',
-      periodicIntervalValue: null, firstPeriodicExecution: null
+      periodicIntervalValue: null, firstPeriodicExecution: null, endWhenShieldEndsResultKey: null
     },
     results: [{
       resultKey: 'slow', name: '普通减速', resultType: 'STATUS_OPERATION', target: 'TARGET',

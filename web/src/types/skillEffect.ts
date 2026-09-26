@@ -120,6 +120,7 @@ export type SkillEffectLifecycle = {
   expiryMode: SkillEffectExpiryMode;
   periodicIntervalValue: NumericValue | null;
   firstPeriodicExecution: SkillEffectFirstPeriodicExecution | null;
+  endWhenShieldEndsResultKey?: string | null;
 };
 
 export type SkillEffectResultLifecycleBehavior = {

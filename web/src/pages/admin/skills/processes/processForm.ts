@@ -192,6 +192,7 @@ export type SkillProcessEffectBindingDraft = {
 export type SkillProcessStateOperationDraft = {
   operationKey: string;
   name: string;
+  stateSkillKey: string;
   stateKey: string;
   operation: SkillProcessStateOperationKind | '';
   value: NumericValue | null;
@@ -276,6 +277,7 @@ export type SkillProcessEffectBindingDraftErrors = {
 export type SkillProcessStateOperationDraftField =
   | 'operationKey'
   | 'name'
+  | 'stateSkillKey'
   | 'stateKey'
   | 'operation'
   | 'value'
@@ -322,6 +324,7 @@ export type ProcessFormCatalog = {
 };
 
 export type SkillProcessFormValidationOptions = {
+  skillKey?: string;
   parameters?: readonly SkillParameter[];
   parametersLoadState?: 'ready' | 'failed';
   includeProcessKey: boolean;
@@ -521,6 +524,7 @@ export function createEmptyStateOperationDraft(): SkillProcessStateOperationDraf
   return {
     operationKey: '',
     name: '',
+    stateSkillKey: '',
     stateKey: '',
     operation: '',
     value: null,
@@ -565,7 +569,9 @@ export function skillProcessToDraft(process: SkillProcess): SkillProcessDraft {
     cooldownFailureReason: momentFailureReasonOf(process.cooldown?.startMoment ?? {}),
     steps: sortStepDrafts(process.steps.map(skillProcessStepToDraft)),
     effectBindings: sortBindingDrafts(process.effectBindings.map(skillProcessBindingToDraft)),
-    stateOperations: sortOperationDrafts(process.stateOperations.map(skillProcessOperationToDraft))
+    stateOperations: sortOperationDrafts(process.stateOperations.map((item) => ({
+      ...skillProcessOperationToDraft(item), stateSkillKey: item.stateSkillKey ?? process.skillKey
+    })))
   };
 }
 
@@ -638,6 +644,7 @@ export function skillProcessOperationToDraft(
   return {
     operationKey: operation.operationKey,
     name: operation.name,
+    stateSkillKey: operation.stateSkillKey ?? '',
     stateKey: operation.stateKey,
     operation: operation.operation,
     value: operation.value! ?? null,
@@ -1329,6 +1336,7 @@ function validateAndBuildOperation(
   const operationKey = draft.operationKey.trim();
   const name = draft.name.trim();
   const stateKey = draft.stateKey.trim();
+  const stateSkillKey = draft.stateSkillKey.trim();
   if (!operationKey) {
     fieldErrors.operationKey = '操作标识不能为空。';
   } else if (!SKILL_PROCESS_KEY_PATTERN.test(operationKey)) {
@@ -1343,12 +1351,14 @@ function validateAndBuildOperation(
   } else if (name.length > 100) {
     fieldErrors.name = '操作名称不能超过 100 个字符。';
   }
+  const externalState = Boolean(options.skillKey && stateSkillKey && stateSkillKey !== options.skillKey);
   if (!stateKey) {
     fieldErrors.stateKey = '请选择内部状态。';
-  } else {
+  } else if (!externalState) {
     validateCatalogKey(options, 'internalStates', stateKey, fieldErrors, 'stateKey');
   }
-  const stateType = options.catalog?.internalStates.find((item) => item.stateKey === stateKey)?.stateType;
+  if (!stateSkillKey) fieldErrors.stateSkillKey = '请选择内部状态所属技能。';
+  const stateType = externalState ? undefined : options.catalog?.internalStates.find((item) => item.stateKey === stateKey)?.stateType;
   const allowed = allowedOperationsForStateType(stateType);
   if (!draft.operation) {
     fieldErrors.operation = '请选择操作。';
@@ -1368,7 +1378,7 @@ function validateAndBuildOperation(
     if (draft.value) {
       fieldErrors.value = '模式选择不能携带数值。';
     }
-    if (stateKey && draft.optionKey.trim()) {
+    if (!externalState && stateKey && draft.optionKey.trim()) {
       validateModeOptionRef(options, stateKey, draft.optionKey, fieldErrors);
     }
   } else if (draft.operation) {
@@ -1398,7 +1408,7 @@ function buildOperation(
   moment: SkillProcessMoment,
   sortOrder: number
 ): SkillProcessStateOperation {
-  const base = { operationKey, name, stateKey, moment, sortOrder };
+  const base = { operationKey, name, stateSkillKey: draft.stateSkillKey.trim(), stateKey, moment, sortOrder };
   const operation = draft.operation as SkillProcessStateOperationKind;
   if (requiresValueFormula(operation)) {
     return {

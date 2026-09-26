@@ -221,7 +221,8 @@ function validLifecycle(): SkillEffectLifecycle {
     reapplicationDurationMode: 'REFRESH_ALL',
     expiryMode: 'ALL_AT_ONCE',
     periodicIntervalValue: null,
-    firstPeriodicExecution: null
+    firstPeriodicExecution: null,
+    endWhenShieldEndsResultKey: null
   };
 }
 
@@ -316,7 +317,8 @@ describe('skill effect form defaults and conversion', () => {
         reapplicationDurationMode: '',
         expiryMode: '',
         periodicIntervalValue: null,
-        firstPeriodicExecution: ''
+        firstPeriodicExecution: '',
+        endWhenShieldEndsResultKey: ''
       },
       originalLifecycleEnabled: false,
       originalInstanceScope: '',
@@ -1422,6 +1424,60 @@ function thresholdParameter(valueMode: SkillParameter['valueMode'], fixed: numbe
 }
 
 describe('skill effect lifecycle drafts', () => {
+  it('同父普通护盾结束关联只接受静态一层、匹配对象和统一到期', () => {
+    const shield = createEmptyResultDraft('NORMAL_SHIELD');
+    shield.resultKey = 'shield';
+    shield.name = '普通护盾';
+    shield.value = fixedValue(50);
+    const persistent = applyStackValueModeChange(
+      withBehavior(shield, { moment: 'PERSISTENT' }), 'SHARED'
+    );
+    persistent.lifecycleBehavior.reapplicationValueMode = 'REPLACE';
+    const draft = lifecycleEnabledDraft([persistent], {
+      maxStacksValue: fixedValue(1),
+      applicationStacksValue: fixedValue(1),
+      endWhenShieldEndsResultKey: 'shield'
+    });
+    expect(expectValid(draft).lifecycle?.endWhenShieldEndsResultKey).toBe('shield');
+    const badScope = validateSkillEffectDraft({
+      ...draft, lifecycle: { ...draft.lifecycle, instanceScope: 'SKILL' }
+    }, { includeEffectKey: true, catalog: CATALOG });
+    expect(badScope.ok).toBe(false);
+    if (!badScope.ok) expect(badScope.fieldErrors.endWhenShieldEndsResultKey).toContain('实例范围');
+    const badStacks = validateSkillEffectDraft({
+      ...draft, lifecycle: { ...draft.lifecycle, maxStacksValue: fixedValue(2) }
+    }, { includeEffectKey: true, catalog: CATALOG });
+    expect(badStacks.ok).toBe(false);
+    if (!badStacks.ok) expect(badStacks.fieldErrors.maxStacksValue).toContain('恒为 1');
+    const leveledStacks = validateSkillEffectDraft({
+      ...draft, lifecycle: { ...draft.lifecycle, maxStacksValue: parameterValue('shield_stacks') }
+    }, { includeEffectKey: true, catalog: CATALOG, parameters: [{
+      ...thresholdParameter('SKILL_LEVEL', null, { '1': 1, '2': 2 }),
+      parameterKey: 'shield_stacks', valueType: 'INTEGER'
+    }] });
+    expect(leveledStacks.ok).toBe(false);
+    if (!leveledStacks.ok) expect(leveledStacks.fieldErrors.maxStacksValue).toContain('恒为 1');
+    const dynamicStacks = validateSkillEffectDraft({
+      ...draft, lifecycle: { ...draft.lifecycle, maxStacksValue: formulaValue('dynamic_stacks') }
+    }, { includeEffectKey: true, catalog: { ...CATALOG, formulas: [...CATALOG.formulas, {
+      formulaKey: 'dynamic_stacks',
+      expression: { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE',
+        attributeKey: 'hp', attributeValueKind: 'TOTAL' }
+    }] } });
+    expect(dynamicStacks.ok).toBe(false);
+    if (!dynamicStacks.ok) expect(dynamicStacks.fieldErrors.maxStacksValue).toContain('不能读取属性');
+    const badExpiry = validateSkillEffectDraft({
+      ...draft, lifecycle: { ...draft.lifecycle, expiryMode: 'ONE_BY_ONE' }
+    }, { includeEffectKey: true, catalog: CATALOG });
+    expect(badExpiry.ok).toBe(false);
+    if (!badExpiry.ok) expect(badExpiry.fieldErrors.endWhenShieldEndsResultKey).toContain('统一或显式到期');
+    const missingShield = validateSkillEffectDraft({
+      ...draft, lifecycle: { ...draft.lifecycle, endWhenShieldEndsResultKey: 'other' }
+    }, { includeEffectKey: true, catalog: CATALOG });
+    expect(missingShield.ok).toBe(false);
+    if (!missingShield.ok) expect(missingShield.fieldErrors.endWhenShieldEndsResultKey).toContain('当前效果');
+  });
+
   it('creates and updates lifecycle-only effects without inventing a result', () => {
     const draft = lifecycleEnabledDraft([]);
     const normalized = expectValid(draft);

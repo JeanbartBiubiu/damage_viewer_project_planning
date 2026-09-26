@@ -1,42 +1,20 @@
-import { ObjectRelationActions } from '../relations/ObjectRelationActions';
-import { useRepresentativeImageColumn } from '../relations/useRepresentativeImageColumn';
-import {
-  Alert,
-  Button,
-  Empty,
-  Input,
-  Modal,
-  Radio,
-  Space,
-  Table,
-  Tag,
-  Typography
-} from '@arco-design/web-react';
+import { Alert, Button, Empty, Input, Modal, Radio, Space, Table, Tag, Typography } from '@arco-design/web-react';
 import type { TableColumnProps } from '@arco-design/web-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Panel } from '../../../components/Panel';
 import { getErrorMessage } from '../../../services/apiClient';
 import { listSkillCategories } from '../../../services/skillCategoryClient';
-import { deleteSkill, listSkills, updateSkill } from '../../../services/skillClient';
-import type {
-  Skill,
-  SkillListQuery,
-  SkillStatus,
-  UpdateSkillRequest
-} from '../../../types/skill';
+import { deleteSkill, listSkills } from '../../../services/skillClient';
+import type { Skill, SkillListQuery, SkillStatus } from '../../../types/skill';
 import type { SkillCategory } from '../../../types/skillCategory';
-import { SkillEditorModal, type SkillEditorMode, type SkillEditorSaveOptions } from './SkillEditorModal';
-import { SkillEffectManagementModal } from './effects/SkillEffectManagementModal';
-import { SkillParameterFormulaModal } from './SkillParameterFormulaModal';
-import { SkillProcessInternalStateModal } from './processes/SkillProcessInternalStateModal';
-import { SkillTriggerRuleManagementModal } from './triggers/SkillTriggerRuleManagementModal';
-import { SKILL_TRIGGER_ENTRY_LABEL } from './triggers/triggerRuleForm';
-import { loadFocusedSkill } from './focusedSkill';
-import { SkillBehaviorOverviewModal } from './overview/SkillBehaviorOverviewModal';
+import { ObjectRelationActions } from '../relations/ObjectRelationActions';
+import { useRepresentativeImageColumn } from '../relations/useRepresentativeImageColumn';
+import type { AuthoringNavigationRequest } from './authoringFocus';
 import {
-  createAuthoringNavigationRequest,
-  type AuthoringNavigationRequest
-} from './authoringFocus';
+  SkillConfigurationWorkspace,
+  moduleForAuthoringLocation,
+  type SkillWorkspaceModule
+} from './SkillConfigurationWorkspace';
 
 export type SkillManagementPageProps = {
   apiBaseUrl: string;
@@ -54,36 +32,19 @@ export type SkillManagementPageProps = {
   };
 };
 
-const FOCUS_SOURCE_LABELS = {
-  character: '角色',
-  equipment: '装备',
-  rune: '符文'
-} as const;
-
-type StatusFilter = SkillStatus | '';
-type EditorState = { mode: SkillEditorMode; skill: Skill | null };
-type StatusTarget = { skill: Skill; nextStatus: SkillStatus };
-type ParameterFormulaTarget = Skill;
-type EffectTarget = Skill;
-type ProcessInternalStateTarget = Skill;
-type TriggerRuleTarget = Skill;
+type WorkspaceTarget = {
+  id: number;
+  skillKey: string | null;
+  module: SkillWorkspaceModule;
+  initialStatus?: SkillStatus;
+  navigation?: AuthoringNavigationRequest;
+};
 
 const EMPTY_QUERY: SkillListQuery = {};
 
 function formatUpdatedAt(value: string): string {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? value : date.toLocaleString('zh-CN', { hour12: false });
-}
-
-function statusRequest(skill: Skill, status: SkillStatus): UpdateSkillRequest {
-  return {
-    name: skill.name,
-    description: skill.description,
-    maxLevel: skill.maxLevel,
-    status,
-    sortOrder: skill.sortOrder,
-    skillCategoryKeys: [...skill.skillCategoryKeys]
-  };
 }
 
 function categoryLabel(key: string, directory: SkillCategory[]): string {
@@ -93,320 +54,124 @@ function categoryLabel(key: string, directory: SkillCategory[]): string {
 }
 
 export function SkillManagementPage({
-  apiBaseUrl,
-  selectedGameId,
-  adminToken,
-  onDirtyChange,
-  focus
+  apiBaseUrl, selectedGameId, adminToken, onDirtyChange, focus
 }: SkillManagementPageProps) {
-  const focusedSkillKey = focus?.skillKey;
   const [keywordDraft, setKeywordDraft] = useState('');
-  const [statusDraft, setStatusDraft] = useState<StatusFilter>('');
+  const [statusDraft, setStatusDraft] = useState<SkillStatus | ''>('');
   const [appliedQuery, setAppliedQuery] = useState<SkillListQuery>(EMPTY_QUERY);
   const [items, setItems] = useState<Skill[]>([]);
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!focus);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [categories, setCategories] = useState<SkillCategory[]>([]);
   const [categoryLoading, setCategoryLoading] = useState(false);
-  const [categoryLoadError, setCategoryLoadError] = useState<string | null>(null);
+  const [categoryError, setCategoryError] = useState<string | null>(null);
   const [categoryDirectoryReady, setCategoryDirectoryReady] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
-  const [editor, setEditor] = useState<EditorState | null>(null);
-  const [statusTarget, setStatusTarget] = useState<StatusTarget | null>(null);
-  const [statusError, setStatusError] = useState<string | null>(null);
-  const [statusUpdatingKey, setStatusUpdatingKey] = useState<string | null>(null);
+  const [workspace, setWorkspace] = useState<WorkspaceTarget | null>(() => focus ? {
+    id: 0,
+    skillKey: focus.skillKey,
+    module: moduleForAuthoringLocation(focus.navigation?.location),
+    navigation: focus.navigation
+  } : null);
   const [deleteTarget, setDeleteTarget] = useState<Skill | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
-  const [parameterFormulaTarget, setParameterFormulaTarget] = useState<ParameterFormulaTarget | null>(null);
-  const [effectTarget, setEffectTarget] = useState<EffectTarget | null>(null);
-  const [processInternalStateTarget, setProcessInternalStateTarget] = useState<ProcessInternalStateTarget | null>(null);
-  const [triggerRuleTarget, setTriggerRuleTarget] = useState<TriggerRuleTarget | null>(null);
-  const [overviewTarget, setOverviewTarget] = useState<Skill | null>(null);
-  const [overviewRefresh, setOverviewRefresh] = useState(0);
-  const [authoringFocus, setAuthoringFocus] = useState<AuthoringNavigationRequest | null>(null);
-  const consumedAuthoringFocusId = useRef<string | null>(null);
-  const [authoringNotice, setAuthoringNotice] = useState<string | null>(null);
-  const skillRequestSerial = useRef(0);
-  const categoryRequestSerial = useRef(0);
-  const statusRequestSerial = useRef(0);
-  const [statusConnection, setStatusConnection] = useState({ apiBaseUrl, selectedGameId, adminToken });
-  const [pageGameId, setPageGameId] = useState(selectedGameId);
-
-  if (statusConnection.apiBaseUrl !== apiBaseUrl
-    || statusConnection.selectedGameId !== selectedGameId
-    || statusConnection.adminToken !== adminToken) {
-    setStatusConnection({ apiBaseUrl, selectedGameId, adminToken });
-    statusRequestSerial.current += 1;
-    setStatusTarget(null);
-    setStatusError(null);
-    setStatusUpdatingKey(null);
-  }
-
-  if (pageGameId !== selectedGameId) {
-    setPageGameId(selectedGameId);
-    skillRequestSerial.current += 1;
-    categoryRequestSerial.current += 1;
-    setKeywordDraft('');
-    setStatusDraft('');
-    setAppliedQuery(EMPTY_QUERY);
-    setItems([]);
-    setTotal(0);
-    setLoading(true);
-    setLoadError(null);
-    setCategories([]);
-    setCategoryLoading(false);
-    setCategoryLoadError(null);
-    setCategoryDirectoryReady(false);
-    setEditor(null);
-    setStatusTarget(null);
-    setStatusError(null);
-    setStatusUpdatingKey(null);
-    setDeleteTarget(null);
-    setDeleteError(null);
-    setDeleting(false);
-    setParameterFormulaTarget(null);
-    setEffectTarget(null);
-    setProcessInternalStateTarget(null);
-    setTriggerRuleTarget(null);
-    setOverviewTarget(null);
-    setAuthoringFocus(null);
-    consumedAuthoringFocusId.current = null;
-    setAuthoringNotice(null);
-    setNotice(null);
-  }
+  const listGeneration = useRef(0);
+  const categoryGeneration = useRef(0);
+  const workspaceId = useRef(0);
+  const workspaceDirty = useRef(false);
 
   const loadSkills = useCallback(async (query: SkillListQuery) => {
-    const serial = skillRequestSerial.current + 1;
-    skillRequestSerial.current = serial;
+    if (focus) return;
+    const generation = ++listGeneration.current;
     const token = adminToken.trim();
     if (!selectedGameId || !token) {
-      setItems([]);
-      setTotal(0);
-      setLoadError(null);
-      setLoading(false);
+      setItems([]); setTotal(0); setLoading(false); setLoadError(null);
       return;
     }
     setLoading(true);
     setLoadError(null);
     try {
-      const result = focusedSkillKey
-        ? { data: { items: [await loadFocusedSkill(apiBaseUrl, selectedGameId, focusedSkillKey, token)], total: 1 } }
-        : await listSkills(apiBaseUrl, selectedGameId, token, query);
-      if (skillRequestSerial.current !== serial) return;
+      const result = await listSkills(apiBaseUrl, selectedGameId, token, query);
+      if (generation !== listGeneration.current) return;
       setItems(result.data.items);
       setTotal(result.data.total);
     } catch (error) {
-      if (skillRequestSerial.current !== serial) return;
-      setItems([]);
-      setTotal(0);
-      setLoadError(getErrorMessage(error));
+      if (generation !== listGeneration.current) return;
+      setItems([]); setTotal(0); setLoadError(getErrorMessage(error));
     } finally {
-      if (skillRequestSerial.current === serial) setLoading(false);
+      if (generation === listGeneration.current) setLoading(false);
     }
-  }, [adminToken, apiBaseUrl, selectedGameId, focusedSkillKey]);
+  }, [adminToken, apiBaseUrl, focus, selectedGameId]);
 
   const loadCategories = useCallback(async () => {
-    const serial = categoryRequestSerial.current + 1;
-    categoryRequestSerial.current = serial;
+    const generation = ++categoryGeneration.current;
     const token = adminToken.trim();
     if (!selectedGameId || !token) {
-      setCategories([]);
-      setCategoryLoadError(null);
-      setCategoryDirectoryReady(false);
-      setCategoryLoading(false);
+      setCategories([]); setCategoryDirectoryReady(false); setCategoryLoading(false);
       return;
     }
     setCategoryLoading(true);
+    setCategoryError(null);
     try {
       const result = await listSkillCategories(apiBaseUrl, selectedGameId, token);
-      if (categoryRequestSerial.current !== serial) return;
+      if (generation !== categoryGeneration.current) return;
       setCategories(result.data.items);
-      setCategoryLoadError(null);
       setCategoryDirectoryReady(true);
     } catch (error) {
-      if (categoryRequestSerial.current !== serial) return;
+      if (generation !== categoryGeneration.current) return;
       setCategories([]);
       setCategoryDirectoryReady(false);
-      setCategoryLoadError(getErrorMessage(error));
+      setCategoryError(getErrorMessage(error));
     } finally {
-      if (categoryRequestSerial.current === serial) setCategoryLoading(false);
+      if (generation === categoryGeneration.current) setCategoryLoading(false);
     }
   }, [adminToken, apiBaseUrl, selectedGameId]);
 
-  const handleEffectSkillMissing = useCallback(() => {
-    setEffectTarget(null);
-    void loadSkills(appliedQuery);
-  }, [appliedQuery, loadSkills]);
-
-  const handleProcessInternalStateSkillMissing = useCallback(() => {
-    setProcessInternalStateTarget(null);
-    void loadSkills(appliedQuery);
-  }, [appliedQuery, loadSkills]);
-
-  const handleTriggerRuleSkillMissing = useCallback(() => {
-    setTriggerRuleTarget(null);
-    void loadSkills(appliedQuery);
-  }, [appliedQuery, loadSkills]);
-
-  const incomingAuthoringFocus = authoringFocus ?? focus?.navigation ?? null;
-  useEffect(() => {
-    if (!incomingAuthoringFocus || consumedAuthoringFocusId.current === incomingAuthoringFocus.requestId) return;
-    const location = incomingAuthoringFocus.location;
-    const skill = items.find((item) => item.skillKey === location.skillKey)
-      ?? (overviewTarget?.skillKey === location.skillKey ? overviewTarget : null);
-    if (!skill) {
-      if (loading) return;
-      consumedAuthoringFocusId.current = incomingAuthoringFocus.requestId;
-      setAuthoringNotice(`无法精确定位：当前没有该技能。原路径：${location.fieldPath}`);
-      return;
-    }
-    consumedAuthoringFocusId.current = incomingAuthoringFocus.requestId;
-    setAuthoringNotice(null);
-    switch (location.editor) {
-      case 'SKILL_BASIC':
-        setEditor({ mode: 'edit', skill });
-        break;
-      case 'PARAMETER':
-      case 'FORMULA':
-        setParameterFormulaTarget(skill);
-        break;
-      case 'EFFECT':
-        setEffectTarget(skill);
-        break;
-      case 'PROCESS':
-      case 'INTERNAL_STATE':
-        setProcessInternalStateTarget(skill);
-        break;
-      case 'TRIGGER_RULE':
-        setTriggerRuleTarget(skill);
-        break;
-      default:
-        setAuthoringNotice(`无法精确定位：没有合法编辑入口。原路径：${location.fieldPath}`);
-    }
-  }, [incomingAuthoringFocus, items, loading, overviewTarget]);
-
-  const refreshOverview = useCallback(() => {
-    setOverviewRefresh((current) => current + 1);
-  }, []);
-
-  useEffect(() => {
-    onDirtyChange(false);
-  }, [onDirtyChange, selectedGameId]);
-
   useEffect(() => { void loadSkills(appliedQuery); }, [appliedQuery, loadSkills]);
   useEffect(() => { void loadCategories(); }, [loadCategories]);
-  useEffect(() => () => { statusRequestSerial.current += 1; }, []);
-  useEffect(() => { setCurrentPage(1); }, [apiBaseUrl, selectedGameId, adminToken, focusedSkillKey]);
+  useEffect(() => () => { listGeneration.current += 1; categoryGeneration.current += 1; }, []);
 
-  const lastPage = Math.max(1, Math.ceil(items.length / pageSize));
-  const visiblePage = Math.min(currentPage, lastPage);
-  useEffect(() => {
-    setCurrentPage((page) => Math.min(page, lastPage));
-  }, [lastPage]);
+  const openWorkspace = (skillKey: string | null, module: SkillWorkspaceModule, initialStatus?: SkillStatus) => {
+    setWorkspace({ id: ++workspaceId.current, skillKey, module, initialStatus });
+    workspaceDirty.current = false;
+    setNotice(null);
+  };
+  const closeWorkspace = () => {
+    if (workspaceDirty.current && !window.confirm('当前技能草稿尚未保存，确定返回技能列表吗？')) return;
+    workspaceDirty.current = false;
+    onDirtyChange(false);
+    setWorkspace(null);
+  };
+  const reportWorkspaceDirty = useCallback((dirty: boolean) => {
+    workspaceDirty.current = dirty;
+    onDirtyChange(dirty);
+  }, [onDirtyChange]);
+  const workspaceSaved = async (skill: Skill) => {
+    setWorkspace((current) => current ? { ...current, skillKey: skill.skillKey } : current);
+    setNotice(`技能「${skill.name}」已保存并独立回读。`);
+    if (!focus) await loadSkills(appliedQuery);
+  };
 
   const applyQuery = () => {
-    setNotice(null);
     setCurrentPage(1);
-    setAppliedQuery({
-      keyword: keywordDraft.trim() || undefined,
-      status: statusDraft || undefined
-    });
+    setAppliedQuery({ keyword: keywordDraft.trim() || undefined, status: statusDraft || undefined });
   };
-
   const resetQuery = () => {
-    setKeywordDraft('');
-    setStatusDraft('');
-    setNotice(null);
-    setCurrentPage(1);
-    setAppliedQuery(EMPTY_QUERY);
+    setKeywordDraft(''); setStatusDraft(''); setCurrentPage(1); setAppliedQuery(EMPTY_QUERY);
   };
-
-  const handleSaved = async (saved: Skill, options?: SkillEditorSaveOptions) => {
-    setEditor(null);
-    const expanded = options?.expandedLevelRange;
-    const suffix = expanded
-      ? `已有按技能等级取值的参数在新增 Lv${expanded.minLevel}～Lv${expanded.maxLevel} 已由服务端补 0，请按来源逐项核对并填写新增等级数值。`
-      : '';
-    setNotice(`技能「${saved.name}」已保存。${suffix}`);
-    onDirtyChange(false);
-    await loadSkills(appliedQuery);
-    setParameterFormulaTarget((current) => (
-      current && current.skillKey === saved.skillKey ? saved : current
-    ));
-    setEffectTarget((current) => (
-      current && current.skillKey === saved.skillKey ? saved : current
-    ));
-    setProcessInternalStateTarget((current) => (
-      current && current.skillKey === saved.skillKey ? saved : current
-    ));
-    setTriggerRuleTarget((current) => (
-      current && current.skillKey === saved.skillKey ? saved : current
-    ));
-  };
-
-  const confirmStatusChange = async () => {
-    if (!statusTarget || statusUpdatingKey || !selectedGameId) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setStatusError('请先配置 Admin Token。');
-      return;
-    }
-    const { skill, nextStatus } = statusTarget;
-    const serial = ++statusRequestSerial.current;
-    const action = nextStatus === 'ENABLED' ? '启用' : '停用';
-    setStatusUpdatingKey(skill.skillKey);
-    setStatusError(null);
-    try {
-      const current = await loadFocusedSkill(apiBaseUrl, selectedGameId, skill.skillKey, token);
-      if (statusRequestSerial.current !== serial) return;
-      const result = await updateSkill(
-        apiBaseUrl,
-        selectedGameId,
-        skill.skillKey,
-        token,
-        statusRequest(current, nextStatus)
-      );
-      if (statusRequestSerial.current !== serial) return;
-      setStatusTarget(null);
-      setNotice(`技能「${result.data.name}」已${action}。`);
-      await loadSkills(appliedQuery);
-    } catch (error) {
-      if (statusRequestSerial.current === serial) setStatusError(getErrorMessage(error));
-    } finally {
-      if (statusRequestSerial.current === serial) setStatusUpdatingKey(null);
-    }
-  };
-
   const confirmDelete = async () => {
-    if (!deleteTarget || deleting || !selectedGameId) return;
-    const token = adminToken.trim();
-    if (!token) {
-      setDeleteError('请先配置 Admin Token。');
-      return;
-    }
+    if (!deleteTarget || deleting || !selectedGameId || !adminToken.trim()) return;
     setDeleting(true);
     setDeleteError(null);
     try {
-      const deletedName = deleteTarget.name;
-      await deleteSkill(apiBaseUrl, selectedGameId, deleteTarget.skillKey, token);
+      const name = deleteTarget.name;
+      await deleteSkill(apiBaseUrl, selectedGameId, deleteTarget.skillKey, adminToken.trim());
       setDeleteTarget(null);
-      setParameterFormulaTarget((current) => (
-        current && current.skillKey === deleteTarget.skillKey ? null : current
-      ));
-      setEffectTarget((current) => (
-        current && current.skillKey === deleteTarget.skillKey ? null : current
-      ));
-      setProcessInternalStateTarget((current) => (
-        current && current.skillKey === deleteTarget.skillKey ? null : current
-      ));
-      setTriggerRuleTarget((current) => (
-        current && current.skillKey === deleteTarget.skillKey ? null : current
-      ));
-      setNotice(`技能「${deletedName}」已删除。`);
+      setNotice(`技能「${name}」已删除。`);
       await loadSkills(appliedQuery);
     } catch (error) {
       setDeleteError(getErrorMessage(error));
@@ -417,314 +182,103 @@ export function SkillManagementPage({
 
   const { imageColumn, onImageSaved } = useRepresentativeImageColumn<Skill>({
     apiBaseUrl, selectedGameId, adminToken,
-    getTarget: record => ({ kind: 'skill', key: record.skillKey, name: record.name })
+    getTarget: (record) => ({ kind: 'skill', key: record.skillKey, name: record.name })
   });
   const columns: TableColumnProps[] = [
     imageColumn,
     { title: '技能名称', dataIndex: 'name', width: 180 },
     { title: '技能标识', dataIndex: 'skillKey', width: 190 },
     { title: '最高等级', dataIndex: 'maxLevel', width: 100 },
-    {
-      title: '技能分类',
-      dataIndex: 'skillCategoryKeys',
-      render: (value: string[] | undefined) => {
-        const keys = Array.isArray(value) ? value : [];
-        if (keys.length === 0) return '—';
-        return (
-          <Space wrap size="mini">
-            {keys.map((key) => {
-              const category = categories.find((item) => item.skillCategoryKey === key);
-              return (
-                <Tag key={key} color={category?.status === 'DISABLED' ? 'gray' : undefined}>
-                  {categoryLabel(key, categories)}
-                </Tag>
-              );
-            })}
-          </Space>
-        );
-      }
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      width: 90,
-      render: (value) => value === 'ENABLED'
-        ? <Tag color="green">启用</Tag>
-        : <Tag color="gray">停用</Tag>
-    },
+    { title: '技能分类', dataIndex: 'skillCategoryKeys', render: (value: string[] | undefined) => {
+      const keys = Array.isArray(value) ? value : [];
+      return keys.length ? <Space wrap size="mini">{keys.map((key) => <Tag key={key}>{categoryLabel(key, categories)}</Tag>)}</Space> : '—';
+    } },
+    { title: '状态', dataIndex: 'status', width: 90, render: (value) => value === 'ENABLED'
+      ? <Tag color="green">启用</Tag> : <Tag color="gray">停用</Tag> },
     { title: '排序', dataIndex: 'sortOrder', width: 80 },
-    {
-      title: '更新时间',
-      dataIndex: 'updatedAt',
-      width: 190,
-      render: (value) => formatUpdatedAt(String(value ?? ''))
-    },
-    {
-      title: '操作',
-      width: 600,
-      fixed: 'right',
-      render: (_value, record: Skill) => (
-        <Space size="mini" wrap>
-          <ObjectRelationActions
-            key={`${apiBaseUrl}:${selectedGameId}:${record.skillKey}`}
-            target={{ kind: 'skill', key: record.skillKey, name: record.name }}
-            apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
-            onDirtyChange={onDirtyChange}
-            onImageSaved={() => onImageSaved(record)}
-          />
-          <Button size="mini" onClick={() => setOverviewTarget(record)}>行为总览</Button>
-          <Button size="mini" onClick={() => setEditor({ mode: 'view', skill: record })}>查看</Button>
-          <Button
-            size="mini"
-            disabled={!categoryDirectoryReady}
-            onClick={() => setEditor({ mode: 'edit', skill: record })}
-          >编辑</Button>
-          <Button size="mini" onClick={() => setParameterFormulaTarget(record)}>参数与公式</Button>
-          <Button size="mini" onClick={() => setEffectTarget(record)}>效果与结果</Button>
-          <Button size="mini" onClick={() => setProcessInternalStateTarget(record)}>过程与内部状态</Button>
-          <Button size="mini" onClick={() => setTriggerRuleTarget(record)}>{SKILL_TRIGGER_ENTRY_LABEL}</Button>
-          <Button
-            size="mini"
-            status={record.status === 'ENABLED' ? 'danger' : 'success'}
-            onClick={() => {
-              setStatusTarget({
-                skill: record,
-                nextStatus: record.status === 'ENABLED' ? 'DISABLED' : 'ENABLED'
-              });
-              setStatusError(null);
-            }}
-          >
-            {record.status === 'ENABLED' ? '停用' : '启用'}
-          </Button>
-          <Button size="mini" status="danger" onClick={() => {
-            setDeleteTarget(record);
-            setDeleteError(null);
-          }}>删除</Button>
-        </Space>
-      )
-    }
+    { title: '更新时间', dataIndex: 'updatedAt', width: 190, render: (value) => formatUpdatedAt(String(value ?? '')) },
+    { title: '操作', width: 760, fixed: 'right', render: (_value, record: Skill) => <Space size="mini" wrap>
+      <ObjectRelationActions
+        key={`${apiBaseUrl}:${selectedGameId}:${record.skillKey}`}
+        target={{ kind: 'skill', key: record.skillKey, name: record.name }}
+        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+        onDirtyChange={onDirtyChange} onImageSaved={() => onImageSaved(record)} />
+      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'overview')}>配置总览</Button>
+      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'basic')}>主体与分类</Button>
+      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'numbers')}>参数与公式</Button>
+      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'effects')}>效果与生命周期</Button>
+      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'processes')}>施放过程</Button>
+      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'states')}>内部状态</Button>
+      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'rules')}>条件与触发</Button>
+      <Button size="mini" status={record.status === 'ENABLED' ? 'danger' : 'success'}
+        onClick={() => openWorkspace(record.skillKey, 'basic', record.status === 'ENABLED' ? 'DISABLED' : 'ENABLED')}>
+        {record.status === 'ENABLED' ? '停用' : '启用'}
+      </Button>
+      <Button size="mini" status="danger" onClick={() => { setDeleteTarget(record); setDeleteError(null); }}>删除</Button>
+    </Space> }
   ];
+  const lastPage = Math.max(1, Math.ceil(items.length / pageSize));
+  const visiblePage = Math.min(currentPage, lastPage);
 
-  return (
-    <div className="page-stack">
-      <Panel
-        title={focus ? `技能录入${items[0] ? ` · ${items[0].name}` : ''}` : '技能管理'}
-        actions={
-          <Space>
-            {focus ? <Button type="primary" onClick={focus.onReturn}>{focus.returnLabel}</Button> : null}
-            <Button
-              loading={loading}
-              disabled={!selectedGameId || !adminToken.trim()}
-              onClick={() => {
-                void loadSkills(appliedQuery);
-                void loadCategories();
-              }}
-            >刷新</Button>
-            {!focus ? <Button
-              type="primary"
-              disabled={!selectedGameId || !adminToken.trim() || !categoryDirectoryReady}
-              onClick={() => setEditor({ mode: 'create', skill: null })}
-            >新增技能</Button> : null}
-          </Space>
-        }
-      >
-        {!selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : null}
-        {selectedGameId && !adminToken.trim() ? <Alert type="warning" content="请先在顶部配置 Admin Token。" /> : null}
-        {loadError ? <Alert type="error" content={loadError} className="workspace-alert" /> : null}
-        {categoryLoadError ? (
-          <Alert
-            type="error"
-            className="workspace-alert"
-            content={categoryLoadError}
-            action={
-              <Button size="mini" loading={categoryLoading} onClick={() => void loadCategories()}>
-                重试
-              </Button>
-            }
-          />
-        ) : null}
-        {notice ? <Alert type="success" content={notice} className="workspace-alert" /> : null}
-        {authoringNotice ? <Alert type="warning" content={authoringNotice} className="workspace-alert" /> : null}
+  if (workspace) {
+    return <Panel title={focus ? '技能录入' : '技能管理'}>
+      {categoryError ? <Alert type="warning" content={`技能分类目录读取失败：${categoryError}`}
+        action={<Button size="mini" loading={categoryLoading} onClick={() => void loadCategories()}>重试目录</Button>} /> : null}
+      <SkillConfigurationWorkspace
+        key={workspace.id}
+        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
+        skillKey={workspace.skillKey} initialModule={workspace.module} initialStatus={workspace.initialStatus}
+        categories={categories} categoryDirectoryReady={categoryDirectoryReady}
+        source={focus ? { kind: focus.sourceKind, name: focus.sourceName, key: focus.sourceKey } : null}
+        backLabel={focus?.returnLabel}
+        authoringLocation={workspace.navigation?.location}
+        onBack={focus ? focus.onReturn : closeWorkspace}
+        onSaved={workspaceSaved} onDirtyChange={reportWorkspaceDirty} />
+    </Panel>;
+  }
 
-        {focus ? <Alert type="info" content={`来自${FOCUS_SOURCE_LABELS[focus.sourceKind]}：${focus.sourceName}（${focus.sourceKey}）。正在录入下方这一项技能；完成后${focus.returnLabel}可继续核对。`} style={{ marginBottom: 16 }} /> : null}
-
-        {!focus ? <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 1fr) minmax(220px, auto) auto', gap: 12, alignItems: 'end', marginBottom: 16 }}>
-          <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <span>关键词</span>
-            <Input
-              aria-label="技能关键词"
-              value={keywordDraft}
-              maxLength={100}
-              allowClear
-              onChange={setKeywordDraft}
-              onPressEnter={applyQuery}
-            />
-          </label>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <span>状态筛选</span>
-            <Radio.Group
-              aria-label="技能状态筛选"
-              type="button"
-              size="small"
-              value={statusDraft}
-              onChange={(value) => {
-                if (value === '' || value === 'ENABLED' || value === 'DISABLED') {
-                  setStatusDraft(value);
-                }
-              }}
-            >
-              <Radio value="">全部</Radio>
-              <Radio value="ENABLED">启用</Radio>
-              <Radio value="DISABLED">停用</Radio>
-            </Radio.Group>
-          </div>
-          <Space>
-            <Button type="primary" disabled={!selectedGameId || !adminToken.trim()} onClick={applyQuery}>查询</Button>
-            <Button onClick={resetQuery}>重置</Button>
-          </Space>
-        </div> : null}
-
-        <Typography.Text type="secondary" style={{ display: 'block', marginBottom: 8 }}>
-          {focus ? `当前技能标识：${focus.skillKey}` : `共 ${total} 条技能`}
-        </Typography.Text>
-        <Table
-          className="data-table-shell"
-          loading={loading}
-          columns={columns}
-          data={items}
-          pagination={focus ? false : {
-            current: visiblePage,
-            pageSize,
-            total: items.length,
-            showTotal: true,
-            sizeCanChange: true,
-            sizeOptions: [25, 50, 100],
-            onChange: (page, nextPageSize) => {
-              setCurrentPage(nextPageSize === pageSize ? page : 1);
-              setPageSize(nextPageSize);
-            }
-          }}
-          rowKey={(record: Skill) => record.skillKey}
-          scroll={{ x: 1734 }}
-          noDataElement={<Empty description="暂无技能" />}
-        />
-      </Panel>
-
-      {editor ? (
-        <SkillEditorModal
-          key={`${apiBaseUrl}:${selectedGameId}:${editor.mode}:${editor.skill?.skillKey ?? 'new'}`}
-          visible
-          mode={editor.mode}
-          skill={editor.skill}
-          skillCategories={categories}
-          apiBaseUrl={apiBaseUrl}
-          selectedGameId={selectedGameId}
-          adminToken={adminToken}
-          onClose={() => { setEditor(null); refreshOverview(); }}
-          onSaved={handleSaved}
-          onDirtyChange={onDirtyChange}
-          authoringFocus={incomingAuthoringFocus?.location.editor === 'SKILL_BASIC' ? incomingAuthoringFocus : null}
-        />
-      ) : null}
-
-      <SkillParameterFormulaModal
-        visible={parameterFormulaTarget !== null}
-        skill={parameterFormulaTarget}
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        onClose={() => { setParameterFormulaTarget(null); refreshOverview(); }}
-        onSkillMissing={() => {
-          setParameterFormulaTarget(null);
-          void loadSkills(appliedQuery);
+  return <div className="page-stack">
+    <Panel title="技能管理" actions={<Space>
+      <Button loading={loading} disabled={!selectedGameId || !adminToken.trim()}
+        onClick={() => { void loadSkills(appliedQuery); void loadCategories(); }}>刷新</Button>
+      <Button type="primary" disabled={!selectedGameId || !adminToken.trim()}
+        onClick={() => openWorkspace(null, 'basic')}>新增技能</Button>
+    </Space>}>
+      {!selectedGameId ? <Alert type="warning" content="请先在顶部选择游戏。" /> : null}
+      {selectedGameId && !adminToken.trim() ? <Alert type="warning" content="请先在顶部配置管理令牌。" /> : null}
+      {loadError ? <Alert type="error" content={loadError} /> : null}
+      {categoryError ? <Alert type="warning" content={`技能分类目录读取失败：${categoryError}`}
+        action={<Button size="mini" loading={categoryLoading} onClick={() => void loadCategories()}>重试目录</Button>} /> : null}
+      {notice ? <Alert type="success" content={notice} /> : null}
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 1fr) minmax(220px, auto) auto', gap: 12, alignItems: 'end', marginBottom: 16 }}>
+        <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}><span>关键词</span>
+          <Input aria-label="技能关键词" value={keywordDraft} maxLength={100} allowClear
+            onChange={setKeywordDraft} onPressEnter={applyQuery} /></label>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}><span>状态筛选</span>
+          <Radio.Group aria-label="技能状态筛选" type="button" size="small" value={statusDraft}
+            onChange={(value) => { if (value === '' || value === 'ENABLED' || value === 'DISABLED') setStatusDraft(value); }}>
+            <Radio value="">全部</Radio><Radio value="ENABLED">启用</Radio><Radio value="DISABLED">停用</Radio>
+          </Radio.Group></div>
+        <Space><Button type="primary" onClick={applyQuery}>查询</Button><Button onClick={resetQuery}>重置</Button></Space>
+      </div>
+      <Typography.Text type="secondary">共 {total} 条技能</Typography.Text>
+      <Table className="data-table-shell" loading={loading} columns={columns} data={items}
+        pagination={{
+          current: visiblePage, pageSize, total: items.length, showTotal: true,
+          sizeCanChange: true, sizeOptions: [25, 50, 100],
+          onChange: (page, nextPageSize) => {
+            setCurrentPage(nextPageSize === pageSize ? page : 1);
+            setPageSize(nextPageSize);
+          }
         }}
-        authoringFocus={incomingAuthoringFocus && (incomingAuthoringFocus.location.editor === 'PARAMETER' || incomingAuthoringFocus.location.editor === 'FORMULA') ? incomingAuthoringFocus : null}
-      />
-
-      <SkillEffectManagementModal
-        visible={effectTarget !== null}
-        skill={effectTarget}
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        onClose={() => { setEffectTarget(null); refreshOverview(); }}
-        onSkillMissing={handleEffectSkillMissing}
-        onDirtyChange={onDirtyChange}
-        authoringFocus={incomingAuthoringFocus?.location.editor === 'EFFECT' ? incomingAuthoringFocus : null}
-      />
-
-      <SkillProcessInternalStateModal
-        visible={processInternalStateTarget !== null}
-        skill={processInternalStateTarget}
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        onClose={() => { setProcessInternalStateTarget(null); refreshOverview(); }}
-        onSkillMissing={handleProcessInternalStateSkillMissing}
-        onDirtyChange={onDirtyChange}
-        authoringFocus={incomingAuthoringFocus && (incomingAuthoringFocus.location.editor === 'PROCESS' || incomingAuthoringFocus.location.editor === 'INTERNAL_STATE') ? incomingAuthoringFocus : null}
-      />
-
-      <SkillTriggerRuleManagementModal
-        visible={triggerRuleTarget !== null}
-        skill={triggerRuleTarget}
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        onClose={() => { setTriggerRuleTarget(null); refreshOverview(); }}
-        onSkillMissing={handleTriggerRuleSkillMissing}
-        onDirtyChange={onDirtyChange}
-        authoringFocus={incomingAuthoringFocus?.location.editor === 'TRIGGER_RULE' ? incomingAuthoringFocus : null}
-      />
-
-      <SkillBehaviorOverviewModal
-        visible={overviewTarget !== null}
-        skill={overviewTarget}
-        apiBaseUrl={apiBaseUrl}
-        selectedGameId={selectedGameId}
-        adminToken={adminToken}
-        refreshNonce={overviewRefresh}
-        onClose={() => setOverviewTarget(null)}
-        onEdit={(location) => setAuthoringFocus(createAuthoringNavigationRequest(location))}
-      />
-
-      <Modal
-        title={statusTarget?.nextStatus === 'ENABLED' ? '启用技能' : '停用技能'}
-        visible={statusTarget !== null}
-        okText={statusTarget?.nextStatus === 'ENABLED' ? '启用' : '停用'}
-        cancelText="取消"
-        okButtonProps={{ status: statusTarget?.nextStatus === 'ENABLED' ? 'success' : 'danger' }}
-        confirmLoading={Boolean(statusUpdatingKey)}
-        maskClosable
-        onCancel={() => {
-          if (statusUpdatingKey) return;
-          setStatusTarget(null);
-          setStatusError(null);
-        }}
-        onOk={() => void confirmStatusChange()}
-      >
-        {statusError ? <Alert type="error" content={statusError} style={{ marginBottom: 12 }} /> : null}
-        {statusTarget ? `确定${statusTarget.nextStatus === 'ENABLED' ? '启用' : '停用'}技能「${statusTarget.skill.name}」吗？` : null}
-      </Modal>
-
-      <Modal
-        title="删除技能"
-        visible={deleteTarget !== null}
-        okText="删除"
-        cancelText="取消"
-        okButtonProps={{ status: 'danger' }}
-        confirmLoading={deleting}
-        maskClosable
-        onCancel={() => {
-          if (deleting) return;
-          setDeleteTarget(null);
-          setDeleteError(null);
-        }}
-        onOk={() => void confirmDelete()}
-      >
-        {deleteError ? <Alert type="error" content={deleteError} style={{ marginBottom: 12 }} /> : null}
-        {deleteTarget ? `确定删除技能「${deleteTarget.name}」吗？` : null}
-      </Modal>
-    </div>
-  );
+        rowKey={(record: Skill) => record.skillKey} scroll={{ x: 1734 }} noDataElement={<Empty description="暂无技能" />} />
+    </Panel>
+    <Modal title="删除技能" visible={deleteTarget !== null} okText="删除" cancelText="取消"
+      okButtonProps={{ status: 'danger' }} confirmLoading={deleting} maskClosable
+      onCancel={() => { if (!deleting) { setDeleteTarget(null); setDeleteError(null); } }}
+      onOk={() => void confirmDelete()}>
+      {deleteError ? <Alert type="error" content={deleteError} style={{ marginBottom: 12 }} /> : null}
+      {deleteTarget ? `确定删除技能「${deleteTarget.name}」吗？` : null}
+    </Modal>
+  </div>;
 }

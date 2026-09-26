@@ -36,15 +36,19 @@ import {
   shouldDegradeUnsupportedAnchor
 } from '../authoringFocus';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
+import type { SkillParameter } from '../../../../types/skillParameter';
 import type {
   SkillInternalState,
+  CreateSkillInternalStateRequest,
   SkillInternalStateAmmoRecoveryMode,
+  SkillInternalStateAmmoRecoveryStartCondition,
   SkillInternalStateScope,
   SkillInternalStateSummary,
   SkillInternalStateType
 } from '../../../../types/skillInternalState';
 import {
   AMMO_RECOVERY_MODE_LABELS,
+  AMMO_RECOVERY_START_CONDITION_LABELS,
   MILLISECOND_FORMULA_HINT,
   SKILL_INTERNAL_STATE_SCOPE_LABELS,
   SKILL_INTERNAL_STATE_TYPES,
@@ -83,6 +87,13 @@ type SkillInternalStateEditorModalProps = {
   catalogRevision: number;
   onOpenParameterFormula?: () => void;
   authoringLocation?: AuthoringLocation | null;
+  workspaceDraft?: {
+    initial: SkillInternalStateDraft;
+    original: SkillInternalState | null;
+    parameters: SkillParameter[];
+    formulas: SkillFormulaSummary[];
+    onApply: (draft: SkillInternalStateDraft, value: CreateSkillInternalStateRequest) => string | null;
+  };
 };
 
 function titleFor(mode: SkillInternalStateEditorMode): string {
@@ -121,7 +132,8 @@ export function SkillInternalStateEditorModal({
   onDirtyChange,
   catalogRevision,
   onOpenParameterFormula,
-  authoringLocation
+  authoringLocation,
+  workspaceDraft
 }: SkillInternalStateEditorModalProps) {
   const [draft, setDraft] = useState<SkillInternalStateDraft>(createEmptyInternalStateDraft());
   const [baseline, setBaseline] = useState<SkillInternalStateDraft>(createEmptyInternalStateDraft());
@@ -133,9 +145,17 @@ export function SkillInternalStateEditorModal({
   const [saving, setSaving] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detailReady, setDetailReady] = useState(mode === 'create');
-  const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
-  const { parameters, parametersLoadState } = useNumericParameters(apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible, catalogRevision);
-  const [formulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [savedFormulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
+  const { parameters: savedParameters, parametersLoadState: savedParametersLoadState } = useNumericParameters(
+    apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible && !workspaceDraft, catalogRevision
+  );
+  const parameters = workspaceDraft?.parameters ?? savedParameters;
+  const parametersLoadState = workspaceDraft ? 'ready' : savedParametersLoadState;
+  const formulas = workspaceDraft?.formulas ?? savedFormulas;
+  const [savedFormulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const formulasLoadState = workspaceDraft ? 'ready' : savedFormulasLoadState;
+  const workspaceInitial = workspaceDraft?.initial;
+  const workspaceOriginal = workspaceDraft?.original;
   const [locateNotice, setLocateNotice] = useState<string | null>(null);
   const [focusField, setFocusField] = useState<string | null>(null);
   const [focusedOptionKey, setFocusedOptionKey] = useState<string | null>(null);
@@ -172,6 +192,7 @@ export function SkillInternalStateEditorModal({
   }, [mode]);
 
   const loadFormulas = useCallback(async () => {
+    if (workspaceInitial) return;
     const serial = formulaSerial.current + 1;
     formulaSerial.current = serial;
     const token = adminToken.trim();
@@ -192,13 +213,56 @@ export function SkillInternalStateEditorModal({
       setFormulasLoadState('failed');
       setFormulasError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
+  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible, workspaceInitial]);
+
+  const applyAuthoringLocation = useCallback((detail: unknown, next: SkillInternalStateDraft) => {
+    if (!authoringLocation) return;
+    const resolved = resolveAuthoringLocation(authoringLocation, detail);
+    const unsupported = shouldDegradeUnsupportedAnchor(
+      authoringLocation.editor,
+      resolved.matchedSegments,
+      resolved.precision
+    );
+    const optionKey = keyedChildKey(resolved.matchedSegments, 'options');
+    const field = lastFieldName(resolved.matchedSegments);
+    if (resolved.precision !== 'FIELD' || unsupported || resolved.reason) {
+      setLocateNotice(authoringLocateMessage({
+        originalFieldPath: resolved.originalFieldPath,
+        reason: resolved.reason,
+        unsupportedAnchor: unsupported,
+        reportChanged: resolved.reportChanged
+      }));
+      setFocusField(null);
+    } else {
+      setLocateNotice(null);
+      setFocusField(field);
+    }
+    if (optionKey && !next.options.some((item) => item.optionKey === optionKey)) {
+      setLocateNotice(authoringLocateMessage({
+        originalFieldPath: resolved.originalFieldPath,
+        reason: 'MISSING_KEY'
+      }));
+      setFocusedOptionKey(null);
+    } else {
+      setFocusedOptionKey(optionKey ?? null);
+    }
+  }, [authoringLocation]);
 
   const loadDetail = useCallback(async () => {
     const serial = detailSerial.current + 1;
     detailSerial.current = serial;
     if (!visible) {
       setLoadingDetail(false);
+      return;
+    }
+    if (workspaceInitial) {
+      setDraft(workspaceInitial);
+      setBaseline(workspaceInitial);
+      setDetailReady(true);
+      setLoadingDetail(false);
+      setLoadError(null);
+      onDirtyChange(false);
+      if (workspaceOriginal) applyAuthoringLocation(workspaceOriginal, workspaceInitial);
       return;
     }
     if (mode === 'create') {
@@ -240,30 +304,7 @@ export function SkillInternalStateEditorModal({
       setBaseline(next);
       setDetailReady(true);
       onDirtyChange(false);
-      if (authoringLocation) {
-        const resolved = resolveAuthoringLocation(authoringLocation, result.data);
-        const unsupported = shouldDegradeUnsupportedAnchor(authoringLocation.editor, resolved.matchedSegments, resolved.precision);
-        const optionKey = keyedChildKey(resolved.matchedSegments, 'options');
-        const field = lastFieldName(resolved.matchedSegments);
-        if (resolved.precision !== 'FIELD' || unsupported || resolved.reason) {
-          setLocateNotice(authoringLocateMessage({
-            originalFieldPath: resolved.originalFieldPath,
-            reason: resolved.reason,
-            unsupportedAnchor: unsupported,
-            reportChanged: resolved.reportChanged
-          }));
-          setFocusField(null);
-        } else {
-          setLocateNotice(null);
-          setFocusField(field);
-        }
-        if (optionKey && !next.options.some((item) => item.optionKey === optionKey)) {
-          setLocateNotice(authoringLocateMessage({ originalFieldPath: resolved.originalFieldPath, reason: 'MISSING_KEY' }));
-          setFocusedOptionKey(null);
-        } else {
-          setFocusedOptionKey(optionKey ?? null);
-        }
-      }
+      applyAuthoringLocation(result.data, next);
     } catch (error) {
       if (detailSerial.current !== serial) return;
       if (isSkillNotFound(error)) {
@@ -284,6 +325,7 @@ export function SkillInternalStateEditorModal({
   }, [
     adminToken,
     apiBaseUrl,
+    applyAuthoringLocation,
     internalState,
     mode,
     onDirtyChange,
@@ -291,7 +333,9 @@ export function SkillInternalStateEditorModal({
     selectedGameId,
     skill.skillKey,
     visible,
-    authoringLocation
+    authoringLocation,
+    workspaceInitial,
+    workspaceOriginal
   ]);
 
   useEffect(() => {
@@ -354,6 +398,12 @@ export function SkillInternalStateEditorModal({
       setDraft(sorted);
       setErrors(validation.fieldErrors);
       setOptionErrors(validation.optionErrors);
+      return;
+    }
+    if (workspaceDraft) {
+      const error = workspaceDraft.onApply(sorted, buildCreateSkillInternalStateRequest(validation.normalized));
+      if (error) setSaveError(error);
+      else onDirtyChange(false);
       return;
     }
     const token = adminToken.trim();
@@ -486,7 +536,7 @@ export function SkillInternalStateEditorModal({
       width: 90,
       render: (_value, row: { item: SkillInternalStateModeOptionDraft; index: number }) => (
         <div>
-          {!readOnly ? (
+          {!readOnly && !workspaceDraft ? (
             <Button
               size="mini"
               status="danger"
@@ -515,7 +565,7 @@ export function SkillInternalStateEditorModal({
       style={{ width: 'calc(100vw - 80px)', maxWidth: 1200 }}
       footer={
         <Space>
-          {!readOnly ? (
+          {!readOnly && onOpenParameterFormula ? (
             <Button onClick={onOpenParameterFormula}>参数与公式</Button>
           ) : null}
           <Button onClick={close} disabled={closeBlocked}>{readOnly ? '关闭' : '取消'}</Button>
@@ -526,7 +576,7 @@ export function SkillInternalStateEditorModal({
               disabled={!detailReady}
               onClick={() => void save()}
             >
-              保存
+              {workspaceDraft ? '确认到技能草稿' : '保存'}
             </Button>
           ) : null}
         </Space>
@@ -718,6 +768,19 @@ export function SkillInternalStateEditorModal({
                 >
                   <Radio value="ONE_BY_ONE">{AMMO_RECOVERY_MODE_LABELS.ONE_BY_ONE}</Radio>
                   <Radio value="ALL_AT_ONCE">{AMMO_RECOVERY_MODE_LABELS.ALL_AT_ONCE}</Radio>
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item label="恢复启动条件" required
+                validateStatus={errors.recoveryStartCondition ? 'error' : undefined}
+                help={errors.recoveryStartCondition}
+                extra="旧记录若缺少该条件，请按来源确认后选择；页面不会猜测。">
+                <Radio.Group aria-label="恢复启动条件" value={draft.recoveryStartCondition}
+                  disabled={readOnly || saving}
+                  onChange={(value) => patchDraft({
+                    ...draft, recoveryStartCondition: value as SkillInternalStateAmmoRecoveryStartCondition
+                  })}>
+                  <Radio value="AFTER_CONSUME">{AMMO_RECOVERY_START_CONDITION_LABELS.AFTER_CONSUME}</Radio>
+                  <Radio value="WHEN_EMPTY">{AMMO_RECOVERY_START_CONDITION_LABELS.WHEN_EMPTY}</Radio>
                 </Radio.Group>
               </Form.Item>
             </>

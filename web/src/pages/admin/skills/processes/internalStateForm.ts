@@ -8,6 +8,7 @@ import type {
   CreateSkillInternalStateRequest,
   SkillInternalState,
   SkillInternalStateAmmoRecoveryMode,
+  SkillInternalStateAmmoRecoveryStartCondition,
   SkillInternalStateModeOption,
   SkillInternalStateScope,
   SkillInternalStateType,
@@ -41,6 +42,10 @@ export const AMMO_RECOVERY_MODE_LABELS = {
   ONE_BY_ONE: '逐个恢复',
   ALL_AT_ONCE: '一次全部恢复'
 } as const satisfies { [K in SkillInternalStateAmmoRecoveryMode]: string };
+export const AMMO_RECOVERY_START_CONDITION_LABELS = {
+  AFTER_CONSUME: '消耗后开始恢复',
+  WHEN_EMPTY: '弹药耗尽后开始恢复或装填'
+} as const satisfies { [K in SkillInternalStateAmmoRecoveryStartCondition]: string };
 
 export const MILLISECOND_FORMULA_HINT = '结果按毫秒解释';
 export const INCOMPLETE_CATALOG_MESSAGE = '目录不完整，无法保存未知引用。';
@@ -65,6 +70,7 @@ export type SkillInternalStateDraft = {
   maxValue: NumericValue | null;
   recoveryIntervalValue: NumericValue | null;
   recoveryMode: SkillInternalStateAmmoRecoveryMode | '';
+  recoveryStartCondition: SkillInternalStateAmmoRecoveryStartCondition | '';
   options: SkillInternalStateModeOptionDraft[];
   initialEnabled: boolean;
   durationValue: NumericValue | null;
@@ -83,6 +89,7 @@ export type SkillInternalStateDraftField =
   | 'maxValue'
   | 'recoveryIntervalValue'
   | 'recoveryMode'
+  | 'recoveryStartCondition'
   | 'options'
   | 'initialEnabled'
   | 'durationValue'
@@ -155,6 +162,7 @@ const STATE_DRAFT_FIELDS = new Set<SkillInternalStateDraftField>([
   'maxValue',
   'recoveryIntervalValue',
   'recoveryMode',
+  'recoveryStartCondition',
   'options',
   'initialEnabled',
   'durationValue',
@@ -166,6 +174,7 @@ const DETAIL_FIELD_BY_PATH: { [path: string]: SkillInternalStateDraftField } = {
   'detail.maxValue': 'maxValue',
   'detail.recoveryIntervalValue': 'recoveryIntervalValue',
   'detail.recoveryMode': 'recoveryMode',
+  'detail.recoveryStartCondition': 'recoveryStartCondition',
   'detail.initialEnabled': 'initialEnabled',
   'detail.durationValue': 'durationValue',
   'detail.options': 'options'
@@ -204,6 +213,7 @@ export function createEmptyInternalStateDraft(
     maxValue: null,
     recoveryIntervalValue: null,
     recoveryMode: stateType === 'AMMO' ? 'ONE_BY_ONE' : '',
+    recoveryStartCondition: '',
     options: stateType === 'MODE' ? [createEmptyModeOptionDraft(), createEmptyModeOptionDraft()] : [],
     initialEnabled: false,
     durationValue: null,
@@ -232,6 +242,7 @@ export function skillInternalStateToDraft(state: SkillInternalState): SkillInter
       draft.maxValue = state.detail.maxValue;
       draft.recoveryIntervalValue = state.detail.recoveryIntervalValue;
       draft.recoveryMode = state.detail.recoveryMode;
+      draft.recoveryStartCondition = state.detail.recoveryStartCondition ?? '';
       break;
     case 'MODE':
       draft.options = sortModeOptionDrafts(state.detail.options.map(modeOptionToDraft));
@@ -280,6 +291,7 @@ export function applyStateTypeChange(
     maxValue: null,
     recoveryIntervalValue: null,
     recoveryMode: nextType === 'AMMO' ? 'ONE_BY_ONE' : '',
+    recoveryStartCondition: '',
     options: nextType === 'MODE' ? [createEmptyModeOptionDraft(), createEmptyModeOptionDraft()] : [],
     initialEnabled: false,
     durationValue: null
@@ -299,6 +311,7 @@ export function clearHiddenInternalStateFields(draft: SkillInternalStateDraft): 
     maxValue: isCounter || isAmmo ? draft.maxValue : null,
     recoveryIntervalValue: isAmmo ? draft.recoveryIntervalValue : null,
     recoveryMode: isAmmo ? draft.recoveryMode || 'ONE_BY_ONE' : '',
+    recoveryStartCondition: isAmmo ? draft.recoveryStartCondition : '',
     options: isMode ? draft.options : [],
     initialEnabled: isFlag ? draft.initialEnabled : false,
     durationValue: isCooldown ? draft.durationValue : null
@@ -475,6 +488,9 @@ function validateTypeSpecificFields(
       if (draft.recoveryMode !== 'ONE_BY_ONE' && draft.recoveryMode !== 'ALL_AT_ONCE') {
         fieldErrors.recoveryMode = '请选择恢复方式。';
       }
+      if (draft.recoveryStartCondition !== 'AFTER_CONSUME' && draft.recoveryStartCondition !== 'WHEN_EMPTY') {
+        fieldErrors.recoveryStartCondition = '请根据来源确认恢复启动条件。';
+      }
       validateFormulaRef(options, draft.initialValue, fieldErrors, 'initialValue');
       validateFormulaRef(options, draft.maxValue, fieldErrors, 'maxValue', true);
       validateFormulaRef(options, draft.recoveryIntervalValue, fieldErrors, 'recoveryIntervalValue');
@@ -590,7 +606,8 @@ function buildNormalizedRequest(
           initialValue: draft.initialValue!,
           maxValue: draft.maxValue!,
           recoveryIntervalValue: draft.recoveryIntervalValue!,
-          recoveryMode: draft.recoveryMode as SkillInternalStateAmmoRecoveryMode
+          recoveryMode: draft.recoveryMode as SkillInternalStateAmmoRecoveryMode,
+          recoveryStartCondition: draft.recoveryStartCondition as SkillInternalStateAmmoRecoveryStartCondition
         }
       };
     case 'MODE':

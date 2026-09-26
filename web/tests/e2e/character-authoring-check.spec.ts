@@ -34,7 +34,12 @@ test('角色录入检查失败重试、技能往返和迟到响应隔离', async
       return json(route, report(owner));
     }
     if (pathname.endsWith('/skill-categories')) return json(route, { items: [], total: 0 });
-    if (pathname.endsWith('/skills/ez_q')) return json(route, skill('ez'));
+    if (pathname.endsWith('/attributes')) return json(route, { items: [], total: 0 });
+    if (pathname.endsWith('/level-config')) return json(route, { gameId: 'demo', minLevel: 1, maxLevel: 18 });
+    if (pathname.endsWith('/skills/ez_q/configuration')) return json(route, {
+      skill: skill('ez'), parameters: [], formulas: [], effects: [], processes: [],
+      internalStates: [], triggerRules: [], baseDigest: 'character-check-ez-q'
+    });
     unexpected.push(pathname);
     return json(route, { error: { code: '404.UNMOCKED', message: pathname } }, 404);
   });
@@ -58,11 +63,10 @@ test('角色录入检查失败重试、技能往返和迟到响应隔离', async
   await expect(modal.getByText(/战斗运行：未执行/)).toBeVisible();
   await modal.getByRole('button', { name: '录入技能', exact: true }).click();
   await expect(page.getByRole('button', { name: '返回录入检查', exact: true })).toBeVisible();
-  await expect(page.getByRole('heading', { name: '技能录入 · 秘术射击', exact: true })).toBeVisible();
-  const editor = page.getByRole('dialog', { name: '编辑技能', exact: true });
-  await expect(editor.getByLabel('技能名称', { exact: true })).toHaveValue('秘术射击');
-  await editor.getByRole('button', { name: '取消', exact: true }).click();
-  await expect(editor).toBeHidden();
+  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  await expect(page.getByRole('heading', { name: '技能录入', exact: true })).toBeVisible();
+  await expect(workspace.getByRole('heading', { name: '秘术射击', exact: true })).toBeVisible();
+  await expect(workspace.getByLabel('技能名称', { exact: true })).toHaveValue('秘术射击');
   const beforeReturn = reads;
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
   await expect.poll(() => reads).toBeGreaterThan(beforeReturn);

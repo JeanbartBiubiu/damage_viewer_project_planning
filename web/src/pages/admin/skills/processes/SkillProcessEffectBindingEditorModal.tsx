@@ -169,7 +169,7 @@ export function SkillProcessEffectBindingEditorModal({
       style={{ width: 'calc(100vw - 80px)', maxWidth: 900 }}
       footer={
         <Space>
-          {!readOnly ? (
+          {!readOnly && onOpenEffects ? (
             <Button onClick={onOpenEffects}>效果与结果</Button>
           ) : null}
           <Button onClick={close}>{readOnly ? '关闭' : '取消'}</Button>

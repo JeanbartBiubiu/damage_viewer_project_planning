@@ -180,7 +180,7 @@ export function SkillProcessStepEditorModal({
       style={{ width: 'calc(100vw - 80px)', maxWidth: 960 }}
       footer={
         <Space>
-          {!readOnly ? (
+          {!readOnly && onOpenParameterFormula ? (
             <Button onClick={onOpenParameterFormula}>参数与公式</Button>
           ) : null}
           <Button onClick={close}>{readOnly ? '关闭' : '取消'}</Button>

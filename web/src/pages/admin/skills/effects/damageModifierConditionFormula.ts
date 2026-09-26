@@ -1,5 +1,6 @@
 import type { SkillFormula, FormulaExpressionNode } from '../../../../types/skillFormula';
 import type { SkillParameter } from '../../../../types/skillParameter';
+import type { NumericValue } from '../../../../types/numericValue';
 import type { SkillEffectResultDraft, SkillEffectResultIndexError } from './effectForm';
 
 type Fraction = { numerator: bigint; denominator: bigint };
@@ -110,6 +111,27 @@ export function staticDamageModifierConditionFormulaIssue(
     return null;
   } catch (error) {
     return error instanceof Error ? error.message : '门槛公式无法静态求值。';
+  }
+}
+
+export function staticShieldStackValueIssue(
+  value: NumericValue | null,
+  parameters: readonly SkillParameter[],
+  formulas: readonly Pick<SkillFormula, 'formulaKey' | 'expression'>[]
+): string | null {
+  if (!value) return '层数取值未配置。';
+  try {
+    const values = value.kind === 'FIXED'
+      ? [{ value: fraction(value.value) }]
+      : value.kind === 'PARAMETER'
+        ? parameterValues(value.parameterKey, parameters)
+        : evaluate(formulas.find((item) => item.formulaKey === value.formulaKey)?.expression
+          ?? failure('层数公式详情不可用，无法核对全部等级。'), parameters, 1);
+    const one = fraction(1);
+    return values.every(({ value: current }) => compare(current, one) === 0)
+      ? null : '关联盾要求全部有效等级的层数恒为 1。';
+  } catch (error) {
+    return error instanceof Error ? error.message : '层数无法静态核对。';
   }
 }
 
