@@ -18,6 +18,7 @@ public record SkillInternalStateAmmoDetail(
     @Valid
     SkillNumericValue recoveryIntervalValue,
     SkillInternalStateAmmoRecoveryMode recoveryMode,
+    SkillInternalStateAmmoRecoveryStartCondition recoveryStartCondition,
     @JsonIgnore Set<String> foreignFields,
     @JsonIgnore Set<String> unknownFields
 ) implements SkillInternalStateDetail {
@@ -31,13 +32,15 @@ public record SkillInternalStateAmmoDetail(
         SkillNumericValue initialValue,
         SkillNumericValue maxValue,
         SkillNumericValue recoveryIntervalValue,
-        SkillInternalStateAmmoRecoveryMode recoveryMode
+        SkillInternalStateAmmoRecoveryMode recoveryMode,
+        SkillInternalStateAmmoRecoveryStartCondition recoveryStartCondition
     ) {
         this(
             initialValue,
             maxValue,
             recoveryIntervalValue,
             recoveryMode,
+            recoveryStartCondition,
             Set.of(),
             Set.of()
         );
@@ -49,6 +52,7 @@ public record SkillInternalStateAmmoDetail(
         @JsonProperty("maxValue") SkillNumericValue maxValue,
         @JsonProperty("recoveryIntervalValue") SkillNumericValue recoveryIntervalValue,
         @JsonProperty("recoveryMode") SkillInternalStateAmmoRecoveryMode recoveryMode,
+        @JsonProperty("recoveryStartCondition") SkillInternalStateAmmoRecoveryStartCondition recoveryStartCondition,
         @JsonProperty("options") JsonNode options,
         @JsonProperty("initialEnabled") JsonNode initialEnabled,
         @JsonProperty("durationValue") JsonNode durationValue,
@@ -59,6 +63,7 @@ public record SkillInternalStateAmmoDetail(
             maxValue,
             recoveryIntervalValue,
             recoveryMode,
+            recoveryStartCondition,
             SkillInternalStateDetailFieldCapture.captureForeign(
                 "options", options,
                 "initialEnabled", initialEnabled,

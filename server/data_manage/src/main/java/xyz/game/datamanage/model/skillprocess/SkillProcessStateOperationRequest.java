@@ -16,6 +16,8 @@ public record SkillProcessStateOperationRequest(
     @NotBlank(message = "内部状态操作名称不能为空")
     @Size(max = 100, message = "内部状态操作名称不能超过100个字符")
     String name,
+    @NotBlank(message = "内部状态所属技能不能为空")
+    String stateSkillKey,
     @NotBlank(message = "内部状态标识不能为空")
     String stateKey,
     @NotNull(message = "内部状态操作种类不能为空")
@@ -33,6 +35,7 @@ public record SkillProcessStateOperationRequest(
     public SkillProcessStateOperationRequest {
         operationKey = operationKey == null ? null : operationKey.trim();
         name = name == null ? null : name.trim();
+        stateSkillKey = stateSkillKey == null ? null : stateSkillKey.trim();
         stateKey = stateKey == null ? null : stateKey.trim();
         optionKey = optionKey == null || optionKey.isBlank() ? null : optionKey.trim();
     }

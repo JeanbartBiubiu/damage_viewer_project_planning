@@ -410,7 +410,7 @@ class SkillTriggerRuleEventShapeServiceTest {
                 "istate",
                 new SkillTriggerEventSource(
                     SkillTriggerEventType.INTERNAL_STATE_CHANGED,
-                    new SkillTriggerInternalStateEventDetail("flag", SkillTriggerInternalStateChangeKind.FLAG_CHANGED)
+                    new SkillTriggerInternalStateEventDetail(SKILL_KEY, "flag", SkillTriggerInternalStateChangeKind.FLAG_CHANGED)
                 ),
                 List.of(executeAction("deal", EFFECT_KEY))
             )
@@ -422,7 +422,7 @@ class SkillTriggerRuleEventShapeServiceTest {
                     "istate_bad",
                     new SkillTriggerEventSource(
                         SkillTriggerEventType.INTERNAL_STATE_CHANGED,
-                        new SkillTriggerInternalStateEventDetail("flag", null)
+                        new SkillTriggerInternalStateEventDetail(SKILL_KEY, "flag", null)
                     ),
                     List.of(executeAction("deal", EFFECT_KEY))
                 )

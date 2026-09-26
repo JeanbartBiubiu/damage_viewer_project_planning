@@ -17,6 +17,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
@@ -174,6 +175,52 @@ public class SkillService {
                 throw notFound(skillKey);
             }
             applyRelationDiff(gameId, skillKey, current, requestedKeys);
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+        return requireSkill(gameId, skillKey);
+    }
+
+    /** Unified configuration writes already hold the game lock and validate the final parameter set. */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public SkillResponse createWithinConfiguration(String gameId, String skillKey, SkillUpdateRequest request) {
+        requireGame(gameId);
+        List<Map<String, String>> issues = new ArrayList<>();
+        validateKey(skillKey, issues);
+        throwIfInvalid(issues);
+        List<String> categoryKeys = validateUpdate(request);
+        if (mapper.countByKey(gameId, skillKey) > 0) {
+            throw keyExists();
+        }
+        lockAndRequireCategories(gameId, categoryKeys, Set.of());
+        try {
+            mapper.insert(gameId, skillKey, request.name(), request.description(), request.maxLevel(),
+                request.status().name(), request.sortOrder());
+            insertRelations(gameId, skillKey, categoryKeys);
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+        return requireSkill(gameId, skillKey);
+    }
+
+    /** Does not invoke the legacy missing-level zero fill. */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public SkillResponse updateWithinConfiguration(String gameId, String skillKey, SkillUpdateRequest request) {
+        requireGame(gameId);
+        SkillRow locked = mapper.findByIdForUpdate(gameId, skillKey);
+        if (locked == null) {
+            throw notFound(skillKey);
+        }
+        List<String> categoryKeys = validateUpdate(request);
+        List<String> currentKeys = mapper.listRelationKeys(gameId, skillKey);
+        Set<String> current = new HashSet<>(currentKeys == null ? List.of() : currentKeys);
+        lockAndRequireCategories(gameId, categoryKeys, current);
+        try {
+            if (mapper.update(gameId, skillKey, request.name(), request.description(), request.maxLevel(),
+                request.status().name(), request.sortOrder()) == 0) {
+                throw notFound(skillKey);
+            }
+            applyRelationDiff(gameId, skillKey, current, categoryKeys);
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex);
         }

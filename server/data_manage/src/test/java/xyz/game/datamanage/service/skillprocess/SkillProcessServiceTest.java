@@ -299,6 +299,7 @@ class SkillProcessServiceTest {
                     List.of(new SkillProcessStateOperationRequest(
                         "select_mode",
                         "切姿态",
+                        SKILL_KEY,
                         "other_state",
                         SkillProcessStateOperationKind.SELECT,
                         null,
@@ -316,6 +317,25 @@ class SkillProcessServiceTest {
         assertField(exception, "stateOperations[0].stateKey", "UNKNOWN_INTERNAL_STATE");
         assertField(exception, "stateOperations[0].optionKey", "UNKNOWN_MODE_OPTION");
         verify(mapper, never()).insertProcess(any(), any(), any(), any(), any(), any(), any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void stateOperationResolvesExplicitTargetSkillAndReadsItBack() {
+        String otherSkill = "other_skill";
+        SkillProcessStateOperationRequest cross = new SkillProcessStateOperationRequest(
+            "add_mark", "叠层", otherSkill, "mark_stacks", SkillProcessStateOperationKind.INCREASE,
+            SkillNumericValue.fixed(java.math.BigDecimal.ONE), null,
+            new SkillProcessMoment(SkillProcessMomentType.PROCESS_START, null), 0);
+        SkillProcessCreateRequest request = new SkillProcessCreateRequest(PROCESS_KEY, "施放",
+            SkillProcessActivationType.ACTIVE, null, 0, null, List.of(immediateStep()), List.of(), List.of(cross));
+        ApiException absent = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY, request));
+        assertField(absent, "stateOperations[0].stateKey", "UNKNOWN_INTERNAL_STATE");
+
+        when(mapper.lockInternalStates(eq(GAME_ID), eq(otherSkill), anyCollection()))
+            .thenReturn(List.of(new SkillProcessInternalStateLockRow("mark_stacks", SkillInternalStateType.COUNTER)));
+        var saved = service.create(GAME_ID, SKILL_KEY, request);
+        assertEquals(otherSkill, saved.stateOperations().get(0).stateSkillKey());
+        assertEquals("mark_stacks", saved.stateOperations().get(0).stateKey());
     }
 
     @Test
@@ -398,7 +418,7 @@ class SkillProcessServiceTest {
         ));
         when(mapper.listOperationsForUpdate(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenReturn(List.of(
             new xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationRow(
-                GAME_ID, SKILL_KEY, PROCESS_KEY, "add_mark", "叠层", "mark_stacks",
+                GAME_ID, SKILL_KEY, PROCESS_KEY, "add_mark", "叠层", SKILL_KEY, "mark_stacks",
                 SkillProcessStateOperationKind.INCREASE, SkillNumericValue.formula(FORMULA_KEY), null,
                 SkillProcessMomentType.PROCESS_START, null, 0
             )
@@ -429,6 +449,7 @@ class SkillProcessServiceTest {
                     List.of(new SkillProcessStateOperationRequest(
                         "add_mark",
                         "叠层",
+                        SKILL_KEY,
                         "mark_stacks",
                         SkillProcessStateOperationKind.RESET,
                         null,
@@ -606,6 +627,7 @@ class SkillProcessServiceTest {
             List.of(new SkillProcessStateOperationRequest(
                 "add_mark",
                 "叠层",
+                SKILL_KEY,
                 "mark_stacks",
                 SkillProcessStateOperationKind.INCREASE,
                 SkillNumericValue.formula(FORMULA_KEY),

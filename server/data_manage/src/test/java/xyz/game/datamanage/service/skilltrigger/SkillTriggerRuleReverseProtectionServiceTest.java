@@ -160,6 +160,8 @@ class SkillTriggerRuleReverseProtectionServiceTest {
     void valuedStatusCannotPreserveAnExistingOuterResultModifier() {
         when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(SkillTriggerRuleTestSupport.ruleRow(
             "slow", "减速", xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType.BASIC_ATTACK_HIT)));
+        when(mapper.listRulesForGame(GAME_ID)).thenReturn(List.of(SkillTriggerRuleTestSupport.ruleRow(
+            "slow", "减速", xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType.BASIC_ATTACK_HIT)));
         when(mapper.listModifiers(GAME_ID, SKILL_KEY, "slow")).thenReturn(List.of(
             new xyz.game.datamanage.model.skilltrigger.SkillTriggerResultModifierRow(
                 GAME_ID, SKILL_KEY, "slow", "apply", "strength", EFFECT_KEY, java.math.BigDecimal.ONE, null, null)));
@@ -190,7 +192,8 @@ class SkillTriggerRuleReverseProtectionServiceTest {
             SkillNumericValue.formula("duration_f"), SkillNumericValue.formula("max_stacks_f"), SkillNumericValue.formula("app_stacks_f"),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.KEEP,
-            null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, SkillNumericValue.formula("periodic_f"), null
+            null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, SkillNumericValue.formula("periodic_f"), null,
+            null
         );
     }
 
@@ -199,7 +202,8 @@ class SkillTriggerRuleReverseProtectionServiceTest {
             SkillNumericValue.formula("duration_f"), SkillNumericValue.formula("max_stacks_f"), SkillNumericValue.formula("app_stacks_f"),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.KEEP,
-            null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, null, null
+            null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, null, null,
+            null
         );
     }
 

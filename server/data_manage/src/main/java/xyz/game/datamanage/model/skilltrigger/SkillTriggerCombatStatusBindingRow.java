@@ -9,6 +9,7 @@ public record SkillTriggerCombatStatusBindingRow(
     SkillTriggerSubject subject,
     String statusKey,
     SkillTriggerCombatStatusValueKind valueKind,
+    String effectSkillKey,
     String sourceEffectKey,
     String sourceResultKey
 ) {

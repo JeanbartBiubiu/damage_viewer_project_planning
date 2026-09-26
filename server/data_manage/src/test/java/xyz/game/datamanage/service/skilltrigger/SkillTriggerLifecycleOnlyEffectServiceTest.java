@@ -76,7 +76,7 @@ class SkillTriggerLifecycleOnlyEffectServiceTest {
         when(mapper.listResultEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new SkillTriggerResultEventRow(GAME_ID, SKILL_KEY, "result", EFFECT_KEY, null)));
         when(mapper.listDamageEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
-            new SkillTriggerDamageEventRow(GAME_ID, SKILL_KEY, "damage", null,
+            new SkillTriggerDamageEventRow(GAME_ID, SKILL_KEY, "damage", null, null,
                 SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY)));
         when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             executeActionRow("result", "apply"), executeActionRow("damage", "apply")));

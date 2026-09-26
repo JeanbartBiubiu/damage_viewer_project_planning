@@ -361,14 +361,14 @@ class SkillObjectReferencesTest {
                 {"stepKey":"empowered","stepType":"EMPOWERED_BASIC_ATTACK","detail":{"windowValue":{"kind":"FORMULA","formulaKey":"f"}}}],
              "cooldown":{"durationValue":{"kind":"FORMULA","formulaKey":"f"},"startMoment":{"momentType":"STEP_START","stepKey":"step0"}},
              "effectBindings":[{"effectKey":"effects","moment":{"stepKey":"step0"}}],
-             "stateOperations":[{"stateKey":"mode","optionKey":"on","value":{"kind":"FORMULA","formulaKey":"f"},"moment":{"stepKey":"step0"}}]}
+             "stateOperations":[{"stateSkillKey":"s1","stateKey":"mode","optionKey":"on","value":{"kind":"FORMULA","formulaKey":"f"},"moment":{"stepKey":"step0"}}]}
             """));
         result.add(aggregate(SourceType.TRIGGER, "s1", "complex", """
             {"eventSource":{"eventType":"RESULT_AVAILABLE","detail":{"effectKey":"effects","resultKey":"damage"}},
              "conditionGroups":[{"conditions":[
                 {"conditionType":"ATTRIBUTE_COMPARE","detail":{"attributeKey":"hp","comparisonValue":{"kind":"FORMULA","formulaKey":"f"}}},
-                {"conditionType":"STATUS_CHECK","detail":{"statusKey":"poison","sourceEffectKey":"effects","sourceResultKey":"status","comparisonValue":{"kind":"FORMULA","formulaKey":"f"}}},
-                {"conditionType":"INTERNAL_STATE_CHECK","detail":{"stateKey":"mode","optionKey":"on","comparisonValue":{"kind":"FORMULA","formulaKey":"f"}}},
+                {"conditionType":"STATUS_CHECK","detail":{"statusKey":"poison","effectSkillKey":"s1","sourceEffectKey":"effects","sourceResultKey":"status","comparisonValue":{"kind":"FORMULA","formulaKey":"f"}}},
+                {"conditionType":"INTERNAL_STATE_CHECK","detail":{"stateSkillKey":"s1","stateKey":"mode","optionKey":"on","comparisonValue":{"kind":"FORMULA","formulaKey":"f"}}},
                 {"conditionType":"EVENT_VALUE_COMPARE","detail":{"comparisonValue":{"kind":"FORMULA","formulaKey":"f"}}}]}],
              "actions":[
                 {"actionKey":"first","actionType":"EXECUTE_EFFECT","detail":{"effectKey":"effects"}},
@@ -376,8 +376,8 @@ class SkillObjectReferencesTest {
                  "resultModifiers":[{"resultKey":"damage","fixedMultiplier":1.125}],
                  "runtimeInputBindings":[
                     {"parameterKey":"p","sourceType":"EVENT_VALUE","detail":{}},
-                    {"parameterKey":"p","sourceType":"INTERNAL_STATE","detail":{"stateKey":"mode","optionKey":"on"}},
-                    {"parameterKey":"p","sourceType":"COMBAT_STATUS","detail":{"statusKey":"poison","sourceEffectKey":"effects","sourceResultKey":"status"}},
+                    {"parameterKey":"p","sourceType":"INTERNAL_STATE","detail":{"stateSkillKey":"s1","stateKey":"mode","optionKey":"on"}},
+                    {"parameterKey":"p","sourceType":"COMBAT_STATUS","detail":{"statusKey":"poison","effectSkillKey":"s1","sourceEffectKey":"effects","sourceResultKey":"status"}},
                     {"parameterKey":"p","sourceType":"PRIOR_ACTION_RESULT","detail":{"sourceActionKey":"first","sourceResultKey":"damage"}}]},
                 {"actionKey":"start","actionType":"START_PROCESS","detail":{"processKey":"process"}},
                 {"actionKey":"fail","actionType":"FAIL_PROCESS","detail":{"processKey":"process"}},
@@ -394,7 +394,7 @@ class SkillObjectReferencesTest {
             Map.entry("DAMAGE_PENDING", "{\"damageTypeKey\":\"magic\"}"), Map.entry("DAMAGE_DEALT", "{\"damageTypeKey\":\"magic\"}"), Map.entry("DAMAGE_TAKEN", "{\"damageTypeKey\":\"magic\"}"),
             Map.entry("STATUS_CHANGED", "{\"statusKey\":\"poison\"}"),
             Map.entry("HEALTH_THRESHOLD_CROSSED", "{\"attributeKey\":\"hp\",\"thresholdValue\":{\"kind\":\"FORMULA\",\"formulaKey\":\"f\"}}"),
-            Map.entry("INTERNAL_STATE_CHANGED", "{\"stateKey\":\"counter\"}"),
+            Map.entry("INTERNAL_STATE_CHANGED", "{\"stateSkillKey\":\"s1\",\"stateKey\":\"counter\"}"),
             Map.entry("SPELL_SHIELD_BLOCKED", "{\"shieldEffectKey\":\"effects\"}"));
         for (SkillTriggerEventType type : SkillTriggerEventType.values()) result.add(aggregate(SourceType.TRIGGER, "s1", "event_" + type,
             "{\"eventSource\":{\"eventType\":\"" + type + "\",\"detail\":" + details.getOrDefault(type.name(), "{}") + "},\"actions\":[],\"conditionGroups\":[]}"));

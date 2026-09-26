@@ -30,6 +30,10 @@ public final class SkillNumericSemantics {
     public SkillNumericSemantics(JdbcTemplate jdbc) { this.jdbc = jdbc; }
 
     public void validate(String gameId, List<Aggregate> aggregates) {
+        validate(gameId, aggregates, aggregates);
+    }
+
+    public void validate(String gameId, List<Aggregate> sources, List<Aggregate> context) {
         List<Parameter> parameters = new ArrayList<>();
         for (Map<String, Object> row : jdbc.queryForList(PARAMETERS_SQL, gameId)) {
             Object fixed = row.get("fixed_value");
@@ -47,7 +51,7 @@ public final class SkillNumericSemantics {
             zoneDomains.put(key, (String) row.get("domain"));
             zoneStages.put(key, (String) row.get("application_stage"));
         }
-        validate(aggregates, parameters, zoneModes, zoneDomains, zoneStages);
+        validate(sources, context, parameters, zoneModes, zoneDomains, zoneStages);
     }
 
     public static void validate(List<Aggregate> aggregates, List<Parameter> parameters) {
@@ -60,9 +64,14 @@ public final class SkillNumericSemantics {
 
     public static void validate(List<Aggregate> aggregates, List<Parameter> parameters, Map<String, String> zoneModes,
                                 Map<String, String> zoneDomains, Map<String, String> zoneStages) {
-        Context context = new Context(aggregates, parameters, zoneModes, zoneDomains, zoneStages);
-        for (Aggregate aggregate : aggregates) context.collect(aggregate);
-        for (Aggregate aggregate : aggregates) if (aggregate.type() == SourceType.TRIGGER) context.bindings(aggregate);
+        validate(aggregates, aggregates, parameters, zoneModes, zoneDomains, zoneStages);
+    }
+
+    static void validate(List<Aggregate> sources, List<Aggregate> objects, List<Parameter> parameters,
+                         Map<String, String> zoneModes, Map<String, String> zoneDomains, Map<String, String> zoneStages) {
+        Context context = new Context(objects, parameters, zoneModes, zoneDomains, zoneStages);
+        for (Aggregate aggregate : sources) context.collect(aggregate);
+        for (Aggregate aggregate : sources) if (aggregate.type() == SourceType.TRIGGER) context.bindings(aggregate);
     }
 
     public record Parameter(String skillKey, String key, String valueType, String valueMode,
@@ -118,6 +127,7 @@ public final class SkillNumericSemantics {
         private final Map<Id, Aggregate> objects = new LinkedHashMap<>();
         private final Map<String, Parameter> parameters = new LinkedHashMap<>();
         private final Map<Id, List<Use>> uses = new LinkedHashMap<>();
+        private final Set<Id> collected = new LinkedHashSet<>();
         private final Map<String, String> zoneModes;
         private final Map<String, String> zoneDomains;
         private final Map<String, String> zoneStages;
@@ -132,6 +142,7 @@ public final class SkillNumericSemantics {
         }
 
         private void collect(Aggregate a) {
+            if (!collected.add(id(a))) return;
             JsonNode d = a.data();
             switch (a.type()) {
                 case FORMULA -> { /* 公式仍由原表达式校验负责。 */ }
@@ -141,6 +152,10 @@ public final class SkillNumericSemantics {
                     use(a, life, "lifecycle", "maxStacksValue", Bound.POSITIVE_INTEGER, false);
                     use(a, life, "lifecycle", "applicationStacksValue", Bound.POSITIVE_INTEGER, false);
                     use(a, life, "lifecycle", "periodicIntervalValue", Bound.POSITIVE, false);
+                    if (life.hasNonNull("endWhenShieldEndsResultKey")) {
+                        requireStaticOne(a, life, "maxStacksValue");
+                        requireStaticOne(a, life, "applicationStacksValue");
+                    }
                     int i = 0;
                     for (JsonNode r : d.path("results")) {
                         String path = "results[" + i++ + "]";
@@ -196,9 +211,10 @@ public final class SkillNumericSemantics {
                     JsonNode detail = d.path("detail");
                     switch (text(d, "stateType")) {
                         case "COUNTER", "AMMO" -> {
-                            use(a, detail, "detail", "initialValue", Bound.NON_NEGATIVE_INTEGER, false);
-                            use(a, detail, "detail", "maxValue", "AMMO".equals(text(d, "stateType"))
+                            Use initial = use(a, detail, "detail", "initialValue", Bound.NON_NEGATIVE_INTEGER, false);
+                            Use maximum = use(a, detail, "detail", "maxValue", "AMMO".equals(text(d, "stateType"))
                                 ? Bound.POSITIVE_INTEGER : Bound.NON_NEGATIVE_INTEGER, false);
+                            compareInitialCapacity(initial, maximum);
                             if ("AMMO".equals(text(d, "stateType"))) use(a, detail, "detail", "recoveryIntervalValue", Bound.POSITIVE, false);
                         }
                         case "INTERNAL_COOLDOWN" -> use(a, detail, "detail", "durationValue", Bound.NON_NEGATIVE, false);
@@ -266,6 +282,26 @@ public final class SkillNumericSemantics {
                     }
                     use(a, d.path("limits").path("perTargetCooldown"), "perTargetCooldown", "durationValue", Bound.POSITIVE, true);
                     use(a, d.path("limits").path("maxTriggersPerProcess"), "maxTriggersPerProcess", "limitValue", Bound.POSITIVE_INTEGER, true);
+                    int actionIndex = 0;
+                    for (JsonNode action : d.path("actions")) {
+                        int bindingIndex = 0;
+                        for (JsonNode binding : action.path("runtimeInputBindings")) {
+                            if ("RECENT_DAMAGE_SUM".equals(text(binding, "sourceType"))) {
+                                Use window = use(a, binding.path("detail"),
+                                    "actions[" + actionIndex + "].runtimeInputBindings[" + bindingIndex + "].detail",
+                                    "windowValue", Bound.POSITIVE, true);
+                                if (window == null) throw invalid(a, "actions[" + actionIndex + "].runtimeInputBindings[" + bindingIndex + "].detail.windowValue",
+                                    "REQUIRED", "近期伤害累计必须配置时间窗");
+                                Map<Levels, Fraction> knownWindow = optionalStaticValues(window);
+                                if (knownWindow != null) for (Fraction value : knownWindow.values()) {
+                                    if (value.compareTo(Fraction.of(BigDecimal.ZERO)) <= 0)
+                                        throw invalid(a, window.path(), "VALUE_RANGE_INVALID", "近期伤害累计的时间窗在全部等级必须大于零");
+                                }
+                            }
+                            bindingIndex++;
+                        }
+                        actionIndex++;
+                    }
                 }
             }
         }
@@ -393,6 +429,41 @@ public final class SkillNumericSemantics {
             };
         }
 
+        private void requireStaticOne(Aggregate effect, JsonNode lifecycle, String field) {
+            Use value = use(effect, lifecycle, "lifecycle", field, Bound.POSITIVE_INTEGER, true);
+            if (value == null) throw invalid(effect, "lifecycle." + field, "REQUIRED", "随护盾结束时必须明确配置单层数值");
+            Map<Levels, Fraction> values;
+            try { values = staticConditionValues(value); }
+            catch (ApiException ex) {
+                throw invalid(effect, value.path(), "STATIC_ONE_REQUIRED", "随护盾结束的层数必须静态可求值，不能依赖属性、计算时输入或除零");
+            }
+            if (values.isEmpty() || values.values().stream().anyMatch(v -> v.compareTo(Fraction.of(BigDecimal.ONE)) != 0)) {
+                throw invalid(effect, value.path(), "STATIC_ONE_REQUIRED", "随护盾结束的最大层数和本次叠层数必须在全部等级恒为1");
+            }
+        }
+
+        private void compareInitialCapacity(Use initial, Use maximum) {
+            if (initial == null || maximum == null) return;
+            Map<Levels, Fraction> first = optionalStaticValues(initial), limit = optionalStaticValues(maximum);
+            if (first == null || limit == null) return;
+            for (var lhs : first.entrySet()) for (var rhs : limit.entrySet()) {
+                if (lhs.getKey().compatible(rhs.getKey()) && lhs.getValue().compareTo(rhs.getValue()) > 0) {
+                    throw invalid(initial.source(), initial.path(), "STATE_CAPACITY_EXCEEDED", "初始计数或弹药不能超过同等级的上限");
+                }
+            }
+        }
+
+        private Map<Levels, Fraction> optionalStaticValues(Use value) {
+            if (!runtime(value).isEmpty()) return null;
+            try { return staticConditionValues(value); }
+            catch (ApiException ex) {
+                Object raw = ex.getDetails().get("fieldIssues");
+                if (raw instanceof List<?> issues && issues.stream().anyMatch(issue -> issue instanceof Map<?, ?> fields
+                    && "ATTRIBUTE_FORBIDDEN".equals(fields.get("code")))) return null;
+                throw ex;
+            }
+        }
+
         private Map<Levels, Fraction> staticParameterValues(Use use, Parameter parameter) {
             if ("RUNTIME_INPUT".equals(parameter.valueMode())) {
                 throw invalid(use.source(), use.path(), "RUNTIME_INPUT_FORBIDDEN", "逐笔生命门槛不能使用计算时传入参数");
@@ -481,19 +552,29 @@ public final class SkillNumericSemantics {
             }
         }
 
-        private void dependencies(Id target, Set<String> runtime, Set<Id> visited) {
+        private void dependencies(Aggregate consumer, Id target, Set<String> runtime, Set<Id> visited) {
             if (!visited.add(target)) return;
             Aggregate a = objects.get(target);
             if (a == null) return; // 引用存在性已由统一引用校验保护。
-            for (Use use : uses.getOrDefault(target, List.of())) runtime.addAll(runtime(use));
+            collect(a);
+            for (Use use : uses.getOrDefault(target, List.of())) {
+                Set<String> inputs = runtime(use);
+                if (!consumer.skillKey().equals(a.skillKey()) && !inputs.isEmpty()) {
+                    throw invalid(consumer, "actions.runtimeInputBindings", "FOREIGN_RUNTIME_INPUT_UNSUPPORTED",
+                        "跨技能状态的计算时参数属于其定义技能，不能由当前技能的同名参数代替绑定");
+                }
+                runtime.addAll(inputs);
+            }
             if (a.type() == SourceType.PROCESS) {
-                for (JsonNode binding : a.data().path("effectBindings")) dependencies(new Id(a.skillKey(), SourceType.EFFECT, text(binding, "effectKey")), runtime, visited);
+                for (JsonNode binding : a.data().path("effectBindings")) dependencies(consumer, new Id(a.skillKey(), SourceType.EFFECT, text(binding, "effectKey")), runtime, visited);
                 for (JsonNode operation : a.data().path("stateOperations")) {
-                    Id stateId = new Id(a.skillKey(), SourceType.STATE, text(operation, "stateKey"));
+                    String owner = text(operation, "stateSkillKey");
+                    // 未改旧过程的只读依赖仍沿其既有本技能归属，新写由引用校验要求显式所属技能。
+                    Id stateId = new Id(owner.isEmpty() ? a.skillKey() : owner, SourceType.STATE, text(operation, "stateKey"));
                     Aggregate state = objects.get(stateId);
                     if ((state != null && Set.of("COUNTER", "AMMO").contains(text(state.data(), "stateType")))
                         || "RESET".equals(text(operation, "operation")) || ("START".equals(text(operation, "operation"))
-                        && state != null && "INTERNAL_COOLDOWN".equals(text(state.data(), "stateType")))) dependencies(stateId, runtime, visited);
+                        && state != null && "INTERNAL_COOLDOWN".equals(text(state.data(), "stateType")))) dependencies(consumer, stateId, runtime, visited);
                 }
             }
         }
@@ -505,10 +586,10 @@ public final class SkillNumericSemantics {
                 String type = text(action, "actionType");
                 if ("EXECUTE_EFFECT".equals(type)) {
                     String effectKey = text(action.path("detail"), "effectKey");
-                    dependencies(new Id(rule.skillKey(), SourceType.EFFECT, effectKey), required, new LinkedHashSet<>());
+                    dependencies(rule, new Id(rule.skillKey(), SourceType.EFFECT, effectKey), required, new LinkedHashSet<>());
                     validateResultModifiers(rule, action, i, effectKey);
                 }
-                if ("START_PROCESS".equals(type)) dependencies(new Id(rule.skillKey(), SourceType.PROCESS, text(action.path("detail"), "processKey")), required, new LinkedHashSet<>());
+                if ("START_PROCESS".equals(type)) dependencies(rule, new Id(rule.skillKey(), SourceType.PROCESS, text(action.path("detail"), "processKey")), required, new LinkedHashSet<>());
                 Set<String> bound = new LinkedHashSet<>();
                 int j = 0;
                 for (JsonNode binding : action.path("runtimeInputBindings")) {
@@ -795,6 +876,7 @@ public final class SkillNumericSemantics {
                 case "INTERNAL_STATE", "COMBAT_STATUS" -> "REMAINING_MS".equals(text(detail, "valueKind")) ? SkillTriggerValueDomain.DECIMAL : SkillTriggerValueDomain.INTEGER;
                 case "EVENT_VALUE" -> SkillTriggerEventCapabilities.valueDomain(SkillTriggerEventValueKey.valueOf(text(detail, "eventValueKey")));
                 case "SOURCE_CAST_RESOURCE_COST" -> SkillTriggerValueDomain.DECIMAL;
+                case "COMBAT_ELAPSED_TIME", "RECENT_DAMAGE_SUM" -> SkillTriggerValueDomain.DECIMAL;
                 case "PRIOR_ACTION_RESULT" -> SkillTriggerPriorResultOutputs.valueDomain(SkillTriggerPriorResultOutputKind.valueOf(text(detail, "outputKind")));
                 default -> null;
             };

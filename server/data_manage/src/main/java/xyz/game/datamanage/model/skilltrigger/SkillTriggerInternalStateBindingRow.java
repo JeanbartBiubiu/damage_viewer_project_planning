@@ -6,6 +6,7 @@ public record SkillTriggerInternalStateBindingRow(
     String ruleKey,
     String actionKey,
     String bindingKey,
+    String stateSkillKey,
     String stateKey,
     SkillTriggerInternalStateValueKind valueKind,
     String optionKey

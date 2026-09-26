@@ -38,6 +38,13 @@
         </constructor>
     </resultMap>
 
+    <resultMap id="crossSkillEdgeRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerCrossSkillEdgeRow">
+        <constructor>
+            <arg column="source_skill_key" javaType="java.lang.String"/>
+            <arg column="target_skill_key" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
     <resultMap id="processEventRow" type="xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventRow">
         <constructor>
             <arg column="game_id" javaType="java.lang.String"/>
@@ -108,6 +115,7 @@
             <arg column="game_id" javaType="java.lang.String"/>
             <arg column="skill_key" javaType="java.lang.String"/>
             <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="state_skill_key" javaType="java.lang.String"/>
             <arg column="state_key" javaType="java.lang.String"/>
             <arg column="change_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateChangeKind"/>
         </constructor>
@@ -127,6 +135,7 @@
             <arg column="game_id" javaType="java.lang.String"/>
             <arg column="skill_key" javaType="java.lang.String"/>
             <arg column="rule_key" javaType="java.lang.String"/>
+            <arg column="source_skill_key" javaType="java.lang.String"/>
             <arg column="damage_type_key" javaType="java.lang.String"/>
             <arg column="delivery_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageDeliveryKind"/>
             <arg column="origin_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageOriginKind"/>
@@ -199,6 +208,7 @@
             <arg column="subject" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject"/>
             <arg column="status_key" javaType="java.lang.String"/>
             <arg column="check_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerStatusCheckKind"/>
+            <arg column="effect_skill_key" javaType="java.lang.String"/>
             <arg column="source_effect_key" javaType="java.lang.String"/>
             <arg column="source_result_key" javaType="java.lang.String"/>
             <arg column="comparator" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerComparator"/>
@@ -213,6 +223,7 @@
             <arg column="rule_key" javaType="java.lang.String"/>
             <arg column="group_key" javaType="java.lang.String"/>
             <arg column="condition_key" javaType="java.lang.String"/>
+            <arg column="state_skill_key" javaType="java.lang.String"/>
             <arg column="state_key" javaType="java.lang.String"/>
             <arg column="value_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateValueKind"/>
             <arg column="option_key" javaType="java.lang.String"/>
@@ -290,6 +301,7 @@
             <arg column="rule_key" javaType="java.lang.String"/>
             <arg column="action_key" javaType="java.lang.String"/>
             <arg column="binding_key" javaType="java.lang.String"/>
+            <arg column="state_skill_key" javaType="java.lang.String"/>
             <arg column="state_key" javaType="java.lang.String"/>
             <arg column="value_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerInternalStateValueKind"/>
             <arg column="option_key" javaType="java.lang.String"/>
@@ -306,6 +318,7 @@
             <arg column="subject" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerSubject"/>
             <arg column="status_key" javaType="java.lang.String"/>
             <arg column="value_kind" javaType="xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusValueKind"/>
+            <arg column="effect_skill_key" javaType="java.lang.String"/>
             <arg column="source_effect_key" javaType="java.lang.String"/>
             <arg column="source_result_key" javaType="java.lang.String"/>
         </constructor>
@@ -405,6 +418,7 @@
             <arg column="process_key" javaType="java.lang.String"/>
             <arg column="binding_effect_key" javaType="java.lang.String"/>
             <arg column="operation_state_key" javaType="java.lang.String"/>
+            <arg column="operation_state_skill_key" javaType="java.lang.String"/>
             <arg column="operation" javaType="xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationKind"/>
             <arg column="operation_value" javaType="xyz.game.datamanage.model.value.SkillNumericValue" typeHandler="xyz.game.datamanage.support.authoring.SkillNumericValueTypeHandler"/>
             <arg column="state_type" javaType="xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType"/>
@@ -671,7 +685,7 @@
 
     <select id="listStatusConditions" resultMap="statusConditionRow">
         SELECT game_id, skill_key, rule_key, group_key, condition_key,
-               subject, status_key, check_kind, source_effect_key, source_result_key,
+               subject, status_key, check_kind, effect_skill_key, source_effect_key, source_result_key,
                comparator, comparison_value
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleStatusConditions"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
@@ -680,7 +694,7 @@
 
     <select id="listCombatStatusBindings" resultMap="combatStatusBindingRow">
         SELECT game_id, skill_key, rule_key, action_key, binding_key,
-               subject, status_key, value_kind, source_effect_key, source_result_key
+               subject, status_key, value_kind, effect_skill_key, source_effect_key, source_result_key
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleCombatStatusBindings"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND rule_key = #{ruleKey}
         ORDER BY action_key ASC, binding_key ASC
@@ -707,6 +721,50 @@
         FROM public.skill_trigger_rules
         WHERE game_id = #{gameId} AND skill_key = #{skillKey}
         ORDER BY sort_order ASC, rule_key ASC
+    </select>
+
+    <select id="listRulesForGame" resultMap="ruleRow">
+        SELECT <include refid="ruleColumns"/>
+        FROM public.skill_trigger_rules
+        WHERE game_id = #{gameId}
+        ORDER BY skill_key ASC, rule_key ASC
+    </select>
+
+    <select id="listCrossSkillCycleEdges" resultMap="crossSkillEdgeRow">
+        SELECT DISTINCT source_skill_key, target_skill_key
+        FROM (
+            SELECT r.skill_key AS source_skill_key,
+                   CASE WHEN r.event_type = 'INTERNAL_STATE_CHANGED'
+                        THEN r.event_source->'detail'->>'stateSkillKey'
+                        ELSE r.event_source->'detail'->>'sourceSkillKey' END AS target_skill_key
+            FROM public.skill_trigger_rules r
+            WHERE r.game_id = #{gameId}
+              AND r.event_type IN ('INTERNAL_STATE_CHANGED','DAMAGE_PENDING','DAMAGE_DEALT','DAMAGE_TAKEN')
+            UNION ALL
+            SELECT p.skill_key AS source_skill_key,
+                   o->>'stateSkillKey' AS target_skill_key
+            FROM public.skill_processes p
+            CROSS JOIN LATERAL jsonb_array_elements(p.state_operations) o
+            WHERE p.game_id = #{gameId}
+            UNION ALL
+            SELECT r.skill_key AS source_skill_key,
+                   s.skill_key AS target_skill_key
+            FROM public.skill_trigger_rules r
+            INNER JOIN public.skills s ON s.game_id = r.game_id AND s.skill_key &lt;&gt; r.skill_key
+            WHERE r.game_id = #{gameId}
+              AND r.event_type IN ('DAMAGE_PENDING','DAMAGE_DEALT','DAMAGE_TAKEN')
+              AND r.event_source->'detail'->>'sourceSkillKey' IS NULL
+              AND EXISTS (
+                  SELECT 1
+                  FROM public.skill_effects e
+                  CROSS JOIN LATERAL jsonb_array_elements(e.results) result
+                  WHERE e.game_id = s.game_id
+                    AND e.skill_key = s.skill_key
+                    AND result->>'resultType' = 'DAMAGE'
+              )
+        ) edges
+        WHERE target_skill_key IS NOT NULL AND target_skill_key &lt;&gt; source_skill_key
+        ORDER BY source_skill_key, target_skill_key
     </select>
 
     <select id="listActionsForSkill" resultMap="actionRow">
@@ -780,7 +838,7 @@
     </select>
 
     <select id="listInternalStateEventsForSkill" resultMap="internalStateEventRow">
-        SELECT game_id, skill_key, rule_key, state_key, change_kind
+        SELECT game_id, skill_key, rule_key, state_skill_key, state_key, change_kind
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleInternalStateEvents"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey}
         ORDER BY rule_key ASC
@@ -794,7 +852,7 @@
     </select>
 
     <select id="listDamageEventsForSkill" resultMap="damageEventRow">
-        SELECT game_id, skill_key, rule_key, damage_type_key, delivery_kind, origin_kind
+        SELECT game_id, skill_key, rule_key, source_skill_key, damage_type_key, delivery_kind, origin_kind
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleDamageEvents"/>)
         WHERE game_id = #{gameId} AND skill_key = #{skillKey}
         ORDER BY rule_key ASC
@@ -833,6 +891,7 @@
         SELECT b.process_key,
                b.effect_key AS binding_effect_key,
                CAST(NULL AS varchar) AS operation_state_key,
+               CAST(NULL AS varchar) AS operation_state_skill_key,
                CAST(NULL AS varchar) AS operation,
                CAST(NULL AS varchar) AS operation_value,
                CAST(NULL AS varchar) AS state_type,
@@ -864,6 +923,7 @@
         SELECT o.process_key,
                CAST(NULL AS varchar) AS binding_effect_key,
                o.state_key AS operation_state_key,
+               o.state_skill_key AS operation_state_skill_key,
                o.operation,
                o.value AS operation_value,
                s.state_type,
@@ -892,13 +952,14 @@
         FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.processStateOperations"/>) o
         JOIN public.skill_internal_states s
           ON s.game_id = o.game_id
-         AND s.skill_key = o.skill_key
+         AND s.skill_key = COALESCE(o.state_skill_key, o.skill_key)
          AND s.state_key = o.state_key
         WHERE o.game_id = #{gameId} AND o.skill_key = #{skillKey}
         UNION ALL
         SELECT st.process_key,
                CAST(NULL AS varchar) AS binding_effect_key,
                CAST(NULL AS varchar) AS operation_state_key,
+               CAST(NULL AS varchar) AS operation_state_skill_key,
                CAST(NULL AS varchar) AS operation,
                CAST(NULL AS varchar) AS operation_value,
                CAST(NULL AS varchar) AS state_type,
@@ -965,6 +1026,7 @@
         SELECT cd.process_key,
                CAST(NULL AS varchar) AS binding_effect_key,
                CAST(NULL AS varchar) AS operation_state_key,
+               CAST(NULL AS varchar) AS operation_state_skill_key,
                CAST(NULL AS varchar) AS operation,
                CAST(NULL AS varchar) AS operation_value,
                CAST(NULL AS varchar) AS state_type,
@@ -996,6 +1058,7 @@
         SELECT p.process_key,
                CAST(NULL AS varchar) AS binding_effect_key,
                CAST(NULL AS varchar) AS operation_state_key,
+               CAST(NULL AS varchar) AS operation_state_skill_key,
                CAST(NULL AS varchar) AS operation,
                CAST(NULL AS varchar) AS operation_value,
                CAST(NULL AS varchar) AS state_type,
@@ -1255,7 +1318,7 @@
         SELECT
             (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleLifecycleConditions"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
+             WHERE game_id = #{gameId} AND COALESCE(effect_skill_key, skill_key) = #{skillKey} AND effect_key = #{effectKey})
           +
             (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleResultEvents"/>)
@@ -1268,10 +1331,10 @@
              WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
           + (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleStatusConditions"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND source_effect_key = #{effectKey})
+             WHERE game_id = #{gameId} AND COALESCE(effect_skill_key, skill_key) = #{skillKey} AND source_effect_key = #{effectKey})
           + (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleCombatStatusBindings"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND source_effect_key = #{effectKey})
+             WHERE game_id = #{gameId} AND COALESCE(effect_skill_key, skill_key) = #{skillKey} AND source_effect_key = #{effectKey})
           + (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleResultModifiers"/>)
              WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
@@ -1299,7 +1362,7 @@
                 SELECT rule_key, 'source_result_key' AS field, source_result_key AS rejected_value, 'STATUS_CONDITION' AS reason
                 FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleStatusConditions"/>)
                 WHERE game_id = #{gameId}
-                  AND skill_key = #{skillKey}
+                  AND COALESCE(effect_skill_key, skill_key) = #{skillKey}
                   AND source_effect_key = #{effectKey}
                   AND source_result_key IN
                 <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
@@ -1309,7 +1372,7 @@
                 SELECT rule_key, 'source_result_key' AS field, source_result_key AS rejected_value, 'COMBAT_STATUS_BINDING' AS reason
                 FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleCombatStatusBindings"/>)
                 WHERE game_id = #{gameId}
-                  AND skill_key = #{skillKey}
+                  AND COALESCE(effect_skill_key, skill_key) = #{skillKey}
                   AND source_effect_key = #{effectKey}
                   AND source_result_key IN
                 <foreach collection="resultKeys" item="resultKey" open="(" separator="," close=")">
@@ -1350,7 +1413,7 @@
         SELECT
             (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleLifecycleConditions"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND effect_key = #{effectKey})
+             WHERE game_id = #{gameId} AND COALESCE(effect_skill_key, skill_key) = #{skillKey} AND effect_key = #{effectKey})
           +
             (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleLifecycleEvents"/>)
@@ -1392,13 +1455,13 @@
         SELECT
             (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleInternalStateEvents"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey})
+             WHERE game_id = #{gameId} AND COALESCE(state_skill_key, skill_key) = #{skillKey} AND state_key = #{stateKey})
           + (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleInternalStateConditions"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey})
+             WHERE game_id = #{gameId} AND COALESCE(state_skill_key, skill_key) = #{skillKey} AND state_key = #{stateKey})
           + (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleInternalStateBindings"/>)
-             WHERE game_id = #{gameId} AND skill_key = #{skillKey} AND state_key = #{stateKey})
+             WHERE game_id = #{gameId} AND COALESCE(state_skill_key, skill_key) = #{skillKey} AND state_key = #{stateKey})
     </select>
 
     <select id="countOptionReferences" resultType="long">
@@ -1406,7 +1469,7 @@
             (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleInternalStateConditions"/>)
              WHERE game_id = #{gameId}
-               AND skill_key = #{skillKey}
+               AND COALESCE(state_skill_key, skill_key) = #{skillKey}
                AND state_key = #{stateKey}
             <choose>
                 <when test="optionKeys != null and optionKeys.size() &gt; 0">
@@ -1423,7 +1486,7 @@
           + (SELECT COUNT(1)
              FROM (<include refid="xyz.game.datamanage.mapper.authoring.AuthoringReadModel.triggerRuleInternalStateBindings"/>)
              WHERE game_id = #{gameId}
-               AND skill_key = #{skillKey}
+               AND COALESCE(state_skill_key, skill_key) = #{skillKey}
                AND state_key = #{stateKey}
             <choose>
                 <when test="optionKeys != null and optionKeys.size() &gt; 0">

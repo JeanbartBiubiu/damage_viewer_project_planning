@@ -31,6 +31,7 @@ import xyz.game.datamanage.model.skill.SkillRow;
 import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateAmmoDetail;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateAmmoRecoveryMode;
+import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateAmmoRecoveryStartCondition;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCooldownDetail;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCounterDetail;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateCreateRequest;
@@ -103,7 +104,7 @@ class SkillInternalStateServiceTest {
     void createsAndReadsFiveStateKinds() {
         List<SkillInternalStateDetail> details = List.of(
             new SkillInternalStateCounterDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_stacks")),
-            new SkillInternalStateAmmoDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_ammo"), SkillNumericValue.formula("reload"), SkillInternalStateAmmoRecoveryMode.ONE_BY_ONE),
+            new SkillInternalStateAmmoDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_ammo"), SkillNumericValue.formula("reload"), SkillInternalStateAmmoRecoveryMode.ONE_BY_ONE, SkillInternalStateAmmoRecoveryStartCondition.AFTER_CONSUME),
             modeDetail(), new SkillInternalStateFlagDetail(true), new SkillInternalStateCooldownDetail(SkillNumericValue.formula(FORMULA_KEY))
         );
         List<SkillInternalStateType> types = List.of(SkillInternalStateType.COUNTER, SkillInternalStateType.AMMO,
@@ -118,6 +119,34 @@ class SkillInternalStateServiceTest {
                 AggregateJson.tree(stored.get(key).detailJson()));
             assertEquals(created, service.get(GAME_ID, SKILL_KEY, key));
         }
+    }
+
+    @Test
+    void editedAmmoRequiresRecoveryStartConditionWhileOldDetailRemainsReadable() {
+        SkillInternalStateAmmoDetail incomplete = new SkillInternalStateAmmoDetail(
+            SkillNumericValue.fixed(java.math.BigDecimal.ZERO),
+            SkillNumericValue.fixed(java.math.BigDecimal.ONE),
+            SkillNumericValue.fixed(java.math.BigDecimal.ONE),
+            SkillInternalStateAmmoRecoveryMode.ONE_BY_ONE, null);
+        ApiException createError = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
+            new SkillInternalStateCreateRequest("ammo", "弹药", SkillInternalStateType.AMMO,
+                SkillInternalStateScope.SKILL, null, 0, incomplete)));
+        assertField(createError, "detail.recoveryStartCondition", "REQUIRED");
+
+        String oldDetail = """
+            {"initialValue":{"kind":"FIXED","value":0},"maxValue":{"kind":"FIXED","value":1},
+             "recoveryIntervalValue":{"kind":"FIXED","value":1},"recoveryMode":"ONE_BY_ONE"}
+            """;
+        SkillInternalStateRow old = new SkillInternalStateRow(GAME_ID, SKILL_KEY, "ammo", "弹药",
+            SkillInternalStateType.AMMO, SkillInternalStateScope.SKILL, null, 0, TS, TS, oldDetail);
+        stored.put("ammo", old);
+        assertEquals(null, ((SkillInternalStateAmmoDetail) service.get(GAME_ID, SKILL_KEY, "ammo")
+            .detail()).recoveryStartCondition());
+        when(mapper.findStateForUpdate(GAME_ID, SKILL_KEY, "ammo")).thenReturn(old);
+        ApiException updateError = assertThrows(ApiException.class, () -> service.update(GAME_ID, SKILL_KEY, "ammo",
+            new SkillInternalStateUpdateRequest(null, "弹药", SkillInternalStateType.AMMO,
+                SkillInternalStateScope.SKILL, null, 0, incomplete)));
+        assertField(updateError, "detail.recoveryStartCondition", "REQUIRED");
     }
 
     @Test
@@ -152,7 +181,7 @@ class SkillInternalStateServiceTest {
                     null,
                     0,
                     new SkillInternalStateAmmoDetail(
-                        SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_ammo"), SkillNumericValue.formula("reload"), SkillInternalStateAmmoRecoveryMode.ALL_AT_ONCE
+                        SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula("max_ammo"), SkillNumericValue.formula("reload"), SkillInternalStateAmmoRecoveryMode.ALL_AT_ONCE, SkillInternalStateAmmoRecoveryStartCondition.WHEN_EMPTY
                     )
                 )
             )

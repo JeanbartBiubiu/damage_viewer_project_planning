@@ -11,6 +11,7 @@ import java.util.Set;
 import xyz.game.datamanage.model.value.SkillNumericValue;
 
 public record SkillTriggerInternalStateConditionDetail(
+    String stateSkillKey,
     String stateKey,
     SkillTriggerInternalStateValueKind valueKind,
     String optionKey,
@@ -23,6 +24,7 @@ public record SkillTriggerInternalStateConditionDetail(
 ) implements SkillTriggerConditionDetail {
 
     public SkillTriggerInternalStateConditionDetail {
+        stateSkillKey = trim(stateSkillKey);
         stateKey = trim(stateKey);
         optionKey = trim(optionKey);
         foreignFields = SkillTriggerDetailFieldCapture.normalize(foreignFields);
@@ -30,6 +32,7 @@ public record SkillTriggerInternalStateConditionDetail(
     }
 
     public SkillTriggerInternalStateConditionDetail(
+        String stateSkillKey,
         String stateKey,
         SkillTriggerInternalStateValueKind valueKind,
         String optionKey,
@@ -37,11 +40,12 @@ public record SkillTriggerInternalStateConditionDetail(
         SkillTriggerComparator comparator,
         SkillNumericValue comparisonValue
     ) {
-        this(stateKey, valueKind, optionKey, expectedBoolean, comparator, comparisonValue, Set.of(), Set.of());
+        this(stateSkillKey, stateKey, valueKind, optionKey, expectedBoolean, comparator, comparisonValue, Set.of(), Set.of());
     }
 
     @JsonCreator
     static SkillTriggerInternalStateConditionDetail fromJson(
+        @JsonProperty("stateSkillKey") String stateSkillKey,
         @JsonProperty("stateKey") String stateKey,
         @JsonProperty("valueKind") SkillTriggerInternalStateValueKind valueKind,
         @JsonProperty("optionKey") String optionKey,
@@ -52,6 +56,7 @@ public record SkillTriggerInternalStateConditionDetail(
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillTriggerInternalStateConditionDetail(
+            stateSkillKey,
             stateKey,
             valueKind,
             optionKey,

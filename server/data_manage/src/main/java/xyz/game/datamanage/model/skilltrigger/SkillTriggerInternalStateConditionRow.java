@@ -8,6 +8,7 @@ public record SkillTriggerInternalStateConditionRow(
     String ruleKey,
     String groupKey,
     String conditionKey,
+    String stateSkillKey,
     String stateKey,
     SkillTriggerInternalStateValueKind valueKind,
     String optionKey,
