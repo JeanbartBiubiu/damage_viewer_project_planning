@@ -45,7 +45,7 @@
 | 过程 | `steps`、`cooldown`、`effect_bindings`、`state_operations` | 步骤、可选普通冷却、效果挂接与内部状态操作 |
 | 触发规则 | `event_source`、`condition_groups`、`actions`、`limits` | 事件来源、条件组、动作与三项触发限制 |
 
-数据库的 `effect_bindings`、`state_operations` 等列对应接口中的 `effectBindings`、`stateOperations`；触发规则的 `limits` 只用于存储，接口使用 `perTargetCooldown`、`maxTriggersPerProcess` 和 `oncePerUse` 字段。数值字段使用下文的三种统一取值来源；其余枚举、数组顺序、空值语义，以及角色、装备和参数的完整属性或等级取值图保持原结构。
+数据库的 `effect_bindings`、`state_operations` 等列对应接口中的 `effectBindings`、`stateOperations`；触发规则的 `limits` 只用于存储，接口使用 `perTargetCooldown`、`maxTriggersPerProcess` 和 `oncePerUse` 字段。数值字段沿统一固定值／参数／公式协议；其余枚举、数组顺序、空值语义，以及角色、装备和参数的完整属性或等级取值图保持原结构。
 
 ### 校验与并发写入
 
@@ -53,9 +53,9 @@
 
 配置写入口必须在真实可写事务中先调用 `GameConfigurationWriteGuard.begin(gameId)`，再读取和修改业务数据。它使用 `READ COMMITTED` 隔离级别和 `games` 行锁，使同一游戏的配置写入顺序执行；字典、图片和关系管理也遵循这个入口。
 
-提交前，保护器读取该游戏五类根对象的最终 JSON，按明确的业务字段提取引用，检查目标根对象及结果、生命周期、模式选项、步骤、动作等子项存在，然后整体替换该游戏的 `skill_object_references`。引用记录包含来源技能、对象、字段路径以及目标技能、对象和子项，支持跨技能反查；它由系统生成，没有独立编辑接口。校验失败时，业务修改和引用索引一起回滚。
+提交前，保护器比较游戏锁内的事务前后配置，只对实际变化的来源及受影响的引用链检查最终 JSON 和必要的数值语义，并定向更新这些来源的 `skill_object_references`。引用记录包含来源技能、对象、字段路径以及目标技能、对象和子项，支持跨技能反查；它由系统生成，没有独立编辑接口。删除目标时核对未修改来源的既有索引，已在同事务改写或删除的来源按最终状态判断。校验失败时，业务修改和引用索引一起回滚。
 
-[SkillNumericSemantics.java](src/main/java/xyz/game/datamanage/support/authoring/SkillNumericSemantics.java) 在同一提交检查中复核全部数值使用位置和动作输入绑定。参数模式、类型、值、等级图，公式表达式，以及效果、生命周期、过程和状态的修改都受约束；技能或角色等级扩展后给参数补入的零值也会重新检查。该组件仅依赖数据库连接，不通过管理服务相互调用。
+[SkillNumericSemantics.java](src/main/java/xyz/game/datamanage/support/authoring/SkillNumericSemantics.java) 在同一提交检查中复核受影响来源的数值使用位置和动作输入绑定。参数模式、类型、值、等级图，公式表达式，以及效果、生命周期、过程和状态的修改都受约束；旧单对象技能等级接口仍会按既有行为补零，统一技能配置入口不补零。该组件仅依赖数据库连接，不通过管理服务相互调用。
 
 已有删除保护保留各接口错误码；最终引用缺失返回 `409.SKILL_OBJECT_REFERENCE_INVALID` 并带来源字段信息。修改聚合时移除被引用子项也会被检查。直接 SQL 写入不会自动执行这些服务校验，迁移必须使用下述事务验收入口。
 
@@ -85,7 +85,7 @@
 
 效果的结果数组仍为必填；合法生命周期可以配合空数组保存，仅记录生命周期实例。缺失或为空值的结果数组、无生命周期且无结果、无周期结果却配置周期均被拒绝。真实结果读取保持零条；触发规则内部形状读取保留效果及生命周期元数据，用于生命周期事件、动态输入和循环校验，不生成结果标识、数值输出或伤害依赖。移除被引用结果与生命周期仍受原引用保护，不需要数据库迁移。共享定义见规划真源《系统精简实施说明》的“仅记录生命周期的效果增量”。
 
-触发条件支持 `LIFECYCLE_CHECK`，明细为 `effectKey`、`subject`、`checkKind`、`comparator`、`comparisonValue`。仅引用当前技能已经配置生命周期的效果；`PRESENT` 和 `ABSENT` 不允许比较符或比较值，`STACKS_COMPARE` 必须提供两者，固定值及静态参数全部等级均为非负整数，直接或经公式引用计算时参数均被拒绝。
+触发条件支持 `LIFECYCLE_CHECK`，明细为 `effectSkillKey`、`effectKey`、`subject`、`checkKind`、`comparator`、`comparisonValue`。目标效果必须属于同游戏且已经配置生命周期；`PRESENT` 和 `ABSENT` 不允许比较符或比较值，`STACKS_COMPARE` 必须提供两者，固定值及静态参数全部等级均为非负整数，直接或经公式引用计算时参数均被拒绝。
 
 条件复用效果的实例范围，`SKILL`、`SOURCE` 的主体为空，`TARGET`、`SOURCE_TARGET` 必须指定承受对象；后者来源固定为当前技能拥有者。没有事件来源对象的事件不能选择 `EVENT_SOURCE`。实例范围仍不可修改，提交前复核既有条件的主体适配；删除被引用效果或移除其生命周期沿用 409 引用保护。
 
@@ -302,6 +302,12 @@
 CORS 当前覆盖 `/api/**`，并暴露 `ETag` 响应头。启动成功但首次请求出现依赖错误时，检查连接配置；需要启动时直接暴露问题可设 `APP_STARTUP_FAIL_FAST=true`。管理接口返回 401 / 403 时，检查 JWT 开关及公钥配置。
 
 ## 验证入口与证据边界
+
+技能统一配置入口位于 `/api/admin/games/{gameId}/skills/{skillKey}/configuration`。`GET` 在一致只读快照中返回技能主体、参数、完整公式表达式、效果、过程、内部状态、触发规则与整技能配置摘要 `baseDigest`。`POST` 按路径新建技能，提交 `{skill,changes}`；`PATCH` 提交 `{baseDigest,skill?,changes}`，摘要冲突返回 409。`changes` 的每项包含对象类型、`CREATE`／`UPDATE`／`DELETE` 操作、稳定键及新增／修改时的完整可写对象。统一写入覆盖参数、公式、内部状态、效果、过程和触发规则；未知请求字段直接拒绝。已有各对象独立管理接口继续按原行为提供服务。
+
+统一保存先取得游戏写锁并核对摘要，再校验完整对象、键与不可变字段。参数、公式、内部状态、效果、过程和规则的显式变化在同一事务写入；过程与规则引用按事务内最终数据库核对，删除保护与受影响的旧规则也按最终组合检查，请求数组顺序不影响结果。修改最高等级时须显式提交所有原有技能等级参数和完整等级值；未提交的对象保持原样。新增或修改弹药内部状态时必须给出 `recoveryStartCondition`（恢复启动条件），旧对象读取时缺失该字段保留空值。效果生命周期可用 `endWhenShieldEndsResultKey`（随同父护盾结束的结果标识）指向同一效果内符合约束的普通护盾结果。成功响应返回保存后的完整配置，任何字段、引用或提交前校验失败均回滚。本入口只证明管理配置的读写，不代表公式求值或战斗运行。
+
+新增或修改的过程状态操作、内部状态事件／条件／供值使用 `stateSkillKey + stateKey` 明确状态归属；状态层数／剩余时间和生命周期读取使用 `effectSkillKey` 明确来源效果归属。伤害事件可用 `sourceSkillKey`筛选伤害来源技能。计算时输入新增“所选对象入战后时长”和“近期受伤累计”：后者必须提供正时间窗、累计口径与产生方式／来源性质筛选，不会自动取最大层或用缺失生命代替历史伤害。跨技能状态定义依赖另一技能计算时参数时明确拒绝，不能由当前技能的同名参数冒充。未修改旧对象缺少新增归属键时按其原本技能只读解释，不自动回写默认值。
 
 角色录入检查使用 `GET /api/admin/games/{gameId}/characters/{characterKey}/authoring-check`，在可重复读的只读事务中检查当前角色与直接挂载的技能。报告区分结构错误、人工待核对和未执行的战斗运行；缺失角色或游戏返回 404，读取失败不会返回空的成功报告。它读取现有引用索引并核对完整目标键，不写报告表、不重建引用，也不作为保存或发布门槛。
 

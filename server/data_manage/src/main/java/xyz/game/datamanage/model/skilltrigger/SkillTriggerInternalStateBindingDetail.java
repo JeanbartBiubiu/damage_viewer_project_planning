@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 public record SkillTriggerInternalStateBindingDetail(
+    String stateSkillKey,
     String stateKey,
     SkillTriggerInternalStateValueKind valueKind,
     String optionKey,
@@ -17,6 +18,7 @@ public record SkillTriggerInternalStateBindingDetail(
 ) implements SkillTriggerRuntimeInputBindingDetail {
 
     public SkillTriggerInternalStateBindingDetail {
+        stateSkillKey = trim(stateSkillKey);
         stateKey = trim(stateKey);
         optionKey = trim(optionKey);
         foreignFields = SkillTriggerDetailFieldCapture.normalize(foreignFields);
@@ -24,15 +26,17 @@ public record SkillTriggerInternalStateBindingDetail(
     }
 
     public SkillTriggerInternalStateBindingDetail(
+        String stateSkillKey,
         String stateKey,
         SkillTriggerInternalStateValueKind valueKind,
         String optionKey
     ) {
-        this(stateKey, valueKind, optionKey, Set.of(), Set.of());
+        this(stateSkillKey, stateKey, valueKind, optionKey, Set.of(), Set.of());
     }
 
     @JsonCreator
     static SkillTriggerInternalStateBindingDetail fromJson(
+        @JsonProperty("stateSkillKey") String stateSkillKey,
         @JsonProperty("stateKey") String stateKey,
         @JsonProperty("valueKind") SkillTriggerInternalStateValueKind valueKind,
         @JsonProperty("optionKey") String optionKey,
@@ -40,6 +44,7 @@ public record SkillTriggerInternalStateBindingDetail(
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillTriggerInternalStateBindingDetail(
+            stateSkillKey,
             stateKey,
             valueKind,
             optionKey,

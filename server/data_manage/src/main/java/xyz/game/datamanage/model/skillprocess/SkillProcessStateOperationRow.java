@@ -8,6 +8,7 @@ public record SkillProcessStateOperationRow(
     String processKey,
     String operationKey,
     String name,
+    String stateSkillKey,
     String stateKey,
     SkillProcessStateOperationKind operation,
     SkillNumericValue value,

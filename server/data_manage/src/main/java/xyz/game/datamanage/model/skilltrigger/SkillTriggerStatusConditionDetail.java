@@ -14,6 +14,7 @@ public record SkillTriggerStatusConditionDetail(
     SkillTriggerSubject subject,
     String statusKey,
     SkillTriggerStatusCheckKind checkKind,
+    String effectSkillKey,
     String sourceEffectKey,
     String sourceResultKey,
     SkillTriggerComparator comparator,
@@ -25,6 +26,7 @@ public record SkillTriggerStatusConditionDetail(
 
     public SkillTriggerStatusConditionDetail {
         statusKey = trim(statusKey);
+        effectSkillKey = trim(effectSkillKey);
         sourceEffectKey = trim(sourceEffectKey);
         sourceResultKey = trim(sourceResultKey);
         foreignFields = SkillTriggerDetailFieldCapture.normalize(foreignFields);
@@ -35,6 +37,7 @@ public record SkillTriggerStatusConditionDetail(
         SkillTriggerSubject subject,
         String statusKey,
         SkillTriggerStatusCheckKind checkKind,
+        String effectSkillKey,
         String sourceEffectKey,
         String sourceResultKey,
         SkillTriggerComparator comparator,
@@ -44,6 +47,7 @@ public record SkillTriggerStatusConditionDetail(
             subject,
             statusKey,
             checkKind,
+            effectSkillKey,
             sourceEffectKey,
             sourceResultKey,
             comparator,
@@ -58,6 +62,7 @@ public record SkillTriggerStatusConditionDetail(
         @JsonProperty("subject") SkillTriggerSubject subject,
         @JsonProperty("statusKey") String statusKey,
         @JsonProperty("checkKind") SkillTriggerStatusCheckKind checkKind,
+        @JsonProperty("effectSkillKey") String effectSkillKey,
         @JsonProperty("sourceEffectKey") String sourceEffectKey,
         @JsonProperty("sourceResultKey") String sourceResultKey,
         @JsonProperty("comparator") SkillTriggerComparator comparator,
@@ -69,6 +74,7 @@ public record SkillTriggerStatusConditionDetail(
             subject,
             statusKey,
             checkKind,
+            effectSkillKey,
             sourceEffectKey,
             sourceResultKey,
             comparator,

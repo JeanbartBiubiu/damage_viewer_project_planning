@@ -50,8 +50,8 @@ class TriggerAggregateFieldContractTest {
                 new SkillTriggerStatusEventDetail(SkillTriggerSubject.CURRENT_TARGET, "burn", SkillTriggerStatusChangeKind.APPLY),
                 "triggerRuleStatusEvents", Set.of("subject", "status_key", "change_kind")),
             new EventCase(SkillTriggerEventType.INTERNAL_STATE_CHANGED,
-                new SkillTriggerInternalStateEventDetail("counter", SkillTriggerInternalStateChangeKind.VALUE_CHANGED),
-                "triggerRuleInternalStateEvents", Set.of("state_key", "change_kind"))
+                new SkillTriggerInternalStateEventDetail("skill", "counter", SkillTriggerInternalStateChangeKind.VALUE_CHANGED),
+                "triggerRuleInternalStateEvents", Set.of("state_skill_key", "state_key", "change_kind"))
         );
         String readModel = read(READ_MODEL);
         for (EventCase item : cases) {
@@ -64,8 +64,13 @@ class TriggerAggregateFieldContractTest {
             for (String migration : List.of(PART, TOTAL)) {
                 String branch = eventBranch(read(migration), item.eventType());
                 Map<String, String> savedFields = pairs(branch, "'([^']+)'\\s*,\\s*d\\.([a-z_]+)");
-                assertEquals(serializedFields, savedFields.keySet(), migration + " " + item.eventType());
-                assertEquals(readFields, savedFields, migration + " 存取列必须对应");
+                // 历史迁移冻结于跨技能归属字段出现之前，只检查当时已有的字段。
+                Map<String, String> historicalReadFields = new LinkedHashMap<>(readFields);
+                if (item.eventType() == SkillTriggerEventType.INTERNAL_STATE_CHANGED) {
+                    historicalReadFields.remove("stateSkillKey");
+                }
+                assertEquals(historicalReadFields.keySet(), savedFields.keySet(), migration + " " + item.eventType());
+                assertEquals(historicalReadFields, savedFields, migration + " 存取列必须对应");
             }
         }
     }
@@ -118,6 +123,27 @@ class TriggerAggregateFieldContractTest {
                 assertTrue(eventBranch(read(migration), type).contains("'{}'::jsonb"), migration + " " + type);
             }
         }
+    }
+
+    @Test
+    void qualifiedReadProjectionsKeepTargetOwnerSeparateFromSourceSkill() throws IOException {
+        String readModel = read(READ_MODEL);
+        assertTrue(fragment(readModel, "processStateOperations").contains("j->>'stateSkillKey' AS state_skill_key"));
+        for (String id : List.of("triggerRuleInternalStateEvents", "triggerRuleInternalStateConditions",
+            "triggerRuleInternalStateBindings")) {
+            assertTrue(fragment(readModel, id).contains("->>'stateSkillKey' AS state_skill_key"), id);
+        }
+        for (String id : List.of("triggerRuleLifecycleConditions", "triggerRuleStatusConditions",
+            "triggerRuleCombatStatusBindings")) {
+            assertTrue(fragment(readModel, id).contains("->>'effectSkillKey' AS effect_skill_key"), id);
+        }
+        assertTrue(fragment(readModel, "triggerRuleDamageEvents")
+            .contains("->>'sourceSkillKey' AS source_skill_key"));
+        String mapper = read("server/data_manage/src/main/resources/mapper/skilltrigger/SkillTriggerRuleMapper.xml");
+        assertTrue(mapper.contains("COALESCE(state_skill_key, skill_key) = #{skillKey}"));
+        assertTrue(mapper.contains("COALESCE(effect_skill_key, skill_key) = #{skillKey}"));
+        assertTrue(mapper.contains("AND result->>'resultType' = 'DAMAGE'"),
+            "通配伤害来源只能连接实际具有伤害结果的候选技能");
     }
 
     private static void assertFilter(String readModel, String id, String columnPattern, Enum<?> value) {

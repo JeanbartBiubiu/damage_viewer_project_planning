@@ -70,7 +70,7 @@ class SkillTargetCategoryConditionSemanticsTest {
         String eventDetail = switch (event) {
             case "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN"
                 -> AggregateJson.write(new SkillTriggerDamageEventDetail(
-                    null, SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY));
+                    null, null, SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY));
             default -> "{}";
         };
         return new Aggregate(SourceType.TRIGGER, "skill", "rule", AggregateJson.tree("""

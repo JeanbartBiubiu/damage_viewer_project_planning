@@ -39,7 +39,7 @@ public final class SkillLifecycleConditionSemantics {
             SkillEffectLifecycleInstanceScope scope, SkillTriggerEventType eventType, String path) {
         List<Map<String, String>> issues = new ArrayList<>();
         if (scope == null) {
-            issues.add(issue(path + ".effectKey", "UNKNOWN_LIFECYCLE", "效果必须属于当前技能且已经配置生命周期"));
+            issues.add(issue(path + ".effectKey", "UNKNOWN_LIFECYCLE", "目标效果必须存在且已经配置生命周期"));
             return issues;
         }
         boolean needsSubject = scope == SkillEffectLifecycleInstanceScope.TARGET || scope == SkillEffectLifecycleInstanceScope.SOURCE_TARGET;
@@ -52,11 +52,15 @@ public final class SkillLifecycleConditionSemantics {
     }
 
     public static void validate(List<Aggregate> aggregates) {
+        validate(aggregates, aggregates);
+    }
+
+    public static void validate(List<Aggregate> sources, List<Aggregate> context) {
         Map<String, JsonNode> lifecycles = new LinkedHashMap<>();
-        for (Aggregate a : aggregates) if (a.type() == SourceType.EFFECT) {
+        for (Aggregate a : context) if (a.type() == SourceType.EFFECT) {
             lifecycles.put(a.skillKey() + "/" + a.key(), a.data().path("lifecycle"));
         }
-        for (Aggregate a : aggregates) if (a.type() == SourceType.TRIGGER) {
+        for (Aggregate a : sources) if (a.type() == SourceType.TRIGGER) {
             int g = 0;
             for (JsonNode group : a.data().path("conditionGroups")) {
                 int c = 0;
@@ -64,7 +68,8 @@ public final class SkillLifecycleConditionSemantics {
                     if ("LIFECYCLE_CHECK".equals(condition.path("conditionType").asText())) {
                         String path = "conditionGroups[" + g + "].conditions[" + c + "].detail";
                         SkillTriggerLifecycleConditionDetail detail = AggregateJson.read(condition.path("detail").toString(), SkillTriggerLifecycleConditionDetail.class);
-                        JsonNode life = lifecycles.get(a.skillKey() + "/" + detail.effectKey());
+                        String owner = condition.path("detail").path("effectSkillKey").asText(a.skillKey());
+                        JsonNode life = lifecycles.get(owner + "/" + detail.effectKey());
                         String scopeName = life == null ? null : life.path("instanceScope").textValue();
                         SkillEffectLifecycleInstanceScope scope = scopeName == null ? null : SkillEffectLifecycleInstanceScope.valueOf(scopeName);
                         SkillTriggerEventType event = SkillTriggerEventType.valueOf(a.data().path("eventSource").path("eventType").asText());

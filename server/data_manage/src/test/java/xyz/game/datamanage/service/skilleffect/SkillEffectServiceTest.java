@@ -195,6 +195,35 @@ class SkillEffectServiceTest {
     }
 
     @Test
+    void shieldEndLinkRoundTripsAndRejectsMissingSiblingResult() {
+        stubParentAndNewKey();
+        stubEnabledCatalogs();
+        when(mapper.findEffect(GAME_ID, SKILL_KEY, EFFECT_KEY)).thenAnswer(invocation -> savedEffect);
+        SkillEffectResultRequest shield = shieldResultWithBehavior("barrier", persistentShared());
+        SkillEffectLifecycleRequest linked = new SkillEffectLifecycleRequest(
+            null, SkillNumericValue.fixed(BigDecimal.ONE), SkillNumericValue.fixed(BigDecimal.ONE),
+            SkillEffectLifecycleInstanceScope.SOURCE, SkillEffectLifecycleReapplicationStackMode.KEEP,
+            null, SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY, null, null, "barrier"
+        );
+        SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest(EFFECT_KEY, "关联护盾", null, 10, linked, List.of(shield)));
+        assertEquals("barrier", saved.lifecycle().endWhenShieldEndsResultKey());
+        assertEquals("barrier", AggregateJson.tree(savedEffect.lifecycle())
+            .path("endWhenShieldEndsResultKey").asText());
+
+        SkillEffectLifecycleRequest missing = new SkillEffectLifecycleRequest(
+            null, SkillNumericValue.fixed(BigDecimal.ONE), SkillNumericValue.fixed(BigDecimal.ONE),
+            SkillEffectLifecycleInstanceScope.SOURCE, SkillEffectLifecycleReapplicationStackMode.KEEP,
+            null, SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY, null, null, "missing"
+        );
+        ApiException error = assertThrows(ApiException.class, () -> service.validateConfigurationCreate(
+            GAME_ID, SKILL_KEY,
+            new SkillEffectCreateRequest("other_effect", "关联护盾", null, 10, missing, List.of(shield)),
+            Set.of(), Set.of(), Map.of("other_effect", missing)));
+        assertField(error, "lifecycle.endWhenShieldEndsResultKey", "UNKNOWN_RESULT");
+    }
+
+    @Test
     void attackTimerResetRoundTripsEmptyDetailAndBothSubjectsWithoutNumericOutput() {
         stubParentAndNewKey();
         stubEnabledCatalogs();
@@ -230,7 +259,7 @@ class SkillEffectServiceTest {
                 lifecycle = new SkillEffectLifecycleRequest(lifecycle.durationValue(), lifecycle.maxStacksValue(),
                     lifecycle.applicationStacksValue(), lifecycle.instanceScope(), lifecycle.reapplicationStackMode(),
                     lifecycle.reapplicationDurationMode(), lifecycle.expiryMode(), SkillNumericValue.fixed(new BigDecimal("100")),
-                    SkillEffectLifecycleFirstPeriodicExecution.AFTER_INTERVAL);
+                    SkillEffectLifecycleFirstPeriodicExecution.AFTER_INTERVAL, null);
             }
             SkillEffectDetailResponse saved = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
                 EFFECT_KEY, "普攻计时重置", null, 10, lifecycle,
@@ -2187,7 +2216,8 @@ class SkillEffectServiceTest {
                         SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
                         SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
                         SkillNumericValue.formula(PERIODIC_FORMULA),
-                        SkillEffectLifecycleFirstPeriodicExecution.IMMEDIATE
+                        SkillEffectLifecycleFirstPeriodicExecution.IMMEDIATE,
+                        null
                     ),
                     List.of(damageResultWithBehavior("physical_hit", applicationSnapshot()))
                 )
@@ -2209,7 +2239,8 @@ class SkillEffectServiceTest {
                         SkillEffectLifecycleReapplicationStackMode.KEEP,
                         null,
                         SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY,
-                        null, null
+                        null, null,
+                        null
                     ),
                     List.of(statusResultWithBehavior(
                         "apply_poison",
@@ -2259,6 +2290,7 @@ class SkillEffectServiceTest {
             SkillEffectLifecycleReapplicationStackMode.INCREASE,
             SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
             SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
+            null,
             null,
             null
         );
@@ -2715,7 +2747,8 @@ class SkillEffectServiceTest {
                         SkillEffectLifecycleReapplicationStackMode.KEEP,
                         null,
                         SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY,
-                        null, null
+                        null, null,
+                        null
                     ),
                     List.of(damageResultWithBehavior(
                         "physical_hit",
@@ -2764,6 +2797,7 @@ class SkillEffectServiceTest {
                         null,
                         SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY,
                         null,
+                        null,
                         null
                     ),
                     List.of(damageResult("physical_hit"))
@@ -2792,6 +2826,7 @@ class SkillEffectServiceTest {
                         SkillEffectLifecycleReapplicationStackMode.KEEP,
                         SkillEffectLifecycleReapplicationDurationMode.KEEP_REMAINING,
                         SkillEffectLifecycleExpiryMode.ONE_BY_ONE,
+                        null,
                         null,
                         null
                     ),
@@ -2897,7 +2932,8 @@ class SkillEffectServiceTest {
                         SkillEffectLifecycleReapplicationStackMode.INCREASE,
                         SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
                         SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
-                        null, null
+                        null, null,
+                        null
                     ),
                     List.of(damageResultWithBehavior("physical_hit", applicationSnapshot()))
                 )
@@ -3147,7 +3183,7 @@ class SkillEffectServiceTest {
         SkillEffectLifecycleRequest lifecycle = new SkillEffectLifecycleRequest(
             null, SkillNumericValue.formula(MAX_STACKS_FORMULA), SkillNumericValue.formula(APP_STACKS_FORMULA),
             SkillEffectLifecycleInstanceScope.SOURCE_TARGET, SkillEffectLifecycleReapplicationStackMode.KEEP,
-            null, SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY, null, null);
+            null, SkillEffectLifecycleExpiryMode.EXPLICIT_ONLY, null, null, null);
         SkillEffectDetailResponse created = service.create(GAME_ID, SKILL_KEY, new SkillEffectCreateRequest(
             EFFECT_KEY, "持续资格", null, 10, lifecycle, List.of()));
         assertNull(created.lifecycle().durationValue());
@@ -3185,11 +3221,11 @@ class SkillEffectServiceTest {
         SkillEffectLifecycleRequest valid = timedLifecycle();
         SkillEffectLifecycleRequest invalid = new SkillEffectLifecycleRequest(
             valid.durationValue(), valid.maxStacksValue(), valid.applicationStacksValue(), null,
-            valid.reapplicationStackMode(), valid.reapplicationDurationMode(), valid.expiryMode(), null, null);
+            valid.reapplicationStackMode(), valid.reapplicationDurationMode(), valid.expiryMode(), null, null, null);
         SkillEffectLifecycleRequest periodic = new SkillEffectLifecycleRequest(
             valid.durationValue(), valid.maxStacksValue(), valid.applicationStacksValue(), valid.instanceScope(),
             valid.reapplicationStackMode(), valid.reapplicationDurationMode(), valid.expiryMode(),
-            SkillNumericValue.formula(PERIODIC_FORMULA), SkillEffectLifecycleFirstPeriodicExecution.AFTER_INTERVAL);
+            SkillNumericValue.formula(PERIODIC_FORMULA), SkillEffectLifecycleFirstPeriodicExecution.AFTER_INTERVAL, null);
         for (SkillEffectLifecycleRequest lifecycle : List.of(invalid, periodic)) {
             String field = lifecycle == invalid ? "lifecycle.instanceScope" : "lifecycle.periodicIntervalValue";
             ApiException create = assertThrows(ApiException.class, () -> service.create(GAME_ID, SKILL_KEY,
@@ -3766,6 +3802,7 @@ class SkillEffectServiceTest {
             SkillEffectLifecycleReapplicationStackMode.INCREASE,
             SkillEffectLifecycleReapplicationDurationMode.REFRESH_ALL,
             SkillEffectLifecycleExpiryMode.ALL_AT_ONCE,
+            null,
             null,
             null
         );

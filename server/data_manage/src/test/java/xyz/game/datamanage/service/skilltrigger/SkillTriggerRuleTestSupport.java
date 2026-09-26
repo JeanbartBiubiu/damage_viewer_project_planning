@@ -305,7 +305,7 @@ final class SkillTriggerRuleTestSupport {
 
     static SkillTriggerProcessShapeRow recastStep(String processKey, String stepKey) {
         return new SkillTriggerProcessShapeRow(
-            processKey, null, null, null, null, null, stepKey, SkillProcessStepType.RECAST,
+            processKey, null, null, null, null, null, null, stepKey, SkillProcessStepType.RECAST,
             null, null, null, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, SkillProcessActivationType.ACTIVE
         );
@@ -313,7 +313,7 @@ final class SkillTriggerRuleTestSupport {
 
     static SkillTriggerProcessShapeRow chargeStep(String processKey, String stepKey) {
         return new SkillTriggerProcessShapeRow(
-            processKey, null, null, null, null, null, stepKey, SkillProcessStepType.CHARGE,
+            processKey, null, null, null, null, null, null, stepKey, SkillProcessStepType.CHARGE,
             null, null, null, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, SkillProcessActivationType.ACTIVE
         );
@@ -321,7 +321,7 @@ final class SkillTriggerRuleTestSupport {
 
     static SkillTriggerProcessShapeRow processActivation(String processKey, SkillProcessActivationType activationType) {
         return new SkillTriggerProcessShapeRow(
-            processKey, null, null, null, null, null, null, null,
+            processKey, null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, activationType
         );
@@ -419,6 +419,15 @@ final class SkillTriggerRuleTestSupport {
         return processShape(processKey, null, stateKey, operation, SkillInternalStateType.INTERNAL_COOLDOWN, null, null);
     }
 
+    static SkillTriggerProcessShapeRow crossSkillCounterOp(String processKey, String stateSkillKey, String stateKey) {
+        return new SkillTriggerProcessShapeRow(
+            processKey, null, stateKey, stateSkillKey, SkillProcessStateOperationKind.INCREASE,
+            SkillNumericValue.fixed(java.math.BigDecimal.ONE), SkillInternalStateType.COUNTER, null, null,
+            null, null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null, null, null, null, null, null
+        );
+    }
+
     static SkillTriggerProcessShapeRow bindingProcess(String processKey, String effectKey) {
         return processShape(
             processKey, effectKey, null, null, null, "hit", SkillProcessStepType.IMMEDIATE
@@ -435,7 +444,7 @@ final class SkillTriggerRuleTestSupport {
         SkillProcessStepType stepType
     ) {
         return new SkillTriggerProcessShapeRow(
-            processKey, bindingEffectKey, operationStateKey, operation, null, stateType, stepKey, stepType,
+            processKey, bindingEffectKey, operationStateKey, SKILL_KEY, operation, null, stateType, stepKey, stepType,
             null, null, null, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, null, null
         );

@@ -2,6 +2,7 @@ package xyz.game.datamanage.support.authoring;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,6 +18,8 @@ import xyz.game.datamanage.support.authoring.SkillObjectReferences.SourceType;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Target;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.TargetType;
 import xyz.game.datamanage.support.error.ApiException;
+import xyz.game.datamanage.support.authoring.ConfigurationChangeScope.Snapshot;
+import xyz.game.datamanage.support.authoring.ConfigurationChangeScope.Source;
 
 /** 同游戏配置在业务读取前串行写入，并在事务提交前校验最终引用。 */
 @Component
@@ -58,6 +61,7 @@ public class GameConfigurationWriteGuard {
             TransactionSynchronizationManager.registerSynchronization(pending);
         }
         pending.games.add(gameId);
+        pending.before.put(gameId, snapshot(gameId));
     }
 
     /** 保留各管理接口已有的删除错误码；提交前仍会根据最终配置再次检查。 */
@@ -84,29 +88,37 @@ public class GameConfigurationWriteGuard {
         }
     }
 
-    private void validateAndReplace(String gameId) {
+    private void validateAndReplace(String gameId, Snapshot before) {
+        Snapshot after = snapshot(gameId);
+        ConfigurationChangeScope.Changes changes = ConfigurationChangeScope.compare(before, after);
+        List<Aggregate> sources = after.aggregates().stream()
+            .filter(a -> changes.changed().contains(Source.of(a))).toList();
+        List<Aggregate> affected = after.aggregates().stream()
+            .filter(a -> changes.affected().contains(Source.of(a))).toList();
         Set<Target> catalog = new LinkedHashSet<>();
         for (Map<String, Object> row : jdbc.queryForList(CATALOG_SQL, gameId)) {
             catalog.add(new Target(TargetType.valueOf((String) row.get("target_type")),
                 (String) row.get("skill_key"), (String) row.get("object_key"), ""));
         }
-        List<Aggregate> aggregates = new ArrayList<>();
-        for (Map<String, Object> row : jdbc.queryForList(AGGREGATES_SQL, gameId)) {
-            aggregates.add(new Aggregate(SourceType.valueOf((String) row.get("source_type")),
-                (String) row.get("skill_key"), (String) row.get("source_key"),
-                AggregateJson.tree((String) row.get("data"))));
+        List<Reference> references = SkillObjectReferences.extractAndValidate(gameId, sources, after.aggregates(), catalog);
+        SkillObjectReferences.validateExistingTargets(changes.existingToCheck(), after.aggregates(), catalog);
+        SkillLifecycleConditionSemantics.validate(affected, after.aggregates());
+        SkillQualifiedReferenceSemantics.validate(affected, after.aggregates());
+        ShieldEndLifecycleSemantics.validate(affected);
+        SkillTargetCategoryConditionSemantics.validate(affected);
+        SkillExplicitTargetIsSourceConditionSemantics.validate(affected);
+        SkillHitTargetIsEnemyConditionSemantics.validate(affected);
+        SkillCastingPhaseSemantics.validate(affected, after.aggregates());
+        SkillTriggerOncePerUseSemantics.validate(affected);
+        if (!affected.isEmpty() || changes.vampRulesChanged())
+            vampSemantics.validate(gameId, affected, after.aggregates(), changes.vampRulesChanged());
+        if (!affected.isEmpty()) {
+            healingRatioMaxSemantics.validate(gameId, affected);
+            numericSemantics.validate(gameId, affected, after.aggregates());
         }
-        List<Reference> references = SkillObjectReferences.extractAndValidate(gameId, aggregates, catalog);
-        SkillLifecycleConditionSemantics.validate(aggregates);
-        SkillTargetCategoryConditionSemantics.validate(aggregates);
-        SkillExplicitTargetIsSourceConditionSemantics.validate(aggregates);
-        SkillHitTargetIsEnemyConditionSemantics.validate(aggregates);
-        SkillCastingPhaseSemantics.validate(aggregates);
-        SkillTriggerOncePerUseSemantics.validate(aggregates);
-        vampSemantics.validate(gameId, aggregates);
-        healingRatioMaxSemantics.validate(gameId, aggregates);
-        numericSemantics.validate(gameId, aggregates);
-        jdbc.update("DELETE FROM public.skill_object_references WHERE game_id = ?", gameId);
+        for (Source source : changes.changed()) {
+            jdbc.update(DELETE_SOURCE_SQL, gameId, source.skill(), source.type().name(), source.key());
+        }
         if (!references.isEmpty()) {
             List<Object[]> rows = references.stream().map(ref -> new Object[] {
                 ref.gameId(), ref.sourceSkillKey(), ref.sourceType().name(), ref.sourceKey(), ref.fieldPath(),
@@ -116,14 +128,33 @@ public class GameConfigurationWriteGuard {
         }
     }
 
+    private Snapshot snapshot(String gameId) {
+        List<Aggregate> aggregates = new ArrayList<>();
+        for (Map<String, Object> row : jdbc.queryForList(AGGREGATES_SQL, gameId)) {
+            aggregates.add(new Aggregate(SourceType.valueOf((String) row.get("source_type")),
+                (String) row.get("skill_key"), (String) row.get("source_key"),
+                AggregateJson.tree((String) row.get("data"))));
+        }
+        List<Reference> references = new ArrayList<>();
+        for (Map<String, Object> row : jdbc.queryForList(REFERENCES_SQL, gameId)) {
+            references.add(new Reference(gameId, (String) row.get("source_skill_key"),
+                SourceType.valueOf((String) row.get("source_type")), (String) row.get("source_key"),
+                (String) row.get("field_path"), new Target(TargetType.valueOf((String) row.get("target_type")),
+                    (String) row.get("target_skill_key"), (String) row.get("target_key"), (String) row.get("target_sub_key"))));
+        }
+        return new Snapshot(ConfigurationChangeScope.rows(jdbc.queryForList(SNAPSHOT_SQL, gameId)),
+            List.copyOf(aggregates), List.copyOf(references));
+    }
+
     private final class Pending implements TransactionSynchronization {
         private final Set<String> games = new LinkedHashSet<>();
+        private final Map<String, Snapshot> before = new LinkedHashMap<>();
 
         @Override public int getOrder() { return Ordered.LOWEST_PRECEDENCE; }
 
         @Override public void beforeCommit(boolean readOnly) {
             if (readOnly) throw new IllegalStateException("游戏配置写入不能提交为只读事务");
-            for (String gameId : games) validateAndReplace(gameId);
+            for (String gameId : games) validateAndReplace(gameId, before.get(gameId));
         }
 
         @Override public void suspend() {
@@ -168,7 +199,7 @@ public class GameConfigurationWriteGuard {
                jsonb_build_object('results', results, 'lifecycle', lifecycle)::text
           FROM public.skill_effects JOIN selected_game USING (game_id)
         UNION ALL SELECT 'STATE', skill_key, state_key,
-               jsonb_build_object('stateType', state_type, 'detail', detail)::text
+               jsonb_build_object('stateType', state_type, 'scope', scope, 'detail', detail)::text
           FROM public.skill_internal_states JOIN selected_game USING (game_id)
         UNION ALL SELECT 'PROCESS', skill_key, process_key,
                jsonb_build_object('activationType', activation_type, 'steps', steps, 'cooldown', cooldown,
@@ -186,6 +217,53 @@ public class GameConfigurationWriteGuard {
             (game_id, source_skill_key, source_type, source_key, field_path,
              target_type, target_skill_key, target_key, target_sub_key)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """;
+
+    static final String DELETE_SOURCE_SQL = """
+        DELETE FROM public.skill_object_references
+         WHERE game_id = ? AND source_skill_key = ? AND source_type = ? AND source_key = ?
+        """;
+
+    static final String REFERENCES_SQL = """
+        SELECT source_skill_key, source_type, source_key, field_path,
+               target_type, target_skill_key, target_key, target_sub_key
+          FROM public.skill_object_references WHERE game_id = ?
+        """;
+
+    // 只读比较用快照；时间戳不参与业务变化判断，不向日志或客户端输出。
+    static final String SNAPSHOT_SQL = """
+        WITH selected_game AS (SELECT ?::varchar AS game_id)
+        SELECT 'FORMULA'::text AS object_type, skill_key, formula_key AS object_key,
+               (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text AS data
+          FROM public.skill_formulas t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'EFFECT', skill_key, effect_key, (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text
+          FROM public.skill_effects t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'STATE', skill_key, state_key, (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text
+          FROM public.skill_internal_states t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'PROCESS', skill_key, process_key, (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text
+          FROM public.skill_processes t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'TRIGGER', skill_key, rule_key, (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text
+          FROM public.skill_trigger_rules t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'PARAMETER', skill_key, parameter_key, (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text
+          FROM public.skill_parameters t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'SKILL', '', skill_key, (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text
+          FROM public.skills t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'ATTRIBUTE', '', attribute_key, (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text
+          FROM public.attributes t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'CATEGORY', '', skill_category_key, (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text
+          FROM public.skill_categories t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'DAMAGE_TYPE', '', damage_type_key, (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text
+          FROM public.damage_types t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'MODIFIER_ZONE', '', modifier_zone_key, (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text
+          FROM public.modifier_zones t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'STATUS', '', status_key, (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text
+          FROM public.statuses t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'SKILL_CATEGORIES', skill_key, '', jsonb_agg(skill_category_key ORDER BY skill_category_key)::text
+          FROM public.skill_category_relations t JOIN selected_game USING (game_id) GROUP BY skill_key
+        UNION ALL SELECT 'VAMP_RULE', '', vamp_type, to_jsonb(t)::text
+          FROM public.game_vamp_rules t JOIN selected_game USING (game_id)
+        UNION ALL SELECT 'LEVEL_CONFIG', '', '', (to_jsonb(t) - ARRAY['created_at', 'updated_at'])::text
+          FROM public.game_level_configs t JOIN selected_game USING (game_id)
         """;
 
     static final String REFERENCED_SQL = """
