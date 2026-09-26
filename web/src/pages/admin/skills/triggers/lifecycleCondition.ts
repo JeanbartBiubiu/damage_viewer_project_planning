@@ -12,15 +12,17 @@ export function lifecycleNeedsSubject(effect: SkillEffect | undefined): boolean 
 }
 
 export function lifecycleConditionEffects(effects: readonly SkillEffect[], skillKey: string): SkillEffect[] {
-  return effects.filter((effect) => effect.skillKey === skillKey && effect.lifecycle !== null);
+  void skillKey;
+  return effects.filter((effect) => effect.lifecycle !== null);
 }
 
 export function changeLifecycleEffect(detail: SkillTriggerLifecycleCheckDetail, effect: SkillEffect): SkillTriggerLifecycleCheckDetail {
-  return { ...detail, effectKey: effect.effectKey, subject: lifecycleNeedsSubject(effect) ? detail.subject ?? 'CURRENT_TARGET' : null };
+  return { ...detail, effectSkillKey: effect.skillKey, effectKey: effect.effectKey,
+    subject: lifecycleNeedsSubject(effect) ? detail.subject ?? 'CURRENT_TARGET' : null };
 }
 
 export function changeLifecycleCheckKind(detail: SkillTriggerLifecycleCheckDetail, checkKind: SkillTriggerLifecycleCheckKind): SkillTriggerLifecycleCheckDetail {
-  const base = { effectKey: detail.effectKey, subject: detail.subject };
+  const base = { effectSkillKey: detail.effectSkillKey, effectKey: detail.effectKey, subject: detail.subject };
   return checkKind === 'STACKS_COMPARE'
     ? { ...base, checkKind, comparator: detail.comparator ?? 'GTE', comparisonValue: detail.comparisonValue ?? fixedValue(Number.NaN) }
     : { ...base, checkKind, comparator: null, comparisonValue: null };
@@ -34,8 +36,8 @@ export function lifecycleConditionError(
   limits: Pick<NumericLimits, 'parametersState' | 'formulasState'> = {},
   skillKey?: string
 ): { field: string; message: string } | null {
-  if (!effect?.lifecycle || (skillKey !== undefined && effect.skillKey !== skillKey)) {
-    return { field: 'effectKey', message: '请选择当前技能中已配置生命周期的效果；目录未加载成功时请重试。' };
+  if (!effect?.lifecycle || (skillKey !== undefined && effect.skillKey !== detail.effectSkillKey)) {
+    return { field: 'effectKey', message: '请选择已配置生命周期的来源效果；目录未加载成功时请重试。' };
   }
   if (lifecycleNeedsSubject(effect)) {
     if (detail.subject === null || !allowedSubjects.includes(detail.subject)) return { field: 'subject', message: '请选择当前事件可用的生命周期主体。' };

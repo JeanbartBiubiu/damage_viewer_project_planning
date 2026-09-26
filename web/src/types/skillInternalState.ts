@@ -9,6 +9,7 @@ export type SkillInternalStateType =
 export type SkillInternalStateScope = 'SKILL' | 'TARGET';
 
 export type SkillInternalStateAmmoRecoveryMode = 'ONE_BY_ONE' | 'ALL_AT_ONCE';
+export type SkillInternalStateAmmoRecoveryStartCondition = 'AFTER_CONSUME' | 'WHEN_EMPTY';
 
 export type SkillInternalStateModeOption = {
   optionKey: string;
@@ -27,6 +28,7 @@ export type SkillInternalStateAmmoDetail = {
   maxValue: NumericValue;
   recoveryIntervalValue: NumericValue;
   recoveryMode: SkillInternalStateAmmoRecoveryMode;
+  recoveryStartCondition?: SkillInternalStateAmmoRecoveryStartCondition | null;
 };
 
 export type SkillInternalStateModeDetail = {
@@ -113,7 +115,7 @@ export type CreateSkillInternalStateCounterRequest = CreateSkillInternalStateReq
 
 export type CreateSkillInternalStateAmmoRequest = CreateSkillInternalStateRequestBase & {
   stateType: 'AMMO';
-  detail: SkillInternalStateAmmoDetail;
+  detail: SkillInternalStateAmmoDetail & { recoveryStartCondition: SkillInternalStateAmmoRecoveryStartCondition };
 };
 
 export type CreateSkillInternalStateModeRequest = CreateSkillInternalStateRequestBase & {
@@ -152,7 +154,7 @@ export type UpdateSkillInternalStateCounterRequest = UpdateSkillInternalStateReq
 
 export type UpdateSkillInternalStateAmmoRequest = UpdateSkillInternalStateRequestBase & {
   stateType: 'AMMO';
-  detail: SkillInternalStateAmmoDetail;
+  detail: SkillInternalStateAmmoDetail & { recoveryStartCondition: SkillInternalStateAmmoRecoveryStartCondition };
 };
 
 export type UpdateSkillInternalStateModeRequest = UpdateSkillInternalStateRequestBase & {

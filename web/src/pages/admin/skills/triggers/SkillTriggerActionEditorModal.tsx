@@ -14,6 +14,9 @@ import { useLayoutEffect, useEffect, useRef, useState } from 'react';
 import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
 import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
 import type { Attribute } from '../../../../types/attribute';
+import type { DamageType } from '../../../../types/damageType';
+import type { Skill } from '../../../../types/skill';
+import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type { SkillEffect, SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
 import type { SkillParameter } from '../../../../types/skillParameter';
@@ -64,6 +67,9 @@ type BindingEditorState = {
 };
 
 type SkillTriggerActionEditorModalProps = {
+  apiBaseUrl: string;
+  selectedGameId: string;
+  adminToken: string;
   visible: boolean;
   mode: SkillTriggerActionEditorMode;
   keyReadOnly: boolean;
@@ -71,6 +77,9 @@ type SkillTriggerActionEditorModalProps = {
   existingKeys: readonly string[];
   originalBindings: readonly SkillTriggerRuntimeInputBinding[];
   attributes: readonly Attribute[];
+  skills?: readonly Skill[];
+  damageTypes?: readonly DamageType[];
+  formulas?: readonly SkillFormulaSummary[];
   attributesLoadState?: CatalogLoadState;
   onRetryAttributes: () => Promise<void>;
   eventSource: SkillTriggerEventSource;
@@ -102,6 +111,9 @@ function titleFor(mode: SkillTriggerActionEditorMode): string {
 }
 
 export function SkillTriggerActionEditorModal({
+  apiBaseUrl,
+  selectedGameId,
+  adminToken,
   visible,
   mode,
   keyReadOnly,
@@ -109,6 +121,9 @@ export function SkillTriggerActionEditorModal({
   existingKeys,
   originalBindings,
   attributes,
+  skills,
+  damageTypes,
+  formulas,
   attributesLoadState,
   onRetryAttributes,
   eventSource,
@@ -667,12 +682,17 @@ export function SkillTriggerActionEditorModal({
       </Modal>
 
       <SkillTriggerRuntimeInputBindingEditorModal
+        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
         visible={bindingEditor !== null}
         mode={bindingEditor?.mode ?? 'create'}
         binding={bindingEditor?.binding ?? null}
         existingBindingKeys={[...new Set([...current.runtimeInputBindings, ...originalBindings].map((item) => item.bindingKey))]}
         originalSourceType={originalBindings.find((item) => item.bindingKey === bindingEditor?.binding?.bindingKey)?.sourceType}
         attributes={attributes}
+        skills={skills}
+        damageTypes={damageTypes}
+        formulas={formulas}
+        skillKey={skillKey}
         attributesLoadState={attributesLoadState}
         processes={processes}
         processesLoadState={processesLoadState}

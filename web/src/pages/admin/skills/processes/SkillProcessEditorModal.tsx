@@ -25,6 +25,8 @@ import type { Skill } from '../../../../types/skill';
 import type { SkillEffectSummary } from '../../../../types/skillEffect';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type { SkillInternalStateSummary } from '../../../../types/skillInternalState';
+import type { SkillParameter } from '../../../../types/skillParameter';
+import type { CreateSkillProcessRequest } from '../../../../types/skillProcess';
 import type { SkillProcess, SkillProcessActivationType, SkillProcessSummary } from '../../../../types/skillProcess';
 import type { AuthoringLocation } from '../../../../types/authoringLocation';
 import { resolveAuthoringLocation } from '../authoringLocation';
@@ -102,6 +104,16 @@ type SkillProcessEditorModalProps = {
   onOpenParameterFormula?: () => void;
   onOpenEffects?: () => void;
   authoringLocation?: AuthoringLocation | null;
+  workspaceDraft?: {
+    initial: SkillProcessDraft;
+    original: SkillProcess | null;
+    parameters: SkillParameter[];
+    formulas: SkillFormulaSummary[];
+    effects: SkillEffectSummary[];
+    internalStates: SkillInternalStateSummary[];
+    modeOptionsByStateKey: { [stateKey: string]: Array<{ optionKey: string; name: string }> };
+    onApply: (draft: SkillProcessDraft, value: CreateSkillProcessRequest) => string | null;
+  };
 };
 
 type StepEditorState = {
@@ -187,7 +199,8 @@ export function SkillProcessEditorModal({
   catalogRevision,
   onOpenParameterFormula,
   onOpenEffects,
-  authoringLocation
+  authoringLocation,
+  workspaceDraft
 }: SkillProcessEditorModalProps) {
   const [draft, setDraft] = useState<SkillProcessDraft>(createEmptyProcessDraft());
   const [baseline, setBaseline] = useState<SkillProcessDraft>(createEmptyProcessDraft());
@@ -203,14 +216,24 @@ export function SkillProcessEditorModal({
   const [saving, setSaving] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detailReady, setDetailReady] = useState(false);
-  const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
-  const { parameters, parametersLoadState } = useNumericParameters(apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible, catalogRevision);
-  const [effects, setEffects] = useState<SkillEffectSummary[]>([]);
-  const [internalStates, setInternalStates] = useState<SkillInternalStateSummary[]>([]);
-  const [modeOptionsByStateKey, setModeOptionsByStateKey] = useState<{ [stateKey: string]: Array<{ optionKey: string; name: string }> }>({});
-  const [formulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
-  const [effectsLoadState, setEffectsLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
-  const [internalStatesLoadState, setInternalStatesLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [savedFormulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
+  const { parameters: savedParameters, parametersLoadState: savedParametersLoadState } = useNumericParameters(
+    apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible && !workspaceDraft, catalogRevision);
+  const parameters = workspaceDraft?.parameters ?? savedParameters;
+  const parametersLoadState = workspaceDraft ? 'ready' : savedParametersLoadState;
+  const [savedEffects, setEffects] = useState<SkillEffectSummary[]>([]);
+  const [savedInternalStates, setInternalStates] = useState<SkillInternalStateSummary[]>([]);
+  const [savedModeOptionsByStateKey, setModeOptionsByStateKey] = useState<{ [stateKey: string]: Array<{ optionKey: string; name: string }> }>({});
+  const formulas = workspaceDraft?.formulas ?? savedFormulas;
+  const effects = workspaceDraft?.effects ?? savedEffects;
+  const internalStates = workspaceDraft?.internalStates ?? savedInternalStates;
+  const modeOptionsByStateKey = workspaceDraft?.modeOptionsByStateKey ?? savedModeOptionsByStateKey;
+  const [savedFormulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [savedEffectsLoadState, setEffectsLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [savedInternalStatesLoadState, setInternalStatesLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const formulasLoadState = workspaceDraft ? 'ready' : savedFormulasLoadState;
+  const effectsLoadState = workspaceDraft ? 'ready' : savedEffectsLoadState;
+  const internalStatesLoadState = workspaceDraft ? 'ready' : savedInternalStatesLoadState;
   const [stepEditor, setStepEditor] = useState<StepEditorState | null>(null);
   const [bindingEditor, setBindingEditor] = useState<BindingEditorState | null>(null);
   const [operationEditor, setOperationEditor] = useState<OperationEditorState | null>(null);
@@ -221,6 +244,8 @@ export function SkillProcessEditorModal({
   const formulaSerial = useRef(0);
   const effectSerial = useRef(0);
   const internalStateSerial = useRef(0);
+  const workspaceInitial = workspaceDraft?.initial;
+  const workspaceMode = Boolean(workspaceDraft);
   const readOnly = mode === 'view';
   const closeBlocked = saving || (mode === 'edit' && loadingDetail);
 
@@ -264,6 +289,7 @@ export function SkillProcessEditorModal({
   }, [mode]);
 
   const loadFormulas = useCallback(async () => {
+    if (workspaceMode) return;
     const serial = formulaSerial.current + 1;
     formulaSerial.current = serial;
     const token = adminToken.trim();
@@ -289,9 +315,10 @@ export function SkillProcessEditorModal({
       setFormulasLoadState('failed');
       setFormulasError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
+  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible, workspaceMode]);
 
   const loadEffects = useCallback(async () => {
+    if (workspaceMode) return;
     const serial = effectSerial.current + 1;
     effectSerial.current = serial;
     const token = adminToken.trim();
@@ -317,9 +344,10 @@ export function SkillProcessEditorModal({
       setEffectsLoadState('failed');
       setEffectsError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
+  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible, workspaceMode]);
 
   const loadInternalStates = useCallback(async () => {
+    if (workspaceMode) return;
     const serial = internalStateSerial.current + 1;
     internalStateSerial.current = serial;
     const token = adminToken.trim();
@@ -363,7 +391,7 @@ export function SkillProcessEditorModal({
       setInternalStatesLoadState('failed');
       setInternalStatesError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
+  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible, workspaceMode]);
 
   const applyAuthoringLocation = useCallback((detail: SkillProcess, nextDraft: SkillProcessDraft) => {
     if (!authoringLocation) {
@@ -444,6 +472,18 @@ export function SkillProcessEditorModal({
       setLoadingDetail(false);
       return;
     }
+    if (workspaceInitial) {
+      setDraft(workspaceInitial);
+      setBaseline(workspaceInitial);
+      setDetailReady(true);
+      setLoadingDetail(false);
+      setLoadError(null);
+      onDirtyChange(false);
+      if (workspaceDraft?.original && authoringLocation) {
+        applyAuthoringLocation(workspaceDraft.original, workspaceInitial);
+      }
+      return;
+    }
     if (mode === 'create') {
       const empty = createEmptyProcessDraft();
       setDraft(empty);
@@ -513,7 +553,9 @@ export function SkillProcessEditorModal({
     skill.skillKey,
     visible,
     applyAuthoringLocation,
-    authoringLocation
+    authoringLocation,
+    workspaceInitial,
+    workspaceDraft?.original
   ]);
 
   useEffect(() => {
@@ -581,6 +623,7 @@ export function SkillProcessEditorModal({
       stateOperations: sortOperationDrafts(draft.stateOperations)
     };
     const validation = validateSkillProcessDraft(sorted, {
+      skillKey: skill.skillKey,
       parameters, parametersLoadState,
       includeProcessKey: mode === 'create',
       catalog: {
@@ -601,6 +644,12 @@ export function SkillProcessEditorModal({
       setStepErrors(validation.stepErrors);
       setBindingErrors(validation.bindingErrors);
       setOperationErrors(validation.operationErrors);
+      return;
+    }
+    if (workspaceDraft) {
+      const error = workspaceDraft.onApply(sorted, buildCreateSkillProcessRequest(validation.normalized));
+      if (error) setSaveError(error);
+      else onDirtyChange(false);
       return;
     }
     const token = adminToken.trim();
@@ -953,10 +1002,10 @@ export function SkillProcessEditorModal({
         style={{ width: 'calc(100vw - 80px)', maxWidth: 1800 }}
         footer={
           <Space>
-            {!readOnly ? (
+            {!readOnly && (onOpenParameterFormula || onOpenEffects) ? (
               <>
-                <Button onClick={onOpenParameterFormula}>参数与公式</Button>
-                <Button onClick={onOpenEffects}>效果与结果</Button>
+                {onOpenParameterFormula ? <Button onClick={onOpenParameterFormula}>参数与公式</Button> : null}
+                {onOpenEffects ? <Button onClick={onOpenEffects}>效果与结果</Button> : null}
               </>
             ) : null}
             <Button onClick={close} disabled={closeBlocked || Boolean(stepEditor || bindingEditor || operationEditor)}>{readOnly ? '关闭' : '取消'}</Button>
@@ -967,7 +1016,7 @@ export function SkillProcessEditorModal({
                 disabled={!detailReady}
                 onClick={() => void save()}
               >
-                保存
+                {workspaceDraft ? '确认到技能草稿' : '保存'}
               </Button>
             ) : null}
           </Space>
@@ -1228,7 +1277,7 @@ export function SkillProcessEditorModal({
                   onClick={() => setOperationEditor({
                     mode: 'create',
                     index: null,
-                    draft: createEmptyStateOperationDraft(),
+                    draft: { ...createEmptyStateOperationDraft(), stateSkillKey: skill.skillKey },
                     fieldErrors: {}
                   })}
                 >
@@ -1342,6 +1391,7 @@ export function SkillProcessEditorModal({
         formulasLoadState={formulasLoadState}
         internalStates={internalStates}
         internalStatesLoadState={internalStatesLoadState}
+        localModeOptionsByStateKey={workspaceDraft?.modeOptionsByStateKey}
         apiBaseUrl={apiBaseUrl}
         selectedGameId={selectedGameId}
         skillKey={skill.skillKey}

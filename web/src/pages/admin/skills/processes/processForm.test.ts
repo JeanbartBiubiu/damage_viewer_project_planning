@@ -84,6 +84,7 @@ function binding(overrides: Partial<SkillProcessEffectBindingDraft> = {}): Skill
 function consumeOp(overrides: Partial<SkillProcessStateOperationDraft> = {}): SkillProcessStateOperationDraft {
   return {
     ...createEmptyStateOperationDraft(),
+    stateSkillKey: 'w',
     operationKey: 'consume_focus',
     name: '消耗专注层数',
     stateKey: 'focus_stacks',
@@ -389,7 +390,7 @@ describe('skill process steps, moments and behaviors', () => {
       stateOperations: [
         consumeOp(),
         {
-          ...createEmptyStateOperationDraft(),
+          ...createEmptyStateOperationDraft(), stateSkillKey: 'w',
           operationKey: 'select_rocket',
           name: '选择火箭',
           stateKey: 'weapon_mode',
@@ -399,7 +400,7 @@ describe('skill process steps, moments and behaviors', () => {
           sortOrder: '20'
         },
         {
-          ...createEmptyStateOperationDraft(),
+          ...createEmptyStateOperationDraft(), stateSkillKey: 'w',
           operationKey: 'enable_ready',
           name: '启用准备',
           stateKey: 'ready',
@@ -409,7 +410,7 @@ describe('skill process steps, moments and behaviors', () => {
           sortOrder: '30'
         },
         {
-          ...createEmptyStateOperationDraft(),
+          ...createEmptyStateOperationDraft(), stateSkillKey: 'w',
           operationKey: 'start_cd',
           name: '开始内部冷却',
           stateKey: 'internal_cd',
@@ -418,7 +419,7 @@ describe('skill process steps, moments and behaviors', () => {
           sortOrder: '40'
         },
         {
-          ...createEmptyStateOperationDraft(),
+          ...createEmptyStateOperationDraft(), stateSkillKey: 'w',
           operationKey: 'reset_focus',
           name: '重置专注',
           stateKey: 'focus_stacks',

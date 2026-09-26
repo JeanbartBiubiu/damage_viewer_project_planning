@@ -34,6 +34,8 @@ import type {
   SkillTriggerCombatStatusMeasuredBindingDetail,
   SkillTriggerCombatStatusPresentBindingDetail,
   SkillTriggerCombatStatusValueKind,
+  SkillTriggerCombatElapsedTimeBinding,
+  SkillTriggerRecentDamageSumBinding,
   SkillTriggerComparator,
   SkillTriggerCondition,
   SkillTriggerConditionGroup,
@@ -279,7 +281,9 @@ export const SKILL_TRIGGER_SOURCE_TYPES = [
   'COMBAT_STATUS',
   'EVENT_VALUE',
   'SOURCE_CAST_RESOURCE_COST',
-  'PRIOR_ACTION_RESULT'
+  'PRIOR_ACTION_RESULT',
+  'COMBAT_ELAPSED_TIME',
+  'RECENT_DAMAGE_SUM'
 ] as const satisfies readonly SkillTriggerRuntimeInputSourceType[];
 
 export const SKILL_TRIGGER_LIFECYCLE_EVENT_MOMENTS = [
@@ -648,7 +652,9 @@ export const SKILL_TRIGGER_SOURCE_TYPE_LABELS = {
   COMBAT_STATUS: '战斗状态',
   EVENT_VALUE: '当前事件值',
   SOURCE_CAST_RESOURCE_COST: '来源施放资源消耗',
-  PRIOR_ACTION_RESULT: '更早动作结果'
+  PRIOR_ACTION_RESULT: '更早动作结果',
+  COMBAT_ELAPSED_TIME: '本次入战后时长',
+  RECENT_DAMAGE_SUM: '近期受伤累计'
 } as const satisfies { [K in SkillTriggerRuntimeInputSourceType]: string };
 
 export const SKILL_TRIGGER_SUBJECT_LABELS = {
@@ -1025,7 +1031,7 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
         }
       };
     case 'INTERNAL_STATE_CHANGED':
-      return { eventType, detail: { stateKey: '', changeKind: 'VALUE_CHANGED' } };
+      return { eventType, detail: { stateSkillKey: '', stateKey: '', changeKind: 'VALUE_CHANGED' } };
     case 'ENTITY_DIED':
       return { eventType, detail: { subject: 'CURRENT_TARGET' } };
     case 'ENTITY_UNTARGETABLE':
@@ -1043,7 +1049,7 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
     case 'DAMAGE_TAKEN':
       return {
         eventType,
-        detail: { damageTypeKey: null, deliveryKind: 'ANY', originKind: 'ANY' }
+        detail: { sourceSkillKey: null, damageTypeKey: null, deliveryKind: 'ANY', originKind: 'ANY' }
       };
     case 'CONTROL_RECEIVED':
       return { eventType, detail: emptyEventDetail() };
@@ -1087,7 +1093,7 @@ export function createEmptyConditionDetail(
     case 'TARGET_CATEGORY_CHECK':
       return { categories: [] };
     case 'LIFECYCLE_CHECK':
-      return { effectKey: '', subject: null, checkKind: 'PRESENT', comparator: null, comparisonValue: null };
+      return { effectSkillKey: '', effectKey: '', subject: null, checkKind: 'PRESENT', comparator: null, comparisonValue: null };
     case 'ATTRIBUTE_COMPARE':
       return {
         subject: 'CURRENT_TARGET',
@@ -1101,6 +1107,7 @@ export function createEmptyConditionDetail(
         subject: 'CURRENT_TARGET',
         statusKey: '',
         checkKind: 'PRESENT',
+        effectSkillKey: null,
         sourceEffectKey: null,
         sourceResultKey: null,
         comparator: null,
@@ -1108,6 +1115,7 @@ export function createEmptyConditionDetail(
       };
     case 'INTERNAL_STATE_CHECK':
       return {
+        stateSkillKey: '',
         stateKey: '',
         valueKind: 'VALUE',
         optionKey: null,
@@ -1140,6 +1148,14 @@ export function createEmptyBindingDetail(
   sourceType: 'PRIOR_ACTION_RESULT'
 ): SkillTriggerPriorResultBindingDetail;
 export function createEmptyBindingDetail(
+  sourceType: 'COMBAT_ELAPSED_TIME'
+): { subject: SkillTriggerSubject };
+export function createEmptyBindingDetail(
+  sourceType: 'RECENT_DAMAGE_SUM'
+): { subject: SkillTriggerSubject; windowValue: NumericValue; outputKind: 'POST_DEFENSE_DAMAGE' | 'ACTUAL_HP_LOSS';
+  sourceSkillKey: string | null; damageTypeKey: string | null;
+  deliveryKind: SkillTriggerDamageDeliveryKind; originKind: SkillTriggerDamageOriginKind };
+export function createEmptyBindingDetail(
   sourceType: SkillTriggerRuntimeInputSourceType
 ): SkillTriggerRuntimeInputBinding['detail'];
 export function createEmptyBindingDetail(
@@ -1147,12 +1163,13 @@ export function createEmptyBindingDetail(
 ): SkillTriggerRuntimeInputBinding['detail'] {
   switch (sourceType) {
     case 'INTERNAL_STATE':
-      return { stateKey: '', valueKind: 'VALUE', optionKey: null };
+      return { stateSkillKey: '', stateKey: '', valueKind: 'VALUE', optionKey: null };
     case 'COMBAT_STATUS':
       return {
         subject: 'CURRENT_TARGET',
         statusKey: '',
         valueKind: 'PRESENT',
+        effectSkillKey: null,
         sourceEffectKey: null,
         sourceResultKey: null
       };
@@ -1166,6 +1183,12 @@ export function createEmptyBindingDetail(
         sourceResultKey: '',
         outputKind: 'CONFIGURED_VALUE'
       };
+    case 'COMBAT_ELAPSED_TIME':
+      return { subject: 'SOURCE' };
+    case 'RECENT_DAMAGE_SUM':
+      return { subject: 'SOURCE', windowValue: fixedValue(Number.NaN),
+        outputKind: 'POST_DEFENSE_DAMAGE', sourceSkillKey: null, damageTypeKey: null,
+        deliveryKind: 'ANY', originKind: 'ANY' };
   }
 }
 
@@ -1363,6 +1386,14 @@ export function createEmptyBinding(
 ): SkillTriggerPriorResultBinding;
 export function createEmptyBinding(
   existingKeys: readonly string[],
+  sourceType: 'COMBAT_ELAPSED_TIME'
+): SkillTriggerCombatElapsedTimeBinding;
+export function createEmptyBinding(
+  existingKeys: readonly string[],
+  sourceType: 'RECENT_DAMAGE_SUM'
+): SkillTriggerRecentDamageSumBinding;
+export function createEmptyBinding(
+  existingKeys: readonly string[],
   sourceType?: SkillTriggerRuntimeInputSourceType
 ): SkillTriggerRuntimeInputBinding;
 export function createEmptyBinding(
@@ -1384,6 +1415,10 @@ export function createEmptyBinding(
       return { ...base, sourceType, detail: createEmptyBindingDetail('SOURCE_CAST_RESOURCE_COST') };
     case 'PRIOR_ACTION_RESULT':
       return { ...base, sourceType, detail: createEmptyBindingDetail('PRIOR_ACTION_RESULT') };
+    case 'COMBAT_ELAPSED_TIME':
+      return { ...base, sourceType, detail: createEmptyBindingDetail('COMBAT_ELAPSED_TIME') };
+    case 'RECENT_DAMAGE_SUM':
+      return { ...base, sourceType, detail: createEmptyBindingDetail('RECENT_DAMAGE_SUM') };
   }
 }
 
@@ -1605,6 +1640,7 @@ export function rebuildStatusCheckDetail(
       subject: current.subject,
       statusKey: current.statusKey,
       checkKind,
+      effectSkillKey: null,
       sourceEffectKey: null,
       sourceResultKey: null,
       comparator: null,
@@ -1615,6 +1651,8 @@ export function rebuildStatusCheckDetail(
     subject: current.subject,
     statusKey: current.statusKey,
     checkKind,
+    effectSkillKey: current.checkKind === 'STACKS_COMPARE' || current.checkKind === 'REMAINING_MS_COMPARE'
+      ? current.effectSkillKey : '',
     sourceEffectKey: current.checkKind === 'STACKS_COMPARE' || current.checkKind === 'REMAINING_MS_COMPARE'
       ? current.sourceEffectKey
       : '',
@@ -1656,6 +1694,7 @@ export function rebuildInternalStateCheckDetail(
 ): SkillTriggerInternalStateCheckDetail {
   if (valueKind === 'VALUE') {
     return {
+      stateSkillKey: current.stateSkillKey,
       stateKey: current.stateKey,
       valueKind,
       optionKey: null,
@@ -1670,6 +1709,7 @@ export function rebuildInternalStateCheckDetail(
   }
   if (valueKind === 'REMAINING_MS') {
     return {
+      stateSkillKey: current.stateSkillKey,
       stateKey: current.stateKey,
       valueKind,
       optionKey: null,
@@ -1684,6 +1724,7 @@ export function rebuildInternalStateCheckDetail(
   }
   if (valueKind === 'OPTION_SELECTED') {
     return {
+      stateSkillKey: current.stateSkillKey,
       stateKey: current.stateKey,
       valueKind,
       optionKey: current.valueKind === 'OPTION_SELECTED' ? current.optionKey : '',
@@ -1693,6 +1734,7 @@ export function rebuildInternalStateCheckDetail(
     };
   }
   return {
+    stateSkillKey: current.stateSkillKey,
     stateKey: current.stateKey,
     valueKind: 'ENABLED',
     optionKey: null,
@@ -1723,6 +1765,7 @@ export function rebuildCombatStatusBindingDetail(
       subject: current.subject,
       statusKey: current.statusKey,
       valueKind,
+      effectSkillKey: null,
       sourceEffectKey: null,
       sourceResultKey: null
     };
@@ -1731,6 +1774,8 @@ export function rebuildCombatStatusBindingDetail(
     subject: current.subject,
     statusKey: current.statusKey,
     valueKind,
+    effectSkillKey: current.valueKind === 'STACKS' || current.valueKind === 'REMAINING_MS'
+      ? current.effectSkillKey : '',
     sourceEffectKey: current.valueKind === 'STACKS' || current.valueKind === 'REMAINING_MS'
       ? current.sourceEffectKey
       : '',
@@ -1772,7 +1817,7 @@ export function patchStatusCompareFields(
   current: SkillTriggerStatusCheckConditionDraft,
   patch: Partial<Pick<
     SkillTriggerStatusCompareDetail,
-    'sourceEffectKey' | 'sourceResultKey' | 'comparator' | 'comparisonValue'
+    'effectSkillKey' | 'sourceEffectKey' | 'sourceResultKey' | 'comparator' | 'comparisonValue'
   >>
 ): SkillTriggerStatusCheckConditionDraft {
   if (current.detail.checkKind !== 'STACKS_COMPARE' && current.detail.checkKind !== 'REMAINING_MS_COMPARE') {
@@ -1851,7 +1896,7 @@ export function patchCombatStatusValueKind(
 
 export function patchCombatStatusMeasuredFields(
   current: SkillTriggerCombatStatusBinding,
-  patch: Partial<Pick<SkillTriggerCombatStatusMeasuredBindingDetail, 'sourceEffectKey' | 'sourceResultKey'>>
+  patch: Partial<Pick<SkillTriggerCombatStatusMeasuredBindingDetail, 'effectSkillKey' | 'sourceEffectKey' | 'sourceResultKey'>>
 ): SkillTriggerCombatStatusBinding {
   if (current.detail.valueKind === 'PRESENT') return current;
   return { ...current, detail: { ...current.detail, ...patch } };
@@ -2104,29 +2149,56 @@ function actionFromDetail(action: SkillTriggerAction): SkillTriggerActionDraft {
   }
 }
 
-export function fromDetail(detail: SkillTriggerRuleDetail): SkillTriggerRuleDraft {
+export function fromDetail(detail: SkillTriggerRuleDetail, ownerSkillKey?: string): SkillTriggerRuleDraft {
+  const normalized = ownerSkillKey ? structuredClone(detail) : detail;
+  if (ownerSkillKey) {
+    if (normalized.eventSource.eventType === 'INTERNAL_STATE_CHANGED') {
+      normalized.eventSource.detail.stateSkillKey ||= ownerSkillKey;
+    }
+    if (normalized.eventSource.eventType === 'DAMAGE_PENDING'
+      || normalized.eventSource.eventType === 'DAMAGE_DEALT'
+      || normalized.eventSource.eventType === 'DAMAGE_TAKEN') {
+      normalized.eventSource.detail.sourceSkillKey ??= null;
+    }
+    for (const group of normalized.conditionGroups) for (const condition of group.conditions) {
+      if (condition.conditionType === 'INTERNAL_STATE_CHECK') condition.detail.stateSkillKey ||= ownerSkillKey;
+      if (condition.conditionType === 'LIFECYCLE_CHECK') condition.detail.effectSkillKey ||= ownerSkillKey;
+      if (condition.conditionType === 'STATUS_CHECK') {
+        if (condition.detail.checkKind === 'PRESENT' || condition.detail.checkKind === 'ABSENT') {
+          condition.detail.effectSkillKey = null;
+        } else condition.detail.effectSkillKey ||= ownerSkillKey;
+      }
+    }
+    for (const action of normalized.actions) for (const binding of action.runtimeInputBindings) {
+      if (binding.sourceType === 'INTERNAL_STATE') binding.detail.stateSkillKey ||= ownerSkillKey;
+      if (binding.sourceType === 'COMBAT_STATUS') {
+        if (binding.detail.valueKind === 'PRESENT') binding.detail.effectSkillKey = null;
+        else binding.detail.effectSkillKey ||= ownerSkillKey;
+      }
+    }
+  }
   return {
-    ruleKey: detail.ruleKey,
-    name: detail.name,
-    description: detail.description ?? '',
-    sortOrder: String(detail.sortOrder),
-    eventSource: detail.eventSource,
-    conditionGroups: detail.conditionGroups.map((group) => ({
+    ruleKey: normalized.ruleKey,
+    name: normalized.name,
+    description: normalized.description ?? '',
+    sortOrder: String(normalized.sortOrder),
+    eventSource: normalized.eventSource,
+    conditionGroups: normalized.conditionGroups.map((group) => ({
       draftId: crypto.randomUUID(),
       groupKey: group.groupKey,
       name: group.name,
       sortOrder: String(group.sortOrder),
       conditions: group.conditions.map(conditionFromDetail)
     })),
-    actions: detail.actions.map(actionFromDetail),
-    perTargetCooldownEnabled: detail.perTargetCooldown !== null,
-    perTargetCooldownDurationValue: detail.perTargetCooldown?.durationValue ?? null,
-    perTargetCooldownTargetContext: detail.perTargetCooldown?.targetContext ?? 'CURRENT_TARGET',
-    maxTriggersPerProcessEnabled: detail.maxTriggersPerProcess !== null,
-    maxTriggersLimitValue: detail.maxTriggersPerProcess?.limitValue ?? null,
-    oncePerUseEnabled: detail.oncePerUse !== null,
-    oncePerUseGroupKey: detail.oncePerUse?.groupKey ?? '',
-    oncePerUseScope: detail.oncePerUse?.scope ?? 'SKILL'
+    actions: normalized.actions.map(actionFromDetail),
+    perTargetCooldownEnabled: normalized.perTargetCooldown !== null,
+    perTargetCooldownDurationValue: normalized.perTargetCooldown?.durationValue ?? null,
+    perTargetCooldownTargetContext: normalized.perTargetCooldown?.targetContext ?? 'CURRENT_TARGET',
+    maxTriggersPerProcessEnabled: normalized.maxTriggersPerProcess !== null,
+    maxTriggersLimitValue: normalized.maxTriggersPerProcess?.limitValue ?? null,
+    oncePerUseEnabled: normalized.oncePerUse !== null,
+    oncePerUseGroupKey: normalized.oncePerUse?.groupKey ?? '',
+    oncePerUseScope: normalized.oncePerUse?.scope ?? 'SKILL'
   };
 }
 
@@ -2381,7 +2453,8 @@ function usesEventSourceSubject(draft: SkillTriggerRuleDraft): boolean {
     return false;
   }));
   const inBindings = draft.actions.some((action) => action.runtimeInputBindings.some((binding) => (
-    binding.sourceType === 'COMBAT_STATUS' && binding.detail.subject === 'EVENT_SOURCE'
+    (binding.sourceType === 'COMBAT_STATUS' || binding.sourceType === 'COMBAT_ELAPSED_TIME'
+      || binding.sourceType === 'RECENT_DAMAGE_SUM') && binding.detail.subject === 'EVENT_SOURCE'
   )));
   const inActions = draft.actions.some((action) => action.targetContext === 'EVENT_SOURCE');
   const inCooldown = draft.perTargetCooldownEnabled
@@ -2500,6 +2573,12 @@ function cleanupBindingForEventSwitch(
       return patchCombatStatusBinding(binding, {
         subject: fallbackSubject(binding.detail.subject, hasEventSource)
       });
+    case 'COMBAT_ELAPSED_TIME':
+      return { ...binding, detail: { ...binding.detail,
+        subject: fallbackSubject(binding.detail.subject, hasEventSource) } };
+    case 'RECENT_DAMAGE_SUM':
+      return { ...binding, detail: { ...binding.detail,
+        subject: fallbackSubject(binding.detail.subject, hasEventSource) } };
     case 'INTERNAL_STATE':
     case 'PRIOR_ACTION_RESULT':
       return binding;
@@ -2740,6 +2819,10 @@ export function bindingSummary(binding: SkillTriggerRuntimeInputBinding): string
         binding.detail.statusKey,
         SKILL_TRIGGER_COMBAT_STATUS_VALUE_LABELS[binding.detail.valueKind]
       ].join(' / ');
+    case 'COMBAT_ELAPSED_TIME':
+      return `${SKILL_TRIGGER_SOURCE_TYPE_LABELS.COMBAT_ELAPSED_TIME} / ${SKILL_TRIGGER_SUBJECT_LABELS[binding.detail.subject]}`;
+    case 'RECENT_DAMAGE_SUM':
+      return `${SKILL_TRIGGER_SOURCE_TYPE_LABELS.RECENT_DAMAGE_SUM} / ${SKILL_TRIGGER_SUBJECT_LABELS[binding.detail.subject]} / ${numericValueSummary(binding.detail.windowValue)} 毫秒 / ${binding.detail.outputKind === 'ACTUAL_HP_LOSS' ? '实际扣血' : '防御后伤害'}`;
     case 'EVENT_VALUE':
       return [
         SKILL_TRIGGER_SOURCE_TYPE_LABELS.EVENT_VALUE,
@@ -2857,6 +2940,9 @@ export function sourceValueDomain(
 ): SkillTriggerValueDomain | null {
   switch (binding.sourceType) {
     case 'SOURCE_CAST_RESOURCE_COST':
+      return 'DECIMAL';
+    case 'COMBAT_ELAPSED_TIME':
+    case 'RECENT_DAMAGE_SUM':
       return 'DECIMAL';
     case 'INTERNAL_STATE':
       return binding.detail.valueKind === 'REMAINING_MS' ? 'DECIMAL' : 'INTEGER';
@@ -3145,7 +3231,10 @@ export function validateDraftChildKey(
 export function collectDirectValues(draft: SkillTriggerRuleDraft): NumericValue[] {
   return numericValuesIn({ eventSource: draft.eventSource, conditionGroups: draft.conditionGroups,
     cooldown: draft.perTargetCooldownEnabled ? draft.perTargetCooldownDurationValue : null,
-    limit: draft.maxTriggersPerProcessEnabled ? draft.maxTriggersLimitValue : null });
+    limit: draft.maxTriggersPerProcessEnabled ? draft.maxTriggersLimitValue : null,
+    recentDamageWindows: draft.actions.flatMap((action) => action.runtimeInputBindings
+      .filter((binding) => binding.sourceType === 'RECENT_DAMAGE_SUM')
+      .map((binding) => binding.detail.windowValue)) });
 }
 
 export function collectDirectFormulaKeys(draft: SkillTriggerRuleDraft): string[] {
@@ -3363,6 +3452,10 @@ export function validateSkillTriggerDraft(
   if (draft.eventSource.eventType === 'PROCESS_MOMENT' && !draft.eventSource.detail.processKey.trim()) {
     pushError(nestedErrors, 'eventSource.detail.processKey', '过程不能为空。');
   }
+  if (draft.eventSource.eventType === 'INTERNAL_STATE_CHANGED'
+    && !draft.eventSource.detail.stateSkillKey?.trim()) {
+    pushError(nestedErrors, 'eventSource.detail.stateSkillKey', '请选择内部状态所属技能。');
+  }
   if (draft.eventSource.eventType === 'LIFECYCLE_MOMENT' && draft.eventSource.detail.moment === 'PERIODIC') {
     const effect = options.effectsByKey?.get(draft.eventSource.detail.effectKey);
     if (effect && !effect.lifecycle?.periodicIntervalValue) {
@@ -3390,6 +3483,9 @@ export function validateSkillTriggerDraft(
     || draft.eventSource.eventType === 'DAMAGE_TAKEN'
   ) {
     const detail = draft.eventSource.detail;
+    if (detail.sourceSkillKey && !SKILL_TRIGGER_KEY_PATTERN.test(detail.sourceSkillKey)) {
+      pushError(nestedErrors, 'eventSource.detail.sourceSkillKey', '来源技能标识不合法。');
+    }
     if (
       detail.deliveryKind !== 'ANY'
       && detail.deliveryKind !== 'SKILL'
@@ -3445,9 +3541,18 @@ export function validateSkillTriggerDraft(
       }
       conditionKeys.add(condition.conditionKey.trim());
       if (condition.conditionType === 'LIFECYCLE_CHECK') {
-        const issue = lifecycleConditionError(condition.detail, options.effectsByKey?.get(condition.detail.effectKey), subjectOptionsForEvent(draft.eventSource.eventType),
-          { parameters: options.parameters, formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined }, {}, options.skillKey);
+        const ownEffect = !options.skillKey || condition.detail.effectSkillKey === options.skillKey;
+        const issue = ownEffect ? lifecycleConditionError(condition.detail,
+          options.effectsByKey?.get(condition.detail.effectKey), subjectOptionsForEvent(draft.eventSource.eventType),
+          { parameters: options.parameters, formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined }, {}, condition.detail.effectSkillKey)
+          : null;
         if (issue) pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.${issue.field}`, issue.message);
+        if (!condition.detail.effectSkillKey?.trim()) pushError(nestedErrors,
+          `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.effectSkillKey`, '请选择生命周期所属技能。');
+      }
+      if (condition.conditionType === 'INTERNAL_STATE_CHECK' && !condition.detail.stateSkillKey?.trim()) {
+        pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.stateSkillKey`,
+          '请选择内部状态所属技能。');
       }
       if (condition.conditionType === 'TARGET_CATEGORY_CHECK') {
         const error = targetCategoryConditionError(condition.detail, draft.eventSource.eventType);
@@ -3491,6 +3596,12 @@ export function validateSkillTriggerDraft(
           `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.sourceEffectKey`,
           '层数或剩余时间必须选择生命周期效果和状态施加结果。'
         );
+      }
+      if (condition.conditionType === 'STATUS_CHECK'
+        && (condition.detail.checkKind === 'STACKS_COMPARE' || condition.detail.checkKind === 'REMAINING_MS_COMPARE')
+        && !condition.detail.effectSkillKey?.trim()) {
+        pushError(nestedErrors, `conditionGroups[${groupIndex}].conditions[${conditionIndex}].detail.effectSkillKey`,
+          '请选择来源效果所属技能。');
       }
     }
   }
@@ -3561,6 +3672,37 @@ export function validateSkillTriggerDraft(
         pushError(nestedErrors, `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}].parameterKey`, '同一参数不能重复绑定。');
       }
       parameterKeys.add(binding.parameterKey);
+      const bindingPath = `actions[${actionIndex}].runtimeInputBindings[${bindingIndex}].detail`;
+      if (binding.sourceType === 'INTERNAL_STATE' && !binding.detail.stateSkillKey?.trim()) {
+        pushError(nestedErrors, `${bindingPath}.stateSkillKey`, '请选择内部状态所属技能。');
+      }
+      if (binding.sourceType === 'COMBAT_STATUS'
+        && binding.detail.valueKind !== 'PRESENT' && !binding.detail.effectSkillKey?.trim()) {
+        pushError(nestedErrors, `${bindingPath}.effectSkillKey`, '请选择来源效果所属技能。');
+      }
+      if (binding.sourceType === 'COMBAT_ELAPSED_TIME' || binding.sourceType === 'RECENT_DAMAGE_SUM') {
+        if (!subjectOptionsForEvent(draft.eventSource.eventType).includes(binding.detail.subject)) {
+          pushError(nestedErrors, `${bindingPath}.subject`, '当前事件不提供该读取对象。');
+        }
+      }
+      if (binding.sourceType === 'RECENT_DAMAGE_SUM') {
+        const windowError = numericValueError(binding.detail.windowValue,
+          { parameters: options.parameters, formulas: options.formulasByKey ? [...options.formulasByKey.values()] : undefined },
+          { min: 0, exclusiveMin: true, allowRuntimeInput: false });
+        if (windowError) pushError(nestedErrors, `${bindingPath}.windowValue`, windowError);
+        if (!['POST_DEFENSE_DAMAGE', 'ACTUAL_HP_LOSS'].includes(binding.detail.outputKind)) {
+          pushError(nestedErrors, `${bindingPath}.outputKind`, '请选择累计伤害口径。');
+        }
+        if (binding.detail.sourceSkillKey && !SKILL_TRIGGER_KEY_PATTERN.test(binding.detail.sourceSkillKey)) {
+          pushError(nestedErrors, `${bindingPath}.sourceSkillKey`, '来源技能标识不合法。');
+        }
+        if (!['ANY', 'SKILL', 'BASIC_ATTACK'].includes(binding.detail.deliveryKind)) {
+          pushError(nestedErrors, `${bindingPath}.deliveryKind`, '请选择伤害产生方式。');
+        }
+        if (!['ANY', 'DIRECT', 'REFLECTED'].includes(binding.detail.originKind)) {
+          pushError(nestedErrors, `${bindingPath}.originKind`, '请选择伤害来源性质。');
+        }
+      }
       if (binding.sourceType === 'SOURCE_CAST_RESOURCE_COST') {
         const reachable = reachableRuntimeInputParameters(collectActionValues(action, options), options.formulasByKey ?? new Map(), options.parameters ?? []);
         const processes = options.processesByKey ? [...options.processesByKey.values()] : undefined;

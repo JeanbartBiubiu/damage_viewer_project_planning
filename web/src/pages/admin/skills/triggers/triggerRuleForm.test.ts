@@ -479,7 +479,7 @@ describe('trigger event member set and capability table', () => {
     const switched = switchEventType(createEmptyEventSource('SKILL_USED'), 'DAMAGE_TAKEN');
     expect(switched).toEqual({
       eventType: 'DAMAGE_TAKEN',
-      detail: { damageTypeKey: null, deliveryKind: 'ANY', originKind: 'ANY' }
+      detail: { sourceSkillKey: null, damageTypeKey: null, deliveryKind: 'ANY', originKind: 'ANY' }
     });
     expect(createEmptyEventSource('SPELL_SHIELD_BLOCKED')).toEqual({
       eventType: 'SPELL_SHIELD_BLOCKED',
@@ -493,7 +493,7 @@ describe('trigger event member set and capability table', () => {
       eventType: 'ATTACK_LINK_APPLIED',
       detail: { sourceSkillKey: null }
     });
-    expect(switched.detail).not.toHaveProperty('sourceSkillKey');
+    expect(switched.detail).toHaveProperty('sourceSkillKey', null);
     expect(switched.detail).not.toHaveProperty('useKind');
     const same = createEmptyEventSource('KILL');
     expect(switchEventType(same, 'KILL')).toBe(same);
@@ -762,7 +762,9 @@ describe('condition, action and runtime-source conversion with stale-field clean
       'COMBAT_STATUS',
       'EVENT_VALUE',
       'SOURCE_CAST_RESOURCE_COST',
-      'PRIOR_ACTION_RESULT'
+      'PRIOR_ACTION_RESULT',
+      'COMBAT_ELAPSED_TIME',
+      'RECENT_DAMAGE_SUM'
     ]);
   });
 
@@ -787,6 +789,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       subject: 'CURRENT_TARGET',
       statusKey: '',
       checkKind: 'STACKS_COMPARE',
+      effectSkillKey: '',
       sourceEffectKey: '',
       sourceResultKey: '',
       comparator: 'GTE',
@@ -796,6 +799,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
       subject: 'CURRENT_TARGET',
       statusKey: '',
       checkKind: 'PRESENT',
+      effectSkillKey: null,
       sourceEffectKey: null,
       sourceResultKey: null,
       comparator: null,
@@ -805,6 +809,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
     const valueCheck = createEmptyConditionDraft([], 'INTERNAL_STATE_CHECK');
     const optionCheck = rebuildInternalStateCheckDetail(valueCheck.detail, 'OPTION_SELECTED');
     expect(optionCheck).toEqual({
+      stateSkillKey: '',
       stateKey: '',
       valueKind: 'OPTION_SELECTED',
       optionKey: '',
@@ -814,6 +819,7 @@ describe('condition, action and runtime-source conversion with stale-field clean
     });
     const enabledCheck = rebuildInternalStateCheckDetail(optionCheck, 'ENABLED');
     expect(enabledCheck).toEqual({
+      stateSkillKey: '',
       stateKey: '',
       valueKind: 'ENABLED',
       optionKey: null,

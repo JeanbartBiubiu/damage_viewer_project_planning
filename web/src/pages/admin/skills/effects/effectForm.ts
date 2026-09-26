@@ -1,6 +1,7 @@
 import type { SkillParameter } from '../../../../types/skillParameter';
 import type { GameVampRule } from '../../../../types/gameVamp';
 import { numericIssuePath, numericValueError, staticNumericValues } from '../numericValueForm';
+import { staticShieldStackValueIssue } from './damageModifierConditionFormula';
 import { isValidCooldownRemainingDuration } from '../../../../types/cooldownRemaining';
 import { isValidCooldownReductionRatio } from '../../../../types/cooldownRatio';
 import { isValidHealingRatioMaxDecrease } from '../../../../types/healingRatioMax';
@@ -20,7 +21,7 @@ import type { DamageType } from '../../../../types/damageType';
 import type { ModifierZone, ModifierZoneDomain } from '../../../../types/modifierZone';
 import type { Skill } from '../../../../types/skill';
 import type { SkillCategory } from '../../../../types/skillCategory';
-import type { SkillFormulaSummary } from '../../../../types/skillFormula';
+import type { SkillFormulaSummary, FormulaExpressionNode } from '../../../../types/skillFormula';
 import type {
   AttributeChangeOperation,
   CooldownChangeOperation,
@@ -367,6 +368,7 @@ export type SkillEffectLifecycleDraft = {
   expiryMode: SkillEffectExpiryMode | '';
   periodicIntervalValue: NumericValue | null;
   firstPeriodicExecution: SkillEffectFirstPeriodicExecution | '';
+  endWhenShieldEndsResultKey: string;
 };
 
 export type SkillEffectResultLifecycleBehaviorDraft = {
@@ -477,7 +479,8 @@ export type SkillEffectDraftField =
   | 'reapplicationDurationMode'
   | 'expiryMode'
   | 'periodicIntervalValue'
-  | 'firstPeriodicExecution';
+  | 'firstPeriodicExecution'
+  | 'endWhenShieldEndsResultKey';
 
 export type SkillEffectResultDraftField =
   | 'resultKey'
@@ -578,7 +581,7 @@ export type EffectCatalogLoadState = {
 export type EffectFormCatalog = {
   parentSkillKey: string;
   parentEffectKey?: string;
-  formulas: ReadonlyArray<Pick<SkillFormulaSummary, 'formulaKey'>>;
+  formulas: ReadonlyArray<Pick<SkillFormulaSummary, 'formulaKey'> & { expression?: FormulaExpressionNode }>;
   effects: ReadonlyArray<Pick<SkillEffectSummary, 'effectKey' | 'name' | 'lifecycleEnabled'>>;
   damageTypes: ReadonlyArray<Pick<DamageType, 'damageTypeKey' | 'status'>>;
   attributes: ReadonlyArray<Pick<Attribute, 'attributeKey' | 'status'>>;
@@ -642,7 +645,8 @@ const EFFECT_DRAFT_FIELDS = new Set<SkillEffectDraftField>([
   'reapplicationDurationMode',
   'expiryMode',
   'periodicIntervalValue',
-  'firstPeriodicExecution'
+  'firstPeriodicExecution',
+  'endWhenShieldEndsResultKey'
 ]);
 
 const LIFECYCLE_FIELD_BY_PATH: { [path: string]: SkillEffectDraftField } = {
@@ -655,7 +659,8 @@ const LIFECYCLE_FIELD_BY_PATH: { [path: string]: SkillEffectDraftField } = {
   'lifecycle.reapplicationDurationMode': 'reapplicationDurationMode',
   'lifecycle.expiryMode': 'expiryMode',
   'lifecycle.periodicIntervalValue': 'periodicIntervalValue',
-  'lifecycle.firstPeriodicExecution': 'firstPeriodicExecution'
+  'lifecycle.firstPeriodicExecution': 'firstPeriodicExecution',
+  'lifecycle.endWhenShieldEndsResultKey': 'endWhenShieldEndsResultKey'
 };
 
 const RESULT_FIELD_BY_PATH: { [path: string]: SkillEffectResultDraftField } = {
@@ -726,7 +731,8 @@ export function createEmptyLifecycleDraft(): SkillEffectLifecycleDraft {
     reapplicationDurationMode: '',
     expiryMode: '',
     periodicIntervalValue: null,
-    firstPeriodicExecution: ''
+    firstPeriodicExecution: '',
+    endWhenShieldEndsResultKey: ''
   };
 }
 
@@ -1454,6 +1460,7 @@ export function hasLifecycleDraftContent(draft: SkillEffectDraft): boolean {
       || (lifecycle.expiryMode && lifecycle.expiryMode !== 'EXPLICIT_ONLY')
       || lifecycle.periodicIntervalValue
       || lifecycle.firstPeriodicExecution
+      || lifecycle.endWhenShieldEndsResultKey
     ) {
       return true;
     }
@@ -2040,6 +2047,40 @@ export function validateSkillEffectDraft(
     }
   }
 
+  const shieldKey = (prepared.lifecycle.endWhenShieldEndsResultKey ?? '').trim();
+  if (prepared.lifecycleEnabled && shieldKey) {
+    const shield = prepared.results.find((item) => item.resultKey.trim() === shieldKey);
+    if (!shield || shield.resultType !== 'NORMAL_SHIELD') {
+      fieldErrors.endWhenShieldEndsResultKey = '只能引用当前效果内的普通护盾结果。';
+    } else if (shield.lifecycleBehavior.moment !== 'PERSISTENT'
+      || shield.lifecycleBehavior.stackValueMode !== 'SHARED') {
+      fieldErrors.endWhenShieldEndsResultKey = '被引用的普通护盾须持续生效且共用层数值。';
+    } else if (prepared.lifecycle.instanceScope === 'SKILL'
+      || (prepared.lifecycle.instanceScope === 'SOURCE' && shield.target !== 'SOURCE')
+      || ((prepared.lifecycle.instanceScope === 'TARGET' || prepared.lifecycle.instanceScope === 'SOURCE_TARGET')
+        && shield.target !== 'TARGET')) {
+      fieldErrors.endWhenShieldEndsResultKey = '护盾作用对象与生命周期实例范围不一致。';
+    } else if (prepared.results.some((item) => item.lifecycleBehavior.moment === 'PERSISTENT'
+      && item.target !== shield.target)) {
+      fieldErrors.endWhenShieldEndsResultKey = '同一效果中的持续结果须与被引用护盾作用于同一对象。';
+    }
+    if (prepared.lifecycle.reapplicationStackMode !== 'KEEP'
+      || (prepared.lifecycle.expiryMode !== 'ALL_AT_ONCE'
+        && prepared.lifecycle.expiryMode !== 'EXPLICIT_ONLY')
+      || prepared.lifecycle.reapplicationDurationMode === 'INDEPENDENT') {
+      fieldErrors.endWhenShieldEndsResultKey = '关联盾要求保留层数、统一或显式到期，且不能独立重施计时。';
+    }
+    const staticFormulas = (options.catalog?.formulas ?? []).flatMap((item) => item.expression
+      ? [{ formulaKey: item.formulaKey, expression: item.expression }] : []);
+    for (const [field, value] of [
+      ['maxStacksValue', prepared.lifecycle.maxStacksValue],
+      ['applicationStacksValue', prepared.lifecycle.applicationStacksValue]
+    ] as const) {
+      const issue = staticShieldStackValueIssue(value, options.parameters ?? [], staticFormulas);
+      if (issue) fieldErrors[field] = issue;
+    }
+  }
+
   if (Object.keys(fieldErrors).length > 0 || !allResultsValid) {
     return { ok: false, fieldErrors, resultErrors };
   }
@@ -2243,7 +2284,8 @@ function lifecycleToDraft(lifecycle: SkillEffectLifecycle | null): SkillEffectLi
     reapplicationDurationMode: lifecycle.reapplicationDurationMode ?? '',
     expiryMode: lifecycle.expiryMode,
     periodicIntervalValue: lifecycle.periodicIntervalValue ?? null,
-    firstPeriodicExecution: lifecycle.firstPeriodicExecution ?? ''
+    firstPeriodicExecution: lifecycle.firstPeriodicExecution ?? '',
+    endWhenShieldEndsResultKey: lifecycle.endWhenShieldEndsResultKey ?? ''
   };
 }
 
@@ -3230,6 +3272,7 @@ function validateDisabledLifecycle(
     || lifecycle.expiryMode
     || lifecycle.periodicIntervalValue
     || lifecycle.firstPeriodicExecution
+    || lifecycle.endWhenShieldEndsResultKey
   ) {
     fieldErrors.lifecycle = '无生命周期效果不能携带生命周期配置。';
   }
@@ -3351,7 +3394,8 @@ function validateAndBuildLifecycle(
     periodicIntervalValue: hasPeriodic ? periodicIntervalValue : null,
     firstPeriodicExecution: hasPeriodic
       ? lifecycle.firstPeriodicExecution as SkillEffectFirstPeriodicExecution
-      : null
+      : null,
+    endWhenShieldEndsResultKey: (lifecycle.endWhenShieldEndsResultKey ?? '').trim() || null
   };
 }
 
