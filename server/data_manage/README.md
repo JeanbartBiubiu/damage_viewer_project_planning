@@ -158,7 +158,7 @@
 
 指定开发库可通过 [VerifyRuneMigration.java](../../tools/authoring/VerifyRuneMigration.java) 执行：参数为后端根目录及`--inspect`；正式追加改为`--apply`并附已审查SQL的SHA256。只读模式输出表、约束、分区和逐表摘要；写模式在同事务锁定现有表，验证24→27、新表为空及原有数据摘要不变后提交。提交结果未知时必须先只读核对，不能重放。验收记录保存在忽略目录`output/rune-management/`，不输出凭据。
 
-符文共享字段、槽位规则、接口和错误含义以 [符文基础管理详细设计](../../../damage_viewer_project_planning/文档记录/详细设计/项目/符文基础管理详细设计.md) 为唯一契约。实现入口为 `RuneService`、`RuneRelationService` 和 `mapper/rune/RuneMapper.xml`；所有写入沿用同游戏保护器，槽位引用由服务在持有游戏写锁时整对象正向校验与反查，未加入五类技能对象的引用索引。删除布局保留符文，删除脱离位置的符文通过外键清挂载，并由服务清其代表图；共享技能和图片保留。
+当前符文专用实现是[构筑系统管理与场景装配](../../../damage_viewer_project_planning/文档记录/详细设计/项目/构筑系统管理与场景装配详细设计.md)的迁移基线。现行入口仍为 `RuneService`、`RuneRelationService` 和 `mapper/rune/RuneMapper.xml`；所有写入沿用同游戏保护器，槽位引用由服务在持有游戏写锁时整对象正向校验与反查，未加入五类技能对象的引用索引。删除布局保留符文，删除脱离位置的符文通过外键清挂载，并由服务清其代表图；共享技能和图片保留。通用构筑接口完成验收后直接删除这些符文专用入口，不保留兼容层。
 
 针对性检查：`mvn "-Dtest=RuneServiceTest,RuneRelationServiceTest,RuneMapperTest,RuneSchemaSqlTest,RuneAdminControllerTest,ImageRelationServiceTest,ImageRelationMapperContractTest,ImageRelationAdminControllerTest,SkillRelationMapperTest,LegacyCombatDataCleanupDbContractSqlTest" test`。完成迁移后必须核对实际 27 表结构、公开游戏/图片读取，以及新增、替换、跨游戏和重复引用拒绝、类别占用、删除保留与图片用途回读。上述入口和单测不代表实库迁移或浏览器验收已经完成。
 
