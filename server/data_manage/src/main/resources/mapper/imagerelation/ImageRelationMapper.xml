@@ -43,13 +43,13 @@
                 SELECT COUNT(*) FROM public.equipment
                 WHERE game_id = #{gameId} AND equipment_key = #{sourceKey} AND #{sourceParentKey} = ''
             </when>
-            <when test="sourceType == 'RUNE'">
-                SELECT COUNT(*) FROM public.runes
-                WHERE game_id = #{gameId} AND rune_key = #{sourceKey} AND #{sourceParentKey} = ''
+            <when test="sourceType == 'BUILD_OPTION'">
+                SELECT COUNT(*) FROM public.build_options
+                WHERE game_id = #{gameId} AND system_key = #{sourceParentKey} AND option_key = #{sourceKey}
             </when>
-            <when test="sourceType == 'RUNE_PATH'">
-                SELECT COUNT(*) FROM public.rune_paths
-                WHERE game_id = #{gameId} AND path_key = #{sourceKey} AND #{sourceParentKey} = ''
+            <when test="sourceType == 'BUILD_GROUP'">
+                SELECT COUNT(*) FROM public.build_groups
+                WHERE game_id = #{gameId} AND system_key = #{sourceParentKey} AND group_key = #{sourceKey}
             </when>
             <when test="sourceType == 'SKILL'">
                 SELECT COUNT(*) FROM public.skills
@@ -94,6 +94,16 @@
           AND ((source_type = 'SKILL' AND source_parent_key = '' AND source_key = #{skillKey})
                OR (source_type = 'SKILL_EFFECT' AND source_parent_key = #{skillKey}))
     </delete>
+    <delete id="deleteForBuildSystem">
+        DELETE FROM public.image_relations
+        WHERE game_id = #{gameId}
+          AND source_parent_key = #{systemKey}
+          AND source_type IN ('BUILD_OPTION', 'BUILD_GROUP')
+    </delete>
+    <select id="countBuildSystem" resultType="long">
+        SELECT COUNT(*) FROM public.build_systems
+        WHERE game_id = #{gameId} AND system_key = #{systemKey}
+    </select>
     <select id="listOptions" resultMap="option">
         SELECT image_key, name FROM public.images
         WHERE game_id = #{gameId} AND enabled = TRUE
@@ -109,11 +119,15 @@
                    WHEN 'ATTRIBUTE' THEN a.name WHEN 'EQUIPMENT' THEN q.name
                    WHEN 'SKILL' THEN s.name WHEN 'SKILL_EFFECT' THEN e.name
                    WHEN 'STATUS' THEN t.name
-                   WHEN 'RUNE' THEN u.name WHEN 'RUNE_PATH' THEN v.name
+                   WHEN 'BUILD_OPTION' THEN bo.name WHEN 'BUILD_GROUP' THEN bg.name
                END AS source_name,
                CASE r.source_type WHEN 'ATTRIBUTE' THEN a.status
                    WHEN 'SKILL' THEN s.status WHEN 'STATUS' THEN t.status END AS source_status,
-               p.name AS parent_name
+               CASE r.source_type
+                   WHEN 'SKILL_EFFECT' THEN p.name
+                   WHEN 'BUILD_OPTION' THEN sys.name
+                   WHEN 'BUILD_GROUP' THEN sys.name
+               END AS parent_name
         FROM public.image_relations r
         LEFT JOIN public.games g ON r.source_type = 'GAME' AND r.source_parent_key = ''
              AND g.game_id = r.game_id AND g.game_id = r.source_key
@@ -123,10 +137,12 @@
              AND a.game_id = r.game_id AND a.attribute_key = r.source_key
         LEFT JOIN public.equipment q ON r.source_type = 'EQUIPMENT' AND r.source_parent_key = ''
              AND q.game_id = r.game_id AND q.equipment_key = r.source_key
-        LEFT JOIN public.runes u ON r.source_type = 'RUNE' AND r.source_parent_key = ''
-             AND u.game_id = r.game_id AND u.rune_key = r.source_key
-        LEFT JOIN public.rune_paths v ON r.source_type = 'RUNE_PATH' AND r.source_parent_key = ''
-             AND v.game_id = r.game_id AND v.path_key = r.source_key
+        LEFT JOIN public.build_options bo ON r.source_type = 'BUILD_OPTION'
+             AND bo.game_id = r.game_id AND bo.system_key = r.source_parent_key AND bo.option_key = r.source_key
+        LEFT JOIN public.build_groups bg ON r.source_type = 'BUILD_GROUP'
+             AND bg.game_id = r.game_id AND bg.system_key = r.source_parent_key AND bg.group_key = r.source_key
+        LEFT JOIN public.build_systems sys ON r.source_type IN ('BUILD_OPTION', 'BUILD_GROUP')
+             AND sys.game_id = r.game_id AND sys.system_key = r.source_parent_key
         LEFT JOIN public.skills s ON r.source_type = 'SKILL' AND r.source_parent_key = ''
              AND s.game_id = r.game_id AND s.skill_key = r.source_key
         LEFT JOIN public.skill_effects e ON r.source_type = 'SKILL_EFFECT'

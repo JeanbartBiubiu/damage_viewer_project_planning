@@ -40,7 +40,8 @@ class ImageRelationMapperContractTest {
 
     @ParameterizedTest
     @CsvSource({"GAME,games", "CHARACTER,characters", "ATTRIBUTE,attributes", "EQUIPMENT,equipment",
-        "SKILL,skills", "SKILL_EFFECT,skill_effects", "STATUS,statuses", "RUNE,runes", "RUNE_PATH,rune_paths"})
+        "SKILL,skills", "SKILL_EFFECT,skill_effects", "STATUS,statuses",
+        "BUILD_OPTION,build_options", "BUILD_GROUP,build_groups"})
     void fixedSourceSelectorKeepsKeysAsBoundValues(String type, String table) {
         String sql = configuration.getMappedStatement(NAMESPACE + "countSource").getBoundSql(parameters(type)).getSql();
         assertTrue(sql.contains("public." + table));
@@ -65,10 +66,11 @@ class ImageRelationMapperContractTest {
         String usages = configuration.getMappedStatement(NAMESPACE + "listUsages").getBoundSql(parameters("GAME")).getSql();
         assertTrue(usages.contains("LEFT JOIN public.skill_effects"));
         assertTrue(usages.contains("e.skill_key = r.source_parent_key"));
-        assertTrue(usages.contains("LEFT JOIN public.runes"));
-        assertTrue(usages.contains("u.game_id = r.game_id AND u.rune_key = r.source_key"));
-        assertTrue(usages.contains("LEFT JOIN public.rune_paths"));
-        assertTrue(usages.contains("v.game_id = r.game_id AND v.path_key = r.source_key"));
+        assertTrue(usages.contains("LEFT JOIN public.build_options"));
+        assertTrue(usages.contains("bo.system_key = r.source_parent_key AND bo.option_key = r.source_key"));
+        assertTrue(usages.contains("LEFT JOIN public.build_groups"));
+        assertTrue(usages.contains("bg.system_key = r.source_parent_key AND bg.group_key = r.source_key"));
+        assertTrue(usages.contains("LEFT JOIN public.build_systems"));
         String options = configuration.getMappedStatement(NAMESPACE + "listOptions").getBoundSql(parameters("GAME")).getSql();
         assertTrue(options.contains("enabled = TRUE"));
         assertTrue(options.contains("LIMIT 50"));
@@ -76,6 +78,7 @@ class ImageRelationMapperContractTest {
 
     private static Map<String, Object> parameters(String type) {
         return Map.of("gameId", "lol", "sourceType", type, "sourceParentKey", "parent-key",
-            "sourceKey", "object-key", "imageKey", "icon", "skillKey", "q", "keyword", "icon");
+            "sourceKey", "object-key", "imageKey", "icon", "skillKey", "q", "keyword", "icon",
+            "systemKey", "runes");
     }
 }

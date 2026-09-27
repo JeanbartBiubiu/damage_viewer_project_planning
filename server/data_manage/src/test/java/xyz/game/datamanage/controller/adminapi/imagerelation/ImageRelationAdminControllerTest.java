@@ -58,8 +58,8 @@ class ImageRelationAdminControllerTest {
             Arguments.of("/skills/q", "SKILL", "", "q"),
             Arguments.of("/skills/q/effects/hit", "SKILL_EFFECT", "q", "hit"),
             Arguments.of("/statuses/burn", "STATUS", "", "burn"),
-            Arguments.of("/runes/focus", "RUNE", "", "focus"),
-            Arguments.of("/rune-paths/precision", "RUNE_PATH", "", "precision")
+            Arguments.of("/build-systems/runes/options/focus", "BUILD_OPTION", "runes", "focus"),
+            Arguments.of("/build-systems/runes/groups/precision", "BUILD_GROUP", "runes", "precision")
         );
     }
 
@@ -69,6 +69,7 @@ class ImageRelationAdminControllerTest {
         String path = ROOT + prefix + "/representative-image";
         when(mapper.countSource("lol", type, parent, key)).thenReturn(1L);
         if (type.equals("SKILL_EFFECT")) when(mapper.countSource("lol", "SKILL", "", "q")).thenReturn(1L);
+        if (type.equals("BUILD_OPTION") || type.equals("BUILD_GROUP")) when(mapper.countBuildSystem("lol", parent)).thenReturn(1L);
         mvc.perform(get(path)).andExpect(status().isOk()).andExpect(content().json("{\"image\":null}"));
         when(mapper.findImage("lol", "icon")).thenReturn(new RepresentativeImageResponse.Image("icon", "图标", true));
         mvc.perform(put(path).contentType(MediaType.APPLICATION_JSON).content("{\"imageKey\":\" icon \"}"))
@@ -133,10 +134,21 @@ class ImageRelationAdminControllerTest {
     }
 
     @Test
-    void usageResponseKeepsAllSevenEmptyArrays() throws Exception {
+    void usageResponseKeepsTypedEmptyArrays() throws Exception {
         when(mapper.findImage("lol", "icon")).thenReturn(new RepresentativeImageResponse.Image("icon", "图标", true));
         mvc.perform(get(ROOT + "/images/icon/usages")).andExpect(status().isOk())
-            .andExpect(content().json("{\"imageKey\":\"icon\",\"games\":[],\"characters\":[],\"attributes\":[],\"equipment\":[],\"skills\":[],\"skillEffects\":[],\"statuses\":[]}"));
+            .andExpect(content().json("""
+                {"imageKey":"icon","games":[],"characters":[],"attributes":[],"equipment":[],"skills":[],
+                 "skillEffects":[],"statuses":[],"buildOptions":[],"buildGroups":[]}
+                """, true))
+            .andExpect(jsonPath("$.runes").doesNotExist())
+            .andExpect(jsonPath("$.runePaths").doesNotExist());
+    }
+
+    @Test
+    void oldRuneImageRoutesAreAbsent() throws Exception {
+        mvc.perform(get(ROOT + "/runes/focus/representative-image")).andExpect(status().isNotFound());
+        mvc.perform(get(ROOT + "/rune-paths/precision/representative-image")).andExpect(status().isNotFound());
     }
 
     @Test

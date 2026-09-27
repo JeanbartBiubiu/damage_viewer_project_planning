@@ -422,6 +422,26 @@ class SkillServiceTest {
     }
 
     @Test
+    void maxLevelCannotShrinkBelowExistingBuildGrantForEitherUpdatePath() {
+        when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 5));
+        when(mapper.listRelationKeys(GAME_ID, SKILL_KEY)).thenReturn(List.of());
+        when(skillRelationMapper.countBuildGrantsExceedingMaxLevel(GAME_ID, SKILL_KEY, 3)).thenReturn(1L);
+        SkillUpdateRequest request = new SkillUpdateRequest(
+            null, "秘术射击", null, 3, SkillStatus.ENABLED, 10, List.of());
+
+        ApiException direct = assertThrows(ApiException.class, () -> service.update(GAME_ID, SKILL_KEY, request));
+        assertEquals("409.SKILL_IN_USE", direct.getCode());
+        assertEquals("maxLevel", firstField(direct));
+
+        ApiException aggregate = assertThrows(ApiException.class,
+            () -> service.updateWithinConfiguration(GAME_ID, SKILL_KEY, request));
+        assertEquals("409.SKILL_IN_USE", aggregate.getCode());
+        assertEquals("maxLevel", firstField(aggregate));
+        verify(mapper, never()).update(anyString(), anyString(), any(), any(), any(), anyString(), any());
+        verifyNoInteractions(parameterMapper);
+    }
+
+    @Test
     void deleteSkillRemovesFormulasThenParametersThenSkill() {
         when(mapper.findByIdForUpdate(GAME_ID, SKILL_KEY)).thenReturn(row(SKILL_KEY, 10));
         when(formulaMapper.deleteAllForSkill(GAME_ID, SKILL_KEY)).thenReturn(2);

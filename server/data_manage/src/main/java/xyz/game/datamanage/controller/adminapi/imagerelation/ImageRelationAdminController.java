@@ -46,8 +46,8 @@ public class ImageRelationAdminController {
         "/characters/{characterKey}/representative-image",
         "/attributes/{attributeKey}/representative-image",
         "/equipment/{equipmentKey}/representative-image",
-        "/runes/{runeKey}/representative-image",
-        "/rune-paths/{pathKey}/representative-image",
+        "/build-systems/{systemKey}/options/{optionKey}/representative-image",
+        "/build-systems/{systemKey}/groups/{groupKey}/representative-image",
         "/skills/{skillKey}/representative-image",
         "/skills/{skillKey}/effects/{effectKey}/representative-image",
         "/statuses/{statusKey}/representative-image"
@@ -62,8 +62,8 @@ public class ImageRelationAdminController {
         "/characters/{characterKey}/representative-image",
         "/attributes/{attributeKey}/representative-image",
         "/equipment/{equipmentKey}/representative-image",
-        "/runes/{runeKey}/representative-image",
-        "/rune-paths/{pathKey}/representative-image",
+        "/build-systems/{systemKey}/options/{optionKey}/representative-image",
+        "/build-systems/{systemKey}/groups/{groupKey}/representative-image",
         "/skills/{skillKey}/representative-image",
         "/skills/{skillKey}/effects/{effectKey}/representative-image",
         "/statuses/{statusKey}/representative-image"
@@ -88,8 +88,8 @@ public class ImageRelationAdminController {
         "/characters/{characterKey}/representative-image",
         "/attributes/{attributeKey}/representative-image",
         "/equipment/{equipmentKey}/representative-image",
-        "/runes/{runeKey}/representative-image",
-        "/rune-paths/{pathKey}/representative-image",
+        "/build-systems/{systemKey}/options/{optionKey}/representative-image",
+        "/build-systems/{systemKey}/groups/{groupKey}/representative-image",
         "/skills/{skillKey}/representative-image",
         "/skills/{skillKey}/effects/{effectKey}/representative-image",
         "/statuses/{statusKey}/representative-image"
@@ -133,8 +133,16 @@ public class ImageRelationAdminController {
         if (path.containsKey("effectKey")) {
             return new Target(ImageRelationSource.SKILL_EFFECT, path.get("skillKey"), path.get("effectKey"));
         }
+        if (path.containsKey("optionKey")) {
+            return new Target(ImageRelationSource.BUILD_OPTION, path.get("systemKey"), path.get("optionKey"));
+        }
+        if (path.containsKey("groupKey")) {
+            return new Target(ImageRelationSource.BUILD_GROUP, path.get("systemKey"), path.get("groupKey"));
+        }
         for (ImageRelationSource type : ImageRelationSource.values()) {
-            if (type != ImageRelationSource.GAME && type != ImageRelationSource.SKILL_EFFECT && path.containsKey(type.keyField())) {
+            if (type != ImageRelationSource.GAME && type != ImageRelationSource.SKILL_EFFECT
+                && type != ImageRelationSource.BUILD_OPTION && type != ImageRelationSource.BUILD_GROUP
+                && path.containsKey(type.keyField())) {
                 return new Target(type, "", path.get(type.keyField()));
             }
         }

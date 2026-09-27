@@ -130,8 +130,8 @@ class ImageRelationServiceTest {
             row("SKILL", "", "q", "秘术射击", "DISABLED", null),
             row("SKILL_EFFECT", "q", "hit", "命中", null, "秘术射击"),
             row("STATUS", "", "burn", "灼烧", "DISABLED", null),
-            row("RUNE", "", "focus", "专注", null, null),
-            row("RUNE_PATH", "", "precision", "精密", null, null)
+            row("BUILD_OPTION", "runes", "focus", "专注", null, "符文"),
+            row("BUILD_GROUP", "runes", "precision", "精密", null, "符文")
         ));
         var response = service.usages("lol", "icon");
         assertEquals("lol", response.games().getFirst().gameId());
@@ -142,10 +142,12 @@ class ImageRelationServiceTest {
         assertEquals("q", response.skillEffects().getFirst().skillKey());
         assertEquals("hit", response.skillEffects().getFirst().effectKey());
         assertEquals("DISABLED", response.statuses().getFirst().statusStatus());
-        assertEquals("focus", response.runes().getFirst().runeKey());
-        assertEquals("专注", response.runes().getFirst().runeName());
-        assertEquals("precision", response.runePaths().getFirst().pathKey());
-        assertEquals("精密", response.runePaths().getFirst().pathName());
+        assertEquals("runes", response.buildOptions().getFirst().systemKey());
+        assertEquals("focus", response.buildOptions().getFirst().optionKey());
+        assertEquals("专注", response.buildOptions().getFirst().optionName());
+        assertEquals("runes", response.buildGroups().getFirst().systemKey());
+        assertEquals("precision", response.buildGroups().getFirst().groupKey());
+        assertEquals("精密", response.buildGroups().getFirst().groupName());
     }
 
     @Test
@@ -171,8 +173,8 @@ class ImageRelationServiceTest {
         assertTrue(response.skills().isEmpty());
         assertTrue(response.skillEffects().isEmpty());
         assertTrue(response.statuses().isEmpty());
-        assertTrue(response.runes().isEmpty());
-        assertTrue(response.runePaths().isEmpty());
+        assertTrue(response.buildOptions().isEmpty());
+        assertTrue(response.buildGroups().isEmpty());
     }
 
     @Test
@@ -203,6 +205,9 @@ class ImageRelationServiceTest {
         when(games.countGames("lol")).thenReturn(1L);
         when(mapper.countSource("lol", source.name(), parent, key)).thenReturn(1L);
         if (source == ImageRelationSource.SKILL_EFFECT) when(mapper.countSource("lol", "SKILL", "", parent)).thenReturn(1L);
+        if (source == ImageRelationSource.BUILD_OPTION || source == ImageRelationSource.BUILD_GROUP) {
+            when(mapper.countBuildSystem("lol", parent)).thenReturn(1L);
+        }
     }
 
     private static RepresentativeImageRequest request(String key) { return new RepresentativeImageRequest(key, Set.of()); }

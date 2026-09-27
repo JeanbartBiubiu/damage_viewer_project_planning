@@ -81,7 +81,18 @@ class SkillRelationMapperTest {
         String sql = sql("countBySkill", Map.of("gameId", "lol", "skillKey", "fire"));
         assertTrue(sql.contains("FROM public.character_skill_relations WHERE game_id = ? AND skill_key = ?"));
         assertTrue(sql.contains("FROM public.equipment_skill_relations WHERE game_id = ? AND skill_key = ?"));
-        assertTrue(sql.contains("FROM public.rune_skill_relations WHERE game_id = ? AND skill_key = ?"));
+        assertTrue(sql.contains("FROM public.build_option_skill_relations WHERE game_id = ? AND skill_key = ?"));
+    }
+
+    @Test
+    void maxLevelGuardChecksFixedAndOptionRankGrants() {
+        String sql = sql("countBuildGrantsExceedingMaxLevel",
+            Map.of("gameId", "lol", "skillKey", "fire", "maxLevel", 3));
+        assertTrue(sql.contains("JOIN public.build_options o"));
+        assertTrue(sql.contains("r.fixed_skill_level > ?"));
+        assertTrue(sql.contains("o.max_rank > ?"));
+        assertTrue(sql.contains("r.game_id = ?"));
+        assertTrue(sql.contains("r.skill_key = ?"));
     }
 
     private String sql(String statement, Map<String, Object> parameters) {

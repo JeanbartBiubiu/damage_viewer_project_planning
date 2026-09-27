@@ -160,6 +160,7 @@ public class SkillService {
         List<String> currentKeys = mapper.listRelationKeys(gameId, skillKey);
         Set<String> current = new HashSet<>(currentKeys == null ? List.of() : currentKeys);
         List<String> requestedKeys = validateUpdate(request);
+        requireBuildGrantsWithinMaxLevel(gameId, skillKey, locked.maxLevel(), request.maxLevel());
         rearrangeSkillLevelParametersIfNeeded(gameId, skillKey, locked.maxLevel(), request.maxLevel());
         lockAndRequireCategories(gameId, requestedKeys, current);
         try {
@@ -214,6 +215,7 @@ public class SkillService {
         List<String> categoryKeys = validateUpdate(request);
         List<String> currentKeys = mapper.listRelationKeys(gameId, skillKey);
         Set<String> current = new HashSet<>(currentKeys == null ? List.of() : currentKeys);
+        requireBuildGrantsWithinMaxLevel(gameId, skillKey, locked.maxLevel(), request.maxLevel());
         lockAndRequireCategories(gameId, categoryKeys, current);
         try {
             if (mapper.update(gameId, skillKey, request.name(), request.description(), request.maxLevel(),
@@ -581,7 +583,18 @@ public class SkillService {
     }
 
     private static ApiException inUse() {
-        return conflict("409.SKILL_IN_USE", "技能已被角色、装备、符文或其他技能引用，不能删除", "skillKey");
+        return conflict("409.SKILL_IN_USE", "技能已被角色、装备、构筑可选项或其他技能引用，不能删除", "skillKey");
+    }
+
+    private void requireBuildGrantsWithinMaxLevel(
+        String gameId, String skillKey, Integer currentMaxLevel, Integer requestedMaxLevel
+    ) {
+        if (currentMaxLevel == null || requestedMaxLevel == null || requestedMaxLevel >= currentMaxLevel) {
+            return;
+        }
+        if (skillRelationMapper.countBuildGrantsExceedingMaxLevel(gameId, skillKey, requestedMaxLevel) > 0) {
+            throw conflict("409.SKILL_IN_USE", "新的技能最高等级低于已有构筑授予等级", "maxLevel");
+        }
     }
 
     private static ApiException unknownCategory(int index) {

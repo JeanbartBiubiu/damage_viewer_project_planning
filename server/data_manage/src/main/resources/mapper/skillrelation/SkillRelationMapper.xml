@@ -12,8 +12,21 @@
             (SELECT count(*) FROM public.equipment_skill_relations
              WHERE game_id = #{gameId} AND skill_key = #{skillKey})
             +
-            (SELECT count(*) FROM public.rune_skill_relations
+            (SELECT count(*) FROM public.build_option_skill_relations
              WHERE game_id = #{gameId} AND skill_key = #{skillKey})
+    </select>
+
+    <select id="countBuildGrantsExceedingMaxLevel" resultType="long">
+        SELECT count(*)
+        FROM public.build_option_skill_relations r
+        JOIN public.build_options o
+          ON o.game_id = r.game_id
+         AND o.system_key = r.system_key
+         AND o.option_key = r.option_key
+        WHERE r.game_id = #{gameId}
+          AND r.skill_key = #{skillKey}
+          AND ((r.skill_level_mode = 'FIXED' AND r.fixed_skill_level &gt; #{maxLevel})
+               OR (r.skill_level_mode = 'SAME_AS_OPTION' AND o.max_rank &gt; #{maxLevel}))
     </select>
 
     <resultMap id="characterRelation" type="xyz.game.datamanage.model.skillrelation.CharacterSkillRelationResponse">

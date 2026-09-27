@@ -11,8 +11,8 @@ public record ImageUsageResponse(
     List<Skill> skills,
     List<SkillEffect> skillEffects,
     List<Status> statuses,
-    List<Rune> runes,
-    List<RunePath> runePaths
+    List<BuildOption> buildOptions,
+    List<BuildGroup> buildGroups
 ) {
     public record Game(String gameId, String gameName) {}
     public record Character(String characterKey, String characterName) {}
@@ -21,6 +21,6 @@ public record ImageUsageResponse(
     public record Skill(String skillKey, String skillName, String skillStatus) {}
     public record SkillEffect(String skillKey, String skillName, String effectKey, String effectName) {}
     public record Status(String statusKey, String statusName, String statusStatus) {}
-    public record Rune(String runeKey, String runeName) {}
-    public record RunePath(String pathKey, String pathName) {}
+    public record BuildOption(String systemKey, String optionKey, String optionName) {}
+    public record BuildGroup(String systemKey, String groupKey, String groupName) {}
 }
