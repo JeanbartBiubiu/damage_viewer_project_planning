@@ -351,9 +351,11 @@ function skillRowLocator(page: Page) {
 }
 
 async function openTriggers(page: Page): Promise<Locator> {
-  await skillRowLocator(page).getByRole('button', { name: '条件与触发', exact: true }).click();
+  await skillRowLocator(page).getByRole('button', { name: '编辑配置', exact: true }).click();
   const shell = page.locator('[aria-label="技能统一编辑工作区"]');
   await expect(shell).toBeVisible();
+  await shell.getByRole('navigation', { name: '技能配置模块' })
+    .getByRole('button', { name: '条件与触发', exact: true }).click();
   await expect(shell.getByRole('button', { name: '新增规则', exact: true })).toBeVisible();
   return shell;
 }

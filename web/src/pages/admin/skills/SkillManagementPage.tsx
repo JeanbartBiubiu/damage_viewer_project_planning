@@ -197,19 +197,13 @@ export function SkillManagementPage({
       ? <Tag color="green">启用</Tag> : <Tag color="gray">停用</Tag> },
     { title: '排序', dataIndex: 'sortOrder', width: 80 },
     { title: '更新时间', dataIndex: 'updatedAt', width: 190, render: (value) => formatUpdatedAt(String(value ?? '')) },
-    { title: '操作', width: 760, fixed: 'right', render: (_value, record: Skill) => <Space size="mini" wrap>
+    { title: '操作', width: 440, fixed: 'right', render: (_value, record: Skill) => <Space size="mini" wrap>
       <ObjectRelationActions
         key={`${apiBaseUrl}:${selectedGameId}:${record.skillKey}`}
         target={{ kind: 'skill', key: record.skillKey, name: record.name }}
         apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
         onDirtyChange={onDirtyChange} onImageSaved={() => onImageSaved(record)} />
-      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'overview')}>配置总览</Button>
-      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'basic')}>主体与分类</Button>
-      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'numbers')}>参数与公式</Button>
-      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'effects')}>效果与生命周期</Button>
-      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'processes')}>施放过程</Button>
-      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'states')}>内部状态</Button>
-      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'rules')}>条件与触发</Button>
+      <Button size="mini" onClick={() => openWorkspace(record.skillKey, 'overview')}>编辑配置</Button>
       <Button size="mini" status={record.status === 'ENABLED' ? 'danger' : 'success'}
         onClick={() => openWorkspace(record.skillKey, 'basic', record.status === 'ENABLED' ? 'DISABLED' : 'ENABLED')}>
         {record.status === 'ENABLED' ? '停用' : '启用'}

@@ -149,17 +149,30 @@ async function openSkills(page: Page) {
   await expect(page.locator('tr', { hasText: 'sample_q' })).toBeVisible();
 }
 
+async function openExistingSkill(page: Page, key: string, module = '配置总览') {
+  await page.locator('tr', { hasText: key }).getByRole('button', { name: '编辑配置', exact: true }).click();
+  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  await expect(workspace).toBeVisible();
+  if (module !== '配置总览') {
+    await workspace.getByRole('navigation', { name: '技能配置模块' })
+      .getByRole('button', { name: module, exact: true }).click();
+  }
+  return workspace;
+}
+
 test('完整读取失败不开放空表单；主体与参数共同保存并回读', async ({ page }) => {
   const api = new ConfigurationApi();
   api.failFirstConfigurationRead = true;
   await api.install(page);
   await openSkills(page);
-  await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '主体与分类' }).click();
+  await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '编辑配置', exact: true }).click();
   const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
   await expect(workspace.getByText('模拟读取失败')).toBeVisible();
   await expect(workspace.getByLabel('技能名称')).toHaveCount(0);
   await expect(workspace.getByRole('button', { name: '保存更改' })).toBeDisabled();
   await workspace.getByRole('button', { name: '重试读取' }).click();
+  await workspace.getByRole('navigation', { name: '技能配置模块' })
+    .getByRole('button', { name: '主体与分类', exact: true }).click();
   await expect(workspace.getByLabel('技能名称')).toHaveValue('样例技能');
   await workspace.getByLabel('技能名称').fill('修改后的技能');
   await workspace.getByRole('navigation', { name: '技能配置模块' }).getByRole('button', { name: '参数与公式' }).click();
@@ -181,8 +194,8 @@ test('完整读取失败不开放空表单；主体与参数共同保存并回�
   } });
   expect(Object.keys(api.writes[0]!.body)).toEqual(['baseDigest', 'skill', 'changes']);
   await workspace.getByRole('button', { name: '返回' }).click();
-  await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '主体与分类' }).click();
-  await expect(page.locator('[aria-label="技能统一编辑工作区"]').getByLabel('技能名称')).toHaveValue('修改后的技能');
+  const reopened = await openExistingSkill(page, 'sample_q', '主体与分类');
+  await expect(reopened.getByLabel('技能名称')).toHaveValue('修改后的技能');
   expect(api.unexpected).toEqual([]);
 });
 
@@ -210,8 +223,7 @@ test('等级扩大不补零，所有受影响等级参数随主体提交', async
   };
   await api.install(page);
   await openSkills(page);
-  await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '主体与分类' }).click();
-  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  const workspace = await openExistingSkill(page, 'sample_q', '主体与分类');
   await workspace.getByRole('spinbutton', { name: '最高等级' }).fill('3');
   await expect(workspace.getByText(/新增 Lv3/)).toBeVisible();
   await workspace.getByRole('button', { name: '保存更改' }).click();
@@ -239,8 +251,7 @@ test('冲突保留草稿，成功后回读失败保留冻结内容并可只读�
   api.failNextWrite = true;
   await api.install(page);
   await openSkills(page);
-  await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '主体与分类' }).click();
-  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  const workspace = await openExistingSkill(page, 'sample_q', '主体与分类');
   await workspace.getByLabel('技能名称').fill('冲突中的草稿');
   await workspace.getByRole('button', { name: '保存更改' }).click();
   await expect(workspace.getByText('配置冲突')).toBeVisible();
@@ -260,8 +271,7 @@ test('未保存参数可被同次新建公式选择，两项共同保存并重�
   const api = new ConfigurationApi();
   await api.install(page);
   await openSkills(page);
-  await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '参数与公式' }).click();
-  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  const workspace = await openExistingSkill(page, 'sample_q', '参数与公式');
   await workspace.getByRole('button', { name: '新增参数' }).click();
   const parameterDialog = page.getByRole('dialog', { name: '新增参数' });
   await parameterDialog.getByRole('textbox', { name: '稳定标识' }).fill('bonus');
@@ -288,8 +298,8 @@ test('未保存参数可被同次新建公式选择，两项共同保存并重�
     } }
   ]);
   await workspace.getByRole('button', { name: '返回' }).click();
-  await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '参数与公式' }).click();
-  await expect(page.locator('[aria-label="技能统一编辑工作区"]').getByText('加成公式', { exact: true }).first()).toBeVisible();
+  const reopened = await openExistingSkill(page, 'sample_q', '参数与公式');
+  await expect(reopened.getByText('加成公式', { exact: true }).first()).toBeVisible();
   expect(api.unexpected).toEqual([]);
 });
 
@@ -297,8 +307,7 @@ test('内部状态和效果先入共同草稿，再与原数值配置同次保�
   const api = new ConfigurationApi();
   await api.install(page);
   await openSkills(page);
-  await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '内部状态' }).click();
-  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  const workspace = await openExistingSkill(page, 'sample_q', '内部状态');
   await workspace.getByRole('button', { name: '新增内部状态' }).click();
   const stateDialog = page.getByRole('dialog', { name: '新增内部状态' });
   await stateDialog.getByLabel('内部状态标识').fill('ready_flag');
@@ -344,8 +353,8 @@ test('内部状态和效果先入共同草稿，再与原数值配置同次保�
         results: [{ resultKey: 'spell_guard', resultType: 'SPELL_SHIELD' }] } }
   ]);
   await workspace.getByRole('button', { name: '返回' }).click();
-  await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '效果与生命周期' }).click();
-  await expect(page.locator('[aria-label="技能统一编辑工作区"]').getByText('持续标记', { exact: true }).first()).toBeVisible();
+  const reopened = await openExistingSkill(page, 'sample_q', '效果与生命周期');
+  await expect(reopened.getByText('持续标记', { exact: true }).first()).toBeVisible();
   expect(api.unexpected).toEqual([]);
 });
 
@@ -362,8 +371,7 @@ test('旧弹药恢复启动条件保持空白，明确选择后才进入统一�
   });
   await api.install(page);
   await openSkills(page);
-  await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '内部状态' }).click();
-  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  const workspace = await openExistingSkill(page, 'sample_q', '内部状态');
   await expect(workspace.getByText(/启动条件：待确认/)).toBeVisible();
   await workspace.getByRole('button', { name: '编辑', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: '编辑内部状态' });
@@ -393,8 +401,7 @@ test('待保存过程可被新规则选择，两者仅经顶部一次写入', as
   });
   await api.install(page);
   await openSkills(page);
-  await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '施放过程' }).click();
-  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  const workspace = await openExistingSkill(page, 'sample_q', '施放过程');
   await workspace.getByRole('button', { name: '新增过程' }).click();
   const processDialog = page.getByRole('dialog', { name: '新增过程' });
   await processDialog.getByLabel('过程标识').fill('cast');
@@ -516,8 +523,7 @@ test('外部同名状态与生命周期按所属技能读取，失败重试保�
       lifecycle: { ...externalEffect.lifecycle, instanceScope: 'SOURCE' } });
   });
   await openSkills(page);
-  await page.locator('tr', { hasText: 'sample_q' }).getByRole('button', { name: '施放过程' }).click();
-  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  const workspace = await openExistingSkill(page, 'sample_q', '施放过程');
   await workspace.getByRole('button', { name: '编辑', exact: true }).click();
   const processDialog = page.getByRole('dialog', { name: '编辑过程' });
   await processDialog.getByRole('button', { name: '编辑', exact: true }).last().click();
@@ -619,8 +625,8 @@ test('隔离服务真接口：页面同次创建参数与引用公式，重开�
   await expect(workspace.getByText('已保存并核对')).toBeVisible();
   expect(writes).toEqual([`POST /api/admin/games/configuration_test/skills/${key}/configuration`]);
   await workspace.getByRole('button', { name: '返回' }).click();
-  await page.locator('tr', { hasText: key }).getByRole('button', { name: '参数与公式' }).click();
-  await expect(page.locator('[aria-label="技能统一编辑工作区"]').getByText('计算结果', { exact: true }).first()).toBeVisible();
+  const reopened = await openExistingSkill(page, key, '参数与公式');
+  await expect(reopened.getByText('计算结果', { exact: true }).first()).toBeVisible();
   const persisted = await request.get(`${apiBase}/api/admin/games/configuration_test/skills/${key}/configuration`,
     { headers: { Authorization: 'Bearer local-test' } });
   expect(persisted.ok()).toBe(true);
@@ -691,8 +697,8 @@ test('隔离服务真接口：页面同次创建内部状态与带结果的效�
   await expect(workspace.getByText('已保存并核对')).toBeVisible();
   expect(writes).toEqual([`POST /api/admin/games/configuration_test/skills/${key}/configuration`]);
   await workspace.getByRole('button', { name: '返回' }).click();
-  await page.locator('tr', { hasText: key }).getByRole('button', { name: '效果与生命周期' }).click();
-  await expect(page.locator('[aria-label="技能统一编辑工作区"]').getByText('法术护盾标记', { exact: true }).first()).toBeVisible();
+  const reopened = await openExistingSkill(page, key, '效果与生命周期');
+  await expect(reopened.getByText('法术护盾标记', { exact: true }).first()).toBeVisible();
   const persisted = await request.get(`${apiBase}/api/admin/games/configuration_test/skills/${key}/configuration`,
     { headers: { Authorization: 'Bearer local-test' } });
   expect(persisted.ok()).toBe(true);
@@ -848,8 +854,10 @@ test('隔离服务真接口：六模块同次保存并独立回读', async ({ pa
   await workspace.getByRole('button', { name: '返回' }).click();
   const row = page.locator('tr', { hasText: key });
   await expect(row).toBeVisible();
-  await row.getByRole('button', { name: '施放过程' }).click();
+  await row.getByRole('button', { name: '编辑配置', exact: true }).click();
   const reopened = page.locator('[aria-label="技能统一编辑工作区"]');
+  await reopened.getByRole('navigation', { name: '技能配置模块' })
+    .getByRole('button', { name: '施放过程', exact: true }).click();
   await expect(reopened.getByText(/施放\s*（cast）/)).toBeVisible();
   await reopened.getByRole('navigation', { name: '技能配置模块' })
     .getByRole('button', { name: '条件与触发' }).click();

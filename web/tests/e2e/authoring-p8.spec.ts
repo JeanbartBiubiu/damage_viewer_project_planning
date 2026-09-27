@@ -736,7 +736,7 @@ test('技能行为总览五组、资源扣减说明、未启动被动，以及�
   const api = new AuthoringP8Api();
   const assertClean = await prepare(page, api);
   await expect(page.locator('.app-toolbar-field--game')).toContainText(FIRST_GAME);
-  await row(page, SKILL_KEY).getByRole('button', { name: '配置总览', exact: true }).click();
+  await row(page, SKILL_KEY).getByRole('button', { name: '编辑配置', exact: true }).click();
   const overview = page.locator('[aria-label="技能统一编辑工作区"]');
   await expect(overview.getByText('以下总览来自已读取配置；只解释配置，不表示技能可运行或战斗已验证。')).toBeVisible();
   await expect(overview.getByRole('heading', { name: '使用', exact: true })).toBeVisible();

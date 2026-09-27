@@ -670,8 +670,10 @@ const IMAGE_SOURCES = [
 
 async function openEffectImage(page: Page) {
   await navigate(page, 'skills');
-  await row(page, 'strike').getByRole('button', { name: '效果与生命周期', exact: true }).click();
+  await row(page, 'strike').getByRole('button', { name: '编辑配置', exact: true }).click();
   const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  await workspace.getByRole('navigation', { name: '技能配置模块' })
+    .getByRole('button', { name: '效果与生命周期', exact: true }).click();
   const effectCard = workspace.getByText('（shared_effect）', { exact: true })
     .locator('xpath=ancestor::div[.//button[normalize-space()="代表图片"]][1]');
   await effectCard.getByRole('button', { name: '代表图片', exact: true }).click();
