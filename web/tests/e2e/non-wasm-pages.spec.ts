@@ -2814,11 +2814,13 @@ function skillRow(page: Page, key: string): Locator {
 }
 
 async function openSkillWorkspace(page: Page, key: string, module: string): Promise<Locator> {
-  await skillRow(page, key).getByRole('button', { name: module, exact: true }).click();
+  await skillRow(page, key).getByRole('button', { name: '编辑配置', exact: true }).click();
   const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
   await expect(workspace).toBeVisible();
-  await expect(workspace.getByRole('navigation', { name: '技能配置模块' })
-    .getByRole('button', { name: module, exact: true })).toBeVisible();
+  const moduleButton = workspace.getByRole('navigation', { name: '技能配置模块' })
+    .getByRole('button', { name: module, exact: true });
+  await expect(moduleButton).toBeVisible();
+  if (module !== '配置总览') await moduleButton.click();
   return workspace;
 }
 
@@ -4580,7 +4582,7 @@ test.describe('skill management without Wasm', () => {
       }
     });
     await openSkills(page);
-    await skillRow(page, 'retry_skill').getByRole('button', { name: '主体与分类', exact: true }).click();
+    await skillRow(page, 'retry_skill').getByRole('button', { name: '编辑配置', exact: true }).click();
     const editor = page.locator('[aria-label="技能统一编辑工作区"]');
     await expect(editor.getByText(/技能详情暂时不可用/)).toBeVisible();
     await expect(editor.getByLabel('技能名称', { exact: true })).toHaveCount(0);
@@ -4768,8 +4770,9 @@ test.describe('skill management without Wasm', () => {
     await createModal.getByRole('button', { name: '返回', exact: true }).click();
     await expect(createModal).toBeHidden();
     await expect(skillRow(page, 'ezreal_q')).toContainText('秘术射击');
-    await expect(skillRow(page, 'ezreal_q').getByRole('button', { name: '效果与生命周期', exact: true })).toHaveCount(1);
-    await expect(skillRow(page, 'ezreal_q').getByRole('button', { name: '施放过程', exact: true })).toHaveCount(1);
+    await expect(skillRow(page, 'ezreal_q').getByRole('button', { name: '编辑配置', exact: true })).toHaveCount(1);
+    await expect(skillRow(page, 'ezreal_q').getByRole('button', { name: '效果与生命周期', exact: true })).toHaveCount(0);
+    await expect(skillRow(page, 'ezreal_q').getByRole('button', { name: '施放过程', exact: true })).toHaveCount(0);
     expect(await page.locator('a[href="#/skill-effects"]').count()).toBe(0);
     expect(await page.locator('a[href="#/effects"]').count()).toBe(0);
     expect(await page.locator('a[href="#/skill-processes"]').count()).toBe(0);
@@ -4883,10 +4886,11 @@ test.describe('skill management without Wasm', () => {
     const row = skillRow(page, 'safe_skill');
     await expect(row).toContainText('active');
     await expect(page.getByRole('button', { name: '新增技能', exact: true })).toBeEnabled();
-    await expect(row.getByRole('button', { name: '主体与分类', exact: true })).toBeEnabled();
-    await expect(row.getByRole('button', { name: '参数与公式', exact: true })).toBeEnabled();
-    await expect(row.getByRole('button', { name: '效果与生命周期', exact: true })).toBeEnabled();
-    await expect(row.getByRole('button', { name: '施放过程', exact: true })).toBeEnabled();
+    await expect(row.getByRole('button', { name: '编辑配置', exact: true })).toBeEnabled();
+    await expect(row.getByRole('button', { name: '主体与分类', exact: true })).toHaveCount(0);
+    await expect(row.getByRole('button', { name: '参数与公式', exact: true })).toHaveCount(0);
+    await expect(row.getByRole('button', { name: '效果与生命周期', exact: true })).toHaveCount(0);
+    await expect(row.getByRole('button', { name: '施放过程', exact: true })).toHaveCount(0);
     await expect(row.getByRole('button', { name: '停用', exact: true })).toBeEnabled();
     await expect(row.getByRole('button', { name: '删除', exact: true })).toBeEnabled();
     const workspace = await openSkillWorkspace(page, 'safe_skill', '主体与分类');
@@ -4897,7 +4901,7 @@ test.describe('skill management without Wasm', () => {
     await page.getByRole('button', { name: '重试目录', exact: true }).click();
     await expect(row).toContainText('主动技能');
     await expect(page.getByRole('button', { name: '新增技能', exact: true })).toBeEnabled();
-    await expect(row.getByRole('button', { name: '主体与分类', exact: true })).toBeEnabled();
+    await expect(row.getByRole('button', { name: '编辑配置', exact: true })).toBeEnabled();
     diagnostics.assertClean('skill category directory failure protection');
   });
 
@@ -5041,7 +5045,8 @@ test.describe('skill management without Wasm', () => {
     const diagnostics = await prepare(page, mock);
 
     await openSkills(page);
-    await expect(skillRow(page, 'varus_w').getByRole('button', { name: '效果与生命周期', exact: true })).toHaveCount(1);
+    await expect(skillRow(page, 'varus_w').getByRole('button', { name: '编辑配置', exact: true })).toHaveCount(1);
+    await expect(skillRow(page, 'varus_w').getByRole('button', { name: '效果与生命周期', exact: true })).toHaveCount(0);
     expect(await page.locator('a[href="#/skill-effects"]').count()).toBe(0);
     const shell = await openSkillEffects(page, 'varus_w', '枯萎箭袋');
     await expect(shell.getByText('当前没有效果与生命周期。', { exact: true })).toBeVisible();
@@ -6038,7 +6043,7 @@ test.describe('skill management without Wasm', () => {
       }
     });
     await openSkills(page);
-    await skillRow(page, 'varus_w').getByRole('button', { name: '施放过程', exact: true }).click();
+    await skillRow(page, 'varus_w').getByRole('button', { name: '编辑配置', exact: true }).click();
     const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
     await expect(workspace.getByText(/详情暂时不可用/)).toBeVisible();
     await expect(workspace.getByText('主要施放过程', { exact: true })).toHaveCount(0);
@@ -6049,6 +6054,7 @@ test.describe('skill management without Wasm', () => {
     } finally {
       retry.resolve();
     }
+    await selectSkillModule(workspace, '施放过程');
     const shell = workspace.getByRole('region', { name: '施放过程', exact: true });
     await expect(configurationCard(shell, 'primary_cast')).toContainText('主要施放过程');
     expect(reads).toBe(2);
@@ -6091,8 +6097,9 @@ test.describe('skill management without Wasm', () => {
     const diagnostics = await prepare(page, mock);
 
     await openSkills(page);
-    await expect(skillRow(page, 'varus_w').getByRole('button', { name: '施放过程', exact: true })).toHaveCount(1);
-    await expect(skillRow(page, 'varus_w').getByRole('button', { name: '内部状态', exact: true })).toHaveCount(1);
+    await expect(skillRow(page, 'varus_w').getByRole('button', { name: '编辑配置', exact: true })).toHaveCount(1);
+    await expect(skillRow(page, 'varus_w').getByRole('button', { name: '施放过程', exact: true })).toHaveCount(0);
+    await expect(skillRow(page, 'varus_w').getByRole('button', { name: '内部状态', exact: true })).toHaveCount(0);
     expect(await page.locator('a[href="#/skill-processes"]').count()).toBe(0);
     expect(await page.locator('a[href="#/internal-states"]').count()).toBe(0);
     const shell = await openSkillProcesses(page, 'varus_w', '枯萎箭袋');
@@ -6713,7 +6720,8 @@ test.describe('skill management without Wasm', () => {
 
     await openSkills(page);
     const row = skillRow(page, 'varus_w');
-    await expect(row.getByRole('button', { name: '条件与触发', exact: true })).toHaveCount(1);
+    await expect(row.getByRole('button', { name: '编辑配置', exact: true })).toHaveCount(1);
+    await expect(row.getByRole('button', { name: '条件与触发', exact: true })).toHaveCount(0);
     expect(await page.locator('a[href="#/skill-triggers"]').count()).toBe(0);
     expect(await page.locator('a[href="#/triggers"]').count()).toBe(0);
     expect(await page.locator('a[href="#/condition-triggers"]').count()).toBe(0);

@@ -508,8 +508,10 @@ test('效果结果摘要区分零与空、名称键、失败缺失及大集合�
   const assertClean = await prepare(page, api);
   await page.evaluate(() => { window.location.hash = '#/skills'; });
   await expect(page).toHaveURL(/#\/skills$/);
-  await row(page, 'strike').getByRole('button', { name: '效果与生命周期', exact: true }).click();
+  await row(page, 'strike').getByRole('button', { name: '编辑配置', exact: true }).click();
   const shell = page.locator('[aria-label="技能统一编辑工作区"]');
+  await shell.getByRole('navigation', { name: '技能配置模块' })
+    .getByRole('button', { name: '效果与生命周期', exact: true }).click();
   const effectCard = shell.getByText('（summary_effect）', { exact: true })
     .locator('xpath=ancestor::div[.//button[normalize-space()="编辑"]][1]');
   await effectCard.getByRole('button', { name: '编辑', exact: true }).click();
