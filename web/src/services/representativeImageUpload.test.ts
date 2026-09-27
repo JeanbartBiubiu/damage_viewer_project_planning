@@ -2,14 +2,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ApiRequestError, type ApiResult } from './apiClient';
 import { createImage, getImage, updateImage } from './imageClient';
 import { upsertManagedImage } from './imageCache';
-import { setRepresentativeImage } from './imageRelationClient';
+import { setRepresentativeImageVerified } from './imageRelationClient';
 import { createRepresentativeImageUploadDraft, RepresentativeImageUploadFailure, uploadAndUseRepresentativeImage, type RepresentativeImageUploadContext, type RepresentativeImageUploadDraft } from './representativeImageUpload';
 import type { ManagedImage } from '../types/image';
 import type { PreparedResourceImage } from './resourceImage';
 
 vi.mock('./imageClient', () => ({ createImage: vi.fn(), getImage: vi.fn(), updateImage: vi.fn() }));
 vi.mock('./imageCache', () => ({ upsertManagedImage: vi.fn() }));
-vi.mock('./imageRelationClient', () => ({ setRepresentativeImage: vi.fn() }));
+vi.mock('./imageRelationClient', () => ({ setRepresentativeImageVerified: vi.fn() }));
 
 const PREPARED: PreparedResourceImage = { imageBase64: 'data:image/png;base64,AQID', mimeType: 'image/png', byteSize: 3, width: 32, height: 32, sourceWidth: 32, sourceHeight: 32, transformed: false };
 const CONTEXT: RepresentativeImageUploadContext = { apiBaseUrl: 'http://localhost:8080', gameId: 'game', target: { kind: 'skillEffect', key: 'effect', name: '技能效果', skillKey: 'parent-skill' }, token: 'test-token' };
@@ -24,7 +24,7 @@ beforeEach(() => {
   let sequence = 0;
   vi.stubGlobal('crypto', { randomUUID: () => `00000000-0000-4000-8000-${String(++sequence).padStart(12, '0')}` });
   vi.mocked(upsertManagedImage).mockResolvedValue({ count: 1, enabledCount: 1, latestUpdate: null });
-  vi.mocked(setRepresentativeImage).mockImplementation(async (_base, _game, _target, _token, imageKey) => result({ image: { imageKey, name: '代表图片', enabled: true } }));
+  vi.mocked(setRepresentativeImageVerified).mockImplementation(async (_base, _game, _target, _token, imageKey) => result({ image: { imageKey, name: '代表图片', enabled: true } }));
 });
 afterEach(() => vi.unstubAllGlobals());
 
@@ -47,7 +47,7 @@ describe('automatic representative image upload', () => {
     vi.mocked(createImage).mockResolvedValue(result(image));
     const saved = await uploadAndUseRepresentativeImage(CONTEXT, draft, () => true);
     expect(createImage).toHaveBeenCalledWith(CONTEXT.apiBaseUrl, CONTEXT.gameId, CONTEXT.token, { imageKey: draft.imageKey, name: draft.name, description: null, imageBase64: PREPARED.imageBase64 });
-    expect(setRepresentativeImage).toHaveBeenCalledWith(CONTEXT.apiBaseUrl, CONTEXT.gameId, CONTEXT.target, CONTEXT.token, draft.imageKey);
+    expect(setRepresentativeImageVerified).toHaveBeenCalledWith(CONTEXT.apiBaseUrl, CONTEXT.gameId, CONTEXT.target, CONTEXT.token, draft.imageKey);
     expect(upsertManagedImage).toHaveBeenCalledWith(image);
     expect(saved?.image.imageKey).toBe(draft.imageKey);
     expect(saved?.cacheWarning).toBeNull();
@@ -69,7 +69,7 @@ describe('automatic representative image upload', () => {
     const draft = createRepresentativeImageUploadDraft('角色', 'portrait.png', PREPARED);
     const image = managed(draft);
     vi.mocked(createImage).mockResolvedValue(result(image));
-    vi.mocked(setRepresentativeImage).mockRejectedValueOnce(new ApiRequestError('设置失败', status, `${status}.VALIDATION_FAILED`));
+    vi.mocked(setRepresentativeImageVerified).mockRejectedValueOnce(new ApiRequestError('设置失败', status, `${status}.VALIDATION_FAILED`));
     const failed = await uploadAndUseRepresentativeImage(CONTEXT, draft, () => true).catch((error) => error as RepresentativeImageUploadFailure);
     expect(failed).toBeInstanceOf(RepresentativeImageUploadFailure);
     expect(failed.phase).toBe('relation');
@@ -78,7 +78,7 @@ describe('automatic representative image upload', () => {
     expect(upsertManagedImage).not.toHaveBeenCalled();
     await uploadAndUseRepresentativeImage(CONTEXT, failed.draft, () => true);
     expect(createImage).toHaveBeenCalledTimes(1);
-    expect(setRepresentativeImage).toHaveBeenCalledTimes(2);
+    expect(setRepresentativeImageVerified).toHaveBeenCalledTimes(2);
     expect(getImage).not.toHaveBeenCalled();
   });
 
@@ -119,13 +119,13 @@ describe('automatic representative image upload', () => {
     vi.mocked(createImage).mockRejectedValue(new TypeError('Failed to fetch'));
     vi.mocked(getImage).mockResolvedValue(result({ ...managed(draft), imageBase64: 'data:image/png;base64,BAUG' }));
     await expect(uploadAndUseRepresentativeImage(CONTEXT, draft, () => true)).rejects.toMatchObject({ phase: 'upload', originalError: { code: '409.UPLOADED_IMAGE_MISMATCH' } });
-    expect(setRepresentativeImage).not.toHaveBeenCalled();
+    expect(setRepresentativeImageVerified).not.toHaveBeenCalled();
   });
 
   it('retains the uploaded draft if the association response identifies another image', async () => {
     const draft = createRepresentativeImageUploadDraft('角色', 'portrait.png', PREPARED);
     vi.mocked(createImage).mockResolvedValue(result(managed(draft)));
-    vi.mocked(setRepresentativeImage).mockResolvedValue(result({ image: { imageKey: 'another', name: '另一图片', enabled: true } }));
+    vi.mocked(setRepresentativeImageVerified).mockResolvedValue(result({ image: { imageKey: 'another', name: '另一图片', enabled: true } }));
     await expect(uploadAndUseRepresentativeImage(CONTEXT, draft, () => true)).rejects.toMatchObject({ phase: 'relation', draft: { uploaded: { imageKey: draft.imageKey } } });
     expect(upsertManagedImage).not.toHaveBeenCalled();
   });
@@ -137,7 +137,7 @@ describe('automatic representative image upload', () => {
     const saved = await uploadAndUseRepresentativeImage(CONTEXT, draft, () => true);
     expect(saved?.cacheWarning).toContain('代表图片已保存');
     expect(saved?.uploaded.imageBase64).toBe(PREPARED.imageBase64);
-    expect(setRepresentativeImage).toHaveBeenCalledTimes(1);
+    expect(setRepresentativeImageVerified).toHaveBeenCalledTimes(1);
   });
 
   it('does not start an association when the upload completes after the context has changed', async () => {
@@ -145,7 +145,7 @@ describe('automatic representative image upload', () => {
     let current = true;
     vi.mocked(createImage).mockImplementation(async () => { current = false; return result(managed(draft)); });
     expect(await uploadAndUseRepresentativeImage(CONTEXT, draft, () => current)).toBeNull();
-    expect(setRepresentativeImage).not.toHaveBeenCalled();
+    expect(setRepresentativeImageVerified).not.toHaveBeenCalled();
     expect(upsertManagedImage).not.toHaveBeenCalled();
   });
 
@@ -153,7 +153,7 @@ describe('automatic representative image upload', () => {
     const draft = createRepresentativeImageUploadDraft('角色', 'portrait.png', PREPARED);
     let current = true;
     vi.mocked(createImage).mockResolvedValue(result(managed(draft)));
-    vi.mocked(setRepresentativeImage).mockImplementation(async () => { current = false; return result({ image: { imageKey: draft.imageKey, name: draft.name, enabled: true } }); });
+    vi.mocked(setRepresentativeImageVerified).mockImplementation(async () => { current = false; return result({ image: { imageKey: draft.imageKey, name: draft.name, enabled: true } }); });
     expect(await uploadAndUseRepresentativeImage(CONTEXT, draft, () => current)).toBeNull();
     expect(upsertManagedImage).not.toHaveBeenCalled();
   });

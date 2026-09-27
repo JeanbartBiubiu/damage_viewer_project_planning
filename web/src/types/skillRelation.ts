@@ -1,11 +1,16 @@
 import type { SkillStatus } from './skill';
+import type { BuildConfigurationMode, BuildSkillLevelMode } from './build';
 
-export type SkillRelationOwnerKind = 'character' | 'equipment' | 'rune';
+export type SkillRelationOwnerKind = 'character' | 'equipment' | 'buildOption';
 
 export type SkillRelationTarget = {
   kind: SkillRelationOwnerKind | 'skill';
   key: string;
   name: string;
+  systemKey?: string;
+  systemName?: string;
+  configurationMode?: BuildConfigurationMode;
+  maxRank?: number;
 };
 
 type SkillRelationSummary = {
@@ -26,13 +31,26 @@ export type EquipmentSkillRelation = SkillRelationSummary & {
   equipmentName: string;
 };
 
-export type RuneSkillRelation = SkillRelationSummary & { runeKey: string; runeName: string };
-export type AnySkillRelation = CharacterSkillRelation | EquipmentSkillRelation | RuneSkillRelation;
+export type BuildOptionSkillRelation = {
+  gameId: string;
+  systemKey: string;
+  optionKey: string;
+  optionName: string;
+  skillKey: string;
+  skillName: string;
+  skillStatus: SkillStatus;
+  activationRank: number;
+  skillLevelMode: BuildSkillLevelMode;
+  fixedSkillLevel: number | null;
+  sortOrder: number;
+};
+
+export type AnySkillRelation = CharacterSkillRelation | EquipmentSkillRelation | BuildOptionSkillRelation;
 
 export type SkillRelationList<T> = { items: T[]; total: number };
 export type CharacterSkillRelationQuery = { characterKey?: string; skillKey?: string };
 export type EquipmentSkillRelationQuery = { equipmentKey?: string; skillKey?: string };
-export type RuneSkillRelationQuery = { runeKey?: string; skillKey?: string };
+export type BuildOptionSkillRelationQuery = { systemKey?: string; optionKey?: string; skillKey?: string };
 export type CreateCharacterSkillRelationRequest = {
   characterKey: string;
   skillKey: string;
@@ -44,4 +62,14 @@ export type CreateEquipmentSkillRelationRequest = {
   sortOrder: number;
 };
 export type UpdateSkillRelationRequest = { sortOrder: number };
-export type CreateRuneSkillRelationRequest = { runeKey: string; skillKey: string; sortOrder: number };
+export type UpdateBuildOptionSkillRelationRequest = {
+  activationRank: number;
+  skillLevelMode: BuildSkillLevelMode;
+  fixedSkillLevel: number | null;
+  sortOrder: number;
+};
+export type CreateBuildOptionSkillRelationRequest = UpdateBuildOptionSkillRelationRequest & {
+  systemKey: string;
+  optionKey: string;
+  skillKey: string;
+};

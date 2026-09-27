@@ -3,7 +3,12 @@ import { useEffect, useRef, useState } from 'react';
 import { ResourceImageThumb } from '../../../components/ResourceImageThumb';
 import { ResourceImageUploadField } from '../../../components/ResourceImageUploadField';
 import { getErrorMessage } from '../../../services/apiClient';
-import { getRepresentativeImage, listImageOptions, removeRepresentativeImage, setRepresentativeImage } from '../../../services/imageRelationClient';
+import {
+  getRepresentativeImage,
+  listImageOptions,
+  removeRepresentativeImageVerified,
+  setRepresentativeImageVerified
+} from '../../../services/imageRelationClient';
 import { prepareResourceImage } from '../../../services/resourceImage';
 import { createRepresentativeImageUploadDraft, RepresentativeImageUploadFailure, uploadAndUseRepresentativeImage, type RepresentativeImageUploadDraft } from '../../../services/representativeImageUpload';
 import type { ManagedImage } from '../../../types/image';
@@ -159,7 +164,7 @@ function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, adminToke
     setError(null);
     setSuccess(null);
     try {
-      const result = await setRepresentativeImage(apiBaseUrl, selectedGameId, target, adminToken.trim(), selection.imageKey);
+      const result = await setRepresentativeImageVerified(apiBaseUrl, selectedGameId, target, adminToken.trim(), selection.imageKey);
       if (!active.current) return;
       setCurrent(result.data.image);
       setSelection(null);
@@ -168,7 +173,7 @@ function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, adminToke
       setSavedPreview(null);
       setCacheWarning(null);
       dirtyCallback.current?.(false);
-      setSuccess('代表图片已保存。');
+      setSuccess('代表图片已保存并回读确认。');
       onSaved?.();
     } catch (cause) {
       if (active.current) setError(getErrorMessage(cause));
@@ -185,14 +190,14 @@ function RepresentativeImageForm({ target, selectedGameId, apiBaseUrl, adminToke
     setError(null);
     setSuccess(null);
     try {
-      await removeRepresentativeImage(apiBaseUrl, selectedGameId, target, adminToken.trim());
+      await removeRepresentativeImageVerified(apiBaseUrl, selectedGameId, target, adminToken.trim());
       if (!active.current) return;
       setCurrent(null);
       setSelection(null);
       setSavedPreview(null);
       setCacheWarning(null);
       dirtyCallback.current?.(uploadDraft !== null);
-      setSuccess('代表图片关联已移除。');
+      setSuccess('代表图片关联已移除并回读确认。');
       onSaved?.();
     } catch (cause) {
       if (active.current) setError(getErrorMessage(cause));

@@ -181,10 +181,13 @@ for (const [id, name, comparator, threshold] of [[8014, '致命一击', 'LT', 0.
       expect(response.status(), route).toBe(200);
       const data = await response.json(); snapshots[route] = data; return data as T;
     };
-    await get(`/runes/rune_${id}`);
+    await get(`/build-systems/runes/options/rune_${id}`);
     await get(`/skills/${skillKey}`);
-    const relations = await get<{ items: Array<{ gameId: string; runeKey: string; skillKey: string }> }>(`/rune-skill-relations?runeKey=rune_${id}`);
-    expect(relations.items.some(x => x.gameId === 'lol' && x.runeKey === `rune_${id}` && x.skillKey === skillKey)).toBe(true);
+    const relations = await get<{ items: Array<{ gameId: string; systemKey: string; optionKey: string; skillKey: string }> }>(
+      `/build-option-skill-relations?systemKey=runes&optionKey=rune_${id}`
+    );
+    expect(relations.items.some(x => x.gameId === 'lol' && x.systemKey === 'runes'
+      && x.optionKey === `rune_${id}` && x.skillKey === skillKey)).toBe(true);
     const effect = await get<SkillEffect>(`/skills/${skillKey}/effects/basic_attack_health_bonus`);
     const rule = await get<SkillTriggerRuleDetail>(`/skills/${skillKey}/trigger-rules/initialize_basic_attack_bonus`);
     const parameters = await get<SkillParameter[]>(`/skills/${skillKey}/parameters`);

@@ -17,8 +17,12 @@ function representativeImagePath(gameId: string, target: ImageRelationTarget): s
     case 'character': return `${base}/characters/${key}/representative-image`;
     case 'attribute': return `${base}/attributes/${key}/representative-image`;
     case 'equipment': return `${base}/equipment/${key}/representative-image`;
-    case 'rune': return `${base}/runes/${key}/representative-image`;
-    case 'runePath': return `${base}/rune-paths/${key}/representative-image`;
+    case 'buildOption':
+      if (!target.systemKey?.trim()) throw new ApiRequestError('构筑可选项缺少所属构筑系统。', 400, '400.VALIDATION_FAILED');
+      return `${base}/build-systems/${encodePathSegment(target.systemKey)}/options/${key}/representative-image`;
+    case 'buildGroup':
+      if (!target.systemKey?.trim()) throw new ApiRequestError('构筑分组缺少所属构筑系统。', 400, '400.VALIDATION_FAILED');
+      return `${base}/build-systems/${encodePathSegment(target.systemKey)}/groups/${key}/representative-image`;
     case 'skill': return `${base}/skills/${key}/representative-image`;
     case 'skillEffect':
       if (!target.skillKey?.trim()) throw new ApiRequestError('技能效果缺少所属技能。', 400, '400.VALIDATION_FAILED');
@@ -83,8 +87,8 @@ function parseUsages(value: unknown, gameId: string, imageKey: string): ImageUsa
     characters: group('characters', (row) => ({ characterKey: textField(row, 'characterKey'), characterName: textField(row, 'characterName') })),
     attributes: group('attributes', (row) => ({ attributeKey: textField(row, 'attributeKey'), attributeName: textField(row, 'attributeName'), attributeStatus: statusField(row, 'attributeStatus') })),
     equipment: group('equipment', (row) => ({ equipmentKey: textField(row, 'equipmentKey'), equipmentName: textField(row, 'equipmentName') })),
-    runes: group('runes', (row) => ({ runeKey: textField(row, 'runeKey'), runeName: textField(row, 'runeName') })),
-    runePaths: group('runePaths', (row) => ({ pathKey: textField(row, 'pathKey'), pathName: textField(row, 'pathName') })),
+    buildOptions: group('buildOptions', (row) => ({ systemKey: textField(row, 'systemKey'), optionKey: textField(row, 'optionKey'), optionName: textField(row, 'optionName') })),
+    buildGroups: group('buildGroups', (row) => ({ systemKey: textField(row, 'systemKey'), groupKey: textField(row, 'groupKey'), groupName: textField(row, 'groupName') })),
     skills: group('skills', (row) => ({ skillKey: textField(row, 'skillKey'), skillName: textField(row, 'skillName'), skillStatus: statusField(row, 'skillStatus') })),
     skillEffects: group('skillEffects', (row) => ({ skillKey: textField(row, 'skillKey'), skillName: textField(row, 'skillName'), effectKey: textField(row, 'effectKey'), effectName: textField(row, 'effectName') })),
     statuses: group('statuses', (row) => ({ statusKey: textField(row, 'statusKey'), statusName: textField(row, 'statusName'), statusStatus: statusField(row, 'statusStatus') }))
@@ -112,6 +116,42 @@ export function setRepresentativeImage(apiBaseUrl: string, gameId: string, targe
 
 export function removeRepresentativeImage(apiBaseUrl: string, gameId: string, target: ImageRelationTarget, token: string): Promise<ApiResult<null>> {
   return requestJson<null>(apiBaseUrl, representativeImagePath(gameId, target), { method: 'DELETE', token });
+}
+
+function mutationResultIsUncertain(error: unknown): boolean {
+  return !(error instanceof ApiRequestError) || error.status >= 500 || error.status === 408 || error.status === 429;
+}
+
+export async function setRepresentativeImageVerified(
+  apiBaseUrl: string, gameId: string, target: ImageRelationTarget, token: string, imageKey: string
+): Promise<ApiResult<RepresentativeImageResponse>> {
+  let uncertain: unknown = null;
+  try {
+    await setRepresentativeImage(apiBaseUrl, gameId, target, token, imageKey);
+  } catch (error) {
+    if (!mutationResultIsUncertain(error)) throw error;
+    uncertain = error;
+  }
+  const readback = await getRepresentativeImage(apiBaseUrl, gameId, target, token);
+  if (readback.data.image?.imageKey === imageKey) return readback;
+  if (uncertain) throw uncertain;
+  invalidResponse();
+}
+
+export async function removeRepresentativeImageVerified(
+  apiBaseUrl: string, gameId: string, target: ImageRelationTarget, token: string
+): Promise<ApiResult<RepresentativeImageResponse>> {
+  let uncertain: unknown = null;
+  try {
+    await removeRepresentativeImage(apiBaseUrl, gameId, target, token);
+  } catch (error) {
+    if (!mutationResultIsUncertain(error)) throw error;
+    uncertain = error;
+  }
+  const readback = await getRepresentativeImage(apiBaseUrl, gameId, target, token);
+  if (readback.data.image === null) return readback;
+  if (uncertain) throw uncertain;
+  invalidResponse();
 }
 
 export function listImageOptions(apiBaseUrl: string, gameId: string, token: string, keyword: string): Promise<ApiResult<ImageOptionsResponse>> {

@@ -60,10 +60,12 @@ async function loadSource(get: Reader['get'], key: 'annie_q' | 'garen_r') {
 }
 async function loadModifier(get: Reader['get'], id: 8014 | 8017) {
   const skillKey = `rune_${id}_passive`;
-  await get(`/runes/rune_${id}`);
+  await get(`/build-systems/runes/options/rune_${id}`);
   await get(`/skills/${skillKey}`);
-  const relations = await get<{ items: Array<{ runeKey: string; skillKey: string }> }>(`/rune-skill-relations?runeKey=rune_${id}`);
-  expect(relations.items.some(row => row.runeKey === `rune_${id}` && row.skillKey === skillKey)).toBe(true);
+  const relations = await get<{ items: Array<{ systemKey: string; optionKey: string; skillKey: string }> }>(
+    `/build-option-skill-relations?systemKey=runes&optionKey=rune_${id}`
+  );
+  expect(relations.items.some(row => row.systemKey === 'runes' && row.optionKey === `rune_${id}` && row.skillKey === skillKey)).toBe(true);
   const savedEffect = await get<SkillEffect>(`/skills/${skillKey}/effects/basic_attack_health_bonus`);
   const rule = await get<SkillTriggerRuleDetail>(`/skills/${skillKey}/trigger-rules/initialize_basic_attack_bonus`);
   const values = await numeric(get, skillKey);

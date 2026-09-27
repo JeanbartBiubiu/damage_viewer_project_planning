@@ -20,10 +20,10 @@ describe('skillRelationForm', () => {
   });
 
   it('tracks all unsaved drafts including clearing an existing sort field', () => {
-    const drafts = { character: emptySkillRelationDraft(), equipment: emptySkillRelationDraft(), rune: emptySkillRelationDraft() };
+    const drafts = { character: emptySkillRelationDraft(), equipment: emptySkillRelationDraft(), buildOption: emptySkillRelationDraft() };
     expect(skillRelationDraftIsDirty(drafts, {})).toBe(false);
-    expect(skillRelationDraftIsDirty({ ...drafts, equipment: { selectedKey: 'item', sortOrder: '0' } }, {})).toBe(true);
-    expect(skillRelationDraftIsDirty({ ...drafts, character: { selectedKey: '', sortOrder: '4' } }, {})).toBe(true);
+    expect(skillRelationDraftIsDirty({ ...drafts, equipment: { ...emptySkillRelationDraft(), selectedKey: 'item', sortOrder: '0' } }, {})).toBe(true);
+    expect(skillRelationDraftIsDirty({ ...drafts, character: { ...emptySkillRelationDraft(), selectedKey: '', sortOrder: '4' } }, {})).toBe(true);
     expect(skillRelationDraftIsDirty(drafts, { row: '' })).toBe(true);
   });
 

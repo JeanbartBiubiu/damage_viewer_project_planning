@@ -282,6 +282,14 @@ class AuthoringP9Api {
       await json(route, { rules: [] });
       return;
     }
+    if (tail[0] === 'build-systems' && method === 'GET' && tail.length === 1) {
+      await json(route, { items: [], total: 0 });
+      return;
+    }
+    if (tail[0] === 'build-option-skill-relations' && method === 'GET') {
+      await json(route, { items: [], total: 0 });
+      return;
+    }
     if (tail[0] === 'rune-skill-relations' && method === 'GET') {
       const runeKey = url.searchParams.get('runeKey');
       const items = runeKey === 'r_26' && gameId === FIRST_GAME
@@ -389,7 +397,7 @@ async function prepare(page: Page, api: AuthoringP9Api) {
     localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
     localStorage.setItem('damage-viewer.web.admin-token', 'authoring-p9-example');
   }, API);
-  await page.goto('/#/runes');
+  await page.goto('/#/attributes');
   await expect(page.locator('.app-toolbar-field--game')).toContainText(FIRST_GAME);
   return () => {
     expect(errors, '未捕获浏览器异常').toEqual([]);
@@ -419,88 +427,17 @@ async function answerDialog(page: Page, trigger: () => Promise<unknown>, accept:
   return message;
 }
 
-test('符文关联技能保留筛选分页并确认草稿，切换游戏隔离旧请求', async ({ page }) => {
+test('构筑系统页替换旧符文哈希', async ({ page }) => {
   const api = new AuthoringP9Api();
-  api.delayFirstSkill = true;
   const assertClean = await prepare(page, api);
-  await expect(page.locator('tbody tr')).toHaveCount(25);
-  await page.getByRole('listitem', { name: '第 2 页', exact: true }).click();
-  await expect(row(page, 'r_26')).toBeVisible();
-  await page.getByLabel('符文关键词', { exact: true }).fill('保留的筛选草稿');
-  await page.getByLabel('筛选符文类别', { exact: true }).click();
-  await page.locator('.arco-select-option:visible').filter({ hasText: '小符文' }).click();
-  await row(page, 'r_26').getByRole('button', { name: '关联技能', exact: true }).click();
-  const relations = modal(page, '关联技能 · 符文26');
-  await expect(relations.getByLabel('打击技能排序', { exact: true })).toHaveValue('4');
-  await relations.getByLabel('打击技能排序', { exact: true }).fill('9');
-  await relations.getByRole('button', { name: '录入技能', exact: true }).click();
-  await page.getByRole('button', { name: '继续编辑', exact: true }).click();
-  await expect(relations.getByLabel('打击技能排序', { exact: true })).toHaveValue('9');
-  await relations.getByRole('button', { name: '录入技能', exact: true }).click();
-  await page.getByRole('button', { name: '放弃修改', exact: true }).click();
-  await expect.poll(() => Boolean(api.holdSkill)).toBe(true);
-  let workspace = page.locator('[aria-label="技能统一编辑工作区"]');
-  await expect(workspace.getByRole('button', { name: '返回符文技能', exact: true })).toBeVisible();
-  await expect(workspace.getByText(/来自符文：符文26（r_26）/)).toBeVisible();
-  await expect(page.getByText(/来自装备：/)).toHaveCount(0);
-  await json(api.holdSkill!, api.configuration(FIRST_GAME, 'strike'));
-  api.holdSkill = undefined;
-  api.delayFirstSkill = false;
-  await expect(page.getByRole('heading', { name: '技能录入', exact: true })).toBeVisible();
-  await expect(workspace.getByRole('heading', { name: '打击技能', exact: true })).toBeVisible();
-  await workspace.getByRole('navigation', { name: '技能配置模块' })
-    .getByRole('button', { name: '主体与分类', exact: true }).click();
-  await workspace.getByLabel('技能名称', { exact: true }).fill('未保存打击技能');
-  expect(await answerDialog(page, () => workspace.getByRole('button', { name: '返回符文技能', exact: true }).click(), false))
-    .toBe('当前技能修改尚未保存，确定返回符文技能吗？');
-  await expect(workspace.getByLabel('技能名称', { exact: true })).toHaveValue('未保存打击技能');
-  expect(await answerDialog(page, () => workspace.getByRole('button', { name: '返回符文技能', exact: true }).click(), true))
-    .toBe('当前技能修改尚未保存，确定返回符文技能吗？');
-  await expect(workspace).toHaveCount(0);
-  await expect(relations.getByText('打击技能', { exact: true })).toBeVisible();
-  await expect(relations.getByLabel('打击技能排序', { exact: true })).toHaveValue('4');
-  await relations.getByRole('button', { name: '关闭', exact: true }).click();
-  await expect(page.getByLabel('符文关键词', { exact: true })).toHaveValue('保留的筛选草稿');
-  await expect(page.getByLabel('筛选符文类别', { exact: true })).toContainText('小符文');
-  await expect(page.locator('.arco-pagination-item-active')).toHaveText('2');
-  await expect(row(page, 'r_26')).toBeVisible();
-  await row(page, 'r_26').getByRole('button', { name: '编辑', exact: true }).click();
-  const runeEditor = modal(page, '编辑符文');
-  await runeEditor.getByLabel('符文名称', { exact: true }).fill('未保存符文');
-  expect(await answerDialog(page, () => runeEditor.getByRole('button', { name: '取消', exact: true }).click(), false)).toBe('符文修改尚未完成，确定关闭吗？');
-  await expect(runeEditor.getByLabel('符文名称', { exact: true })).toHaveValue('未保存符文');
-  expect(await answerDialog(page, () => runeEditor.getByRole('button', { name: '取消', exact: true }).click(), true)).toBe('符文修改尚未完成，确定关闭吗？');
-  await expect(modal(page, '编辑符文')).toHaveCount(0);
-
-  await row(page, 'r_26').getByRole('button', { name: '关联技能', exact: true }).click();
-  await relations.getByRole('button', { name: '录入技能', exact: true }).click();
-  workspace = page.locator('[aria-label="技能统一编辑工作区"]');
-  await expect(workspace.getByRole('heading', { name: '打击技能', exact: true })).toBeVisible();
-  api.delayFirstSkill = true;
-  await workspace.getByRole('button', { name: '返回符文技能', exact: true }).click();
-  await relations.getByRole('button', { name: '录入技能', exact: true }).click();
-  await expect.poll(() => Boolean(api.holdSkill)).toBe(true);
-  await page.locator('.app-toolbar-field--game .arco-select-view').click();
-  await page.getByRole('option', { name: `${SECOND_GAME} / 第9项另一游戏`, exact: true }).click();
-  await expect(page.getByRole('heading', { name: '符文管理', exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: '返回符文技能', exact: true })).toHaveCount(0);
-  await expect(row(page, 'other_rune')).toContainText('另一游戏符文');
-  await json(api.holdSkill!, {
-    ...api.configuration(FIRST_GAME, 'strike'),
-    skill: skillRow(FIRST_GAME, 'strike', '迟到打击技能')
-  });
-  await expect(page.getByRole('button', { name: '返回符文技能', exact: true })).toHaveCount(0);
-  await expect(page.getByText('迟到打击技能', { exact: true })).toHaveCount(0);
-  await expect(row(page, 'other_rune')).toBeVisible();
-
-  await page.locator('.app-toolbar-field--game .arco-select-view').click();
-  await page.getByRole('option', { name: `${FIRST_GAME} / 第9项游戏`, exact: true }).click();
-  await expect(row(page, 'r_01')).toBeVisible();
-  await page.getByRole('tab', { name: '分组与槽位', exact: true }).click();
-  await expect(row(page, 'path_a').getByRole('button', { name: '关联技能', exact: true })).toHaveCount(0);
-  await expect(row(page, 'path_a').getByRole('button', { name: '代表图片', exact: true })).toBeVisible();
+  await page.evaluate(() => { window.location.hash = '#/builds'; });
+  await expect(page).toHaveURL(/#\/builds$/);
+  await expect(page.locator('.app-main').getByText('构筑系统管理', { exact: true }).first()).toBeVisible();
+  await page.evaluate(() => { window.location.hash = '#/runes'; });
+  await expect(page).toHaveURL(/#\/attributes$/);
   assertClean();
 });
+
 
 test('效果结果摘要区分零与空、名称键、失败缺失及大集合展开', async ({ page }) => {
   const api = new AuthoringP9Api();

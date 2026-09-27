@@ -217,7 +217,7 @@ test('stage 9 live: bidirectional mounts and all seven image sources', async ({ 
       await selectImage(page, dialog, IMAGE_A);
       if (source.group === '游戏') gameTouched = true;
       await dialog.getByRole('button', { name: '保存代表图片', exact: true }).click();
-      await expect(dialog.getByText('代表图片已保存。', { exact: true })).toBeVisible();
+      await expect(dialog.getByText('代表图片已保存并回读确认。', { exact: true })).toBeVisible();
       expect(await readImage(request, source)).toBe(IMAGE_A);
       {
         await selectImage(page, dialog, IMAGE_B);

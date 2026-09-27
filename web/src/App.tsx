@@ -17,7 +17,7 @@ import { SkillCategoryManagementPage } from './pages/admin/skill-categories/Skil
 import { SkillManagementPage } from './pages/admin/skills/SkillManagementPage';
 import { StatusManagementPage } from './pages/admin/statuses/StatusManagementPage';
 import { ImageManagementPage } from './pages/admin/images/ImageManagementPage';
-import { RuneManagementPage } from './pages/admin/runes/RuneManagementPage';
+import { BuildManagementPage } from './pages/admin/builds/BuildManagementPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import type { GameSummary, LoadState } from './types/api';
 
@@ -34,7 +34,7 @@ const STATIC_ROUTE_IDS = new Set<string>([
   'attributes',
   'characters',
   'equipment',
-  'runes',
+  'builds',
   'skill-categories',
   'damage-types',
   'modifier-zones',
@@ -372,8 +372,8 @@ export default function App() {
         onDirtyChange={handleAttributeDirtyChange}
       />
     );
-  } else if (route === 'runes') {
-    pageContent = <RuneManagementPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} onDirtyChange={handleAttributeDirtyChange} />;
+  } else if (route === 'builds') {
+    pageContent = <BuildManagementPage apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken} onDirtyChange={handleAttributeDirtyChange} />;
   } else if (route === 'skill-categories') {
     pageContent = (
       <SkillCategoryManagementPage

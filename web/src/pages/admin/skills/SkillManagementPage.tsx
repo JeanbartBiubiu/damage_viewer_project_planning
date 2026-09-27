@@ -23,9 +23,11 @@ export type SkillManagementPageProps = {
   onDirtyChange: (dirty: boolean) => void;
   focus?: {
     skillKey: string;
-    sourceKind: 'character' | 'equipment' | 'rune';
+    sourceKind: 'character' | 'equipment' | 'buildOption';
     sourceKey: string;
     sourceName: string;
+    systemKey?: string;
+    systemName?: string;
     onReturn: () => void;
     returnLabel: string;
     navigation?: AuthoringNavigationRequest;
@@ -223,7 +225,13 @@ export function SkillManagementPage({
         apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
         skillKey={workspace.skillKey} initialModule={workspace.module} initialStatus={workspace.initialStatus}
         categories={categories} categoryDirectoryReady={categoryDirectoryReady}
-        source={focus ? { kind: focus.sourceKind, name: focus.sourceName, key: focus.sourceKey } : null}
+        source={focus ? {
+          kind: focus.sourceKind,
+          name: focus.sourceName,
+          key: focus.sourceKey,
+          systemKey: focus.systemKey,
+          systemName: focus.systemName
+        } : null}
         backLabel={focus?.returnLabel}
         authoringLocation={workspace.navigation?.location}
         onBack={focus ? focus.onReturn : closeWorkspace}

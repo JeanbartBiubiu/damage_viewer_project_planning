@@ -8,7 +8,7 @@
 
 ## 当前边界
 
-- 当前产品面是属性、角色、装备、技能分类、伤害类型、技能、状态、修正区域、图片和游戏配置管理页；导航真源为 `src/config/navigation.ts`，路由壳层为 `src/App.tsx`。
+- 当前产品面是属性、角色、装备、构筑系统、技能分类、伤害类型、技能、状态、修正区域、图片和游戏配置管理页；导航真源为 `src/config/navigation.ts`，路由壳层为 `src/App.tsx`。
 - API 基址统一经 `src/services/apiClient.ts` 解析，默认值和页面切换行为见 README。Admin Token 与基址可写入浏览器本地存储，不把机器绝对路径或真实密钥写入源码。
 - 当前页面只使用现行业务与图片接口。已删除的 `/combat-data/**`、`versions/current`、旧发布、旧实体、Provider、Ability、Effect Sequence 和 Effect Step 页面不恢复兼容。
 - Wasm 宿主使用 TinyGo V2 的 `engine_compile`、`engine_run`、`engine_release_session`。只改宿主桥接时不在前端隐式改变 ABI。

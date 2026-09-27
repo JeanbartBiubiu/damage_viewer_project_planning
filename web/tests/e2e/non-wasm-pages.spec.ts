@@ -1882,6 +1882,11 @@ class MockApi {
       }
     }
 
+    if (method === 'GET' && path.startsWith(`/api/admin/games/${GAME_ID}/build-systems`)) {
+      await this.json(route, 200, { items: [], total: 0 });
+      return;
+    }
+
     this.unmockedRequests.push(`${method} ${path}`);
     await this.error(route, 404, '404.UNMOCKED', `unmocked API ${method} ${path}`);
   }
@@ -7941,7 +7946,8 @@ test.describe('attribute management without Wasm', () => {
       '#/ability-setup',
       '#/effect-sequence-setup',
       '#/effect-step-setup',
-      '#/direct-damage-ability'
+      '#/direct-damage-ability',
+      '#/runes'
     ];
 
     for (const hash of legacyHashes) {
@@ -7955,6 +7961,7 @@ test.describe('attribute management without Wasm', () => {
       ['#/attributes', '属性管理'],
       ['#/characters', '角色管理'],
       ['#/equipment', '装备管理'],
+      ['#/builds', '构筑系统管理'],
       ['#/skill-categories', '技能分类管理'],
       ['#/damage-types', '伤害类型管理'],
       ['#/modifier-zones', '乘区管理'],
@@ -7986,6 +7993,7 @@ test.describe('attribute management without Wasm', () => {
     expect(await page.locator('a[href="#/attributes"]').count()).toBe(1);
     expect(await page.locator('a[href="#/characters"]').count()).toBe(1);
     expect(await page.locator('a[href="#/equipment"]').count()).toBe(1);
+    expect(await page.locator('a[href="#/builds"]').count()).toBe(1);
     expect(await page.locator('a[href="#/skill-categories"]').count()).toBe(1);
     expect(await page.locator('a[href="#/damage-types"]').count()).toBe(1);
     expect(await page.locator('a[href="#/modifier-zones"]').count()).toBe(1);
