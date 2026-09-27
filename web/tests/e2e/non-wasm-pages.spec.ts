@@ -154,6 +154,7 @@ type DamageTypeRow = {
   description: string | null;
   status: 'ENABLED' | 'DISABLED';
   sortOrder: number;
+  formulaConfigured: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -381,6 +382,7 @@ class MockApi {
   equipmentAttributes: Record<string, Record<string, number>> = {};
   skillCategories: SkillCategoryRow[] = [];
   damageTypes: DamageTypeRow[] = [];
+  damageTypeFormulas = new Map<string, Json>();
   modifierZones: ModifierZoneRow[] = [];
   statuses: StatusRow[] = [];
   skills: SkillRow[] = [];
@@ -1532,11 +1534,60 @@ class MockApi {
           description: typeof body.description === 'string' ? body.description : null,
           status: body.status === 'DISABLED' ? 'DISABLED' : 'ENABLED',
           sortOrder: Number(body.sortOrder),
+          formulaConfigured: false,
           createdAt: CREATED_AT,
           updatedAt: UPDATED_AT
         };
         this.damageTypes.push(row);
         await this.json(route, 201, row);
+        return;
+      }
+    }
+
+    const damageTypeFormula = path.match(
+      new RegExp(`^/api/admin/games/${GAME_ID}/damage-types/([^/]+)/formula$`)
+    );
+    if (damageTypeFormula) {
+      const key = damageTypeFormula[1]!;
+      const existing = this.damageTypes.find((item) => item.damageTypeKey === key);
+      if (!existing) {
+        await this.error(route, 404, '404.DAMAGE_TYPE_NOT_FOUND', '伤害类型不存在');
+        return;
+      }
+      if (method === 'GET') {
+        const formula = this.damageTypeFormulas.get(key);
+        if (!formula) {
+          await this.error(route, 404, '404.DAMAGE_TYPE_FORMULA_NOT_FOUND', '尚未配置结算公式');
+          return;
+        }
+        await this.json(route, 200, {
+          gameId: GAME_ID,
+          damageTypeKey: key,
+          formula,
+          updatedAt: UPDATED_AT
+        });
+        return;
+      }
+      if (method === 'PUT') {
+        const body = await this.body(request);
+        this.writes.push({ method, path, body });
+        this.damageTypeFormulas.set(key, body.formula);
+        existing.formulaConfigured = true;
+        existing.updatedAt = UPDATED_AT;
+        await this.json(route, 200, {
+          gameId: GAME_ID,
+          damageTypeKey: key,
+          formula: body.formula,
+          updatedAt: UPDATED_AT
+        });
+        return;
+      }
+      if (method === 'DELETE') {
+        this.writes.push({ method, path, body: {} });
+        this.damageTypeFormulas.delete(key);
+        existing.formulaConfigured = false;
+        existing.updatedAt = UPDATED_AT;
+        await route.fulfill({ status: 204 });
         return;
       }
     }
@@ -1575,6 +1626,7 @@ class MockApi {
       if (method === 'DELETE') {
         this.writes.push({ method, path, body: {} });
         this.damageTypes = this.damageTypes.filter((item) => item.damageTypeKey !== key);
+        this.damageTypeFormulas.delete(key);
         await route.fulfill({ status: 204 });
         return;
       }
@@ -3029,6 +3081,7 @@ function seedSkillEffectCatalog(
       description: null,
       status: 'ENABLED',
       sortOrder: 10,
+      formulaConfigured: false,
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT
     },
@@ -3039,6 +3092,7 @@ function seedSkillEffectCatalog(
       description: null,
       status: 'DISABLED',
       sortOrder: 20,
+      formulaConfigured: false,
       createdAt: CREATED_AT,
       updatedAt: UPDATED_AT
     }
@@ -4233,6 +4287,59 @@ test.describe('skill category and damage type management without Wasm', () => {
     await createModal.getByRole('button', { name: '保存', exact: true }).click();
     await expect(createModal).toBeHidden();
     await expect(damageTypeRow(page, 'physical')).toContainText('物理伤害');
+    await expect(damageTypeRow(page, 'physical')).toContainText('未配置');
+
+    await damageTypeRow(page, 'physical').getByRole('button', { name: '配置公式', exact: true }).click();
+    const formulaModal = visibleModal(page, '结算公式 - 物理伤害');
+    await expect(formulaModal.getByText('当前伤害类型尚未配置结算公式。', { exact: true })).toBeVisible();
+    const fixedStages: Array<[string, string]> = [
+      ['resistanceBeforePenetration', '100'],
+      ['penetrationPercent', '0'],
+      ['penetrationFlat', '0'],
+      ['resistanceFactor', '0.5']
+    ];
+    for (const [stage, value] of fixedStages) {
+      const path = `formula.${stage}`;
+      await formulaModal.getByLabel(`${path}节点类型`, { exact: true })
+        .getByText('固定值', { exact: true }).click();
+      await formulaModal.getByLabel(`${path}固定值`, { exact: true }).fill(value);
+    }
+    await formulaModal.getByLabel('formula.effectiveResistance节点类型', { exact: true })
+      .getByText('前序结果', { exact: true }).click();
+    await formulaModal.getByLabel('formula.effectiveResistance前序结果', { exact: true }).click();
+    await chooseVisibleOption(page, '穿透前抗性');
+    const relationshipPreview = formulaModal.getByRole('region', { name: '五阶段关系预览', exact: true });
+    await expect(relationshipPreview).toContainText('R（穿透前抗性） = 100');
+    await expect(relationshipPreview).toContainText('E（有效抗性） = R（穿透前抗性）');
+    await expect(formulaModal.getByText('本阶段预览', { exact: true })).toHaveCount(5);
+    await expect(formulaModal.getByText('结构预览', { exact: true })).toHaveCount(0);
+    await formulaModal.getByRole('button', { name: '保存', exact: true }).click();
+    await expect(formulaModal).toBeHidden();
+    await expect(damageTypeRow(page, 'physical')).toContainText('已配置');
+    expect(mock.writes.find((write) => (
+      write.method === 'PUT' && write.path.endsWith('/damage-types/physical/formula')
+    ))?.body).toMatchObject({
+      formula: {
+        effectiveResistance: {
+          nodeType: 'STAGE_RESULT',
+          stageKey: 'RESISTANCE_BEFORE_PENETRATION'
+        }
+      }
+    });
+
+    await damageTypeRow(page, 'physical').getByRole('button', { name: '查看公式', exact: true }).click();
+    const formulaViewer = visibleModal(page, '结算公式 - 物理伤害');
+    await expect(formulaViewer.getByLabel('formula.resistanceFactor固定值', { exact: true })).toHaveValue('0.5');
+    await expect(formulaViewer.getByLabel('formula.resistanceFactor固定值', { exact: true })).toBeDisabled();
+    await formulaViewer.getByRole('button', { name: '关闭', exact: true }).click();
+    await expect(formulaViewer).toBeHidden();
+
+    await damageTypeRow(page, 'physical').getByRole('button', { name: '配置公式', exact: true }).click();
+    const formulaDeleteModal = visibleModal(page, '结算公式 - 物理伤害');
+    page.once('dialog', (dialog) => void dialog.accept());
+    await formulaDeleteModal.getByRole('button', { name: '删除公式', exact: true }).click();
+    await expect(formulaDeleteModal).toBeHidden();
+    await expect(damageTypeRow(page, 'physical')).toContainText('未配置');
 
     await damageTypeRow(page, 'physical').getByRole('button', { name: '查看', exact: true }).click();
     const viewModal = visibleModal(page, '查看伤害类型');

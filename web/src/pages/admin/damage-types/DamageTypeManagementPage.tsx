@@ -26,6 +26,7 @@ import type {
   UpdateDamageTypeRequest
 } from '../../../types/damageType';
 import { DamageTypeEditorModal, type DamageTypeEditorMode } from './DamageTypeEditorModal';
+import { DamageTypeFormulaEditorModal } from './DamageTypeFormulaEditorModal';
 
 export type DamageTypeManagementPageProps = {
   apiBaseUrl: string;
@@ -36,6 +37,7 @@ export type DamageTypeManagementPageProps = {
 
 type StatusFilter = DamageTypeStatus | '';
 type EditorState = { mode: DamageTypeEditorMode; damageType: DamageType | null };
+type FormulaEditorState = { damageType: DamageType; readOnly: boolean };
 type StatusTarget = { damageType: DamageType; nextStatus: DamageTypeStatus };
 
 const EMPTY_QUERY: DamageTypeListQuery = {};
@@ -69,6 +71,9 @@ export function DamageTypeManagementPage({
   const [loadError, setLoadError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [editor, setEditor] = useState<EditorState | null>(null);
+  const [formulaEditor, setFormulaEditor] = useState<FormulaEditorState | null>(null);
+  const [entityDirty, setEntityDirty] = useState(false);
+  const [formulaDirty, setFormulaDirty] = useState(false);
   const [statusTarget, setStatusTarget] = useState<StatusTarget | null>(null);
   const [statusError, setStatusError] = useState<string | null>(null);
   const [statusUpdatingKey, setStatusUpdatingKey] = useState<string | null>(null);
@@ -108,10 +113,17 @@ export function DamageTypeManagementPage({
   useEffect(() => { void loadList(appliedQuery); }, [appliedQuery, loadList]);
 
   useEffect(() => {
+    onDirtyChange(entityDirty || formulaDirty);
+  }, [entityDirty, formulaDirty, onDirtyChange]);
+
+  useEffect(() => {
     setKeywordDraft('');
     setStatusDraft('');
     setAppliedQuery(EMPTY_QUERY);
     setEditor(null);
+    setFormulaEditor(null);
+    setEntityDirty(false);
+    setFormulaDirty(false);
     setStatusTarget(null);
     setStatusError(null);
     setDeleteTarget(null);
@@ -119,6 +131,11 @@ export function DamageTypeManagementPage({
     setNotice(null);
     onDirtyChange(false);
   }, [onDirtyChange, selectedGameId]);
+
+  useEffect(() => {
+    setFormulaEditor(null);
+    setFormulaDirty(false);
+  }, [adminToken, apiBaseUrl]);
 
   const applyQuery = () => {
     setNotice(null);
@@ -138,7 +155,7 @@ export function DamageTypeManagementPage({
   const handleSaved = async (saved: DamageType) => {
     setEditor(null);
     setNotice(`伤害类型「${saved.name}」已保存。`);
-    onDirtyChange(false);
+    setEntityDirty(false);
     await loadList(appliedQuery);
   };
 
@@ -210,6 +227,12 @@ export function DamageTypeManagementPage({
         ? <Tag color="green">启用</Tag>
         : <Tag color="gray">停用</Tag>
     },
+    {
+      title: '结算公式',
+      dataIndex: 'formulaConfigured',
+      width: 110,
+      render: (value: boolean) => value ? '已配置' : '未配置'
+    },
     { title: '排序', dataIndex: 'sortOrder', width: 80 },
     {
       title: '更新时间',
@@ -219,12 +242,14 @@ export function DamageTypeManagementPage({
     },
     {
       title: '操作',
-      width: 280,
+      width: 460,
       fixed: 'right',
       render: (_value, record: DamageType) => (
         <Space size="mini">
           <Button size="mini" onClick={() => setEditor({ mode: 'view', damageType: record })}>查看</Button>
           <Button size="mini" onClick={() => setEditor({ mode: 'edit', damageType: record })}>编辑</Button>
+          <Button size="mini" onClick={() => setFormulaEditor({ damageType: record, readOnly: false })}>配置公式</Button>
+          <Button size="mini" onClick={() => setFormulaEditor({ damageType: record, readOnly: true })}>查看公式</Button>
           <Button
             size="mini"
             status={record.status === 'ENABLED' ? 'danger' : 'success'}
@@ -317,7 +342,7 @@ export function DamageTypeManagementPage({
           data={items}
           pagination={false}
           rowKey={(record: DamageType) => record.damageTypeKey}
-          scroll={{ x: 1120 }}
+          scroll={{ x: 1480 }}
           noDataElement={<Empty description="暂无伤害类型" />}
         />
       </Panel>
@@ -331,8 +356,32 @@ export function DamageTypeManagementPage({
         adminToken={adminToken}
         onClose={() => setEditor(null)}
         onSaved={handleSaved}
-        onDirtyChange={onDirtyChange}
+        onDirtyChange={setEntityDirty}
       />
+
+      {formulaEditor && selectedGameId ? (
+        <DamageTypeFormulaEditorModal
+          damageType={formulaEditor.damageType}
+          readOnly={formulaEditor.readOnly}
+          apiBaseUrl={apiBaseUrl}
+          selectedGameId={selectedGameId}
+          adminToken={adminToken}
+          onClose={() => setFormulaEditor(null)}
+          onSaved={async (message) => {
+            setFormulaEditor(null);
+            setFormulaDirty(false);
+            setNotice(message);
+            await loadList(appliedQuery);
+          }}
+          onDeleted={async (message) => {
+            setFormulaEditor(null);
+            setFormulaDirty(false);
+            setNotice(message);
+            await loadList(appliedQuery);
+          }}
+          onDirtyChange={setFormulaDirty}
+        />
+      ) : null}
 
       <Modal
         title={statusTarget?.nextStatus === 'ENABLED' ? '启用伤害类型' : '停用伤害类型'}

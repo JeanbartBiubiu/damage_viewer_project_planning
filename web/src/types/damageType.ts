@@ -7,6 +7,7 @@ export type DamageType = {
   description: string | null;
   status: DamageTypeStatus;
   sortOrder: number;
+  formulaConfigured: boolean;
   createdAt: string;
   updatedAt: string;
 };
