@@ -1,6 +1,6 @@
 # Damage Viewer Backend
 
-`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片、属性、角色、装备、符文、技能、状态，以及技能公式、效果、内部状态、过程和触发规则的录入管理。
+`server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片、属性、角色、装备、符文、技能、状态，以及技能公式、伤害类型结算公式、效果、内部状态、过程和触发规则的录入管理。
 
 当前实现只保存、校验和回读配置，不执行公式、过程或事件，不组装 Wasm 数据。旧 `/combat-data/**`、当前版本查询和 `versions:publish` 发布链路已删除。
 
@@ -152,6 +152,8 @@
 
 随后录入游戏及业务数据。当前没有新库必跑的业务种子；`migrations/**` 不属于新库初始化步骤，应用启动也不会自动执行迁移。
 
+已有聚合存储库追加伤害类型结算公式列时使用 [damage_type_calculation_formula.sql](../../db/game_manage/migrations/damage_type_calculation_formula.sql)。脚本只增加可空 JSONB 列、根对象检查和列注释，不写入公式，也不修改现有伤害类型或引用；列或约束已存在时拒绝重放。新库直接使用当前建表脚本。单测和静态 SQL 不代表实库已经执行。
+
 ### 符文基础管理追加迁移
 
 已有 24 表聚合存储库使用 [rune_management.sql](../../db/game_manage/migrations/rune_management.sql)：仅创建三张空表，并在图片来源检查中加入符文及分组，保留原七项。先核对目标库、三表不存在和原约束定义，再由调用方在单事务中执行；脚本不自动提交，重复执行应失败。应用启动不会迁移结构，重启新版服务前必须完成追加迁移。该迁移不重写历史 91 → 24 表脚本，也不改变已有业务行或图片内容。
@@ -217,7 +219,7 @@
 | `/attributes` | 列表、详情、新建、全量修改和启停；不提供 DELETE |
 | `/vamp-rules` | 游戏级通用吸血规则完整读取与替换，来源属性、分类及伤害例外在提交前复核 |
 | `/characters`、`/equipment` | 角色和装备分别管理，保留各自完整属性配置 |
-| `/skill-categories`、`/damage-types` | 单层技能分类与伤害类型，均支持列表、详情、新建、全量修改和删除 |
+| `/skill-categories`、`/damage-types` | 单层技能分类与伤害类型。伤害类型另有结算公式子资源；列表和详情只给出是否已配置 |
 | `/modifier-zones` | 属性、伤害、治疗、护盾四个业务域的乘区管理 |
 | `/statuses` | 状态基本资料；稳定标识与状态种类不可改，名称按去首尾空格、不区分大小写唯一，停用项仍参与唯一校验 |
 | `/runes`、`/rune-paths` | 符文身份及分组完整布局管理，按上文唯一契约保存；不提供启停 |
@@ -257,6 +259,26 @@
 已执行普通减速迁移的原库使用[禁锢追加迁移](../../db/game_manage/migrations/add_root_status_kind.sql)，不重放或改写旧迁移与 `ApplyStatusKinds.java`。执行方先核对目标连接及已审查脚本的摘要；脚本验证 `test0221`、旧种类约束、非空且无默认值的列和唯一已核定状态，锁定游戏、状态、效果与引用，在单事务内只扩大检查约束并更新注释。前后完整比较原状态含时间戳、效果和引用；重复执行、结构或现值漂移均报错回滚，不新增状态记录。脚本提交结果未知时先独立只读核对，不能直接重试。新库直接使用当前建表脚本；真实页面首次建立禁锢目录前不通过接口预先录入。
 
 禁锢定向检查：`mvn "-Dtest=StatusServiceTest,SkillMovementSlowServiceTest,StatusBasicManagementSchemaSqlTest" test`。这些服务与静态 SQL 检查不代表实库迁移、页面补录或战斗运行通过。
+
+### 伤害类型结算公式
+
+`damage_types.calculation_formula` 是可空 JSONB。NULL 表示未配置；非空只要求根 JSON 对象，五阶段语义由服务校验。不另建公式表、公式键、默认公式或 JSONB 搜索索引，也不按物理、法术、真实等名称生成公式。
+
+基础资料的列表、详情、创建和更新响应增加只读 `formulaConfigured`，值为该列非空。创建和基础资料更新不接受这个字段；基础更新只写名称、说明、状态、排序和 `updated_at`，不覆盖公式。
+
+公式子资源为 `/api/admin/games/{gameId}/damage-types/{damageTypeKey}/formula`：
+
+- GET 返回 `gameId`、`damageTypeKey`、`formula`、`updatedAt`。未配置返回 `404.DAMAGE_TYPE_FORMULA_NOT_FOUND`。
+- PUT 请求体只有 `formula`，新建或完整替换，成功 200，并在同一事务回读。
+- DELETE 只把公式设为 NULL，成功 204。未配置同样返回 `404.DAMAGE_TYPE_FORMULA_NOT_FOUND`。
+
+PUT 和 DELETE 先调用 `GameConfigurationWriteGuard.begin(gameId)`，确认游戏和伤害类型，锁定目标行，更新 `updated_at`。游戏或伤害类型不存在仍返回 `404.GAME_NOT_FOUND`、`404.DAMAGE_TYPE_NOT_FOUND`。
+
+`formula` 必须且只能有 `resistanceBeforePenetration`、`penetrationPercent`、`penetrationFlat`、`effectiveResistance`、`resistanceFactor` 五个阶段。每个阶段是一棵表达式树，节点只允许 OPERATION、FIXED、ATTRIBUTE、STAGE_RESULT。运算只允许 ADD、SUBTRACT、MULTIPLY、DIVIDE、MIN、MAX，且恰好两个有序操作数。属性对象沿用 SOURCE、TARGET，取值沿用 BASE、BONUS、TOTAL、CURRENT、MISSING、CURRENT_RATIO、MISSING_RATIO。不接受技能 PARAMETER 节点。每个阶段深度最多 32，节点最多 256。固定值必须是明确的有限数值。
+
+阶段结果只能引用更早的阶段：第一阶段不能引用阶段结果，其后每个阶段只能引用自己之前的阶段。同阶段、后序、未知阶段和回指都拒绝。属性必须属于当前游戏。创建公式只能引用 ENABLED 属性；替换时，已有 DISABLED 引用可以按 `(attributeOwner, attributeKey, attributeValueKind)` 原样保留，改变任一项都算新引用，不能新增停用属性。属性当前没有删除接口，这些游戏级引用不写入 `skill_object_references`。
+
+请求无法绑定的 JSON、字段类型或枚举返回 `400.INVALID_BODY`。阶段、节点、字段互斥、深度、节点数和固定值形状错误返回 `400.VALIDATION_FAILED`。未知属性、跨游戏属性或非法阶段引用返回 `400.INVALID_DAMAGE_TYPE_FORMULA_REFERENCE`。新增停用属性返回 `409.FORMULA_ATTRIBUTE_DISABLED`。同一次检查返回全部可定位 `fieldIssues`，路径形如 `formula.effectiveResistance.operands[1].stageKey`。本模块不执行公式，也不静态检查除零、结果范围或最终倍率。
 
 ### 技能挂载与代表图片
 

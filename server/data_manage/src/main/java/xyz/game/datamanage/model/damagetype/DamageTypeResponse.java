@@ -10,6 +10,7 @@ public record DamageTypeResponse(
     DamageTypeStatus status,
     Integer sortOrder,
     OffsetDateTime createdAt,
-    OffsetDateTime updatedAt
+    OffsetDateTime updatedAt,
+    boolean formulaConfigured
 ) {
 }

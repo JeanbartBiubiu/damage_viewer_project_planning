@@ -3,10 +3,15 @@ package xyz.game.datamanage.service.damagetype;
 import jakarta.validation.Valid;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,17 +19,31 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.damagetype.DamageTypeMapper;
+import xyz.game.datamanage.model.attribute.AttributeStatus;
+import xyz.game.datamanage.model.damagetype.DamageTypeCalculationFormula;
 import xyz.game.datamanage.model.damagetype.DamageTypeCreateRequest;
+import xyz.game.datamanage.model.damagetype.DamageTypeFormulaAttributeStatusRow;
+import xyz.game.datamanage.model.damagetype.DamageTypeFormulaReplaceRequest;
+import xyz.game.datamanage.model.damagetype.DamageTypeFormulaResponse;
+import xyz.game.datamanage.model.damagetype.DamageTypeFormulaRow;
+import xyz.game.datamanage.model.damagetype.DamageTypeFormulaStage;
 import xyz.game.datamanage.model.damagetype.DamageTypeListQuery;
 import xyz.game.datamanage.model.damagetype.DamageTypeListResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeStatus;
 import xyz.game.datamanage.model.damagetype.DamageTypeUpdateRequest;
+import xyz.game.datamanage.service.damagetype.DamageTypeFormulaParser.AttributeIdentity;
+import xyz.game.datamanage.service.damagetype.DamageTypeFormulaParser.AttributeUse;
+import xyz.game.datamanage.service.damagetype.DamageTypeFormulaParser.Shape;
+import xyz.game.datamanage.service.damagetype.DamageTypeFormulaParser.StageUse;
+import xyz.game.datamanage.support.authoring.AggregateJson;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
 @Validated
 public class DamageTypeService {
+
+    private static final Logger log = LoggerFactory.getLogger(DamageTypeService.class);
 
     private final xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard configurationWrites;
 
@@ -125,6 +144,43 @@ public class DamageTypeService {
         return requireDamageType(gameId, damageTypeKey);
     }
 
+    @Transactional(readOnly = true)
+    public DamageTypeFormulaResponse getFormula(String gameId, String damageTypeKey) {
+        requireGame(gameId);
+        return toFormulaResponse(requireConfiguredFormula(gameId, damageTypeKey));
+    }
+
+    @Transactional
+    public DamageTypeFormulaResponse replaceFormula(
+        String gameId,
+        String damageTypeKey,
+        @Valid DamageTypeFormulaReplaceRequest request
+    ) {
+        configurationWrites.begin(gameId);
+        requireGame(gameId);
+        DamageTypeFormulaRow locked = requireFormulaRowForUpdate(gameId, damageTypeKey);
+        Shape shape = DamageTypeFormulaParser.parseShape(request == null ? null : request.formula());
+        Set<AttributeIdentity> existing = existingAttributes(locked);
+        assertReferences(gameId, shape, existing);
+        if (mapper.updateFormula(gameId, damageTypeKey, AggregateJson.write(shape.toModel())) == 0) {
+            throw notFound(damageTypeKey);
+        }
+        return toFormulaResponse(requireFormulaRow(gameId, damageTypeKey));
+    }
+
+    @Transactional
+    public void deleteFormula(String gameId, String damageTypeKey) {
+        configurationWrites.begin(gameId);
+        requireGame(gameId);
+        DamageTypeFormulaRow locked = requireFormulaRowForUpdate(gameId, damageTypeKey);
+        if (locked.calculationFormula() == null) {
+            throw formulaNotFound(gameId, damageTypeKey);
+        }
+        if (mapper.clearFormula(gameId, damageTypeKey) == 0) {
+            throw notFound(damageTypeKey);
+        }
+    }
+
     @Transactional
     public void delete(String gameId, String damageTypeKey) {
         configurationWrites.begin(gameId);
@@ -164,6 +220,152 @@ public class DamageTypeService {
             throw notFound(damageTypeKey);
         }
         return response;
+    }
+
+    private DamageTypeFormulaRow requireFormulaRow(String gameId, String damageTypeKey) {
+        DamageTypeFormulaRow row = mapper.findFormulaById(gameId, damageTypeKey);
+        if (row == null) {
+            throw notFound(damageTypeKey);
+        }
+        return row;
+    }
+
+    private DamageTypeFormulaRow requireFormulaRowForUpdate(String gameId, String damageTypeKey) {
+        DamageTypeFormulaRow row = mapper.findFormulaForUpdate(gameId, damageTypeKey);
+        if (row == null) {
+            throw notFound(damageTypeKey);
+        }
+        return row;
+    }
+
+    private DamageTypeFormulaRow requireConfiguredFormula(String gameId, String damageTypeKey) {
+        DamageTypeFormulaRow row = requireFormulaRow(gameId, damageTypeKey);
+        if (row.calculationFormula() == null) {
+            throw formulaNotFound(gameId, damageTypeKey);
+        }
+        return row;
+    }
+
+    private DamageTypeFormulaResponse toFormulaResponse(DamageTypeFormulaRow row) {
+        return new DamageTypeFormulaResponse(
+            row.gameId(),
+            row.damageTypeKey(),
+            readStoredFormula(row),
+            row.updatedAt()
+        );
+    }
+
+    private Set<AttributeIdentity> existingAttributes(DamageTypeFormulaRow locked) {
+        if (locked.calculationFormula() == null) {
+            return Set.of();
+        }
+        return DamageTypeFormulaParser.identities(readStoredFormula(locked));
+    }
+
+    private DamageTypeCalculationFormula readStoredFormula(DamageTypeFormulaRow row) {
+        try {
+            return DamageTypeFormulaParser.readStored(row.calculationFormula());
+        } catch (RuntimeException ex) {
+            log.error(
+                "Damage type formula data corruption detected. gameId={}, damageTypeKey={}",
+                row.gameId(),
+                row.damageTypeKey(),
+                ex
+            );
+            throw new ApiException(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "500.INTERNAL_ERROR",
+                "伤害类型结算公式数据损坏",
+                Map.of(
+                    "gameId", row.gameId() == null ? "" : row.gameId(),
+                    "damageTypeKey", row.damageTypeKey() == null ? "" : row.damageTypeKey()
+                )
+            );
+        }
+    }
+
+    private void assertReferences(String gameId, Shape shape, Set<AttributeIdentity> existing) {
+        List<Map<String, String>> referenceIssues = new ArrayList<>();
+        for (StageUse use : shape.stages()) {
+            DamageTypeFormulaStage target = DamageTypeFormulaStage.fromText(use.stageKey());
+            if (target == null || !use.owner().allows(target)) {
+                referenceIssues.add(fieldIssue(
+                    use.path(),
+                    "STAGE_REFERENCE_INVALID",
+                    "阶段结果只能引用更早的结算阶段"
+                ));
+            }
+        }
+        Map<String, String> statusByKey = loadAttributeStatus(gameId, shape);
+        List<Map<String, String>> disabledIssues = new ArrayList<>();
+        for (AttributeUse use : shape.attributes()) {
+            String status = statusByKey.get(use.attributeKey());
+            if (status == null) {
+                referenceIssues.add(fieldIssue(
+                    use.path(),
+                    "UNKNOWN_ATTRIBUTE",
+                    "属性不存在或不属于当前游戏"
+                ));
+            } else if (!existing.contains(use.identity()) && !AttributeStatus.ENABLED.name().equals(status)) {
+                disabledIssues.add(fieldIssue(
+                    use.path(),
+                    "FORMULA_ATTRIBUTE_DISABLED",
+                    "不能新增停用属性引用"
+                ));
+            }
+        }
+        List<Map<String, String>> allIssues = new ArrayList<>(referenceIssues.size() + disabledIssues.size());
+        allIssues.addAll(referenceIssues);
+        allIssues.addAll(disabledIssues);
+        sortIssues(allIssues);
+        if (!referenceIssues.isEmpty()) {
+            throw new ApiException(
+                HttpStatus.BAD_REQUEST,
+                "400.INVALID_DAMAGE_TYPE_FORMULA_REFERENCE",
+                "伤害类型结算公式引用不合法",
+                Map.of("fieldIssues", List.copyOf(allIssues))
+            );
+        }
+        if (!disabledIssues.isEmpty()) {
+            throw new ApiException(
+                HttpStatus.CONFLICT,
+                "409.FORMULA_ATTRIBUTE_DISABLED",
+                "不能新增停用属性引用",
+                Map.of("fieldIssues", List.copyOf(allIssues), "gameId", gameId)
+            );
+        }
+    }
+
+    private Map<String, String> loadAttributeStatus(String gameId, Shape shape) {
+        Set<String> keys = shape.attributeKeys();
+        Map<String, String> statusByKey = new HashMap<>();
+        if (keys.isEmpty()) {
+            return statusByKey;
+        }
+        List<DamageTypeFormulaAttributeStatusRow> rows = mapper.findAttributesByKeys(gameId, keys);
+        if (rows != null) {
+            for (DamageTypeFormulaAttributeStatusRow row : rows) {
+                statusByKey.put(row.attributeKey(), row.status());
+            }
+        }
+        return statusByKey;
+    }
+
+    private static void sortIssues(List<Map<String, String>> issues) {
+        issues.sort(Comparator.comparing((Map<String, String> issue) -> issue.get("field"))
+            .thenComparing(issue -> issue.get("code")));
+    }
+
+    private static ApiException formulaNotFound(String gameId, String damageTypeKey) {
+        return new ApiException(
+            HttpStatus.NOT_FOUND,
+            "404.DAMAGE_TYPE_FORMULA_NOT_FOUND",
+            "伤害类型结算公式未配置",
+            Map.of(
+                "gameId", gameId == null ? "" : gameId,
+                "damageTypeKey", damageTypeKey == null ? "" : damageTypeKey
+            )
+        );
     }
 
     private static void validateCreate(DamageTypeCreateRequest request) {

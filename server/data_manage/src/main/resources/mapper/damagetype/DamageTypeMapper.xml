@@ -14,11 +14,33 @@
             <arg column="sort_order" javaType="java.lang.Integer"/>
             <arg column="created_at" javaType="java.time.OffsetDateTime"/>
             <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="formula_configured" javaType="_boolean"/>
         </constructor>
     </resultMap>
 
+    <resultMap id="formulaRow" type="xyz.game.datamanage.model.damagetype.DamageTypeFormulaRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="damage_type_key" javaType="java.lang.String"/>
+            <arg column="calculation_formula" javaType="java.lang.String"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+
+    <resultMap id="attributeStatus" type="xyz.game.datamanage.model.damagetype.DamageTypeFormulaAttributeStatusRow">
+        <constructor>
+            <arg column="attribute_key" javaType="java.lang.String"/>
+            <arg column="status" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="responseColumns">
+        game_id, damage_type_key, name, description, status, sort_order, created_at, updated_at,
+        (calculation_formula IS NOT NULL) AS formula_configured
+    </sql>
+
     <select id="list" resultMap="response">
-        SELECT game_id, damage_type_key, name, description, status, sort_order, created_at, updated_at
+        SELECT <include refid="responseColumns"/>
         FROM public.damage_types
         WHERE game_id = #{gameId}
         <if test="keyword != null">
@@ -34,13 +56,13 @@
     </select>
 
     <select id="findById" resultMap="response">
-        SELECT game_id, damage_type_key, name, description, status, sort_order, created_at, updated_at
+        SELECT <include refid="responseColumns"/>
         FROM public.damage_types
         WHERE game_id = #{gameId} AND damage_type_key = #{damageTypeKey}
     </select>
 
     <select id="findByIdForUpdate" resultMap="response">
-        SELECT game_id, damage_type_key, name, description, status, sort_order, created_at, updated_at
+        SELECT <include refid="responseColumns"/>
         FROM public.damage_types
         WHERE game_id = #{gameId} AND damage_type_key = #{damageTypeKey}
         FOR UPDATE
@@ -83,4 +105,42 @@
         DELETE FROM public.damage_types
         WHERE game_id = #{gameId} AND damage_type_key = #{damageTypeKey}
     </delete>
+
+    <select id="findFormulaById" resultMap="formulaRow">
+        SELECT game_id, damage_type_key, calculation_formula::text AS calculation_formula, updated_at
+        FROM public.damage_types
+        WHERE game_id = #{gameId} AND damage_type_key = #{damageTypeKey}
+    </select>
+
+    <select id="findFormulaForUpdate" resultMap="formulaRow">
+        SELECT game_id, damage_type_key, calculation_formula::text AS calculation_formula, updated_at
+        FROM public.damage_types
+        WHERE game_id = #{gameId} AND damage_type_key = #{damageTypeKey}
+        FOR UPDATE
+    </select>
+
+    <update id="updateFormula">
+        UPDATE public.damage_types
+        SET calculation_formula = CAST(#{calculationFormula} AS jsonb),
+            updated_at = now()
+        WHERE game_id = #{gameId} AND damage_type_key = #{damageTypeKey}
+    </update>
+
+    <update id="clearFormula">
+        UPDATE public.damage_types
+        SET calculation_formula = NULL,
+            updated_at = now()
+        WHERE game_id = #{gameId} AND damage_type_key = #{damageTypeKey}
+          AND calculation_formula IS NOT NULL
+    </update>
+
+    <select id="findAttributesByKeys" resultMap="attributeStatus">
+        SELECT attribute_key, status
+        FROM public.attributes
+        WHERE game_id = #{gameId}
+          AND attribute_key IN
+        <foreach collection="keys" item="key" open="(" separator="," close=")">
+            #{key}
+        </foreach>
+    </select>
 </mapper>

@@ -334,6 +334,7 @@ CREATE TABLE public.damage_types (
     description text,
     status varchar(16) NOT NULL DEFAULT 'ENABLED',
     sort_order integer NOT NULL DEFAULT 0,
+    calculation_formula jsonb,
     created_at timestamptz NOT NULL DEFAULT now(),
     updated_at timestamptz NOT NULL DEFAULT now(),
     CONSTRAINT pk_damage_types PRIMARY KEY (game_id, damage_type_key),
@@ -346,13 +347,16 @@ CREATE TABLE public.damage_types (
     CONSTRAINT ck_damage_types_status
         CHECK (status IN ('ENABLED', 'DISABLED')),
     CONSTRAINT ck_damage_types_sort_order
-        CHECK (sort_order >= 0)
+        CHECK (sort_order >= 0),
+    CONSTRAINT ck_damage_types_calculation_formula
+        CHECK (calculation_formula IS NULL OR jsonb_typeof(calculation_formula) = 'object')
 );
 
 CREATE UNIQUE INDEX uq_damage_types_name
     ON public.damage_types (game_id, lower(btrim(name)));
 
 COMMENT ON TABLE public.damage_types IS '伤害类型';
+COMMENT ON COLUMN public.damage_types.calculation_formula IS '伤害类型结算公式；NULL 表示未配置，非空仅要求 JSON 对象，阶段语义由服务层校验';
 
 CREATE TABLE public.modifier_zones (
     game_id varchar(64) NOT NULL,
