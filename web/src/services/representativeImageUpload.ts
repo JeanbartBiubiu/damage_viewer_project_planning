@@ -1,7 +1,7 @@
 import { ApiRequestError, getErrorMessage } from './apiClient';
 import { createImage, getImage } from './imageClient';
 import { upsertManagedImage } from './imageCache';
-import { setRepresentativeImage } from './imageRelationClient';
+import { setRepresentativeImageVerified } from './imageRelationClient';
 import type { PreparedResourceImage } from './resourceImage';
 import type { ManagedImage } from '../types/image';
 import type { ImageRelationTarget, RepresentativeImage } from '../types/imageRelation';
@@ -121,7 +121,7 @@ export async function uploadAndUseRepresentativeImage(
   const uploaded = next.uploaded;
   let image: RepresentativeImage;
   try {
-    const result = await setRepresentativeImage(context.apiBaseUrl, context.gameId, context.target, context.token, uploaded.imageKey);
+    const result = await setRepresentativeImageVerified(context.apiBaseUrl, context.gameId, context.target, context.token, uploaded.imageKey);
     if (!isCurrent()) return null;
     if (!result.data.image || result.data.image.imageKey !== uploaded.imageKey) {
       throw new ApiRequestError('代表图片保存响应不完整，请重试。', 502, '502.IMAGE_RELATION_RESPONSE_INVALID');

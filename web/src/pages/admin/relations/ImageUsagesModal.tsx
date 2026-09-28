@@ -4,12 +4,17 @@ import { getErrorMessage, listGames } from '../../../services/apiClient';
 import { listCharacters } from '../../../services/characterClient';
 import { listAttributes } from '../../../services/attributeClient';
 import { listEquipment } from '../../../services/equipmentClient';
-import { listRunes, listRunePaths } from '../../../services/runeClient';
+import { listBuildGroups, listBuildOptions, listBuildSystems } from '../../../services/buildClient';
 import { listSkills } from '../../../services/skillClient';
 import { listSkillEffects } from '../../../services/skillEffectClient';
 import { listStatuses } from '../../../services/statusClient';
 import { getImage } from '../../../services/imageClient';
-import { getImageUsages, getRepresentativeImage, removeRepresentativeImage, setRepresentativeImage } from '../../../services/imageRelationClient';
+import {
+  getImageUsages,
+  getRepresentativeImage,
+  removeRepresentativeImageVerified,
+  setRepresentativeImageVerified
+} from '../../../services/imageRelationClient';
 import type { ImageRelationTarget, ImageUsages, RepresentativeImage } from '../../../types/imageRelation';
 import { CachedImagePreview } from './CachedImagePreview';
 import { IMAGE_SOURCE_KINDS, imageSourceLabel, imageTargetIdentity, imageUsageGroups, representativeImageReplacementMessage, type ImageSourceOption } from './imageRelationForm';
@@ -29,7 +34,7 @@ export function ImageUsagesModal(props: ImageUsagesModalProps) {
   return <ImageUsagesForm key={JSON.stringify([props.apiBaseUrl, props.selectedGameId, props.imageKey, props.adminToken])} {...props} imageKey={props.imageKey} selectedGameId={props.selectedGameId} />;
 }
 
-async function sourceOptions(apiBaseUrl: string, gameId: string, token: string, kind: ImageRelationTarget['kind'], skillKey: string | null): Promise<ImageSourceOption[]> {
+async function sourceOptions(apiBaseUrl: string, gameId: string, token: string, kind: ImageRelationTarget['kind'], parentKey: string | null): Promise<ImageSourceOption[]> {
   switch (kind) {
     case 'game': return (await listGames(apiBaseUrl)).data.filter((game) => game.gameId === gameId)
       .map((game) => ({ target: { kind, key: game.gameId, name: game.gameName } }));
@@ -39,13 +44,13 @@ async function sourceOptions(apiBaseUrl: string, gameId: string, token: string, 
       .map((row) => ({ target: { kind, key: row.attributeKey, name: row.name }, status: row.status }));
     case 'equipment': return (await listEquipment(apiBaseUrl, gameId, token)).data.items
       .map((row) => ({ target: { kind, key: row.equipmentKey, name: row.name } }));
-    case 'rune': return (await listRunes(apiBaseUrl, gameId, token)).data.items
-      .map((row) => ({ target: { kind, key: row.runeKey, name: row.name } }));
-    case 'runePath': return (await listRunePaths(apiBaseUrl, gameId, token)).data.items
-      .map((row) => ({ target: { kind, key: row.pathKey, name: row.name } }));
+    case 'buildOption': return parentKey ? (await listBuildOptions(apiBaseUrl, gameId, parentKey, token)).data.items
+      .map((row) => ({ target: { kind, key: row.optionKey, name: row.name, systemKey: row.systemKey } })) : [];
+    case 'buildGroup': return parentKey ? (await listBuildGroups(apiBaseUrl, gameId, parentKey, token)).data.items
+      .map((row) => ({ target: { kind, key: row.groupKey, name: row.name, systemKey: row.systemKey } })) : [];
     case 'skill': return (await listSkills(apiBaseUrl, gameId, token)).data.items
       .map((row) => ({ target: { kind, key: row.skillKey, name: row.name }, status: row.status }));
-    case 'skillEffect': return skillKey ? (await listSkillEffects(apiBaseUrl, gameId, skillKey, token)).data
+    case 'skillEffect': return parentKey ? (await listSkillEffects(apiBaseUrl, gameId, parentKey, token)).data
       .map((row) => ({ target: { kind, key: row.effectKey, name: row.name, skillKey: row.skillKey } })) : [];
     case 'status': return (await listStatuses(apiBaseUrl, gameId, token)).data.items
       .map((row) => ({ target: { kind, key: row.statusKey, name: row.name }, status: row.status }));
@@ -62,7 +67,9 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
   const [success, setSuccess] = useState<string | null>(null);
   const [sourceKind, setSourceKind] = useState<ImageRelationTarget['kind']>('character');
   const [skillKey, setSkillKey] = useState<string | null>(null);
+  const [systemKey, setSystemKey] = useState<string | null>(null);
   const [skills, setSkills] = useState<ImageSourceOption[]>([]);
+  const [systems, setSystems] = useState<ImageSourceOption[]>([]);
   const [options, setOptions] = useState<ImageSourceOption[]>([]);
   const [selection, setSelection] = useState<ImageSourceOption | null>(null);
   const [optionsLoading, setOptionsLoading] = useState(false);
@@ -72,11 +79,11 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
   const readRequest = useRef(0);
   const dirtyCallback = useRef(onDirtyChange);
   dirtyCallback.current = onDirtyChange;
-  const dirty = selection !== null || skillKey !== null;
+  const dirty = selection !== null || skillKey !== null || systemKey !== null;
   const groups = useMemo(() => usages ? imageUsageGroups(usages) : [], [usages]);
   const existing = useMemo(() => new Set(groups.flatMap((group) => group.items.map((item) => imageTargetIdentity(item.target)))), [groups]);
 
-  const load = async () => {
+  const load = async (): Promise<boolean> => {
     const request = ++readRequest.current;
     setLoading(true);
     setLoaded(false);
@@ -86,12 +93,14 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
         getImageUsages(apiBaseUrl, selectedGameId, imageKey, adminToken.trim()),
         getImage(apiBaseUrl, selectedGameId, imageKey, adminToken.trim())
       ]);
-      if (!active.current || request !== readRequest.current) return;
+      if (!active.current || request !== readRequest.current) return false;
       setUsages(usageResult.data);
       setImage({ imageKey: imageResult.data.imageKey, name: imageResult.data.name, enabled: imageResult.data.enabled });
       setLoaded(true);
+      return true;
     } catch (cause) {
       if (active.current && request === readRequest.current) setError(getErrorMessage(cause));
+      return false;
     } finally {
       if (active.current && request === readRequest.current) setLoading(false);
     }
@@ -110,20 +119,26 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
     setOptions([]);
     setOptionsError(null);
     setOptionsLoading(true);
-    const query = sourceKind === 'skillEffect' && !skillKey
-      ? sourceOptions(apiBaseUrl, selectedGameId, adminToken.trim(), 'skill', null)
-      : sourceOptions(apiBaseUrl, selectedGameId, adminToken.trim(), sourceKind, skillKey);
+    const needsParent = sourceKind === 'skillEffect' || sourceKind === 'buildOption' || sourceKind === 'buildGroup';
+    const parentKey = sourceKind === 'skillEffect' ? skillKey : systemKey;
+    const query = needsParent && !parentKey
+      ? sourceKind === 'skillEffect'
+        ? sourceOptions(apiBaseUrl, selectedGameId, adminToken.trim(), 'skill', null)
+        : listBuildSystems(apiBaseUrl, selectedGameId, adminToken.trim()).then(result => result.data.items.map(row => ({ target: { kind: 'buildGroup' as const, key: row.systemKey, name: row.name, systemKey: row.systemKey } })))
+      : sourceOptions(apiBaseUrl, selectedGameId, adminToken.trim(), sourceKind, parentKey);
     void query.then((items) => {
       if (!current) return;
-      if (sourceKind === 'skillEffect' && !skillKey) setSkills(items);
-      else setOptions(items);
+      if (needsParent && !parentKey) {
+        if (sourceKind === 'skillEffect') setSkills(items);
+        else setSystems(items);
+      } else setOptions(items);
     }).catch((cause) => {
       if (current) setOptionsError(getErrorMessage(cause));
     }).finally(() => {
       if (current) setOptionsLoading(false);
     });
     return () => { current = false; };
-  }, [apiBaseUrl, selectedGameId, adminToken, sourceKind, skillKey, optionsRevision]);
+  }, [apiBaseUrl, selectedGameId, adminToken, sourceKind, skillKey, systemKey, optionsRevision]);
 
   const add = async () => {
     if (!selection || !image?.enabled || !loaded || saving) return;
@@ -135,13 +150,15 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
       if (!active.current) return;
       const replacement = representativeImageReplacementMessage(latest.data.image, imageKey, selection.target.name);
       if (replacement && !window.confirm(replacement)) return;
-      await setRepresentativeImage(apiBaseUrl, selectedGameId, selection.target, adminToken.trim(), imageKey);
+      await setRepresentativeImageVerified(apiBaseUrl, selectedGameId, selection.target, adminToken.trim(), imageKey);
+      if (!active.current) return;
+      if (!await load()) return;
       if (!active.current) return;
       setSelection(null);
       setSkillKey(null);
+      setSystemKey(null);
       dirtyCallback.current?.(false);
-      await load();
-      if (active.current) setSuccess('图片用途关系已保存。');
+      setSuccess('图片用途关系已保存并回读确认。');
     } catch (cause) {
       if (active.current) setError(getErrorMessage(cause));
     } finally {
@@ -164,10 +181,10 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
         if (active.current) setError('该来源的代表图片已经变更，用途列表已刷新，请重新核对。');
         return;
       }
-      await removeRepresentativeImage(apiBaseUrl, selectedGameId, source.target, adminToken.trim());
+      await removeRepresentativeImageVerified(apiBaseUrl, selectedGameId, source.target, adminToken.trim());
       if (!active.current) return;
-      await load();
-      if (active.current) setSuccess('图片用途关系已移除。');
+      if (!await load()) return;
+      if (active.current) setSuccess('图片用途关系已移除并回读确认。');
     } catch (cause) {
       if (active.current) setError(getErrorMessage(cause));
     } finally {
@@ -197,7 +214,7 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
       <Form layout="vertical">
         <Form.Item label="来源类别">
           <Select aria-label="图片来源类别" value={sourceKind} options={IMAGE_SOURCE_KINDS} disabled={!editable} onChange={(value: ImageRelationTarget['kind']) => {
-            setSourceKind(value); setSkillKey(null); setSelection(null); setSkills([]); setOptions([]); setSuccess(null);
+            setSourceKind(value); setSkillKey(null); setSystemKey(null); setSelection(null); setSkills([]); setSystems([]); setOptions([]); setSuccess(null);
           }} />
         </Form.Item>
         {sourceKind === 'skillEffect' ? <Form.Item label="所属技能">
@@ -206,9 +223,15 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
             options={skills.map((row) => ({ value: row.target.key, label: imageSourceLabel(row) }))}
             onChange={(value: string | undefined) => { setSkillKey(value ?? null); setSelection(null); setOptions([]); }} />
         </Form.Item> : null}
+        {sourceKind === 'buildOption' || sourceKind === 'buildGroup' ? <Form.Item label="所属构筑系统">
+          <Select aria-label="来源构筑系统" placeholder="先选择所属构筑系统" value={systemKey ?? undefined} loading={optionsLoading && !systemKey} showSearch allowClear disabled={!editable}
+            filterOption={(input, option) => String(option.props.children).toLowerCase().includes(input.trim().toLowerCase())}
+            options={systems.map((row) => ({ value: row.target.key, label: `${row.target.name}（${row.target.key}）` }))}
+            onChange={(value: string | undefined) => { setSystemKey(value ?? null); setSelection(null); setOptions([]); }} />
+        </Form.Item> : null}
         <Form.Item label={sourceKind === 'skillEffect' ? '技能效果' : '来源对象'}>
-          <Select aria-label="图片来源对象" placeholder={sourceKind === 'skillEffect' && !skillKey ? '请先选择所属技能' : '按名称或标识选择来源对象'} value={selection ? imageTargetIdentity(selection.target) : undefined}
-            showSearch allowClear loading={optionsLoading} disabled={!editable || (sourceKind === 'skillEffect' && !skillKey)}
+          <Select aria-label="图片来源对象" placeholder={sourceKind === 'skillEffect' && !skillKey ? '请先选择所属技能' : (sourceKind === 'buildOption' || sourceKind === 'buildGroup') && !systemKey ? '请先选择所属构筑系统' : '按名称或标识选择来源对象'} value={selection ? imageTargetIdentity(selection.target) : undefined}
+            showSearch allowClear loading={optionsLoading} disabled={!editable || (sourceKind === 'skillEffect' && !skillKey) || ((sourceKind === 'buildOption' || sourceKind === 'buildGroup') && !systemKey)}
             filterOption={(input, option) => String(option.props.children).toLowerCase().includes(input.trim().toLowerCase())}
             options={options.map((row) => ({
               value: imageTargetIdentity(row.target),
@@ -223,7 +246,7 @@ function ImageUsagesForm({ imageKey, selectedGameId, apiBaseUrl, adminToken, onC
       {loaded ? groups.map((group) => <section key={group.kind} aria-label={`${group.label}图片用途`}>
         <Typography.Title heading={6} style={{ marginTop: 8 }}>{group.label}（{group.items.length}）</Typography.Title>
         <Table<ImageSourceOption> size="small" pagination={false} rowKey={(row) => imageTargetIdentity(row.target)} data={group.items} noDataElement="暂无用途关系" columns={[
-          { title: '名称与标识', render: (_, row) => <Space direction="vertical" size="mini"><Typography.Text>{row.target.name}（{row.target.key}）</Typography.Text>{row.target.skillKey ? <Typography.Text type="secondary">所属技能：{row.skillName}（{row.target.skillKey}）</Typography.Text> : null}</Space> },
+          { title: '名称与标识', render: (_, row) => <Space direction="vertical" size="mini"><Typography.Text>{row.target.name}（{row.target.key}）</Typography.Text>{row.target.skillKey ? <Typography.Text type="secondary">所属技能：{row.skillName}（{row.target.skillKey}）</Typography.Text> : null}{row.target.systemKey ? <Typography.Text type="secondary">所属构筑系统：{row.target.systemKey}</Typography.Text> : null}</Space> },
           { title: '状态', width: 100, render: (_, row) => row.status ? <Tag color={row.status === 'ENABLED' ? 'green' : 'gray'}>{row.status === 'ENABLED' ? '已启用' : '已停用'}</Tag> : <Typography.Text type="secondary">无启停状态</Typography.Text> },
           { title: '操作', width: 120, render: (_, row) => <Button type="text" status="danger" disabled={saving || !adminToken.trim()} onClick={() => void remove(row)}>移除关系</Button> }
         ]} />

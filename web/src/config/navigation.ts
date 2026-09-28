@@ -3,7 +3,7 @@ export type StaticRouteId =
   | 'attributes'
   | 'characters'
   | 'equipment'
-  | 'runes'
+  | 'builds'
   | 'skill-categories'
   | 'damage-types'
   | 'modifier-zones'
@@ -49,10 +49,10 @@ const dataManagementNavigationItems: NavigationItem[] = [
     summary: '维护装备基本资料和直接属性。'
   },
   {
-    id: 'runes',
-    hashSegment: 'runes',
-    label: '符文管理',
-    summary: '维护符文身份、分组槽位和技能挂载。'
+    id: 'builds',
+    hashSegment: 'builds',
+    label: '构筑系统管理',
+    summary: '维护构筑系统、可选项、分组位置，并试配完整配置。'
   },
   {
     id: 'skill-categories',

@@ -517,11 +517,11 @@ class AuthoringP8Api {
     }
     if (tail[0] === 'damage-types' && method === 'GET') {
       if (tail.length === 2) {
-        await json(route, { gameId, damageTypeKey: 'magic', name: '魔法', description: null, status: 'ENABLED', sortOrder: 0, createdAt: NOW, updatedAt: NOW });
+        await json(route, { gameId, damageTypeKey: 'magic', name: '魔法', description: null, status: 'ENABLED', sortOrder: 0, formulaConfigured: false, createdAt: NOW, updatedAt: NOW });
         return;
       }
       await json(route, {
-        items: [{ gameId, damageTypeKey: 'magic', name: '魔法', description: null, status: 'ENABLED', sortOrder: 0, createdAt: NOW, updatedAt: NOW }],
+        items: [{ gameId, damageTypeKey: 'magic', name: '魔法', description: null, status: 'ENABLED', sortOrder: 0, formulaConfigured: false, createdAt: NOW, updatedAt: NOW }],
         total: 1
       });
       return;

@@ -106,7 +106,13 @@ export function moduleForAuthoringLocation(location: AuthoringLocation | null | 
   }
 }
 
-type Source = { kind: 'character' | 'equipment' | 'rune'; name: string; key: string } | null;
+type Source = {
+  kind: 'character' | 'equipment' | 'buildOption';
+  name: string;
+  key: string;
+  systemKey?: string;
+  systemName?: string;
+} | null;
 type PendingSave = {
   skillKey: string;
   baseline: SkillConfiguration | null;
@@ -1209,7 +1215,9 @@ export function SkillConfigurationWorkspace({
           {draft.skill.name || baseline?.skill.name || (skillKey ? '技能配置' : '新增技能')}
         </Typography.Title>
         <Typography.Text type="secondary">稳定标识：{currentSkillKey ?? (draft.skill.skillKey || '待填写')}</Typography.Text>
-        {source ? <div><Typography.Text type="secondary">来自{source.kind === 'character' ? '角色' : source.kind === 'equipment' ? '装备' : '符文'}：{source.name}（{source.key}）</Typography.Text></div> : null}
+        {source ? <div><Typography.Text type="secondary">{source.kind === 'buildOption'
+          ? `来自构筑可选项：系统 ${source.systemName?.trim() || '名称未返回'}（${source.systemKey ?? ''}）· ${source.name}（${source.key}）`
+          : `来自${source.kind === 'character' ? '角色' : '装备'}：${source.name}（${source.key}）`}</Typography.Text></div> : null}
       </div>
       <Space wrap>
         <Button onClick={onBack} disabled={frozen}>{backLabel}</Button>

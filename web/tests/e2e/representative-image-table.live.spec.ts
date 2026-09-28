@@ -183,7 +183,7 @@ test('live: six tables show representative images in the first column and refres
         await dialog.getByLabel('选择代表图片', { exact: true }).click();
         await page.locator('.arco-select-option:visible').filter({ hasText: `（${image.imageKey}）` }).click();
         await dialog.getByRole('button', { name: '保存代表图片', exact: true }).click();
-        await expect(dialog.getByText('代表图片已保存。', { exact: true })).toBeVisible();
+        await expect(dialog.getByText('代表图片已保存并回读确认。', { exact: true })).toBeVisible();
         await close(dialog);
         const thumbnail = firstCell.getByRole('img', { name: `${source.name}代表图片`, exact: true });
         await expect(thumbnail).toBeVisible();

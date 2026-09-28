@@ -1,19 +1,27 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ApiRequestError } from './apiClient';
-import { getImageUsages, getRepresentativeImage, listImageOptions, removeRepresentativeImage, setRepresentativeImage } from './imageRelationClient';
+import {
+  getImageUsages,
+  getRepresentativeImage,
+  listImageOptions,
+  removeRepresentativeImage,
+  removeRepresentativeImageVerified,
+  setRepresentativeImage,
+  setRepresentativeImageVerified
+} from './imageRelationClient';
 import type { ImageRelationTarget, ImageUsages } from '../types/imageRelation';
 
 const BASE = 'http://localhost:8080';
 const GAME = 'demo arena';
 const IMAGE = { imageKey: 'portrait/?', name: '测试图片', enabled: true };
-const EMPTY_USAGES: ImageUsages = { imageKey: IMAGE.imageKey, games: [], characters: [], attributes: [], equipment: [], skills: [], skillEffects: [], statuses: [], runes: [], runePaths: [] };
+const EMPTY_USAGES: ImageUsages = { imageKey: IMAGE.imageKey, games: [], characters: [], attributes: [], equipment: [], skills: [], skillEffects: [], statuses: [], buildOptions: [], buildGroups: [] };
 const SOURCES: Array<{ target: ImageRelationTarget; path: string }> = [
   { target: { kind: 'game', key: GAME, name: '游戏' }, path: '/representative-image' },
   { target: { kind: 'character', key: 'same/?', name: '角色' }, path: '/characters/same%2F%3F/representative-image' },
   { target: { kind: 'attribute', key: 'same/?', name: '属性' }, path: '/attributes/same%2F%3F/representative-image' },
   { target: { kind: 'equipment', key: 'same/?', name: '装备' }, path: '/equipment/same%2F%3F/representative-image' },
-  { target: { kind: 'rune', key: 'same/?', name: '符文' }, path: '/runes/same%2F%3F/representative-image' },
-  { target: { kind: 'runePath', key: 'same/?', name: '符文分组' }, path: '/rune-paths/same%2F%3F/representative-image' },
+  { target: { kind: 'buildOption', key: 'same/?', name: '可选项', systemKey: 'system/?' }, path: '/build-systems/system%2F%3F/options/same%2F%3F/representative-image' },
+  { target: { kind: 'buildGroup', key: 'same/?', name: '分组', systemKey: 'system/?' }, path: '/build-systems/system%2F%3F/groups/same%2F%3F/representative-image' },
   { target: { kind: 'skill', key: 'same/?', name: '技能' }, path: '/skills/same%2F%3F/representative-image' },
   { target: { kind: 'skillEffect', key: 'same/?', name: '技能效果', skillKey: 'parent/#' }, path: '/skills/parent%2F%23/effects/same%2F%3F/representative-image' },
   { target: { kind: 'status', key: 'same/?', name: '状态' }, path: '/statuses/same%2F%3F/representative-image' }
@@ -86,6 +94,25 @@ describe('imageRelationClient', () => {
     await expect(setRepresentativeImage(BASE, GAME, SOURCES[1].target, '', IMAGE.imageKey)).rejects.toMatchObject({ status: 502 });
   });
 
+  it('recovers an uncertain representative-image write only through an independent readback', async () => {
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(jsonResponse({ error: { message: 'response lost' } }, 502))
+      .mockResolvedValueOnce(jsonResponse({ image: IMAGE }));
+    vi.stubGlobal('fetch', fetchMock);
+    expect((await setRepresentativeImageVerified(BASE, GAME, SOURCES[4].target, 'token', IMAGE.imageKey)).data.image)
+      .toEqual(IMAGE);
+    expect(fetchMock.mock.calls.map(([, init]) => init?.method ?? 'GET')).toEqual(['PUT', 'GET']);
+  });
+
+  it('confirms representative-image removal with a GET before reporting success', async () => {
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(new Response(null, { status: 204 }))
+      .mockResolvedValueOnce(jsonResponse({ image: null }));
+    vi.stubGlobal('fetch', fetchMock);
+    expect((await removeRepresentativeImageVerified(BASE, GAME, SOURCES[5].target, 'token')).data.image).toBeNull();
+    expect(fetchMock.mock.calls.map(([, init]) => init?.method ?? 'GET')).toEqual(['DELETE', 'GET']);
+  });
+
   it.each([
     { items: [], total: 1 },
     { items: [{ imageKey: 'same', name: '图' }, { imageKey: 'same', name: '图' }], total: 2 },
@@ -102,8 +129,8 @@ describe('imageRelationClient', () => {
       characters: [{ characterKey: 'c', characterName: '角色' }],
       attributes: [{ attributeKey: 'a', attributeName: '属性', attributeStatus: 'DISABLED' }],
       equipment: [{ equipmentKey: 'e', equipmentName: '装备' }],
-      runes: [{ runeKey: 'r', runeName: '符文' }],
-      runePaths: [{ pathKey: 'p', pathName: '符文系' }],
+      buildOptions: [{ systemKey: 'sys', optionKey: 'r', optionName: '可选项' }],
+      buildGroups: [{ systemKey: 'sys', groupKey: 'p', groupName: '分组' }],
       skills: [{ skillKey: 's', skillName: '技能', skillStatus: 'ENABLED' }],
       skillEffects: [{ skillKey: 'parent/one', skillName: '所属技能', effectKey: 'same', effectName: '效果' }],
       statuses: [{ statusKey: 't', statusName: '状态', statusStatus: 'DISABLED' }]

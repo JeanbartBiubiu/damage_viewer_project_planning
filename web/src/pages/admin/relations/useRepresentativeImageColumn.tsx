@@ -21,9 +21,10 @@ function RepresentativeImageCell({ apiBaseUrl, selectedGameId, adminToken, targe
   const [image, setImage] = useState<RepresentativeImage | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { kind, key, skillKey } = target;
+  const { kind, key, skillKey, systemKey } = target;
   const canLoad = Boolean(selectedGameId && selectedGameId === record.gameId && adminToken.trim()
-    && (kind !== 'skillEffect' || skillKey));
+    && (kind !== 'skillEffect' || skillKey)
+    && ((kind !== 'buildOption' && kind !== 'buildGroup') || systemKey));
 
   useEffect(() => {
     let active = true;
@@ -32,14 +33,14 @@ function RepresentativeImageCell({ apiBaseUrl, selectedGameId, adminToken, targe
     setError(null);
     setLoading(canLoad);
     if (canLoad && selectedGameId) {
-      void readTableRepresentativeImage(apiBaseUrl, selectedGameId, { kind, key, skillKey, name: '' }, adminToken.trim(), controller.signal)
+      void readTableRepresentativeImage(apiBaseUrl, selectedGameId, { kind, key, skillKey, systemKey, name: '' }, adminToken.trim(), controller.signal)
         .then(result => { if (active) setImage(result.data.image); })
         .catch(cause => { if (active) setError(getErrorMessage(cause)); })
         .finally(() => { if (active) setLoading(false); });
     }
     return () => { active = false; controller.abort(); };
     // 刷新列表获得新记录时，重新读取关系；普通页面重绘不重复请求。
-  }, [apiBaseUrl, selectedGameId, adminToken, kind, key, skillKey, record, canLoad]);
+  }, [apiBaseUrl, selectedGameId, adminToken, kind, key, skillKey, systemKey, record, canLoad]);
 
   const name = `${target.name}代表图片`;
   if (error) return <Tooltip content={error}>

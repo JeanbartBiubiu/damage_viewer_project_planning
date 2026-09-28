@@ -30,7 +30,7 @@ const APPROVED_INDEPENDENT_SKILL_LINES = [
     text: "import { SkillManagementPage } from '../skills/SkillManagementPage';"
   },
   {
-    file: 'src/pages/admin/runes/RuneManagementPage.tsx',
+    file: 'src/pages/admin/builds/BuildManagementPage.tsx',
     text: "import { SkillManagementPage } from '../skills/SkillManagementPage';"
   },
   {
