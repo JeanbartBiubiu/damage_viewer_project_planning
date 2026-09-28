@@ -39,9 +39,11 @@ import type { GameStatus } from '../../../../types/status';
 import type { Attribute } from '../../../../types/attribute';
 import type { Skill } from '../../../../types/skill';
 import type { SkillCategory } from '../../../../types/skillCategory';
-import type { SkillFormulaSummary } from '../../../../types/skillFormula';
+import type { SkillFormula, SkillFormulaSummary } from '../../../../types/skillFormula';
+import type { SkillParameter } from '../../../../types/skillParameter';
 import type {
   SkillEffect,
+  CreateSkillEffectRequest,
   SkillEffectExpiryMode,
   SkillEffectFirstPeriodicExecution,
   SkillEffectLifecycleInstanceScope,
@@ -130,6 +132,14 @@ type SkillEffectEditorModalProps = {
   onSkillMissing: () => void;
   onDirtyChange: (dirty: boolean) => void;
   authoringLocation?: AuthoringLocation | null;
+  workspaceDraft?: {
+    initial: SkillEffectDraft;
+    original: SkillEffect | null;
+    parameters: SkillParameter[];
+    formulas: SkillFormula[];
+    effects: SkillEffectSummary[];
+    onApply: (draft: SkillEffectDraft, value: CreateSkillEffectRequest) => string | null;
+  };
 };
 
 type ResultEditorState = {
@@ -308,7 +318,8 @@ export function SkillEffectEditorModal({
   onSaved,
   onSkillMissing,
   onDirtyChange,
-  authoringLocation
+  authoringLocation,
+  workspaceDraft
 }: SkillEffectEditorModalProps) {
   const [draft, setDraft] = useState<SkillEffectDraft>(createEmptyEffectDraft());
   const [baseline, setBaseline] = useState<SkillEffectDraft>(createEmptyEffectDraft());
@@ -320,9 +331,15 @@ export function SkillEffectEditorModal({
   const [saving, setSaving] = useState(false);
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detailReady, setDetailReady] = useState(false);
-  const [formulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
-  const { parameters, parametersLoadState } = useNumericParameters(apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible);
-  const [formulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [savedFormulas, setFormulas] = useState<SkillFormulaSummary[]>([]);
+  const { parameters: savedParameters, parametersLoadState: savedParametersLoadState } = useNumericParameters(
+    apiBaseUrl, selectedGameId, skill.skillKey, adminToken, visible && !workspaceDraft
+  );
+  const parameters = workspaceDraft?.parameters ?? savedParameters;
+  const parametersLoadState = workspaceDraft ? 'ready' : savedParametersLoadState;
+  const formulas = workspaceDraft?.formulas ?? savedFormulas;
+  const [savedFormulasLoadState, setFormulasLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const formulasLoadState = workspaceDraft ? 'ready' : savedFormulasLoadState;
   const [statuses, setStatuses] = useState<GameStatus[]>([]);
   const [statusesLoadState, setStatusesLoadState] = useState<'ready' | 'failed' | undefined>();
   const [statusesError, setStatusesError] = useState<string | null>(null);
@@ -330,8 +347,10 @@ export function SkillEffectEditorModal({
   const [attributes, setAttributes] = useState<Attribute[]>([]);
   const [attributesLoadState, setAttributesLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
   const [attributesError, setAttributesError] = useState<string | null>(null);
-  const [effectSummaries, setEffectSummaries] = useState<SkillEffectSummary[]>([]);
-  const [effectsLoadState, setEffectsLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const [savedEffectSummaries, setEffectSummaries] = useState<SkillEffectSummary[]>([]);
+  const effectSummaries = workspaceDraft?.effects ?? savedEffectSummaries;
+  const [savedEffectsLoadState, setEffectsLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
+  const effectsLoadState = workspaceDraft ? 'ready' : savedEffectsLoadState;
   const [effectsError, setEffectsError] = useState<string | null>(null);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [skillsLoadState, setSkillsLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
@@ -348,6 +367,7 @@ export function SkillEffectEditorModal({
   const skillSerial = useRef(0);
   const skillCategorySerial = useRef(0);
   const gameVamp = useGameVampRules(apiBaseUrl, selectedGameId, adminToken, visible);
+  const workspaceInitial = workspaceDraft?.initial;
   const readOnly = mode === 'view';
   const closeBlocked = saving || (!readOnly && loadingDetail);
 
@@ -398,6 +418,7 @@ export function SkillEffectEditorModal({
   }, [mode]);
 
   const loadFormulas = useCallback(async () => {
+    if (workspaceInitial) return;
     const serial = formulaSerial.current + 1;
     formulaSerial.current = serial;
     const token = adminToken.trim();
@@ -423,7 +444,7 @@ export function SkillEffectEditorModal({
       setFormulasLoadState('failed');
       setFormulasError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
+  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible, workspaceInitial]);
 
   const loadStatusesCatalog = useCallback(async () => {
     const serial = ++statusSerial.current;
@@ -518,6 +539,7 @@ export function SkillEffectEditorModal({
   }, [adminToken, apiBaseUrl, selectedGameId, visible]);
 
   const loadEffectSummaries = useCallback(async () => {
+    if (workspaceInitial) return;
     const serial = effectsSerial.current + 1;
     effectsSerial.current = serial;
     const token = adminToken.trim();
@@ -543,7 +565,7 @@ export function SkillEffectEditorModal({
       setEffectsLoadState('failed');
       setEffectsError(getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible]);
+  }, [adminToken, apiBaseUrl, onSkillMissing, selectedGameId, skill.skillKey, visible, workspaceInitial]);
 
   const applyAuthoringLocation = useCallback((detail: SkillEffect, nextDraft: SkillEffectDraft) => {
     if (!authoringLocation) {
@@ -595,6 +617,18 @@ export function SkillEffectEditorModal({
     detailSerial.current = serial;
     if (!visible) {
       setLoadingDetail(false);
+      return;
+    }
+    if (workspaceInitial) {
+      setDraft(workspaceInitial);
+      setBaseline(workspaceInitial);
+      setDetailReady(true);
+      setLoadingDetail(false);
+      setLoadError(null);
+      onDirtyChange(false);
+      if (workspaceDraft?.original && authoringLocation) {
+        applyAuthoringLocation(workspaceDraft.original, workspaceInitial);
+      }
       return;
     }
     if (mode === 'create') {
@@ -666,7 +700,9 @@ export function SkillEffectEditorModal({
     skill.skillKey,
     visible,
     applyAuthoringLocation,
-    authoringLocation
+    authoringLocation,
+    workspaceInitial,
+    workspaceDraft?.original
   ]);
 
   useEffect(() => {
@@ -790,11 +826,17 @@ export function SkillEffectEditorModal({
     setSaving(true);
     setSaveError(null);
     try {
+      const readFormula = async (formulaKey: string): Promise<SkillFormula> => {
+        if (workspaceDraft) {
+          const formula = workspaceDraft.formulas.find((item) => item.formulaKey === formulaKey);
+          if (!formula) throw new Error(`技能草稿中没有公式「${formulaKey}」。`);
+          return formula;
+        }
+        return (await getSkillFormula(apiBaseUrl, selectedGameId, skill.skillKey, formulaKey, token)).data;
+      };
       const conditionFormulaErrors = await preflightDamageModifierConditionFormulas(
         sorted.results, parameters, parametersLoadState,
-        async (formulaKey) => (await getSkillFormula(
-          apiBaseUrl, selectedGameId, skill.skillKey, formulaKey, token
-        )).data
+        readFormula
       );
       if (conditionFormulaErrors.length > 0) {
         setDraft(sorted);
@@ -804,12 +846,18 @@ export function SkillEffectEditorModal({
       }
       for (const resultDraft of sorted.results) {
         if (resultDraft.lifecycleBehavior.valueReadMode === 'MOMENT_EVALUATION' && resultDraft.value?.kind === 'FORMULA') {
-          const formula = await getSkillFormula(apiBaseUrl, selectedGameId, skill.skillKey, resultDraft.value.formulaKey, token);
+          const formula = await readFormula(resultDraft.value.formulaKey);
           if (parametersLoadState !== 'ready') { setSaveError('参数目录不完整，无法核对当前时点取值。'); return; }
-          if (formulaHasRuntimeInput(formula.data, parameters)) {
+          if (formulaHasRuntimeInput(formula, parameters)) {
             setSaveError('当前时点取值不能引用计算时传入的技能参数。'); return;
           }
         }
+      }
+      if (workspaceDraft) {
+        const error = workspaceDraft.onApply(sorted, buildCreateSkillEffectRequest(validation.normalized));
+        if (error) setSaveError(error);
+        else onDirtyChange(false);
+        return;
       }
       const result = mode === 'create' || mode === 'copy'
         ? await createSkillEffect(
@@ -1081,7 +1129,7 @@ export function SkillEffectEditorModal({
                 disabled={!detailReady || hasUnconfiguredLifecycleResults(draft)}
                 onClick={() => void save()}
               >
-                保存
+                {workspaceDraft ? '确认到技能草稿' : '保存'}
               </Button>
             ) : null}
           </Space>
@@ -1380,6 +1428,20 @@ export function SkillEffectEditorModal({
                       )}
                     />
                   </Form.Item>
+                  <Form.Item label="随同父护盾结束" validateStatus={errors.endWhenShieldEndsResultKey ? 'error' : undefined}
+                    help={errors.endWhenShieldEndsResultKey}
+                    extra="可不关联；仅可选择本效果内持续生效、共用层数值的普通护盾。">
+                    <Select aria-label="随同父护盾结束" allowClear
+                      value={draft.lifecycle.endWhenShieldEndsResultKey || undefined}
+                      disabled={readOnly || saving}
+                      options={draft.results.filter((item) => item.resultType === 'NORMAL_SHIELD').map((item) => ({
+                        value: item.resultKey, label: `${item.name || item.resultKey}（${item.resultKey}）`
+                      }))}
+                      placeholder="不关联护盾"
+                      onChange={(value) => patchLifecycleDraft({ ...draft, lifecycle: {
+                        ...draft.lifecycle, endWhenShieldEndsResultKey: value ?? ''
+                      } })} />
+                  </Form.Item>
                   {showPeriodicFields ? (
                     <>
                       <Form.Item
@@ -1503,6 +1565,7 @@ export function SkillEffectEditorModal({
         onClose={() => setResultEditor(null)}
         focusField={resultEditor?.focusField ?? null}
         locateMessage={resultEditor?.locateMessage ?? null}
+        workspaceMode={Boolean(workspaceDraft)}
         onConfirm={(nextResult) => {
           if (!resultEditor) return;
           if (resultEditor.index === null) {

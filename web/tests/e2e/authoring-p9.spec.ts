@@ -56,7 +56,8 @@ function summaryEffect(gameId: string, skillKey: string): Json {
       reapplicationDurationMode: 'REFRESH_ALL',
       expiryMode: 'ALL_AT_ONCE',
       periodicIntervalValue: null,
-      firstPeriodicExecution: null
+      firstPeriodicExecution: null,
+      endWhenShieldEndsResultKey: null
     },
     results: [
       baseResult({
@@ -180,6 +181,40 @@ class AuthoringP9Api {
   skillListReads = 0;
   catalogs = { [FIRST_GAME]: catalogs(FIRST_GAME), [SECOND_GAME]: catalogs(SECOND_GAME) };
 
+  configuration(gameId: string, skillKey: string): Json | null {
+    const rows = this.catalogs[gameId as keyof typeof this.catalogs];
+    const skill = rows?.skills.find(item => item.skillKey === skillKey);
+    if (!skill) return null;
+    const parameter = {
+      gameId, skillKey, parameterKey: 'cooldown_ms', name: '冷却量',
+      valueType: 'DECIMAL', valueMode: 'FIXED', fixedValue: 100, levelValues: null,
+      description: null, sortOrder: 0, createdAt: NOW, updatedAt: NOW
+    };
+    const effect = summaryEffect(gameId, skillKey);
+    const otherEffect = {
+      ...effect,
+      effectKey: 'other_buff',
+      name: '其他增益',
+      sortOrder: 1,
+      results: []
+    };
+    return {
+      skill,
+      parameters: [parameter],
+      formulas: [{
+        gameId, skillKey, formulaKey: 'reduce_ms', name: '减少量',
+        description: null, sortOrder: 0,
+        expression: { nodeType: 'PARAMETER', parameterKey: 'cooldown_ms' },
+        createdAt: NOW, updatedAt: NOW
+      }],
+      effects: [effect, otherEffect],
+      processes: [],
+      internalStates: [],
+      triggerRules: [],
+      baseDigest: `authoring-p9-${gameId}-${skillKey}`
+    };
+  }
+
   async install(page: Page) {
     await page.route('**/api/**', async route => {
       const request = route.request();
@@ -224,6 +259,21 @@ class AuthoringP9Api {
     const gameId = segments[3]!;
     const rows = this.catalogs[gameId as keyof typeof this.catalogs];
     const tail = segments.slice(4);
+    if (tail[0] === 'level-config' && method === 'GET') {
+      await json(route, { gameId, minLevel: 1, maxLevel: 18 });
+      return;
+    }
+    if (tail[0] === 'skills' && tail[2] === 'configuration' && method === 'GET') {
+      if (this.delayFirstSkill && gameId === FIRST_GAME && tail[1] === 'strike' && !this.holdSkill) {
+        this.holdSkill = route;
+        return;
+      }
+      const configuration = this.configuration(gameId, tail[1]!);
+      if (configuration) {
+        await json(route, configuration);
+        return;
+      }
+    }
     if (pathname.endsWith('/representative-image')) {
       await json(route, { image: null });
       return;
@@ -389,23 +439,24 @@ test('符文关联技能保留筛选分页并确认草稿，切换游戏隔离�
   await relations.getByRole('button', { name: '录入技能', exact: true }).click();
   await page.getByRole('button', { name: '放弃修改', exact: true }).click();
   await expect.poll(() => Boolean(api.holdSkill)).toBe(true);
-  await expect(page.getByRole('button', { name: '返回符文技能', exact: true })).toBeVisible();
-  await expect(page.getByText(/来自符文：符文26（r_26）/)).toBeVisible();
+  let workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  await expect(workspace.getByRole('button', { name: '返回符文技能', exact: true })).toBeVisible();
+  await expect(workspace.getByText(/来自符文：符文26（r_26）/)).toBeVisible();
   await expect(page.getByText(/来自装备：/)).toHaveCount(0);
-  await json(api.holdSkill!, skillRow(FIRST_GAME, 'strike', '打击技能'));
+  await json(api.holdSkill!, api.configuration(FIRST_GAME, 'strike'));
   api.holdSkill = undefined;
   api.delayFirstSkill = false;
-  await expect(page.getByRole('heading', { name: '技能录入 · 打击技能', exact: true })).toBeVisible();
-  await row(page, 'strike').getByRole('button', { name: '编辑', exact: true }).click();
-  const editor = modal(page, '编辑技能');
-  await editor.getByLabel('技能名称', { exact: true }).fill('未保存打击技能');
-  expect(await answerDialog(page, () => editor.getByRole('button', { name: '取消', exact: true }).click(), false)).toBe('技能修改尚未保存，确定关闭吗？');
-  await expect(page.getByRole('button', { name: '返回符文技能', exact: true })).toBeVisible();
-  await expect(editor.getByLabel('技能名称', { exact: true })).toHaveValue('未保存打击技能');
-  expect(await answerDialog(page, () => editor.getByRole('button', { name: '取消', exact: true }).click(), true)).toBe('技能修改尚未保存，确定关闭吗？');
-  await expect(editor).toHaveCount(0);
-  await page.getByRole('button', { name: '返回符文技能', exact: true }).click();
-  await expect(page.getByRole('heading', { name: '技能录入 · 打击技能', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: '技能录入', exact: true })).toBeVisible();
+  await expect(workspace.getByRole('heading', { name: '打击技能', exact: true })).toBeVisible();
+  await workspace.getByRole('navigation', { name: '技能配置模块' })
+    .getByRole('button', { name: '主体与分类', exact: true }).click();
+  await workspace.getByLabel('技能名称', { exact: true }).fill('未保存打击技能');
+  expect(await answerDialog(page, () => workspace.getByRole('button', { name: '返回符文技能', exact: true }).click(), false))
+    .toBe('当前技能修改尚未保存，确定返回符文技能吗？');
+  await expect(workspace.getByLabel('技能名称', { exact: true })).toHaveValue('未保存打击技能');
+  expect(await answerDialog(page, () => workspace.getByRole('button', { name: '返回符文技能', exact: true }).click(), true))
+    .toBe('当前技能修改尚未保存，确定返回符文技能吗？');
+  await expect(workspace).toHaveCount(0);
   await expect(relations.getByText('打击技能', { exact: true })).toBeVisible();
   await expect(relations.getByLabel('打击技能排序', { exact: true })).toHaveValue('4');
   await relations.getByRole('button', { name: '关闭', exact: true }).click();
@@ -423,9 +474,10 @@ test('符文关联技能保留筛选分页并确认草稿，切换游戏隔离�
 
   await row(page, 'r_26').getByRole('button', { name: '关联技能', exact: true }).click();
   await relations.getByRole('button', { name: '录入技能', exact: true }).click();
-  await expect(page.getByRole('heading', { name: '技能录入 · 打击技能', exact: true })).toBeVisible();
+  workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  await expect(workspace.getByRole('heading', { name: '打击技能', exact: true })).toBeVisible();
   api.delayFirstSkill = true;
-  await page.getByRole('button', { name: '返回符文技能', exact: true }).click();
+  await workspace.getByRole('button', { name: '返回符文技能', exact: true }).click();
   await relations.getByRole('button', { name: '录入技能', exact: true }).click();
   await expect.poll(() => Boolean(api.holdSkill)).toBe(true);
   await page.locator('.app-toolbar-field--game .arco-select-view').click();
@@ -433,7 +485,10 @@ test('符文关联技能保留筛选分页并确认草稿，切换游戏隔离�
   await expect(page.getByRole('heading', { name: '符文管理', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '返回符文技能', exact: true })).toHaveCount(0);
   await expect(row(page, 'other_rune')).toContainText('另一游戏符文');
-  await json(api.holdSkill!, skillRow(FIRST_GAME, 'strike', '迟到打击技能'));
+  await json(api.holdSkill!, {
+    ...api.configuration(FIRST_GAME, 'strike'),
+    skill: skillRow(FIRST_GAME, 'strike', '迟到打击技能')
+  });
   await expect(page.getByRole('button', { name: '返回符文技能', exact: true })).toHaveCount(0);
   await expect(page.getByText('迟到打击技能', { exact: true })).toHaveCount(0);
   await expect(row(page, 'other_rune')).toBeVisible();
@@ -453,10 +508,14 @@ test('效果结果摘要区分零与空、名称键、失败缺失及大集合�
   const assertClean = await prepare(page, api);
   await page.evaluate(() => { window.location.hash = '#/skills'; });
   await expect(page).toHaveURL(/#\/skills$/);
-  await row(page, 'strike').getByRole('button', { name: '效果与结果', exact: true }).click();
-  const shell = modal(page, '效果与结果 - 打击技能');
-  await shell.getByRole('row').filter({ hasText: '摘要效果' }).getByRole('button', { name: '查看', exact: true }).click();
-  const editor = modal(page, '查看效果');
+  await row(page, 'strike').getByRole('button', { name: '编辑配置', exact: true }).click();
+  const shell = page.locator('[aria-label="技能统一编辑工作区"]');
+  await shell.getByRole('navigation', { name: '技能配置模块' })
+    .getByRole('button', { name: '效果与生命周期', exact: true }).click();
+  const effectCard = shell.getByText('（summary_effect）', { exact: true })
+    .locator('xpath=ancestor::div[.//button[normalize-space()="编辑"]][1]');
+  await effectCard.getByRole('button', { name: '编辑', exact: true }).click();
+  const editor = modal(page, '编辑效果');
   await expect(editor.getByText(/施法者 · 减少 · 0 × 1 毫秒/)).toBeVisible();
   await expect(editor.getByText('全部技能', { exact: true }).first()).toBeVisible();
   await expect(editor.getByText(/重置为可用 · 无数值/)).toBeVisible();
@@ -486,6 +545,6 @@ test('效果结果摘要区分零与空、名称键、失败缺失及大集合�
   await expect(editor.getByText(/降低 · 0\.25 × 1 比例/)).toBeVisible();
   await expect(editor.getByText('加载失败 毫秒')).toHaveCount(0);
   await expect(editor.getByText('未配置 毫秒')).toHaveCount(0);
-  await expect(shell.getByText('0 × 1 毫秒')).toHaveCount(0);
+  await expect(shell.getByText('0 × 1 毫秒').first()).toBeVisible();
   assertClean();
 });

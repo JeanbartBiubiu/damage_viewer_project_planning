@@ -183,6 +183,7 @@ type SkillEffectResultEditorModalProps = {
   onConfirm: (draft: SkillEffectResultDraft) => void;
   focusField?: string | null;
   locateMessage?: string | null;
+  workspaceMode?: boolean;
 };
 
 function titleFor(mode: SkillEffectResultEditorMode): string {
@@ -363,7 +364,8 @@ export function SkillEffectResultEditorModal({
   onClose,
   onConfirm,
   focusField = null,
-  locateMessage = null
+  locateMessage = null,
+  workspaceMode = false
 }: SkillEffectResultEditorModalProps) {
   const [draft, setDraft] = useState<SkillEffectResultDraft>(resultDraft);
   const [errors, setErrors] = useState<SkillEffectResultDraftErrors>(fieldErrors);
@@ -1046,7 +1048,7 @@ export function SkillEffectResultEditorModal({
             style={{ minWidth: 360 }}
             onChange={(value) => patchDraft({ ...draft, modifierZoneKey: String(value ?? '') })}
           />
-          {!readOnly ? (
+          {!readOnly && !workspaceMode ? (
             <Button
               disabled={!selectedGameId || !adminToken.trim()}
               onClick={() => setModifierZoneEditorVisible(true)}
@@ -1216,6 +1218,8 @@ export function SkillEffectResultEditorModal({
       }
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
+        {workspaceMode ? <Alert type="info"
+          content="公共状态、乘区和技能分类请在各自管理页显式维护；返回技能工作区后刷新目录，不会覆盖已确认草稿。" /> : null}
         {locateMessage ? <Alert type="warning" content={locateMessage} /> : null}
         {saveError ? <Alert type="error" content={saveError} /> : null}
         {catalogErrorMessages.length > 0 ? (
@@ -2020,7 +2024,7 @@ export function SkillEffectResultEditorModal({
                 skillsLoading={catalogLoading.skills}
                 categoriesLoading={catalogLoading.skillCategories}
                 onChange={patchDraft}
-                onCreateCategory={() => setSkillCategoryEditorVisible(true)}
+                onCreateCategory={workspaceMode ? undefined : () => setSkillCategoryEditorVisible(true)}
               />
               <Form.Item
                 label="操作"
@@ -2075,7 +2079,7 @@ export function SkillEffectResultEditorModal({
                 skillsLoading={catalogLoading.skills}
                 categoriesLoading={catalogLoading.skillCategories}
                 onChange={patchDraft}
-                onCreateCategory={() => setSkillCategoryEditorVisible(true)}
+                onCreateCategory={workspaceMode ? undefined : () => setSkillCategoryEditorVisible(true)}
               />
             </>
           ) : null}
@@ -2337,7 +2341,7 @@ export function SkillEffectResultEditorModal({
       </Space>
     </Modal>
     <ModifierZoneEditorModal
-      visible={modifierZoneEditorVisible}
+      visible={!workspaceMode && modifierZoneEditorVisible}
       mode="create"
       modifierZone={null}
       initialDomain={modifierZoneDomain ?? undefined}
@@ -2357,7 +2361,7 @@ export function SkillEffectResultEditorModal({
       onDirtyChange={() => {}}
     />
     <SkillCategoryEditorModal
-      visible={skillCategoryEditorVisible}
+      visible={!workspaceMode && skillCategoryEditorVisible}
       mode="create"
       category={null}
       apiBaseUrl={apiBaseUrl}

@@ -17,6 +17,7 @@ import { getErrorMessage } from '../../../../services/apiClient';
 import { getSkillInternalState } from '../../../../services/skillInternalStateClient';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type {
+  SkillInternalState,
   SkillInternalStateSummary,
   SkillInternalStateType
 } from '../../../../types/skillInternalState';
@@ -60,8 +61,9 @@ type SkillProcessStateOperationEditorModalProps = {
   parametersLoadState?: 'ready' | 'failed';
   formulas: ReadonlyArray<Pick<SkillFormulaSummary, 'formulaKey' | 'name'>>;
   formulasLoadState?: 'ready' | 'failed';
-  internalStates: ReadonlyArray<Pick<SkillInternalStateSummary, 'stateKey' | 'name' | 'stateType'>>;
+  internalStates: ReadonlyArray<Pick<SkillInternalStateSummary, 'skillKey' | 'stateKey' | 'name' | 'stateType'>>;
   internalStatesLoadState?: 'ready' | 'failed';
+  localModeOptionsByStateKey?: { [stateKey: string]: Array<{ optionKey: string; name: string }> };
   apiBaseUrl: string;
   selectedGameId: string;
   skillKey: string;
@@ -93,6 +95,7 @@ export function SkillProcessStateOperationEditorModal({
   formulasLoadState,
   internalStates,
   internalStatesLoadState,
+  localModeOptionsByStateKey,
   apiBaseUrl,
   selectedGameId,
   skillKey,
@@ -109,11 +112,16 @@ export function SkillProcessStateOperationEditorModal({
   const [modeOptions, setModeOptions] = useState<Array<{ optionKey: string; name: string }>>([]);
   const [modeOptionsLoadState, setModeOptionsLoadState] = useState<'ready' | 'failed' | undefined>(undefined);
   const [modeOptionsError, setModeOptionsError] = useState<string | null>(null);
+  const [externalStateDetail, setExternalStateDetail] = useState<SkillInternalState | null>(null);
   const modeOptionSerial = useRef(0);
   const readOnly = mode === 'view';
   const existing = draft.originalOperation !== null;
-  const selectedState = internalStates.find((item) => item.stateKey === draft.stateKey.trim());
-  const selectedStateType = selectedState?.stateType;
+  const selectedState = internalStates.find((item) => item.skillKey === skillKey
+    && item.stateKey === draft.stateKey.trim());
+  const externalState = Boolean(draft.stateSkillKey && draft.stateSkillKey !== skillKey);
+  const resolvedExternalState = externalStateDetail?.skillKey === draft.stateSkillKey
+    && externalStateDetail.stateKey === draft.stateKey.trim() ? externalStateDetail : null;
+  const selectedStateType = externalState ? resolvedExternalState?.stateType : selectedState?.stateType;
   const needsModeOptions = selectedStateType === 'MODE';
   const allowedOperations = allowedOperationsForStateType(selectedStateType);
 
@@ -123,6 +131,7 @@ export function SkillProcessStateOperationEditorModal({
       setModeOptions([]);
       setModeOptionsLoadState(undefined);
       setModeOptionsError(null);
+      setExternalStateDetail(null);
       return;
     }
     setDraft(operationDraft);
@@ -135,7 +144,42 @@ export function SkillProcessStateOperationEditorModal({
     modeOptionSerial.current = serial;
     const token = adminToken.trim();
     const stateKey = draft.stateKey.trim();
-    if (!visible || !needsModeOptions || !stateKey || !token) {
+    if (!visible || !stateKey || !token) {
+      setExternalStateDetail(null);
+      setModeOptions([]);
+      setModeOptionsLoadState(undefined);
+      setModeOptionsError(null);
+      return;
+    }
+    if (externalState) {
+      setExternalStateDetail(null);
+      setModeOptions([]);
+      setModeOptionsLoadState(undefined);
+      setModeOptionsError(null);
+      try {
+        const result = await getSkillInternalState(apiBaseUrl, selectedGameId,
+          draft.stateSkillKey, stateKey, token);
+        if (modeOptionSerial.current !== serial) return;
+        setExternalStateDetail(result.data);
+        setModeOptions(result.data.stateType === 'MODE' ? result.data.detail.options.map((item) => ({
+          optionKey: item.optionKey, name: item.name
+        })) : []);
+        setModeOptionsLoadState('ready');
+      } catch (error) {
+        if (modeOptionSerial.current !== serial) return;
+        setModeOptionsLoadState('failed');
+        setModeOptionsError(getErrorMessage(error));
+      }
+      return;
+    }
+    setExternalStateDetail(null);
+    if (localModeOptionsByStateKey && !externalState) {
+      setModeOptions(localModeOptionsByStateKey[stateKey] ?? []);
+      setModeOptionsLoadState('ready');
+      setModeOptionsError(null);
+      return;
+    }
+    if (!needsModeOptions) {
       if (!needsModeOptions) {
         setModeOptions([]);
         setModeOptionsLoadState(undefined);
@@ -144,7 +188,8 @@ export function SkillProcessStateOperationEditorModal({
       return;
     }
     try {
-      const result = await getSkillInternalState(apiBaseUrl, selectedGameId, skillKey, stateKey, token);
+      const result = await getSkillInternalState(apiBaseUrl, selectedGameId,
+        draft.stateSkillKey || skillKey, stateKey, token);
       if (modeOptionSerial.current !== serial) return;
       if (result.data.stateType !== 'MODE') {
         setModeOptions([]);
@@ -168,9 +213,12 @@ export function SkillProcessStateOperationEditorModal({
     adminToken,
     apiBaseUrl,
     draft.stateKey,
-    needsModeOptions,
+    selectedState?.stateType,
     selectedGameId,
     skillKey,
+    draft.stateSkillKey,
+    externalState,
+    localModeOptionsByStateKey,
     visible
   ]);
 
@@ -213,6 +261,20 @@ export function SkillProcessStateOperationEditorModal({
   };
 
   const save = () => {
+    if (externalState && (modeOptionsLoadState !== 'ready' || !resolvedExternalState)) {
+      setSaveError(modeOptionsError || '外部内部状态详情尚未读取，不能确认操作。');
+      return;
+    }
+    if (selectedStateType && draft.operation
+      && !allowedOperations.includes(draft.operation as SkillProcessStateOperationKind)) {
+      setErrors({ operation: '该内部状态不支持此操作。' });
+      return;
+    }
+    if (externalState && draft.operation === 'SELECT'
+      && !modeOptions.some((item) => item.optionKey === draft.optionKey)) {
+      setErrors({ optionKey: '请选择外部模式状态中的有效选项。' });
+      return;
+    }
     const others = operationIndex === null
       ? siblingOperations
       : siblingOperations.filter((_, index) => index !== operationIndex);
@@ -229,6 +291,7 @@ export function SkillProcessStateOperationEditorModal({
       },
       {
         includeProcessKey: false,
+        skillKey,
       parameters, parametersLoadState,
         catalog,
         catalogLoadState
@@ -264,7 +327,7 @@ export function SkillProcessStateOperationEditorModal({
       style={{ width: 'calc(100vw - 80px)', maxWidth: 960 }}
       footer={
         <Space>
-          {!readOnly ? (
+          {!readOnly && onOpenParameterFormula ? (
             <Button onClick={onOpenParameterFormula}>参数与公式</Button>
           ) : null}
           <Button onClick={close}>{readOnly ? '关闭' : '取消'}</Button>
@@ -280,7 +343,7 @@ export function SkillProcessStateOperationEditorModal({
         {internalStatesLoadState === 'failed' ? (
           <Alert type="error" content={INCOMPLETE_CATALOG_MESSAGE} />
         ) : null}
-        {needsModeOptions && modeOptionsError ? (
+        {(needsModeOptions || externalState) && modeOptionsError ? (
           <Alert
             type="error"
             content={modeOptionsError}
@@ -319,6 +382,18 @@ export function SkillProcessStateOperationEditorModal({
             />
           </Form.Item>
           <Form.Item
+            label="内部状态所属技能"
+            required
+            validateStatus={errors.stateSkillKey ? 'error' : undefined}
+            help={errors.stateSkillKey}
+          >
+            <Input aria-label="内部状态所属技能" value={draft.stateSkillKey} disabled={readOnly}
+              onChange={(value) => patchDraft({ ...draft, stateSkillKey: value.trim(), stateKey: '', operation: '' })} />
+          </Form.Item>
+          {externalState ? <Form.Item label="外部内部状态标识" required>
+            <Input aria-label="外部内部状态标识" value={draft.stateKey} disabled={readOnly}
+              onChange={(value) => patchDraft({ ...draft, stateKey: value.trim() })} />
+          </Form.Item> : <Form.Item
             label="内部状态"
             required
             validateStatus={errors.stateKey ? 'error' : undefined}
@@ -336,7 +411,7 @@ export function SkillProcessStateOperationEditorModal({
                 patchDraft(applyStateKeyChange(draft, nextKey, nextType as SkillInternalStateType | undefined));
               }}
             />
-          </Form.Item>
+          </Form.Item>}
           <Form.Item
             label="操作"
             required
@@ -346,7 +421,8 @@ export function SkillProcessStateOperationEditorModal({
             <Select
               aria-label="操作"
               value={draft.operation || undefined}
-              disabled={readOnly || existing || allowedOperations.length === 0}
+              disabled={readOnly || existing || allowedOperations.length === 0
+                || (externalState && modeOptionsLoadState !== 'ready')}
               options={allowedOperations.map((value) => ({
                 value,
                 label: STATE_OPERATION_LABELS[value]

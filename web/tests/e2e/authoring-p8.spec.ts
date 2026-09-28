@@ -397,10 +397,21 @@ function checkReport(): Json {
 class AuthoringP8Api {
   unexpected: string[] = [];
   skillGets: string[] = [];
-  holdEffects: Route | undefined;
-  delayEffects = false;
-  auraName = '被动光环';
+  writes: Array<{ method: string; path: string; body: Json }> = [];
+  holdConfiguration: Route | undefined;
+  delayConfiguration = false;
+  digest = 1;
   processStore = processes(FIRST_GAME);
+
+  configuration(gameId = FIRST_GAME) {
+    return {
+      skill: skillRow(gameId), parameters: parameters(gameId),
+      formulas: [{ gameId, skillKey: SKILL_KEY, formulaKey: 'scale', name: '缩放',
+        description: null, sortOrder: 0, createdAt: NOW, updatedAt: NOW, expression: formulaExpression }],
+      effects: effects(gameId), processes: this.processStore,
+      internalStates: [internalState(gameId)], triggerRules: rules(), baseDigest: `digest-${this.digest}`
+    };
+  }
 
   async install(page: Page) {
     await page.route('**/api/**', async route => {
@@ -412,7 +423,7 @@ class AuthoringP8Api {
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS'
+            'Access-Control-Allow-Methods': 'GET,PATCH,POST,DELETE,OPTIONS'
           }
         });
         return;
@@ -537,6 +548,36 @@ class AuthoringP8Api {
       await json(route, { error: { code: '404.SKILL_NOT_FOUND', message: pathname } }, 404);
       return;
     }
+    if (tail[0] === 'skills' && tail[2] === 'configuration') {
+      if (method === 'GET') {
+        if (this.delayConfiguration && gameId === FIRST_GAME && !this.holdConfiguration) {
+          this.holdConfiguration = route;
+          return;
+        }
+        await json(route, gameId === FIRST_GAME && tail[1] === SKILL_KEY
+          ? this.configuration(gameId)
+          : { error: { code: '404.SKILL_NOT_FOUND', message: pathname } },
+        gameId === FIRST_GAME && tail[1] === SKILL_KEY ? 200 : 404);
+        return;
+      }
+      if (method === 'PATCH' || method === 'POST') {
+        const body = route.request().postDataJSON() as Json;
+        this.writes.push({ method, path: pathname, body });
+        for (const change of body.changes as Json[]) {
+          if (change.objectType !== 'PROCESS') continue;
+          if (change.operation === 'UPDATE') this.processStore = this.processStore.map((item) =>
+            item.processKey === change.key ? { ...item, ...(change.value as Json), updatedAt: NOW } : item);
+          else if (change.operation === 'CREATE') this.processStore.push({
+            gameId, skillKey: tail[1], ...(change.value as Json), createdAt: NOW, updatedAt: NOW
+          });
+          else if (change.operation === 'DELETE') this.processStore = this.processStore.filter((item) =>
+            item.processKey !== change.key);
+        }
+        this.digest += 1;
+        await json(route, this.configuration(gameId));
+        return;
+      }
+    }
     if (tail[0] === 'skills' && tail[2] === 'parameters' && method === 'GET') {
       const items = gameId === FIRST_GAME ? parameters(gameId) : [];
       if (tail.length === 4) {
@@ -564,10 +605,6 @@ class AuthoringP8Api {
       return;
     }
     if (tail[0] === 'skills' && tail[2] === 'effects' && method === 'GET') {
-      if (this.delayEffects && gameId === FIRST_GAME && tail.length === 3 && !this.holdEffects) {
-        this.holdEffects = route;
-        return;
-      }
       const items = gameId === FIRST_GAME ? effects(gameId) : [];
       if (tail.length === 3) {
         await json(route, items.map((item) => ({
@@ -601,18 +638,6 @@ class AuthoringP8Api {
         await json(route, found);
         return;
       }
-    }
-    if (tail[0] === 'skills' && tail[2] === 'processes' && tail.length === 4 && method === 'PUT') {
-      const body = JSON.parse(route.request().postData() || '{}') as Json;
-      const current = this.processStore.find((item) => item.processKey === tail[3]);
-      if (!current) {
-        await json(route, { error: { code: '404.NOT_FOUND', message: pathname } }, 404);
-        return;
-      }
-      Object.assign(current, body, { processKey: tail[3], gameId, skillKey: tail[1], updatedAt: NOW });
-      this.auraName = String(current.name);
-      await json(route, current);
-      return;
     }
     if (tail[0] === 'skills' && tail[2] === 'internal-states' && method === 'GET') {
       if (gameId !== FIRST_GAME) {
@@ -701,13 +726,19 @@ async function closeEditor(page: Page, title: string, button = '取消') {
   await expect(shell).toHaveCount(0);
 }
 
+async function expectWorkspaceModule(page: Page, module: string) {
+  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  await expect(workspace).toBeVisible();
+  await expect(workspace.locator('section', { has: page.getByRole('heading', { name: module, exact: true }) })).toBeVisible();
+}
+
 test('技能行为总览五组、资源扣减说明、未启动被动，以及编辑后刷新和旧请求隔离', async ({ page }) => {
   const api = new AuthoringP8Api();
   const assertClean = await prepare(page, api);
   await expect(page.locator('.app-toolbar-field--game')).toContainText(FIRST_GAME);
-  await row(page, SKILL_KEY).getByRole('button', { name: '行为总览', exact: true }).click();
-  const overview = modal(page, '行为总览 · 秘术射击');
-  await expect(overview.getByText('本页只汇总已保存配置，不表示机制已核对或战斗运行已验证。')).toBeVisible();
+  await row(page, SKILL_KEY).getByRole('button', { name: '编辑配置', exact: true }).click();
+  const overview = page.locator('[aria-label="技能统一编辑工作区"]');
+  await expect(overview.getByText('以下总览来自已读取配置；只解释配置，不表示技能可运行或战斗已验证。')).toBeVisible();
   await expect(overview.getByRole('heading', { name: '使用', exact: true })).toBeVisible();
   await expect(overview.getByRole('heading', { name: '消耗与冷却', exact: true })).toBeVisible();
   await expect(overview.getByRole('heading', { name: '命中', exact: true })).toBeVisible();
@@ -715,51 +746,47 @@ test('技能行为总览五组、资源扣减说明、未启动被动，以及�
   await expect(overview.getByRole('heading', { name: '结束', exact: true })).toBeVisible();
   await expect(overview.getByRole('heading', { name: '补充入口', exact: true })).toBeVisible();
   await expect(overview.getByText('触发规则：主动使用（on_use）').first()).toBeVisible();
-  await expect(overview.getByText(RESOURCE_NOTE)).toHaveCount(2);
-  await expect(overview.getByRole('row').filter({ hasText: '效果结果：扣蓝 / 扣蓝' }).first()).toContainText(RESOURCE_NOTE);
+  await expect(overview.getByText(RESOURCE_NOTE).first()).toBeVisible();
+  await expect(overview.getByText('效果结果：扣蓝 / 扣蓝').first().locator('xpath=../../..')).toContainText(RESOURCE_NOTE);
   await expect(overview.getByText('过程冷却：施放过程（cast）').first()).toBeVisible();
-  const restoreRows = overview.getByRole('row').filter({ hasText: '效果结果：命中效果 / 回蓝' });
+  const restoreRows = overview.getByText('效果结果：命中效果 / 回蓝');
   await expect(restoreRows.first()).toBeVisible();
   await expect(restoreRows).toHaveCount(2);
-  await expect(restoreRows.first()).not.toContainText(RESOURCE_NOTE);
-  await expect(restoreRows.nth(1)).not.toContainText(RESOURCE_NOTE);
+  await expect(restoreRows.first().locator('xpath=../../..')).not.toContainText(RESOURCE_NOTE);
+  await expect(restoreRows.nth(1).locator('xpath=../../..')).not.toContainText(RESOURCE_NOTE);
   await expect(overview.getByText('触发规则：技能命中（on_hit）').first()).toBeVisible();
   await expect(overview.getByText('效果结果：命中效果 / 秘术伤害').first()).toBeVisible();
-  const effectBinding = overview.getByRole('row').filter({ hasText: '过程效果挂接：施放过程 → 命中效果（hit）' }).first();
+  const effectBinding = overview.getByText('过程效果挂接：施放过程 → 命中效果（hit）').first().locator('xpath=../../..');
   await expect(effectBinding).toBeVisible();
-  await expect(effectBinding.getByRole('cell').nth(2)).toContainText('当前目标');
+  await expect(effectBinding).toContainText('当前目标');
   await expect(overview.getByText('未启动过程：被动光环（aura）')).toBeVisible();
   await expect(overview.getByText('未启动过程：充能过程（charge）')).toBeVisible();
   await expect(overview.getByText('未挂接效果：未挂接（orphan）')).toBeVisible();
   await expect(overview.getByText('触发规则：初始化（on_init）')).toBeVisible();
-  await expect(overview.getByRole('row').filter({ hasText: '标记' })).not.toContainText(RESOURCE_NOTE);
+  await expect(overview.getByText('效果结果：未挂接 / 标记').first().locator('xpath=../../..')).not.toContainText(RESOURCE_NOTE);
 
-  await overview.getByRole('row').filter({ hasText: '未启动过程：被动光环' }).getByRole('button', { name: '编辑', exact: true }).click();
-  const processShell = modal(page, '过程与内部状态 - 秘术射击');
-  await expect(processShell).toBeVisible();
+  await overview.getByText('未启动过程：被动光环（aura）').locator('xpath=../..')
+    .getByRole('button', { name: '查看位置', exact: true }).click();
   const processEditor = modal(page, '编辑过程');
   await processEditor.getByLabel('过程名称', { exact: true }).fill('已更新光环');
-  await processEditor.getByRole('button', { name: '保存', exact: true }).click();
+  await processEditor.getByRole('button', { name: '确认到技能草稿', exact: true }).click();
   await expect(processEditor).toHaveCount(0);
-  await processShell.getByRole('button', { name: '关闭', exact: true }).click();
+  await overview.getByRole('button', { name: '保存更改', exact: true }).click();
+  await expect(overview.getByText('已保存并核对', { exact: true })).toBeVisible();
+  expect(api.writes).toMatchObject([{ method: 'PATCH', body: { changes: [{ objectType: 'PROCESS', key: 'aura' }] } }]);
+  await overview.getByRole('navigation', { name: '技能配置模块' })
+    .getByRole('button', { name: '配置总览', exact: true }).click();
   await expect(overview.getByText('未启动过程：已更新光环（aura）')).toBeVisible();
 
-  api.delayEffects = true;
-  await overview.getByRole('button', { name: '重试', exact: true }).click();
-  await expect.poll(() => Boolean(api.holdEffects)).toBe(true);
-  await overview.getByRole('button', { name: '关闭', exact: true }).click();
-  await expect(modal(page, '行为总览 · 秘术射击')).toHaveCount(0);
+  api.delayConfiguration = true;
+  await overview.getByRole('button', { name: '重新读取', exact: true }).click();
+  await expect.poll(() => Boolean(api.holdConfiguration)).toBe(true);
   await page.locator('.app-toolbar-field--game .arco-select-view').click();
   await page.getByRole('option', { name: `${SECOND_GAME} / 第8项另一游戏`, exact: true }).click();
   await expect(page.getByRole('heading', { name: '技能管理', exact: true })).toBeVisible();
-  await expect(modal(page, '行为总览 · 秘术射击')).toHaveCount(0);
-  await json(api.holdEffects!, effects(FIRST_GAME).map((item) => ({
-    gameId: FIRST_GAME, skillKey: item.skillKey, effectKey: item.effectKey, name: '迟到效果',
-    description: item.description, sortOrder: item.sortOrder,
-    resultCount: Array.isArray(item.results) ? item.results.length : 0,
-    lifecycleEnabled: false, createdAt: NOW, updatedAt: NOW
-  })));
-  await expect(page.getByText('迟到效果', { exact: true })).toHaveCount(0);
+  await expect(page.locator('[aria-label="技能统一编辑工作区"]')).toHaveCount(0);
+  await json(api.holdConfiguration!, { ...api.configuration(), skill: skillRow(FIRST_GAME, '迟到技能') });
+  await expect(page.getByText('迟到技能', { exact: true })).toHaveCount(0);
   await expect(row(page, 'other_q')).toBeVisible();
   assertClean();
 });
@@ -796,7 +823,7 @@ test('录入检查按稳定键直达字段、公式交换降级、草稿取消�
   expect(await answerDialog(page, () => resultEditor.getByRole('button', { name: '取消', exact: true }).click(), true)).toBe('当前修改尚未保存，确定要离开吗？');
   await expect(resultEditor).toHaveCount(0);
   await closeEditor(page, '编辑效果');
-  await closeEditor(page, '效果与结果 - 秘术射击', '关闭');
+  await expectWorkspaceModule(page, '效果与生命周期');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
   await expect(check.getByText(/结构检查：发现 3 项错误/)).toBeVisible();
   await expect(page.getByRole('textbox', { name: '角色关键词', exact: true })).toHaveValue('保留的筛选草稿');
@@ -805,7 +832,7 @@ test('录入检查按稳定键直达字段、公式交换降级、草稿取消�
   await expect(modal(page, '编辑条件').locator('[data-authoring-field="conditionType"].authoring-field-active')).toBeVisible();
   await closeEditor(page, '编辑条件');
   await closeEditor(page, '编辑规则');
-  await closeEditor(page, '条件与触发 - 秘术射击', '关闭');
+  await expectWorkspaceModule(page, '条件与触发');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
 
   await check.getByRole('row').filter({ hasText: '核对动态绑定' }).getByRole('button', { name: '定位问题', exact: true }).click();
@@ -813,32 +840,32 @@ test('录入检查按稳定键直达字段、公式交换降级、草稿取消�
   await closeEditor(page, '编辑绑定');
   await closeEditor(page, '编辑动作');
   await closeEditor(page, '编辑规则');
-  await closeEditor(page, '条件与触发 - 秘术射击', '关闭');
+  await expectWorkspaceModule(page, '条件与触发');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
 
   await check.getByRole('row').filter({ hasText: '核对过程步骤' }).getByRole('button', { name: '定位问题', exact: true }).click();
   await expect(modal(page, '编辑步骤').locator('[data-authoring-field="stepType"].authoring-field-active')).toBeVisible();
   await closeEditor(page, '编辑步骤');
   await closeEditor(page, '编辑过程');
-  await closeEditor(page, '过程与内部状态 - 秘术射击', '关闭');
+  await expectWorkspaceModule(page, '施放过程');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
 
   await check.getByRole('row').filter({ hasText: '核对过程冷却' }).getByRole('button', { name: '定位问题', exact: true }).click();
   await expect(modal(page, '编辑过程').locator('[data-authoring-field="cooldown"].authoring-field-active')).toBeVisible();
   await closeEditor(page, '编辑过程');
-  await closeEditor(page, '过程与内部状态 - 秘术射击', '关闭');
+  await expectWorkspaceModule(page, '施放过程');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
 
   await check.getByRole('row').filter({ hasText: '核对参数名称' }).getByRole('button', { name: '定位问题', exact: true }).click();
   await expect(modal(page, '编辑参数').locator('[data-authoring-field="name"].authoring-field-active')).toBeVisible();
   await closeEditor(page, '编辑参数');
-  await closeEditor(page, '参数与公式 - 秘术射击', '关闭');
+  await expectWorkspaceModule(page, '参数与公式');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
 
   await check.getByRole('row').filter({ hasText: '核对公式右操作数' }).getByRole('button', { name: '定位问题', exact: true }).click();
   await expect(modal(page, '编辑公式').locator('[data-authoring-field="expression.operands[1]"].authoring-field-active')).toBeVisible();
   await closeEditor(page, '编辑公式');
-  await closeEditor(page, '参数与公式 - 秘术射击', '关闭');
+  await expectWorkspaceModule(page, '参数与公式');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
 
   await check.getByRole('row').filter({ hasText: '公式左右同类节点已交换' }).getByRole('button', { name: '定位问题', exact: true }).click();
@@ -847,7 +874,7 @@ test('录入检查按稳定键直达字段、公式交换降级、草稿取消�
   await expect(swapped.getByText(/公式表达式已变化/)).toBeVisible();
   await expect(swapped.locator('[data-authoring-field="expression.operands[1]"].authoring-field-active')).toHaveCount(0);
   await closeEditor(page, '编辑公式');
-  await closeEditor(page, '参数与公式 - 秘术射击', '关闭');
+  await expectWorkspaceModule(page, '参数与公式');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
 
   await check.getByRole('row').filter({ hasText: '结果已删除' }).getByRole('button', { name: '定位问题', exact: true }).click();
@@ -855,7 +882,7 @@ test('录入检查按稳定键直达字段、公式交换降级、草稿取消�
   await expect(missing.getByText(/无法精确定位/)).toBeVisible();
   await expect(modal(page, '编辑结果')).toHaveCount(0);
   await closeEditor(page, '编辑效果');
-  await closeEditor(page, '效果与结果 - 秘术射击', '关闭');
+  await expectWorkspaceModule(page, '效果与生命周期');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
 
   await check.getByRole('row').filter({ hasText: '结果类型已变化' }).getByRole('button', { name: '定位问题', exact: true }).click();
@@ -864,13 +891,13 @@ test('录入检查按稳定键直达字段、公式交换降级、草稿取消�
   await expect(changed.locator('[data-authoring-field="resultType"].authoring-field-active')).toHaveCount(0);
   await closeEditor(page, '编辑结果');
   await closeEditor(page, '编辑效果');
-  await closeEditor(page, '效果与结果 - 秘术射击', '关闭');
+  await expectWorkspaceModule(page, '效果与生命周期');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
 
   await check.getByRole('row').filter({ hasText: '核对模式选项' }).getByRole('button', { name: '定位问题', exact: true }).click();
   await expect(modal(page, '编辑内部状态').locator('[data-authoring-field="optionKey"].authoring-field-active')).toBeVisible();
   await closeEditor(page, '编辑内部状态');
-  await closeEditor(page, '过程与内部状态 - 秘术射击', '关闭');
+  await expectWorkspaceModule(page, '内部状态');
   await page.getByRole('button', { name: '返回录入检查', exact: true }).click();
 
   await check.getByRole('row').filter({ hasText: '挂载技能缺失' }).getByRole('button', { name: '定位问题', exact: true }).click();

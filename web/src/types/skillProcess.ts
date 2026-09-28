@@ -162,6 +162,7 @@ export type SkillProcessEffectBinding = {
 type SkillProcessStateOperationBase = {
   operationKey: string;
   name: string;
+  stateSkillKey: string;
   stateKey: string;
   moment: SkillProcessMoment;
   sortOrder: number;

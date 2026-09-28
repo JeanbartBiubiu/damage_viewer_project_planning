@@ -63,6 +63,7 @@ class RelationApi {
   runeDetailFailure: Failure | null = null;
   runeListReads = 0;
   heldOptions: { started: boolean; promise: Promise<void> } | null = null;
+  configurationDigest = new Map<string, number>();
 
   sourceId(gameId: string, source: string) { return `${gameId}/${source}`; }
   sourceImage(gameId: string, source: string) { return this.representatives.get(this.sourceId(gameId, source)); }
@@ -72,6 +73,13 @@ class RelationApi {
   effect(gameId: string, skillKey: string) {
     return { gameId, skillKey, effectKey: 'shared_effect', name: '同名效果', description: null,
       sortOrder: 0, resultCount: 0, lifecycle: null, results: [], createdAt: NOW, updatedAt: NOW };
+  }
+  configuration(gameId: string, skillKey: string) {
+    return {
+      skill: this.row(gameId, 'skills', skillKey), parameters: [], formulas: [], internalStates: [],
+      effects: [this.effect(gameId, skillKey)], processes: [], triggerRules: [],
+      baseDigest: `digest-${this.configurationDigest.get(`${gameId}/${skillKey}`) ?? 1}`
+    };
   }
   async install(page: Page) {
     await page.route('**/api/**', async route => {
@@ -146,7 +154,7 @@ class RelationApi {
     const gameId = segments[3]!;
     const tail = segments.slice(4);
     const resource = tail[0]!;
-    const body = ['POST', 'PUT'].includes(method) ? request.postDataJSON() as Json : {};
+    const body = ['POST', 'PUT', 'PATCH'].includes(method) ? request.postDataJSON() as Json : {};
     if (method !== 'GET') this.writes.push({ method, path: url.pathname, body });
 
     if (resource === 'level-config' && method === 'GET') {
@@ -156,6 +164,21 @@ class RelationApi {
     if (resource === 'vamp-rules' && tail.length === 1 && method === 'GET') {
       await this.json(route, { rules: [] });
       return;
+    }
+    if (resource === 'skills' && tail[2] === 'configuration' && tail.length === 3) {
+      const skillKey = tail[1]!;
+      if (method === 'GET') {
+        await this.json(route, this.configuration(gameId, skillKey));
+        return;
+      }
+      if (method === 'PATCH') {
+        const skill = this.row(gameId, 'skills', skillKey);
+        Object.assign(skill, body.skill ?? {}, { updatedAt: '2026-09-06T09:00:00Z' });
+        const identity = `${gameId}/${skillKey}`;
+        this.configurationDigest.set(identity, (this.configurationDigest.get(identity) ?? 1) + 1);
+        await this.json(route, this.configuration(gameId, skillKey));
+        return;
+      }
     }
     if (resource === 'image-options' && method === 'GET') {
       const keyword = url.searchParams.get('keyword')!;
@@ -528,8 +551,12 @@ test('stage 9 skill relations keep both ends, order, disabled references and fai
   await expect(dialog.getByLabel('装备甲排序', { exact: true })).toHaveValue('4');
   await closeModal(dialog);
   await row(page, 'strike').getByRole('button', { name: '停用', exact: true }).click();
-  await modal(page, '停用技能').getByRole('button', { name: '停用', exact: true }).click();
-  await expect(modal(page, '停用技能')).toBeHidden();
+  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  await expect(workspace.getByRole('radio', { name: '停用', exact: true })).toBeChecked();
+  await workspace.getByRole('button', { name: '保存更改', exact: true }).click();
+  await expect(workspace.getByText('已保存并核对', { exact: true })).toBeVisible();
+  await workspace.getByRole('button', { name: '返回', exact: true }).click();
+  await expect(row(page, 'strike')).toContainText('停用');
   await row(page, 'strike').getByRole('button', { name: '挂载对象', exact: true }).click();
   dialog = modal(page, '挂载对象 · 打击技能');
   await expect(dialog.getByText('已停用', { exact: true }).first()).toBeVisible();
@@ -578,7 +605,7 @@ test('equipment skill authoring preserves owner and filter, confirms drafts, ret
   api.mounts.push({ gameId: FIRST_GAME, kind: 'equipment', ownerKey: 'blade', skillKey: 'strike', sortOrder: 4 });
   const assertClean = await prepare(page, api);
   let failSkillRead = true;
-  await page.route(`${API}/api/admin/games/${FIRST_GAME}/skills/strike`, async route => {
+  await page.route(`${API}/api/admin/games/${FIRST_GAME}/skills/strike/configuration`, async route => {
     if (route.request().method() === 'GET' && failSkillRead) {
       await api.error(route, { status: 503, code: '503.SKILL_READ_FAILED', message: '技能读取暂时失败', field: '' });
     } else await route.fallback();
@@ -600,15 +627,19 @@ test('equipment skill authoring preserves owner and filter, confirms drafts, ret
   expect(api.mounts[0]!.sortOrder).toBe(4);
   expect(api.writes).toEqual([]);
   failSkillRead = false;
-  await page.locator('.page-stack').getByRole('button', { name: '刷新', exact: true }).click();
-  await expect(page.getByRole('heading', { name: '技能录入 · 打击技能', exact: true })).toBeVisible();
+  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  await workspace.getByRole('button', { name: '重试读取', exact: true }).click();
+  await expect(workspace.getByRole('heading', { name: '打击技能', exact: true })).toBeVisible();
+  await expect(workspace.getByText('稳定标识：strike', { exact: true })).toBeVisible();
   await expect(row(page, 'guard')).toHaveCount(0);
-  await row(page, 'strike').getByRole('button', { name: '编辑', exact: true }).click();
-  const editor = modal(page, '编辑技能');
-  await editor.getByLabel('技能名称', { exact: true }).fill('已编辑打击技能');
-  await editor.getByRole('button', { name: '保存', exact: true }).click();
-  await expect(editor).toBeHidden();
-  expect(api.writes.map(write => `${write.method} ${write.path}`)).toEqual([`PUT /api/admin/games/${FIRST_GAME}/skills/strike`]);
+  await workspace.getByRole('navigation', { name: '技能配置模块' })
+    .getByRole('button', { name: '主体与分类', exact: true }).click();
+  await workspace.getByLabel('技能名称', { exact: true }).fill('已编辑打击技能');
+  await workspace.getByRole('button', { name: '保存更改', exact: true }).click();
+  await expect(workspace.getByText('已保存并核对', { exact: true })).toBeVisible();
+  expect(api.writes.map(write => `${write.method} ${write.path}`)).toEqual([
+    `PATCH /api/admin/games/${FIRST_GAME}/skills/strike/configuration`
+  ]);
   await page.getByRole('button', { name: '返回装备技能', exact: true }).click();
   await expect(relations.getByText('已编辑打击技能', { exact: true })).toBeVisible();
   await expect(relations.getByLabel('已编辑打击技能排序', { exact: true })).toHaveValue('4');
@@ -616,7 +647,8 @@ test('equipment skill authoring preserves owner and filter, confirms drafts, ret
   await expect(page.getByLabel('装备关键词', { exact: true })).toHaveValue('装备甲');
   await row(page, 'blade').getByRole('button', { name: '关联技能', exact: true }).click();
   await relations.getByRole('button', { name: '录入技能', exact: true }).click();
-  await expect(page.getByRole('heading', { name: '技能录入 · 已编辑打击技能', exact: true })).toBeVisible();
+  await expect(page.locator('[aria-label="技能统一编辑工作区"]')
+    .getByRole('heading', { name: '已编辑打击技能', exact: true })).toBeVisible();
   await page.locator('.app-toolbar-field--game .arco-select-view').click();
   await page.locator('.arco-select-option:visible').filter({ hasText: SECOND_GAME }).click();
   await expect(page.getByRole('heading', { name: '装备管理', exact: true })).toBeVisible();
@@ -636,6 +668,26 @@ const IMAGE_SOURCES = [
   { route: 'statuses', key: 'stun', name: '眩晕状态', type: '状态', source: 'statuses/stun' }
 ];
 
+async function openEffectImage(page: Page) {
+  await navigate(page, 'skills');
+  await row(page, 'strike').getByRole('button', { name: '编辑配置', exact: true }).click();
+  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  await workspace.getByRole('navigation', { name: '技能配置模块' })
+    .getByRole('button', { name: '效果与生命周期', exact: true }).click();
+  const effectCard = workspace.getByText('（shared_effect）', { exact: true })
+    .locator('xpath=ancestor::div[.//button[normalize-space()="代表图片"]][1]');
+  await effectCard.getByRole('button', { name: '代表图片', exact: true }).click();
+  const dialog = modal(page, '同名效果 · 代表图片');
+  await expect(dialog).toContainText('所属技能：strike');
+  return dialog;
+}
+
+async function closeEffectWorkspace(page: Page) {
+  const workspace = page.locator('[aria-label="技能统一编辑工作区"]');
+  await workspace.getByRole('button', { name: '返回', exact: true }).click();
+  await expect(workspace).toHaveCount(0);
+}
+
 test('stage 9 all seven image sources share reverse usages, replacement confirmation and effect parent identity', async ({ page }) => {
   const api = new RelationApi();
   const assertClean = await prepare(page, api);
@@ -643,11 +695,7 @@ test('stage 9 all seven image sources share reverse usages, replacement confirma
   for (const source of IMAGE_SOURCES) {
     let dialog: Locator;
     if (source.type === '技能效果') {
-      await navigate(page, 'skills');
-      await row(page, 'strike').getByRole('button', { name: '效果与结果', exact: true }).click();
-      await row(page, source.key).getByRole('button', { name: '代表图片', exact: true }).click();
-      dialog = modal(page, '同名效果 · 代表图片');
-      await expect(dialog).toContainText('所属技能：strike');
+      dialog = await openEffectImage(page);
     } else {
       dialog = await openRepresentative(page, source.route, source.key, source.name);
     }
@@ -655,7 +703,7 @@ test('stage 9 all seven image sources share reverse usages, replacement confirma
     await saveImage(dialog);
     expect(api.sourceImage(FIRST_GAME, source.source)).toBe('portrait_a');
     await closeModal(dialog);
-    if (source.type === '技能效果') await closeModal(page.locator('.arco-modal:visible'));
+    if (source.type === '技能效果') await closeEffectWorkspace(page);
   }
   // 相同效果标识属于不同技能，另一父技能的关系应完整保留。
   api.representatives.set(api.sourceId(FIRST_GAME, 'skills/guard/effects/shared_effect'), 'portrait_b');
@@ -851,18 +899,15 @@ async function selectImageFile(dialog: Locator, file: Awaited<ReturnType<typeof 
 
 async function openImageSource(page: Page, source: typeof IMAGE_SOURCES[number]) {
   if (source.type !== '技能效果') return openRepresentative(page, source.route, source.key, source.name);
-  await navigate(page, 'skills');
-  await row(page, 'strike').getByRole('button', { name: '效果与结果', exact: true }).click();
-  await row(page, source.key).getByRole('button', { name: '代表图片', exact: true }).click();
-  const dialog = modal(page, '同名效果 · 代表图片');
-  await expect(dialog).toContainText('所属技能：strike');
-  return dialog;
+  return openEffectImage(page);
 }
 
 async function closeImageSource(page: Page, dialog: Locator, source: typeof IMAGE_SOURCES[number], expectedImage?: string) {
   await closeModal(dialog);
-  if (source.type !== '游戏' && expectedImage) await expectRowImage(page, source.key, source.name, expectedImage);
-  if (source.type === '技能效果') await closeModal(page.locator('.arco-modal:visible'));
+  if (source.type !== '游戏' && source.type !== '技能效果' && expectedImage) {
+    await expectRowImage(page, source.key, source.name, expectedImage);
+  }
+  if (source.type === '技能效果') await closeEffectWorkspace(page);
 }
 
 async function uploadAndUse(dialog: Locator) {

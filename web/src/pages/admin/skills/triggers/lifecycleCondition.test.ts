@@ -11,7 +11,7 @@ const mark = (scope: SkillEffectLifecycleInstanceScope = 'SOURCE_TARGET'): Skill
   lifecycle: { instanceScope: scope, durationValue: null, maxStacksValue: fixedValue(1), applicationStacksValue: fixedValue(1),
     reapplicationStackMode: 'INCREASE', reapplicationDurationMode: 'KEEP', expiryMode: 'ALL_AT_ONCE', periodicIntervalValue: null, firstPeriodicExecution: null }
 });
-const present: SkillTriggerLifecycleCheckDetail = { effectKey: 'mark', subject: 'CURRENT_TARGET', checkKind: 'PRESENT', comparator: null, comparisonValue: null };
+const present: SkillTriggerLifecycleCheckDetail = { effectSkillKey: 'w', effectKey: 'mark', subject: 'CURRENT_TARGET', checkKind: 'PRESENT', comparator: null, comparisonValue: null };
 const stacks = (comparisonValue = fixedValue(0)): SkillTriggerLifecycleCheckDetail => ({ ...present, checkKind: 'STACKS_COMPARE', comparator: 'GTE', comparisonValue });
 const parameter = (overrides: Partial<SkillParameter> = {}): SkillParameter => ({
   gameId: 'lol', skillKey: 'w', parameterKey: 'count', name: '层数', valueMode: 'FIXED', valueType: 'INTEGER', fixedValue: 0,
@@ -34,12 +34,12 @@ describe('生命周期条件范围与取值', () => {
     expect(lifecycleConditionError(invalid, effect, ['SOURCE', 'CURRENT_TARGET'])?.field).toBe('subject');
   });
 
-  it('候选仅当前技能有生命周期的效果，缺失或跨技能引用不允许确认', () => {
+  it('候选包括同游戏的生命周期效果，按明确归属校验', () => {
     const effect = mark();
-    expect(lifecycleConditionEffects([effect, { ...effect, skillKey: 'q' }, { ...effect, lifecycle: null }], 'w')).toEqual([effect]);
+    expect(lifecycleConditionEffects([effect, { ...effect, skillKey: 'q' }, { ...effect, lifecycle: null }], 'w')).toEqual([effect, { ...effect, skillKey: 'q' }]);
     expect(lifecycleConditionError(present, undefined, ['CURRENT_TARGET'])?.field).toBe('effectKey');
     expect(lifecycleConditionError(present, { ...effect, lifecycle: null }, ['CURRENT_TARGET'])?.field).toBe('effectKey');
-    expect(lifecycleConditionError(present, effect, ['CURRENT_TARGET'], {}, {}, 'q')?.field).toBe('effectKey');
+    expect(lifecycleConditionError(present, effect, ['CURRENT_TARGET'], {}, {}, 'w')).toBeNull();
   });
 
   it('切换为存在或不存在清除比较字段，切换范围清除不适用主体', () => {

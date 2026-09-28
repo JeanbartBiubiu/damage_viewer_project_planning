@@ -77,6 +77,26 @@ class AuthoringP6Api {
   unexpected: string[] = [];
   writes: Array<{ method: string; path: string; body: Json }> = [];
   rules: Json[] = [ruleDetail()];
+  digest = 1;
+
+  configuration() {
+    return {
+      skill: skillRow(), parameters: [], formulas: [], internalStates: [], processes: [],
+      effects: [{
+        gameId: GAME_ID, skillKey: SKILL_KEY, effectKey: 'eclipse_hit', name: '星蚀伤害',
+        description: null, sortOrder: 0, createdAt: NOW, updatedAt: NOW, lifecycle: null,
+        results: [{
+          resultKey: 'dmg', name: '伤害', resultType: 'DAMAGE', target: 'TARGET', description: null, sortOrder: 0,
+          lifecycleBehavior: null, spellShieldBlockScope: null,
+          valueRule: { value: { kind: 'FIXED', value: 1 }, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null },
+          detail: { damageTypeKey: 'magic', deliveryKind: 'SKILL', originKind: 'DIRECT',
+            critical: { mode: 'DISALLOWED', multiplierValue: null },
+            vampQualification: 'UNRESOLVED', vampOverrides: [] }
+        }]
+      }],
+      triggerRules: this.rules, baseDigest: `digest-${this.digest}`
+    };
+  }
 
   async install(page: Page) {
     await page.route('**/api/**', async route => {
@@ -88,7 +108,7 @@ class AuthoringP6Api {
           headers: {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': '*',
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS'
+            'Access-Control-Allow-Methods': 'GET,PATCH,POST,DELETE,OPTIONS'
           }
         });
         return;
@@ -198,6 +218,45 @@ class AuthoringP6Api {
       await json(route, skillRow());
       return;
     }
+    if (tail[0] === 'skills' && tail[2] === 'configuration') {
+      if (method === 'GET') {
+        await json(route, this.configuration());
+        return;
+      }
+      if (method === 'PATCH' || method === 'POST') {
+        const body = route.request().postDataJSON() as Json;
+        this.writes.push({ method, path: pathname, body });
+        const changes = body.changes as Json[];
+        for (const change of changes) {
+          if (change.objectType !== 'TRIGGER_RULE') continue;
+          const next = change.value as Json;
+          const once = next?.oncePerUse && typeof next.oncePerUse === 'object' ? next.oncePerUse as Json : null;
+          const other = once && this.rules.find((item) => item.ruleKey !== change.key
+            && item.oncePerUse && typeof item.oncePerUse === 'object'
+            && (item.oncePerUse as Json).groupKey === once.groupKey
+            && (item.oncePerUse as Json).scope !== once.scope);
+          if (other) {
+            await json(route, { error: { code: '409.SKILL_TRIGGER_RULE_ONCE_PER_USE_INVALID',
+              message: '同次使用限制组范围与现有规则冲突', details: { fieldIssues: [{
+                module: 'TRIGGER_RULE', key: change.key, field: 'oncePerUse.scope',
+                message: '同技能同一共享限制键的范围必须一致（冲突规则：first）'
+              }] } } }, 409);
+            return;
+          }
+        }
+        for (const change of changes) {
+          if (change.objectType !== 'TRIGGER_RULE') continue;
+          if (change.operation === 'DELETE') this.rules = this.rules.filter((item) => item.ruleKey !== change.key);
+          else {
+            const next = ruleDetail({ ...(change.value as Json), ruleKey: change.key });
+            this.rules = this.rules.filter((item) => item.ruleKey !== change.key).concat(next);
+          }
+        }
+        this.digest += 1;
+        await json(route, this.configuration());
+        return;
+      }
+    }
     if (tail[0] === 'skills' && tail[2] === 'parameters' && method === 'GET') {
       await json(route, []);
       return;
@@ -261,55 +320,7 @@ class AuthoringP6Api {
       await json(route, found);
       return;
     }
-    const body = route.request().postDataJSON() as Json;
-    this.writes.push({ method, path: pathname, body });
-    if (method === 'POST' || method === 'PUT') {
-      const ruleKey = method === 'POST' ? String(body.ruleKey) : tail[3]!;
-      const once = body.oncePerUse && typeof body.oncePerUse === 'object' ? body.oncePerUse as Json : null;
-      if (once) {
-        const other = this.rules.find((item) => (
-          item.ruleKey !== ruleKey
-          && item.oncePerUse
-          && typeof item.oncePerUse === 'object'
-          && (item.oncePerUse as Json).groupKey === once.groupKey
-          && (item.oncePerUse as Json).scope !== once.scope
-        ));
-        if (other) {
-          await json(route, {
-            error: {
-              code: '409.SKILL_TRIGGER_RULE_ONCE_PER_USE_INVALID',
-              message: '同次使用限制组范围与现有规则冲突',
-              details: {
-                fieldIssues: [{
-                  field: 'oncePerUse.scope',
-                  code: 'ONCE_PER_USE_SCOPE_CONFLICT',
-                  message: '同技能同一共享限制键的范围必须一致',
-                  conflictingRuleKey: other.ruleKey
-                }]
-              }
-            }
-          }, 409);
-          return;
-        }
-      }
-      const next = ruleDetail({
-        ruleKey,
-        name: body.name,
-        description: body.description ?? null,
-        sortOrder: body.sortOrder,
-        eventSource: body.eventSource,
-        conditionGroups: body.conditionGroups ?? [],
-        actions: body.actions,
-        perTargetCooldown: body.perTargetCooldown ?? null,
-        maxTriggersPerProcess: body.maxTriggersPerProcess ?? null,
-        oncePerUse: once
-      });
-      const index = this.rules.findIndex((item) => item.ruleKey === ruleKey);
-      if (index >= 0) this.rules[index] = next;
-      else this.rules.push(next);
-      await json(route, next, method === 'POST' ? 201 : 200);
-      return;
-    }
+    this.unexpected.push(`${method} ${pathname}`);
     await json(route, { error: { code: '404.UNMOCKED', message: pathname } }, 404);
   }
 }
@@ -340,10 +351,23 @@ function skillRowLocator(page: Page) {
 }
 
 async function openTriggers(page: Page): Promise<Locator> {
-  await skillRowLocator(page).getByRole('button', { name: '条件与触发', exact: true }).click();
-  const shell = modal(page, '条件与触发 - 星蚀被动');
+  await skillRowLocator(page).getByRole('button', { name: '编辑配置', exact: true }).click();
+  const shell = page.locator('[aria-label="技能统一编辑工作区"]');
   await expect(shell).toBeVisible();
+  await shell.getByRole('navigation', { name: '技能配置模块' })
+    .getByRole('button', { name: '条件与触发', exact: true }).click();
+  await expect(shell.getByRole('button', { name: '新增规则', exact: true })).toBeVisible();
   return shell;
+}
+
+async function saveConfiguration(shell: Locator) {
+  await shell.getByRole('button', { name: '保存更改', exact: true }).click();
+  await expect(shell.getByText('已保存并核对', { exact: true })).toBeVisible();
+}
+
+function ruleCard(shell: Locator, key: string) {
+  return shell.getByText(`（${key}）`, { exact: true })
+    .locator('xpath=ancestor::div[.//button[normalize-space()="编辑"]][1]');
 }
 
 async function clickArcoRadioByVisibleLabel(editor: Locator, label: string) {
@@ -384,7 +408,7 @@ test('同次使用限制启用禁用往返、共享键范围、事件切换确�
   const assertClean = await prepare(page, api);
   await expect(page.locator('.app-toolbar-field--game')).toContainText(GAME_ID);
   const shell = await openTriggers(page);
-  await expect(shell.locator('tr', { hasText: 'first' }).getByText('已配置', { exact: true })).toBeVisible();
+  await expect(ruleCard(shell, 'first')).toContainText('同次使用限制：eclipse（整个技能使用）');
 
   await shell.getByRole('button', { name: '新增规则', exact: true }).click();
   const create = modal(page, '新增规则');
@@ -398,21 +422,26 @@ test('同次使用限制启用禁用往返、共享键范围、事件切换确�
   await create.getByLabel('共享限制键', { exact: true }).fill('eclipse');
   await expect(create.getByRole('radio', { name: '整个技能使用', exact: true })).toBeChecked();
   await clickArcoRadioByVisibleLabel(create, '每个目标');
-  await create.getByRole('button', { name: '保存', exact: true }).click();
-  await expect(create.getByText('同技能同一共享限制键的范围必须一致（冲突规则：first）', { exact: true })).toBeVisible();
-  await expect(create.getByLabel('共享限制键', { exact: true })).toHaveValue('eclipse');
-  await expect(create.getByRole('radio', { name: '每个目标', exact: true })).toBeChecked();
-  await expect(create.locator('[data-authoring-field="scope"].authoring-field-active')).toBeVisible();
+  await create.getByRole('button', { name: '确认到技能草稿', exact: true }).click();
+  await expect(create).toHaveCount(0);
+  expect(api.rules.find((item) => item.ruleKey === 'second')).toBeUndefined();
+  await expect(ruleCard(shell, 'second')).toContainText('同次使用限制：eclipse（每个目标）');
+  await shell.getByRole('button', { name: '保存更改', exact: true }).click();
+  await expect(shell.getByText('同技能同一共享限制键的范围必须一致（冲突规则：first）').first()).toBeVisible();
   expect(api.rules.find((item) => item.ruleKey === 'second')).toBeUndefined();
 
-  await clickArcoRadioByVisibleLabel(create, '整个技能使用');
-  await create.getByRole('button', { name: '保存', exact: true }).click();
-  await expect(create).toHaveCount(0);
+  await ruleCard(shell, 'second').getByRole('button', { name: '编辑', exact: true }).click();
+  const corrected = modal(page, '新增规则');
+  await expect(corrected.getByLabel('共享限制键', { exact: true })).toHaveValue('eclipse');
+  await expect(corrected.getByRole('radio', { name: '每个目标', exact: true })).toBeChecked();
+  await clickArcoRadioByVisibleLabel(corrected, '整个技能使用');
+  await corrected.getByRole('button', { name: '确认到技能草稿', exact: true }).click();
+  await saveConfiguration(shell);
   const saved = api.rules.find((item) => item.ruleKey === 'second');
   expect(saved?.oncePerUse).toEqual({ groupKey: 'eclipse', scope: 'SKILL' });
-  await expect(shell.locator('tr', { hasText: 'second' })).toContainText('已配置');
+  await expect(ruleCard(shell, 'second')).toContainText('同次使用限制：eclipse（整个技能使用）');
 
-  await shell.locator('tr', { hasText: 'second' }).getByRole('button', { name: '编辑', exact: true }).click();
+  await ruleCard(shell, 'second').getByRole('button', { name: '编辑', exact: true }).click();
   const edit = modal(page, '编辑规则');
   await expect(edit.getByRole('switch', { name: '同次使用仅触发一次', exact: true })).toBeChecked();
   await expect(edit.getByLabel('共享限制键', { exact: true })).toHaveValue('eclipse');
@@ -436,24 +465,29 @@ test('同次使用限制启用禁用往返、共享键范围、事件切换确�
   await chooseEvent(page, edit, '普通攻击命中');
   await edit.getByRole('switch', { name: '同次使用仅触发一次', exact: true }).click();
   await expect(edit.getByLabel('共享限制键', { exact: true })).toHaveValue('eclipse');
-  await edit.getByRole('button', { name: '保存', exact: true }).click();
+  await edit.getByRole('button', { name: '确认到技能草稿', exact: true }).click();
   await expect(edit).toHaveCount(0);
+  await saveConfiguration(shell);
   expect(api.rules.find((item) => item.ruleKey === 'second')?.oncePerUse).toEqual({ groupKey: 'eclipse', scope: 'SKILL' });
 
-  await shell.locator('tr', { hasText: 'second' }).getByRole('button', { name: '编辑', exact: true }).click();
+  await ruleCard(shell, 'second').getByRole('button', { name: '编辑', exact: true }).click();
   const reopen = modal(page, '编辑规则');
   await expect(reopen.getByLabel('事件类型', { exact: true })).toContainText('普通攻击命中');
   await expect(reopen.getByRole('switch', { name: '同次使用仅触发一次', exact: true })).toBeChecked();
   await reopen.getByRole('switch', { name: '同次使用仅触发一次', exact: true }).click();
-  await reopen.getByRole('button', { name: '保存', exact: true }).click();
+  await reopen.getByRole('button', { name: '确认到技能草稿', exact: true }).click();
   await expect(reopen).toHaveCount(0);
+  await saveConfiguration(shell);
   expect(api.rules.find((item) => item.ruleKey === 'second')?.oncePerUse).toBeNull();
 
-  await shell.locator('tr', { hasText: 'second' }).getByRole('button', { name: '编辑', exact: true }).click();
+  await ruleCard(shell, 'second').getByRole('button', { name: '编辑', exact: true }).click();
   const disabled = modal(page, '编辑规则');
   await expect(disabled.getByRole('switch', { name: '同次使用仅触发一次', exact: true })).not.toBeChecked();
   await expect(disabled.getByLabel('共享限制键', { exact: true })).toHaveCount(0);
   await disabled.getByRole('button', { name: '取消', exact: true }).click();
+  expect(api.writes.map(({ method, path }) => `${method} ${path}`)).toEqual(Array(4).fill(
+    `PATCH /api/admin/games/${GAME_ID}/skills/${SKILL_KEY}/configuration`
+  ));
   assertClean();
 });
 
@@ -474,5 +508,6 @@ test('录入检查把 limits.oncePerUse.scope 定位到平铺范围锚点', asyn
   await expect(editor.locator('[data-authoring-field="scope"].authoring-field-active')).toBeVisible();
   await expect(editor.getByRole('radio', { name: '每个目标', exact: true })).toBeChecked();
   await editor.getByRole('button', { name: '取消', exact: true }).click();
+  expect(api.writes).toHaveLength(0);
   assertClean();
 });
