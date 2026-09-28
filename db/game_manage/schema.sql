@@ -1,4 +1,4 @@
--- 当前管理数据：28 张业务逻辑表；结构化内容由服务聚合校验。
+-- 当前管理数据：29 张业务逻辑表；结构化内容由服务聚合校验。
 
 CREATE TABLE public.games (
     game_id varchar(64) PRIMARY KEY,
@@ -334,6 +334,7 @@ CREATE TABLE public.damage_types (
     description text,
     status varchar(16) NOT NULL DEFAULT 'ENABLED',
     sort_order integer NOT NULL DEFAULT 0,
+    calculation_formula jsonb,
     created_at timestamptz NOT NULL DEFAULT now(),
     updated_at timestamptz NOT NULL DEFAULT now(),
     CONSTRAINT pk_damage_types PRIMARY KEY (game_id, damage_type_key),
@@ -346,13 +347,16 @@ CREATE TABLE public.damage_types (
     CONSTRAINT ck_damage_types_status
         CHECK (status IN ('ENABLED', 'DISABLED')),
     CONSTRAINT ck_damage_types_sort_order
-        CHECK (sort_order >= 0)
+        CHECK (sort_order >= 0),
+    CONSTRAINT ck_damage_types_calculation_formula
+        CHECK (calculation_formula IS NULL OR jsonb_typeof(calculation_formula) = 'object')
 );
 
 CREATE UNIQUE INDEX uq_damage_types_name
     ON public.damage_types (game_id, lower(btrim(name)));
 
 COMMENT ON TABLE public.damage_types IS '伤害类型';
+COMMENT ON COLUMN public.damage_types.calculation_formula IS '伤害类型结算公式；NULL 表示未配置，非空仅要求 JSON 对象，阶段语义由服务层校验';
 
 CREATE TABLE public.modifier_zones (
     game_id varchar(64) NOT NULL,
@@ -655,10 +659,10 @@ CREATE TABLE public.image_relations (
     image_key varchar(128) NOT NULL,
     CONSTRAINT pk_image_relations PRIMARY KEY (game_id, source_type, source_parent_key, source_key),
     CONSTRAINT ck_image_relations_source_type
-        CHECK (source_type IN ('GAME', 'CHARACTER', 'ATTRIBUTE', 'EQUIPMENT', 'SKILL', 'SKILL_EFFECT', 'STATUS', 'RUNE', 'RUNE_PATH')),
+        CHECK (source_type IN ('GAME', 'CHARACTER', 'ATTRIBUTE', 'EQUIPMENT', 'SKILL', 'SKILL_EFFECT', 'STATUS', 'BUILD_OPTION', 'BUILD_GROUP')),
     CONSTRAINT ck_image_relations_parent
-        CHECK ((source_type = 'SKILL_EFFECT' AND btrim(source_parent_key) <> '')
-            OR (source_type <> 'SKILL_EFFECT' AND source_parent_key = '')),
+        CHECK ((source_type IN ('SKILL_EFFECT', 'BUILD_OPTION', 'BUILD_GROUP') AND btrim(source_parent_key) <> '')
+            OR (source_type NOT IN ('SKILL_EFFECT', 'BUILD_OPTION', 'BUILD_GROUP') AND source_parent_key = '')),
     CONSTRAINT ck_image_relations_source_key CHECK (btrim(source_key) <> ''),
     CONSTRAINT ck_image_relations_game CHECK (source_type <> 'GAME' OR source_key = game_id),
     CONSTRAINT ck_image_relations_image_key CHECK (btrim(image_key) <> '')
@@ -716,58 +720,98 @@ CREATE INDEX ix_skill_object_references_target ON public.skill_object_references
 
 COMMENT ON TABLE public.skill_object_references IS '从技能组成提取的系统引用明细';
 
-CREATE TABLE public.runes (
+CREATE TABLE public.build_systems (
     game_id varchar(64) NOT NULL,
-    rune_key varchar(64) NOT NULL,
+    system_key varchar(64) NOT NULL,
     name varchar(100) NOT NULL,
     description text,
-    category varchar(16) NOT NULL,
+    configuration_mode varchar(16) NOT NULL,
+    sort_order integer NOT NULL,
+    selection_rules jsonb NOT NULL,
     created_at timestamptz NOT NULL DEFAULT now(),
     updated_at timestamptz NOT NULL DEFAULT now(),
-    CONSTRAINT pk_runes PRIMARY KEY (game_id, rune_key),
-    CONSTRAINT fk_runes_game FOREIGN KEY (game_id) REFERENCES public.games (game_id),
-    CONSTRAINT ck_runes_key CHECK (rune_key ~ '^[a-z][a-z0-9_]{0,63}$'),
-    CONSTRAINT ck_runes_name CHECK (btrim(name) <> ''),
-    CONSTRAINT ck_runes_description CHECK (description IS NULL OR length(description) <= 2000),
-    CONSTRAINT ck_runes_category CHECK (category IN ('KEYSTONE', 'MINOR', 'SHARD'))
+    CONSTRAINT pk_build_systems PRIMARY KEY (game_id, system_key),
+    CONSTRAINT fk_build_systems_game FOREIGN KEY (game_id) REFERENCES public.games (game_id),
+    CONSTRAINT ck_build_systems_key CHECK (system_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_build_systems_name CHECK (char_length(name) <= 100 AND btrim(name) <> ''),
+    CONSTRAINT ck_build_systems_description CHECK (description IS NULL OR char_length(description) <= 2000),
+    CONSTRAINT ck_build_systems_mode CHECK (configuration_mode IN ('SLOT_SELECTION', 'POINT_ALLOCATION')),
+    CONSTRAINT ck_build_systems_sort_order CHECK (sort_order >= 0),
+    CONSTRAINT ck_build_systems_selection_rules CHECK (jsonb_typeof(selection_rules) = 'object')
 );
-CREATE UNIQUE INDEX uq_runes_name ON public.runes (game_id, lower(btrim(name)));
-COMMENT ON TABLE public.runes IS '符文及属性碎片身份；不保存玩家选择';
+CREATE UNIQUE INDEX uq_build_systems_name ON public.build_systems (game_id, lower(btrim(name)));
+COMMENT ON TABLE public.build_systems IS '构筑系统；选择规则只保存有限结构，不保存玩家方案';
+COMMENT ON COLUMN public.build_systems.selection_rules IS '选择规则对象；数据库只检查顶层为对象，字段语义由服务校验';
 
-CREATE TABLE public.rune_paths (
+CREATE TABLE public.build_options (
     game_id varchar(64) NOT NULL,
-    path_key varchar(64) NOT NULL,
+    system_key varchar(64) NOT NULL,
+    option_key varchar(64) NOT NULL,
     name varchar(100) NOT NULL,
     description text,
-    kind varchar(16) NOT NULL,
+    max_rank integer NOT NULL,
+    rank_costs jsonb NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    CONSTRAINT pk_build_options PRIMARY KEY (game_id, system_key, option_key),
+    CONSTRAINT fk_build_options_system FOREIGN KEY (game_id, system_key)
+        REFERENCES public.build_systems (game_id, system_key) ON DELETE CASCADE,
+    CONSTRAINT ck_build_options_key CHECK (option_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_build_options_name CHECK (char_length(name) <= 100 AND btrim(name) <> ''),
+    CONSTRAINT ck_build_options_description CHECK (description IS NULL OR char_length(description) <= 2000),
+    CONSTRAINT ck_build_options_max_rank CHECK (max_rank >= 1),
+    CONSTRAINT ck_build_options_rank_costs CHECK (jsonb_typeof(rank_costs) = 'array')
+);
+CREATE UNIQUE INDEX uq_build_options_name
+    ON public.build_options (game_id, system_key, lower(btrim(name)));
+COMMENT ON TABLE public.build_options IS '构筑可选项；删除系统时级联删除，不删除共享技能';
+COMMENT ON COLUMN public.build_options.rank_costs IS '从第 1 级到最大等级的成本数组；数据库只检查顶层为数组';
+
+CREATE TABLE public.build_groups (
+    game_id varchar(64) NOT NULL,
+    system_key varchar(64) NOT NULL,
+    group_key varchar(64) NOT NULL,
+    name varchar(100) NOT NULL,
+    description text,
     sort_order integer NOT NULL,
     slots jsonb NOT NULL,
     created_at timestamptz NOT NULL DEFAULT now(),
     updated_at timestamptz NOT NULL DEFAULT now(),
-    CONSTRAINT pk_rune_paths PRIMARY KEY (game_id, path_key),
-    CONSTRAINT fk_rune_paths_game FOREIGN KEY (game_id) REFERENCES public.games (game_id),
-    CONSTRAINT ck_rune_paths_key CHECK (path_key ~ '^[a-z][a-z0-9_]{0,63}$'),
-    CONSTRAINT ck_rune_paths_name CHECK (btrim(name) <> ''),
-    CONSTRAINT ck_rune_paths_description CHECK (description IS NULL OR length(description) <= 2000),
-    CONSTRAINT ck_rune_paths_kind CHECK (kind IN ('RUNE_PATH', 'SHARD_GROUP')),
-    CONSTRAINT ck_rune_paths_sort_order CHECK (sort_order >= 0),
-    CONSTRAINT ck_rune_paths_slots CHECK (jsonb_typeof(slots) = 'array')
+    CONSTRAINT pk_build_groups PRIMARY KEY (game_id, system_key, group_key),
+    CONSTRAINT fk_build_groups_system FOREIGN KEY (game_id, system_key)
+        REFERENCES public.build_systems (game_id, system_key) ON DELETE CASCADE,
+    CONSTRAINT ck_build_groups_key CHECK (group_key ~ '^[a-z][a-z0-9_]{0,63}$'),
+    CONSTRAINT ck_build_groups_name CHECK (char_length(name) <= 100 AND btrim(name) <> ''),
+    CONSTRAINT ck_build_groups_description CHECK (description IS NULL OR char_length(description) <= 2000),
+    CONSTRAINT ck_build_groups_sort_order CHECK (sort_order >= 0),
+    CONSTRAINT ck_build_groups_slots CHECK (jsonb_typeof(slots) = 'array')
 );
-CREATE UNIQUE INDEX uq_rune_paths_name ON public.rune_paths (game_id, lower(btrim(name)));
-COMMENT ON TABLE public.rune_paths IS '符文系或碎片组；slots 为有序槽位与选项的唯一来源';
+CREATE UNIQUE INDEX uq_build_groups_name
+    ON public.build_groups (game_id, system_key, lower(btrim(name)));
+COMMENT ON TABLE public.build_groups IS '构筑分组；slots 为有序位置数组，数组顺序是唯一显示顺序';
+COMMENT ON COLUMN public.build_groups.slots IS '位置数组；数据库只检查顶层为数组，位置字段由服务校验';
 
-CREATE TABLE public.rune_skill_relations (
+CREATE TABLE public.build_option_skill_relations (
     game_id varchar(64) NOT NULL,
-    rune_key varchar(64) NOT NULL,
+    system_key varchar(64) NOT NULL,
+    option_key varchar(64) NOT NULL,
     skill_key varchar(64) NOT NULL,
+    activation_rank integer NOT NULL,
+    skill_level_mode varchar(16) NOT NULL,
+    fixed_skill_level integer,
     sort_order integer NOT NULL DEFAULT 0,
-    CONSTRAINT pk_rune_skill_relations PRIMARY KEY (game_id, rune_key, skill_key),
-    CONSTRAINT fk_rune_skill_relations_rune FOREIGN KEY (game_id, rune_key)
-        REFERENCES public.runes (game_id, rune_key) ON DELETE CASCADE,
-    CONSTRAINT fk_rune_skill_relations_skill FOREIGN KEY (game_id, skill_key)
+    CONSTRAINT pk_build_option_skill_relations PRIMARY KEY (game_id, system_key, option_key, skill_key),
+    CONSTRAINT fk_build_option_skill_relations_option FOREIGN KEY (game_id, system_key, option_key)
+        REFERENCES public.build_options (game_id, system_key, option_key) ON DELETE CASCADE,
+    CONSTRAINT fk_build_option_skill_relations_skill FOREIGN KEY (game_id, skill_key)
         REFERENCES public.skills (game_id, skill_key) ON DELETE RESTRICT,
-    CONSTRAINT ck_rune_skill_relations_sort_order CHECK (sort_order >= 0)
+    CONSTRAINT ck_build_option_skill_relations_activation_rank CHECK (activation_rank >= 1),
+    CONSTRAINT ck_build_option_skill_relations_sort_order CHECK (sort_order >= 0),
+    CONSTRAINT ck_build_option_skill_relations_level_mode CHECK (
+        (skill_level_mode = 'FIXED' AND fixed_skill_level IS NOT NULL AND fixed_skill_level >= 1)
+        OR (skill_level_mode = 'SAME_AS_OPTION' AND fixed_skill_level IS NULL)
+    )
 );
-CREATE INDEX ix_rune_skill_relations_skill
-    ON public.rune_skill_relations (game_id, skill_key, rune_key);
-COMMENT ON TABLE public.rune_skill_relations IS '符文挂载技能；删除符文只清挂载，保留共享技能';
+CREATE INDEX ix_build_option_skill_relations_skill
+    ON public.build_option_skill_relations (game_id, skill_key, system_key, option_key);
+COMMENT ON TABLE public.build_option_skill_relations IS '构筑可选项授予技能；删除可选项只清授予，删除技能受保护';

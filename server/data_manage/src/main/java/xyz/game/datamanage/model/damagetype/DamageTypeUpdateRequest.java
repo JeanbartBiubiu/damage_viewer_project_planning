@@ -1,5 +1,6 @@
 package xyz.game.datamanage.model.damagetype;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -26,5 +27,10 @@ public record DamageTypeUpdateRequest(
             description = description.trim();
             description = description.isEmpty() ? null : description;
         }
+    }
+
+    @JsonAnySetter
+    public void rejectUnknownField(String fieldName, Object ignored) {
+        throw new IllegalArgumentException("未知字段：" + fieldName);
     }
 }

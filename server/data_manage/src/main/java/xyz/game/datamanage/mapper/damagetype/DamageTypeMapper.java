@@ -1,8 +1,11 @@
 package xyz.game.datamanage.mapper.damagetype;
 
+import java.util.Collection;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import xyz.game.datamanage.model.damagetype.DamageTypeFormulaAttributeStatusRow;
+import xyz.game.datamanage.model.damagetype.DamageTypeFormulaRow;
 import xyz.game.datamanage.model.damagetype.DamageTypeResponse;
 
 @Mapper
@@ -56,5 +59,31 @@ public interface DamageTypeMapper {
     int delete(
         @Param("gameId") String gameId,
         @Param("damageTypeKey") String damageTypeKey
+    );
+
+    DamageTypeFormulaRow findFormulaById(
+        @Param("gameId") String gameId,
+        @Param("damageTypeKey") String damageTypeKey
+    );
+
+    DamageTypeFormulaRow findFormulaForUpdate(
+        @Param("gameId") String gameId,
+        @Param("damageTypeKey") String damageTypeKey
+    );
+
+    int updateFormula(
+        @Param("gameId") String gameId,
+        @Param("damageTypeKey") String damageTypeKey,
+        @Param("calculationFormula") String calculationFormula
+    );
+
+    int clearFormula(
+        @Param("gameId") String gameId,
+        @Param("damageTypeKey") String damageTypeKey
+    );
+
+    List<DamageTypeFormulaAttributeStatusRow> findAttributesByKeys(
+        @Param("gameId") String gameId,
+        @Param("keys") Collection<String> keys
     );
 }

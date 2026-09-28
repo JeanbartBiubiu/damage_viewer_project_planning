@@ -11,6 +11,12 @@ public interface SkillRelationMapper {
 
     long countBySkill(@Param("gameId") String gameId, @Param("skillKey") String skillKey);
 
+    long countBuildGrantsExceedingMaxLevel(
+        @Param("gameId") String gameId,
+        @Param("skillKey") String skillKey,
+        @Param("maxLevel") int maxLevel
+    );
+
     List<CharacterSkillRelationResponse> listCharacterRelations(
         @Param("gameId") String gameId,
         @Param("characterKey") String characterKey,

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.build.BuildSystemMapper">
+    <resultMap id="system" type="xyz.game.datamanage.model.build.BuildSystemRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="system_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="configuration_mode" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="selection_rules_json" javaType="java.lang.String"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+    <sql id="systemColumns">
+        game_id, system_key, name, description, configuration_mode, sort_order,
+        selection_rules::text AS selection_rules_json, created_at, updated_at
+    </sql>
+    <select id="listSystems" resultMap="system">
+        SELECT <include refid="systemColumns"/> FROM public.build_systems
+        WHERE game_id = #{gameId}
+        <if test="keyword != null">
+            AND (strpos(lower(system_key), lower(#{keyword})) &gt; 0 OR strpos(lower(name), lower(#{keyword})) &gt; 0)
+        </if>
+        ORDER BY sort_order ASC, system_key ASC
+    </select>
+    <select id="findSystem" resultMap="system">
+        SELECT <include refid="systemColumns"/> FROM public.build_systems
+        WHERE game_id = #{gameId} AND system_key = #{systemKey}
+    </select>
+    <select id="countSystemName" resultType="long">
+        SELECT COUNT(*) FROM public.build_systems
+        WHERE game_id = #{gameId} AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeKey != null">AND system_key &lt;&gt; #{excludeKey}</if>
+    </select>
+    <insert id="insertSystem">
+        INSERT INTO public.build_systems
+            (game_id, system_key, name, description, configuration_mode, sort_order, selection_rules)
+        VALUES (#{gameId}, #{systemKey}, #{name}, #{description}, #{configurationMode}, #{sortOrder},
+            CAST(#{selectionRulesJson} AS jsonb))
+    </insert>
+    <update id="updateSystem">
+        UPDATE public.build_systems
+        SET name = #{name}, description = #{description}, configuration_mode = #{configurationMode},
+            sort_order = #{sortOrder}, selection_rules = CAST(#{selectionRulesJson} AS jsonb), updated_at = now()
+        WHERE game_id = #{gameId} AND system_key = #{systemKey}
+    </update>
+    <delete id="deleteSystem">
+        DELETE FROM public.build_systems WHERE game_id = #{gameId} AND system_key = #{systemKey}
+    </delete>
+
+    <resultMap id="group" type="xyz.game.datamanage.model.build.BuildGroupRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="system_key" javaType="java.lang.String"/>
+            <arg column="group_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+            <arg column="slots_json" javaType="java.lang.String"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+    <sql id="groupColumns">
+        game_id, system_key, group_key, name, description, sort_order, slots::text AS slots_json, created_at, updated_at
+    </sql>
+    <select id="listGroups" resultMap="group">
+        SELECT <include refid="groupColumns"/> FROM public.build_groups
+        WHERE game_id = #{gameId} AND system_key = #{systemKey}
+        <if test="keyword != null">
+            AND (strpos(lower(group_key), lower(#{keyword})) &gt; 0 OR strpos(lower(name), lower(#{keyword})) &gt; 0)
+        </if>
+        ORDER BY sort_order ASC, group_key ASC
+    </select>
+    <select id="findGroup" resultMap="group">
+        SELECT <include refid="groupColumns"/> FROM public.build_groups
+        WHERE game_id = #{gameId} AND system_key = #{systemKey} AND group_key = #{groupKey}
+    </select>
+    <select id="countGroupName" resultType="long">
+        SELECT COUNT(*) FROM public.build_groups
+        WHERE game_id = #{gameId} AND system_key = #{systemKey} AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeKey != null">AND group_key &lt;&gt; #{excludeKey}</if>
+    </select>
+    <insert id="insertGroup">
+        INSERT INTO public.build_groups (game_id, system_key, group_key, name, description, sort_order, slots)
+        VALUES (#{gameId}, #{systemKey}, #{groupKey}, #{name}, #{description}, #{sortOrder}, CAST(#{slotsJson} AS jsonb))
+    </insert>
+    <update id="updateGroup">
+        UPDATE public.build_groups
+        SET name = #{name}, description = #{description}, sort_order = #{sortOrder},
+            slots = CAST(#{slotsJson} AS jsonb), updated_at = now()
+        WHERE game_id = #{gameId} AND system_key = #{systemKey} AND group_key = #{groupKey}
+    </update>
+    <delete id="deleteGroup">
+        DELETE FROM public.build_groups
+        WHERE game_id = #{gameId} AND system_key = #{systemKey} AND group_key = #{groupKey}
+    </delete>
+
+    <resultMap id="option" type="xyz.game.datamanage.model.build.BuildOptionRow">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="system_key" javaType="java.lang.String"/>
+            <arg column="option_key" javaType="java.lang.String"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="description" javaType="java.lang.String"/>
+            <arg column="max_rank" javaType="java.lang.Integer"/>
+            <arg column="rank_costs_json" javaType="java.lang.String"/>
+            <arg column="created_at" javaType="java.time.OffsetDateTime"/>
+            <arg column="updated_at" javaType="java.time.OffsetDateTime"/>
+        </constructor>
+    </resultMap>
+    <sql id="optionColumns">
+        game_id, system_key, option_key, name, description, max_rank,
+        rank_costs::text AS rank_costs_json, created_at, updated_at
+    </sql>
+    <select id="listOptions" resultMap="option">
+        SELECT <include refid="optionColumns"/> FROM public.build_options
+        WHERE game_id = #{gameId} AND system_key = #{systemKey}
+        <if test="keyword != null">
+            AND (strpos(lower(option_key), lower(#{keyword})) &gt; 0 OR strpos(lower(name), lower(#{keyword})) &gt; 0)
+        </if>
+        ORDER BY name ASC, option_key ASC
+    </select>
+    <select id="findOption" resultMap="option">
+        SELECT <include refid="optionColumns"/> FROM public.build_options
+        WHERE game_id = #{gameId} AND system_key = #{systemKey} AND option_key = #{optionKey}
+    </select>
+    <select id="countOptionName" resultType="long">
+        SELECT COUNT(*) FROM public.build_options
+        WHERE game_id = #{gameId} AND system_key = #{systemKey} AND lower(btrim(name)) = lower(btrim(#{name}))
+        <if test="excludeKey != null">AND option_key &lt;&gt; #{excludeKey}</if>
+    </select>
+    <insert id="insertOption">
+        INSERT INTO public.build_options
+            (game_id, system_key, option_key, name, description, max_rank, rank_costs)
+        VALUES (#{gameId}, #{systemKey}, #{optionKey}, #{name}, #{description}, #{maxRank},
+            CAST(#{rankCostsJson} AS jsonb))
+    </insert>
+    <update id="updateOption">
+        UPDATE public.build_options
+        SET name = #{name}, description = #{description}, max_rank = #{maxRank},
+            rank_costs = CAST(#{rankCostsJson} AS jsonb), updated_at = now()
+        WHERE game_id = #{gameId} AND system_key = #{systemKey} AND option_key = #{optionKey}
+    </update>
+    <delete id="deleteOption">
+        DELETE FROM public.build_options
+        WHERE game_id = #{gameId} AND system_key = #{systemKey} AND option_key = #{optionKey}
+    </delete>
+</mapper>

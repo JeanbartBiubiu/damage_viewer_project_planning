@@ -61,7 +61,8 @@ class DamageTypeAdminControllerTest {
 
         mockMvc.perform(get(BASE_PATH).queryParam("status", "ENABLED"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.items[0].damageTypeKey").value("physical"));
+            .andExpect(jsonPath("$.items[0].damageTypeKey").value("physical"))
+            .andExpect(jsonPath("$.items[0].formulaConfigured").value(false));
 
         mockMvc.perform(post(BASE_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -94,7 +95,7 @@ class DamageTypeAdminControllerTest {
     private static DamageTypeResponse response() {
         OffsetDateTime timestamp = OffsetDateTime.parse("2026-08-23T08:00:00Z");
         return new DamageTypeResponse(
-            "lol", "physical", "物理伤害", null, DamageTypeStatus.ENABLED, 10, timestamp, timestamp
+            "lol", "physical", "物理伤害", null, DamageTypeStatus.ENABLED, 10, timestamp, timestamp, false
         );
     }
 }

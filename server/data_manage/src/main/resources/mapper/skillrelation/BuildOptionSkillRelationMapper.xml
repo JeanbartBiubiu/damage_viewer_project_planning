@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.game.datamanage.mapper.skillrelation.BuildOptionSkillRelationMapper">
+    <resultMap id="relation" type="xyz.game.datamanage.model.skillrelation.BuildOptionSkillRelationResponse">
+        <constructor>
+            <arg column="game_id" javaType="java.lang.String"/>
+            <arg column="system_key" javaType="java.lang.String"/>
+            <arg column="option_key" javaType="java.lang.String"/>
+            <arg column="option_name" javaType="java.lang.String"/>
+            <arg column="skill_key" javaType="java.lang.String"/>
+            <arg column="skill_name" javaType="java.lang.String"/>
+            <arg column="skill_status" javaType="xyz.game.datamanage.model.skill.SkillStatus"/>
+            <arg column="activation_rank" javaType="java.lang.Integer"/>
+            <arg column="skill_level_mode" javaType="java.lang.String"/>
+            <arg column="fixed_skill_level" javaType="java.lang.Integer"/>
+            <arg column="sort_order" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+    <sql id="relationSelect">
+        SELECT r.game_id, r.system_key, r.option_key, source.name AS option_name,
+               r.skill_key, s.name AS skill_name, s.status AS skill_status,
+               r.activation_rank, r.skill_level_mode, r.fixed_skill_level, r.sort_order
+        FROM public.build_option_skill_relations r
+        JOIN public.build_options source
+          ON source.game_id = r.game_id AND source.system_key = r.system_key AND source.option_key = r.option_key
+        JOIN public.skills s
+          ON s.game_id = r.game_id AND s.skill_key = r.skill_key
+        WHERE r.game_id = #{gameId}
+    </sql>
+    <select id="listRelations" resultMap="relation">
+        <include refid="relationSelect"/>
+        <if test="systemKey != null">AND r.system_key = #{systemKey}</if>
+        <if test="optionKey != null">AND r.option_key = #{optionKey}</if>
+        <if test="skillKey != null">AND r.skill_key = #{skillKey}</if>
+        ORDER BY source.name ASC, r.option_key ASC, r.sort_order ASC, r.skill_key ASC
+    </select>
+    <select id="findRelation" resultMap="relation">
+        <include refid="relationSelect"/>
+          AND r.system_key = #{systemKey}
+          AND r.option_key = #{optionKey}
+          AND r.skill_key = #{skillKey}
+    </select>
+    <insert id="insertRelation">
+        INSERT INTO public.build_option_skill_relations
+            (game_id, system_key, option_key, skill_key, activation_rank, skill_level_mode, fixed_skill_level, sort_order)
+        VALUES (#{gameId}, #{systemKey}, #{optionKey}, #{skillKey}, #{activationRank}, #{skillLevelMode},
+            #{fixedSkillLevel}, #{sortOrder})
+        ON CONFLICT (game_id, system_key, option_key, skill_key) DO NOTHING
+    </insert>
+    <update id="updateRelation">
+        UPDATE public.build_option_skill_relations
+        SET activation_rank = #{activationRank}, skill_level_mode = #{skillLevelMode},
+            fixed_skill_level = #{fixedSkillLevel}, sort_order = #{sortOrder}
+        WHERE game_id = #{gameId} AND system_key = #{systemKey}
+          AND option_key = #{optionKey} AND skill_key = #{skillKey}
+    </update>
+    <delete id="deleteRelation">
+        DELETE FROM public.build_option_skill_relations
+        WHERE game_id = #{gameId} AND system_key = #{systemKey}
+          AND option_key = #{optionKey} AND skill_key = #{skillKey}
+    </delete>
+</mapper>

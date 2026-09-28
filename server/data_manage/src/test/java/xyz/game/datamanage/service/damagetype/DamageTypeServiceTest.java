@@ -2,6 +2,7 @@ package xyz.game.datamanage.service.damagetype;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -88,6 +89,8 @@ class DamageTypeServiceTest {
                 new DamageTypeUpdateRequest(null, "物理伤害改", null, DamageTypeStatus.DISABLED, 20)
             ).status()
         );
+        verify(mapper, never()).updateFormula(any(), any(), any());
+        verify(mapper, never()).clearFormula(any(), any());
     }
 
     @Test
@@ -138,7 +141,8 @@ class DamageTypeServiceTest {
             DamageTypeStatus.ENABLED,
             10,
             timestamp,
-            timestamp
+            timestamp,
+            false
         );
     }
 
@@ -152,7 +156,8 @@ class DamageTypeServiceTest {
             DamageTypeStatus.DISABLED,
             20,
             source.createdAt(),
-            source.updatedAt()
+            source.updatedAt(),
+            source.formulaConfigured()
         );
     }
 

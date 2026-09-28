@@ -32,7 +32,11 @@ class SkillCategoryDamageTypeSchemaSqlTest {
         assertTrue(damageTypes.contains("status in ('enabled', 'disabled')"));
         assertTrue(damageTypes.contains("sort_order >= 0"));
         assertTrue(sql.contains("create unique index uq_damage_types_name"));
-        assertFalse(damageTypes.contains("formula"));
+        assertTrue(damageTypes.contains("calculation_formula jsonb"));
+        assertTrue(damageTypes.contains("ck_damage_types_calculation_formula"));
+        assertTrue(damageTypes.contains(
+            "calculation_formula is null or jsonb_typeof(calculation_formula) = 'object'"
+        ));
         assertFalse(damageTypes.contains("crit"));
     }
 

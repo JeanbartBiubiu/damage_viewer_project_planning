@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.game.datamanage.controller.adminapi.AdminEditLogHelper;
 import xyz.game.datamanage.model.damagetype.DamageTypeCreateRequest;
+import xyz.game.datamanage.model.damagetype.DamageTypeFormulaReplaceRequest;
+import xyz.game.datamanage.model.damagetype.DamageTypeFormulaResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeListQuery;
 import xyz.game.datamanage.model.damagetype.DamageTypeListResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeResponse;
@@ -86,6 +88,39 @@ public class DamageTypeAdminController {
         DamageTypeResponse response = service.update(gameId, damageTypeKey, body);
         log(auth, request, objectMapper.valueToTree(body), HttpStatus.OK);
         return response;
+    }
+
+    @GetMapping("/{damageTypeKey}/formula")
+    public DamageTypeFormulaResponse getFormula(
+        @PathVariable("gameId") String gameId,
+        @PathVariable("damageTypeKey") String damageTypeKey
+    ) {
+        return service.getFormula(gameId, damageTypeKey);
+    }
+
+    @PutMapping("/{damageTypeKey}/formula")
+    public DamageTypeFormulaResponse replaceFormula(
+        @PathVariable("gameId") String gameId,
+        @PathVariable("damageTypeKey") String damageTypeKey,
+        @Valid @RequestBody DamageTypeFormulaReplaceRequest body,
+        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        HttpServletRequest request
+    ) {
+        DamageTypeFormulaResponse response = service.replaceFormula(gameId, damageTypeKey, body);
+        log(auth, request, objectMapper.valueToTree(body), HttpStatus.OK);
+        return response;
+    }
+
+    @DeleteMapping("/{damageTypeKey}/formula")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFormula(
+        @PathVariable("gameId") String gameId,
+        @PathVariable("damageTypeKey") String damageTypeKey,
+        @RequestAttribute(AdminAuthFilter.AUTH_CONTEXT_ATTR) AuthContext auth,
+        HttpServletRequest request
+    ) {
+        service.deleteFormula(gameId, damageTypeKey);
+        log(auth, request, objectMapper.createObjectNode(), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{damageTypeKey}")

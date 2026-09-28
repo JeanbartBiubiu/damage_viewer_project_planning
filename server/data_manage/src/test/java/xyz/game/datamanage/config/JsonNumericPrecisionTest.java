@@ -2,9 +2,11 @@ package xyz.game.datamanage.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -54,6 +56,12 @@ class JsonNumericPrecisionTest {
         SkillProcessCreateRequest roundTrip = httpMapper.readValue(AggregateJson.write(request), SkillProcessCreateRequest.class);
         assertEquals(EXPECTED, assertInstanceOf(SkillProcessDelayStepDetail.class, roundTrip.steps().getFirst().detail()).delayValue().value());
         assertTrue(httpMapper.writeValueAsString(roundTrip).contains(DECIMAL));
+    }
+
+    @Test
+    void httpTreeRejectsDuplicateObjectFields() {
+        assertThrows(JsonProcessingException.class,
+            () -> httpMapper.readTree("{\"selectionRules\":{},\"selectionRules\":{}}"));
     }
 
     private static ObjectMapper httpMapper() {

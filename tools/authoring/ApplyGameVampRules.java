@@ -56,7 +56,7 @@ class ApplyGameVampRules {
         "skill_categories", "skills", "skill_category_relations", "skill_parameters", "skill_formulas", "damage_types",
         "modifier_zones", "statuses", "skill_effects", "skill_internal_states", "skill_processes", "skill_trigger_rules",
         "images", "character_skill_relations", "equipment_skill_relations", "image_relations", "skill_object_references",
-        "runes", "rune_paths", "rune_skill_relations");
+        "build_systems", "build_options", "build_groups", "build_option_skill_relations");
     private static final Pattern OLD_REFERENCE = Pattern.compile(
         "^results\\[[0-9]+\\]\\.detail\\.vampRules\\[[0-9]+\\]\\.efficiencyValue\\.(formulaKey|parameterKey)$");
     private static final String EFFECTS = "SELECT to_jsonb(e)::text FROM public.skill_effects e ORDER BY game_id,skill_key,effect_key";

@@ -13,6 +13,7 @@ public class JacksonConfig {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
         return builder -> builder.featuresToEnable(
+            DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY,
             DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS,
             MapperFeature.SORT_PROPERTIES_ALPHABETICALLY,
             SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS

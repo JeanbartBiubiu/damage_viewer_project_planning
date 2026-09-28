@@ -44,6 +44,10 @@ public interface ImageRelationMapper {
 
     int deleteForSkill(@Param("gameId") String gameId, @Param("skillKey") String skillKey);
 
+    int deleteForBuildSystem(@Param("gameId") String gameId, @Param("systemKey") String systemKey);
+
+    long countBuildSystem(@Param("gameId") String gameId, @Param("systemKey") String systemKey);
+
     List<ImageUsageRow> listUsages(@Param("gameId") String gameId, @Param("imageKey") String imageKey);
 
     List<ImageOptionResponse.Item> listOptions(
