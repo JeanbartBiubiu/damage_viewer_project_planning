@@ -76,7 +76,7 @@ class SkillTriggerLifecycleConditionServiceTest {
     }
 
     @Test
-    void missingLifecycleAndOtherSkillsEffectAreRejected() {
+    void missingLifecycleIsRejectedEvenWhenTheEffectRootExists() {
         when(mapper.findLifecycleScope(GAME_ID, SKILL_KEY, "mark")).thenReturn(null);
         assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY,
             request(detail(SkillTriggerLifecycleCheckKind.PRESENT, SkillTriggerSubject.CURRENT_TARGET)))),
@@ -84,13 +84,13 @@ class SkillTriggerLifecycleConditionServiceTest {
         when(mapper.lockEffects(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of(EFFECT_KEY));
         assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY,
             request(detail(SkillTriggerLifecycleCheckKind.PRESENT, SkillTriggerSubject.CURRENT_TARGET)))),
-            PATH + ".effectKey", "UNKNOWN_EFFECT");
+            PATH + ".effectKey", "UNKNOWN_LIFECYCLE");
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"PRESENT", "ABSENT"})
     void presenceKindsRejectComparisonFields(String kind) {
-        SkillTriggerLifecycleConditionDetail detail = new SkillTriggerLifecycleConditionDetail("mark", SkillTriggerSubject.CURRENT_TARGET,
+        SkillTriggerLifecycleConditionDetail detail = new SkillTriggerLifecycleConditionDetail(SKILL_KEY, "mark", SkillTriggerSubject.CURRENT_TARGET,
             SkillTriggerLifecycleCheckKind.valueOf(kind), SkillTriggerComparator.GTE, SkillNumericValue.fixed(BigDecimal.ZERO));
         ApiException error = thrown(() -> service.create(GAME_ID, SKILL_KEY, request(detail)));
         assertField(error, PATH + ".comparator", "FORBIDDEN");
@@ -100,7 +100,7 @@ class SkillTriggerLifecycleConditionServiceTest {
     @Test
     void stacksRequiresBothComparisonFieldsAndUnknownDetailFieldsAreNotDropped() {
         ApiException missing = thrown(() -> service.create(GAME_ID, SKILL_KEY, request(new SkillTriggerLifecycleConditionDetail(
-            "mark", SkillTriggerSubject.CURRENT_TARGET, SkillTriggerLifecycleCheckKind.STACKS_COMPARE, null, null))));
+            SKILL_KEY, "mark", SkillTriggerSubject.CURRENT_TARGET, SkillTriggerLifecycleCheckKind.STACKS_COMPARE, null, null))));
         assertField(missing, PATH + ".comparator", "REQUIRED");
         assertField(missing, PATH + ".comparisonValue", "REQUIRED");
         SkillTriggerLifecycleConditionDetail unknown = AggregateJson.read("""
@@ -115,7 +115,7 @@ class SkillTriggerLifecycleConditionServiceTest {
     @Test
     void formulaUsedOnlyForConditionStillRejectsRuntimeInput() {
         when(mapper.countRuntimeInputNodes(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(1L);
-        SkillTriggerLifecycleConditionDetail detail = new SkillTriggerLifecycleConditionDetail("mark", SkillTriggerSubject.CURRENT_TARGET,
+        SkillTriggerLifecycleConditionDetail detail = new SkillTriggerLifecycleConditionDetail(SKILL_KEY, "mark", SkillTriggerSubject.CURRENT_TARGET,
             SkillTriggerLifecycleCheckKind.STACKS_COMPARE, SkillTriggerComparator.GTE, SkillNumericValue.formula(FORMULA_KEY));
         assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY, request(detail))), PATH + ".comparisonValue", "REFERENCE_TYPE_MISMATCH");
     }
@@ -135,7 +135,7 @@ class SkillTriggerLifecycleConditionServiceTest {
 
     private static SkillTriggerLifecycleConditionDetail detail(SkillTriggerLifecycleCheckKind kind, SkillTriggerSubject subject) {
         boolean compare = kind == SkillTriggerLifecycleCheckKind.STACKS_COMPARE;
-        return new SkillTriggerLifecycleConditionDetail("mark", subject, kind, compare ? SkillTriggerComparator.GTE : null,
+        return new SkillTriggerLifecycleConditionDetail(SKILL_KEY, "mark", subject, kind, compare ? SkillTriggerComparator.GTE : null,
             compare ? SkillNumericValue.fixed(BigDecimal.ZERO) : null);
     }
 

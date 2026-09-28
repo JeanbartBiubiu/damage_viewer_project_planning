@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +39,7 @@ import xyz.game.datamanage.support.error.ApiException;
 @ExtendWith(MockitoExtension.class)
 class GameConfigurationWriteGuardTest {
     private static final String LOCK_SQL = "SELECT game_id FROM public.games WHERE game_id = ? FOR UPDATE";
-    private static final String DELETE_SQL = "DELETE FROM public.skill_object_references WHERE game_id = ?";
+    private static final String DELETE_SQL = GameConfigurationWriteGuard.DELETE_SOURCE_SQL;
     @Mock private JdbcTemplate jdbc;
     private GameConfigurationWriteGuard guard;
 
@@ -52,6 +53,16 @@ class GameConfigurationWriteGuardTest {
         lenient().when(jdbc.queryForList(GameVampRuleSemantics.ATTRIBUTES_SQL, "lol")).thenReturn(List.of());
         lenient().when(jdbc.queryForList(GameVampRuleSemantics.SKILL_CATEGORIES_SQL, "lol")).thenReturn(List.of());
         lenient().when(jdbc.queryForList(HealingRatioMaxSemantics.ZONES_SQL, "lol")).thenReturn(List.of());
+        lenient().when(jdbc.queryForList(eq(GameConfigurationWriteGuard.AGGREGATES_SQL), anyString())).thenReturn(List.of());
+        lenient().when(jdbc.queryForList(eq(GameConfigurationWriteGuard.REFERENCES_SQL), anyString())).thenReturn(List.of());
+        lenient().when(jdbc.queryForList(eq(GameConfigurationWriteGuard.SNAPSHOT_SQL), anyString())).thenReturn(List.of());
+        lenient().when(jdbc.queryForList(eq(GameConfigurationWriteGuard.CATALOG_SQL), anyString())).thenReturn(List.of());
+        lenient().when(jdbc.queryForList(eq(SkillNumericSemantics.PARAMETERS_SQL), anyString())).thenReturn(List.of());
+        // 以下既有用例描述事务中写入给定的最终组成；起始快照尚无这些对象。
+        AtomicInteger snapshots = new AtomicInteger();
+        lenient().when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenAnswer(ignored ->
+            snapshots.getAndIncrement() == 0 ? List.of()
+                : snapshotRows(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")));
     }
 
     @AfterEach
@@ -88,7 +99,7 @@ class GameConfigurationWriteGuardTest {
         });
         verify(jdbc, times(1)).queryForList(LOCK_SQL, String.class, "lol");
         verify(jdbc, times(1)).queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol");
-        verify(jdbc).update(DELETE_SQL, "lol");
+        verify(jdbc).update(DELETE_SQL, "lol", "ez_q", "FORMULA", "damage");
         @SuppressWarnings("unchecked") ArgumentCaptor<List<Object[]>> rows = ArgumentCaptor.forClass(List.class);
         verify(jdbc).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), rows.capture());
         assertEquals(List.of("lol", "ez_q", "FORMULA", "damage", "expression.parameterKey", "PARAMETER", "ez_q", "damage", ""),
@@ -107,7 +118,7 @@ class GameConfigurationWriteGuardTest {
             throw new IllegalArgumentException("模拟业务失败");
         }));
         verify(jdbc, never()).queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol");
-        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(first).rollback();
         tx.execute(status -> { guard.begin("lol"); return null; });
         verify(jdbc, times(2)).queryForList(LOCK_SQL, String.class, "lol");
@@ -125,7 +136,7 @@ class GameConfigurationWriteGuardTest {
             return null;
         }));
         assertEquals("409.SKILL_OBJECT_REFERENCE_INVALID", error.getCode());
-        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(connection).rollback();
         verify(connection, never()).commit();
     }
@@ -152,7 +163,7 @@ class GameConfigurationWriteGuardTest {
         });
         verify(jdbc, times(1)).queryForList(LOCK_SQL, String.class, "lol");
         verify(jdbc, times(1)).queryForList(LOCK_SQL, String.class, "tft");
-        verify(jdbc, times(1)).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(innerConnection).rollback();
         verify(outerConnection).commit();
     }
@@ -226,7 +237,7 @@ class GameConfigurationWriteGuardTest {
         assertEquals("400.INVALID_SKILL_NUMERIC_VALUE", failure.getCode());
         assertTrue(failure.getDetails().toString().contains("VALUE_RANGE_INVALID"));
         verify(jdbc).update("UPDATE parameter levels for test");
-        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(connection).rollback();
         verify(connection, never()).commit();
     }
@@ -253,7 +264,7 @@ class GameConfigurationWriteGuardTest {
         assertTrue(failure.getDetails().toString().contains("VALUE_RANGE_INVALID"));
         assertTrue(failure.getDetails().toString().contains("perTargetCooldown.durationValue"));
         verify(jdbc).update("UPDATE protection cooldown for test");
-        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(connection).rollback();
         verify(connection, never()).commit();
     }
@@ -268,7 +279,7 @@ class GameConfigurationWriteGuardTest {
             Map.of("source_type", "TRIGGER", "skill_key", "ez_q", "source_key", "rule", "data", """
                 {"eventSource":{"eventType":"BASIC_ATTACK_HIT","detail":{}},"actions":[],
                  "conditionGroups":[{"conditions":[{"conditionType":"LIFECYCLE_CHECK","detail":{
-                  "effectKey":"mark","subject":"CURRENT_TARGET","checkKind":"PRESENT"}}]}]}
+                  "effectSkillKey":"ez_q","effectKey":"mark","subject":"CURRENT_TARGET","checkKind":"PRESENT"}}]}]}
                 """)));
         ApiException failure = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
             guard.begin("lol");
@@ -277,7 +288,7 @@ class GameConfigurationWriteGuardTest {
         }));
         assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", failure.getCode());
         assertTrue(failure.getDetails().toString().contains("conditionGroups[0].conditions[0].detail.subject"));
-        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(connection).rollback();
         verify(connection, never()).commit();
     }
@@ -309,7 +320,7 @@ class GameConfigurationWriteGuardTest {
         assertEquals("ATTRIBUTE_REMOVED".equals(change) ? "409.SKILL_OBJECT_REFERENCE_INVALID" : "400.INVALID_SKILL_NUMERIC_VALUE", failure.getCode());
         assertTrue(failure.getDetails().toString().contains("actions[0].runtimeInputBindings[0]"));
         verify(jdbc).update("UPDATE source cost configuration for test");
-        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(connection).rollback();
         verify(connection, never()).commit();
     }
@@ -330,7 +341,7 @@ class GameConfigurationWriteGuardTest {
         assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", error.getCode());
         assertTrue(error.getDetails().toString().contains("EVENT_VALUE_NOT_AVAILABLE"));
         verify(jdbc).update("UPDATE category event for test");
-        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(connection).rollback();
         verify(connection, never()).commit();
     }
@@ -356,7 +367,7 @@ class GameConfigurationWriteGuardTest {
         assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", error.getCode());
         assertTrue(error.getDetails().toString().contains("EVENT_VALUE_NOT_AVAILABLE"));
         verify(jdbc).update("UPDATE explicit self target event for test");
-        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(connection).rollback();
         verify(connection, never()).commit();
     }
@@ -383,7 +394,7 @@ class GameConfigurationWriteGuardTest {
         assertEquals("400.INVALID_SKILL_NUMERIC_VALUE", error.getCode());
         assertTrue(error.getDetails().toString().contains("BINDING_DOMAIN".equals(change) ? "REFERENCE_TYPE_MISMATCH" : "EVENT_VALUE_NOT_AVAILABLE"));
         verify(jdbc).update("UPDATE shield event for test");
-        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(connection).rollback();
         verify(connection, never()).commit();
     }
@@ -410,7 +421,7 @@ class GameConfigurationWriteGuardTest {
         assertTrue(error.getDetails().toString().contains("results[0].detail.direction"));
         assertTrue(error.getDetails().toString().contains("results[0].detail.operation"));
         verify(jdbc).update("UPDATE healing modifier bypass for test");
-        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(connection).rollback();
         verify(connection, never()).commit();
     }
@@ -432,7 +443,7 @@ class GameConfigurationWriteGuardTest {
             guard.begin("lol");
             return null;
         });
-        verify(jdbc).update(DELETE_SQL, "lol");
+        verify(jdbc).update(DELETE_SQL, "lol", "skill", "EFFECT", "effect");
         verify(connection).commit();
     }
 
@@ -455,7 +466,7 @@ class GameConfigurationWriteGuardTest {
         assertTrue(error.getDetails().toString().contains("ONCE_PER_USE_EVENT_INVALID"));
         assertTrue(error.getDetails().toString().contains("limits.oncePerUse"));
         verify(jdbc).update("UPDATE once per use bypass for test");
-        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(connection).rollback();
         verify(connection, never()).commit();
     }
@@ -486,15 +497,55 @@ class GameConfigurationWriteGuardTest {
             "CATEGORY_DELETED".equals(change) ? List.of() : List.of("common"));
         when(jdbc.queryForList(GameVampRuleSemantics.SKILL_CATEGORIES_SQL, "lol")).thenReturn(List.of(Map.of(
             "skill_key", "skill", "skill_category_key", "common")));
+        List<Map<String, Object>> finalSnapshot = snapshotRows(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol"));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol")).thenReturn(
+            List.of(Map.of("object_type", "VAMP_RULE", "skill_key", "", "object_key", "OMNIVAMP", "data", "{}")),
+            finalSnapshot);
         ApiException error = assertThrows(ApiException.class, () -> transaction(connection).execute(status -> {
             guard.begin("lol");
             jdbc.update("UPDATE vamp configuration for test");
             return null;
         }));
         assertEquals("409.GAME_VAMP_RULE_INVALID", error.getCode());
-        verify(jdbc, never()).update(DELETE_SQL, "lol");
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
         verify(connection).rollback();
         verify(connection, never()).commit();
+    }
+
+    @Test
+    void unrelatedOldCompositionAndItsIndexRemainUntouched() throws Exception {
+        Connection connection = connection();
+        Map<String, Object> old = Map.of("source_type", "EFFECT", "skill_key", "outside",
+            "source_key", "old", "data", "{\"results\":[{\"resultType\":\"LEGACY\"}]}");
+        List<Map<String, Object>> current = List.of(old, formulaRow());
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(old), current);
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol"))
+            .thenReturn(snapshotRows(List.of(old)), snapshotRows(current));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.CATALOG_SQL, "lol")).thenReturn(List.of(
+            Map.of("target_type", "PARAMETER", "skill_key", "ez_q", "object_key", "damage")));
+        transaction(connection).execute(status -> { guard.begin("lol"); return null; });
+        verify(jdbc).update(DELETE_SQL, "lol", "ez_q", "FORMULA", "damage");
+        verify(jdbc, never()).update(DELETE_SQL, "lol", "outside", "EFFECT", "old");
+        verify(jdbc, never()).update("DELETE FROM public.skill_object_references WHERE game_id = ?", "lol");
+        verify(connection).commit();
+    }
+
+    @Test
+    void unchangedConfigurationDoesNotRewriteAnyReference() throws Exception {
+        Connection connection = connection();
+        when(jdbc.queryForList(GameConfigurationWriteGuard.AGGREGATES_SQL, "lol")).thenReturn(List.of(formulaRow()));
+        when(jdbc.queryForList(GameConfigurationWriteGuard.SNAPSHOT_SQL, "lol"))
+            .thenReturn(snapshotRows(List.of(formulaRow())));
+        transaction(connection).execute(status -> { guard.begin("lol"); return null; });
+        verify(jdbc, never()).update(eq(DELETE_SQL), any(), any(), any(), any());
+        verify(jdbc, never()).batchUpdate(eq(GameConfigurationWriteGuard.INSERT_SQL), any(List.class));
+        verify(connection).commit();
+    }
+
+    private static List<Map<String, Object>> snapshotRows(List<Map<String, Object>> aggregates) {
+        return aggregates.stream().map(row -> Map.<String, Object>of(
+            "object_type", row.get("source_type"), "skill_key", row.get("skill_key"),
+            "object_key", row.get("source_key"), "data", row.get("data"))).toList();
     }
 
     private static Connection connection() throws Exception {

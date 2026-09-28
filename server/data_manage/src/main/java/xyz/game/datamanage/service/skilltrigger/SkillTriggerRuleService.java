@@ -53,6 +53,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerCancelProcessEventDeta
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCastPhase;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCatalogLockRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusBindingDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatElapsedTimeBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusBindingRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusValueKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCondition;
@@ -89,6 +90,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerOncePerUse;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultBindingRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerPriorResultOutputs;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerRecentDamageSumBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerProcessLimit;
@@ -195,6 +197,200 @@ public class SkillTriggerRuleService {
         requireGame(gameId);
         requireSkillExists(gameId, skillKey);
         return requireDetail(gameId, skillKey, ruleKey);
+    }
+
+    /** 统一配置阶段仅检查当前规则形状，引用等待所有根行落地后再验证。 */
+    public Prepared prepareConfigurationCreate(SkillTriggerRuleCreateRequest request) {
+        return new Prepared(validateCreate(request), null, true);
+    }
+
+    public Prepared prepareConfigurationUpdate(
+        String ruleKey, SkillTriggerRuleUpdateRequest request, SkillTriggerRuleDetailResponse baselineDetail
+    ) {
+        if (baselineDetail == null) throw ruleNotFound(ruleKey);
+        ValidatedRule values = validateUpdate(request, ruleKey);
+        rejectImmutableKinds(baselineDetail, values);
+        return new Prepared(values, baselineDetail, false);
+    }
+
+    public void writePreparedWithinConfiguration(String gameId, String skillKey, Prepared prepared) {
+        ValidatedRule values = prepared.values;
+        try {
+            if (prepared.creating) {
+                insertAggregate(gameId, skillKey, values);
+            } else if (mapper.updateRule(gameId, skillKey, values.ruleKey(), values.name(), values.description(),
+                values.sortOrder(), values.eventSource().eventType().name(), AggregateJson.write(values.eventSource()),
+                AggregateJson.write(SkillTriggerRuleAssembler.orderedGroups(values.conditionGroups())),
+                AggregateJson.write(SkillTriggerRuleAssembler.orderedActions(values.actions())),
+                AggregateJson.write(new SkillTriggerRuleAssembler.Limits(
+                    values.perTargetCooldown(), values.maxTriggersPerProcess(), values.oncePerUse()))) == 0) {
+                throw ruleNotFound(values.ruleKey());
+            }
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+    }
+
+    public void validatePreparedAgainstFinalDatabase(String gameId, String skillKey, Prepared prepared) {
+        List<SkillTriggerRuleRow> finalRules = mapper.listRulesForUpdate(gameId, skillKey);
+        assertOncePerUseGroup(prepared.values, finalRules);
+        lockAndValidateCatalogs(gameId, skillKey, prepared.values, prepared.baselineDetail);
+        cycleValidator.validateCurrentSkill(gameId, skillKey);
+    }
+
+    public void deleteWithinConfiguration(String gameId, String skillKey, String ruleKey) {
+        if (mapper.deleteRule(gameId, skillKey, ruleKey) == 0) throw ruleNotFound(ruleKey);
+    }
+
+    /** 只复核本次改变的目标在最终数据库中仍被既有规则使用时的形状。 */
+    public void validateAffectedConfigurationFinal(
+        String gameId, String skillKey, Collection<String> changedEffectKeys,
+        Collection<String> changedProcessKeys, Collection<String> changedStateKeys
+    ) {
+        Set<String> effects = changedEffectKeys == null ? Set.of() : Set.copyOf(changedEffectKeys);
+        Set<String> processes = changedProcessKeys == null ? Set.of() : Set.copyOf(changedProcessKeys);
+        Set<String> states = changedStateKeys == null ? Set.of() : Set.copyOf(changedStateKeys);
+        if (effects.isEmpty() && processes.isEmpty() && states.isEmpty()) return;
+        Map<String, List<SkillTriggerEffectShapeRow>> effectShapes = indexEffects(mapper.listEffectShapes(gameId, skillKey));
+        Map<String, List<SkillTriggerProcessShapeRow>> processShapes = indexProcesses(mapper.listProcessShapes(gameId, skillKey));
+        List<Map<String, String>> issues = new ArrayList<>();
+        for (SkillTriggerRuleRow row : nullToEmpty(mapper.listRulesForGame(gameId))) {
+            SkillTriggerRuleDetailResponse rule = assembler.assemble(row);
+            String sourceSkillKey = row.skillKey();
+            SkillTriggerEventSource event = rule.eventSource();
+            if (event != null) {
+                if (skillKey.equals(sourceSkillKey) && event.detail() instanceof SkillTriggerResultEventDetail result
+                    && effects.contains(result.effectKey())) {
+                    SkillTriggerEffectShapeRow shape = findResult(effectShapes, result.effectKey(), result.resultKey());
+                    if (shape == null || shape.hasLifecycle())
+                        issues.add(fieldIssue("eventSource.detail.resultKey", "TRIGGER_RULE_SHAPE_IN_USE", "结果事件对应结果不存在或已改为生命周期结果"));
+                }
+                if (skillKey.equals(sourceSkillKey) && event.detail() instanceof SkillTriggerLifecycleEventDetail lifecycle
+                    && effects.contains(lifecycle.effectKey())) {
+                    validateEventCatalog(gameId, skillKey, event, effectShapes, processShapes, Map.of(), issues);
+                }
+                if (skillKey.equals(sourceSkillKey) && event.detail() instanceof SkillTriggerProcessEventDetail process
+                    && processes.contains(process.processKey())) {
+                    validateProcessMoment(gameId, skillKey, process.processKey(), process.moment(),
+                        "eventSource.detail", processShapes, issues);
+                }
+                if (event.detail() instanceof SkillTriggerInternalStateEventDetail state
+                    && states.contains(state.stateKey()) && skillKey.equals(readOwner(state.stateSkillKey(), sourceSkillKey))) {
+                    SkillTriggerInternalStateLockRow target = findState(gameId, skillKey, state.stateKey());
+                    if (target == null || !internalStateChangeMatches(target.stateType(), state.changeKind()))
+                        issues.add(fieldIssue("eventSource.detail.changeKind", "TRIGGER_RULE_SHAPE_IN_USE", "状态变化事件与最终状态种类不匹配"));
+                }
+            }
+            for (SkillTriggerConditionGroup group : nullToEmpty(rule.conditionGroups())) {
+                for (SkillTriggerCondition condition : nullToEmpty(group.conditions())) {
+                    String prefix = "conditionGroups[" + group.groupKey() + "].conditions[" + condition.conditionKey() + "].detail";
+                    if (condition.detail() instanceof SkillTriggerStatusConditionDetail status
+                        && effects.contains(status.sourceEffectKey())
+                        && skillKey.equals(readOwner(status.effectSkillKey(), sourceSkillKey))
+                        && (status.checkKind() == SkillTriggerStatusCheckKind.STACKS_COMPARE
+                            || status.checkKind() == SkillTriggerStatusCheckKind.REMAINING_MS_COMPARE)
+                        && mapper.countStatusApplyPersistent(gameId, skillKey, status.sourceEffectKey(),
+                            status.sourceResultKey(), status.statusKey()) <= 0) {
+                        issues.add(fieldIssue(prefix + ".sourceResultKey", "TRIGGER_RULE_SHAPE_IN_USE", "持续状态结果已不符合来源与身份要求"));
+                    }
+                    if (condition.detail() instanceof SkillTriggerLifecycleConditionDetail lifecycle
+                        && effects.contains(lifecycle.effectKey())
+                        && skillKey.equals(readOwner(lifecycle.effectSkillKey(), sourceSkillKey))) {
+                        issues.addAll(SkillLifecycleConditionSemantics.subjectIssues(lifecycle,
+                            mapper.findLifecycleScope(gameId, skillKey, lifecycle.effectKey()),
+                            event == null ? null : event.eventType(), prefix));
+                    }
+                    if (condition.detail() instanceof SkillTriggerInternalStateConditionDetail state
+                        && states.contains(state.stateKey())
+                        && skillKey.equals(readOwner(state.stateSkillKey(), sourceSkillKey))) {
+                        SkillTriggerInternalStateLockRow target = findState(gameId, skillKey, state.stateKey());
+                        if (target == null || !internalStateValueMatches(target.stateType(), state.valueKind()))
+                            issues.add(fieldIssue(prefix + ".valueKind", "TRIGGER_RULE_SHAPE_IN_USE", "状态取值方式与最终状态种类不匹配"));
+                        if (state.valueKind() == SkillTriggerInternalStateValueKind.OPTION_SELECTED
+                            && state.optionKey() != null && nullToEmpty(mapper.lockOptions(gameId, skillKey,
+                                state.stateKey(), List.of(state.optionKey()))).isEmpty())
+                            issues.add(fieldIssue(prefix + ".optionKey", "TRIGGER_RULE_SHAPE_IN_USE", "模式选项已不存在"));
+                    }
+                }
+            }
+            for (SkillTriggerAction action : nullToEmpty(rule.actions())) {
+                if (skillKey.equals(sourceSkillKey)
+                    && action.detail() instanceof SkillTriggerAdvanceProcessActionDetail advance
+                    && processes.contains(advance.processKey())) {
+                    validateActionCatalog(gameId, skillKey, event, action, "actions[" + action.actionKey() + "]",
+                        effectShapes, processShapes, Map.of(), issues);
+                }
+                for (SkillTriggerRuntimeInputBinding binding : nullToEmpty(action.runtimeInputBindings())) {
+                    String prefix = "actions[" + action.actionKey() + "].runtimeInputBindings[" + binding.bindingKey() + "].detail";
+                    if (binding.detail() instanceof SkillTriggerCombatStatusBindingDetail status
+                        && effects.contains(status.sourceEffectKey())
+                        && skillKey.equals(readOwner(status.effectSkillKey(), sourceSkillKey))
+                        && (status.valueKind() == SkillTriggerCombatStatusValueKind.STACKS
+                            || status.valueKind() == SkillTriggerCombatStatusValueKind.REMAINING_MS)
+                        && mapper.countStatusApplyPersistent(gameId, skillKey, status.sourceEffectKey(),
+                            status.sourceResultKey(), status.statusKey()) <= 0)
+                        issues.add(fieldIssue(prefix + ".sourceResultKey", "TRIGGER_RULE_SHAPE_IN_USE", "持续状态输入已不符合来源与身份要求"));
+                    if (binding.detail() instanceof SkillTriggerInternalStateBindingDetail state
+                        && states.contains(state.stateKey())
+                        && skillKey.equals(readOwner(state.stateSkillKey(), sourceSkillKey))) {
+                        SkillTriggerInternalStateLockRow target = findState(gameId, skillKey, state.stateKey());
+                        if (target == null || !internalStateValueMatches(target.stateType(), state.valueKind()))
+                            issues.add(fieldIssue(prefix + ".valueKind", "TRIGGER_RULE_SHAPE_IN_USE", "状态供值方式与最终状态种类不匹配"));
+                        if (state.valueKind() == SkillTriggerInternalStateValueKind.OPTION_SELECTED
+                            && state.optionKey() != null && nullToEmpty(mapper.lockOptions(gameId, skillKey,
+                                state.stateKey(), List.of(state.optionKey()))).isEmpty())
+                            issues.add(fieldIssue(prefix + ".optionKey", "TRIGGER_RULE_SHAPE_IN_USE", "模式选项已不存在"));
+                    }
+                    if (skillKey.equals(sourceSkillKey) && binding.detail() instanceof SkillTriggerPriorResultBindingDetail prior) {
+                        SkillTriggerAction source = nullToEmpty(rule.actions()).stream()
+                            .filter(other -> Objects.equals(other.actionKey(), prior.sourceActionKey())).findFirst().orElse(null);
+                        if (source != null && source.detail() instanceof SkillTriggerExecuteEffectActionDetail execute
+                            && effects.contains(execute.effectKey())) {
+                            SkillTriggerEffectShapeRow shape = findResult(effectShapes, execute.effectKey(), prior.sourceResultKey());
+                            if (shape == null || !SkillTriggerPriorResultOutputs.immediatelyAvailable(
+                                SkillTriggerPriorResultOutputs.Shape.from(shape))
+                                || !SkillTriggerPriorResultOutputs.available(
+                                    SkillTriggerPriorResultOutputs.Shape.from(shape), prior.outputKind()))
+                                issues.add(fieldIssue(prefix + ".sourceResultKey", "TRIGGER_RULE_SHAPE_IN_USE", "前序结果输出已不可用"));
+                        }
+                    }
+                }
+                if (skillKey.equals(sourceSkillKey) && action.detail() instanceof SkillTriggerExecuteEffectActionDetail execute
+                    && effects.contains(execute.effectKey())) {
+                    for (SkillTriggerResultModifier modifier : nullToEmpty(action.resultModifiers())) {
+                        SkillTriggerEffectShapeRow shape = findResult(effectShapes, execute.effectKey(), modifier.resultKey());
+                        if (shape == null || !shape.hasValueRule() || shape.resultType() == SkillEffectResultType.STATUS_OPERATION)
+                            issues.add(fieldIssue("actions[" + action.actionKey() + "].resultModifiers[" + modifier.resultKey() + "]",
+                                "TRIGGER_RULE_SHAPE_IN_USE", "最终结果已不支持固定修正"));
+                    }
+                }
+            }
+        }
+        if (!issues.isEmpty()) {
+            issues.sort(Comparator.comparing(issue -> issue.get("field")));
+            throw new ApiException(HttpStatus.CONFLICT, "409.SKILL_OBJECT_REFERENCE_INVALID",
+                "变更后的对象使既有触发规则失效", Map.of("fieldIssues", List.copyOf(issues)));
+        }
+    }
+
+    private SkillTriggerInternalStateLockRow findState(String gameId, String skillKey, String stateKey) {
+        return nullToEmpty(mapper.lockInternalStates(gameId, skillKey, List.of(stateKey))).stream().findFirst().orElse(null);
+    }
+
+    private static String readOwner(String explicit, String sourceSkillKey) {
+        return explicit == null ? sourceSkillKey : explicit;
+    }
+
+    public static final class Prepared {
+        private final ValidatedRule values;
+        private final SkillTriggerRuleDetailResponse baselineDetail;
+        private final boolean creating;
+
+        private Prepared(ValidatedRule values, SkillTriggerRuleDetailResponse baselineDetail, boolean creating) {
+            this.values = values;
+            this.baselineDetail = baselineDetail;
+            this.creating = creating;
+        }
     }
 
     @Transactional
@@ -549,7 +745,7 @@ public class SkillTriggerRuleService {
         for (var row : nullToEmpty(mapper.listDamageEventsForSkill(gameId, skillKey))) {
             damageEvents.put(
                 row.ruleKey(),
-                new SkillTriggerDamageEventDetail(row.damageTypeKey(), row.deliveryKind(), row.originKind())
+                new SkillTriggerDamageEventDetail(row.sourceSkillKey(), row.damageTypeKey(), row.deliveryKind(), row.originKind())
             );
         }
         Set<String> protectedRules = new LinkedHashSet<>();
@@ -960,6 +1156,7 @@ public class SkillTriggerRuleService {
                         binding.detail().unknownFields()
                     );
                 }
+                validateRuntimeBindingShape(binding, bindingPath(i, b, null), issues);
             }
             Set<String> modifierResults = new HashSet<>();
             List<SkillTriggerResultModifier> modifiers =
@@ -1132,6 +1329,9 @@ public class SkillTriggerRuleService {
                 if (internal.stateKey() == null) {
                     issues.add(fieldIssue("eventSource.detail.stateKey", "REQUIRED", "内部状态标识不能为空"));
                 }
+                if (internal.stateSkillKey() == null) {
+                    issues.add(fieldIssue("eventSource.detail.stateSkillKey", "REQUIRED", "内部状态所属技能不能为空"));
+                }
                 if (internal.changeKind() == null) {
                     issues.add(fieldIssue("eventSource.detail.changeKind", "REQUIRED", "内部状态变化种类不能为空"));
                 }
@@ -1219,6 +1419,7 @@ public class SkillTriggerRuleService {
                 boolean compare = detail.checkKind() == SkillTriggerStatusCheckKind.STACKS_COMPARE
                     || detail.checkKind() == SkillTriggerStatusCheckKind.REMAINING_MS_COMPARE;
                 if (compare) {
+                    require(detail.effectSkillKey(), prefix + ".detail.effectSkillKey", "来源效果所属技能不能为空", issues);
                     require(detail.sourceEffectKey(), prefix + ".detail.sourceEffectKey", "来源效果不能为空", issues);
                     require(detail.sourceResultKey(), prefix + ".detail.sourceResultKey", "来源结果不能为空", issues);
                     if (detail.comparator() == null) {
@@ -1226,6 +1427,9 @@ public class SkillTriggerRuleService {
                     }
                     require(detail.comparisonValue(), prefix + ".detail.comparisonValue", "比较公式不能为空", issues);
                 } else {
+                    if (detail.effectSkillKey() != null) {
+                        issues.add(fieldIssue(prefix + ".detail.effectSkillKey", "FORBIDDEN", "该检查方式不能指定来源效果所属技能"));
+                    }
                     if (detail.sourceEffectKey() != null) {
                         issues.add(fieldIssue(prefix + ".detail.sourceEffectKey", "FORBIDDEN", "该检查方式不能指定来源效果"));
                     }
@@ -1245,6 +1449,7 @@ public class SkillTriggerRuleService {
                     issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "生命周期检查条件明细形状不合法"));
                     return;
                 }
+                require(detail.effectSkillKey(), prefix + ".detail.effectSkillKey", "生命周期所属技能不能为空", issues);
                 issues.addAll(SkillLifecycleConditionSemantics.shapeIssues(detail, prefix + ".detail"));
             }
             case TARGET_CATEGORY_CHECK -> {
@@ -1273,6 +1478,7 @@ public class SkillTriggerRuleService {
                     issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "内部状态检查条件明细形状不合法"));
                     return;
                 }
+                require(detail.stateSkillKey(), prefix + ".detail.stateSkillKey", "内部状态所属技能不能为空", issues);
                 require(detail.stateKey(), prefix + ".detail.stateKey", "内部状态标识不能为空", issues);
                 if (detail.valueKind() == null) {
                     issues.add(fieldIssue(prefix + ".detail.valueKind", "REQUIRED", "内部状态取值方式不能为空"));
@@ -1438,6 +1644,66 @@ public class SkillTriggerRuleService {
         }
     }
 
+    private static void validateRuntimeBindingShape(
+        SkillTriggerRuntimeInputBinding binding,
+        String prefix,
+        List<Map<String, String>> issues
+    ) {
+        if (binding.sourceType() == null || binding.detail() == null) {
+            return;
+        }
+        switch (binding.sourceType()) {
+            case INTERNAL_STATE -> {
+                if (binding.detail() instanceof SkillTriggerInternalStateBindingDetail detail) {
+                    require(detail.stateSkillKey(), prefix + ".detail.stateSkillKey", "内部状态所属技能不能为空", issues);
+                    require(detail.stateKey(), prefix + ".detail.stateKey", "内部状态标识不能为空", issues);
+                }
+            }
+            case COMBAT_STATUS -> {
+                if (binding.detail() instanceof SkillTriggerCombatStatusBindingDetail detail) {
+                    require(detail.subject(), prefix + ".detail.subject", "读取对象不能为空", issues);
+                    require(detail.statusKey(), prefix + ".detail.statusKey", "状态标识不能为空", issues);
+                    require(detail.valueKind(), prefix + ".detail.valueKind", "取值种类不能为空", issues);
+                    boolean sourceResult = detail.valueKind() == SkillTriggerCombatStatusValueKind.STACKS
+                        || detail.valueKind() == SkillTriggerCombatStatusValueKind.REMAINING_MS;
+                    if (sourceResult) {
+                        require(detail.effectSkillKey(), prefix + ".detail.effectSkillKey", "来源效果所属技能不能为空", issues);
+                        require(detail.sourceEffectKey(), prefix + ".detail.sourceEffectKey", "来源效果不能为空", issues);
+                        require(detail.sourceResultKey(), prefix + ".detail.sourceResultKey", "来源结果不能为空", issues);
+                    } else if (detail.valueKind() == SkillTriggerCombatStatusValueKind.PRESENT) {
+                        if (detail.effectSkillKey() != null) issues.add(fieldIssue(prefix + ".detail.effectSkillKey", "FORBIDDEN", "存在性读取不能指定来源效果所属技能"));
+                        if (detail.sourceEffectKey() != null) issues.add(fieldIssue(prefix + ".detail.sourceEffectKey", "FORBIDDEN", "存在性读取不能指定来源效果"));
+                        if (detail.sourceResultKey() != null) issues.add(fieldIssue(prefix + ".detail.sourceResultKey", "FORBIDDEN", "存在性读取不能指定来源结果"));
+                    }
+                }
+            }
+            case COMBAT_ELAPSED_TIME -> {
+                if (!(binding.detail() instanceof SkillTriggerCombatElapsedTimeBindingDetail detail)) {
+                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "战斗时长来源明细形状不合法"));
+                } else {
+                    require(detail.subject(), prefix + ".detail.subject", "读取对象不能为空", issues);
+                }
+            }
+            case RECENT_DAMAGE_SUM -> {
+                if (!(binding.detail() instanceof SkillTriggerRecentDamageSumBindingDetail detail)) {
+                    issues.add(fieldIssue(prefix + ".detail", "TYPE_MISMATCH", "近期受伤来源明细形状不合法"));
+                } else {
+                    require(detail.subject(), prefix + ".detail.subject", "读取对象不能为空", issues);
+                    require(detail.windowValue(), prefix + ".detail.windowValue", "时间窗不能为空", issues);
+                    require(detail.outputKind(), prefix + ".detail.outputKind", "累计数值口径不能为空", issues);
+                    require(detail.deliveryKind(), prefix + ".detail.deliveryKind", "伤害产生方式筛选不能为空", issues);
+                    require(detail.originKind(), prefix + ".detail.originKind", "伤害来源性质筛选不能为空", issues);
+                    if (detail.windowValue() != null
+                        && detail.windowValue().kind() == SkillNumericValue.Kind.FIXED
+                        && detail.windowValue().value().compareTo(BigDecimal.ZERO) <= 0) {
+                        issues.add(fieldIssue(prefix + ".detail.windowValue", "RANGE_INVALID", "时间窗必须为正时长"));
+                    }
+                }
+            }
+            default -> { }
+        }
+    }
+
     private static void validateModifierRange(
         SkillTriggerResultModifier modifier,
         String prefix,
@@ -1576,9 +1842,15 @@ public class SkillTriggerRuleService {
         );
         Set<String> effects = new LinkedHashSet<>(nullToEmpty(mapper.lockEffects(gameId, skillKey, refs.effectKeys)));
         Set<String> processes = new LinkedHashSet<>(nullToEmpty(mapper.lockProcesses(gameId, skillKey, refs.processKeys)));
-        Map<String, SkillTriggerInternalStateLockRow> states = indexInternalStates(
-            mapper.lockInternalStates(gameId, skillKey, refs.stateKeys)
-        );
+        Map<String, SkillTriggerInternalStateLockRow> states = new LinkedHashMap<>();
+        for (OwnedRef ref : refs.states.stream().filter(ref -> ref.skillKey() != null && ref.key() != null)
+            .distinct().sorted(Comparator.comparing(OwnedRef::skillKey).thenComparing(OwnedRef::key)).toList()) {
+            for (SkillTriggerInternalStateLockRow row : nullToEmpty(
+                mapper.lockInternalStates(gameId, ref.skillKey(), List.of(ref.key()))
+            )) {
+                states.put(ref.skillKey() + "\0" + row.stateKey(), row);
+            }
+        }
         Map<String, SkillTriggerCatalogLockRow> skills = indexCatalog(mapper.lockSkills(gameId, refs.skillKeys));
         Map<String, List<SkillTriggerEffectShapeRow>> effectShapes = indexEffects(mapper.listEffectShapes(gameId, skillKey));
         Map<String, List<SkillTriggerProcessShapeRow>> processShapes = indexProcesses(mapper.listProcessShapes(gameId, skillKey));
@@ -1627,14 +1899,20 @@ public class SkillTriggerRuleService {
                 referenceIssues.add(fieldIssue(ref.field(), "UNKNOWN_EFFECT", "技能效果不存在或不属于当前技能"));
             }
         }
+        for (OwnedRef ref : refs.readEffects) {
+            if (ref.skillKey() == null || ref.key() == null
+                || nullToEmpty(mapper.lockEffects(gameId, ref.skillKey(), List.of(ref.key()))).isEmpty()) {
+                referenceIssues.add(fieldIssue(ref.field(), "UNKNOWN_EFFECT", "读取目标效果不存在或不属于指定技能"));
+            }
+        }
         for (CatalogRef ref : refs.processes) {
             if (!processes.contains(ref.key())) {
                 referenceIssues.add(fieldIssue(ref.field(), "UNKNOWN_PROCESS", "技能过程不存在或不属于当前技能"));
             }
         }
-        for (CatalogRef ref : refs.states) {
-            if (!states.containsKey(ref.key())) {
-                referenceIssues.add(fieldIssue(ref.field(), "UNKNOWN_INTERNAL_STATE", "内部状态不存在或不属于当前技能"));
+        for (OwnedRef ref : refs.states) {
+            if (!states.containsKey(ref.skillKey() + "\0" + ref.key())) {
+                referenceIssues.add(fieldIssue(ref.field(), "UNKNOWN_INTERNAL_STATE", "内部状态不存在或不属于指定技能"));
             }
         }
         for (CatalogRef ref : refs.skills) {
@@ -1775,7 +2053,7 @@ public class SkillTriggerRuleService {
             case INTERNAL_STATE_CHANGED -> {
                 SkillTriggerInternalStateEventDetail detail =
                     (SkillTriggerInternalStateEventDetail) eventSource.detail();
-                SkillTriggerInternalStateLockRow state = states.get(detail.stateKey());
+                SkillTriggerInternalStateLockRow state = states.get(detail.stateSkillKey() + "\0" + detail.stateKey());
                 if (state == null) {
                     return;
                 }
@@ -1818,14 +2096,14 @@ public class SkillTriggerRuleService {
         if (condition.conditionType() == SkillTriggerConditionType.LIFECYCLE_CHECK
             && condition.detail() instanceof SkillTriggerLifecycleConditionDetail detail) {
             issues.addAll(SkillLifecycleConditionSemantics.subjectIssues(detail,
-                mapper.findLifecycleScope(gameId, skillKey, detail.effectKey()), eventSource.eventType(), prefix + ".detail"));
+                mapper.findLifecycleScope(gameId, detail.effectSkillKey(), detail.effectKey()), eventSource.eventType(), prefix + ".detail"));
         }
         if (condition.conditionType() == SkillTriggerConditionType.STATUS_CHECK
             && condition.detail() instanceof SkillTriggerStatusConditionDetail detail
             && (detail.checkKind() == SkillTriggerStatusCheckKind.STACKS_COMPARE
                 || detail.checkKind() == SkillTriggerStatusCheckKind.REMAINING_MS_COMPARE)) {
             if (mapper.countStatusApplyPersistent(
-                gameId, skillKey, detail.sourceEffectKey(), detail.sourceResultKey(), detail.statusKey()
+                gameId, detail.effectSkillKey(), detail.sourceEffectKey(), detail.sourceResultKey(), detail.statusKey()
             ) <= 0) {
                 issues.add(fieldIssue(
                     prefix + ".detail.sourceResultKey",
@@ -1836,7 +2114,7 @@ public class SkillTriggerRuleService {
         }
         if (condition.conditionType() == SkillTriggerConditionType.INTERNAL_STATE_CHECK
             && condition.detail() instanceof SkillTriggerInternalStateConditionDetail detail) {
-            SkillTriggerInternalStateLockRow state = states.get(detail.stateKey());
+            SkillTriggerInternalStateLockRow state = states.get(detail.stateSkillKey() + "\0" + detail.stateKey());
             if (state != null && !internalStateValueMatches(state.stateType(), detail.valueKind())) {
                 issues.add(fieldIssue(
                     prefix + ".detail.valueKind",
@@ -1846,7 +2124,7 @@ public class SkillTriggerRuleService {
             }
             if (detail.valueKind() == SkillTriggerInternalStateValueKind.OPTION_SELECTED && detail.optionKey() != null) {
                 List<String> options = mapper.lockOptions(
-                    gameId, skillKey, detail.stateKey(), List.of(detail.optionKey())
+                    gameId, detail.stateSkillKey(), detail.stateKey(), List.of(detail.optionKey())
                 );
                 if (options == null || options.isEmpty()) {
                     issues.add(fieldIssue(prefix + ".detail.optionKey", "UNKNOWN_MODE_OPTION", "模式选项不存在或不属于当前内部状态"));
@@ -2049,7 +2327,7 @@ public class SkillTriggerRuleService {
                     ));
                     return;
                 }
-                SkillTriggerInternalStateLockRow state = states.get(detail.stateKey());
+                SkillTriggerInternalStateLockRow state = states.get(detail.stateSkillKey() + "\0" + detail.stateKey());
                 if (state == null) {
                     referenceIssues.add(fieldIssue(
                         bindingPath(actionIndex, bindingIndex, "detail.stateKey"),
@@ -2074,7 +2352,7 @@ public class SkillTriggerRuleService {
                         ));
                     } else {
                         List<String> options = mapper.lockOptions(
-                            gameId, skillKey, detail.stateKey(), List.of(detail.optionKey())
+                            gameId, detail.stateSkillKey(), detail.stateKey(), List.of(detail.optionKey())
                         );
                         if (options == null || options.isEmpty()) {
                             referenceIssues.add(fieldIssue(
@@ -2107,7 +2385,7 @@ public class SkillTriggerRuleService {
                 if (detail.valueKind() == SkillTriggerCombatStatusValueKind.STACKS
                     || detail.valueKind() == SkillTriggerCombatStatusValueKind.REMAINING_MS) {
                     if (mapper.countStatusApplyPersistent(
-                        gameId, skillKey, detail.sourceEffectKey(), detail.sourceResultKey(), detail.statusKey()
+                        gameId, detail.effectSkillKey(), detail.sourceEffectKey(), detail.sourceResultKey(), detail.statusKey()
                     ) <= 0) {
                         referenceIssues.add(fieldIssue(
                             bindingPath(actionIndex, bindingIndex, "detail.sourceResultKey"),
@@ -2121,6 +2399,23 @@ public class SkillTriggerRuleService {
                 } else {
                     sourceDomain = SkillTriggerValueDomain.INTEGER;
                 }
+            }
+            case COMBAT_ELAPSED_TIME -> {
+                SkillTriggerCombatElapsedTimeBindingDetail detail = (SkillTriggerCombatElapsedTimeBindingDetail) binding.detail();
+                rejectUnavailableEventSource(eventSource.eventType(), detail.subject(),
+                    bindingPath(actionIndex, bindingIndex, "detail.subject"), referenceIssues);
+                sourceDomain = SkillTriggerValueDomain.DECIMAL;
+            }
+            case RECENT_DAMAGE_SUM -> {
+                SkillTriggerRecentDamageSumBindingDetail detail = (SkillTriggerRecentDamageSumBindingDetail) binding.detail();
+                rejectUnavailableEventSource(eventSource.eventType(), detail.subject(),
+                    bindingPath(actionIndex, bindingIndex, "detail.subject"), referenceIssues);
+                if (detail.windowValue() != null && detail.windowValue().kind() == SkillNumericValue.Kind.FORMULA
+                    && mapper.countRuntimeInputNodes(gameId, skillKey, detail.windowValue().formulaKey()) > 0) {
+                    referenceIssues.add(fieldIssue(bindingPath(actionIndex, bindingIndex, "detail.windowValue"),
+                        "REFERENCE_TYPE_MISMATCH", "时间窗不能依赖计算时传入参数"));
+                }
+                sourceDomain = SkillTriggerValueDomain.DECIMAL;
             }
             case EVENT_VALUE -> {
                 if (!(binding.detail() instanceof SkillTriggerEventValueBindingDetail detail)) {
@@ -2371,7 +2666,7 @@ public class SkillTriggerRuleService {
             case INTERNAL_STATE_CHANGED -> {
                 SkillTriggerInternalStateEventDetail detail =
                     (SkillTriggerInternalStateEventDetail) eventSource.detail();
-                refs.addState(new CatalogRef("eventSource.detail.stateKey", detail.stateKey()));
+                refs.addState(new OwnedRef("eventSource.detail.stateKey", detail.stateSkillKey(), detail.stateKey()));
             }
             case ENTITY_DIED, ENTITY_UNTARGETABLE -> {
                 SkillTriggerSubjectEventDetail detail = (SkillTriggerSubjectEventDetail) eventSource.detail();
@@ -2384,6 +2679,9 @@ public class SkillTriggerRuleService {
             }
             case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN -> {
                 SkillTriggerDamageEventDetail detail = (SkillTriggerDamageEventDetail) eventSource.detail();
+                if (detail.sourceSkillKey() != null) {
+                    refs.addSkill(new CatalogRef("eventSource.detail.sourceSkillKey", detail.sourceSkillKey()));
+                }
                 if (detail.damageTypeKey() != null) {
                     refs.addDamageType(new CatalogRef("eventSource.detail.damageTypeKey", detail.damageTypeKey()));
                 }
@@ -2423,7 +2721,7 @@ public class SkillTriggerRuleService {
                     referenceIssues
                 );
                 if (detail.sourceEffectKey() != null) {
-                    refs.addEffect(new CatalogRef(prefix + ".detail.sourceEffectKey", detail.sourceEffectKey()));
+                    refs.addReadEffect(new OwnedRef(prefix + ".detail.sourceEffectKey", detail.effectSkillKey(), detail.sourceEffectKey()));
                 }
                 if (detail.comparisonValue() != null) {
                     refs.addFormula(new CatalogRef(prefix + ".detail.comparisonValue", detail.comparisonValue()));
@@ -2431,7 +2729,7 @@ public class SkillTriggerRuleService {
             }
             case LIFECYCLE_CHECK -> {
                 SkillTriggerLifecycleConditionDetail detail = (SkillTriggerLifecycleConditionDetail) condition.detail();
-                refs.addEffect(new CatalogRef(prefix + ".detail.effectKey", detail.effectKey()));
+                refs.addReadEffect(new OwnedRef(prefix + ".detail.effectKey", detail.effectSkillKey(), detail.effectKey()));
                 if (detail.comparisonValue() != null) {
                     refs.addFormula(new CatalogRef(prefix + ".detail.comparisonValue", detail.comparisonValue()));
                 }
@@ -2442,7 +2740,7 @@ public class SkillTriggerRuleService {
             case INTERNAL_STATE_CHECK -> {
                 SkillTriggerInternalStateConditionDetail detail =
                     (SkillTriggerInternalStateConditionDetail) condition.detail();
-                refs.addState(new CatalogRef(prefix + ".detail.stateKey", detail.stateKey()));
+                refs.addState(new OwnedRef(prefix + ".detail.stateKey", detail.stateSkillKey(), detail.stateKey()));
                 if (detail.comparisonValue() != null) {
                     refs.addFormula(new CatalogRef(prefix + ".detail.comparisonValue", detail.comparisonValue()));
                 }
@@ -2494,7 +2792,7 @@ public class SkillTriggerRuleService {
             refs.addParameter(new CatalogRef(bindingPathFromPrefix(prefix, b, "parameterKey"), binding.parameterKey()));
             if (binding.sourceType() == SkillTriggerRuntimeInputSourceType.INTERNAL_STATE
                 && binding.detail() instanceof SkillTriggerInternalStateBindingDetail detail) {
-                refs.addState(new CatalogRef(bindingPathFromPrefix(prefix, b, "detail.stateKey"), detail.stateKey()));
+                refs.addState(new OwnedRef(bindingPathFromPrefix(prefix, b, "detail.stateKey"), detail.stateSkillKey(), detail.stateKey()));
             } else if (binding.sourceType() == SkillTriggerRuntimeInputSourceType.SOURCE_CAST_RESOURCE_COST
                 && binding.detail() instanceof SkillTriggerSourceCastResourceCostBindingDetail detail) {
                 if (detail.attributeKey() != null) {
@@ -2510,10 +2808,22 @@ public class SkillTriggerRuleService {
                     referenceIssues
                 );
                 if (detail.sourceEffectKey() != null) {
-                    refs.addEffect(new CatalogRef(
+                    refs.addReadEffect(new OwnedRef(
                         bindingPathFromPrefix(prefix, b, "detail.sourceEffectKey"),
+                        detail.effectSkillKey(),
                         detail.sourceEffectKey()
                     ));
+                }
+            } else if (binding.sourceType() == SkillTriggerRuntimeInputSourceType.RECENT_DAMAGE_SUM
+                && binding.detail() instanceof SkillTriggerRecentDamageSumBindingDetail detail) {
+                if (detail.sourceSkillKey() != null) {
+                    refs.addSkill(new CatalogRef(bindingPathFromPrefix(prefix, b, "detail.sourceSkillKey"), detail.sourceSkillKey()));
+                }
+                if (detail.damageTypeKey() != null) {
+                    refs.addDamageType(new CatalogRef(bindingPathFromPrefix(prefix, b, "detail.damageTypeKey"), detail.damageTypeKey()));
+                }
+                if (detail.windowValue() != null) {
+                    refs.addFormula(new CatalogRef(bindingPathFromPrefix(prefix, b, "detail.windowValue"), detail.windowValue()));
                 }
             }
         }
@@ -2578,11 +2888,12 @@ public class SkillTriggerRuleService {
                 issues.add(fieldIssue(field, "TRIGGER_RULE_SHAPE_IN_USE", "自然结束条件变化会使生命周期时点事件失效"));
             }
         }
-        for (SkillTriggerRuleRow rule : nullToEmpty(mapper.listRules(gameId, skillKey))) {
+        for (SkillTriggerRuleRow rule : nullToEmpty(mapper.listRulesForGame(gameId))) {
             for (SkillTriggerStatusConditionRow condition : nullToEmpty(
-                mapper.listStatusConditions(gameId, skillKey, rule.ruleKey())
+                mapper.listStatusConditions(gameId, rule.skillKey(), rule.ruleKey())
             )) {
-                if (!effectKey.equals(condition.sourceEffectKey()) || condition.sourceResultKey() == null) {
+                if (!effectKey.equals(condition.sourceEffectKey()) || condition.sourceResultKey() == null
+                    || !skillKey.equals(readOwner(condition.effectSkillKey(), rule.skillKey()))) {
                     continue;
                 }
                 Integer index = indexByKey.get(condition.sourceResultKey());
@@ -2599,9 +2910,10 @@ public class SkillTriggerRuleService {
                 }
             }
             for (SkillTriggerCombatStatusBindingRow binding : nullToEmpty(
-                mapper.listCombatStatusBindings(gameId, skillKey, rule.ruleKey())
+                mapper.listCombatStatusBindings(gameId, rule.skillKey(), rule.ruleKey())
             )) {
-                if (!effectKey.equals(binding.sourceEffectKey()) || binding.sourceResultKey() == null) {
+                if (!effectKey.equals(binding.sourceEffectKey()) || binding.sourceResultKey() == null
+                    || !skillKey.equals(readOwner(binding.effectSkillKey(), rule.skillKey()))) {
                     continue;
                 }
                 Integer index = indexByKey.get(binding.sourceResultKey());
@@ -2617,6 +2929,7 @@ public class SkillTriggerRuleService {
                     ));
                 }
             }
+            if (!skillKey.equals(rule.skillKey())) continue;
             for (SkillTriggerPriorResultBindingRow binding : nullToEmpty(
                 mapper.listPriorResultBindings(gameId, skillKey, rule.ruleKey())
             )) {
@@ -3256,7 +3569,8 @@ public class SkillTriggerRuleService {
         private final List<CatalogRef> formulas = new ArrayList<>();
         private final List<CatalogRef> effects = new ArrayList<>();
         private final List<CatalogRef> processes = new ArrayList<>();
-        private final List<CatalogRef> states = new ArrayList<>();
+        private final List<OwnedRef> states = new ArrayList<>();
+        private final List<OwnedRef> readEffects = new ArrayList<>();
         private final List<CatalogRef> skills = new ArrayList<>();
         private final List<CatalogRef> parameters = new ArrayList<>();
         private final Set<String> attributeKeys = new LinkedHashSet<>();
@@ -3265,7 +3579,6 @@ public class SkillTriggerRuleService {
         private final Set<String> formulaKeys = new LinkedHashSet<>();
         private final Set<String> effectKeys = new LinkedHashSet<>();
         private final Set<String> processKeys = new LinkedHashSet<>();
-        private final Set<String> stateKeys = new LinkedHashSet<>();
         private final Set<String> skillKeys = new LinkedHashSet<>();
         private final Set<String> parameterKeys = new LinkedHashSet<>();
 
@@ -3311,11 +3624,12 @@ public class SkillTriggerRuleService {
             }
         }
 
-        private void addState(CatalogRef ref) {
+        private void addState(OwnedRef ref) {
             states.add(ref);
-            if (ref.key() != null) {
-                stateKeys.add(ref.key());
-            }
+        }
+
+        private void addReadEffect(OwnedRef ref) {
+            readEffects.add(ref);
         }
 
         private void addSkill(CatalogRef ref) {
@@ -3338,6 +3652,9 @@ public class SkillTriggerRuleService {
         private CatalogRef(String field, String key) {
             this(field, key, false);
         }
+    }
+
+    private record OwnedRef(String field, String skillKey, String key) {
     }
 
     private record Catalog(

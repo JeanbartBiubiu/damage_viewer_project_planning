@@ -273,6 +273,7 @@ class SkillTriggerRuleServiceTest {
             new SkillTriggerEventSource(
                 SkillTriggerEventType.DAMAGE_PENDING,
                 new SkillTriggerDamageEventDetail(
+                    null,
                     "physical",
                     SkillTriggerDamageDeliveryKind.BASIC_ATTACK,
                     SkillTriggerDamageOriginKind.DIRECT
@@ -322,6 +323,7 @@ class SkillTriggerRuleServiceTest {
                 GAME_ID,
                 SKILL_KEY,
                 ruleKey,
+                null,
                 null,
                 SkillTriggerDamageDeliveryKind.ANY,
                 SkillTriggerDamageOriginKind.DIRECT
@@ -602,6 +604,7 @@ class SkillTriggerRuleServiceTest {
                         null,
                         null,
                         null,
+                        null,
                         null
                     )
                 ))
@@ -693,6 +696,7 @@ class SkillTriggerRuleServiceTest {
                         SkillTriggerConditionType.INTERNAL_STATE_CHECK,
                         0,
                         new SkillTriggerInternalStateConditionDetail(
+                            SKILL_KEY,
                             "empowered",
                             SkillTriggerInternalStateValueKind.ENABLED,
                             null,
@@ -870,19 +874,19 @@ class SkillTriggerRuleServiceTest {
         ));
         assertEventValueConditionAndBinding(
             SkillTriggerEventType.DAMAGE_DEALT,
-            new SkillTriggerDamageEventDetail("physical", SkillTriggerDamageDeliveryKind.SKILL, SkillTriggerDamageOriginKind.DIRECT),
+            new SkillTriggerDamageEventDetail(null, "physical", SkillTriggerDamageDeliveryKind.SKILL, SkillTriggerDamageOriginKind.DIRECT),
             SkillTriggerEventValueKey.SHIELD_ABSORBED,
             true
         );
         assertEventValueConditionAndBinding(
             SkillTriggerEventType.DAMAGE_TAKEN,
-            new SkillTriggerDamageEventDetail("physical", SkillTriggerDamageDeliveryKind.SKILL, SkillTriggerDamageOriginKind.DIRECT),
+            new SkillTriggerDamageEventDetail(null, "physical", SkillTriggerDamageDeliveryKind.SKILL, SkillTriggerDamageOriginKind.DIRECT),
             SkillTriggerEventValueKey.KILLED,
             true
         );
         assertEventValueConditionAndBinding(
             SkillTriggerEventType.DAMAGE_DEALT,
-            new SkillTriggerDamageEventDetail("physical", SkillTriggerDamageDeliveryKind.SKILL, SkillTriggerDamageOriginKind.DIRECT),
+            new SkillTriggerDamageEventDetail(null, "physical", SkillTriggerDamageDeliveryKind.SKILL, SkillTriggerDamageOriginKind.DIRECT),
             SkillTriggerEventValueKey.HIT_INDEX,
             false
         );
@@ -1301,6 +1305,9 @@ class SkillTriggerRuleServiceTest {
         when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             SkillTriggerRuleTestSupport.ruleRow("prior", "prior", SkillTriggerEventType.BASIC_ATTACK_HIT)
         ));
+        when(mapper.listRulesForGame(GAME_ID)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.ruleRow("prior", "prior", SkillTriggerEventType.BASIC_ATTACK_HIT)
+        ));
         when(mapper.listPriorResultBindings(GAME_ID, SKILL_KEY, "prior")).thenReturn(List.of(
             new SkillTriggerPriorResultBindingRow(
                 GAME_ID, SKILL_KEY, "prior", "follow", "from_first",
@@ -1642,7 +1649,8 @@ class SkillTriggerRuleServiceTest {
             SkillNumericValue.formula("duration_f"), SkillNumericValue.formula("max_stacks_f"), SkillNumericValue.formula("app_stacks_f"),
             SkillEffectLifecycleInstanceScope.TARGET,
             SkillEffectLifecycleReapplicationStackMode.KEEP,
-            null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, null, null
+            null, SkillEffectLifecycleExpiryMode.ALL_AT_ONCE, null, null,
+            null
         );
     }
 }

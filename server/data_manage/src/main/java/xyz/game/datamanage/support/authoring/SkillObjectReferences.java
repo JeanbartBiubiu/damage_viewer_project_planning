@@ -36,13 +36,78 @@ public final class SkillObjectReferences {
     /** 字典和参数由保留表提供；五类对象与结果、生命周期、模式、步骤和动作从当前聚合生成。 */
     public static List<Reference> extractAndValidate(String gameId, List<Aggregate> aggregates,
                                                     Set<Target> dictionaryAndParameters) {
+        return extractAndValidate(gameId, aggregates, aggregates, dictionaryAndParameters);
+    }
+
+    /** 只检查本次来源；其余组成仅在被引用时提供目标身份。 */
+    public static List<Reference> extractAndValidate(String gameId, List<Aggregate> sources,
+                                                    List<Aggregate> context,
+                                                    Set<Target> dictionaryAndParameters) {
         Set<Target> targets = new HashSet<>(dictionaryAndParameters);
-        for (Aggregate aggregate : aggregates) index(aggregate, targets);
         List<Reference> references = new ArrayList<>();
-        for (Aggregate aggregate : aggregates) {
+        for (Aggregate aggregate : sources) {
             Collector collector = new Collector(gameId, aggregate, references);
             collector.collect();
         }
+        Set<Aggregate> needed = new LinkedHashSet<>(sources);
+        for (Aggregate aggregate : needed) index(aggregate, targets);
+        for (Aggregate aggregate : context) {
+            if (!needed.contains(aggregate)) indexReferenced(aggregate, references, targets);
+        }
+        validateTargets(references, targets);
+        return List.copyOf(new LinkedHashSet<>(references));
+    }
+
+    static boolean belongsTo(Target target, Aggregate aggregate) {
+        if (!target.skillKey().equals(aggregate.skillKey()) || !target.key().equals(aggregate.key())) return false;
+        return switch (target.type()) {
+            case FORMULA -> aggregate.type() == SourceType.FORMULA;
+            case EFFECT, RESULT, LIFECYCLE -> aggregate.type() == SourceType.EFFECT;
+            case STATE, OPTION -> aggregate.type() == SourceType.STATE;
+            case PROCESS, STEP -> aggregate.type() == SourceType.PROCESS;
+            case ACTION -> aggregate.type() == SourceType.TRIGGER;
+            default -> false;
+        };
+    }
+
+    static void validateExistingTargets(List<Reference> references, List<Aggregate> context,
+                                        Set<Target> dictionaryAndParameters) {
+        Set<Target> targets = new HashSet<>(dictionaryAndParameters);
+        for (Aggregate aggregate : context) {
+            indexReferenced(aggregate, references, targets);
+        }
+        validateTargets(references, targets);
+    }
+
+    private static void indexReferenced(Aggregate aggregate, List<Reference> references, Set<Target> targets) {
+        for (Reference ref : references) {
+            Target target = ref.target();
+            if (!belongsTo(target, aggregate) || targets.contains(target)) continue;
+            JsonNode data = aggregate.data();
+            if (data == null || !data.isObject()) continue;
+            switch (target.type()) {
+                case FORMULA, EFFECT, STATE, PROCESS -> targets.add(target);
+                case LIFECYCLE -> { if (present(data.get("lifecycle"))) targets.add(target); }
+                case RESULT -> indexReferencedChild(target, data.path("results"), "resultKey", targets);
+                case STEP -> indexReferencedChild(target, data.path("steps"), "stepKey", targets);
+                case ACTION -> indexReferencedChild(target, data.path("actions"), "actionKey", targets);
+                case OPTION -> {
+                    if ("MODE".equals(text(data, "stateType")))
+                        indexReferencedChild(target, data.path("detail").path("options"), "optionKey", targets);
+                }
+                default -> { }
+            }
+        }
+    }
+
+    private static void indexReferencedChild(Target target, JsonNode children, String keyField, Set<Target> targets) {
+        int matches = 0;
+        for (JsonNode child : children) if (target.subKey().equals(text(child, keyField))) matches++;
+        if (matches == 1) targets.add(target);
+        // 缺失和重复都不能唯一定位；由调用方输出带来源位置的引用错误。
+    }
+
+    private static void validateTargets(List<Reference> references, Set<Target> targets) {
         List<Map<String, String>> issues = new ArrayList<>();
         for (Reference ref : references) {
             if (!targets.contains(ref.target())) {
@@ -55,7 +120,6 @@ public final class SkillObjectReferences {
             }
         }
         if (!issues.isEmpty()) throw invalid("引用目标不存在，不能保存或移除被引用对象", issues);
-        return List.copyOf(new LinkedHashSet<>(references));
     }
 
     private static void index(Aggregate aggregate, Set<Target> targets) {
@@ -134,6 +198,9 @@ public final class SkillObjectReferences {
 
         private void effect() {
             JsonNode data = source.data();
+            String shieldEndKey = text(data.path("lifecycle"), "endWhenShieldEndsResultKey");
+            if (shieldEndKey != null) add("lifecycle.endWhenShieldEndsResultKey", TargetType.RESULT,
+                source.skillKey(), source.key(), shieldEndKey);
             formulas(data.path("lifecycle"), "lifecycle", "durationValue", "maxStacksValue",
                 "applicationStacksValue", "periodicIntervalValue");
             JsonNode results = array(data, "results");
@@ -236,9 +303,9 @@ public final class SkillObjectReferences {
             for (int i = 0; i < operations.size(); i++) {
                 JsonNode operation = operations.get(i);
                 String path = "stateOperations[" + i + "]";
-                local(operation, path, "stateKey", TargetType.STATE);
+                qualified(operation, path, "stateSkillKey", "stateKey", TargetType.STATE);
                 formulas(operation, path, "value");
-                child(operation, path, "optionKey", TargetType.OPTION, text(operation, "stateKey"));
+                qualifiedChild(operation, path, "stateSkillKey", "optionKey", TargetType.OPTION, text(operation, "stateKey"));
                 moment(operation.path("moment"), path + ".moment", source.key());
             }
         }
@@ -277,13 +344,16 @@ public final class SkillObjectReferences {
                     child(detail, path, "resultKey", TargetType.RESULT, text(detail, "effectKey"));
                 }
                 case "LIFECYCLE_MOMENT" -> local(detail, path, "effectKey", TargetType.LIFECYCLE);
-                case "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN" -> dictionary(detail, path, "damageTypeKey", TargetType.DAMAGE_TYPE);
+                case "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN" -> {
+                    dictionary(detail, path, "damageTypeKey", TargetType.DAMAGE_TYPE);
+                    dictionary(detail, path, "sourceSkillKey", TargetType.SKILL);
+                }
                 case "STATUS_CHANGED" -> dictionary(detail, path, "statusKey", TargetType.STATUS);
                 case "HEALTH_THRESHOLD_CROSSED" -> {
                     dictionary(detail, path, "attributeKey", TargetType.ATTRIBUTE);
                     formulas(detail, path, "thresholdValue");
                 }
-                case "INTERNAL_STATE_CHANGED" -> local(detail, path, "stateKey", TargetType.STATE);
+                case "INTERNAL_STATE_CHANGED" -> qualified(detail, path, "stateSkillKey", "stateKey", TargetType.STATE);
                 case "SPELL_SHIELD_BLOCKED" -> local(detail, path, "shieldEffectKey", TargetType.EFFECT);
                 case "SOURCE_INITIALIZED", "BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "CONTROL_RECEIVED", "ENTITY_DIED", "ENTITY_UNTARGETABLE", "KILL", "TAKEDOWN" -> { }
                 default -> throw shape("eventSource", "未知触发事件类型");
@@ -303,12 +373,12 @@ public final class SkillObjectReferences {
                     formulas(detail, dp, "comparisonValue");
                 }
                 case "INTERNAL_STATE_CHECK" -> {
-                    local(detail, dp, "stateKey", TargetType.STATE);
-                    child(detail, dp, "optionKey", TargetType.OPTION, text(detail, "stateKey"));
+                    qualified(detail, dp, "stateSkillKey", "stateKey", TargetType.STATE);
+                    qualifiedChild(detail, dp, "stateSkillKey", "optionKey", TargetType.OPTION, text(detail, "stateKey"));
                     formulas(detail, dp, "comparisonValue");
                 }
                 case "LIFECYCLE_CHECK" -> {
-                    local(detail, dp, "effectKey", TargetType.LIFECYCLE);
+                    qualified(detail, dp, "effectSkillKey", "effectKey", TargetType.LIFECYCLE);
                     formulas(detail, dp, "comparisonValue");
                 }
                 case "TARGET_CATEGORY_CHECK" -> { /* 固定类别不生成引用。 */ }
@@ -343,10 +413,16 @@ public final class SkillObjectReferences {
                 String dp = bp + ".detail";
                 switch (required(binding, "sourceType", bp)) {
                     case "INTERNAL_STATE" -> {
-                        local(bindingDetail, dp, "stateKey", TargetType.STATE);
-                        child(bindingDetail, dp, "optionKey", TargetType.OPTION, text(bindingDetail, "stateKey"));
+                        qualified(bindingDetail, dp, "stateSkillKey", "stateKey", TargetType.STATE);
+                        qualifiedChild(bindingDetail, dp, "stateSkillKey", "optionKey", TargetType.OPTION, text(bindingDetail, "stateKey"));
                     }
                     case "COMBAT_STATUS" -> statusSource(bindingDetail, dp);
+                    case "COMBAT_ELAPSED_TIME" -> { }
+                    case "RECENT_DAMAGE_SUM" -> {
+                        formulas(bindingDetail, dp, "windowValue");
+                        dictionary(bindingDetail, dp, "sourceSkillKey", TargetType.SKILL);
+                        dictionary(bindingDetail, dp, "damageTypeKey", TargetType.DAMAGE_TYPE);
+                    }
                     case "SOURCE_CAST_RESOURCE_COST" -> dictionary(bindingDetail, dp, "attributeKey", TargetType.ATTRIBUTE);
                     case "PRIOR_ACTION_RESULT" -> {
                         child(bindingDetail, dp, "sourceActionKey", TargetType.ACTION, source.key());
@@ -368,8 +444,8 @@ public final class SkillObjectReferences {
 
         private void statusSource(JsonNode detail, String path) {
             dictionary(detail, path, "statusKey", TargetType.STATUS);
-            local(detail, path, "sourceEffectKey", TargetType.EFFECT);
-            child(detail, path, "sourceResultKey", TargetType.RESULT, text(detail, "sourceEffectKey"));
+            qualified(detail, path, "effectSkillKey", "sourceEffectKey", TargetType.EFFECT);
+            qualifiedChild(detail, path, "effectSkillKey", "sourceResultKey", TargetType.RESULT, text(detail, "sourceEffectKey"));
         }
 
         private void moment(JsonNode moment, String path, String processKey) {
@@ -391,6 +467,21 @@ public final class SkillObjectReferences {
         private void local(JsonNode node, String path, String field, TargetType type) {
             String key = text(node, field);
             if (key != null) add(path + "." + field, type, source.skillKey(), key, "");
+        }
+
+        private void qualified(JsonNode node, String path, String skillField, String keyField, TargetType type) {
+            String key = text(node, keyField);
+            if (key == null) return;
+            String skillKey = required(node, skillField, path);
+            add(path + "." + keyField, type, skillKey, key, "");
+        }
+
+        private void qualifiedChild(JsonNode node, String path, String skillField, String field,
+                                     TargetType type, String parentKey) {
+            String subKey = text(node, field);
+            if (subKey == null) return;
+            if (parentKey == null) throw shape(path + "." + field, "引用子项缺少所属对象标识");
+            add(path + "." + field, type, required(node, skillField, path), parentKey, subKey);
         }
 
         private void dictionary(JsonNode node, String path, String field, TargetType type) {

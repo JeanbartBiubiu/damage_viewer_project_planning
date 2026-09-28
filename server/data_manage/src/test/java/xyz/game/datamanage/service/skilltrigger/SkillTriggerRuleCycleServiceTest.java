@@ -40,6 +40,14 @@ import xyz.game.datamanage.model.skilleffect.SkillEffectTarget;
 import xyz.game.datamanage.model.skillinternalstate.SkillInternalStateType;
 import xyz.game.datamanage.model.skillprocess.SkillProcessStateOperationKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectActionRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerCrossSkillEdgeRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageDeliveryKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageOriginKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerHealthDirection;
@@ -170,7 +178,7 @@ class SkillTriggerRuleCycleServiceTest {
         ));
         when(mapper.listInternalStateEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new SkillTriggerInternalStateEventRow(
-                GAME_ID, SKILL_KEY, "ready", "icd", SkillTriggerInternalStateChangeKind.COOLDOWN_READY
+                GAME_ID, SKILL_KEY, "ready", SKILL_KEY, "icd", SkillTriggerInternalStateChangeKind.COOLDOWN_READY
             )
         ));
         when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
@@ -189,7 +197,7 @@ class SkillTriggerRuleCycleServiceTest {
                 "ready",
                 new SkillTriggerEventSource(
                     SkillTriggerEventType.INTERNAL_STATE_CHANGED,
-                    new SkillTriggerInternalStateEventDetail("icd", SkillTriggerInternalStateChangeKind.COOLDOWN_READY)
+                    new SkillTriggerInternalStateEventDetail(SKILL_KEY, "icd", SkillTriggerInternalStateChangeKind.COOLDOWN_READY)
                 ),
                 List.of(startProcessAction("start", PROCESS_KEY))
             )
@@ -207,12 +215,115 @@ class SkillTriggerRuleCycleServiceTest {
                     "ready_reset",
                     new SkillTriggerEventSource(
                         SkillTriggerEventType.INTERNAL_STATE_CHANGED,
-                        new SkillTriggerInternalStateEventDetail("icd", SkillTriggerInternalStateChangeKind.COOLDOWN_READY)
+                        new SkillTriggerInternalStateEventDetail(SKILL_KEY, "icd", SkillTriggerInternalStateChangeKind.COOLDOWN_READY)
                     ),
                     List.of(startProcessAction("start", PROCESS_KEY))
                 )
             )
         );
+    }
+
+    @Test
+    void crossSkillStateCycleUsesOwnerAndStateKeyTogether() {
+        String otherSkill = "other_skill";
+        when(mapper.listCrossSkillCycleEdges(GAME_ID)).thenReturn(List.of(
+            new SkillTriggerCrossSkillEdgeRow(SKILL_KEY, otherSkill)));
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            ruleRow("cross_state", "跨技能状态", SkillTriggerEventType.INTERNAL_STATE_CHANGED)));
+        when(mapper.listInternalStateEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerInternalStateEventRow(GAME_ID, SKILL_KEY, "cross_state", otherSkill,
+                "counter", SkillTriggerInternalStateChangeKind.VALUE_CHANGED)));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.startActionRow("cross_state", "start")));
+        when(mapper.listProcessActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.processActionRow("cross_state", "start", PROCESS_KEY)));
+        when(mapper.listProcessShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.crossSkillCounterOp(PROCESS_KEY, otherSkill, "counter")));
+        assertCode("400.TRIGGER_RULE_CYCLE_UNGUARDED",
+            () -> new SkillTriggerCycleValidator(mapper).validateCurrentSkill(GAME_ID, SKILL_KEY));
+
+        when(mapper.listProcessShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.crossSkillCounterOp(PROCESS_KEY, SKILL_KEY, "counter")));
+        new SkillTriggerCycleValidator(mapper).validateCurrentSkill(GAME_ID, SKILL_KEY);
+    }
+
+    @Test
+    void damageSourceSkillFilterConnectsOnlyMatchingSkillsAndCooldownStillProtects() {
+        String otherSkill = "other_skill";
+        when(mapper.listCrossSkillCycleEdges(GAME_ID)).thenReturn(List.of(
+            new SkillTriggerCrossSkillEdgeRow(SKILL_KEY, otherSkill)));
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            ruleRow("damage_a", "伤害甲", SkillTriggerEventType.DAMAGE_DEALT)));
+        when(mapper.listRules(GAME_ID, otherSkill)).thenReturn(List.of(
+            ruleRowForSkill(otherSkill, "damage_b", SkillTriggerEventType.DAMAGE_DEALT)));
+        when(mapper.listDamageEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerDamageEventRow(GAME_ID, SKILL_KEY, "damage_a", otherSkill,
+                null, SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY)));
+        when(mapper.listDamageEventsForSkill(GAME_ID, otherSkill)).thenReturn(List.of(
+            new SkillTriggerDamageEventRow(GAME_ID, otherSkill, "damage_b", SKILL_KEY,
+                null, SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY)));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.executeActionRow("damage_a", "hit")));
+        when(mapper.listActionsForSkill(GAME_ID, otherSkill)).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow(GAME_ID, otherSkill,
+                "damage_b", "hit", "伤害", xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType.EXECUTE_EFFECT,
+                0, SkillTriggerTargetContext.CURRENT_TARGET)));
+        when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.effectActionRow("damage_a", "hit", EFFECT_KEY)));
+        when(mapper.listEffectActionsForSkill(GAME_ID, otherSkill)).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectActionRow(GAME_ID, otherSkill,
+                "damage_b", "hit", EFFECT_KEY)));
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.damageShape(EFFECT_KEY, RESULT_KEY)));
+        when(mapper.listEffectShapes(GAME_ID, otherSkill)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.damageShape(EFFECT_KEY, RESULT_KEY)));
+        assertCode("400.TRIGGER_RULE_CYCLE_UNGUARDED",
+            () -> new SkillTriggerCycleValidator(mapper).validateCurrentSkill(GAME_ID, SKILL_KEY));
+
+        when(mapper.listCooldownsForSkill(GAME_ID, otherSkill)).thenReturn(List.of(
+            new SkillTriggerPerTargetCooldownRow(GAME_ID, otherSkill, "damage_b",
+                SkillNumericValue.fixed(java.math.BigDecimal.ONE), SkillTriggerTargetContext.CURRENT_TARGET)));
+        new SkillTriggerCycleValidator(mapper).validateCurrentSkill(GAME_ID, SKILL_KEY);
+    }
+
+    @Test
+    void wildcardDamageSourcesStillDetectCrossSkillCycle() {
+        String otherSkill = "other_skill";
+        when(mapper.listCrossSkillCycleEdges(GAME_ID)).thenReturn(List.of(
+            new SkillTriggerCrossSkillEdgeRow(SKILL_KEY, otherSkill)));
+        when(mapper.listRules(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            ruleRow("damage_a", "伤害甲", SkillTriggerEventType.DAMAGE_DEALT)));
+        when(mapper.listRules(GAME_ID, otherSkill)).thenReturn(List.of(
+            ruleRowForSkill(otherSkill, "damage_b", SkillTriggerEventType.DAMAGE_DEALT)));
+        when(mapper.listDamageEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            new SkillTriggerDamageEventRow(GAME_ID, SKILL_KEY, "damage_a", null,
+                null, SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY)));
+        when(mapper.listDamageEventsForSkill(GAME_ID, otherSkill)).thenReturn(List.of(
+            new SkillTriggerDamageEventRow(GAME_ID, otherSkill, "damage_b", null,
+                null, SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY)));
+        when(mapper.listActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.executeActionRow("damage_a", "hit")));
+        when(mapper.listActionsForSkill(GAME_ID, otherSkill)).thenReturn(List.of(
+            new SkillTriggerActionRow(GAME_ID, otherSkill, "damage_b", "hit", "伤害",
+                SkillTriggerActionType.EXECUTE_EFFECT, 0, SkillTriggerTargetContext.CURRENT_TARGET)));
+        when(mapper.listEffectActionsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.effectActionRow("damage_a", "hit", EFFECT_KEY)));
+        when(mapper.listEffectActionsForSkill(GAME_ID, otherSkill)).thenReturn(List.of(
+            new SkillTriggerEffectActionRow(GAME_ID, otherSkill, "damage_b", "hit", EFFECT_KEY)));
+        when(mapper.listEffectShapes(GAME_ID, SKILL_KEY)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.damageShape(EFFECT_KEY, RESULT_KEY)));
+        when(mapper.listEffectShapes(GAME_ID, otherSkill)).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.damageShape(EFFECT_KEY, RESULT_KEY)));
+
+        assertCode("400.TRIGGER_RULE_CYCLE_UNGUARDED",
+            () -> new SkillTriggerCycleValidator(mapper).validateCurrentSkill(GAME_ID, SKILL_KEY));
+    }
+
+    private static SkillTriggerRuleRow ruleRowForSkill(String skillKey, String ruleKey, SkillTriggerEventType eventType) {
+        SkillTriggerRuleRow row = ruleRow(ruleKey, ruleKey, eventType);
+        return new SkillTriggerRuleRow(GAME_ID, skillKey, ruleKey, row.name(), row.description(), row.sortOrder(),
+            eventType, row.createdAt(), row.updatedAt(), row.eventSourceJson(), row.conditionGroupsJson(),
+            row.actionsJson(), row.limitsJson());
     }
 
     @Test
@@ -593,7 +704,7 @@ class SkillTriggerRuleCycleServiceTest {
         ));
         when(mapper.listDamageEventsForSkill(GAME_ID, SKILL_KEY)).thenReturn(List.of(
             new xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventRow(
-                GAME_ID, SKILL_KEY, damageRule, null,
+                GAME_ID, SKILL_KEY, damageRule, null, null,
                 xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageDeliveryKind.ANY,
                 xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageOriginKind.ANY
             )
@@ -640,7 +751,7 @@ class SkillTriggerRuleCycleServiceTest {
             .thenReturn(xyz.game.datamanage.model.skilleffect.SkillEffectLifecycleInstanceScope.SOURCE_TARGET);
         var condition = new xyz.game.datamanage.model.skilltrigger.SkillTriggerCondition("mark_present",
             xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionType.LIFECYCLE_CHECK, 0,
-            new xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleConditionDetail("mark", SkillTriggerSubject.CURRENT_TARGET,
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleConditionDetail(SKILL_KEY, "mark", SkillTriggerSubject.CURRENT_TARGET,
                 xyz.game.datamanage.model.skilltrigger.SkillTriggerLifecycleCheckKind.PRESENT, null, null));
         var group = new xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroup("g", "条件", 0, List.of(condition));
         assertCode("400.TRIGGER_RULE_CYCLE_UNGUARDED", () -> service.create(GAME_ID, SKILL_KEY,

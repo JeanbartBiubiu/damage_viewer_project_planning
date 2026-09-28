@@ -212,6 +212,10 @@ public class SkillTriggerRuntimeInputAnalyzer {
                 );
             }
             if (shouldCollectStateDefinitionValues(row) && row.operationStateKey() != null) {
+                // 外部状态定义不能借本技能同名参数满足运行输入绑定；最终守卫检查其依赖。
+                if (row.operationStateSkillKey() != null && !skillKey.equals(row.operationStateSkillKey())) {
+                    continue;
+                }
                 for (String formulaKey : nullToEmpty(
                     mapper.listInternalStateValues(gameId, skillKey, row.operationStateKey())
                 )) {

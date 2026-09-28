@@ -3,6 +3,7 @@ package xyz.game.datamanage.service.skilltrigger;
 import xyz.game.datamanage.model.value.SkillNumericValue;
 
 import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
@@ -94,100 +95,96 @@ public class SkillTriggerCycleValidator {
     public void validateCurrentSkill(String gameId, String skillKey) {
         mapper.listRulesForUpdate(gameId, skillKey);
         Graph graph = loadGraph(gameId, skillKey);
-        List<Edge> cycle = findStableCycle(graph);
+        List<Edge> cycle = findStableCycle(graph, skillKey);
         if (cycle != null && !cycle.isEmpty()) {
             throw unguardedCycle(cycle);
         }
     }
 
     private Graph loadGraph(String gameId, String skillKey) {
-        List<SkillTriggerRuleRow> rules = nullToEmpty(mapper.listRules(gameId, skillKey));
         Map<String, RuleNode> nodes = new LinkedHashMap<>();
-        Set<String> protectedRules = new LinkedHashSet<>();
-        for (SkillTriggerPerTargetCooldownRow row : nullToEmpty(mapper.listCooldownsForSkill(gameId, skillKey))) {
-            protectedRules.add(row.ruleKey());
-        }
-        Map<String, SkillTriggerProcessEventRow> processEvents = indexProcessEvents(
-            mapper.listProcessEventsForSkill(gameId, skillKey)
-        );
-        for (SkillTriggerProcessLimitRow row : nullToEmpty(mapper.listProcessLimitsForSkill(gameId, skillKey))) {
-            SkillTriggerProcessEventRow event = processEvents.get(row.ruleKey());
-            if (event != null
-                && event.momentType() != null
-                && Objects.equals(event.processKey(), row.processKey())) {
+        List<ProducedCandidate> producedCandidates = new ArrayList<>();
+        for (String ownerSkillKey : connectedSkills(gameId, skillKey)) {
+            List<SkillTriggerRuleRow> rules = nullToEmpty(mapper.listRules(gameId, ownerSkillKey));
+            Set<String> protectedRules = new LinkedHashSet<>();
+            for (SkillTriggerPerTargetCooldownRow row : nullToEmpty(mapper.listCooldownsForSkill(gameId, ownerSkillKey))) {
                 protectedRules.add(row.ruleKey());
             }
+            Map<String, SkillTriggerProcessEventRow> processEvents = indexProcessEvents(
+                mapper.listProcessEventsForSkill(gameId, ownerSkillKey));
+            for (SkillTriggerProcessLimitRow row : nullToEmpty(mapper.listProcessLimitsForSkill(gameId, ownerSkillKey))) {
+                SkillTriggerProcessEventRow event = processEvents.get(row.ruleKey());
+                if (event != null && event.momentType() != null
+                    && Objects.equals(event.processKey(), row.processKey())) protectedRules.add(row.ruleKey());
+            }
+            Map<String, SkillTriggerResultEventRow> resultEvents = indexResultEvents(mapper.listResultEventsForSkill(gameId, ownerSkillKey));
+            Map<String, SkillTriggerLifecycleEventRow> lifecycleEvents = indexLifecycleEvents(mapper.listLifecycleEventsForSkill(gameId, ownerSkillKey));
+            Map<String, SkillTriggerStatusEventRow> statusEvents = indexStatusEvents(mapper.listStatusEventsForSkill(gameId, ownerSkillKey));
+            Map<String, SkillTriggerHealthThresholdEventRow> healthEvents = indexHealthEvents(mapper.listHealthEventsForSkill(gameId, ownerSkillKey));
+            Map<String, SkillTriggerInternalStateEventRow> internalStateEvents = indexInternalStateEvents(mapper.listInternalStateEventsForSkill(gameId, ownerSkillKey));
+            Map<String, SkillTriggerSubjectEventRow> subjectEvents = indexSubjectEvents(mapper.listSubjectEventsForSkill(gameId, ownerSkillKey));
+            Map<String, SkillTriggerDamageEventRow> damageEvents = indexDamageEvents(mapper.listDamageEventsForSkill(gameId, ownerSkillKey));
+            Map<String, SkillTriggerLinkEventRow> linkEvents = indexLinkEvents(mapper.listLinkEventsForSkill(gameId, ownerSkillKey));
+            for (SkillTriggerRuleRow rule : rules) {
+                nodes.put(nodeKey(ownerSkillKey, rule.ruleKey()), new RuleNode(ownerSkillKey, rule.ruleKey(),
+                    rule.eventType(), protectedRules.contains(rule.ruleKey()),
+                    eventFilter(rule, processEvents.get(rule.ruleKey()), resultEvents.get(rule.ruleKey()),
+                        lifecycleEvents.get(rule.ruleKey()), statusEvents.get(rule.ruleKey()),
+                        healthEvents.get(rule.ruleKey()), internalStateEvents.get(rule.ruleKey()),
+                        subjectEvents.get(rule.ruleKey()), damageEvents.get(rule.ruleKey()), linkEvents.get(rule.ruleKey()))));
+            }
+            Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey = indexEffects(mapper.listEffectShapes(gameId, ownerSkillKey));
+            Map<String, List<SkillTriggerProcessShapeRow>> processesByKey = indexProcesses(mapper.listProcessShapes(gameId, ownerSkillKey));
+            Map<String, SkillTriggerEffectActionRow> effectActions = indexEffectActions(mapper.listEffectActionsForSkill(gameId, ownerSkillKey));
+            Map<String, SkillTriggerProcessActionRow> processActions = indexProcessActions(mapper.listProcessActionsForSkill(gameId, ownerSkillKey));
+            for (SkillTriggerActionRow action : nullToEmpty(mapper.listActionsForSkill(gameId, ownerSkillKey))) {
+                for (ProducedEvent event : producedEvents(action, effectActions, processActions,
+                    effectsByKey, processesByKey, ownerSkillKey)) {
+                    producedCandidates.add(new ProducedCandidate(ownerSkillKey, action.ruleKey(), action.actionKey(), event));
+                }
+            }
         }
-        Map<String, SkillTriggerResultEventRow> resultEvents = indexResultEvents(
-            mapper.listResultEventsForSkill(gameId, skillKey)
-        );
-        Map<String, SkillTriggerLifecycleEventRow> lifecycleEvents = indexLifecycleEvents(
-            mapper.listLifecycleEventsForSkill(gameId, skillKey)
-        );
-        Map<String, SkillTriggerStatusEventRow> statusEvents = indexStatusEvents(
-            mapper.listStatusEventsForSkill(gameId, skillKey)
-        );
-        Map<String, SkillTriggerHealthThresholdEventRow> healthEvents = indexHealthEvents(
-            mapper.listHealthEventsForSkill(gameId, skillKey)
-        );
-        Map<String, SkillTriggerInternalStateEventRow> internalStateEvents = indexInternalStateEvents(
-            mapper.listInternalStateEventsForSkill(gameId, skillKey)
-        );
-        Map<String, SkillTriggerSubjectEventRow> subjectEvents = indexSubjectEvents(
-            mapper.listSubjectEventsForSkill(gameId, skillKey)
-        );
-        Map<String, SkillTriggerDamageEventRow> damageEvents = indexDamageEvents(
-            mapper.listDamageEventsForSkill(gameId, skillKey)
-        );
-        Map<String, SkillTriggerLinkEventRow> linkEvents = indexLinkEvents(
-            mapper.listLinkEventsForSkill(gameId, skillKey)
-        );
-        for (SkillTriggerRuleRow rule : rules) {
-            nodes.put(rule.ruleKey(), new RuleNode(
-                rule.ruleKey(),
-                rule.eventType(),
-                protectedRules.contains(rule.ruleKey()),
-                eventFilter(
-                    rule,
-                    processEvents.get(rule.ruleKey()),
-                    resultEvents.get(rule.ruleKey()),
-                    lifecycleEvents.get(rule.ruleKey()),
-                    statusEvents.get(rule.ruleKey()),
-                    healthEvents.get(rule.ruleKey()),
-                    internalStateEvents.get(rule.ruleKey()),
-                    subjectEvents.get(rule.ruleKey()),
-                    damageEvents.get(rule.ruleKey()),
-                    linkEvents.get(rule.ruleKey())
-                )
-            ));
-        }
-        Map<String, List<SkillTriggerEffectShapeRow>> effectsByKey = indexEffects(
-            mapper.listEffectShapes(gameId, skillKey)
-        );
-        Map<String, List<SkillTriggerProcessShapeRow>> processesByKey = indexProcesses(
-            mapper.listProcessShapes(gameId, skillKey)
-        );
-        Map<String, SkillTriggerEffectActionRow> effectActions = indexEffectActions(
-            mapper.listEffectActionsForSkill(gameId, skillKey)
-        );
-        Map<String, SkillTriggerProcessActionRow> processActions = indexProcessActions(
-            mapper.listProcessActionsForSkill(gameId, skillKey)
-        );
         List<Edge> edges = new ArrayList<>();
-        for (SkillTriggerActionRow action : nullToEmpty(mapper.listActionsForSkill(gameId, skillKey))) {
-            List<ProducedEvent> produced = producedEvents(
-                action, effectActions, processActions, effectsByKey, processesByKey, skillKey
-            );
-            for (ProducedEvent event : produced) {
-                for (RuleNode target : nodes.values()) {
-                    if (matches(event, target.filter())) {
-                        edges.add(new Edge(action.ruleKey(), action.actionKey(), event, target.ruleKey()));
-                    }
+        for (ProducedCandidate candidate : producedCandidates) {
+            for (RuleNode target : nodes.values()) {
+                if (crossSkillMatch(candidate, target) && matches(candidate.event(), target.filter())) {
+                    edges.add(new Edge(nodeKey(candidate.skillKey(), candidate.ruleKey()), candidate.actionKey(),
+                        candidate.event(), nodeKey(target.skillKey(), target.ruleKey())));
                 }
             }
         }
         edges.sort(EDGE_ORDER);
         return new Graph(nodes, edges);
+    }
+
+    private List<String> connectedSkills(String gameId, String skillKey) {
+        Map<String, Set<String>> neighbors = new LinkedHashMap<>();
+        for (var edge : nullToEmpty(mapper.listCrossSkillCycleEdges(gameId))) {
+            neighbors.computeIfAbsent(edge.sourceSkillKey(), ignored -> new LinkedHashSet<>()).add(edge.targetSkillKey());
+            neighbors.computeIfAbsent(edge.targetSkillKey(), ignored -> new LinkedHashSet<>()).add(edge.sourceSkillKey());
+        }
+        Set<String> reached = new LinkedHashSet<>();
+        ArrayDeque<String> queue = new ArrayDeque<>();
+        reached.add(skillKey);
+        queue.add(skillKey);
+        while (!queue.isEmpty()) {
+            for (String neighbor : neighbors.getOrDefault(queue.removeFirst(), Set.of())) {
+                if (reached.add(neighbor)) queue.addLast(neighbor);
+            }
+        }
+        return reached.stream().sorted().toList();
+    }
+
+    private static boolean crossSkillMatch(ProducedCandidate source, RuleNode target) {
+        if (source.skillKey().equals(target.skillKey())) return true;
+        if (source.event().eventType() == SkillTriggerEventType.INTERNAL_STATE_CHANGED) return true;
+        return source.event().eventType() == SkillTriggerEventType.DAMAGE_PENDING
+            || source.event().eventType() == SkillTriggerEventType.DAMAGE_DEALT
+            || source.event().eventType() == SkillTriggerEventType.DAMAGE_TAKEN;
+    }
+
+    private static String nodeKey(String skillKey, String ruleKey) {
+        return skillKey + "/" + ruleKey;
     }
 
     private static EventFilter eventFilter(
@@ -225,7 +222,9 @@ public class SkillTriggerCycleValidator {
                 : EventFilter.health(healthEvent.subject(), healthEvent.direction(), healthEvent.attributeKey());
             case INTERNAL_STATE_CHANGED -> internalStateEvent == null
                 ? EventFilter.none(rule.eventType())
-                : EventFilter.internalState(internalStateEvent.stateKey(), internalStateEvent.changeKind());
+                : EventFilter.internalState(
+                    internalStateEvent.stateSkillKey() == null ? rule.skillKey() : internalStateEvent.stateSkillKey(),
+                    internalStateEvent.stateKey(), internalStateEvent.changeKind());
             case ENTITY_DIED -> subjectEvent == null
                 ? EventFilter.none(rule.eventType())
                 : EventFilter.entityDied(subjectEvent.subject());
@@ -233,6 +232,7 @@ public class SkillTriggerCycleValidator {
                 ? EventFilter.none(rule.eventType())
                 : EventFilter.damage(
                     rule.eventType(),
+                    damageEvent.sourceSkillKey(),
                     damageEvent.damageTypeKey(),
                     damageEvent.deliveryKind(),
                     damageEvent.originKind()
@@ -361,7 +361,7 @@ public class SkillTriggerCycleValidator {
             if (row.bindingEffectKey() != null) {
                 produced.addAll(produceExecuteEffect(row.bindingEffectKey(), effectsByKey, visitedEffects, skillKey));
             }
-            produced.addAll(produceStateOperation(row));
+            produced.addAll(produceStateOperation(row, skillKey));
         }
         if (!includeStart && produced.isEmpty()) {
             produced.add(ProducedEvent.processMoment(processKey, SkillProcessMomentType.PROCESS_COMPLETE, null));
@@ -370,13 +370,14 @@ public class SkillTriggerCycleValidator {
         return produced;
     }
 
-    private static List<ProducedEvent> produceStateOperation(SkillTriggerProcessShapeRow row) {
+    private static List<ProducedEvent> produceStateOperation(SkillTriggerProcessShapeRow row, String skillKey) {
         if (row.operation() == null || row.operationStateKey() == null) {
             return List.of();
         }
         if (VALUE_OPS.contains(row.operation())
             && (row.stateType() == SkillInternalStateType.COUNTER || row.stateType() == SkillInternalStateType.AMMO)) {
             return List.of(ProducedEvent.internalState(
+                row.operationStateSkillKey() == null ? skillKey : row.operationStateSkillKey(),
                 row.operationStateKey(),
                 SkillTriggerInternalStateChangeKind.VALUE_CHANGED
             ));
@@ -384,12 +385,14 @@ public class SkillTriggerCycleValidator {
         if (row.operation() == SkillProcessStateOperationKind.SELECT
             && row.stateType() == SkillInternalStateType.MODE) {
             return List.of(ProducedEvent.internalState(
+                row.operationStateSkillKey() == null ? skillKey : row.operationStateSkillKey(),
                 row.operationStateKey(),
                 SkillTriggerInternalStateChangeKind.OPTION_SELECTED
             ));
         }
         if (FLAG_OPS.contains(row.operation()) && row.stateType() == SkillInternalStateType.FLAG) {
             return List.of(ProducedEvent.internalState(
+                row.operationStateSkillKey() == null ? skillKey : row.operationStateSkillKey(),
                 row.operationStateKey(),
                 SkillTriggerInternalStateChangeKind.FLAG_CHANGED
             ));
@@ -397,6 +400,7 @@ public class SkillTriggerCycleValidator {
         if (row.operation() == SkillProcessStateOperationKind.RESET
             && row.stateType() == SkillInternalStateType.INTERNAL_COOLDOWN) {
             return List.of(ProducedEvent.internalState(
+                row.operationStateSkillKey() == null ? skillKey : row.operationStateSkillKey(),
                 row.operationStateKey(),
                 SkillTriggerInternalStateChangeKind.COOLDOWN_READY
             ));
@@ -447,6 +451,7 @@ public class SkillTriggerCycleValidator {
                 if (row.target() == SkillEffectTarget.TARGET) {
                     produced.add(ProducedEvent.damage(
                         SkillTriggerEventType.DAMAGE_DEALT,
+                        skillKey,
                         row.damageTypeKey(),
                         row.damageDeliveryKind(),
                         row.damageOriginKind()
@@ -458,12 +463,14 @@ public class SkillTriggerCycleValidator {
                 } else if (row.target() == SkillEffectTarget.SOURCE) {
                     produced.add(ProducedEvent.damage(
                         SkillTriggerEventType.DAMAGE_PENDING,
+                        skillKey,
                         row.damageTypeKey(),
                         row.damageDeliveryKind(),
                         row.damageOriginKind()
                     ));
                     produced.add(ProducedEvent.damage(
                         SkillTriggerEventType.DAMAGE_TAKEN,
+                        skillKey,
                         row.damageTypeKey(),
                         row.damageDeliveryKind(),
                         row.damageOriginKind()
@@ -567,6 +574,7 @@ public class SkillTriggerCycleValidator {
                     || filter.failureReason() == null
                     || produced.failureReason() == filter.failureReason());
             case INTERNAL_STATE_CHANGED -> Objects.equals(produced.stateKey(), filter.stateKey())
+                && Objects.equals(produced.sourceSkillKey(), filter.sourceSkillKey())
                 && produced.changeKind() == filter.changeKind();
             case STATUS_CHANGED -> Objects.equals(produced.statusKey(), filter.statusKey())
                 && produced.change() == filter.change();
@@ -574,7 +582,9 @@ public class SkillTriggerCycleValidator {
                 && produced.direction() == filter.direction()
                 && (produced.attributeKey() == null || Objects.equals(produced.attributeKey(), filter.attributeKey()));
             case ENTITY_DIED -> produced.subject() == filter.subject();
-            case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN -> damageMatches(produced.damage(), filter.damage());
+            case DAMAGE_PENDING, DAMAGE_DEALT, DAMAGE_TAKEN ->
+                (filter.sourceSkillKey() == null || Objects.equals(filter.sourceSkillKey(), produced.sourceSkillKey()))
+                    && damageMatches(produced.damage(), filter.damage());
             case KILL -> true;
             case TAKEDOWN -> true;
             case SPELL_SHIELD_BLOCKED -> true;
@@ -600,7 +610,7 @@ public class SkillTriggerCycleValidator {
                 || filter.originKind().name().equals(produced.originKind().name()));
     }
 
-    private List<Edge> findStableCycle(Graph graph) {
+    private List<Edge> findStableCycle(Graph graph, String changedSkillKey) {
         Map<String, List<Edge>> outgoing = new LinkedHashMap<>();
         for (String ruleKey : graph.nodes().keySet()) {
             outgoing.put(ruleKey, new ArrayList<>());
@@ -615,13 +625,36 @@ public class SkillTriggerCycleValidator {
         for (List<Edge> edges : outgoing.values()) {
             edges.sort(EDGE_ORDER);
         }
-        Set<String> visiting = new LinkedHashSet<>();
-        Set<String> visited = new LinkedHashSet<>();
-        Map<String, Edge> parent = new LinkedHashMap<>();
-        for (String ruleKey : graph.nodes().keySet()) {
-            List<Edge> cycle = dfs(ruleKey, outgoing, visiting, visited, parent);
-            if (cycle != null) {
-                return cycle;
+        for (RuleNode changed : graph.nodes().values()) {
+            if (!changedSkillKey.equals(changed.skillKey())) continue;
+            String start = nodeKey(changed.skillKey(), changed.ruleKey());
+            for (Edge first : outgoing.getOrDefault(start, List.of())) {
+                if (first.targetRuleKey().equals(start)) return List.of(first);
+                ArrayDeque<String> queue = new ArrayDeque<>();
+                Map<String, Edge> parent = new LinkedHashMap<>();
+                queue.add(first.targetRuleKey());
+                parent.put(first.targetRuleKey(), first);
+                while (!queue.isEmpty()) {
+                    String current = queue.removeFirst();
+                    for (Edge edge : outgoing.getOrDefault(current, List.of())) {
+                        if (edge.targetRuleKey().equals(start)) {
+                            List<Edge> cycle = new ArrayList<>();
+                            String cursor = current;
+                            while (!cursor.equals(first.targetRuleKey())) {
+                                Edge step = parent.get(cursor);
+                                cycle.add(0, step);
+                                cursor = step.sourceRuleKey();
+                            }
+                            cycle.add(0, first);
+                            cycle.add(edge);
+                            return cycle;
+                        }
+                        if (!parent.containsKey(edge.targetRuleKey())) {
+                            parent.put(edge.targetRuleKey(), edge);
+                            queue.addLast(edge.targetRuleKey());
+                        }
+                    }
+                }
             }
         }
         return null;
@@ -889,7 +922,10 @@ public class SkillTriggerCycleValidator {
         return values == null ? List.of() : values;
     }
 
-    private record RuleNode(String ruleKey, SkillTriggerEventType eventType, boolean protectedRule, EventFilter filter) {
+    private record RuleNode(String skillKey, String ruleKey, SkillTriggerEventType eventType, boolean protectedRule, EventFilter filter) {
+    }
+
+    private record ProducedCandidate(String skillKey, String ruleKey, String actionKey, ProducedEvent event) {
     }
 
     private record Graph(Map<String, RuleNode> nodes, List<Edge> edges) {
@@ -932,6 +968,7 @@ public class SkillTriggerCycleValidator {
 
         static ProducedEvent damage(
             SkillTriggerEventType eventType,
+            String sourceSkillKey,
             String damageTypeKey,
             SkillEffectDamageDeliveryKind deliveryKind,
             SkillEffectDamageOriginKind originKind
@@ -940,7 +977,7 @@ public class SkillTriggerCycleValidator {
                 eventType,
                 null, null, null, null, null, null, null, null, null, null, null, null, null,
                 new DamageProduced(damageTypeKey, deliveryKind, originKind),
-                null, null
+                sourceSkillKey, null
             );
         }
 
@@ -1001,10 +1038,10 @@ public class SkillTriggerCycleValidator {
             );
         }
 
-        static ProducedEvent internalState(String stateKey, SkillTriggerInternalStateChangeKind changeKind) {
+        static ProducedEvent internalState(String stateSkillKey, String stateKey, SkillTriggerInternalStateChangeKind changeKind) {
             return new ProducedEvent(
                 SkillTriggerEventType.INTERNAL_STATE_CHANGED,
-                null, null, null, null, null, null, null, null, null, null, null, stateKey, changeKind, null, null, null
+                null, null, null, null, null, null, null, null, null, null, null, stateKey, changeKind, null, stateSkillKey, null
             );
         }
     }
@@ -1037,6 +1074,7 @@ public class SkillTriggerCycleValidator {
 
         static EventFilter damage(
             SkillTriggerEventType eventType,
+            String sourceSkillKey,
             String damageTypeKey,
             SkillTriggerDamageDeliveryKind deliveryKind,
             SkillTriggerDamageOriginKind originKind
@@ -1045,7 +1083,7 @@ public class SkillTriggerCycleValidator {
                 eventType,
                 null, null, null, null, null, null, null, null, null, null, null, null, null,
                 new DamageFilter(damageTypeKey, deliveryKind, originKind),
-                null,
+                sourceSkillKey,
                 false,
                 null
             );
@@ -1115,10 +1153,10 @@ public class SkillTriggerCycleValidator {
             );
         }
 
-        static EventFilter internalState(String stateKey, SkillTriggerInternalStateChangeKind changeKind) {
+        static EventFilter internalState(String stateSkillKey, String stateKey, SkillTriggerInternalStateChangeKind changeKind) {
             return new EventFilter(
                 SkillTriggerEventType.INTERNAL_STATE_CHANGED,
-                null, null, null, null, null, null, null, null, null, null, null, stateKey, changeKind, null, null, false, null
+                null, null, null, null, null, null, null, null, null, null, null, stateKey, changeKind, null, stateSkillKey, false, null
             );
         }
     }

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 public record SkillTriggerDamageEventDetail(
+    String sourceSkillKey,
     String damageTypeKey,
     SkillTriggerDamageDeliveryKind deliveryKind,
     SkillTriggerDamageOriginKind originKind,
@@ -17,17 +18,19 @@ public record SkillTriggerDamageEventDetail(
 ) implements SkillTriggerEventDetail {
 
     public SkillTriggerDamageEventDetail {
+        sourceSkillKey = sourceSkillKey == null || sourceSkillKey.isBlank() ? null : sourceSkillKey.trim();
         damageTypeKey = damageTypeKey == null ? null : damageTypeKey.trim();
         foreignFields = SkillTriggerDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillTriggerDetailFieldCapture.normalize(unknownFields);
     }
 
     public SkillTriggerDamageEventDetail(
+        String sourceSkillKey,
         String damageTypeKey,
         SkillTriggerDamageDeliveryKind deliveryKind,
         SkillTriggerDamageOriginKind originKind
     ) {
-        this(damageTypeKey, deliveryKind, originKind, Set.of(), Set.of());
+        this(sourceSkillKey, damageTypeKey, deliveryKind, originKind, Set.of(), Set.of());
     }
 
     @JsonCreator
@@ -37,7 +40,7 @@ public record SkillTriggerDamageEventDetail(
         @JsonProperty("originKind") SkillTriggerDamageOriginKind originKind,
         @JsonProperty("processKey") JsonNode processKey,
         @JsonProperty("moment") JsonNode moment,
-        @JsonProperty("sourceSkillKey") JsonNode sourceSkillKey,
+        @JsonProperty("sourceSkillKey") String sourceSkillKey,
         @JsonProperty("useKind") JsonNode useKind,
         @JsonProperty("effectKey") JsonNode effectKey,
         @JsonProperty("resultKey") JsonNode resultKey,
@@ -51,13 +54,13 @@ public record SkillTriggerDamageEventDetail(
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillTriggerDamageEventDetail(
+            sourceSkillKey,
             damageTypeKey,
             deliveryKind,
             originKind,
             SkillTriggerDetailFieldCapture.captureForeign(
                 "processKey", processKey,
                 "moment", moment,
-                "sourceSkillKey", sourceSkillKey,
                 "useKind", useKind,
                 "effectKey", effectKey,
                 "resultKey", resultKey,

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 public record SkillTriggerInternalStateEventDetail(
+    String stateSkillKey,
     String stateKey,
     SkillTriggerInternalStateChangeKind changeKind,
     @JsonIgnore Set<String> foreignFields,
@@ -16,23 +17,26 @@ public record SkillTriggerInternalStateEventDetail(
 ) implements SkillTriggerEventDetail {
 
     public SkillTriggerInternalStateEventDetail {
+        stateSkillKey = trimToNull(stateSkillKey);
         stateKey = trimToNull(stateKey);
         foreignFields = SkillTriggerDetailFieldCapture.normalize(foreignFields);
         unknownFields = SkillTriggerDetailFieldCapture.normalize(unknownFields);
     }
 
-    public SkillTriggerInternalStateEventDetail(String stateKey, SkillTriggerInternalStateChangeKind changeKind) {
-        this(stateKey, changeKind, Set.of(), Set.of());
+    public SkillTriggerInternalStateEventDetail(String stateSkillKey, String stateKey, SkillTriggerInternalStateChangeKind changeKind) {
+        this(stateSkillKey, stateKey, changeKind, Set.of(), Set.of());
     }
 
     @JsonCreator
     static SkillTriggerInternalStateEventDetail fromJson(
+        @JsonProperty("stateSkillKey") String stateSkillKey,
         @JsonProperty("stateKey") String stateKey,
         @JsonProperty("changeKind") SkillTriggerInternalStateChangeKind changeKind,
         @JsonProperty("effectKey") JsonNode effectKey,
         @JsonAnySetter Map<String, JsonNode> unknown
     ) {
         return new SkillTriggerInternalStateEventDetail(
+            stateSkillKey,
             stateKey,
             changeKind,
             SkillTriggerDetailFieldCapture.captureForeign("effectKey", effectKey),

@@ -18,6 +18,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
@@ -107,6 +108,7 @@ public class SkillInternalStateService {
             throw keyExists();
         }
         List<FormulaRef> refs = collectAndValidateDetail(values, true);
+        requireAmmoRecoveryStartCondition(values);
         lockAndValidateFormulas(gameId, skillKey, refs);
         try {
             mapper.insertState(
@@ -150,6 +152,7 @@ public class SkillInternalStateService {
         }
         throwIfInvalid(issues);
         List<FormulaRef> refs = collectAndValidateDetail(values, false);
+        requireAmmoRecoveryStartCondition(values);
         lockAndValidateFormulas(gameId, skillKey, refs);
         try {
             if (values.stateType() == SkillInternalStateType.MODE) {
@@ -190,6 +193,100 @@ public class SkillInternalStateService {
             if (mapper.deleteState(gameId, skillKey, stateKey) == 0) {
                 throw stateNotFound(stateKey);
             }
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+    }
+
+    public void validateConfigurationCreate(
+        String gameId, String skillKey, SkillInternalStateCreateRequest request,
+        Set<String> candidateFormulaKeys
+    ) {
+        ValidatedState values = validateCreate(request);
+        validateCandidateFormulas(collectAndValidateDetail(values, true), candidateFormulaKeys);
+        requireAmmoRecoveryStartCondition(values);
+    }
+
+    public void validateConfigurationUpdate(
+        String gameId, String skillKey, String stateKey, SkillInternalStateUpdateRequest request,
+        Set<String> candidateFormulaKeys, boolean deferRelatedReferences
+    ) {
+        ValidatedState values = validateUpdate(request, stateKey);
+        SkillInternalStateRow existing = mapper.findStateForUpdate(gameId, skillKey, stateKey);
+        if (existing == null) throw stateNotFound(stateKey);
+        List<Map<String, String>> issues = new ArrayList<>();
+        if (existing.stateType() != values.stateType()) {
+            issues.add(fieldIssue("stateType", "IMMUTABLE", "内部状态种类不能修改"));
+        }
+        if (existing.scope() != values.scope()) {
+            issues.add(fieldIssue("scope", "IMMUTABLE", "内部状态范围不能修改"));
+        }
+        throwIfInvalid(issues);
+        validateCandidateFormulas(collectAndValidateDetail(values, false), candidateFormulaKeys);
+        requireAmmoRecoveryStartCondition(values);
+        if (!deferRelatedReferences && values.stateType() == SkillInternalStateType.MODE) {
+            validateRemovedModeOptions(existing, ((SkillInternalStateModeDetail) values.detail()).options());
+        }
+    }
+
+    private void validateCandidateFormulas(List<FormulaRef> refs, Set<String> candidateFormulaKeys) {
+        List<Map<String, String>> issues = new ArrayList<>();
+        for (FormulaRef ref : refs) {
+            if (!candidateFormulaKeys.contains(ref.formulaKey())) {
+                issues.add(fieldIssue(ref.field(), "UNKNOWN_FORMULA", "技能公式不存在或不属于当前技能"));
+            }
+        }
+        if (!issues.isEmpty()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "400.INVALID_SKILL_INTERNAL_STATE_REFERENCE",
+                "内部状态引用不合法", Map.of("fieldIssues", List.copyOf(issues)));
+        }
+    }
+
+    private static void requireAmmoRecoveryStartCondition(ValidatedState values) {
+        if (values.stateType() == SkillInternalStateType.AMMO
+            && values.detail() instanceof SkillInternalStateAmmoDetail ammo
+            && ammo.recoveryStartCondition() == null) {
+            throwIfInvalid(List.of(fieldIssue("detail.recoveryStartCondition", "REQUIRED",
+                "弹药恢复启动条件不能为空")));
+        }
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void createWithinConfiguration(
+        String gameId, String skillKey, SkillInternalStateCreateRequest request,
+        Set<String> candidateFormulaKeys
+    ) {
+        validateConfigurationCreate(gameId, skillKey, request, candidateFormulaKeys);
+        if (mapper.countByKey(gameId, skillKey, request.stateKey()) > 0) throw keyExists();
+        try {
+            mapper.insertState(gameId, skillKey, request.stateKey(), request.name(), request.stateType(),
+                request.scope(), request.description(), request.sortOrder(), writeDetail(request.detail()));
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void updateWithinConfiguration(
+        String gameId, String skillKey, String stateKey, SkillInternalStateUpdateRequest request,
+        Set<String> candidateFormulaKeys, boolean deferRelatedReferences
+    ) {
+        validateConfigurationUpdate(gameId, skillKey, stateKey, request,
+            candidateFormulaKeys, deferRelatedReferences);
+        try {
+            if (mapper.updateState(gameId, skillKey, stateKey, request.name(), request.description(),
+                request.sortOrder(), writeDetail(request.detail())) == 0) throw stateNotFound(stateKey);
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+    }
+
+    /** Reverse references are checked against the transaction's final configuration. */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void deleteWithinConfiguration(String gameId, String skillKey, String stateKey) {
+        if (mapper.findStateForUpdate(gameId, skillKey, stateKey) == null) throw stateNotFound(stateKey);
+        try {
+            if (mapper.deleteState(gameId, skillKey, stateKey) == 0) throw stateNotFound(stateKey);
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex);
         }

@@ -354,6 +354,7 @@
                r.process_key AS process_key,
                j->>'operationKey' AS operation_key,
                j->>'name' AS name,
+               j->>'stateSkillKey' AS state_skill_key,
                j->>'stateKey' AS state_key,
                j->>'operation' AS operation,
                j->>'value' AS value,
@@ -413,6 +414,7 @@
                b->'detail'->>'subject' AS subject,
                b->'detail'->>'statusKey' AS status_key,
                b->'detail'->>'valueKind' AS value_kind,
+               b->'detail'->>'effectSkillKey' AS effect_skill_key,
                b->'detail'->>'sourceEffectKey' AS source_effect_key,
                b->'detail'->>'sourceResultKey' AS source_result_key
         FROM public.skill_trigger_rules r CROSS JOIN LATERAL jsonb_array_elements(r.actions) a CROSS JOIN LATERAL jsonb_array_elements(a->'runtimeInputBindings') b
@@ -433,6 +435,7 @@
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,
                r.rule_key AS rule_key,
+               r.event_source->'detail'->>'sourceSkillKey' AS source_skill_key,
                r.event_source->'detail'->>'damageTypeKey' AS damage_type_key,
                r.event_source->'detail'->>'deliveryKind' AS delivery_kind,
                r.event_source->'detail'->>'originKind' AS origin_kind
@@ -481,6 +484,7 @@
                r.rule_key AS rule_key,
                a->>'actionKey' AS action_key,
                b->>'bindingKey' AS binding_key,
+               b->'detail'->>'stateSkillKey' AS state_skill_key,
                b->'detail'->>'stateKey' AS state_key,
                b->'detail'->>'valueKind' AS value_kind,
                b->'detail'->>'optionKey' AS option_key
@@ -494,6 +498,7 @@
                r.rule_key AS rule_key,
                g->>'groupKey' AS group_key,
                c->>'conditionKey' AS condition_key,
+               c->'detail'->>'stateSkillKey' AS state_skill_key,
                c->'detail'->>'stateKey' AS state_key,
                c->'detail'->>'valueKind' AS value_kind,
                c->'detail'->>'optionKey' AS option_key,
@@ -508,6 +513,7 @@
         SELECT r.game_id AS game_id,
                r.skill_key AS skill_key,
                r.rule_key AS rule_key,
+               r.event_source->'detail'->>'stateSkillKey' AS state_skill_key,
                r.event_source->'detail'->>'stateKey' AS state_key,
                r.event_source->'detail'->>'changeKind' AS change_kind
         FROM public.skill_trigger_rules r
@@ -658,6 +664,7 @@
     <sql id="triggerRuleLifecycleConditions">
         SELECT r.game_id, r.skill_key, r.rule_key,
                g->>'groupKey' AS group_key, c->>'conditionKey' AS condition_key,
+               c->'detail'->>'effectSkillKey' AS effect_skill_key,
                c->'detail'->>'effectKey' AS effect_key
         FROM public.skill_trigger_rules r
         CROSS JOIN LATERAL jsonb_array_elements(r.condition_groups) g
@@ -674,6 +681,7 @@
                c->'detail'->>'subject' AS subject,
                c->'detail'->>'statusKey' AS status_key,
                c->'detail'->>'checkKind' AS check_kind,
+               c->'detail'->>'effectSkillKey' AS effect_skill_key,
                c->'detail'->>'sourceEffectKey' AS source_effect_key,
                c->'detail'->>'sourceResultKey' AS source_result_key,
                c->'detail'->>'comparator' AS comparator,

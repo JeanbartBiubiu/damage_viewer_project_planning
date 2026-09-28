@@ -12,6 +12,7 @@ public record SkillTriggerCombatStatusBindingDetail(
     SkillTriggerSubject subject,
     String statusKey,
     SkillTriggerCombatStatusValueKind valueKind,
+    String effectSkillKey,
     String sourceEffectKey,
     String sourceResultKey,
     @JsonIgnore Set<String> foreignFields,
@@ -20,6 +21,7 @@ public record SkillTriggerCombatStatusBindingDetail(
 
     public SkillTriggerCombatStatusBindingDetail {
         statusKey = trim(statusKey);
+        effectSkillKey = trim(effectSkillKey);
         sourceEffectKey = trim(sourceEffectKey);
         sourceResultKey = trim(sourceResultKey);
         foreignFields = SkillTriggerDetailFieldCapture.normalize(foreignFields);
@@ -30,10 +32,11 @@ public record SkillTriggerCombatStatusBindingDetail(
         SkillTriggerSubject subject,
         String statusKey,
         SkillTriggerCombatStatusValueKind valueKind,
+        String effectSkillKey,
         String sourceEffectKey,
         String sourceResultKey
     ) {
-        this(subject, statusKey, valueKind, sourceEffectKey, sourceResultKey, Set.of(), Set.of());
+        this(subject, statusKey, valueKind, effectSkillKey, sourceEffectKey, sourceResultKey, Set.of(), Set.of());
     }
 
     @JsonCreator
@@ -41,6 +44,7 @@ public record SkillTriggerCombatStatusBindingDetail(
         @JsonProperty("subject") SkillTriggerSubject subject,
         @JsonProperty("statusKey") String statusKey,
         @JsonProperty("valueKind") SkillTriggerCombatStatusValueKind valueKind,
+        @JsonProperty("effectSkillKey") String effectSkillKey,
         @JsonProperty("sourceEffectKey") String sourceEffectKey,
         @JsonProperty("sourceResultKey") String sourceResultKey,
         @JsonProperty("stateKey") JsonNode stateKey,
@@ -50,6 +54,7 @@ public record SkillTriggerCombatStatusBindingDetail(
             subject,
             statusKey,
             valueKind,
+            effectSkillKey,
             sourceEffectKey,
             sourceResultKey,
             SkillTriggerDetailFieldCapture.captureForeign("stateKey", stateKey),

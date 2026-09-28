@@ -18,6 +18,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
@@ -200,6 +201,108 @@ public class SkillFormulaService {
         }
         configurationWrites.assertNotReferenced(gameId, "FORMULA", skillKey, formulaKey,
             "409.SKILL_FORMULA_IN_USE", "技能公式已被引用，不能删除");
+        try {
+            if (formulaMapper.delete(gameId, skillKey, formulaKey) == 0) {
+                throw formulaNotFound(formulaKey);
+            }
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+    }
+
+    /** Validate against the complete candidate parameter set, including parameters created in this transaction. */
+    public void validateConfigurationCreate(
+        String gameId, String skillKey, SkillFormulaCreateRequest request, Set<String> candidateParameterKeys
+    ) {
+        ValidatedFormula values = validateCreate(request);
+        CollectedRefs refs = validateAndCollectExpression(values.expression());
+        validateReferences(gameId, skillKey, refs, candidateParameterKeys);
+        validateAttributeEnabled(gameId, refs, Set.of());
+    }
+
+    public void validateConfigurationUpdate(
+        String gameId, String skillKey, String formulaKey,
+        SkillFormulaUpdateRequest request, Set<String> candidateParameterKeys
+    ) {
+        ValidatedFormula values = validateUpdate(request, formulaKey);
+        CollectedRefs refs = validateAndCollectExpression(values.expression());
+        Set<SkillFormulaAttributeRef> existingRefs = new HashSet<>(
+            nullToEmpty(formulaMapper.listAttributeRefs(gameId, skillKey, formulaKey)));
+        validateReferences(gameId, skillKey, refs, candidateParameterKeys);
+        validateAttributeEnabled(gameId, refs, existingRefs);
+    }
+
+    /** Existing formulas also participate when a submitted parameter is removed. */
+    public void validateFinalParameterReferences(
+        String gameId, String skillKey,
+        Map<String, SkillFormulaExpressionNode> finalExpressions,
+        Set<String> candidateParameterKeys
+    ) {
+        for (Map.Entry<String, SkillFormulaExpressionNode> formula : finalExpressions.entrySet()) {
+            CollectedRefs refs = validateAndCollectExpression(formula.getValue());
+            List<Map<String, String>> issues = new ArrayList<>();
+            for (PathRef ref : refs.parameterRefs) {
+                if (!candidateParameterKeys.contains(ref.value())) {
+                    issues.add(fieldIssue("formulas/" + formula.getKey() + "/" + ref.path(),
+                        "UNKNOWN_SKILL_PARAMETER", "技能参数不存在或不属于当前技能"));
+                }
+            }
+            if (!issues.isEmpty()) {
+                throw new ApiException(HttpStatus.CONFLICT, "409.SKILL_FORMULA_PARAMETER_IN_USE",
+                    "公式仍引用待删除参数", Map.of("fieldIssues", List.copyOf(issues)));
+            }
+        }
+    }
+
+    public boolean referencesAnyParameter(
+        SkillFormulaExpressionNode expression, Set<String> parameterKeys
+    ) {
+        if (parameterKeys.isEmpty()) return false;
+        CollectedRefs refs = validateAndCollectExpression(expression);
+        return refs.parameterKeys.stream().anyMatch(parameterKeys::contains);
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void createWithinConfiguration(
+        String gameId, String skillKey, SkillFormulaCreateRequest request, Set<String> candidateParameterKeys
+    ) {
+        validateConfigurationCreate(gameId, skillKey, request, candidateParameterKeys);
+        if (formulaMapper.countByKey(gameId, skillKey, request.formulaKey()) > 0) {
+            throw keyExists();
+        }
+        try {
+            formulaMapper.insert(gameId, skillKey, request.formulaKey(), request.name(),
+                request.description(), request.sortOrder(), AggregateJson.write(request.expression()));
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void updateWithinConfiguration(
+        String gameId, String skillKey, String formulaKey,
+        SkillFormulaUpdateRequest request, Set<String> candidateParameterKeys
+    ) {
+        if (formulaMapper.findByIdForUpdate(gameId, skillKey, formulaKey) == null) {
+            throw formulaNotFound(formulaKey);
+        }
+        validateConfigurationUpdate(gameId, skillKey, formulaKey, request, candidateParameterKeys);
+        try {
+            if (formulaMapper.update(gameId, skillKey, formulaKey, request.name(),
+                request.description(), request.sortOrder(), AggregateJson.write(request.expression())) == 0) {
+                throw formulaNotFound(formulaKey);
+            }
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+    }
+
+    /** The write guard checks final references after all submitted objects are applied. */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void deleteWithinConfiguration(String gameId, String skillKey, String formulaKey) {
+        if (formulaMapper.findByIdForUpdate(gameId, skillKey, formulaKey) == null) {
+            throw formulaNotFound(formulaKey);
+        }
         try {
             if (formulaMapper.delete(gameId, skillKey, formulaKey) == 0) {
                 throw formulaNotFound(formulaKey);
@@ -407,8 +510,16 @@ public class SkillFormulaService {
     }
 
     private void validateReferences(String gameId, String skillKey, CollectedRefs refs) {
+        validateReferences(gameId, skillKey, refs, null);
+    }
+
+    private void validateReferences(
+        String gameId, String skillKey, CollectedRefs refs, Set<String> candidateParameterKeys
+    ) {
         Set<String> existingParameters = new HashSet<>();
-        if (!refs.parameterKeys.isEmpty()) {
+        if (candidateParameterKeys != null) {
+            existingParameters.addAll(candidateParameterKeys);
+        } else if (!refs.parameterKeys.isEmpty()) {
             existingParameters.addAll(nullToEmpty(
                 formulaMapper.findExistingParameterKeys(gameId, skillKey, refs.parameterKeys)
             ));

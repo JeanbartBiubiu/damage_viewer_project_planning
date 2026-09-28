@@ -121,7 +121,7 @@ class SkillParameterFormulaManagementDbContractSqlTest {
         assertTrue(guard.contains("isActualTransactionActive()"));
         assertTrue(guard.contains("beforeCommit(boolean readOnly)"));
         assertTrue(guard.contains("SkillObjectReferences.extractAndValidate"));
-        assertTrue(guard.contains("validateAndReplace(gameId)"));
+        assertTrue(guard.contains("validateAndReplace(gameId, before.get(gameId))"));
     }
 
     @Test

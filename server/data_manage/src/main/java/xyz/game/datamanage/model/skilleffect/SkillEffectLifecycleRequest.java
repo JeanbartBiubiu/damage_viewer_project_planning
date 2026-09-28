@@ -17,7 +17,8 @@ public record SkillEffectLifecycleRequest(
     SkillEffectLifecycleExpiryMode expiryMode,
     @Valid
     SkillNumericValue periodicIntervalValue,
-    SkillEffectLifecycleFirstPeriodicExecution firstPeriodicExecution
+    SkillEffectLifecycleFirstPeriodicExecution firstPeriodicExecution,
+    String endWhenShieldEndsResultKey
 ) {
     @JsonAnySetter
     public void rejectUnknownField(String fieldName, Object ignored) {
