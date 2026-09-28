@@ -137,11 +137,13 @@ describe('skill internal state kinds and scope', () => {
       initialValue: formulaValue("max_ammo"),
       maxValue: formulaValue("max_ammo"),
       recoveryIntervalValue: formulaValue("ammo_recovery_ms"),
-      recoveryMode: 'ALL_AT_ONCE'
+      recoveryMode: 'ALL_AT_ONCE',
+      recoveryStartCondition: 'WHEN_EMPTY'
     });
     expect(ammo.stateType).toBe('AMMO');
     if (ammo.stateType !== 'AMMO') throw new Error('expected ammo');
     expect(ammo.detail.recoveryMode).toBe('ALL_AT_ONCE');
+    expect(ammo.detail.recoveryStartCondition).toBe('WHEN_EMPTY');
     expect(ammo.detail).not.toHaveProperty('options');
 
     const mode = expectValid({
@@ -202,6 +204,31 @@ describe('skill internal state kinds and scope', () => {
     expect(invalidAmmo.ok).toBe(false);
     if (invalidAmmo.ok) throw new Error('expected invalid');
     expect(invalidAmmo.fieldErrors.scope).toBe('只有计数允许按当前目标分别保存。');
+  });
+
+  it('旧弹药缺少恢复启动条件时保留空值，修改前必须明确选择', () => {
+    const oldAmmo: SkillInternalState = {
+      ...COUNTER, stateKey: 'old_ammo', name: '旧弹药', stateType: 'AMMO',
+      detail: {
+        initialValue: { kind: 'FIXED', value: 1 },
+        maxValue: { kind: 'FIXED', value: 2 },
+        recoveryIntervalValue: { kind: 'FIXED', value: 1000 },
+        recoveryMode: 'ONE_BY_ONE'
+      }
+    };
+    const draft = skillInternalStateToDraft(oldAmmo);
+    expect(draft.recoveryStartCondition).toBe('');
+    const missing = validateSkillInternalStateDraft({ ...draft, name: '已更名的弹药' },
+      { includeStateKey: false, catalog: CATALOG });
+    expect(missing.ok).toBe(false);
+    if (missing.ok) return;
+    expect(missing.fieldErrors.recoveryStartCondition).toContain('来源确认');
+    const confirmed = validateSkillInternalStateDraft({
+      ...draft, name: '已更名的弹药', recoveryStartCondition: 'AFTER_CONSUME'
+    }, { includeStateKey: false, catalog: CATALOG });
+    expect(confirmed.ok).toBe(true);
+    if (!confirmed.ok || confirmed.normalized.stateType !== 'AMMO') return;
+    expect(confirmed.normalized.detail.recoveryStartCondition).toBe('AFTER_CONSUME');
   });
 
   it('requires formulas, two unique mode options and exactly one initial option', () => {

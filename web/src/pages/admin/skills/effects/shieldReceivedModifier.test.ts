@@ -15,7 +15,8 @@ const effect: SkillEffect = {
     durationValue: null, maxStacksValue: { kind: 'FIXED', value: 1 },
     applicationStacksValue: { kind: 'FIXED', value: 1 }, instanceScope: 'SOURCE',
     reapplicationStackMode: 'KEEP', reapplicationDurationMode: null,
-    expiryMode: 'EXPLICIT_ONLY', periodicIntervalValue: null, firstPeriodicExecution: null
+    expiryMode: 'EXPLICIT_ONLY', periodicIntervalValue: null, firstPeriodicExecution: null,
+    endWhenShieldEndsResultKey: null
   },
   results: [{
     resultKey: 'shield_received', name: '收到普通护盾提高', resultType: 'SHIELD_RECEIVED_MODIFIER',

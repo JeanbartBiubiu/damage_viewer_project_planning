@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.skill.SkillMapper;
@@ -230,6 +231,92 @@ public class SkillParameterService {
         } catch (DataIntegrityViolationException ex) {
             throw mapWriteConstraint(ex);
         }
+    }
+
+    /** The configuration service supplies the candidate skill level and owns the game write lock. */
+    public void validateConfigurationCreate(
+        String gameId, SkillParameterCreateRequest request, int finalMaxLevel
+    ) {
+        ValidatedValues values = validateCreate(request);
+        normalizeValues(values.valueMode(), values.valueType(), values.fixedValue(),
+            values.levelValues(), finalMaxLevel, configurationLevelConfig(gameId, values.valueMode()));
+    }
+
+    public void validateConfigurationUpdate(
+        String gameId, String parameterKey, SkillParameterUpdateRequest request, int finalMaxLevel
+    ) {
+        ValidatedValues values = validateUpdate(request, parameterKey);
+        normalizeValues(values.valueMode(), values.valueType(), values.fixedValue(),
+            values.levelValues(), finalMaxLevel, configurationLevelConfig(gameId, values.valueMode()));
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void createWithinConfiguration(
+        String gameId, String skillKey, SkillParameterCreateRequest request, int finalMaxLevel
+    ) {
+        ValidatedValues values = validateCreate(request);
+        LevelConfigResponse levelConfig = configurationLevelConfig(gameId, values.valueMode());
+        Map<String, BigDecimal> levels = normalizeValues(values.valueMode(), values.valueType(),
+            values.fixedValue(), values.levelValues(), finalMaxLevel, levelConfig);
+        if (parameterMapper.countByKey(gameId, skillKey, values.parameterKey()) > 0) {
+            throw keyExists();
+        }
+        try {
+            parameterMapper.insert(gameId, skillKey, values.parameterKey(), values.name(),
+                values.valueType().name(), values.valueMode().name(), values.fixedValue(),
+                levelService.toLevelValuesJson(levels), values.description(), values.sortOrder());
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void updateWithinConfiguration(
+        String gameId, String skillKey, String parameterKey,
+        SkillParameterUpdateRequest request, int finalMaxLevel
+    ) {
+        ValidatedValues values = validateUpdate(request, parameterKey);
+        LevelConfigResponse levelConfig = configurationLevelConfig(gameId, values.valueMode());
+        Map<String, BigDecimal> levels = normalizeValues(values.valueMode(), values.valueType(),
+            values.fixedValue(), values.levelValues(), finalMaxLevel, levelConfig);
+        if (parameterMapper.findByIdForUpdate(gameId, skillKey, parameterKey) == null) {
+            throw parameterNotFound(parameterKey);
+        }
+        try {
+            if (parameterMapper.update(gameId, skillKey, parameterKey, values.name(),
+                values.valueType().name(), values.valueMode().name(), values.fixedValue(),
+                levelService.toLevelValuesJson(levels), values.description(), values.sortOrder()) == 0) {
+                throw parameterNotFound(parameterKey);
+            }
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+    }
+
+    /** Final reference checks run at transaction commit, after every submitted change is applied. */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void deleteWithinConfiguration(String gameId, String skillKey, String parameterKey) {
+        if (parameterMapper.findByIdForUpdate(gameId, skillKey, parameterKey) == null) {
+            throw parameterNotFound(parameterKey);
+        }
+        try {
+            if (parameterMapper.delete(gameId, skillKey, parameterKey) == 0) {
+                throw parameterNotFound(parameterKey);
+            }
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+    }
+
+    private LevelConfigResponse configurationLevelConfig(String gameId, SkillParameterValueMode mode) {
+        if (mode != SkillParameterValueMode.CHARACTER_LEVEL) {
+            return null;
+        }
+        LevelConfigResponse config = parameterMapper.findLevelConfigForUpdate(gameId);
+        if (config == null) {
+            throw levelConfigRequired(gameId);
+        }
+        return config;
     }
 
     private Map<String, BigDecimal> normalizeValues(

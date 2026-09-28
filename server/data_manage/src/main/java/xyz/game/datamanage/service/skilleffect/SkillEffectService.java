@@ -4,6 +4,7 @@ import xyz.game.datamanage.model.value.SkillNumericValue;
 
 import jakarta.validation.Valid;
 import xyz.game.datamanage.support.authoring.AggregateJson;
+import xyz.game.datamanage.support.authoring.ShieldEndLifecycleSemantics;
 import xyz.game.datamanage.support.authoring.DamageModifierConditionSemantics;
 import xyz.game.datamanage.support.authoring.HealingRatioMaxSemantics;
 import java.math.BigDecimal;
@@ -25,6 +26,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.validation.annotation.Validated;
 import xyz.game.datamanage.mapper.GamesMapper;
 import xyz.game.datamanage.mapper.imagerelation.ImageRelationMapper;
@@ -354,6 +356,124 @@ public class SkillEffectService {
         imageRelationMapper.deleteForSource(gameId, "SKILL_EFFECT", skillKey, effectKey);
     }
 
+    public void validateConfigurationCreate(
+        String gameId, String skillKey, SkillEffectCreateRequest request,
+        Set<String> candidateFormulaKeys, Set<String> runtimeInputFormulaKeys,
+        Map<String, SkillEffectLifecycleRequest> candidateLifecycles
+    ) {
+        ValidatedEffect values = validateCreate(request);
+        CollectedRefs refs = collectAndValidateResults(values.lifecycle(), values.results(), Map.of(),
+            skillKey, values.effectKey(), null);
+        lockAndValidateCatalogs(gameId, skillKey, values.effectKey(), refs,
+            candidateFormulaKeys, runtimeInputFormulaKeys, candidateLifecycles);
+    }
+
+    public void validateConfigurationUpdate(
+        String gameId, String skillKey, String effectKey, SkillEffectUpdateRequest request,
+        Set<String> candidateFormulaKeys, Set<String> runtimeInputFormulaKeys,
+        Map<String, SkillEffectLifecycleRequest> candidateLifecycles, boolean deferRuleReferences
+    ) {
+        ValidatedEffect values = validateUpdate(request, effectKey);
+        SkillEffectRow existing = mapper.findEffectForUpdate(gameId, skillKey, effectKey);
+        if (existing == null) throw effectNotFound(effectKey);
+        List<SkillEffectResultRequest> existingResults = SkillEffectAggregate.readResults(existing.results());
+        Map<String, SkillEffectResultRequest> existingByKey = new HashMap<>();
+        for (SkillEffectResultRequest result : existingResults) existingByKey.put(result.resultKey(), result);
+        List<Map<String, String>> typeIssues = new ArrayList<>();
+        for (int i = 0; i < values.results().size(); i++) {
+            SkillEffectResultRequest result = values.results().get(i);
+            SkillEffectResultRequest prior = existingByKey.get(result.resultKey());
+            if (prior != null && prior.resultType() != result.resultType()) {
+                typeIssues.add(fieldIssue(resultPath(i, "resultType"), "IMMUTABLE", "结果种类不能修改"));
+            }
+        }
+        throwIfInvalid(typeIssues);
+        SkillEffectLifecycleRow previousLifecycle = SkillEffectAggregate.lifecycleRow(existing);
+        if (!deferRuleReferences && triggerRuleService != null) {
+            List<String> retainedKeys = values.results().stream().map(SkillEffectResultRequest::resultKey).toList();
+            List<String> removedKeys = existingResults.stream().map(SkillEffectResultRequest::resultKey)
+                .filter(key -> !retainedKeys.contains(key)).toList();
+            triggerRuleService.assertEffectUpdate(gameId, skillKey, effectKey, previousLifecycle,
+                values.lifecycle(), values.results(), removedKeys);
+        }
+        CollectedRefs refs = collectAndValidateResults(values.lifecycle(), values.results(),
+            loadRetainedCatalog(existingResults), skillKey, effectKey,
+            previousLifecycle == null ? null : previousLifecycle.instanceScope());
+        lockAndValidateCatalogs(gameId, skillKey, effectKey, refs,
+            candidateFormulaKeys, runtimeInputFormulaKeys, candidateLifecycles);
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void createWithinConfiguration(
+        String gameId, String skillKey, SkillEffectCreateRequest request,
+        Set<String> candidateFormulaKeys, Set<String> runtimeInputFormulaKeys,
+        Map<String, SkillEffectLifecycleRequest> candidateLifecycles
+    ) {
+        validateConfigurationCreate(gameId, skillKey, request,
+            candidateFormulaKeys, runtimeInputFormulaKeys, candidateLifecycles);
+        if (mapper.countByKey(gameId, skillKey, request.effectKey()) > 0) throw keyExists();
+        try {
+            mapper.insertEffect(gameId, skillKey, request.effectKey(), request.name(), request.description(),
+                request.sortOrder(), SkillEffectAggregate.writeResults(request.results()),
+                request.lifecycle() == null ? null : AggregateJson.write(request.lifecycle()));
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex, false, false);
+        }
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void updateWithinConfiguration(
+        String gameId, String skillKey, String effectKey, SkillEffectUpdateRequest request,
+        Set<String> candidateFormulaKeys, Set<String> runtimeInputFormulaKeys,
+        Map<String, SkillEffectLifecycleRequest> candidateLifecycles, boolean deferRuleReferences
+    ) {
+        validateConfigurationUpdate(gameId, skillKey, effectKey, request,
+            candidateFormulaKeys, runtimeInputFormulaKeys, candidateLifecycles, deferRuleReferences);
+        try {
+            if (mapper.updateEffect(gameId, skillKey, effectKey, request.name(), request.description(),
+                request.sortOrder(), SkillEffectAggregate.writeResults(request.results()),
+                request.lifecycle() == null ? null : AggregateJson.write(request.lifecycle())) == 0) {
+                throw effectNotFound(effectKey);
+            }
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex, false, false);
+        }
+    }
+
+    /** Final reference validation runs after every submitted root has been applied. */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void deleteWithinConfiguration(String gameId, String skillKey, String effectKey) {
+        if (mapper.findEffectForUpdate(gameId, skillKey, effectKey) == null) throw effectNotFound(effectKey);
+        try {
+            if (mapper.deleteEffect(gameId, skillKey, effectKey) == 0) throw effectNotFound(effectKey);
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex, true, false);
+        }
+        imageRelationMapper.deleteForSource(gameId, "SKILL_EFFECT", skillKey, effectKey);
+    }
+
+    public void validateConfigurationFinalCycle(String gameId, String skillKey) {
+        if (triggerRuleService != null) triggerRuleService.assertCurrentSkillCycle(gameId, skillKey);
+    }
+
+    public void validateConfigurationFinalTargets(
+        String skillKey, Map<String, SkillEffectCreateRequest> candidateEffects,
+        Map<String, SkillEffectLifecycleRequest> candidateLifecycles
+    ) {
+        Map<String, LifecycleFacts> facts = candidateLifecycleFacts(candidateLifecycles);
+        for (SkillEffectCreateRequest request : candidateEffects.values()) {
+            ValidatedEffect values = validateCreate(request);
+            CollectedRefs refs = collectAndValidateResults(values.lifecycle(), values.results(), Map.of(),
+                skillKey, values.effectKey(), null);
+            List<Map<String, String>> issues = new ArrayList<>();
+            addTargetEffectIssues(issues, refs.targetEffects, values.effectKey(), candidateEffects.keySet(), facts);
+            if (!issues.isEmpty()) {
+                throw new ApiException(HttpStatus.CONFLICT, "409.SKILL_EFFECT_TARGET_INVALID",
+                    "效果仍引用不合法的目标生命周期", Map.of("fieldIssues", List.copyOf(issues)));
+            }
+        }
+    }
+
     private SkillEffectDetailResponse requireDetail(String gameId, String skillKey, String effectKey) {
         SkillEffectRow effect = mapper.findEffect(gameId, skillKey, effectKey);
         if (effect == null) {
@@ -495,6 +615,7 @@ public class SkillEffectService {
             }
         }
         validateLifecyclePeriodicPair(lifecycle, hasPeriodic, hasNaturalEnd, issues);
+        issues.addAll(ShieldEndLifecycleSemantics.issues(lifecycle, results));
         throwIfInvalidBody(bodyIssues);
         throwIfInvalid(issues);
         return refs;
@@ -2001,7 +2122,16 @@ public class SkillEffectService {
         String currentEffectKey,
         CollectedRefs refs
     ) {
-        Set<String> formulas = lockFormulas(gameId, skillKey, refs.formulaKeys);
+        lockAndValidateCatalogs(gameId, skillKey, currentEffectKey, refs, null, null, null);
+    }
+
+    private void lockAndValidateCatalogs(
+        String gameId, String skillKey, String currentEffectKey, CollectedRefs refs,
+        Set<String> candidateFormulaKeys, Set<String> candidateRuntimeInputFormulaKeys,
+        Map<String, SkillEffectLifecycleRequest> candidateLifecycles
+    ) {
+        Set<String> formulas = candidateFormulaKeys == null
+            ? lockFormulas(gameId, skillKey, refs.formulaKeys) : candidateFormulaKeys;
         Map<String, String> damageTypes = lockCatalog(refs.damageTypeKeys, keys -> mapper.lockDamageTypes(gameId, keys));
         Map<String, String> attributes = lockCatalog(refs.attributeKeys, keys -> mapper.lockAttributes(gameId, keys));
         Map<String, String> skills = lockCatalog(refs.skillKeys, keys -> mapper.lockSkills(gameId, keys));
@@ -2021,17 +2151,16 @@ public class SkillEffectService {
             gameId,
             refs.modifierZoneKeys
         );
-        Set<String> runtimeInputFormulaKeys = listRuntimeInputFormulaKeys(
-            gameId,
-            skillKey,
-            refs.dynamicFormulas
-        );
-        Set<String> targetEffects = lockEffectKeys(gameId, skillKey, targetLockKeys(refs.targetEffectKeys, currentEffectKey));
-        Map<String, SkillEffectLifecycleRow> targetLifecycles = lockTargetLifecycles(
-            gameId,
-            skillKey,
-            targetLockKeys(refs.targetEffectKeys, currentEffectKey)
-        );
+        Set<String> runtimeInputFormulaKeys = candidateRuntimeInputFormulaKeys == null
+            ? listRuntimeInputFormulaKeys(gameId, skillKey, refs.dynamicFormulas)
+            : candidateRuntimeInputFormulaKeys;
+        Set<String> targetEffects = candidateLifecycles == null
+            ? lockEffectKeys(gameId, skillKey, targetLockKeys(refs.targetEffectKeys, currentEffectKey))
+            : candidateLifecycles.keySet();
+        Map<String, LifecycleFacts> targetLifecycles = candidateLifecycles == null
+            ? lifecycleFacts(lockTargetLifecycles(gameId, skillKey,
+                targetLockKeys(refs.targetEffectKeys, currentEffectKey)))
+            : candidateLifecycleFacts(candidateLifecycles);
 
         List<Map<String, String>> unknown = new ArrayList<>();
         addUnknown(unknown, refs.formulas, formulas, "UNKNOWN_FORMULA", "技能公式不存在或不属于当前技能");
@@ -2603,12 +2732,30 @@ public class SkillEffectService {
         return found;
     }
 
+    private static Map<String, LifecycleFacts> lifecycleFacts(Map<String, SkillEffectLifecycleRow> rows) {
+        Map<String, LifecycleFacts> result = new HashMap<>();
+        rows.forEach((key, row) -> result.put(key, new LifecycleFacts(row.durationValue(), row.expiryMode())));
+        return result;
+    }
+
+    private static Map<String, LifecycleFacts> candidateLifecycleFacts(
+        Map<String, SkillEffectLifecycleRequest> lifecycles
+    ) {
+        Map<String, LifecycleFacts> result = new HashMap<>();
+        lifecycles.forEach((key, value) -> {
+            if (value != null) result.put(key, new LifecycleFacts(value.durationValue(), value.expiryMode()));
+        });
+        return result;
+    }
+
+    private record LifecycleFacts(SkillNumericValue durationValue, SkillEffectLifecycleExpiryMode expiryMode) {}
+
     private static void addTargetEffectIssues(
         List<Map<String, String>> issues,
         List<TargetEffectRef> refs,
         String currentEffectKey,
         Set<String> existingEffects,
-        Map<String, SkillEffectLifecycleRow> lifecycles
+        Map<String, LifecycleFacts> lifecycles
     ) {
         for (TargetEffectRef ref : refs) {
             if (ref.selfReference() || (currentEffectKey != null && currentEffectKey.equals(ref.key()))) {
@@ -2619,7 +2766,7 @@ public class SkillEffectService {
                 issues.add(fieldIssue(ref.path(), "UNKNOWN_LIFECYCLE_EFFECT", "目标效果不存在或不属于当前技能"));
                 continue;
             }
-            SkillEffectLifecycleRow lifecycle = lifecycles.get(ref.key());
+            LifecycleFacts lifecycle = lifecycles.get(ref.key());
             if (lifecycle == null) {
                 issues.add(fieldIssue(ref.path(), "TARGET_EFFECT_HAS_NO_LIFECYCLE", "目标效果没有生命周期"));
                 continue;

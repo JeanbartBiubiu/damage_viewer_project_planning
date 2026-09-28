@@ -1,6 +1,7 @@
 package xyz.game.datamanage.service.skilltrigger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -44,6 +45,11 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerAction;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusBindingDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusValueKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatElapsedTimeBindingDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerRecentDamageSumBindingDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerRecentDamageOutputKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageDeliveryKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageOriginKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
@@ -81,6 +87,62 @@ class SkillTriggerRuleRuntimeInputServiceTest {
             SkillTriggerRuleTestSupport.state("stacks", SkillInternalStateType.COUNTER)
         ));
         service = SkillTriggerRuleTestSupport.service(gamesMapper, skillMapper, mapper);
+    }
+
+    @Test
+    void combatElapsedTimeAndRecentDamageAreDistinctDecimalSourcesWithCompleteReadback() {
+        when(mapper.listRuntimeInputParameters(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of(
+            runtimeParam("ratio", SkillParameterValueType.DECIMAL)));
+        when(mapper.lockParameters(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of(
+            runtimeParam("ratio", SkillParameterValueType.DECIMAL)));
+        when(mapper.lockDamageTypes(eq(GAME_ID), any())).thenReturn(List.of(
+            new xyz.game.datamanage.model.skilltrigger.SkillTriggerCatalogLockRow("physical", "ENABLED", null)));
+        SkillTriggerRuntimeInputBinding elapsed = new SkillTriggerRuntimeInputBinding(
+            "elapsed", "ratio", SkillTriggerRuntimeInputSourceType.COMBAT_ELAPSED_TIME,
+            new SkillTriggerCombatElapsedTimeBindingDetail(SkillTriggerSubject.SOURCE));
+        SkillTriggerRuntimeInputBinding recent = new SkillTriggerRuntimeInputBinding(
+            "recent", "ratio", SkillTriggerRuntimeInputSourceType.RECENT_DAMAGE_SUM,
+            new SkillTriggerRecentDamageSumBindingDetail(SkillTriggerSubject.SOURCE,
+                SkillNumericValue.fixed(new BigDecimal("3000")),
+                SkillTriggerRecentDamageOutputKind.ACTUAL_HP_LOSS, "other_skill", "physical",
+                SkillTriggerDamageDeliveryKind.SKILL, SkillTriggerDamageOriginKind.DIRECT));
+        service.create(GAME_ID, SKILL_KEY, bound("elapsed_rule", List.of(elapsed)));
+        service.create(GAME_ID, SKILL_KEY, bound("recent_rule", List.of(recent)));
+        assertEquals(elapsed, service.get(GAME_ID, SKILL_KEY, "elapsed_rule")
+            .actions().get(0).runtimeInputBindings().get(0));
+        assertEquals(recent, service.get(GAME_ID, SKILL_KEY, "recent_rule")
+            .actions().get(0).runtimeInputBindings().get(0));
+    }
+
+    @Test
+    void recentDamageRequiresPositiveWindowAndEventSourceQualification() {
+        SkillTriggerRuntimeInputBinding zeroWindow = new SkillTriggerRuntimeInputBinding(
+            "recent", "ratio", SkillTriggerRuntimeInputSourceType.RECENT_DAMAGE_SUM,
+            new SkillTriggerRecentDamageSumBindingDetail(SkillTriggerSubject.SOURCE,
+                SkillNumericValue.fixed(BigDecimal.ZERO), SkillTriggerRecentDamageOutputKind.POST_DEFENSE_DAMAGE,
+                null, null, SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY));
+        ApiException invalidWindow = thrown(() -> service.create(GAME_ID, SKILL_KEY,
+            bound("zero_window", List.of(zeroWindow))));
+        assertField(invalidWindow, "actions[0].runtimeInputBindings[0].detail.windowValue", "RANGE_INVALID");
+
+        SkillTriggerRuntimeInputBinding eventSource = new SkillTriggerRuntimeInputBinding(
+            "elapsed", "ratio", SkillTriggerRuntimeInputSourceType.COMBAT_ELAPSED_TIME,
+            new SkillTriggerCombatElapsedTimeBindingDetail(SkillTriggerSubject.EVENT_SOURCE));
+        SkillTriggerRuleCreateRequest base = bound("event_source", List.of(eventSource));
+        when(mapper.listRuntimeInputParameters(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of(
+            runtimeParam("ratio", SkillParameterValueType.DECIMAL)));
+        when(mapper.lockParameters(eq(GAME_ID), eq(SKILL_KEY), any())).thenReturn(List.of(
+            runtimeParam("ratio", SkillParameterValueType.DECIMAL)));
+        ApiException unavailable = thrown(() -> service.create(GAME_ID, SKILL_KEY, base));
+        assertField(unavailable, "actions[0].runtimeInputBindings[0].detail.subject", "EVENT_SOURCE_NOT_AVAILABLE");
+    }
+
+    @Test
+    void bindingLevelUnknownFieldsAreRejectedInsteadOfSilentlyDropped() {
+        assertThrows(IllegalStateException.class, () -> xyz.game.datamanage.support.authoring.AggregateJson.read("""
+            {"bindingKey":"elapsed","parameterKey":"ratio","sourceType":"COMBAT_ELAPSED_TIME",
+             "detail":{"subject":"SOURCE"},"windwoValue":3000}
+            """, SkillTriggerRuntimeInputBinding.class));
     }
 
     @Test
@@ -127,7 +189,7 @@ class SkillTriggerRuleRuntimeInputServiceTest {
                 ),
                 new SkillTriggerRuntimeInputBinding(
                     "b2", "ratio", SkillTriggerRuntimeInputSourceType.INTERNAL_STATE,
-                    new SkillTriggerInternalStateBindingDetail("stacks", SkillTriggerInternalStateValueKind.VALUE, null)
+                    new SkillTriggerInternalStateBindingDetail(SKILL_KEY, "stacks", SkillTriggerInternalStateValueKind.VALUE, null)
                 )
             ))
         ));
@@ -188,7 +250,7 @@ class SkillTriggerRuleRuntimeInputServiceTest {
 
         SkillTriggerRuntimeInputBinding state = new SkillTriggerRuntimeInputBinding(
             "from_state", "ratio", SkillTriggerRuntimeInputSourceType.INTERNAL_STATE,
-            new SkillTriggerInternalStateBindingDetail("stacks", SkillTriggerInternalStateValueKind.VALUE, null)
+            new SkillTriggerInternalStateBindingDetail(SKILL_KEY, "stacks", SkillTriggerInternalStateValueKind.VALUE, null)
         );
         service.create(GAME_ID, SKILL_KEY, bound("src_state", List.of(state)));
         assertEquals(List.of(state), service.get(GAME_ID, SKILL_KEY, "src_state")
@@ -197,7 +259,7 @@ class SkillTriggerRuleRuntimeInputServiceTest {
         SkillTriggerRuntimeInputBinding combat = new SkillTriggerRuntimeInputBinding(
             "from_status", "ratio", SkillTriggerRuntimeInputSourceType.COMBAT_STATUS,
             new SkillTriggerCombatStatusBindingDetail(
-                SkillTriggerSubject.CURRENT_TARGET, "poison", SkillTriggerCombatStatusValueKind.STACKS, null, null
+                SkillTriggerSubject.CURRENT_TARGET, "poison", SkillTriggerCombatStatusValueKind.STACKS, SKILL_KEY, EFFECT_KEY, RESULT_KEY
             )
         );
         when(mapper.countStatusApplyPersistent(any(), any(), any(), any(), any())).thenReturn(1L);

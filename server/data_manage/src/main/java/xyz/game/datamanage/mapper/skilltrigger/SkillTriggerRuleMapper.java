@@ -10,6 +10,7 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerAttributeConditionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCatalogLockRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerCombatStatusBindingRow;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerCrossSkillEdgeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionGroupRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerConditionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventRow;
@@ -133,6 +134,10 @@ public interface SkillTriggerRuleMapper {
     List<SkillTriggerRuleRow> listRules(
         @Param("gameId") String gameId, @Param("skillKey") String skillKey
     );
+
+    List<SkillTriggerRuleRow> listRulesForGame(@Param("gameId") String gameId);
+
+    List<SkillTriggerCrossSkillEdgeRow> listCrossSkillCycleEdges(@Param("gameId") String gameId);
 
     List<SkillTriggerActionRow> listActionsForSkill(
         @Param("gameId") String gameId, @Param("skillKey") String skillKey

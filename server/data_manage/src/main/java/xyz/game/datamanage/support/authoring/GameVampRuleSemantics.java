@@ -27,6 +27,10 @@ public final class GameVampRuleSemantics {
     public GameVampRuleSemantics(JdbcTemplate jdbc) { this.jdbc = jdbc; }
 
     public void validate(String gameId, List<Aggregate> aggregates) {
+        validate(gameId, aggregates, aggregates, true);
+    }
+
+    public void validate(String gameId, List<Aggregate> sources, List<Aggregate> context, boolean rulesChanged) {
         List<GameVampRule> rules = readRules(jdbc, gameId);
         Map<String, String> attributes = attributeTypes(jdbc, gameId);
         Set<String> categories = new HashSet<>(jdbc.queryForList(CATEGORIES_SQL, String.class, gameId));
@@ -35,14 +39,20 @@ public final class GameVampRuleSemantics {
             skillCategories.computeIfAbsent((String) row.get("skill_key"), ignored -> new HashSet<>())
                 .add((String) row.get("skill_category_key"));
         }
-        validateFinal(rules, attributes, categories, skillCategories, aggregates);
+        validateFinal(rules, attributes, categories, skillCategories, sources, context, rulesChanged);
     }
 
     public static void validateFinal(List<GameVampRule> rules, Map<String, String> attributes,
                                      Set<String> categories, Map<String, Set<String>> skillCategories,
                                      List<Aggregate> aggregates) {
+        validateFinal(rules, attributes, categories, skillCategories, aggregates, aggregates, true);
+    }
+
+    static void validateFinal(List<GameVampRule> rules, Map<String, String> attributes,
+                              Set<String> categories, Map<String, Set<String>> skillCategories,
+                              List<Aggregate> aggregates, List<Aggregate> context, boolean rulesChanged) {
         List<Map<String, String>> issues = new ArrayList<>();
-        validateRules(rules, attributes, categories, issues);
+        if (rulesChanged) validateRules(rules, attributes, categories, issues);
         Set<SkillEffectVampType> types = new HashSet<>();
         for (GameVampRule rule : rules) if (rule != null) types.add(rule.vampType());
         for (Aggregate aggregate : aggregates) {
@@ -91,7 +101,7 @@ public final class GameVampRuleSemantics {
                 appendSource(issues, resultIssues, aggregate);
             }
         }
-        validatePriorHealingOutputs(aggregates, issues);
+        validatePriorHealingOutputs(aggregates, context, issues);
         if (!issues.isEmpty()) throw new ApiException(HttpStatus.CONFLICT, "409.GAME_VAMP_RULE_INVALID",
             "游戏吸血规则或伤害资格的最终配置不合法", Map.of("fieldIssues", issues));
     }
@@ -162,9 +172,10 @@ public final class GameVampRuleSemantics {
         }
     }
 
-    private static void validatePriorHealingOutputs(List<Aggregate> aggregates, List<Map<String, String>> issues) {
+    private static void validatePriorHealingOutputs(List<Aggregate> aggregates, List<Aggregate> context,
+                                                    List<Map<String, String>> issues) {
         Map<String, Aggregate> effects = new LinkedHashMap<>();
-        for (Aggregate a : aggregates) if (a.type() == SourceType.EFFECT) effects.put(a.skillKey() + "/" + a.key(), a);
+        for (Aggregate a : context) if (a.type() == SourceType.EFFECT) effects.put(a.skillKey() + "/" + a.key(), a);
         for (Aggregate a : aggregates) {
             if (a.type() != SourceType.TRIGGER) continue;
             Map<String, JsonNode> actions = new LinkedHashMap<>();

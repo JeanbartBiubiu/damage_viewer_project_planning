@@ -194,6 +194,7 @@ class SkillTriggerRuleAdminControllerTest {
             new SkillTriggerEventSource(
                 SkillTriggerEventType.DAMAGE_TAKEN,
                 new SkillTriggerDamageEventDetail(
+                    null,
                     "physical",
                     SkillTriggerDamageDeliveryKind.BASIC_ATTACK,
                     SkillTriggerDamageOriginKind.DIRECT

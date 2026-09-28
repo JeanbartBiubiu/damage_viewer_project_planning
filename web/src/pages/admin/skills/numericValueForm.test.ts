@@ -76,7 +76,9 @@ describe('表单按使用位置校验取值', () => {
     const saved = validateSkillInternalStateDraft(counter, options);
     expect(saved.ok, JSON.stringify(saved)).toBe(true);
     if (saved.ok) expect(saved.normalized.detail).toEqual({ initialValue: fixedValue(0), maxValue: fixedValue(0) });
-    const ammo = { ...createEmptyInternalStateDraft('AMMO'), stateKey: 'ammo', name: '弹药', initialValue: fixedValue(0), maxValue: fixedValue(0), recoveryIntervalValue: fixedValue(0.5) };
+    const ammo = { ...createEmptyInternalStateDraft('AMMO'), stateKey: 'ammo', name: '弹药',
+      initialValue: fixedValue(0), maxValue: fixedValue(0), recoveryIntervalValue: fixedValue(0.5),
+      recoveryStartCondition: 'AFTER_CONSUME' as const };
     expect(validateSkillInternalStateDraft(ammo, options).ok).toBe(false);
     expect(validateSkillInternalStateDraft({ ...ammo, maxValue: fixedValue(2) }, options).ok).toBe(true);
     expect(validateSkillInternalStateDraft({ ...ammo, maxValue: fixedValue(2.5) }, options).ok).toBe(false);

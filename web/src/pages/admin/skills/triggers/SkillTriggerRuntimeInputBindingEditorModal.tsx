@@ -14,7 +14,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Attribute } from '../../../../types/attribute';
 import { allowsSourceCastResourceCost, sourceCastResourceCostError, type SourceCastResourceCostProcess } from './sourceCastResourceCost';
 import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import { useQualifiedSkillEffect, useQualifiedSkillState } from '../useQualifiedSkillReference';
 import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
+import { NumericValueField } from '../NumericValueField';
+import { fixedValue } from '../../../../types/numericValue';
+import type { DamageType } from '../../../../types/damageType';
+import type { Skill } from '../../../../types/skill';
+import type { SkillFormulaSummary } from '../../../../types/skillFormula';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
 import type { SkillParameter, SkillParameterValueType } from '../../../../types/skillParameter';
@@ -147,12 +153,19 @@ export function priorResultDraftSummary(
 }
 
 type SkillTriggerRuntimeInputBindingEditorModalProps = {
+  apiBaseUrl: string;
+  selectedGameId: string;
+  adminToken: string;
   visible: boolean;
   mode: SkillTriggerRuntimeInputBindingEditorMode;
   binding: SkillTriggerRuntimeInputBinding | null;
   existingBindingKeys: readonly string[];
   originalSourceType?: SkillTriggerRuntimeInputSourceType;
   attributes: readonly Attribute[];
+  skills?: readonly Skill[];
+  damageTypes?: readonly DamageType[];
+  formulas?: readonly SkillFormulaSummary[];
+  skillKey?: string;
   attributesLoadState?: CatalogLoadState;
   processes: readonly SourceCastResourceCostProcess[];
   processesLoadState?: CatalogLoadState;
@@ -183,12 +196,19 @@ function emptyBinding(existingKeys: readonly string[]): SkillTriggerRuntimeInput
 }
 
 export function SkillTriggerRuntimeInputBindingEditorModal({
+  apiBaseUrl,
+  selectedGameId,
+  adminToken,
   visible,
   mode,
   binding,
   existingBindingKeys,
   originalSourceType,
   attributes,
+  skills = [],
+  damageTypes = [],
+  formulas = [],
+  skillKey = '',
   attributesLoadState,
   processes,
   processesLoadState,
@@ -251,9 +271,19 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
     );
   }, [current, selectedParameter, sourceResults]);
   const completeness = evaluateBindingCompleteness(reachableParameters, currentBindings);
-  const selectedState = current.sourceType === 'INTERNAL_STATE'
-    ? internalStates.find((item) => item.stateKey === current.detail.stateKey) ?? null
-    : null;
+  const stateReference = useQualifiedSkillState({ visible: visible && current.sourceType === 'INTERNAL_STATE',
+    apiBaseUrl, gameId: selectedGameId, adminToken, currentSkillKey: skillKey,
+    ownerSkillKey: current.sourceType === 'INTERNAL_STATE' ? current.detail.stateSkillKey || skillKey : '',
+    objectKey: current.sourceType === 'INTERNAL_STATE' ? current.detail.stateKey : '',
+    local: internalStates });
+  const selectedState = stateReference.value;
+  const effectReference = useQualifiedSkillEffect({ visible: visible && current.sourceType === 'COMBAT_STATUS'
+    && current.detail.valueKind !== 'PRESENT',
+    apiBaseUrl, gameId: selectedGameId, adminToken, currentSkillKey: skillKey,
+    ownerSkillKey: current.sourceType === 'COMBAT_STATUS' && current.detail.valueKind !== 'PRESENT'
+      ? current.detail.effectSkillKey || skillKey : '',
+    objectKey: current.sourceType === 'COMBAT_STATUS' && current.detail.valueKind !== 'PRESENT'
+      ? current.detail.sourceEffectKey : '', local: effects });
   const canEvaluateOutputAvailability = Boolean(sourceEffect) && Boolean(
     current.sourceType === 'PRIOR_ACTION_RESULT' && current.detail.sourceResultKey
   );
@@ -360,6 +390,27 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
   };
 
   const confirmBinding = () => {
+    if (current.sourceType === 'INTERNAL_STATE') {
+      if (stateReference.external && (stateReference.state !== 'ready' || !selectedState)) {
+        setLocalError(stateReference.error || '外部内部状态详情尚未读取。'); return;
+      }
+      if (selectedState && !valueKindsForInternalState(selectedState.stateType).includes(current.detail.valueKind)) {
+        setLocalError('该内部状态不支持当前取值方式。'); return;
+      }
+      if (current.detail.valueKind === 'OPTION_SELECTED' && selectedState?.stateType === 'MODE'
+        && !selectedState.detail.options.some((item) => item.optionKey === current.detail.optionKey)) {
+        setLocalError('请选择外部模式状态中的有效选项。'); return;
+      }
+    }
+    if (current.sourceType === 'COMBAT_STATUS' && current.detail.valueKind !== 'PRESENT') {
+      if (effectReference.external && (effectReference.state !== 'ready' || !effectReference.value)) {
+        setLocalError(effectReference.error || '外部来源效果详情尚未读取。'); return;
+      }
+      if (!effectReference.value || !persistentStatusApplyResults(effectReference.value,
+        current.detail.statusKey).some((item) => item.resultKey === current.detail.sourceResultKey)) {
+        setLocalError('请选择与状态身份一致的来源结果。'); return;
+      }
+    }
     if (mode === 'create' && existingBindingKeys.includes(current.bindingKey)) {
       setLocalError('绑定标识已使用；更换来源请使用新标识。');
       return;
@@ -374,6 +425,27 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
       if (!confirmed) return;
       onConfirm(confirmed);
       return;
+    }
+    if (current.sourceType === 'INTERNAL_STATE') {
+      onConfirm({ ...current, detail: { ...current.detail,
+        stateSkillKey: current.detail.stateSkillKey || skillKey } });
+      return;
+    }
+    if (current.sourceType === 'COMBAT_STATUS') {
+      if (current.detail.valueKind === 'PRESENT') {
+        onConfirm({ ...current, detail: { ...current.detail, effectSkillKey: null } });
+      } else {
+        onConfirm({ ...current, detail: { ...current.detail,
+          effectSkillKey: current.detail.effectSkillKey || skillKey } });
+      }
+      return;
+    }
+    if (current.sourceType === 'RECENT_DAMAGE_SUM') {
+      if (!current.detail.windowValue || current.detail.windowValue.kind === 'FIXED'
+        && !(current.detail.windowValue.value > 0)) {
+        setLocalError('时间窗必须为正时长。');
+        return;
+      }
     }
     onConfirm(current);
   };
@@ -429,6 +501,10 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
         {locateMessage ? <Alert type="warning" content={locateMessage} /> : null}
         {localError ? <Alert type="error" content={localError} /> : null}
+        {stateReference.external && stateReference.error ? <Alert type="error" content={stateReference.error}
+          action={<Button size="mini" onClick={stateReference.retry}>重试状态详情</Button>} /> : null}
+        {effectReference.external && effectReference.error ? <Alert type="error" content={effectReference.error}
+          action={<Button size="mini" onClick={effectReference.retry}>重试来源效果详情</Button>} /> : null}
         <Table
           size="small"
           pagination={false}
@@ -504,7 +580,17 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
 
           {current.sourceType === 'INTERNAL_STATE' ? (
             <>
-              <Form.Item label="内部状态" required>
+              <Form.Item label="内部状态所属技能" required>
+                <Input aria-label="绑定状态所属技能" value={current.detail.stateSkillKey || skillKey}
+                  disabled={disabled} onChange={(value) => setCurrent(patchInternalStateBindingDetail(current,
+                    { stateSkillKey: value.trim(), stateKey: '' }))} />
+              </Form.Item>
+              {current.detail.stateSkillKey && current.detail.stateSkillKey !== skillKey
+                ? <Form.Item label="外部内部状态标识" required>
+                  <Input aria-label="外部绑定状态标识" value={current.detail.stateKey}
+                    disabled={disabled} onChange={(value) => setCurrent(patchInternalStateBindingDetail(current,
+                      { stateKey: value.trim() }))} />
+                </Form.Item> : <Form.Item label="内部状态" required>
                 <Select
                   aria-label="绑定内部状态"
                   value={current.detail.stateKey || undefined}
@@ -518,13 +604,14 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
                     const kinds = valueKindsForInternalState(nextState?.stateType ?? null);
                     if (current.sourceType !== 'INTERNAL_STATE') return;
                     setCurrent(patchInternalStateBindingDetail(current, {
+                      stateSkillKey: nextState?.skillKey ?? skillKey,
                       stateKey: String(value ?? ''),
                       valueKind: kinds[0] ?? 'VALUE',
                       optionKey: null
                     }));
                   }}
                 />
-              </Form.Item>
+              </Form.Item>}
               <Form.Item label="取值方式" required>
                 <Select
                   aria-label="绑定内部状态取值"
@@ -621,33 +708,42 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
               </Form.Item>
               {current.detail.valueKind !== 'PRESENT' ? (
                 <>
-                  <Form.Item label="生命周期效果" required>
+                  <Form.Item label="来源效果所属技能" required>
+                    <Input aria-label="绑定效果所属技能" value={current.detail.effectSkillKey || skillKey}
+                      disabled={disabled} onChange={(value) => setCurrent(patchCombatStatusMeasuredFields(current,
+                        { effectSkillKey: value.trim(), sourceEffectKey: '', sourceResultKey: '' }))} />
+                  </Form.Item>
+                  {current.detail.effectSkillKey && current.detail.effectSkillKey !== skillKey
+                    ? <Form.Item label="外部来源效果标识" required>
+                      <Input aria-label="外部绑定效果标识" value={current.detail.sourceEffectKey}
+                        disabled={disabled} onChange={(value) => setCurrent(patchCombatStatusMeasuredFields(current,
+                          { sourceEffectKey: value.trim(), sourceResultKey: '' }))} />
+                    </Form.Item> : <Form.Item label="生命周期效果" required>
                     <Select
                       aria-label="绑定生命周期效果"
                       value={current.detail.sourceEffectKey || undefined}
                       disabled={disabled}
-                      options={effects.filter((item) => item.lifecycle !== null).map((item) => ({
+                      options={effects.filter((item) => item.skillKey === skillKey && item.lifecycle !== null).map((item) => ({
                         value: item.effectKey,
                         label: item.name || item.effectKey
                       }))}
                       onChange={(value) => {
                         if (current.sourceType !== 'COMBAT_STATUS') return;
                         setCurrent(patchCombatStatusMeasuredFields(current, {
+                          effectSkillKey: skillKey,
                           sourceEffectKey: String(value ?? ''),
                           sourceResultKey: ''
                         }));
                       }}
                     />
-                  </Form.Item>
+                  </Form.Item>}
                   <Form.Item label="状态施加结果" required>
                     <Select
                       aria-label="绑定状态施加结果"
                       value={current.detail.sourceResultKey || undefined}
-                      disabled={disabled}
+                      disabled={disabled || (effectReference.external && effectReference.state !== 'ready')}
                       options={(() => {
-                        const sourceEffect = effects.find((item) => (
-                          item.effectKey === current.detail.sourceEffectKey
-                        ));
+                        const sourceEffect = effectReference.value;
                         return sourceEffect
                           ? persistentStatusApplyResults(sourceEffect, current.detail.statusKey)
                           : [];
@@ -681,6 +777,66 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
                 })}
               />
             </Form.Item>
+          ) : null}
+
+          {current.sourceType === 'COMBAT_ELAPSED_TIME' ? (
+            <Form.Item label="入战对象" required>
+              <Select aria-label="入战对象" value={current.detail.subject} disabled={disabled}
+                options={subjectOptions.map((value) => ({ value, label: SKILL_TRIGGER_SUBJECT_LABELS[value] }))}
+                onChange={(value) => setCurrent({ ...current, detail: { subject: value as SkillTriggerSubject } })} />
+            </Form.Item>
+          ) : null}
+
+          {current.sourceType === 'RECENT_DAMAGE_SUM' ? (
+            <>
+              <Form.Item label="受伤对象" required>
+                <Select aria-label="受伤对象" value={current.detail.subject} disabled={disabled}
+                  options={subjectOptions.map((value) => ({ value, label: SKILL_TRIGGER_SUBJECT_LABELS[value] }))}
+                  onChange={(value) => setCurrent({ ...current, detail: { ...current.detail,
+                    subject: value as SkillTriggerSubject } })} />
+              </Form.Item>
+              <Form.Item label="时间窗（毫秒）" required>
+                <NumericValueField aria-label="受伤时间窗" value={current.detail.windowValue}
+                  onChange={(value) => setCurrent({ ...current, detail: { ...current.detail,
+                    windowValue: value ?? fixedValue(Number.NaN) } })}
+                  parameters={reachableParameters} formulas={formulas} disabled={disabled} />
+              </Form.Item>
+              <Form.Item label="累计口径" required>
+                <Select aria-label="受伤累计口径" value={current.detail.outputKind} disabled={disabled}
+                  options={[{ value: 'POST_DEFENSE_DAMAGE', label: '防御后伤害' },
+                    { value: 'ACTUAL_HP_LOSS', label: '实际扣血' }]}
+                  onChange={(value) => setCurrent({ ...current, detail: { ...current.detail,
+                    outputKind: value as 'POST_DEFENSE_DAMAGE' | 'ACTUAL_HP_LOSS' } })} />
+              </Form.Item>
+              <Form.Item label="来源技能">
+                <Select aria-label="受伤来源技能" value={current.detail.sourceSkillKey ?? ''} disabled={disabled}
+                  options={[{ value: '', label: '任意技能' }, ...skills.map((item) => ({
+                    value: item.skillKey, label: `${item.name}（${item.skillKey}）` }))]}
+                  onChange={(value) => setCurrent({ ...current, detail: { ...current.detail,
+                    sourceSkillKey: value ? String(value) : null } })} />
+              </Form.Item>
+              <Form.Item label="伤害类型">
+                <Select aria-label="受伤伤害类型" value={current.detail.damageTypeKey ?? ''} disabled={disabled}
+                  options={[{ value: '', label: '任意伤害类型' }, ...damageTypes.map((item) => ({
+                    value: item.damageTypeKey, label: `${item.name}（${item.damageTypeKey}）` }))]}
+                  onChange={(value) => setCurrent({ ...current, detail: { ...current.detail,
+                    damageTypeKey: value ? String(value) : null } })} />
+              </Form.Item>
+              <Form.Item label="产生方式" required>
+                <Select aria-label="受伤产生方式" value={current.detail.deliveryKind} disabled={disabled}
+                  options={[{ value: 'ANY', label: '任意' }, { value: 'SKILL', label: '技能' },
+                    { value: 'BASIC_ATTACK', label: '普攻' }]}
+                  onChange={(value) => setCurrent({ ...current, detail: { ...current.detail,
+                    deliveryKind: value as import('../../../../types/skillTriggerRule').SkillTriggerDamageDeliveryKind } })} />
+              </Form.Item>
+              <Form.Item label="来源性质" required>
+                <Select aria-label="受伤来源性质" value={current.detail.originKind} disabled={disabled}
+                  options={[{ value: 'ANY', label: '任意' }, { value: 'DIRECT', label: '直接' },
+                    { value: 'REFLECTED', label: '反弹' }]}
+                  onChange={(value) => setCurrent({ ...current, detail: { ...current.detail,
+                    originKind: value as import('../../../../types/skillTriggerRule').SkillTriggerDamageOriginKind } })} />
+              </Form.Item>
+            </>
           ) : null}
 
           {current.sourceType === 'PRIOR_ACTION_RESULT' ? (

@@ -22,8 +22,12 @@ public final class SkillCastingPhaseSemantics {
     }
 
     public static void validate(List<Aggregate> aggregates) {
-        Map<String, ProcessShape> processes = indexProcesses(aggregates);
-        for (Aggregate aggregate : aggregates) {
+        validate(aggregates, aggregates);
+    }
+
+    public static void validate(List<Aggregate> sources, List<Aggregate> context) {
+        Map<String, ProcessShape> processes = indexProcesses(context);
+        for (Aggregate aggregate : sources) {
             if (aggregate.type() != SourceType.TRIGGER) {
                 continue;
             }

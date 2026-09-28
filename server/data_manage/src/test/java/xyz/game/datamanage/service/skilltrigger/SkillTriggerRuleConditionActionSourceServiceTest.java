@@ -109,7 +109,7 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
             SkillTriggerConditionType.STATUS_CHECK,
             new SkillTriggerStatusConditionDetail(
                 SkillTriggerSubject.CURRENT_TARGET, "poison", SkillTriggerStatusCheckKind.PRESENT,
-                null, null, null, null
+                null, null, null, null, null
             )
         ));
         service.create(GAME_ID, SKILL_KEY, withGroups("status_ok", List.of(present)));
@@ -121,7 +121,7 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
                     SkillTriggerConditionType.STATUS_CHECK,
                     new SkillTriggerStatusConditionDetail(
                         SkillTriggerSubject.CURRENT_TARGET, "poison", SkillTriggerStatusCheckKind.PRESENT,
-                        EFFECT_KEY, RESULT_KEY, SkillTriggerComparator.GTE, SkillNumericValue.formula(FORMULA_KEY)
+                        null, EFFECT_KEY, RESULT_KEY, SkillTriggerComparator.GTE, SkillNumericValue.formula(FORMULA_KEY)
                     )
                 ))))
             )),
@@ -133,7 +133,7 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
             "enabled",
             SkillTriggerConditionType.INTERNAL_STATE_CHECK,
             new SkillTriggerInternalStateConditionDetail(
-                "flag", SkillTriggerInternalStateValueKind.ENABLED, null, true, null, null
+                SKILL_KEY, "flag", SkillTriggerInternalStateValueKind.ENABLED, null, true, null, null
             )
         ));
         service.create(GAME_ID, SKILL_KEY, withGroups("istate_ok", List.of(flag)));
@@ -144,7 +144,7 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
                 "value",
                 SkillTriggerConditionType.INTERNAL_STATE_CHECK,
                 new SkillTriggerInternalStateConditionDetail(
-                    "flag", SkillTriggerInternalStateValueKind.VALUE, null, null, SkillTriggerComparator.GTE, SkillNumericValue.formula(FORMULA_KEY)
+                    SKILL_KEY, "flag", SkillTriggerInternalStateValueKind.VALUE, null, null, SkillTriggerComparator.GTE, SkillNumericValue.formula(FORMULA_KEY)
                 )
             ))))
         ));
@@ -182,6 +182,34 @@ class SkillTriggerRuleConditionActionSourceServiceTest {
         ));
         assertEquals("400.INVALID_SKILL_TRIGGER_RULE_REFERENCE", takedownValue.getCode());
         assertField(takedownValue, "conditionGroups[0].conditions[0].detail.eventValueKey", "EVENT_VALUE_NOT_AVAILABLE");
+    }
+
+    @Test
+    void crossSkillReadChecksTargetOwnerEvenWhenLocalKeysMatch() {
+        String otherSkill = "other_skill";
+        SkillTriggerCondition externalFlag = condition("external_flag", SkillTriggerConditionType.INTERNAL_STATE_CHECK,
+            new SkillTriggerInternalStateConditionDetail(otherSkill, "flag",
+                SkillTriggerInternalStateValueKind.ENABLED, null, true, null, null));
+        ApiException missingState = thrown(() -> service.create(GAME_ID, SKILL_KEY,
+            withGroups("missing_external_state", List.of(group("g", externalFlag)))));
+        assertField(missingState, "conditionGroups[0].conditions[0].detail.stateKey", "UNKNOWN_INTERNAL_STATE");
+        when(mapper.lockInternalStates(eq(GAME_ID), eq(otherSkill), any())).thenReturn(List.of(
+            SkillTriggerRuleTestSupport.state("flag", SkillInternalStateType.FLAG)));
+        service.create(GAME_ID, SKILL_KEY,
+            withGroups("external_state", List.of(group("g", externalFlag))));
+
+        SkillTriggerCondition externalStatus = condition("external_status", SkillTriggerConditionType.STATUS_CHECK,
+            new SkillTriggerStatusConditionDetail(SkillTriggerSubject.CURRENT_TARGET, "poison",
+                SkillTriggerStatusCheckKind.STACKS_COMPARE, otherSkill, EFFECT_KEY, RESULT_KEY,
+                SkillTriggerComparator.GTE, SkillNumericValue.fixed(java.math.BigDecimal.ONE)));
+        ApiException missingEffect = thrown(() -> service.create(GAME_ID, SKILL_KEY,
+            withGroups("missing_external_effect", List.of(group("g", externalStatus)))));
+        assertField(missingEffect, "conditionGroups[0].conditions[0].detail.sourceEffectKey", "UNKNOWN_EFFECT");
+        when(mapper.lockEffects(eq(GAME_ID), eq(otherSkill), any())).thenReturn(List.of(EFFECT_KEY));
+        when(mapper.countStatusApplyPersistent(GAME_ID, otherSkill, EFFECT_KEY, RESULT_KEY, "poison"))
+            .thenReturn(1L);
+        service.create(GAME_ID, SKILL_KEY,
+            withGroups("external_effect", List.of(group("g", externalStatus))));
     }
 
     @Test

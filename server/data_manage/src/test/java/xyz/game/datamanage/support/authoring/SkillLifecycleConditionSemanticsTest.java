@@ -110,7 +110,7 @@ class SkillLifecycleConditionSemanticsTest {
 
     private static Aggregate rule(String kind, String subject, String value, String event) {
         return aggregate(SourceType.TRIGGER, "rule", "{\"eventSource\":{\"eventType\":\"" + event + "\",\"detail\":{}},"
-            + "\"conditionGroups\":[{\"conditions\":[{\"conditionType\":\"LIFECYCLE_CHECK\",\"detail\":{\"effectKey\":\"mark\","
+            + "\"conditionGroups\":[{\"conditions\":[{\"conditionType\":\"LIFECYCLE_CHECK\",\"detail\":{\"effectSkillKey\":\"skill\",\"effectKey\":\"mark\","
             + "\"subject\":\"" + subject + "\",\"checkKind\":\"" + kind + "\",\"comparator\":"
             + ("STACKS_COMPARE".equals(kind) ? "\"GTE\"" : "null") + ",\"comparisonValue\":" + value + "}}]}],\"actions\":[]}");
     }

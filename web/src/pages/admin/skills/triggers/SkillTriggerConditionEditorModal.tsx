@@ -8,6 +8,7 @@ import type { SkillParameter } from '../../../../types/skillParameter';
 import { NumericValueField } from '../NumericValueField';
 import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
 import { AUTHORING_UNSAVED_CONFIRM } from '../authoringFocus';
+import { useQualifiedSkillEffect, useQualifiedSkillState } from '../useQualifiedSkillReference';
 import {
   Alert,
   Button,
@@ -19,7 +20,7 @@ import {
   Space,
   Switch
 } from '@arco-design/web-react';
-import { useLayoutEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import type { Attribute } from '../../../../types/attribute';
 import type { SkillEffect } from '../../../../types/skillEffect';
 import type { SkillFormulaSummary } from '../../../../types/skillFormula';
@@ -79,6 +80,9 @@ type SkillTriggerConditionEditorModalProps = {
   draft: SkillTriggerConditionDraft | null;
   existingKeys: readonly string[];
   skillKey: string;
+  apiBaseUrl: string;
+  selectedGameId: string;
+  adminToken: string;
   originalConditionType?: SkillTriggerConditionType;
   effectsLoadState?: 'idle' | 'loading' | 'ready' | 'error';
   onRetryLifecycleEffects: () => Promise<void>;
@@ -113,6 +117,9 @@ export function SkillTriggerConditionEditorModal({
   draft,
   existingKeys,
   skillKey,
+  apiBaseUrl,
+  selectedGameId,
+  adminToken,
   originalConditionType,
   effectsLoadState,
   onRetryLifecycleEffects,
@@ -150,17 +157,32 @@ export function SkillTriggerConditionEditorModal({
     setLocalError(null);
   }, [draft, visible]);
 
-  const selectedState = useMemo(
-    () => (
-      current.conditionType === 'INTERNAL_STATE_CHECK'
-        ? internalStates.find((item) => item.stateKey === current.detail.stateKey) ?? null
-        : null
-    ),
-    [current, internalStates]
-  );
+  const stateReference = useQualifiedSkillState({ visible: visible && current.conditionType === 'INTERNAL_STATE_CHECK',
+    apiBaseUrl, gameId: selectedGameId, adminToken, currentSkillKey: skillKey,
+    ownerSkillKey: current.conditionType === 'INTERNAL_STATE_CHECK' ? current.detail.stateSkillKey || skillKey : '',
+    objectKey: current.conditionType === 'INTERNAL_STATE_CHECK' ? current.detail.stateKey : '',
+    local: internalStates });
+  const selectedState = stateReference.value;
 
   const lifecycleEffects = lifecycleConditionEffects(effects, skillKey);
-  const selectedLifecycle = current.conditionType === 'LIFECYCLE_CHECK' ? lifecycleEffects.find((item) => item.effectKey === current.detail.effectKey) : undefined;
+  const lifecycleReference = useQualifiedSkillEffect({ visible: visible && current.conditionType === 'LIFECYCLE_CHECK',
+    apiBaseUrl, gameId: selectedGameId, adminToken, currentSkillKey: skillKey,
+    ownerSkillKey: current.conditionType === 'LIFECYCLE_CHECK' ? current.detail.effectSkillKey || skillKey : '',
+    objectKey: current.conditionType === 'LIFECYCLE_CHECK' ? current.detail.effectKey : '',
+    local: effects });
+  const selectedLifecycle = lifecycleReference.value ?? undefined;
+  useEffect(() => {
+    if (current.conditionType !== 'LIFECYCLE_CHECK' || !selectedLifecycle
+      || lifecycleNeedsSubject(selectedLifecycle) || current.detail.subject === null) return;
+    setCurrent({ ...current, detail: { ...current.detail, subject: null } });
+  }, [current, selectedLifecycle]);
+  const statusReference = useQualifiedSkillEffect({ visible: visible && current.conditionType === 'STATUS_CHECK'
+    && current.detail.checkKind !== 'PRESENT' && current.detail.checkKind !== 'ABSENT',
+    apiBaseUrl, gameId: selectedGameId, adminToken, currentSkillKey: skillKey,
+    ownerSkillKey: current.conditionType === 'STATUS_CHECK' && current.detail.checkKind !== 'PRESENT'
+      && current.detail.checkKind !== 'ABSENT' ? current.detail.effectSkillKey || skillKey : '',
+    objectKey: current.conditionType === 'STATUS_CHECK' && current.detail.checkKind !== 'PRESENT'
+      && current.detail.checkKind !== 'ABSENT' ? current.detail.sourceEffectKey ?? '' : '', local: effects });
 
   const errorFor = (suffix: string): string | undefined => (
     fieldErrors.find((item) => item.path.endsWith(suffix))?.message
@@ -187,9 +209,37 @@ export function SkillTriggerConditionEditorModal({
       if (error) { setLocalError(error); return; }
     }
     if (current.conditionType === 'LIFECYCLE_CHECK') {
+      if (lifecycleReference.external && lifecycleReference.state !== 'ready') {
+        setLocalError(lifecycleReference.error || '外部生命周期效果详情尚未读取。'); return;
+      }
       if (effectsLoadState === 'error') { setLocalError('效果目录加载失败，请重试后选择生命周期。'); return; }
-      const issue = lifecycleConditionError(current.detail, selectedLifecycle, subjectOptions, { parameters, formulas }, { parametersState: parametersLoadState }, skillKey);
+      const issue = lifecycleConditionError(current.detail, selectedLifecycle, subjectOptions,
+        { parameters, formulas }, { parametersState: parametersLoadState });
       if (issue) { setLocalError(issue.message); return; }
+    }
+    if (current.conditionType === 'INTERNAL_STATE_CHECK' && stateReference.external
+      && (stateReference.state !== 'ready' || !selectedState)) {
+      setLocalError(stateReference.error || '外部内部状态详情尚未读取。'); return;
+    }
+    if (current.conditionType === 'INTERNAL_STATE_CHECK' && selectedState
+      && !valueKindsForInternalState(selectedState.stateType).includes(current.detail.valueKind)) {
+      setLocalError('该内部状态不支持当前取值方式。'); return;
+    }
+    if (current.conditionType === 'INTERNAL_STATE_CHECK' && current.detail.valueKind === 'OPTION_SELECTED'
+      && selectedState?.stateType === 'MODE'
+      && !selectedState.detail.options.some((item) => item.optionKey === current.detail.optionKey)) {
+      setLocalError('请选择外部模式状态中的有效选项。'); return;
+    }
+    if (current.conditionType === 'STATUS_CHECK'
+      && current.detail.checkKind !== 'PRESENT' && current.detail.checkKind !== 'ABSENT'
+      && statusReference.external && (statusReference.state !== 'ready' || !statusReference.value)) {
+      setLocalError(statusReference.error || '外部来源效果详情尚未读取。'); return;
+    }
+    if (current.conditionType === 'STATUS_CHECK'
+      && current.detail.checkKind !== 'PRESENT' && current.detail.checkKind !== 'ABSENT'
+      && (!statusReference.value || !persistentStatusApplyResults(statusReference.value,
+        current.detail.statusKey).some((item) => item.resultKey === current.detail.sourceResultKey))) {
+      setLocalError('请选择与状态身份一致的来源结果。'); return;
     }
     if (current.conditionType === 'EVENT_VALUE_COMPARE' && allowedValues.length === 0) {
       setLocalError('当前事件没有可比较的事件值。');
@@ -202,7 +252,14 @@ export function SkillTriggerConditionEditorModal({
       const error = numericValueError(current.detail.comparisonValue, { parameters, formulas }, { allowRuntimeInput: false, parametersState: parametersLoadState });
       if (error) { setLocalError(error); return; }
     }
-    onConfirm({ ...current, conditionKey: current.conditionKey.trim() });
+    const confirmed = structuredClone(current);
+    if (confirmed.conditionType === 'INTERNAL_STATE_CHECK') confirmed.detail.stateSkillKey ||= skillKey;
+    if (confirmed.conditionType === 'LIFECYCLE_CHECK') confirmed.detail.effectSkillKey ||= skillKey;
+    if (confirmed.conditionType === 'STATUS_CHECK') {
+      if (confirmed.detail.checkKind === 'PRESENT' || confirmed.detail.checkKind === 'ABSENT') confirmed.detail.effectSkillKey = null;
+      else confirmed.detail.effectSkillKey ||= skillKey;
+    }
+    onConfirm({ ...confirmed, conditionKey: confirmed.conditionKey.trim() });
   };
 
   const attributeOptions: CatalogOption[] = attributes.map((item) => ({
@@ -248,6 +305,12 @@ export function SkillTriggerConditionEditorModal({
     >
       <Space direction="vertical" size="medium" style={{ width: '100%' }}>
         {localError ? <Alert type="error" content={localError} /> : null}
+        {stateReference.external && stateReference.error ? <Alert type="error" content={stateReference.error}
+          action={<Button size="mini" onClick={stateReference.retry}>重试状态详情</Button>} /> : null}
+        {lifecycleReference.external && lifecycleReference.error ? <Alert type="error" content={lifecycleReference.error}
+          action={<Button size="mini" onClick={lifecycleReference.retry}>重试生命周期详情</Button>} /> : null}
+        {statusReference.external && statusReference.error ? <Alert type="error" content={statusReference.error}
+          action={<Button size="mini" onClick={statusReference.retry}>重试来源效果详情</Button>} /> : null}
         {locateMessage ? <Alert type="warning" content={locateMessage} /> : null}
         <Form layout="vertical">
           <Form.Item label="条件种类" required extra={originalConditionType ? '已有条件不能更改种类；请删除后以新标识新增。' : undefined}>
@@ -429,6 +492,18 @@ export function SkillTriggerConditionEditorModal({
               </Form.Item>
               {current.detail.checkKind === 'STACKS_COMPARE' || current.detail.checkKind === 'REMAINING_MS_COMPARE' ? (
                 <>
+                  <Form.Item label="来源效果所属技能" required>
+                    <Input aria-label="状态来源技能" value={current.detail.effectSkillKey || skillKey}
+                      disabled={disabled} onChange={(value) => setCurrent(patchStatusCompareFields(current,
+                        { effectSkillKey: value.trim(), sourceEffectKey: '', sourceResultKey: '' }))} />
+                  </Form.Item>
+                  {current.detail.effectSkillKey && current.detail.effectSkillKey !== skillKey
+                    ? <Form.Item label="外部来源效果标识" required>
+                      <Input aria-label="外部状态来源效果标识" value={current.detail.sourceEffectKey}
+                        disabled={disabled} onChange={(value) => setCurrent(patchStatusCompareFields(current,
+                          { sourceEffectKey: value.trim(), sourceResultKey: '' }))} />
+                    </Form.Item> : null}
+                  {current.detail.effectSkillKey && current.detail.effectSkillKey !== skillKey ? null : <>
                   <Form.Item label="生命周期效果" required>
                     <Select
                       aria-label="生命周期效果"
@@ -438,20 +513,20 @@ export function SkillTriggerConditionEditorModal({
                         .filter((item) => item.lifecycle !== null)
                         .map((item) => ({ value: item.effectKey, label: item.name || item.effectKey }))}
                       onChange={(value) => setCurrent(patchStatusCompareFields(current, {
+                        effectSkillKey: effects.find((item) => item.effectKey === value)?.skillKey ?? skillKey,
                         sourceEffectKey: String(value ?? ''),
                         sourceResultKey: ''
                       }))}
                     />
                   </Form.Item>
+                  </>}
                   <Form.Item label="状态施加结果" required>
                     <Select
                       aria-label="状态施加结果"
                       value={current.detail.sourceResultKey || undefined}
-                      disabled={disabled}
+                      disabled={disabled || (statusReference.external && statusReference.state !== 'ready')}
                       options={(() => {
-                        const sourceEffect = effects.find((item) => (
-                          item.effectKey === current.detail.sourceEffectKey
-                        ));
+                        const sourceEffect = statusReference.value;
                         return sourceEffect
                           ? persistentStatusApplyResults(sourceEffect, current.detail.statusKey)
                           : [];
@@ -493,6 +568,13 @@ export function SkillTriggerConditionEditorModal({
           {current.conditionType === 'LIFECYCLE_CHECK' ? (
             <>
               {effectsLoadState === 'error' ? <Alert type="error" content="效果目录加载失败，不能保存未知生命周期引用。" /> : null}
+              {current.detail.effectSkillKey && current.detail.effectSkillKey !== skillKey
+                ? <Form.Item label="外部生命周期效果标识" required>
+                  <Input aria-label="外部生命周期效果标识" value={current.detail.effectKey}
+                    disabled={disabled} onChange={(value) => setCurrent({ ...current,
+                      detail: { ...current.detail, effectKey: value.trim() } })} />
+                </Form.Item> : null}
+              {current.detail.effectSkillKey && current.detail.effectSkillKey !== skillKey ? null : <>
               <Form.Item label="生命周期效果" required help={errorFor('detail.effectKey')}
                 extra={<Button size="mini" loading={reloadingEffects} disabled={disabled || reloadingEffects} onClick={async () => {
                   setReloadingEffects(true);
@@ -504,6 +586,12 @@ export function SkillTriggerConditionEditorModal({
                     const effect = lifecycleEffects.find((item) => item.effectKey === key);
                     if (effect) { setCurrent({ ...current, detail: changeLifecycleEffect(current.detail, effect) }); setLocalError(null); }
                   }} />
+              </Form.Item>
+              </>}
+              <Form.Item label="生命周期所属技能" required>
+                <Input aria-label="生命周期所属技能" value={current.detail.effectSkillKey || skillKey}
+                  disabled={disabled} onChange={(value) => setCurrent({ ...current,
+                    detail: { ...current.detail, effectSkillKey: value.trim(), effectKey: '' } })} />
               </Form.Item>
               {lifecycleNeedsSubject(selectedLifecycle) ? (
                 <Form.Item label="生命周期主体" required help={errorFor('detail.subject')}>
@@ -537,6 +625,18 @@ export function SkillTriggerConditionEditorModal({
 
           {current.conditionType === 'INTERNAL_STATE_CHECK' ? (
             <>
+              <Form.Item label="内部状态所属技能" required>
+                <Input aria-label="条件状态所属技能" value={current.detail.stateSkillKey || skillKey}
+                  disabled={disabled} onChange={(value) => setCurrent({ ...current,
+                    detail: { ...current.detail, stateSkillKey: value.trim(), stateKey: '' } })} />
+              </Form.Item>
+              {current.detail.stateSkillKey && current.detail.stateSkillKey !== skillKey
+                ? <Form.Item label="外部内部状态标识" required>
+                  <Input aria-label="外部条件状态标识" value={current.detail.stateKey}
+                    disabled={disabled} onChange={(value) => setCurrent({ ...current,
+                      detail: { ...current.detail, stateKey: value.trim() } })} />
+                </Form.Item> : null}
+              {current.detail.stateSkillKey && current.detail.stateSkillKey !== skillKey ? null : <>
               <Form.Item label="内部状态" required>
                 <Select
                   aria-label="内部状态"
@@ -546,14 +646,17 @@ export function SkillTriggerConditionEditorModal({
                   onChange={(value) => {
                     const nextState = internalStates.find((item) => item.stateKey === value);
                     const kinds = valueKindsForInternalState(nextState?.stateType ?? null);
-                    setCurrent(patchInternalStateCheckStateKey(
+                    const next = patchInternalStateCheckStateKey(
                       current,
                       String(value ?? ''),
                       kinds[0] ?? 'VALUE'
-                    ));
+                    );
+                    setCurrent({ ...next, detail: { ...next.detail,
+                      stateSkillKey: nextState?.skillKey ?? skillKey } });
                   }}
                 />
               </Form.Item>
+              </>}
               <Form.Item label="取值方式" required>
                 <Select
                   aria-label="内部状态取值方式"

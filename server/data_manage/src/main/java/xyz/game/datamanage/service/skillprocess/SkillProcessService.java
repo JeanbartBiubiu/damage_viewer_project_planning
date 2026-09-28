@@ -144,6 +144,76 @@ public class SkillProcessService {
         return requireDetail(gameId, skillKey, processKey);
     }
 
+    /** 统一配置先校验本对象形状，待全部根行写入后再核对最终引用。 */
+    public Prepared prepareConfigurationCreate(SkillProcessCreateRequest request) {
+        ValidatedProcess values = validateCreate(request);
+        return new Prepared(values, collectAndValidateAggregate(values, Map.of(), Map.of(), true), true);
+    }
+
+    public Prepared prepareConfigurationUpdate(
+        String processKey, SkillProcessUpdateRequest request, SkillProcessDetailResponse baselineDetail
+    ) {
+        ValidatedProcess values = validateUpdate(request, processKey);
+        if (baselineDetail == null) throw processNotFound(processKey);
+        List<Map<String, String>> issues = new ArrayList<>();
+        Map<String, SkillProcessStepResponse> oldSteps = new LinkedHashMap<>();
+        for (SkillProcessStepResponse step : baselineDetail.steps()) oldSteps.put(step.stepKey(), step);
+        for (int i = 0; i < values.steps().size(); i++) {
+            SkillProcessStepRequest step = values.steps().get(i);
+            SkillProcessStepResponse old = oldSteps.get(step.stepKey());
+            if (old != null && old.stepType() != step.stepType())
+                issues.add(fieldIssue(stepPath(i, "stepType"), "IMMUTABLE", "步骤种类不能修改"));
+        }
+        Map<String, SkillProcessStateOperationResponse> oldOperations = new LinkedHashMap<>();
+        for (SkillProcessStateOperationResponse operation : baselineDetail.stateOperations())
+            oldOperations.put(operation.operationKey(), operation);
+        for (int i = 0; i < values.stateOperations().size(); i++) {
+            SkillProcessStateOperationRequest operation = values.stateOperations().get(i);
+            SkillProcessStateOperationResponse old = oldOperations.get(operation.operationKey());
+            if (old != null && old.operation() != operation.operation())
+                issues.add(fieldIssue(operationPath(i, "operation"), "IMMUTABLE", "内部状态操作种类不能修改"));
+        }
+        throwIfInvalid(issues);
+        return new Prepared(values, collectAndValidateAggregate(values, Map.of(), Map.of(), true), false);
+    }
+
+    public void writePreparedWithinConfiguration(String gameId, String skillKey, Prepared prepared) {
+        ValidatedProcess values = prepared.values;
+        try {
+            int written = prepared.creating
+                ? mapper.insertProcess(gameId, skillKey, values.processKey(), values.name(), values.activationType(),
+                    values.description(), values.sortOrder(), writeSteps(values.steps()), AggregateJson.write(values.cooldown()),
+                    writeBindings(values.effectBindings()), writeOperations(values.stateOperations()))
+                : mapper.updateProcess(gameId, skillKey, values.processKey(), values.name(), values.activationType(),
+                    values.description(), values.sortOrder(), writeSteps(values.steps()), AggregateJson.write(values.cooldown()),
+                    writeBindings(values.effectBindings()), writeOperations(values.stateOperations()));
+            if (written == 0) throw processNotFound(values.processKey());
+        } catch (DataIntegrityViolationException ex) {
+            throw mapWriteConstraint(ex);
+        }
+    }
+
+    public void validatePreparedAgainstFinalDatabase(String gameId, String skillKey, Prepared prepared) {
+        lockAndValidateCatalogs(gameId, skillKey, prepared.refs);
+        if (triggerRuleService != null) triggerRuleService.assertCurrentSkillCycle(gameId, skillKey);
+    }
+
+    public void deleteWithinConfiguration(String gameId, String skillKey, String processKey) {
+        if (mapper.deleteProcess(gameId, skillKey, processKey) == 0) throw processNotFound(processKey);
+    }
+
+    public static final class Prepared {
+        private final ValidatedProcess values;
+        private final CollectedRefs refs;
+        private final boolean creating;
+
+        private Prepared(ValidatedProcess values, CollectedRefs refs, boolean creating) {
+            this.values = values;
+            this.refs = refs;
+            this.creating = creating;
+        }
+    }
+
     @Transactional
     public SkillProcessDetailResponse create(
         String gameId,
@@ -157,7 +227,7 @@ public class SkillProcessService {
         if (mapper.countByKey(gameId, skillKey, values.processKey()) > 0) {
             throw keyExists();
         }
-        CollectedRefs refs = collectAndValidateAggregate(values, Map.of(), Map.of());
+        CollectedRefs refs = collectAndValidateAggregate(values, Map.of(), Map.of(), true);
         lockAndValidateCatalogs(gameId, skillKey, refs);
         try {
             mapper.insertProcess(
@@ -214,7 +284,7 @@ public class SkillProcessService {
             }
         }
         throwIfInvalid(issues);
-        CollectedRefs refs = collectAndValidateAggregate(values, existingStepByKey, existingOpByKey);
+        CollectedRefs refs = collectAndValidateAggregate(values, existingStepByKey, existingOpByKey, true);
         lockAndValidateCatalogs(gameId, skillKey, refs);
         Set<String> requestedSteps = new LinkedHashSet<>();
         for (SkillProcessStepRequest step : values.steps()) {
@@ -294,7 +364,7 @@ public class SkillProcessService {
             );
             ValidatedProcess values = validateCommon(process.processKey(), process.name(), process.activationType(),
                 process.description(), process.sortOrder(), cooldown, steps, bindings, operations, false);
-            CollectedRefs refs = collectAndValidateAggregate(values, Map.of(), Map.of());
+            CollectedRefs refs = collectAndValidateAggregate(values, Map.of(), Map.of(), false);
             throwIfInvalidReference(refs.referenceIssues);
             return new SkillProcessDetailResponse(
                 process.gameId(), process.skillKey(), process.processKey(), process.name(), process.activationType(),
@@ -306,7 +376,7 @@ public class SkillProcessService {
                     binding.bindingKey(), binding.effectKey(), binding.moment(), binding.sortOrder()
                 )).toList(),
                 operations.stream().map(operation -> new SkillProcessStateOperationResponse(
-                    operation.operationKey(), operation.name(), operation.stateKey(), operation.operation(),
+                    operation.operationKey(), operation.name(), operation.stateSkillKey(), operation.stateKey(), operation.operation(),
                     operation.value(), operation.optionKey(), operation.moment(), operation.sortOrder()
                 )).toList(),
                 process.createdAt(), process.updatedAt()
@@ -418,7 +488,8 @@ public class SkillProcessService {
     private CollectedRefs collectAndValidateAggregate(
         ValidatedProcess values,
         Map<String, SkillProcessStepRow> existingSteps,
-        Map<String, SkillProcessStateOperationRow> existingOps
+        Map<String, SkillProcessStateOperationRow> existingOps,
+        boolean requireStateSkillKey
     ) {
         List<Map<String, String>> issues = new ArrayList<>();
         List<Map<String, String>> bodyIssues = new ArrayList<>();
@@ -450,7 +521,8 @@ public class SkillProcessService {
         Set<String> seenOps = new HashSet<>();
         for (int i = 0; i < values.stateOperations().size(); i++) {
             validateOperation(
-                values.stateOperations().get(i), i, seenOps, finalSteps, refs, issues, referenceIssues
+                values.stateOperations().get(i), i, seenOps, finalSteps, refs, issues, referenceIssues,
+                requireStateSkillKey
             );
         }
         if (values.cooldown() != null) {
@@ -593,7 +665,8 @@ public class SkillProcessService {
         Map<String, SkillProcessStepType> finalSteps,
         CollectedRefs refs,
         List<Map<String, String>> issues,
-        List<Map<String, String>> referenceIssues
+        List<Map<String, String>> referenceIssues,
+        boolean requireStateSkillKey
     ) {
         if (operation == null) {
             issues.add(fieldIssue(operationPath(index, null), "REQUIRED", "内部状态操作不能为空"));
@@ -602,11 +675,13 @@ public class SkillProcessService {
         if (operation.operationKey() != null && !seen.add(operation.operationKey())) {
             issues.add(fieldIssue(operationPath(index, "operationKey"), "DUPLICATE", "同一过程内操作标识不能重复"));
         }
+        if (requireStateSkillKey && (operation.stateSkillKey() == null || operation.stateSkillKey().isBlank())) {
+            issues.add(fieldIssue(operationPath(index, "stateSkillKey"), "REQUIRED", "内部状态所属技能不能为空"));
+        }
         if (operation.stateKey() == null || operation.stateKey().isBlank()) {
             issues.add(fieldIssue(operationPath(index, "stateKey"), "REQUIRED", "内部状态标识不能为空"));
-        } else {
-            refs.states.add(new CatalogRef(operationPath(index, "stateKey"), operation.stateKey()));
-            refs.stateKeys.add(operation.stateKey());
+        } else if (operation.stateSkillKey() != null) {
+            refs.states.add(new StateRef(operationPath(index, "stateKey"), operation.stateSkillKey(), operation.stateKey()));
         }
         if (operation.operation() == null) {
             issues.add(fieldIssue(operationPath(index, "operation"), "REQUIRED", "内部状态操作种类不能为空"));
@@ -617,12 +692,14 @@ public class SkillProcessService {
         if (operation.optionKey() != null && operation.stateKey() != null) {
             refs.options.add(new OptionRef(
                 operationPath(index, "optionKey"),
+                operation.stateSkillKey(),
                 operation.stateKey(),
                 operation.optionKey()
             ));
         }
         refs.operationShapes.add(new OperationShape(
             index,
+            operation.stateSkillKey(),
             operation.stateKey(),
             operation.operation(),
             operation.value(),
@@ -677,27 +754,29 @@ public class SkillProcessService {
         Set<String> formulas = lockSorted(refs.formulaKeys, keys -> mapper.lockFormulas(gameId, skillKey, keys));
         Set<String> effects = lockSorted(refs.effectKeys, keys -> mapper.lockEffects(gameId, skillKey, keys));
         Map<String, SkillInternalStateType> states = new LinkedHashMap<>();
-        if (!refs.stateKeys.isEmpty()) {
-            List<String> lockKeys = new ArrayList<>(refs.stateKeys);
-            lockKeys.sort(String::compareTo);
-            for (SkillProcessInternalStateLockRow row : nullToEmpty(mapper.lockInternalStates(gameId, skillKey, lockKeys))) {
-                states.put(row.stateKey(), row.stateType());
+        List<StateRef> sortedStates = refs.states.stream()
+            .distinct()
+            .sorted(Comparator.comparing(StateRef::stateSkillKey).thenComparing(StateRef::stateKey))
+            .toList();
+        for (StateRef ref : sortedStates) {
+            for (SkillProcessInternalStateLockRow row : nullToEmpty(
+                mapper.lockInternalStates(gameId, ref.stateSkillKey(), List.of(ref.stateKey()))
+            )) {
+                states.put(ref.stateSkillKey() + "\0" + row.stateKey(), row.stateType());
             }
         }
         Set<String> optionIds = new HashSet<>();
-        if (!refs.options.isEmpty()) {
-            List<SkillProcessModeOptionLockRow> lockKeys = new ArrayList<>();
-            Set<String> seen = new HashSet<>();
-            for (OptionRef option : refs.options) {
-                String id = option.stateKey() + "\0" + option.optionKey();
-                if (seen.add(id)) {
-                    lockKeys.add(new SkillProcessModeOptionLockRow(option.stateKey(), option.optionKey()));
-                }
-            }
-            lockKeys.sort(Comparator.comparing(SkillProcessModeOptionLockRow::stateKey)
-                .thenComparing(SkillProcessModeOptionLockRow::optionKey));
-            for (SkillProcessModeOptionLockRow row : nullToEmpty(mapper.lockModeOptions(gameId, skillKey, lockKeys))) {
-                optionIds.add(row.stateKey() + "\0" + row.optionKey());
+        List<OptionRef> sortedOptions = refs.options.stream()
+            .filter(ref -> ref.stateSkillKey() != null)
+            .distinct()
+            .sorted(Comparator.comparing(OptionRef::stateSkillKey)
+                .thenComparing(OptionRef::stateKey).thenComparing(OptionRef::optionKey))
+            .toList();
+        for (OptionRef ref : sortedOptions) {
+            for (SkillProcessModeOptionLockRow row : nullToEmpty(mapper.lockModeOptions(
+                gameId, ref.stateSkillKey(), List.of(new SkillProcessModeOptionLockRow(ref.stateKey(), ref.optionKey()))
+            ))) {
+                optionIds.add(ref.stateSkillKey() + "\0" + row.stateKey() + "\0" + row.optionKey());
             }
         }
         List<Map<String, String>> unknown = new ArrayList<>();
@@ -711,13 +790,13 @@ public class SkillProcessService {
                 unknown.add(fieldIssue(ref.field(), "UNKNOWN_EFFECT", "技能效果不存在或不属于当前技能"));
             }
         }
-        for (CatalogRef ref : refs.states) {
-            if (!states.containsKey(ref.key())) {
-                unknown.add(fieldIssue(ref.field(), "UNKNOWN_INTERNAL_STATE", "内部状态不存在或不属于当前技能"));
+        for (StateRef ref : refs.states) {
+            if (!states.containsKey(ref.stateSkillKey() + "\0" + ref.stateKey())) {
+                unknown.add(fieldIssue(ref.field(), "UNKNOWN_INTERNAL_STATE", "内部状态不存在或不属于指定技能"));
             }
         }
         for (OptionRef ref : refs.options) {
-            if (!optionIds.contains(ref.stateKey() + "\0" + ref.optionKey())) {
+            if (!optionIds.contains(ref.stateSkillKey() + "\0" + ref.stateKey() + "\0" + ref.optionKey())) {
                 unknown.add(fieldIssue(ref.field(), "UNKNOWN_MODE_OPTION", "模式选项不存在或不属于当前内部状态"));
             }
         }
@@ -731,7 +810,7 @@ public class SkillProcessService {
             if (shape.stateKey() == null || shape.operation() == null) {
                 continue;
             }
-            SkillInternalStateType stateType = states.get(shape.stateKey());
+            SkillInternalStateType stateType = states.get(shape.stateSkillKey() + "\0" + shape.stateKey());
             if (stateType == null) {
                 continue;
             }
@@ -1028,11 +1107,10 @@ public class SkillProcessService {
     private static final class CollectedRefs {
         private final List<CatalogRef> formulas = new ArrayList<>();
         private final List<CatalogRef> effects = new ArrayList<>();
-        private final List<CatalogRef> states = new ArrayList<>();
+        private final List<StateRef> states = new ArrayList<>();
         private final List<OptionRef> options = new ArrayList<>();
         private final Set<String> formulaKeys = new LinkedHashSet<>();
         private final Set<String> effectKeys = new LinkedHashSet<>();
-        private final Set<String> stateKeys = new LinkedHashSet<>();
         private final List<OperationShape> operationShapes = new ArrayList<>();
         private final List<Map<String, String>> referenceIssues = new ArrayList<>();
     }
@@ -1040,11 +1118,15 @@ public class SkillProcessService {
     private record CatalogRef(String field, String key) {
     }
 
-    private record OptionRef(String field, String stateKey, String optionKey) {
+    private record StateRef(String field, String stateSkillKey, String stateKey) {
+    }
+
+    private record OptionRef(String field, String stateSkillKey, String stateKey, String optionKey) {
     }
 
     private record OperationShape(
         int index,
+        String stateSkillKey,
         String stateKey,
         SkillProcessStateOperationKind operation,
         SkillNumericValue value,

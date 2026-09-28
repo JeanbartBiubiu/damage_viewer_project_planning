@@ -5,6 +5,7 @@ import xyz.game.datamanage.model.value.SkillNumericValue;
 public record SkillProcessStateOperationResponse(
     String operationKey,
     String name,
+    String stateSkillKey,
     String stateKey,
     SkillProcessStateOperationKind operation,
     SkillNumericValue value,

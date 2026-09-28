@@ -10,6 +10,7 @@ public record SkillTriggerProcessShapeRow(
     String processKey,
     String bindingEffectKey,
     String operationStateKey,
+    String operationStateSkillKey,
     SkillProcessStateOperationKind operation,
     SkillNumericValue operationValue,
     SkillInternalStateType stateType,

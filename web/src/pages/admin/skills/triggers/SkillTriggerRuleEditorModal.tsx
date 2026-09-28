@@ -35,6 +35,7 @@ import type { DamageType } from '../../../../types/damageType';
 import type { Skill } from '../../../../types/skill';
 import type { AuthoringLocation } from '../../../../types/authoringLocation';
 import { AuthoringFieldAnchor } from '../AuthoringFieldAnchor';
+import { useQualifiedSkillState } from '../useQualifiedSkillReference';
 import { resolveAuthoringLocation } from '../authoringLocation';
 import {
   authoringLocateMessage,
@@ -64,6 +65,7 @@ import type {
   SkillTriggerHealthDirection,
   SkillTriggerInternalStateChangeKind,
   SkillTriggerLifecycleEventMoment,
+  CreateSkillTriggerRuleRequest,
   SkillTriggerRuleDetail,
   SkillTriggerRuleSummary,
   SkillTriggerStatusChangeKind,
@@ -193,6 +195,17 @@ type SkillTriggerRuleEditorModalProps = {
   onRuleMissing: () => void;
   onDirtyChange: (dirty: boolean) => void;
   authoringLocation?: AuthoringLocation | null;
+  workspaceDraft?: {
+    initial: SkillTriggerRuleDraft;
+    original: SkillTriggerRuleDetail | null;
+    parameters: SkillParameter[];
+    formulas: SkillFormula[];
+    effects: SkillEffect[];
+    processes: SkillProcess[];
+    internalStates: SkillInternalState[];
+    rules: SkillTriggerRuleDetail[];
+    onApply: (draft: SkillTriggerRuleDraft, value: CreateSkillTriggerRuleRequest) => string | null;
+  };
 };
 
 type ConditionEditorState = {
@@ -282,7 +295,8 @@ export function SkillTriggerRuleEditorModal({
   onSkillMissing,
   onRuleMissing,
   onDirtyChange,
-  authoringLocation
+  authoringLocation,
+  workspaceDraft
 }: SkillTriggerRuleEditorModalProps) {
   const [draft, setDraft] = useState<SkillTriggerRuleDraft>(createEmptyRuleDraft());
   const [baseline, setBaseline] = useState<SkillTriggerRuleDraft>(createEmptyRuleDraft());
@@ -327,6 +341,7 @@ export function SkillTriggerRuleEditorModal({
   const detailSerial = useRef(0);
   const catalogSerial = useRef(0);
   const spellShieldSerial = useRef(0);
+  const workspaceSnapshot = useRef(workspaceDraft).current;
   effectByKeyRef.current = effectByKey;
   processByKeyRef.current = processByKey;
   stateByKeyRef.current = stateByKey;
@@ -341,6 +356,15 @@ export function SkillTriggerRuleEditorModal({
   const selectedResultEffect = draft.eventSource.eventType === 'RESULT_AVAILABLE'
     ? effectByKey.get(draft.eventSource.detail.effectKey) ?? null
     : null;
+  const eventStateReference = useQualifiedSkillState({
+    visible: visible && draft.eventSource.eventType === 'INTERNAL_STATE_CHANGED',
+    apiBaseUrl, gameId: selectedGameId, adminToken, currentSkillKey: skill.skillKey,
+    ownerSkillKey: draft.eventSource.eventType === 'INTERNAL_STATE_CHANGED'
+      ? draft.eventSource.detail.stateSkillKey || skill.skillKey : '',
+    objectKey: draft.eventSource.eventType === 'INTERNAL_STATE_CHANGED'
+      ? draft.eventSource.detail.stateKey : '',
+    local: [...stateByKey.values()]
+  });
   const currentStepType = eventStepType(draft.eventSource, selectedProcess);
   const hasEventSource = eventHasEventSource(draft.eventSource.eventType);
   const targetOptions = targetContextOptionsForEvent(draft.eventSource.eventType);
@@ -437,7 +461,8 @@ export function SkillTriggerRuleEditorModal({
     try {
       const result = await listSkills(apiBaseUrl, selectedGameId, token);
       if (catalogSerial.current !== serial) return;
-      setSkills(result.data.items);
+      setSkills(workspaceSnapshot && !result.data.items.some((item) => item.skillKey === skill.skillKey)
+        ? [...result.data.items, skill] : result.data.items);
       setCatalog('skills', 'ready');
     } catch (error) {
       if (catalogSerial.current !== serial) return;
@@ -445,7 +470,7 @@ export function SkillTriggerRuleEditorModal({
       setSkills([]);
       setCatalog('skills', 'error', getErrorMessage(error));
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, visible]);
+  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, visible, workspaceSnapshot, skill.skillKey]);
 
   const loadAttributesCatalog = useCallback(async () => {
     const serial = catalogSerial.current;
@@ -608,10 +633,98 @@ export function SkillTriggerRuleEditorModal({
     }
   }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, visible]);
 
+  const applyAuthoringLocation = useCallback((detail: SkillTriggerRuleDetail, next: SkillTriggerRuleDraft) => {
+    if (!authoringLocation) return;
+    const resolved = resolveAuthoringLocation(authoringLocation, detail);
+    const unsupported = shouldDegradeUnsupportedAnchor(
+      authoringLocation.editor,
+      resolved.matchedSegments,
+      resolved.precision
+    );
+    const notice = (resolved.precision !== 'FIELD' || unsupported || resolved.reason)
+      ? authoringLocateMessage({
+        originalFieldPath: resolved.originalFieldPath,
+        reason: resolved.reason,
+        unsupportedAnchor: unsupported,
+        reportChanged: resolved.reportChanged
+      })
+      : null;
+    setLocateNotice(notice);
+    const groupKey = keyedChildKey(resolved.matchedSegments, 'conditionGroups');
+    const conditionKey = keyedChildKey(resolved.matchedSegments, 'conditions');
+    const actionKey = keyedChildKey(resolved.matchedSegments, 'actions');
+    const bindingKey = keyedChildKey(resolved.matchedSegments, 'runtimeInputBindings');
+    const field = lastFieldName(resolved.matchedSegments);
+    const canFocus = resolved.precision === 'FIELD' && !unsupported;
+    const locatingOncePerUse = resolved.matchedSegments.some((segment) => (
+      segment.kind === 'FIELD' && segment.field === 'oncePerUse'
+    ));
+    if (conditionKey) {
+      const groupIndex = next.conditionGroups.findIndex((group) => group.groupKey === groupKey);
+      const group = groupIndex >= 0 ? next.conditionGroups[groupIndex] : undefined;
+      const conditionIndex = group?.conditions.findIndex((item) => item.conditionKey === conditionKey) ?? -1;
+      if (!group || conditionIndex < 0) {
+        setLocateNotice(authoringLocateMessage({
+          originalFieldPath: resolved.originalFieldPath,
+          reason: 'MISSING_KEY'
+        }));
+      } else {
+        setConditionEditor({
+          mode: 'edit',
+          groupIndex,
+          conditionIndex,
+          draft: group.conditions[conditionIndex]!,
+          focusField: canFocus ? field : null,
+          locateMessage: notice
+        });
+      }
+    } else if (actionKey) {
+      const index = next.actions.findIndex((item) => item.actionKey === actionKey);
+      if (index < 0) {
+        setLocateNotice(authoringLocateMessage({
+          originalFieldPath: resolved.originalFieldPath,
+          reason: 'MISSING_KEY'
+        }));
+      } else {
+        const action = next.actions[index]!;
+        if (bindingKey && !action.runtimeInputBindings.some((item) => item.bindingKey === bindingKey)) {
+          setLocateNotice(authoringLocateMessage({
+            originalFieldPath: resolved.originalFieldPath,
+            reason: 'MISSING_KEY'
+          }));
+        }
+        setActionEditor({
+          mode: 'edit',
+          index,
+          draft: action,
+          focusField: canFocus ? field : null,
+          locateMessage: notice,
+          focusBindingKey: bindingKey && action.runtimeInputBindings.some((item) => item.bindingKey === bindingKey)
+            ? bindingKey
+            : null
+        });
+      }
+    } else if (canFocus) {
+      setFocusField(field);
+      setFocusOncePerUse(locatingOncePerUse);
+    }
+  }, [authoringLocation]);
+
   const loadDetail = useCallback(async () => {
     const serial = detailSerial.current + 1;
     detailSerial.current = serial;
     const token = adminToken.trim();
+    if (workspaceSnapshot && visible) {
+      setDraft(workspaceSnapshot.initial);
+      setBaseline(workspaceSnapshot.initial);
+      setDetailReady(true);
+      setLoadingDetail(false);
+      setRecordMissing(false);
+      setLoadError(null);
+      reportDirty(workspaceSnapshot.initial, workspaceSnapshot.initial);
+      if (workspaceSnapshot.original) applyAuthoringLocation(workspaceSnapshot.original, workspaceSnapshot.initial);
+      return;
+    }
     if (!visible || mode !== 'edit' || !rule) {
       setLoadingDetail(false);
       setDetailReady(visible && mode === 'create');
@@ -635,74 +748,13 @@ export function SkillTriggerRuleEditorModal({
         token
       );
       if (detailSerial.current !== serial) return;
-      const next = fromDetail(result.data);
+      const next = fromDetail(result.data, skill.skillKey);
       setDraft(next);
       setBaseline(next);
       setDetailReady(true);
       setRecordMissing(false);
       reportDirty(next, next);
-      if (authoringLocation) {
-        const resolved = resolveAuthoringLocation(authoringLocation, result.data);
-        const unsupported = shouldDegradeUnsupportedAnchor(authoringLocation.editor, resolved.matchedSegments, resolved.precision);
-        const notice = (resolved.precision !== 'FIELD' || unsupported || resolved.reason)
-          ? authoringLocateMessage({
-            originalFieldPath: resolved.originalFieldPath,
-            reason: resolved.reason,
-            unsupportedAnchor: unsupported,
-            reportChanged: resolved.reportChanged
-          })
-          : null;
-        setLocateNotice(notice);
-        const groupKey = keyedChildKey(resolved.matchedSegments, 'conditionGroups');
-        const conditionKey = keyedChildKey(resolved.matchedSegments, 'conditions');
-        const actionKey = keyedChildKey(resolved.matchedSegments, 'actions');
-        const bindingKey = keyedChildKey(resolved.matchedSegments, 'runtimeInputBindings');
-        const field = lastFieldName(resolved.matchedSegments);
-        const canFocus = resolved.precision === 'FIELD' && !unsupported;
-        const locatingOncePerUse = resolved.matchedSegments.some((segment) => (
-          segment.kind === 'FIELD' && segment.field === 'oncePerUse'
-        ));
-        if (conditionKey) {
-          const groupIndex = next.conditionGroups.findIndex((group) => group.groupKey === groupKey);
-          const group = groupIndex >= 0 ? next.conditionGroups[groupIndex] : undefined;
-          const conditionIndex = group?.conditions.findIndex((item) => item.conditionKey === conditionKey) ?? -1;
-          if (!group || conditionIndex < 0) {
-            setLocateNotice(authoringLocateMessage({ originalFieldPath: resolved.originalFieldPath, reason: 'MISSING_KEY' }));
-          } else {
-            setConditionEditor({
-              mode: 'edit',
-              groupIndex,
-              conditionIndex,
-              draft: group.conditions[conditionIndex]!,
-              focusField: canFocus ? field : null,
-              locateMessage: notice
-            });
-          }
-        } else if (actionKey) {
-          const index = next.actions.findIndex((item) => item.actionKey === actionKey);
-          if (index < 0) {
-            setLocateNotice(authoringLocateMessage({ originalFieldPath: resolved.originalFieldPath, reason: 'MISSING_KEY' }));
-          } else {
-            const action = next.actions[index]!;
-            if (bindingKey && !action.runtimeInputBindings.some((item) => item.bindingKey === bindingKey)) {
-              setLocateNotice(authoringLocateMessage({ originalFieldPath: resolved.originalFieldPath, reason: 'MISSING_KEY' }));
-            }
-            setActionEditor({
-              mode: 'edit',
-              index,
-              draft: action,
-              focusField: canFocus ? field : null,
-              locateMessage: notice,
-              focusBindingKey: bindingKey && action.runtimeInputBindings.some((item) => item.bindingKey === bindingKey)
-                ? bindingKey
-                : null
-            });
-          }
-        } else if (canFocus) {
-          setFocusField(field);
-          setFocusOncePerUse(locatingOncePerUse);
-        }
-      }
+      applyAuthoringLocation(result.data, next);
     } catch (error) {
       if (detailSerial.current !== serial) return;
       if (handleMissing(error)) return;
@@ -724,7 +776,8 @@ export function SkillTriggerRuleEditorModal({
     } finally {
       if (detailSerial.current === serial) setLoadingDetail(false);
     }
-  }, [adminToken, apiBaseUrl, authoringLocation, handleMissing, mode, onRuleMissing, reportDirty, rule, selectedGameId, skill.skillKey, visible]);
+  }, [adminToken, apiBaseUrl, applyAuthoringLocation, authoringLocation, handleMissing, mode,
+    onRuleMissing, reportDirty, rule, selectedGameId, skill.skillKey, visible, workspaceSnapshot]);
 
   const ensureEffect = useCallback(async (effectKey: string): Promise<SkillEffect | null> => {
     if (!effectKey.trim()) return null;
@@ -746,6 +799,10 @@ export function SkillTriggerRuleEditorModal({
   }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey]);
 
   const refreshSpellShieldEffectDetails = useCallback(async (): Promise<boolean> => {
+    if (workspaceSnapshot) {
+      setSpellShieldCatalogState('ready');
+      return true;
+    }
     const serial = spellShieldSerial.current + 1;
     spellShieldSerial.current = serial;
     const token = adminToken.trim();
@@ -782,7 +839,7 @@ export function SkillTriggerRuleEditorModal({
     setEffectByKey(new Map(next));
     setSpellShieldCatalogState('ready');
     return true;
-  }, [adminToken, apiBaseUrl, effects, handleMissing, selectedGameId, skill.skillKey, visible]);
+  }, [adminToken, apiBaseUrl, effects, handleMissing, selectedGameId, skill.skillKey, visible, workspaceSnapshot]);
 
   const ensureProcess = useCallback(async (processKey: string): Promise<SkillProcess | null> => {
     if (!processKey.trim()) return null;
@@ -841,6 +898,37 @@ export function SkillTriggerRuleEditorModal({
 
   const reloadReferences = useCallback(async () => {
     setReferenceError(null);
+    if (workspaceSnapshot) {
+      const formulas = workspaceSnapshot.formulas;
+      const effects = workspaceSnapshot.effects;
+      const processes = workspaceSnapshot.processes;
+      const states = workspaceSnapshot.internalStates;
+      setParameters(workspaceSnapshot.parameters);
+      setFormulas(formulas);
+      setEffects(effects.map((item) => ({ gameId: item.gameId, skillKey: item.skillKey,
+        effectKey: item.effectKey, name: item.name, description: item.description, sortOrder: item.sortOrder,
+        resultCount: item.results.length, lifecycleEnabled: item.lifecycle !== null,
+        createdAt: item.createdAt, updatedAt: item.updatedAt })));
+      setProcesses(processes.map((item) => ({ gameId: item.gameId, skillKey: item.skillKey,
+        processKey: item.processKey, name: item.name, activationType: item.activationType,
+        description: item.description, sortOrder: item.sortOrder, stepCount: item.steps.length,
+        effectBindingCount: item.effectBindings.length, stateOperationCount: item.stateOperations.length,
+        createdAt: item.createdAt, updatedAt: item.updatedAt })));
+      setInternalStates(states.map(({ detail: _detail, ...summary }) => { void _detail; return summary; }));
+      const effectMap = new Map(effects.map((item) => [item.effectKey, item]));
+      const processMap = new Map(processes.map((item) => [item.processKey, item]));
+      const stateMap = new Map(states.map((item) => [item.stateKey, item]));
+      const formulaMap = new Map(formulas.map((item) => [item.formulaKey, item]));
+      effectByKeyRef.current = effectMap; processByKeyRef.current = processMap;
+      stateByKeyRef.current = stateMap; formulaByKeyRef.current = formulaMap;
+      setEffectByKey(effectMap); setProcessByKey(processMap); setStateByKey(stateMap); setFormulaByKey(formulaMap);
+      setRuleNames(new Map(workspaceSnapshot.rules.map((item) => [item.ruleKey, item.name])));
+      for (const kind of ['parameters', 'formulas', 'effects', 'processes', 'internalStates'] as const) {
+        setCatalog(kind, 'ready');
+      }
+      await Promise.all([loadSkillsCatalog(), loadAttributesCatalog(), loadDamageTypesCatalog(), loadStatusesCatalog()]);
+      return;
+    }
     await Promise.all([
       loadSkillsCatalog(),
       loadAttributesCatalog(),
@@ -863,7 +951,8 @@ export function SkillTriggerRuleEditorModal({
     loadProcessesCatalog,
     loadRuleNames,
     loadSkillsCatalog,
-    loadStatusesCatalog
+    loadStatusesCatalog,
+    workspaceSnapshot
   ]);
 
   useEffect(() => {
@@ -1092,8 +1181,19 @@ export function SkillTriggerRuleEditorModal({
 
   const ensureSaveReferences = async (): Promise<boolean> => {
     setReferenceError(null);
-    const lifecycleEffects = draft.conditionGroups.flatMap((group) => group.conditions.flatMap((condition) => condition.conditionType === 'LIFECYCLE_CHECK' ? [condition.detail.effectKey] : []));
-    const conditionEffects = await Promise.all([...new Set(lifecycleEffects)].map(ensureEffect));
+    const lifecycleEffects = draft.conditionGroups.flatMap((group) => group.conditions.flatMap((condition) =>
+      condition.conditionType === 'LIFECYCLE_CHECK'
+        ? [{ owner: condition.detail.effectSkillKey || skill.skillKey, key: condition.detail.effectKey }] : []));
+    const unique = new Map(lifecycleEffects.map((item) => [`${item.owner}\0${item.key}`, item]));
+    const conditionEffects = await Promise.all([...unique.values()].map(async ({ owner, key }) => {
+      if (owner === skill.skillKey) return ensureEffect(key);
+      try {
+        return (await getSkillEffect(apiBaseUrl, selectedGameId, owner, key, adminToken.trim())).data;
+      } catch (error) {
+        setReferenceError(getErrorMessage(error));
+        return null;
+      }
+    }));
     if (conditionEffects.some((effect) => effect === null)) return false;
     const formulaKeys = new Set(collectDirectFormulaKeys(draft));
     for (const action of draft.actions) {
@@ -1120,6 +1220,17 @@ export function SkillTriggerRuleEditorModal({
 
   const save = async () => {
     if (saving || closeBlocked || !detailReady || recordMissing || subEditorOpen) return;
+    if (draft.eventSource.eventType === 'INTERNAL_STATE_CHANGED' && eventStateReference.external
+      && (eventStateReference.state !== 'ready' || !eventStateReference.value)) {
+      setSaveError(eventStateReference.error || '外部内部状态详情尚未读取。');
+      return;
+    }
+    if (draft.eventSource.eventType === 'INTERNAL_STATE_CHANGED' && eventStateReference.value
+      && !changeKindsForInternalState(eventStateReference.value.stateType)
+        .includes(draft.eventSource.detail.changeKind)) {
+      setSaveError('该内部状态不支持当前变化种类。');
+      return;
+    }
     const token = adminToken.trim();
     if (!token) {
       setSaveError('请先配置 Admin Token。');
@@ -1155,6 +1266,12 @@ export function SkillTriggerRuleEditorModal({
         setFieldErrors({ ...fieldErrors, eventSource: INCOMPLETE_CATALOG_MESSAGE });
         return;
       }
+      if (workspaceSnapshot) {
+        const error = workspaceSnapshot.onApply(draft, toCreateRequest(draft));
+        if (error) setSaveError(error);
+        else onDirtyChange(false);
+        return;
+      }
       const result = mode === 'create'
         ? await createSkillTriggerRule(
             apiBaseUrl,
@@ -1171,7 +1288,7 @@ export function SkillTriggerRuleEditorModal({
             token,
             toUpdateRequest(draft)
           );
-      const next = fromDetail(result.data);
+      const next = fromDetail(result.data, skill.skillKey);
       setDraft(next);
       setBaseline(next);
       onDirtyChange(false);
@@ -1305,7 +1422,7 @@ export function SkillTriggerRuleEditorModal({
               }
               onClick={() => void save()}
             >
-              保存
+              {workspaceSnapshot ? '确认到技能草稿' : '保存'}
             </Button>
           </Space>
         }
@@ -1431,6 +1548,11 @@ export function SkillTriggerRuleEditorModal({
               <Alert type="info" content={SKILL_TRIGGER_TAKEDOWN_HINT} />
             ) : null}
             {renderEventSourceFields({
+              skillKey: skill.skillKey,
+              selectedInternalState: eventStateReference.value,
+              stateReadState: eventStateReference.state,
+              stateReadError: eventStateReference.error,
+              retryStateRead: eventStateReference.retry,
               eventSource: draft.eventSource,
               disabled: saving,
               skills: skillOptions,
@@ -1784,6 +1906,7 @@ export function SkillTriggerRuleEditorModal({
 
       <SkillTriggerConditionEditorModal
         skillKey={skill.skillKey}
+        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
         effectsLoadState={catalogStates.effects}
         onRetryLifecycleEffects={retryLifecycleConditionEffects}
         originalConditionType={conditionEditor ? baseline.conditionGroups.find((group) => group.groupKey === sortedGroups[conditionEditor.groupIndex]?.groupKey)?.conditions.find((condition) => condition.conditionKey === conditionEditor.draft.conditionKey)?.conditionType : undefined}
@@ -1826,8 +1949,12 @@ export function SkillTriggerRuleEditorModal({
       />
 
       <SkillTriggerActionEditorModal
+        apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId} adminToken={adminToken}
         originalBindings={baseline.actions.find((item) => item.actionKey === actionEditor?.draft?.actionKey)?.runtimeInputBindings ?? []}
         attributes={attributes}
+        skills={skills}
+        damageTypes={damageTypes}
+        formulas={formulas}
         attributesLoadState={catalogStates.attributes}
         onRetryAttributes={loadAttributesCatalog}
         visible={actionEditor !== null}
@@ -1898,6 +2025,11 @@ export function SkillTriggerRuleEditorModal({
 }
 
 type EventSourceFieldProps = {
+  skillKey: string;
+  selectedInternalState: SkillInternalState | null;
+  stateReadState: 'idle' | 'loading' | 'ready' | 'error';
+  stateReadError: string | null;
+  retryStateRead: () => void;
   eventSource: SkillTriggerEventSource;
   disabled: boolean;
   skills: (currentKey: string | null) => CatalogOption[];
@@ -2228,6 +2360,12 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
       const eventType = eventSource.eventType;
       return (
         <>
+          <Form.Item label="来源技能">
+            <Select aria-label="伤害事件来源技能" value={eventSource.detail.sourceSkillKey ?? ''}
+              disabled={disabled} options={props.skills(eventSource.detail.sourceSkillKey)}
+              onChange={(value) => onChange({ eventType,
+                detail: { ...eventSource.detail, sourceSkillKey: value ? String(value) : null } })} />
+          </Form.Item>
           <Form.Item label="伤害类型">
             <Select
               aria-label="伤害事件伤害类型"
@@ -2407,11 +2545,21 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
         </>
       );
     case 'INTERNAL_STATE_CHANGED': {
-      const selected = props.internalStates.find((item) => item.stateKey === eventSource.detail.stateKey);
+      const selected = props.selectedInternalState;
       const kinds = changeKindsForInternalState(selected?.stateType ?? null);
       return (
         <>
-          <Form.Item label="内部状态" required>
+          <Form.Item label="内部状态所属技能" required>
+            <Input aria-label="状态事件所属技能" value={eventSource.detail.stateSkillKey || props.skillKey}
+              disabled={disabled} onChange={(value) => onChange({ eventType: 'INTERNAL_STATE_CHANGED',
+                detail: { stateSkillKey: value.trim(), stateKey: '', changeKind: 'VALUE_CHANGED' } })} />
+          </Form.Item>
+          {eventSource.detail.stateSkillKey && eventSource.detail.stateSkillKey !== props.skillKey
+            ? <Form.Item label="外部内部状态标识" required>
+              <Input aria-label="状态事件外部状态标识" value={eventSource.detail.stateKey}
+                disabled={disabled} onChange={(value) => onChange({ eventType: 'INTERNAL_STATE_CHANGED',
+                  detail: { ...eventSource.detail, stateKey: value.trim() } })} />
+            </Form.Item> : <Form.Item label="内部状态" required>
             <Select
               aria-label="内部状态变化状态"
               value={eventSource.detail.stateKey || undefined}
@@ -2427,18 +2575,22 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
                 onChange({
                   eventType: 'INTERNAL_STATE_CHANGED',
                   detail: {
+                    stateSkillKey: nextState?.skillKey ?? props.skillKey,
                     stateKey,
                     changeKind: nextKinds[0] ?? 'VALUE_CHANGED'
                   }
                 });
               }}
             />
-          </Form.Item>
+          </Form.Item>}
+          {props.stateReadError ? <Alert type="error" content={props.stateReadError}
+            action={<Button size="mini" onClick={props.retryStateRead}>重试状态详情</Button>} /> : null}
           <Form.Item label="变化种类" required>
             <Select
               aria-label="内部状态变化种类"
               value={eventSource.detail.changeKind}
-              disabled={disabled}
+              disabled={disabled || (eventSource.detail.stateSkillKey !== props.skillKey
+                && props.stateReadState !== 'ready')}
               options={kinds.map((value) => ({
                 value,
                 label: SKILL_TRIGGER_INTERNAL_STATE_CHANGE_LABELS[value]
@@ -2446,6 +2598,7 @@ function renderEventSourceFields(props: EventSourceFieldProps) {
               onChange={(value) => onChange({
                 eventType: 'INTERNAL_STATE_CHANGED',
                 detail: {
+                  stateSkillKey: eventSource.detail.stateSkillKey || props.skillKey,
                   stateKey: eventSource.detail.stateKey,
                   changeKind: value as SkillTriggerInternalStateChangeKind
                 }

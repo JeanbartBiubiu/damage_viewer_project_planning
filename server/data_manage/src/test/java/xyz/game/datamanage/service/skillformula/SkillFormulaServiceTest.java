@@ -10,6 +10,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -68,7 +69,7 @@ class SkillFormulaServiceTest {
     @BeforeEach
     void setUp() {
         service = new SkillFormulaService(gamesMapper, skillMapper, formulaMapper, org.mockito.Mockito.mock(xyz.game.datamanage.support.authoring.GameConfigurationWriteGuard.class));
-        when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
+        lenient().when(gamesMapper.countGames(GAME_ID)).thenReturn(1L);
     }
 
     @Test
@@ -122,6 +123,35 @@ class SkillFormulaServiceTest {
         SkillFormulaDetailResponse detail = service.create(GAME_ID, SKILL_KEY,
             new SkillFormulaCreateRequest("stack_damage", "层数伤害", null, 1, expression));
         assertEquals(expression, detail.expression());
+    }
+
+    @Test
+    void configurationValidationUsesCandidateParameterSetBeforeItExistsInDatabase() {
+        SkillFormulaCreateRequest request = new SkillFormulaCreateRequest("pending_formula", "新公式", null,
+            1, new SkillFormulaParameterNode("pending_parameter"));
+        service.validateConfigurationCreate(GAME_ID, SKILL_KEY, request, Set.of("pending_parameter"));
+        verify(formulaMapper, never()).findExistingParameterKeys(any(), any(), anyCollection());
+
+        ApiException missing = assertThrows(ApiException.class, () -> service.validateConfigurationCreate(
+            GAME_ID, SKILL_KEY, request, Set.of()));
+        assertEquals("400.INVALID_FORMULA_REFERENCE", missing.getCode());
+        assertTrue(missing.getDetails().toString().contains("expression.parameterKey"));
+    }
+
+    @Test
+    void configurationDeletionChecksFinalFormulaReferencesAndSkipsOldPerObjectGuard() {
+        Map<String, SkillFormulaExpressionNode> old = Map.of(
+            "damage", new SkillFormulaParameterNode("old_parameter"));
+        ApiException stillUsed = assertThrows(ApiException.class, () ->
+            service.validateFinalParameterReferences(GAME_ID, SKILL_KEY, old, Set.of("new_parameter")));
+        assertEquals("409.SKILL_FORMULA_PARAMETER_IN_USE", stillUsed.getCode());
+        service.validateFinalParameterReferences(GAME_ID, SKILL_KEY,
+            Map.of("damage", new SkillFormulaParameterNode("new_parameter")), Set.of("new_parameter"));
+
+        when(formulaMapper.findByIdForUpdate(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(formulaRow());
+        when(formulaMapper.delete(GAME_ID, SKILL_KEY, FORMULA_KEY)).thenReturn(1);
+        service.deleteWithinConfiguration(GAME_ID, SKILL_KEY, FORMULA_KEY);
+        verify(formulaMapper).delete(GAME_ID, SKILL_KEY, FORMULA_KEY);
     }
 
     @Test

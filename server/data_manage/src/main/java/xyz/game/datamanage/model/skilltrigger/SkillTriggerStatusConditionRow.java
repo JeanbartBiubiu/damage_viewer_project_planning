@@ -11,6 +11,7 @@ public record SkillTriggerStatusConditionRow(
     SkillTriggerSubject subject,
     String statusKey,
     SkillTriggerStatusCheckKind checkKind,
+    String effectSkillKey,
     String sourceEffectKey,
     String sourceResultKey,
     SkillTriggerComparator comparator,

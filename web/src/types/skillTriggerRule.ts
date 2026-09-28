@@ -48,7 +48,9 @@ export type SkillTriggerRuntimeInputSourceType =
   | 'COMBAT_STATUS'
   | 'EVENT_VALUE'
   | 'SOURCE_CAST_RESOURCE_COST'
-  | 'PRIOR_ACTION_RESULT';
+  | 'PRIOR_ACTION_RESULT'
+  | 'COMBAT_ELAPSED_TIME'
+  | 'RECENT_DAMAGE_SUM';
 
 export type SkillTriggerEventUseKind = 'ACTIVE' | 'CONSUMABLE' | 'ANY';
 
@@ -167,6 +169,7 @@ export type SkillTriggerLifecycleMomentEventDetail = {
 };
 
 export type SkillTriggerDamageEventDetail = {
+  sourceSkillKey: string | null;
   damageTypeKey: string | null;
   deliveryKind: SkillTriggerDamageDeliveryKind;
   originKind: SkillTriggerDamageOriginKind;
@@ -186,6 +189,7 @@ export type SkillTriggerHealthThresholdEventDetail = {
 };
 
 export type SkillTriggerInternalStateChangedEventDetail = {
+  stateSkillKey: string;
   stateKey: string;
   changeKind: SkillTriggerInternalStateChangeKind;
 };
@@ -354,6 +358,7 @@ export type SkillTriggerStatusPresenceDetail = {
   subject: SkillTriggerSubject;
   statusKey: string;
   checkKind: 'PRESENT' | 'ABSENT';
+  effectSkillKey: null;
   sourceEffectKey: null;
   sourceResultKey: null;
   comparator: null;
@@ -364,6 +369,7 @@ export type SkillTriggerStatusCompareDetail = {
   subject: SkillTriggerSubject;
   statusKey: string;
   checkKind: 'STACKS_COMPARE' | 'REMAINING_MS_COMPARE';
+  effectSkillKey: string;
   sourceEffectKey: string;
   sourceResultKey: string;
   comparator: SkillTriggerComparator;
@@ -376,6 +382,7 @@ export type SkillTriggerStatusCheckDetail =
 
 export type SkillTriggerLifecycleCheckKind = 'PRESENT' | 'ABSENT' | 'STACKS_COMPARE';
 export type SkillTriggerLifecycleCheckDetail = {
+  effectSkillKey: string;
   effectKey: string;
   subject: SkillTriggerSubject | null;
 } & ({
@@ -389,6 +396,7 @@ export type SkillTriggerLifecycleCheckDetail = {
 });
 
 export type SkillTriggerInternalStateValueDetail = {
+  stateSkillKey: string;
   stateKey: string;
   valueKind: 'VALUE';
   optionKey: null;
@@ -398,6 +406,7 @@ export type SkillTriggerInternalStateValueDetail = {
 };
 
 export type SkillTriggerInternalStateOptionDetail = {
+  stateSkillKey: string;
   stateKey: string;
   valueKind: 'OPTION_SELECTED';
   optionKey: string;
@@ -407,6 +416,7 @@ export type SkillTriggerInternalStateOptionDetail = {
 };
 
 export type SkillTriggerInternalStateEnabledDetail = {
+  stateSkillKey: string;
   stateKey: string;
   valueKind: 'ENABLED';
   optionKey: null;
@@ -416,6 +426,7 @@ export type SkillTriggerInternalStateEnabledDetail = {
 };
 
 export type SkillTriggerInternalStateRemainingDetail = {
+  stateSkillKey: string;
   stateKey: string;
   valueKind: 'REMAINING_MS';
   optionKey: null;
@@ -506,6 +517,7 @@ export type SkillTriggerConditionGroup = {
 };
 
 export type SkillTriggerInternalStateBindingDetail = {
+  stateSkillKey: string;
   stateKey: string;
   valueKind: SkillTriggerInternalStateValueKind;
   optionKey: string | null;
@@ -515,6 +527,7 @@ export type SkillTriggerCombatStatusPresentBindingDetail = {
   subject: SkillTriggerSubject;
   statusKey: string;
   valueKind: 'PRESENT';
+  effectSkillKey: null;
   sourceEffectKey: null;
   sourceResultKey: null;
 };
@@ -523,6 +536,7 @@ export type SkillTriggerCombatStatusMeasuredBindingDetail = {
   subject: SkillTriggerSubject;
   statusKey: string;
   valueKind: 'STACKS' | 'REMAINING_MS';
+  effectSkillKey: string;
   sourceEffectKey: string;
   sourceResultKey: string;
 };
@@ -533,6 +547,20 @@ export type SkillTriggerCombatStatusBindingDetail =
 
 export type SkillTriggerEventValueBindingDetail = {
   eventValueKey: SkillTriggerEventValueKey;
+};
+
+export type SkillTriggerCombatElapsedTimeBindingDetail = {
+  subject: SkillTriggerSubject;
+};
+
+export type SkillTriggerRecentDamageSumBindingDetail = {
+  subject: SkillTriggerSubject;
+  windowValue: NumericValue;
+  outputKind: 'POST_DEFENSE_DAMAGE' | 'ACTUAL_HP_LOSS';
+  sourceSkillKey: string | null;
+  damageTypeKey: string | null;
+  deliveryKind: SkillTriggerDamageDeliveryKind;
+  originKind: SkillTriggerDamageOriginKind;
 };
 
 export type SkillTriggerSourceCastResourceCostBinding = {
@@ -576,12 +604,28 @@ export type SkillTriggerPriorResultBinding = {
   detail: SkillTriggerPriorResultBindingDetail;
 };
 
+export type SkillTriggerCombatElapsedTimeBinding = {
+  bindingKey: string;
+  parameterKey: string;
+  sourceType: 'COMBAT_ELAPSED_TIME';
+  detail: SkillTriggerCombatElapsedTimeBindingDetail;
+};
+
+export type SkillTriggerRecentDamageSumBinding = {
+  bindingKey: string;
+  parameterKey: string;
+  sourceType: 'RECENT_DAMAGE_SUM';
+  detail: SkillTriggerRecentDamageSumBindingDetail;
+};
+
 export type SkillTriggerRuntimeInputBinding =
   | SkillTriggerInternalStateBinding
   | SkillTriggerCombatStatusBinding
   | SkillTriggerEventValueBinding
   | SkillTriggerSourceCastResourceCostBinding
-  | SkillTriggerPriorResultBinding;
+  | SkillTriggerPriorResultBinding
+  | SkillTriggerCombatElapsedTimeBinding
+  | SkillTriggerRecentDamageSumBinding;
 
 export type SkillTriggerResultModifier = {
   resultKey: string;
