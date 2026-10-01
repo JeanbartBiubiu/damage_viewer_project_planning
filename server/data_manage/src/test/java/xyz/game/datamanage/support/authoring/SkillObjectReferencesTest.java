@@ -29,6 +29,17 @@ import xyz.game.datamanage.support.error.ApiException;
 
 class SkillObjectReferencesTest {
     @Test
+    void readExtractionUsesTheSameBusinessFieldsWithoutPretendingTargetsExist() {
+        List<Aggregate> sources = fixture();
+        assertEquals(SkillObjectReferences.extractAndValidate("lol", sources, catalog()),
+            SkillObjectReferences.extract("lol", sources));
+        Aggregate missing = aggregate(SourceType.FORMULA, "s1", "formula",
+            "{\"expression\":{\"nodeType\":\"PARAMETER\",\"parameterKey\":\"missing\"}}");
+        assertEquals("missing", SkillObjectReferences.extract("lol", List.of(missing)).getFirst().target().key());
+        assertThrows(ApiException.class, () -> SkillObjectReferences.extractAndValidate("lol", List.of(missing), Set.of()));
+    }
+
+    @Test
     void shieldReceptionProtectsItsZoneAndValueParameter() {
         Aggregate effect = aggregate(SourceType.EFFECT, "s1", "shield", """
             {"results":[{"resultKey":"received","resultType":"SHIELD_RECEIVED_MODIFIER",

@@ -2,7 +2,7 @@
 
 `server/data_manage` 是 Damage Viewer 的 Java / Spring Boot 后端，负责游戏元数据、图片、属性、角色、装备、构筑系统、技能、状态，以及技能公式、伤害类型结算公式、效果、内部状态、过程和触发规则的录入管理。
 
-当前实现只保存、校验和回读配置，不执行公式、过程或事件，不组装 Wasm 数据。旧 `/combat-data/**`、当前版本查询和 `versions:publish` 发布链路已删除。
+当前实现保存、校验和回读配置，并为所选场景提供一致的只读配置快照；不执行公式、过程或事件，不组装 Wasm 请求。旧 `/combat-data/**`、当前版本查询和 `versions:publish` 发布链路已删除。
 
 ## 开发范围与入口
 
@@ -224,6 +224,7 @@
 | `/build-systems/{systemKey}/definition` | 同一可重复读事务返回系统、分组、可选项和技能授予；非法已存定义返回 500，不返回部分数据 |
 | `/build-systems/{systemKey}/groups`、`/build-systems/{systemKey}/options` | 分组完整位置布局和可选项；按点投入时同一可选项在整个布局最多出现一次 |
 | `/skills` | 技能基本资料；`skillKey` 在同游戏唯一且不可改，名称可重复，`maxLevel >= 1` |
+| `/simulation-snapshot` | 一次读取首批 A/B、A 已挂载的共享普攻及完整依赖；不保存场景或执行计算 |
 | `/skills/{skillKey}/parameters` | 参数四种取值方式：FIXED、SKILL_LEVEL、CHARACTER_LEVEL、RUNTIME_INPUT |
 | `/skills/{skillKey}/formulas` | 表达式节点 OPERATION、PARAMETER、ATTRIBUTE；深度最多 32、节点最多 256，不执行公式 |
 | `/skills/{skillKey}/effects` | 效果及完整结果、可选生命周期；已有结果的 `resultType` 不可改 |
@@ -324,6 +325,22 @@ PUT 和 DELETE 先调用 `GameConfigurationWriteGuard.begin(gameId)`，确认游
 CORS 当前覆盖 `/api/**`，并暴露 `ETag` 响应头。启动成功但首次请求出现依赖错误时，检查连接配置；需要启动时直接暴露问题可设 `APP_STARTUP_FAIL_FAST=true`。管理接口返回 401 / 403 时，检查 JWT 开关及公钥配置。
 
 ## 验证入口与证据边界
+
+### 所选场景只读快照
+
+`GET /api/admin/games/{gameId}/simulation-snapshot` 沿用现有管理鉴权，六个查询参数均须明确提供：`sourceCharacterKey`、`sourceLevel`、`targetCharacterKey`、`targetLevel`、`basicAttackSkillKey`、`basicAttackLevel`。首批技能只接受 `shared_basic_attack`（共享普通攻击），且 A 必须真实挂载它；双方角色等级依当前游戏范围检查，技能等级依原技能最高等级检查。B 不产生自主动作，本入口不读取装备、构筑选择或未选技能配置。
+
+响应的 `selection` 保存原场景选择；`source`、`target` 分别包含 `character`（角色原资料）、`attributes`（完整等级属性图）、`selectedLevelValues`（原所选等级数值）及 `attachedSkills`（真实挂载列表）。`skillConfigurations` 保存所选技能完整管理响应，保留全部参数、公式、效果及并列结果、过程、内部状态和规则。`catalogs` 包含等级配置、实际依赖属性和分类、伤害类型及完整五阶段公式、乘区、状态与游戏吸血规则。数据接入的唯一共享契约仍见规划真源[单攻击方计算六阶段推进方案第4.1、4.2节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/单攻击方计算六阶段推进方案.md#41-所选对象的一致性快照)。
+
+整个读取处于同一可重复读只读事务，不取写锁、不写业务数据或引用索引。`references` 从本次完整配置的真实业务字段重新提取，同技能根对象和子项立即核对，目录按所需稳定键读取，不依赖历史引用索引的完整性。首批跨技能引用明确拒绝。`snapshotDigest`（场景摘要）由本次全部返回内容统一计算，包含双方资料、属性、挂载及依赖；不以单技能 `baseDigest` 替代，且排除追溯用的 `readAt`（读回时间）。相同内容读回摘要保持一致。
+
+角色已经录入的固有属性必须具有完整合法的等级图，所选等级缺行、缺数值或管理读取丢弃其值时拒绝。公式引用但角色从未录入的附加属性只返回其真实目录定义，角色数值保持缺失；由 Web 提供显式场景补充值，未填时在装配阶段报告具体路径，不补零、不覆盖固有值。伤害配置使用 `SOURCE_CRIT_CHANCE`（按来源暴击率）时，额外读取 `critical_strike_chance`（暴击率）属性定义；禁止暴击或强制暴击不因此增加该目录依赖。计算时传入参数同样保持无默认值。
+
+已有场景配置不完整返回 `409.SIMULATION_SNAPSHOT_INVALID`，`fieldIssues`（字段问题）分别使用 `REFERENCE_MISSING`（缺依赖）、`REFERENCE_DISABLED`（停用目录）、`FORMULA_MISSING`（缺完整五阶段公式）、`NUMBER_MISSING`（缺固有数值）、`LEVEL_VALUES_INCOMPLETE`（固有等级图不完整）与 `CROSS_SKILL_NOT_SUPPORTED`（首批不支持跨技能）定位；字段带技能集合、对象稳定键及原配置路径。失败不返回部分成功快照。游戏或角色不存在仍沿用现有 404；管理权限沿用 401 / 403；缺查询参数或类型错误在入口返回 400。
+
+定向检查为 `mvn "-Dtest=SimulationSnapshotServiceTest,SimulationSnapshotAdminControllerTest,SkillObjectReferencesTest" test`，覆盖附加属性缺值、真实零、全部并列结果、依赖缺失和停用、固有等级图缺口、摘要与鉴权。单测不代表实库 HTTP 已读回，也不代表 Web 装配、Wasm 编译或战斗运行通过；最终本地服务的真实快照与独立数据核对由集成验收记录。
+
+### 技能统一配置与角色录入检查
 
 技能统一配置入口位于 `/api/admin/games/{gameId}/skills/{skillKey}/configuration`。`GET` 在一致只读快照中返回技能主体、参数、完整公式表达式、效果、过程、内部状态、触发规则与整技能配置摘要 `baseDigest`。`POST` 按路径新建技能，提交 `{skill,changes}`；`PATCH` 提交 `{baseDigest,skill?,changes}`，摘要冲突返回 409。`changes` 的每项包含对象类型、`CREATE`／`UPDATE`／`DELETE` 操作、稳定键及新增／修改时的完整可写对象。统一写入覆盖参数、公式、内部状态、效果、过程和触发规则；未知请求字段直接拒绝。已有各对象独立管理接口继续按原行为提供服务。
 
