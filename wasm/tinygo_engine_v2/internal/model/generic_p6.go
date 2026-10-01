@@ -65,6 +65,8 @@ func EngineProducedEventTypes() map[string]struct{} {
 		EventTypeSpellShieldBlocked: {},
 		EventTypeBasicAttackHit:     {},
 		EventTypeBasicAttackStart:   {},
+		EventTypeAttackLinkApplied:  {},
+		EventTypeHitLinkApplied:     {},
 	}
 }
 

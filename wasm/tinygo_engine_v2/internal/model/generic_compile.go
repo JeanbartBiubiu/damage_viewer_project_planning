@@ -189,30 +189,33 @@ const (
 
 // OperationDefinition 是 ability 成功执行后的 operation。
 type OperationDefinition struct {
-	Operation             string                   `json:"operation"`
-	Target                string                   `json:"target"`
-	Amount                *GenericFormulaExpr      `json:"amount,omitempty"`
-	ValuePolicy           string                   `json:"valuePolicy,omitempty"`
-	DamageType            string                   `json:"damageType,omitempty"`
-	ResourceKey           string                   `json:"resourceKey,omitempty"`
-	AttributeKey          string                   `json:"attributeKey,omitempty"`
-	AbilityRef            string                   `json:"abilityRef,omitempty"`
-	ShieldRef             string                   `json:"shieldRef,omitempty"`
-	ProviderDefinitionRef string                   `json:"providerDefinitionRef,omitempty"`
-	ProviderRef           string                   `json:"providerRef,omitempty"`
-	EventType             string                   `json:"eventType,omitempty"`
-	Payload               map[string]interface{}   `json:"payload,omitempty"`
-	Types                 []string                 `json:"types,omitempty"`
-	Tags                  []string                 `json:"tags,omitempty"`
-	Ref                   string                   `json:"ref,omitempty"`
-	Condition             *GenericFormulaExpr      `json:"condition,omitempty"`
-	CopyableOnHit         bool                     `json:"copyableOnHit,omitempty"`
-	CritEligible          bool                     `json:"critEligible,omitempty"`
-	VampQualification     string                   `json:"vampQualification,omitempty"`
-	VampOverrides         []VampOverrideDefinition `json:"vampOverrides,omitempty"`
-	RepeatScope           string                   `json:"repeatScope,omitempty"`
-	RepeatCount           int                      `json:"repeatCount,omitempty"`
-	RepeatTag             string                   `json:"repeatTag,omitempty"`
+	Operation             string                 `json:"operation"`
+	Target                string                 `json:"target"`
+	Amount                *GenericFormulaExpr    `json:"amount,omitempty"`
+	ValuePolicy           string                 `json:"valuePolicy,omitempty"`
+	DamageType            string                 `json:"damageType,omitempty"`
+	ResourceKey           string                 `json:"resourceKey,omitempty"`
+	AttributeKey          string                 `json:"attributeKey,omitempty"`
+	AbilityRef            string                 `json:"abilityRef,omitempty"`
+	ShieldRef             string                 `json:"shieldRef,omitempty"`
+	ProviderDefinitionRef string                 `json:"providerDefinitionRef,omitempty"`
+	ProviderRef           string                 `json:"providerRef,omitempty"`
+	EventType             string                 `json:"eventType,omitempty"`
+	Payload               map[string]interface{} `json:"payload,omitempty"`
+	Types                 []string               `json:"types,omitempty"`
+	Tags                  []string               `json:"tags,omitempty"`
+	Ref                   string                 `json:"ref,omitempty"`
+	Condition             *GenericFormulaExpr    `json:"condition,omitempty"`
+	CopyableOnHit         bool                   `json:"copyableOnHit,omitempty"`
+	CritEligible          bool                   `json:"critEligible,omitempty"`
+	// CritChance / CritMultiplier 成对声明当前结果的期望暴击供值，不覆盖来源全局属性。
+	CritChance        *GenericFormulaExpr      `json:"critChance,omitempty"`
+	CritMultiplier    *GenericFormulaExpr      `json:"critMultiplier,omitempty"`
+	VampQualification string                   `json:"vampQualification,omitempty"`
+	VampOverrides     []VampOverrideDefinition `json:"vampOverrides,omitempty"`
+	RepeatScope       string                   `json:"repeatScope,omitempty"`
+	RepeatCount       int                      `json:"repeatCount,omitempty"`
+	RepeatTag         string                   `json:"repeatTag,omitempty"`
 	// RepeatDelayMs 可选非负延迟；省略/0 保持即时 phantom replay。
 	RepeatDelayMs   int     `json:"repeatDelayMs,omitempty"`
 	TriggerStateKey string  `json:"triggerStateKey,omitempty"`
@@ -271,11 +274,12 @@ type TypeMatcher struct {
 
 // RulesContainer 聚合全局规则。
 type RulesContainer struct {
-	VampRules    []VampRuleDefinition  `json:"vampRules,omitempty"`
-	Operations   []OperationDefinition `json:"operations,omitempty"`
-	Modifiers    []ModifierDefinition  `json:"modifiers,omitempty"`
-	Listeners    []ListenerDefinition  `json:"listeners,omitempty"`
-	TriggerRules []interface{}         `json:"triggerRules,omitempty"`
+	DamageTypeFormulas []DamageTypeFormulaDefinition `json:"damageTypeFormulas,omitempty"`
+	VampRules          []VampRuleDefinition          `json:"vampRules,omitempty"`
+	Operations         []OperationDefinition         `json:"operations,omitempty"`
+	Modifiers          []ModifierDefinition          `json:"modifiers,omitempty"`
+	Listeners          []ListenerDefinition          `json:"listeners,omitempty"`
+	TriggerRules       []interface{}                 `json:"triggerRules,omitempty"`
 }
 
 // NamedFormula 是命名公式定义（供 ref 引用）。

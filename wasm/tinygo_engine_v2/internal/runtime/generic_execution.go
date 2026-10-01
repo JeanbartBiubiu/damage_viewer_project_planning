@@ -55,6 +55,13 @@ type stagedCombatant struct {
 // eventFormulaSnapshot 保存父 frame entry 快照与 emit 当点 staged 深拷贝。
 // event 参与者始终是原始 emittedEvent source/target，不随 listener owner-relative 重映射。
 type eventFormulaSnapshot struct {
+	hasUse               bool
+	useKey               string
+	useSource            string
+	useSkillKey          string
+	hasLink              bool
+	linkIndex            int
+	linkCount            int
 	eventType            string
 	eventSourceKey       string
 	eventTargetKey       string
@@ -77,16 +84,20 @@ type eventFormulaSnapshot struct {
 }
 
 type executionFrame struct {
-	processActualCosts  map[string]float64
-	processCostReadable bool
-	run                 *genericRunState
-	frameID             uint64
-	sourceKey           string
-	targetKey           string
-	abilityRef          string
-	ownerCombatantKey   string // mounted provider owner; distinct from event/op sourceKey
-	ownerProviderRef    string
-	strictReads         bool
+	processUseKey        string
+	processUseSkillKey   string
+	processUseSource     string
+	damageDefenseContext *formula.GenericEvalContext
+	processActualCosts   map[string]float64
+	processCostReadable  bool
+	run                  *genericRunState
+	frameID              uint64
+	sourceKey            string
+	targetKey            string
+	abilityRef           string
+	ownerCombatantKey    string // mounted provider owner; distinct from event/op sourceKey
+	ownerProviderRef     string
+	strictReads          bool
 
 	// castInstanceID / castOrigin：同一次施放的身份与来源；多 op / delayed / listener ops 继承。
 	castInstanceID uint64
@@ -143,6 +154,8 @@ type copyableDamageFrozen struct {
 	operationRef         string // op.Ref；有则写入 evidence / replayedFrom
 	entrySourceAttrs     map[string]model.AttributeSlotDef
 	entryTargetAttrs     map[string]model.AttributeSlotDef
+	entrySourceResources map[string]model.ResourceSlotDef
+	entryTargetResources map[string]model.ResourceSlotDef
 	eventSourceKey       string
 	eventTargetKey       string
 	crit                 frozenCritEvidence
@@ -291,6 +304,13 @@ func cloneEventSnapshot(src *eventFormulaSnapshot) *eventFormulaSnapshot {
 		return nil
 	}
 	cp := eventFormulaSnapshot{
+		hasUse:               src.hasUse,
+		useKey:               src.useKey,
+		useSource:            src.useSource,
+		useSkillKey:          src.useSkillKey,
+		hasLink:              src.hasLink,
+		linkIndex:            src.linkIndex,
+		linkCount:            src.linkCount,
 		eventType:            src.eventType,
 		eventSourceKey:       src.eventSourceKey,
 		eventTargetKey:       src.eventTargetKey,
@@ -372,6 +392,9 @@ func (f *executionFrame) evalContext(ability compilebundle.CompiledAbility) form
 	}
 	if f.eventCtx != nil {
 		ctx.HasEventContext = true
+		ctx.HasEventLink = f.eventCtx.hasLink
+		ctx.LinkIndex = f.eventCtx.linkIndex
+		ctx.LinkCount = f.eventCtx.linkCount
 		ctx.EventEntrySourceAttrs = f.eventCtx.entrySourceAttrs
 		ctx.EventEntryTargetAttrs = f.eventCtx.entryTargetAttrs
 		ctx.EventEntrySourceResources = f.eventCtx.entrySourceResources
@@ -568,6 +591,8 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 	}
 
 	switch op.Operation {
+	case model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
+		return f.applyLink(ability, op, targetKey)
 	case "damage", "heal", "shield":
 		if !op.HasAmount {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrMissingRequiredField, op.Operation+" requires amount", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -848,7 +873,7 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 
 func isSkillHitBlockedWrite(op string) bool {
 	switch op {
-	case "damage", "apply_provider", "refresh_provider", "attribute_change", "resource_change", "cooldown_change", "heal", "shield":
+	case "damage", "apply_provider", "refresh_provider", "attribute_change", "resource_change", "cooldown_change", "heal", "shield", model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
 		return true
 	default:
 		return false
@@ -1579,11 +1604,19 @@ func (f *executionFrame) settleExpectedCrit(op compilebundle.CompiledOperation, 
 		return frozenCritEvidence{}, baseRawAmount, nil, nil
 	}
 	src := f.stageFor(f.sourceKey)
-	chanceRaw, err := readRequiredResolvedAttr(src.attributes, "crit_chance", f)
-	if err != nil {
-		return frozenCritEvidence{}, 0, nil, err
+	var chanceRaw, critDamageRaw float64
+	var err *model.EngineError
+	if op.HasCritFormula {
+		chanceRaw, err = f.evalResultFormula(op.CritChanceProgram, ability, targetKey)
+		if err == nil {
+			critDamageRaw, err = f.evalResultFormula(op.CritMultiplierProgram, ability, targetKey)
+		}
+	} else {
+		chanceRaw, err = readRequiredResolvedAttr(src.attributes, "crit_chance", f)
+		if err == nil {
+			critDamageRaw, err = readRequiredResolvedAttr(src.attributes, "crit_damage", f)
+		}
 	}
-	critDamageRaw, err := readRequiredResolvedAttr(src.attributes, "crit_damage", f)
 	if err != nil {
 		return frozenCritEvidence{}, 0, nil, err
 	}
@@ -1965,6 +1998,9 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	}
 	ability := s.compiled.Abilities[ref.AbilityIndex]
 	if ability.ProcessControl != nil {
+		if ability.ProcessControl.UseRefFromEvent {
+			return s.startProcessFromEvent(sourceKey, targetKey, resolvedRef, ability, chainDepth, eventCtx, driverEntryKey)
+		}
 		return s.processErr("abilityRef", "process control can only execute through its single-shot driver fact", resolvedRef)
 	}
 	start := ability.OperationStart
@@ -2449,6 +2485,7 @@ func (f *executionFrame) dispatchPendingEvents() *model.EngineError {
 }
 
 func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *model.EngineError {
+	attachUseToSnapshot(&ev)
 	if chainDepth > s.budget.MaxChainDepth {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max chain depth exceeded", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
@@ -2777,11 +2814,15 @@ func (f *executionFrame) maybeCollectCopyableDamage(op compilebundle.CompiledOpe
 		rec.eventTargetKey = f.eventCtx.eventTargetKey
 		rec.entrySourceAttrs = cloneAttributeMap(f.eventCtx.entrySourceAttrs)
 		rec.entryTargetAttrs = cloneAttributeMap(f.eventCtx.entryTargetAttrs)
+		rec.entrySourceResources = cloneResourceMap(f.eventCtx.entrySourceResources)
+		rec.entryTargetResources = cloneResourceMap(f.eventCtx.entryTargetResources)
 	} else {
 		rec.eventSourceKey = f.sourceKey
 		rec.eventTargetKey = f.targetKey
 		rec.entrySourceAttrs = cloneAttributeMap(f.entrySourceAttrs)
 		rec.entryTargetAttrs = cloneAttributeMap(f.entryTargetAttrs)
+		rec.entrySourceResources = cloneResourceMap(f.entrySourceResources)
+		rec.entryTargetResources = cloneResourceMap(f.entryTargetResources)
 	}
 	collector.damages = append(collector.damages, rec)
 	if len(collector.damages)+len(collector.repeats) > f.run.budget.MaxCommandsPerEvent {
@@ -3023,6 +3064,13 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 	}
 	// Phantom uses frozen event-entry source attrs for penetration; target resistance already overlaid.
 	sourcePenAttrs := dmg.entryAttrsForCombatant(dmg.sourceKey)
+	frame.damageDefenseContext = &formula.GenericEvalContext{
+		SourceAttrs:     sourcePenAttrs,
+		TargetAttrs:     dmg.entryAttrsForCombatant(dmg.targetKey),
+		SourceResources: dmg.entryResourcesForCombatant(dmg.sourceKey),
+		TargetResources: dmg.entryResourcesForCombatant(dmg.targetKey),
+		StrictReads:     true,
+	}
 	// 暴击分支已冻结在 dmg.crit；本笔 modifiers 只登记重新执行的伤害修正。
 	numbers, err := frame.resolveDamageNumbers(cmd, dmg.operation, dmg.crit, dmg.ability,
 		nil, mitigationAttrs, sourcePenAttrs)

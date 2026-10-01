@@ -27,6 +27,9 @@ func compileSkillHitAbility(ability model.AbilityDefinition, op model.OperationD
 	collector := ctx.collector
 	session := ctx.session
 	opPath := path + ".operations[0]"
+	if op.CritChance != nil || op.CritMultiplier != nil {
+		collector.addError(model.GenericErrFormulaTypeError, opPath+".critChance", "result crit formulas only belong to damage operations", op.Operation)
+	}
 	if op.ShieldDurationMs != nil {
 		collector.addError(model.GenericErrMissingRequiredField, opPath+".shieldDurationMs", "shieldDurationMs is only supported on shield operations", op.Operation)
 	}
@@ -204,7 +207,7 @@ func validateSkillHitSemantic(sem model.SkillHitSemantic, path string) string {
 	case model.SkillHitResultDamage, model.SkillHitResultAttributeChange, model.SkillHitResultResourceChange,
 		model.SkillHitResultCooldownChange, model.SkillHitResultStatusOperation, model.SkillHitResultLifecycleOp,
 		model.SkillHitResultSpellShield, model.SkillHitResultDamageModifier, model.SkillHitResultHealingModifier,
-		model.SkillHitResultDamageImmunity, model.SkillHitResultHealthFloor:
+		model.SkillHitResultDamageImmunity, model.SkillHitResultHealthFloor, model.SkillHitResultAttackLink, model.SkillHitResultHitLink:
 	case "":
 		return "semantic.resultType is required"
 	default:
@@ -215,6 +218,9 @@ func validateSkillHitSemantic(sem model.SkillHitSemantic, path string) string {
 	}
 	if sem.Moment != model.SkillHitMomentInstant && sem.Moment != model.SkillHitMomentPersistent {
 		return "semantic.moment must be INSTANT or PERSISTENT"
+	}
+	if (sem.ResultType == model.SkillHitResultAttackLink || sem.ResultType == model.SkillHitResultHitLink) && sem.Moment != model.SkillHitMomentInstant {
+		return "link application moment must be INSTANT"
 	}
 	if sem.ResultType == model.SkillHitResultStatusOperation {
 		if sem.StatusOperation != model.StatusOperationApply && sem.StatusOperation != model.StatusOperationRemove {
@@ -244,6 +250,14 @@ func operationsMatchSemantic(ops []model.OperationDefinition, sem model.SkillHit
 		return "candidate operations are required"
 	}
 	switch sem.ResultType {
+	case model.SkillHitResultAttackLink, model.SkillHitResultHitLink:
+		kind := model.OperationKindApplyHitLink
+		if sem.ResultType == model.SkillHitResultAttackLink {
+			kind = model.OperationKindApplyAttackLink
+		}
+		if len(ops) != 1 || !allOpsAre(ops, kind, wantTarget) || sem.Moment != model.SkillHitMomentInstant {
+			return "link semantic requires exactly one matching native link operation with INSTANT moment"
+		}
 	case model.SkillHitResultDamage:
 		count := 0
 		for _, op := range ops {

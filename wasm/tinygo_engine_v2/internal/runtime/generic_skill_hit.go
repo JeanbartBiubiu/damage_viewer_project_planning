@@ -309,6 +309,11 @@ func (f *executionFrame) resolveSkillHit(op compilebundle.CompiledOperation, abi
 	if fact.UseRef != nil {
 		useRef = *fact.UseRef
 	}
+	if ability.IsBasicAttack {
+		if err := f.requireAttackProcess(ability, op.SkillHit.SkillKey, useRef); err != nil {
+			return err
+		}
+	}
 	firstHas, firstVal, err := f.run.qualifyFirstContact(f.driverEntryKey, useRef, f.targetKey)
 	if err != nil {
 		return err
@@ -756,6 +761,7 @@ func (s *genericRunState) refreshEmittedEventLiveSnapshot(ev *emittedEvent) {
 }
 
 func (s *genericRunState) dispatchSkillHitEvent(ev emittedEvent, chainDepth int) *model.EngineError {
+	attachUseToSnapshot(&ev)
 	freeze := ev.skillHit
 	if freeze == nil || freeze.plan == nil {
 		return s.dispatchListeners(ev, chainDepth)

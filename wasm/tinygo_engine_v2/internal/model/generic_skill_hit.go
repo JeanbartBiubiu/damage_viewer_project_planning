@@ -5,10 +5,10 @@ package model
 const (
 	OperationKindResolveSkillHit = "resolve_skill_hit"
 
-	EventTypeSkillHit            = "event/skill_hit"
-	EventTypeSpellShieldBlocked  = "event/spell_shield_blocked"
-	ProviderTypeSpellShield      = "provider/spell_shield"
-	ProviderTypeStatusPrefix     = "provider/status_"
+	EventTypeSkillHit           = "event/skill_hit"
+	EventTypeSpellShieldBlocked = "event/spell_shield_blocked"
+	ProviderTypeSpellShield     = "provider/spell_shield"
+	ProviderTypeStatusPrefix    = "provider/status_"
 
 	SkillHitHistoryComplete = "complete"
 	SkillHitHistoryUnknown  = "unknown"
@@ -16,29 +16,29 @@ const (
 	SkillHitValueFirstContact = "first_contact"
 	SkillHitValueBlocked      = "blocked"
 
-	SpellShieldScopeSkill           = "SKILL"
-	SpellShieldScopeEffect          = "EFFECT"
-	SpellShieldScopeResult          = "RESULT"
-	SpellShieldScopeDamageInstance  = "DAMAGE_INSTANCE"
+	SpellShieldScopeSkill          = "SKILL"
+	SpellShieldScopeEffect         = "EFFECT"
+	SpellShieldScopeResult         = "RESULT"
+	SpellShieldScopeDamageInstance = "DAMAGE_INSTANCE"
 
-	SkillHitResultDamage            = "DAMAGE"
-	SkillHitResultAttributeChange   = "ATTRIBUTE_CHANGE"
-	SkillHitResultResourceChange    = "RESOURCE_CHANGE"
-	SkillHitResultCooldownChange    = "COOLDOWN_CHANGE"
-	SkillHitResultStatusOperation   = "STATUS_OPERATION"
-	SkillHitResultLifecycleOp       = "LIFECYCLE_OPERATION"
-	SkillHitResultSpellShield       = "SPELL_SHIELD"
-	SkillHitResultDamageModifier    = "DAMAGE_MODIFIER"
-	SkillHitResultHealingModifier   = "HEALING_MODIFIER"
-	SkillHitResultDamageImmunity    = "DAMAGE_IMMUNITY"
-	SkillHitResultHealthFloor       = "HEALTH_FLOOR"
+	SkillHitResultDamage          = "DAMAGE"
+	SkillHitResultAttributeChange = "ATTRIBUTE_CHANGE"
+	SkillHitResultResourceChange  = "RESOURCE_CHANGE"
+	SkillHitResultCooldownChange  = "COOLDOWN_CHANGE"
+	SkillHitResultStatusOperation = "STATUS_OPERATION"
+	SkillHitResultLifecycleOp     = "LIFECYCLE_OPERATION"
+	SkillHitResultSpellShield     = "SPELL_SHIELD"
+	SkillHitResultDamageModifier  = "DAMAGE_MODIFIER"
+	SkillHitResultHealingModifier = "HEALING_MODIFIER"
+	SkillHitResultDamageImmunity  = "DAMAGE_IMMUNITY"
+	SkillHitResultHealthFloor     = "HEALTH_FLOOR"
 
 	SkillHitTargetTARGET = "TARGET"
 	SkillHitTargetSOURCE = "SOURCE"
 	SkillHitTargetSELF   = "SELF"
 
-	SkillHitMomentInstant     = "INSTANT"
-	SkillHitMomentPersistent  = "PERSISTENT"
+	SkillHitMomentInstant    = "INSTANT"
+	SkillHitMomentPersistent = "PERSISTENT"
 
 	StatusOperationApply  = "APPLY"
 	StatusOperationRemove = "REMOVE"
@@ -65,11 +65,11 @@ var ClosedStatusKindProviderType = map[string]string{
 
 // SkillUseFact 是本 run 已核定使用事实。useKey 不是编译常量，也不是 castInstanceId。
 type SkillUseFact struct {
-	UseKey                  string   `json:"useKey"`
-	Source                  string   `json:"source"`
-	SkillKey                string   `json:"skillKey"`
-	HistoryState            string   `json:"historyState"`
-	PriorQualifiedContacts  []string `json:"priorQualifiedContacts,omitempty"`
+	UseKey                 string   `json:"useKey"`
+	Source                 string   `json:"source"`
+	SkillKey               string   `json:"skillKey"`
+	HistoryState           string   `json:"historyState"`
+	PriorQualifiedContacts []string `json:"priorQualifiedContacts,omitempty"`
 }
 
 // SkillHitFact 把单次 driver 入口映射到使用归属与同刻序号。
@@ -81,31 +81,31 @@ type SkillHitFact struct {
 
 // SkillHitDefinition 是 resolve_skill_hit 的计划，无自由 payload 和静态 useKey。
 type SkillHitDefinition struct {
-	SkillKey   string                  `json:"skillKey"`
-	Candidates []SkillHitCandidate     `json:"candidates"`
+	SkillKey   string              `json:"skillKey"`
+	Candidates []SkillHitCandidate `json:"candidates"`
 }
 
 // SkillHitCandidate 是一次命中内按作者顺序排列的结果候选。
 type SkillHitCandidate struct {
-	CandidateKey             string                        `json:"candidateKey"`
-	EffectOccurrenceKey      string                        `json:"effectOccurrenceKey"`
-	EffectKey                string                        `json:"effectKey"`
-	ResultKey                string                        `json:"resultKey"`
-	Semantic                 SkillHitSemantic              `json:"semantic"`
-	SpellShieldBlockScope    *string                       `json:"spellShieldBlockScope"`
-	ParticipationCondition   *GenericFormulaExpr           `json:"participationCondition"`
-	EventValueConditions     []SkillHitEventValueCondition `json:"eventValueConditions,omitempty"`
-	Operations               []OperationDefinition         `json:"operations"`
+	CandidateKey           string                        `json:"candidateKey"`
+	EffectOccurrenceKey    string                        `json:"effectOccurrenceKey"`
+	EffectKey              string                        `json:"effectKey"`
+	ResultKey              string                        `json:"resultKey"`
+	Semantic               SkillHitSemantic              `json:"semantic"`
+	SpellShieldBlockScope  *string                       `json:"spellShieldBlockScope"`
+	ParticipationCondition *GenericFormulaExpr           `json:"participationCondition"`
+	EventValueConditions   []SkillHitEventValueCondition `json:"eventValueConditions,omitempty"`
+	Operations             []OperationDefinition         `json:"operations"`
 }
 
 // SkillHitSemantic 声明候选的真实结果身份，必须与 operations 对应。
 type SkillHitSemantic struct {
-	ResultType       string `json:"resultType"`
-	Target           string `json:"target"`
-	Moment           string `json:"moment"`
-	StatusOperation  string `json:"statusOperation,omitempty"`
-	StatusKey        string `json:"statusKey,omitempty"`
-	StatusKind       string `json:"statusKind,omitempty"`
+	ResultType      string `json:"resultType"`
+	Target          string `json:"target"`
+	Moment          string `json:"moment"`
+	StatusOperation string `json:"statusOperation,omitempty"`
+	StatusKey       string `json:"statusKey,omitempty"`
+	StatusKind      string `json:"statusKind,omitempty"`
 }
 
 // SkillHitEventValueCondition 是固定 AND 集合的一条 0/1 源值比较。
@@ -134,7 +134,7 @@ func SpellShieldScopeAllowed(sem SkillHitSemantic) (allowed map[string]struct{},
 		allowed[SpellShieldScopeDamageInstance] = struct{}{}
 		allowed[SpellShieldScopeResult] = struct{}{}
 		return allowed, false, ""
-	case SkillHitResultAttributeChange, SkillHitResultResourceChange, SkillHitResultCooldownChange, SkillHitResultLifecycleOp:
+	case SkillHitResultAttributeChange, SkillHitResultResourceChange, SkillHitResultCooldownChange, SkillHitResultLifecycleOp, SkillHitResultAttackLink, SkillHitResultHitLink:
 		if sem.Moment == SkillHitMomentPersistent {
 			return allowed, true, ""
 		}

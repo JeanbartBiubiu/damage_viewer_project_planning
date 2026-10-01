@@ -11,6 +11,14 @@ func (s *genericRunState) initProcessState() *model.EngineError {
 	s.processFacts = map[string]model.ProcessCommandFact{}
 	hasProcess := len(s.req.InitialSnapshot.ProcessInstances) > 0 || len(s.req.ProcessCommandFacts) > 0
 	if !hasProcess {
+		for _, ability := range s.compiled.Abilities {
+			if ability.ProcessControl != nil && ability.ProcessControl.UseRefFromEvent {
+				hasProcess = true
+				break
+			}
+		}
+	}
+	if !hasProcess {
 		for _, entry := range s.req.DriverPlan.Entries {
 			ability, _, ok := s.lookupDriverAbility(entry)
 			if ok && ability.ProcessControl != nil {
@@ -62,6 +70,9 @@ func (s *genericRunState) initProcessState() *model.EngineError {
 			continue
 		}
 		path := "driverPlan.entries[" + entry.EntryKey + "]"
+		if ability.ProcessControl.UseRefFromEvent {
+			return s.processErr(path+".abilityRef", "event-bound INITIAL control cannot be borrowed by a driver", ref)
+		}
 		if strings.TrimSpace(entry.EntryKey) == "" || entry.Repeat != nil || entry.WhileReady != nil {
 			return s.processErr(path, "process control requires a named single-shot driver", ref)
 		}

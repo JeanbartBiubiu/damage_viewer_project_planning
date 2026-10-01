@@ -330,8 +330,12 @@ func validateProcessControl(ability model.AbilityDefinition, path string, provid
 	cp := path + ".processControl"
 	validateProcessKey(ability.AbilityKey, path+".abilityKey", ctx)
 	validateProcessKey(def.ProcessKey, cp+".processKey", ctx)
-	if ability.Kind != "active" || abilityIsBasicAttack(ability, ctx) {
-		ctx.collector.addError(model.GenericErrUnknownRef, path+".kind", "process control requires an active non-basic-attack ability", ability.Kind)
+	isBasic := abilityIsBasicAttack(ability, ctx)
+	if ability.Kind != "active" || isBasic != def.UseRefFromEvent {
+		ctx.collector.addError(model.GenericErrUnknownRef, path+".kind", "process control requires an active spell driver or an explicitly event-bound basic attack", ability.Kind)
+	}
+	if def.UseRefFromEvent && def.Action != "INITIAL" {
+		ctx.collector.addError(model.GenericErrUnknownRef, cp+".useRefFromEvent", "event-bound process control only supports INITIAL", def.Action)
 	}
 	for _, field := range []struct {
 		name    string
@@ -412,7 +416,7 @@ func validateProcessKey(key, path string, ctx *genericCompileContext) {
 
 func processMomentOperationSupported(kind string) bool {
 	switch kind {
-	case "damage", "heal", "shield", "resource_change", "attribute_change", "cooldown_change", "apply_provider", "refresh_provider", "expire_provider", "emit_event", model.OperationKindExecuteThreshold:
+	case "damage", "heal", "shield", "resource_change", "attribute_change", "cooldown_change", "apply_provider", "refresh_provider", "expire_provider", "emit_event", model.OperationKindExecuteThreshold, model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
 		return true
 	}
 	return false
@@ -420,22 +424,34 @@ func processMomentOperationSupported(kind string) bool {
 
 // validateProcessAbilityRefs 在全部控制能力和挂载索引构造后校验，避免定义顺序影响结果。
 func validateProcessAbilityRefs(req model.CompileRequest, ctx *genericCompileContext) {
-	validateListener := func(listener model.ListenerDefinition, path string) {
-		if listener.AbilityRef != "" && processControlRefExists(listener.AbilityRef, ctx) {
-			ctx.collector.addError(model.GenericErrUnknownRef, path+".abilityRef", "process control requires an explicit single driver fact and cannot be invoked by a listener", listener.AbilityRef)
+	consumed := map[int]bool{}
+	validateListener := func(listener model.ListenerDefinition, path string, providerOwned bool) {
+		for _, index := range processControlRefIndices(listener.AbilityRef, ctx) {
+			ability := ctx.session.Abilities[index]
+			if !ability.ProcessControl.UseRefFromEvent {
+				ctx.collector.addError(model.GenericErrUnknownRef, path+".abilityRef", "driver-bound process control cannot be invoked by a listener", listener.AbilityRef)
+				continue
+			}
+			if !providerOwned || !matcherAllContains(listener.EventMatcher, model.EventTypeBasicAttackStart) || !matcherAllContains(listener.EventMatcher, "event/source_owner") {
+				ctx.collector.addError(model.GenericErrUnknownRef, path+".abilityRef", "event-bound process requires a source-owned basic_attack_start listener", listener.AbilityRef)
+			}
+			if len(listener.Operations) != 0 || listener.MaxTriggersPerEvent > 1 {
+				ctx.collector.addError(model.GenericErrUnknownRef, path, "event-bound process listener must invoke only one INITIAL control", listener.AbilityRef)
+			}
+			consumed[index] = true
 		}
 	}
 	for i, listener := range req.Rules.Listeners {
-		validateListener(listener, "rules.listeners["+itoa(i)+"]")
+		validateListener(listener, "rules.listeners["+itoa(i)+"]", false)
 	}
 	for i, provider := range req.SharedProviders {
 		pp := "sharedProviders[" + itoa(i) + "]"
 		for j, listener := range provider.Listeners {
-			validateListener(listener, pp+".listeners["+itoa(j)+"]")
+			validateListener(listener, pp+".listeners["+itoa(j)+"]", true)
 		}
 		for j, ability := range provider.Abilities {
 			if ability.ListenerSpec != nil {
-				validateListener(*ability.ListenerSpec, pp+".abilities["+itoa(j)+"].listenerSpec")
+				validateListener(*ability.ListenerSpec, pp+".abilities["+itoa(j)+"].listenerSpec", true)
 			}
 		}
 		for j, process := range provider.Processes {
@@ -448,13 +464,28 @@ func validateProcessAbilityRefs(req model.CompileRequest, ctx *genericCompileCon
 			}
 		}
 	}
+	for i, ability := range ctx.session.Abilities {
+		if ability.ProcessControl != nil && ability.ProcessControl.UseRefFromEvent && !consumed[i] {
+			ctx.collector.addError(model.GenericErrUnknownRef, "abilities["+itoa(i)+"].processControl.useRefFromEvent", "event-bound process control requires a native start listener consumer", ability.AbilityKey)
+		}
+	}
 }
 
-func processControlRefExists(ref string, ctx *genericCompileContext) bool {
+func matcherAllContains(matcher model.TypeMatcher, key string) bool {
+	for _, item := range matcher.All {
+		if item == key {
+			return true
+		}
+	}
+	return false
+}
+
+func processControlRefIndices(ref string, ctx *genericCompileContext) []int {
 	parsed, ok := ParseAbilityRef(ref)
 	if !ok {
-		return false
+		return nil
 	}
+	var indices []int
 	for _, combatant := range ctx.session.Combatants {
 		if parsed.Combatant != "self" && parsed.Combatant != "opponent" && parsed.Combatant != combatant.Key {
 			continue
@@ -463,12 +494,12 @@ func processControlRefExists(ref string, ctx *genericCompileContext) bool {
 			if mount.ProviderRef != parsed.ProviderRef {
 				continue
 			}
-			for _, ability := range ctx.session.Abilities {
+			for index, ability := range ctx.session.Abilities {
 				if ability.ProviderIndex == mount.DefinitionIndex && ability.AbilityKey == parsed.AbilityKey && ability.ProcessControl != nil {
-					return true
+					indices = append(indices, index)
 				}
 			}
 		}
 	}
-	return false
+	return indices
 }

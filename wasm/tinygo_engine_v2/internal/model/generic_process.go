@@ -6,6 +6,8 @@ type ProcessControlDefinition struct {
 	Action        string `json:"action"`
 	StepKey       string `json:"stepKey,omitempty"`
 	FailureReason string `json:"failureReason,omitempty"`
+	// UseRefFromEvent 仅 INITIAL 普攻控制从原生开始事件复用真实使用归属。
+	UseRefFromEvent bool `json:"useRefFromEvent,omitempty"`
 }
 
 type ProcessStepDefinition struct {
