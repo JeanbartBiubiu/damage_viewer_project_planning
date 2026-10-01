@@ -90,8 +90,8 @@ async function run(page: Page, input: DamageModifierScenario, program: AuthoredD
 
 test('最终产物摘要记录与实际Worker严格生命边界', async ({ page }, info) => {
   const wasm = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
-  expect(wasm.length).toBe(983981);
-  expect(createHash('sha256').update(wasm).digest('hex')).toBe('25844991e66d5e189cee0b168869de07c265c5c3cc3336c7b1a9c793ac0d736d');
+  expect(wasm.length).toBe(1028660);
+  expect(createHash('sha256').update(wasm).digest('hex')).toBe('bd007ea626fd934c1677c6f18c2ce8d9cbfbc51832f91e489f37dca66866f1e7');
   await info.attach('wasm-identity', { contentType: 'application/json', body: Buffer.from(JSON.stringify({ bytes: wasm.length,
     sha256: createHash('sha256').update(wasm).digest('hex') })) });
   for (const [comparison, hp, damage] of [['LT', 399, 108], ['LT', 400, 100], ['LT', 401, 100], ['GT', 601, 108], ['GT', 600, 100], ['GT', 599, 100]] as const) {

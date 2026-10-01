@@ -1,0 +1,117 @@
+import { describe, expect, it } from 'vitest';
+import { assembleSimulation, inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } from './simulationAdapter';
+import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
+
+function zeroInputs(snapshot = simulationSample()) {
+  const values = { source: {} as Record<string, number>, target: {} as Record<string, number> };
+  for (const row of inspectSimulationSnapshot(snapshot).requirements) {
+    if (row.storedValue === undefined) values[row.side][row.attribute.attributeKey] = 0;
+  }
+  return values;
+}
+const initialHealth = { source: 650, target: 590 };
+
+describe('首批场景装配', () => {
+  it('缺值不补零，按真实一侧要求显式补充，固有等级值不可覆盖', () => {
+    const snapshot = simulationSample();
+    const inspection = inspectSimulationSnapshot(snapshot);
+    expect(inspection.requirements.filter(row => row.storedValue === undefined)).toHaveLength(5);
+    expect(inspection.requirements.filter(row => row.side === 'target').map(row => row.attribute.attributeKey)).toEqual(['armor', 'hp']);
+    expect(() => assembleSimulation(snapshot, { source: {}, target: {} }, initialHealth)).toThrow(/需要明确的有限数值/);
+    expect(() => assembleSimulation(snapshot, { source: { ...zeroInputs().source, attack_damage: 0 }, target: {} }, initialHealth)).toThrow(/不能覆盖/);
+    expect(() => assembleSimulation(snapshot, { source: { ...zeroInputs().source, made_up: 0 }, target: {} }, initialHealth)).toThrow(/不是本次所需/);
+  });
+
+  it('完整保留原结果、独立暴击公式、五阶段、来源挂载与过程开始绑定', () => {
+    const snapshot = simulationSample();
+    const inputs = zeroInputs(snapshot);
+    inputs.source.critical_strike_chance = 0.25;
+    const { compileRequest: request, coverage } = assembleSimulation(snapshot, inputs, initialHealth);
+    const provider = request.sharedProviders![0]!;
+    expect(request.schemaVersion).toBe('generic-p0');
+    const hit = provider.abilities!.find(row => row.abilityKey === 'attack_hit')!;
+    const candidates = hit.operations![0]!.skillHit!.candidates;
+    expect(candidates.map(row => row.resultKey)).toEqual(['damage', 'hit_link']);
+    expect(candidates[0]!.operations[0]).toMatchObject({ damageType: 'damage/physics', critEligible: true,
+      critChance: { op: 'read', path: 'source.attr.critical_strike_chance.resolved' },
+      critMultiplier: { op: 'ref', ref: 'selected/sample_basic_attack/multiplier' } });
+    expect(candidates[1]!.operations[0]!.operation).toBe('apply_hit_link');
+    expect(provider.processes![0]!.momentOperations[0]!.operations[0]!.operation).toBe('apply_attack_link');
+    expect(provider.listeners![0]!.eventMatcher.all).toContain('event/basic_attack_start');
+    expect(provider.abilities![1]!.processControl).toMatchObject({ useRefFromEvent: true });
+    expect(request.rules.damageTypeFormulas![0]!.formula.resistanceFactor).toMatchObject({ op: 'div' });
+    expect(request.rules.triggerRules).toBeUndefined();
+    expect(JSON.stringify(coverage)).toContain('resistanceFactor');
+    expect(request.combatants[0]!.attributes.attack_damage!.base).toBe(60);
+    expect(request.combatants[0]!.attributes.crit_damage).toBeUndefined();
+  });
+
+  it('编译时刻绑定实际等级参数，间隔只做明确整数毫秒转换', () => {
+    const snapshot = simulationSample();
+    const { compileRequest: request } = assembleSimulation(snapshot, zeroInputs(snapshot), initialHealth);
+    expect(request.sharedProviders![0]!.abilities![1]!.params).toMatchObject({ milliseconds: 1000, base_multiplier: 2 });
+    expect(request.sharedProviders![0]!.processes![0]!.cooldown!.durationMs).toMatchObject({ op: 'max', args: [{ op: 'const', value: 1 }, { op: 'round', expr: { op: 'ref' } }] });
+  });
+
+  it('未知并列结果、条件、未接入效果及未来阶段引用必须整体拒绝', () => {
+    const unknown = simulationSample();
+    unknown.skillConfigurations[0]!.effects[1]!.results[1]!.resultType = 'DIRECT_HEAL' as never;
+    expect(() => inspectSimulationSnapshot(unknown)).toThrow(/并列结果尚未接入/);
+    const condition = simulationSample();
+    condition.skillConfigurations[0]!.triggerRules[0]!.oncePerUse = { groupKey: 'limit', scope: 'SKILL' };
+    expect(() => inspectSimulationSnapshot(condition)).toThrow(/触发限制/);
+    const orphan = simulationSample();
+    orphan.skillConfigurations[0]!.effects.push({ ...structuredClone(orphan.skillConfigurations[0]!.effects[0]!), effectKey: 'extra' });
+    expect(() => inspectSimulationSnapshot(orphan)).toThrow(/未接入的效果/);
+    const forward = simulationSample();
+    forward.catalogs.damageTypes[0]!.formula.formula.resistanceBeforePenetration = { nodeType: 'STAGE_RESULT', stageKey: 'RESISTANCE_FACTOR' };
+    expect(() => inspectSimulationSnapshot(forward)).toThrow(/前序防御阶段/);
+  });
+
+  it('缺公式、非法攻速、非有限与超范围补充值给出明确路径', () => {
+    const missing = simulationSample(); missing.catalogs.damageTypes = [];
+    expect(() => inspectSimulationSnapshot(missing)).toThrow(/缺少实际五阶段/);
+    const zeroSpeed = simulationSample(); zeroSpeed.source.selectedLevelValues.attack_speed = 0;
+    expect(() => assembleSimulation(zeroSpeed, zeroInputs(), initialHealth)).toThrow(/初始攻速/);
+    const inputs = zeroInputs(); inputs.source.critical_strike_chance = 1.1;
+    expect(() => assembleSimulation(simulationSample(), inputs, initialHealth)).toThrow(/critical_strike_chance/);
+    inputs.source.critical_strike_chance = NaN;
+    expect(() => assembleSimulation(simulationSample(), inputs, initialHealth)).toThrow(/有限数值/);
+  });
+
+  it('摘要包含真实快照与显式场景输入；单次模板身份一致且不安排重复', async () => {
+    const snapshot = simulationSample();
+    const first = await prepareSimulation(snapshot, zeroInputs(), initialHealth);
+    const second = await prepareSimulation(snapshot, zeroInputs(), initialHealth);
+    expect(first.compileRequest.rulesHash).toBe(second.compileRequest.rulesHash);
+    const changedInputs = zeroInputs(); changedInputs.source.critical_strike_chance = 0.25;
+    expect((await prepareSimulation(snapshot, changedInputs, initialHealth)).compileRequest.rulesHash).not.toBe(first.compileRequest.rulesHash);
+    const request = singleAttackRequest(first.compileRequest, 'session');
+    expect(request.driverPlan.entries).toHaveLength(2);
+    expect(request.driverPlan.entries.every(row => !row.repeat && !row.whileReady)).toBe(true);
+    expect(request.attackStartFacts![0]!.useRef).toBe(request.skillHitFacts![0]!.useRef);
+    expect(request.skillUses![0]!.useKey).toBe(request.skillHitFacts![0]!.useRef);
+    expect(request.initialSnapshot.combatants[0]!.providers[0]).toMatchObject({
+      providerRef: 'selected_basic_attack', definitionRef: 'selected_basic_attack_definition',
+      source: 'source', owner: 'source', stacks: 1, expireAt: null
+    });
+    expect(request.initialSnapshot.combatants[1]!.providers).toEqual([]);
+  });
+
+  it('不丢弃真实的额外技能分类，使同一能力的吸血资格与作者数据一致', () => {
+    const snapshot = simulationSample();
+    snapshot.skillConfigurations[0]!.skill.skillCategoryKeys.push('common');
+    snapshot.catalogs.skillCategories.push({ ...snapshot.catalogs.skillCategories[0]!, skillCategoryKey: 'common' });
+    const request = assembleSimulation(snapshot, zeroInputs(snapshot), initialHealth).compileRequest;
+    expect(request.sharedProviders![0]!.abilities!.every(ability => ability.types!.includes('ability/common'))).toBe(true);
+  });
+
+  it('双方当前生命为明确场景输入，允许真实0并与上限/基础值分开', () => {
+    const snapshot = simulationSample();
+    expect(() => assembleSimulation(snapshot, zeroInputs(), undefined as never)).toThrow(/initialHealth.source/);
+    expect(() => assembleSimulation(snapshot, zeroInputs(), { source: 651, target: 590 })).toThrow(/initialHealth.source/);
+    const prepared = assembleSimulation(snapshot, zeroInputs(), { source: 300, target: 0 });
+    expect(prepared.compileRequest.combatants[0]!.attributes.hp).toMatchObject({ base: 650, current: 300, max: 650, resolved: 650 });
+    expect(prepared.compileRequest.combatants[1]!.attributes.hp!.current).toBe(0);
+  });
+});

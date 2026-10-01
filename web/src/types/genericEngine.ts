@@ -134,6 +134,9 @@ export type OperationDefinition = {
   condition?: GenericFormulaExpr;
   copyableOnHit?: boolean;
   critEligible?: boolean;
+  /** 当前结果自己的期望暴击概率与倍率；必须成对，不改写全局属性。 */
+  critChance?: GenericFormulaExpr;
+  critMultiplier?: GenericFormulaExpr;
   repeatScope?: string;
   repeatCount?: number;
   repeatTag?: string;
@@ -164,7 +167,9 @@ export type SkillHitResultType =
   | 'DAMAGE_MODIFIER'
   | 'HEALING_MODIFIER'
   | 'DAMAGE_IMMUNITY'
-  | 'HEALTH_FLOOR';
+  | 'HEALTH_FLOOR'
+  | 'HIT_LINK_APPLICATION'
+  | 'ATTACK_LINK_APPLICATION';
 export type SkillHitSemanticTarget = 'TARGET' | 'SOURCE' | 'SELF';
 export type SkillHitMoment = 'INSTANT' | 'PERSISTENT';
 export type SkillHitStatusKind = 'stun' | 'root' | 'silence' | 'charm' | 'airborne' | 'movement_slow';
@@ -334,6 +339,15 @@ export type GenericRules = {
   listeners?: ListenerDefinition[];
   triggerRules?: unknown[];
   vampRules?: GenericVampRule[];
+  damageTypeFormulas?: GenericDamageTypeFormula[];
+};
+
+export type GenericDamageTypeFormula = {
+  damageType: string;
+  formula: Record<
+    'resistanceBeforePenetration' | 'penetrationPercent' | 'penetrationFlat' | 'effectiveResistance' | 'resistanceFactor',
+    GenericFormulaExpr
+  >;
 };
 
 export type CompileSettings = {
@@ -489,6 +503,8 @@ export type ProcessControlDefinition = {
   action: ProcessControlAction;
   stepKey?: string;
   failureReason?: ProcessFailureReason;
+  /** 仅普攻开始监听器的首次过程控制可复用原生使用身份。 */
+  useRefFromEvent?: boolean;
 };
 
 export type ProcessStepType = 'IMMEDIATE' | 'DELAY' | 'CHARGE' | 'RECAST';

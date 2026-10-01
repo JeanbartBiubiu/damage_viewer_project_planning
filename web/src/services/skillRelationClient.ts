@@ -113,9 +113,9 @@ async function writeRelation<T extends CharacterSkillRelation | EquipmentSkillRe
 }
 
 export async function listCharacterSkillRelations(
-  apiBaseUrl: string, gameId: string, token: string, query: CharacterSkillRelationQuery
+  apiBaseUrl: string, gameId: string, token: string, query: CharacterSkillRelationQuery, signal?: AbortSignal
 ): Promise<ApiResult<SkillRelationList<CharacterSkillRelation>>> {
-  const result = await requestJson<unknown>(apiBaseUrl, queryPath(path(gameId, 'character'), query), { token });
+  const result = await requestJson<unknown>(apiBaseUrl, queryPath(path(gameId, 'character'), query), { token, signal });
   return { ...result, data: normalizeList(result.data, value => normalizeRelation(value, gameId, 'character'), query) };
 }
 

@@ -1,0 +1,65 @@
+import type { Attribute } from './attribute';
+import type { Character, CharacterAttributes, LevelConfig } from './character';
+import type { DamageType } from './damageType';
+import type { DamageTypeFormulaDetail } from './damageTypeFormula';
+import type { GameVampRulesResponse } from './gameVamp';
+import type { ModifierZone } from './modifierZone';
+import type { SkillCategory } from './skillCategory';
+import type { SkillConfiguration } from './skillConfiguration';
+import type { CharacterSkillRelation } from './skillRelation';
+import type { GameStatus } from './status';
+
+export type SimulationSelection = {
+  sourceCharacterKey: string;
+  sourceLevel: number;
+  targetCharacterKey: string;
+  targetLevel: number;
+  basicAttackSkillKey: string;
+  basicAttackLevel: number;
+};
+
+export type SimulationCombatant = {
+  character: Character;
+  attributes: CharacterAttributes;
+  selectedLevelValues: Record<string, number>;
+  attachedSkills: CharacterSkillRelation[];
+};
+
+export type SimulationReference = {
+  sourceSkillKey: string;
+  sourceType: string;
+  sourceKey: string;
+  fieldPath: string;
+  targetType: string;
+  targetSkillKey: string;
+  targetKey: string;
+  targetSubKey: string;
+};
+
+export type SimulationSnapshot = {
+  gameId: string;
+  selection: SimulationSelection;
+  source: SimulationCombatant;
+  target: SimulationCombatant;
+  skillConfigurations: SkillConfiguration[];
+  catalogs: {
+    levelConfig: LevelConfig;
+    attributes: Attribute[];
+    skillCategories: SkillCategory[];
+    damageTypes: Array<{ type: DamageType; formula: DamageTypeFormulaDetail }>;
+    modifierZones: ModifierZone[];
+    statuses: GameStatus[];
+    vampRules: GameVampRulesResponse;
+  };
+  references: SimulationReference[];
+  snapshotDigest: string;
+  readAt: string;
+};
+
+/** 只补本次场景需要且角色等级表未保存的属性；不写入角色或覆写固有值。 */
+export type SimulationAttributeInputs = {
+  source: Record<string, number>;
+  target: Record<string, number>;
+};
+
+export type SimulationInitialHealth = { source: number; target: number };

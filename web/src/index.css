@@ -101,6 +101,49 @@ img {
   padding: 6px 2px 4px;
 }
 
+.workspace-mode-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+}
+
+.workspace-mode-option {
+  min-height: 38px;
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius-md) - 4px);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+.workspace-mode-option:hover {
+  color: var(--text);
+}
+
+.workspace-mode-option.is-active {
+  border-color: var(--line-strong);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.workspace-mode-option:focus-visible {
+  outline: 2px solid var(--line-strong);
+  outline-offset: 2px;
+}
+
+.simulation-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0 16px;
+}
+
 .mobile-nav-toggle {
   display: none;
   flex: 0 0 auto;
@@ -424,6 +467,24 @@ img {
   gap: 10px;
   min-width: 0;
   max-width: 100%;
+}
+
+.simulation-entity-select {
+  width: 100%;
+}
+
+.simulation-entity-option {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+  vertical-align: middle;
+  line-height: 1.4;
+}
+
+.simulation-entity-option:not(.simulation-entity-option--selected) .entity-select-option-copy {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
 }
 
 .entity-select-option--text-only {

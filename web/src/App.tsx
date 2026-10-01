@@ -3,9 +3,13 @@ import { Alert, Button, Input, Layout, Select, Tag, Typography } from '@arco-des
 import { IconDown, IconMenu } from '@arco-design/web-react/icon';
 import {
   createDefaultCollapsedNavigationGroups,
-  navigationGroups,
+  defaultRouteForMode,
+  hashForRoute,
+  modeForRoute,
+  navigationGroupsForMode,
+  routeFromHash,
   type RouteId,
-  type StaticRouteId
+  type WorkspaceMode
 } from './config/navigation';
 import { AttributeManagementPage } from './pages/admin/attributes/AttributeManagementPage';
 import { CharacterManagementPage } from './pages/admin/characters/CharacterManagementPage';
@@ -18,6 +22,7 @@ import { SkillManagementPage } from './pages/admin/skills/SkillManagementPage';
 import { StatusManagementPage } from './pages/admin/statuses/StatusManagementPage';
 import { ImageManagementPage } from './pages/admin/images/ImageManagementPage';
 import { BuildManagementPage } from './pages/admin/builds/BuildManagementPage';
+import { BasicAttackSimulationPage } from './pages/simulation/BasicAttackSimulationPage';
 import { getErrorMessage, listGames, resolveApiBaseUrl } from './services/apiClient';
 import type { GameSummary, LoadState } from './types/api';
 
@@ -26,22 +31,7 @@ const ADMIN_TOKEN_STORAGE_KEY = 'damage-viewer.web.admin-token';
 const PREFERRED_DEFAULT_GAME_ID = 'lol';
 const MOBILE_NAV_MEDIA_QUERY = '(max-width: 1240px)';
 const MOBILE_PRIMARY_NAVIGATION_ID = 'mobile-primary-navigation';
-const DEFAULT_ROUTE: StaticRouteId = 'attributes';
-const DEFAULT_HASH = '#/attributes';
-
-const STATIC_ROUTE_IDS = new Set<string>([
-  'images',
-  'attributes',
-  'characters',
-  'equipment',
-  'builds',
-  'skill-categories',
-  'damage-types',
-  'modifier-zones',
-  'skills',
-  'statuses',
-  'game-settings'
-]);
+const HASH_HISTORY_INDEX_KEY = 'damage-viewer.route-index';
 
 function resolveSelectedGameId(current: string | null, games: GameSummary[]): string | null {
   if (current && games.some((game) => game.gameId === current)) {
@@ -66,31 +56,31 @@ function readStoredValue(key: string, fallback: string): string {
   return window.localStorage.getItem(key) ?? fallback;
 }
 
-function canonicalHashForRoute(route: RouteId): string {
-  return `#/${route}`;
-}
-
 function readRouteFromHash(): RouteId {
   if (typeof window === 'undefined') {
-    return DEFAULT_ROUTE;
+    return routeFromHash('');
   }
-
-  const hashPath = window.location.hash.replace(/^#\/?/, '').split('?')[0] ?? '';
-  const [routeSegment] = hashPath.split('/').filter(Boolean);
-
-  if (routeSegment && STATIC_ROUTE_IDS.has(routeSegment)) {
-    return routeSegment as StaticRouteId;
-  }
-
-  return DEFAULT_ROUTE;
+  return routeFromHash(window.location.hash);
 }
 
-function replaceLocationHash(hash: string): void {
+function readHashHistoryIndex(): number | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+  const index = window.history.state?.[HASH_HISTORY_INDEX_KEY];
+  return typeof index === 'number' && Number.isSafeInteger(index) ? index : null;
+}
+
+function replaceLocationHash(hash: string, historyIndex: number): void {
   if (typeof window === 'undefined') {
     return;
   }
   const { pathname, search } = window.location;
-  window.history.replaceState(null, '', `${pathname}${search}${hash}`);
+  window.history.replaceState(
+    { ...window.history.state, [HASH_HISTORY_INDEX_KEY]: historyIndex },
+    '',
+    `${pathname}${search}${hash}`
+  );
 }
 
 function getGamesStatusLabel(status: LoadState): string {
@@ -141,46 +131,72 @@ export default function App() {
     createDefaultCollapsedNavigationGroups()
   );
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [attributeEditorDirty, setAttributeEditorDirty] = useState(false);
   const attributeEditorDirtyRef = useRef(false);
+  const simulationBusyRef = useRef(false);
   const selectedGameIdRef = useRef(selectedGameId);
   selectedGameIdRef.current = selectedGameId;
-  const acceptedHashRef = useRef(
-    typeof window === 'undefined' ? DEFAULT_HASH : window.location.hash || DEFAULT_HASH
-  );
+  const acceptedHashRef = useRef(hashForRoute(readRouteFromHash()));
+  const acceptedHistoryIndexRef = useRef(readHashHistoryIndex() ?? 0);
+  const restoringAcceptedHashRef = useRef(false);
+  const mode = modeForRoute(route);
 
   const handleAttributeDirtyChange = useCallback((dirty: boolean) => {
     attributeEditorDirtyRef.current = dirty;
-    setAttributeEditorDirty(dirty);
+    simulationBusyRef.current = false;
   }, []);
 
+  const handleSimulationDirtyChange = useCallback((busy: boolean) => {
+    attributeEditorDirtyRef.current = busy;
+    simulationBusyRef.current = busy;
+  }, []);
+
+  const confirmLeavingPage = useCallback((managementMessage: string) => window.confirm(
+    simulationBusyRef.current
+      ? '当前计算尚未完成，离开将终止本次计算，确定要离开吗？'
+      : managementMessage
+  ), []);
+
   useEffect(() => {
-    const applyRouteFromLocation = () => {
+    const applyRouteFromLocation = (historyIndex: number) => {
       const nextRoute = readRouteFromHash();
-      const canonicalHash = canonicalHashForRoute(nextRoute);
-      if (window.location.hash !== canonicalHash) {
-        replaceLocationHash(canonicalHash);
-      }
+      const canonicalHash = hashForRoute(nextRoute);
+      replaceLocationHash(canonicalHash, historyIndex);
       acceptedHashRef.current = canonicalHash;
+      acceptedHistoryIndexRef.current = historyIndex;
       setRoute(nextRoute);
       setMobileNavOpen(false);
     };
 
     const syncFromHash = () => {
       const nextHash = window.location.hash;
+      if (restoringAcceptedHashRef.current) {
+        restoringAcceptedHashRef.current = false;
+        if (nextHash === acceptedHashRef.current) {
+          return;
+        }
+      }
+      const historyIndex = readHashHistoryIndex() ?? acceptedHistoryIndexRef.current + 1;
       if (
         attributeEditorDirtyRef.current &&
         nextHash !== acceptedHashRef.current &&
-        !window.confirm('当前修改尚未保存，确定要离开吗？')
+        !confirmLeavingPage('当前修改尚未保存，确定要离开吗？')
       ) {
-        replaceLocationHash(acceptedHashRef.current);
+        // 回到原历史项，保留这次被取消的目标，供之后前进或后退使用。
+        replaceLocationHash(nextHash, historyIndex);
+        const distance = acceptedHistoryIndexRef.current - historyIndex;
+        if (distance !== 0) {
+          restoringAcceptedHashRef.current = true;
+          window.history.go(distance);
+        } else {
+          replaceLocationHash(acceptedHashRef.current, acceptedHistoryIndexRef.current);
+        }
         return;
       }
 
       if (attributeEditorDirtyRef.current && nextHash !== acceptedHashRef.current) {
         handleAttributeDirtyChange(false);
       }
-      applyRouteFromLocation();
+      applyRouteFromLocation(historyIndex);
     };
 
     syncFromHash();
@@ -188,7 +204,7 @@ export default function App() {
     return () => {
       window.removeEventListener('hashchange', syncFromHash);
     };
-  }, [handleAttributeDirtyChange]);
+  }, [confirmLeavingPage, handleAttributeDirtyChange]);
 
   useEffect(() => {
     const warnBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -283,7 +299,7 @@ export default function App() {
   const applyApiBase = () => {
     const nextValue = resolveApiBaseUrl(apiBaseDraft);
     if (nextValue !== apiBaseUrl && attributeEditorDirtyRef.current
-      && !window.confirm('当前修改尚未保存，确定放弃修改并切换连接吗？')) return;
+      && !confirmLeavingPage('当前修改尚未保存，确定放弃修改并切换连接吗？')) return;
     setApiBaseDraft(nextValue);
     if (nextValue === apiBaseUrl) return;
     handleAttributeDirtyChange(false);
@@ -297,7 +313,7 @@ export default function App() {
     const nextGameId = value || null;
     if (nextGameId === selectedGameId) return;
     if (attributeEditorDirtyRef.current
-      && !window.confirm('当前修改尚未保存，确定放弃修改并切换游戏吗？')) return;
+      && !confirmLeavingPage('当前修改尚未保存，确定放弃修改并切换游戏吗？')) return;
     handleAttributeDirtyChange(false);
     setSelectedGameId(nextGameId);
   };
@@ -306,43 +322,48 @@ export default function App() {
     const nextToken = value.trim();
     if (nextToken === adminToken) return;
     if (attributeEditorDirtyRef.current
-      && !window.confirm('当前修改尚未保存，确定放弃修改并更换 Admin Token 吗？')) return;
+      && !confirmLeavingPage('当前修改尚未保存，确定放弃修改并更换 Admin Token 吗？')) return;
     handleAttributeDirtyChange(false);
     setAdminToken(nextToken);
   };
 
   const refreshGames = () => {
     if (attributeEditorDirtyRef.current) {
-      if (!window.confirm('当前修改尚未保存，确定放弃修改并刷新吗？')) return;
+      if (!confirmLeavingPage('当前修改尚未保存，确定放弃修改并刷新吗？')) return;
       handleAttributeDirtyChange(false);
       setPageReloadSeed((value) => value + 1);
     }
     setReloadSeed((value) => value + 1);
   };
 
-  const handleNavigationClick = (
-    event: MouseEvent<HTMLAnchorElement>,
-    targetHash: string
-  ) => {
-    setMobileNavOpen(false);
-    if (
-      event.button !== 0 ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey ||
-      !attributeEditorDirty ||
-      window.location.hash === targetHash
-    ) {
+  const navigateToHash = (targetHash: string) => {
+    if (window.location.hash === targetHash) {
+      setMobileNavOpen(false);
       return;
     }
-
-    event.preventDefault();
-    if (!window.confirm('当前修改尚未保存，确定要离开吗？')) {
+    if (attributeEditorDirtyRef.current && !confirmLeavingPage('当前修改尚未保存，确定要离开吗？')) {
       return;
     }
-    handleAttributeDirtyChange(false);
+    if (attributeEditorDirtyRef.current) {
+      handleAttributeDirtyChange(false);
+    }
     window.location.hash = targetHash;
+    setMobileNavOpen(false);
+  };
+
+  const handleNavigationClick = (event: MouseEvent<HTMLAnchorElement>, targetHash: string) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+    event.preventDefault();
+    navigateToHash(targetHash);
+  };
+
+  const changeMode = (nextMode: WorkspaceMode) => {
+    if (nextMode === mode) {
+      return;
+    }
+    navigateToHash(hashForRoute(defaultRouteForMode(nextMode)));
   };
 
   let pageContent = (
@@ -354,7 +375,16 @@ export default function App() {
     />
   );
 
-  if (route === 'characters') {
+  if (route === 'simulation/basic-attack') {
+    pageContent = (
+      <BasicAttackSimulationPage
+        apiBaseUrl={apiBaseUrl}
+        selectedGameId={selectedGameId}
+        adminToken={adminToken}
+        onDirtyChange={handleSimulationDirtyChange}
+      />
+    );
+  } else if (route === 'characters') {
     pageContent = (
       <CharacterManagementPage
         apiBaseUrl={apiBaseUrl}
@@ -457,7 +487,7 @@ export default function App() {
               Web 控制台
             </Typography.Title>
             <Typography.Text className="brand-copy">
-              属性、角色、装备、技能与图片管理。
+              {mode === 'management' ? '属性、角色、装备、技能与图片管理。' : '游戏数据计算与模拟。'}
             </Typography.Text>
           </div>
           <button
@@ -472,6 +502,27 @@ export default function App() {
           </button>
         </div>
 
+        <div className="workspace-mode-switch" role="group" aria-label="工作模式">
+          <button
+            type="button"
+            className={`workspace-mode-option${mode === 'management' ? ' is-active' : ''}`}
+            aria-label="切换到数据管理"
+            aria-pressed={mode === 'management'}
+            onClick={() => changeMode('management')}
+          >
+            数据管理
+          </button>
+          <button
+            type="button"
+            className={`workspace-mode-option${mode === 'simulation' ? ' is-active' : ''}`}
+            aria-label="切换到计算模拟"
+            aria-pressed={mode === 'simulation'}
+            onClick={() => changeMode('simulation')}
+          >
+            计算模拟
+          </button>
+        </div>
+
         <div
           id={MOBILE_PRIMARY_NAVIGATION_ID}
           className="mobile-primary-navigation"
@@ -479,7 +530,7 @@ export default function App() {
           aria-label="主导航"
         >
           <nav className="nav-stack" aria-label="Primary">
-            {navigationGroups.map((group) => {
+            {navigationGroupsForMode(mode).map((group) => {
               const groupActive = group.items.some((item) => isNavItemActive(item.hashSegment, route));
               const isGroupExpanded = !collapsedNavigationGroups[group.id];
               const navSubstackId = `nav-section-${group.id}`;
@@ -512,7 +563,7 @@ export default function App() {
                             href={`#/${item.hashSegment}`}
                             aria-current={active ? 'page' : undefined}
                             onClick={(event) =>
-                              handleNavigationClick(event, `#/${item.hashSegment}`)
+                              handleNavigationClick(event, hashForRoute(item.id))
                             }
                           >
                             <span className="nav-item-label">{item.label}</span>

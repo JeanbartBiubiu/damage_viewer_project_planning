@@ -15,8 +15,8 @@ import { fixedValue, parameterValue } from '../../src/types/numericValue';
 const key = 'cast_skill';
 test('施放阶段验收使用最终Wasm产物', () => {
   const bytes = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
-  expect(bytes.length).toBe(983981);
-  expect(createHash('sha256').update(bytes).digest('hex').toUpperCase()).toBe('25844991E66D5E189CEE0B168869DE07C265C5C3CC3336C7B1A9C793AC0D736D');
+  expect(bytes.length).toBe(1028660);
+  expect(createHash('sha256').update(bytes).digest('hex').toUpperCase()).toBe('BD007EA626FD934C1677C6F18C2CE8D9CBFBC51832F91E489F37DCA66866F1E7');
 });
 const moment = (momentType: SkillProcessMoment['momentType'], stepKey: string | null = null,
   failureReason: SkillProcessMoment['failureReason'] = null): SkillProcessMoment => ({ momentType, stepKey, failureReason } as SkillProcessMoment);
