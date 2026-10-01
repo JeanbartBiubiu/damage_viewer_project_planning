@@ -11,7 +11,10 @@ export type StaticRouteId =
   | 'statuses'
   | 'game-settings';
 
-export type RouteId = StaticRouteId;
+export type SimulationRouteId = 'simulation/basic-attack';
+
+export type RouteId = StaticRouteId | SimulationRouteId;
+export type WorkspaceMode = 'management' | 'simulation';
 
 export type NavigationItem = {
   id: RouteId;
@@ -21,13 +24,17 @@ export type NavigationItem = {
   summary: string;
 };
 
-export type NavigationGroupId = 'data-management';
+export type NavigationGroupId = 'data-management' | 'simulation';
 
 export type NavigationGroup = {
   id: NavigationGroupId;
+  mode: WorkspaceMode;
   label: string;
   items: NavigationItem[];
 };
+
+export const DEFAULT_ROUTE: StaticRouteId = 'attributes';
+export const DEFAULT_SIMULATION_ROUTE: SimulationRouteId = 'simulation/basic-attack';
 
 const dataManagementNavigationItems: NavigationItem[] = [
   {
@@ -101,12 +108,47 @@ const dataManagementNavigationItems: NavigationItem[] = [
 export const navigationGroups: NavigationGroup[] = [
   {
     id: 'data-management',
+    mode: 'management',
     label: '数据管理',
     items: dataManagementNavigationItems
+  },
+  {
+    id: 'simulation',
+    mode: 'simulation',
+    label: '计算模拟',
+    items: [
+      {
+        id: DEFAULT_SIMULATION_ROUTE,
+        hashSegment: DEFAULT_SIMULATION_ROUTE,
+        label: '普攻模拟',
+        summary: '普攻计算入口，计算功能尚未接入。'
+      }
+    ]
   }
 ];
 
 export const navigationItems: NavigationItem[] = navigationGroups.flatMap((group) => group.items);
+
+export function routeFromHash(hash: string): RouteId {
+  const path = hash.replace(/^#\/?/, '').split('?')[0] ?? '';
+  return navigationItems.find((item) => item.hashSegment === path)?.id ?? DEFAULT_ROUTE;
+}
+
+export function hashForRoute(route: RouteId): string {
+  return `#/${route}`;
+}
+
+export function modeForRoute(route: RouteId): WorkspaceMode {
+  return navigationGroups.find((group) => group.items.some((item) => item.id === route))?.mode ?? 'management';
+}
+
+export function defaultRouteForMode(mode: WorkspaceMode): RouteId {
+  return mode === 'simulation' ? DEFAULT_SIMULATION_ROUTE : DEFAULT_ROUTE;
+}
+
+export function navigationGroupsForMode(mode: WorkspaceMode): NavigationGroup[] {
+  return navigationGroups.filter((group) => group.mode === mode);
+}
 
 /** Resolve which sidebar group owns a route. */
 export function navigationGroupIdForRoute(route: RouteId): NavigationGroupId | undefined {

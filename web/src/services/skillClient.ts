@@ -35,9 +35,10 @@ export function getSkill(
   apiBaseUrl: string,
   gameId: string,
   skillKey: string,
-  token: string
+  token: string,
+  signal?: AbortSignal
 ): Promise<ApiResult<Skill>> {
-  return requestJson<Skill>(apiBaseUrl, skillsPath(gameId, skillKey), { token });
+  return requestJson<Skill>(apiBaseUrl, skillsPath(gameId, skillKey), { token, signal });
 }
 
 export function createSkill(

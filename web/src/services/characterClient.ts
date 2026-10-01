@@ -46,13 +46,14 @@ export function listCharacters(
   apiBaseUrl: string,
   gameId: string,
   token: string,
-  query: CharacterListQuery = {}
+  query: CharacterListQuery = {},
+  signal?: AbortSignal
 ): Promise<ApiResult<CharacterListResponse>> {
   const keyword = query.keyword?.trim();
   const path = keyword
     ? `${charactersPath(gameId)}?${new URLSearchParams({ keyword }).toString()}`
     : charactersPath(gameId);
-  return requestJson<CharacterListResponse>(apiBaseUrl, path, { token });
+  return requestJson<CharacterListResponse>(apiBaseUrl, path, { token, signal });
 }
 
 export function getCharacter(

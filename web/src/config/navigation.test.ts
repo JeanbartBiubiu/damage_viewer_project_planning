@@ -1,11 +1,21 @@
 import { describe, expect, it } from 'vitest';
-import { navigationGroups, navigationItems } from './navigation';
+import {
+  defaultRouteForMode,
+  hashForRoute,
+  modeForRoute,
+  navigationGroupIdForRoute,
+  navigationGroups,
+  navigationGroupsForMode,
+  navigationItems,
+  routeFromHash
+} from './navigation';
 
 describe('product navigation', () => {
-  it('exposes only the current management entries', () => {
+  it('keeps management entries together and exposes only the delivered simulation entry', () => {
     const dataGroup = navigationGroups.find((group) => group.id === 'data-management');
+    const simulationGroup = navigationGroups.find((group) => group.id === 'simulation');
 
-    expect(navigationGroups.map((group) => group.id)).toEqual(['data-management']);
+    expect(navigationGroups.map((group) => group.id)).toEqual(['data-management', 'simulation']);
     expect(dataGroup?.items.map((item) => item.id)).toEqual([
       'attributes',
       'characters',
@@ -19,6 +29,12 @@ describe('product navigation', () => {
       'game-settings',
       'images'
     ]);
+    expect(simulationGroup).toMatchObject({
+      mode: 'simulation',
+      items: [{ id: 'simulation/basic-attack', hashSegment: 'simulation/basic-attack', label: '普攻模拟' }]
+    });
+    expect(navigationGroupsForMode('management')).toEqual([dataGroup]);
+    expect(navigationGroupsForMode('simulation')).toEqual([simulationGroup]);
     expect(navigationItems.map((item) => item.id)).toEqual([
       'attributes',
       'characters',
@@ -30,7 +46,8 @@ describe('product navigation', () => {
       'skills',
       'statuses',
       'game-settings',
-      'images'
+      'images',
+      'simulation/basic-attack'
     ]);
     expect(dataGroup?.items.find((item) => item.id === 'attributes')).toMatchObject({
       hashSegment: 'attributes',
@@ -73,6 +90,21 @@ describe('product navigation', () => {
       hashSegment: 'images',
       label: '图片管理'
     });
+  });
+
+  it('derives the mode from an exact full Hash route and preserves management defaults', () => {
+    expect(routeFromHash('')).toBe('attributes');
+    expect(routeFromHash('#/attributes')).toBe('attributes');
+    expect(routeFromHash('#/simulation/basic-attack')).toBe('simulation/basic-attack');
+    expect(routeFromHash('#/simulation/basic-attack?source=direct')).toBe('simulation/basic-attack');
+    expect(routeFromHash('#/simulation/unknown')).toBe('attributes');
+    expect(routeFromHash('#/attributes/unexpected')).toBe('attributes');
+    expect(hashForRoute(routeFromHash('#/simulation/basic-attack?source=direct'))).toBe('#/simulation/basic-attack');
+    expect(defaultRouteForMode('management')).toBe('attributes');
+    expect(defaultRouteForMode('simulation')).toBe('simulation/basic-attack');
+    expect(modeForRoute('attributes')).toBe('management');
+    expect(modeForRoute('simulation/basic-attack')).toBe('simulation');
+    expect(navigationGroupIdForRoute('simulation/basic-attack')).toBe('simulation');
   });
 
   it('does not expose old combat-data, publish or wasm-validation entries', () => {

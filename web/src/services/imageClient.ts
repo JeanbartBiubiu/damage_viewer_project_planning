@@ -123,10 +123,11 @@ export function getImage(
   apiBaseUrl: string,
   gameId: string,
   imageKey: string,
-  token: string
+  token: string,
+  signal?: AbortSignal
 ): Promise<ApiResult<ManagedImage>> {
   return normalizeResult(
-    requestJson<unknown>(apiBaseUrl, adminImagesPath(gameId, imageKey), { token }),
+    requestJson<unknown>(apiBaseUrl, adminImagesPath(gameId, imageKey), { token, signal }),
     normalizeManagedImage
   );
 }
