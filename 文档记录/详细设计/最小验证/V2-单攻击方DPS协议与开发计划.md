@@ -3,9 +3,11 @@ DOC_TYPE: 详细设计
 WORKSTREAM: planning
 STATUS: draft
 EXECUTION_MODEL: multi-model
-LAST_TRACKED_AT: 2026-05-16
+LAST_TRACKED_AT: 2026-10-01
 
 # V2 单攻击方 DPS 协议与开发计划
+
+> 历史方案提示（2026-10-01）：本文的旧发布数据、`single_attacker_dps`与批次实现要求不作为当前入口。现行管理配置及通用编译、运行、释放路线见[单攻击方计算六阶段推进方案](../项目/单攻击方计算六阶段推进方案.md)。新方案的两项前置已验收，六阶段真实运行仍待推进；本文件保留原文供追溯。
 
 本文承接 `文档记录/概要设计/验证里程碑V2.md`，只记录可执行的协议、模块边界和分批开发计划。概要文档继续负责 gate 和路线定义；本文件用于后续 goal/agent 按批实现。
 

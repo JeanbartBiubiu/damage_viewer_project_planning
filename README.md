@@ -26,6 +26,8 @@ These layers answer different questions; do not treat root README as overriding 
 
 Implementation narrative lives under `文档记录/**`. Obsidian / Codex Memory are secondary memory only — never a competing task map.
 
+当前单攻击方计算入口为[六阶段推进方案](文档记录/详细设计/项目/单攻击方计算六阶段推进方案.md)。双模式工作台与首批数据接入前置工作已验收，六阶段真实运行仍待推进；旧DPS批次与旧发布链文档用于历史追溯。
+
 ## 治理检查
 
 任务状态、文档映射或文档头变化时运行第一项；共享规则发布前可运行第二项查看其他分支尚未合入的漂移。两项命令都不复制共享文件。
