@@ -33,6 +33,13 @@ public final class SkillObjectReferences {
     public record Reference(String gameId, String sourceSkillKey, SourceType sourceType,
                             String sourceKey, String fieldPath, Target target) {}
 
+    /** 从当前读取内容提取真实引用；读取方随后按自身范围读取并核对目标，不依赖持久化索引。 */
+    public static List<Reference> extract(String gameId, List<Aggregate> sources) {
+        List<Reference> references = new ArrayList<>();
+        for (Aggregate aggregate : sources) new Collector(gameId, aggregate, references).collect();
+        return List.copyOf(references);
+    }
+
     /** 字典和参数由保留表提供；五类对象与结果、生命周期、模式、步骤和动作从当前聚合生成。 */
     public static List<Reference> extractAndValidate(String gameId, List<Aggregate> aggregates,
                                                     Set<Target> dictionaryAndParameters) {
@@ -44,11 +51,7 @@ public final class SkillObjectReferences {
                                                     List<Aggregate> context,
                                                     Set<Target> dictionaryAndParameters) {
         Set<Target> targets = new HashSet<>(dictionaryAndParameters);
-        List<Reference> references = new ArrayList<>();
-        for (Aggregate aggregate : sources) {
-            Collector collector = new Collector(gameId, aggregate, references);
-            collector.collect();
-        }
+        List<Reference> references = extract(gameId, sources);
         Set<Aggregate> needed = new LinkedHashSet<>(sources);
         for (Aggregate aggregate : needed) index(aggregate, targets);
         for (Aggregate aggregate : context) {
