@@ -45,6 +45,8 @@ const (
 	ReadOperationOutput
 	ReadProcessActualCost
 	ReadDamageSelf
+	ReadDamageStage
+	ReadEventLink
 )
 
 // GenericOp 是 generic formula bytecode 操作码。
@@ -314,6 +316,11 @@ func validForwardJump(pc, target, length int) bool {
 }
 
 func parseReadPath(path string) (GenericReadKind, string, bool) {
+	if strings.HasPrefix(path, "damage.stage.") {
+		key := strings.TrimPrefix(path, "damage.stage.")
+		_, ok := model.DamageStageIndex(key)
+		return ReadDamageStage, key, ok
+	}
 	if strings.HasPrefix(path, "process.actual_cost.") {
 		key := strings.TrimPrefix(path, "process.actual_cost.")
 		return ReadProcessActualCost, key, key != "" && !strings.ContainsAny(key, ".[] ")
@@ -464,6 +471,9 @@ func parseOperationOutputPath(path string) (GenericReadKind, string, bool) {
 }
 
 func parseEventReadPath(path string) (GenericReadKind, string, bool) {
+	if path == "event.link.index" || path == "event.link.count" {
+		return ReadEventLink, strings.TrimPrefix(path, "event.link."), true
+	}
 	if path == model.FormulaPathSkillHitFirstContact {
 		return ReadEventSkillHit, "firstContact", true
 	}

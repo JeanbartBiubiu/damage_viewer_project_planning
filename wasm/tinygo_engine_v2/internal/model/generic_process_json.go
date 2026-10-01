@@ -41,6 +41,9 @@ func processJSONShape(data []byte, name, allowed, required string) error {
 		}
 	}
 	if name == "ProcessControlDefinition" {
+		if raw, present := fields["useRefFromEvent"]; present && string(raw) == "null" {
+			return errors.New(name + ".useRefFromEvent must be an explicit boolean")
+		}
 		var action string
 		if err := json.Unmarshal(fields["action"], &action); err != nil {
 			return err
@@ -85,7 +88,7 @@ func (v *ProcessDefinition) UnmarshalJSON(data []byte) error {
 	return nil
 }
 func (v *ProcessControlDefinition) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "ProcessControlDefinition", "processKey action stepKey failureReason", "processKey action"); err != nil {
+	if err := processJSONShape(data, "ProcessControlDefinition", "processKey action stepKey failureReason useRefFromEvent", "processKey action"); err != nil {
 		return err
 	}
 	type plain ProcessControlDefinition

@@ -23,20 +23,21 @@ type CompiledAbilityRef struct {
 
 // CompiledSession 是 generic compile 输出的只读 session 快照。
 type CompiledSession struct {
-	SchemaVersion   string
-	SchemaHash      string
-	RulesHash       string
-	Types           typeset.CatalogResult
-	Combatants      []CompiledCombatant
-	Providers       []CompiledProvider
-	Abilities       []CompiledAbility
-	Operations      []CompiledOperation
-	Formulas        formula.GenericRegistry
-	Settings        model.GenericCompileSettings
-	AbilityRefIndex map[string]CompiledAbilityRef
-	RuleModifiers   []CompiledModifier
-	Listeners       []CompiledListener
-	VampRules       []CompiledVampRule
+	SchemaVersion      string
+	SchemaHash         string
+	RulesHash          string
+	Types              typeset.CatalogResult
+	Combatants         []CompiledCombatant
+	Providers          []CompiledProvider
+	Abilities          []CompiledAbility
+	Operations         []CompiledOperation
+	Formulas           formula.GenericRegistry
+	Settings           model.GenericCompileSettings
+	AbilityRefIndex    map[string]CompiledAbilityRef
+	RuleModifiers      []CompiledModifier
+	Listeners          []CompiledListener
+	VampRules          []CompiledVampRule
+	DamageTypeFormulas map[string]CompiledDamageTypeFormula
 }
 
 // CompiledCombatant 是 compile 后的 combatant 定义。
@@ -229,6 +230,10 @@ type CompiledOperation struct {
 	Types                 []string
 	CopyableOnHit         bool
 	CritEligible          bool
+	HasCritFormula        bool
+	CritChanceProgram     formula.GenericProgramID
+	CritMultiplierProgram formula.GenericProgramID
+	Path                  string
 	VampQualification     string
 	VampOverrides         []CompiledVampOverride
 	RepeatScope           string
@@ -348,6 +353,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	}
 
 	compileVampRules(req.Rules.VampRules, req.Combatants, ctx)
+	compileDamageTypeFormulas(req.Rules.DamageTypeFormulas, ctx)
 	for i, provider := range req.SharedProviders {
 		compileProviderDefinition(provider, "sharedProviders["+itoa(i)+"]", ctx)
 	}
@@ -422,6 +428,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 	validateProcessAbilityRefs(req, ctx)
 	validateAllAbilityRefs(req, ctx)
 	finalizeListenerIndex(ctx)
+	validateDamageStageContexts(ctx)
 	if len(session.Operations) > 65535 {
 		collector.addError(model.GenericErrRuntimeInvariantFailed, "operations", "compiled operations exceed supported index range", "")
 	}
@@ -1090,7 +1097,8 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 			collector.addError(model.GenericErrMissingRequiredField, path+".damageType", "damage operation requires damageType", "")
 		} else {
 			typeset.ValidateTypeKeys([]string{op.DamageType}, typeset.EntityOperationDamageType, catalog, path+".damageType", collector.addError)
-			if !isKnownDamageSettlementType(op.DamageType) {
+			_, hasFormula := session.DamageTypeFormulas[op.DamageType]
+			if !hasFormula && (len(session.DamageTypeFormulas) > 0 || !isKnownDamageSettlementType(op.DamageType)) {
 				collector.addError(model.GenericErrUnknownTypeKey, path+".damageType", "unknown damage settlement type", op.DamageType)
 			}
 		}
@@ -1150,8 +1158,11 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		validateRepeatOperation(op, path, ownerProviderIndex, ctx)
 	case model.OperationKindExecuteThreshold:
 		validateExecuteThresholdOperation(op, path, ctx)
+	case model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink:
+		validateLinkOperation(op, path, ctx)
 	}
 	compiled := CompiledOperation{
+		Path:                  path,
 		Operation:             op.Operation,
 		Target:                op.Target,
 		DamageType:            op.DamageType,
@@ -1177,6 +1188,7 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 		compiled.Types = normalizeDamageTraitTypes(op.Types, catalog)
 	}
 	compileVampOverrides(op, &compiled, path, ctx)
+	compileCritFormulas(op, &compiled, path, ctx)
 	if op.Operation == "state_change" || op.Operation == model.OperationKindStateDurationChange {
 		if scope, errMsg := resolveProviderStateScope(op.Types); errMsg == "" {
 			compiled.StateScope = scope

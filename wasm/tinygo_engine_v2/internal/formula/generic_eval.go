@@ -10,6 +10,11 @@ import (
 
 // GenericEvalContext 是 generic formula 运行时只读视图。
 type GenericEvalContext struct {
+	DamageStages          [5]float64
+	DamageStageCount      int
+	HasEventLink          bool
+	LinkIndex             int
+	LinkCount             int
 	ProcessActualCosts    map[string]float64
 	HasProcessActualCosts bool
 	SourceAttrs           map[string]model.AttributeSlotDef
@@ -394,6 +399,20 @@ func evalRead(kind GenericReadKind, key string, ctx GenericEvalContext) (float64
 		}
 	case ReadOperationOutput:
 		return readOperationOutput(key, ctx)
+	case ReadDamageStage:
+		index, ok := model.DamageStageIndex(key)
+		if !ok || index >= ctx.DamageStageCount {
+			return 0, errors.New("damage.stage." + key + " requires an earlier defense stage")
+		}
+		return ctx.DamageStages[index], nil
+	case ReadEventLink:
+		if !ctx.HasEventContext || !ctx.HasEventLink || ctx.LinkIndex < 1 || ctx.LinkIndex > ctx.LinkCount {
+			return 0, errors.New("event.link." + key + " requires a real link application")
+		}
+		if key == "index" {
+			return float64(ctx.LinkIndex), nil
+		}
+		return float64(ctx.LinkCount), nil
 	case ReadProcessActualCost:
 		if !ctx.HasProcessActualCosts {
 			return 0, errors.New("process.actual_cost." + key + " requires process completion or failure context")

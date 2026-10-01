@@ -137,10 +137,14 @@ func (s *genericRunState) countProcessCast(ref string) {
 }
 
 func (s *genericRunState) rejectProcess(entry model.DriverEntry, reason string) *model.EngineError {
-	s.attemptSkippedCount++
 	_, ref, _ := s.lookupDriverAbility(entry)
+	return s.rejectProcessUse(entry, ref, s.processFacts[entry.EntryKey].UseRef, reason)
+}
+
+func (s *genericRunState) rejectProcessUse(entry model.DriverEntry, ref, use, reason string) *model.EngineError {
+	s.attemptSkippedCount++
 	s.statFor(ref).skipCount++
-	s.recordEvidence(model.EvidenceItem{TimeMs: s.nowMs, Kind: "process_rejected", Ref: ref, Path: "driverPlan.entries[" + entry.EntryKey + "]", Data: map[string]interface{}{"entryKey": entry.EntryKey, "useKey": s.processFacts[entry.EntryKey].UseRef, "reason": reason}})
+	s.recordEvidence(model.EvidenceItem{TimeMs: s.nowMs, Kind: "process_rejected", Ref: ref, Path: "driverPlan.entries[" + entry.EntryKey + "]", Data: map[string]interface{}{"entryKey": entry.EntryKey, "useKey": use, "reason": reason}})
 	return nil
 }
 
@@ -152,6 +156,7 @@ func (s *genericRunState) newProcessFrame(p *processRuntime) *executionFrame {
 	f.castInstanceID = p.castID
 	f.castOrigin = p.ability.CastOrigin
 	f.processActualCosts = p.ActualCosts
+	f.processUseKey, f.processUseSkillKey, f.processUseSource = p.UseKey, p.SkillKey, p.Owner
 	return f
 }
 
@@ -188,7 +193,7 @@ func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, 
 		return err
 	}
 	if !allowed {
-		return s.rejectProcess(entry, "condition_false")
+		return s.rejectProcessUse(entry, ref, use, "condition_false")
 	}
 	// All expressions read the same pre-payment frame, and every row is checked before aggregation.
 	totals := map[string]float64{}
@@ -215,7 +220,7 @@ func (s *genericRunState) startProcess(entry model.DriverEntry, entryIndex int, 
 			return s.processErr("combatants."+owner+".resources."+key, "process cost requires an explicit finite resource", key)
 		}
 		if slot.Current < totals[key] {
-			return s.rejectProcess(entry, "resource_insufficient")
+			return s.rejectProcessUse(entry, ref, use, "resource_insufficient")
 		}
 	}
 	for _, key := range keys {

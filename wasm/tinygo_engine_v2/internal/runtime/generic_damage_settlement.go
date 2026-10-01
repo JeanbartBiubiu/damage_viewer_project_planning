@@ -56,11 +56,21 @@ func (f *executionFrame) resolveDamageNumbers(
 	}
 
 	mitigatedNormal, mitigatedCrit := 0.0, 0.0
-	if cmd.Amount == 0 {
+	_, hasFormula := f.run.compiled.DamageTypeFormulas[cmd.DamageType]
+	if cmd.Amount == 0 && !hasFormula {
 		out.resistanceFactor = 1
 	} else {
-		mitigation, ok := pipeline.MitigateRawDamageWithSource(
-			cmd.Amount, cmd.DamageType, targetMitigationAttrs, sourcePenetrationAttrs)
+		var mitigation pipeline.MitigationResult
+		var ok bool
+		if hasFormula {
+			mitigation, err = f.resolveConfiguredDefense(cmd, targetMitigationAttrs, sourcePenetrationAttrs)
+			if err != nil {
+				return out, err
+			}
+			ok = true
+		} else {
+			mitigation, ok = pipeline.MitigateRawDamageWithSource(cmd.Amount, cmd.DamageType, targetMitigationAttrs, sourcePenetrationAttrs)
+		}
 		if !ok {
 			out.failClosed = true
 			return out, nil
