@@ -45,7 +45,7 @@ function sample(options: { damage?: number; hp?: number; hitCount?: number; atta
     { timeMs: 0, kind: 'emitted_event', ref: 'event/basic_attack_hit', data: { ...identity, eventType: 'event/basic_attack_hit', occurrenceId: 1, blocked: 0, reused: false } },
     { timeMs: 0, kind: 'damage', ref: hitAbility, data: {
       phase: 'original', phantom: false, source: 'source', target: 'target', damageType: 'damage/physics',
-      abilityRef: hitAbility, operationRef: 'damage', castInstanceId: 3, damageId: 1,
+      abilityRef: hitAbility, operationRef: 'skills.sample_basic_attack.effects.hit.results.damage', castInstanceId: 3, damageId: 1,
       rawAmount: damage * 2, mitigatedAmount: damage, postDefenseDamage: damage, shieldAbsorbed: 0,
       actualHpLoss, overkillDamage: damage - actualHpLoss,
       resistanceBeforePenetration: 100, penetrationPercent: 0, penetrationFlat: 0, effectiveResistance: 100,
@@ -59,8 +59,8 @@ function sample(options: { damage?: number; hp?: number; hitCount?: number; atta
     for (let index = 1; index <= count; index++) evidence.push({ timeMs: 0, kind: 'emitted_event', ref: eventType, path,
       data: { ...identity, eventType, LINK_INDEX: index, LINK_COUNT: count } });
   }
-  addLinks(attackLinkPath, 'attack_link', 'event/attack_link_applied', options.attackCount ?? 1);
-  addLinks(hitLinkPath, 'hit_link', 'event/hit_link_applied', options.hitCount ?? 1);
+  addLinks(attackLinkPath, 'skills.sample_basic_attack.effects.start.results.attack_link', 'event/attack_link_applied', options.attackCount ?? 1);
+  addLinks(hitLinkPath, 'skills.sample_basic_attack.effects.hit.results.hit_link', 'event/hit_link_applied', options.hitCount ?? 1);
   const done: DoneResult = {
     ok: true,
     summary: { durationMs: 0, stopReason: finalHp === 0 ? 'target_dead' : 'no_events', sourceFinalHp: 650,
@@ -74,7 +74,7 @@ function sample(options: { damage?: number; hp?: number; hitCount?: number; atta
       ] },
     finalSnapshot, series: [], warnings: [],
     evidence: { items: evidence, truncated: false, truncatedEvidenceCount: 0, countsByKind: {} },
-    seriesSamplingEvidence: { downsampled: false }
+    seriesSamplingEvidence: { requestedSampleEveryMs: 100, effectiveSampleEveryMs: 100, requestedPointCount: 0, finalPointCount: 0, maxSeriesPoints: 10, downsampled: false, method: 'uniform_time' }
   };
   recount(done);
   return { compileRequest, runRequest, done, controlRef };

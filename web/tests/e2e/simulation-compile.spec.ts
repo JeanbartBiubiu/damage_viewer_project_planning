@@ -99,7 +99,7 @@ test('未知暴击字段与前序阶段声明不被Wasm静默忽略', async ({ p
   expect(JSON.stringify(result.forwardResult.errors)).toMatch(/resistanceBeforePenetration/);
 });
 
-test('编译检查仍独立释放，不显示单次结果且不提供连续攻击或图表按钮', async ({ page }) => {
+test('编译检查仍独立释放，不自动运行单次或连续普攻且不提供图表', async ({ page }) => {
   const snapshot = simulationSample();
   await page.route('**/api/admin/games/demo/simulation-snapshot?**', route => route.fulfill({ json: snapshot }));
   await chooseSimulationEntity(page, '攻击方角色', 'actor_a');
@@ -117,7 +117,9 @@ test('编译检查仍独立释放，不显示单次结果且不提供连续攻�
   await page.getByText('调试详情：编译请求、原始结果与引用覆盖', { exact: true }).click();
   await expect(page.getByRole('button', { name: '下载编译档案', exact: true })).toBeEnabled();
   await expect(page.getByRole('region', { name: '单次普攻结果', exact: true })).toHaveCount(0);
-  await expect(page.getByRole('button', { name: /开始计算|运行模拟|连续攻击/ })).toHaveCount(0);
+  await expect(page.getByRole('region', { name: '连续普攻结果', exact: true })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '连续普攻', exact: true })).toHaveCount(1);
+  await expect(page.getByRole('button', { name: /图表/ })).toHaveCount(0);
 });
 
 test('真实接口A/B等级属性及完整共享普攻，经同一快照进入最终浏览器Wasm编译与释放', async ({ page, request }, testInfo) => {

@@ -4,7 +4,7 @@ import {
   type DamageTypeFormulaNode
 } from '../types/damageTypeFormula';
 import type {
-  AbilityDefinition, AttributeSlot, CompileRequest, GenericDamageTypeFormula, GenericFormulaExpr,
+  AbilityDefinition, AttributeSlot, BasicAttackPlan, CompileRequest, GenericDamageTypeFormula, GenericFormulaExpr,
   GenericRules, OperationDefinition, ProcessDefinition, ProviderDefinition, RunRequest, SkillHitCandidate
 } from '../types/genericEngine';
 import type { SkillEffect, SkillEffectResult } from '../types/skillEffect';
@@ -16,9 +16,11 @@ import {
   NumericAdaptationError, wrapValueRuleExpression
 } from './numericAdapter';
 import { adaptDamageVamp } from './vampAdapter';
+import { simulationInitialSnapshot } from './simulationInitialSnapshot';
+import { simulationHash } from './simulationHash';
 
-export const SIMULATION_ADAPTER_VERSION = 'single-basic-attack-input-v1';
-export const SIMULATION_SCHEMA_HASH = 'generic-single-basic-attack-input-v1';
+export const SIMULATION_ADAPTER_VERSION = 'basic-attack-input-v2';
+export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v2';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
 const START_ABILITY = 'attack_start';
@@ -29,6 +31,10 @@ const OPERATIONS: Record<string, string> = {
 };
 
 export type SimulationCoverage = { authorPath: string; compiledPath: string };
+export type OperationOrigin = {
+  abilityRef: string; operationRef: string; skillKey: string; effectKey: string; resultKey: string; compiledPaths: string[];
+};
+export type BasicAttackBinding = Omit<BasicAttackPlan, 'planKey' | 'attackSpeedInputMax'>;
 export type SimulationAttributeRequirement = {
   side: 'source' | 'target'; attribute: Attribute; storedValue: number | undefined
 };
@@ -66,6 +72,7 @@ function ruleIsPlain(rule: SkillTriggerRuleDetail, path: string) {
 type Program = {
   provider: ProviderDefinition; rules: GenericRules; formulas: CompileRequest['formulas'];
   types: CompileRequest['typeCatalog']['types']; coverage: SimulationCoverage[];
+  operationOrigins: OperationOrigin[]; basicAttackBinding: BasicAttackBinding;
   required: Map<'source' | 'target', Set<string>>; configuration: SkillConfiguration;
 };
 
@@ -89,6 +96,7 @@ function program(snapshot: SimulationSnapshot): Program {
     runtimeInputMessage: '首批普攻没有未绑定的计算时参数'
   });
   const coverage: SimulationCoverage[] = [];
+  const operationOrigins: OperationOrigin[] = [];
   const usedEffects = new Set<string>();
   const types = new Map<string, string>([
     ['ability/basic_attack', 'ability'], ['combatant/champion', 'combatant'],
@@ -106,7 +114,7 @@ function program(snapshot: SimulationSnapshot): Program {
   });
   const rules: GenericRules = { damageTypeFormulas: [] };
   const required = new Map<'source' | 'target', Set<string>>([
-    ['source', new Set(['hp'])], ['target', new Set(['hp'])]
+    ['source', new Set(['hp', 'attack_speed'])], ['target', new Set(['hp'])]
   ]);
   const addCoverage = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const skillPath = `skills.${config.skill.skillKey}`;
@@ -130,7 +138,7 @@ function program(snapshot: SimulationSnapshot): Program {
     if (result.resultType === 'HIT_LINK_APPLICATION' || result.resultType === 'ATTACK_LINK_APPLICATION') {
       exact(result.detail, [], `${path}.detail`);
       const operation = result.resultType === 'HIT_LINK_APPLICATION' ? 'apply_hit_link' : 'apply_attack_link';
-      return { operation, target: 'target', amount, ref: result.resultKey };
+      return { operation, target: 'target', amount, ref: path };
     }
     if (result.resultType !== 'DAMAGE') fail(`${path}.resultType`, '该并列结果尚未接入，不能丢弃后继续');
     const detail = result.detail;
@@ -152,7 +160,7 @@ function program(snapshot: SimulationSnapshot): Program {
     for (const key of vamp.requiredAttributes) required.get('source')!.add(key);
     if (rules.vampRules && JSON.stringify(rules.vampRules) !== JSON.stringify(vamp.rules)) fail(path, '吸血规则不一致');
     rules.vampRules = vamp.rules;
-    const operation: OperationDefinition = { operation: 'damage', target: 'target', damageType, amount, ref: result.resultKey, ...vamp.operation };
+    const operation: OperationDefinition = { operation: 'damage', target: 'target', damageType, amount, ref: path, ...vamp.operation };
     const critical = record(detail.critical, `${path}.detail.critical`);
     if (critical.mode === 'DISALLOWED') {
       if (critical.multiplierValue != null) fail(`${path}.detail.critical.multiplierValue`, '禁止暴击不得保留倍率');
@@ -180,13 +188,17 @@ function program(snapshot: SimulationSnapshot): Program {
     }
     return operation;
   }
-  function operationsFor(key: string, path: string, compiledPath: (index: number) => string): OperationDefinition[] {
+  function operationsFor(key: string, path: string, compiledPath: (index: number) => string, abilityRef: string): OperationDefinition[] {
     const authored = effect(key, path);
     if (!authored.results.length) fail(`${skillPath}.effects.${key}.results`, '即时普攻效果不能是空操作');
     return ordered(authored.results, `${skillPath}.effects.${key}.results`).map((result, index) => {
       const resultPath = `${skillPath}.effects.${key}.results.${result.resultKey}`;
       const operation = resultOperation(result, resultPath, compiledPath(index));
       addCoverage(resultPath, compiledPath(index));
+      const origin = operationOrigins.find(row => row.abilityRef === abilityRef && row.operationRef === resultPath);
+      if (origin) origin.compiledPaths.push(compiledPath(index));
+      else operationOrigins.push({ abilityRef, operationRef: resultPath, skillKey: config!.skill.skillKey,
+        effectKey: key, resultKey: result.resultKey, compiledPaths: [compiledPath(index)] });
       return operation;
     });
   }
@@ -222,6 +234,7 @@ function program(snapshot: SimulationSnapshot): Program {
   }
 
   const process = config.processes[0]!;
+  const controlKey = `process_${process.processKey}`;
   const processPath = `${skillPath}.processes.${process.processKey}`;
   stableKey(process.processKey, `${processPath}.processKey`);
   if (process.activationType !== 'ACTIVE' || process.stateOperations.length || !process.steps.length
@@ -236,7 +249,8 @@ function program(snapshot: SimulationSnapshot): Program {
     processKey: process.processKey, skillKey: config.skill.skillKey,
     steps: ordered(process.steps, `${processPath}.steps`).map(step => ({ stepKey: stableKey(step.stepKey, processPath), stepType: 'IMMEDIATE' })),
     costs: [], cooldown: {
-      durationMs: { op: 'max', args: [constExpr(1), { op: 'round', expr: value(process.cooldown.durationValue, `${processPath}.cooldown.durationValue`) }] },
+      durationMs: value(process.cooldown.durationValue, `${processPath}.cooldown.durationValue`),
+      roundPositiveMs: true,
       startMoment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null }
     }, momentOperations: []
   };
@@ -252,12 +266,12 @@ function program(snapshot: SimulationSnapshot): Program {
     genericProcess.momentOperations.push({
       moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null },
       operations: operationsFor(binding.effectKey, `${processPath}.effectBindings.${binding.bindingKey}`,
-        index => `sharedProviders[0].processes[0].momentOperations[${momentIndex}].operations[${index}]`)
+        index => `sharedProviders[0].processes[0].momentOperations[${momentIndex}].operations[${index}]`,
+        `source.provider[${MOUNT}].ability[${controlKey}]`)
     });
     addCoverage(`${processPath}.effectBindings.${binding.bindingKey}`, `sharedProviders[0].processes[0].momentOperations[${momentIndex}]`);
   }
 
-  const controlKey = `process_${process.processKey}`;
   const listeners: NonNullable<ProviderDefinition['listeners']> = [];
   const candidates: SkillHitCandidate[] = [];
   let starts = 0;
@@ -287,7 +301,8 @@ function program(snapshot: SimulationSnapshot): Program {
       const authored = effect(action.detail.effectKey, `${rulePath}.${action.actionKey}`);
       const firstCandidate = candidates.length;
       const operations = operationsFor(authored.effectKey, `${rulePath}.${action.actionKey}`,
-        index => `sharedProviders[0].abilities[2].operations[0].skillHit.candidates[${firstCandidate + index}].operations[0]`);
+        index => `sharedProviders[0].abilities[2].operations[0].skillHit.candidates[${firstCandidate + index}].operations[0]`,
+        `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`);
       const results = ordered(authored.results, `${rulePath}.results`);
       for (const [index, result] of results.entries()) {
         candidates.push({
@@ -331,7 +346,13 @@ function program(snapshot: SimulationSnapshot): Program {
     Object.values(row).forEach(collect);
   };
   collect(provider); collect([...state.namedFormulas.values()]); collect(rules);
-  return { provider, rules, formulas: [...state.namedFormulas.values()], types: [...types].map(([key, domain]) => ({ key, domain })), coverage, required, configuration: config };
+  return { provider, rules, formulas: [...state.namedFormulas.values()], types: [...types].map(([key, domain]) => ({ key, domain })),
+    coverage, required, configuration: config, operationOrigins,
+    basicAttackBinding: { source: 'source', target: 'target', skillKey: config.skill.skillKey,
+      startAbilityRef: `source.provider[${MOUNT}].ability[${START_ABILITY}]`,
+      hitAbilityRef: `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`,
+      initialControlAbilityRef: `source.provider[${MOUNT}].ability[${controlKey}]`, attackSpeedAttributeKey: 'attack_speed' }
+  };
 }
 
 export function inspectSimulationSnapshot(snapshot: SimulationSnapshot): {
@@ -351,7 +372,8 @@ export function inspectSimulationSnapshot(snapshot: SimulationSnapshot): {
 
 export function assembleSimulation(
   snapshot: SimulationSnapshot, attributeInputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth
-): { compileRequest: CompileRequest; coverage: SimulationCoverage[]; snapshotDigest: string; attributeInputs: SimulationAttributeInputs; initialHealth: SimulationInitialHealth } {
+): { compileRequest: CompileRequest; coverage: SimulationCoverage[]; operationOrigins: OperationOrigin[];
+  basicAttackBinding: BasicAttackBinding; snapshotDigest: string; attributeInputs: SimulationAttributeInputs; initialHealth: SimulationInitialHealth } {
   const compiled = program(snapshot);
   const { requirements } = inspectSimulationSnapshot(snapshot);
   const actors = (['source', 'target'] as const).map(side => {
@@ -386,7 +408,8 @@ export function assembleSimulation(
       typeCatalog: { types: compiled.types, relations: [] }, combatants: actors,
       sharedProviders: [compiled.provider], formulas: compiled.formulas, rules: compiled.rules,
       settings: { maxEvents: 10000, maxCommandsPerEvent: 256, maxQueueEvents: 10000, maxChainDepth: 32 }
-    }, coverage: compiled.coverage, snapshotDigest: snapshot.snapshotDigest,
+    }, coverage: compiled.coverage, operationOrigins: compiled.operationOrigins, basicAttackBinding: compiled.basicAttackBinding,
+    snapshotDigest: snapshot.snapshotDigest,
     attributeInputs: structuredClone(attributeInputs), initialHealth: structuredClone(initialHealth)
   };
 }
@@ -394,34 +417,19 @@ export function assembleSimulation(
 /** 摘要仅含业务输入和适配后的定义；不包含接口基址、令牌或读取时间。 */
 export async function prepareSimulation(snapshot: SimulationSnapshot, inputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth) {
   const assembled = assembleSimulation(snapshot, inputs, initialHealth);
-  const canonical = (value: unknown): unknown => {
-    if (Array.isArray(value)) return value.map(canonical);
-    if (!value || typeof value !== 'object') return value;
-    return Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b)).map(([key, child]) => [key, canonical(child)]));
-  };
-  const raw = JSON.stringify(canonical({ snapshotDigest: snapshot.snapshotDigest, adapter: SIMULATION_ADAPTER_VERSION,
-    attributeInputs: inputs, initialHealth, request: assembled.compileRequest }));
-  const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw)));
-  assembled.compileRequest.rulesHash = [...digest].map(value => value.toString(16).padStart(2, '0')).join('');
+  assembled.compileRequest.rulesHash = await simulationHash({ snapshotDigest: snapshot.snapshotDigest, adapter: SIMULATION_ADAPTER_VERSION,
+    attributeInputs: inputs, initialHealth, request: assembled.compileRequest });
   return assembled;
 }
 
-/** 仅准备一次开始和命中的绑定模板；本轮页面不执行，也不预排连续攻击。 */
+/** 单次入口保持一次真实开始与命中，不重复调度。 */
 export function singleAttackRequest(input: CompileRequest, sessionId: string): RunRequest {
   const skillKey = input.sharedProviders![0]!.abilities![0]!.skillKey!;
   const useRef = 'first_attack_use';
   return {
     sessionId, expectedRulesHash: input.rulesHash, schemaVersion: input.schemaVersion,
     schemaHash: input.schemaHash, rulesHash: input.rulesHash,
-    initialSnapshot: { schemaHash: input.schemaHash, rulesHash: input.rulesHash, timeMs: 0,
-      useTriggerLedger: [], processInstances: [], combatants: input.combatants.map(actor => ({
-        key: actor.key, attributes: structuredClone(actor.attributes), resources: structuredClone(actor.resources),
-        cooldowns: {}, providers: actor.providers.map(mount => ({
-          providerRef: mount.providerRef, definitionRef: mount.definitionRef,
-          source: actor.key, owner: actor.key, stacks: 1, expireAt: null,
-          state: structuredClone(mount.initialState ?? {})
-        })), shields: [], abilityState: {}, providerState: {}, vars: {}, effectiveStatuses: []
-      })) },
+    initialSnapshot: simulationInitialSnapshot(input),
     driverPlan: { conditionRecheckIntervalMs: 100, entries: [
       { entryKey: 'first_attack_start', abilityRef: `source.provider[${MOUNT}].ability[${START_ABILITY}]`, source: 'source', target: 'target', firstAtMs: 0, priority: 0 },
       { entryKey: 'first_attack_hit', abilityRef: `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`, source: 'source', target: 'target', firstAtMs: 0, priority: 1 }
