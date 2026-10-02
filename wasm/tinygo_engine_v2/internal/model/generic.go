@@ -103,6 +103,8 @@ type CompileResult struct {
 
 // EngineError 是目标 ABI 的统一错误 DTO。
 type EngineError struct {
+	// BudgetCause is an internal stop marker, never inferred from public error text.
+	BudgetCause BudgetCause            `json:"-"`
 	OK          bool                   `json:"ok"`
 	Phase       GenericErrorPhase      `json:"phase"`
 	Code        GenericErrCode         `json:"code"`

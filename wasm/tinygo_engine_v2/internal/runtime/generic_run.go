@@ -65,7 +65,22 @@ type genericRunState struct {
 	combatants map[string]combatantRuntime
 	heap       scheduler.GenericHeap
 
-	budget model.SafetyBudget
+	budget                 model.SafetyBudget
+	currentEventCommands   int
+	basicAttackEventActive bool
+	budgetCause            model.BudgetCause
+	basicAttack            *basicAttackRuntime
+	attackRecords          []model.BasicAttackRecord
+	damageRecords          []map[string]interface{}
+	damageBreakdown        []model.DamageBreakdown
+	damageBreakdownIndex   map[damageBreakdownKey]int
+	sourceHpLoss           float64
+	targetHpLoss           float64
+	damageRecordCount      int
+	maxAttackRecords       int
+	maxDamageRecords       int
+	effectiveSampleEveryMs int64
+	nextSampleAtMs         int64
 
 	abilityAttemptCount int
 	abilityCastCount    int
@@ -142,6 +157,9 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	recheck := normalizeConditionRecheckInterval(req.DriverPlan.ConditionRecheckIntervalMs)
 
 	sampling := req.Sampling
+	if sampling.SampleEveryMs < 0 || sampling.DpsWindowMs < 0 || sampling.MaxSeriesPoints < 0 || sampling.MaxSeriesPoints == 1 || sampling.MaxSeriesPoints > 5000 {
+		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "invalid sampling interval or point limit", "sampling", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
+	}
 	defaults := model.DefaultSamplingConfig()
 	if sampling.SampleEveryMs <= 0 {
 		sampling.SampleEveryMs = defaults.SampleEveryMs
@@ -169,6 +187,15 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 		sb := req.SafetyBudget
 		if sb.MaxProcessInstances < 0 || sb.MaxProcessInstances > 100000 {
 			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "maxProcessInstances must be a positive integer at most 100000", "safetyBudget.maxProcessInstances", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
+		}
+		if sb.MaxBasicAttacks < 0 || sb.MaxBasicAttacks > 4096 {
+			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "maxBasicAttacks must be at most 4096", "safetyBudget.maxBasicAttacks", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
+		}
+		if sb.MaxBasicAttacks > 0 {
+			budget.MaxBasicAttacks = sb.MaxBasicAttacks
+		}
+		if req.DriverPlan.BasicAttack != nil && ((sb.MaxEvents > compiled.Settings.MaxEvents && compiled.Settings.MaxEvents > 0) || (sb.MaxCommandsPerEvent > compiled.Settings.MaxCommandsPerEvent && compiled.Settings.MaxCommandsPerEvent > 0) || (sb.MaxChainDepth > compiled.Settings.MaxChainDepth && compiled.Settings.MaxChainDepth > 0)) {
+			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "run safety budget exceeds compiled limits", "safetyBudget", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
 		}
 		if sb.MaxProcessInstances > 0 {
 			budget.MaxProcessInstances = sb.MaxProcessInstances
@@ -227,10 +254,26 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 		continuations:              make(map[uint64]*triggeredContinuationPayload),
 	}
 
-	state.seedDriverAttempts()
-	state.seedSampleEvents()
-	state.seedExpireCleanups()
-	state.seedProviderTicks()
+	state.heap.SetLimit(compiled.Settings.MaxQueueEvents)
+	state.maxAttackRecords, state.maxDamageRecords = 1000, 2000
+	state.attackRecords = []model.BasicAttackRecord{}
+	state.damageRecords = []map[string]interface{}{}
+	state.damageBreakdown = []model.DamageBreakdown{}
+	state.damageBreakdownIndex = map[damageBreakdownKey]int{}
+	if req.RecordBudget != nil {
+		if req.RecordBudget.MaxAttackRecords != nil {
+			state.maxAttackRecords = *req.RecordBudget.MaxAttackRecords
+		}
+		if req.RecordBudget.MaxDamageRecords != nil {
+			state.maxDamageRecords = *req.RecordBudget.MaxDamageRecords
+		}
+	}
+	if state.maxAttackRecords < 0 || state.maxAttackRecords > 4096 || state.maxDamageRecords < 0 || state.maxDamageRecords > 10000 {
+		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "invalid record retention budget", "recordBudget", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
+	}
+	if err := state.initSamplingCursor(); err != nil {
+		return nil, err
+	}
 	if err := state.compileDriverConditions(); err != nil {
 		return nil, err
 	}
@@ -245,6 +288,15 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	}
 	if err := state.initProcessState(); err != nil {
 		return nil, err
+	}
+	if err := state.initBasicAttack(); err != nil {
+		return nil, err
+	}
+	state.seedDriverAttempts()
+	state.seedExpireCleanups()
+	state.seedProviderTicks()
+	if state.basicAttack != nil {
+		state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.startMs, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1})
 	}
 	return state, nil
 }
@@ -589,24 +641,9 @@ func (s *genericRunState) estimateRepeatAttempts(entry model.DriverEntry) int {
 	return count
 }
 
-func (s *genericRunState) seedSampleEvents() {
-	every := int64(s.sampling.SampleEveryMs)
-	if every <= 0 {
-		return
-	}
-	end := s.startMs + s.durationMs
-	for t := s.startMs; t <= end; t += every {
-		_ = s.heap.Push(scheduler.GenericEvent{
-			TimeMs:   t,
-			Category: scheduler.GenericCategorySample,
-			Kind:     scheduler.GenericEventSample,
-		})
-	}
-}
-
 func (s *genericRunState) enqueueAttempt(timeMs int64, entryIndex, attemptIndex int) {
 	entry := s.req.DriverPlan.Entries[entryIndex]
-	_ = s.heap.Push(scheduler.GenericEvent{
+	s.pushCombatEvent(scheduler.GenericEvent{
 		TimeMs:           timeMs,
 		Category:         scheduler.GenericCategoryAbilityAttempt,
 		Priority:         int16(entry.Priority),
@@ -617,62 +654,91 @@ func (s *genericRunState) enqueueAttempt(timeMs int64, entryIndex, attemptIndex 
 }
 
 func (s *genericRunState) runLoop() *model.EngineError {
+	end := s.startMs + s.durationMs
 	for {
+		if s.processFailure != nil {
+			if s.basicAttack == nil || s.processFailure.BudgetCause == "" {
+				return s.processFailure
+			}
+			s.setStopReason(model.StopReasonBudgetExceeded)
+			break
+		}
+		next, hasNext := s.heap.PeekTime()
+		// A known cooldown beyond the window finishes observation without a combat event.
+		if s.basicAttack != nil && !s.basicAttack.unfinishedTail && s.basicAttack.windowSettled && (!hasNext || next > end) {
+			s.flushSamplesBefore(end)
+			s.nowMs = end
+			s.setStopReason(model.StopReasonDurationReached)
+			break
+		}
 		if s.processedEvents >= s.budget.MaxEvents {
+			s.budgetError(model.BudgetCauseMaxEvents, "event budget exceeded")
 			s.setStopReason(model.StopReasonBudgetExceeded)
 			break
 		}
 		ev, ok := s.heap.Pop()
 		if !ok {
-			if s.nowMs >= s.startMs+s.durationMs {
+			if s.nowMs >= end {
 				s.setStopReason(model.StopReasonDurationReached)
 			} else if s.req.StopPolicy.StopWhenNoEventsOrDefault() {
 				s.setStopReason(model.StopReasonNoEvents)
 			} else {
+				s.flushSamplesBefore(end)
+				s.nowMs = end
 				s.setStopReason(model.StopReasonDurationReached)
 			}
 			break
 		}
-		if ev.TimeMs > s.startMs+s.durationMs {
+		if ev.TimeMs > end {
+			s.flushSamplesBefore(end)
+			s.nowMs = end
 			s.setStopReason(model.StopReasonDurationReached)
 			break
 		}
+		s.flushSamplesBefore(ev.TimeMs)
 		s.nowMs = ev.TimeMs
 		s.processedEvents++
+		var err *model.EngineError
 		switch ev.Kind {
 		case scheduler.GenericEventProcessTimer:
-			if err := s.handleProcessTimer(ev); err != nil {
-				return err
-			}
+			err = s.handleProcessTimer(ev)
 		case scheduler.GenericEventAnchoredTick:
-			if err := s.handleAnchoredTick(ev); err != nil {
-				return err
-			}
+			err = s.handleAnchoredTick(ev)
 		case scheduler.GenericEventExpireCleanup:
 			s.handleExpireCleanup(ev)
 		case scheduler.GenericEventProviderTick:
-			if err := s.handleProviderTick(ev); err != nil {
-				return err
-			}
+			err = s.handleProviderTick(ev)
 		case scheduler.GenericEventAbilityAttempt:
-			if err := s.handleAbilityAttempt(ev); err != nil {
-				return err
-			}
+			err = s.handleAbilityAttempt(ev)
 		case scheduler.GenericEventTriggeredContinuation:
-			if err := s.handleTriggeredContinuation(ev); err != nil {
+			err = s.handleTriggeredContinuation(ev)
+		case scheduler.GenericEventBasicAttack:
+			err = s.handleBasicAttack()
+		}
+		if err == nil {
+			err = s.processFailure
+		}
+		if err != nil {
+			if s.basicAttack == nil || err.BudgetCause == "" {
 				return err
 			}
-		case scheduler.GenericEventSample:
-			s.handleSample()
+			s.setStopReason(model.StopReasonBudgetExceeded)
+			break
 		}
-		if s.processFailure != nil {
-			return s.processFailure
+		next, hasNext = s.heap.PeekTime()
+		if !hasNext || next > s.nowMs {
+			s.flushSamplesThrough(s.nowMs)
 		}
 		if s.stopReasonSet {
 			break
 		}
 	}
 	s.finalizeStopReason()
+	if s.stopReason == model.StopReasonBudgetExceeded && s.budgetCause == "" {
+		s.budgetCause = model.BudgetCauseMaxEvents
+	}
+	s.flushSamplesThrough(s.nowMs)
+	s.appendFinalSample()
 	return nil
 }
 
@@ -711,7 +777,7 @@ func (s *genericRunState) finalizeStopReason() {
 			best = reason
 		}
 	}
-	if s.processedEvents >= s.budget.MaxEvents {
+	if s.processedEvents >= s.budget.MaxEvents || s.budgetCause != "" || (s.stopReasonSet && s.stopReason == model.StopReasonBudgetExceeded) {
 		consider(model.StopReasonBudgetExceeded)
 	}
 	sourceDead := s.combatantHasHp(model.SelectorSource) && s.combatantHp(model.SelectorSource) <= 0
@@ -868,6 +934,9 @@ func (s *genericRunState) recordAttemptSkipped(entry model.DriverEntry, reason m
 }
 
 func (s *genericRunState) recordEvidence(item model.EvidenceItem) {
+	if s.evidenceCountsByKind == nil {
+		s.evidenceCountsByKind = map[string]int{}
+	}
 	kind := string(item.Kind)
 	s.evidenceCountsByKind[kind]++
 	if len(s.evidence) >= s.budget.MaxEvidenceItems {
@@ -962,11 +1031,20 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 	})
 
 	requestedPoints := 0
-	if s.sampling.SampleEveryMs > 0 {
-		end := s.startMs + s.durationMs
-		for t := s.startMs; t <= end; t += int64(s.sampling.SampleEveryMs) {
+	method := "disabled"
+	if !s.sampling.Disabled {
+		method = "uniform_time"
+		span := s.nowMs - s.startMs
+		requestedPoints = int(span/int64(s.sampling.SampleEveryMs)) + 1
+		if span%int64(s.sampling.SampleEveryMs) != 0 {
 			requestedPoints++
 		}
+		downsampled = s.effectiveSampleEveryMs > int64(s.sampling.SampleEveryMs)
+		droppedSeriesPoints = requestedPoints - len(series)
+	}
+	var basicSummary *model.BasicAttackSummary
+	if s.basicAttack != nil {
+		basicSummary = &s.basicAttack.summary
 	}
 
 	s.appendTerminalEvidence(downsampled, requestedPoints, len(series))
@@ -984,8 +1062,16 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 	warnings, warningCount := s.buildWarnings(downsampled, droppedSeriesPoints)
 
 	return model.DoneResult{
-		OK: true,
+		OK:            true,
+		AttackRecords: s.attackRecords,
+		DamageRecords: s.damageRecords,
+		Recording:     s.recordingSummary(),
 		Summary: model.RunSummary{
+			BasicAttack:         basicSummary,
+			Execution:           s.executionSummary(),
+			SourceHpLoss:        s.sourceHpLoss,
+			TargetHpLoss:        s.targetHpLoss,
+			DamageBreakdown:     s.damageBreakdown,
 			DurationMs:          s.nowMs - s.startMs,
 			StopReason:          s.stopReason,
 			SourceFinalHp:       s.combatantHp(model.SelectorSource),
@@ -1015,12 +1101,12 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 		},
 		SeriesSamplingEvidence: model.SeriesSamplingEvidence{
 			RequestedSampleEveryMs: s.sampling.SampleEveryMs,
-			EffectiveSampleEveryMs: s.sampling.SampleEveryMs,
+			EffectiveSampleEveryMs: int(s.effectiveSampleEveryMs),
 			RequestedPointCount:    requestedPoints,
 			FinalPointCount:        len(series),
 			MaxSeriesPoints:        s.sampling.MaxSeriesPoints,
 			Downsampled:            downsampled,
-			Method:                 "uniform_time",
+			Method:                 method,
 		},
 	}
 }

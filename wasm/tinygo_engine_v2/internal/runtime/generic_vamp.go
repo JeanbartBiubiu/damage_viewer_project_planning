@@ -40,7 +40,7 @@ func (f *executionFrame) settleDamageVamp(cmd command.Command, op compilebundle.
 	}
 	attachCastProvenance(data, f.castInstanceID, f.castOrigin)
 	record := func() {
-		f.run.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindVamp, Ref: op.Ref, Data: data})
+		f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindVamp, Ref: op.Ref, Data: data})
 	}
 	skip := ""
 	switch {
@@ -173,7 +173,7 @@ func (f *executionFrame) settleHealing(sourceKey, targetKey string, amount float
 	out.actual = result.Amount
 	out.overheal = math.Max(0, out.after-out.actual)
 	f.healingDone += out.actual
-	f.run.recordOverheal(sourceKey, out.overheal)
+	f.recordOverheal(sourceKey, out.overheal)
 	f.reResolveStagedAttributesTwoPass(ability)
 	return out, nil
 }
@@ -249,7 +249,7 @@ func (f *executionFrame) applyDirectHeal(cmd command.Command, ability compilebun
 	if err != nil {
 		return err
 	}
-	f.run.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindHeal, Ref: f.abilityRef, Data: map[string]interface{}{
+	f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindHeal, Ref: f.abilityRef, Data: map[string]interface{}{
 		"source": cmd.Source, "target": cmd.Target, "category": model.HealDirect,
 		"healingBeforeModifiers": heal.before, "healingAfterDone": heal.afterDone, "healingAfterModifiers": heal.after,
 		"actualHealing": heal.actual, "overheal": heal.overheal, "modifiers": heal.modifiers,

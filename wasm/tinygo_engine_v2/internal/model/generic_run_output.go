@@ -48,34 +48,42 @@ const (
 
 // DoneResult 是 generic run 成功时的 outbox payload。
 type DoneResult struct {
-	OK                     bool                   `json:"ok"`
-	Summary                RunSummary             `json:"summary"`
-	FinalSnapshot          Snapshot               `json:"finalSnapshot"`
-	Series                 []SeriesPoint          `json:"series"`
-	Warnings               []WarningItem          `json:"warnings"`
-	Evidence               EvidenceCollection     `json:"evidence"`
-	SeriesSamplingEvidence SeriesSamplingEvidence `json:"seriesSamplingEvidence"`
+	OK                     bool                     `json:"ok"`
+	Summary                RunSummary               `json:"summary"`
+	AttackRecords          []BasicAttackRecord      `json:"attackRecords"`
+	DamageRecords          []map[string]interface{} `json:"damageRecords"`
+	Recording              RecordingSummary         `json:"recording"`
+	FinalSnapshot          Snapshot                 `json:"finalSnapshot"`
+	Series                 []SeriesPoint            `json:"series"`
+	Warnings               []WarningItem            `json:"warnings"`
+	Evidence               EvidenceCollection       `json:"evidence"`
+	SeriesSamplingEvidence SeriesSamplingEvidence   `json:"seriesSamplingEvidence"`
 }
 
 // RunSummary 是 chart-ready 汇总行。
 type RunSummary struct {
-	DurationMs          int64         `json:"durationMs"`
-	StopReason          StopReason    `json:"stopReason"`
-	SourceFinalHp       float64       `json:"sourceFinalHp"`
-	TargetFinalHp       float64       `json:"targetFinalHp"`
-	SourceDamageDealt   float64       `json:"sourceDamageDealt"`
-	SourceDamageTaken   float64       `json:"sourceDamageTaken"`
-	TargetDamageDealt   float64       `json:"targetDamageDealt"`
-	TargetDamageTaken   float64       `json:"targetDamageTaken"`
-	SourceOverheal      float64       `json:"sourceOverheal,omitempty"`
-	TargetOverheal      float64       `json:"targetOverheal,omitempty"`
-	AbilityAttemptCount int           `json:"abilityAttemptCount"`
-	AbilityCastCount    int           `json:"abilityCastCount"`
-	AttemptSkippedCount int           `json:"attemptSkippedCount"`
-	WarningCount        int           `json:"warningCount"`
-	EvidenceTruncated   bool          `json:"evidenceTruncated"`
-	SeriesDownsampled   bool          `json:"seriesDownsampled"`
-	AbilityStats        []AbilityStat `json:"abilityStats"`
+	BasicAttack         *BasicAttackSummary  `json:"basicAttack,omitempty"`
+	Execution           *RunExecutionSummary `json:"execution,omitempty"`
+	SourceHpLoss        float64              `json:"sourceHpLoss"`
+	TargetHpLoss        float64              `json:"targetHpLoss"`
+	DamageBreakdown     []DamageBreakdown    `json:"damageBreakdown"`
+	DurationMs          int64                `json:"durationMs"`
+	StopReason          StopReason           `json:"stopReason"`
+	SourceFinalHp       float64              `json:"sourceFinalHp"`
+	TargetFinalHp       float64              `json:"targetFinalHp"`
+	SourceDamageDealt   float64              `json:"sourceDamageDealt"`
+	SourceDamageTaken   float64              `json:"sourceDamageTaken"`
+	TargetDamageDealt   float64              `json:"targetDamageDealt"`
+	TargetDamageTaken   float64              `json:"targetDamageTaken"`
+	SourceOverheal      float64              `json:"sourceOverheal,omitempty"`
+	TargetOverheal      float64              `json:"targetOverheal,omitempty"`
+	AbilityAttemptCount int                  `json:"abilityAttemptCount"`
+	AbilityCastCount    int                  `json:"abilityCastCount"`
+	AttemptSkippedCount int                  `json:"attemptSkippedCount"`
+	WarningCount        int                  `json:"warningCount"`
+	EvidenceTruncated   bool                 `json:"evidenceTruncated"`
+	SeriesDownsampled   bool                 `json:"seriesDownsampled"`
+	AbilityStats        []AbilityStat        `json:"abilityStats"`
 }
 
 // AbilityStat 是按 abilityRef 分组的统计。
@@ -132,6 +140,7 @@ type SeriesSamplingEvidence struct {
 
 // SafetyBudget 是 run 期安全预算默认值（§4.1）。
 type SafetyBudget struct {
+	MaxBasicAttacks     int
 	MaxProcessInstances int
 	MaxChainDepth       int
 	MaxCommandsPerEvent int
@@ -144,6 +153,7 @@ type SafetyBudget struct {
 func DefaultSafetyBudget() SafetyBudget {
 	return SafetyBudget{
 		MaxProcessInstances: 10000,
+		MaxBasicAttacks:     4096,
 		MaxChainDepth:       32,
 		MaxCommandsPerEvent: 256,
 		MaxEvents:           100000,

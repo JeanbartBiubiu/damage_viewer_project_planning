@@ -299,7 +299,7 @@ func (f *executionFrame) resolveSkillHit(op compilebundle.CompiledOperation, abi
 		return f.run.skillHitErr(model.GenericErrMissingRequiredField, "missing skill hit fact for driver entry", "skillHitFacts", f.driverEntryKey)
 	}
 	if int(f.run.skillHitOccurrenceCount) >= skillHitBudget(f.run.budget.MaxEvents) {
-		return f.run.skillHitErr(model.GenericErrRuntimeInvariantFailed, "skill hit occurrences exceeded run budget", "skillHitFacts", f.driverEntryKey)
+		return f.run.budgetError(model.BudgetCauseMaxSkillHits, "skill hit occurrences exceeded run budget")
 	}
 	f.run.skillHitOccurrenceCount++
 	occurrenceID := f.run.skillHitOccurrenceCount
@@ -314,6 +314,7 @@ func (f *executionFrame) resolveSkillHit(op compilebundle.CompiledOperation, abi
 			return err
 		}
 	}
+	f.run.markBasicAttackHit(useRef)
 	firstHas, firstVal, err := f.run.qualifyFirstContact(f.driverEntryKey, useRef, f.targetKey)
 	if err != nil {
 		return err
@@ -427,7 +428,7 @@ func (f *executionFrame) resolveSkillHit(op compilebundle.CompiledOperation, abi
 		snap.hasSkillHit = true
 		snap.skillHit = freeze
 	}
-	f.run.recordEvidence(model.EvidenceItem{
+	f.recordEvidence(model.EvidenceItem{
 		TimeMs: f.run.nowMs,
 		Kind:   model.EvidenceKindSkillHit,
 		Ref:    f.abilityRef,
@@ -436,7 +437,7 @@ func (f *executionFrame) resolveSkillHit(op compilebundle.CompiledOperation, abi
 	})
 	emitData := skillHitEvidenceData(freeze)
 	emitData["eventType"] = eventType
-	f.run.recordEvidence(model.EvidenceItem{
+	f.recordEvidence(model.EvidenceItem{
 		TimeMs: f.run.nowMs,
 		Kind:   model.EvidenceKindEmittedEvent,
 		Ref:    eventType,

@@ -95,7 +95,7 @@ func (s *genericRunState) enqueueAnchoredTickAt(atMs int64, payload anchoredTick
 	}
 	idx := len(s.anchoredTickPayloads)
 	s.anchoredTickPayloads = append(s.anchoredTickPayloads, payload)
-	_ = s.heap.Push(scheduler.GenericEvent{
+	s.pushCombatEvent(scheduler.GenericEvent{
 		TimeMs:           atMs,
 		Category:         scheduler.GenericCategoryAnchoredTick,
 		Kind:             scheduler.GenericEventAnchoredTick,

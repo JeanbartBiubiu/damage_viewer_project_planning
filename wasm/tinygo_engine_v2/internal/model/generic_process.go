@@ -32,8 +32,9 @@ type ProcessCostDefinition struct {
 }
 
 type ProcessCooldownDefinition struct {
-	DurationMs  GenericFormulaExpr      `json:"durationMs"`
-	StartMoment ProcessMomentDefinition `json:"startMoment"`
+	RoundPositiveMs bool                    `json:"roundPositiveMs,omitempty"`
+	DurationMs      GenericFormulaExpr      `json:"durationMs"`
+	StartMoment     ProcessMomentDefinition `json:"startMoment"`
 }
 
 type ProcessMomentOperations struct {

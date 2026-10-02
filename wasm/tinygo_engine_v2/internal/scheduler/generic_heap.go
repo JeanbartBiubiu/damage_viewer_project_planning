@@ -30,6 +30,7 @@ const (
 	GenericEventSample
 	GenericEventAnchoredTick
 	GenericEventProcessTimer
+	GenericEventBasicAttack
 )
 
 // ProviderInstanceRef 定位 combatant 上的 provider instance。
@@ -62,6 +63,7 @@ type GenericHeap struct {
 	items []GenericEvent
 	seq   uint64
 	Peak  int
+	limit int
 }
 
 func NewGenericHeap(capacity int) GenericHeap {
@@ -77,7 +79,7 @@ func (h *GenericHeap) NextSeq() uint64 {
 }
 
 func (h *GenericHeap) Push(ev GenericEvent) model.ErrCode {
-	if len(h.items) >= MaxGenericEventHeap {
+	if !h.CanPush(1) {
 		return model.ErrQueueOverflow
 	}
 	if ev.Seq == 0 {
