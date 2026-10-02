@@ -3,7 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { test, expect, type Page, type TestInfo } from '@playwright/test';
 import { simulationSample } from '../fixtures/simulationSnapshot';
-import { chooseSimulationEntity, installSimulationSelectionApi } from '../fixtures/simulationSelection';
+import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 
@@ -99,22 +99,24 @@ test('未知暴击字段与前序阶段声明不被Wasm静默忽略', async ({ p
   expect(JSON.stringify(result.forwardResult.errors)).toMatch(/resistanceBeforePenetration/);
 });
 
-test('编译页面实际编译释放，仅展示前置验证且不提供运行或图表按钮', async ({ page }) => {
+test('编译检查仍独立释放，不显示单次结果且不提供连续攻击或图表按钮', async ({ page }) => {
   const snapshot = simulationSample();
   await page.route('**/api/admin/games/demo/simulation-snapshot?**', route => route.fulfill({ json: snapshot }));
   await chooseSimulationEntity(page, '攻击方角色', 'actor_a');
-  await page.getByLabel('攻击方等级', { exact: true }).fill('1');
+  await chooseSimulationLevel(page, '攻击方等级', 1);
   await chooseSimulationEntity(page, '目标角色', 'actor_b');
-  await page.getByLabel('目标等级', { exact: true }).fill('1');
+  await chooseSimulationLevel(page, '目标等级', 1);
   await chooseSimulationEntity(page, '普攻技能', 'sample_basic_attack');
-  await page.getByLabel('普攻技能等级', { exact: true }).fill('1');
+  await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   await expect(page.getByRole('button', { name: '将缺失属性填写为0', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
   await page.getByRole('button', { name: '编译验证', exact: true }).click();
   await expect(page.getByText('仅编译验证通过，不代表单次/连续计算通过。', { exact: true })).toBeVisible();
+  await page.getByText('调试详情：编译请求、原始结果与引用覆盖', { exact: true }).click();
   await expect(page.getByRole('button', { name: '下载编译档案', exact: true })).toBeEnabled();
+  await expect(page.getByRole('region', { name: '单次普攻结果', exact: true })).toHaveCount(0);
   await expect(page.getByRole('button', { name: /开始计算|运行模拟|连续攻击/ })).toHaveCount(0);
 });
 

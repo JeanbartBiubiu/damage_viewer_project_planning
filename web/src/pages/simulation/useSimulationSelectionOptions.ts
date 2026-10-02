@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getErrorMessage } from '../../services/apiClient';
 import {
-  createSimulationImageLoader, loadBasicAttackOptions, loadCharacterOptions,
-  type SimulationEntityOption, type SimulationImageLoader
+  createSimulationImageLoader, loadBasicAttackOptions, loadCharacterOptions, loadCharacterLevelOptions,
+  type SimulationImageLoader
 } from './simulationSelectionOptions';
 
-type OptionList = { scope: object | null; items: SimulationEntityOption[]; loading: boolean; error: string | null };
+type OptionList<T> = { scope: object | null; items: T[]; loading: boolean; error: string | null };
 const emptyList = { items: [], loading: false, error: null };
 
-function useOptionList(scope: object | null, load: (signal: AbortSignal) => Promise<SimulationEntityOption[]>) {
-  const [state, setState] = useState<OptionList>({ scope: null, ...emptyList });
+function useOptionList<T>(scope: object | null, load: (signal: AbortSignal) => Promise<T[]>) {
+  const [state, setState] = useState<OptionList<T>>({ scope: null, ...emptyList });
   const [revision, setRevision] = useState(0);
   useEffect(() => {
     if (!scope) return;
@@ -22,8 +22,9 @@ function useOptionList(scope: object | null, load: (signal: AbortSignal) => Prom
     });
     return () => controller.abort();
   }, [scope, load, revision]);
+  const visible: OptionList<T> = state.scope === scope ? state : { scope, ...emptyList, loading: Boolean(scope) };
   return {
-    ...(state.scope === scope ? state : { ...emptyList, loading: Boolean(scope) }),
+    ...visible,
     retry: () => setRevision(value => value + 1)
   };
 }
@@ -33,6 +34,9 @@ export function useSimulationSelectionOptions(apiBaseUrl: string, gameId: string
   const loadCharacters = useCallback((signal: AbortSignal) => context
     ? loadCharacterOptions(context, signal) : Promise.resolve([]), [context]);
   const characters = useOptionList(context, loadCharacters);
+  const loadLevels = useCallback((signal: AbortSignal) => context
+    ? loadCharacterLevelOptions(context, signal) : Promise.resolve([]), [context]);
+  const levels = useOptionList(context, loadLevels);
   const skillScope = useMemo(() => context && characters.items.some(row => row.key === sourceKey)
     ? { context, sourceKey } : null, [context, characters.items, sourceKey]);
   const loadSkills = useCallback((signal: AbortSignal) => skillScope
@@ -45,5 +49,5 @@ export function useSimulationSelectionOptions(apiBaseUrl: string, gameId: string
     setImages({ scope: context, load: createSimulationImageLoader(context, controller.signal) });
     return () => controller.abort();
   }, [context]);
-  return { characters, skills, imageLoader: images?.scope === context ? images.load : null };
+  return { characters, skills, levels, imageLoader: images?.scope === context ? images.load : null };
 }

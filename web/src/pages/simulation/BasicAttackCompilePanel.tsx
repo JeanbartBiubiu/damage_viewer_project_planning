@@ -1,21 +1,23 @@
-import { Alert, Button, Form, InputNumber, Space, Table, Typography } from '@arco-design/web-react';
-import { useEffect, useRef, useState } from 'react';
+import { Alert, Button, Form, InputNumber, Select, Space, Table, Typography } from '@arco-design/web-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { JsonBlock } from '../../components/JsonBlock';
 import { GenericEngineClient, GenericEngineClientError } from '../../engine/genericEngineClient';
 import { WASM_IDENTITY } from '../../engine/wasmIdentity';
 import {
   inspectSimulationSnapshot,
   prepareSimulation,
+  singleAttackRequest,
   SIMULATION_ADAPTER_VERSION,
   type SimulationAttributeRequirement,
   type SimulationCoverage
 } from '../../engine/simulationAdapter';
 import { getErrorMessage } from '../../services/apiClient';
 import { getSimulationSnapshot } from '../../services/simulationSnapshotClient';
-import type { CompileResult, GenericReleaseDonePayload } from '../../types/genericEngine';
+import type { CompileResult, DoneResult, GenericReleaseDonePayload, RunRequest } from '../../types/genericEngine';
 import type { SimulationAttributeInputs, SimulationInitialHealth, SimulationSelection, SimulationSnapshot } from '../../types/simulationSnapshot';
 import { SimulationEntitySelect } from './SimulationEntitySelect';
 import { useSimulationSelectionOptions } from './useSimulationSelectionOptions';
+import { assessSingleAttackResult, type SingleAttackAssessment } from '../../engine/singleAttackResult';
 
 export type BasicAttackCompilePanelProps = {
   apiBaseUrl: string;
@@ -33,8 +35,13 @@ type Inspection = ReturnType<typeof inspectSimulationSnapshot>;
 type PreparedSimulation = Awaited<ReturnType<typeof prepareSimulation>>;
 type AttributeDrafts = { source: Record<string, number | undefined>; target: Record<string, number | undefined> };
 type InitialHealthDraft = { source: number | undefined; target: number | undefined };
-type TaskPhase = 'idle' | 'reading' | 'preparing' | 'compiling' | 'releasing';
+type TaskPhase = 'idle' | 'reading' | 'preparing' | 'compiling' | 'running' | 'releasing';
+type TaskKind = 'snapshot' | 'compile' | 'single_attack';
+type Cleanup = 'not_needed' | 'released' | 'worker_destroyed' | 'release_failed';
 type Task = {
+  kind: TaskKind;
+  phase: Exclude<TaskPhase, 'idle'>;
+  failurePhase: Exclude<TaskPhase, 'idle'> | null;
   cancelled: boolean;
   controller: AbortController;
   client: GenericEngineClient | null;
@@ -43,8 +50,13 @@ type Task = {
   result: CompileResult | null;
   release: GenericReleaseDonePayload | null;
   sessionId: string | null;
+  runRequest: RunRequest | null;
+  runResult: DoneResult | null;
+  assessment: SingleAttackAssessment | null;
+  cleanup: Cleanup;
 };
 type CompileArchive = {
+  taskKind: 'compile';
   outcome: 'passed' | 'failed' | 'cancelled';
   adapterVersion: string;
   wasm: typeof WASM_IDENTITY;
@@ -58,10 +70,27 @@ type CompileArchive = {
   releaseResult: GenericReleaseDonePayload | null;
   error: string | null;
 };
+type SingleAttackArchive = Omit<CompileArchive, 'taskKind'> & {
+  taskKind: 'single_attack';
+  runRequest: RunRequest | null;
+  runResult: DoneResult | null;
+  assessment: SingleAttackAssessment | null;
+  cleanup: Cleanup;
+  failurePhase: Exclude<TaskPhase, 'idle'> | null;
+};
+type SimulationArchive = CompileArchive | SingleAttackArchive;
 
 const phaseLabels: Record<Exclude<TaskPhase, 'idle'>, string> = {
   reading: '正在读取场景快照', preparing: '正在准备编译请求',
-  compiling: '正在编译配置', releasing: '正在释放编译会话'
+  compiling: '正在编译配置', running: '正在执行一次普攻', releasing: '正在释放会话'
+};
+const cleanupLabels: Record<Cleanup, string> = {
+  not_needed: '尚未产生可释放会话', released: '会话已正常释放，线程已结束',
+  worker_destroyed: '线程已销毁，未进行正常会话释放', release_failed: '会话释放失败，线程已结束'
+};
+const stopLabels: Record<string, string> = {
+  no_events: '没有后续事件', duration_reached: '到达单次观察上限', target_dead: '目标生命归零',
+  source_dead: '攻击方死亡', both_dead: '双方死亡', budget_exceeded: '事件预算耗尽'
 };
 const sideLabels = { source: '攻击方', target: '目标' };
 const stableKeyPattern = /^[a-z][a-z0-9_]{0,63}$/;
@@ -76,7 +105,7 @@ function emptySelection(): SelectionDraft {
 function emptyAttributeDrafts(): AttributeDrafts { return { source: {}, target: {} }; }
 function emptyInitialHealth(): InitialHealthDraft { return { source: undefined, target: undefined }; }
 
-function selectionFromDraft(draft: SelectionDraft): SimulationSelection {
+function selectionFromDraft(draft: SelectionDraft, characterLevels: number[], skillLevels: number[]): SimulationSelection {
   const keys = [
     ['sourceCharacterKey', '攻击方角色标识'], ['targetCharacterKey', '目标角色标识'],
     ['basicAttackSkillKey', '普攻技能标识']
@@ -87,12 +116,13 @@ function selectionFromDraft(draft: SelectionDraft): SimulationSelection {
     }
   }
   const levels = [
-    ['sourceLevel', '攻击方等级'], ['targetLevel', '目标等级'], ['basicAttackLevel', '普攻技能等级']
+    ['sourceLevel', '攻击方等级', characterLevels], ['targetLevel', '目标等级', characterLevels],
+    ['basicAttackLevel', '普攻技能等级', skillLevels]
   ] as const;
-  for (const [field, label] of levels) {
+  for (const [field, label, options] of levels) {
     const value = draft[field];
-    if (value === undefined || !Number.isInteger(value) || value < 1) {
-      throw new Error(`selection.${field}: ${label}需明确填写正整数。`);
+    if (value === undefined || !options.includes(value)) {
+      throw new Error(`selection.${field}: ${label}需在当前合法等级范围内明确选择。`);
     }
   }
   return {
@@ -110,15 +140,61 @@ function taskError(error: unknown): string {
   return getErrorMessage(error);
 }
 
-function archiveFor(task: Task, outcome: CompileArchive['outcome'], error: string | null): CompileArchive | null {
+function archiveFor(task: Task, outcome: CompileArchive['outcome'], error: string | null): SimulationArchive | null {
   if (!task.snapshot || !task.prepared) return null;
-  return {
+  const common = {
     outcome, adapterVersion: SIMULATION_ADAPTER_VERSION, wasm: WASM_IDENTITY, snapshot: task.snapshot,
     snapshotDigest: task.prepared.snapshotDigest, attributeInputs: task.prepared.attributeInputs,
     initialHealth: task.prepared.initialHealth,
     compileRequest: task.prepared.compileRequest, coverage: task.prepared.coverage,
     compileResult: task.result, releaseResult: task.release, error
   };
+  return task.kind === 'single_attack' ? {
+    ...common, taskKind: 'single_attack', runRequest: task.runRequest, runResult: task.runResult,
+    assessment: task.assessment, cleanup: task.cleanup, failurePhase: task.failurePhase
+  } : { ...common, taskKind: 'compile' };
+}
+
+function SingleAttackResult({ archive }: { archive: SingleAttackArchive }) {
+  const result = archive.assessment;
+  const values = result ? [
+    { key: 'damage-dealt', label: '本次造成伤害', value: result.damageDealt },
+    { key: 'hp-loss', label: '目标实际扣血', value: result.hpLoss },
+    { key: 'target-initial-hp', label: '目标运行前生命', value: result.targetInitialHp },
+    { key: 'target-final-hp', label: '目标运行后生命', value: result.targetFinalHp },
+    { key: 'source-initial-hp', label: '攻击方运行前生命', value: result.sourceInitialHp },
+    { key: 'source-final-hp', label: '攻击方运行后生命', value: result.sourceFinalHp }
+  ] : [];
+  return (
+    <section aria-label="单次普攻结果">
+      <Typography.Title heading={5}>单次普攻结果</Typography.Title>
+      <Typography.Paragraph>
+        {archive.snapshot.source.character.name}（等级{archive.snapshot.selection.sourceLevel}）→
+        {archive.snapshot.target.character.name}（等级{archive.snapshot.selection.targetLevel}）；
+        {archive.snapshot.selection.basicAttackSkillKey}，技能等级{archive.snapshot.selection.basicAttackLevel}。
+      </Typography.Paragraph>
+      {result ? <>
+        <Table data={values} rowKey="key" pagination={false} columns={[
+          { title: '指标', dataIndex: 'label' },
+          { title: '本次数值', render: (_, row) => <Typography.Text data-testid={`single-attack-${row.key}`}>
+            {row.value.toLocaleString('zh-CN', { maximumFractionDigits: 6 })}
+          </Typography.Text> }
+        ]} />
+        <Typography.Paragraph style={{ marginTop: 12 }}>
+          执行状态：{result.complete ? '单次执行完整' : '单次执行未完整验证'}；
+          停止原因：{stopLabels[result.stopReason] ?? result.stopReason}。
+        </Typography.Paragraph>
+        {result.issues.length ? <Alert type="warning" content={<span style={{ whiteSpace: 'pre-wrap' }}>{result.issues.join('\n')}</span>} /> : null}
+      </> : <Alert type="warning" content="尚无有效运行结果；编译或运行错误不能当成0伤害。" />}
+      <Typography.Paragraph>清理状态：{cleanupLabels[archive.cleanup]}。</Typography.Paragraph>
+      {archive.failurePhase ? <Typography.Paragraph>失败阶段：{phaseLabels[archive.failurePhase].replace('正在', '')}。</Typography.Paragraph> : null}
+      <Typography.Paragraph type="secondary">
+        造成伤害为防御后、护盾前金额，实际扣血由生命变化核对。本页只验证一刀，不代表连续攻击通过。
+      </Typography.Paragraph>
+      {result && archive.runResult?.warnings.length ? <Alert type="warning" content={archive.runResult.warnings.map(row => `${row.code}：${row.message}`).join('；')} /> : null}
+      <Button onClick={() => downloadJson('basic-attack-single-run.json', archive)}>下载单次运行档案</Button>
+    </section>
+  );
 }
 
 function downloadJson(name: string, value: unknown) {
@@ -137,7 +213,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const [attributeDrafts, setAttributeDrafts] = useState(emptyAttributeDrafts);
   const [initialHealth, setInitialHealth] = useState(emptyInitialHealth);
   const [prepared, setPrepared] = useState<PreparedSimulation | null>(null);
-  const [archive, setArchive] = useState<CompileArchive | null>(null);
+  const [archive, setArchive] = useState<SimulationArchive | null>(null);
   const [phase, setPhase] = useState<TaskPhase>('idle');
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -145,7 +221,12 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const taskRef = useRef<Task | null>(null);
   const token = adminToken.trim();
   const busy = phase !== 'idle';
-  const { characters, skills, imageLoader } = useSimulationSelectionOptions(apiBaseUrl, selectedGameId, token, selection.sourceCharacterKey);
+  const { characters, skills, levels, imageLoader } = useSimulationSelectionOptions(apiBaseUrl, selectedGameId, token, selection.sourceCharacterKey);
+  const selectedSkill = skills.items.find(row => row.key === selection.basicAttackSkillKey);
+  const skillLevels = useMemo(() => selectedSkill?.kind === 'skill'
+    ? Array.from({ length: selectedSkill.maxLevel }, (_, index) => index + 1) : [], [selectedSkill]);
+  const levelsSelected = levels.items.includes(selection.sourceLevel!) && levels.items.includes(selection.targetLevel!)
+    && skillLevels.includes(selection.basicAttackLevel!);
   const objectsSelected = characters.items.some(row => row.key === selection.sourceCharacterKey)
     && characters.items.some(row => row.key === selection.targetCharacterKey)
     && skills.items.some(row => row.key === selection.basicAttackSkillKey);
@@ -186,11 +267,12 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
 
   const isCurrent = (task: Task) => active.current && taskRef.current === task && !task.cancelled;
 
-  const beginTask = (nextPhase: Exclude<TaskPhase, 'idle'>): Task | null => {
+  const beginTask = (nextPhase: Exclude<TaskPhase, 'idle'>, kind: TaskKind = nextPhase === 'reading' ? 'snapshot' : 'compile'): Task | null => {
     if (taskRef.current) return null;
     const task: Task = {
-      cancelled: false, controller: new AbortController(), client: null,
-      snapshot: null, prepared: null, result: null, release: null, sessionId: null
+      kind, phase: nextPhase, failurePhase: null, cancelled: false, controller: new AbortController(), client: null,
+      snapshot: null, prepared: null, result: null, release: null, sessionId: null,
+      runRequest: null, runResult: null, assessment: null, cleanup: 'not_needed'
     };
     taskRef.current = task;
     setPhase(nextPhase);
@@ -213,11 +295,13 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     task.cancelled = true;
     task.controller.abort();
     task.client?.terminate();
+    task.cleanup = task.client ? 'worker_destroyed' : 'not_needed';
     taskRef.current = null;
     setArchive(archiveFor(task, 'cancelled', null));
     setPhase('idle');
     setError(null);
-    setNotice('当前任务已取消，未完成编译验证。');
+    setNotice(task.kind === 'snapshot' ? '当前场景读取已取消，保留已有输入。'
+      : task.kind === 'single_attack' ? '当前任务已取消，未完成单次运行验证。' : '当前任务已取消，未完成编译验证。');
     onDirtyChange(false);
   };
 
@@ -235,24 +319,29 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const patchSelection = <K extends keyof SelectionDraft>(key: K, value: SelectionDraft[K]) => {
     if (taskRef.current) return;
     setSelection(current => ({ ...current, [key]: value,
-      ...(key === 'sourceCharacterKey' ? { basicAttackSkillKey: '', basicAttackLevel: undefined } : {}) }));
+      ...(key === 'sourceCharacterKey' ? { basicAttackSkillKey: '', basicAttackLevel: undefined }
+        : key === 'basicAttackSkillKey' ? { basicAttackLevel: undefined } : {}) }));
     clearArtifacts();
   };
 
   const readSnapshot = async () => {
     if (taskRef.current || !selectedGameId || !token || !objectsSelected) return;
     let requested: SimulationSelection;
-    try { requested = selectionFromDraft(selection); }
+    try { requested = selectionFromDraft(selection, levels.items, skillLevels); }
     catch (cause) { setError(taskError(cause)); return; }
     const task = beginTask('reading');
     if (!task) return;
-    clearArtifacts();
+    setPrepared(null);
+    setArchive(null);
     try {
       const result = await getSimulationSnapshot(apiBaseUrl, selectedGameId, requested, token, task.controller.signal);
       if (!isCurrent(task)) return;
+      const nextInspection = inspectSimulationSnapshot(result.data);
       task.snapshot = result.data;
       setSnapshot(result.data);
-      setInspection(inspectSimulationSnapshot(result.data));
+      setInspection(nextInspection);
+      setAttributeDrafts(emptyAttributeDrafts());
+      setInitialHealth(emptyInitialHealth());
       setNotice('场景快照已读取，请核对已录属性并明确填写必要的场景补充值。');
     } catch (cause) {
       if (isCurrent(task)) setError(taskError(cause));
@@ -306,11 +395,22 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     setNotice(null);
   };
 
-  const compile = async () => {
+  const execute = async (kind: 'compile' | 'single_attack') => {
     if (taskRef.current || !snapshot || !inspection) return;
-    const task = beginTask('preparing');
+    if (kind === 'single_attack') {
+      for (const side of ['source', 'target'] as const) {
+        const hp = initialHealth[side];
+        if (hp === undefined || !Number.isFinite(hp) || hp <= 0) {
+          setError(`initialHealth.${side}: ${hp === 0 ? `${sideLabels[side]}初始已死亡，不能执行本阶段单次普攻。`
+            : `请明确填写${sideLabels[side]}的有限正生命值。`}`);
+          setNotice(null);
+          return;
+        }
+      }
+    }
+    const task = beginTask('preparing', kind);
     if (!task) return;
-    task.snapshot = snapshot;
+    task.snapshot = structuredClone(snapshot);
     setPrepared(null);
     setArchive(null);
     let failure: string | null = null;
@@ -324,10 +424,11 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       }
       if (initialHealth.source === undefined) throw new Error('initialHealth.source: 请明确填写攻击方初始当前生命。');
       if (initialHealth.target === undefined) throw new Error('initialHealth.target: 请明确填写目标初始当前生命。');
-      task.prepared = await prepareSimulation(snapshot, inputs, { source: initialHealth.source, target: initialHealth.target });
+      task.prepared = await prepareSimulation(task.snapshot, inputs, { source: initialHealth.source, target: initialHealth.target });
       if (!isCurrent(task)) return;
       setPrepared(task.prepared);
       task.client = new GenericEngineClient();
+      task.phase = 'compiling';
       setPhase('compiling');
       task.result = await task.client.compile(task.prepared.compileRequest);
       task.sessionId = task.result.sessionId ?? null;
@@ -341,28 +442,53 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         || task.result.schemaHash !== task.prepared.compileRequest.schemaHash) {
         failure = '编译响应的结构或规则摘要与本次请求不一致。';
       }
+      if (failure) task.failurePhase = 'compiling';
+      if (!failure && kind === 'single_attack') {
+        task.runRequest = singleAttackRequest(task.prepared.compileRequest, task.sessionId!);
+        task.phase = 'running';
+        setPhase('running');
+        task.runResult = await task.client.run(task.runRequest);
+        if (!isCurrent(task)) return;
+        task.assessment = assessSingleAttackResult(task.prepared.compileRequest, task.runRequest, task.runResult);
+        if (!task.assessment.complete) {
+          failure = `单次执行未完整验证：${task.assessment.issues.join('；')}`;
+          task.failurePhase = 'running';
+        }
+      }
     } catch (cause) {
       if (cause instanceof GenericEngineClientError) task.sessionId = cause.engineError?.sessionId ?? task.sessionId;
-      if (isCurrent(task)) failure = taskError(cause);
+      if (isCurrent(task)) { failure = taskError(cause); task.failurePhase = task.phase; }
     } finally {
       if (task.client) {
         try {
-          if (!task.cancelled && task.sessionId) {
+          if (!task.cancelled && task.sessionId && task.client.hasLiveWorker) {
+            task.phase = 'releasing';
             if (isCurrent(task)) setPhase('releasing');
             task.release = await task.client.release(task.sessionId, task.prepared?.compileRequest.rulesHash);
+            if (task.release.sessionId !== task.sessionId) throw new Error('释放响应不属于本次会话。');
+            task.cleanup = 'released';
+          } else if (!task.client.hasLiveWorker) {
+            task.cleanup = 'worker_destroyed';
           }
         } catch (cause) {
-          if (isCurrent(task)) failure = `${failure ? `${failure}\n` : ''}编译会话释放失败：${taskError(cause)}`;
+          task.cleanup = 'release_failed';
+          if (isCurrent(task)) {
+            task.failurePhase ??= 'releasing';
+            failure = `${failure ? `${failure}\n` : ''}会话释放失败：${taskError(cause)}`;
+          }
         } finally {
           task.client.terminate();
         }
       }
       if (isCurrent(task)) {
-        const passed = failure === null && task.result?.ok === true && task.release?.released === true;
-        if (!passed && failure === null) failure = '未完成编译与会话释放，不能标记验证通过。';
+        const passed = failure === null && task.result?.ok === true && task.release?.released === true
+          && task.cleanup === 'released' && (kind === 'compile' || task.assessment?.complete === true);
+        if (!passed && failure === null) failure = kind === 'single_attack'
+          ? '未完成完整单次运行与会话释放，不能标记运行通过。' : '未完成编译与会话释放，不能标记验证通过。';
         setArchive(archiveFor(task, passed ? 'passed' : 'failed', failure));
         setError(failure);
-        setNotice(passed ? '仅编译验证通过，不代表单次/连续计算通过。' : null);
+        setNotice(passed ? kind === 'single_attack' ? '单次普攻运行通过，不代表连续攻击通过。'
+          : '仅编译验证通过，不代表单次/连续计算通过。' : null);
         finishTask(task);
       }
     }
@@ -379,6 +505,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         action={<Button disabled={busy} onClick={characters.retry}>重试角色列表</Button>} /> : null}
       {skills.error ? <Alert type="error" content={`普攻列表读取失败：${skills.error}`}
         action={<Button disabled={busy} onClick={skills.retry}>重试普攻列表</Button>} /> : null}
+      {levels.error ? <Alert type="error" content={`角色等级范围读取失败：${levels.error}`}
+        action={<Button disabled={busy} onClick={levels.retry}>重试等级范围</Button>} /> : null}
 
       <Form layout="vertical" aria-label="普攻场景选择">
         <div className="simulation-selection-grid">
@@ -388,8 +516,11 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
               loadImage={imageLoader} onChange={value => patchSelection('sourceCharacterKey', value)} placeholder="搜索角色名称或标识" />
           </Form.Item>
           <Form.Item label="攻击方等级" required>
-            <InputNumber aria-label="攻击方等级" value={selection.sourceLevel} disabled={busy} min={1} precision={0}
-              onChange={value => patchSelection('sourceLevel', value)} />
+            <Select aria-label="攻击方等级" className="simulation-level-select" value={selection.sourceLevel} allowClear
+              loading={levels.loading} disabled={busy || levels.loading || !levels.items.length || Boolean(levels.error)}
+              options={levels.items.map(value => ({ value, label: String(value) }))}
+              placeholder={levels.loading ? '正在读取等级范围…' : '请选择等级'}
+              onChange={(value: number | undefined) => patchSelection('sourceLevel', value)} />
           </Form.Item>
           <Form.Item label="目标角色" required>
             <SimulationEntitySelect label="目标角色" value={selection.targetCharacterKey} options={characters.items}
@@ -397,8 +528,11 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
               loadImage={imageLoader} onChange={value => patchSelection('targetCharacterKey', value)} placeholder="搜索角色名称或标识" />
           </Form.Item>
           <Form.Item label="目标等级" required>
-            <InputNumber aria-label="目标等级" value={selection.targetLevel} disabled={busy} min={1} precision={0}
-              onChange={value => patchSelection('targetLevel', value)} />
+            <Select aria-label="目标等级" className="simulation-level-select" value={selection.targetLevel} allowClear
+              loading={levels.loading} disabled={busy || levels.loading || !levels.items.length || Boolean(levels.error)}
+              options={levels.items.map(value => ({ value, label: String(value) }))}
+              placeholder={levels.loading ? '正在读取等级范围…' : '请选择等级'}
+              onChange={(value: number | undefined) => patchSelection('targetLevel', value)} />
           </Form.Item>
           <Form.Item label="普攻技能" required>
             <SimulationEntitySelect label="普攻技能" value={selection.basicAttackSkillKey} options={skills.items}
@@ -410,12 +544,15 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
                 : skills.items.length ? '搜索普攻名称或标识' : '此角色没有启用的普攻技能'} />
           </Form.Item>
           <Form.Item label="普攻技能等级" required>
-            <InputNumber aria-label="普攻技能等级" value={selection.basicAttackLevel} disabled={busy} min={1} precision={0}
-              onChange={value => patchSelection('basicAttackLevel', value)} />
+            <Select aria-label="普攻技能等级" className="simulation-level-select" value={selection.basicAttackLevel} allowClear
+              loading={skills.loading} disabled={busy || skills.loading || !skillLevels.length || Boolean(skills.error)}
+              options={skillLevels.map(value => ({ value, label: String(value) }))}
+              placeholder={!selectedSkill ? '先选择普攻技能' : '请选择技能等级'}
+              onChange={(value: number | undefined) => patchSelection('basicAttackLevel', value)} />
           </Form.Item>
         </div>
         <Space wrap>
-          <Button type="primary" disabled={busy || !selectedGameId || !token || !objectsSelected} onClick={() => void readSnapshot()}>
+          <Button type="primary" disabled={busy || !selectedGameId || !token || !objectsSelected || !levelsSelected} onClick={() => void readSnapshot()}>
             读取场景快照
           </Button>
           {busy ? <Button status="danger" onClick={cancelTask}>取消当前请求</Button> : null}
@@ -439,7 +576,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         <section aria-label="初始当前生命">
           <Typography.Title heading={5}>初始当前生命</Typography.Title>
           <Typography.Paragraph>
-            双方当前生命必须明确填写，0合法，未填写不会默认满生命；不能超过各自真实等级的生命上限。
+            双方当前生命必须明确填写且不能超过真实等级上限，未填写不会默认满生命。
+            0可用于编译检查；本阶段单次运行要求双方当前生命大于0。
           </Typography.Paragraph>
           <Form layout="vertical">
             <div className="simulation-selection-grid">
@@ -485,7 +623,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
           />
           <Space wrap style={{ marginTop: 16 }}>
             <Button disabled={busy || unfilled.length === 0} onClick={fillMissingWithZero}>将缺失属性填写为0</Button>
-            <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled} onClick={() => void compile()}>编译验证</Button>
+            <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled} onClick={() => void execute('single_attack')}>执行一次普攻</Button>
+            <Button disabled={busy || unfilled.length > 0 || healthUnfilled} onClick={() => void execute('compile')}>编译验证</Button>
           </Space>
           <Typography.Paragraph type="secondary" style={{ marginTop: 8 }}>
             补零按钮只填写仍为空的缺失项，保留已填数值；违反原属性范围的0仍会被拒绝。
@@ -493,6 +632,10 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         </section>
       ) : null}
 
+      {archive?.taskKind === 'single_attack' ? <SingleAttackResult archive={archive} /> : null}
+
+      <details>
+        <summary>调试详情：编译请求、原始结果与引用覆盖</summary>
       {prepared ? (
         <section aria-label="编译请求与档案">
           <Typography.Paragraph style={{ overflowWrap: 'anywhere' }}>
@@ -500,11 +643,12 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
           </Typography.Paragraph>
           <Space wrap>
             <Button disabled={busy} onClick={() => downloadJson('basic-attack-compile-request.json', prepared.compileRequest)}>下载编译请求</Button>
-            <Button disabled={busy || !archive} onClick={() => archive && downloadJson('basic-attack-compile-archive.json', archive)}>下载编译档案</Button>
+            <Button disabled={busy || archive?.taskKind !== 'compile'} onClick={() => archive?.taskKind === 'compile' && downloadJson('basic-attack-compile-archive.json', archive)}>下载编译档案</Button>
           </Space>
           {archive?.compileResult?.metadata ? <JsonBlock value={archive.compileResult.metadata} /> : null}
           {archive?.compileResult?.errors?.length ? <JsonBlock value={archive.compileResult.errors} /> : null}
           {archive?.compileResult?.warnings?.length ? <JsonBlock value={archive.compileResult.warnings} /> : null}
+          {archive?.taskKind === 'single_attack' && archive.runResult ? <JsonBlock value={archive.runResult} /> : null}
         </section>
       ) : null}
 
@@ -518,6 +662,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
             ]} />
         </section>
       ) : null}
+      </details>
     </Space>
   );
 }

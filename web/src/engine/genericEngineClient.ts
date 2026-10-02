@@ -131,6 +131,11 @@ export class GenericEngineClient {
     this.wasmUrl = options.wasmUrl ?? DEFAULT_WASM_URL;
   }
 
+  /** 只查询当前线程引用，销毁后的旧会话应跳过释放。 */
+  get hasLiveWorker(): boolean {
+    return this.worker !== null;
+  }
+
   async compile(request: CompileRequest): Promise<CompileResult> {
     const frames = await this.send('compile', { request }, false);
     return parseCompileResult(frames);

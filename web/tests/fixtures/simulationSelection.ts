@@ -11,12 +11,24 @@ export async function chooseSimulationEntity(page: Page, label: string, key: str
   await expect(popup).toBeHidden();
 }
 
+export async function chooseSimulationLevel(page: Page, label: string, level: number) {
+  const select = page.locator(`.simulation-level-select[aria-label="${label}"]`);
+  await expect(select).not.toHaveClass(/arco-select-disabled/);
+  await select.click();
+  const popup = page.locator(`#${await select.getAttribute('aria-controls')}`);
+  await popup.getByRole('option', { name: String(level), exact: true }).click();
+  await expect(popup).toBeHidden();
+}
+
 /** 只替换目录只读接口，场景读取与真实 Wasm 仍由各专项单独验证。 */
 export async function installSimulationSelectionApi(page: Page, api: string, gameId: string) {
   const sample = simulationSample();
   const sourceKey = gameId === 'demo' ? sample.selection.sourceCharacterKey : 'source_sample';
   const targetKey = gameId === 'demo' ? sample.selection.targetCharacterKey : 'target_sample';
   const skillKey = gameId === 'demo' ? sample.selection.basicAttackSkillKey : 'shared_basic_attack';
+  await page.route(`${api}/api/admin/games/${gameId}/level-config`, route => route.fulfill({ json: {
+    ...sample.catalogs.levelConfig, gameId
+  } }));
   const characters = [sourceKey, targetKey].map((characterKey, index) => ({
     gameId, characterKey, name: index ? '目标角色' : '攻击方角色', description: null, createdAt: '', updatedAt: ''
   }));

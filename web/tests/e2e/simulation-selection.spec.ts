@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-import { chooseSimulationEntity } from '../fixtures/simulationSelection';
+import { chooseSimulationEntity, chooseSimulationLevel } from '../fixtures/simulationSelection';
 
 test.use({ trace: 'off' });
 
@@ -7,6 +7,7 @@ const API = 'http://127.0.0.1:19106';
 const TOKEN = 'selection-fixture-only';
 const PNG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1cAAAAASUVORK5CYII=';
 const select = (page: Page, label: string) => page.locator(`.simulation-entity-select[aria-label="${label}"]`);
+const levelSelect = (page: Page, label: string) => page.locator(`.simulation-level-select[aria-label="${label}"]`);
 const options = (page: Page) => page.locator('.arco-select-option:visible');
 
 async function installApi(page: Page) {
@@ -34,6 +35,7 @@ async function installApi(page: Page) {
     expect(request.headers().authorization).toBe(`Bearer ${TOKEN}`);
     const resource = url.pathname.replace(/^\/api\/admin\/games\/[^/]+\//, '');
     const gameId = url.pathname.split('/')[4]!;
+    if (resource === 'level-config') return reply({ gameId, minLevel: 1, maxLevel: 18 });
     if (resource === 'characters') {
       const items = [
         { characterKey: 'hero_alpha', name: gameId === 'demo' ? '英雄甲' : '其他甲' },
@@ -92,10 +94,10 @@ test('名称和标识均可搜索，候选与选中项带头像，普攻按挂�
   await options(page).click();
   await expect(options(page)).toHaveCount(0);
   await expect(select(page, '普攻技能').locator('img[alt]')).toBeVisible();
-  await page.getByRole('spinbutton', { name: '普攻技能等级', exact: true }).fill('1');
+  await chooseSimulationLevel(page, '普攻技能等级', 1);
   await chooseSimulationEntity(page, '攻击方角色', 'hero_beta');
   await expect(select(page, '普攻技能')).not.toContainText('普通攻击甲');
-  await expect(page.getByRole('spinbutton', { name: '普攻技能等级', exact: true })).toHaveValue('');
+  await expect(page.locator('.simulation-level-select[aria-label="普攻技能等级"]')).not.toContainText('1');
   await chooseSimulationEntity(page, '普攻技能', 'attack_beta');
   expect(diagnostics.reads.filter(path => path === '/api/admin/games/demo/characters')).toHaveLength(rosterReads);
   await select(page, '攻击方角色').hover();
@@ -209,5 +211,95 @@ test('攻击方和游戏切换后迟到目录不覆盖新选项', async ({ page 
   await expect(select(page, '普攻技能')).toHaveClass(/arco-select-disabled/);
   await chooseSimulationEntity(page, '攻击方角色', 'hero_alpha');
   await expect(select(page, '攻击方角色')).toContainText('其他甲');
+  diagnostics.assertClean();
+});
+
+test('三个等级下拉仅提供实际范围，切换普攻清空旧等级且没有手写输入', async ({ page }) => {
+  const diagnostics = await installApi(page);
+  await page.route(`${API}/api/admin/games/demo/level-config`, route => route.fulfill({ json: { gameId: 'demo', minLevel: 2, maxLevel: 4 } }));
+  await page.route(`${API}/api/admin/games/demo/skills/attack_alpha`, async route => {
+    // 本专项采用独立目录数据，不访问正式后端。
+    await route.fulfill({ json: { gameId: 'demo', skillKey: 'attack_alpha', name: '普通攻击甲', description: null,
+      maxLevel: 3, status: 'ENABLED', sortOrder: 0, skillCategoryKeys: ['basic_attack'], createdAt: '', updatedAt: '' } });
+  });
+  await page.goto('/#/simulation/basic-attack');
+  for (const label of ['攻击方等级', '目标等级']) {
+    await expect(page.getByRole('spinbutton', { name: label, exact: true })).toHaveCount(0);
+    await levelSelect(page, label).click();
+    const popup = page.locator(`#${await levelSelect(page, label).getAttribute('aria-controls')}`);
+    await expect(popup.getByRole('option')).toHaveText(['2', '3', '4']);
+    await popup.getByRole('option', { name: '2', exact: true }).click();
+    await expect(popup).toBeHidden();
+  }
+  await chooseSimulationEntity(page, '攻击方角色', 'hero_alpha');
+  await chooseSimulationEntity(page, '目标角色', 'hero_beta');
+  await chooseSimulationEntity(page, '普攻技能', 'attack_alpha');
+  await levelSelect(page, '普攻技能等级').click();
+  const popup = page.locator(`#${await levelSelect(page, '普攻技能等级').getAttribute('aria-controls')}`);
+  await expect(popup.getByRole('option')).toHaveText(['1', '2', '3']);
+  await popup.getByRole('option', { name: '3', exact: true }).click();
+  await expect(popup).toBeHidden();
+  await expect(page.getByRole('button', { name: '读取场景快照', exact: true })).toBeEnabled();
+  await chooseSimulationEntity(page, '攻击方角色', 'hero_beta');
+  await chooseSimulationEntity(page, '普攻技能', 'attack_beta');
+  await expect(levelSelect(page, '普攻技能等级')).not.toContainText('3');
+  await expect(page.getByRole('button', { name: '读取场景快照', exact: true })).toBeDisabled();
+  await levelSelect(page, '普攻技能等级').click();
+  const nextPopup = page.locator(`#${await levelSelect(page, '普攻技能等级').getAttribute('aria-controls')}`);
+  await expect(nextPopup.getByRole('option')).toHaveText(['1']);
+  await nextPopup.getByRole('option', { name: '1', exact: true }).click();
+  await expect(nextPopup).toBeHidden();
+  await expect(page.getByRole('button', { name: '读取场景快照', exact: true })).toBeEnabled();
+  expect(diagnostics.reads.filter(path => path === '/api/admin/games/demo/level-config').length).toBeLessThanOrEqual(1);
+  diagnostics.assertClean();
+});
+
+test('等级范围失败禁用选择和读取，重试后按真实最小等级恢复', async ({ page }) => {
+  const diagnostics = await installApi(page);
+  let failed = true;
+  await page.route(`${API}/api/admin/games/demo/level-config`, route => route.fulfill(failed
+    ? { status: 500, json: { error: { message: '等级配置读取失败' } } }
+    : { json: { gameId: 'demo', minLevel: 3, maxLevel: 5 } }));
+  await page.goto('/#/simulation/basic-attack');
+  await expect(page.getByText(/角色等级范围读取失败/)).toBeVisible();
+  await expect(levelSelect(page, '攻击方等级')).toHaveClass(/arco-select-disabled/);
+  await expect(levelSelect(page, '目标等级')).toHaveClass(/arco-select-disabled/);
+  await expect(page.getByRole('button', { name: '读取场景快照', exact: true })).toBeDisabled();
+  failed = false;
+  await page.getByRole('button', { name: '重试等级范围', exact: true }).click();
+  await chooseSimulationLevel(page, '攻击方等级', 3);
+  await expect(levelSelect(page, '目标等级')).not.toHaveClass(/arco-select-disabled/);
+  await levelSelect(page, '目标等级').click();
+  const popup = page.locator(`#${await levelSelect(page, '目标等级').getAttribute('aria-controls')}`);
+  await expect(popup.getByRole('option')).toHaveText(['3', '4', '5']);
+  await popup.getByRole('option', { name: '5', exact: true }).click();
+  await expect(popup).toBeHidden();
+  diagnostics.assertClean();
+});
+
+test('切换游戏时丢弃迟到等级范围，旧等级选择不会带入新游戏', async ({ page }) => {
+  const diagnostics = await installApi(page);
+  let release!: () => void;
+  let started = false;
+  const gate = new Promise<void>(resolve => { release = resolve; });
+  await page.route(`${API}/api/admin/games/demo/level-config`, async route => {
+    started = true;
+    await gate;
+    await route.fulfill({ json: { gameId: 'demo', minLevel: 1, maxLevel: 18 } }).catch(() => undefined);
+  });
+  await page.route(`${API}/api/admin/games/other/level-config`, route => route.fulfill({ json: { gameId: 'other', minLevel: 2, maxLevel: 3 } }));
+  await page.goto('/#/simulation/basic-attack');
+  await expect.poll(() => started).toBe(true);
+  await expect(levelSelect(page, '攻击方等级')).toHaveClass(/arco-select-disabled/);
+  await page.locator('.app-toolbar-field--game .arco-select').click();
+  await options(page).filter({ hasText: 'other /' }).click();
+  await chooseSimulationLevel(page, '攻击方等级', 2);
+  release();
+  await levelSelect(page, '目标等级').click();
+  const popup = page.locator(`#${await levelSelect(page, '目标等级').getAttribute('aria-controls')}`);
+  await expect(popup.getByRole('option')).toHaveText(['2', '3']);
+  await popup.getByRole('option', { name: '3', exact: true }).click();
+  await expect(popup).toBeHidden();
+  await expect(levelSelect(page, '攻击方等级')).toContainText('2');
   diagnostics.assertClean();
 });
