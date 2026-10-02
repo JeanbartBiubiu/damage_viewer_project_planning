@@ -1,4 +1,4 @@
-import { Alert, Button, Form, InputNumber, Select, Space, Table, Typography } from '@arco-design/web-react';
+import { Alert, Button, Checkbox, Form, InputNumber, Select, Space, Table, Typography } from '@arco-design/web-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { JsonBlock } from '../../components/JsonBlock';
 import { GenericEngineClient, GenericEngineClientError } from '../../engine/genericEngineClient';
@@ -21,6 +21,7 @@ import { assessSingleAttackResult, type SingleAttackAssessment } from '../../eng
 import { continuousAttackRequest, CONTINUOUS_DURATION_INITIAL_MS, type PreparedContinuousAttack } from '../../engine/continuousAttackRequest';
 import { assessContinuousAttackResult, type ContinuousAttackAssessment } from '../../engine/continuousAttackResult';
 import { ContinuousAttackResult } from './ContinuousAttackResult';
+import { buildContinuousAttackArchive } from '../../engine/continuousAttackArchive';
 
 export type BasicAttackCompilePanelProps = {
   apiBaseUrl: string;
@@ -84,7 +85,7 @@ type SingleAttackArchive = Omit<CompileArchive, 'taskKind'> & {
   cleanup: Cleanup;
   failurePhase: Exclude<TaskPhase, 'idle'> | null;
 };
-type ContinuousAttackArchive = Omit<SingleAttackArchive, 'taskKind' | 'assessment'> & {
+export type ContinuousAttackArchive = Omit<SingleAttackArchive, 'taskKind' | 'assessment'> & {
   taskKind: 'continuous_attack'; assessment: ContinuousAttackAssessment | null;
   runInputHash: string | null; attackSpeedAdmission: PreparedContinuousAttack['attackSpeedAdmission'] | null;
 };
@@ -233,6 +234,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const [attackSpeedInputMax, setAttackSpeedInputMax] = useState<number | undefined>();
   const [prepared, setPrepared] = useState<PreparedSimulation | null>(null);
   const [archive, setArchive] = useState<SimulationArchive | null>(null);
+  const [recordTimeSeries, setRecordTimeSeries] = useState(true);
+  const [resultStale, setResultStale] = useState(false);
   const [phase, setPhase] = useState<TaskPhase>('idle');
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -268,6 +271,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     setAttributeDrafts(emptyAttributeDrafts());
     setInitialHealth(emptyInitialHealth());
     setDurationMs(CONTINUOUS_DURATION_INITIAL_MS);
+    setRecordTimeSeries(true);
+    setResultStale(false);
     setAttackSpeedInputMax(undefined);
     setPrepared(null);
     setArchive(null);
@@ -320,12 +325,18 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     task.cleanup = task.client ? 'worker_destroyed' : 'not_needed';
     taskRef.current = null;
     setArchive(archiveFor(task, 'cancelled', null));
+    setResultStale(false);
     setPhase('idle');
     setError(null);
     setNotice(task.kind === 'snapshot' ? '当前场景读取已取消，保留已有输入。'
       : task.kind === 'single_attack' ? '当前任务已取消，未完成单次运行验证。'
         : task.kind === 'continuous_attack' ? '当前任务已取消，未完成连续运行验证。' : '当前任务已取消，未完成编译验证。');
     onDirtyChange(false);
+  };
+
+  const invalidateRunResult = () => {
+    setArchive(current => current?.taskKind === 'continuous_attack' ? current : null);
+    setResultStale(true);
   };
 
   const clearArtifacts = () => {
@@ -335,7 +346,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     setInitialHealth(emptyInitialHealth());
     setAttackSpeedInputMax(undefined);
     setPrepared(null);
-    setArchive(null);
+    invalidateRunResult();
     setError(null);
     setNotice(null);
   };
@@ -356,7 +367,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     const task = beginTask('reading');
     if (!task) return;
     setPrepared(null);
-    setArchive(null);
+    invalidateRunResult();
     try {
       const result = await getSimulationSnapshot(apiBaseUrl, selectedGameId, requested, token, task.controller.signal);
       if (!isCurrent(task)) return;
@@ -381,7 +392,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       ...current, [row.side]: { ...current[row.side], [row.attribute.attributeKey]: value }
     }));
     setPrepared(null);
-    setArchive(null);
+    invalidateRunResult();
     setError(null);
     setNotice(null);
   };
@@ -397,7 +408,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       return next;
     });
     setPrepared(null);
-    setArchive(null);
+    invalidateRunResult();
     setError(null);
     setNotice(null);
   };
@@ -406,7 +417,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     if (taskRef.current) return;
     setInitialHealth(current => ({ ...current, [side]: value }));
     setPrepared(null);
-    setArchive(null);
+    invalidateRunResult();
     setError(null);
     setNotice(null);
   };
@@ -415,7 +426,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     if (taskRef.current || !fullHealthAvailable) return;
     setInitialHealth({ source: sourceHealthLimit, target: targetHealthLimit });
     setPrepared(null);
-    setArchive(null);
+    invalidateRunResult();
     setError(null);
     setNotice(null);
   };
@@ -423,7 +434,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const updateContinuousInput = (field: 'duration' | 'speed', value: number | undefined) => {
     if (taskRef.current) return;
     if (field === 'duration') setDurationMs(value); else setAttackSpeedInputMax(value);
-    setPrepared(null); setArchive(null); setError(null); setNotice(null);
+    setPrepared(null); invalidateRunResult(); setError(null); setNotice(null);
   };
 
   const execute = async (kind: 'compile' | 'single_attack' | 'continuous_attack') => {
@@ -442,9 +453,9 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     const task = beginTask('preparing', kind);
     if (!task) return;
     task.snapshot = structuredClone(snapshot);
-    const continuousInputs = { durationMs: durationMs as number, attackSpeedInputMax };
+    const continuousInputs = { durationMs: durationMs as number, attackSpeedInputMax, recordTimeSeries };
     setPrepared(null);
-    setArchive(null);
+    invalidateRunResult();
     let failure: string | null = null;
     try {
       const inputs: SimulationAttributeInputs = { source: {}, target: {} };
@@ -528,6 +539,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
           ? '未完成完整单次运行与会话释放，不能标记运行通过。'
           : kind === 'continuous_attack' ? '未完成完整连续运行与会话释放，不能标记运行通过。' : '未完成编译与会话释放，不能标记验证通过。';
         setArchive(archiveFor(task, passed ? 'passed' : 'failed', failure));
+        setResultStale(false);
         setError(failure);
         setNotice(passed ? kind === 'single_attack' ? '单次普攻运行通过，不代表连续攻击通过。'
           : kind === 'continuous_attack' ? task.continuousAssessment?.execution.targetKilled ? '连续普攻已完成击杀，会话正常释放。'
@@ -669,6 +681,11 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
           />
           <Form layout="vertical" style={{ marginTop: 16 }} aria-label="连续普攻运行输入">
             <div className="simulation-selection-grid">
+              <Form.Item label="曲线记录">
+                <Checkbox aria-label="记录时间序列" checked={recordTimeSeries} disabled={busy} onChange={value => {
+                  setRecordTimeSeries(value); setPrepared(null); invalidateRunResult();
+                }}>记录时间序列（100毫秒请求间隔，1000毫秒窗口，最多5000点）</Checkbox>
+              </Form.Item>
               <Form.Item label="观察时长（毫秒）" required>
                 <InputNumber aria-label="观察时长（毫秒）" value={durationMs} disabled={busy}
                   min={1} max={600000} precision={0} onChange={value => updateContinuousInput('duration', value)} />
@@ -695,9 +712,9 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       ) : null}
 
       {archive?.taskKind === 'single_attack' ? <SingleAttackResult key="single-attack-result" archive={archive} /> : null}
-      {archive?.taskKind === 'continuous_attack' ? <ContinuousAttackResult key="continuous-attack-result" assessment={archive.assessment}
+      {archive?.taskKind === 'continuous_attack' ? <ContinuousAttackResult key="continuous-attack-result" archive={archive} stale={resultStale}
         cleanupLabel={cleanupLabels[archive.cleanup]} released={archive.cleanup === 'released'} warnings={archive.runResult?.warnings ?? []}
-        onDownload={() => downloadJson('basic-attack-continuous-run.json', archive)} /> : null}
+        onDownload={view => downloadJson('basic-attack-continuous-run.json', buildContinuousAttackArchive(archive, view))} /> : null}
 
       <details key="debug-details">
         <summary>调试详情：编译请求、原始结果与引用覆盖</summary>

@@ -1,0 +1,19 @@
+.continuous-result { margin-top: 20px; width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; }
+.continuous-result .continuous-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 16px 0; }
+.continuous-result .continuous-metric { border: 1px solid var(--color-border-2); border-radius: 8px; padding: 12px 16px; background: var(--color-bg-2); }
+.continuous-result .continuous-metric-label { color: var(--color-text-3); font-size: 12px; }
+.continuous-result .continuous-metric-value { font-size: 21px; color: var(--color-text-1); margin-top: 5px; overflow-wrap: anywhere; }
+.continuous-result .continuous-section { margin-top: 20px; border-top: 1px solid var(--color-border-2); padding-top: 16px; }
+.continuous-result .continuous-chart-key { display: flex; flex-wrap: wrap; gap: 14px; margin: 12px 0; }
+.continuous-result .continuous-chart-key label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.continuous-result .continuous-source-bars { display: grid; gap: 8px; margin: 12px 0; }
+.continuous-result .continuous-source-bar { position: relative; text-align: left; padding: 10px 12px; background: var(--color-bg-2); border: 1px solid var(--color-border-2); border-radius: 6px; cursor: pointer; color: var(--color-text-1); overflow: hidden; }
+.continuous-result .continuous-source-bar-fill { position: absolute; left: 0; bottom: 0; height: 3px; background: #165dff; }
+.continuous-result .continuous-table { margin-top: 14px; }
+.continuous-result .continuous-detail { border: 1px solid var(--color-border-2); border-radius: 8px; padding: 16px; margin: 16px 0; background: var(--color-bg-2); overflow-wrap: anywhere; }
+.continuous-result .continuous-detail dl { display: grid; grid-template-columns: minmax(140px, 1fr) minmax(120px, 3fr); gap: 8px 16px; margin: 12px 0; }
+.continuous-result .continuous-detail dt { color: var(--color-text-3); }
+.continuous-result .continuous-detail dd { margin: 0; }
+.continuous-result .continuous-path { white-space: pre-wrap; overflow-wrap: anywhere; font-family: monospace; }
+.continuous-result .continuous-stale { margin: 12px 0; }
+@media (max-width: 600px) { .continuous-result .continuous-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } .continuous-result .continuous-metric { padding: 10px; } }

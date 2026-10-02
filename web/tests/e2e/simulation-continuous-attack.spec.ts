@@ -46,7 +46,7 @@ async function runSnapshot(page: Page, snapshot: SimulationSnapshot, testInfo: T
     const prepared = await prepareSimulation(snapshot, inputs, { source: options.sourceHp ?? snapshot.source.selectedLevelValues.hp,
       target: options.targetHp ?? snapshot.target.selectedLevelValues.hp });
     const continuous = await continuousAttackRequest(prepared, snapshot,
-      { durationMs: options.durationMs ?? 30000, attackSpeedInputMax: options.inputMax ?? snapshot.source.selectedLevelValues.attack_speed });
+      { durationMs: options.durationMs ?? 30000, attackSpeedInputMax: options.inputMax ?? snapshot.source.selectedLevelValues.attack_speed, recordTimeSeries: false });
     if (options.recordBudget) continuous.runRequest.recordBudget = options.recordBudget;
     if (options.safetyBudget) Object.assign(continuous.runRequest.safetyBudget, options.safetyBudget);
     if (options.sampling) continuous.runRequest.sampling = options.sampling;
@@ -193,7 +193,8 @@ test('页面显式上界与生命准入、完整击杀、白名单档案及输�
   expect(archive.operationOrigins.length).toBeGreaterThan(0);
   expect(JSON.stringify(archive)).not.toMatch(/adminToken|apiBaseUrl|Authorization|Bearer|Cookie|AbortController/);
   await page.getByLabel('观察时长（毫秒）', { exact: true }).fill('999');
-  await expect(page.getByRole('region', { name: '连续普攻结果', exact: true })).toHaveCount(0);
+  await expect(page.getByText('输入已修改或正在重新计算；当前显示上一份冻结输入的结果。', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('continuous-attack-damage-dealt')).toHaveText('300');
   await runButton(page).click();
   await expect(page.getByText('连续普攻已完成观察，目标未被击杀，会话正常释放。', { exact: true })).toBeVisible();
 });
@@ -327,13 +328,19 @@ test('真实只读接口亚托克斯对阿狸：最新原配置经实际页面�
   const expectedPath = testInfo.outputPath('independent-expectation.json');
   writeFileSync(expectedPath, JSON.stringify(expected, null, 2));
   await testInfo.attach('原作者树独立期望.json', { path: expectedPath, contentType: 'application/json' });
-  await page.unroute('**/api/games');
+  await page.unrouteAll({ behavior: 'wait' });
   await page.addInitScript(({ apiBase, token }) => {
     localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
     localStorage.setItem('damage-viewer.web.admin-token', token || 'local-readonly-check');
   }, { apiBase, token });
   const methods: string[] = [];
   page.on('request', request => { if (new URL(request.url()).origin === apiBase && request.method() !== 'OPTIONS') methods.push(request.method()); });
+  const httpReads: { method: string; path: string; status: number }[] = [];
+  page.on('response', response => {
+    const url = new URL(response.url());
+    const method = response.request().method();
+    if (url.origin === apiBase && method !== 'OPTIONS') httpReads.push({ method, path: url.pathname, status: response.status() });
+  });
   await page.reload();
   await chooseSimulationEntity(page, '攻击方角色', 'champion_aatrox'); await chooseSimulationLevel(page, '攻击方等级', 1);
   await chooseSimulationEntity(page, '目标角色', 'champion_ahri'); await chooseSimulationLevel(page, '目标等级', 1);
@@ -351,9 +358,207 @@ test('真实只读接口亚托克斯对阿狸：最新原配置经实际页面�
   const archive = JSON.parse(readFileSync((await (await pending).path())!, 'utf8'));
   expect(archive).toMatchObject({ taskKind: 'continuous_attack', outcome: 'passed', cleanup: 'released', assessment: { complete: true, completedCount: count } });
   expect(archive.assessment.damageDealt).toBeCloseTo(expected.damageTotal, 8);
+  expect(archive.snapshotDigest).toBe(snapshot.snapshotDigest);
+  expect(archive.runRequest.sampling.disabled).toBe(false);
+  expect(archive.assessment.factsValid).toBe(true);
+  expect(archive.runResult.seriesSamplingEvidence).toMatchObject({ method: 'uniform_time', requestedSampleEveryMs: 100,
+    effectiveSampleEveryMs: 100, maxSeriesPoints: 5000, downsampled: false });
+  const points = archive.runResult.series;
+  const finalPoint = points[points.length - 1];
+  expect(points.length).toBe(Math.floor(expected.killedAtMs / 100) + 1 + (expected.killedAtMs % 100 === 0 ? 0 : 1));
+  expect(points[0].timeMs).toBe(0);
+  expect(points[0].targetHp).toBeCloseTo(Math.max(0, snapshot.target.selectedLevelValues.hp! - expected.damagePerAttack), 8);
+  expect(points[0].sourceDamageDealt).toBeCloseTo(expected.damagePerAttack, 8);
+  expect(finalPoint.timeMs).toBe(expected.killedAtMs);
+  expect(finalPoint.targetHp).toBe(0);
+  expect(finalPoint.sourceDamageDealt).toBeCloseTo(expected.damageTotal, 8);
+  expect(finalPoint.sourceCumulativeDps).toBeCloseTo(expected.damageTotal * 1000 / expected.killedAtMs, 8);
+  const finalWindowDamage = archive.runResult.damageRecords.filter((row: { source: string; timeMs: number }) =>
+    row.source === 'source' && row.timeMs >= Math.max(0, expected.killedAtMs - 1000) && row.timeMs <= expected.killedAtMs)
+    .reduce((amount: number, row: { postDefenseDamage: number }) => amount + row.postDefenseDamage, 0);
+  expect(finalPoint.sourceWindowDps).toBeCloseTo(finalWindowDamage * 1000 / Math.min(1000, expected.killedAtMs), 8);
+  await expect(page.getByTestId('continuous-attack-charts').locator('svg')).toBeVisible();
+  await expect(page.getByTestId('continuous-sampling-evidence')).toContainText('返回' + points.length + '／候选' + points.length + '点');
   expect(JSON.stringify(archive)).not.toMatch(/adminToken|apiBaseUrl|Authorization|Bearer|Cookie|AbortController/);
   const archivePath = testInfo.outputPath('actual-page-continuous-archive.json'); writeFileSync(archivePath, JSON.stringify(archive, null, 2));
   await testInfo.attach('真实页面连续运行档案.json', { path: archivePath, contentType: 'application/json' });
   await page.getByRole('region', { name: '连续普攻结果', exact: true }).screenshot({ path: testInfo.outputPath('真实页面连续普攻结果.png') });
+  const secondAttack = archive.runResult.attackRecords[1];
+  expect(secondAttack).toBeDefined();
+  expect(secondAttack.hitAtMs).toBe(expected.interval);
+  const chartBounds = await page.getByTestId('continuous-attack-charts').boundingBox();
+  await page.getByTestId('continuous-attack-charts').click({ position: {
+    x: 70 + (chartBounds!.width - 100) * secondAttack.hitAtMs / expected.killedAtMs, y: 171
+  } });
+  await expect(page.getByRole('region', { name: '逐刀详情', exact: true })).toContainText(secondAttack.useRef);
+  const secondDamage = archive.runResult.damageRecords.find((row: { useRef: string }) => row.useRef === secondAttack.useRef);
+  await page.getByRole('button', { name: '结算编号' + secondDamage.damageId, exact: true }).click();
+  await expect(page.getByRole('region', { name: '伤害结算详情', exact: true })).toContainText(secondDamage.operationPath);
+  await page.getByRole('button', { name: '定位冻结作者与编译节点', exact: true }).click();
+  await expect(page.getByText('以下内容来自本次冻结档案，不读取最新管理数据。', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '关闭详情', exact: true }).focus();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('region', { name: '逐刀详情', exact: true })).not.toBeVisible();
+  await page.getByLabel('伤害率模式', { exact: true }).click();
+  await page.getByRole('option', { name: '滚动窗口伤害率', exact: true }).click();
+  await page.getByLabel('可见起点（毫秒）', { exact: true }).fill(String(secondAttack.startAtMs));
+  const displayedDamage = Number((await page.getByTestId('continuous-attack-damage-dealt').innerText()).replaceAll(',', ''));
+  expect(displayedDamage).toBeCloseTo(expected.damageTotal, 5);
+  const csvPending = page.waitForEvent('download');
+  await page.getByRole('button', { name: '导出当前伤害表CSV', exact: true }).click();
+  const csvFile = await csvPending;
+  await csvFile.saveAs(testInfo.outputPath('actual-page-filtered-damage.csv'));
+  const csvText = readFileSync((await csvFile.path())!, 'utf8');
+  const filteredRecords = archive.runResult.damageRecords.filter((row: { timeMs: number }) => row.timeMs >= secondAttack.startAtMs);
+  expect(csvText.split('\r\n')).toHaveLength(filteredRecords.length + 1);
+  expect(csvText).toContain('已返回伤害记录的当前筛选');
+  const filtered = await downloadStage3Archive(page, testInfo.outputPath('actual-page-filtered-archive.json'));
+  expect(filtered.runResult).toEqual(archive.runResult);
+  expect(filtered.view).toMatchObject({ dpsMode: 'window', timeRangeMs: [secondAttack.startAtMs, expected.killedAtMs] });
+  await page.getByRole('region', { name: '连续普攻结果', exact: true }).screenshot({ path: testInfo.outputPath('真实页面窗口伤害率与筛选.png') });
+  const readBack = await request.get(apiBase + path, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+  expect(readBack.status()).toBe(200);
+  expect((await readBack.json()).snapshotDigest).toBe(snapshot.snapshotDigest);
+  writeFileSync(testInfo.outputPath('actual-http-readonly-evidence.json'), JSON.stringify({ at: new Date().toISOString(),
+    snapshotDigest: snapshot.snapshotDigest, snapshotStatus: response.status(), readBackStatus: readBack.status(), requests: httpReads }, null, 2));
   expect(methods.length).toBeGreaterThan(0); expect(methods.every(method => method === 'GET')).toBe(true);
+  expect(httpReads.length).toBeGreaterThan(0); expect(httpReads.every(row => row.method === 'GET' && row.status === 200)).toBe(true);
+});
+
+
+async function downloadStage3Archive(page: Page, destination?: string) {
+  const pending = page.waitForEvent('download');
+  await page.getByRole('button', { name: '下载连续运行档案', exact: true }).click();
+  const downloaded = await pending;
+  if (destination) await downloaded.saveAs(destination);
+  return JSON.parse(readFileSync((await downloaded.path())!, 'utf8'));
+}
+async function startStage3Page(page: Page, targetHp = 250) {
+  const snapshot = sample();
+  if (targetHp > snapshot.target.selectedLevelValues.hp!) {
+    snapshot.target.selectedLevelValues.hp = targetHp;
+    snapshot.target.attributes.levelValues['1']!.hp = targetHp;
+  }
+  await preparePage(page, snapshot);
+  await page.getByLabel('攻速输入上界', { exact: true }).fill('1');
+  await page.getByLabel('目标初始当前生命', { exact: true }).fill(String(targetHp));
+  await runButton(page).click();
+  await expect(page.getByText('连续普攻已完成击杀，会话正常释放。', { exact: true })).toBeVisible();
+}
+
+test('阶段3真实Wasm：采样图、真实身份联动、时间筛选、当前表导出和冻结输入', async ({ page }, testInfo) => {
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  await startStage3Page(page);
+  await expect(page.getByTestId('continuous-attack-charts').locator('svg')).toBeVisible();
+  await expect(page.getByTestId('continuous-sampling-evidence')).toContainText('返回21／候选21点');
+  const first = await downloadStage3Archive(page, testInfo.outputPath('阶段3完整击杀运行档案.json'));
+  expect(first).toMatchObject({ displayDefinitionVersion: 1, outcome: 'passed', assessment: { factsValid: true, complete: true }, view: { dpsMode: 'cumulative' } });
+  expect(first.runResult.series[0]).toMatchObject({ timeMs: 0, targetHp: 150, sourceDamageDealt: 100, sourceCumulativeDps: 0 });
+  expect(first.runResult.series[first.runResult.series.length - 1]).toMatchObject({ timeMs: 2000, targetHp: 0, sourceDamageDealt: 300, sourceCumulativeDps: 150, sourceWindowDps: 200 });
+  const layout = await page.getByRole('region', { name: '连续普攻结果', exact: true }).evaluate(element => {
+    const result = element.getBoundingClientRect();
+    const chart = element.querySelector('[data-testid="continuous-attack-charts"]')!.getBoundingClientRect();
+    const ancestors = [];
+    let parent: HTMLElement | null = element as HTMLElement;
+    while (parent) {
+      const rect = parent.getBoundingClientRect();
+      const style = getComputedStyle(parent);
+      ancestors.push({ className: parent.className, left: rect.left, right: rect.right, width: rect.width,
+        minWidth: style.minWidth, display: style.display, alignItems: style.alignItems });
+      parent = parent.parentElement;
+    }
+    return { viewportWidth: window.innerWidth, resultLeft: result.left, resultRight: result.right, chartRight: chart.right, ancestors };
+  });
+  await testInfo.attach('阶段3布局边界.json', { body: Buffer.from(JSON.stringify(layout)), contentType: 'application/json' });
+  expect(layout.resultRight, JSON.stringify(layout)).toBeLessThanOrEqual(layout.viewportWidth);
+  expect(layout.chartRight).toBeLessThanOrEqual(layout.viewportWidth);
+  await page.getByRole('region', { name: '连续普攻结果', exact: true }).screenshot({ path: testInfo.outputPath('阶段3完整击杀图表.png') });
+  const chartBounds = await page.getByTestId('continuous-attack-charts').boundingBox();
+  await page.getByTestId('continuous-attack-charts').click({ position: { x: 70 + (chartBounds!.width - 100) / 2, y: 171 } });
+  await expect(page.getByRole('region', { name: '逐刀详情', exact: true })).toContainText(first.runResult.attackRecords[1].useRef);
+  await page.getByRole('button', { name: '关闭详情', exact: true }).focus();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('region', { name: '逐刀详情', exact: true })).not.toBeVisible();
+  await page.getByRole('button', { name: '查看第2刀', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('region', { name: '逐刀详情', exact: true })).toContainText(first.runResult.attackRecords[1].useRef);
+  await page.getByRole('button', { name: '结算编号2', exact: true }).click();
+  await expect(page.getByRole('region', { name: '伤害结算详情', exact: true })).toContainText(first.runResult.damageRecords[1].operationRef);
+  await page.getByRole('button', { name: '定位冻结作者与编译节点', exact: true }).click();
+  await expect(page.getByText('以下内容来自本次冻结档案，不读取最新管理数据。', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '关闭详情', exact: true }).click();
+  await page.getByLabel('可见起点（毫秒）', { exact: true }).fill('1000');
+  await expect(page.getByTestId('continuous-attack-damage-dealt')).toHaveText('300');
+  await expect(page.getByTestId('continuous-breakdown-subtotal')).toHaveText('300');
+  await expect(page.getByTestId('continuous-record-subtotal')).toHaveText('200');
+  const csvDownload = page.waitForEvent('download'); await page.getByRole('button', { name: '导出当前伤害表CSV', exact: true }).click();
+  const downloadedCsv = await csvDownload;
+  await downloadedCsv.saveAs(testInfo.outputPath('阶段3时间筛选伤害表.csv'));
+  const csvText = readFileSync((await downloadedCsv.path())!, 'utf8');
+  expect(csvText.split('\r\n')).toHaveLength(3); expect(csvText).toContain('已返回伤害记录的当前筛选');
+  const filtered = await downloadStage3Archive(page, testInfo.outputPath('阶段3时间筛选运行档案.json'));
+  expect(filtered.view.timeRangeMs).toEqual([1000, 2000]); expect(filtered.runResult).toEqual(first.runResult);
+  await page.getByLabel('A剩余生命', { exact: true }).uncheck();
+  expect((await downloadStage3Archive(page)).view.visibleCurves).not.toContain('sourceHp');
+  await page.getByLabel('观察时长（毫秒）', { exact: true }).fill('999');
+  await expect(page.getByText('输入已修改或正在重新计算；当前显示上一份冻结输入的结果。', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('continuous-attack-damage-dealt')).toHaveText('300');
+  await runButton(page).click();
+  await expect(page.getByText('连续普攻已完成观察，目标未被击杀，会话正常释放。', { exact: true })).toBeVisible();
+  expect((await downloadStage3Archive(page)).view).toMatchObject({ timeRangeMs: [0, 999], sourceKeys: [], selectedAttack: null });
+  await page.getByRole('region', { name: '连续普攻结果', exact: true }).screenshot({ path: testInfo.outputPath('阶段3结果与图表.png') });
+  expect(errors).toEqual([]);
+});
+
+test('阶段3导出全部筛选行而非当前分页，来源筛选不改变总量曲线', async ({ page }) => {
+  await startStage3Page(page, 2500);
+  await expect(page.getByTestId('continuous-attack-completed-count')).toHaveText('25');
+  const baseline = await downloadStage3Archive(page);
+  await page.locator('.continuous-source-bar').first().click();
+  const pending = page.waitForEvent('download'); await page.getByRole('button', { name: '导出当前攻击表CSV', exact: true }).click();
+  expect(readFileSync((await (await pending).path())!, 'utf8').split('\r\n')).toHaveLength(26);
+  const filtered = await downloadStage3Archive(page);
+  expect(filtered.view.sourceKeys).toHaveLength(1); expect(filtered.runResult).toEqual(baseline.runResult);
+  await page.getByLabel('攻击序号筛选', { exact: true }).fill('2');
+  await expect(page.getByTestId('continuous-record-subtotal')).toHaveText('100');
+  await page.getByRole('button', { name: '清除来源与明细筛选', exact: true }).click();
+  await expect(page.getByTestId('continuous-record-subtotal')).toHaveText('2,500');
+});
+
+test('阶段3：关闭和开启采样不改变战斗，0毫秒击杀单点不制造伤害率', async ({ page }) => {
+  await preparePage(page); await page.getByLabel('攻速输入上界', { exact: true }).fill('1');
+  await page.getByLabel('目标初始当前生命', { exact: true }).fill('100');
+  await page.getByLabel('记录时间序列', { exact: true }).uncheck(); await runButton(page).click();
+  await expect(page.getByText('连续普攻已完成击杀，会话正常释放。', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('continuous-attack-charts')).toHaveCount(0);
+  const off = await downloadStage3Archive(page);
+  expect(off.runResult.series).toEqual([]); expect(off.runResult.summary.execution.targetKilledAtMs).toBe(0);
+  await page.getByLabel('记录时间序列', { exact: true }).check(); await runButton(page).click();
+  await expect(page.getByTestId('continuous-attack-charts').locator('svg')).toBeVisible();
+  const on = await downloadStage3Archive(page);
+  expect(on.runResult.series).toHaveLength(1); expect(on.runResult.series[0].sourceCumulativeDps).toBe(0);
+  expect(on.runInputHash).not.toBe(off.runInputHash); expect(on.runResult.summary.execution).toEqual(off.runResult.summary.execution);
+  expect(on.runResult.attackRecords).toEqual(off.runResult.attackRecords); expect(on.runResult.damageRecords).toEqual(off.runResult.damageRecords);
+});
+
+test('阶段3：真实Wasm降采样及攻击记录0预算，击杀与孤立伤害详情仍真实', async ({ page }) => {
+  let changedBuilder = false;
+  await page.route('**/src/engine/continuousAttackRequest.ts*', async route => {
+    const response = await route.fetch(); const code = await response.text();
+    const altered = code.replace(/maxAttackRecords:\s*(?:1000|1e3)/g, 'maxAttackRecords: 0').replace(/maxSeriesPoints:\s*(?:5000|5e3)/g, 'maxSeriesPoints: 10');
+    changedBuilder = altered !== code;
+    await route.fulfill({ response, body: altered });
+  });
+  await page.reload(); await startStage3Page(page);
+  expect(changedBuilder).toBe(true);
+  await expect(page.getByTestId('continuous-sampling-evidence')).toContainText('有效间隔3334毫秒');
+  await expect(page.getByTestId('continuous-sampling-evidence')).toContainText('返回2／候选21点');
+  const archive = await downloadStage3Archive(page);
+  expect(archive.assessment.complete).toBe(true); expect(archive.runResult.attackRecords).toEqual([]);
+  expect(archive.runResult.recording.attackRecordsTruncated).toBe(true); expect(archive.runResult.damageRecords).toHaveLength(3);
+  expect(archive.runResult.series.map((point: { timeMs: number }) => point.timeMs)).toEqual([0, 2000]);
+  await page.getByRole('button', { name: '查看伤害3', exact: true }).click();
+  await expect(page.getByRole('region', { name: '逐刀详情', exact: true })).toContainText('该刀攻击记录未保留');
+  await expect(page.getByRole('region', { name: '伤害结算详情', exact: true })).toContainText('伤害编号3');
+  await expect(page.getByTestId('continuous-attack-killed-at')).toHaveText('2000 毫秒');
 });

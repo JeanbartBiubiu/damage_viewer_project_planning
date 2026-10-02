@@ -5,7 +5,7 @@ import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
 
 export const CONTINUOUS_DURATION_INITIAL_MS = 30_000;
-export type ContinuousAttackInputs = { durationMs: number; attackSpeedInputMax?: number };
+export type ContinuousAttackInputs = { durationMs: number; attackSpeedInputMax?: number; recordTimeSeries?: boolean };
 export type AttackSpeedAdmission = { attributeKey: string; inputMax: number; source: 'attribute_range' | 'scenario_input' };
 export type PreparedContinuousAttack = { runRequest: RunRequest; runInputHash: string; attackSpeedAdmission: AttackSpeedAdmission };
 
@@ -17,6 +17,9 @@ export async function continuousAttackRequest(
   inputs: ContinuousAttackInputs, sessionId = ''
 ): Promise<PreparedContinuousAttack> {
   const input = prepared.compileRequest;
+  if (inputs.recordTimeSeries !== undefined && typeof inputs.recordTimeSeries !== 'boolean') {
+    fail('continuous.recordTimeSeries', '记录时间序列必须为明确布尔值。');
+  }
   if (!Number.isSafeInteger(inputs.durationMs) || inputs.durationMs < 1 || inputs.durationMs > 600_000) {
     fail('continuous.durationMs', '观察时长必须为1～600000的整数毫秒。');
   }
@@ -69,7 +72,7 @@ export async function continuousAttackRequest(
     initialSnapshot: simulationInitialSnapshot(input),
     driverPlan: { conditionRecheckIntervalMs: 100, entries: [], basicAttack },
     stopPolicy: { durationMs: inputs.durationMs, stopOnTargetDeath: true, stopWhenNoEvents: true },
-    sampling: { disabled: true, sampleEveryMs: 100, dpsWindowMs: 1000, maxSeriesPoints: 5000 },
+    sampling: { disabled: inputs.recordTimeSeries === false, sampleEveryMs: 100, dpsWindowMs: 1000, maxSeriesPoints: 5000 },
     safetyBudget: { maxEvents: 10000, maxCommandsPerEvent: 256, maxChainDepth: 32, maxProcessInstances: 10000, maxBasicAttacks: 4096 },
     recordBudget: { maxAttackRecords: 1000, maxDamageRecords: 2000 }
   };

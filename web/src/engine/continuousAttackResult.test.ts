@@ -11,7 +11,7 @@ async function sample() {
   const inputs = { source: {} as Record<string, number>, target: {} as Record<string, number> };
   for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) inputs[row.side][row.attribute.attributeKey] = 0;
   const prepared = assembleSimulation(snapshot, inputs, { source: 650, target: 250 });
-  const { runRequest: request } = await continuousAttackRequest(prepared, snapshot, { durationMs: 30000, attackSpeedInputMax: 1 }, 'session');
+  const { runRequest: request } = await continuousAttackRequest(prepared, snapshot, { durationMs: 30000, attackSpeedInputMax: 1, recordTimeSeries: false }, 'session');
   const plan = request.driverPlan.basicAttack!;
   const origin = prepared.operationOrigins.find(row => row.resultKey === 'damage')!;
   const attackRecords: AttackRecord[] = [];
@@ -57,6 +57,13 @@ async function sample() {
 const assess = (item: Awaited<ReturnType<typeof sample>>) => assessContinuousAttackResult(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins);
 
 describe('连续可靠结果解释', () => {
+  it('仅曲线说明非法不抹掉独立核对的金额与逐刀事实', async () => {
+    const input = await sample(); input.done.seriesSamplingEvidence = null as unknown as DoneResult['seriesSamplingEvidence'];
+    const result = assess(input);
+    expect(result).toMatchObject({ complete: false, factsValid: true, damageDealt: 300, hpLoss: 250, completedCount: 3 });
+    expect(result.seriesIssues.length).toBeGreaterThan(0); expect(result.series).toEqual([]);
+    expect(result.damageBreakdown).toEqual(input.done.summary.damageBreakdown);
+  });
   it('可靠汇总和原生逐刀记录证明3刀击杀，调试证据不作为计数来源', async () => {
     const input = await sample();
     expect(assess(input)).toMatchObject({ complete: true, issues: [], completedCount: 3, startedCount: 3, hitCount: 3, damageDealt: 300, hpLoss: 250, targetFinalHp: 0, durationMs: 2000 });

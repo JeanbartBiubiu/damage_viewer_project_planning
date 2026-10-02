@@ -11,7 +11,15 @@ function sample() {
   return { snapshot, inputs, prepared };
 }
 describe('连续普攻请求与冻结身份', () => {
-  it('构造唯一原生计划、明确预算及关闭采样，不预写外部使用和下一刀', async () => {
+  it('曲线开关是明确运行输入，关闭时仍保留预算和间隔', async () => {
+    const { prepared, snapshot } = sample();
+    const enabled = await continuousAttackRequest(prepared, snapshot, { durationMs: 30000, attackSpeedInputMax: 2 });
+    const disabled = await continuousAttackRequest(prepared, snapshot, { durationMs: 30000, attackSpeedInputMax: 2, recordTimeSeries: false });
+    expect(enabled.runInputHash).not.toBe(disabled.runInputHash);
+    expect(disabled.runRequest.sampling).toEqual({ disabled: true, sampleEveryMs: 100, dpsWindowMs: 1000, maxSeriesPoints: 5000 });
+    await expect(continuousAttackRequest(prepared, snapshot, { durationMs: 30000, attackSpeedInputMax: 2, recordTimeSeries: 0 as unknown as boolean })).rejects.toThrow(/布尔/);
+  });
+  it('构造唯一原生计划、明确预算及只读采样，不预写外部使用和下一刀', async () => {
     const { prepared, snapshot } = sample();
     const { runRequest, runInputHash, attackSpeedAdmission } = await continuousAttackRequest(prepared, snapshot, { durationMs: 30000, attackSpeedInputMax: 2 }, 'session');
     expect(runRequest.driverPlan.entries).toEqual([]);
@@ -21,7 +29,7 @@ describe('连续普攻请求与冻结身份', () => {
     expect(runRequest).not.toHaveProperty('skillHitFacts');
     expect(runRequest.safetyBudget).toEqual({ maxEvents: 10000, maxCommandsPerEvent: 256, maxChainDepth: 32, maxProcessInstances: 10000, maxBasicAttacks: 4096 });
     expect(runRequest.recordBudget).toEqual({ maxAttackRecords: 1000, maxDamageRecords: 2000 });
-    expect(runRequest.sampling).toEqual({ disabled: true, sampleEveryMs: 100, dpsWindowMs: 1000, maxSeriesPoints: 5000 });
+    expect(runRequest.sampling).toEqual({ disabled: false, sampleEveryMs: 100, dpsWindowMs: 1000, maxSeriesPoints: 5000 });
     expect(runRequest.initialSnapshot.combatants[0]!.attributes.attack_speed!.max).toBe(0.651);
     expect(attackSpeedAdmission).toEqual({ attributeKey: 'attack_speed', inputMax: 2, source: 'scenario_input' });
     expect(runInputHash).toMatch(/^[a-f0-9]{64}$/);
@@ -50,7 +58,7 @@ describe('连续普攻请求与冻结身份', () => {
     altered.recordBudget!.maxDamageRecords = 0;
     expect(await continuousAttackRunInputHash(altered, first.attackSpeedAdmission)).not.toBe(first.runInputHash);
     altered.recordBudget = structuredClone(first.runRequest.recordBudget);
-    altered.sampling.disabled = false;
+    altered.sampling.disabled = true;
     expect(await continuousAttackRunInputHash(altered, first.attackSpeedAdmission)).not.toBe(first.runInputHash);
     altered.sampling = structuredClone(first.runRequest.sampling);
     altered.safetyBudget!.maxEvents = 20;

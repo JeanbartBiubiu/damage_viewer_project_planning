@@ -1,11 +1,14 @@
 import type {
   AttackRecord, BudgetCause, CompileRequest, DamageBreakdown, DamageRecord, DoneResult,
-  ExecutionSummary, OperationDefinition, RecordingSummary, RunRequest, StopReason
+  ExecutionSummary, OperationDefinition, RecordingSummary, RunRequest, StopReason, SeriesPoint, SeriesSamplingEvidence
 } from '../types/genericEngine';
 import type { OperationOrigin } from './simulationAdapter';
+import { inspectContinuousAttackSeries } from './continuousAttackSeries';
 
 export type ContinuousAttackAssessment = {
   complete: boolean; issues: string[]; execution: ExecutionSummary;
+  factsValid: boolean; seriesIssues: string[]; series: SeriesPoint[];
+  seriesSamplingEvidence: SeriesSamplingEvidence | null; damageBreakdown: DamageBreakdown[];
   startedCount: number; hitCount: number; completedCount: number;
   sourceInitialHp: number; targetInitialHp: number; sourceFinalHp: number; targetFinalHp: number;
   damageDealt: number; hpLoss: number; durationMs: number; stopReason: StopReason;
@@ -282,7 +285,7 @@ export function assessContinuousAttackResult(
   const warnings = array(result.warnings, 'runResult.warnings');
   const evidence = object(result.evidence, 'runResult.evidence');
   bool(summary.evidenceTruncated, 'summary.evidenceTruncated');
-  bool(summary.seriesDownsampled, 'summary.seriesDownsampled');
+
   const evidenceTruncated = bool(evidence.truncated, 'evidence.truncated');
   const evidenceDropped = integer(evidence.truncatedEvidenceCount, 'evidence.truncatedEvidenceCount');
   array(evidence.items, 'evidence.items'); object(evidence.countsByKind, 'evidence.countsByKind');
@@ -293,16 +296,11 @@ export function assessContinuousAttackResult(
     check(row.severity === 'warning' && ['evidence_truncated', 'series_downsampled', 'budget_exceeded'].includes(code), `warnings[${index}]`, `警告 ${code} 尚未核定`);
   });
   check(warnings.length === summary.warningCount, 'summary.warningCount', '警告明细缺失');
-  const series = array(result.series, 'runResult.series');
-  const sampling = object(result.seriesSamplingEvidence, 'seriesSamplingEvidence');
-  for (const key of ['requestedSampleEveryMs', 'effectiveSampleEveryMs', 'requestedPointCount', 'finalPointCount', 'maxSeriesPoints']) integer(sampling[key], `seriesSamplingEvidence.${key}`);
-  bool(sampling.downsampled, 'seriesSamplingEvidence.downsampled');
-  check(sampling.finalPointCount === series.length && sampling.maxSeriesPoints === request.sampling.maxSeriesPoints
-    && sampling.requestedSampleEveryMs === request.sampling.sampleEveryMs, 'seriesSamplingEvidence', '采样计数与请求不一致');
-  if (request.sampling.disabled) check(series.length === 0 && sampling.method === 'disabled' && sampling.effectiveSampleEveryMs === 0
-    && sampling.requestedPointCount === 0 && !sampling.downsampled, 'seriesSamplingEvidence', '关闭采样时仍输出采样结果');
-  else check(sampling.method === 'uniform_time', 'seriesSamplingEvidence.method', '未知采样方式');
-  return { complete: computationComplete && issues.length === 0, issues, execution: execution as ExecutionSummary,
+  const factsValid = issues.length === 0;
+  const sampling = inspectContinuousAttackSeries(request, done);
+  issues.push(...sampling.seriesIssues);
+  return { complete: computationComplete && issues.length === 0, issues, factsValid, ...sampling,
+    damageBreakdown: breakdown, execution: execution as ExecutionSummary,
     startedCount, hitCount, completedCount, sourceInitialHp, targetInitialHp, sourceFinalHp, targetFinalHp,
     damageDealt: summary.sourceDamageDealt as number, hpLoss: summary.targetHpLoss as number, durationMs, stopReason,
     attackRecords: attacks, damageRecords: damages, recording: recording as RecordingSummary };
