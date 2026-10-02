@@ -80,25 +80,28 @@ func (f *executionFrame) applyLink(ability compilebundle.CompiledAbility, op com
 	if err != nil {
 		return err
 	}
-	spent := f.commandCount
-	if f.copyableCollector != nil {
-		spent = f.copyableCollector.commandCount
+	if math.IsNaN(value) || math.IsInf(value, 0) || value < 0 || math.Trunc(value) != value || value > 9007199254740991 {
+		return f.formulaError(op.AmountProgram, "link count must be a finite non-negative safe integer")
 	}
-	if value < 0 || math.Trunc(value) != value || value > float64(f.run.budget.MaxCommandsPerEvent-spent) || value > float64(f.run.budget.MaxEvents) {
-		return f.run.processErr(op.Path+".amount", "link count must be a non-negative integer within the remaining command and event budgets", useKey)
+	remaining := f.run.budget.MaxCommandsPerEvent - f.commandsSpent()
+	if value > float64(remaining) {
+		return f.consumeCommands(remaining + 1)
+	}
+	if value > float64(f.run.budget.MaxEvents) {
+		return f.run.budgetError(model.BudgetCauseMaxEvents, "link application event budget exceeded")
 	}
 	count := int(value)
+	if err := f.consumeCommands(count); err != nil {
+		return err
+	}
 	eventType := model.EventTypeHitLinkApplied
 	if op.Operation == model.OperationKindApplyAttackLink {
 		eventType = model.EventTypeAttackLinkApplied
 	}
-	f.run.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "link_application", Ref: op.Ref, Path: op.Path, Data: map[string]interface{}{
+	f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: "link_application", Ref: op.Ref, Path: op.Path, Data: map[string]interface{}{
 		"eventType": eventType, "source": f.sourceKey, "target": target, "useRef": useKey, "skillKey": useSkill, "count": count,
 	}})
 	for index := 1; index <= count; index++ {
-		if err := f.bumpCommandBudget(); err != nil {
-			return err
-		}
 		snapshot := f.captureEmitSnapshot(eventType, f.sourceKey, target)
 		snapshot.hasLink, snapshot.linkIndex, snapshot.linkCount = true, index, count
 		ev := emittedEvent{
@@ -109,7 +112,7 @@ func (f *executionFrame) applyLink(ability compilebundle.CompiledAbility, op com
 		}
 		attachUseToSnapshot(&ev)
 		f.pendingEvents = append(f.pendingEvents, ev)
-		f.run.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: eventType, Path: op.Path, Data: map[string]interface{}{
+		f.recordEvidence(model.EvidenceItem{TimeMs: f.run.nowMs, Kind: model.EvidenceKindEmittedEvent, Ref: eventType, Path: op.Path, Data: map[string]interface{}{
 			"eventType": eventType, "source": f.sourceKey, "target": target, "useRef": useKey, "skillKey": useSkill,
 			"LINK_INDEX": index, "LINK_COUNT": count,
 		}})
@@ -117,7 +120,7 @@ func (f *executionFrame) applyLink(ability compilebundle.CompiledAbility, op com
 	return nil
 }
 
-func (s *genericRunState) startProcessFromEvent(source, target, ref string, ability compilebundle.CompiledAbility, depth int, event *eventFormulaSnapshot, driverKey string) *model.EngineError {
+func (s *genericRunState) startProcessFromEvent(source, target, ref string, ability compilebundle.CompiledAbility, depth int, event *eventFormulaSnapshot, driverKey string, collector *eventCopyableCollector) *model.EngineError {
 	if driverKey != "" || depth < 1 || event == nil || event.eventType != model.EventTypeBasicAttackStart || !event.hasUse || ability.ProcessControl.Action != "INITIAL" || !ability.IsBasicAttack {
 		return s.processErr("abilityRef", "event-bound INITIAL requires a real basic_attack_start listener context", ref)
 	}
@@ -146,7 +149,7 @@ func (s *genericRunState) startProcessFromEvent(source, target, ref string, abil
 	if _, blocked := s.cooldownGate(source, ref); blocked {
 		return s.rejectProcessUse(entry, ref, event.useKey, "cooldown_not_ready")
 	}
-	return s.startProcess(entry, -1, source, target, parsed.ProviderRef, ref, ability, def, event.useKey)
+	return s.startProcess(entry, -1, source, target, parsed.ProviderRef, ref, ability, def, event.useKey, depth, collector)
 }
 
 func (d copyableDamageFrozen) entryResourcesForCombatant(key string) map[string]model.ResourceSlotDef {

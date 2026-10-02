@@ -65,6 +65,18 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 
 ## 当前已接入能力
 
+### 阶段2无装备连续普攻
+
+运行请求的 `driverPlan.basicAttack`（原生连续普攻计划）由 `internal/model/generic_basic_attack.go`定义，通过同一编译／会话／运行／释放入口使用；`driverPlan.entries`必须是空数组，不能同时传入外部使用、开始、命中或过程控制事实。该入口只接受从0毫秒开始、A所选一份静态共享普攻、B无挂载、双方当前生命为正的场景，不开放装备、动态攻速、费用、其他监听、前摇或弹道。完整字段、预算及退出口径的唯一详细来源是规划工作树《阶段2无装备连续普攻详细设计》，实际最终产物与浏览器证据见《阶段2无装备连续普攻验收-2026-10-02》。
+
+- `generic_basic_attack.go`（连续攻击组织）每刀生成新使用身份，执行真实开始、首次即时过程、命中与全部原结果，只排下一刀；攻击间隔只读取实际首次过程控制能力下已提交的绝对冷却就绪时刻。`roundPositiveMs`（正值冷却毫秒转换）先校验原式有限且为正，再取整且最低1毫秒，不重新求值或另等一次间隔。
+- `generic_basic_attack_admission.go`（初始场景准入）核对原始快照与本次编译的属性、资源、挂载一致；未知挂载、临时状态或不支持的原技能结构整体拒绝，不能先归一化后静默丢弃。攻速上界来自属性目录或显式场景输入，仅是准入范围，不是游戏封顶。
+- `generic_frame_commit*.go`与`generic_execution_budget*.go`（执行提交及预算）统一相关生命、过程、冷却、历史、证据和统计的提交，真正使用编译队列容量。同刀命令跨候选和监听累计，已知预算停止返回一致的已提交部分；非连续运行仍沿既有错误返回。
+- `generic_basic_attack_output.go`（可靠结果）在提交时累计`summary.basicAttack`（开始／命中／完成次数）、`summary.execution`（击杀／完整性／预算原因）、实际扣血及`damageBreakdown`（来源与类型汇总）；有限`attackRecords/damageRecords`（逐刀／伤害记录）与`recording`（保留及丢弃计数）独立于完整汇总和调试证据。已经致死但尾部未完成时，击杀为真且完整性为假。
+- `generic_sampling_cursor.go`（只读采样游标）在同刻战斗提交后观察，不进入事件堆、不消费执行预算；`sampling.disabled`关闭时返回空序列和采样说明。记录预算为0、截断或改变采样均不改变战斗。
+
+既有单次入口保留原生事实限制；阶段2不是宿主循环提交单次请求。`generic_p0_basic_damage.json`基准输入未改动，采样专项构造用例只调整观察结束口径。原生检查之外，最终Wasm已由Node往返和实际浏览器工作线程验证，真实页面共享普攻连续击杀证据不推广为任意普攻或后续阶段支持。
+
 ### 现行数据的结果公式与单次攻击入口
 
 接入范围与分阶段验收的唯一来源是规划工作树《单攻击方计算六阶段推进方案》第3.2～4.3节。本模块新增以下可编译且有实际运行消费路径的声明；构造测试证明通用机制，真实管理数据的编译与释放仍由前置任务验收，真实单次运行归阶段1，连续攻击时钟归阶段2。
@@ -86,6 +98,7 @@ targets/wasm-256m.json    256 MiB TinyGo wasm target
 | Session registry + hash 校验 | 已接入 | `session.go` Compile/Run/Release |
 | `CompileGeneric` | 已接入 | collect-all；输出 `CompiledSession` |
 | `RunGeneric` | 已接入 | driver plan、gate、damage/heal/resource、provider tick |
+| 阶段2连续普攻与可靠结果 | 已接入 | 原生逐刀与过程冷却、相关提交一致、有限记录与完整汇总、只读采样隔离；静态共享普攻范围 |
 | 通用吸血 | 已接入 | 游戏规则与伤害例外；普通、复制伤害共用末尾吸血结算；治疗修正与逐次证据 |
 | 跨来源状态合并与重施 | 已接入 | `source_target` 单层重施、普通减速取强快照、`effectiveStatuses`、治疗组 `ratio_max` |
 | 命中供值与法术护盾 | 已接入 | `resolve_skill_hit` 单次 driver、`skillUses`/`skillHitFacts`、四档阻挡与 `event/spell_shield_blocked` |

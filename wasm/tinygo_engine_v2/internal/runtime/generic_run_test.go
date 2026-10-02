@@ -45,6 +45,8 @@ func compileAndRunBasicDamage(t *testing.T) (model.DoneResult, model.CompileResu
 	t.Helper()
 	session, compiled := compileBasicDamageSession(t)
 	runReq := loadBasicDamageRunRequest(t)
+	// Sampling is observational; explicitly request the full observation window.
+	runReq.StopPolicy.StopWhenNoEvents = model.BoolPtr(false)
 	runReq.SessionID = compiled.SessionID
 	runReq.ExpectedRulesHash = compiled.RulesHash
 
@@ -1096,6 +1098,7 @@ func TestGenericRunSeriesDownsampledWarning(t *testing.T) {
 		t.Fatal(err)
 	}
 	fixture.RunRequest.StopPolicy.DurationMs = 1000
+	fixture.RunRequest.StopPolicy.StopWhenNoEvents = model.BoolPtr(false)
 	fixture.RunRequest.Sampling = model.SamplingConfig{
 		SampleEveryMs:   10,
 		DpsWindowMs:     1000,
@@ -1163,7 +1166,7 @@ func TestGenericRunStopReasonBudgetOverDuration(t *testing.T) {
 	if runErr != nil {
 		t.Fatal(runErr)
 	}
-	state.budget.MaxEvents = 2
+	state.budget.MaxEvents = 1 // One actual combat event; sampling does not spend event budget.
 	if err := state.runLoop(); err != nil {
 		t.Fatal(err)
 	}

@@ -977,6 +977,8 @@ func TestVarusBlightedQuiverActiveArmExpiryAndConsume(t *testing.T) {
 			{EntryKey: "arm1", AbilityRef: varusBQActiveRef(), Source: model.SelectorSource, Target: model.SelectorTarget, FirstAtMs: 5499},
 			{EntryKey: "aa_live", AbilityRef: varusBQAARef(), Source: model.SelectorSource, Target: model.SelectorTarget, FirstAtMs: 10998},
 		})
+		// Observe inside the refreshed window, not 100 ms after its expiration.
+		runReq.StopPolicy.DurationMs = 10998
 		done := runVarusBQ(t, compileReq, runReq)
 		if got := varusBQActiveValue(t, done); got != 1 {
 			t.Fatalf("blighted_quiver_active=%v want 1 inside refreshed 5500ms window", got)

@@ -124,6 +124,14 @@ graph TD
 3. 新机制落在 provider/ability/operation + gate/execution；legacy step-loop/DPS 源码与导出已删除。
 4. 验证契约：`generic_p0_basic_damage.json` + `smoke-node.mjs` + `go run ./cmd/bench`。
 
+## 阶段2连续运行链
+
+`model/generic_basic_attack.go`定义原生连续计划、已知预算原因、可靠记录与完整性字段。`runtime/generic_basic_attack_admission.go`在原始初始快照上核对本次编译身份和静态共享普攻范围；`runtime/generic_basic_attack.go`在`RunGeneric`内逐刀创建使用身份，依次经过真实开始监听、首次即时过程、命中候选及同步尾部，只消费已提交的过程冷却并安排下一刀。它不改变单次事实限制，也不增加导出入口。
+
+`generic_frame_commit*.go`先核对本帧所需队列容量，再统一提交生命、过程、冷却、证据及相关统计；`generic_execution_budget*.go`跨同刀各帧保留命令计数，并传播可识别的停止原因。`generic_basic_attack_output.go`只观察已提交伤害，完整累计与有限明细互不代替；预算中断可保留已经发生的击杀，但不能把未完成尾部标成完整。
+
+`generic_sampling_cursor.go`只在战斗时点之间和同刻全部提交后观察，独立于`scheduler.GenericHeap`。调整或关闭采样、截断记录都不改变战斗时钟、事件预算或可靠汇总。具体运行字段与验收以规划工作树阶段2设计及验收记录为准，本图不另定义契约。
+
 ## 主动过程运行链
 
 `model/generic_process.go` 固定第4项过程、控制事实与实例快照；`compile/generic_process.go` 编译步骤时间、逐笔成本和有序时点操作。`runtime/generic_process.go` 负责单次控制入口、暂存付款、统一时点和终结；`runtime/generic_process_snapshot.go` 负责严格恢复与计时重建。

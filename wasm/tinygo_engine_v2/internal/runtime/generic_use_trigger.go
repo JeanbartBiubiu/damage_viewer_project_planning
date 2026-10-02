@@ -33,6 +33,11 @@ type useTriggerRecord struct {
 	committed   bool
 }
 
+type pendingUseReservation struct {
+	listener compilebundle.CompiledListener
+	event    emittedEvent
+}
+
 func (s *genericRunState) initUseTriggerState() *model.EngineError {
 	s.useTriggerLedger = map[useTriggerKey]*useTriggerRecord{}
 	s.useTriggerReserving = 0
@@ -278,7 +283,7 @@ func (s *genericRunState) reserveOncePerUse(listener compilebundle.CompiledListe
 		return false, true, nil
 	}
 	if len(s.useTriggerLedger) >= maxUseTriggerLedger {
-		return false, false, s.skillHitErr(model.GenericErrRuntimeInvariantFailed, "useTriggerLedger exceeded dedicated budget", "useTriggerLedger", listener.OncePerUseGroup)
+		return false, false, s.budgetError(model.BudgetCauseMaxUseTriggerLedger, "useTriggerLedger exceeded dedicated budget")
 	}
 	s.useTriggerLedger[key] = &useTriggerRecord{key: key, useSkillKey: ev.useSkillKey, reserved: true}
 	s.useTriggerReserving++
@@ -293,12 +298,28 @@ func (s *genericRunState) commitOncePerUse(listener compilebundle.CompiledListen
 	if err != nil {
 		return
 	}
-	if rec, ok := s.useTriggerLedger[key]; ok {
+	if rec, ok := s.useTriggerLedger[key]; ok && rec.reserved {
 		rec.reserved = false
 		rec.committed = true
+		if s.useTriggerReserving > 0 {
+			s.useTriggerReserving--
+		}
 	}
-	if s.useTriggerReserving > 0 {
-		s.useTriggerReserving--
+}
+
+func (s *genericRunState) releaseUncommittedUseReservation(reservation *pendingUseReservation) {
+	if reservation == nil {
+		return
+	}
+	key, err := s.oncePerUseKey(reservation.listener, reservation.event)
+	if err != nil {
+		return
+	}
+	if record, exists := s.useTriggerLedger[key]; exists && record.reserved && !record.committed {
+		delete(s.useTriggerLedger, key)
+		if s.useTriggerReserving > 0 {
+			s.useTriggerReserving--
+		}
 	}
 }
 

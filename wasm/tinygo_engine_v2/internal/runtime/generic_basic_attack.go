@@ -1,0 +1,262 @@
+package runtime
+
+import (
+	"math"
+	"strconv"
+	compilebundle "tinygo_engine_v2/internal/compile"
+	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/scheduler"
+)
+
+const maxJSONSafeInteger int64 = 9007199254740991
+
+type basicAttackRuntime struct {
+	plan               model.BasicAttackPlan
+	summary            model.BasicAttackSummary
+	current            *model.BasicAttackRecord
+	currentRecordIndex int
+	targetKilledAt     *int64
+	unfinishedTail     bool
+	windowSettled      bool
+	initialAbility     compilebundle.CompiledAbility
+}
+
+func (s *genericRunState) basicAttackErr(message, path string) *model.EngineError {
+	return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, message, path, "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+}
+
+func (s *genericRunState) initBasicAttack() *model.EngineError {
+	p := s.req.DriverPlan.BasicAttack
+	if p == nil {
+		return nil
+	}
+	if err := s.validateBasicAttackInitialSnapshot(); err != nil {
+		return err
+	}
+	if p.PlanKey == "" || p.SkillKey == "" || p.Source != model.SelectorSource || p.Target != model.SelectorTarget || p.Source == p.Target {
+		return s.basicAttackErr("basic attack requires a stable plan key and distinct source/target combatants", "driverPlan.basicAttack")
+	}
+	if s.startMs != 0 || s.durationMs < 1 || s.durationMs > 600000 {
+		return s.basicAttackErr("basic attack requires time zero and durationMs in [1,600000]", "stopPolicy.durationMs")
+	}
+	if !s.req.StopPolicy.StopOnTargetDeathOrDefault() {
+		return s.basicAttackErr("continuous basic attack must stop after the target dies", "stopPolicy.stopOnTargetDeath")
+	}
+	if len(s.req.DriverPlan.Entries)+len(s.req.SkillUses)+len(s.req.AttackStartFacts)+len(s.req.SkillHitFacts)+len(s.req.ProcessCommandFacts) != 0 {
+		return s.basicAttackErr("basic attack plan cannot be combined with external entries or use facts", "driverPlan")
+	}
+	if len(s.req.InitialSnapshot.ProcessInstances)+len(s.req.InitialSnapshot.UseTriggerLedger) != 0 {
+		return s.basicAttackErr("basic attack must start from an unused initial snapshot", "initialSnapshot")
+	}
+	for _, c := range s.req.InitialSnapshot.Combatants {
+		if len(c.Cooldowns)+len(c.Shields)+len(c.ProviderState)+len(c.AbilityState)+len(c.EffectiveStatuses)+len(c.Vars) != 0 {
+			return s.basicAttackErr("basic attack requires empty initial runtime state", "initialSnapshot.combatants")
+		}
+	}
+	if len(s.combatants) != 2 || !s.combatantHasHp(p.Source) || !s.combatantHasHp(p.Target) || s.combatantHp(p.Source) <= 0 || s.combatantHp(p.Target) <= 0 {
+		return s.basicAttackErr("both initial HP values must be finite and positive", "initialSnapshot.combatants.attributes.hp")
+	}
+	source, target := s.combatants[p.Source], s.combatants[p.Target]
+	if len(source.providers) != 1 || len(target.providers) != 0 {
+		return s.basicAttackErr("basic attack requires only the selected source skill mount and no target mounts", "initialSnapshot.combatants.providers")
+	}
+	as, ok := source.attributes[p.AttackSpeedAttributeKey]
+	if !ok || math.IsNaN(as.Resolved) || math.IsInf(as.Resolved, 0) || as.Resolved <= 0 || math.IsNaN(p.AttackSpeedInputMax) || math.IsInf(p.AttackSpeedInputMax, 0) || p.AttackSpeedInputMax <= 0 || as.Resolved > p.AttackSpeedInputMax {
+		return s.basicAttackErr("attack speed must be positive and within the explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
+	}
+	lookup := func(ref string) (compilebundle.CompiledAbility, bool) {
+		entry := model.DriverEntry{AbilityRef: ref, Source: p.Source, Target: p.Target}
+		ability, normalized, found := s.lookupDriverAbility(entry)
+		parsed, valid := compilebundle.ParseAbilityRef(ref)
+		return ability, found && valid && normalized == ref && parsed.Combatant == p.Source && parsed.ProviderRef == source.providers[0].ProviderRef && ability.SkillKey == p.SkillKey && ability.IsBasicAttack
+	}
+	start, good := lookup(p.StartAbilityRef)
+	if !good || start.OperationCount != 0 || start.HasSkillHit || start.ProcessControl != nil || start.Cost != nil || start.Cooldown != nil || start.HasCastCondition || start.TickSpec != nil {
+		return s.basicAttackErr("start ability must be the actual empty basic-attack ability", "driverPlan.basicAttack.startAbilityRef")
+	}
+	hit, good := lookup(p.HitAbilityRef)
+	if !good || !hit.HasSkillHit || hit.ProcessControl != nil || hit.Cost != nil || hit.Cooldown != nil || hit.HasCastCondition || hit.TickSpec != nil || hit.OperationCount != 1 || s.compiled.Operations[hit.OperationStart].Operation != model.OperationKindResolveSkillHit {
+		return s.basicAttackErr("hit ability must be the actual selected native hit ability", "driverPlan.basicAttack.hitAbilityRef")
+	}
+	initial, good := lookup(p.InitialControlAbilityRef)
+	if !good || initial.ProcessControl == nil || initial.ProcessControl.Action != "INITIAL" || !initial.ProcessControl.UseRefFromEvent || initial.OperationCount != 0 || initial.Cost != nil || initial.Cooldown != nil || initial.HasCastCondition || initial.TickSpec != nil {
+		return s.basicAttackErr("initial control must consume the native start use reference", "driverPlan.basicAttack.initialControlAbilityRef")
+	}
+	provider := s.compiled.Providers[initial.ProviderIndex]
+	processIndex := initial.ProcessControl.ProcessIndex
+	if processIndex < 0 || processIndex >= len(provider.Processes) {
+		return s.basicAttackErr("missing initial process definition", "driverPlan.basicAttack.initialControlAbilityRef")
+	}
+	process := provider.Processes[processIndex]
+	if process.SkillKey != p.SkillKey || process.Cooldown == nil || !process.Cooldown.RoundPositiveMs || process.Cooldown.StartMoment.MomentType != "PROCESS_START" {
+		return s.basicAttackErr("attack process requires positive rounded cooldown starting at PROCESS_START", process.Path+".cooldown")
+	}
+	if len(process.Costs) != 0 {
+		return s.basicAttackErr("continuous basic attack does not accept resource costs", process.Path+".costs")
+	}
+	for _, step := range process.Steps {
+		if step.StepType != "IMMEDIATE" {
+			return s.basicAttackErr("continuous basic attack currently requires immediate process steps", step.Path)
+		}
+	}
+	s.basicAttack = &basicAttackRuntime{plan: *p, summary: model.BasicAttackSummary{PlanKey: p.PlanKey}, currentRecordIndex: -1, initialAbility: initial}
+	// Stage 2 accepts the same complete static subset emitted by the host adapter.
+	// Extra mechanisms fail closed instead of being filtered or implicitly executed.
+	if len(provider.Processes) != 1 || provider.AbilityCount != 3 || provider.Lifecycle != nil || len(provider.Modifiers)+len(provider.StateFields)+len(provider.StatusContributions) != 0 {
+		return s.basicAttackErr("continuous basic attack requires the complete static three-ability provider", "driverPlan.basicAttack")
+	}
+	if len(s.compiled.Listeners) != 1 || len(s.runtimeListeners) != 0 {
+		return s.basicAttackErr("continuous basic attack requires the unique native-start listener", "driverPlan.basicAttack")
+	}
+	listener := s.compiled.Listeners[0]
+	if listener.OwnerCombatantKey != p.Source || listener.OwnerProviderRef != source.providers[0].ProviderRef || !listener.HasAbilityRef || normalizeAbilityRef(listener.AbilityRef, p.Source, p.Target) != p.InitialControlAbilityRef || listener.OperationCount != 0 || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 {
+		return s.basicAttackErr("pre-hit listener must only start the actual selected process", "driverPlan.basicAttack.initialControlAbilityRef")
+	}
+	set := start.TypeSet
+	if id, ok := s.compiled.Types.Registry.Lookup(model.EventTypeBasicAttackStart); ok {
+		set.Add(id)
+	}
+	if start.CastOrigin != "" {
+		if id, ok := s.compiled.Types.Registry.Lookup("cast_origin/" + start.CastOrigin); ok {
+			set.Add(id)
+		}
+	}
+	if !s.listenerMatchesEvent(listener, emittedEvent{eventType: model.EventTypeBasicAttackStart, sourceKey: p.Source, targetKey: p.Target}, set) {
+		return s.basicAttackErr("native start does not match its actual initial listener", "driverPlan.basicAttack.initialControlAbilityRef")
+	}
+	for _, moment := range process.MomentOperations {
+		if moment.Moment.MomentType != "PROCESS_START" {
+			return s.basicAttackErr("unsupported process moment", moment.Path)
+		}
+		for _, op := range s.compiled.Operations[int(moment.OperationStart) : int(moment.OperationStart)+int(moment.OperationCount)] {
+			if op.Operation != model.OperationKindApplyAttackLink && op.Operation != model.OperationKindApplyHitLink {
+				return s.basicAttackErr("pre-hit operation is outside the static link subset", op.Path)
+			}
+		}
+	}
+	for _, op := range s.compiled.Operations {
+		if op.Target != "target" {
+			return s.basicAttackErr("continuous basic attack results require the actual target", op.Path)
+		}
+		switch op.Operation {
+		case "damage", model.OperationKindApplyAttackLink, model.OperationKindApplyHitLink, model.OperationKindResolveSkillHit:
+		default:
+			return s.basicAttackErr("dynamic or unsupported operation in continuous basic attack", op.Path)
+		}
+	}
+
+	return nil
+}
+
+func (s *genericRunState) markBasicAttackHit(useRef string) {
+	if s.basicAttack == nil || s.basicAttack.current == nil || s.basicAttack.current.UseRef != useRef || s.basicAttack.current.HitAtMs != nil {
+		return
+	}
+	at := s.nowMs
+	s.basicAttack.current.HitAtMs = &at
+	s.basicAttack.summary.HitCount++
+}
+
+func (s *genericRunState) finishCurrentAttackRecord() {
+	b := s.basicAttack
+	if b == nil || b.current == nil {
+		return
+	}
+	b.current.SourceHpAfter = s.combatantHp(b.plan.Source)
+	b.current.TargetHpAfter = s.combatantHp(b.plan.Target)
+	if b.currentRecordIndex >= 0 {
+		s.attackRecords[b.currentRecordIndex] = *b.current
+	}
+}
+
+func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
+	b := s.basicAttack
+	if b == nil {
+		return s.basicAttackErr("basic attack event has no plan", "driverPlan.basicAttack")
+	}
+	if s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0 {
+		return nil
+	}
+	currentSpeed := s.combatants[b.plan.Source].attributes[b.plan.AttackSpeedAttributeKey].Resolved
+	if math.IsNaN(currentSpeed) || math.IsInf(currentSpeed, 0) || currentSpeed <= 0 || currentSpeed > b.plan.AttackSpeedInputMax {
+		return s.basicAttackErr("current attack speed violates its explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
+	}
+	if b.current != nil && currentSpeed != b.current.AttackSpeed {
+		return s.basicAttackErr("dynamic attack speed is unsupported in this stage", "driverPlan.basicAttack.attackSpeedAttributeKey")
+	}
+	if b.summary.StartedCount >= s.budget.MaxBasicAttacks {
+		return s.budgetError(model.BudgetCauseMaxBasicAttacks, "basic attack count exceeded")
+	}
+	s.basicAttackEventActive = true
+	s.currentEventCommands = 0
+	defer func() { s.basicAttackEventActive = false; s.finishCurrentAttackRecord() }()
+	b.summary.StartedCount++
+	index := b.summary.StartedCount
+	useRef := "basic:" + b.plan.PlanKey + ":" + strconv.Itoa(index)
+	startKey, hitKey := useRef+":start", useRef+":hit"
+	b.current = &model.BasicAttackRecord{PlanKey: b.plan.PlanKey, AttackIndex: index, UseRef: useRef, Source: b.plan.Source, Target: b.plan.Target, SkillKey: b.plan.SkillKey, StartAtMs: s.nowMs, AttackSpeed: s.combatants[b.plan.Source].attributes[b.plan.AttackSpeedAttributeKey].Resolved}
+	b.currentRecordIndex = -1
+	if len(s.attackRecords) < s.maxAttackRecords {
+		b.currentRecordIndex = len(s.attackRecords)
+		s.attackRecords = append(s.attackRecords, *b.current)
+	}
+	b.unfinishedTail = true
+	s.skillUses[useRef] = &skillUseRuntime{useKey: useRef, source: b.plan.Source, skillKey: b.plan.SkillKey, historyState: model.SkillHitHistoryComplete}
+	s.attackStartFacts[startKey] = model.AttackStartFact{DriverEntryKey: startKey, UseRef: useRef}
+	sequence := 1
+	s.skillHitFacts[hitKey] = model.SkillHitFact{DriverEntryKey: hitKey, UseRef: &useRef, Sequence: &sequence}
+	startEntry := model.DriverEntry{EntryKey: startKey, AbilityRef: b.plan.StartAbilityRef, Source: b.plan.Source, Target: b.plan.Target, FirstAtMs: s.nowMs}
+	s.abilityAttemptCount++
+	s.statFor(b.plan.StartAbilityRef).attemptCount++
+	if err := s.executeAbilityCast(startEntry); err != nil {
+		return err
+	}
+	if s.processFailure != nil {
+		return s.processFailure
+	}
+	found := false
+	for _, p := range s.processInstances {
+		if p.UseKey == useRef && p.abilityRef == b.plan.InitialControlAbilityRef && p.Owner == b.plan.Source && p.Target == b.plan.Target && p.SkillKey == b.plan.SkillKey && p.Status == "complete" {
+			found = true
+			break
+		}
+	}
+	if !found {
+		return s.basicAttackErr("native start did not complete its actual attack process", b.plan.InitialControlAbilityRef)
+	}
+	ready, ok := s.combatants[b.plan.Source].cooldowns[b.plan.InitialControlAbilityRef]
+	if !ok || ready <= s.nowMs || ready > maxJSONSafeInteger {
+		return s.basicAttackErr("committed attack cooldown is missing or invalid", b.plan.InitialControlAbilityRef)
+	}
+	b.current.ReadyAtMs = &ready
+	if s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0 {
+		return s.basicAttackErr("combatant died before native hit", "driverPlan.basicAttack")
+	}
+	hitEntry := model.DriverEntry{EntryKey: hitKey, AbilityRef: b.plan.HitAbilityRef, Source: b.plan.Source, Target: b.plan.Target, FirstAtMs: s.nowMs}
+	s.abilityAttemptCount++
+	s.statFor(b.plan.HitAbilityRef).attemptCount++
+	if err := s.executeAbilityCast(hitEntry); err != nil {
+		return err
+	}
+	if s.processFailure != nil {
+		return s.processFailure
+	}
+	if b.current.HitAtMs == nil {
+		return s.basicAttackErr("native hit did not consume a real hit fact", b.plan.HitAbilityRef)
+	}
+	b.current.Completed = true
+	b.summary.CompletedCount++
+	b.unfinishedTail = false
+	if b.targetKilledAt != nil || s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0 {
+		return nil
+	}
+	if ready > s.startMs+s.durationMs {
+		b.windowSettled = true
+		return nil
+	}
+	if !s.pushCombatEvent(scheduler.GenericEvent{TimeMs: ready, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1}) {
+		return s.processFailure
+	}
+	b.current.NextStartAtMs = &ready
+	return nil
+}

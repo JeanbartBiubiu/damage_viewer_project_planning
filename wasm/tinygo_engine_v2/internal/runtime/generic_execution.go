@@ -141,6 +141,23 @@ type executionFrame struct {
 	skillHitOccurrenceID uint64
 	operationOutputs     map[string]formula.OperationOutputValues
 	pendingShieldExpires []pendingShieldExpire
+	committed            bool
+	pendingEvidence      []model.EvidenceItem
+	pendingDamage        []genericDamageEvidence
+	pendingDamageHistory []damageRecord
+	pendingOverheal      map[string]float64
+	pendingDamageIDs     uint64
+	pendingCopyable      []copyableDamageFrozen
+	pendingRepeats       []deferredRepeatRequest
+	pendingStateExpiry   []pendingFrameStateExpiry
+	pendingAnchoredTicks []pendingFrameAnchoredTick
+	pendingProcess       *processRuntime
+	processOriginal      *processRuntime
+	processIsNew         bool
+	pendingProcessTimer  bool
+	countCastOnCommit    bool
+	castStatRef          string
+	statRef              string
 }
 
 // copyableDamageFrozen 冻结一次 CopyableOnHit damage 的 replay 输入（不做公式重算 / 不二次 crit 结算）。
@@ -214,6 +231,7 @@ type eventCopyableCollector struct {
 	repeats      []deferredRepeatRequest
 	phantomDepth int
 	commandCount int
+	reservation  *pendingUseReservation
 }
 
 type emittedEvent struct {
@@ -521,6 +539,11 @@ func (f *executionFrame) evalAmount(programID formula.GenericProgramID, ability 
 }
 
 func (f *executionFrame) executeOperations(ability compilebundle.CompiledAbility, ops []compilebundle.CompiledOperation) *model.EngineError {
+	if f.chainDepth > f.run.budget.MaxChainDepth {
+		f.fatal = true
+		f.fatalErr = f.run.budgetError(model.BudgetCauseMaxChainDepth, "max chain depth exceeded")
+		return f.fatalErr
+	}
 	for _, op := range ops {
 		if f.fatal {
 			return f.fatalErr
@@ -546,16 +569,19 @@ func (f *executionFrame) executeOperations(ability compilebundle.CompiledAbility
 }
 
 func (f *executionFrame) bumpCommandBudget() *model.EngineError {
+	if f.run.basicAttackEventActive {
+		return f.run.consumeEventCommands(1)
+	}
 	if f.copyableCollector != nil {
 		f.copyableCollector.commandCount++
 		if f.copyableCollector.commandCount > f.run.budget.MaxCommandsPerEvent {
-			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max commands per event exceeded", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+			return f.run.budgetError(model.BudgetCauseMaxCommandsPerEvent, "max commands per event exceeded")
 		}
 		return nil
 	}
 	f.commandCount++
 	if f.commandCount > f.run.budget.MaxCommandsPerEvent {
-		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max commands per event exceeded", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		return f.run.budgetError(model.BudgetCauseMaxCommandsPerEvent, "max commands per event exceeded")
 	}
 	return nil
 }
@@ -566,7 +592,7 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 	}
 
 	if f.skipBlockedWrites && isSkillHitBlockedWrite(op.Operation) {
-		f.run.recordEvidence(model.EvidenceItem{
+		f.recordEvidence(model.EvidenceItem{
 			TimeMs: f.run.nowMs,
 			Kind:   model.EvidenceKindSkillHitSkip,
 			Ref:    f.skillHitCandidateKey,
@@ -836,7 +862,7 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			"eventType": eventType,
 		}
 		attachCastProvenance(emitData, f.castInstanceID, f.castOrigin)
-		f.run.recordEvidence(model.EvidenceItem{
+		f.recordEvidence(model.EvidenceItem{
 			TimeMs: f.run.nowMs,
 			Kind:   model.EvidenceKindEmittedEvent,
 			Ref:    ref,
@@ -942,8 +968,10 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "provider target state duration overflow", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
 		if exp > 0 {
-			f.run.scheduleProviderTargetStateExpiry(ownerKey, f.ownerProviderRef, f.targetKey, op.Ref, exp)
-			f.run.scheduleAnchoredTicksOnTargetWrite(ownerKey, f.ownerProviderRef, f.sourceKey, f.targetKey, op.Ref, exp, bag)
+			f.stageProviderTargetStateExpiry(ownerKey, f.ownerProviderRef, f.targetKey, op.Ref, exp)
+			if err := f.stageAnchoredTicksOnTargetWrite(ownerKey, f.ownerProviderRef, f.sourceKey, f.targetKey, op.Ref, exp, bag); err != nil {
+				return err
+			}
 		}
 		// Re-resolve host of opponent-mounted modifiers (carve target) and owner if needed.
 		evalCtx := f.evalContext(ability)
@@ -1056,7 +1084,7 @@ func (f *executionFrame) applyStateDurationChange(op compilebundle.CompiledOpera
 				osc.attributes = f.resolveAttributesFor(ownerKey, osc.attributes, evalCtx)
 			}
 		} else if newExp > 0 {
-			f.run.scheduleProviderTargetStateExpiry(ownerKey, f.ownerProviderRef, bag.targetKey, op.Ref, newExp)
+			f.stageProviderTargetStateExpiry(ownerKey, f.ownerProviderRef, bag.targetKey, op.Ref, newExp)
 		}
 	}
 	f.stageFor(ownerKey).dirty = true
@@ -1112,7 +1140,7 @@ func (f *executionFrame) applyExecuteThreshold(op compilebundle.CompiledOperatio
 	f.reResolveStagedAttributesTwoPass(ability)
 	sc.dirty = true
 
-	f.run.recordGenericExecuteEvidence(genericExecuteEvidence{
+	f.recordGenericExecuteEvidence(genericExecuteEvidence{
 		source:       cmd.Source,
 		target:       cmd.Target,
 		providerRef:  f.ownerProviderRef,
@@ -1143,6 +1171,10 @@ type genericExecuteEvidence struct {
 }
 
 func (s *genericRunState) recordGenericExecuteEvidence(ev genericExecuteEvidence) {
+	s.recordEvidence(genericExecuteEvidenceItem(ev, s.nowMs))
+}
+
+func genericExecuteEvidenceItem(ev genericExecuteEvidence, timeMs int64) model.EvidenceItem {
 	data := map[string]interface{}{
 		"source":         ev.source,
 		"target":         ev.target,
@@ -1167,12 +1199,12 @@ func (s *genericRunState) recordGenericExecuteEvidence(ev genericExecuteEvidence
 	if ref == "" {
 		ref = ev.abilityRef
 	}
-	s.recordEvidence(model.EvidenceItem{
-		TimeMs: s.nowMs,
+	return model.EvidenceItem{
+		TimeMs: timeMs,
 		Kind:   model.EvidenceKindExecute,
 		Ref:    ref,
 		Data:   data,
-	})
+	}
 }
 
 func (f *executionFrame) recordOperationOutput(op compilebundle.CompiledOperation, outcome pipeline.DamageOutcome) {
@@ -1204,7 +1236,7 @@ func (f *executionFrame) applyCommand(cmd command.Command, ability compilebundle
 		// 正常 damage 走 applyDamageCommand；此分支仅兜底，仍写 evidence。
 		f.applyDamageResult(cmd, result, sc)
 		f.reResolveStagedAttributesTwoPass(ability)
-		f.run.recordGenericDamageEvidence(genericDamageEvidence{
+		f.recordGenericDamageEvidence(genericDamageEvidence{
 			source:          cmd.Source,
 			target:          cmd.Target,
 			damageType:      cmd.DamageType,
@@ -1221,7 +1253,7 @@ func (f *executionFrame) applyCommand(cmd command.Command, ability compilebundle
 			overheal = 0
 		}
 		if overheal > 0 {
-			f.run.recordOverheal(cmd.Source, overheal)
+			f.recordOverheal(cmd.Source, overheal)
 		}
 		f.reResolveStagedAttributesTwoPass(ability)
 	}
@@ -1253,11 +1285,11 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundl
 	if numbers.failClosed {
 		result := command.Result{Kind: cmd.Kind, Applied: false, Amount: 0}
 		f.applyDamageResult(cmd, result, sc)
-		f.run.recordGenericDamageEvidence(genericDamageEvidence{
+		f.recordGenericDamageEvidence(genericDamageEvidence{
 			source: cmd.Source, target: cmd.Target, damageType: cmd.DamageType,
 			rawAmount: rawForEvidence, mitigatedAmount: 0,
 			providerRef: f.ownerProviderRef, abilityRef: f.abilityRef,
-			operationRef: operationRef, phantom: false, crit: critEv,
+			operationRef: operationRef, operationPath: op.Path, phantom: false, crit: critEv,
 			modifiers: modEvidence, traits: traits,
 		})
 		return nil
@@ -1266,8 +1298,7 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundl
 	targetHPBefore := attribute.ReadHP(view.Attributes)
 	outcome, next := pipeline.ApplyMitigatedDamage(rawForEvidence, mitigated, view, f.run.nowMs)
 	f.recordOperationOutput(op, outcome)
-	f.run.nextDamageID++
-	damageID := f.run.nextDamageID
+	damageID := f.nextDamageID()
 	result := command.Result{
 		Kind:    cmd.Kind,
 		Applied: outcome.HPDamage > 0 || outcome.ShieldAbsorbed > 0,
@@ -1277,7 +1308,7 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundl
 	sc.shields = next.Shields
 	f.applyDamageResult(cmd, result, sc)
 	f.reResolveStagedAttributesTwoPass(ability)
-	f.run.recordGenericDamageEvidence(genericDamageEvidence{
+	f.recordGenericDamageEvidence(genericDamageEvidence{
 		source:                      cmd.Source,
 		target:                      cmd.Target,
 		damageType:                  cmd.DamageType,
@@ -1286,6 +1317,9 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundl
 		providerRef:                 f.ownerProviderRef,
 		abilityRef:                  f.abilityRef,
 		operationRef:                operationRef,
+		operationPath:               op.Path,
+		hpBefore:                    targetHPBefore,
+		hpAfter:                     attribute.ReadHP(next.Attributes),
 		phantom:                     false,
 		crit:                        critEv,
 		modifiers:                   modEvidence,
@@ -1464,7 +1498,7 @@ func (f *executionFrame) recordLinkedPhysicalDamage(cmd command.Command, result 
 func (f *executionFrame) applyDamageResult(cmd command.Command, result command.Result, sc *stagedCombatant) {
 	// damageDealt / recordDamage use mitigated amount（抗性后、护盾前），HP clipping 不反向改变 summary。
 	f.damageDealt += result.Amount
-	f.run.recordDamage(cmd.Source, cmd.Target, result.Amount, f.run.nowMs)
+	f.recordDamage(cmd.Source, cmd.Target, result.Amount)
 	sc.attributes = syncHPResolved(sc.attributes)
 }
 
@@ -1478,6 +1512,10 @@ type genericDamageEvidence struct {
 	providerRef     string
 	abilityRef      string
 	operationRef    string
+	operationPath   string
+	owner           string
+	hpBefore        float64
+	hpAfter         float64
 	phantom         bool
 	repeatTag       string
 	replayedFrom    map[string]interface{}
@@ -1501,9 +1539,10 @@ type genericDamageEvidence struct {
 }
 
 func (s *genericRunState) recordGenericDamageEvidence(ev genericDamageEvidence) {
-	if s.evidenceCountsByKind == nil {
-		s.evidenceCountsByKind = make(map[string]int)
-	}
+	s.recordEvidence(genericDamageEvidenceItem(ev, s.nowMs))
+}
+
+func genericDamageEvidenceItem(ev genericDamageEvidence, timeMs int64) model.EvidenceItem {
 	phase := "original"
 	if ev.phantom {
 		phase = "phantom"
@@ -1562,12 +1601,12 @@ func (s *genericRunState) recordGenericDamageEvidence(ev genericDamageEvidence) 
 	if ref == "" {
 		ref = ev.operationRef
 	}
-	s.recordEvidence(model.EvidenceItem{
-		TimeMs: s.nowMs,
+	return model.EvidenceItem{
+		TimeMs: timeMs,
 		Kind:   model.EvidenceKindDamage,
 		Ref:    ref,
 		Data:   data,
-	})
+	}
 }
 
 func writeCritEvidenceFields(data map[string]interface{}, critEv frozenCritEvidence) {
@@ -1827,10 +1866,16 @@ func (f *executionFrame) stageLifecycleCostCooldown(ability compilebundle.Compil
 }
 
 func (f *executionFrame) commit() {
-	if f.fatal {
+	if f.fatal || f.committed {
 		return
 	}
-	for key, staged := range f.staged {
+	keys, err := f.commitKeysAndPreflight()
+	if err != nil {
+		f.fatal, f.fatalErr = true, err
+		return
+	}
+	for _, key := range keys {
+		staged := f.staged[key]
 		c, ok := f.run.combatants[key]
 		if !ok {
 			c = combatantRuntime{key: key, cooldowns: map[string]int64{}, providerState: map[string]*providerStateBag{}}
@@ -1847,7 +1892,8 @@ func (f *executionFrame) commit() {
 	}
 	evalAbility := compilebundle.CompiledAbility{Params: map[string]float64{}}
 	evalCtx := f.evalContext(evalAbility)
-	for _, staged := range f.staged {
+	for _, key := range keys {
+		staged := f.staged[key]
 		for _, mut := range staged.providerOps {
 			switch mut.kind {
 			case "apply":
@@ -1878,7 +1924,18 @@ func (f *executionFrame) commit() {
 	if f.fatal {
 		return
 	}
-	f.enqueueCommittedTimedShields()
+	if f.pendingProcess != nil {
+		*f.processOriginal = *f.pendingProcess
+		if f.processIsNew {
+			f.run.processInstances = append(f.run.processInstances, f.processOriginal)
+		}
+	}
+	f.commitFrameQueues()
+	if f.run.processFailure != nil {
+		f.fatal, f.fatalErr = true, f.run.processFailure
+		return
+	}
+	f.commitFrameFacts()
 	if !f.run.settlingProcessDeaths && f.run.processFailure == nil {
 		f.run.processFailure = f.run.failDeadProcesses()
 		if f.run.processFailure != nil {
@@ -1999,7 +2056,7 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	ability := s.compiled.Abilities[ref.AbilityIndex]
 	if ability.ProcessControl != nil {
 		if ability.ProcessControl.UseRefFromEvent {
-			return s.startProcessFromEvent(sourceKey, targetKey, resolvedRef, ability, chainDepth, eventCtx, driverEntryKey)
+			return s.startProcessFromEvent(sourceKey, targetKey, resolvedRef, ability, chainDepth, eventCtx, driverEntryKey, collector)
 		}
 		return s.processErr("abilityRef", "process control can only execute through its single-shot driver fact", resolvedRef)
 	}
@@ -2033,6 +2090,7 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	// Mint after successful gate (driver) / lifecycle staging; Listener AbilityRef always new ID.
 	frame.castInstanceID = s.mintCastInstanceID()
 	frame.castOrigin = ability.CastOrigin
+	frame.countCastOnCommit = !isNativeHitFollowUp(frame.driverEntryKey)
 	if err := frame.executeOperations(ability, ops); err != nil {
 		return err
 	}
@@ -2053,28 +2111,6 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	}
 	if err := frame.maybeDispatchBasicAttackHit(ability); err != nil {
 		return err
-	}
-
-	acc := s.statFor(resolvedRef)
-	if !isNativeHitFollowUp(frame.driverEntryKey) {
-		s.abilityCastCount++
-		acc.castCount++
-	}
-	if frame.damageDealt > 0 {
-		if acc.damageDealt == nil {
-			v := frame.damageDealt
-			acc.damageDealt = &v
-		} else {
-			*acc.damageDealt += frame.damageDealt
-		}
-	}
-	if frame.healingDone > 0 {
-		if acc.healingDone == nil {
-			v := frame.healingDone
-			acc.healingDone = &v
-		} else {
-			*acc.healingDone += frame.healingDone
-		}
 	}
 
 	s.checkDeathStopReason()
@@ -2201,7 +2237,7 @@ func (f *executionFrame) maybeQueueDamageInstanceEvent(
 		data["operationRef"] = op.Ref
 	}
 	attachCastProvenance(data, f.castInstanceID, f.castOrigin)
-	f.run.recordEvidence(model.EvidenceItem{
+	f.recordEvidence(model.EvidenceItem{
 		TimeMs: f.run.nowMs,
 		Kind:   model.EvidenceKindEmittedEvent,
 		Ref:    eventTypeDamageInstance,
@@ -2282,7 +2318,7 @@ func (f *executionFrame) maybeQueueDamageDealtEvent(ability compilebundle.Compil
 
 	eventTypes = f.appendCastOriginEventType(eventTypes)
 
-	f.run.recordEvidence(model.EvidenceItem{
+	f.recordEvidence(model.EvidenceItem{
 		TimeMs: f.run.nowMs,
 		Kind:   model.EvidenceKindEmittedEvent,
 		Ref:    eventTypeDamageDealt,
@@ -2339,7 +2375,7 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.
 		"eventType": eventTypeAbilityStarted,
 	}
 	attachCastProvenance(startedData, f.castInstanceID, f.castOrigin)
-	f.run.recordEvidence(model.EvidenceItem{
+	f.recordEvidence(model.EvidenceItem{
 		TimeMs: f.run.nowMs,
 		Kind:   model.EvidenceKindEmittedEvent,
 		Ref:    eventTypeAbilityStarted,
@@ -2383,7 +2419,7 @@ func (f *executionFrame) maybeDispatchBasicAttackHit(ability compilebundle.Compi
 		"eventType": model.EventTypeBasicAttackHit,
 	}
 	attachCastProvenance(data, f.castInstanceID, f.castOrigin)
-	f.run.recordEvidence(model.EvidenceItem{
+	f.recordEvidence(model.EvidenceItem{
 		TimeMs: f.run.nowMs,
 		Kind:   model.EvidenceKindEmittedEvent,
 		Ref:    model.EventTypeBasicAttackHit,
@@ -2441,7 +2477,7 @@ func (f *executionFrame) maybeDispatchBasicAttackStart(ability compilebundle.Com
 		"skillKey":  use.skillKey,
 	}
 	attachCastProvenance(data, f.castInstanceID, f.castOrigin)
-	f.run.recordEvidence(model.EvidenceItem{
+	f.recordEvidence(model.EvidenceItem{
 		TimeMs: f.run.nowMs,
 		Kind:   model.EvidenceKindEmittedEvent,
 		Ref:    model.EventTypeBasicAttackStart,
@@ -2487,7 +2523,7 @@ func (f *executionFrame) dispatchPendingEvents() *model.EngineError {
 func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *model.EngineError {
 	attachUseToSnapshot(&ev)
 	if chainDepth > s.budget.MaxChainDepth {
-		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max chain depth exceeded", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+		return s.budgetError(model.BudgetCauseMaxChainDepth, "max chain depth exceeded")
 	}
 	s.lazyExpireAllProviderState()
 	collector := &eventCopyableCollector{}
@@ -2574,15 +2610,20 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 			}
 		}
 		triggered := false
+		if reserved {
+			collector.reservation = &pendingUseReservation{listener: listener, event: ev}
+		}
 		for trigger := 0; trigger < maxTriggers; trigger++ {
 			if hasOps {
 				if err := s.dispatchListenerOperations(listener, sourceKey, targetKey, chainDepth, eventCtx, collector); err != nil {
+					s.releaseUncommittedUseReservation(collector.reservation)
 					return err
 				}
 				triggered = true
 			}
 			if hasAbilityRef {
 				if err := s.castAbilityAt(sourceKey, targetKey, listener.AbilityRef, chainDepth, eventCtx, collector, ""); err != nil {
+					s.releaseUncommittedUseReservation(collector.reservation)
 					return err
 				}
 				triggered = true
@@ -2591,6 +2632,7 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 		if reserved {
 			s.commitOncePerUse(listener, ev)
 		}
+		collector.reservation = nil
 		if triggered && listener.PerCastThrottleMs > 0 {
 			s.notePerCastThrottleTrigger(listenerIndex, listener.OwnerCombatantKey, listener.OwnerProviderRef, castID)
 		}
@@ -2768,7 +2810,7 @@ func (f *executionFrame) registerDeferredRepeat(op compilebundle.CompiledOperati
 	if repeatCount <= 0 {
 		repeatCount = 1
 	}
-	collector.repeats = append(collector.repeats, deferredRepeatRequest{
+	f.pendingRepeats = append(f.pendingRepeats, deferredRepeatRequest{
 		ownerCombatantKey: f.providerOwnerKey(),
 		ownerProviderRef:  f.ownerProviderRef,
 		triggerStateKey:   op.TriggerStateKey,
@@ -2786,8 +2828,8 @@ func (f *executionFrame) maybeCollectCopyableDamage(op compilebundle.CompiledOpe
 	if collector == nil || collector.phantomDepth > 0 || !op.CopyableOnHit || op.Operation != "damage" {
 		return nil
 	}
-	if collector.commandCount > f.run.budget.MaxCommandsPerEvent {
-		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max commands per event exceeded", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	if f.commandsSpent() > f.run.budget.MaxCommandsPerEvent {
+		return f.run.budgetError(model.BudgetCauseMaxCommandsPerEvent, "max commands per event exceeded")
 	}
 	if f.consumedFirstPerCast == nil {
 		f.consumedFirstPerCast = map[string]bool{}
@@ -2824,9 +2866,9 @@ func (f *executionFrame) maybeCollectCopyableDamage(op compilebundle.CompiledOpe
 		rec.entrySourceResources = cloneResourceMap(f.entrySourceResources)
 		rec.entryTargetResources = cloneResourceMap(f.entryTargetResources)
 	}
-	collector.damages = append(collector.damages, rec)
-	if len(collector.damages)+len(collector.repeats) > f.run.budget.MaxCommandsPerEvent {
-		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max commands per event exceeded", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+	f.pendingCopyable = append(f.pendingCopyable, rec)
+	if len(collector.damages)+len(collector.repeats)+len(f.pendingCopyable)+len(f.pendingRepeats) > f.run.budget.MaxCommandsPerEvent {
+		return f.run.budgetError(model.BudgetCauseMaxCommandsPerEvent, "max commands per event exceeded")
 	}
 	return nil
 }
@@ -2974,7 +3016,7 @@ func (s *genericRunState) enqueueTriggeredContinuation(damages []copyableDamageF
 	})
 	if code != model.ErrOK {
 		delete(s.continuations, id)
-		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "triggered continuation queue overflow", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+		return s.budgetError(model.BudgetCauseMaxQueueEvents, "triggered continuation queue overflow")
 	}
 	return nil
 }
@@ -3037,14 +3079,14 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 	if collector == nil {
 		return nil
 	}
-	collector.commandCount++
-	if collector.commandCount > s.budget.MaxCommandsPerEvent {
-		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "max commands per event exceeded", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
-	}
 	if _, ok := s.combatants[dmg.targetKey]; !ok {
 		return engineErrorPtr(model.GenericPhaseRun, model.GenericErrOperationTargetMissing, "operation target unavailable", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
 	}
 	frame := s.newExecutionFrame(dmg.sourceKey, dmg.targetKey, dmg.originRef)
+	frame.copyableCollector = collector
+	if err := frame.bumpCommandBudget(); err != nil {
+		return err
+	}
 	frame.ownerCombatantKey = dmg.ownerCombatantKey
 	frame.ownerProviderRef = dmg.providerRef
 	frame.castInstanceID, frame.castOrigin = dmg.castInstanceID, dmg.castOrigin
@@ -3078,26 +3120,27 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 		return err
 	}
 	if numbers.failClosed {
-		s.recordGenericDamageEvidence(genericDamageEvidence{
+		frame.recordGenericDamageEvidence(genericDamageEvidence{
 			source: dmg.sourceKey, target: dmg.targetKey, damageType: dmg.damageType,
 			rawAmount: numbers.rawAmount, mitigatedAmount: 0,
-			providerRef: dmg.providerRef, abilityRef: dmg.originRef, operationRef: dmg.operationRef,
+			providerRef: dmg.providerRef, abilityRef: dmg.originRef, operationRef: dmg.operationRef, operationPath: dmg.operation.Path,
 			phantom: true, repeatTag: repeatTag,
 			replayedFrom: stableDamageReplayedFrom(dmg.providerRef, dmg.originRef, dmg.operationRef),
 			crit:         numbers.crit, modifiers: numbers.modifiers, traits: dmg.operation.Types,
 		})
-		return nil
+		frame.commit()
+		return frame.fatalErr
 	}
 	targetHPBefore := attribute.ReadHP(view.Attributes)
 	outcome, next := pipeline.ApplyMitigatedDamage(numbers.rawAmount, numbers.mitigatedAmount, view, s.nowMs)
 	result := command.Result{Kind: cmd.Kind, Applied: outcome.HPDamage > 0 || outcome.ShieldAbsorbed > 0, Amount: outcome.MitigatedAmount}
-	s.nextDamageID++
-	damageID := s.nextDamageID
+	damageID := frame.nextDamageID()
 	targetStage.attributes = next.Attributes
 	targetStage.shields = next.Shields
 	frame.reResolveStagedAttributesTwoPass(dmg.ability)
-	s.recordDamage(dmg.sourceKey, dmg.targetKey, result.Amount, s.nowMs)
-	s.recordGenericDamageEvidence(genericDamageEvidence{
+	frame.damageDealt += result.Amount
+	frame.recordDamage(dmg.sourceKey, dmg.targetKey, result.Amount)
+	frame.recordGenericDamageEvidence(genericDamageEvidence{
 		source:          dmg.sourceKey,
 		target:          dmg.targetKey,
 		damageType:      dmg.damageType,
@@ -3106,6 +3149,9 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 		providerRef:     dmg.providerRef,
 		abilityRef:      dmg.originRef,
 		operationRef:    dmg.operationRef,
+		operationPath:   dmg.operation.Path,
+		hpBefore:        targetHPBefore,
+		hpAfter:         attribute.ReadHP(next.Attributes),
 		phantom:         true,
 		repeatTag:       repeatTag,
 		replayedFrom:    stableDamageReplayedFrom(dmg.providerRef, dmg.originRef, dmg.operationRef),
@@ -3123,15 +3169,6 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 	frame.commit()
 	if frame.fatal {
 		return frame.fatalErr
-	}
-	if frame.healingDone > 0 {
-		acc := s.statFor(dmg.originRef)
-		if acc.healingDone == nil {
-			v := frame.healingDone
-			acc.healingDone = &v
-		} else {
-			*acc.healingDone += frame.healingDone
-		}
 	}
 	return nil
 }

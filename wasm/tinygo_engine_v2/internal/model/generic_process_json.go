@@ -32,6 +32,11 @@ func processJSONShape(data []byte, name, allowed, required string) error {
 			return errors.New(name + "." + k + " is required")
 		}
 	}
+	for _, key := range []string{"roundPositiveMs", "disabled", "maxAttackRecords", "maxDamageRecords", "conditionRecheckIntervalMs"} {
+		if raw, present := fields[key]; present && string(raw) == "null" {
+			return errors.New(name + "." + key + " cannot be null")
+		}
+	}
 	// Nullable fields are still part of the frozen new object shape.
 	if name == "ProcessDefinition" || name == "ProcessMomentDefinition" || name == "ProcessInstanceSnapshot" {
 		for _, k := range strings.Fields(allowed) {
@@ -136,7 +141,7 @@ func (v *ProcessCostDefinition) UnmarshalJSON(data []byte) error {
 	return nil
 }
 func (v *ProcessCooldownDefinition) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "ProcessCooldownDefinition", "durationMs startMoment", "durationMs startMoment"); err != nil {
+	if err := processJSONShape(data, "ProcessCooldownDefinition", "durationMs startMoment roundPositiveMs", "durationMs startMoment"); err != nil {
 		return err
 	}
 	type plain ProcessCooldownDefinition

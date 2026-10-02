@@ -97,7 +97,7 @@ func (s *genericRunState) enqueueExpireCleanup(atMs int64, payload expireCleanup
 			ProviderRef:  payload.providerRef,
 		}
 	}
-	_ = s.heap.Push(ev)
+	s.pushCombatEvent(ev)
 }
 
 func (s *genericRunState) applyProviderInstance(targetKey, sourceKey, definitionRef string, expireAt int64, hasExpireAt bool, contributions []status.StatusContribution) *model.EngineError {
@@ -428,7 +428,7 @@ func (s *genericRunState) enqueueProviderTickAt(atMs int64, combatantKey, provid
 	if expireAt > 0 && atMs > expireAt {
 		return
 	}
-	_ = s.heap.Push(scheduler.GenericEvent{
+	s.pushCombatEvent(scheduler.GenericEvent{
 		TimeMs:   atMs,
 		Category: scheduler.GenericCategoryProviderTick,
 		Kind:     scheduler.GenericEventProviderTick,

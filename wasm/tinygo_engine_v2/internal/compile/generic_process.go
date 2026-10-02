@@ -45,6 +45,7 @@ type CompiledProcessCost struct {
 type CompiledProcessCooldown struct {
 	DurationProgram formula.GenericProgramID
 	HasDuration     bool
+	RoundPositiveMs bool
 	StartMoment     model.ProcessMomentDefinition
 	Path            string
 }
@@ -107,8 +108,13 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 			cp := p + ".cooldown"
 			validateProcessMoment(def.Cooldown.StartMoment, &compiled, cp+".startMoment", ctx)
 			ctx.currentProcessMoment = &def.Cooldown.StartMoment
-			program, has := compileProcessFormula(&def.Cooldown.DurationMs, cp+".durationMs", true, false, ctx)
-			compiled.Cooldown = &CompiledProcessCooldown{DurationProgram: program, HasDuration: has, StartMoment: def.Cooldown.StartMoment, Path: cp}
+			program, has := compileProcessFormula(&def.Cooldown.DurationMs, cp+".durationMs", !def.Cooldown.RoundPositiveMs, def.Cooldown.RoundPositiveMs, ctx)
+			if def.Cooldown.RoundPositiveMs && has {
+				if raw, folded := formula.TryFoldConst(ctx.session.Formulas.Programs[program].Instr); folded && (!isFiniteFloat(raw) || math.Max(1, math.Round(raw)) >= 9223372036854775808.0) {
+					ctx.collector.addError(model.GenericErrFormulaTypeError, cp+".durationMs", "rounded positive cooldown exceeds native time range", "")
+				}
+			}
+			compiled.Cooldown = &CompiledProcessCooldown{DurationProgram: program, HasDuration: has, StartMoment: def.Cooldown.StartMoment, RoundPositiveMs: def.Cooldown.RoundPositiveMs, Path: cp}
 		}
 		for j, binding := range def.MomentOperations {
 			mp := p + ".momentOperations[" + itoa(j) + "]"

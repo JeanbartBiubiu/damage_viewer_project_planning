@@ -23,10 +23,12 @@ type RunRequest struct {
 	SkillUses           []SkillUseFact       `json:"skillUses,omitempty"`
 	SkillHitFacts       []SkillHitFact       `json:"skillHitFacts,omitempty"`
 	AttackStartFacts    []AttackStartFact    `json:"attackStartFacts,omitempty"`
+	RecordBudget        *RecordBudget        `json:"recordBudget,omitempty"`
 }
 
 // RunSafetyBudget 是 run 请求级安全预算覆盖（§4.1）。
 type RunSafetyBudget struct {
+	MaxBasicAttacks     int `json:"maxBasicAttacks,omitempty"`
 	MaxProcessInstances int `json:"maxProcessInstances,omitempty"`
 	MaxChainDepth       int `json:"maxChainDepth,omitempty"`
 	MaxCommandsPerEvent int `json:"maxCommandsPerEvent,omitempty"`
@@ -45,6 +47,11 @@ func (v *RunSafetyBudget) UnmarshalJSON(data []byte) error {
 	}
 	if raw, present := fields["maxProcessInstances"]; present && (string(raw) == "null" || decoded.MaxProcessInstances <= 0 || decoded.MaxProcessInstances > 100000) {
 		return errors.New("safetyBudget.maxProcessInstances must be a positive integer at most 100000")
+	}
+	for key, value := range map[string]int{"maxBasicAttacks": decoded.MaxBasicAttacks, "maxChainDepth": decoded.MaxChainDepth, "maxCommandsPerEvent": decoded.MaxCommandsPerEvent, "maxEvents": decoded.MaxEvents} {
+		if raw, present := fields[key]; present && (string(raw) == "null" || value <= 0 || (key == "maxBasicAttacks" && value > 4096)) {
+			return errors.New("safetyBudget." + key + " must be a positive integer within its limit")
+		}
 	}
 	*v = RunSafetyBudget(decoded)
 	return nil
@@ -162,7 +169,8 @@ func Float64Ptr(v float64) *float64 {
 
 // SamplingConfig 控制 series 采样。
 type SamplingConfig struct {
-	SampleEveryMs   int `json:"sampleEveryMs,omitempty"`
-	DpsWindowMs     int `json:"dpsWindowMs,omitempty"`
-	MaxSeriesPoints int `json:"maxSeriesPoints,omitempty"`
+	Disabled        bool `json:"disabled,omitempty"`
+	SampleEveryMs   int  `json:"sampleEveryMs,omitempty"`
+	DpsWindowMs     int  `json:"dpsWindowMs,omitempty"`
+	MaxSeriesPoints int  `json:"maxSeriesPoints,omitempty"`
 }
