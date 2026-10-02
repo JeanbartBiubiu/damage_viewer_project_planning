@@ -65,7 +65,7 @@ describe('genericEngineClient frame parsing', () => {
         series: [],
         warnings: [],
         evidence: { items: [], truncated: false, truncatedEvidenceCount: 0, countsByKind: {} },
-        seriesSamplingEvidence: {}
+        seriesSamplingEvidence: { requestedSampleEveryMs: 100, effectiveSampleEveryMs: 100, requestedPointCount: 0, finalPointCount: 0, maxSeriesPoints: 5000, downsampled: false, method: 'uniform_time' }
       })
     ]);
     expect(done.ok).toBe(true);
@@ -174,7 +174,7 @@ const doneResult: DoneResult = {
   series: [],
   warnings: [],
   evidence: { items: [], truncated: false, truncatedEvidenceCount: 0, countsByKind: {} },
-  seriesSamplingEvidence: {}
+  seriesSamplingEvidence: { requestedSampleEveryMs: 100, effectiveSampleEveryMs: 100, requestedPointCount: 0, finalPointCount: 0, maxSeriesPoints: 5000, downsampled: false, method: 'uniform_time' }
 };
 
 describe('genericEngineClient worker lifecycle', () => {

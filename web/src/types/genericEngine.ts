@@ -467,6 +467,19 @@ export type DriverEntry = {
 export type DriverPlan = {
   entries: DriverEntry[];
   conditionRecheckIntervalMs: number;
+  basicAttack?: BasicAttackPlan;
+};
+
+export type BasicAttackPlan = {
+  planKey: string;
+  source: 'source';
+  target: 'target';
+  skillKey: string;
+  startAbilityRef: string;
+  hitAbilityRef: string;
+  initialControlAbilityRef: string;
+  attackSpeedAttributeKey: string;
+  attackSpeedInputMax: number;
 };
 
 export type StopPolicy = {
@@ -476,6 +489,7 @@ export type StopPolicy = {
 };
 
 export type SamplingConfig = {
+  disabled?: boolean;
   sampleEveryMs: number;
   dpsWindowMs: number;
   maxSeriesPoints: number;
@@ -487,7 +501,10 @@ export type SafetyBudget = {
   maxEvents?: number;
   /** 过程实例预算，含已终结行。缺省由原生取 10000，上限 100000。 */
   maxProcessInstances?: number;
+  maxBasicAttacks?: number;
 };
+
+export type RecordBudget = { maxAttackRecords?: number; maxDamageRecords?: number };
 
 export type ProcessControlAction = 'INITIAL' | 'RECAST' | 'CHARGE_RELEASE' | 'CANCEL' | 'INTERRUPT';
 
@@ -542,6 +559,7 @@ export type ProcessCostDefinition = {
 export type ProcessCooldownDefinition = {
   durationMs: GenericFormulaExpr;
   startMoment: ProcessMomentDefinition;
+  roundPositiveMs?: boolean;
 };
 
 export type ProcessMomentOperations = {
@@ -601,6 +619,7 @@ export type RunRequest = {
   stopPolicy: StopPolicy;
   sampling: SamplingConfig;
   safetyBudget?: SafetyBudget;
+  recordBudget?: RecordBudget;
   skillUses?: SkillUseFact[];
   skillHitFacts?: SkillHitFact[];
   attackStartFacts?: AttackStartFact[];
@@ -623,6 +642,11 @@ export type RunSummary = {
   warningCount: number;
   evidenceTruncated: boolean;
   seriesDownsampled: boolean;
+  basicAttack?: BasicAttackSummary;
+  execution?: ExecutionSummary;
+  sourceHpLoss?: number;
+  targetHpLoss?: number;
+  damageBreakdown?: DamageBreakdown[];
   abilityStats: Array<{
     abilityRef: string;
     attemptCount: number;
@@ -631,6 +655,41 @@ export type RunSummary = {
     damageDealt?: number;
     healingDone?: number;
   }>;
+};
+
+export type BasicAttackSummary = { planKey: string; startedCount: number; hitCount: number; completedCount: number };
+export type BudgetCause = 'max_events' | 'max_commands_per_event' | 'max_chain_depth' | 'max_queue_events'
+  | 'max_process_instances' | 'max_skill_hits' | 'max_basic_attacks' | 'max_use_trigger_ledger';
+export type ExecutionSummary = {
+  requestedDurationMs: number;
+  complete: boolean;
+  incompleteReason: 'budget_exceeded' | 'unfinished_tail' | null;
+  budgetCause: BudgetCause | null;
+  targetKilled: boolean;
+  targetKilledAtMs: number | null;
+};
+export type AttackRecord = {
+  planKey: string; attackIndex: number; useRef: string; source: string; target: string; skillKey: string;
+  startAtMs: number; hitAtMs: number | null; readyAtMs: number | null; nextStartAtMs: number | null;
+  attackSpeed: number; postDefenseDamage: number; actualHpLoss: number;
+  sourceHpAfter: number; targetHpAfter: number; completed: boolean;
+};
+export type DamageBreakdown = {
+  owner: string; source: string; target: string; abilityRef: string; operationRef: string; damageType: string;
+  damageCount: number; postDefenseDamage: number; shieldAbsorbed: number; actualHpLoss: number; overkillDamage: number;
+};
+export type DamageRecord = Omit<DamageBreakdown, 'damageCount'> & {
+  damageId: number; attackIndex: number; useRef: string; timeMs: number; castInstanceId: number; operationPath: string;
+  rawAmount: number; hpBefore: number; hpAfter: number;
+  eligible?: boolean; policy?: string; baseRawAmount?: number; originalCritChance?: number;
+  effectiveCritChance?: number; multiplier?: number; normalPart?: number; critPart?: number;
+  critAdjustedRawAmount?: number; normalPartPostResistance?: number; critPartPostResistance?: number;
+  resistanceBeforePenetration?: number; penetrationPercent?: number; penetrationFlat?: number;
+  effectiveResistance?: number; resistanceFactor?: number; modifiers?: Record<string, unknown>[];
+};
+export type RecordingSummary = {
+  attackRecordCount: number; returnedAttackRecords: number; droppedAttackRecords: number; attackRecordsTruncated: boolean;
+  damageRecordCount: number; returnedDamageRecords: number; droppedDamageRecords: number; damageRecordsTruncated: boolean;
 };
 
 export type SeriesPoint = {
@@ -662,14 +721,13 @@ export type EvidenceCollection = {
 };
 
 export type SeriesSamplingEvidence = {
-  requestedSampleEveryMs?: number;
-  actualSampleEveryMs?: number;
-  theoreticalPoints?: number;
-  actualPoints?: number;
-  maxSeriesPoints?: number;
-  downsampled?: boolean;
-  method?: string;
-  [key: string]: unknown;
+  requestedSampleEveryMs: number;
+  effectiveSampleEveryMs: number;
+  requestedPointCount: number;
+  finalPointCount: number;
+  maxSeriesPoints: number;
+  downsampled: boolean;
+  method: 'disabled' | 'uniform_time';
 };
 
 export type DoneResult = {
@@ -680,6 +738,9 @@ export type DoneResult = {
   warnings: WarningItem[];
   evidence: EvidenceCollection;
   seriesSamplingEvidence: SeriesSamplingEvidence;
+  attackRecords?: AttackRecord[];
+  damageRecords?: DamageRecord[];
+  recording?: RecordingSummary;
 };
 
 export type GenericReleaseDonePayload = {

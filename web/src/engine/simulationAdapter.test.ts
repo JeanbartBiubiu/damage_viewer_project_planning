@@ -50,7 +50,9 @@ describe('首批场景装配', () => {
     const snapshot = simulationSample();
     const { compileRequest: request } = assembleSimulation(snapshot, zeroInputs(snapshot), initialHealth);
     expect(request.sharedProviders![0]!.abilities![1]!.params).toMatchObject({ milliseconds: 1000, base_multiplier: 2 });
-    expect(request.sharedProviders![0]!.processes![0]!.cooldown!.durationMs).toMatchObject({ op: 'max', args: [{ op: 'const', value: 1 }, { op: 'round', expr: { op: 'ref' } }] });
+    expect(request.sharedProviders![0]!.processes![0]!.cooldown).toMatchObject({
+      roundPositiveMs: true, durationMs: { op: 'ref', ref: 'selected/sample_basic_attack/interval' }
+    });
   });
 
   it('未知并列结果、条件、未接入效果及未来阶段引用必须整体拒绝', () => {

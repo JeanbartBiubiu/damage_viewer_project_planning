@@ -145,7 +145,7 @@ test('独立重新编译与运行结果确定，不复用上一刀最终快照',
   expect(two.assessment).toEqual(one.assessment);
 });
 
-async function preparePage(page: Page, snapshot = sampleWithDamage()) {
+async function preparePage(page: Page, snapshot = sampleWithDamage(), fillInputs = true) {
   await page.route('**/api/admin/games/demo/simulation-snapshot?**', route => route.fulfill({ json: snapshot }));
   await chooseSimulationEntity(page, '攻击方角色', 'actor_a');
   await chooseSimulationLevel(page, '攻击方等级', 1);
@@ -154,9 +154,54 @@ async function preparePage(page: Page, snapshot = sampleWithDamage()) {
   await chooseSimulationEntity(page, '普攻技能', 'sample_basic_attack');
   await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
-  await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
-  await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
+  if (fillInputs) {
+    await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
+    await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
+  }
 }
+
+async function typeHealthWithoutRefocusing(page: Page, label: string, value: string) {
+  const input = page.getByLabel(label, { exact: true });
+  await input.click();
+  await page.keyboard.press('Control+A');
+  for (let index = 0; index < value.length; index++) {
+    await page.keyboard.type(value[index]!);
+    await expect(input).toBeFocused();
+    await expect(input).toHaveValue(value.slice(0, index + 1));
+  }
+}
+
+for (const row of [{ label: '攻击方初始当前生命', value: '420' }, { label: '目标初始当前生命', value: '230' }]) {
+  test(`${row.label}逐字符输入、退格和清空不会因读取提示消失而丢焦点`, async ({ page }) => {
+    await preparePage(page, sampleWithDamage(), false);
+    await expect(page.getByText('场景快照已读取，请核对已录属性并明确填写必要的场景补充值。', { exact: true })).toBeVisible();
+    await typeHealthWithoutRefocusing(page, row.label, row.value);
+    const input = page.getByLabel(row.label, { exact: true });
+    await page.keyboard.press('Backspace');
+    await expect(input).toBeFocused();
+    await expect(input).toHaveValue(row.value.slice(0, -1));
+    await page.keyboard.press('Control+A');
+    await page.keyboard.press('Backspace');
+    await expect(input).toBeFocused();
+    await expect(input).toHaveValue('');
+    await page.keyboard.type('0');
+    await expect(input).toBeFocused();
+    await expect(input).toHaveValue('0');
+  });
+}
+
+test('已有单次结果时逐字符修改目标生命保留焦点，旧结果失效且零生命校验不变', async ({ page }) => {
+  await preparePage(page);
+  await page.getByRole('button', { name: '执行一次普攻', exact: true }).click();
+  await expect(page.getByText('单次普攻运行通过，不代表连续攻击通过。', { exact: true })).toBeVisible();
+  await typeHealthWithoutRefocusing(page, '目标初始当前生命', '230');
+  await expect(page.getByRole('region', { name: '单次普攻结果', exact: true })).toHaveCount(0);
+  await typeHealthWithoutRefocusing(page, '目标初始当前生命', '0');
+  await page.getByRole('button', { name: '执行一次普攻', exact: true }).click();
+  await expect(page.getByText('initialHealth.target: 目标初始已死亡，不能执行本阶段单次普攻。', { exact: true })).toBeVisible();
+  await typeHealthWithoutRefocusing(page, '目标初始当前生命', '230');
+  await expect(page.getByText('initialHealth.target: 目标初始已死亡，不能执行本阶段单次普攻。', { exact: true })).toHaveCount(0);
+});
 
 test('页面一刀得到50伤害与590→540，下载档案不含连接或认证信息，改输入后旧结果失效', async ({ page }) => {
   await preparePage(page);
