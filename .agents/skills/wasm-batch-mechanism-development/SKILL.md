@@ -10,7 +10,7 @@ description: "规划、实现或验证 Damage Viewer TinyGo V2 运行机制或�
 本技能用于 TinyGo V2 机制和直接相关的宿主集成。普通管理页保存数据结构，不因此启动运行时、旧发布或批次开发流程。行为保持的模块重构另见 `design-pattern-refactor`。
 
 1. 确认工作树、分支和修改状态，读取根规则及目标模块 `AGENTS.md` / `README.md`。
-2. TinyGo V2 继续读取 `wasm/tinygo_engine_v2/ARCHITECTURE.md`，按需查询 CodeGraph 并定点核对源码。
+2. TinyGo V2 继续读取 `wasm/tinygo_engine_v2/ARCHITECTURE.md`，按需使用 `rg` 定位入口并定点核对源码。
 3. 当前唯一业务入口为 `engine_compile` / `engine_run` / `engine_release_session`，对应编译、会话运行和释放。机制落在 provider / ability / operation 及相应编译和运行层。
 4. 旧单攻 DPS、step-loop 和对应导出已经删除，不恢复兼容实现，也不把旧文档路径当作当前代码入口。
 
