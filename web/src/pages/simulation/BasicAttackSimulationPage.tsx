@@ -17,7 +17,7 @@ export function BasicAttackSimulationPage({ apiBaseUrl, selectedGameId, adminTok
       <Typography.Paragraph>
         当前游戏：{selectedGameId ?? '未选择'}
       </Typography.Paragraph>
-      <Alert type="info" content="当前提供真实配置读取与编译验证；单次和连续计算尚未接入。" style={{ marginBottom: 16 }} />
+      <Alert type="info" content="读取真实配置后可执行一次普攻，查看伤害和生命变化；连续攻击与图表尚未接入。" style={{ marginBottom: 16 }} />
       <BasicAttackCompilePanel apiBaseUrl={apiBaseUrl} selectedGameId={selectedGameId}
         adminToken={adminToken} onDirtyChange={onDirtyChange} />
     </section>

@@ -1,4 +1,5 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { CompileRequest, DoneResult, RunRequest } from '../types/genericEngine';
 import {
   OUTBOX_GENERIC_COMPILE_RESULT,
   OUTBOX_GENERIC_DONE,
@@ -7,7 +8,9 @@ import {
   type TinyGoV2Frame
 } from './tinygoV2Bridge';
 import {
+  GenericEngineClient,
   GenericEngineClientError,
+  RUN_TIMEOUT_MS,
   parseCompileResult,
   parseDoneResult,
   parseReleaseResult
@@ -92,27 +95,95 @@ describe('genericEngineClient frame parsing', () => {
     ).toThrow(GenericEngineClientError);
   });
 
-  it('run timeout recreates worker and rejects pending run', async () => {
-    vi.useFakeTimers();
+});
 
-    class FakeWorker {
-      onmessage: ((event: MessageEvent) => void) | null = null;
-      onerror: ((event: ErrorEvent) => void) | null = null;
-      terminated = false;
-      postMessage(message: { type: string; id: string }) {
-        if (message.type === 'init') {
-          queueMicrotask(() => {
-            this.onmessage?.({ data: { type: 'ready', id: message.id } } as MessageEvent);
-          });
-        }
-        // run never responds — timeout path
-      }
-      terminate() {
-        this.terminated = true;
-      }
+type PostedMessage = { type: string; id?: string; [key: string]: unknown };
+
+class FakeWorker {
+  onmessage: ((event: MessageEvent) => void) | null = null;
+  onerror: ((event: ErrorEvent) => void) | null = null;
+  readonly messages: PostedMessage[] = [];
+  terminated = false;
+
+  postMessage(message: PostedMessage) {
+    this.messages.push(message);
+    if (message.type === 'init') {
+      queueMicrotask(() => this.emit({ type: 'ready', id: message.id }));
     }
+  }
 
-    const workers: FakeWorker[] = [];
+  emit(message: Record<string, unknown>) {
+    this.onmessage?.({ data: message } as MessageEvent);
+  }
+
+  respond(type: 'compile' | 'run' | 'release', kind: number, payload: unknown) {
+    const responseFrame = frame(kind, payload);
+    this.emit({
+      type: `${type}Result`,
+      id: this.messages.find((message) => message.type === type)?.id,
+      frames: [{ ...responseFrame, payload: Array.from(responseFrame.payload) }]
+    });
+  }
+
+  terminate() {
+    this.terminated = true;
+  }
+}
+
+const compileRequest: CompileRequest = {
+  schemaVersion: 'generic-p0',
+  schemaHash: 's',
+  rulesHash: 'r',
+  typeCatalog: { types: [], relations: [] },
+  combatants: [],
+  rules: {}
+};
+
+const runRequest: RunRequest = {
+  sessionId: 'session-1',
+  expectedRulesHash: 'r',
+  schemaVersion: 'generic-p0',
+  schemaHash: 's',
+  rulesHash: 'r',
+  initialSnapshot: { schemaHash: 's', rulesHash: 'r', timeMs: 0, combatants: [] },
+  driverPlan: { conditionRecheckIntervalMs: 100, entries: [] },
+  stopPolicy: { durationMs: 1000, stopOnTargetDeath: true, stopWhenNoEvents: true },
+  sampling: { sampleEveryMs: 100, dpsWindowMs: 1000, maxSeriesPoints: 5000 }
+};
+
+const doneResult: DoneResult = {
+  ok: true,
+  summary: {
+    durationMs: 1000,
+    stopReason: 'duration_reached',
+    sourceFinalHp: 1,
+    targetFinalHp: 2,
+    sourceDamageDealt: 0,
+    sourceDamageTaken: 0,
+    targetDamageDealt: 0,
+    targetDamageTaken: 0,
+    abilityAttemptCount: 0,
+    abilityCastCount: 0,
+    attemptSkippedCount: 0,
+    warningCount: 0,
+    evidenceTruncated: false,
+    seriesDownsampled: false,
+    abilityStats: []
+  },
+  finalSnapshot: runRequest.initialSnapshot,
+  series: [],
+  warnings: [],
+  evidence: { items: [], truncated: false, truncatedEvidenceCount: 0, countsByKind: {} },
+  seriesSamplingEvidence: {}
+};
+
+describe('genericEngineClient worker lifecycle', () => {
+  let client: GenericEngineClient;
+  let workers: FakeWorker[];
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    workers = [];
     vi.stubGlobal(
       'Worker',
       class {
@@ -123,33 +194,157 @@ describe('genericEngineClient frame parsing', () => {
         }
       }
     );
+    client = new GenericEngineClient({ wasmUrl: 'https://example.test/engine.wasm' });
+  });
 
-    const { GenericEngineClient } = await import('./genericEngineClient');
-    const client = new GenericEngineClient({ wasmUrl: 'https://example.test/engine.wasm' });
-
-    const runPromise = client.run({
-      sessionId: 's',
-      expectedRulesHash: 'r',
-      schemaVersion: 'generic-p0',
-      schemaHash: 's',
-      rulesHash: 'r',
-      initialSnapshot: {
-        schemaHash: 's',
-        rulesHash: 'r',
-        timeMs: 0,
-        combatants: []
-      },
-      driverPlan: { conditionRecheckIntervalMs: 100, entries: [] },
-      stopPolicy: { durationMs: 1000, stopOnTargetDeath: true, stopWhenNoEvents: true },
-      sampling: { sampleEveryMs: 100, dpsWindowMs: 1000, maxSeriesPoints: 5000 }
-    });
-    const expectation = expect(runPromise).rejects.toThrow(/运行超时（30 秒）/);
-    await vi.advanceTimersByTimeAsync(30_000);
-    await expectation;
-    expect(workers[0]?.terminated).toBe(true);
-
+  afterEach(() => {
     client.terminate();
     vi.unstubAllGlobals();
     vi.useRealTimers();
+  });
+
+  async function compileSession(): Promise<FakeWorker> {
+    const compiled = client.compile(compileRequest);
+    await vi.advanceTimersByTimeAsync(0);
+    const worker = workers[0];
+    worker.respond('compile', OUTBOX_GENERIC_COMPILE_RESULT, { ok: true, sessionId: 'session-1' });
+    await expect(compiled).resolves.toEqual({ ok: true, sessionId: 'session-1' });
+    return worker;
+  }
+
+  async function skipDestroyedSessionRelease() {
+    const release = vi.spyOn(client, 'release');
+    if (client.hasLiveWorker) {
+      await client.release('session-1', 'r');
+    }
+    expect(release).not.toHaveBeenCalled();
+    expect(workers).toHaveLength(1);
+    expect(workers[0].messages.some((message) => message.type === 'release')).toBe(false);
+  }
+
+  it('queries existing initialization, run and release without creating another worker', async () => {
+    expect(client.hasLiveWorker).toBe(false);
+    expect(workers).toHaveLength(0);
+
+    const compiled = client.compile(compileRequest);
+    expect(client.hasLiveWorker).toBe(true);
+    expect(workers[0].messages.map((message) => message.type)).toEqual(['init']);
+    expect(vi.getTimerCount()).toBe(0);
+    await vi.advanceTimersByTimeAsync(0);
+    workers[0].respond('compile', OUTBOX_GENERIC_COMPILE_RESULT, { ok: true, sessionId: 'session-1' });
+    await expect(compiled).resolves.toEqual({ ok: true, sessionId: 'session-1' });
+    expect(vi.getTimerCount()).toBe(0);
+
+    const run = client.run(runRequest);
+    await vi.advanceTimersByTimeAsync(0);
+    expect(client.hasLiveWorker).toBe(true);
+    expect(vi.getTimerCount()).toBe(1);
+    workers[0].respond('run', OUTBOX_GENERIC_DONE, doneResult);
+    await expect(run).resolves.toEqual(doneResult);
+    await vi.advanceTimersByTimeAsync(RUN_TIMEOUT_MS);
+    expect(client.hasLiveWorker).toBe(true);
+    expect(workers[0].terminated).toBe(false);
+    expect(vi.getTimerCount()).toBe(0);
+
+    const release = client.release('session-1', 'r');
+    await vi.advanceTimersByTimeAsync(0);
+    expect(vi.getTimerCount()).toBe(0);
+    expect(workers[0].messages.at(-1)).toMatchObject({
+      type: 'release', sessionId: 'session-1', expectedRulesHash: 'r'
+    });
+    workers[0].respond('release', OUTBOX_GENERIC_RELEASE_RESULT, {
+      ok: true, sessionId: 'session-1', released: true
+    });
+    await expect(release).resolves.toEqual({ ok: true, sessionId: 'session-1', released: true });
+    expect(client.hasLiveWorker).toBe(true);
+    expect(workers).toHaveLength(1);
+
+    client.terminate();
+    expect(client.hasLiveWorker).toBe(false);
+    expect(workers[0].terminated).toBe(true);
+  });
+
+  it('explicit termination rejects a pending run and skips the destroyed session release', async () => {
+    const worker = await compileSession();
+    const run = client.run(runRequest);
+    const expectation = expect(run).rejects.toThrow('工作线程已终止');
+    await vi.advanceTimersByTimeAsync(0);
+    client.terminate();
+    await expectation;
+    expect(client.hasLiveWorker).toBe(false);
+    expect(worker.terminated).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
+    await skipDestroyedSessionRelease();
+  });
+
+  it('run timeout destroys the worker without rebuilding it to release the old session', async () => {
+    const worker = await compileSession();
+    const run = client.run(runRequest);
+    const expectation = expect(run).rejects.toThrow(/运行超时（30 秒）/);
+    await vi.advanceTimersByTimeAsync(RUN_TIMEOUT_MS - 1);
+    expect(client.hasLiveWorker).toBe(true);
+    expect(worker.terminated).toBe(false);
+    await vi.advanceTimersByTimeAsync(1);
+    await expectation;
+    expect(client.hasLiveWorker).toBe(false);
+    expect(worker.terminated).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
+    await skipDestroyedSessionRelease();
+  });
+
+  it('worker crashes reject the run and leave no live worker for releasing the old session', async () => {
+    const worker = await compileSession();
+    const run = client.run(runRequest);
+    const expectation = expect(run).rejects.toThrow('工作线程崩溃');
+    await vi.advanceTimersByTimeAsync(0);
+    worker.onerror?.({ message: '' } as ErrorEvent);
+    await expectation;
+    expect(client.hasLiveWorker).toBe(false);
+    expect(worker.terminated).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
+    await skipDestroyedSessionRelease();
+  });
+
+  it('worker errors with recreate destroy the worker and skip old session release', async () => {
+    const worker = await compileSession();
+    const run = client.run(runRequest);
+    const expectation = expect(run).rejects.toThrow('不可恢复的运行错误');
+    await vi.advanceTimersByTimeAsync(0);
+    worker.emit({
+      type: 'error',
+      id: worker.messages.find((message) => message.type === 'run')?.id,
+      message: '不可恢复的运行错误',
+      recreate: true
+    });
+    await expectation;
+    expect(client.hasLiveWorker).toBe(false);
+    expect(worker.terminated).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
+    await skipDestroyedSessionRelease();
+  });
+
+  it('ordinary run errors keep the same worker available for normal session release', async () => {
+    const worker = await compileSession();
+    const run = client.run(runRequest);
+    const expectation = expect(run).rejects.toThrow('可恢复的运行错误');
+    await vi.advanceTimersByTimeAsync(0);
+    worker.emit({
+      type: 'error',
+      id: worker.messages.find((message) => message.type === 'run')?.id,
+      message: '可恢复的运行错误'
+    });
+    await expectation;
+    expect(client.hasLiveWorker).toBe(true);
+    expect(worker.terminated).toBe(false);
+    expect(vi.getTimerCount()).toBe(0);
+
+    const release = client.release('session-1', 'r');
+    await vi.advanceTimersByTimeAsync(0);
+    worker.respond('release', OUTBOX_GENERIC_RELEASE_RESULT, {
+      ok: true, sessionId: 'session-1', released: true
+    });
+    await expect(release).resolves.toMatchObject({ released: true });
+    expect(workers).toHaveLength(1);
+    expect(client.hasLiveWorker).toBe(true);
   });
 });

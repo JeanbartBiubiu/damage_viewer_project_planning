@@ -24,9 +24,10 @@ function charactersPath(gameId: string, characterKey?: string): string {
 export function getLevelConfig(
   apiBaseUrl: string,
   gameId: string,
-  token: string
+  token: string,
+  signal?: AbortSignal
 ): Promise<ApiResult<LevelConfig>> {
-  return requestJson<LevelConfig>(apiBaseUrl, gameAdminPath(gameId, 'level-config'), { token });
+  return requestJson<LevelConfig>(apiBaseUrl, gameAdminPath(gameId, 'level-config'), { token, signal });
 }
 
 export function updateLevelConfig(

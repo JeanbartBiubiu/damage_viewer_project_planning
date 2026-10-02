@@ -1,4 +1,4 @@
-import { listCharacters } from '../../services/characterClient';
+import { getLevelConfig, listCharacters } from '../../services/characterClient';
 import { getCachedImage, upsertManagedImage } from '../../services/imageCache';
 import { getImage } from '../../services/imageClient';
 import { getRepresentativeImage } from '../../services/imageRelationClient';
@@ -6,11 +6,22 @@ import { getSkill } from '../../services/skillClient';
 import { listCharacterSkillRelations } from '../../services/skillRelationClient';
 
 export type SelectionContext = { apiBaseUrl: string; gameId: string; token: string };
-export type SimulationEntityOption = { key: string; name: string; kind: 'character' | 'skill' };
+export type SimulationEntityOption = { key: string; name: string } &
+  ({ kind: 'character' } | { kind: 'skill'; maxLevel: number });
 export type SimulationImageLoader = (option: SimulationEntityOption) => Promise<string | null>;
 
 function checkActive(signal: AbortSignal) {
   if (signal.aborted) throw new DOMException('请求已取消', 'AbortError');
+}
+
+export async function loadCharacterLevelOptions(context: SelectionContext, signal: AbortSignal): Promise<number[]> {
+  const { data } = await getLevelConfig(context.apiBaseUrl, context.gameId, context.token, signal);
+  checkActive(signal);
+  if (!data || data.gameId !== context.gameId || !Number.isInteger(data.minLevel) || !Number.isInteger(data.maxLevel)
+    || data.minLevel < 1 || data.maxLevel < data.minLevel || data.maxLevel > 100) {
+    throw new Error('角色等级范围响应不合法或不属于当前游戏，请重试。');
+  }
+  return Array.from({ length: data.maxLevel - data.minLevel + 1 }, (_, index) => data.minLevel + index);
 }
 
 export async function loadCharacterOptions(context: SelectionContext, signal: AbortSignal): Promise<SimulationEntityOption[]> {
@@ -38,7 +49,8 @@ export async function loadBasicAttackOptions(
       const result = await getSkill(context.apiBaseUrl, context.gameId, row.skillKey, context.token, signal);
       const skill = result.data;
       if (skill.gameId !== context.gameId || skill.skillKey !== row.skillKey || !skill.name?.trim()
-        || !Array.isArray(skill.skillCategoryKeys) || !['ENABLED', 'DISABLED'].includes(skill.status)) {
+        || !Array.isArray(skill.skillCategoryKeys) || !['ENABLED', 'DISABLED'].includes(skill.status)
+        || !Number.isSafeInteger(skill.maxLevel) || skill.maxLevel < 1) {
         throw new Error('技能详情与当前角色挂载关系不一致，请重试。');
       }
       return skill;
@@ -46,7 +58,7 @@ export async function loadBasicAttackOptions(
     checkActive(signal);
     for (const skill of skills) {
       if (skill.status === 'ENABLED' && skill.skillCategoryKeys.includes('basic_attack')) {
-        options.push({ key: skill.skillKey, name: skill.name, kind: 'skill' });
+        options.push({ key: skill.skillKey, name: skill.name, kind: 'skill', maxLevel: skill.maxLevel });
       }
     }
   }

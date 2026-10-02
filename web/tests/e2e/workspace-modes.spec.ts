@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page, type Route } from '@playwright/test';
 import { simulationSample } from '../fixtures/simulationSnapshot';
-import { chooseSimulationEntity, installSimulationSelectionApi } from '../fixtures/simulationSelection';
+import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
 
 // 操作真实管理组件，只替换 HTTP；本专项不作为实库或计算运行证据。
 const API = 'http://127.0.0.1:19096';
@@ -133,11 +133,11 @@ async function handleLeave(page: Page, accept: boolean, action: () => Promise<un
 
 async function fillSimulationSelection(page: Page) {
   await chooseSimulationEntity(page, '攻击方角色', 'source_sample');
-  await page.getByRole('spinbutton', { name: '攻击方等级', exact: true }).fill('1');
+  await chooseSimulationLevel(page, '攻击方等级', 1);
   await chooseSimulationEntity(page, '目标角色', 'target_sample');
-  await page.getByRole('spinbutton', { name: '目标等级', exact: true }).fill('1');
+  await chooseSimulationLevel(page, '目标等级', 1);
   await chooseSimulationEntity(page, '普攻技能', 'shared_basic_attack');
-  await page.getByRole('spinbutton', { name: '普攻技能等级', exact: true }).fill('1');
+  await chooseSimulationLevel(page, '普攻技能等级', 1);
 }
 
 test('根地址与未知完整路径回到管理，模拟直达和刷新保持完整路径与菜单', async ({ page }) => {
@@ -386,7 +386,7 @@ test('取消读取后可重新请求，旧请求结束不会清除新请求忙�
   await read.click();
   await expect.poll(() => gates.length).toBe(1);
   await page.getByRole('button', { name: '取消当前请求', exact: true }).click();
-  await expect(page.getByText('当前任务已取消，未完成编译验证。', { exact: true })).toBeVisible();
+  await expect(page.getByText('当前场景读取已取消，保留已有输入。', { exact: true })).toBeVisible();
   await expect(read).toBeEnabled();
   await read.click();
   await expect.poll(() => gates.length).toBe(2);
@@ -415,11 +415,11 @@ test('初始当前生命保持未填写与0区别，明确点击才使用快照�
   await page.goto('/#/simulation/basic-attack');
   await waitForGame(page, snapshot.gameId);
   await chooseSimulationEntity(page, '攻击方角色', snapshot.selection.sourceCharacterKey);
-  await page.getByRole('spinbutton', { name: '攻击方等级', exact: true }).fill(String(snapshot.selection.sourceLevel));
+  await chooseSimulationLevel(page, '攻击方等级', snapshot.selection.sourceLevel);
   await chooseSimulationEntity(page, '目标角色', snapshot.selection.targetCharacterKey);
-  await page.getByRole('spinbutton', { name: '目标等级', exact: true }).fill(String(snapshot.selection.targetLevel));
+  await chooseSimulationLevel(page, '目标等级', snapshot.selection.targetLevel);
   await chooseSimulationEntity(page, '普攻技能', snapshot.selection.basicAttackSkillKey);
-  await page.getByRole('spinbutton', { name: '普攻技能等级', exact: true }).fill(String(snapshot.selection.basicAttackLevel));
+  await chooseSimulationLevel(page, '普攻技能等级', snapshot.selection.basicAttackLevel);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   const sourceHealth = page.getByRole('spinbutton', { name: '攻击方初始当前生命', exact: true });
   const targetHealth = page.getByRole('spinbutton', { name: '目标初始当前生命', exact: true });
