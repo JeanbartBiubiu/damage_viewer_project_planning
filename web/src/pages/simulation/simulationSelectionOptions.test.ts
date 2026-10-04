@@ -5,7 +5,8 @@ import { getImage } from '../../services/imageClient';
 import { getRepresentativeImage } from '../../services/imageRelationClient';
 import { getSkill } from '../../services/skillClient';
 import { listCharacterSkillRelations } from '../../services/skillRelationClient';
-import { createSimulationImageLoader, loadBasicAttackOptions, loadCharacterOptions, loadCharacterLevelOptions } from './simulationSelectionOptions';
+import { listEquipment } from '../../services/equipmentClient';
+import { createSimulationImageLoader, loadBasicAttackOptions, loadCharacterOptions, loadCharacterLevelOptions, loadEquipmentOptions } from './simulationSelectionOptions';
 
 vi.mock('../../services/characterClient');
 vi.mock('../../services/imageCache');
@@ -13,6 +14,7 @@ vi.mock('../../services/imageClient');
 vi.mock('../../services/imageRelationClient');
 vi.mock('../../services/skillClient');
 vi.mock('../../services/skillRelationClient');
+vi.mock('../../services/equipmentClient');
 
 const context = { apiBaseUrl: 'http://example.test', gameId: 'demo', token: 'test-only' };
 const entity = { key: 'hero', name: '英雄', kind: 'character' as const };
@@ -25,6 +27,30 @@ const image = {
 
 describe('模拟选择目录与按需头像', () => {
   beforeEach(() => vi.resetAllMocks());
+
+  it('真实装备列表复用现有client，完整保留目录且共用取消信号，不伪装全部可运行', async () => {
+    const row = { gameId: 'demo', equipmentKey: 'item_1036', name: '长剑', description: null, createdAt: '', updatedAt: '' };
+    const unknown = { ...row, equipmentKey: 'item_unverified', name: '未核定装备' };
+    const controller = new AbortController();
+    vi.mocked(listEquipment).mockResolvedValue(result({ items: [row, unknown], total: 2 }));
+    expect(await loadEquipmentOptions(context, controller.signal)).toEqual([
+      { key: 'item_1036', name: '长剑', kind: 'equipment' }, { key: 'item_unverified', name: '未核定装备', kind: 'equipment' }
+    ]);
+    expect(listEquipment).toHaveBeenCalledWith(context.apiBaseUrl, 'demo', context.token, {}, controller.signal);
+    controller.abort();
+    await expect(loadEquipmentOptions(context, controller.signal)).rejects.toMatchObject({ name: 'AbortError' });
+  });
+
+  it('装备列表错游戏、重复、分页缺项或读取失败不当成空装备', async () => {
+    const row = { gameId: 'demo', equipmentKey: 'item_1036', name: '长剑', description: null, createdAt: '', updatedAt: '' };
+    const signal = new AbortController().signal;
+    for (const data of [{ items: [{ ...row, gameId: 'other' }], total: 1 }, { items: [row, row], total: 2 }, { items: [row], total: 2 }]) {
+      vi.mocked(listEquipment).mockResolvedValue(result(data));
+      await expect(loadEquipmentOptions(context, signal)).rejects.toThrow(/装备列表/);
+    }
+    vi.mocked(listEquipment).mockRejectedValueOnce(new Error('读取失败'));
+    await expect(loadEquipmentOptions(context, signal)).rejects.toThrow('读取失败');
+  });
 
   it('角色等级按游戏实际上下限生成，读取只进行一次并传递取消信号', async () => {
     const signal = new AbortController().signal;

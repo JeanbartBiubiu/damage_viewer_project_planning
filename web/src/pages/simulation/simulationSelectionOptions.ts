@@ -4,10 +4,11 @@ import { getImage } from '../../services/imageClient';
 import { getRepresentativeImage } from '../../services/imageRelationClient';
 import { getSkill } from '../../services/skillClient';
 import { listCharacterSkillRelations } from '../../services/skillRelationClient';
+import { listEquipment } from '../../services/equipmentClient';
 
 export type SelectionContext = { apiBaseUrl: string; gameId: string; token: string };
 export type SimulationEntityOption = { key: string; name: string } &
-  ({ kind: 'character' } | { kind: 'skill'; maxLevel: number });
+  ({ kind: 'character' } | { kind: 'equipment' } | { kind: 'skill'; maxLevel: number });
 export type SimulationImageLoader = (option: SimulationEntityOption) => Promise<string | null>;
 
 function checkActive(signal: AbortSignal) {
@@ -33,6 +34,17 @@ export async function loadCharacterOptions(context: SelectionContext, signal: Ab
     throw new Error('角色列表响应不完整或不属于当前游戏，请重试。');
   }
   return data.items.map(row => ({ key: row.characterKey, name: row.name, kind: 'character' }));
+}
+
+export async function loadEquipmentOptions(context: SelectionContext, signal: AbortSignal): Promise<SimulationEntityOption[]> {
+  const { data } = await listEquipment(context.apiBaseUrl, context.gameId, context.token, {}, signal);
+  checkActive(signal);
+  if (!Array.isArray(data.items) || data.total !== data.items.length
+    || data.items.some(row => row.gameId !== context.gameId || !/^[a-z][a-z0-9_]{0,63}$/.test(row.equipmentKey) || !row.name?.trim())
+    || new Set(data.items.map(row => row.equipmentKey)).size !== data.items.length) {
+    throw new Error('装备列表响应不完整或不属于当前游戏，请重试。');
+  }
+  return data.items.map(row => ({ key: row.equipmentKey, name: row.name, kind: 'equipment' }));
 }
 
 export async function loadBasicAttackOptions(

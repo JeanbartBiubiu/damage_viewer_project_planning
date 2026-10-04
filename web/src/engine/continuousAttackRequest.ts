@@ -1,6 +1,6 @@
 import type { BasicAttackPlan, RunRequest } from '../types/genericEngine';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
-import type { assembleSimulation } from './simulationAdapter';
+import { simulationAbility, type assembleSimulation } from './simulationAdapter';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
 
@@ -25,21 +25,47 @@ export async function continuousAttackRequest(
   }
   const source = input.combatants.find(actor => actor.key === 'source');
   const target = input.combatants.find(actor => actor.key === 'target');
-  if (!source || !target || input.combatants.length !== 2 || source.providers.length !== 1 || target.providers.length !== 0) {
-    fail('compileRequest.combatants', '连续普攻只允许攻击方的一份所选普攻挂载，目标挂载必须为空。');
+  if (!source || !target || input.combatants.length !== 2) {
+    fail('compileRequest.combatants', '连续普攻需要唯一攻击方与目标。');
+  }
+  const binding = prepared.basicAttackBinding;
+  const startBinding = simulationAbility(input, binding.startAbilityRef);
+  const hitBinding = simulationAbility(input, binding.hitAbilityRef);
+  const controlBinding = simulationAbility(input, binding.initialControlAbilityRef);
+  if (!startBinding || !hitBinding || !controlBinding || binding.source !== 'source' || binding.target !== 'target'
+    || !binding.startAbilityRef.startsWith('source.provider[')
+    || hitBinding.mount !== startBinding.mount || controlBinding.mount !== startBinding.mount) {
+    fail('continuous.basicAttack', '开始、命中与首次控制引用必须来自攻击方同一完整普攻挂载。');
   }
   for (const actor of [source, target]) {
+    const expected = prepared.equipmentOrigins.filter(row => row.side === actor.key).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef }));
+    for (const origin of prepared.equipmentOrigins.filter(row => row.side === actor.key && snapshot[actor.key as 'source' | 'target'].selectedEquipment
+      .some(item => item.equipment.equipmentKey === row.equipmentKey && item.attachedSkills.length > 0))) {
+      const providerRef = `${actor.key}_${origin.equipmentKey}_passive`;
+      expected.push({ providerRef, definitionRef: `${providerRef}_definition` });
+    }
+    if (actor === source) expected.push({ providerRef: startBinding.mount.providerRef, definitionRef: startBinding.mount.definitionRef });
+    if (actor.providers.length !== expected.length || new Set(actor.providers.map(row => row.providerRef)).size !== expected.length
+      || actor.providers.some(row => !expected.some(mount => mount.providerRef === row.providerRef && mount.definitionRef === row.definitionRef))) {
+      fail(`compileRequest.combatants.${actor.key}.providers`, `${actor === target ? '目标挂载' : '攻击方挂载'}必须逐项等于本次所选普攻、固定装备属性与核定常驻初始化完整集。`);
+    }
+    for (const origin of prepared.equipmentOrigins.filter(row => row.side === actor.key)) {
+      const definitions = input.sharedProviders?.filter(row => row.providerKey === origin.definitionRef);
+      const item = definitions?.[0];
+      if (definitions?.length !== 1 || item?.kind !== 'item' || item.abilities?.length || item.listeners?.length
+        || item.processes?.length || item.lifecycle || item.initialStateSchema || item.statusContributions?.length) {
+        fail(origin.authorPath, '阶段4A装备只允许已核定的固定属性来源，不能夹带被动或过程。');
+      }
+    }
     const hp = actor.attributes.hp?.current;
     if (typeof hp !== 'number' || !Number.isFinite(hp) || hp <= 0) {
       fail(`initialHealth.${actor.key}`, '连续运行要求双方初始当前生命为有限正数。');
     }
   }
-  const binding = prepared.basicAttackBinding;
-  const provider = input.sharedProviders?.find(row => row.providerKey === source.providers[0]!.definitionRef);
-  const reference = (key: string) => `source.provider[${source.providers[0]!.providerRef}].ability[${key}]`;
-  const start = provider?.abilities?.find(row => reference(row.abilityKey) === binding.startAbilityRef);
-  const hit = provider?.abilities?.find(row => reference(row.abilityKey) === binding.hitAbilityRef);
-  const control = provider?.abilities?.find(row => reference(row.abilityKey) === binding.initialControlAbilityRef);
+  const provider = startBinding.provider;
+  const start = startBinding.ability;
+  const hit = hitBinding.ability;
+  const control = controlBinding.ability;
   const process = provider?.processes?.find(row => row.processKey === control?.processControl?.processKey);
   if (!start || !hit || !control || [start, hit, control].some(row => row.skillKey !== binding.skillKey)
     || control.processControl?.action !== 'INITIAL' || !control.processControl.useRefFromEvent
@@ -61,12 +87,15 @@ export async function continuousAttackRequest(
     fail('continuous.attackSpeedInputMax', range === null ? '属性目录未提供上界，请明确填写有限正攻速输入上界。' : '真实属性范围的上界必须为有限正数。');
   }
   const speed = source.attributes[attributeKey]?.resolved;
-  if (typeof speed !== 'number' || !Number.isFinite(speed) || speed <= 0 || speed > inputMax) {
+  const derivedSpeed = input.rules.attributeDerivations?.some(row => row.combatantKey === 'source' && row.attributeKey === attributeKey);
+  const initializes = input.typeCatalog.types.some(row => row.key === 'event/source_initialized');
+  if (typeof speed !== 'number' || !Number.isFinite(speed) || (!derivedSpeed && !initializes && (speed <= 0 || speed > inputMax))) {
     fail(`continuous.${attributeKey}`, '有效攻速必须为有限正数且不超过输入上界，不会自动夹取。');
   }
   const attackSpeedAdmission: AttackSpeedAdmission = { attributeKey, inputMax, source: range === null ? 'scenario_input' : 'attribute_range' };
   const basicAttack: BasicAttackPlan = { ...binding, planKey: 'selected_basic_attack_plan', attackSpeedInputMax: inputMax };
   const runRequest: RunRequest = {
+    runtimeOptions: { equipmentAssumptions: prepared.equipmentAssumptions },
     sessionId, expectedRulesHash: input.rulesHash, schemaVersion: input.schemaVersion,
     schemaHash: input.schemaHash, rulesHash: input.rulesHash,
     initialSnapshot: simulationInitialSnapshot(input),

@@ -6,7 +6,8 @@ import type { GameVampRulesResponse } from './gameVamp';
 import type { ModifierZone } from './modifierZone';
 import type { SkillCategory } from './skillCategory';
 import type { SkillConfiguration } from './skillConfiguration';
-import type { CharacterSkillRelation } from './skillRelation';
+import type { CharacterSkillRelation, EquipmentSkillRelation } from './skillRelation';
+import type { Equipment, EquipmentAttributes } from './equipment';
 import type { GameStatus } from './status';
 
 export type SimulationSelection = {
@@ -16,6 +17,14 @@ export type SimulationSelection = {
   targetLevel: number;
   basicAttackSkillKey: string;
   basicAttackLevel: number;
+  sourceEquipmentKeys: string[];
+  targetEquipmentKeys: string[];
+};
+
+export type SimulationSelectedEquipment = {
+  equipment: Equipment;
+  attributes: EquipmentAttributes;
+  attachedSkills: EquipmentSkillRelation[];
 };
 
 export type SimulationCombatant = {
@@ -23,6 +32,7 @@ export type SimulationCombatant = {
   attributes: CharacterAttributes;
   selectedLevelValues: Record<string, number>;
   attachedSkills: CharacterSkillRelation[];
+  selectedEquipment: SimulationSelectedEquipment[];
 };
 
 export type SimulationReference = {
@@ -63,3 +73,7 @@ export type SimulationAttributeInputs = {
 };
 
 export type SimulationInitialHealth = { source: number; target: number };
+
+export type SimulationEquipmentAssumption = {
+  owner: 'source' | 'target'; equipmentKey: string; target: 'source' | 'target'; inRange: boolean;
+};

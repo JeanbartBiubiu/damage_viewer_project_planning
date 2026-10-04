@@ -1,0 +1,1037 @@
+import {
+  DAMAGE_TYPE_FORMULA_MAX_DEPTH, DAMAGE_TYPE_FORMULA_MAX_NODES, DAMAGE_TYPE_FORMULA_STAGE_KEYS,
+  damageTypeFormulaStageFromResultKey, type DamageTypeFormulaNode
+} from '../types/damageTypeFormula';
+import type {
+  CompileRequest, GenericDamageTypeFormula, GenericFormulaExpr, GenericRules, NamedFormula,
+  AbilityDefinition, ModifierDefinition, OperationDefinition, ProviderDefinition, ProviderStateFieldSchema
+} from '../types/genericEngine';
+import type { NumericValue } from '../types/numericValue';
+import type { SkillConfiguration } from '../types/skillConfiguration';
+import type { SkillEffect, SkillEffectDamageResult, SkillEffectLifecycle, SkillEffectResult, SkillEffectValueRule } from '../types/skillEffect';
+import type { SkillInternalState } from '../types/skillInternalState';
+import type { SkillProcess, SkillProcessMoment, SkillProcessStateOperation } from '../types/skillProcess';
+import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerAction, type SkillTriggerCondition, type SkillTriggerRuleDetail } from '../types/skillTriggerRule';
+import type { FormulaExpressionNode } from '../types/skillFormula';
+import type { SkillParameter } from '../types/skillParameter';
+import type { SimulationSnapshot } from '../types/simulationSnapshot';
+import {
+  compileFormulaExpression, compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
+  NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression
+} from './numericAdapter';
+import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
+import { adaptDamageVamp } from './vampAdapter';
+import { compilePersistentResult } from './persistentResultAdapter';
+import { PERMANENT_EQUIPMENT_SKILLS } from './simulationEquipmentPassives';
+
+
+type Side = 'source' | 'target';
+export type TriggeredEquipmentAssembly = {
+  providers: ProviderDefinition[];
+  mounts: Array<{ side: Side; providerRef: string; definitionRef: string }>;
+  types: CompileRequest['typeCatalog']['types'];
+  formulas: NamedFormula[];
+  rules: GenericRules;
+  operationOrigins: OperationOrigin[];
+  coverage: SimulationCoverage[];
+  required: Record<Side, Set<string>>;
+  selectedSkills: Set<string>;
+};
+
+const METADATA = ['name', 'description', 'sortOrder', 'createdAt', 'updatedAt'];
+
+function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
+function record(value: unknown, path: string): Record<string, unknown> {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) fail(path, '需要完整对象');
+  return value as Record<string, unknown>;
+}
+function exact(value: unknown, fields: readonly string[], path: string) {
+  const unexpected = Object.keys(record(value, path)).find(key => !fields.includes(key));
+  if (unexpected) fail(`${path}.${unexpected}`, '4C未接入的字段不能被静默忽略');
+}
+function array<T>(value: T[], path: string): T[] {
+  if (!Array.isArray(value)) fail(path, '需要完整数组');
+  return value;
+}
+function stableKey(value: unknown, path: string): string {
+  if (typeof value !== 'string' || !/^[a-z][a-z0-9_]{0,63}$/.test(value)) fail(path, '需要合法稳定标识');
+  return value;
+}
+function uniqueRows<T>(rows: T[], keyFor: (row: T) => string, path: string) {
+  const seen = new Set<string>();
+  for (const row of array(rows, path)) {
+    const key = stableKey(keyFor(row), path);
+    if (seen.has(key)) fail(path, '稳定标识重复，不能过滤后继续');
+    seen.add(key);
+  }
+}
+function validateFormulaNode(node: FormulaExpressionNode, path: string, depth = 0) {
+  if (depth > DAMAGE_TYPE_FORMULA_MAX_DEPTH) fail(path, '公式深度超过限制');
+  record(node, path);
+  if (node.nodeType === 'PARAMETER') {
+    exact(node, ['nodeType', 'parameterKey'], path);
+    stableKey(node.parameterKey, `${path}.parameterKey`);
+  } else if (node.nodeType === 'ATTRIBUTE') {
+    exact(node, ['nodeType', 'attributeOwner', 'attributeKey', 'attributeValueKind'], path);
+  } else if (node.nodeType === 'OPERATION') {
+    exact(node, ['nodeType', 'operation', 'operands'], path);
+    if (array(node.operands, `${path}.operands`).length !== 2) fail(path, '公式运算必须有两个操作数');
+    node.operands.forEach((operand, index) => validateFormulaNode(operand, `${path}.operands[${index}]`, depth + 1));
+  } else fail(path, '未知公式节点');
+}
+function validateNumeric(value: NumericValue, path: string) {
+  record(value, path);
+  if (value.kind === 'FIXED') exact(value, ['kind', 'value'], path);
+  else if (value.kind === 'PARAMETER') exact(value, ['kind', 'parameterKey'], path);
+  else if (value.kind === 'FORMULA') exact(value, ['kind', 'formulaKey'], path);
+  else fail(path, '未知数值来源');
+}
+function collectAttributes(value: unknown, owner: Side, required: Record<Side, Set<string>>) {
+  if (Array.isArray(value)) { value.forEach(row => collectAttributes(row, owner, required)); return; }
+  if (!value || typeof value !== 'object') return;
+  const row = value as Record<string, unknown>;
+  if (row.op === 'read' && typeof row.path === 'string') {
+    const match = /^(source|target)\.attr\.([a-z][a-z0-9_]*)\./.exec(row.path);
+    if (match) required[match[1] === 'source' ? owner : owner === 'source' ? 'target' : 'source'].add(match[2]!);
+  }
+  Object.values(row).forEach(child => collectAttributes(child, owner, required));
+}
+function renameFormulaRefs(expression: GenericFormulaExpr, names: ReadonlyMap<string, string>): GenericFormulaExpr {
+  return {
+    ...expression,
+    ...(expression.ref ? { ref: names.get(expression.ref) ?? expression.ref } : {}),
+    ...(expression.args ? { args: expression.args.map(child => renameFormulaRefs(child, names)) } : {}),
+    ...(expression.min ? { min: renameFormulaRefs(expression.min, names) } : {}),
+    ...(expression.max ? { max: renameFormulaRefs(expression.max, names) } : {}),
+    ...(expression.expr ? { expr: renameFormulaRefs(expression.expr, names) } : {})
+  };
+}
+
+function compileDefense(node: DamageTypeFormulaNode, path: string, stageIndex: number): GenericFormulaExpr {
+  const parameters: SkillParameter[] = [];
+  const runtimeInputReads: Record<string, GenericFormulaExpr> = {};
+  let nodes = 0;
+  function translate(current: DamageTypeFormulaNode, currentPath: string, depth: number): FormulaExpressionNode {
+    nodes++;
+    if (depth > DAMAGE_TYPE_FORMULA_MAX_DEPTH || nodes > DAMAGE_TYPE_FORMULA_MAX_NODES) fail(currentPath, '防御公式超过大小限制');
+    record(current, currentPath);
+    if (current.nodeType === 'FIXED' || current.nodeType === 'STAGE_RESULT') {
+      const parameterKey = `defense_value_${parameters.length}`;
+      let read: GenericFormulaExpr;
+      if (current.nodeType === 'FIXED') {
+        exact(current, ['nodeType', 'value'], currentPath);
+        read = constExpr(finiteNumber(current.value, currentPath, fail));
+      } else {
+        exact(current, ['nodeType', 'stageKey'], currentPath);
+        const prior = damageTypeFormulaStageFromResultKey(current.stageKey);
+        if (!prior || DAMAGE_TYPE_FORMULA_STAGE_KEYS.indexOf(prior) >= stageIndex) fail(currentPath, '只能引用已完成的前序防御阶段');
+        read = { op: 'read', path: `damage.stage.${current.stageKey}` };
+      }
+      parameters.push({ gameId: 'lol', skillKey: 'equipment_defense', parameterKey, valueType: 'DECIMAL',
+        valueMode: 'RUNTIME_INPUT', fixedValue: null, levelValues: null, name: parameterKey, description: null,
+        sortOrder: parameters.length, createdAt: '', updatedAt: '' });
+      runtimeInputReads[parameterKey] = read;
+      return { nodeType: 'PARAMETER', parameterKey };
+    }
+    if (current.nodeType === 'ATTRIBUTE') {
+      exact(current, ['nodeType', 'attributeOwner', 'attributeKey', 'attributeValueKind'], currentPath);
+      return { ...current };
+    }
+    if (current.nodeType !== 'OPERATION') fail(currentPath, '未知防御公式节点');
+    exact(current, ['nodeType', 'operation', 'operands'], currentPath);
+    if (array(current.operands, `${currentPath}.operands`).length !== 2) fail(currentPath, '防御运算必须有两个操作数');
+    return { nodeType: 'OPERATION', operation: current.operation, operands: [
+      translate(current.operands[0], `${currentPath}.operands[0]`, depth + 1),
+      translate(current.operands[1], `${currentPath}.operands[1]`, depth + 1)
+    ] };
+  }
+  const translated = translate(node, path, 0);
+  return compileFormulaExpression(translated, path, createNumericCompileState({
+    gameId: 'lol', skillKey: 'equipment_defense', skillLevel: 1, characterLevel: 1, parameters,
+    formulaNamespace: 'equipment_defense', bindParameters: false, allowAttributeReads: true,
+    runtimeInputReads, runtimeInputMessage: '防御阶段引用缺失'
+  }), fail);
+}
+
+function ordered<T extends { sortOrder: number }>(rows: T[], path: string): T[] {
+  if (array(rows, path).some(row => !Number.isInteger(row.sortOrder))) fail(path, '排序必须为整数');
+  return rows.map((row, index) => ({ row, index }))
+    .sort((left, right) => left.row.sortOrder - right.row.sortOrder || left.index - right.index).map(entry => entry.row);
+}
+function combine(operation: 'min' | 'max', expressions: GenericFormulaExpr[]): GenericFormulaExpr {
+  if (!expressions.length) fail('conditionGroups', '条件组不能为空');
+  return expressions.reduce((left, right) => ({ op: operation, args: [left, right] }));
+}
+function validateConfiguration(configuration: SkillConfiguration, gameId: string, root: string) {
+  exact(configuration, ['skill', 'parameters', 'formulas', 'effects', 'processes', 'internalStates', 'triggerRules', 'baseDigest'], root);
+  exact(configuration.skill, ['gameId', 'skillKey', 'maxLevel', 'status', 'skillCategoryKeys', ...METADATA], `${root}.skill`);
+  if (configuration.skill.gameId !== gameId || configuration.skill.status !== 'ENABLED' || configuration.skill.maxLevel !== 1
+    || !array(configuration.skill.skillCategoryKeys, `${root}.skill.skillCategoryKeys`).includes('passive')
+    || new Set(configuration.skill.skillCategoryKeys).size !== configuration.skill.skillCategoryKeys.length) {
+    fail(root, '装备关系需要完整单级、已启用的被动技能');
+  }
+  uniqueRows(configuration.parameters, row => row.parameterKey, `${root}.parameters`);
+  uniqueRows(configuration.formulas, row => row.formulaKey, `${root}.formulas`);
+  uniqueRows(configuration.effects, row => row.effectKey, `${root}.effects`);
+  uniqueRows(configuration.processes, row => row.processKey, `${root}.processes`);
+  uniqueRows(configuration.internalStates, row => row.stateKey, `${root}.internalStates`);
+  uniqueRows(configuration.triggerRules, row => row.ruleKey, `${root}.triggerRules`);
+  if (!configuration.effects.length || !configuration.triggerRules.length) fail(root, '缺少完整效果或触发规则，不能仅取直接属性');
+  for (const parameter of configuration.parameters) {
+    const path = `${root}.parameters.${parameter.parameterKey}`;
+    exact(parameter, ['gameId', 'skillKey', 'parameterKey', 'valueType', 'valueMode', 'fixedValue', 'levelValues', ...METADATA], path);
+    if (parameter.gameId !== gameId || parameter.skillKey !== configuration.skill.skillKey
+      || !['INTEGER', 'DECIMAL'].includes(parameter.valueType)
+      || !['FIXED', 'SKILL_LEVEL', 'CHARACTER_LEVEL', 'RUNTIME_INPUT'].includes(parameter.valueMode)) fail(path, '参数归属或取值方式未核定');
+    if (parameter.valueMode === 'FIXED' && parameter.levelValues !== null
+      || parameter.valueMode !== 'FIXED' && parameter.fixedValue !== null
+      || parameter.valueMode === 'RUNTIME_INPUT' && parameter.levelValues !== null) fail(path, '参数必须符合声明的取值方式，不能忽略另一组数值');
+  }
+  for (const formula of configuration.formulas) {
+    const path = `${root}.formulas.${formula.formulaKey}`;
+    exact(formula, ['gameId', 'skillKey', 'formulaKey', 'expression', ...METADATA], path);
+    if (formula.gameId !== gameId || formula.skillKey !== configuration.skill.skillKey) fail(path, '公式归属不一致');
+    validateFormulaNode(formula.expression, `${path}.expression`);
+  }
+}
+function validateLifecycle(lifecycle: SkillEffectLifecycle, path: string) {
+  exact(lifecycle, ['durationValue', 'maxStacksValue', 'applicationStacksValue', 'instanceScope', 'reapplicationStackMode',
+    'reapplicationDurationMode', 'expiryMode', 'periodicIntervalValue', 'firstPeriodicExecution', 'endWhenShieldEndsResultKey'], path);
+  for (const key of ['durationValue', 'maxStacksValue', 'applicationStacksValue', 'instanceScope', 'reapplicationStackMode',
+    'reapplicationDurationMode', 'expiryMode', 'periodicIntervalValue', 'firstPeriodicExecution']) {
+    if (!Object.prototype.hasOwnProperty.call(lifecycle, key)) fail(`${path}.${key}`, '缺少完整生命周期字段');
+  }
+  if (lifecycle.endWhenShieldEndsResultKey != null) fail(`${path}.endWhenShieldEndsResultKey`, '未接入护盾关联生命周期');
+}
+function validateValueRule(rule: SkillEffectValueRule, path: string) {
+  exact(rule, ['value', 'fixedMultiplier', 'fixedMinValue', 'fixedMaxValue'], path);
+  validateNumeric(rule.value, `${path}.value`);
+  finiteNumber(rule.fixedMultiplier, `${path}.fixedMultiplier`, fail);
+  for (const bound of ['fixedMinValue', 'fixedMaxValue'] as const) if (rule[bound] !== null) finiteNumber(rule[bound], `${path}.${bound}`, fail);
+  if (rule.fixedMinValue !== null && rule.fixedMaxValue !== null && rule.fixedMinValue > rule.fixedMaxValue) fail(path, '数值下界不能高于上界');
+}
+
+export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): TriggeredEquipmentAssembly {
+  const providers: ProviderDefinition[] = [];
+  const mounts: TriggeredEquipmentAssembly['mounts'] = [];
+  const types = new Map<string, string>();
+  const formulas = new Map<string, NamedFormula>();
+  const rules: GenericRules = { damageTypeFormulas: [] };
+  const operationOrigins: OperationOrigin[] = [];
+  const coverage: SimulationCoverage[] = [];
+  const required: Record<Side, Set<string>> = { source: new Set(), target: new Set() };
+  const selectedSkills = new Set<string>();
+  const completeSkills = new Set([snapshot.selection.basicAttackSkillKey]);
+  const cover = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
+  const addFormula = (formula: NamedFormula, path: string) => {
+    const existing = formulas.get(formula.key);
+    if (existing && JSON.stringify(existing.expression) !== JSON.stringify(formula.expression)) fail(path, '具名公式冲突');
+    formulas.set(formula.key, formula);
+  };
+  const category = (key: string) => {
+    stableKey(key, `catalogs.skillCategories.${key}`);
+    const matches = snapshot.catalogs.skillCategories.filter(row => row.skillCategoryKey === key);
+    if (matches.length !== 1 || matches[0]!.gameId !== snapshot.gameId || matches[0]!.status !== 'ENABLED') {
+      fail(`catalogs.skillCategories.${key}`, '缺少唯一已启用的真实技能分类');
+    }
+    types.set(`ability/${key}`, 'ability');
+    cover(`catalogs.skillCategories.${key}`, `typeCatalog.types[ability/${key}]`);
+    return `ability/${key}`;
+  };
+  const defense = (damageKey: string) => {
+    stableKey(damageKey, `catalogs.damageTypes.${damageKey}`);
+    const damageType = `damage/${damageKey}`;
+    types.set(damageType, 'damage');
+    if (rules.damageTypeFormulas!.some(row => row.damageType === damageType)) return damageType;
+    const entries = snapshot.catalogs.damageTypes.filter(row => row.type.damageTypeKey === damageKey);
+    const authored = entries[0];
+    if (entries.length !== 1 || !authored || authored.type.gameId !== snapshot.gameId || authored.type.status !== 'ENABLED'
+      || authored.type.formulaConfigured !== true) fail(`catalogs.damageTypes.${damageKey}`, '缺少唯一已启用的真实五阶段防御公式');
+    exact(authored.type, ['gameId', 'damageTypeKey', 'status', 'formulaConfigured', ...METADATA], `catalogs.damageTypes.${damageKey}.type`);
+    exact(authored.formula, ['gameId', 'damageTypeKey', 'formula', 'updatedAt'], `catalogs.damageTypes.${damageKey}.formula`);
+    if (authored.formula.gameId !== snapshot.gameId || authored.formula.damageTypeKey !== damageKey) fail(`catalogs.damageTypes.${damageKey}.formula`, '防御公式归属不一致');
+    exact(authored.formula.formula, DAMAGE_TYPE_FORMULA_STAGE_KEYS, `damageTypes.${damageKey}.formula`);
+    const formula = {} as GenericDamageTypeFormula['formula'];
+    const index = rules.damageTypeFormulas!.length;
+    for (const [stageIndex, stage] of DAMAGE_TYPE_FORMULA_STAGE_KEYS.entries()) {
+      const path = `damageTypes.${damageKey}.formula.${stage}`;
+      formula[stage] = compileDefense(authored.formula.formula[stage], path, stageIndex);
+      cover(path, `rules.damageTypeFormulas[${index}].formula.${stage}`);
+    }
+    rules.damageTypeFormulas!.push({ damageType, formula });
+    cover(`catalogs.damageTypes.${damageKey}.type`, `typeCatalog.types[${damageType}]`);
+    return damageType;
+  };
+
+  for (const side of ['source', 'target'] as const) {
+    const keys = array(snapshot.selection[`${side}EquipmentKeys`], `selection.${side}EquipmentKeys`);
+    const items = array(snapshot[side].selectedEquipment, `${side}.selectedEquipment`);
+    if (new Set(keys).size !== keys.length || keys.length > 6 || keys.length !== items.length
+      || new Set(items.map(item => item.equipment.equipmentKey)).size !== items.length
+      || items.some(item => !keys.includes(item.equipment.equipmentKey))) fail(`${side}.selectedEquipment`, '所选装备完整集缺失或重复');
+    for (const equipmentKey of [...keys].sort()) {
+      stableKey(equipmentKey, `selection.${side}EquipmentKeys`);
+      const path = `${side}.selectedEquipment[${equipmentKey}]`;
+      const item = items.find(row => row.equipment.equipmentKey === equipmentKey)!;
+      if (item.equipment.gameId !== snapshot.gameId || item.attributes.equipmentKey !== equipmentKey) fail(path, '装备归属不一致');
+      const relations = array(item.attachedSkills, `${path}.attachedSkills`);
+      uniqueRows(relations, row => row.skillKey, `${path}.attachedSkills`);
+      for (const relation of relations) {
+        const relationPath = `${path}.attachedSkills[${relations.indexOf(relation)}]`;
+        exact(relation, ['gameId', 'skillKey', 'skillName', 'skillStatus', 'sortOrder', 'equipmentKey', 'equipmentName'], relationPath);
+        if (relation.gameId !== snapshot.gameId || relation.equipmentKey !== equipmentKey || relation.skillStatus !== 'ENABLED') {
+          fail(relationPath, '必须保留完整启用被动关系，整件装备拒绝，不能过滤后只取直接属性');
+        }
+        completeSkills.add(relation.skillKey);
+      }
+      if (PERMANENT_EQUIPMENT_SKILLS[equipmentKey] || !relations.length) continue;
+      if (!Number.isInteger(snapshot.selection[`${side}Level`]) || snapshot.selection[`${side}Level`] < 1) fail(`selection.${side}Level`, '装备拥有方等级必须明确且有效');
+      const providerRef = `${side}_${equipmentKey}_passive`;
+      const definitionRef = `${providerRef}_definition`;
+      const compiledRoot = `sharedProviders.${definitionRef}`;
+      const schema: Record<string, ProviderStateFieldSchema> = {};
+      const modifiers: ModifierDefinition[] = [];
+      const provider: ProviderDefinition = { providerKey: definitionRef, stableId: `${side}_equipment_${equipmentKey}_definition`, kind: 'item', abilities: [] };
+      const opponent = side === 'source' ? 'target' : 'source';
+      const namedKey = (skillKey: string, key: string) => relations.length === 1 ? key : `${skillKey}_${key}`;
+
+      for (const relation of ordered(relations, `${path}.attachedSkills`)) {
+        const skillKey = relation.skillKey;
+        const configurations = snapshot.skillConfigurations.filter(row => row.skill.skillKey === skillKey);
+          if (configurations.length !== 1) fail(`${path}.attachedSkills`, '完整被动配置缺失或重复，整件装备拒绝');
+        const configuration = configurations[0]!;
+        const root = `skills.${skillKey}`;
+        validateConfiguration(configuration, snapshot.gameId, root);
+        selectedSkills.add(skillKey);
+        const numeric = createNumericCompileState({ gameId: snapshot.gameId, skillKey, skillLevel: 1,
+          characterLevel: snapshot.selection[`${side}Level`], parameters: configuration.parameters,
+          formulas: configuration.formulas, formulaNamespace: relations.length === 1 ? providerRef : `${providerRef}/${skillKey}`,
+          bindParameters: true, allowAttributeReads: true, runtimeInputMessage: '触发装备不允许未供值的计算时参数' });
+        const usedParameters = new Set<string>();
+        const usedFormulas = new Set<string>();
+        const usedEffects = new Set<string>();
+        const appliedEffects = new Set<string>();
+        const usedProcesses = new Set<string>();
+        const usedStates = new Set<string>();
+        const usedRules = new Set<string>();
+        const abilities: AbilityDefinition[] = [];
+        const stackEffects = new Map<string, { key: string; amount: number; policy: string }>();
+        const periodicEffects = new Map<string, { definition: ProviderDefinition; dynamic: boolean }>();
+        const activeProcesses = new Set<string>();
+        const activeEffects = new Set<string>();
+        const skillTypes = configuration.skill.skillCategoryKeys.map(category);
+        const noteNumeric = (value: NumericValue) => {
+          if (value.kind === 'PARAMETER') usedParameters.add(value.parameterKey);
+          if (value.kind === 'FORMULA') {
+            usedFormulas.add(value.formulaKey);
+            const formula = configuration.formulas.find(row => row.formulaKey === value.formulaKey);
+            const noteNode = (node: FormulaExpressionNode) => {
+              if (node.nodeType === 'PARAMETER') usedParameters.add(node.parameterKey);
+              if (node.nodeType === 'OPERATION') node.operands.forEach(noteNode);
+            };
+            if (formula) noteNode(formula.expression);
+          }
+        };
+        const value = (authored: NumericValue, valuePath: string) => {
+          validateNumeric(authored, valuePath);
+          noteNumeric(authored);
+          return compileNumericValue(authored, valuePath, numeric, fail);
+        };
+        const constant = (authored: NumericValue, valuePath: string, integer = false, minimum = 0) => {
+          value(authored, valuePath);
+          const folded = tryFoldConstant(compileNumericValue(authored, valuePath, { ...numeric, bindParameters: false, allowAttributeReads: false }, fail));
+          if (folded === null || !Number.isFinite(folded) || folded < minimum || integer && !Number.isSafeInteger(folded)) fail(valuePath, '需要明确的有限常量及合法整数时点，不能猜测动态值');
+          return folded;
+        };
+        const amount = (result: SkillEffectResult, resultPath: string) => {
+          if (!result.valueRule) fail(`${resultPath}.valueRule`, '结果数值规则缺失');
+          validateValueRule(result.valueRule, `${resultPath}.valueRule`);
+          return wrapValueRuleExpression(value(result.valueRule.value, `${resultPath}.valueRule.value`), result.valueRule);
+        };
+        const foldAmount = (result: SkillEffectResult, resultPath: string) => {
+          amount(result, resultPath);
+          const rule = result.valueRule!;
+          const folded = tryFoldConstant(wrapValueRuleExpression(compileNumericValue(rule.value, `${resultPath}.valueRule.value`,
+            { ...numeric, bindParameters: false, allowAttributeReads: false }, fail), rule));
+          if (folded === null || !Number.isFinite(folded)) fail(resultPath, '来源持久属性必须有明确施加快照数值，不能改为实时求值');
+          return folded;
+        };
+        const stateKey = (state: SkillInternalState) => namedKey(skillKey, state.stateKey);
+        const lookupState = (key: string, sourceSkillKey: string, statePath: string) => {
+          const state = configuration.internalStates.find(row => row.stateKey === key);
+          if (!state || sourceSkillKey !== skillKey) fail(statePath, '内部状态引用缺失或不属于当前来源技能');
+          usedStates.add(key);
+          return state;
+        };
+        const stateChange = (key: string, policy: string, expression: GenericFormulaExpr): OperationDefinition => {
+          types.set('state_scope/provider', 'state_scope');
+          return { operation: 'state_change', target: 'self', ref: key, valuePolicy: policy, amount: expression, types: ['state_scope/provider'] };
+        };
+        for (const state of configuration.internalStates) {
+          const statePath = `${root}.internalStates.${state.stateKey}`;
+          exact(state, ['gameId', 'skillKey', 'stateKey', 'stateType', 'scope', 'detail', ...METADATA], statePath);
+          if (state.gameId !== snapshot.gameId || state.skillKey !== skillKey || state.scope !== 'SKILL') fail(statePath, '只接入真实来源范围内部状态');
+          if (state.stateType === 'COUNTER') {
+            exact(state.detail, ['initialValue', 'maxValue'], `${statePath}.detail`);
+            const initial = constant(state.detail.initialValue, `${statePath}.detail.initialValue`, true);
+            const maximum = constant(state.detail.maxValue, `${statePath}.detail.maxValue`, true, 1);
+            if (initial > maximum) fail(statePath, '计数初始值不能超过上限');
+            schema[stateKey(state)] = { valueType: 'number', defaultValue: initial, maxValue: maximum, durationMs: 0 };
+          } else if (state.stateType === 'INTERNAL_COOLDOWN') {
+            exact(state.detail, ['durationValue'], `${statePath}.detail`);
+            schema[stateKey(state)] = { valueType: 'number', defaultValue: 0, maxValue: 1,
+              durationMs: constant(state.detail.durationValue, `${statePath}.detail.durationValue`, true, 1), refreshPolicy: 'start_on_first_write' };
+          } else fail(statePath, '未接入的内部状态类型，不能补默认值');
+        }
+        const effect = (key: string, effectPath: string) => {
+          const matches = configuration.effects.filter(row => row.effectKey === key);
+          if (matches.length !== 1) fail(effectPath, '效果引用缺失或重复');
+          const authored = matches[0]!;
+          const authorPath = `${root}.effects.${key}`;
+          exact(authored, ['gameId', 'skillKey', 'effectKey', 'lifecycle', 'results', ...METADATA], authorPath);
+          if (authored.gameId !== snapshot.gameId || authored.skillKey !== skillKey) fail(authorPath, '效果归属不一致');
+          uniqueRows(authored.results, row => row.resultKey, `${authorPath}.results`);
+          if (authored.lifecycle !== null) validateLifecycle(authored.lifecycle, `${authorPath}.lifecycle`);
+          usedEffects.add(key);
+          return authored;
+        };
+        const resultShape = (result: SkillEffectResult, resultPath: string) => {
+          exact(result, ['resultKey', 'resultType', 'target', 'valueRule', 'detail', 'lifecycleBehavior', 'spellShieldBlockScope', ...METADATA], resultPath);
+          if (!['SOURCE', 'TARGET'].includes(result.target) || result.spellShieldBlockScope !== null) fail(resultPath, '未知目标或未接入阻挡粒度');
+          if (result.lifecycleBehavior !== null) exact(result.lifecycleBehavior, ['moment', 'valueReadMode', 'stackValueMode', 'reapplicationValueMode', 'periodicExecutionMode'], `${resultPath}.lifecycleBehavior`);
+        };
+        const process = (key: string, processPath: string) => {
+          const authored = configuration.processes.find(row => row.processKey === key);
+          if (!authored) fail(processPath, '过程引用缺失');
+          const authorPath = `${root}.processes.${key}`;
+          exact(authored, ['gameId', 'skillKey', 'processKey', 'activationType', 'cooldown', 'steps', 'effectBindings', 'stateOperations', ...METADATA], authorPath);
+          if (authored.gameId !== snapshot.gameId || authored.skillKey !== skillKey || authored.activationType !== 'PASSIVE'
+            || authored.cooldown !== null) fail(authorPath, '仅支持无费用、无冷却的完整即时被动过程');
+          uniqueRows(authored.steps, row => row.stepKey, `${authorPath}.steps`);
+          uniqueRows(authored.effectBindings, row => row.bindingKey, `${authorPath}.effectBindings`);
+          uniqueRows(authored.stateOperations, row => row.operationKey, `${authorPath}.stateOperations`);
+          if (!authored.steps.length) fail(authorPath, '即时被动过程缺少完整步骤');
+          for (const step of ordered(authored.steps, `${authorPath}.steps`)) {
+            exact(step, ['stepKey', 'stepType', 'detail', ...METADATA], `${authorPath}.steps.${step.stepKey}`);
+            if (step.stepType !== 'IMMEDIATE') fail(`${authorPath}.steps.${step.stepKey}`, '只静态展开全部IMMEDIATE步骤，不伪造延迟或循环');
+            exact(step.detail, [], `${authorPath}.steps.${step.stepKey}.detail`);
+          }
+          usedProcesses.add(key);
+          return authored;
+        };
+        const momentOrder = (moment: SkillProcessMoment, authored: SkillProcess, momentPath: string) => {
+          exact(moment, ['momentType', 'stepKey', 'failureReason'], momentPath);
+          if (moment.failureReason != null) fail(momentPath, '即时过程不伪造失败时点');
+          const steps = ordered(authored.steps, `${root}.processes.${authored.processKey}.steps`);
+          if (moment.momentType === 'PROCESS_START' && moment.stepKey === null) return 0;
+          if (moment.momentType === 'PROCESS_COMPLETE' && moment.stepKey === null) return 1 + steps.length * 3;
+          const index = steps.findIndex(row => row.stepKey === moment.stepKey);
+          const phase = ['STEP_START', 'STEP_EXECUTION', 'STEP_COMPLETE'].indexOf(moment.momentType);
+          if (index < 0 || phase < 0) fail(momentPath, '缺失或未接入的真实过程时点');
+          return 1 + index * 3 + phase;
+        };
+        const ruleShape = (rule: SkillTriggerRuleDetail) => {
+          const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
+          exact(rule, ['ruleKey', 'eventSource', 'conditionGroups', 'actions', 'perTargetCooldown', 'maxTriggersPerProcess', 'oncePerUse', ...METADATA], rulePath);
+          exact(rule.eventSource, ['eventType', 'detail'], `${rulePath}.eventSource`);
+          if (rule.perTargetCooldown !== null || rule.maxTriggersPerProcess !== null) fail(rulePath, '触发限制需要真实内部状态，不忽略未接入的规则限制');
+          uniqueRows(rule.conditionGroups, row => row.groupKey, `${rulePath}.conditionGroups`);
+          uniqueRows(rule.actions, row => row.actionKey, `${rulePath}.actions`);
+          if (!rule.actions.length) fail(rulePath, '触发规则缺少完整动作');
+        };
+        configuration.triggerRules.forEach(ruleShape);
+        const origin = (result: SkillEffectResult, authored: SkillEffect, abilityRef: string, compiledPaths: string[], dynamicDefinition?: string) => {
+          const resultPath = `${root}.effects.${authored.effectKey}.results.${result.resultKey}`;
+          const existing = operationOrigins.find(row => row.abilityRef === abilityRef && row.operationRef === resultPath && row.providerDefinitionRef === dynamicDefinition);
+          if (existing) existing.compiledPaths.push(...compiledPaths.filter(compiled => !existing.compiledPaths.includes(compiled)));
+          else operationOrigins.push({ abilityRef, operationRef: resultPath, skillKey, effectKey: authored.effectKey,
+            resultKey: result.resultKey, compiledPaths, ...(dynamicDefinition ? { providerDefinitionRef: dynamicDefinition } : {}) });
+          for (const compiledPath of compiledPaths) cover(resultPath, compiledPath);
+        };
+        const compileStateOperation = (operation: SkillProcessStateOperation, operationPath: string) => {
+          exact(operation, ['operationKey', 'stateSkillKey', 'stateKey', 'moment', 'operation', 'value', 'optionKey', 'name', 'sortOrder'], operationPath);
+          if (operation.optionKey !== null) fail(operationPath, '未接入内部模式选项');
+          const state = lookupState(operation.stateKey, operation.stateSkillKey, operationPath);
+          if (state.stateType === 'COUNTER' && ['INCREASE', 'DECREASE', 'CONSUME', 'SET'].includes(operation.operation) && operation.value) {
+            constant(operation.value, `${operationPath}.value`, true);
+            const expression = value(operation.value, `${operationPath}.value`);
+            const decrease = operation.operation === 'DECREASE' || operation.operation === 'CONSUME';
+            return stateChange(stateKey(state), operation.operation === 'SET' ? 'set' : 'add',
+              decrease ? { op: 'mul', args: [constExpr(-1), expression] } : expression);
+          }
+          if (state.stateType === 'INTERNAL_COOLDOWN' && ['START', 'RESET'].includes(operation.operation) && operation.value === null) {
+            return stateChange(stateKey(state), 'set', constExpr(operation.operation === 'START' ? 1 : 0));
+          }
+          return fail(operationPath, '状态操作与真实COUNTER或内部冷却不一致');
+        };
+        const ensureStack = (authored: SkillEffect) => {
+          const existing = stackEffects.get(authored.effectKey);
+          if (existing) return existing;
+          const authorPath = `${root}.effects.${authored.effectKey}`;
+          const life = authored.lifecycle!;
+          if (life.instanceScope !== 'SOURCE' || life.periodicIntervalValue !== null || life.firstPeriodicExecution !== null
+            || life.expiryMode !== 'ALL_AT_ONCE' || !['INCREASE', 'KEEP', 'REPLACE'].includes(life.reapplicationStackMode)
+            || !['REFRESH_ALL', 'KEEP_REMAINING'].includes(life.reapplicationDurationMode ?? '')) fail(`${authorPath}.lifecycle`, '来源叠层需要完整有期、同刻到期且无周期的生命周期');
+          const duration = life.durationValue ? constant(life.durationValue, `${authorPath}.lifecycle.durationValue`, true, 1) : fail(authorPath, '来源叠层时长缺失');
+          const maximum = constant(life.maxStacksValue, `${authorPath}.lifecycle.maxStacksValue`, true, 1);
+          const stacks = constant(life.applicationStacksValue, `${authorPath}.lifecycle.applicationStacksValue`, true, 1);
+          if (stacks > maximum || life.reapplicationStackMode === 'KEEP' && maximum !== 1) fail(authorPath, '未接入保持多层的叠层方式');
+          const key = namedKey(skillKey, `effect_${authored.effectKey}`);
+          if (schema[key]) fail(authorPath, '生命周期状态标识与内部状态冲突');
+          const refreshPolicy = life.reapplicationDurationMode === 'REFRESH_ALL' ? 'refresh_on_write' : 'start_on_first_write';
+          schema[key] = { valueType: 'number', defaultValue: 0, maxValue: maximum, durationMs: duration, refreshPolicy };
+          if (!authored.results.length) fail(authorPath, '来源叠层缺少完整属性结果');
+          for (const result of ordered(authored.results, `${authorPath}.results`)) {
+            const resultPath = `${authorPath}.results.${result.resultKey}`;
+            resultShape(result, resultPath);
+            if (result.resultType !== 'ATTRIBUTE_CHANGE' || result.target !== 'SOURCE') fail(resultPath, '来源叠层只接入拥有方持久属性结果');
+            exact(result.detail, ['attributeKey', 'operation', 'modifierZoneKey'], `${resultPath}.detail`);
+            const behavior = result.lifecycleBehavior;
+            if (!behavior || behavior.moment !== 'PERSISTENT' || behavior.valueReadMode !== 'APPLICATION_SNAPSHOT'
+              || !['SHARED', 'PER_STACK'].includes(behavior.stackValueMode ?? '')
+              || (behavior.stackValueMode === 'PER_STACK' ? behavior.reapplicationValueMode !== null : behavior.reapplicationValueMode !== 'REPLACE')
+              || behavior.periodicExecutionMode !== null || !['INCREASE', 'DECREASE'].includes(result.detail.operation)) fail(resultPath, '来源叠层属性读取、重施或数值方式未接入');
+            let policy = 'add';
+            if (result.detail.modifierZoneKey !== null) {
+              const zones = snapshot.catalogs.modifierZones.filter(row => row.modifierZoneKey === result.detail.modifierZoneKey);
+              const zone = zones[0];
+              if (zones.length !== 1 || !zone || zone.gameId !== snapshot.gameId || zone.status !== 'ENABLED' || zone.domain !== 'ATTRIBUTE'
+                || !(zone.calculationMode === 'FLAT_ADD' && zone.applicationStage === 'ATTRIBUTE_FLAT'
+                  || zone.calculationMode === 'RATIO_ADD' && zone.applicationStage === 'ATTRIBUTE_PERCENT')) fail(resultPath, '来源属性修正区缺少完整真实目录');
+              policy = zone.calculationMode === 'FLAT_ADD' ? 'add' : 'percent_add';
+              cover(`catalogs.modifierZones.${zone.modifierZoneKey}`, `${compiledRoot}.modifiers[${modifiers.length}]`);
+            }
+            stableKey(result.detail.attributeKey, `${resultPath}.detail.attributeKey`);
+            required[side].add(result.detail.attributeKey);
+            const magnitude = foldAmount(result, resultPath) * (result.detail.operation === 'DECREASE' ? -1 : 1);
+            const read: GenericFormulaExpr = { op: 'read', path: `provider.state.${key}` };
+            const layers = behavior.stackValueMode === 'PER_STACK' ? read : { op: 'min', args: [constExpr(1), read] };
+            const modifierPath = `${compiledRoot}.modifiers[${modifiers.length}]`;
+            modifiers.push({ modifierKey: namedKey(skillKey, `${authored.effectKey}_${result.resultKey}`), kind: 'attribute',
+              target: `self.attr.${result.detail.attributeKey}`, valuePolicy: policy, value: { op: 'mul', args: [constExpr(magnitude), layers] } });
+            cover(resultPath, modifierPath);
+            cover(`${resultPath}.valueRule`, `${modifierPath}.value`);
+            cover(`${resultPath}.lifecycleBehavior`, modifierPath);
+          }
+          const stack = { key, amount: stacks, policy: life.reapplicationStackMode === 'INCREASE' ? 'add' : 'set' };
+          stackEffects.set(authored.effectKey, stack);
+          cover(`${authorPath}.lifecycle`, `${compiledRoot}.initialStateSchema.${key}`);
+          return stack;
+        };
+        const comparator = (key: string, left: GenericFormulaExpr, right: GenericFormulaExpr, conditionPath: string): GenericFormulaExpr => {
+          const operation = ({ LT: 'lt', LTE: 'lte', EQ: 'eq', NE: 'ne', GTE: 'gte', GT: 'gt' } as Record<string, string>)[key];
+          if (!operation) fail(conditionPath, '未知比较符');
+          return { op: operation, args: [left, right] };
+        };
+        const condition = (authored: SkillTriggerCondition, conditionPath: string, event: string): GenericFormulaExpr => {
+          exact(authored, ['conditionKey', 'conditionType', 'sortOrder', 'detail'], conditionPath);
+          const detailPath = `${conditionPath}.detail`;
+          if (authored.conditionType === 'INTERNAL_STATE_CHECK') {
+            const detail = authored.detail;
+            exact(detail, ['stateSkillKey', 'stateKey', 'valueKind', 'optionKey', 'expectedBoolean', 'comparator', 'comparisonValue'], detailPath);
+            const state = lookupState(detail.stateKey, detail.stateSkillKey, detailPath);
+            if (detail.optionKey !== null || detail.expectedBoolean !== null || !detail.comparisonValue || !detail.comparator) fail(detailPath, '真实数值状态检查字段不完整');
+            const read: GenericFormulaExpr = { op: 'read', path: `provider.state.${stateKey(state)}` };
+            if (state.stateType === 'COUNTER' && detail.valueKind === 'VALUE') return comparator(detail.comparator, read, value(detail.comparisonValue, detailPath), detailPath);
+            if (state.stateType === 'INTERNAL_COOLDOWN' && detail.valueKind === 'REMAINING_MS'
+              && constant(detail.comparisonValue, detailPath) === 0) return comparator(detail.comparator, read, constExpr(0), detailPath);
+            return fail(detailPath, '内部冷却只接入真实与零的就绪判断，不把活动标记当毫秒');
+          }
+          if (authored.conditionType === 'LIFECYCLE_CHECK') {
+            const detail = authored.detail;
+            exact(detail, ['effectSkillKey', 'effectKey', 'subject', 'checkKind', 'comparator', 'comparisonValue'], detailPath);
+            if (detail.effectSkillKey !== skillKey || detail.subject !== null) fail(detailPath, 'SOURCE生命周期条件由当前来源保存，subject必须为空');
+            const stack = ensureStack(effect(detail.effectKey, detailPath));
+            const read: GenericFormulaExpr = { op: 'read', path: `provider.state.${stack.key}` };
+            if (detail.checkKind === 'STACKS_COMPARE' && detail.comparator && detail.comparisonValue) return comparator(detail.comparator, read, value(detail.comparisonValue, detailPath), detailPath);
+            if (detail.comparator !== null || detail.comparisonValue !== null || !['PRESENT', 'ABSENT'].includes(detail.checkKind)) fail(detailPath, '生命周期存在检查字段不完整');
+            return comparator(detail.checkKind === 'PRESENT' ? 'GT' : 'EQ', read, constExpr(0), detailPath);
+          }
+          if (authored.conditionType === 'ATTRIBUTE_COMPARE') {
+            const detail = authored.detail;
+            exact(detail, ['subject', 'attributeKey', 'attributeValueKind', 'comparator', 'comparisonValue'], detailPath);
+            if (!['SOURCE', 'CURRENT_TARGET', 'EVENT_SOURCE'].includes(detail.subject)) fail(detailPath, '未知条件属性对象');
+            const receiver = event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED';
+            const expression = compileFormulaExpression({ nodeType: 'ATTRIBUTE', attributeOwner: detail.subject === 'CURRENT_TARGET' && !receiver ? 'TARGET' : 'SOURCE',
+              attributeKey: detail.attributeKey, attributeValueKind: detail.attributeValueKind }, detailPath, numeric, fail);
+            const eventRead = (node: GenericFormulaExpr): GenericFormulaExpr => ({ ...node,
+              ...(node.path ? { path: node.path.replace(/^source\.attr\./, 'event.source.attr.') } : {}),
+              ...(node.args ? { args: node.args.map(eventRead) } : {}) });
+            if (detail.subject === 'EVENT_SOURCE') required[event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED' ? opponent : side].add(detail.attributeKey);
+            return comparator(detail.comparator, detail.subject === 'EVENT_SOURCE' ? eventRead(expression) : expression, value(detail.comparisonValue, detailPath), detailPath);
+          }
+          if (authored.conditionType === 'TARGET_CATEGORY_CHECK') {
+            exact(authored.detail, ['categories'], detailPath);
+            const categories = array(authored.detail.categories, `${detailPath}.categories`);
+            if (!categories.length || new Set(categories).size !== categories.length
+              || categories.some(key => !SKILL_TRIGGER_TARGET_CATEGORIES.includes(key))) fail(detailPath, '目标类别集合不完整或未知');
+            const character = record(snapshot[opponent].character, `${opponent}.character`);
+            const characterKey = stableKey(character.characterKey, `${opponent}.character.characterKey`);
+            if (character.gameId !== snapshot.gameId || characterKey !== snapshot.selection[`${opponent}CharacterKey`]) {
+              fail(`${opponent}.character.characterKey`, '英雄选择与真实角色快照归属不一致，不能推断目标类别');
+            }
+            const identityPath = `combatants[${opponent === 'source' ? 0 : 1}].types`;
+            cover(`${opponent}.character.characterKey`, identityPath);
+            cover(`selection.${opponent}CharacterKey`, identityPath);
+            return constExpr(categories.includes('CHAMPION') ? 1 : 0);
+          }
+          if (authored.conditionType === 'EVENT_VALUE_COMPARE') {
+            exact(authored.detail, ['eventValueKey', 'comparator', 'comparisonValue'], detailPath);
+            const link = ({ LINK_INDEX: 'event.link.index', LINK_COUNT: 'event.link.count' } as Record<string, string>)[authored.detail.eventValueKey];
+            if (!link || event !== 'HIT_LINK_APPLIED') fail(detailPath, '事件数值没有已接入的真实冻结字段');
+            return comparator(authored.detail.comparator, { op: 'read', path: link }, value(authored.detail.comparisonValue, detailPath), detailPath);
+          }
+          return fail(conditionPath, '未接入的条件节点不能被丢弃');
+        };
+        const conditions = (rule: SkillTriggerRuleDetail, event: string): GenericFormulaExpr | undefined => {
+          const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
+          if (!rule.conditionGroups.length) return undefined;
+          return combine('max', ordered(rule.conditionGroups, `${rulePath}.conditionGroups`).map(group => {
+            const groupPath = `${rulePath}.conditionGroups.${group.groupKey}`;
+            exact(group, ['groupKey', 'name', 'sortOrder', 'conditions'], groupPath);
+            uniqueRows(group.conditions, row => row.conditionKey, `${groupPath}.conditions`);
+            return combine('min', ordered(group.conditions, `${groupPath}.conditions`)
+              .map(row => condition(row, `${groupPath}.conditions.${row.conditionKey}`, event)));
+          }));
+        };
+        const compileDamage = (result: SkillEffectDamageResult, resultPath: string): OperationDefinition => {
+          exact(result.detail, ['damageTypeKey', 'deliveryKind', 'originKind', 'critical', 'vampQualification', 'vampOverrides'], `${resultPath}.detail`);
+          if (result.target !== 'TARGET' || !['SKILL', 'BASIC_ATTACK'].includes(result.detail.deliveryKind)
+            || !['DIRECT', 'REFLECTED'].includes(result.detail.originKind)) fail(resultPath, '伤害目标或特征未知');
+          const operation: OperationDefinition = { operation: 'damage', target: 'target', ref: resultPath,
+            damageType: defense(result.detail.damageTypeKey), amount: amount(result, resultPath) };
+          exact(result.detail.critical, ['mode', 'multiplierValue'], `${resultPath}.detail.critical`);
+          const critical = result.detail.critical;
+          if (critical.mode === 'DISALLOWED') {
+            if (critical.multiplierValue !== null) fail(resultPath, '禁止暴击不能保留倍率');
+            operation.critEligible = false;
+          } else if (critical.mode === 'SOURCE_CRIT_CHANCE' || critical.mode === 'FORCED') {
+            if (!critical.multiplierValue) fail(resultPath, '暴击必须保留原作者倍率');
+            operation.critEligible = true;
+            operation.critChance = critical.mode === 'FORCED' ? constExpr(1) : { op: 'read', path: 'source.attr.critical_strike_chance.resolved' };
+            operation.critMultiplier = value(critical.multiplierValue, `${resultPath}.detail.critical.multiplierValue`);
+          } else fail(resultPath, '未知暴击模式');
+          if (result.detail.vampQualification !== 'RESOLVED') fail(`${resultPath}.detail.vampQualification`, '吸血资格尚未核定，整件装备拒绝');
+          for (const [index, override] of array(result.detail.vampOverrides, `${resultPath}.detail.vampOverrides`).entries()) {
+            const overridePath = `${resultPath}.detail.vampOverrides[${index}]`;
+            exact(override, ['vampType', 'mode', 'basisOutputKind', 'efficiencyValue'], overridePath);
+            if (override.efficiencyValue) {
+              validateNumeric(override.efficiencyValue, `${overridePath}.efficiencyValue`);
+              noteNumeric(override.efficiencyValue);
+            }
+          }
+          exact(snapshot.catalogs.vampRules, ['rules'], 'catalogs.vampRules');
+          for (const [index, vampRule] of array(snapshot.catalogs.vampRules.rules, 'catalogs.vampRules.rules').entries()) {
+            exact(vampRule, ['vampType', 'sourceAttributeKey', 'basisOutputKind', 'defaultEfficiency', 'deliveryKinds', 'originKinds', 'skillCategoryKeys'], `catalogs.vampRules.rules[${index}]`);
+          }
+          const vamp = adaptDamageVamp(snapshot.catalogs.vampRules.rules, { gameId: snapshot.gameId, skillKey,
+            skillCategoryKeys: configuration.skill.skillCategoryKeys, skillLevel: 1, characterLevel: snapshot.selection[`${side}Level`],
+            detail: result.detail, parameters: configuration.parameters, formulas: configuration.formulas });
+          if (rules.vampRules && JSON.stringify(rules.vampRules) !== JSON.stringify(vamp.rules)) fail(resultPath, '游戏吸血规则冲突');
+          rules.vampRules = vamp.rules;
+          const names = new Map(vamp.formulas.map(formula => [formula.key, `${numeric.formulaNamespace}/${formula.key}`]));
+          Object.assign(operation, vamp.operation, { vampOverrides: vamp.operation.vampOverrides?.map(override => override.mode === 'OVERRIDE'
+            ? { ...override, efficiency: renameFormulaRefs(override.efficiency, names) } : override) });
+          Object.assign(numeric.params, vamp.params);
+          for (const formula of vamp.formulas) addFormula({ key: names.get(formula.key)!, expression: renameFormulaRefs(formula.expression, names) }, resultPath);
+          for (const entry of vamp.typeEntries) {
+            if (entry.domain === 'ability') category(entry.key.slice('ability/'.length));
+            types.set(entry.key, entry.domain);
+          }
+          for (const [index, vampRule] of vamp.rules.entries()) {
+            required[side].add(vampRule.sourceAttributeKey);
+            cover(`catalogs.vampRules.rules[${snapshot.catalogs.vampRules.rules.findIndex(row => row.vampType === vampRule.vampType)}]`, `rules.vampRules[${index}]`);
+          }
+          return operation;
+        };
+        const addResult = (result: SkillEffectResult, authored: SkillEffect, output: OperationDefinition[], outputRoot: string,
+          abilityRef: string, dynamicDefinition?: string) => {
+          const resultPath = `${root}.effects.${authored.effectKey}.results.${result.resultKey}`;
+          resultShape(result, resultPath);
+          const operationPath = `${outputRoot}[${output.length}]`;
+          let operation: OperationDefinition;
+          if (result.resultType === 'DAMAGE') {
+            operation = compileDamage(result, resultPath);
+          } else if (result.resultType === 'HIT_LINK_APPLICATION') {
+            exact(result.detail, [], `${resultPath}.detail`);
+            if (result.target !== 'TARGET' || authored.lifecycle !== null || result.lifecycleBehavior !== null) fail(resultPath, '命中联动必须有完整即时对手次数');
+            types.set('event/hit_link_applied', 'event');
+            operation = { operation: 'apply_hit_link', target: 'target', ref: resultPath, amount: amount(result, resultPath) };
+          } else if (result.resultType === 'HEALING_MODIFIER') {
+            if (!authored.lifecycle) fail(resultPath, '受到治疗降低缺少真实生命周期');
+            exact(result.detail, ['modifierZoneKey', 'direction', 'operation', 'healingKind'], `${resultPath}.detail`);
+            const zones = snapshot.catalogs.modifierZones.filter(row => row.modifierZoneKey === result.detail.modifierZoneKey);
+            if (zones.length !== 1 || zones[0]!.gameId !== snapshot.gameId || zones[0]!.status !== 'ENABLED' || zones[0]!.applicationStage !== 'HEALING_RESULT') fail(resultPath, '减疗修正区需要唯一已启用的真实目录');
+            amount(result, resultPath);
+            const life = authored.lifecycle;
+            for (const field of ['durationValue', 'maxStacksValue', 'applicationStacksValue'] as const) {
+              if (!life[field]) fail(`${resultPath}.lifecycle.${field}`, '减疗生命周期缺项');
+              value(life[field]!, `${root}.effects.${authored.effectKey}.lifecycle.${field}`);
+            }
+            const key = `${definitionRef}_${skillKey}_${authored.effectKey}_${result.resultKey}`;
+            const compiled = compilePersistentResult({ gameId: snapshot.gameId, skillKey, skillLevel: 1,
+              characterLevel: snapshot.selection[`${side}Level`], effectKey: authored.effectKey, lifecycle: life, result,
+              parameters: configuration.parameters, formulas: configuration.formulas, statuses: snapshot.catalogs.statuses,
+              modifierZones: snapshot.catalogs.modifierZones, source: 'source', target: 'target' }, key);
+            compiled.provider.stableId = provider.stableId;
+            if (!providers.some(row => row.providerKey === key)) providers.push(compiled.provider);
+            Object.assign(numeric.params, compiled.params);
+            const names = new Map(compiled.formulas.map(formula => [formula.key, `${numeric.formulaNamespace}/${formula.key}`]));
+            for (const formula of compiled.formulas) addFormula({ key: names.get(formula.key)!, expression: renameFormulaRefs(formula.expression, names) }, resultPath);
+            operation = { ...compiled.operation, ref: resultPath };
+            cover(`${root}.effects.${authored.effectKey}.lifecycle`, `sharedProviders.${key}.lifecycle`);
+            cover(`catalogs.modifierZones.${result.detail.modifierZoneKey}`, `sharedProviders.${key}.modifiers[0]`);
+            cover(resultPath, `sharedProviders.${key}.modifiers[0]`);
+          } else if (result.resultType === 'STATUS_OPERATION') {
+            if (!authored.lifecycle || authored.results.length !== 1) fail(resultPath, '普通减速需要唯一结果和完整生命周期，不能混合持续结果');
+            exact(result.detail, ['statusKey', 'operation'], `${resultPath}.detail`);
+            const statusPath = `catalogs.statuses.${result.detail.statusKey}`;
+            const statuses = array(snapshot.catalogs.statuses, 'catalogs.statuses').filter(row => row.statusKey === result.detail.statusKey);
+            if (statuses.length !== 1 || statuses[0]!.gameId !== snapshot.gameId || statuses[0]!.status !== 'ENABLED'
+              || statuses[0]!.statusKind !== 'MOVEMENT_SLOW') fail(statusPath, '普通减速需要唯一已启用且同游戏的真实状态目录');
+            exact(statuses[0], ['gameId', 'statusKey', 'statusKind', 'status', ...METADATA], statusPath);
+            amount(result, resultPath);
+            const life = authored.lifecycle;
+            for (const field of ['durationValue', 'maxStacksValue', 'applicationStacksValue'] as const) {
+              if (!life[field]) fail(`${resultPath}.lifecycle.${field}`, '普通减速生命周期缺项');
+              value(life[field]!, `${root}.effects.${authored.effectKey}.lifecycle.${field}`);
+            }
+            const key = `${definitionRef}_${skillKey}_${authored.effectKey}_${result.resultKey}`;
+            const compiled = compilePersistentResult({ gameId: snapshot.gameId, skillKey, skillLevel: 1,
+              characterLevel: snapshot.selection[`${side}Level`], effectKey: authored.effectKey, lifecycle: life, result,
+              parameters: configuration.parameters, formulas: configuration.formulas, statuses: snapshot.catalogs.statuses,
+              modifierZones: snapshot.catalogs.modifierZones, source: 'source', target: 'target' }, key);
+            compiled.provider.stableId = provider.stableId;
+            Object.assign(numeric.params, compiled.params);
+            const names = new Map(compiled.formulas.map(formula => [formula.key, `${numeric.formulaNamespace}/${formula.key}`]));
+            for (const formula of compiled.formulas) addFormula({ key: names.get(formula.key)!, expression: renameFormulaRefs(formula.expression, names) }, resultPath);
+            compiled.provider.statusContributions = compiled.provider.statusContributions!.map(contribution => ({
+              ...contribution, strength: renameFormulaRefs(contribution.strength, names)
+            }));
+            if (!providers.some(row => row.providerKey === key)) providers.push(compiled.provider);
+            collectAttributes(compiled.provider, side, required);
+            operation = { ...compiled.operation, ref: resultPath };
+            const contributionPath = `sharedProviders.${key}.statusContributions[0]`;
+            cover(`${root}.effects.${authored.effectKey}.lifecycle`, `sharedProviders.${key}.lifecycle`);
+            cover(statusPath, contributionPath);
+            cover(resultPath, contributionPath);
+            cover(`${resultPath}.valueRule`, `${contributionPath}.strength`);
+          } else fail(resultPath, '未接入的完整效果结果，整件装备拒绝');
+          output.push(operation);
+          origin(result, authored, abilityRef, [operationPath], dynamicDefinition);
+          for (const field of ['target', 'valueRule', 'lifecycleBehavior', 'detail'] as const) cover(`${resultPath}.${field}`, operationPath);
+          if (result.resultType === 'DAMAGE') {
+            cover(`${resultPath}.valueRule`, `${operationPath}.amount`);
+            for (const [field, compiled] of [['damageTypeKey', 'damageType'], ['deliveryKind', 'types'], ['originKind', 'types'],
+              ['critical', 'critEligible'], ['vampQualification', 'vampQualification'], ['vampOverrides', 'vampOverrides']]) cover(`${resultPath}.detail.${field}`, `${operationPath}.${compiled}`);
+            if (operation.critChance) cover(`${resultPath}.detail.critical.mode`, `${operationPath}.critChance`);
+            if (operation.critMultiplier) cover(`${resultPath}.detail.critical.multiplierValue`, `${operationPath}.critMultiplier`);
+            collectAttributes(rules.damageTypeFormulas!.find(row => row.damageType === operation.damageType)!.formula, side, required);
+          }
+        };
+        const targetFor = (action: SkillTriggerAction, event: string, actionPath: string) => {
+          if (action.targetContext === 'CURRENT_TARGET') return event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED' || event === 'SOURCE_INITIALIZED' ? 'self' : 'target';
+          if (action.targetContext === 'EVENT_SOURCE') {
+            if (event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED') return 'target';
+            if (['BASIC_ATTACK_HIT', 'HIT_LINK_APPLIED', 'DAMAGE_DEALT', 'SOURCE_INITIALIZED'].includes(event)) return 'self';
+          }
+          return fail(actionPath, '动作目标缺少真实事件来源到当前对手的完整映射');
+        };
+        const actionShape = (action: SkillTriggerAction, actionPath: string) => {
+          exact(action, ['actionKey', 'actionType', 'detail', 'targetContext', 'runtimeInputBindings', 'resultModifiers', ...METADATA], actionPath);
+          if (array(action.runtimeInputBindings, `${actionPath}.runtimeInputBindings`).length
+            || array(action.resultModifiers, `${actionPath}.resultModifiers`).length) fail(actionPath, '未接入的运行时绑定或结果修饰不能丢弃');
+        };
+        const executeEffect = (authored: SkillEffect, output: OperationDefinition[], outputRoot: string, abilityRef: string,
+          event: string, actionPath: string, context: string) => {
+          const effectPath = `${root}.effects.${authored.effectKey}`;
+          appliedEffects.add(authored.effectKey);
+          if (activeEffects.has(authored.effectKey)) fail(effectPath, '效果接线循环');
+          activeEffects.add(authored.effectKey);
+          try {
+            if (authored.lifecycle?.periodicIntervalValue !== null && authored.lifecycle?.periodicIntervalValue !== undefined) {
+              compilePeriodic(authored, output, outputRoot, event, actionPath);
+            } else if (authored.lifecycle?.instanceScope === 'SOURCE') {
+              const stack = ensureStack(authored);
+              const operationPath = `${outputRoot}[${output.length}]`;
+              output.push(stateChange(stack.key, stack.policy, constExpr(stack.amount)));
+              for (const result of authored.results) origin(result, authored, abilityRef, [operationPath]);
+              cover(effectPath, operationPath);
+            } else {
+              if (!authored.results.length) fail(effectPath, '效果缺少完整结果');
+              for (const result of ordered(authored.results, `${effectPath}.results`)) {
+                if (authored.lifecycle !== null && result.resultType !== 'HEALING_MODIFIER' && result.resultType !== 'STATUS_OPERATION') fail(effectPath, '未接入的持续效果不能伪装成即时结果');
+                if (context === 'self' && result.target === 'TARGET') fail(actionPath, '当前节点未接入把对手结果改投到事件拥有方');
+                if (authored.lifecycle === null && result.lifecycleBehavior !== null) fail(effectPath, '即时效果不能夹带生命周期结果');
+                addResult(result, authored, output, outputRoot, abilityRef);
+              }
+              cover(effectPath, outputRoot);
+            }
+          } finally { activeEffects.delete(authored.effectKey); }
+        };
+        const executeActions = (rule: SkillTriggerRuleDetail, output: OperationDefinition[], outputRoot: string, abilityRef: string, event: string) => {
+          const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
+          for (const action of ordered(rule.actions, `${rulePath}.actions`)) {
+            const actionPath = `${rulePath}.actions.${action.actionKey}`;
+            actionShape(action, actionPath);
+            const context = targetFor(action, event, actionPath);
+            const operationPath = `${outputRoot}[${output.length}]`;
+            if (action.actionType === 'EXECUTE_EFFECT') {
+              exact(action.detail, ['effectKey'], `${actionPath}.detail`);
+              executeEffect(effect(action.detail.effectKey, actionPath), output, outputRoot, abilityRef, event, actionPath, context);
+            } else if (action.actionType === 'START_PROCESS') {
+              exact(action.detail, ['processKey'], `${actionPath}.detail`);
+              if (context !== 'target') fail(actionPath, '静态被动过程必须保持同一真实对手目标');
+              compileProcess(process(action.detail.processKey, actionPath), output, outputRoot, abilityRef, event);
+            } else fail(actionPath, '未接入的动作节点');
+            cover(actionPath, output.length ? operationPath : `${compiledRoot}.abilities`);
+          }
+        };
+        const executeMomentRule = (rule: SkillTriggerRuleDetail, output: OperationDefinition[], outputRoot: string, abilityRef: string, event: string) => {
+          const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
+          if (rule.oncePerUse !== null) fail(rulePath, '静态过程时点不能丢弃独立同次使用额度');
+          usedRules.add(rule.ruleKey);
+          const guard = conditions(rule, event);
+          let guardKey: string | undefined;
+          if (guard) {
+            let index = Object.keys(schema).length;
+            while (schema[`compiled_guard_${index}`]) index++;
+            guardKey = `compiled_guard_${index}`;
+            schema[guardKey] = { valueType: 'number', defaultValue: 0, maxValue: 1, durationMs: 0 };
+            const guardPath = `${outputRoot}[${output.length}]`;
+            output.push(stateChange(guardKey, 'set', guard));
+            cover(`${rulePath}.conditionGroups`, `${guardPath}.amount`);
+          }
+          const start = output.length;
+          executeActions(rule, output, outputRoot, abilityRef, event);
+          if (guardKey) for (const operation of output.slice(start)) {
+            const predicate: GenericFormulaExpr = { op: 'read', path: `provider.state.${guardKey}` };
+            operation.condition = operation.condition ? combine('min', [predicate, operation.condition]) : predicate;
+          }
+          cover(rulePath, outputRoot);
+        };
+        function compileProcess(authored: SkillProcess, output: OperationDefinition[], outputRoot: string, abilityRef: string, event: string) {
+          const processPath = `${root}.processes.${authored.processKey}`;
+          if (activeProcesses.has(authored.processKey)) fail(processPath, '即时被动过程存在循环');
+          activeProcesses.add(authored.processKey);
+          try {
+            const scheduled: Array<{ moment: number; sortOrder: number; key: string; run: () => void }> = [];
+            for (const operation of ordered(authored.stateOperations, `${processPath}.stateOperations`)) {
+              const operationPath = `${processPath}.stateOperations.${operation.operationKey}`;
+              scheduled.push({ moment: momentOrder(operation.moment, authored, operationPath), sortOrder: operation.sortOrder, key: operationPath, run: () => {
+                const compiledPath = `${outputRoot}[${output.length}]`;
+                output.push(compileStateOperation(operation, operationPath));
+                cover(operationPath, compiledPath);
+              } });
+            }
+            for (const binding of ordered(authored.effectBindings, `${processPath}.effectBindings`)) {
+              const bindingPath = `${processPath}.effectBindings.${binding.bindingKey}`;
+              exact(binding, ['bindingKey', 'effectKey', 'moment', 'sortOrder'], bindingPath);
+              scheduled.push({ moment: momentOrder(binding.moment, authored, bindingPath), sortOrder: binding.sortOrder, key: bindingPath, run: () => {
+                executeEffect(effect(binding.effectKey, bindingPath), output, outputRoot, abilityRef, event, bindingPath, 'target');
+                cover(bindingPath, outputRoot);
+              } });
+            }
+            for (const rule of configuration.triggerRules) if (rule.eventSource.eventType === 'PROCESS_MOMENT' && rule.eventSource.detail.processKey === authored.processKey) {
+              const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
+              exact(rule.eventSource.detail, ['processKey', 'moment'], `${rulePath}.eventSource.detail`);
+              scheduled.push({ moment: momentOrder(rule.eventSource.detail.moment, authored, rulePath), sortOrder: rule.sortOrder,
+                key: rulePath, run: () => executeMomentRule(rule, output, outputRoot, abilityRef, event) });
+            }
+            scheduled.sort((left, right) => left.moment - right.moment || left.sortOrder - right.sortOrder);
+            for (const [index, entry] of scheduled.entries()) {
+              if (index && scheduled[index - 1]!.moment === entry.moment && scheduled[index - 1]!.sortOrder === entry.sortOrder) fail(entry.key, '同一时点的跨节点排序不明确，不能猜测先后');
+              entry.run();
+            }
+            for (const step of ordered(authored.steps, `${processPath}.steps`)) cover(`${processPath}.steps.${step.stepKey}`, outputRoot);
+            cover(processPath, outputRoot);
+          } finally { activeProcesses.delete(authored.processKey); }
+        }
+        function compilePeriodic(authored: SkillEffect, output: OperationDefinition[], outputRoot: string, event: string, actionPath: string) {
+          const effectPath = `${root}.effects.${authored.effectKey}`;
+          const life = authored.lifecycle!;
+          if (life.instanceScope !== 'SOURCE' || life.reapplicationStackMode !== 'KEEP' || life.periodicIntervalValue === null
+            || life.firstPeriodicExecution !== 'AFTER_INTERVAL') fail(`${effectPath}.lifecycle`, '周期需要真实SOURCE范围、首跳AFTER_INTERVAL及完整生命周期依据');
+          const interval = constant(life.periodicIntervalValue, `${effectPath}.lifecycle.periodicIntervalValue`, true, 1);
+          if (constant(life.maxStacksValue, `${effectPath}.lifecycle.maxStacksValue`, true, 1) !== 1
+            || constant(life.applicationStacksValue, `${effectPath}.lifecycle.applicationStacksValue`, true, 1) !== 1) fail(effectPath, '周期只支持完整单层来源');
+          const dynamic = life.durationValue !== null;
+          if (dynamic ? life.expiryMode !== 'ALL_AT_ONCE' || life.reapplicationDurationMode !== 'REFRESH_ALL'
+            : life.expiryMode !== 'EXPLICIT_ONLY' || life.reapplicationDurationMode !== null || event !== 'SOURCE_INITIALIZED') fail(effectPath, '周期激活、刷新或有期终点缺少完整作者依据');
+          let compiled = periodicEffects.get(authored.effectKey);
+          if (!compiled) {
+            const key = dynamic ? `${definitionRef}_${skillKey}_${authored.effectKey}_periodic` : definitionRef;
+            const tick: AbilityDefinition = { abilityKey: dynamic ? 'tick' : namedKey(skillKey, `tick_${authored.effectKey}`), kind: 'tick',
+              skillKey, types: [...skillTypes, `ability/skill/${skillKey}`], tickSpec: { intervalMs: interval, startDelayMs: interval, onTick: [] } };
+            const tickProvider: ProviderDefinition = dynamic ? { providerKey: key, stableId: provider.stableId, kind: 'status',
+              lifecycle: { durationMs: constExpr(constant(life.durationValue!, `${effectPath}.lifecycle.durationValue`, true, 1)),
+                maxStacks: 1, refreshPolicy: 'replace', instanceScope: 'source_target' }, abilities: [tick] } : provider;
+            if (!dynamic && provider.abilities!.some(ability => ability.kind === 'tick')) fail(effectPath, '固定来源不支持第二项独立周期');
+            const tickIndex = dynamic ? 0 : provider.abilities!.length;
+            const tickRoot = `sharedProviders.${key}.abilities[${tickIndex}].tickSpec.onTick`;
+            const tickRef = `${side}.provider[${dynamic ? key : providerRef}].ability[${tick.abilityKey}]`;
+            for (const result of ordered(authored.results, `${effectPath}.results`)) {
+              resultShape(result, `${effectPath}.results.${result.resultKey}`);
+              const behavior = result.lifecycleBehavior;
+              if (!behavior || behavior.moment !== 'PERIODIC' || behavior.valueReadMode !== 'MOMENT_EVALUATION'
+                || behavior.stackValueMode !== null || behavior.reapplicationValueMode !== null
+                || behavior.periodicExecutionMode !== 'ONCE_PER_INSTANCE' || result.resultType !== 'DAMAGE') fail(effectPath, '周期结果时点、读取、层数或类型不完整');
+              addResult(result, authored, tick.tickSpec!.onTick, tickRoot, tickRef, dynamic ? key : undefined);
+            }
+            for (const rule of configuration.triggerRules) if (rule.eventSource.eventType === 'LIFECYCLE_MOMENT'
+              && rule.eventSource.detail.effectKey === authored.effectKey && rule.eventSource.detail.moment === 'PERIODIC') {
+              exact(rule.eventSource.detail, ['effectKey', 'moment'], `${root}.triggerRules.${rule.ruleKey}.eventSource.detail`);
+              if (rule.conditionGroups.length || rule.oncePerUse !== null) fail(effectPath, '周期时点尚未接入条件或原使用额度');
+              if (rule.actions.some(action => action.actionType !== 'EXECUTE_EFFECT' || action.targetContext !== 'CURRENT_TARGET')) fail(effectPath, '周期时点只接入真实对手的即时伤害，不串用来源状态或过程');
+              usedRules.add(rule.ruleKey);
+              const before = operationOrigins.length;
+              executeActions(rule, tick.tickSpec!.onTick, tickRoot, tickRef, 'DAMAGE_DEALT');
+              if (tick.tickSpec!.onTick.some(operation => operation.operation !== 'damage' || operation.target !== 'target')) fail(effectPath, '周期时点未接入非伤害操作');
+              if (dynamic) for (const originRow of operationOrigins.slice(before)) originRow.providerDefinitionRef = key;
+            }
+            if (!tick.tickSpec!.onTick.length) fail(effectPath, '周期没有完整执行结果');
+            if (dynamic) providers.push(tickProvider);
+            else provider.abilities!.push(tick);
+            abilities.push(tick);
+            compiled = { definition: tickProvider, dynamic };
+            periodicEffects.set(authored.effectKey, compiled);
+            cover(`${effectPath}.lifecycle`, `sharedProviders.${key}`);
+            cover(effectPath, tickRoot);
+          } else if (!dynamic) fail(actionPath, '永久周期不能重复播种');
+          if (compiled.dynamic) {
+            const operationPath = `${outputRoot}[${output.length}]`;
+            output.push({ operation: 'apply_provider', target: 'self', providerDefinitionRef: compiled.definition.providerKey, ref: effectPath });
+            cover(actionPath, operationPath);
+            cover(`${effectPath}.lifecycle.instanceScope`, `${operationPath}.target`);
+          }
+          cover(`${effectPath}.lifecycle.firstPeriodicExecution`, `sharedProviders.${compiled.definition.providerKey}`);
+        }
+
+
+        for (const rule of ordered(configuration.triggerRules, `${root}.triggerRules`)) {
+          const event: string = rule.eventSource.eventType;
+          const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
+          if (event === 'PROCESS_MOMENT' || event === 'LIFECYCLE_MOMENT') continue;
+          const eventTypes: Record<string, string> = { BASIC_ATTACK_HIT: 'event/basic_attack_hit', HIT_LINK_APPLIED: 'event/hit_link_applied',
+            DAMAGE_TAKEN: 'event/damage_taken', BASIC_ATTACK_RECEIVED: 'event/basic_attack_received', DAMAGE_DEALT: 'event/damage_instance',
+            SOURCE_INITIALIZED: 'event/source_initialized' };
+          const eventType = eventTypes[event];
+          if (!eventType) fail(`${rulePath}.eventSource.eventType`, '未接入的事件节点，整件装备拒绝');
+          const receiver = event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED';
+          const matcher = { all: [eventType, receiver ? 'event/target_owner' : 'event/source_owner'] };
+          matcher.all.forEach(key => types.set(key, 'event'));
+          if (event === 'DAMAGE_TAKEN' || event === 'DAMAGE_DEALT') {
+            const detail = record(rule.eventSource.detail, `${rulePath}.eventSource.detail`);
+            exact(detail, ['sourceSkillKey', 'damageTypeKey', 'deliveryKind', 'originKind'], `${rulePath}.eventSource.detail`);
+            if (!['ANY', 'BASIC_ATTACK', 'SKILL'].includes(detail.deliveryKind as string) || !['ANY', 'DIRECT', 'REFLECTED'].includes(detail.originKind as string)) fail(rulePath, '伤害事件特征不完整');
+            if (detail.damageTypeKey !== null) matcher.all.push(defense(stableKey(detail.damageTypeKey, rulePath)));
+            for (const [field, prefix] of [['deliveryKind', 'delivery'], ['originKind', 'origin']] as const) if (detail[field] !== 'ANY') {
+              const key = `damage_trait/${prefix}_${String(detail[field]).toLowerCase()}`;
+              matcher.all.push(key); types.set(key, 'damage_trait');
+            }
+            if (detail.sourceSkillKey !== null) {
+              const key = stableKey(detail.sourceSkillKey, `${rulePath}.eventSource.detail.sourceSkillKey`);
+              if (!snapshot.skillConfigurations.some(row => row.skill.skillKey === key && row.skill.status === 'ENABLED')) fail(rulePath, '伤害来源技能缺少真实已启用配置');
+              const identity = `ability/skill/${key}`;
+              types.set(identity, 'ability'); matcher.all.push(identity);
+            }
+          } else if (event === 'HIT_LINK_APPLIED') {
+            exact(rule.eventSource.detail, ['sourceSkillKey'], `${rulePath}.eventSource.detail`);
+            const sourceSkillKey = record(rule.eventSource.detail, `${rulePath}.eventSource.detail`).sourceSkillKey;
+            if (sourceSkillKey !== null) {
+              stableKey(sourceSkillKey, `${rulePath}.eventSource.detail.sourceSkillKey`);
+              fail(`${rulePath}.eventSource.detail.sourceSkillKey`, '非空命中联动来源筛选需要原生原使用技能身份匹配，不能忽略后继续');
+            }
+          } else exact(rule.eventSource.detail, [], `${rulePath}.eventSource.detail`);
+          if (event === 'SOURCE_INITIALIZED') {
+            if (rule.conditionGroups.length || rule.oncePerUse !== null) fail(rulePath, '固定周期必须有无条件真实初始化依据');
+            for (const action of rule.actions) if (action.actionType !== 'EXECUTE_EFFECT'
+              || !configuration.effects.find(row => row.effectKey === action.detail.effectKey)?.lifecycle?.periodicIntervalValue) fail(rulePath, '通用初始化只接入完整始终持久周期，4B常驻关系不重复编译');
+            const ignored: OperationDefinition[] = [];
+            executeActions(rule, ignored, `${compiledRoot}.abilities`, `${side}.provider[${providerRef}]`, event);
+            if (ignored.length) fail(rulePath, '固定周期不能把有限窗口改成常驻');
+            usedRules.add(rule.ruleKey);
+            cover(rulePath, `${compiledRoot}.abilities`);
+            continue;
+          }
+          const abilityKey = namedKey(skillKey, rule.ruleKey);
+          const index = provider.abilities!.length;
+          const abilityRoot = `${compiledRoot}.abilities[${index}]`;
+          const outputRoot = `${abilityRoot}.listenerSpec.operations`;
+          const abilityRef = `${side}.provider[${providerRef}].ability[${abilityKey}]`;
+          const predicate = conditions(rule, event);
+          const operations: OperationDefinition[] = [];
+          executeActions(rule, operations, outputRoot, abilityRef, event);
+          if (!operations.length) fail(rulePath, '规则没有完整可执行操作');
+          const listener: NonNullable<AbilityDefinition['listenerSpec']> = { listenerKey: namedKey(skillKey, rule.ruleKey), eventMatcher: matcher,
+            maxTriggersPerEvent: 1, operations, ...(predicate ? { condition: predicate } : {}) };
+          if (rule.oncePerUse !== null) {
+            exact(rule.oncePerUse, ['groupKey', 'scope'], `${rulePath}.oncePerUse`);
+            const groupKey = stableKey(rule.oncePerUse.groupKey, `${rulePath}.oncePerUse.groupKey`);
+            if (!['SKILL', 'TARGET'].includes(rule.oncePerUse.scope)) fail(rulePath, '未知同次使用范围');
+            listener.oncePerUse = { groupKey: stableKey(namedKey(skillKey, groupKey), `${rulePath}.oncePerUse.groupKey`),
+              scope: rule.oncePerUse.scope === 'SKILL' ? 'provider' : 'provider_target' };
+            cover(`${rulePath}.oncePerUse`, `${abilityRoot}.listenerSpec.oncePerUse`);
+          }
+          const ability: AbilityDefinition = { abilityKey, kind: 'passive_listener', skillKey, types: [...skillTypes, `ability/skill/${skillKey}`], listenerSpec: listener };
+          abilities.push(ability); provider.abilities!.push(ability);
+          usedRules.add(rule.ruleKey);
+          cover(rulePath, `${abilityRoot}.listenerSpec`);
+          cover(`${rulePath}.eventSource`, `${abilityRoot}.listenerSpec.eventMatcher`);
+          if (predicate) cover(`${rulePath}.conditionGroups`, `${abilityRoot}.listenerSpec.condition`);
+        }
+        for (const authored of configuration.effects) if (!usedEffects.has(authored.effectKey) || !appliedEffects.has(authored.effectKey)) fail(`${root}.effects.${authored.effectKey}`, '存在未接入的作者效果，不能丢弃后成功');
+        for (const authored of configuration.processes) if (!usedProcesses.has(authored.processKey)) fail(`${root}.processes.${authored.processKey}`, '存在未接入的作者过程');
+        for (const authored of configuration.internalStates) if (!usedStates.has(authored.stateKey)) fail(`${root}.internalStates.${authored.stateKey}`, '存在未接入的内部状态');
+        for (const authored of configuration.triggerRules) if (!usedRules.has(authored.ruleKey)) fail(`${root}.triggerRules.${authored.ruleKey}`, '存在未接入的作者规则或时点');
+        for (const authored of configuration.formulas) if (!usedFormulas.has(authored.formulaKey)) {
+          const authorPath = `${root}.formulas.${authored.formulaKey}.expression`;
+          const numericValue: NumericValue = { kind: 'FORMULA', formulaKey: authored.formulaKey };
+          compileNumericValue(numericValue, authorPath, numeric, fail);
+          noteNumeric(numericValue);
+          const key = `${numeric.formulaNamespace}/${authored.formulaKey}`;
+          coverage.push({ authorPath, compiledPath: `formulas[${key}].expression`,
+            note: '非战斗引用：完整翻译并保留可用作者公式，未绑定动作，不替换任何战斗节点数值' });
+        }
+        for (const parameter of configuration.parameters) {
+          compileNumericValue({ kind: 'PARAMETER', parameterKey: parameter.parameterKey }, `${root}.parameters.${parameter.parameterKey}`, numeric, fail);
+          if (parameter.valueType === 'INTEGER' && !Number.isInteger(numeric.params[parameter.parameterKey])) fail(`${root}.parameters.${parameter.parameterKey}`, '参数违反整数约束');
+          for (const ability of abilities) {
+            const definition = providers.find(row => row !== provider && row.abilities?.includes(ability)) ?? provider;
+            coverage.push({ authorPath: `${root}.parameters.${parameter.parameterKey}`,
+              compiledPath: `sharedProviders.${definition.providerKey}.abilities[${definition.abilities!.indexOf(ability)}].params.${parameter.parameterKey}`,
+              ...(!usedParameters.has(parameter.parameterKey) ? { note: '非战斗引用：保留可用作者参数，未绑定动作，不作为周期或效果默认值' } : {}) });
+          }
+        }
+        for (const authored of configuration.formulas) {
+          const authorPath = `${root}.formulas.${authored.formulaKey}.expression`;
+          if (!coverage.some(row => row.authorPath === authorPath && row.note)) cover(authorPath, `formulas[${numeric.formulaNamespace}/${authored.formulaKey}].expression`);
+        }
+        for (const formula of numeric.namedFormulas.values()) addFormula(formula, root);
+        for (const ability of abilities) {
+          ability.params = { ...numeric.params };
+          collectAttributes(ability, side, required);
+        }
+        for (const formula of formulas.values()) if (formula.key.startsWith(`${numeric.formulaNamespace}/`)) collectAttributes(formula.expression, side, required);
+        cover(`${path}.attachedSkills[${relations.indexOf(relation)}]`, compiledRoot);
+        cover(`${root}.skill`, compiledRoot);
+      }
+      if (Object.keys(schema).length) provider.initialStateSchema = schema;
+      if (modifiers.length) provider.modifiers = modifiers;
+      providers.push(provider);
+      mounts.push({ side, providerRef, definitionRef });
+      collectAttributes(modifiers, side, required);
+    }
+  }
+  for (const provider of providers) for (const ability of provider.abilities ?? []) if (ability.skillKey) {
+    types.set(`ability/skill/${ability.skillKey}`, 'ability');
+  }
+  if (snapshot.skillConfigurations.length !== completeSkills.size || new Set(snapshot.skillConfigurations.map(row => row.skill.skillKey)).size !== completeSkills.size
+    || snapshot.skillConfigurations.some(row => !completeSkills.has(row.skill.skillKey))) fail('skillConfigurations', '配置集缺失或重复，必须恰好保留所选普攻和完整启用被动关系，不能丢弃未使用配置');
+  for (const side of ['source', 'target'] as const) for (const key of required[side]) {
+    const entries = snapshot.catalogs.attributes.filter(row => row.attributeKey === key);
+    if (entries.length !== 1 || entries[0]!.gameId !== snapshot.gameId || entries[0]!.status !== 'ENABLED') fail(`catalogs.attributes.${key}`, '依赖属性缺少唯一已启用的真实目录');
+  }
+  return { providers, mounts, types: [...types].map(([key, domain]) => ({ key, domain })), formulas: [...formulas.values()],
+    rules, operationOrigins, coverage, required, selectedSkills };
+}

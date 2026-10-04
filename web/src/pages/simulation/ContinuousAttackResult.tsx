@@ -69,7 +69,9 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
     && row.attackIndex === view.selectedAttack.attackIndex && row.useRef === view.selectedAttack.useRef);
   const selectedDamages = usable?.damageRecords.filter(row => row.attackIndex === view.selectedAttack?.attackIndex && row.useRef === view.selectedAttack.useRef) ?? [];
   const selectedDamage = usable?.damageRecords.find(row => row.damageId === view.selectedDamageId);
-  const originFor = (row: DamageBreakdown | DamageRecord) => archive.operationOrigins.find(origin => origin.abilityRef === row.abilityRef && origin.operationRef === row.operationRef);
+  const originFor = (row: DamageBreakdown | DamageRecord) => archive.operationOrigins.find(origin => origin.operationRef === row.operationRef
+    && (origin.abilityRef === row.abilityRef || row.providerDefinitionRef !== undefined && origin.providerDefinitionRef === row.providerDefinitionRef
+      && origin.abilityRef.startsWith(`${row.owner}.provider[`)));
   const sourceLabel = (row: DamageBreakdown | DamageRecord) => {
     const origin = originFor(row);
     const skill = archive.snapshot.skillConfigurations.find(configuration => configuration.skill.skillKey === origin?.skillKey);
@@ -113,7 +115,12 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
       冻结场景：{archive.snapshot.source.character.name}（等级{archive.snapshot.selection.sourceLevel}）→{archive.snapshot.target.character.name}（等级{archive.snapshot.selection.targetLevel}）；
       普攻{archive.snapshot.selection.basicAttackSkillKey}（等级{archive.snapshot.selection.basicAttackLevel}）。初始生命A：{number(archive.initialHealth.source)}，B：{number(archive.initialHealth.target)}。
     </Typography.Paragraph>
-    <Typography.Paragraph type="secondary">启用所选完整共享普攻；装备、其他英雄技能、构筑与B挂载未选入。此说明不表示角色没有这些能力。</Typography.Paragraph>
+    <Typography.Paragraph type="secondary">
+      启用所选完整共享普攻及配置驱动装备分支；鬼索、荆棘和日炎部分时序为项目暂定配置。动态进出范围、英雄技能或构筑仍未接入，不表示角色没有这些能力。
+      冻结装备来源：{archive.equipmentOrigins.length ? archive.equipmentOrigins.map(origin => `${sides[origin.side]} ${origin.equipmentName}（${origin.equipmentKey}）`).join('；') : '双方未选装备'}。
+      冻结范围假设：{archive.equipmentAssumptions.length ? archive.equipmentAssumptions.map(row => `${sides[row.owner]}${archive.equipmentOrigins.find(item => item.side === row.owner && item.equipmentKey === row.equipmentKey)?.equipmentName ?? row.equipmentKey}→${sides[row.target]}，全程在范围内`).join('；') : '无范围假设'}。
+      纯装备仅修正自身属性，普攻伤害仍归所选普攻来源，不伪造独立装备伤害。
+    </Typography.Paragraph>
     {result?.issues.length ? <Alert type="warning" content={result.issues.join('；')} /> : null}
     {usable && data ? <>
       <Typography.Paragraph>{usable.execution.complete ? '整次运行的完整已提交累计' : '截至停止时刻的已提交累计'}；不受图表缩放或明细筛选改变。</Typography.Paragraph>
@@ -211,7 +218,7 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
           <Button onClick={() => patchView({ selectedAttack: null, selectedDamageId: null })}>关闭详情</Button></Space>
         <Typography.Paragraph className="continuous-path">计划：{view.selectedAttack.planKey}；使用身份：{view.selectedAttack.useRef}</Typography.Paragraph>
         {selectedAttack ? <dl>{[['开始（毫秒）', selectedAttack.startAtMs], ['命中（毫秒）', selectedAttack.hitAtMs], ['就绪（毫秒）', selectedAttack.readyAtMs],
-          ['下一刀（毫秒）', selectedAttack.nextStartAtMs], ['真实攻速', selectedAttack.attackSpeed], ['尾部完成', selectedAttack.completed],
+          ['调整后就绪（毫秒）', selectedAttack.finalReadyAtMs], ['下一刀（毫秒）', selectedAttack.nextStartAtMs], ['真实攻速', selectedAttack.attackSpeed], ['尾部完成', selectedAttack.completed],
           ['该刀造成伤害', selectedAttack.postDefenseDamage], ['该刀实际扣血', selectedAttack.actualHpLoss], ['A尾部生命', selectedAttack.sourceHpAfter], ['B尾部生命', selectedAttack.targetHpAfter]]
           .map(([label, value]) => <div key={String(label)} style={{ display: 'contents' }}><dt>{label}</dt><dd>{showValue(value)}</dd></div>)}</dl>
           : <Alert type="info" content="该刀攻击记录未保留：时刻、攻速及尾部生命未保留，不从静态间隔外推。" />}

@@ -36,6 +36,7 @@ async function installApi(page: Page) {
     const resource = url.pathname.replace(/^\/api\/admin\/games\/[^/]+\//, '');
     const gameId = url.pathname.split('/')[4]!;
     if (resource === 'level-config') return reply({ gameId, minLevel: 1, maxLevel: 18 });
+    if (resource === 'equipment') return reply({ items: [], total: 0 });
     if (resource === 'characters') {
       const items = [
         { characterKey: 'hero_alpha', name: gameId === 'demo' ? '英雄甲' : '其他甲' },
@@ -71,6 +72,37 @@ async function installApi(page: Page) {
   });
   return { reads, assertClean: () => expect(errors).toEqual([]) };
 }
+
+test('双方配置桌面各一栏，普攻归攻击方，窄屏按整组排列且没有横向溢出', async ({ page }) => {
+  const diagnostics = await installApi(page);
+  await page.setViewportSize({ width: 1440, height: 1100 });
+  await page.goto('/#/simulation/basic-attack');
+  const source = page.getByRole('region', { name: '攻击方配置', exact: true });
+  const target = page.getByRole('region', { name: '目标方配置', exact: true });
+  for (const label of ['攻击方角色', '攻击方等级', '普攻技能', '普攻技能等级', '攻击方装备']) {
+    await expect(source.getByRole('combobox', { name: label, exact: true })).toBeVisible();
+  }
+  for (const label of ['目标角色', '目标等级', '目标装备']) {
+    await expect(target.getByRole('combobox', { name: label, exact: true })).toBeVisible();
+  }
+  await expect(target.getByRole('combobox', { name: '普攻技能', exact: true })).toHaveCount(0);
+  const sourceDesktop = await source.boundingBox();
+  const targetDesktop = await target.boundingBox();
+  expect(sourceDesktop).not.toBeNull();
+  expect(targetDesktop).not.toBeNull();
+  expect(sourceDesktop!.x + sourceDesktop!.width).toBeLessThanOrEqual(targetDesktop!.x);
+  expect(sourceDesktop!.y).toBe(targetDesktop!.y);
+  await page.setViewportSize({ width: 375, height: 1000 });
+  const sourceMobile = await source.boundingBox();
+  const targetMobile = await target.boundingBox();
+  expect(sourceMobile).not.toBeNull();
+  expect(targetMobile).not.toBeNull();
+  expect(targetMobile!.y).toBeGreaterThanOrEqual(sourceMobile!.y + sourceMobile!.height);
+  expect(targetMobile!.x).toBe(sourceMobile!.x);
+  const widths = await page.evaluate(() => ({ viewport: innerWidth, content: document.documentElement.scrollWidth }));
+  expect(widths.content).toBeLessThanOrEqual(widths.viewport);
+  diagnostics.assertClean();
+});
 
 test('名称和标识均可搜索，候选与选中项带头像，普攻按挂载和分类筛选', async ({ page }) => {
   const diagnostics = await installApi(page);

@@ -7,6 +7,14 @@ const selectionKeys = [
   'sourceCharacterKey', 'sourceLevel', 'targetCharacterKey', 'targetLevel',
   'basicAttackSkillKey', 'basicAttackLevel'
 ] as const;
+const equipmentSelectionKeys = ['sourceEquipmentKeys', 'targetEquipmentKeys'] as const;
+
+export function normalizeEquipmentKeys(value: unknown, path: string): string[] {
+  if (!Array.isArray(value) || value.length > 6) bad(path);
+  const keys = (value as unknown[]).map((item, index) => key(item, `${path}[${index}]`));
+  if (new Set(keys).size !== keys.length) bad(path);
+  return keys.sort();
+}
 
 function record(value: unknown, path: string): Record<string, unknown> {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) bad(path);
@@ -62,6 +70,14 @@ export function validateSimulationSnapshot(
     if (name.endsWith('Key')) key(selection[name], `selection.${name}`);
     else if (!Number.isInteger(selection[name]) || Number(selection[name]) < 1) bad(`selection.${name}`);
   }
+  for (const name of equipmentSelectionKeys) {
+    const actual = normalizeEquipmentKeys(selection[name], `selection.${name}`);
+    const wanted = normalizeEquipmentKeys(expected[name], `selection.${name}`);
+    if (JSON.stringify(selection[name]) !== JSON.stringify(actual)
+      || JSON.stringify(actual) !== JSON.stringify(wanted)) bad(`selection.${name}`);
+  }
+  const expectedSkills = new Set([expected.basicAttackSkillKey]);
+  const equipmentAttributeKeys = new Set<string>();
   for (const side of ['source', 'target'] as const) {
     const actor = record(root[side], side);
     const character = record(actor.character, `${side}.character`);
@@ -87,23 +103,47 @@ export function validateSimulationSnapshot(
     if (side === 'source' && !attached.some(row => row.skillKey === expected.basicAttackSkillKey && row.skillStatus === 'ENABLED')) {
       bad('source.attachedSkills');
     }
+    const selectedEquipment = rows(actor.selectedEquipment, `${side}.selectedEquipment`);
+    const expectedKeys = normalizeEquipmentKeys(expected[`${side}EquipmentKeys`], `selection.${side}EquipmentKeys`);
+    if (selectedEquipment.length !== expectedKeys.length) bad(`${side}.selectedEquipment`);
+    for (const [index, selectedItem] of selectedEquipment.entries()) {
+      const path = `${side}.selectedEquipment[${index}]`;
+      const equipment = record(selectedItem.equipment, `${path}.equipment`);
+      const itemAttributes = record(selectedItem.attributes, `${path}.attributes`);
+      if (equipment.gameId !== gameId || equipment.equipmentKey !== expectedKeys[index]
+        || itemAttributes.equipmentKey !== equipment.equipmentKey) bad(path);
+      const values = numericMap(itemAttributes.attributeValues, `${path}.attributes.attributeValues`);
+      for (const name of Object.keys(values)) equipmentAttributeKeys.add(name);
+      const seenItemSkills = new Set<string>();
+      for (const relation of rows(selectedItem.attachedSkills, `${path}.attachedSkills`)) {
+        const skillKey = key(relation.skillKey, `${path}.attachedSkills.skillKey`);
+        if (relation.gameId !== gameId || relation.equipmentKey !== equipment.equipmentKey
+          || relation.skillStatus !== 'ENABLED' || seenItemSkills.has(skillKey)) bad(`${path}.attachedSkills`);
+        seenItemSkills.add(skillKey);
+        expectedSkills.add(skillKey);
+      }
+    }
   }
   const configurations = rows(root.skillConfigurations, 'skillConfigurations');
+  if (configurations.length > 32) bad('skillConfigurations');
   const seenSkills = new Set<string>();
   for (const [index, configuration] of configurations.entries()) {
     const skill = record(configuration.skill, `skillConfigurations[${index}].skill`);
     const skillKey = key(skill.skillKey, `skillConfigurations[${index}].skill.skillKey`);
-    if (seenSkills.has(skillKey) || skill.status !== 'ENABLED') bad(`skillConfigurations[${index}].skill`);
+    if (seenSkills.has(skillKey) || !expectedSkills.has(skillKey) || skill.status !== 'ENABLED') bad(`skillConfigurations[${index}].skill`);
     seenSkills.add(skillKey);
     validateSkillConfiguration(configuration, gameId, skillKey);
   }
-  if (!seenSkills.has(expected.basicAttackSkillKey)) bad('skillConfigurations');
+  if (seenSkills.size !== expectedSkills.size) bad('skillConfigurations');
   const catalogs = record(root.catalogs, 'catalogs');
   const levels = record(catalogs.levelConfig, 'catalogs.levelConfig');
   if (levels.gameId !== gameId || !Number.isInteger(levels.minLevel) || !Number.isInteger(levels.maxLevel)
     || expected.sourceLevel < Number(levels.minLevel) || expected.targetLevel < Number(levels.minLevel)
     || expected.sourceLevel > Number(levels.maxLevel) || expected.targetLevel > Number(levels.maxLevel)) bad('catalogs.levelConfig');
   const attributes = uniqueCatalog(catalogs.attributes, 'attributeKey', 'catalogs.attributes', gameId);
+  for (const name of equipmentAttributeKeys) {
+    if (!attributes.some(attribute => attribute.attributeKey === name)) bad(`catalogs.attributes.${name}`);
+  }
   for (const [index, attribute] of attributes.entries()) {
     if (!['INTEGER', 'DECIMAL'].includes(String(attribute.valueType))) bad(`catalogs.attributes[${index}].valueType`);
     for (const field of ['minValue', 'maxValue'] as const) {
@@ -135,6 +175,9 @@ export function validateSimulationSnapshot(
 export function simulationSnapshotPath(gameId: string, selection: SimulationSelection): string {
   const params = new URLSearchParams();
   for (const name of selectionKeys) params.set(name, String(selection[name]));
+  for (const name of equipmentSelectionKeys) {
+    for (const equipmentKey of normalizeEquipmentKeys(selection[name], `selection.${name}`)) params.append(name, equipmentKey);
+  }
   return `/api/admin/games/${encodePathSegment(gameId)}/simulation-snapshot?${params.toString()}`;
 }
 

@@ -3,6 +3,51 @@ import { buildContinuousAttackArchive, buildContinuousCsv } from './continuousAt
 import { initialContinuousView } from './continuousAttackPresentation';
 
 describe('连续展示档案和安全表格导出', () => {
+  it('冻结新来源生命字段和双方实际吸血汇总，不按视图筛选重算或裁剪', () => {
+    const input = { runResult: { summary: { sourceVampHealing: 35, targetVampHealing: 12 },
+      damageRecords: [{ damageId: 1, sourceHpBefore: 600, sourceHpAfter: 612 }, { damageId: 2, sourceHpBefore: null, sourceHpAfter: null }] } };
+    const view = initialContinuousView(2500); view.timeRangeMs = [2000, 2500]; view.sourceKeys = ['hidden_source'];
+    const archive = buildContinuousAttackArchive(input, view);
+    input.runResult.summary.sourceVampHealing = 99;
+    input.runResult.damageRecords[0]!.sourceHpAfter = 649;
+    expect(archive).toMatchObject({ runResult: { summary: { sourceVampHealing: 35, targetVampHealing: 12 },
+      damageRecords: [{ damageId: 1, sourceHpBefore: 600, sourceHpAfter: 612 }, { damageId: 2, sourceHpBefore: null, sourceHpAfter: null }] } });
+  });
+  it('伤害CSV保留来源生命前后及本笔实际吸血，明确null不补零', () => {
+    const text = buildContinuousCsv('damage', [
+      { damageId: 1, sourceHpBefore: 600, sourceHpAfter: 612.5 },
+      { damageId: 2, sourceHpBefore: null, sourceHpAfter: null },
+      { damageId: 3, sourceHpBefore: 0, sourceHpAfter: 0 }
+    ], { runInputHash: 'digest', view: initialContinuousView(2500), executionComplete: true,
+      attackRecordsTruncated: false, damageRecordsTruncated: false, seriesDownsampled: false });
+    expect(text).toContain('"伤害来源生命之前","伤害来源生命之后","本笔实际吸血入账"');
+    expect(text).toContain('"600","612.5","12.5"');
+    expect(text.split('\r\n')[2]!.endsWith(',,,')).toBe(true);
+    expect(text.split('\r\n')[3]!.endsWith('"0","0","0"')).toBe(true);
+  });
+  it('伤害CSV不把缺失、非有限或倒减生命伪装成有效吸血', () => {
+    const text = buildContinuousCsv('damage', [
+      { damageId: 1, sourceHpBefore: 600 },
+      { damageId: 2, sourceHpBefore: 600, sourceHpAfter: Number.POSITIVE_INFINITY },
+      { damageId: 3, sourceHpBefore: 600, sourceHpAfter: 599 }
+    ], { runInputHash: null, view: initialContinuousView(2500), executionComplete: false,
+      attackRecordsTruncated: false, damageRecordsTruncated: true, seriesDownsampled: false });
+    for (const row of text.split('\r\n').slice(1)) expect(row.endsWith(',')).toBe(true);
+  });
+  it('冻结装备选择、属性来源及编译派生，不跟随后续输入变化或视图筛选', () => {
+    const input = { snapshot: { selection: { sourceEquipmentKeys: ['item_1042'], targetEquipmentKeys: [] } },
+      equipmentOrigins: [{ side: 'source', equipmentKey: 'item_1042', providerRef: 'source_equipment_item_1042', attributeValues: { bonus_attack_speed_percent: 0.1 } }],
+      equipmentAssumptions: [{ owner: 'target', equipmentKey: 'item_3110', target: 'source', inRange: true }],
+      compileRequest: { rules: { attributeDerivations: [{ combatantKey: 'source', attributeKey: 'attack_speed', value: { op: 'read', path: 'source.attr.attack_speed.base' } }] } } };
+    const archive = buildContinuousAttackArchive(input, initialContinuousView(1000));
+    input.snapshot.selection.sourceEquipmentKeys = [];
+    input.equipmentOrigins[0]!.attributeValues.bonus_attack_speed_percent = 0.9;
+    input.equipmentAssumptions[0]!.inRange = false;
+    expect(archive).toMatchObject({ snapshot: { selection: { sourceEquipmentKeys: ['item_1042'] } },
+      equipmentOrigins: [{ side: 'source', equipmentKey: 'item_1042', attributeValues: { bonus_attack_speed_percent: 0.1 } }],
+      equipmentAssumptions: [{ owner: 'target', equipmentKey: 'item_3110', target: 'source', inRange: true }],
+      compileRequest: { rules: { attributeDerivations: [{ combatantKey: 'source', attributeKey: 'attack_speed' }] } } });
+  });
   it('白名单排除连接、鉴权和嵌套秘密，完整结果不被视图筛选裁剪', () => {
     const input = { taskKind: 'continuous_attack', runInputHash: 'business-digest', outcome: 'passed', cleanup: 'released',
       adminToken: 'fake-top-secret', apiBaseUrl: 'http://private-service', controller: {}, snapshot: { gameId: 'demo', nested: {

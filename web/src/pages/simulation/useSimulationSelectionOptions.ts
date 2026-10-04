@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getErrorMessage } from '../../services/apiClient';
 import {
-  createSimulationImageLoader, loadBasicAttackOptions, loadCharacterOptions, loadCharacterLevelOptions,
+  createSimulationImageLoader, loadBasicAttackOptions, loadCharacterOptions, loadCharacterLevelOptions, loadEquipmentOptions,
   type SimulationImageLoader
 } from './simulationSelectionOptions';
 
@@ -34,6 +34,9 @@ export function useSimulationSelectionOptions(apiBaseUrl: string, gameId: string
   const loadCharacters = useCallback((signal: AbortSignal) => context
     ? loadCharacterOptions(context, signal) : Promise.resolve([]), [context]);
   const characters = useOptionList(context, loadCharacters);
+  const loadEquipment = useCallback((signal: AbortSignal) => context
+    ? loadEquipmentOptions(context, signal) : Promise.resolve([]), [context]);
+  const equipment = useOptionList(context, loadEquipment);
   const loadLevels = useCallback((signal: AbortSignal) => context
     ? loadCharacterLevelOptions(context, signal) : Promise.resolve([]), [context]);
   const levels = useOptionList(context, loadLevels);
@@ -49,5 +52,5 @@ export function useSimulationSelectionOptions(apiBaseUrl: string, gameId: string
     setImages({ scope: context, load: createSimulationImageLoader(context, controller.signal) });
     return () => controller.abort();
   }, [context]);
-  return { characters, skills, levels, imageLoader: images?.scope === context ? images.load : null };
+  return { characters, skills, equipment, levels, imageLoader: images?.scope === context ? images.load : null };
 }

@@ -110,6 +110,8 @@ export const SKILL_TRIGGER_SOURCE_SKILL_FILTER_HINT =
   '空值表示任意技能；选择具体技能只缩小事件匹配范围。';
 export const SKILL_TRIGGER_SOURCE_INITIALIZED_HINT =
   '来源对象的基础属性、挂载技能与装备、初始内部状态准备完毕后触发一次；复活、装备变化或等级变化不会再次触发。该事件不提供事件数值。';
+export const SKILL_TRIGGER_BASIC_ATTACK_RECEIVED_HINT =
+  '真实普通攻击命中判定完成后、逐个结果及吸血结算前通知接收者；事件来源对象为原攻击者。附伤、命中联动、反伤和周期不会再次产生此事件，不提供事件数值。';
 export const SKILL_TRIGGER_TAKEDOWN_HINT =
   '来源对象被正式记为本次死亡的击杀者或助攻参与者时触发，每次死亡至多一次；不能用最近造成过伤害代替。当前目标为死亡对象，不提供事件来源对象或事件数值。同一收益使用一个入口，避免与本人击杀规则重复。';
 export const SKILL_TRIGGER_BOOLEAN_EVENT_VALUE_HINT = '否 = 0，是 = 1';
@@ -136,15 +138,18 @@ export const RESULT_MODIFIER_ORDER_HINT = '应用在效果基础修正之后';
 export const MAX_TRIGGERS_SCOPE_HINT = '只保存次数取值，不执行计数。';
 export const SKILL_TRIGGER_ONCE_PER_USE_LABEL = '同次使用仅触发一次';
 export const SKILL_TRIGGER_ONCE_PER_USE_HINT =
-  '同一共享限制键的规则共用一次额度；同技能同键的范围必须一致。';
+  '同一共享限制键的规则共用一次额度；同技能同键的范围必须一致。普通攻击命中接收、本笔受伤事件或命中联动需有真实原使用身份；独立周期不生成默认使用身份。';
 export const SKILL_TRIGGER_ONCE_PER_USE_EVENT_MESSAGE =
-  '同次使用限制只允许用于技能命中、普通攻击命中或普通攻击开始。';
+  '同次使用限制只允许用于技能命中、普通攻击命中、普通攻击开始、普通攻击命中接收、受到伤害或命中联动。';
 export const SKILL_TRIGGER_ONCE_PER_USE_CLEAR_MESSAGE =
-  '同次使用限制只允许用于技能命中、普通攻击命中或普通攻击开始，将关闭该限制。';
+  '同次使用限制只允许用于技能命中、普通攻击命中、普通攻击开始、普通攻击命中接收、受到伤害或命中联动，将关闭该限制。';
 export const SKILL_TRIGGER_ONCE_PER_USE_EVENTS = [
   'SKILL_HIT',
   'BASIC_ATTACK_HIT',
-  'BASIC_ATTACK_START'
+  'BASIC_ATTACK_START',
+  'BASIC_ATTACK_RECEIVED',
+  'DAMAGE_TAKEN',
+  'HIT_LINK_APPLIED'
 ] as const satisfies readonly SkillTriggerEventType[];
 export const SKILL_TRIGGER_ONCE_PER_USE_SCOPE_LABELS = {
   SKILL: '整个技能使用',
@@ -237,6 +242,7 @@ export const SKILL_TRIGGER_EVENT_TYPES = [
   'SKILL_USED',
   'BASIC_ATTACK_START',
   'BASIC_ATTACK_HIT',
+  'BASIC_ATTACK_RECEIVED',
   'SKILL_HIT',
   'PROCESS_MOMENT',
   'RESULT_AVAILABLE',
@@ -363,6 +369,7 @@ export const SKILL_TRIGGER_EVENT_TYPE_LABELS = {
   SKILL_USED: '技能被主动或消耗使用',
   BASIC_ATTACK_START: '普通攻击发起',
   BASIC_ATTACK_HIT: '普通攻击命中',
+  BASIC_ATTACK_RECEIVED: '普通攻击命中接收（结果前）',
   SKILL_HIT: '技能命中',
   PROCESS_MOMENT: '当前技能过程到达固定时点',
   RESULT_AVAILABLE: '当前技能某个无生命周期基础结果到达可用时点',
@@ -416,6 +423,14 @@ export const SKILL_TRIGGER_EVENT_CAPABILITIES: {
     label: SKILL_TRIGGER_EVENT_TYPE_LABELS.BASIC_ATTACK_HIT,
     currentTargetBinding: '本次普通攻击命中的对象。',
     hasEventSource: false,
+    requiredCatalogs: [],
+    detailFields: []
+  },
+  BASIC_ATTACK_RECEIVED: {
+    eventType: 'BASIC_ATTACK_RECEIVED',
+    label: SKILL_TRIGGER_EVENT_TYPE_LABELS.BASIC_ATTACK_RECEIVED,
+    currentTargetBinding: '本次普通攻击的接收对象（承受方）；事件来源对象为原攻击者。',
+    hasEventSource: true,
     requiredCatalogs: [],
     detailFields: []
   },
@@ -1043,6 +1058,7 @@ export function createEmptyEventSource(eventType: SkillTriggerEventType): SkillT
     case 'BASIC_ATTACK_START':
       return { eventType, detail: emptyEventDetail() };
     case 'BASIC_ATTACK_HIT':
+    case 'BASIC_ATTACK_RECEIVED':
       return { eventType, detail: emptyEventDetail() };
     case 'DAMAGE_PENDING':
     case 'DAMAGE_DEALT':
@@ -1463,6 +1479,7 @@ export const SKILL_TRIGGER_EVENT_VALUE_CAPABILITIES: {
   SKILL_USED: [],
   BASIC_ATTACK_START: [],
   BASIC_ATTACK_HIT: ['HIT_INDEX'],
+  BASIC_ATTACK_RECEIVED: [],
   SKILL_HIT: ['HIT_INDEX', 'SKILL_HIT_FIRST_CONTACT', 'SKILL_HIT_SPELL_SHIELD_BLOCKED'],
   PROCESS_MOMENT: [],
   RESULT_AVAILABLE: [],
@@ -3437,10 +3454,11 @@ export function validateSkillTriggerDraft(
 
   const allowedValues = allowedEventValuesFor(draft.eventSource, options.stepType ?? null);
   const hasEventSource = eventHasEventSource(draft.eventSource.eventType);
-  if (draft.eventSource.eventType === 'SOURCE_INITIALIZED') {
+  if (draft.eventSource.eventType === 'SOURCE_INITIALIZED'
+    || draft.eventSource.eventType === 'BASIC_ATTACK_RECEIVED') {
     const detail = draft.eventSource.detail;
     if (typeof detail !== 'object' || detail === null || Array.isArray(detail) || Object.keys(detail).length !== 0) {
-      pushError(nestedErrors, 'eventSource.detail', '来源对象初始化完成事件的详情必须为空对象。');
+      pushError(nestedErrors, 'eventSource.detail', `${SKILL_TRIGGER_EVENT_TYPE_LABELS[draft.eventSource.eventType]}事件的详情必须为空对象。`);
     }
   }
   if (draft.eventSource.eventType === 'SKILL_USED') {
@@ -3787,8 +3805,9 @@ export function validateSkillTriggerDraft(
       if (
         draft.eventSource.eventType !== 'DAMAGE_PENDING'
         && draft.eventSource.eventType !== 'DAMAGE_TAKEN'
+        && draft.eventSource.eventType !== 'BASIC_ATTACK_RECEIVED'
       ) {
-        pushError(nestedErrors, 'eventSource.eventType', '反伤效果只能由即将受到伤害或受到伤害事件触发。');
+        pushError(nestedErrors, 'eventSource.eventType', '反伤效果只能由普通攻击命中接收、即将受到伤害或受到伤害事件触发。');
       }
       if (action.targetContext !== 'EVENT_SOURCE') {
         pushError(
@@ -3797,7 +3816,7 @@ export function validateSkillTriggerDraft(
           '反伤效果必须作用于事件来源对象。'
         );
       }
-      const directOnly = (
+      const directOnly = draft.eventSource.eventType === 'BASIC_ATTACK_RECEIVED' || (
         draft.eventSource.eventType === 'DAMAGE_PENDING'
         || draft.eventSource.eventType === 'DAMAGE_TAKEN'
       )

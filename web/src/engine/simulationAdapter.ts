@@ -10,7 +10,7 @@ import type {
 import type { SkillEffect, SkillEffectResult } from '../types/skillEffect';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
-import type { SimulationAttributeInputs, SimulationInitialHealth, SimulationSnapshot } from '../types/simulationSnapshot';
+import type { SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth, SimulationSnapshot } from '../types/simulationSnapshot';
 import {
   compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
   NumericAdaptationError, wrapValueRuleExpression
@@ -18,9 +18,12 @@ import {
 import { adaptDamageVamp } from './vampAdapter';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
+import { assembleEquipment, equipmentContribution, type EquipmentOrigin } from './simulationEquipment';
+import { assembleEquipmentPassives, validateEquipmentAssumptions } from './simulationEquipmentPassives';
+import { assembleTriggeredEquipment } from './simulationTriggeredEquipment';
 
-export const SIMULATION_ADAPTER_VERSION = 'basic-attack-input-v2';
-export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v2';
+export const SIMULATION_ADAPTER_VERSION = 'v7-configured-onhit-combinations';
+export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v3';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
 const START_ABILITY = 'attack_start';
@@ -30,9 +33,10 @@ const OPERATIONS: Record<string, string> = {
   ADD: 'add', SUBTRACT: 'sub', MULTIPLY: 'mul', DIVIDE: 'div', MIN: 'min', MAX: 'max'
 };
 
-export type SimulationCoverage = { authorPath: string; compiledPath: string };
+export type SimulationCoverage = { authorPath: string; compiledPath: string; note?: string };
 export type OperationOrigin = {
   abilityRef: string; operationRef: string; skillKey: string; effectKey: string; resultKey: string; compiledPaths: string[];
+  providerDefinitionRef?: string;
 };
 export type BasicAttackBinding = Omit<BasicAttackPlan, 'planKey' | 'attackSpeedInputMax'>;
 export type SimulationAttributeRequirement = {
@@ -74,13 +78,19 @@ type Program = {
   types: CompileRequest['typeCatalog']['types']; coverage: SimulationCoverage[];
   operationOrigins: OperationOrigin[]; basicAttackBinding: BasicAttackBinding;
   required: Map<'source' | 'target', Set<string>>; configuration: SkillConfiguration;
+  equipment: ReturnType<typeof assembleEquipment>;
+  passives: ReturnType<typeof assembleEquipmentPassives>;
+  triggered: ReturnType<typeof assembleTriggeredEquipment>;
 };
 
 /** 装配首批完整普攻形状，不依赖技能名称；不支持的启用入口整体拒绝。 */
 function program(snapshot: SimulationSnapshot): Program {
+  const equipment = assembleEquipment(snapshot);
+  const triggered = assembleTriggeredEquipment(snapshot);
+  const passives = assembleEquipmentPassives(snapshot);
   const selection = snapshot.selection;
   const config = snapshot.skillConfigurations.find(row => row.skill.skillKey === selection.basicAttackSkillKey);
-  if (!config || snapshot.skillConfigurations.length !== 1) fail('skillConfigurations', '首批只接受一份完整所选普攻配置');
+  if (!config) fail('skillConfigurations', '缺少完整所选普攻配置');
   if (config.skill.status !== 'ENABLED' || !config.skill.skillCategoryKeys.includes('basic_attack')) {
     fail('skillConfigurations[0].skill', '所选技能必须为已启用的普通攻击');
   }
@@ -112,10 +122,21 @@ function program(snapshot: SimulationSnapshot): Program {
     types.set(typeKey, 'ability');
     return typeKey;
   });
+  const skillIdentity = `ability/skill/${config.skill.skillKey}`;
+  types.set(skillIdentity, 'ability');
+  abilityTypes.push(skillIdentity);
   const rules: GenericRules = { damageTypeFormulas: [] };
   const required = new Map<'source' | 'target', Set<string>>([
-    ['source', new Set(['hp', 'attack_speed'])], ['target', new Set(['hp'])]
+    ['source', new Set(['hp', 'attack_speed', ...equipment.required.source, ...passives.required.source])], ['target', new Set(['hp', ...equipment.required.target, ...passives.required.target])]
   ]);
+  coverage.push(...equipment.coverage);
+  coverage.push(...passives.coverage);
+  coverage.push(...triggered.coverage);
+  operationOrigins.push(...triggered.operationOrigins);
+  for (const side of ['source', 'target'] as const) for (const key of triggered.required[side]) required.get(side)!.add(key);
+  for (const type of triggered.types) types.set(type.key, type.domain);
+  if (passives.mounts.length) types.set('event/source_initialized', 'event');
+  if (equipment.derivations.length) rules.attributeDerivations = equipment.derivations;
   const addCoverage = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const skillPath = `skills.${config.skill.skillKey}`;
   const value = (numeric: Parameters<typeof compileNumericValue>[0], path: string) => compileNumericValue(numeric, path, state, fail);
@@ -346,8 +367,39 @@ function program(snapshot: SimulationSnapshot): Program {
     Object.values(row).forEach(collect);
   };
   collect(provider); collect([...state.namedFormulas.values()]); collect(rules);
-  return { provider, rules, formulas: [...state.namedFormulas.values()], types: [...types].map(([key, domain]) => ({ key, domain })),
-    coverage, required, configuration: config, operationOrigins,
+  for (const formula of triggered.rules.damageTypeFormulas ?? []) {
+    const existing = rules.damageTypeFormulas!.find(row => row.damageType === formula.damageType);
+    if (existing && JSON.stringify(existing.formula) !== JSON.stringify(formula.formula)) fail('rules.damageTypeFormulas', '同一伤害类型必须使用相同的完整防御公式');
+    if (!existing) rules.damageTypeFormulas!.push(formula);
+  }
+  if (triggered.rules.vampRules && JSON.stringify(triggered.rules.vampRules) !== JSON.stringify(rules.vampRules)) {
+    fail('rules.vampRules', '装备附伤与普攻必须共享本次真实游戏吸血规则');
+  }
+  const providerIndices = new Map(triggered.providers.map((definition, index) => [definition.providerKey, 1 + equipment.providers.length + passives.providers.length + index]));
+  const rebase = (path: string) => path.replace(/sharedProviders(?:\[([^\]]+)\]|\.([^.]+))/, (whole, bracket: string, dotted: string) => {
+    const key = bracket ?? dotted;
+    return providerIndices.has(key) ? `sharedProviders[${providerIndices.get(key)}]` : whole;
+  });
+  const mergedOrigins = operationOrigins.map(origin => ({ ...origin, compiledPaths: origin.compiledPaths.map(rebase) }));
+  const defenseIndices = new Map((triggered.rules.damageTypeFormulas ?? []).map((formula, index) => [index,
+    rules.damageTypeFormulas!.findIndex(merged => merged.damageType === formula.damageType)]));
+  const coverageByReference = new Map<string, { row: SimulationCoverage; notes: Set<string> }>();
+  for (const row of coverage) {
+    const path = triggered.coverage.includes(row) ? row.compiledPath.replace(/rules\.damageTypeFormulas\[(\d+)\]/,
+      (original, index: string) => defenseIndices.has(Number(index)) ? `rules.damageTypeFormulas[${defenseIndices.get(Number(index))}]` : original) : row.compiledPath;
+    const compiledPath = rebase(path);
+    const key = JSON.stringify([row.authorPath, compiledPath]);
+    let entry = coverageByReference.get(key);
+    if (!entry) {
+      entry = { row: { ...row, compiledPath }, notes: new Set<string>() };
+      coverageByReference.set(key, entry);
+    }
+    if (row.note) entry.notes.add(row.note);
+  }
+  const mergedCoverage = [...coverageByReference.values()].map(({ row, notes }) =>
+    notes.size ? { ...row, note: [...notes].join('；') } : row);
+  return { provider, rules, formulas: [...state.namedFormulas.values(), ...triggered.formulas], types: [...types].map(([key, domain]) => ({ key, domain })),
+    coverage: mergedCoverage, required, configuration: config, operationOrigins: mergedOrigins, equipment, passives, triggered,
     basicAttackBinding: { source: 'source', target: 'target', skillKey: config.skill.skillKey,
       startAbilityRef: `source.provider[${MOUNT}].ability[${START_ABILITY}]`,
       hitAbilityRef: `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`,
@@ -356,7 +408,7 @@ function program(snapshot: SimulationSnapshot): Program {
 }
 
 export function inspectSimulationSnapshot(snapshot: SimulationSnapshot): {
-  requirements: SimulationAttributeRequirement[]; coverage: SimulationCoverage[]
+  requirements: SimulationAttributeRequirement[]; coverage: SimulationCoverage[]; equipmentOrigins: EquipmentOrigin[]
 } {
   const compiled = program(snapshot);
   const requirements: SimulationAttributeRequirement[] = [];
@@ -367,14 +419,17 @@ export function inspectSimulationSnapshot(snapshot: SimulationSnapshot): {
       requirements.push({ side, attribute, storedValue: snapshot[side].selectedLevelValues[key] });
     }
   }
-  return { requirements, coverage: compiled.coverage };
+  return { requirements, coverage: compiled.coverage, equipmentOrigins: compiled.equipment.origins };
 }
 
 export function assembleSimulation(
-  snapshot: SimulationSnapshot, attributeInputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth
+  snapshot: SimulationSnapshot, attributeInputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
+  assumptions: readonly SimulationEquipmentAssumption[] = []
 ): { compileRequest: CompileRequest; coverage: SimulationCoverage[]; operationOrigins: OperationOrigin[];
-  basicAttackBinding: BasicAttackBinding; snapshotDigest: string; attributeInputs: SimulationAttributeInputs; initialHealth: SimulationInitialHealth } {
+  equipmentOrigins: EquipmentOrigin[]; basicAttackBinding: BasicAttackBinding; snapshotDigest: string;
+  attributeInputs: SimulationAttributeInputs; initialHealth: SimulationInitialHealth; equipmentAssumptions: SimulationEquipmentAssumption[] } {
   const compiled = program(snapshot);
+  const equipmentAssumptions = validateEquipmentAssumptions(snapshot, assumptions);
   const { requirements } = inspectSimulationSnapshot(snapshot);
   const actors = (['source', 'target'] as const).map(side => {
     const attributes: Record<string, AttributeSlot> = {};
@@ -390,41 +445,61 @@ export function assembleSimulation(
       if ((attribute.valueType === 'INTEGER' && !Number.isInteger(value))
         || (attribute.minValue !== null && value < attribute.minValue)
         || (attribute.maxValue !== null && value > attribute.maxValue)) fail(`attributeInputs.${side}.${key}`, '违反属性类型或范围');
+      const resolved = value + equipmentContribution(snapshot, side, key);
+      if (!Number.isFinite(resolved) || (attribute.minValue !== null && resolved < attribute.minValue)
+        || (attribute.maxValue !== null && resolved > attribute.maxValue)) fail(`combatants.${side}.attributes.${key}`, '装备平加后的属性违反真实范围');
     }
-    if (!(combined.hp! > 0)) fail(`combatants.${side}.hp`, '初始生命上限必须是有限正数');
+    const hpLimit = combined.hp! + equipmentContribution(snapshot, side, 'hp');
+    const hasDerivation = compiled.equipment.derivations.some(row => row.combatantKey === side);
+    if (hasDerivation && !(combined.attack_speed_ratio! > 0)) fail(`attributeInputs.${side}.attack_speed_ratio`, '装备攻速收益系数必须明确填写有限正数，不提供默认值');
+    if (!Number.isFinite(hpLimit) || !(hpLimit > 0)) fail(`combatants.${side}.hp`, '初始生命上限必须是有限正数');
     const currentHp = finiteNumber(initialHealth?.[side], `initialHealth.${side}`, fail);
-    if (currentHp < 0 || currentHp > combined.hp!) fail(`initialHealth.${side}`, '初始当前生命须在0与真实生命上限之间');
-    if (side === 'source' && !(combined.attack_speed! > 0)) fail('combatants.source.attack_speed', '初始攻速必须是有限正数');
+    if (currentHp < 0 || currentHp > hpLimit) fail(`initialHealth.${side}`, '初始当前生命须在0与含装备生命上限之间，不自动填满或夹取');
+    if (side === 'source' && !hasDerivation && !(combined.attack_speed! > 0)) fail('combatants.source.attack_speed', '初始攻速必须是有限正数');
     for (const [key, raw] of Object.entries(combined)) {
       const amount = finiteNumber(raw, `combatants.${side}.attributes.${key}`, fail);
-      attributes[key] = { base: amount, current: key === 'hp' ? currentHp : amount, max: amount, resolved: amount };
+      const resolved = amount + equipmentContribution(snapshot, side, key);
+      attributes[key] = { base: amount, current: key === 'hp' ? currentHp : resolved, max: resolved, resolved };
     }
     return { key: side, displayName: snapshot[side].character.name, types: ['combatant/champion'], attributes,
-      resources: {}, providers: side === 'source' ? [{ providerRef: MOUNT, definitionRef: DEFINITION }] : [] };
+      resources: {}, providers: [
+        ...(side === 'source' ? [{ providerRef: MOUNT, definitionRef: DEFINITION }] : []),
+        ...compiled.equipment.origins.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
+        ...compiled.passives.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
+        ...compiled.triggered.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef }))
+      ] };
   });
   return {
     compileRequest: {
       schemaVersion: 'generic-p0', schemaHash: SIMULATION_SCHEMA_HASH, rulesHash: 'pending',
       typeCatalog: { types: compiled.types, relations: [] }, combatants: actors,
-      sharedProviders: [compiled.provider], formulas: compiled.formulas, rules: compiled.rules,
+      sharedProviders: [compiled.provider, ...compiled.equipment.providers, ...compiled.passives.providers, ...compiled.triggered.providers], formulas: compiled.formulas, rules: compiled.rules,
       settings: { maxEvents: 10000, maxCommandsPerEvent: 256, maxQueueEvents: 10000, maxChainDepth: 32 }
     }, coverage: compiled.coverage, operationOrigins: compiled.operationOrigins, basicAttackBinding: compiled.basicAttackBinding,
-    snapshotDigest: snapshot.snapshotDigest,
-    attributeInputs: structuredClone(attributeInputs), initialHealth: structuredClone(initialHealth)
+    equipmentOrigins: compiled.equipment.origins, snapshotDigest: snapshot.snapshotDigest,
+    attributeInputs: structuredClone(attributeInputs), initialHealth: structuredClone(initialHealth), equipmentAssumptions
   };
 }
 
 /** 摘要仅含业务输入和适配后的定义；不包含接口基址、令牌或读取时间。 */
-export async function prepareSimulation(snapshot: SimulationSnapshot, inputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth) {
-  const assembled = assembleSimulation(snapshot, inputs, initialHealth);
+export async function prepareSimulation(snapshot: SimulationSnapshot, inputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
+  assumptions: readonly SimulationEquipmentAssumption[] = []) {
+  const assembled = assembleSimulation(snapshot, inputs, initialHealth, assumptions);
   assembled.compileRequest.rulesHash = await simulationHash({ snapshotDigest: snapshot.snapshotDigest, adapter: SIMULATION_ADAPTER_VERSION,
-    attributeInputs: inputs, initialHealth, request: assembled.compileRequest });
+    attributeInputs: inputs, initialHealth, equipmentAssumptions: assembled.equipmentAssumptions, request: assembled.compileRequest });
   return assembled;
 }
 
 /** 单次入口保持一次真实开始与命中，不重复调度。 */
 export function singleAttackRequest(input: CompileRequest, sessionId: string): RunRequest {
-  const skillKey = input.sharedProviders![0]!.abilities![0]!.skillKey!;
+  const startRef = `source.provider[${MOUNT}].ability[${START_ABILITY}]`;
+  const hitRef = `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`;
+  const start = simulationAbility(input, startRef);
+  const hit = simulationAbility(input, hitRef);
+  const skillKey = start?.ability.skillKey;
+  if (!skillKey || hit?.ability.skillKey !== skillKey || hit.mount.providerRef !== start!.mount.providerRef) {
+    fail('single.basicAttack', '实际开始与命中引用必须属于同一完整普攻挂载');
+  }
   const useRef = 'first_attack_use';
   return {
     sessionId, expectedRulesHash: input.rulesHash, schemaVersion: input.schemaVersion,
@@ -440,4 +515,18 @@ export function singleAttackRequest(input: CompileRequest, sessionId: string): R
     stopPolicy: { durationMs: 1, stopOnTargetDeath: true, stopWhenNoEvents: true },
     sampling: { sampleEveryMs: 100, dpsWindowMs: 100, maxSeriesPoints: 10 }
   };
+}
+
+export function simulationAbility(input: CompileRequest, ref: string) {
+  const match = /^(source|target)\.provider\[([^\]]+)\]\.ability\[([^\]]+)\]$/.exec(ref);
+  if (!match) return undefined;
+  const actors = input.combatants.filter(actor => actor.key === match[1]);
+  if (actors.length !== 1) return undefined;
+  const mounts = actors[0]!.providers.filter(mount => mount.providerRef === match[2]);
+  if (mounts.length !== 1) return undefined;
+  const providers = input.sharedProviders?.filter(provider => provider.providerKey === mounts[0]!.definitionRef);
+  if (providers?.length !== 1) return undefined;
+  const abilities = providers[0]!.abilities?.filter(ability => ability.abilityKey === match[3]);
+  if (abilities?.length !== 1) return undefined;
+  return { mount: mounts[0]!, provider: providers[0]!, ability: abilities[0]! };
 }

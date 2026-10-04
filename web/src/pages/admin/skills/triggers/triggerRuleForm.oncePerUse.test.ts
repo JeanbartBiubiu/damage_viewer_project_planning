@@ -11,6 +11,7 @@ import {
   SKILL_TRIGGER_ONCE_PER_USE_CLEAR_MESSAGE,
   SKILL_TRIGGER_ONCE_PER_USE_EVENT_MESSAGE,
   SKILL_TRIGGER_ONCE_PER_USE_EVENTS,
+  SKILL_TRIGGER_ONCE_PER_USE_HINT,
   toCreateRequest,
   toUpdateRequest,
   validateSkillTriggerDraft
@@ -72,9 +73,33 @@ describe('同次使用限制草稿', () => {
       : createEmptyEventSource(eventType);
     const created = toCreateRequest({ ...namedDraft(), eventSource: source, oncePerUseScope: 'TARGET' });
     expect(created.oncePerUse).toEqual({ groupKey: 'eclipse', scope: 'TARGET' });
+    expect(validateSkillTriggerDraft({ ...namedDraft(), eventSource: source }, { includeRuleKey: true }).ok).toBe(true);
     expect(toUpdateRequest(fromDetail({ ...detail(), eventSource: created.eventSource, oncePerUse: created.oncePerUse })))
       .toMatchObject({ oncePerUse: created.oncePerUse });
     expect(fromDetail({ ...detail(), oncePerUse: null }).oncePerUseEnabled).toBe(false);
+  });
+
+  it.each(['BASIC_ATTACK_RECEIVED', 'DAMAGE_TAKEN', 'HIT_LINK_APPLIED'] as const)('%s 不补原使用身份或默认限制，合法切换保留显式分组', (eventType) => {
+    const draft = namedDraft();
+    const next = createEmptyEventSource(eventType);
+    expect(analyzeEventSwitchImpact(draft, next).clearsOncePerUse).toBe(false);
+    const cleaned = applyEventSwitchCleanup(draft, next);
+    expect(toCreateRequest(cleaned).oncePerUse).toEqual({ groupKey: 'eclipse', scope: 'SKILL' });
+    expect(toCreateRequest({ ...cleaned, oncePerUseEnabled: false }).oncePerUse).toBeNull();
+    expect(toCreateRequest(cleaned).eventSource.detail).not.toHaveProperty('useRef');
+    expect(SKILL_TRIGGER_ONCE_PER_USE_HINT).toContain('本笔受伤事件或命中联动需有真实原使用身份');
+  });
+
+  it.each(['SKILL_USED', 'PROCESS_MOMENT', 'DAMAGE_DEALT', 'ATTACK_LINK_APPLIED'] as const)('%s 继续拒绝一次使用并清理旧草稿限制', (eventType) => {
+    const draft = namedDraft();
+    const next = createEmptyEventSource(eventType);
+    expect(allowsOncePerUse(eventType)).toBe(false);
+    expect(validateSkillTriggerDraft({ ...draft, eventSource: next }, { includeRuleKey: true })).toMatchObject({
+      ok: false, fieldErrors: { oncePerUse: SKILL_TRIGGER_ONCE_PER_USE_EVENT_MESSAGE }
+    });
+    expect(analyzeEventSwitchImpact(draft, next).clearsOncePerUse).toBe(true);
+    expect(toCreateRequest(applyEventSwitchCleanup(draft, next)).oncePerUse).toBeNull();
+    expect(draft.oncePerUseEnabled).toBe(true);
   });
 
   it('关闭后不提交对象，保留草稿键以便重新启用', () => {

@@ -107,6 +107,14 @@ const EVENT_CAPABILITY_ROWS = [
     detailFields: []
   },
   {
+    eventType: 'BASIC_ATTACK_RECEIVED',
+    label: '普通攻击命中接收（结果前）',
+    currentTargetBinding: '本次普通攻击的接收对象（承受方）；事件来源对象为原攻击者。',
+    hasEventSource: true,
+    requiredCatalogs: [],
+    detailFields: []
+  },
+  {
     eventType: 'SKILL_HIT',
     label: '技能命中',
     currentTargetBinding: '本次技能命中的对象。',
@@ -426,8 +434,8 @@ const RICH_DETAIL: SkillTriggerRuleDetail = {
 };
 
 describe('trigger event member set and capability table', () => {
-  it('exposes exactly 23 frozen events with labels, current-target, event-source and catalogs', () => {
-    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(23);
+  it('exposes exactly 24 frozen events with labels, current-target, event-source and catalogs', () => {
+    expect(SKILL_TRIGGER_EVENT_TYPES).toHaveLength(24);
     expect([...SKILL_TRIGGER_EVENT_TYPES]).toEqual(EVENT_CAPABILITY_ROWS.map((row) => row.eventType));
     expect(Object.keys(SKILL_TRIGGER_EVENT_CAPABILITIES)).toEqual([...SKILL_TRIGGER_EVENT_TYPES]);
 

@@ -17,6 +17,7 @@ import {
   createEmptyBinding,
   createEmptyConditionDraft,
   createEmptyRuleDraft,
+  createEmptyEventSource,
   createFormulaSessionCache,
   evaluateBindingCompleteness,
   formulaHasRuntimeInput,
@@ -449,6 +450,24 @@ describe('reflected damage form protection', () => {
       effectsByKey: new Map([[reflectedEffect.effectKey, reflectedEffect]])
     });
     expect(valid.ok).toBe(true);
+
+    const received = { ...draft, eventSource: createEmptyEventSource('BASIC_ATTACK_RECEIVED'),
+      actions: [{ ...action, targetContext: 'EVENT_SOURCE' as const }] };
+    const options = { includeRuleKey: true, effectsByKey: new Map([[reflectedEffect.effectKey, reflectedEffect]]) };
+    expect(validateSkillTriggerDraft(received, options).ok).toBe(true);
+    const reflectedProcess = { ...CHARGE_PROCESS, effectBindings: [{ bindingKey: 'reflect',
+      effectKey: reflectedEffect.effectKey, moment: { momentType: 'STEP_COMPLETE' as const, stepKey: 'charge', failureReason: null }, sortOrder: 10 }] };
+    const startAction: SkillTriggerActionDraft = { ...action, actionType: 'START_PROCESS',
+      targetContext: 'EVENT_SOURCE', detail: { processKey: reflectedProcess.processKey } };
+    expect(validateSkillTriggerDraft({ ...received, actions: [startAction] }, {
+      ...options, processesByKey: new Map([[reflectedProcess.processKey, reflectedProcess]])
+    }).ok).toBe(true);
+    expect(validateSkillTriggerDraft({ ...received, actions: [action] }, options)).toMatchObject({ ok: false,
+      nestedErrors: expect.arrayContaining([expect.objectContaining({ path: 'actions[0].targetContext' })]) });
+    expect(validateSkillTriggerDraft({ ...received,
+      eventSource: { eventType: 'DAMAGE_TAKEN', detail: { damageTypeKey: null, deliveryKind: 'ANY', originKind: 'ANY' } }
+    }, options)).toMatchObject({ ok: false,
+      nestedErrors: expect.arrayContaining([expect.objectContaining({ path: 'eventSource.detail.originKind' })]) });
   });
 });
 

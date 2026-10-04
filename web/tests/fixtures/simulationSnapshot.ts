@@ -3,11 +3,10 @@ import type { SkillEffectResult } from '../../src/types/skillEffect';
 import { fixedValue, formulaValue } from '../../src/types/numericValue';
 
 /** 独立作者结构用例，不是正式英雄数据，也不是引擎基准样例副本。 */
-export function simulationSample(): SimulationSnapshot {
-  const gameId = 'demo';
+export function simulationSample(gameId = 'demo'): SimulationSnapshot {
   const skillKey = 'sample_basic_attack';
   const moment = { momentType: 'PROCESS_START' as const, stepKey: null, failureReason: null };
-  const valueRule = (value: SkillEffectResult['valueRule'] extends infer V ? NonNullable<V>['value'] : never) => ({
+  const valueRule = (value: NonNullable<SkillEffectResult['valueRule']>['value']) => ({
     value, fixedMultiplier: 1, fixedMinValue: null, fixedMaxValue: null
   });
   const metadata = { createdAt: '', updatedAt: '' };
@@ -17,7 +16,8 @@ export function simulationSample(): SimulationSnapshot {
     character: { gameId, characterKey: key, name, description: null, ...metadata },
     attributes: { characterKey: key, minLevel: 1, maxLevel: 1, levelValues: { '1': values } },
     selectedLevelValues: { ...values },
-    attachedSkills: [{ gameId, characterKey: key, characterName: name, skillKey, skillName: '样例普攻', skillStatus: 'ENABLED' as const, sortOrder: 0 }]
+    attachedSkills: [{ gameId, characterKey: key, characterName: name, skillKey, skillName: '样例普攻', skillStatus: 'ENABLED' as const, sortOrder: 0 }],
+    selectedEquipment: []
   });
   const attribute = (attributeKey: string) => ({
     gameId, attributeKey, name: attributeKey, valueType: 'DECIMAL' as const,
@@ -26,7 +26,8 @@ export function simulationSample(): SimulationSnapshot {
   });
   return {
     gameId, selection: { sourceCharacterKey: 'actor_a', sourceLevel: 1, targetCharacterKey: 'actor_b', targetLevel: 1,
-      basicAttackSkillKey: skillKey, basicAttackLevel: 1 }, source: actor('actor_a', '样例A', sourceValues), target: actor('actor_b', '样例B', targetValues),
+      basicAttackSkillKey: skillKey, basicAttackLevel: 1, sourceEquipmentKeys: [], targetEquipmentKeys: [] },
+    source: actor('actor_a', '样例A', sourceValues), target: actor('actor_b', '样例B', targetValues),
     skillConfigurations: [{
       skill: { gameId, skillKey, name: '样例普攻', description: null, maxLevel: 1, status: 'ENABLED', sortOrder: 0, skillCategoryKeys: ['basic_attack'], ...metadata },
       parameters: [

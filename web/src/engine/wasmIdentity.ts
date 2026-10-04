@@ -1,5 +1,5 @@
 /** 随本轮最终构建集成；浏览器专项同时核对实际字节数与SHA256。 */
 export const WASM_IDENTITY = {
-  bytes: 1086546,
-  sha256: '2f496fa7200f036b964245baae91c5805da6d405cb4f7cdf2309aadec0cf99d0'
+  bytes: 1152905,
+  sha256: '9efef9dc5acdb68580aa2badb0f27f22971fb6f3c4f816bf4da6fe64a3e55c33'
 } as const;

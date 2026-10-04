@@ -4,7 +4,7 @@ import type { SkillEffect, SkillEffectLifecycleInstanceScope } from '../../../..
 import type { SkillParameter } from '../../../../types/skillParameter';
 import type { SkillTriggerLifecycleCheckDetail, SkillTriggerRuleDetail } from '../../../../types/skillTriggerRule';
 import { changeLifecycleCheckKind, changeLifecycleEffect, lifecycleConditionEffects, lifecycleConditionError } from './lifecycleCondition';
-import { analyzeEventSwitchImpact, applyEventSwitchCleanup, collectDirectFormulaKeys, createEmptyConditionDraft, createEmptyRuleDraft, fromDetail, requiredCatalogsForDraft, toCreateRequest, validateSkillTriggerDraft } from './triggerRuleForm';
+import { analyzeEventSwitchImpact, applyEventSwitchCleanup, collectDirectFormulaKeys, createEmptyConditionDraft, createEmptyEventSource, createEmptyRuleDraft, fromDetail, requiredCatalogsForDraft, toCreateRequest, validateSkillTriggerDraft } from './triggerRuleForm';
 
 const mark = (scope: SkillEffectLifecycleInstanceScope = 'SOURCE_TARGET'): SkillEffect => ({
   gameId: 'lol', skillKey: 'w', effectKey: 'mark', name: '印记', description: null, sortOrder: 0, createdAt: '', updatedAt: '', results: [],
@@ -69,6 +69,16 @@ describe('生命周期条件范围与取值', () => {
     expect(analyzeEventSwitchImpact(draft, next).clearsEventSourceRefs).toBe(true);
     expect(applyEventSwitchCleanup(draft, next).conditionGroups[0].conditions[0].detail).toMatchObject({ subject: 'CURRENT_TARGET' });
     expect(lifecycleConditionError({ ...present, subject: 'EVENT_SOURCE' }, mark(), ['SOURCE', 'CURRENT_TARGET'])?.field).toBe('subject');
+  });
+
+  it('普攻命中接收按事件能力允许原攻击者的生命周期条件，切事件仍清理主体', () => {
+    const draft = { ...rule({ ...present, subject: 'EVENT_SOURCE' }), eventSource: createEmptyEventSource('BASIC_ATTACK_RECEIVED') };
+    expect(validateSkillTriggerDraft(draft, { includeRuleKey: true, skillKey: 'w', effectsByKey: new Map([['mark', mark()]]) }).ok).toBe(true);
+    expect(toCreateRequest(draft).conditionGroups[0].conditions[0].detail).toMatchObject({ subject: 'EVENT_SOURCE' });
+    const next = createEmptyEventSource('BASIC_ATTACK_HIT');
+    expect(analyzeEventSwitchImpact(draft, next).clearsEventSourceRefs).toBe(true);
+    expect(applyEventSwitchCleanup(draft, next).conditionGroups[0].conditions[0].detail).toMatchObject({ subject: 'CURRENT_TARGET' });
+    expect(draft.conditionGroups[0].conditions[0].detail).toMatchObject({ subject: 'EVENT_SOURCE' });
   });
 });
 

@@ -1,7 +1,7 @@
 import type { ContinuousAttackView } from './continuousAttackPresentation';
 
-const archiveFields = ['taskKind', 'adapterVersion', 'snapshot', 'snapshotDigest', 'attributeInputs', 'initialHealth',
-  'attackSpeedAdmission', 'compileRequest', 'runRequest', 'runInputHash', 'coverage', 'operationOrigins', 'wasm',
+const archiveFields = ['taskKind', 'adapterVersion', 'snapshot', 'snapshotDigest', 'attributeInputs', 'initialHealth', 'equipmentAssumptions',
+  'attackSpeedAdmission', 'compileRequest', 'runRequest', 'runInputHash', 'coverage', 'operationOrigins', 'equipmentOrigins', 'wasm',
   'compileResult', 'runResult', 'releaseResult', 'assessment', 'outcome', 'cleanup', 'failurePhase', 'error'] as const;
 const forbiddenField = /^(?:__proto__|prototype|constructor|headers?|requests?|responses?|connection|apiBaseUrl|baseUrl|adminToken|authorization|proxyAuthorization|cookies?|password|passwd|secret|apiKey|api_key|accessToken|refreshToken|bearerToken|token|controller|client|worker|localStorage|sessionStorage)$/i;
 const forbiddenSuffix = /(?:password|secret|token|apiKey)$/i;
@@ -37,16 +37,17 @@ export type ContinuousCsvContext = {
 const metadataColumns = ['运行条件摘要', '表格种类', '导出范围', '生效筛选', '可见起点（毫秒）', '可见终点（毫秒）',
   '来源筛选', '伤害类型筛选', '刀号筛选', '计算完整', '攻击记录截断', '伤害记录截断', '序列降采样'];
 const amountColumns = [['postDefenseDamage', '造成伤害'], ['shieldAbsorbed', '护盾吸收'], ['actualHpLoss', '实际扣血'], ['overkillDamage', '过量伤害']];
-const sourceColumns = [['owner', '拥有者'], ['source', '伤害方'], ['target', '受伤方'], ['abilityRef', '能力标识'], ['operationRef', '作者结果'], ['damageType', '伤害类型']];
+const sourceColumns = [['owner', '拥有者'], ['source', '伤害方'], ['target', '受伤方'], ['abilityRef', '能力标识'], ['operationRef', '作者结果'], ['damageType', '伤害类型'], ['providerDefinitionRef', '有期来源定义']];
 const csvColumns: Record<ContinuousCsvKind, string[][]> = {
   breakdown: [...sourceColumns, ['damageCount', '结算笔数'], ...amountColumns],
   attack: [['planKey', '计划标识'], ['attackIndex', '刀号'], ['useRef', '使用身份'], ['source', '攻击方'], ['target', '目标'],
     ['skillKey', '技能标识'], ['startAtMs', '开始（毫秒）'], ['hitAtMs', '命中（毫秒）'], ['readyAtMs', '就绪（毫秒）'],
-    ['nextStartAtMs', '下一刀（毫秒）'], ['attackSpeed', '攻速'], ['postDefenseDamage', '造成伤害'], ['actualHpLoss', '实际扣血'],
+    ['finalReadyAtMs', '调整后就绪（毫秒）'], ['nextStartAtMs', '下一刀（毫秒）'], ['attackSpeed', '攻速'], ['postDefenseDamage', '造成伤害'], ['actualHpLoss', '实际扣血'],
     ['sourceHpAfter', '攻击方尾部生命'], ['targetHpAfter', '目标尾部生命'], ['completed', '尾部完成']],
   damage: [['damageId', '伤害编号'], ['attackIndex', '刀号'], ['useRef', '使用身份'], ['timeMs', '时刻（毫秒）'],
-    ...sourceColumns, ['castInstanceId', '施放实例'], ['operationPath', '编译路径'], ['rawAmount', '防御前输入金额'], ...amountColumns,
-    ['hpBefore', '受伤方生命之前'], ['hpAfter', '受伤方生命之后']],
+    ...sourceColumns, ['providerActivatedAtMs', '周期激活时点（毫秒）'], ['castInstanceId', '施放实例'], ['operationPath', '编译路径'], ['rawAmount', '防御前输入金额'], ...amountColumns,
+    ['hpBefore', '受伤方生命之前'], ['hpAfter', '受伤方生命之后'], ['sourceHpBefore', '伤害来源生命之前'],
+    ['sourceHpAfter', '伤害来源生命之后'], ['vampHealing', '本笔实际吸血入账']],
   series: [['timeMs', '时刻（毫秒）'], ['sourceHp', 'A生命'], ['targetHp', 'B生命'], ['sourceDamageDealt', 'A累计造成伤害'],
     ['targetDamageDealt', 'B累计造成伤害'], ['sourceCumulativeDps', 'A累计平均伤害率'], ['targetCumulativeDps', 'B累计平均伤害率'],
     ['sourceWindowDps', 'A窗口伤害率'], ['targetWindowDps', 'B窗口伤害率']]
@@ -66,6 +67,12 @@ export function buildContinuousCsv(kind: ContinuousCsvKind, rows: ReadonlyArray<
     context.view.sourceKeys, context.view.damageTypes, context.view.attackIndex, context.executionComplete,
     context.attackRecordsTruncated, context.damageRecordsTruncated, context.seriesDownsampled];
   const columns = csvColumns[kind];
+  const values = (row: Record<string, unknown>) => columns.map(column => {
+    if (column[0] !== 'vampHealing') return row[column[0]!];
+    const before = row.sourceHpBefore; const after = row.sourceHpAfter;
+    return typeof before === 'number' && Number.isFinite(before) && before >= 0
+      && typeof after === 'number' && Number.isFinite(after) && after >= before ? after - before : null;
+  });
   return '﻿' + [metadataColumns.concat(columns.map(column => column[1]!)).map(csvCell).join(','),
-    ...rows.map(row => metadata.concat(columns.map(column => row[column[0]!])).map(csvCell).join(','))].join('\r\n');
+    ...rows.map(row => metadata.concat(values(row)).map(csvCell).join(','))].join('\r\n');
 }

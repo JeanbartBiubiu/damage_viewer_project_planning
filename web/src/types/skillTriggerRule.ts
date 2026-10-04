@@ -7,6 +7,7 @@ export type SkillTriggerEventType =
   | 'SKILL_USED'
   | 'BASIC_ATTACK_START'
   | 'BASIC_ATTACK_HIT'
+  | 'BASIC_ATTACK_RECEIVED'
   | 'SKILL_HIT'
   | 'PROCESS_MOMENT'
   | 'RESULT_AVAILABLE'
@@ -226,6 +227,11 @@ export type SkillTriggerBasicAttackHitEventSource = {
   detail: SkillTriggerEmptyDetail;
 };
 
+export type SkillTriggerBasicAttackReceivedEventSource = {
+  eventType: 'BASIC_ATTACK_RECEIVED';
+  detail: SkillTriggerEmptyDetail;
+};
+
 export type SkillTriggerSkillHitEventSource = {
   eventType: 'SKILL_HIT';
   detail: SkillTriggerSkillHitEventDetail;
@@ -326,6 +332,7 @@ export type SkillTriggerEventSource =
   | SkillTriggerSkillUsedEventSource
   | SkillTriggerBasicAttackStartEventSource
   | SkillTriggerBasicAttackHitEventSource
+  | SkillTriggerBasicAttackReceivedEventSource
   | SkillTriggerSkillHitEventSource
   | SkillTriggerProcessMomentEventSource
   | SkillTriggerResultAvailableEventSource

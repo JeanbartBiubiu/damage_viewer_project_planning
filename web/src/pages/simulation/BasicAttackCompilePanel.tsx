@@ -12,9 +12,11 @@ import {
   type SimulationCoverage
 } from '../../engine/simulationAdapter';
 import { getErrorMessage } from '../../services/apiClient';
-import { getSimulationSnapshot } from '../../services/simulationSnapshotClient';
+import { getSimulationSnapshot, normalizeEquipmentKeys } from '../../services/simulationSnapshotClient';
+import { equipmentContribution, PURE_EQUIPMENT_KEYS, simulationHealthLimit } from '../../engine/simulationEquipment';
+import { equipmentRangeRequirements } from '../../engine/simulationEquipmentPassives';
 import type { CompileResult, DoneResult, GenericReleaseDonePayload, RunRequest } from '../../types/genericEngine';
-import type { SimulationAttributeInputs, SimulationInitialHealth, SimulationSelection, SimulationSnapshot } from '../../types/simulationSnapshot';
+import type { SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth, SimulationSelection, SimulationSnapshot } from '../../types/simulationSnapshot';
 import { SimulationEntitySelect } from './SimulationEntitySelect';
 import { useSimulationSelectionOptions } from './useSimulationSelectionOptions';
 import { assessSingleAttackResult, type SingleAttackAssessment } from '../../engine/singleAttackResult';
@@ -70,9 +72,11 @@ type CompileArchive = {
   snapshotDigest: string;
   attributeInputs: SimulationAttributeInputs;
   initialHealth: SimulationInitialHealth;
+  equipmentAssumptions: SimulationEquipmentAssumption[];
   compileRequest: PreparedSimulation['compileRequest'];
   coverage: SimulationCoverage[];
   operationOrigins: PreparedSimulation['operationOrigins'];
+  equipmentOrigins: PreparedSimulation['equipmentOrigins'];
   compileResult: CompileResult | null;
   releaseResult: GenericReleaseDonePayload | null;
   error: string | null;
@@ -109,7 +113,7 @@ const stableKeyPattern = /^[a-z][a-z0-9_]{0,63}$/;
 function emptySelection(): SelectionDraft {
   return {
     sourceCharacterKey: '', sourceLevel: undefined, targetCharacterKey: '', targetLevel: undefined,
-    basicAttackSkillKey: '', basicAttackLevel: undefined
+    basicAttackSkillKey: '', basicAttackLevel: undefined, sourceEquipmentKeys: [], targetEquipmentKeys: []
   };
 }
 
@@ -139,7 +143,9 @@ function selectionFromDraft(draft: SelectionDraft, characterLevels: number[], sk
   return {
     sourceCharacterKey: draft.sourceCharacterKey.trim(), sourceLevel: draft.sourceLevel!,
     targetCharacterKey: draft.targetCharacterKey.trim(), targetLevel: draft.targetLevel!,
-    basicAttackSkillKey: draft.basicAttackSkillKey.trim(), basicAttackLevel: draft.basicAttackLevel!
+    basicAttackSkillKey: draft.basicAttackSkillKey.trim(), basicAttackLevel: draft.basicAttackLevel!,
+    sourceEquipmentKeys: normalizeEquipmentKeys(draft.sourceEquipmentKeys, 'selection.sourceEquipmentKeys'),
+    targetEquipmentKeys: normalizeEquipmentKeys(draft.targetEquipmentKeys, 'selection.targetEquipmentKeys')
   };
 }
 
@@ -157,8 +163,9 @@ function archiveFor(task: Task, outcome: CompileArchive['outcome'], error: strin
     outcome, adapterVersion: SIMULATION_ADAPTER_VERSION, wasm: WASM_IDENTITY, snapshot: task.snapshot,
     snapshotDigest: task.prepared.snapshotDigest, attributeInputs: task.prepared.attributeInputs,
     initialHealth: task.prepared.initialHealth,
+    equipmentAssumptions: task.prepared.equipmentAssumptions,
     compileRequest: task.prepared.compileRequest, coverage: task.prepared.coverage,
-    operationOrigins: task.prepared.operationOrigins,
+    operationOrigins: task.prepared.operationOrigins, equipmentOrigins: task.prepared.equipmentOrigins,
     compileResult: task.result, releaseResult: task.release, error
   };
   if (task.kind === 'continuous_attack') return {
@@ -190,6 +197,10 @@ function SingleAttackResult({ archive }: { archive: SingleAttackArchive }) {
         {archive.snapshot.source.character.name}（等级{archive.snapshot.selection.sourceLevel}）→
         {archive.snapshot.target.character.name}（等级{archive.snapshot.selection.targetLevel}）；
         {archive.snapshot.selection.basicAttackSkillKey}，技能等级{archive.snapshot.selection.basicAttackLevel}。
+      </Typography.Paragraph>
+      <Typography.Paragraph type="secondary">
+        冻结装备来源：{archive.equipmentOrigins.length ? archive.equipmentOrigins.map(origin => `${sideLabels[origin.side]} ${origin.equipmentName}（${origin.equipmentKey}）`).join('；') : '双方未选装备'}；
+        固定属性不创建独立装备伤害事件。
       </Typography.Paragraph>
       {result ? <>
         <Table data={values} rowKey="key" pagination={false} columns={[
@@ -230,6 +241,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const [inspection, setInspection] = useState<Inspection | null>(null);
   const [attributeDrafts, setAttributeDrafts] = useState(emptyAttributeDrafts);
   const [initialHealth, setInitialHealth] = useState(emptyInitialHealth);
+  const [auraConfirmed, setAuraConfirmed] = useState<Record<string, boolean>>({});
   const [durationMs, setDurationMs] = useState<number | undefined>(CONTINUOUS_DURATION_INITIAL_MS);
   const [attackSpeedInputMax, setAttackSpeedInputMax] = useState<number | undefined>();
   const [prepared, setPrepared] = useState<PreparedSimulation | null>(null);
@@ -243,7 +255,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const taskRef = useRef<Task | null>(null);
   const token = adminToken.trim();
   const busy = phase !== 'idle';
-  const { characters, skills, levels, imageLoader } = useSimulationSelectionOptions(apiBaseUrl, selectedGameId, token, selection.sourceCharacterKey);
+  const { characters, skills, equipment, levels, imageLoader } = useSimulationSelectionOptions(apiBaseUrl, selectedGameId, token, selection.sourceCharacterKey);
   const selectedSkill = skills.items.find(row => row.key === selection.basicAttackSkillKey);
   const skillLevels = useMemo(() => selectedSkill?.kind === 'skill'
     ? Array.from({ length: selectedSkill.maxLevel }, (_, index) => index + 1) : [], [selectedSkill]);
@@ -251,14 +263,21 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     && skillLevels.includes(selection.basicAttackLevel!);
   const objectsSelected = characters.items.some(row => row.key === selection.sourceCharacterKey)
     && characters.items.some(row => row.key === selection.targetCharacterKey)
-    && skills.items.some(row => row.key === selection.basicAttackSkillKey);
+    && skills.items.some(row => row.key === selection.basicAttackSkillKey)
+    && [...selection.sourceEquipmentKeys, ...selection.targetEquipmentKeys].every(key => equipment.items.some(row => row.key === key));
   const requirements = inspection?.requirements ?? [];
   const missing = requirements.filter(row => row.storedValue === undefined);
   const unfilled = missing.filter(row => attributeDrafts[row.side][row.attribute.attributeKey] === undefined);
   const coverage = prepared?.coverage ?? inspection?.coverage ?? [];
   const healthUnfilled = initialHealth.source === undefined || initialHealth.target === undefined;
-  const sourceHealthLimit = snapshot?.source.selectedLevelValues.hp;
-  const targetHealthLimit = snapshot?.target.selectedLevelValues.hp;
+  const sourceHealthLimit = snapshot ? simulationHealthLimit(snapshot, 'source', attributeDrafts.source.hp) : undefined;
+  const targetHealthLimit = snapshot ? simulationHealthLimit(snapshot, 'target', attributeDrafts.target.hp) : undefined;
+  const healthIssues = (['source', 'target'] as const).flatMap(side => {
+    const current = initialHealth[side];
+    const limit = side === 'source' ? sourceHealthLimit : targetHealthLimit;
+    return current !== undefined && (!Number.isFinite(current) || current < 0 || (limit !== undefined && current > limit))
+      ? [`initialHealth.${side}: ${sideLabels[side]}当前生命草稿${current}超出0～${limit ?? '待补全'}的含装备上限，请重新填写；不会自动满血或夹取。`] : [];
+  });
   const speedAttribute = snapshot?.catalogs.attributes.find(row => row.attributeKey === 'attack_speed');
   const fullHealthAvailable = typeof sourceHealthLimit === 'number' && Number.isFinite(sourceHealthLimit) && sourceHealthLimit > 0
     && typeof targetHealthLimit === 'number' && Number.isFinite(targetHealthLimit) && targetHealthLimit > 0;
@@ -270,6 +289,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     setInspection(null);
     setAttributeDrafts(emptyAttributeDrafts());
     setInitialHealth(emptyInitialHealth());
+    setAuraConfirmed({});
     setDurationMs(CONTINUOUS_DURATION_INITIAL_MS);
     setRecordTimeSeries(true);
     setResultStale(false);
@@ -324,8 +344,9 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     task.client?.terminate();
     task.cleanup = task.client ? 'worker_destroyed' : 'not_needed';
     taskRef.current = null;
-    setArchive(archiveFor(task, 'cancelled', null));
-    setResultStale(false);
+    const cancelledArchive = archiveFor(task, 'cancelled', null);
+    setArchive(current => cancelledArchive ?? current);
+    setResultStale(cancelledArchive === null);
     setPhase('idle');
     setError(null);
     setNotice(task.kind === 'snapshot' ? '当前场景读取已取消，保留已有输入。'
@@ -334,19 +355,22 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     onDirtyChange(false);
   };
 
-  const invalidateRunResult = () => {
-    setArchive(current => current?.taskKind === 'continuous_attack' ? current : null);
+  const invalidateRunResult = (preserveSingleResult = false) => {
+    setArchive(current => preserveSingleResult || current?.taskKind === 'continuous_attack' ? current : null);
     setResultStale(true);
   };
 
-  const clearArtifacts = () => {
+  const clearArtifacts = (preserveDrafts = false) => {
+    setAuraConfirmed({});
     setSnapshot(null);
     setInspection(null);
-    setAttributeDrafts(emptyAttributeDrafts());
-    setInitialHealth(emptyInitialHealth());
-    setAttackSpeedInputMax(undefined);
+    if (!preserveDrafts) {
+      setAttributeDrafts(emptyAttributeDrafts());
+      setInitialHealth(emptyInitialHealth());
+      setAttackSpeedInputMax(undefined);
+    }
     setPrepared(null);
-    invalidateRunResult();
+    invalidateRunResult(true);
     setError(null);
     setNotice(null);
   };
@@ -359,6 +383,15 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     clearArtifacts();
   };
 
+  const patchEquipment = (side: 'source' | 'target', values: string[]) => {
+    if (taskRef.current) return;
+    try {
+      const keys = normalizeEquipmentKeys(values, `selection.${side}EquipmentKeys`);
+      setSelection(current => ({ ...current, [`${side}EquipmentKeys`]: keys }));
+      clearArtifacts(true);
+    } catch (cause) { setError(taskError(cause)); }
+  };
+
   const readSnapshot = async () => {
     if (taskRef.current || !selectedGameId || !token || !objectsSelected) return;
     let requested: SimulationSelection;
@@ -367,7 +400,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     const task = beginTask('reading');
     if (!task) return;
     setPrepared(null);
-    invalidateRunResult();
+    invalidateRunResult(true);
     try {
       const result = await getSimulationSnapshot(apiBaseUrl, selectedGameId, requested, token, task.controller.signal);
       if (!isCurrent(task)) return;
@@ -375,8 +408,6 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       task.snapshot = result.data;
       setSnapshot(result.data);
       setInspection(nextInspection);
-      setAttributeDrafts(emptyAttributeDrafts());
-      setInitialHealth(emptyInitialHealth());
       setAttackSpeedInputMax(undefined);
       setNotice('场景快照已读取，请核对已录属性并明确填写必要的场景补充值。');
     } catch (cause) {
@@ -392,7 +423,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       ...current, [row.side]: { ...current[row.side], [row.attribute.attributeKey]: value }
     }));
     setPrepared(null);
-    invalidateRunResult();
+    invalidateRunResult(row.attribute.attributeKey === 'attack_speed_ratio');
     setError(null);
     setNotice(null);
   };
@@ -403,7 +434,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       const next = { source: { ...current.source }, target: { ...current.target } };
       for (const row of missing) {
         const key = row.attribute.attributeKey;
-        if (next[row.side][key] === undefined) next[row.side][key] = 0;
+        if (key !== 'attack_speed_ratio' && next[row.side][key] === undefined) next[row.side][key] = 0;
       }
       return next;
     });
@@ -467,7 +498,9 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       }
       if (initialHealth.source === undefined) throw new Error('initialHealth.source: 请明确填写攻击方初始当前生命。');
       if (initialHealth.target === undefined) throw new Error('initialHealth.target: 请明确填写目标初始当前生命。');
-      task.prepared = await prepareSimulation(task.snapshot, inputs, { source: initialHealth.source, target: initialHealth.target });
+      const assumptions: SimulationEquipmentAssumption[] = equipmentRangeRequirements(task.snapshot)
+        .map(({ owner, equipmentKey }) => ({ owner, equipmentKey, target: owner === 'source' ? 'target' : 'source', inRange: auraConfirmed[`${owner}:${equipmentKey}`] === true }));
+      task.prepared = await prepareSimulation(task.snapshot, inputs, { source: initialHealth.source, target: initialHealth.target }, assumptions);
       if (!isCurrent(task)) return;
       if (kind === 'continuous_attack') {
         task.continuousPrepared = await continuousAttackRequest(task.prepared, task.snapshot, continuousInputs);
@@ -493,6 +526,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       if (!failure && kind !== 'compile') {
         task.runRequest = kind === 'single_attack' ? singleAttackRequest(task.prepared.compileRequest, task.sessionId!)
           : { ...task.continuousPrepared!.runRequest, sessionId: task.sessionId! };
+        task.runRequest.runtimeOptions = { equipmentAssumptions: task.prepared.equipmentAssumptions };
         task.phase = 'running';
         setPhase('running');
         task.runResult = await task.client.run(task.runRequest);
@@ -538,8 +572,9 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         if (!passed && failure === null) failure = kind === 'single_attack'
           ? '未完成完整单次运行与会话释放，不能标记运行通过。'
           : kind === 'continuous_attack' ? '未完成完整连续运行与会话释放，不能标记运行通过。' : '未完成编译与会话释放，不能标记验证通过。';
-        setArchive(archiveFor(task, passed ? 'passed' : 'failed', failure));
-        setResultStale(false);
+        const nextArchive = archiveFor(task, passed ? 'passed' : 'failed', failure);
+        setArchive(current => nextArchive ?? current);
+        setResultStale(nextArchive === null);
         setError(failure);
         setNotice(passed ? kind === 'single_attack' ? '单次普攻运行通过，不代表连续攻击通过。'
           : kind === 'continuous_attack' ? task.continuousAssessment?.execution.targetKilled ? '连续普攻已完成击杀，会话正常释放。'
@@ -565,50 +600,85 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         action={<Button disabled={busy} onClick={skills.retry}>重试普攻列表</Button>} /> : null}
       {levels.error ? <Alert key="level-options-error" type="error" content={`角色等级范围读取失败：${levels.error}`}
         action={<Button disabled={busy} onClick={levels.retry}>重试等级范围</Button>} /> : null}
+      {equipment.error ? <Alert key="equipment-options-error" type="error" content={`装备列表读取失败：${equipment.error}`}
+        action={<Button disabled={busy} onClick={equipment.retry}>重试装备列表</Button>} /> : null}
+      {healthIssues.length ? <Alert key="health-limit-error" type="error" content={healthIssues.join('\n')} /> : null}
+      {archive && resultStale && archive.taskKind !== 'continuous_attack' ? <Alert key="previous-result-stale" type="warning"
+        content="输入已改变；上一份冻结结果已过期，不代表当前场景。" /> : null}
 
       <Form key="scene-selection" layout="vertical" aria-label="普攻场景选择">
-        <div className="simulation-selection-grid">
-          <Form.Item label="攻击方角色" required>
-            <SimulationEntitySelect label="攻击方角色" value={selection.sourceCharacterKey} options={characters.items}
-              loading={characters.loading} disabled={busy || !selectedGameId || !token || characters.loading || Boolean(characters.error)}
-              loadImage={imageLoader} onChange={value => patchSelection('sourceCharacterKey', value)} placeholder="搜索角色名称或标识" />
-          </Form.Item>
-          <Form.Item label="攻击方等级" required>
-            <Select aria-label="攻击方等级" className="simulation-level-select" value={selection.sourceLevel} allowClear
-              loading={levels.loading} disabled={busy || levels.loading || !levels.items.length || Boolean(levels.error)}
-              options={levels.items.map(value => ({ value, label: String(value) }))}
-              placeholder={levels.loading ? '正在读取等级范围…' : '请选择等级'}
-              onChange={(value: number | undefined) => patchSelection('sourceLevel', value)} />
-          </Form.Item>
-          <Form.Item label="目标角色" required>
-            <SimulationEntitySelect label="目标角色" value={selection.targetCharacterKey} options={characters.items}
-              loading={characters.loading} disabled={busy || !selectedGameId || !token || characters.loading || Boolean(characters.error)}
-              loadImage={imageLoader} onChange={value => patchSelection('targetCharacterKey', value)} placeholder="搜索角色名称或标识" />
-          </Form.Item>
-          <Form.Item label="目标等级" required>
-            <Select aria-label="目标等级" className="simulation-level-select" value={selection.targetLevel} allowClear
-              loading={levels.loading} disabled={busy || levels.loading || !levels.items.length || Boolean(levels.error)}
-              options={levels.items.map(value => ({ value, label: String(value) }))}
-              placeholder={levels.loading ? '正在读取等级范围…' : '请选择等级'}
-              onChange={(value: number | undefined) => patchSelection('targetLevel', value)} />
-          </Form.Item>
-          <Form.Item label="普攻技能" required>
-            <SimulationEntitySelect label="普攻技能" value={selection.basicAttackSkillKey} options={skills.items}
-              loading={skills.loading} disabled={busy || !characters.items.some(row => row.key === selection.sourceCharacterKey)
-                || skills.loading || Boolean(skills.error) || !selectedGameId || !token}
-              loadImage={imageLoader} onChange={value => patchSelection('basicAttackSkillKey', value)}
-              placeholder={!selection.sourceCharacterKey ? '先选择攻击方角色' : skills.loading ? '正在读取挂载的普攻…'
-                : skills.error ? '普攻读取失败，请重试'
-                : skills.items.length ? '搜索普攻名称或标识' : '此角色没有启用的普攻技能'} />
-          </Form.Item>
-          <Form.Item label="普攻技能等级" required>
-            <Select aria-label="普攻技能等级" className="simulation-level-select" value={selection.basicAttackLevel} allowClear
-              loading={skills.loading} disabled={busy || skills.loading || !skillLevels.length || Boolean(skills.error)}
-              options={skillLevels.map(value => ({ value, label: String(value) }))}
-              placeholder={!selectedSkill ? '先选择普攻技能' : '请选择技能等级'}
-              onChange={(value: number | undefined) => patchSelection('basicAttackLevel', value)} />
-          </Form.Item>
+        <div className="simulation-combatants-grid">
+          <section className="simulation-combatant-config" aria-labelledby="simulation-source-config-title">
+            <Typography.Title heading={5} id="simulation-source-config-title" style={{ margin: '0 0 16px' }}>攻击方配置</Typography.Title>
+            <Form.Item label="攻击方角色" required>
+              <SimulationEntitySelect label="攻击方角色" value={selection.sourceCharacterKey} options={characters.items}
+                loading={characters.loading} disabled={busy || !selectedGameId || !token || characters.loading || Boolean(characters.error)}
+                loadImage={imageLoader} onChange={value => patchSelection('sourceCharacterKey', value)} placeholder="搜索角色名称或标识" />
+            </Form.Item>
+            <Form.Item label="攻击方等级" required>
+              <Select aria-label="攻击方等级" className="simulation-level-select" value={selection.sourceLevel} allowClear
+                loading={levels.loading} disabled={busy || levels.loading || !levels.items.length || Boolean(levels.error)}
+                options={levels.items.map(value => ({ value, label: String(value) }))}
+                placeholder={levels.loading ? '正在读取等级范围…' : '请选择等级'}
+                onChange={(value: number | undefined) => patchSelection('sourceLevel', value)} />
+            </Form.Item>
+            <Form.Item label="普攻技能" required>
+              <SimulationEntitySelect label="普攻技能" value={selection.basicAttackSkillKey} options={skills.items}
+                loading={skills.loading} disabled={busy || !characters.items.some(row => row.key === selection.sourceCharacterKey)
+                  || skills.loading || Boolean(skills.error) || !selectedGameId || !token}
+                loadImage={imageLoader} onChange={value => patchSelection('basicAttackSkillKey', value)}
+                placeholder={!selection.sourceCharacterKey ? '先选择攻击方角色' : skills.loading ? '正在读取挂载的普攻…'
+                  : skills.error ? '普攻读取失败，请重试'
+                  : skills.items.length ? '搜索普攻名称或标识' : '此角色没有启用的普攻技能'} />
+            </Form.Item>
+            <Form.Item label="普攻技能等级" required>
+              <Select aria-label="普攻技能等级" className="simulation-level-select" value={selection.basicAttackLevel} allowClear
+                loading={skills.loading} disabled={busy || skills.loading || !skillLevels.length || Boolean(skills.error)}
+                options={skillLevels.map(value => ({ value, label: String(value) }))}
+                placeholder={!selectedSkill ? '先选择普攻技能' : '请选择技能等级'}
+                onChange={(value: number | undefined) => patchSelection('basicAttackLevel', value)} />
+            </Form.Item>
+            <Form.Item label="攻击方装备（最多6件）">
+              <Select aria-label="攻击方装备" className="simulation-equipment-select" mode="multiple" allowClear showSearch
+                value={selection.sourceEquipmentKeys} loading={equipment.loading}
+                disabled={busy || !selectedGameId || !token || equipment.loading || Boolean(equipment.error)}
+                filterOption={(input, option) => String(option.props.children)
+                  .toLowerCase().includes(input.trim().toLowerCase())}
+                options={equipment.items.map(item => ({ value: item.key, label: `${item.name}（${item.key}）`,
+                  disabled: selection.sourceEquipmentKeys.length >= 6 && !selection.sourceEquipmentKeys.includes(item.key) }))}
+                placeholder="可留空；搜索真实装备名称或标识" onChange={(values: string[]) => patchEquipment('source', values)} />
+            </Form.Item>
+          </section>
+          <section className="simulation-combatant-config" aria-labelledby="simulation-target-config-title">
+            <Typography.Title heading={5} id="simulation-target-config-title" style={{ margin: '0 0 16px' }}>目标方配置</Typography.Title>
+            <Form.Item label="目标角色" required>
+              <SimulationEntitySelect label="目标角色" value={selection.targetCharacterKey} options={characters.items}
+                loading={characters.loading} disabled={busy || !selectedGameId || !token || characters.loading || Boolean(characters.error)}
+                loadImage={imageLoader} onChange={value => patchSelection('targetCharacterKey', value)} placeholder="搜索角色名称或标识" />
+            </Form.Item>
+            <Form.Item label="目标等级" required>
+              <Select aria-label="目标等级" className="simulation-level-select" value={selection.targetLevel} allowClear
+                loading={levels.loading} disabled={busy || levels.loading || !levels.items.length || Boolean(levels.error)}
+                options={levels.items.map(value => ({ value, label: String(value) }))}
+                placeholder={levels.loading ? '正在读取等级范围…' : '请选择等级'}
+                onChange={(value: number | undefined) => patchSelection('targetLevel', value)} />
+            </Form.Item>
+            <Form.Item label="目标装备（最多6件）">
+              <Select aria-label="目标装备" className="simulation-equipment-select" mode="multiple" allowClear showSearch
+                value={selection.targetEquipmentKeys} loading={equipment.loading}
+                disabled={busy || !selectedGameId || !token || equipment.loading || Boolean(equipment.error)}
+                filterOption={(input, option) => String(option.props.children)
+                  .toLowerCase().includes(input.trim().toLowerCase())}
+                options={equipment.items.map(item => ({ value: item.key, label: `${item.name}（${item.key}）`,
+                  disabled: selection.targetEquipmentKeys.length >= 6 && !selection.targetEquipmentKeys.includes(item.key) }))}
+                placeholder="可留空；搜索真实装备名称或标识" onChange={(values: string[]) => patchEquipment('target', values)} />
+            </Form.Item>
+          </section>
         </div>
+        <Typography.Paragraph type="secondary">
+          纯属性样本：{PURE_EQUIPMENT_KEYS.join('、')}。被动按完整技能配置激活命中、计数、额外联动、受击及周期；未接入的节点整件拒绝。鬼索、荆棘、日炎部分时序使用项目暂定配置，后续可校准。
+          同一装备可由双方各选一次，换装保留当前生命草稿，必须重新读取快照。
+        </Typography.Paragraph>
         <Space wrap>
           <Button type="primary" disabled={busy || !selectedGameId || !token || !objectsSelected || !levelsSelected} onClick={() => void readSnapshot()}>
             读取场景快照
@@ -619,6 +689,15 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
 
       {snapshot ? (
         <section key="scene-snapshot" aria-label="场景快照">
+          {equipmentRangeRequirements(snapshot).map(({ owner, equipmentKey, equipmentName }) => (
+            <Checkbox key={`${owner}:${equipmentKey}`} aria-label={equipmentKey === 'item_3110' ? `${sideLabels[owner]}冰心全程在范围内` : `${sideLabels[owner]}${equipmentName}全程在范围内`} checked={auraConfirmed[`${owner}:${equipmentKey}`] === true} disabled={busy}
+              onChange={checked => {
+                setAuraConfirmed(current => ({ ...current, [`${owner}:${equipmentKey}`]: checked }));
+                setPrepared(null); invalidateRunResult(); setError(null); setNotice(null);
+              }}>
+              明确确认：{sideLabels[owner]}{equipmentName}的唯一对手全程在作用范围内（不模拟进出范围或多来源叠加）
+            </Checkbox>
+          ))}
           <Typography.Paragraph>
             攻击方：{snapshot.source.character.name}（{snapshot.selection.sourceCharacterKey}，等级{snapshot.selection.sourceLevel}）；
             目标：{snapshot.target.character.name}（{snapshot.selection.targetCharacterKey}，等级{snapshot.selection.targetLevel}）。
@@ -627,6 +706,19 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
             原快照摘要：<Typography.Text code id="simulation-snapshot-digest">{snapshot.snapshotDigest}</Typography.Text>
           </Typography.Paragraph>
           <Button disabled={busy} onClick={() => downloadJson('basic-attack-snapshot.json', snapshot)}>下载场景快照</Button>
+          <Table data={inspection?.equipmentOrigins ?? []} rowKey={row => `${row.side}:${row.equipmentKey}`} pagination={false} columns={[
+            { title: '拥有方', render: (_, row) => sideLabels[row.side] },
+            { title: '装备', render: (_, row) => `${row.equipmentName}（${row.equipmentKey}）` },
+            { title: '固定属性增量', render: (_, row) => Object.entries(row.attributeValues).map(([key, value]) => `${key}: ${value}`).join('；') },
+            { title: '独立来源标识', dataIndex: 'providerRef' }
+          ]} />
+          {(['source', 'target'] as const).filter(side => snapshot[side].selectedEquipment.some(item => 'bonus_attack_speed_percent' in item.attributes.attributeValues)).map(side => (
+            <Typography.Paragraph key={`${side}-speed-chain`}>
+              {sideLabels[side]}攻速来源链：固有每秒攻击次数 → 加上收益系数（attack_speed_ratio，需明确正值）×
+              （额外攻速总比例 − 固有额外比例）；装备额外比例平加为{equipmentContribution(snapshot, side, 'bonus_attack_speed_percent')}。
+              派生由原生引擎执行，不另建攻击时钟。
+            </Typography.Paragraph>
+          ))}
         </section>
       ) : null}
 
@@ -634,20 +726,20 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         <section key="initial-health" aria-label="初始当前生命">
           <Typography.Title heading={5}>初始当前生命</Typography.Title>
           <Typography.Paragraph>
-            双方当前生命必须明确填写且不能超过真实等级上限，未填写不会默认满生命。
+            双方当前生命必须明确填写且不能超过固有生命加本次装备贡献的上限，未填写不会默认满生命。
             0可用于编译检查；单次和连续运行均要求双方当前生命大于0。
           </Typography.Paragraph>
           <Form layout="vertical">
             <div className="simulation-selection-grid">
               <Form.Item label="攻击方初始当前生命" required>
                 <InputNumber aria-label="攻击方初始当前生命" value={initialHealth.source} disabled={busy}
-                  min={0} max={sourceHealthLimit} onChange={value => updateInitialHealth('source', value)} />
-                <Typography.Text type="secondary">已录生命上限：{sourceHealthLimit ?? '未录入'}</Typography.Text>
+                  onChange={value => updateInitialHealth('source', value)} />
+                <Typography.Text type="secondary">含装备生命上限：{sourceHealthLimit ?? '固有生命未录入，请补全'}</Typography.Text>
               </Form.Item>
               <Form.Item label="目标初始当前生命" required>
                 <InputNumber aria-label="目标初始当前生命" value={initialHealth.target} disabled={busy}
-                  min={0} max={targetHealthLimit} onChange={value => updateInitialHealth('target', value)} />
-                <Typography.Text type="secondary">已录生命上限：{targetHealthLimit ?? '未录入'}</Typography.Text>
+                  onChange={value => updateInitialHealth('target', value)} />
+                <Typography.Text type="secondary">含装备生命上限：{targetHealthLimit ?? '固有生命未录入，请补全'}</Typography.Text>
               </Form.Item>
             </div>
           </Form>
@@ -697,16 +789,16 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
                 <Typography.Text type="secondary">真实属性目录未设上界，请显式填写；仅作输入准入，不是游戏攻速封顶。</Typography.Text>
               </Form.Item> : <Typography.Paragraph>攻速输入上界：{speedAttribute?.maxValue ?? '目录缺失'}（来自真实属性范围）。</Typography.Paragraph>}
             </div>
-            <Typography.Paragraph type="secondary">连续场景无装备，使用静态攻速、零命中延迟与期望单击模型。模拟观察时长与30秒真实运行超时分别计时。</Typography.Paragraph>
+            <Typography.Paragraph type="secondary">连续场景按完整装备技能配置执行，计数、联动、受击、周期及攻速改期由原生处理；无前摇或弹道。项目暂定时序不等于游戏机制已核实。模拟观察时长与30秒真实运行超时分别计时。</Typography.Paragraph>
           </Form>
           <Space wrap style={{ marginTop: 16 }}>
             <Button disabled={busy || unfilled.length === 0} onClick={fillMissingWithZero}>将缺失属性填写为0</Button>
-            <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled} onClick={() => void execute('single_attack')}>执行一次普攻</Button>
-            <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled} onClick={() => void execute('continuous_attack')}>连续普攻</Button>
-            <Button disabled={busy || unfilled.length > 0 || healthUnfilled} onClick={() => void execute('compile')}>编译验证</Button>
+            <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0} onClick={() => void execute('single_attack')}>执行一次普攻</Button>
+            <Button type="primary" disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0} onClick={() => void execute('continuous_attack')}>连续普攻</Button>
+            <Button disabled={busy || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0} onClick={() => void execute('compile')}>编译验证</Button>
           </Space>
           <Typography.Paragraph type="secondary" style={{ marginTop: 8 }}>
-            补零按钮只填写仍为空的缺失项，保留已填数值；违反原属性范围的0仍会被拒绝。
+            补零按钮只填写仍为空的缺失项，保留已填数值；攻速收益系数不补零，须明确填写正值；违反原属性范围的0仍会被拒绝。
           </Typography.Paragraph>
         </section>
       ) : null}

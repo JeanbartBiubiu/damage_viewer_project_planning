@@ -340,6 +340,11 @@ export type GenericRules = {
   triggerRules?: unknown[];
   vampRules?: GenericVampRule[];
   damageTypeFormulas?: GenericDamageTypeFormula[];
+  attributeDerivations?: Array<{
+    combatantKey: 'source' | 'target';
+    attributeKey: string;
+    value: GenericFormulaExpr;
+  }>;
 };
 
 export type GenericDamageTypeFormula = {
@@ -609,6 +614,7 @@ export type AttackStartFact = {
 };
 
 export type RunRequest = {
+  runtimeOptions?: { equipmentAssumptions: import('./simulationSnapshot').SimulationEquipmentAssumption[] };
   sessionId: string;
   expectedRulesHash: string;
   schemaVersion: string;
@@ -646,6 +652,8 @@ export type RunSummary = {
   execution?: ExecutionSummary;
   sourceHpLoss?: number;
   targetHpLoss?: number;
+  sourceVampHealing?: number;
+  targetVampHealing?: number;
   damageBreakdown?: DamageBreakdown[];
   abilityStats: Array<{
     abilityRef: string;
@@ -670,17 +678,20 @@ export type ExecutionSummary = {
 };
 export type AttackRecord = {
   planKey: string; attackIndex: number; useRef: string; source: string; target: string; skillKey: string;
-  startAtMs: number; hitAtMs: number | null; readyAtMs: number | null; nextStartAtMs: number | null;
+  startAtMs: number; hitAtMs: number | null; readyAtMs: number | null; finalReadyAtMs: number | null; nextStartAtMs: number | null;
   attackSpeed: number; postDefenseDamage: number; actualHpLoss: number;
   sourceHpAfter: number; targetHpAfter: number; completed: boolean;
 };
 export type DamageBreakdown = {
+  providerDefinitionRef?: string;
   owner: string; source: string; target: string; abilityRef: string; operationRef: string; damageType: string;
   damageCount: number; postDefenseDamage: number; shieldAbsorbed: number; actualHpLoss: number; overkillDamage: number;
 };
 export type DamageRecord = Omit<DamageBreakdown, 'damageCount'> & {
+  providerActivatedAtMs?: number;
   damageId: number; attackIndex: number; useRef: string; timeMs: number; castInstanceId: number; operationPath: string;
   rawAmount: number; hpBefore: number; hpAfter: number;
+  sourceHpBefore: number | null; sourceHpAfter: number | null;
   eligible?: boolean; policy?: string; baseRawAmount?: number; originalCritChance?: number;
   effectiveCritChance?: number; multiplier?: number; normalPart?: number; critPart?: number;
   critAdjustedRawAmount?: number; normalPartPostResistance?: number; critPartPostResistance?: number;

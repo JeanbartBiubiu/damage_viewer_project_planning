@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { assembleSimulation, inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } from './simulationAdapter';
 import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
+import { triggeredEquipmentSimulationSample } from '../../tests/fixtures/simulationTriggeredEquipment';
 
 function zeroInputs(snapshot = simulationSample()) {
   const values = { source: {} as Record<string, number>, target: {} as Record<string, number> };
@@ -12,6 +13,25 @@ function zeroInputs(snapshot = simulationSample()) {
 const initialHealth = { source: 650, target: 590 };
 
 describe('首批场景装配', () => {
+  it('多来源共享目录覆盖只保留一条边，不同挂载和资料说明仍完整保留', () => {
+    const snapshot = triggeredEquipmentSimulationSample(['item_1043'], ['item_1043']);
+    const configuration = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'item_1043_passive')!;
+    configuration.parameters.push({ ...configuration.parameters[0]!, parameterKey: 'authoring_note', name: '未引用资料参数', sortOrder: 20 });
+    const inputs = zeroInputs(snapshot);
+    inputs.source.attack_speed_ratio = .651;
+    inputs.target.attack_speed_ratio = .668;
+    const prepared = assembleSimulation(snapshot, inputs, initialHealth);
+    const pairs = prepared.coverage.map(row => JSON.stringify([row.authorPath, row.compiledPath]));
+    expect(new Set(pairs).size).toBe(pairs.length);
+    expect(prepared.coverage.filter(row => row.authorPath === 'catalogs.vampRules.rules[0]'
+      && row.compiledPath === 'rules.vampRules[0]')).toHaveLength(1);
+    const resultReferences = prepared.coverage.filter(row => row.authorPath === 'skills.item_1043_passive.effects.on_hit_damage.results.on_hit_damage');
+    expect(new Set(resultReferences.map(row => row.compiledPath)).size).toBeGreaterThanOrEqual(2);
+    const notes = prepared.coverage.filter(row => row.authorPath === 'skills.item_1043_passive.parameters.authoring_note');
+    expect(notes).toHaveLength(2);
+    expect(notes.every(row => row.note?.includes('非战斗引用'))).toBe(true);
+  });
+
   it('缺值不补零，按真实一侧要求显式补充，固有等级值不可覆盖', () => {
     const snapshot = simulationSample();
     const inspection = inspectSimulationSnapshot(snapshot);
