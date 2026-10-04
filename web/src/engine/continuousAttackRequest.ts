@@ -3,6 +3,7 @@ import type { SimulationSnapshot } from '../types/simulationSnapshot';
 import { simulationAbility, type assembleSimulation } from './simulationAdapter';
 import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
+import { executableEquipmentRelations } from './simulationNaturalSkillSources';
 
 export const CONTINUOUS_DURATION_INITIAL_MS = 30_000;
 export type ContinuousAttackInputs = { durationMs: number; attackSpeedInputMax?: number; recordTimeSeries?: boolean };
@@ -39,10 +40,13 @@ export async function continuousAttackRequest(
   }
   for (const actor of [source, target]) {
     const expected = prepared.equipmentOrigins.filter(row => row.side === actor.key).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef }));
-    for (const origin of prepared.equipmentOrigins.filter(row => row.side === actor.key && snapshot[actor.key as 'source' | 'target'].selectedEquipment
-      .some(item => item.equipment.equipmentKey === row.equipmentKey && item.attachedSkills.length > 0))) {
+    for (const origin of prepared.equipmentOrigins.filter(row => row.side === actor.key
+      && executableEquipmentRelations(snapshot, actor.key as 'source' | 'target', row.equipmentKey).length > 0)) {
       const providerRef = `${actor.key}_${origin.equipmentKey}_passive`;
       expected.push({ providerRef, definitionRef: `${providerRef}_definition` });
+    }
+    for (const origin of prepared.skillOrigins.filter(row => row.side === actor.key && row.providerRef && row.definitionRef)) {
+      expected.push({ providerRef: origin.providerRef!, definitionRef: origin.definitionRef! });
     }
     if (actor === source) expected.push({ providerRef: startBinding.mount.providerRef, definitionRef: startBinding.mount.definitionRef });
     if (actor.providers.length !== expected.length || new Set(actor.providers.map(row => row.providerRef)).size !== expected.length
@@ -95,7 +99,7 @@ export async function continuousAttackRequest(
   const attackSpeedAdmission: AttackSpeedAdmission = { attributeKey, inputMax, source: range === null ? 'scenario_input' : 'attribute_range' };
   const basicAttack: BasicAttackPlan = { ...binding, planKey: 'selected_basic_attack_plan', attackSpeedInputMax: inputMax };
   const runRequest: RunRequest = {
-    runtimeOptions: { equipmentAssumptions: prepared.equipmentAssumptions },
+    runtimeOptions: { equipmentAssumptions: prepared.equipmentAssumptions, skillOrigins: prepared.skillOrigins },
     sessionId, expectedRulesHash: input.rulesHash, schemaVersion: input.schemaVersion,
     schemaHash: input.schemaHash, rulesHash: input.rulesHash,
     initialSnapshot: simulationInitialSnapshot(input),

@@ -2,13 +2,16 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { expect, test, type Page, type TestInfo } from '@playwright/test';
-import type { SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth, SimulationSnapshot } from '../../src/types/simulationSnapshot';
+import type { SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth, SimulationSelection, SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 import { equipmentSimulationSample } from '../fixtures/simulationEquipment';
 import { permanentEquipmentSimulationSample } from '../fixtures/simulationPermanentEquipment';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
+import { confirmSimulationConfiguration } from '../fixtures/simulationSnapshotRequests';
+import { syncSimulationSkillSources } from '../fixtures/simulationSkillSources';
 
 const API = 'http://127.0.0.1:19114';
+const PNG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1cAAAAASUVORK5CYII=';
 
 test.beforeEach(() => {
   const wasm = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
@@ -27,37 +30,54 @@ async function chooseEquipment(page: Page, side: '攻击方' | '目标', key: st
 
 async function installFixture(page: Page, permanent = false) {
   const sample = equipmentSimulationSample();
-  const requests: URL[] = [];
-  const methods: string[] = [];
+  const requests: SimulationSelection[] = [];
+  const methods: { path: string; method: string }[] = [];
   const mode = { fail: false, missingRatio: false, passive: false, hold: false };
   let pending: (() => void) | null = null;
   await page.addInitScript(api => {
     localStorage.setItem('damage-viewer.web.api-base-url', api);
     localStorage.setItem('damage-viewer.web.admin-token', 'equipment-fixture-only');
   }, API);
-  page.on('request', request => { if (request.url().includes('/api/')) methods.push(request.method()); });
+  page.on('request', request => {
+    if (request.url().includes('/api/')) methods.push({ path: new URL(request.url()).pathname, method: request.method() });
+  });
   await page.route('**/api/games', route => route.fulfill({ json: [{ gameId: 'lol', gameName: '独立装备结构用例', representativeImageKey: null }] }));
   await installSimulationSelectionApi(page, API, 'lol', sample);
   const items = equipmentSimulationSample(['item_1028', 'item_1036', 'item_1042']).source.selectedEquipment.map(row => row.equipment);
   if (permanent) items.push(...permanentEquipmentSimulationSample(['item_3065', 'item_3110']).source.selectedEquipment.map(row => row.equipment));
   items.push(...Array.from({ length: 4 }, (_, index) => ({ ...items[0]!, equipmentKey: `unverified_${index}`, name: `未核定样例${index}` })));
   await page.route(`${API}/api/admin/games/lol/equipment`, route => route.fulfill({ json: { items, total: items.length } }));
-  await page.route(`${API}/api/admin/games/lol/simulation-snapshot?**`, async route => {
-    const query = new URL(route.request().url());
-    requests.push(query);
+  await page.route(`${API}/api/admin/games/lol/equipment/*/representative-image`, route => {
+    const key = new URL(route.request().url()).pathname.split('/').at(-2)!;
+    return route.fulfill({ json: { image: ['item_1036', 'item_1028'].includes(key)
+      ? { imageKey: `${key}_icon`, name: '装备图标', enabled: true } : null } });
+  });
+  await page.route(`${API}/api/admin/games/lol/images/*`, route => route.fulfill({ json: {
+    gameId: 'lol', imageKey: new URL(route.request().url()).pathname.split('/').at(-1), name: '装备图标', description: null,
+    imageBase64: PNG, mimeType: 'image/png', byteSize: 68, width: 1, height: 1, enabled: true,
+    createdAt: '2026-10-04T00:00:00Z', updatedAt: '2026-10-04T00:00:00Z'
+  } }));
+  await page.route(`${API}/api/admin/games/lol/simulation-snapshot`, async route => {
+    expect(route.request().method()).toBe('POST');
+    const selection = route.request().postDataJSON() as SimulationSelection;
+    expect(Object.keys(selection)).toHaveLength(12);
+    requests.push(selection);
     if (mode.hold) await new Promise<void>(resolveRequest => { pending = resolveRequest; });
     if (mode.fail) {
       await route.fulfill({ status: 409, json: { error: { message: '明确测试读取失败', code: '409.SIMULATION_SNAPSHOT_INVALID' } } }).catch(() => undefined);
       return;
     }
     const sampleBuilder = permanent ? permanentEquipmentSimulationSample : equipmentSimulationSample;
-    const snapshot = sampleBuilder(query.searchParams.getAll('sourceEquipmentKeys'), query.searchParams.getAll('targetEquipmentKeys'));
+    const snapshot = sampleBuilder(selection.sourceEquipmentKeys, selection.targetEquipmentKeys);
+    snapshot.selection = selection;
     if (mode.missingRatio) snapshot.catalogs.attributes = snapshot.catalogs.attributes.filter(row => row.attributeKey !== 'attack_speed_ratio');
     if (mode.passive && snapshot.source.selectedEquipment[0]) {
       const item = snapshot.source.selectedEquipment[0];
       item.attachedSkills.push({ gameId: 'lol', equipmentKey: item.equipment.equipmentKey, equipmentName: item.equipment.name,
         skillKey: snapshot.selection.basicAttackSkillKey, skillName: '明确测试关系', skillStatus: 'ENABLED', sortOrder: 0 });
     }
+    syncSimulationSkillSources(snapshot);
+    snapshot.snapshotDigest = createHash('sha256').update(JSON.stringify([snapshot.selection, snapshot.source.skillSources, snapshot.target.skillSources])).digest('hex');
     await route.fulfill({ json: snapshot }).catch(() => undefined);
   });
   await page.goto('/#/simulation/basic-attack');
@@ -73,6 +93,7 @@ async function installFixture(page: Page, permanent = false) {
 async function readSnapshot(page: Page) {
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   await expect(page.locator('#simulation-snapshot-digest')).toBeVisible();
+  await confirmSimulationConfiguration(page);
 }
 
 async function runActual(page: Page, snapshot: SimulationSnapshot, inputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth, testInfo: TestInfo,
@@ -95,7 +116,7 @@ async function runActual(page: Page, snapshot: SimulationSnapshot, inputs: Simul
       compiled = await client.compile(prepared.compileRequest);
       if (!compiled.ok || !compiled.sessionId) throw new Error(JSON.stringify(compiled.errors));
       const singleRequest = singleAttackRequest(prepared.compileRequest, compiled.sessionId);
-      singleRequest.runtimeOptions = { equipmentAssumptions: assumptions };
+      singleRequest.runtimeOptions = { ...singleRequest.runtimeOptions, equipmentAssumptions: assumptions, skillOrigins: prepared.skillOrigins };
       single = await client.run(singleRequest);
       singleAssessment = assessSingleAttackResult(prepared.compileRequest, singleRequest, single);
       const continuousPrepared = await continuousAttackRequest(prepared, snapshot, { durationMs: 2000, attackSpeedInputMax: 2, recordTimeSeries: false }, compiled.sessionId);
@@ -130,6 +151,7 @@ for (const side of ['攻击方', '目标'] as const) {
     const popup = page.locator(`#${await select.getAttribute('aria-controls')}`);
     const sword = popup.getByRole('option').filter({ hasText: 'item_1036' });
     await expect(sword).toBeVisible();
+    await expect(sword.getByRole('img', { name: '样例长剑', exact: true })).toHaveAttribute('src', PNG);
     await expect(popup.getByRole('option')).toHaveCount(1);
     await input.pressSequentially('剑');
     await expect(sword).toBeVisible();
@@ -144,6 +166,7 @@ for (const side of ['攻击方', '目标'] as const) {
     await sword.click();
     await page.keyboard.press('Escape');
     await expect(select.locator('.arco-select-tag')).toHaveCount(1);
+    await expect(select.locator('.arco-select-tag').getByRole('img', { name: '样例长剑', exact: true })).toHaveAttribute('src', PNG);
     await input.fill('长');
     await expect(sword).toBeVisible();
     await expect(select.locator('.arco-select-tag')).toHaveCount(1);
@@ -155,6 +178,40 @@ for (const side of ['攻击方', '目标'] as const) {
     await page.keyboard.press('Escape');
   });
 }
+
+test('装备图标按可见选项读取，双方共用缓存，缺图和读取失败仍可选择', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  const fixture = await installFixture(page);
+  const equipmentImageReads = () => fixture.methods.filter(row => /\/equipment\/[^/]+\/representative-image$/.test(row.path));
+  const swordDownloads = () => fixture.methods.filter(row => row.path.endsWith('/images/item_1036_icon'));
+  expect(equipmentImageReads()).toHaveLength(0);
+  await page.route(`${API}/api/admin/games/lol/images/item_1028_icon`, route => route.fulfill({ status: 500, json: { message: '图片暂不可读' } }));
+  await chooseEquipment(page, '攻击方', 'item_1036');
+  await chooseEquipment(page, '目标', 'item_1036');
+  for (const side of ['攻击方', '目标']) {
+    await expect(page.getByRole('combobox', { name: `${side}装备`, exact: true })
+      .locator('.arco-select-tag').getByRole('img', { name: '样例长剑', exact: true })).toHaveAttribute('src', PNG);
+  }
+  expect(equipmentImageReads().filter(row => row.path.endsWith('/equipment/item_1036/representative-image'))).toHaveLength(1);
+  expect(new Set(equipmentImageReads().map(row => row.path)).size).toBe(equipmentImageReads().length);
+  expect(swordDownloads()).toHaveLength(1);
+  await page.reload();
+  await chooseEquipment(page, '攻击方', 'item_1036');
+  await expect(page.getByRole('combobox', { name: '攻击方装备', exact: true })
+    .locator('.arco-select-tag').getByRole('img', { name: '样例长剑', exact: true })).toHaveAttribute('src', PNG);
+  expect(swordDownloads()).toHaveLength(1);
+  await chooseEquipment(page, '目标', 'unverified_0');
+  const target = page.getByRole('combobox', { name: '目标装备', exact: true });
+  await expect(target.getByLabel('未核定样例0 未上传图片')).toBeVisible();
+  await chooseEquipment(page, '目标', 'item_1028');
+  await expect(target.locator('.arco-select-tag').filter({ hasText: 'item_1028' })
+    .locator('.resource-image-thumb-placeholder')).toBeVisible();
+  await expect(target.locator('.arco-select-tag')).toHaveCount(2);
+  expect(fixture.methods.some(row => row.path.endsWith('/images'))).toBe(false);
+  expect(fixture.methods.every(row => row.method === 'GET' || row.method === 'OPTIONS')).toBe(true);
+  expect(errors).toEqual([]);
+});
 
 test('页面纯属性选装进入真实编译、单次、连续与冻结装备档案，所有业务请求只读', async ({ page }) => {
   const fixture = await installFixture(page);
@@ -179,7 +236,8 @@ test('页面纯属性选装进入真实编译、单次、连续与冻结装备�
   expect(archive.snapshot.selection).toMatchObject({ sourceEquipmentKeys: ['item_1036'], targetEquipmentKeys: ['item_1028'] });
   expect(archive.equipmentOrigins.map((row: { side: string; equipmentKey: string }) => [row.side, row.equipmentKey])).toEqual([['source', 'item_1036'], ['target', 'item_1028']]);
   expect(archive.outcome).toBe('passed');
-  expect(fixture.methods.every(method => method === 'GET' || method === 'OPTIONS')).toBe(true);
+  expect(archive.skillOrigins).toEqual(expect.arrayContaining([expect.objectContaining({ side: 'source', skillKey: 'sample_basic_attack' })]));
+  expect(fixture.methods.every(row => row.method === 'OPTIONS' || row.method === (row.path.endsWith('/simulation-snapshot') ? 'POST' : 'GET'))).toBe(true);
 });
 
 test('换装保留生命草稿并使旧结果过期，新上限越界明确报错；读取错误与取消不丢草稿', async ({ page }) => {
@@ -203,9 +261,10 @@ test('换装保留生命草稿并使旧结果过期，新上限越界明确报�
   await expect(page.getByText(/明确测试读取失败/)).toBeVisible();
   await expect(hp).toHaveValue('800');
   fixture.mode.fail = false;
+  const completedReads = fixture.requests.length;
   fixture.mode.hold = true;
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
-  await expect.poll(() => fixture.requests.length).toBe(4);
+  await expect.poll(() => fixture.requests.length).toBe(completedReads + 1);
   await page.getByRole('button', { name: '取消当前请求', exact: true }).click();
   fixture.unblock();
   await expect(hp).toHaveValue('800');
@@ -255,8 +314,8 @@ test('每侧最多6件且不重复，同装备双侧合法，请求选择按稳�
   await chooseEquipment(page, '攻击方', 'item_1028');
   await chooseEquipment(page, '目标', 'item_1036');
   await readSnapshot(page);
-  expect(fixture.requests[0]!.searchParams.getAll('sourceEquipmentKeys')).toEqual(['item_1028', 'item_1036']);
-  expect(fixture.requests[0]!.searchParams.getAll('targetEquipmentKeys')).toEqual(['item_1036']);
+  expect(fixture.requests[0]!.sourceEquipmentKeys).toEqual(['item_1028', 'item_1036']);
+  expect(fixture.requests[0]!.targetEquipmentKeys).toEqual(['item_1036']);
   for (const key of ['item_1042', 'unverified_0', 'unverified_1', 'unverified_2']) await chooseEquipment(page, '攻击方', key);
   const select = page.locator('.simulation-equipment-select[aria-label="攻击方装备"]');
   await select.locator('input').fill('unverified_3');
@@ -295,17 +354,18 @@ test('真实服务长剑与红水晶完整作者快照进入实际引擎，不�
   const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN ?? '';
   await page.goto('/#/simulation/basic-attack');
   const data = await page.evaluate(async ({ base, token }) => {
-    const snapshotPath = '/src/services/simulationSnapshotClient.ts';
+    const snapshotPath = '/tests/fixtures/simulationLiveSnapshot.ts';
     const equipmentPath = '/src/services/equipmentClient.ts';
     const adapterPath = '/src/engine/simulationAdapter.ts';
-    const { getSimulationSnapshot } = await import(snapshotPath) as typeof import('../../src/services/simulationSnapshotClient');
+    const { getIsolatedSimulationSnapshot } = await import(snapshotPath) as typeof import('../fixtures/simulationLiveSnapshot');
     const { listEquipment } = await import(equipmentPath) as typeof import('../../src/services/equipmentClient');
     const { inspectSimulationSnapshot } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
     const catalog = (await listEquipment(base, 'lol', token)).data;
-    const snapshot = (await getSimulationSnapshot(base, 'lol', {
+    const snapshot = await getIsolatedSimulationSnapshot(base, 'lol', {
       sourceCharacterKey: 'champion_aatrox', sourceLevel: 1, targetCharacterKey: 'champion_ahri', targetLevel: 1,
-      basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, sourceEquipmentKeys: ['item_1028', 'item_1036'], targetEquipmentKeys: ['item_1028']
-    }, token)).data;
+      basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, sourceEquipmentKeys: ['item_1028', 'item_1036'], targetEquipmentKeys: ['item_1028'],
+      sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: []
+    }, token);
     const inputs: SimulationAttributeInputs = { source: {}, target: {} };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) inputs[row.side][row.attribute.attributeKey] = 0;
     return { snapshot, inputs, catalogKeys: catalog.items.map(row => row.equipmentKey) };
@@ -328,14 +388,15 @@ test('真实服务短剑使用独立核定的角色收益系数，由原普攻�
   };
   await page.goto('/#/simulation/basic-attack');
   const data = await page.evaluate(async ({ base, token, ratio }) => {
-    const snapshotPath = '/src/services/simulationSnapshotClient.ts';
+    const snapshotPath = '/tests/fixtures/simulationLiveSnapshot.ts';
     const adapterPath = '/src/engine/simulationAdapter.ts';
-    const { getSimulationSnapshot } = await import(snapshotPath) as typeof import('../../src/services/simulationSnapshotClient');
+    const { getIsolatedSimulationSnapshot } = await import(snapshotPath) as typeof import('../fixtures/simulationLiveSnapshot');
     const { inspectSimulationSnapshot } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
-    const snapshot = (await getSimulationSnapshot(base, 'lol', {
+    const snapshot = await getIsolatedSimulationSnapshot(base, 'lol', {
       sourceCharacterKey: 'champion_aatrox', sourceLevel: 1, targetCharacterKey: 'champion_ahri', targetLevel: 1,
-      basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, sourceEquipmentKeys: ['item_1042'], targetEquipmentKeys: ['item_1028']
-    }, token)).data;
+      basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, sourceEquipmentKeys: ['item_1042'], targetEquipmentKeys: ['item_1028'],
+      sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: []
+    }, token);
     const inputs: SimulationAttributeInputs = { source: {}, target: {} };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) {
       if (row.storedValue === undefined) inputs[row.side][row.attribute.attributeKey] = row.attribute.attributeKey === 'attack_speed_ratio' ? ratio : 0;
@@ -399,14 +460,15 @@ for (const combination of [
   const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN ?? '';
   await page.goto('/#/simulation/basic-attack');
   const data = await page.evaluate(async ({ base, token, combination }) => {
-    const snapshotPath = '/src/services/simulationSnapshotClient.ts';
+    const snapshotPath = '/tests/fixtures/simulationLiveSnapshot.ts';
     const adapterPath = '/src/engine/simulationAdapter.ts';
-    const { getSimulationSnapshot } = await import(snapshotPath) as typeof import('../../src/services/simulationSnapshotClient');
+    const { getIsolatedSimulationSnapshot } = await import(snapshotPath) as typeof import('../fixtures/simulationLiveSnapshot');
     const { inspectSimulationSnapshot } = await import(adapterPath) as typeof import('../../src/engine/simulationAdapter');
-    const snapshot = (await getSimulationSnapshot(base, 'lol', {
+    const snapshot = await getIsolatedSimulationSnapshot(base, 'lol', {
       sourceCharacterKey: 'champion_aatrox', sourceLevel: 1, targetCharacterKey: 'champion_ahri', targetLevel: 1,
-      basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, sourceEquipmentKeys: combination.source, targetEquipmentKeys: combination.target
-    }, token)).data;
+      basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: 1, sourceEquipmentKeys: combination.source, targetEquipmentKeys: combination.target,
+      sourceBuildConfigurations: [], targetBuildConfigurations: [], sourceSkillSettings: [], targetSkillSettings: []
+    }, token);
     const inputs: SimulationAttributeInputs = { source: {}, target: {} };
     for (const row of inspectSimulationSnapshot(snapshot).requirements) if (row.storedValue === undefined) inputs[row.side][row.attribute.attributeKey] = 0;
     if (combination.source.includes('item_3065') && snapshot.source.selectedLevelValues.life_steal_percent === undefined) inputs.source.life_steal_percent = .1;

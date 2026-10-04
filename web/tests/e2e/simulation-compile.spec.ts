@@ -6,6 +6,7 @@ import { simulationSample } from '../fixtures/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { confirmSimulationConfiguration, readIsolatedSimulationSnapshot, simulationComparisonSelection } from '../fixtures/simulationSnapshotRequests';
 
 const expectedWasm = WASM_IDENTITY;
 
@@ -101,7 +102,10 @@ test('未知暴击字段与前序阶段声明不被Wasm静默忽略', async ({ p
 
 test('编译检查仍独立释放，不自动运行单次或连续普攻且不提供图表', async ({ page }) => {
   const snapshot = simulationSample();
-  await page.route('**/api/admin/games/demo/simulation-snapshot?**', route => route.fulfill({ json: snapshot }));
+  await page.route('**/api/admin/games/demo/simulation-snapshot', route => {
+    expect(route.request().method()).toBe('POST');
+    return route.fulfill({ json: snapshot });
+  });
   await chooseSimulationEntity(page, '攻击方角色', 'actor_a');
   await chooseSimulationLevel(page, '攻击方等级', 1);
   await chooseSimulationEntity(page, '目标角色', 'actor_b');
@@ -109,6 +113,7 @@ test('编译检查仍独立释放，不自动运行单次或连续普攻且不�
   await chooseSimulationEntity(page, '普攻技能', 'sample_basic_attack');
   await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
+  await confirmSimulationConfiguration(page);
   await expect(page.getByRole('button', { name: '将缺失属性填写为0', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
@@ -126,16 +131,11 @@ test('真实接口A/B等级属性及完整共享普攻，经同一快照进入�
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '真实服务专项需显式启用；跳过不是通过证据');
   const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
   const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN;
-  const path = '/api/admin/games/lol/simulation-snapshot?' + new URLSearchParams({
-    sourceCharacterKey: 'champion_aatrox', sourceLevel: '1', targetCharacterKey: 'champion_ahri', targetLevel: '1',
-    basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: '1'
-  });
-  const response = await request.get(apiBase + path, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
-  expect(response.status()).toBe(200);
-  const snapshot = await response.json() as SimulationSnapshot;
+  const { snapshot } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection(), token);
   const result = await compileSnapshot(page, snapshot, testInfo);
-  expect(snapshot.skillConfigurations[0]!.triggerRules).toHaveLength(2);
-  expect(snapshot.skillConfigurations[0]!.effects).toHaveLength(2);
+  const basicAttack = snapshot.skillConfigurations.find(configuration => configuration.skill.skillKey === snapshot.selection.basicAttackSkillKey)!;
+  expect(basicAttack.triggerRules).toHaveLength(2);
+  expect(basicAttack.effects).toHaveLength(2);
   expect(result.compileResult.ok, JSON.stringify(result.compileResult.errors)).toBe(true);
   expect(result.released).toBe(true);
   expect(result.secondReleaseRejected).toBe(true);

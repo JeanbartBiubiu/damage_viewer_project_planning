@@ -1,5 +1,6 @@
 import type { ProviderDefinition, ModifierDefinition } from '../types/genericEngine';
 import type { SimulationEquipmentAssumption, SimulationSnapshot } from '../types/simulationSnapshot';
+import { equipmentSourceEnabled, validateSimulationSkillSourceManifest } from './simulationNaturalSkillSources';
 import {
   compileNumericValue, constExpr, createNumericCompileState, NumericAdaptationError,
   tryFoldConstant, wrapValueRuleExpression
@@ -12,11 +13,12 @@ export const PERMANENT_EQUIPMENT_SKILLS: Record<string, string> = {
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 
 export function equipmentRangeRequirements(snapshot: SimulationSnapshot) {
-  return (['source', 'target'] as const).flatMap(owner => snapshot[owner].selectedEquipment.filter(item =>
+  return (['source', 'target'] as const).flatMap(owner => snapshot[owner].selectedEquipment.filter(item => item.attachedSkills.some(relation =>
+    equipmentSourceEnabled(snapshot, owner, { kind: 'EQUIPMENT', equipmentKey: item.equipment.equipmentKey }, relation.skillKey)) && (
     item.equipment.equipmentKey === 'item_3110' || item.attachedSkills.some(relation => snapshot.skillConfigurations
       .find(configuration => configuration.skill.skillKey === relation.skillKey)?.effects.some(effect =>
         effect.lifecycle?.instanceScope === 'SOURCE' && effect.lifecycle.periodicIntervalValue !== null
-        && effect.results.some(result => result.resultType === 'DAMAGE' && result.target === 'TARGET'))))
+        && effect.results.some(result => result.resultType === 'DAMAGE' && result.target === 'TARGET')))))
     .map(item => ({ owner, equipmentKey: item.equipment.equipmentKey, equipmentName: item.equipment.name })));
 }
 
@@ -33,17 +35,16 @@ export function validateEquipmentAssumptions(snapshot: SimulationSnapshot, assum
 }
 
 export function assembleEquipmentPassives(snapshot: SimulationSnapshot) {
+  validateSimulationSkillSourceManifest(snapshot);
   const providers: ProviderDefinition[] = [];
   const mounts: Array<{ side: 'source' | 'target'; providerRef: string; definitionRef: string }> = [];
   const coverage: Array<{ authorPath: string; compiledPath: string }> = [];
   const required = { source: new Set<string>(), target: new Set<string>() };
-  const selectedSkills = new Set([snapshot.selection.basicAttackSkillKey,
-    ...snapshot.source.selectedEquipment.flatMap(item => item.attachedSkills.map(relation => relation.skillKey)),
-    ...snapshot.target.selectedEquipment.flatMap(item => item.attachedSkills.map(relation => relation.skillKey))]);
   for (const side of ['source', 'target'] as const) {
     for (const item of snapshot[side].selectedEquipment) {
       const equipmentKey = item.equipment.equipmentKey;
       const expectedSkill = PERMANENT_EQUIPMENT_SKILLS[equipmentKey];
+      if (expectedSkill && !equipmentSourceEnabled(snapshot, side, { kind: 'EQUIPMENT', equipmentKey }, expectedSkill)) continue;
       if (!expectedSkill) continue;
       const path = `${side}.selectedEquipment[${equipmentKey}]`;
       if (item.attachedSkills.length !== 1 || item.attachedSkills[0]!.skillKey !== expectedSkill) {
@@ -53,7 +54,6 @@ export function assembleEquipmentPassives(snapshot: SimulationSnapshot) {
       if (configurations.length !== 1) fail(`${path}.attachedSkills`, '装备被动配置缺失或重复');
       const configuration = configurations[0]!;
       const root = `skills.${expectedSkill}`;
-      selectedSkills.add(expectedSkill);
       if (configuration.skill.gameId !== snapshot.gameId || configuration.skill.status !== 'ENABLED'
         || configuration.skill.maxLevel !== 1 || !configuration.skill.skillCategoryKeys.includes('passive')
         || configuration.processes.length || configuration.internalStates.length || configuration.formulas.length) {
@@ -142,7 +142,5 @@ export function assembleEquipmentPassives(snapshot: SimulationSnapshot) {
       providers.push(initializer);
     }
   }
-  if (snapshot.skillConfigurations.length !== selectedSkills.size || new Set(snapshot.skillConfigurations.map(row => row.skill.skillKey)).size !== selectedSkills.size
-    || snapshot.skillConfigurations.some(row => !selectedSkills.has(row.skill.skillKey))) fail('skillConfigurations', '配置集必须恰好包含所选普攻与全部所选装备被动');
   return { providers, mounts, coverage, required };
 }

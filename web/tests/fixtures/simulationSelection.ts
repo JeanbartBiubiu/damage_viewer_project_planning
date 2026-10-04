@@ -34,6 +34,7 @@ export async function installSimulationSelectionApi(page: Page, api: string, gam
   }));
   await page.route(`${api}/api/admin/games/${gameId}/characters`, route => route.fulfill({ json: { items: characters, total: 2 } }));
   await page.route(`${api}/api/admin/games/${gameId}/equipment`, route => route.fulfill({ json: { items: [], total: 0 } }));
+  await page.route(`${api}/api/admin/games/${gameId}/build-systems`, route => route.fulfill({ json: { items: [], total: 0 } }));
   await page.route(`${api}/api/admin/games/${gameId}/character-skill-relations?**`, route => route.fulfill({ json: {
     items: [{ gameId, characterKey: sourceKey, characterName: '攻击方角色', skillKey, skillName: '普通攻击·共享', skillStatus: 'ENABLED', sortOrder: 0 }], total: 1
   } }));

@@ -1,5 +1,6 @@
 import type { SimulationSelectedEquipment } from '../../src/types/simulationSnapshot';
 import { simulationSample } from './simulationSnapshot';
+import { syncSimulationSkillSources } from './simulationSkillSources';
 
 const equipmentValues: Record<string, Record<string, number>> = {
   item_1036: { attack_damage: 10 }, item_1028: { hp: 150 }, item_1042: { bonus_attack_speed_percent: 0.1 }
@@ -20,5 +21,5 @@ export function equipmentSimulationSample(sourceKeys: string[] = [], targetKeys:
       attributes: { equipmentKey, attributeValues: { ...equipmentValues[equipmentKey] } }, attachedSkills: []
     } satisfies SimulationSelectedEquipment));
   }
-  return snapshot;
+  return syncSimulationSkillSources(snapshot);
 }

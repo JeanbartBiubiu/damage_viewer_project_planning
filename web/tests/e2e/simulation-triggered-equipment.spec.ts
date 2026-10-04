@@ -6,6 +6,7 @@ import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
 import { triggeredEquipmentSimulationSample } from '../fixtures/simulationTriggeredEquipment';
 import { equipmentSimulationSample } from '../fixtures/simulationEquipment';
+import { readIsolatedSimulationSnapshot, simulationComparisonSelection } from '../fixtures/simulationSnapshotRequests';
 
 test.beforeEach(async ({ page }) => {
   const bytes = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
@@ -42,7 +43,7 @@ async function runSnapshot(page: import('@playwright/test').Page, snapshot: Simu
       compiled = await client.compile(prepared.compileRequest);
       if (!compiled.ok || !compiled.sessionId) throw new Error(JSON.stringify(compiled.errors));
       const singleRequest = singleAttackRequest(prepared.compileRequest, compiled.sessionId);
-      singleRequest.runtimeOptions = { equipmentAssumptions: assumptions };
+      singleRequest.runtimeOptions = { ...singleRequest.runtimeOptions, equipmentAssumptions: assumptions, skillOrigins: prepared.skillOrigins };
       const single = await client.run(singleRequest);
       const singleAssessment = assessSingleAttackResult(prepared.compileRequest, singleRequest, single);
       const continuousInput = await continuousAttackRequest(prepared, snapshot, { durationMs: 2000, attackSpeedInputMax: 10, recordTimeSeries: true }, compiled.sessionId);
@@ -80,13 +81,9 @@ for (const targetKeys of [[], ['item_1043']] as string[][]) {
 test('4C真实反曲、振奋与冰心完整配置进入实际Worker并独立验证吸血', async ({ page, request }, testInfo) => {
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '需要显式真实只读服务');
   const base = process.env.SIMULATION_LIVE_API_BASE_URL ?? 'http://127.0.0.1:8080';
-  const query = new URLSearchParams({ sourceCharacterKey: 'champion_aatrox', sourceLevel: '1', targetCharacterKey: 'champion_ahri', targetLevel: '1', basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: '1' });
-  query.append('sourceEquipmentKeys', 'item_1043');
-  query.append('sourceEquipmentKeys', 'item_3065');
-  query.append('targetEquipmentKeys', 'item_3110');
-  const response = await request.get(`${base}/api/admin/games/lol/simulation-snapshot?${query}`);
-  expect(response.status()).toBe(200);
-  const snapshot = await response.json() as SimulationSnapshot;
+  const { snapshot } = await readIsolatedSimulationSnapshot(request, base, simulationComparisonSelection({
+    sourceEquipmentKeys: ['item_1043', 'item_3065'], targetEquipmentKeys: ['item_3110']
+  }), process.env.SIMULATION_LIVE_ADMIN_TOKEN);
   const result = await runSnapshot(page, snapshot);
   await testInfo.attach('4C真实完整运行', { body: JSON.stringify(result), contentType: 'application/json' });
   const folder = resolve('output/phase4c-2026-10-03');

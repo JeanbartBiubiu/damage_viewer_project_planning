@@ -9,6 +9,38 @@ import type { SkillConfiguration } from './skillConfiguration';
 import type { CharacterSkillRelation, EquipmentSkillRelation } from './skillRelation';
 import type { Equipment, EquipmentAttributes } from './equipment';
 import type { GameStatus } from './status';
+import type { BuildConfiguration, BuildDefinition } from './build';
+import type { SkillStatus } from './skill';
+
+export type { BuildConfiguration, BuildDefinition } from './build';
+
+export type SimulationSkillOrigin =
+  | { kind: 'CHARACTER'; characterKey: string }
+  | { kind: 'EQUIPMENT'; equipmentKey: string }
+  | { kind: 'BUILD_OPTION'; systemKey: string; roleKey: string; groupKey: string; slotKey: string; optionKey: string };
+
+export type SimulationSkillSetting = {
+  origin: SimulationSkillOrigin;
+  skillKey: string;
+  enabled: boolean;
+  skillLevel?: number;
+};
+
+export type SimulationSkillInactiveReason = 'GLOBAL_DISABLED' | 'SCENE_DISABLED' | 'UNLEARNED'
+  | 'NO_AUTONOMOUS_ATTACK' | 'ACTIVE_DEFERRED' | 'CONFIGURATION_INCOMPLETE' | 'LEVEL_REQUIRED';
+
+export type SimulationSkillSource = {
+  origin: SimulationSkillOrigin;
+  skillKey: string;
+  skillName: string;
+  skillStatus: SkillStatus;
+  enabled: boolean;
+  skillLevel: number | null;
+  enabledRuleKeys: string[];
+  inactiveReason: SimulationSkillInactiveReason | null;
+};
+
+export type SimulationSelectedBuild = { definition: BuildDefinition; configuration: BuildConfiguration };
 
 export type SimulationSelection = {
   sourceCharacterKey: string;
@@ -19,6 +51,10 @@ export type SimulationSelection = {
   basicAttackLevel: number;
   sourceEquipmentKeys: string[];
   targetEquipmentKeys: string[];
+  sourceBuildConfigurations: BuildConfiguration[];
+  targetBuildConfigurations: BuildConfiguration[];
+  sourceSkillSettings: SimulationSkillSetting[];
+  targetSkillSettings: SimulationSkillSetting[];
 };
 
 export type SimulationSelectedEquipment = {
@@ -33,6 +69,8 @@ export type SimulationCombatant = {
   selectedLevelValues: Record<string, number>;
   attachedSkills: CharacterSkillRelation[];
   selectedEquipment: SimulationSelectedEquipment[];
+  selectedBuilds: SimulationSelectedBuild[];
+  skillSources: SimulationSkillSource[];
 };
 
 export type SimulationReference = {

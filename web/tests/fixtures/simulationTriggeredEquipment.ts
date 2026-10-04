@@ -1,6 +1,7 @@
 import type { SkillConfiguration } from '../../src/types/skillConfiguration';
 import type { SkillEffectVampQualification } from '../../src/types/skillEffect';
 import { equipmentSimulationSample } from './simulationEquipment';
+import { syncSimulationSkillSources } from './simulationSkillSources';
 
 export function recurveBowConfiguration(qualification: SkillEffectVampQualification = 'RESOLVED'): SkillConfiguration {
   const gameId = 'lol';
@@ -64,5 +65,5 @@ export function triggeredEquipmentSimulationSample(
       }
     }
   }
-  return snapshot;
+  return syncSimulationSkillSources(snapshot);
 }

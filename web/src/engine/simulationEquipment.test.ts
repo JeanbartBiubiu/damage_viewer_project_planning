@@ -141,13 +141,13 @@ describe('阶段4A纯属性装备装配', () => {
       const snapshot = equipmentSimulationSample(['item_1036']);
       snapshot.source.selectedEquipment[0]!.attachedSkills.push({ gameId: 'lol', equipmentKey: 'item_1036', equipmentName: '样例长剑',
         skillKey: 'passive', skillName: '样例被动', skillStatus, sortOrder: 0 });
-      expect(() => inspectSimulationSnapshot(snapshot)).toThrow(/attachedSkills.*整件装备拒绝/);
+      expect(() => inspectSimulationSnapshot(snapshot)).toThrow(/默认来源不能被过滤/);
     }
-    expect(() => inspectSimulationSnapshot(equipmentSimulationSample(['item_3065']))).toThrow(/完整被动关系/);
+    expect(() => inspectSimulationSnapshot(equipmentSimulationSample(['item_3065']))).toThrow(/来源开关缺失/);
     const otherGame = equipmentSimulationSample(['item_1036']);
     otherGame.gameId = 'other';
     otherGame.source.selectedEquipment[0]!.equipment.gameId = 'other';
-    expect(() => inspectSimulationSnapshot(otherGame)).toThrow(/尚未核定/);
+    expect(() => inspectSimulationSnapshot(otherGame)).toThrow(/配置集合只能包含默认来源及实际只读依赖/);
   });
 
   it('未知属性、非有限装备数值、属性范围及不完整所选集合明确失败', () => {

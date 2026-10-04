@@ -614,7 +614,12 @@ export type AttackStartFact = {
 };
 
 export type RunRequest = {
-  runtimeOptions?: { equipmentAssumptions: import('./simulationSnapshot').SimulationEquipmentAssumption[] };
+  runtimeOptions?: {
+    equipmentAssumptions: import('./simulationSnapshot').SimulationEquipmentAssumption[];
+    skillOrigins?: Array<import('./simulationSnapshot').SimulationSkillSource & {
+      side: 'source' | 'target'; providerRef?: string; definitionRef?: string;
+    }>;
+  };
   sessionId: string;
   expectedRulesHash: string;
   schemaVersion: string;

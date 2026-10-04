@@ -6,6 +6,7 @@ import { simulationSample } from '../fixtures/simulationSnapshot';
 import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelectionApi } from '../fixtures/simulationSelection';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { confirmSimulationConfiguration, isolateCharacterSourcesOnPage, readIsolatedSimulationSnapshot, simulationComparisonSelection, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
 
 test.beforeEach(async ({ page }) => {
   const wasm = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
@@ -146,7 +147,10 @@ test('独立重新编译与运行结果确定，不复用上一刀最终快照',
 });
 
 async function preparePage(page: Page, snapshot = sampleWithDamage(), fillInputs = true) {
-  await page.route('**/api/admin/games/demo/simulation-snapshot?**', route => route.fulfill({ json: snapshot }));
+  await page.route('**/api/admin/games/demo/simulation-snapshot', route => {
+    expect(route.request().method()).toBe('POST');
+    return route.fulfill({ json: simulationSnapshotWithSelection(snapshot, route.request().postDataJSON()) });
+  });
   await chooseSimulationEntity(page, '攻击方角色', 'actor_a');
   await chooseSimulationLevel(page, '攻击方等级', 1);
   await chooseSimulationEntity(page, '目标角色', 'actor_b');
@@ -154,6 +158,7 @@ async function preparePage(page: Page, snapshot = sampleWithDamage(), fillInputs
   await chooseSimulationEntity(page, '普攻技能', 'sample_basic_attack');
   await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
+  await confirmSimulationConfiguration(page);
   if (fillInputs) {
     await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
     await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
@@ -174,7 +179,7 @@ async function typeHealthWithoutRefocusing(page: Page, label: string, value: str
 for (const row of [{ label: '攻击方初始当前生命', value: '420' }, { label: '目标初始当前生命', value: '230' }]) {
   test(`${row.label}逐字符输入、退格和清空不会因读取提示消失而丢焦点`, async ({ page }) => {
     await preparePage(page, sampleWithDamage(), false);
-    await expect(page.getByText('场景快照已读取，请核对已录属性并明确填写必要的场景补充值。', { exact: true })).toBeVisible();
+    await expect(page.getByText('已明确确认本次完整技能配置摘要；执行前仍重新读取并逐项核对。', { exact: true })).toBeVisible();
     await typeHealthWithoutRefocusing(page, row.label, row.value);
     const input = page.getByLabel(row.label, { exact: true });
     await page.keyboard.press('Backspace');
@@ -392,16 +397,16 @@ test('重新读场景失败或取消保留既有补充值和初始生命', async
   await preparePage(page);
   await page.getByLabel('攻击方补充属性 critical_strike_chance', { exact: true }).fill('0.25');
   await page.getByLabel('目标初始当前生命', { exact: true }).fill('500');
-  await page.route('**/api/admin/games/demo/simulation-snapshot?**', route => route.fulfill({ status: 500, json: { error: { code: 'READ_FAILED', message: '本次场景读取失败' } } }));
+  await page.route('**/api/admin/games/demo/simulation-snapshot', route => route.fulfill({ status: 500, json: { error: { code: 'READ_FAILED', message: '本次场景读取失败' } } }));
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   await expect(page.getByText(/本次场景读取失败/)).toBeVisible();
   await expect(page.getByLabel('攻击方补充属性 critical_strike_chance', { exact: true })).toHaveValue('0.25');
   await expect(page.getByLabel('目标初始当前生命', { exact: true })).toHaveValue('500');
   let finish!: () => void;
   const gate = new Promise<void>(resolve => { finish = resolve; });
-  await page.route('**/api/admin/games/demo/simulation-snapshot?**', async route => {
+  await page.route('**/api/admin/games/demo/simulation-snapshot', async route => {
     await gate;
-    await route.fulfill({ json: sampleWithDamage() }).catch(() => undefined);
+    await route.fulfill({ json: simulationSnapshotWithSelection(sampleWithDamage(), route.request().postDataJSON()) }).catch(() => undefined);
   });
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
   await expect(page.getByText('正在读取场景快照', { exact: true })).toBeVisible();
@@ -417,22 +422,17 @@ test('真实只读接口亚托克斯对阿狸的完整共享普攻进入最终Wa
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '真实服务专项需显式启用，跳过不是运行通过证据');
   const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
   const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN;
-  const path = '/api/admin/games/lol/simulation-snapshot?' + new URLSearchParams({
-    sourceCharacterKey: 'champion_aatrox', sourceLevel: '1', targetCharacterKey: 'champion_ahri', targetLevel: '1',
-    basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: '1'
-  });
-  const response = await request.get(apiBase + path, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
-  expect(response.status()).toBe(200);
-  const snapshot = await response.json() as SimulationSnapshot;
-  expect(snapshot.skillConfigurations[0]!.effects).toHaveLength(2);
-  expect(snapshot.skillConfigurations[0]!.triggerRules).toHaveLength(2);
+  const { snapshot } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection(), token);
+  const basicAttack = snapshot.skillConfigurations.find(configuration => configuration.skill.skillKey === snapshot.selection.basicAttackSkillKey)!;
+  expect(basicAttack.effects).toHaveLength(2);
+  expect(basicAttack.triggerRules).toHaveLength(2);
   const result = await runSnapshot(page, snapshot, testInfo);
   const expectedDamage = snapshot.source.selectedLevelValues.attack_damage! * 100 / (100 + snapshot.target.selectedLevelValues.armor!);
   expect(result.assessment.damageDealt).toBeCloseTo(expectedDamage, 8);
   expect(result.assessment.hpLoss).toBeCloseTo(expectedDamage, 8);
   expect(result.assessment.sourceFinalHp).toBe(snapshot.source.selectedLevelValues.hp);
   expect(result.assessment.targetFinalHp).toBeCloseTo(snapshot.target.selectedLevelValues.hp! - expectedDamage, 8);
-  const multiplier = snapshot.skillConfigurations[0]!.parameters.find(row => row.parameterKey === 'base_critical_multiplier');
+  const multiplier = basicAttack.parameters.find(row => row.parameterKey === 'base_critical_multiplier');
   expect(multiplier?.valueMode).toBe('FIXED');
   expect(typeof multiplier?.fixedValue).toBe('number');
   const crit = await runSnapshot(page, snapshot, testInfo, { source: { critical_strike_chance: 0.25 } }, 'actual-25pct-crit-archive.json');
@@ -443,9 +443,10 @@ test('真实只读接口亚托克斯对阿狸的完整共享普攻进入最终Wa
     localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
     localStorage.setItem('damage-viewer.web.admin-token', token || 'local-readonly-check');
   }, { apiBase, token });
-  const methods: string[] = [];
+  const methods: { path: string; method: string }[] = [];
   page.on('request', request => {
-    if (new URL(request.url()).origin === apiBase && request.method() !== 'OPTIONS') methods.push(request.method());
+    const url = new URL(request.url());
+    if (url.origin === apiBase && request.method() !== 'OPTIONS') methods.push({ path: url.pathname, method: request.method() });
   });
   await page.reload();
   await chooseSimulationEntity(page, '攻击方角色', 'champion_aatrox');
@@ -455,6 +456,7 @@ test('真实只读接口亚托克斯对阿狸的完整共享普攻进入最终Wa
   await chooseSimulationEntity(page, '普攻技能', 'shared_basic_attack');
   await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
+  await isolateCharacterSourcesOnPage(page, snapshot);
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
   await page.getByRole('button', { name: '执行一次普攻', exact: true }).click();
@@ -471,5 +473,5 @@ test('真实只读接口亚托克斯对阿狸的完整共享普攻进入最终Wa
   writeFileSync(archivePath, JSON.stringify(archive, null, 2));
   await testInfo.attach('正式页面运行档案.json', { path: archivePath, contentType: 'application/json' });
   expect(methods.length).toBeGreaterThan(0);
-  expect(methods.every(method => method === 'GET')).toBe(true);
+  expect(methods.every(row => row.method === (row.path.endsWith('/simulation-snapshot') ? 'POST' : 'GET'))).toBe(true);
 });

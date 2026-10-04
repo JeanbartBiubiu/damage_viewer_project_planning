@@ -7,6 +7,7 @@ import { chooseSimulationEntity, chooseSimulationLevel, installSimulationSelecti
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import type { RecordBudget, SafetyBudget, SamplingConfig } from '../../src/types/genericEngine';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { confirmSimulationConfiguration, isolateCharacterSourcesOnPage, readIsolatedSimulationSnapshot, simulationComparisonSelection, simulationSnapshotWithSelection } from '../fixtures/simulationSnapshotRequests';
 import { continuousExpectation } from '../fixtures/continuousExpectation';
 
 test.beforeEach(async ({ page }) => {
@@ -145,8 +146,10 @@ test('同名结果及多次挂接的完整作者路径逐笔可追溯，独立�
   const snapshot = sample(20);
   const config = snapshot.skillConfigurations[0]!;
   config.effects.push({ ...structuredClone(config.effects[1]!), effectKey: 'second_hit', sortOrder: 2 });
-  config.triggerRules[1]!.actions.push({ ...structuredClone(config.triggerRules[1]!.actions[0]!), actionKey: 'repeat_hit', sortOrder: 1 },
-    { ...structuredClone(config.triggerRules[1]!.actions[0]!), actionKey: 'second_hit', sortOrder: 2, detail: { effectKey: 'second_hit' } });
+  const action = config.triggerRules[1]!.actions[0]!;
+  if (action.actionType !== 'EXECUTE_EFFECT') throw new Error('独立命中样例必须为效果执行动作');
+  config.triggerRules[1]!.actions.push({ ...structuredClone(action), actionKey: 'repeat_hit', sortOrder: 1 },
+    { ...structuredClone(action), actionKey: 'second_hit', sortOrder: 2, detail: { effectKey: 'second_hit' } });
   const one = await runSnapshot(page, snapshot, testInfo, { durationMs: 1000 }, 'first-run');
   const two = await runSnapshot(page, snapshot, testInfo, { durationMs: 1000 }, 'second-run');
   expect(one.done.damageRecords).toHaveLength(6);
@@ -156,11 +159,15 @@ test('同名结果及多次挂接的完整作者路径逐笔可追溯，独立�
 });
 
 async function preparePage(page: Page, snapshot = sample()) {
-  await page.route('**/api/admin/games/demo/simulation-snapshot?**', route => route.fulfill({ json: snapshot }));
+  await page.route('**/api/admin/games/demo/simulation-snapshot', route => {
+    expect(route.request().method()).toBe('POST');
+    return route.fulfill({ json: simulationSnapshotWithSelection(snapshot, route.request().postDataJSON()) });
+  });
   await chooseSimulationEntity(page, '攻击方角色', 'actor_a'); await chooseSimulationLevel(page, '攻击方等级', 1);
   await chooseSimulationEntity(page, '目标角色', 'actor_b'); await chooseSimulationLevel(page, '目标等级', 1);
   await chooseSimulationEntity(page, '普攻技能', 'sample_basic_attack'); await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
+  await confirmSimulationConfiguration(page);
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
 }
@@ -309,11 +316,7 @@ test('真实只读接口亚托克斯对阿狸：最新原配置经实际页面�
   test.skip(process.env.SIMULATION_LIVE_API !== '1', '真实服务专项需显式启用，跳过不算通过');
   const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL || 'http://127.0.0.1:8080';
   const token = process.env.SIMULATION_LIVE_ADMIN_TOKEN;
-  const path = '/api/admin/games/lol/simulation-snapshot?' + new URLSearchParams({ sourceCharacterKey: 'champion_aatrox', sourceLevel: '1',
-    targetCharacterKey: 'champion_ahri', targetLevel: '1', basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: '1' });
-  const response = await request.get(apiBase + path, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
-  expect(response.status()).toBe(200);
-  const snapshot = await response.json() as SimulationSnapshot;
+  const { snapshot, response, path } = await readIsolatedSimulationSnapshot(request, apiBase, simulationComparisonSelection(), token);
   const result = await runSnapshot(page, snapshot, testInfo, {}, 'actual-continuous-run');
   const expected = continuousExpectation(snapshot, result.prepared.attributeInputs);
   const count = expected.count;
@@ -333,8 +336,11 @@ test('真实只读接口亚托克斯对阿狸：最新原配置经实际页面�
     localStorage.setItem('damage-viewer.web.api-base-url', apiBase);
     localStorage.setItem('damage-viewer.web.admin-token', token || 'local-readonly-check');
   }, { apiBase, token });
-  const methods: string[] = [];
-  page.on('request', request => { if (new URL(request.url()).origin === apiBase && request.method() !== 'OPTIONS') methods.push(request.method()); });
+  const methods: { path: string; method: string }[] = [];
+  page.on('request', request => {
+    const url = new URL(request.url());
+    if (url.origin === apiBase && request.method() !== 'OPTIONS') methods.push({ path: url.pathname, method: request.method() });
+  });
   const httpReads: { method: string; path: string; status: number }[] = [];
   page.on('response', response => {
     const url = new URL(response.url());
@@ -346,6 +352,7 @@ test('真实只读接口亚托克斯对阿狸：最新原配置经实际页面�
   await chooseSimulationEntity(page, '目标角色', 'champion_ahri'); await chooseSimulationLevel(page, '目标等级', 1);
   await chooseSimulationEntity(page, '普攻技能', 'shared_basic_attack'); await chooseSimulationLevel(page, '普攻技能等级', 1);
   await page.getByRole('button', { name: '读取场景快照', exact: true }).click();
+  await isolateCharacterSourcesOnPage(page, snapshot);
   await page.getByRole('button', { name: '将缺失属性填写为0', exact: true }).click();
   await page.getByRole('button', { name: '双方以满生命开始', exact: true }).click();
   if (snapshot.catalogs.attributes.find(row => row.attributeKey === 'attack_speed')!.maxValue === null) {
@@ -416,13 +423,13 @@ test('真实只读接口亚托克斯对阿狸：最新原配置经实际页面�
   expect(filtered.runResult).toEqual(archive.runResult);
   expect(filtered.view).toMatchObject({ dpsMode: 'window', timeRangeMs: [secondAttack.startAtMs, expected.killedAtMs] });
   await page.getByRole('region', { name: '连续普攻结果', exact: true }).screenshot({ path: testInfo.outputPath('真实页面窗口伤害率与筛选.png') });
-  const readBack = await request.get(apiBase + path, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+  const readBack = await request.post(apiBase + path, { headers: token ? { Authorization: `Bearer ${token}` } : {}, data: snapshot.selection });
   expect(readBack.status()).toBe(200);
   expect((await readBack.json()).snapshotDigest).toBe(snapshot.snapshotDigest);
   writeFileSync(testInfo.outputPath('actual-http-readonly-evidence.json'), JSON.stringify({ at: new Date().toISOString(),
     snapshotDigest: snapshot.snapshotDigest, snapshotStatus: response.status(), readBackStatus: readBack.status(), requests: httpReads }, null, 2));
-  expect(methods.length).toBeGreaterThan(0); expect(methods.every(method => method === 'GET')).toBe(true);
-  expect(httpReads.length).toBeGreaterThan(0); expect(httpReads.every(row => row.method === 'GET' && row.status === 200)).toBe(true);
+  expect(methods.length).toBeGreaterThan(0); expect(methods.every(row => row.method === (row.path.endsWith('/simulation-snapshot') ? 'POST' : 'GET'))).toBe(true);
+  expect(httpReads.length).toBeGreaterThan(0); expect(httpReads.every(row => row.method === (row.path.endsWith('/simulation-snapshot') ? 'POST' : 'GET') && row.status === 200)).toBe(true);
 });
 
 

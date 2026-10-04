@@ -21,9 +21,10 @@ import { simulationHash } from './simulationHash';
 import { assembleEquipment, equipmentContribution, type EquipmentOrigin } from './simulationEquipment';
 import { assembleEquipmentPassives, validateEquipmentAssumptions } from './simulationEquipmentPassives';
 import { assembleTriggeredEquipment } from './simulationTriggeredEquipment';
+import { assembleNaturalSkillSources, type SimulationSkillOriginTrace } from './simulationNaturalSkillSources';
 
-export const SIMULATION_ADAPTER_VERSION = 'v7-configured-onhit-combinations';
-export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v3';
+export const SIMULATION_ADAPTER_VERSION = 'v8-default-skill-sources';
+export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
 const START_ABILITY = 'attack_start';
@@ -81,11 +82,13 @@ type Program = {
   equipment: ReturnType<typeof assembleEquipment>;
   passives: ReturnType<typeof assembleEquipmentPassives>;
   triggered: ReturnType<typeof assembleTriggeredEquipment>;
+  natural: ReturnType<typeof assembleNaturalSkillSources>;
 };
 
 /** 装配首批完整普攻形状，不依赖技能名称；不支持的启用入口整体拒绝。 */
 function program(snapshot: SimulationSnapshot): Program {
-  const equipment = assembleEquipment(snapshot);
+  const natural = assembleNaturalSkillSources(snapshot);
+  const equipment = assembleEquipment(snapshot, natural.derivationSides);
   const triggered = assembleTriggeredEquipment(snapshot);
   const passives = assembleEquipmentPassives(snapshot);
   const selection = snapshot.selection;
@@ -132,10 +135,12 @@ function program(snapshot: SimulationSnapshot): Program {
   coverage.push(...equipment.coverage);
   coverage.push(...passives.coverage);
   coverage.push(...triggered.coverage);
+  coverage.push(...natural.coverage);
   operationOrigins.push(...triggered.operationOrigins);
   for (const side of ['source', 'target'] as const) for (const key of triggered.required[side]) required.get(side)!.add(key);
+  for (const side of ['source', 'target'] as const) for (const key of natural.required[side]) required.get(side)!.add(key);
   for (const type of triggered.types) types.set(type.key, type.domain);
-  if (passives.mounts.length) types.set('event/source_initialized', 'event');
+  if (passives.mounts.length || natural.mounts.length) types.set('event/source_initialized', 'event');
   if (equipment.derivations.length) rules.attributeDerivations = equipment.derivations;
   const addCoverage = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const skillPath = `skills.${config.skill.skillKey}`;
@@ -375,7 +380,7 @@ function program(snapshot: SimulationSnapshot): Program {
   if (triggered.rules.vampRules && JSON.stringify(triggered.rules.vampRules) !== JSON.stringify(rules.vampRules)) {
     fail('rules.vampRules', '装备附伤与普攻必须共享本次真实游戏吸血规则');
   }
-  const providerIndices = new Map(triggered.providers.map((definition, index) => [definition.providerKey, 1 + equipment.providers.length + passives.providers.length + index]));
+  const providerIndices = new Map([...triggered.providers, ...natural.providers].map((definition, index) => [definition.providerKey, 1 + equipment.providers.length + passives.providers.length + index]));
   const rebase = (path: string) => path.replace(/sharedProviders(?:\[([^\]]+)\]|\.([^.]+))/, (whole, bracket: string, dotted: string) => {
     const key = bracket ?? dotted;
     return providerIndices.has(key) ? `sharedProviders[${providerIndices.get(key)}]` : whole;
@@ -399,7 +404,7 @@ function program(snapshot: SimulationSnapshot): Program {
   const mergedCoverage = [...coverageByReference.values()].map(({ row, notes }) =>
     notes.size ? { ...row, note: [...notes].join('；') } : row);
   return { provider, rules, formulas: [...state.namedFormulas.values(), ...triggered.formulas], types: [...types].map(([key, domain]) => ({ key, domain })),
-    coverage: mergedCoverage, required, configuration: config, operationOrigins: mergedOrigins, equipment, passives, triggered,
+    coverage: mergedCoverage, required, configuration: config, operationOrigins: mergedOrigins, equipment, passives, triggered, natural,
     basicAttackBinding: { source: 'source', target: 'target', skillKey: config.skill.skillKey,
       startAbilityRef: `source.provider[${MOUNT}].ability[${START_ABILITY}]`,
       hitAbilityRef: `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`,
@@ -426,7 +431,7 @@ export function assembleSimulation(
   snapshot: SimulationSnapshot, attributeInputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
   assumptions: readonly SimulationEquipmentAssumption[] = []
 ): { compileRequest: CompileRequest; coverage: SimulationCoverage[]; operationOrigins: OperationOrigin[];
-  equipmentOrigins: EquipmentOrigin[]; basicAttackBinding: BasicAttackBinding; snapshotDigest: string;
+  equipmentOrigins: EquipmentOrigin[]; skillOrigins: SimulationSkillOriginTrace[]; basicAttackBinding: BasicAttackBinding; snapshotDigest: string;
   attributeInputs: SimulationAttributeInputs; initialHealth: SimulationInitialHealth; equipmentAssumptions: SimulationEquipmentAssumption[] } {
   const compiled = program(snapshot);
   const equipmentAssumptions = validateEquipmentAssumptions(snapshot, assumptions);
@@ -466,17 +471,18 @@ export function assembleSimulation(
         ...(side === 'source' ? [{ providerRef: MOUNT, definitionRef: DEFINITION }] : []),
         ...compiled.equipment.origins.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
         ...compiled.passives.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
-        ...compiled.triggered.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef }))
+        ...compiled.triggered.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef })),
+        ...compiled.natural.mounts.filter(row => row.side === side).map(({ providerRef, definitionRef }) => ({ providerRef, definitionRef }))
       ] };
   });
   return {
     compileRequest: {
       schemaVersion: 'generic-p0', schemaHash: SIMULATION_SCHEMA_HASH, rulesHash: 'pending',
       typeCatalog: { types: compiled.types, relations: [] }, combatants: actors,
-      sharedProviders: [compiled.provider, ...compiled.equipment.providers, ...compiled.passives.providers, ...compiled.triggered.providers], formulas: compiled.formulas, rules: compiled.rules,
+      sharedProviders: [compiled.provider, ...compiled.equipment.providers, ...compiled.passives.providers, ...compiled.triggered.providers, ...compiled.natural.providers], formulas: compiled.formulas, rules: compiled.rules,
       settings: { maxEvents: 10000, maxCommandsPerEvent: 256, maxQueueEvents: 10000, maxChainDepth: 32 }
     }, coverage: compiled.coverage, operationOrigins: compiled.operationOrigins, basicAttackBinding: compiled.basicAttackBinding,
-    equipmentOrigins: compiled.equipment.origins, snapshotDigest: snapshot.snapshotDigest,
+    equipmentOrigins: compiled.equipment.origins, skillOrigins: compiled.natural.origins, snapshotDigest: snapshot.snapshotDigest,
     attributeInputs: structuredClone(attributeInputs), initialHealth: structuredClone(initialHealth), equipmentAssumptions
   };
 }

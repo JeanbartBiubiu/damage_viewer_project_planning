@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { triggeredEquipmentSimulationSample } from '../../tests/fixtures/simulationTriggeredEquipment';
+import { syncSimulationSkillSources } from '../../tests/fixtures/simulationSkillSources';
 import type { GenericFormulaExpr } from '../types/genericEngine';
 import type { SkillEffect, SkillEffectDamageResult, SkillEffectLifecycle, SkillEffectResult } from '../types/skillEffect';
 import type { SkillConfiguration } from '../types/skillConfiguration';
@@ -287,18 +288,18 @@ describe('4C完整反曲之弓触发装备装配', () => {
 });
 
 const invalidShapes: Array<[string, (snapshot: SimulationSnapshot) => void, RegExp]> = [
-  ['未启用技能', snapshot => { configuration(snapshot).skill.status = 'DISABLED'; }, /完整单级/],
+  ['未启用技能', snapshot => { configuration(snapshot).skill.status = 'DISABLED'; }, /全局状态不一致/],
   ['多级技能', snapshot => { configuration(snapshot).skill.maxLevel = 2; }, /完整单级/],
   ['过程', snapshot => { configuration(snapshot).processes.push(structuredClone(snapshot.skillConfigurations[0]!.processes[0]!)); }, /未接入的作者过程/],
   ['内部状态', snapshot => { Object.assign(configuration(snapshot), { internalStates: [{}] }); }, /稳定标识/],
   ['未知配置字段', snapshot => { Object.assign(configuration(snapshot), { hiddenBehavior: true }); }, /hiddenBehavior.*未接入/],
-  ['缺失关系', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills = []; }, /完整启用被动关系/],
+  ['缺失关系', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills = []; }, /原始绑定不一致/],
   ['关系重复', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills.push(structuredClone(snapshot.source.selectedEquipment[0]!.attachedSkills[0]!)); }, /稳定标识重复/],
   ['禁用关系', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills[0]!.skillStatus = 'DISABLED'; }, /完整启用被动关系/],
   ['错误关系装备', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills[0]!.equipmentKey = 'item_1042'; }, /完整启用被动关系/],
   ['未知关系字段', snapshot => { Object.assign(snapshot.source.selectedEquipment[0]!.attachedSkills[0]!, { skillLevelMode: 'CHARACTER_LEVEL' }); }, /skillLevelMode.*未接入/],
-  ['缺少配置', snapshot => { snapshot.skillConfigurations.pop(); }, /配置缺失或重复/],
-  ['重复配置', snapshot => { snapshot.skillConfigurations.push(structuredClone(configuration(snapshot))); }, /配置缺失或重复/],
+  ['缺少配置', snapshot => { snapshot.skillConfigurations.pop(); }, /完整启用作者配置缺失/],
+  ['重复配置', snapshot => { snapshot.skillConfigurations.push(structuredClone(configuration(snapshot))); }, /完整作者配置不能重复/],
   ['缺少效果', snapshot => { configuration(snapshot).effects = []; }, /完整效果或触发规则/],
   ['多余效果', snapshot => { configuration(snapshot).effects.push(structuredClone(configuration(snapshot).effects[0]!)); }, /稳定标识重复/],
   ['多余规则', snapshot => { configuration(snapshot).triggerRules.push(structuredClone(configuration(snapshot).triggerRules[0]!)); }, /稳定标识重复/],
@@ -353,7 +354,7 @@ const invalidShapes: Array<[string, (snapshot: SimulationSnapshot) => void, RegE
   ['防御阶段缺失', snapshot => { Reflect.deleteProperty(snapshot.catalogs.damageTypes[0]!.formula.formula, 'resistanceFactor'); }, /resistanceFactor.*完整对象/],
   ['伤害依赖属性缺目录', snapshot => { snapshot.catalogs.attributes = snapshot.catalogs.attributes.filter(row => row.attributeKey !== 'armor'); }, /catalogs.attributes.armor.*真实目录/],
   ['吸血属性缺目录', snapshot => { snapshot.catalogs.attributes = snapshot.catalogs.attributes.filter(row => row.attributeKey !== 'life_steal_percent'); }, /catalogs.attributes.life_steal_percent.*真实目录/],
-  ['装备完整集缺失', snapshot => { snapshot.source.selectedEquipment = []; }, /完整集缺失或重复/],
+  ['装备完整集缺失', snapshot => { snapshot.source.selectedEquipment = []; }, /原始绑定不一致/],
   ['所选装备重复', snapshot => { snapshot.selection.sourceEquipmentKeys.push('item_1043'); }, /完整集缺失或重复/],
   ['拥有方等级缺失', snapshot => { snapshot.selection.sourceLevel = 0; }, /拥有方等级/]
 ];
@@ -709,6 +710,7 @@ describe('配置驱动装备通用节点编译', () => {
     snapshot.skillConfigurations.push(second);
     snapshot.source.selectedEquipment[0]!.attachedSkills.push({ ...snapshot.source.selectedEquipment[0]!.attachedSkills[0]!, skillKey: second.skill.skillKey, sortOrder: 20 });
     second.parameters[0]!.fixedValue = 23;
+    syncSimulationSkillSources(snapshot);
     const assembled = assembleTriggeredEquipment(snapshot);
     const root = rootProvider(assembled);
     expect(assembled.mounts).toHaveLength(1);
@@ -857,6 +859,7 @@ describe('配置驱动装备通用节点编译', () => {
     config.triggerRules[0]!.oncePerUse!.groupKey = 'g'.repeat(64);
     snapshot.skillConfigurations.push(second);
     snapshot.source.selectedEquipment[0]!.attachedSkills.push({ ...snapshot.source.selectedEquipment[0]!.attachedSkills[0]!, skillKey: second.skill.skillKey, sortOrder: 20 });
+    syncSimulationSkillSources(snapshot);
     expect(() => assembleTriggeredEquipment(snapshot)).toThrow(/oncePerUse.groupKey.*稳定标识/);
   });
 
@@ -962,7 +965,7 @@ describe('配置驱动装备通用节点编译', () => {
   it('英雄条件使用真实英雄选择合同，身份错配、减疗目录缺失或禁用和取强方式改变时拒绝', () => {
     const noIdentity = receivedSample();
     noIdentity.source.character.characterKey = 'unselected_character';
-    expect(() => assembleTriggeredEquipment(noIdentity)).toThrow(/source.character.characterKey.*英雄选择/);
+    expect(() => assembleTriggeredEquipment(noIdentity)).toThrow(/原始绑定不一致/);
     for (const mutate of [
       (snapshot: SimulationSnapshot) => { snapshot.catalogs.modifierZones = []; },
       (snapshot: SimulationSnapshot) => { snapshot.catalogs.modifierZones[0]!.status = 'DISABLED'; },
@@ -1014,7 +1017,7 @@ describe('配置驱动装备通用节点编译', () => {
     const compiled = compileWithInputs(snapshot);
     expect(compiled.compileRequest.combatants.every(combatant => combatant.providers.every(mount => mount.definitionRef !== temporary.providerKey))).toBe(true);
     expect(compiled.operationOrigins.find(origin => origin.providerDefinitionRef === temporary.providerKey)!.compiledPaths[0]).toMatch(/^sharedProviders\[\d+\]\.abilities\[0\]\.tickSpec.onTick\[0\]$/);
-    expect(SIMULATION_ADAPTER_VERSION).toBe('v7-configured-onhit-combinations');
+    expect(SIMULATION_ADAPTER_VERSION).toBe('v8-default-skill-sources');
   });
 
   it('异名有期周期、改参改首跳只读取作者配置，3秒参数不自动成为常驻周期', () => {

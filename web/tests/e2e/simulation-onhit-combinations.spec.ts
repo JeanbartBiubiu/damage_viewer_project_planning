@@ -7,6 +7,7 @@ import type { NumericValue } from '../../src/types/numericValue';
 import type { SkillConfiguration } from '../../src/types/skillConfiguration';
 import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { readIsolatedSimulationSnapshot, simulationComparisonSelection } from '../fixtures/simulationSnapshotRequests';
 
 type CombinationScenario = {
   name: string; source: string[]; target: string[]; durationMs: number;
@@ -62,19 +63,11 @@ function damageDefinition(snapshot: SimulationSnapshot, row: DamageRecord) {
 }
 
 async function readSnapshot(request: APIRequestContext, scenario: CombinationScenario) {
-  const query = new URLSearchParams({ sourceCharacterKey: 'champion_aatrox', sourceLevel: '1', targetCharacterKey: 'champion_ahri', targetLevel: '18',
-    basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: '1' });
-  for (const key of scenario.source) query.append('sourceEquipmentKeys', key);
-  for (const key of scenario.target) query.append('targetEquipmentKeys', key);
   const apiBase = process.env.SIMULATION_LIVE_API_BASE_URL ?? 'http://127.0.0.1:8080';
-  const path = `/api/admin/games/lol/simulation-snapshot?${query}`;
-  const response = await request.get(`${apiBase}${path}`, {
-    headers: process.env.SIMULATION_LIVE_ADMIN_TOKEN ? { Authorization: `Bearer ${process.env.SIMULATION_LIVE_ADMIN_TOKEN}` } : {}
-  });
-  expect(response.status(), '完整真实快照GET').toBe(200);
+  const { snapshot, response, path } = await readIsolatedSimulationSnapshot(request, apiBase,
+    simulationComparisonSelection({ targetLevel: 18, sourceEquipmentKeys: scenario.source, targetEquipmentKeys: scenario.target }), process.env.SIMULATION_LIVE_ADMIN_TOKEN);
   const body = await response.body();
-  const snapshot = JSON.parse(body.toString()) as SimulationSnapshot;
-  saveArtifact(`${scenario.name}-snapshot`, { http: { method: 'GET', path, status: response.status(),
+  saveArtifact(`${scenario.name}-snapshot`, { http: { method: 'POST', path, selection: snapshot.selection, status: response.status(),
     bodySha256: createHash('sha256').update(body).digest('hex') }, snapshot });
   expect(snapshot.selection.sourceEquipmentKeys).toEqual([...scenario.source].sort());
   expect(snapshot.selection.targetEquipmentKeys).toEqual([...scenario.target].sort());

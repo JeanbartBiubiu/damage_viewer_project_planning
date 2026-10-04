@@ -5,7 +5,8 @@ import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 
 /** 验收侧直接读取冻结作者树，独立计算静态首批样本；不调用宿主翻译或引擎公式。 */
 export function continuousExpectation(snapshot: SimulationSnapshot, explicit: { source: Record<string, number>; target: Record<string, number> }) {
-  const config = snapshot.skillConfigurations[0]!;
+  const config = snapshot.skillConfigurations.find(configuration => configuration.skill.skillKey === snapshot.selection.basicAttackSkillKey);
+  if (!config) throw new Error(`冻结作者树缺少所选普攻配置：${snapshot.selection.basicAttackSkillKey}`);
   const attrs = { source: { ...explicit.source, ...snapshot.source.selectedLevelValues }, target: { ...explicit.target, ...snapshot.target.selectedLevelValues } };
   const finite = (value: unknown): number => {
     if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error('独立期望计算缺少明确数值');

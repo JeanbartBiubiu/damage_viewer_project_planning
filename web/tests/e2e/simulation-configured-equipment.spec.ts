@@ -2,8 +2,8 @@ import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { expect, test } from '@playwright/test';
-import type { SimulationSnapshot } from '../../src/types/simulationSnapshot';
 import { WASM_IDENTITY } from '../../src/engine/wasmIdentity';
+import { readIsolatedSimulationSnapshot, simulationComparisonSelection } from '../fixtures/simulationSnapshotRequests';
 
 const scenarios = [
   { name: 'ghost', source: ['item_3124'], target: [], duration: 12000 },
@@ -18,13 +18,8 @@ for (const scenario of scenarios) test(`4C配置驱动真实装备 ${scenario.na
   const bytes = readFileSync(resolve('src/engine/wasm/tinygo_engine_v2.wasm'));
   expect(bytes.length).toBe(WASM_IDENTITY.bytes);
   expect(createHash('sha256').update(bytes).digest('hex')).toBe(WASM_IDENTITY.sha256);
-  const query = new URLSearchParams({ sourceCharacterKey: 'champion_aatrox', sourceLevel: '1', targetCharacterKey: 'champion_ahri', targetLevel: '18',
-    basicAttackSkillKey: 'shared_basic_attack', basicAttackLevel: '1' });
-  for (const key of scenario.source) query.append('sourceEquipmentKeys', key);
-  for (const key of scenario.target) query.append('targetEquipmentKeys', key);
-  const response = await request.get(`http://127.0.0.1:8080/api/admin/games/lol/simulation-snapshot?${query}`);
-  expect(response.status()).toBe(200);
-  const snapshot = await response.json() as SimulationSnapshot;
+  const { snapshot } = await readIsolatedSimulationSnapshot(request, process.env.SIMULATION_LIVE_API_BASE_URL ?? 'http://127.0.0.1:8080',
+    simulationComparisonSelection({ targetLevel: 18, sourceEquipmentKeys: scenario.source, targetEquipmentKeys: scenario.target }), process.env.SIMULATION_LIVE_ADMIN_TOKEN);
   await page.goto('/');
   const result = await page.evaluate(async ({ snapshot, duration }) => {
     const adapterPath = '/src/engine/simulationAdapter.ts';

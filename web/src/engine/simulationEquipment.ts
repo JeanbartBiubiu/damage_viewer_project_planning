@@ -13,7 +13,7 @@ export type EquipmentOrigin = {
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 
-export function assembleEquipment(snapshot: SimulationSnapshot) {
+export function assembleEquipment(snapshot: SimulationSnapshot, skillDerivationSides: ReadonlySet<'source' | 'target'> = new Set()) {
   const providers: ProviderDefinition[] = [];
   const origins: EquipmentOrigin[] = [];
   const coverage: Array<{ authorPath: string; compiledPath: string }> = [];
@@ -26,7 +26,7 @@ export function assembleEquipment(snapshot: SimulationSnapshot) {
       || new Set(selected.map(row => row.equipment.equipmentKey)).size !== selected.length) {
       fail(`${side}.selectedEquipment`, '所选装备完整集缺失或重复');
     }
-    let needsDerivation = false;
+    let needsDerivation = skillDerivationSides.has(side);
     for (const equipmentKey of selectedKeys) {
       const path = `${side}.selectedEquipment[${equipmentKey}]`;
       const item = selected.find(row => row.equipment.equipmentKey === equipmentKey);

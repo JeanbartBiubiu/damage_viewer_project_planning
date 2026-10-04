@@ -15,6 +15,7 @@ import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerAction, type SkillTri
 import type { FormulaExpressionNode } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
+import { executableEquipmentRelations, validateSimulationSkillSourceManifest } from './simulationNaturalSkillSources';
 import {
   compileFormulaExpression, compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
   NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression
@@ -212,6 +213,7 @@ function validateValueRule(rule: SkillEffectValueRule, path: string) {
 }
 
 export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): TriggeredEquipmentAssembly {
+  validateSimulationSkillSourceManifest(snapshot);
   const providers: ProviderDefinition[] = [];
   const mounts: TriggeredEquipmentAssembly['mounts'] = [];
   const types = new Map<string, string>();
@@ -221,7 +223,6 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
   const coverage: SimulationCoverage[] = [];
   const required: Record<Side, Set<string>> = { source: new Set(), target: new Set() };
   const selectedSkills = new Set<string>();
-  const completeSkills = new Set([snapshot.selection.basicAttackSkillKey]);
   const cover = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const addFormula = (formula: NamedFormula, path: string) => {
     const existing = formulas.get(formula.key);
@@ -274,7 +275,9 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
       const path = `${side}.selectedEquipment[${equipmentKey}]`;
       const item = items.find(row => row.equipment.equipmentKey === equipmentKey)!;
       if (item.equipment.gameId !== snapshot.gameId || item.attributes.equipmentKey !== equipmentKey) fail(path, '装备归属不一致');
-      const relations = array(item.attachedSkills, `${path}.attachedSkills`);
+      const allRelations = array(item.attachedSkills, `${path}.attachedSkills`);
+      const relations = executableEquipmentRelations(snapshot, side, equipmentKey);
+      uniqueRows(allRelations, row => row.skillKey, `${path}.attachedSkills`);
       uniqueRows(relations, row => row.skillKey, `${path}.attachedSkills`);
       for (const relation of relations) {
         const relationPath = `${path}.attachedSkills[${relations.indexOf(relation)}]`;
@@ -282,7 +285,6 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
         if (relation.gameId !== snapshot.gameId || relation.equipmentKey !== equipmentKey || relation.skillStatus !== 'ENABLED') {
           fail(relationPath, '必须保留完整启用被动关系，整件装备拒绝，不能过滤后只取直接属性');
         }
-        completeSkills.add(relation.skillKey);
       }
       if (PERMANENT_EQUIPMENT_SKILLS[equipmentKey] || !relations.length) continue;
       if (!Number.isInteger(snapshot.selection[`${side}Level`]) || snapshot.selection[`${side}Level`] < 1) fail(`selection.${side}Level`, '装备拥有方等级必须明确且有效');
@@ -1026,8 +1028,6 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
   for (const provider of providers) for (const ability of provider.abilities ?? []) if (ability.skillKey) {
     types.set(`ability/skill/${ability.skillKey}`, 'ability');
   }
-  if (snapshot.skillConfigurations.length !== completeSkills.size || new Set(snapshot.skillConfigurations.map(row => row.skill.skillKey)).size !== completeSkills.size
-    || snapshot.skillConfigurations.some(row => !completeSkills.has(row.skill.skillKey))) fail('skillConfigurations', '配置集缺失或重复，必须恰好保留所选普攻和完整启用被动关系，不能丢弃未使用配置');
   for (const side of ['source', 'target'] as const) for (const key of required[side]) {
     const entries = snapshot.catalogs.attributes.filter(row => row.attributeKey === key);
     if (entries.length !== 1 || entries[0]!.gameId !== snapshot.gameId || entries[0]!.status !== 'ENABLED') fail(`catalogs.attributes.${key}`, '依赖属性缺少唯一已启用的真实目录');

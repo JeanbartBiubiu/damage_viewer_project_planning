@@ -1,6 +1,7 @@
 import type { SkillConfiguration } from '../../src/types/skillConfiguration';
 import type { SkillEffectResult } from '../../src/types/skillEffect';
 import { equipmentSimulationSample } from './simulationEquipment';
+import { syncSimulationSkillSources } from './simulationSkillSources';
 
 export function permanentEquipmentSimulationSample(sourceKeys: string[] = [], targetKeys: string[] = []) {
   const snapshot = equipmentSimulationSample(sourceKeys, targetKeys);
@@ -43,5 +44,5 @@ export function permanentEquipmentSimulationSample(sourceKeys: string[] = [], ta
     }
     snapshot.skillConfigurations.push(configuration);
   }
-  return snapshot;
+  return syncSimulationSkillSources(snapshot);
 }
