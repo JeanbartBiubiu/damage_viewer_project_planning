@@ -41,6 +41,10 @@ import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectActionRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEffectShapeRow;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEmptyEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventSource;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageEventDetail;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageDeliveryKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerDamageOriginKind;
+import xyz.game.datamanage.model.skilltrigger.SkillTriggerLinkEventDetail;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventType;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerEventUseKind;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerExecuteEffectActionDetail;
@@ -220,6 +224,11 @@ final class SkillTriggerRuleTestSupport {
             );
             case SKILL_USED -> skillUsed(SkillTriggerCastPhase.INITIAL);
             case PROCESS_MOMENT -> processStart(PROCESS_KEY);
+            case DAMAGE_TAKEN, DAMAGE_DEALT -> new SkillTriggerEventSource(
+                eventType, new SkillTriggerDamageEventDetail(null, null,
+                    SkillTriggerDamageDeliveryKind.ANY, SkillTriggerDamageOriginKind.ANY)
+            );
+            case HIT_LINK_APPLIED, ATTACK_LINK_APPLIED -> new SkillTriggerEventSource(eventType, new SkillTriggerLinkEventDetail(null));
             default -> new SkillTriggerEventSource(eventType, new SkillTriggerEmptyEventDetail());
         };
         return new SkillTriggerRuleCreateRequest(

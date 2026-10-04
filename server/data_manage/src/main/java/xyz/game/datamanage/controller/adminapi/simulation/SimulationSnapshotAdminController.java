@@ -1,5 +1,7 @@
 package xyz.game.datamanage.controller.adminapi.simulation;
 
+import java.util.List;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +26,11 @@ public class SimulationSnapshotAdminController {
                                           @RequestParam String targetCharacterKey,
                                           @RequestParam int targetLevel,
                                           @RequestParam String basicAttackSkillKey,
-                                          @RequestParam int basicAttackLevel) {
+                                          @RequestParam int basicAttackLevel,
+                                          @RequestParam MultiValueMap<String, String> queryParameters) {
         return service.get(gameId, new SimulationSnapshotResponse.Selection(sourceCharacterKey, sourceLevel,
-            targetCharacterKey, targetLevel, basicAttackSkillKey, basicAttackLevel));
+            targetCharacterKey, targetLevel, basicAttackSkillKey, basicAttackLevel,
+            queryParameters.getOrDefault("sourceEquipmentKeys", List.of()),
+            queryParameters.getOrDefault("targetEquipmentKeys", List.of())));
     }
 }

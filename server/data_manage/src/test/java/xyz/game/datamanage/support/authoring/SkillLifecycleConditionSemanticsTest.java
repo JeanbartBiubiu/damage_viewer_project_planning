@@ -32,6 +32,8 @@ class SkillLifecycleConditionSemanticsTest {
         assertTrue(scopeChanged.getDetails().toString().contains("FORBIDDEN"));
         assertDoesNotThrow(() -> SkillLifecycleConditionSemantics.validate(List.of(effect("TARGET"),
             rule("ABSENT", "EVENT_SOURCE", "null", "CONTROL_RECEIVED"))));
+        assertDoesNotThrow(() -> SkillLifecycleConditionSemantics.validate(List.of(effect("TARGET"),
+            rule("ABSENT", "EVENT_SOURCE", "null", "BASIC_ATTACK_RECEIVED"))));
         ApiException eventChanged = assertThrows(ApiException.class, () -> SkillLifecycleConditionSemantics.validate(List.of(effect("TARGET"),
             rule("ABSENT", "EVENT_SOURCE", "null", "BASIC_ATTACK_HIT"))));
         assertTrue(eventChanged.getDetails().toString().contains("EVENT_SOURCE_NOT_AVAILABLE"));

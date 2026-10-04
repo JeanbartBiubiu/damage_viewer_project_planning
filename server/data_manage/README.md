@@ -4,6 +4,8 @@
 
 当前实现保存、校验和回读配置，并为所选场景提供一致的只读配置快照；不执行公式、过程或事件，不组装 Wasm 请求。旧 `/combat-data/**`、当前版本查询和 `versions:publish` 发布链路已删除。
 
+阶段4B沿4A快照读取所选完整装备作者树，不新增战斗计算接口或数据库结构。管理页聚合配置保存使用 `PATCH`（部分更新请求方法），`WebCorsConfig` 已允许其跨域预检；鉴权过滤器、令牌校验和写事务约束不变。预检通过不等于管理写入免鉴权。
+
 ## 开发范围与入口
 
 默认写入范围为本模块、`db/**`、后端接口文档和直接相关的 `tools/**`；`web/**`、`wasm/**` 与其他模块设计只读参考。修改前先读 [本模块规则](AGENTS.md) 和 [仓库规则](../../AGENTS.md)。
@@ -81,6 +83,12 @@
 
 初始化规则复用执行效果或启动过程动作，以及现有引用与循环校验，不增加表或循环豁免。无条件被动可通过 `EXECUTE_EFFECT`、`targetContext=EVENT_SOURCE` 施加自身效果；例如按当前角色等级读取的无限期生命偷取效果，无需另建等级变化事件。本模块只保存、校验和回读此事件契约，不产生战斗初始化事件或执行被动。
 
+### 普通攻击命中接收与原使用限制
+
+`BASIC_ATTACK_RECEIVED`（普通攻击命中接收（结果前））在真实命中判定完成、逐个结果及吸血结算前通知承受方；附伤、命中联动、反伤和周期不再次产生它。明细严格为 `{}`，不提供事件数值；`EVENT_SOURCE` 为原攻击者，`CURRENT_TARGET` 为接收者，`TARGET_CATEGORY_CHECK` 固定读取原攻击者类别。复用现有启动过程、执行效果及生命周期条件校验；反伤动作仍必须作用于事件来源对象，此入口不要求不存在的伤害筛选明细。
+
+`oncePerUse`（同次使用仅触发一次）在既有技能命中、普通攻击命中和普通攻击开始之外，允许普通攻击命中接收、`DAMAGE_TAKEN`（本笔受到伤害）及 `HIT_LINK_APPLIED`（命中联动）；技能使用和过程事件继续拒绝。仅保存显式共享限制键与范围，默认关闭；本笔受伤事件或命中联动需有真实原使用身份，独立周期不得生成默认使用身份。已有库需同步触发规则事件类型约束，再启用新服务。此处只定义管理保存契约，不执行运行时、不按装备标识分支，也不迁移或写入业务配置；完整时点以规划真源《阶段4装备接入与机制验收详细设计》第8.2节为准。
+
 ### 直接生命周期条件
 
 效果的结果数组仍为必填；合法生命周期可以配合空数组保存，仅记录生命周期实例。缺失或为空值的结果数组、无生命周期且无结果、无周期结果却配置周期均被拒绝。真实结果读取保持零条；触发规则内部形状读取保留效果及生命周期元数据，用于生命周期事件、动态输入和循环校验，不生成结果标识、数值输出或伤害依赖。移除被引用结果与生命周期仍受原引用保护，不需要数据库迁移。共享定义见规划真源《系统精简实施说明》的“仅记录生命周期的效果增量”。
@@ -109,7 +117,7 @@
 
 ### 事件对方类别条件
 
-`TARGET_CATEGORY_CHECK` 的明细只含非空、无重复的 `categories` 数组，类别限定为英雄 `CHAMPION`、史诗野怪 `EPIC_MONSTER`、小兵 `MINION`、非史诗野怪 `NON_EPIC_MONSTER`、建筑 `STRUCTURE`。仅供 `SKILL_HIT`、`BASIC_ATTACK_HIT`、`KILL`、`DAMAGE_PENDING`、`DAMAGE_DEALT`、`DAMAGE_TAKEN` 使用，主体固定为事件对方：技能命中和普攻命中读取实际命中对象，来源对象完成击杀读取本次被击杀对象，造成伤害读取本次伤害承受对象，伤害待结算和受到伤害读取本次伤害来源对象；不保存主体字段、属性或执行引用，也不作为循环保护。
+`TARGET_CATEGORY_CHECK` 的明细只含非空、无重复的 `categories` 数组，类别限定为英雄 `CHAMPION`、史诗野怪 `EPIC_MONSTER`、小兵 `MINION`、非史诗野怪 `NON_EPIC_MONSTER`、建筑 `STRUCTURE`。仅供 `SKILL_HIT`、`BASIC_ATTACK_HIT`、`BASIC_ATTACK_RECEIVED`、`KILL`、`TAKEDOWN`、`DAMAGE_PENDING`、`DAMAGE_DEALT`、`DAMAGE_TAKEN` 使用，主体固定为事件对方：技能命中和普攻命中读取实际命中对象，普通攻击命中接收读取原攻击者，来源对象完成击杀或参与击杀读取本次死亡对象，造成伤害读取本次伤害承受对象，伤害待结算和受到伤害读取本次伤害来源对象；不保存主体字段、属性或执行引用，也不作为循环保护。
 
 保存和事务提交前均检查类别形状及事件适配。每次对应事件必须为事件对方明确提供唯一类别，条件中的多个类别表示任一匹配；缺失类别及尚未建模对方不能默认归为英雄。当前模块只保存、校验和回读条件配置，不产生上述事件的对方类别上下文。
 
@@ -224,7 +232,7 @@
 | `/build-systems/{systemKey}/definition` | 同一可重复读事务返回系统、分组、可选项和技能授予；非法已存定义返回 500，不返回部分数据 |
 | `/build-systems/{systemKey}/groups`、`/build-systems/{systemKey}/options` | 分组完整位置布局和可选项；按点投入时同一可选项在整个布局最多出现一次 |
 | `/skills` | 技能基本资料；`skillKey` 在同游戏唯一且不可改，名称可重复，`maxLevel >= 1` |
-| `/simulation-snapshot` | 一次读取首批 A/B、A 已挂载的共享普攻及完整依赖；不保存场景或执行计算 |
+| `/simulation-snapshot` | 同一只读事务返回 A/B、所选装备、共享普攻和装备挂载技能及完整依赖；不保存场景或执行计算 |
 | `/skills/{skillKey}/parameters` | 参数四种取值方式：FIXED、SKILL_LEVEL、CHARACTER_LEVEL、RUNTIME_INPUT |
 | `/skills/{skillKey}/formulas` | 表达式节点 OPERATION、PARAMETER、ATTRIBUTE；深度最多 32、节点最多 256，不执行公式 |
 | `/skills/{skillKey}/effects` | 效果及完整结果、可选生命周期；已有结果的 `resultType` 不可改 |
@@ -299,6 +307,12 @@ PUT 和 DELETE 先调用 `GameConfigurationWriteGuard.begin(gameId)`，确认游
 
 ## 本地开发与配置
 
+### 普通攻击接收事件约束增量
+
+管理事件 `BASIC_ATTACK_RECEIVED`（普通攻击命中接收、结果前）使用空明细；当前目标为接收者、事件来源为原攻击者，事件对方类别条件读取攻击者。同次使用限制增加该事件、逐笔受到伤害及命中联动，但没有真实原使用身份时运行不能猜造额度。后端只保存和校验这些配置，不产生战斗事件。
+
+现有库约束入口为 [basic_attack_received.sql](../../db/game_manage/migrations/basic_attack_received.sql)，由调用方核对实际旧约束并在事务内执行；脚本不连接数据库或自行提交。本轮实际 `test0221` 已执行并独立读回，只扩大触发事件白名单，没有新表或业务数据删除。鬼索、荆棘和日炎的项目默认作者数据及运行证明见规划真源阶段4C验收记录第9节，不将HTTP保存当作战斗成功。
+
 前置要求为 JDK 21、Maven 3.9+、PostgreSQL 和 Redis。默认端口为 8080，以下命令在 `server/data_manage` 执行：
 
 | 命令 | 用途 |
@@ -328,17 +342,21 @@ CORS 当前覆盖 `/api/**`，并暴露 `ETag` 响应头。启动成功但首次
 
 ### 所选场景只读快照
 
-`GET /api/admin/games/{gameId}/simulation-snapshot` 沿用现有管理鉴权，六个查询参数均须明确提供：`sourceCharacterKey`、`sourceLevel`、`targetCharacterKey`、`targetLevel`、`basicAttackSkillKey`、`basicAttackLevel`。首批技能只接受 `shared_basic_attack`（共享普通攻击），且 A 必须真实挂载它；双方角色等级依当前游戏范围检查，技能等级依原技能最高等级检查。B 不产生自主动作，本入口不读取装备、构筑选择或未选技能配置。
+`GET /api/admin/games/{gameId}/simulation-snapshot` 沿用现有管理鉴权，原六个查询参数均须明确提供：`sourceCharacterKey`、`sourceLevel`、`targetCharacterKey`、`targetLevel`、`basicAttackSkillKey`、`basicAttackLevel`。普通攻击只接受 `shared_basic_attack`（共享普通攻击），且 A 必须真实挂载它；双方角色等级依当前游戏范围检查，普攻等级依原技能最高等级检查。新增可重复查询参数 `sourceEquipmentKeys`、`targetEquipmentKeys`（双方所选装备标识），每方0～6件，缺省为空数组，同方唯一、非空且格式合法，返回前按标识稳定排序。同一装备可分别出现在双方。必须使用重复参数传多件装备，不接受逗号拼接、空字符串、空白或重复项；非法选择返回带 `selection.sourceEquipmentKeys[i]` 或目标侧路径的400。
 
-响应的 `selection` 保存原场景选择；`source`、`target` 分别包含 `character`（角色原资料）、`attributes`（完整等级属性图）、`selectedLevelValues`（原所选等级数值）及 `attachedSkills`（真实挂载列表）。`skillConfigurations` 保存所选技能完整管理响应，保留全部参数、公式、效果及并列结果、过程、内部状态和规则。`catalogs` 包含等级配置、实际依赖属性和分类、伤害类型及完整五阶段公式、乘区、状态与游戏吸血规则。数据接入的唯一共享契约仍见规划真源[单攻击方计算六阶段推进方案第4.1、4.2节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/单攻击方计算六阶段推进方案.md#41-所选对象的一致性快照)。
+响应的 `selection` 保存归一后的选择，包含两组装备标识数组。`source`、`target` 分别包含 `character`（角色原资料）、`attributes`（完整等级属性图）、`selectedLevelValues`（原所选等级数值）、`attachedSkills`（真实角色挂载列表）及与该方选择严格相等的 `selectedEquipment`（所选装备数组）。每件装备保留 `equipment`（原资料）、`attributes.attributeValues`（固定属性数值映射）和 `attachedSkills`（原装备技能关系），不把装备增量加进角色固有等级值。`skillConfigurations` 保存共享普攻与双方所选装备挂载技能的完整管理响应，按技能标识去重排序，最多32份，保留全部参数、公式、效果及并列结果、过程、内部状态和规则；装备技能的真实最高等级首期必须为1，等级参数按实际拥有方分别检查。`catalogs` 包含等级配置、装备固定属性及全部所选技能的实际依赖属性和分类、伤害类型及完整五阶段公式、乘区、状态与游戏吸血规则。装备增量的共享契约见规划真源[阶段4装备接入与机制验收详细设计第3、4节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段4装备接入与机制验收详细设计.md)，原场景读取契约仍见[单攻击方计算六阶段推进方案第4.1、4.2节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/单攻击方计算六阶段推进方案.md#41-所选对象的一致性快照)。
 
-整个读取处于同一可重复读只读事务，不取写锁、不写业务数据或引用索引。`references` 从本次完整配置的真实业务字段重新提取，同技能根对象和子项立即核对，目录按所需稳定键读取，不依赖历史引用索引的完整性。首批跨技能引用明确拒绝。`snapshotDigest`（场景摘要）由本次全部返回内容统一计算，包含双方资料、属性、挂载及依赖；不以单技能 `baseDigest` 替代，且排除追溯用的 `readAt`（读回时间）。相同内容读回摘要保持一致。
+整个读取处于同一可重复读只读事务，不取写锁、不写业务数据或引用索引。装备属性同时核对原始存储和管理读取，拒绝非对象、非有限数值、未知或被丢弃属性、非法整数及超出目录范围的值。所选装备关系指向禁用技能时整件拒绝，不过滤成部分成功。`references` 从本次全部所选完整配置的真实业务字段重新提取，集合内的跨技能根对象、参数和子项按实际存在目标核对；集合外引用明确拒绝，不递归加载未选技能，也不读取构筑选择。目录按所需稳定键读取，不依赖历史引用索引的完整性。`snapshotDigest`（场景摘要）覆盖归一选择、双方资料、全部装备资料与属性、关系、技能配置及依赖，不以单技能 `baseDigest` 替代，且排除追溯用的 `readAt`（读回时间）。输入装备顺序或关系读取顺序不改变相同内容摘要。
+
+装备没有技能关系仅表示本次返回空关系数组，不证明它是已核定的纯属性装备；只有参数而没有执行结果的装备技能也如实返回。后端不计算属性贡献、被动、初始生命或伤害，不负责纯属性名单、机制支持、收益系数和光环假设等运行支持门禁；这些检查由前端装配和原生编译／运行承担。B 不产生自主攻击，但保留其装备配置，不能用后端读取成功代替机制验收。
+
+装备包含 `bonus_attack_speed_percent`（额外攻速比例）时，同次快照额外读取 `attack_speed`（攻速）及 `attack_speed_ratio`（攻速收益系数）的合法目录；不创建角色系数值，也不从一级攻速推断。角色缺值继续由场景显式补填，派生及准入属于前端与原生计算层职责。
 
 角色已经录入的固有属性必须具有完整合法的等级图，所选等级缺行、缺数值或管理读取丢弃其值时拒绝。公式引用但角色从未录入的附加属性只返回其真实目录定义，角色数值保持缺失；由 Web 提供显式场景补充值，未填时在装配阶段报告具体路径，不补零、不覆盖固有值。伤害配置使用 `SOURCE_CRIT_CHANCE`（按来源暴击率）时，额外读取 `critical_strike_chance`（暴击率）属性定义；禁止暴击或强制暴击不因此增加该目录依赖。计算时传入参数同样保持无默认值。
 
-已有场景配置不完整返回 `409.SIMULATION_SNAPSHOT_INVALID`，`fieldIssues`（字段问题）分别使用 `REFERENCE_MISSING`（缺依赖）、`REFERENCE_DISABLED`（停用目录）、`FORMULA_MISSING`（缺完整五阶段公式）、`NUMBER_MISSING`（缺固有数值）、`LEVEL_VALUES_INCOMPLETE`（固有等级图不完整）与 `CROSS_SKILL_NOT_SUPPORTED`（首批不支持跨技能）定位；字段带技能集合、对象稳定键及原配置路径。失败不返回部分成功快照。游戏或角色不存在仍沿用现有 404；管理权限沿用 401 / 403；缺查询参数或类型错误在入口返回 400。
+已有场景配置不完整返回 `409.SIMULATION_SNAPSHOT_INVALID`，`fieldIssues`（字段问题）包含路径、问题代码和中文原因，包括 `REFERENCE_MISSING`（缺依赖）、`REFERENCE_DISABLED`（停用目录）、`FORMULA_MISSING`（缺完整五阶段公式）、`NUMBER_MISSING`（缺固有数值）、`LEVEL_VALUES_INCOMPLETE`（固有等级图不完整）、`REFERENCE_OUT_OF_SCOPE`（引用未选技能）、`SKILL_DISABLED`（禁用技能）、`ATTRIBUTE_VALUES_INCOMPLETE`（原装备属性读取丢失）、`PASSIVE_LEVEL_UNSUPPORTED`（装备技能最高等级不是1）和 `CONFIGURATION_LIMIT_EXCEEDED`（所选配置超过32份）。字段带所选方、装备位置或技能集合位置、对象稳定键及原配置路径。失败不返回部分成功快照。游戏、角色或所选装备不存在仍沿用现有404，保留真实稳定标识；管理权限沿用401／403；缺必填查询参数、类型错误或非法装备选择返回400。
 
-定向检查为 `mvn "-Dtest=SimulationSnapshotServiceTest,SimulationSnapshotAdminControllerTest,SkillObjectReferencesTest" test`，覆盖附加属性缺值、真实零、全部并列结果、依赖缺失和停用、固有等级图缺口、摘要与鉴权。单测不代表实库 HTTP 已读回，也不代表 Web 装配、Wasm 编译或战斗运行通过；最终本地服务的真实快照与独立数据核对由集成验收记录。
+定向检查为 `mvn "-Dtest=SimulationSnapshotServiceTest,SimulationSnapshotAdminControllerTest,SkillObjectReferencesTest" test`，覆盖双侧0～6件装备、重复／空值／数量错误、装备404、原属性过滤缺口、整数与范围、禁用关系、去重32份上限、被动最高等级1、各拥有方等级参数、集合内外引用、全部并列结果及目录依赖、摘要稳定性与鉴权。单测不代表实库 HTTP 已读回，也不代表 Web 装配、Wasm 编译或战斗运行通过；最终本地服务的真实快照与独立数据核对由集成验收记录。
 
 ### 技能统一配置与角色录入检查
 

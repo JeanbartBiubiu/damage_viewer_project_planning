@@ -68,11 +68,13 @@ class SkillTriggerLifecycleConditionServiceTest {
             PATH + ".subject", needsSubject ? "REQUIRED" : "FORBIDDEN");
     }
 
-    @Test
-    void eventSourceSubjectRequiresAnEventThatProvidesOne() {
+    @ParameterizedTest
+    @EnumSource(value = SkillTriggerEventType.class, names = {"CONTROL_RECEIVED", "SOURCE_INITIALIZED", "BASIC_ATTACK_RECEIVED"})
+    void eventSourceSubjectRequiresAnEventThatProvidesOne(SkillTriggerEventType eventType) {
         SkillTriggerLifecycleConditionDetail detail = detail(SkillTriggerLifecycleCheckKind.PRESENT, SkillTriggerSubject.EVENT_SOURCE);
         assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY, request(detail))), PATH + ".subject", "EVENT_SOURCE_NOT_AVAILABLE");
-        service.create(GAME_ID, SKILL_KEY, request(detail, SkillTriggerEventType.CONTROL_RECEIVED));
+        var saved = service.create(GAME_ID, SKILL_KEY, request(detail, eventType));
+        assertEquals(detail, saved.conditionGroups().getFirst().conditions().getFirst().detail());
     }
 
     @Test

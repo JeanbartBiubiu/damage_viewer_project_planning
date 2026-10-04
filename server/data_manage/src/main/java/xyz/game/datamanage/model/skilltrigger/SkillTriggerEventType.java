@@ -5,6 +5,7 @@ public enum SkillTriggerEventType {
     SKILL_USED,
     BASIC_ATTACK_START,
     BASIC_ATTACK_HIT,
+    BASIC_ATTACK_RECEIVED,
     SKILL_HIT,
     PROCESS_MOMENT,
     RESULT_AVAILABLE,

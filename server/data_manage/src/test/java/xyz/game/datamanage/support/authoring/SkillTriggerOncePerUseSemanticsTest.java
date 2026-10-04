@@ -36,7 +36,8 @@ class SkillTriggerOncePerUseSemanticsTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT", "BASIC_ATTACK_START"})
+    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT", "BASIC_ATTACK_START",
+        "BASIC_ATTACK_RECEIVED", "DAMAGE_TAKEN", "HIT_LINK_APPLIED"})
     void allowedEventsKeepSharedGroupAndDoNotIndexGroupKey(String eventType) {
         Aggregate first = trigger("skill", "a", eventType, once("eclipse", "SKILL"));
         Aggregate second = trigger("skill", "b", eventType, once("eclipse", "SKILL"));
@@ -131,6 +132,8 @@ class SkillTriggerOncePerUseSemanticsTest {
         String detail = switch (eventType) {
             case "PROCESS_MOMENT" -> "{\"processKey\":\"cast\",\"moment\":{\"momentType\":\"PROCESS_START\"}}";
             case "SKILL_USED" -> "{\"useKind\":\"ANY\"}";
+            case "DAMAGE_TAKEN" -> "{\"sourceSkillKey\":null,\"damageTypeKey\":null,\"deliveryKind\":\"ANY\",\"originKind\":\"ANY\"}";
+            case "HIT_LINK_APPLIED" -> "{\"sourceSkillKey\":null}";
             default -> "{}";
         };
         return new Aggregate(SourceType.TRIGGER, skill, key, AggregateJson.tree("""

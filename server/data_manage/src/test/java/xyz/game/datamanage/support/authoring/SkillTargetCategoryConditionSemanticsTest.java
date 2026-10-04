@@ -40,7 +40,7 @@ class SkillTargetCategoryConditionSemanticsTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT", "KILL", "TAKEDOWN", "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN"})
+    @ValueSource(strings = {"SKILL_HIT", "BASIC_ATTACK_HIT", "BASIC_ATTACK_RECEIVED", "KILL", "TAKEDOWN", "DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN"})
     void supportedEventOpponentCategoriesNeedNoCatalogOrExecutionReferences(String event) {
         List<Aggregate> objects = List.of(rule(event, "{\"categories\":[\"CHAMPION\",\"EPIC_MONSTER\"]}"));
         assertEquals(List.of(), SkillObjectReferences.extractAndValidate("lol", objects, Set.of()));

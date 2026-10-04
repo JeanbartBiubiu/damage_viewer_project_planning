@@ -25,7 +25,10 @@ public final class SkillTriggerOncePerUseSemantics {
     public static final Set<SkillTriggerEventType> ALLOWED_EVENTS = Set.of(
         SkillTriggerEventType.SKILL_HIT,
         SkillTriggerEventType.BASIC_ATTACK_HIT,
-        SkillTriggerEventType.BASIC_ATTACK_START
+        SkillTriggerEventType.BASIC_ATTACK_START,
+        SkillTriggerEventType.BASIC_ATTACK_RECEIVED,
+        SkillTriggerEventType.DAMAGE_TAKEN,
+        SkillTriggerEventType.HIT_LINK_APPLIED
     );
 
     private SkillTriggerOncePerUseSemantics() {
@@ -134,7 +137,8 @@ public final class SkillTriggerOncePerUseSemantics {
         if (eventType != null && ALLOWED_EVENTS.contains(eventType)) {
             return List.of();
         }
-        return List.of(issue(path, "ONCE_PER_USE_EVENT_INVALID", "同次使用限制只允许用于技能命中、普通攻击命中或普通攻击开始"));
+        return List.of(issue(path, "ONCE_PER_USE_EVENT_INVALID",
+            "同次使用限制只允许用于技能命中、普通攻击命中、普通攻击开始、普通攻击命中接收、受到伤害或命中联动；本笔受伤事件或命中联动需有真实原使用身份"));
     }
 
     public static List<Map<String, String>> groupIssues(

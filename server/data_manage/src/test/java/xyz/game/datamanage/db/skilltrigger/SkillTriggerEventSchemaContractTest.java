@@ -18,15 +18,17 @@ class SkillTriggerEventSchemaContractTest {
     void currentSchemaAcceptsTheJavaEventsAndHistoricalMigrationKeepsItsOldSet() throws Exception {
         Set<String> events = Arrays.stream(SkillTriggerEventType.values())
                 .map(Enum::name).collect(Collectors.toSet());
+        Set<String> takedownEvents = events.stream()
+                .filter(event -> !event.equals("BASIC_ATTACK_RECEIVED"))
+                .collect(Collectors.toSet());
         Path db = Path.of("../../db/game_manage");
-        assertAcceptedEvents(Files.readString(db.resolve("schema.sql")), events, "schema.sql");
         assertAcceptedEvents(
                 Files.readString(db.resolve("migrations/takedown_event.sql")),
-                events,
+                takedownEvents,
                 "migrations/takedown_event.sql"
         );
 
-        Set<String> historicalEvents = events.stream()
+        Set<String> historicalEvents = takedownEvents.stream()
                 .filter(event -> !event.equals("TAKEDOWN"))
                 .collect(Collectors.toSet());
         assertAcceptedEvents(
@@ -34,6 +36,7 @@ class SkillTriggerEventSchemaContractTest {
                 historicalEvents,
                 "migrations/source_initialized_event.sql"
         );
+        assertAcceptedEvents(Files.readString(db.resolve("schema.sql")), events, "schema.sql");
     }
 
     private static void assertAcceptedEvents(String sql, Set<String> expected, String file) {

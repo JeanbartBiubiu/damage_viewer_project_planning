@@ -27,6 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -87,26 +89,27 @@ class SkillTriggerRuleEventShapeServiceTest {
         ));
     }
 
-    @Test
-    void initializationPreservesSelfEventSourceAndStrictEmptyDetail() throws Exception {
+    @ParameterizedTest
+    @EnumSource(value = SkillTriggerEventType.class, names = {"SOURCE_INITIALIZED", "BASIC_ATTACK_RECEIVED"})
+    void sourceEventsPreserveEventSourceAndStrictEmptyDetail(SkillTriggerEventType eventType) throws Exception {
         ObjectMapper json = new ObjectMapper();
-        var event = json.readValue("{\"eventType\":\"SOURCE_INITIALIZED\",\"detail\":{}}", SkillTriggerEventSource.class);
+        var event = json.readValue("{\"eventType\":\"" + eventType + "\",\"detail\":{}}", SkillTriggerEventSource.class);
         var originalAction = executeAction("apply_passive", EFFECT_KEY);
         var action = new SkillTriggerAction(originalAction.actionKey(), originalAction.name(), originalAction.actionType(),
             originalAction.sortOrder(), SkillTriggerTargetContext.EVENT_SOURCE, originalAction.detail(),
             originalAction.runtimeInputBindings(), originalAction.resultModifiers());
         service.create(GAME_ID, SKILL_KEY, rule("initialize", event, List.of(action)));
         var saved = service.get(GAME_ID, SKILL_KEY, "initialize");
-        assertEquals(SkillTriggerEventType.SOURCE_INITIALIZED, saved.eventSource().eventType());
+        assertEquals(eventType, saved.eventSource().eventType());
         assertEquals(SkillTriggerTargetContext.EVENT_SOURCE, saved.actions().get(0).targetContext());
         assertEquals("{}", json.writeValueAsString(saved.eventSource().detail()));
-        for (String detail : List.of("null", "{\"sourceSkillKey\":\"other\"}", "{\"unexpected\":1}")) {
-            var invalidEvent = json.readValue("{\"eventType\":\"SOURCE_INITIALIZED\",\"detail\":" + detail + "}", SkillTriggerEventSource.class);
+        for (String detail : List.of("null", "{\"sourceSkillKey\":\"other\"}", "{\"useRef\":\"default\"}", "{\"unexpected\":1}")) {
+            var invalidEvent = json.readValue("{\"eventType\":\"" + eventType + "\",\"detail\":" + detail + "}", SkillTriggerEventSource.class);
             thrown(() -> service.create(GAME_ID, SKILL_KEY, rule("invalid_initialize", invalidEvent, List.of(action))));
         }
         for (String detail : List.of("[]", "1", "\"text\"")) {
             assertThrows(JsonProcessingException.class, () -> json.readValue(
-                "{\"eventType\":\"SOURCE_INITIALIZED\",\"detail\":" + detail + "}", SkillTriggerEventSource.class));
+                "{\"eventType\":\"" + eventType + "\",\"detail\":" + detail + "}", SkillTriggerEventSource.class));
         }
     }
 
@@ -116,6 +119,7 @@ class SkillTriggerRuleEventShapeServiceTest {
             SkillTriggerEventType.SOURCE_INITIALIZED,
             SkillTriggerEventType.BASIC_ATTACK_START,
             SkillTriggerEventType.BASIC_ATTACK_HIT,
+            SkillTriggerEventType.BASIC_ATTACK_RECEIVED,
             SkillTriggerEventType.CONTROL_RECEIVED,
             SkillTriggerEventType.KILL,
             SkillTriggerEventType.TAKEDOWN
@@ -151,6 +155,23 @@ class SkillTriggerRuleEventShapeServiceTest {
             )
         ));
         assertField(sourceSkill, "eventSource.detail.sourceSkillKey", "UNKNOWN_FIELD");
+    }
+
+    @Test
+    void receivedEventAcceptsStandardActionsForBothRealObjectContexts() {
+        var event = new SkillTriggerEventSource(SkillTriggerEventType.BASIC_ATTACK_RECEIVED, new SkillTriggerEmptyEventDetail());
+        for (var original : List.of(executeAction("execute", EFFECT_KEY),
+            SkillTriggerRuleTestSupport.startProcessAction("start", PROCESS_KEY))) {
+            for (var target : List.of(SkillTriggerTargetContext.CURRENT_TARGET, SkillTriggerTargetContext.EVENT_SOURCE)) {
+                var action = new SkillTriggerAction(original.actionKey(), original.name(), original.actionType(),
+                    original.sortOrder(), target, original.detail(), original.runtimeInputBindings(), original.resultModifiers());
+                String ruleKey = "received_" + original.actionKey() + "_" + target.name().toLowerCase();
+                var saved = service.create(GAME_ID, SKILL_KEY, rule(ruleKey, event, List.of(action)));
+                assertEquals(saved, service.get(GAME_ID, SKILL_KEY, ruleKey));
+                assertEquals(action, saved.actions().getFirst());
+                assertEquals(event, saved.eventSource());
+            }
+        }
     }
 
     @Test

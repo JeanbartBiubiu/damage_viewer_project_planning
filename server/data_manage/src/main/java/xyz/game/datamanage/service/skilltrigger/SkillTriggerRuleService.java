@@ -774,9 +774,11 @@ public class SkillTriggerRuleService {
             SkillTriggerDamageEventDetail damageEvent = damageEvents.get(action.ruleKey());
             boolean guarded = rule != null
                 && (rule.eventType() == SkillTriggerEventType.DAMAGE_PENDING
-                    || rule.eventType() == SkillTriggerEventType.DAMAGE_TAKEN)
+                    || rule.eventType() == SkillTriggerEventType.DAMAGE_TAKEN
+                    || rule.eventType() == SkillTriggerEventType.BASIC_ATTACK_RECEIVED)
                 && action.targetContext() == SkillTriggerTargetContext.EVENT_SOURCE
-                && (damageEvent != null && damageEvent.originKind() == SkillTriggerDamageOriginKind.DIRECT
+                && (rule.eventType() == SkillTriggerEventType.BASIC_ATTACK_RECEIVED
+                    || damageEvent != null && damageEvent.originKind() == SkillTriggerDamageOriginKind.DIRECT
                     || protectedRules.contains(action.ruleKey()));
             if (!guarded) {
                 issues.add(fieldIssue(
@@ -1371,7 +1373,8 @@ public class SkillTriggerRuleService {
                     issues.add(fieldIssue("eventSource.detail", "TYPE_MISMATCH", "联动事件明细形状不合法"));
                 }
             }
-            case SOURCE_INITIALIZED, BASIC_ATTACK_START, BASIC_ATTACK_HIT, CONTROL_RECEIVED, KILL, TAKEDOWN -> {
+            case SOURCE_INITIALIZED, BASIC_ATTACK_START, BASIC_ATTACK_HIT, BASIC_ATTACK_RECEIVED,
+                CONTROL_RECEIVED, KILL, TAKEDOWN -> {
                 if (!(detail instanceof SkillTriggerEmptyEventDetail)) {
                     issues.add(fieldIssue("eventSource.detail", "TYPE_MISMATCH", "该事件明细必须为空对象"));
                 }
@@ -3109,11 +3112,12 @@ public class SkillTriggerRuleService {
                 continue;
             }
             if (values.eventSource().eventType() != SkillTriggerEventType.DAMAGE_PENDING
-                && values.eventSource().eventType() != SkillTriggerEventType.DAMAGE_TAKEN) {
+                && values.eventSource().eventType() != SkillTriggerEventType.DAMAGE_TAKEN
+                && values.eventSource().eventType() != SkillTriggerEventType.BASIC_ATTACK_RECEIVED) {
                 issues.add(fieldIssue(
                     "eventSource.eventType",
                     "REFLECT_LOOP_UNGUARDED",
-                    "反伤效果只能由即将受到伤害或受到伤害事件触发"
+                    "反伤效果只能由普通攻击命中接收、即将受到伤害或受到伤害事件触发"
                 ));
             }
             if (action.targetContext() != SkillTriggerTargetContext.EVENT_SOURCE) {
@@ -3123,8 +3127,9 @@ public class SkillTriggerRuleService {
                     "反伤效果必须作用于事件来源对象"
                 ));
             }
-            boolean directOnly = values.eventSource().detail() instanceof SkillTriggerDamageEventDetail damage
-                && damage.originKind() == SkillTriggerDamageOriginKind.DIRECT;
+            boolean directOnly = values.eventSource().eventType() == SkillTriggerEventType.BASIC_ATTACK_RECEIVED
+                || values.eventSource().detail() instanceof SkillTriggerDamageEventDetail damage
+                    && damage.originKind() == SkillTriggerDamageOriginKind.DIRECT;
             if (!directOnly && values.perTargetCooldown() == null) {
                 issues.add(fieldIssue(
                     "eventSource.detail.originKind",

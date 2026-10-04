@@ -28,7 +28,8 @@ import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 
 class SimulationSnapshotAdminControllerTest {
     private static final String URL = "/api/admin/games/lol/simulation-snapshot";
-    private static final Selection CHOICE = new Selection("hero_a", 1, "hero_b", 2, "shared_basic_attack", 1);
+    private static final Selection CHOICE = new Selection("hero_a", 1, "hero_b", 2,
+        "shared_basic_attack", 1, List.of(), List.of());
     private final SimulationSnapshotService service = mock(SimulationSnapshotService.class);
     private final JwtVerifier verifier = mock(JwtVerifier.class);
     private MockMvc mvc;
@@ -53,6 +54,8 @@ class SimulationSnapshotAdminControllerTest {
             .andExpect(jsonPath("$.selection.sourceLevel").value(1))
             .andExpect(jsonPath("$.selection.targetLevel").value(2))
             .andExpect(jsonPath("$.selection.basicAttackSkillKey").value("shared_basic_attack"))
+            .andExpect(jsonPath("$.selection.sourceEquipmentKeys").isEmpty())
+            .andExpect(jsonPath("$.selection.targetEquipmentKeys").isEmpty())
             .andExpect(jsonPath("$.snapshotDigest").value("scene-digest"))
             .andExpect(jsonPath("$.readAt").isString());
         verify(service).get("lol", CHOICE);
@@ -88,6 +91,53 @@ class SimulationSnapshotAdminControllerTest {
             .andExpect(jsonPath("$.error.code").value("409.SIMULATION_SNAPSHOT_INVALID"))
             .andExpect(jsonPath("$.error.details.fieldIssues[0].code").value("REFERENCE_MISSING"))
             .andExpect(jsonPath("$.source").doesNotExist()).andExpect(jsonPath("$.snapshotDigest").doesNotExist());
+    }
+
+    @Test
+    void forwardsRepeatedEquipmentParametersWithoutDroppingEitherSide() throws Exception {
+        Selection choice = new Selection("hero_a", 1, "hero_b", 2, "shared_basic_attack", 1,
+            List.of("item_b", "item_a"), List.of("item_a"));
+        Selection normalized = new Selection("hero_a", 1, "hero_b", 2, "shared_basic_attack", 1,
+            List.of("item_a", "item_b"), List.of("item_a"));
+        when(service.get("lol", choice)).thenReturn(new SimulationSnapshotResponse("lol", normalized, null, null,
+            List.of(), null, List.of(), "equipment-digest", OffsetDateTime.parse("2026-10-01T00:00:00Z")));
+        mvc.perform(request().param("sourceEquipmentKeys", "item_b", "item_a").param("targetEquipmentKeys", "item_a"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.selection.sourceEquipmentKeys[0]").value("item_a"))
+            .andExpect(jsonPath("$.selection.targetEquipmentKeys[0]").value("item_a"));
+        verify(service).get("lol", choice);
+    }
+
+    @Test
+    void explicitEmptyEquipmentParameterIsNotMistakenForNoEquipment() throws Exception {
+        when(service.get(anyString(), any(Selection.class))).thenCallRealMethod();
+        for (String side : List.of("sourceEquipmentKeys", "targetEquipmentKeys")) {
+            mvc.perform(request().param(side, ""))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error.code").value("400.VALIDATION_FAILED"))
+                .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("selection." + side + "[0]"))
+                .andExpect(jsonPath("$.error.details.fieldIssues[0].code").value("KEY_INVALID"));
+        }
+    }
+
+    @Test
+    void duplicateAndOverLimitEquipmentQueriesReturn400WithTheSelectionPath() throws Exception {
+        when(service.get(anyString(), any(Selection.class))).thenCallRealMethod();
+        mvc.perform(request().param("sourceEquipmentKeys", "item_a", "item_a"))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("selection.sourceEquipmentKeys[1]"))
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].code").value("DUPLICATE_KEY"));
+        mvc.perform(request().param("targetEquipmentKeys", "item_a", "item_b", "item_c", "item_d", "item_e", "item_f", "item_g"))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("selection.targetEquipmentKeys[6]"));
+    }
+
+    @Test
+    void commaSeparatedEquipmentIsRejectedRatherThanSilentlyReinterpreted() throws Exception {
+        when(service.get(anyString(), any(Selection.class))).thenCallRealMethod();
+        mvc.perform(request().param("sourceEquipmentKeys", "item_a,item_b"))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("selection.sourceEquipmentKeys[0]"));
     }
 
     private MockHttpServletRequestBuilder request() {

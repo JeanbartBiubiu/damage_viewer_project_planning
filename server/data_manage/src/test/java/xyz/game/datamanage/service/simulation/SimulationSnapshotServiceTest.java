@@ -5,14 +5,17 @@ import static org.mockito.Mockito.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.game.datamanage.mapper.character.CharacterMapper;
+import xyz.game.datamanage.mapper.equipment.EquipmentMapper;
 import xyz.game.datamanage.model.attribute.AttributeResponse;
 import xyz.game.datamanage.model.attribute.AttributeStatus;
 import xyz.game.datamanage.model.attribute.AttributeValueType;
@@ -20,24 +23,32 @@ import xyz.game.datamanage.model.character.CharacterAttributesResponse;
 import xyz.game.datamanage.model.character.CharacterResponse;
 import xyz.game.datamanage.model.character.LevelConfigResponse;
 import xyz.game.datamanage.model.damagetype.*;
+import xyz.game.datamanage.model.equipment.EquipmentAttributesResponse;
+import xyz.game.datamanage.model.equipment.EquipmentResponse;
 import xyz.game.datamanage.model.gamevamp.GameVampRules;
 import xyz.game.datamanage.model.gamevamp.GameVampRule;
+import xyz.game.datamanage.model.modifierzone.*;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Selection;
 import xyz.game.datamanage.model.skill.SkillResponse;
 import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skillcategory.SkillCategoryResponse;
 import xyz.game.datamanage.model.skillcategory.SkillCategoryStatus;
 import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationResponse;
+import xyz.game.datamanage.model.skillinternalstate.*;
 import xyz.game.datamanage.model.skilleffect.*;
 import xyz.game.datamanage.model.skillformula.*;
 import xyz.game.datamanage.model.skillparameter.*;
 import xyz.game.datamanage.model.skilltrigger.SkillTriggerRuleDetailResponse;
+import xyz.game.datamanage.model.status.*;
 import xyz.game.datamanage.model.value.SkillNumericValue;
 import xyz.game.datamanage.model.skillrelation.CharacterSkillRelationListResponse;
 import xyz.game.datamanage.model.skillrelation.CharacterSkillRelationResponse;
+import xyz.game.datamanage.model.skillrelation.EquipmentSkillRelationListResponse;
+import xyz.game.datamanage.model.skillrelation.EquipmentSkillRelationResponse;
 import xyz.game.datamanage.service.attribute.AttributeService;
 import xyz.game.datamanage.service.character.CharacterService;
 import xyz.game.datamanage.service.damagetype.DamageTypeService;
+import xyz.game.datamanage.service.equipment.EquipmentService;
 import xyz.game.datamanage.service.gamevamp.GameVampRuleService;
 import xyz.game.datamanage.service.modifierzone.ModifierZoneService;
 import xyz.game.datamanage.service.skillcategory.SkillCategoryService;
@@ -48,10 +59,12 @@ import xyz.game.datamanage.support.error.ApiException;
 
 class SimulationSnapshotServiceTest {
     private static final Selection CHOICE = new Selection("hero_a", 1, "hero_b", 1,
-        "shared_basic_attack", 1);
+        "shared_basic_attack", 1, List.of(), List.of());
 
     private final CharacterService characters = mock(CharacterService.class);
     private final CharacterMapper characterMapper = mock(CharacterMapper.class);
+    private final EquipmentService equipment = mock(EquipmentService.class);
+    private final EquipmentMapper equipmentMapper = mock(EquipmentMapper.class);
     private final SkillRelationService relations = mock(SkillRelationService.class);
     private final SkillConfigurationService configurations = mock(SkillConfigurationService.class);
     private final AttributeService attributes = mock(AttributeService.class);
@@ -66,7 +79,7 @@ class SimulationSnapshotServiceTest {
 
     @BeforeEach
     void setup() throws Exception {
-        service = new SimulationSnapshotService(characters, characterMapper, relations,
+        service = new SimulationSnapshotService(characters, characterMapper, equipment, equipmentMapper, relations,
             configurations, attributes, categories, damageTypes, zones, statuses, vampRules, json);
         when(characters.getLevelConfig("lol")).thenReturn(new LevelConfigResponse("lol", 1, 18));
         for (String key : List.of("hero_a", "hero_b")) {
@@ -116,6 +129,11 @@ class SimulationSnapshotServiceTest {
         assertEquals(64, result.snapshotDigest().length());
         assertNotNull(result.readAt());
         assertEquals(result.snapshotDigest(), service.get("lol", CHOICE).snapshotDigest());
+        assertTrue(result.selection().sourceEquipmentKeys().isEmpty());
+        assertTrue(result.selection().targetEquipmentKeys().isEmpty());
+        assertTrue(result.source().selectedEquipment().isEmpty());
+        assertTrue(result.target().selectedEquipment().isEmpty());
+        verifyNoInteractions(equipment, equipmentMapper);
         Transactional transaction = SimulationSnapshotService.class.getMethod("get", String.class, Selection.class)
             .getAnnotation(Transactional.class);
         assertTrue(transaction.readOnly());
@@ -150,8 +168,9 @@ class SimulationSnapshotServiceTest {
         configure(new SkillConfigurationResponse(skill.skill(), skill.parameters(), skill.formulas(), skill.effects(),
             List.of(), List.of(), List.of(crossSkill), "skill-digest"));
         ApiException error = assertThrows(ApiException.class, () -> service.get("lol", CHOICE));
-        assertTrue(error.getDetails().toString().contains("CROSS_SKILL_NOT_SUPPORTED"));
+        assertTrue(error.getDetails().toString().contains("REFERENCE_OUT_OF_SCOPE"));
         assertTrue(error.getDetails().toString().contains("eventSource.detail.sourceSkillKey"));
+        verify(configurations, never()).get("lol", "other_skill");
     }
 
     @Test
@@ -272,8 +291,10 @@ class SimulationSnapshotServiceTest {
         when(relations.listCharacterRelations("lol", "hero_a", null))
             .thenReturn(new CharacterSkillRelationListResponse(List.of(), 0));
         assertIssue("SKILL_NOT_ATTACHED", "source.attachedSkills");
-        assertThrows(ApiException.class, () -> service.get("lol", new Selection("hero_a", 0, "hero_b", 1, "shared_basic_attack", 1)));
-        assertThrows(ApiException.class, () -> service.get("lol", new Selection("hero_a", 1, "hero_b", 1, "other_skill", 1)));
+        assertThrows(ApiException.class, () -> service.get("lol", new Selection("hero_a", 0, "hero_b", 1,
+            "shared_basic_attack", 1, List.of(), List.of())));
+        assertThrows(ApiException.class, () -> service.get("lol", new Selection("hero_a", 1, "hero_b", 1,
+            "other_skill", 1, List.of(), List.of())));
         verifyNoInteractions(configurations);
     }
 
@@ -301,6 +322,376 @@ class SimulationSnapshotServiceTest {
         damageFormula(new DamageTypeCalculationFormula(fixed(0), fixed(0), fixed(0), fixed(0), fixed(2)));
         assertNotEquals(changedActor, service.get("lol", CHOICE).snapshotDigest());
         assertEquals("skill-digest", skill.baseDigest());
+    }
+
+    @Test
+    void omittedEquipmentListsNormalizeToEmptyWithoutReadingEquipment() {
+        var result = service.get("lol", equipmentChoice(null, null));
+        assertEquals(CHOICE, result.selection());
+        assertTrue(result.source().selectedEquipment().isEmpty());
+        assertTrue(result.target().selectedEquipment().isEmpty());
+        verifyNoInteractions(equipment, equipmentMapper);
+    }
+
+    @Test
+    void acceptsSixUniqueEquipmentPerSideAndPreservesSeparateOwners() throws Exception {
+        List<String> keys = IntStream.range(0, 6).mapToObj(index -> "item_" + index).toList();
+        for (String key : keys) selectedEquipment(key, "{\"health\":100}");
+        var result = service.get("lol", equipmentChoice(keys, keys.reversed()));
+        assertEquals(keys, result.selection().sourceEquipmentKeys());
+        assertEquals(keys, result.selection().targetEquipmentKeys());
+        assertEquals(keys, result.source().selectedEquipment().stream().map(item -> item.equipment().equipmentKey()).toList());
+        assertEquals(keys, result.target().selectedEquipment().stream().map(item -> item.equipment().equipmentKey()).toList());
+        assertEquals(500, result.source().selectedLevelValues().path("health").intValue());
+        assertEquals(250, result.target().selectedLevelValues().path("health").intValue());
+        assertEquals(1, result.skillConfigurations().size());
+    }
+
+    @Test
+    void rejectsInvalidDuplicateOrExcessEquipmentBeforeReadingAnySceneData() {
+        for (String invalidKey : new String[] {null, "", " ", "Item_a", "item-a", "item_a,item_b"}) {
+            assertSelectionIssue(equipmentChoice(Collections.singletonList(invalidKey), List.of()),
+                "KEY_INVALID", "selection.sourceEquipmentKeys[0]");
+            assertSelectionIssue(equipmentChoice(List.of(), Collections.singletonList(invalidKey)),
+                "KEY_INVALID", "selection.targetEquipmentKeys[0]");
+        }
+        assertSelectionIssue(equipmentChoice(List.of("item_a", "item_a"), List.of()),
+            "DUPLICATE_KEY", "selection.sourceEquipmentKeys[1]");
+        assertSelectionIssue(equipmentChoice(List.of(), List.of("item_a", "item_a")),
+            "DUPLICATE_KEY", "selection.targetEquipmentKeys[1]");
+        List<String> excessive = IntStream.range(0, 7).mapToObj(index -> "item_" + index).toList();
+        assertSelectionIssue(equipmentChoice(excessive, List.of()), "SELECTION_LIMIT_EXCEEDED", "selection.sourceEquipmentKeys[6]");
+        assertSelectionIssue(equipmentChoice(List.of(), excessive), "SELECTION_LIMIT_EXCEEDED", "selection.targetEquipmentKeys[6]");
+        verifyNoInteractions(characters, characterMapper, equipment, equipmentMapper, relations, configurations);
+    }
+
+    @Test
+    void selectedMissingEquipmentKeepsIts404AndStableKey() {
+        when(equipment.get("lol", "item_missing")).thenThrow(new ApiException(HttpStatus.NOT_FOUND,
+            "404.EQUIPMENT_NOT_FOUND", "装备不存在", Map.of("equipmentKey", "item_missing")));
+        ApiException error = assertThrows(ApiException.class,
+            () -> service.get("lol", equipmentChoice(List.of(), List.of("item_missing"))));
+        assertEquals(HttpStatus.NOT_FOUND, error.getStatus());
+        assertEquals("404.EQUIPMENT_NOT_FOUND", error.getCode());
+        assertEquals("item_missing", error.getDetails().get("equipmentKey"));
+        verifyNoInteractions(configurations);
+    }
+
+    @Test
+    void rejectsMalformedMissingAndNonNumericRawEquipmentAttributes() throws Exception {
+        selectedEquipment("item_a", "{}");
+        Selection choice = equipmentChoice(List.of("item_a"), List.of());
+        for (String raw : new String[] {null, "null", "[]", "not-json"}) {
+            when(equipmentMapper.findAttributeValuesJson("lol", "item_a")).thenReturn(raw);
+            assertIssue(choice, "INVALID_STORED_DATA", "source.selectedEquipment[0].attributes.attributeValues");
+        }
+        for (String raw : List.of("{\"health\":null}", "{\"health\":\"100\"}", "{\"health\":true}", "{\"health\":1e999}")) {
+            when(equipmentMapper.findAttributeValuesJson("lol", "item_a")).thenReturn(raw);
+            assertIssue(choice, "NUMBER_INVALID", "source.selectedEquipment[0].attributes.attributeValues.health");
+        }
+        verifyNoInteractions(configurations);
+    }
+
+    @Test
+    void refusesUnknownEquipmentAttributeDroppedByManagementRead() throws Exception {
+        selectedEquipment("item_a", "{\"unknown_attribute\":10}");
+        when(equipment.getAttributes("lol", "item_a")).thenReturn(new EquipmentAttributesResponse("item_a", json.readTree("{}")));
+        assertIssue(equipmentChoice(List.of("item_a"), List.of()), "ATTRIBUTE_VALUES_INCOMPLETE",
+            "source.selectedEquipment[0].attributes.attributeValues.unknown_attribute");
+    }
+
+    @Test
+    void rejectsEquipmentAttributesOutsideTheirTypeAndRange() throws Exception {
+        when(attributes.get("lol", "health")).thenReturn(new AttributeResponse("lol", "health", "生命值",
+            AttributeValueType.INTEGER, BigDecimal.ZERO, BigDecimal.valueOf(100), null, AttributeStatus.ENABLED, 0, null, null));
+        Selection choice = equipmentChoice(List.of(), List.of("item_a"));
+        selectedEquipment("item_a", "{\"health\":2.5}");
+        assertIssue(choice, "INTEGER_REQUIRED", "target.selectedEquipment[0].attributes.attributeValues.health");
+        for (String raw : List.of("{\"health\":-1}", "{\"health\":101}")) {
+            selectedEquipment("item_a", raw);
+            assertIssue(choice, "RANGE_INVALID", "target.selectedEquipment[0].attributes.attributeValues.health");
+        }
+    }
+
+    @Test
+    void disabledEquipmentAttributeDefinitionFailsAtItsDependencyPath() throws Exception {
+        selectedEquipment("item_a", "{\"attack_speed_bonus_percent\":0.15}");
+        when(attributes.get("lol", "attack_speed_bonus_percent")).thenReturn(new AttributeResponse("lol",
+            "attack_speed_bonus_percent", "额外攻速", AttributeValueType.DECIMAL, null, null, null,
+            AttributeStatus.DISABLED, 0, null, null));
+        assertIssue(equipmentChoice(List.of("item_a"), List.of()), "REFERENCE_DISABLED",
+            "source.selectedEquipment[0].attributes.attributeValues.attack_speed_bonus_percent");
+    }
+
+    @Test
+    void disabledEquipmentRelationCannotBeFilteredIntoPartialSuccess() throws Exception {
+        selectedEquipment("item_a", "{}", "item_passive");
+        when(relations.listEquipmentRelations("lol", "item_a", null)).thenReturn(new EquipmentSkillRelationListResponse(
+            List.of(new EquipmentSkillRelationResponse("lol", "item_a", "装备", "item_passive", "被动", SkillStatus.DISABLED, 0)), 1));
+        assertIssue(equipmentChoice(List.of(), List.of("item_a")), "SKILL_DISABLED",
+            "target.selectedEquipment[0].attachedSkills[0].skillStatus");
+        verifyNoInteractions(configurations);
+    }
+
+    @Test
+    void equipmentWithoutRelationsKeepsRawAttributesWithoutClaimingRuntimeSupport() throws Exception {
+        attribute("mana");
+        selectedEquipment("item_a", "{\"mana\":250,\"health\":100}");
+        var result = service.get("lol", equipmentChoice(List.of("item_a"), List.of()));
+        var item = result.source().selectedEquipment().getFirst();
+        assertTrue(item.attachedSkills().isEmpty());
+        assertEquals(250, item.attributes().attributeValues().path("mana").intValue());
+        assertTrue(result.catalogs().attributes().stream().anyMatch(definition -> definition.attributeKey().equals("mana")));
+        assertFalse(result.source().selectedLevelValues().has("mana"));
+        assertEquals(500, result.source().selectedLevelValues().path("health").intValue());
+    }
+
+    @Test
+    void configurationsAreDeduplicatedAcrossBothSidesAndSortedBySkillKey() throws Exception {
+        selectedEquipment("item_a", "{}", "passive_z", "passive_a");
+        selectedEquipment("item_b", "{}", "passive_a");
+        selectedPassive("passive_z", 1);
+        selectedPassive("passive_a", 1);
+        var result = service.get("lol", equipmentChoice(List.of("item_b", "item_a"), List.of("item_a")));
+        assertEquals(List.of("passive_a", "passive_z", "shared_basic_attack"),
+            result.skillConfigurations().stream().map(configuration -> configuration.skill().skillKey()).toList());
+        assertEquals(2, result.source().selectedEquipment().size());
+        assertEquals(1, result.target().selectedEquipment().size());
+        assertEquals(2, result.target().selectedEquipment().getFirst().attachedSkills().size());
+        verify(configurations).get("lol", "passive_a");
+        verify(configurations).get("lol", "passive_z");
+        verify(configurations).get("lol", "shared_basic_attack");
+        verifyNoMoreInteractions(configurations);
+    }
+
+    @Test
+    void acceptsExactly32SelectedConfigurationsButRejects33BeforeLoadingAnyOfThem() throws Exception {
+        List<String> keys = IntStream.range(0, 31).mapToObj(index -> "passive_" + index).toList();
+        selectedEquipment("item_a", "{}", keys.toArray(String[]::new));
+        for (String key : keys) selectedPassive(key, 1);
+        Selection choice = equipmentChoice(List.of("item_a"), List.of("item_a"));
+        assertEquals(32, service.get("lol", choice).skillConfigurations().size());
+        clearInvocations(configurations);
+        selectedEquipment("item_a", "{}", IntStream.range(0, 32).mapToObj(index -> "passive_" + index).toArray(String[]::new));
+        assertIssue(choice, "CONFIGURATION_LIMIT_EXCEEDED", "skillConfigurations");
+        verifyNoInteractions(configurations);
+    }
+
+    @Test
+    void equipmentPassiveMustHaveAnActualMaximumLevelOfOne() throws Exception {
+        selectedEquipment("item_a", "{}", "item_passive");
+        selectedPassive("item_passive", 2);
+        assertIssue(equipmentChoice(List.of("item_a"), List.of()), "PASSIVE_LEVEL_UNSUPPORTED",
+            "source.selectedEquipment[0].attachedSkills[0].skillKey");
+    }
+
+    @Test
+    void missingOrDisabledSelectedPassiveConfigurationIsNotReturnedAsEmptyEquipment() throws Exception {
+        selectedEquipment("item_a", "{}", "item_passive");
+        Selection choice = equipmentChoice(List.of("item_a"), List.of());
+        when(configurations.get("lol", "item_passive")).thenThrow(new ApiException(HttpStatus.NOT_FOUND,
+            "404.SKILL_NOT_FOUND", "技能不存在"));
+        assertIssue(choice, "REFERENCE_MISSING", "source.selectedEquipment[0].attachedSkills[0].skillKey");
+        SkillConfigurationResponse disabled = passive("item_passive", 1, SkillStatus.DISABLED);
+        doReturn(disabled).when(configurations).get("lol", "item_passive");
+        assertIssue(choice, "SKILL_DISABLED", "skillConfigurations[0].skill.status");
+    }
+
+    @Test
+    void selectedSkillsMayReferenceEachOtherButMissingSelectedSubObjectsStillFail() throws Exception {
+        selectedEquipment("item_a", "{}", "item_passive");
+        SkillConfigurationResponse passive = selectedPassive("item_passive", 1);
+        var state = new SkillInternalStateDetailResponse("lol", "item_passive", "guard", "守卫", SkillInternalStateType.FLAG,
+            SkillInternalStateScope.SKILL, null, 0, new SkillInternalStateFlagDetail(false), null, null);
+        when(configurations.get("lol", "item_passive")).thenReturn(new SkillConfigurationResponse(passive.skill(),
+            List.of(), List.of(), List.of(), List.of(), List.of(state), List.of(), "passive-digest"));
+        var skillReference = json.readValue("""
+            {"ruleKey":"cross_skill","eventSource":{"eventType":"SKILL_HIT","detail":{"sourceSkillKey":"item_passive"}},
+             "conditionGroups":[],"actions":[]}
+            """, SkillTriggerRuleDetailResponse.class);
+        var stateReference = json.readValue("""
+            {"ruleKey":"cross_state","eventSource":{"eventType":"INTERNAL_STATE_CHANGED",
+             "detail":{"stateSkillKey":"item_passive","stateKey":"guard"}},"conditionGroups":[],"actions":[]}
+            """, SkillTriggerRuleDetailResponse.class);
+        configure(new SkillConfigurationResponse(skill.skill(), skill.parameters(), skill.formulas(), skill.effects(),
+            List.of(), List.of(), List.of(skillReference, stateReference), "skill-digest"));
+        Selection choice = equipmentChoice(List.of(), List.of("item_a"));
+        var result = service.get("lol", choice);
+        assertTrue(result.references().stream().anyMatch(reference -> reference.sourceSkillKey().equals("shared_basic_attack")
+            && reference.targetType().equals("SKILL") && reference.targetKey().equals("item_passive")));
+        assertTrue(result.references().stream().anyMatch(reference -> reference.targetType().equals("STATE")
+            && reference.targetSkillKey().equals("item_passive") && reference.targetKey().equals("guard")));
+        when(configurations.get("lol", "item_passive")).thenReturn(passive);
+        assertIssue(choice, "REFERENCE_MISSING", "skillConfigurations[1].triggerRules.cross_state.eventSource.detail.stateKey");
+        verify(configurations, never()).get("lol", "unselected_skill");
+    }
+
+    @Test
+    void equipmentReferenceToUnselectedSkillIsRejectedWithoutRecursiveLoading() throws Exception {
+        selectedEquipment("item_a", "{}", "item_passive");
+        SkillConfigurationResponse passive = selectedPassive("item_passive", 1);
+        var reference = json.readValue("""
+            {"ruleKey":"outside","eventSource":{"eventType":"SKILL_HIT","detail":{"sourceSkillKey":"unselected_skill"}},
+             "conditionGroups":[],"actions":[]}
+            """, SkillTriggerRuleDetailResponse.class);
+        when(configurations.get("lol", "item_passive")).thenReturn(new SkillConfigurationResponse(passive.skill(),
+            List.of(), List.of(), List.of(), List.of(), List.of(), List.of(reference), "passive-digest"));
+        assertIssue(equipmentChoice(List.of("item_a"), List.of()), "REFERENCE_OUT_OF_SCOPE",
+            "skillConfigurations[0].triggerRules.outside.eventSource.detail.sourceSkillKey");
+        verify(configurations, never()).get("lol", "unselected_skill");
+    }
+
+    @Test
+    void sharedPassiveParametersValidateEachActualOwnersCharacterLevel() throws Exception {
+        selectedEquipment("item_a", "{}", "item_passive");
+        SkillConfigurationResponse passive = selectedPassive("item_passive", 1);
+        var parameter = new SkillParameterResponse("lol", "item_passive", "scaled", "等级参数", SkillParameterValueType.DECIMAL,
+            SkillParameterValueMode.CHARACTER_LEVEL, null, Map.of("1", BigDecimal.ONE), null, 0, null, null);
+        when(configurations.get("lol", "item_passive")).thenReturn(new SkillConfigurationResponse(passive.skill(),
+            List.of(parameter), List.of(), List.of(), List.of(), List.of(), List.of(), "passive-digest"));
+        characterValues("hero_b", "{\"1\":{\"armor\":0,\"health\":250},\"2\":{\"armor\":10,\"health\":300}}");
+        Selection choice = new Selection("hero_a", 1, "hero_b", 2, "shared_basic_attack", 1,
+            List.of("item_a"), List.of("item_a"));
+        assertIssue(choice, "NUMBER_MISSING", "skillConfigurations[0].parameters.scaled.levelValues.2");
+    }
+
+    @Test
+    void catalogsAndReferencesIncludeEverySelectedEquipmentEffectAndDamagePipelineDependency() throws Exception {
+        selectedEquipment("item_a", "{\"mana\":250}", "item_passive");
+        for (String key : List.of("mana", "bonus_armor", "attack_speed_bonus_percent", "magic_resistance", "magic_pen_percent")) {
+            attribute(key);
+        }
+        SkillConfigurationResponse passive = selectedPassive("item_passive", 1);
+        var formula = new SkillFormulaDetailResponse("lol", "item_passive", "item_amount", "附伤公式", null, 0,
+            new SkillFormulaAttributeNode(AttributeOwner.SOURCE, "bonus_armor", AttributeValueKind.BONUS), null, null);
+        var effect = new SkillEffectDetailResponse("lol", "item_passive", "item_effect", "被动效果", null, 0,
+            List.of(new SkillEffectResultResponse("damage", "附伤", SkillEffectResultType.DAMAGE, SkillEffectTarget.TARGET, null, 0,
+                    new SkillEffectValueRuleResponse(SkillNumericValue.formula("item_amount"), BigDecimal.ONE, null, null),
+                    new SkillEffectDamageDetail("magic", SkillEffectDamageDeliveryKind.BASIC_ATTACK,
+                        SkillEffectDamageOriginKind.DIRECT, new SkillEffectCriticalPolicy(SkillEffectCriticalMode.DISALLOWED, null),
+                        SkillEffectVampQualification.RESOLVED, List.of())),
+                new SkillEffectResultResponse("speed", "攻速", SkillEffectResultType.ATTRIBUTE_CHANGE, SkillEffectTarget.SOURCE, null, 1,
+                    new SkillEffectValueRuleResponse(SkillNumericValue.fixed(BigDecimal.valueOf(0.15)), BigDecimal.ONE, null, null),
+                    new SkillEffectAttributeChangeDetail("attack_speed_bonus_percent", SkillEffectAttributeChangeOperation.INCREASE, "bonus_zone")),
+                new SkillEffectResultResponse("stun", "眩晕", SkillEffectResultType.STATUS_OPERATION, SkillEffectTarget.TARGET, null, 2,
+                    null, new SkillEffectStatusOperationDetail("stun", SkillEffectStatusOperation.APPLY))), null, null);
+        when(configurations.get("lol", "item_passive")).thenReturn(new SkillConfigurationResponse(passive.skill(),
+            List.of(), List.of(formula), List.of(effect), List.of(), List.of(), List.of(), "passive-digest"));
+        when(damageTypes.get("lol", "magic")).thenReturn(new DamageTypeResponse("lol", "magic", "魔法", null,
+            DamageTypeStatus.ENABLED, 0, null, null, true));
+        when(damageTypes.getFormula("lol", "magic")).thenReturn(new DamageTypeFormulaResponse("lol", "magic",
+            new DamageTypeCalculationFormula(new DamageTypeFormulaAttributeNode(AttributeOwner.TARGET, "magic_resistance", AttributeValueKind.TOTAL),
+                new DamageTypeFormulaAttributeNode(AttributeOwner.SOURCE, "magic_pen_percent", AttributeValueKind.TOTAL),
+                fixed(0), fixed(0), fixed(1)), null));
+        ModifierZoneResponse zone = new ModifierZoneResponse("lol", "bonus_zone", "额外属性加算", ModifierZoneDomain.ATTRIBUTE,
+            ModifierZoneCalculationMode.FLAT_ADD, ModifierZoneApplicationStage.ATTRIBUTE_FLAT, null, ModifierZoneStatus.ENABLED, 0, null, null);
+        when(zones.get("lol", "bonus_zone")).thenReturn(zone);
+        when(statuses.get("lol", "stun")).thenReturn(new StatusResponse("lol", "stun", "眩晕", null,
+            StatusKind.STUN, StatusRecordStatus.ENABLED, 0, null, null));
+        Selection choice = equipmentChoice(List.of(), List.of("item_a"));
+        var result = service.get("lol", choice);
+        assertEquals(List.of("magic", "physical"), result.catalogs().damageTypes().stream().map(entry -> entry.type().damageTypeKey()).toList());
+        for (String key : List.of("mana", "bonus_armor", "attack_speed_bonus_percent", "magic_resistance", "magic_pen_percent")) {
+            assertTrue(result.catalogs().attributes().stream().anyMatch(definition -> definition.attributeKey().equals(key)), key);
+        }
+        assertEquals("bonus_zone", result.catalogs().modifierZones().getFirst().modifierZoneKey());
+        assertEquals("stun", result.catalogs().statuses().getFirst().statusKey());
+        assertEquals(3, result.skillConfigurations().getFirst().effects().getFirst().results().size());
+        assertTrue(result.references().stream().anyMatch(reference -> reference.sourceSkillKey().equals("item_passive")
+            && reference.sourceKey().equals("item_effect") && reference.fieldPath().equals("results[2].detail.statusKey")));
+        when(zones.get("lol", "bonus_zone")).thenReturn(new ModifierZoneResponse("lol", "bonus_zone", "额外属性加算",
+            zone.domain(), zone.calculationMode(), zone.applicationStage(), null, ModifierZoneStatus.DISABLED, 0, null, null));
+        assertIssue(choice, "REFERENCE_DISABLED", "skillConfigurations[0].effects.item_effect.results[1].detail.modifierZoneKey");
+    }
+
+    @Test
+    void duplicateEquipmentRelationsAndSelectedConfigurationKeysAreRejected() throws Exception {
+        selectedEquipment("item_a", "{}", "item_passive", "item_passive");
+        Selection choice = equipmentChoice(List.of("item_a"), List.of());
+        assertIssue(choice, "DUPLICATE_KEY", "source.selectedEquipment[0].attachedSkills[1].skillKey");
+        selectedEquipment("item_a", "{}", "item_passive");
+        SkillConfigurationResponse passive = selectedPassive("item_passive", 1);
+        var formula = new SkillFormulaDetailResponse("lol", "item_passive", "amount", "公式", null, 0,
+            new SkillFormulaAttributeNode(AttributeOwner.SOURCE, "health", AttributeValueKind.TOTAL), null, null);
+        when(configurations.get("lol", "item_passive")).thenReturn(new SkillConfigurationResponse(passive.skill(),
+            List.of(), List.of(formula, formula), List.of(), List.of(), List.of(), List.of(), "passive-digest"));
+        assertIssue(choice, "DUPLICATE_KEY", "skillConfigurations[0].formulas.amount.formulaKey");
+    }
+
+    @Test
+    void digestIsIndependentOfSelectionAndRelationReadOrderButIncludesEveryAuthoringPart() throws Exception {
+        selectedEquipment("item_a", "{\"health\":100}", "passive_z", "passive_a");
+        selectedEquipment("item_b", "{\"health\":50}");
+        selectedPassive("passive_z", 1);
+        SkillConfigurationResponse passive = selectedPassive("passive_a", 1);
+        var first = service.get("lol", equipmentChoice(List.of("item_b", "item_a"), List.of("item_a")));
+        var originalRelations = relations.listEquipmentRelations("lol", "item_a", null);
+        when(relations.listEquipmentRelations("lol", "item_a", null)).thenReturn(
+            new EquipmentSkillRelationListResponse(originalRelations.items().reversed(), originalRelations.total()));
+        var repeated = service.get("lol", equipmentChoice(List.of("item_a", "item_b"), List.of("item_a")));
+        assertEquals(first.snapshotDigest(), repeated.snapshotDigest());
+        assertEquals(first.selection(), repeated.selection());
+        selectedEquipment("item_b", "{\"health\":51}");
+        String changedAttributes = service.get("lol", repeated.selection()).snapshotDigest();
+        assertNotEquals(first.snapshotDigest(), changedAttributes);
+        when(relations.listEquipmentRelations("lol", "item_a", null)).thenReturn(new EquipmentSkillRelationListResponse(
+            List.of(new EquipmentSkillRelationResponse("lol", "item_a", "装备", "passive_z", "被动", SkillStatus.ENABLED, 5),
+                originalRelations.items().get(1)), 2));
+        String changedRelation = service.get("lol", repeated.selection()).snapshotDigest();
+        assertNotEquals(changedAttributes, changedRelation);
+        var parameter = new SkillParameterResponse("lol", "passive_a", "amount", "参数", SkillParameterValueType.DECIMAL,
+            SkillParameterValueMode.FIXED, BigDecimal.TEN, null, null, 0, null, null);
+        when(configurations.get("lol", "passive_a")).thenReturn(new SkillConfigurationResponse(passive.skill(),
+            List.of(parameter), List.of(), List.of(), List.of(), List.of(), List.of(), passive.baseDigest()));
+        assertNotEquals(changedRelation, service.get("lol", repeated.selection()).snapshotDigest());
+    }
+
+    private static Selection equipmentChoice(List<String> source, List<String> target) {
+        return new Selection("hero_a", 1, "hero_b", 1, "shared_basic_attack", 1, source, target);
+    }
+
+    @Test
+    void equipmentSpeedSnapshotIncludesRatioMetadataWithoutInventingCharacterValues() throws Exception {
+        selectedEquipment("item_1042", "{\"bonus_attack_speed_percent\":0.10}");
+        attribute("bonus_attack_speed_percent");
+        attribute("attack_speed");
+        attribute("attack_speed_ratio");
+        var result = service.get("lol", equipmentChoice(List.of("item_1042"), List.of()));
+        assertTrue(result.catalogs().attributes().stream().anyMatch(definition -> definition.attributeKey().equals("attack_speed_ratio")));
+        assertFalse(result.source().selectedLevelValues().has("attack_speed_ratio"));
+        when(attributes.get("lol", "attack_speed_ratio")).thenReturn(new AttributeResponse("lol", "attack_speed_ratio", "攻速收益系数",
+            AttributeValueType.DECIMAL, BigDecimal.ZERO, null, null, AttributeStatus.DISABLED, 0, null, null));
+        assertIssue(equipmentChoice(List.of("item_1042"), List.of()), "REFERENCE_DISABLED",
+            "source.selectedEquipment[0].attributes.attributeValues.bonus_attack_speed_percent.attackSpeedRatio");
+    }
+
+    private void selectedEquipment(String key, String raw, String... skillKeys) throws Exception {
+        when(equipment.get("lol", key)).thenReturn(new EquipmentResponse("lol", key, key, null, null, null));
+        when(equipmentMapper.findAttributeValuesJson("lol", key)).thenReturn(raw);
+        when(equipment.getAttributes("lol", key)).thenReturn(new EquipmentAttributesResponse(key, json.readTree(raw)));
+        List<EquipmentSkillRelationResponse> attached = IntStream.range(0, skillKeys.length)
+            .mapToObj(index -> new EquipmentSkillRelationResponse("lol", key, key, skillKeys[index], skillKeys[index], SkillStatus.ENABLED, index))
+            .toList();
+        when(relations.listEquipmentRelations("lol", key, null)).thenReturn(new EquipmentSkillRelationListResponse(attached, attached.size()));
+    }
+
+    private SkillConfigurationResponse selectedPassive(String key, int maxLevel) {
+        SkillConfigurationResponse passive = passive(key, maxLevel, SkillStatus.ENABLED);
+        when(configurations.get("lol", key)).thenReturn(passive);
+        return passive;
+    }
+
+    private static SkillConfigurationResponse passive(String key, int maxLevel, SkillStatus status) {
+        return new SkillConfigurationResponse(new SkillResponse("lol", key, key, null, maxLevel, status, 0, List.of(), null, null),
+            List.of(), List.of(), List.of(), List.of(), List.of(), List.of(), key + "-digest");
+    }
+
+    private void assertSelectionIssue(Selection choice, String code, String field) {
+        ApiException error = assertThrows(ApiException.class, () -> service.get("lol", choice));
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatus());
+        assertEquals("400.VALIDATION_FAILED", error.getCode());
+        assertTrue(error.getDetails().toString().contains(code), error.getDetails().toString());
+        assertTrue(error.getDetails().toString().contains(field), error.getDetails().toString());
     }
 
     private static DamageTypeFormulaFixedNode fixed(int value) {
@@ -355,7 +746,12 @@ class SimulationSnapshotServiceTest {
     }
 
     private void assertIssue(String code, String field) {
-        ApiException error = assertThrows(ApiException.class, () -> service.get("lol", CHOICE));
+        assertIssue(CHOICE, code, field);
+    }
+
+    private void assertIssue(Selection choice, String code, String field) {
+        ApiException error = assertThrows(ApiException.class, () -> service.get("lol", choice));
+        assertEquals(HttpStatus.CONFLICT, error.getStatus());
         assertEquals("409.SIMULATION_SNAPSHOT_INVALID", error.getCode());
         assertTrue(error.getDetails().toString().contains(code), error.getDetails().toString());
         assertTrue(error.getDetails().toString().contains(field), error.getDetails().toString());

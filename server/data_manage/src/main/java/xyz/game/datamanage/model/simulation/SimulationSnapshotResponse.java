@@ -9,11 +9,14 @@ import xyz.game.datamanage.model.character.CharacterResponse;
 import xyz.game.datamanage.model.character.LevelConfigResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeFormulaResponse;
 import xyz.game.datamanage.model.damagetype.DamageTypeResponse;
+import xyz.game.datamanage.model.equipment.EquipmentAttributesResponse;
+import xyz.game.datamanage.model.equipment.EquipmentResponse;
 import xyz.game.datamanage.model.gamevamp.GameVampRules;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneResponse;
 import xyz.game.datamanage.model.skillcategory.SkillCategoryResponse;
 import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationResponse;
 import xyz.game.datamanage.model.skillrelation.CharacterSkillRelationResponse;
+import xyz.game.datamanage.model.skillrelation.EquipmentSkillRelationResponse;
 import xyz.game.datamanage.model.status.StatusResponse;
 
 /** 所选场景的一次一致读取；所有作者对象保持原管理响应结构。 */
@@ -29,10 +32,15 @@ public record SimulationSnapshotResponse(
     OffsetDateTime readAt
 ) {
     public record Selection(String sourceCharacterKey, int sourceLevel, String targetCharacterKey,
-                            int targetLevel, String basicAttackSkillKey, int basicAttackLevel) { }
+                            int targetLevel, String basicAttackSkillKey, int basicAttackLevel,
+                            List<String> sourceEquipmentKeys, List<String> targetEquipmentKeys) { }
 
     public record Combatant(CharacterResponse character, CharacterAttributesResponse attributes,
-                            JsonNode selectedLevelValues, List<CharacterSkillRelationResponse> attachedSkills) { }
+                            JsonNode selectedLevelValues, List<CharacterSkillRelationResponse> attachedSkills,
+                            List<SelectedEquipment> selectedEquipment) { }
+
+    public record SelectedEquipment(EquipmentResponse equipment, EquipmentAttributesResponse attributes,
+                                    List<EquipmentSkillRelationResponse> attachedSkills) { }
 
     public record Catalogs(LevelConfigResponse levelConfig, List<AttributeResponse> attributes,
                            List<SkillCategoryResponse> skillCategories,
