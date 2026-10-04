@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.HexFormat;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,6 +29,7 @@ import xyz.game.datamanage.mapper.character.CharacterMapper;
 import xyz.game.datamanage.mapper.equipment.EquipmentMapper;
 import xyz.game.datamanage.model.attribute.AttributeResponse;
 import xyz.game.datamanage.model.attribute.AttributeValueType;
+import xyz.game.datamanage.model.build.BuildConfiguration;
 import xyz.game.datamanage.model.character.CharacterAttributesResponse;
 import xyz.game.datamanage.model.character.CharacterResponse;
 import xyz.game.datamanage.model.character.LevelConfigResponse;
@@ -46,16 +46,17 @@ import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.DamageTyp
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Reference;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Selection;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.SelectedEquipment;
+import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.SelectedBuild;
+import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.SkillSetting;
 import xyz.game.datamanage.model.skill.SkillStatus;
 import xyz.game.datamanage.model.skillcategory.SkillCategoryResponse;
 import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationResponse;
-import xyz.game.datamanage.model.skillparameter.SkillParameterResponse;
-import xyz.game.datamanage.model.skillparameter.SkillParameterValueMode;
 import xyz.game.datamanage.model.skillrelation.CharacterSkillRelationResponse;
 import xyz.game.datamanage.model.skillrelation.EquipmentSkillRelationResponse;
 import xyz.game.datamanage.model.modifierzone.ModifierZoneResponse;
 import xyz.game.datamanage.model.status.StatusResponse;
 import xyz.game.datamanage.service.attribute.AttributeService;
+import xyz.game.datamanage.service.build.BuildSystemService;
 import xyz.game.datamanage.service.character.CharacterService;
 import xyz.game.datamanage.service.damagetype.DamageTypeService;
 import xyz.game.datamanage.service.equipment.EquipmentService;
@@ -67,15 +68,12 @@ import xyz.game.datamanage.service.skillrelation.SkillRelationService;
 import xyz.game.datamanage.service.status.StatusService;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Aggregate;
-import xyz.game.datamanage.support.authoring.SkillObjectReferences.SourceType;
 import xyz.game.datamanage.support.authoring.SkillObjectReferences.Target;
-import xyz.game.datamanage.support.authoring.SkillObjectReferences.TargetType;
 import xyz.game.datamanage.support.error.ApiException;
 
 @Service
 public class SimulationSnapshotService {
     private static final Pattern KEY = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
-    private static final String SHARED_BASIC_ATTACK = "shared_basic_attack";
 
     private final CharacterService characters;
     private final CharacterMapper characterMapper;
@@ -89,6 +87,7 @@ public class SimulationSnapshotService {
     private final ModifierZoneService zones;
     private final StatusService statuses;
     private final GameVampRuleService vampRules;
+    private final BuildSystemService builds;
     private final ObjectMapper json;
 
     public SimulationSnapshotService(CharacterService characters, CharacterMapper characterMapper,
@@ -97,7 +96,7 @@ public class SimulationSnapshotService {
                                      SkillConfigurationService configurations, AttributeService attributes,
                                      SkillCategoryService categories, DamageTypeService damageTypes,
                                      ModifierZoneService zones, StatusService statuses,
-                                     GameVampRuleService vampRules, ObjectMapper json) {
+                                     GameVampRuleService vampRules, BuildSystemService builds, ObjectMapper json) {
         this.characters = characters;
         this.characterMapper = characterMapper;
         this.equipment = equipment;
@@ -110,32 +109,51 @@ public class SimulationSnapshotService {
         this.zones = zones;
         this.statuses = statuses;
         this.vampRules = vampRules;
+        this.builds = builds;
         this.json = json;
     }
 
     @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
     public SimulationSnapshotResponse get(String gameId, Selection selection) {
-        validateSelection(selection);
+        if (selection == null) throw SnapshotIssues.request("selection", "REQUIRED", "必须提供场景选择");
+        SnapshotSelectionParser.parse(json.valueToTree(selection));
         Selection choice = new Selection(selection.sourceCharacterKey(), selection.sourceLevel(),
             selection.targetCharacterKey(), selection.targetLevel(), selection.basicAttackSkillKey(),
-            selection.basicAttackLevel(), normalizeEquipmentKeys(selection.sourceEquipmentKeys(), "sourceEquipmentKeys"),
-            normalizeEquipmentKeys(selection.targetEquipmentKeys(), "targetEquipmentKeys"));
+            selection.basicAttackLevel(), selection.sourceEquipmentKeys().stream().sorted().toList(),
+            selection.targetEquipmentKeys().stream().sorted().toList(),
+            normalizeBuilds(selection.sourceBuildConfigurations()), normalizeBuilds(selection.targetBuildConfigurations()),
+            normalizeSettings(selection.sourceSkillSettings()), normalizeSettings(selection.targetSkillSettings()));
         LevelConfigResponse levels = characters.getLevelConfig(gameId);
         validateLevel("sourceLevel", choice.sourceLevel(), levels);
         validateLevel("targetLevel", choice.targetLevel(), levels);
         Combatant source = combatant(gameId, choice.sourceCharacterKey(), choice.sourceLevel(),
-            choice.sourceEquipmentKeys(), "source");
+            choice.sourceEquipmentKeys(), selection.sourceBuildConfigurations(), "source");
         Combatant target = combatant(gameId, choice.targetCharacterKey(), choice.targetLevel(),
-            choice.targetEquipmentKeys(), "target");
+            choice.targetEquipmentKeys(), selection.targetBuildConfigurations(), "target");
         if (source.attachedSkills().stream().noneMatch(relation -> choice.basicAttackSkillKey().equals(relation.skillKey()))) {
             throw invalid("source.attachedSkills", "SKILL_NOT_ATTACHED", "A 未挂载所选普通攻击");
         }
-        List<SkillConfigurationResponse> skills = selectedSkillConfigurations(gameId, choice, source, target);
+        List<SnapshotSources.Source> sources = new ArrayList<>();
+        sources.addAll(SnapshotSources.collect(source, "source", choice.sourceLevel(), choice.basicAttackSkillKey(), choice.basicAttackLevel()));
+        sources.addAll(SnapshotSources.collect(target, "target", choice.targetLevel(), choice.basicAttackSkillKey(), choice.basicAttackLevel()));
+        sources.sort(SnapshotSources.ORDER);
+        Map<String, SkillConfigurationResponse> selected = selectedSkillConfigurations(gameId, sources);
+        if (!selected.get(choice.basicAttackSkillKey()).skill().skillCategoryKeys().contains("basic_attack")) {
+            throw invalid("basicAttackSkillKey", "BASIC_ATTACK_CATEGORY_REQUIRED", "所选真实主体必须属于普通攻击分类");
+        }
+        SnapshotSources.apply(sources, selection.sourceSkillSettings(), "source", choice.basicAttackSkillKey());
+        SnapshotSources.apply(sources, selection.targetSkillSettings(), "target", choice.basicAttackSkillKey());
+        SnapshotSkillClosure closure = new SnapshotSkillClosure(gameId, choice.basicAttackSkillKey(), json, sources, selected,
+            (key, path) -> readSkillConfiguration(gameId, key, path));
+        SnapshotSkillClosure.Result execution = closure.collect();
+        List<SkillConfigurationResponse> skills = execution.configurations();
+        source = withSources(source, sources, "source");
+        target = withSources(target, sources, "target");
         Map<String, Integer> skillIndices = new TreeMap<>();
         for (int skillIndex = 0; skillIndex < skills.size(); skillIndex++) {
             skillIndices.put(skills.get(skillIndex).skill().skillKey(), skillIndex);
         }
-        List<SkillObjectReferences.Reference> referenced = actualReferences(gameId, skills, skillIndices);
+        List<SkillObjectReferences.Reference> referenced = execution.references();
         Map<String, String> attributeKeys = new TreeMap<>();
         source.selectedLevelValues().fieldNames().forEachRemaining(key ->
             attributeKeys.putIfAbsent(key, "source.selectedLevelValues." + key));
@@ -144,6 +162,8 @@ public class SimulationSnapshotService {
         collectEquipmentAttributeKeys(source, "source", attributeKeys);
         collectEquipmentAttributeKeys(target, "target", attributeKeys);
         Map<String, String> categoryKeys = new TreeMap<>();
+        Set<String> requiredCategories = new TreeSet<>();
+        sources.stream().filter(item -> item.inactive == null).forEach(item -> requiredCategories.addAll(item.configuration.skill().skillCategoryKeys()));
         for (int skillIndex = 0; skillIndex < skills.size(); skillIndex++) {
             SkillConfigurationResponse skill = skills.get(skillIndex);
             for (int categoryIndex = 0; categoryIndex < skill.skill().skillCategoryKeys().size(); categoryIndex++) {
@@ -161,7 +181,10 @@ public class SimulationSnapshotService {
             Target dependency = row.target();
             switch (dependency.type()) {
                 case ATTRIBUTE -> attributeKeys.putIfAbsent(dependency.key(), path);
-                case CATEGORY -> categoryKeys.putIfAbsent(dependency.key(), path);
+                case CATEGORY -> {
+                    categoryKeys.putIfAbsent(dependency.key(), path);
+                    requiredCategories.add(dependency.key());
+                }
                 case DAMAGE_TYPE -> damageTypeKeys.putIfAbsent(dependency.key(), path);
                 case MODIFIER_ZONE -> zoneKeys.putIfAbsent(dependency.key(), path);
                 case STATUS -> statusKeys.putIfAbsent(dependency.key(), path);
@@ -171,8 +194,12 @@ public class SimulationSnapshotService {
                 row.fieldPath(), dependency.type().name(), dependency.skillKey(), dependency.key(), dependency.subKey()));
         }
 
-        for (int skillIndex = 0; skillIndex < skills.size(); skillIndex++) {
-            collectAttributeKeys(json.valueToTree(skills.get(skillIndex)), attributeKeys, "skillConfigurations[" + skillIndex + "]");
+        for (Aggregate object : execution.objects()) {
+            collectAttributeKeys(object.data(), attributeKeys, closure.objectPath(object));
+        }
+        if (attributeKeys.containsKey("bonus_attack_speed_percent")) {
+            attributeKeys.putIfAbsent("attack_speed", attributeKeys.get("bonus_attack_speed_percent"));
+            attributeKeys.putIfAbsent("attack_speed_ratio", attributeKeys.get("bonus_attack_speed_percent"));
         }
         GameVampRules vamp = vampRules.get(gameId);
         for (int ruleIndex = 0; ruleIndex < vamp.rules().size(); ruleIndex++) {
@@ -181,6 +208,7 @@ public class SimulationSnapshotService {
             for (int categoryIndex = 0; categoryIndex < rule.skillCategoryKeys().size(); categoryIndex++) {
                 categoryKeys.putIfAbsent(rule.skillCategoryKeys().get(categoryIndex),
                     "catalogs.vampRules.rules[" + ruleIndex + "].skillCategoryKeys[" + categoryIndex + "]");
+                requiredCategories.add(rule.skillCategoryKeys().get(categoryIndex));
             }
         }
         List<DamageTypeEntry> selectedDamageTypes = new ArrayList<>();
@@ -206,7 +234,7 @@ public class SimulationSnapshotService {
         validateEquipmentAttributes(source, "source", selectedAttributes);
         validateEquipmentAttributes(target, "target", selectedAttributes);
         Catalogs catalogs = new Catalogs(levels, selectedAttributes,
-            loadCategories(gameId, categoryKeys), List.copyOf(selectedDamageTypes),
+            loadCategories(gameId, categoryKeys, requiredCategories), List.copyOf(selectedDamageTypes),
             loadZones(gameId, zoneKeys), loadStatuses(gameId, statusKeys), vamp);
         SimulationSnapshotResponse content = new SimulationSnapshotResponse(gameId, choice, source, target,
             skills, catalogs, List.copyOf(references), null, null);
@@ -214,7 +242,8 @@ public class SimulationSnapshotService {
             List.copyOf(references), digest(content), OffsetDateTime.now(ZoneOffset.UTC));
     }
 
-    private Combatant combatant(String gameId, String characterKey, int level, List<String> equipmentKeys, String side) {
+    private Combatant combatant(String gameId, String characterKey, int level, List<String> equipmentKeys,
+                                List<BuildConfiguration> buildConfigurations, String side) {
         CharacterResponse character = characters.get(gameId, characterKey);
         JsonNode raw;
         try {
@@ -247,9 +276,49 @@ public class SimulationSnapshotService {
                     "LEVEL_VALUES_INCOMPLETE", "所选属性的等级图不完整或未被当前管理读取保留");
             }
         }
-        List<CharacterSkillRelationResponse> attached = relations.listCharacterRelations(gameId, characterKey, null).items();
+        List<CharacterSkillRelationResponse> attached = readDependency(
+            () -> relations.listCharacterRelations(gameId, characterKey, null), side + ".attachedSkills").items().stream()
+            .sorted(Comparator.comparing(CharacterSkillRelationResponse::sortOrder, Comparator.nullsFirst(Comparator.naturalOrder()))
+                .thenComparing(CharacterSkillRelationResponse::skillKey, Comparator.nullsFirst(Comparator.naturalOrder()))).toList();
+        Set<String> bound = new HashSet<>();
+        for (int index = 0; index < attached.size(); index++) {
+            CharacterSkillRelationResponse relation = attached.get(index);
+            String path = side + ".attachedSkills[" + index + "].skillKey";
+            if (!characterKey.equals(relation.characterKey()) || !gameId.equals(relation.gameId())) {
+                throw invalid(path, "REFERENCE_OUT_OF_SCOPE", "角色技能关系不属于此侧实际角色与游戏");
+            }
+            requireKey(path, relation.skillKey());
+            if (!bound.add(relation.skillKey())) throw invalid(path, "DUPLICATE_KEY", "角色技能关系重复");
+        }
         return new Combatant(character, attrs, selected.deepCopy(), List.copyOf(attached),
-            selectedEquipment(gameId, equipmentKeys, side));
+            selectedEquipment(gameId, equipmentKeys, side), selectedBuilds(gameId, buildConfigurations, side), List.of());
+    }
+
+    private List<SelectedBuild> selectedBuilds(String gameId, List<BuildConfiguration> selections, String side) {
+        List<SelectedBuild> result = new ArrayList<>();
+        for (int index = 0; index < selections.size(); index++) {
+            BuildConfiguration configuration = selections.get(index);
+            String path = "selection." + side + "BuildConfigurations[" + index + "]";
+            var definition = readDependency(() -> builds.definition(gameId, configuration.systemKey()), path + ".systemKey");
+            SnapshotBuildValidator.validate(gameId, definition, configuration, path);
+            result.add(new SelectedBuild(definition, SnapshotBuildValidator.normalize(configuration)));
+        }
+        return result.stream().sorted(Comparator.comparing(item -> item.configuration().systemKey())).toList();
+    }
+
+    private static List<BuildConfiguration> normalizeBuilds(List<BuildConfiguration> selections) {
+        return selections.stream().map(SnapshotBuildValidator::normalize).sorted(Comparator.comparing(BuildConfiguration::systemKey)).toList();
+    }
+
+    private static List<SkillSetting> normalizeSettings(List<SkillSetting> settings) {
+        return settings.stream().sorted(Comparator.comparing((SkillSetting setting) -> setting.origin().toString())
+            .thenComparing(SkillSetting::skillKey)).toList();
+    }
+
+    private static Combatant withSources(Combatant combatant, List<SnapshotSources.Source> sources, String side) {
+        return new Combatant(combatant.character(), combatant.attributes(), combatant.selectedLevelValues(), combatant.attachedSkills(),
+            combatant.selectedEquipment(), combatant.selectedBuilds(), sources.stream().filter(source -> source.side.equals(side))
+                .map(SnapshotSources.Source::response).toList());
     }
 
     private List<SelectedEquipment> selectedEquipment(String gameId, List<String> keys, String side) {
@@ -304,14 +373,11 @@ public class SimulationSnapshotService {
                 EquipmentSkillRelationResponse relation = attached.get(relationIndex);
                 String relationPath = path + ".attachedSkills[" + relationIndex + "]";
                 if (relation.skillKey() == null || !KEY.matcher(relation.skillKey()).matches()
-                    || !key.equals(relation.equipmentKey())) {
+                    || !key.equals(relation.equipmentKey()) || !gameId.equals(relation.gameId())) {
                     throw invalid(relationPath + ".skillKey", "KEY_INVALID", "装备技能关系标识不合法");
                 }
                 if (!skillKeys.add(relation.skillKey())) {
                     throw invalid(relationPath + ".skillKey", "DUPLICATE_KEY", "装备技能关系重复");
-                }
-                if (relation.skillStatus() != SkillStatus.ENABLED) {
-                    throw invalid(relationPath + ".skillStatus", "SKILL_DISABLED", "装备关联技能未启用，不能返回部分装备配置");
                 }
             }
             selected.add(new SelectedEquipment(item, itemAttributes, attached));
@@ -319,63 +385,30 @@ public class SimulationSnapshotService {
         return List.copyOf(selected);
     }
 
-    private List<SkillConfigurationResponse> selectedSkillConfigurations(String gameId, Selection choice,
-                                                                        Combatant source, Combatant target) {
+    private Map<String, SkillConfigurationResponse> selectedSkillConfigurations(String gameId, List<SnapshotSources.Source> sources) {
         Map<String, String> selectedKeys = new TreeMap<>();
-        selectedKeys.put(choice.basicAttackSkillKey(), "basicAttackSkillKey");
-        collectEquipmentSkillKeys(source, "source", selectedKeys);
-        collectEquipmentSkillKeys(target, "target", selectedKeys);
+        sources.forEach(source -> selectedKeys.putIfAbsent(source.skillKey, source.path));
         if (selectedKeys.size() > 32) {
             throw invalid("skillConfigurations", "CONFIGURATION_LIMIT_EXCEEDED", "所选技能配置去重后不能超过32份");
         }
         Map<String, SkillConfigurationResponse> selected = new TreeMap<>();
-        Map<String, String> paths = new TreeMap<>();
         for (var entry : selectedKeys.entrySet()) {
-            String path = "skillConfigurations[" + selected.size() + "]";
-            SkillConfigurationResponse skill = readDependency(() -> configurations.get(gameId, entry.getKey()), entry.getValue());
-            if (!entry.getKey().equals(skill.skill().skillKey())) {
-                throw invalid(path + ".skill.skillKey", "KEY_INVALID", "读取的技能配置与所选技能标识不一致");
-            }
-            if (skill.skill().status() != SkillStatus.ENABLED) {
-                throw invalid(path + ".skill.status", "SKILL_DISABLED", "所选技能未启用");
-            }
+            SkillConfigurationResponse skill = readSkillConfiguration(gameId, entry.getKey(), entry.getValue());
             selected.put(entry.getKey(), skill);
-            paths.put(entry.getKey(), path);
         }
-        SkillConfigurationResponse basicAttack = selected.get(choice.basicAttackSkillKey());
-        if (basicAttack.skill().maxLevel() == null || choice.basicAttackLevel() > basicAttack.skill().maxLevel()) {
-            throw invalid("basicAttackLevel", "LEVEL_OUT_OF_RANGE", "普通攻击等级超过技能最高等级");
+        for (SnapshotSources.Source source : sources) {
+            source.configuration = selected.get(source.skillKey);
+            if (source.configuration.skill().status() != SkillStatus.ENABLED) source.status = source.configuration.skill().status();
         }
-        validateParameters(basicAttack, choice.basicAttackLevel(), choice.sourceLevel(), paths.get(choice.basicAttackSkillKey()));
-        validateEquipmentSkillLevels(source, "source", choice.sourceLevel(), selected, paths);
-        validateEquipmentSkillLevels(target, "target", choice.targetLevel(), selected, paths);
-        return List.copyOf(selected.values());
+        return selected;
     }
 
-    private static void collectEquipmentSkillKeys(Combatant combatant, String side, Map<String, String> keys) {
-        for (int equipmentIndex = 0; equipmentIndex < combatant.selectedEquipment().size(); equipmentIndex++) {
-            List<EquipmentSkillRelationResponse> attached = combatant.selectedEquipment().get(equipmentIndex).attachedSkills();
-            for (int relationIndex = 0; relationIndex < attached.size(); relationIndex++) {
-                keys.putIfAbsent(attached.get(relationIndex).skillKey(), side + ".selectedEquipment[" + equipmentIndex
-                    + "].attachedSkills[" + relationIndex + "].skillKey");
-            }
+    private SkillConfigurationResponse readSkillConfiguration(String gameId, String key, String path) {
+        SkillConfigurationResponse skill = readDependency(() -> configurations.get(gameId, key), path);
+        if (!key.equals(skill.skill().skillKey()) || !gameId.equals(skill.skill().gameId())) {
+            throw invalid(path, "REFERENCE_OUT_OF_SCOPE", "读取的完整技能定义不属于实际游戏与技能身份");
         }
-    }
-
-    private void validateEquipmentSkillLevels(Combatant combatant, String side, int characterLevel,
-                                             Map<String, SkillConfigurationResponse> selected, Map<String, String> paths) {
-        for (int equipmentIndex = 0; equipmentIndex < combatant.selectedEquipment().size(); equipmentIndex++) {
-            List<EquipmentSkillRelationResponse> attached = combatant.selectedEquipment().get(equipmentIndex).attachedSkills();
-            for (int relationIndex = 0; relationIndex < attached.size(); relationIndex++) {
-                String key = attached.get(relationIndex).skillKey();
-                SkillConfigurationResponse skill = selected.get(key);
-                if (!Integer.valueOf(1).equals(skill.skill().maxLevel())) {
-                    throw invalid(side + ".selectedEquipment[" + equipmentIndex + "].attachedSkills[" + relationIndex + "].skillKey",
-                        "PASSIVE_LEVEL_UNSUPPORTED", "本阶段装备技能的真实最高等级必须为1");
-                }
-                validateParameters(skill, 1, characterLevel, paths.get(key));
-            }
-        }
+        return skill;
     }
 
     private static void collectEquipmentAttributeKeys(Combatant combatant, String side, Map<String, String> keys) {
@@ -413,27 +446,6 @@ public class SimulationSnapshotService {
         }
     }
 
-    private void validateParameters(SkillConfigurationResponse skill, int skillLevel, int characterLevel, String skillPath) {
-        for (SkillParameterResponse parameter : skill.parameters()) {
-            SkillParameterValueMode mode = parameter.valueMode();
-            String path = skillPath + ".parameters." + parameter.parameterKey();
-            if (mode == SkillParameterValueMode.FIXED && parameter.fixedValue() == null) {
-                throw invalid(path + ".fixedValue", "NUMBER_MISSING", "固定参数没有数值");
-            }
-            if (mode == SkillParameterValueMode.SKILL_LEVEL
-                && (parameter.levelValues() == null
-                    || parameter.levelValues().get(Integer.toString(skillLevel)) == null)) {
-                throw invalid(path + ".levelValues." + skillLevel,
-                    "NUMBER_MISSING", "所选技能等级缺少参数数值");
-            }
-            if (mode == SkillParameterValueMode.CHARACTER_LEVEL
-                && (parameter.levelValues() == null
-                    || parameter.levelValues().get(Integer.toString(characterLevel)) == null)) {
-                throw invalid(path + ".levelValues." + characterLevel,
-                    "NUMBER_MISSING", "拥有方的等级缺少技能参数数值");
-            }
-        }
-    }
 
     private List<AttributeResponse> loadAttributes(String gameId, Map<String, String> keys) {
         List<AttributeResponse> result = new ArrayList<>();
@@ -445,11 +457,11 @@ public class SimulationSnapshotService {
         return List.copyOf(result);
     }
 
-    private List<SkillCategoryResponse> loadCategories(String gameId, Map<String, String> keys) {
+    private List<SkillCategoryResponse> loadCategories(String gameId, Map<String, String> keys, Set<String> required) {
         List<SkillCategoryResponse> result = new ArrayList<>();
         for (var dependency : keys.entrySet()) {
             SkillCategoryResponse value = readDependency(() -> categories.get(gameId, dependency.getKey()), dependency.getValue());
-            requireEnabled(value.status(), dependency.getValue());
+            if (required.contains(dependency.getKey())) requireEnabled(value.status(), dependency.getValue());
             result.add(value);
         }
         return List.copyOf(result);
@@ -490,87 +502,6 @@ public class SimulationSnapshotService {
         }
     }
 
-    private List<SkillObjectReferences.Reference> actualReferences(String gameId, List<SkillConfigurationResponse> skills,
-                                                                  Map<String, Integer> skillIndices) {
-        List<Aggregate> objects = new ArrayList<>();
-        try {
-            Set<Target> dictionaryAndParameters = new HashSet<>();
-            for (SkillConfigurationResponse skill : skills) {
-                String skillKey = skill.skill().skillKey();
-                int skillIndex = skillIndices.get(skillKey);
-                JsonNode data = json.valueToTree(skill);
-                addAggregates(objects, data.path("formulas"), SourceType.FORMULA, "formulaKey", skillKey, skillIndex);
-                addAggregates(objects, data.path("effects"), SourceType.EFFECT, "effectKey", skillKey, skillIndex);
-                addAggregates(objects, data.path("internalStates"), SourceType.STATE, "stateKey", skillKey, skillIndex);
-                addAggregates(objects, data.path("processes"), SourceType.PROCESS, "processKey", skillKey, skillIndex);
-                addAggregates(objects, data.path("triggerRules"), SourceType.TRIGGER, "ruleKey", skillKey, skillIndex);
-                for (SkillParameterResponse parameter : skill.parameters()) {
-                    if (parameter.parameterKey() == null || !KEY.matcher(parameter.parameterKey()).matches()
-                        || !dictionaryAndParameters.add(new Target(TargetType.PARAMETER, skillKey, parameter.parameterKey(), ""))) {
-                        throw invalid("skillConfigurations[" + skillIndex + "].parameters." + parameter.parameterKey(),
-                            "DUPLICATE_KEY", "参数标识缺失、不合法或重复");
-                    }
-                }
-            }
-            List<SkillObjectReferences.Reference> references = SkillObjectReferences.extract(gameId, objects);
-            for (SkillObjectReferences.Reference reference : references) {
-                Target dependency = reference.target();
-                if ((!dependency.skillKey().isEmpty() && !skillIndices.containsKey(dependency.skillKey()))
-                    || (dependency.type() == TargetType.SKILL && !skillIndices.containsKey(dependency.key()))) {
-                    throw invalid(referencePath(skillIndices.get(reference.sourceSkillKey()), reference.sourceType().name(),
-                        reference.sourceKey(), reference.fieldPath()), "REFERENCE_OUT_OF_SCOPE", "引用目标不在本次所选技能集合内");
-                }
-                if (dependency.skillKey().isEmpty()) dictionaryAndParameters.add(dependency);
-            }
-            SkillObjectReferences.extractAndValidate(gameId, objects, dictionaryAndParameters);
-            return references.stream().distinct().sorted(Comparator.comparing(SkillObjectReferences.Reference::sourceSkillKey)
-                .thenComparing(reference -> reference.sourceType().name())
-                .thenComparing(SkillObjectReferences.Reference::sourceKey)
-                .thenComparing(SkillObjectReferences.Reference::fieldPath)
-                .thenComparing(reference -> reference.target().type().name()).thenComparing(reference -> reference.target().skillKey())
-                .thenComparing(reference -> reference.target().key()).thenComparing(reference -> reference.target().subKey())).toList();
-        } catch (ApiException ex) {
-            if ("409.SIMULATION_SNAPSHOT_INVALID".equals(ex.getCode())) throw ex;
-            List<Map<String, Object>> issues = new ArrayList<>();
-            if (ex.getDetails().get("fieldIssues") instanceof List<?> original) {
-                for (Object item : original) {
-                    if (!(item instanceof Map<?, ?> issue)) continue;
-                    Map<String, Object> translated = new LinkedHashMap<>();
-                    issue.forEach((key, value) -> translated.put(key.toString(), value));
-                    String field = String.valueOf(issue.get("field"));
-                    int skillIndex = skillIndices.getOrDefault(String.valueOf(issue.get("sourceSkillKey")), 0);
-                    translated.put("field", issue.get("sourceType") instanceof String type
-                        && issue.get("sourceKey") instanceof String key
-                        ? referencePath(skillIndex, type, key, field) : "skillConfigurations[" + skillIndex + "]." + field);
-                    translated.put("code", "MISSING_REFERENCE_TARGET".equals(issue.get("code"))
-                        ? "REFERENCE_MISSING" : "INVALID_STORED_DATA");
-                    translated.put("message", ex.getMessage());
-                    issues.add(translated);
-                }
-            }
-            throw new ApiException(HttpStatus.CONFLICT, "409.SIMULATION_SNAPSHOT_INVALID", ex.getMessage(),
-                Map.of("fieldIssues", List.copyOf(issues)));
-        }
-    }
-
-    private void addAggregates(List<Aggregate> objects, JsonNode rows, SourceType type, String keyField,
-                               String skillKey, int skillIndex) {
-        Set<String> keys = new HashSet<>();
-        for (JsonNode row : rows) {
-            String key = row.path(keyField).asText();
-            if (!KEY.matcher(key).matches() || !keys.add(key)) {
-                throw invalid(referencePath(skillIndex, type.name(), key, keyField), "DUPLICATE_KEY", "对象标识缺失、不合法或重复");
-            }
-            ObjectNode aggregate = row.deepCopy();
-            if (type == SourceType.TRIGGER) {
-                ObjectNode limits = aggregate.putObject("limits");
-                for (String field : List.of("perTargetCooldown", "maxTriggersPerProcess", "oncePerUse")) {
-                    limits.set(field, aggregate.get(field));
-                }
-            }
-            objects.add(new Aggregate(type, skillKey, key, aggregate));
-        }
-    }
 
     private static String referencePath(int skillIndex, String type, String key, String field) {
         String collection = switch (type) {
@@ -594,48 +525,16 @@ public class SimulationSnapshotService {
             if (ex.getStatus() == HttpStatus.NOT_FOUND) {
                 throw invalid(field, "REFERENCE_MISSING", "所选场景引用的对象不存在");
             }
+            if (ex.getStatus() == HttpStatus.CONFLICT && !"409.SIMULATION_SNAPSHOT_INVALID".equals(ex.getCode())) {
+                throw invalid(field, "INVALID_STORED_DATA", ex.getMessage());
+            }
             throw ex;
         } catch (IllegalStateException ex) {
             throw invalid(field, "INVALID_STORED_DATA", "所选场景引用的已存配置不合法");
         }
     }
 
-    private static List<String> normalizeEquipmentKeys(List<String> keys, String field) {
-        if (keys == null) return List.of();
-        if (keys.size() > 6) {
-            throw invalidEquipmentSelection("selection." + field + "[6]", "SELECTION_LIMIT_EXCEEDED", "每方所选装备不能超过6件");
-        }
-        Set<String> selected = new TreeSet<>();
-        for (int equipmentIndex = 0; equipmentIndex < keys.size(); equipmentIndex++) {
-            String key = keys.get(equipmentIndex);
-            String path = "selection." + field + "[" + equipmentIndex + "]";
-            if (key == null || !KEY.matcher(key).matches()) {
-                throw invalidEquipmentSelection(path, "KEY_INVALID", "装备标识必须非空且格式合法");
-            }
-            if (!selected.add(key)) {
-                throw invalidEquipmentSelection(path, "DUPLICATE_KEY", "同一方不能重复选择相同装备");
-            }
-        }
-        return List.copyOf(selected);
-    }
 
-    private static ApiException invalidEquipmentSelection(String field, String code, String message) {
-        return new ApiException(HttpStatus.BAD_REQUEST, "400.VALIDATION_FAILED", message,
-            Map.of("fieldIssues", List.of(Map.of("field", field, "code", code, "message", message))));
-    }
-
-    private static void validateSelection(Selection choice) {
-        if (choice == null) throw invalid("selection", "REQUIRED", "必须提供场景选择");
-        requireKey("sourceCharacterKey", choice.sourceCharacterKey());
-        requireKey("targetCharacterKey", choice.targetCharacterKey());
-        requireKey("basicAttackSkillKey", choice.basicAttackSkillKey());
-        if (!SHARED_BASIC_ATTACK.equals(choice.basicAttackSkillKey())) {
-            throw invalid("basicAttackSkillKey", "UNSUPPORTED", "首批只接入共享普通攻击");
-        }
-        if (choice.basicAttackLevel() < 1) {
-            throw invalid("basicAttackLevel", "LEVEL_OUT_OF_RANGE", "普通攻击等级必须至少为一");
-        }
-    }
 
     private static void validateLevel(String field, int level, LevelConfigResponse config) {
         if (level < config.minLevel() || level > config.maxLevel()) {
@@ -673,7 +572,7 @@ public class SimulationSnapshotService {
     private JsonNode canonical(JsonNode value) {
         if (value.isObject()) {
             ObjectNode sorted = json.createObjectNode();
-            value.properties().stream().sorted(Map.Entry.comparingByKey())
+            value.properties().stream().filter(entry -> !"readAt".equals(entry.getKey())).sorted(Map.Entry.comparingByKey())
                 .forEach(entry -> sorted.set(entry.getKey(), canonical(entry.getValue())));
             return sorted;
         }

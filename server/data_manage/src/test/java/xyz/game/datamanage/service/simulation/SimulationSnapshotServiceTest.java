@@ -46,6 +46,7 @@ import xyz.game.datamanage.model.skillrelation.CharacterSkillRelationResponse;
 import xyz.game.datamanage.model.skillrelation.EquipmentSkillRelationListResponse;
 import xyz.game.datamanage.model.skillrelation.EquipmentSkillRelationResponse;
 import xyz.game.datamanage.service.attribute.AttributeService;
+import xyz.game.datamanage.service.build.BuildSystemService;
 import xyz.game.datamanage.service.character.CharacterService;
 import xyz.game.datamanage.service.damagetype.DamageTypeService;
 import xyz.game.datamanage.service.equipment.EquipmentService;
@@ -59,7 +60,7 @@ import xyz.game.datamanage.support.error.ApiException;
 
 class SimulationSnapshotServiceTest {
     private static final Selection CHOICE = new Selection("hero_a", 1, "hero_b", 1,
-        "shared_basic_attack", 1, List.of(), List.of());
+        "shared_basic_attack", 1, List.of(), List.of(), List.of(), List.of(), List.of(), List.of());
 
     private final CharacterService characters = mock(CharacterService.class);
     private final CharacterMapper characterMapper = mock(CharacterMapper.class);
@@ -73,6 +74,7 @@ class SimulationSnapshotServiceTest {
     private final ModifierZoneService zones = mock(ModifierZoneService.class);
     private final StatusService statuses = mock(StatusService.class);
     private final GameVampRuleService vampRules = mock(GameVampRuleService.class);
+    private final BuildSystemService builds = mock(BuildSystemService.class);
     private final ObjectMapper json = new ObjectMapper().findAndRegisterModules();
     private SimulationSnapshotService service;
     private SkillConfigurationResponse skill;
@@ -80,7 +82,7 @@ class SimulationSnapshotServiceTest {
     @BeforeEach
     void setup() throws Exception {
         service = new SimulationSnapshotService(characters, characterMapper, equipment, equipmentMapper, relations,
-            configurations, attributes, categories, damageTypes, zones, statuses, vampRules, json);
+            configurations, attributes, categories, damageTypes, zones, statuses, vampRules, builds, json);
         when(characters.getLevelConfig("lol")).thenReturn(new LevelConfigResponse("lol", 1, 18));
         for (String key : List.of("hero_a", "hero_b")) {
             String raw = key.equals("hero_a")
@@ -160,16 +162,19 @@ class SimulationSnapshotServiceTest {
     }
 
     @Test
-    void rejectsCrossSkillReferenceAtItsSavedField() throws Exception {
+    void excludedActiveSiblingKeepsItsOutsideReferenceWithoutExecutingOrLoadingIt() throws Exception {
         var crossSkill = json.readValue("""
-            {"ruleKey":"on_hit","eventSource":{"eventType":"SKILL_HIT","detail":{"sourceSkillKey":"other_skill"}},
-             "conditionGroups":[],"actions":[]}
+            {"ruleKey":"active","eventSource":{"eventType":"SKILL_USED","detail":{"sourceSkillKey":"other_skill","castPhase":"INITIAL"}},
+             "conditionGroups":[],"actions":[{"actionKey":"deal","actionType":"EXECUTE_EFFECT","targetContext":"CURRENT_TARGET",
+             "detail":{"effectKey":"attack_hit"},"runtimeInputBindings":[],"resultModifiers":[]}]}
             """, SkillTriggerRuleDetailResponse.class);
         configure(new SkillConfigurationResponse(skill.skill(), skill.parameters(), skill.formulas(), skill.effects(),
             List.of(), List.of(), List.of(crossSkill), "skill-digest"));
-        ApiException error = assertThrows(ApiException.class, () -> service.get("lol", CHOICE));
-        assertTrue(error.getDetails().toString().contains("REFERENCE_OUT_OF_SCOPE"));
-        assertTrue(error.getDetails().toString().contains("eventSource.detail.sourceSkillKey"));
+        var result = service.get("lol", CHOICE);
+        assertEquals(xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.InactiveReason.ACTIVE_DEFERRED,
+            result.source().skillSources().getFirst().inactiveReason());
+        assertTrue(result.references().isEmpty());
+        assertEquals(crossSkill, result.skillConfigurations().getFirst().triggerRules().getFirst());
         verify(configurations, never()).get("lol", "other_skill");
     }
 
@@ -292,22 +297,24 @@ class SimulationSnapshotServiceTest {
             .thenReturn(new CharacterSkillRelationListResponse(List.of(), 0));
         assertIssue("SKILL_NOT_ATTACHED", "source.attachedSkills");
         assertThrows(ApiException.class, () -> service.get("lol", new Selection("hero_a", 0, "hero_b", 1,
-            "shared_basic_attack", 1, List.of(), List.of())));
+            "shared_basic_attack", 1, List.of(), List.of(), List.of(), List.of(), List.of(), List.of())));
         assertThrows(ApiException.class, () -> service.get("lol", new Selection("hero_a", 1, "hero_b", 1,
-            "other_skill", 1, List.of(), List.of())));
+            "other_skill", 1, List.of(), List.of(), List.of(), List.of(), List.of(), List.of())));
         verifyNoInteractions(configurations);
     }
 
     @Test
     void selectedParameterNumberIsRequiredWhileRuntimeInputKeepsNoDefault() {
+        var formula = new SkillFormulaDetailResponse("lol", "shared_basic_attack", "amount", "参数取值", null, 0,
+            new SkillFormulaParameterNode("p"), null, null);
         configure(new SkillConfigurationResponse(skill.skill(), List.of(parameter(SkillParameterValueMode.FIXED, null, null)),
-            skill.formulas(), skill.effects(), List.of(), List.of(), skill.triggerRules(), "skill-digest"));
+            List.of(formula), skill.effects(), List.of(), List.of(), skill.triggerRules(), "skill-digest"));
         assertIssue("NUMBER_MISSING", "parameters.p.fixedValue");
         configure(new SkillConfigurationResponse(skill.skill(), List.of(parameter(SkillParameterValueMode.SKILL_LEVEL, null, Map.of("2", BigDecimal.ONE))),
-            skill.formulas(), skill.effects(), List.of(), List.of(), skill.triggerRules(), "skill-digest"));
+            List.of(formula), skill.effects(), List.of(), List.of(), skill.triggerRules(), "skill-digest"));
         assertIssue("NUMBER_MISSING", "parameters.p.levelValues.1");
         configure(new SkillConfigurationResponse(skill.skill(), List.of(parameter(SkillParameterValueMode.RUNTIME_INPUT, null, null)),
-            skill.formulas(), skill.effects(), List.of(), List.of(), skill.triggerRules(), "skill-digest"));
+            List.of(formula), skill.effects(), List.of(), List.of(), skill.triggerRules(), "skill-digest"));
         var value = service.get("lol", CHOICE).skillConfigurations().getFirst().parameters().getFirst();
         assertNull(value.fixedValue());
         assertNull(value.levelValues());
@@ -325,11 +332,10 @@ class SimulationSnapshotServiceTest {
     }
 
     @Test
-    void omittedEquipmentListsNormalizeToEmptyWithoutReadingEquipment() {
-        var result = service.get("lol", equipmentChoice(null, null));
+    void missingEquipmentArraysAreRejectedRatherThanDefaulted() {
+        assertSelectionIssue(equipmentChoice(null, null), "REQUIRED", "selection.sourceEquipmentKeys");
+        var result = service.get("lol", equipmentChoice(List.of(), List.of()));
         assertEquals(CHOICE, result.selection());
-        assertTrue(result.source().selectedEquipment().isEmpty());
-        assertTrue(result.target().selectedEquipment().isEmpty());
         verifyNoInteractions(equipment, equipmentMapper);
     }
 
@@ -424,13 +430,16 @@ class SimulationSnapshotServiceTest {
     }
 
     @Test
-    void disabledEquipmentRelationCannotBeFilteredIntoPartialSuccess() throws Exception {
-        selectedEquipment("item_a", "{}", "item_passive");
+    void globallyDisabledEquipmentRelationRemainsVisibleWithItsFixedAttributes() throws Exception {
+        selectedEquipment("item_a", "{\"health\":100}", "item_passive");
+        selectedPassive("item_passive", 1);
         when(relations.listEquipmentRelations("lol", "item_a", null)).thenReturn(new EquipmentSkillRelationListResponse(
             List.of(new EquipmentSkillRelationResponse("lol", "item_a", "装备", "item_passive", "被动", SkillStatus.DISABLED, 0)), 1));
-        assertIssue(equipmentChoice(List.of(), List.of("item_a")), "SKILL_DISABLED",
-            "target.selectedEquipment[0].attachedSkills[0].skillStatus");
-        verifyNoInteractions(configurations);
+        var result = service.get("lol", equipmentChoice(List.of(), List.of("item_a")));
+        assertEquals(1, result.target().selectedEquipment().getFirst().attachedSkills().size());
+        assertEquals(100, result.target().selectedEquipment().getFirst().attributes().attributeValues().path("health").intValue());
+        assertEquals(xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.InactiveReason.GLOBAL_DISABLED,
+            result.target().skillSources().getFirst().inactiveReason());
     }
 
     @Test
@@ -486,7 +495,7 @@ class SimulationSnapshotServiceTest {
     }
 
     @Test
-    void missingOrDisabledSelectedPassiveConfigurationIsNotReturnedAsEmptyEquipment() throws Exception {
+    void missingConfigurationFailsButGloballyDisabledFullTreeStaysVisible() throws Exception {
         selectedEquipment("item_a", "{}", "item_passive");
         Selection choice = equipmentChoice(List.of("item_a"), List.of());
         when(configurations.get("lol", "item_passive")).thenThrow(new ApiException(HttpStatus.NOT_FOUND,
@@ -494,50 +503,52 @@ class SimulationSnapshotServiceTest {
         assertIssue(choice, "REFERENCE_MISSING", "source.selectedEquipment[0].attachedSkills[0].skillKey");
         SkillConfigurationResponse disabled = passive("item_passive", 1, SkillStatus.DISABLED);
         doReturn(disabled).when(configurations).get("lol", "item_passive");
-        assertIssue(choice, "SKILL_DISABLED", "skillConfigurations[0].skill.status");
+        var result = service.get("lol", choice);
+        assertEquals(disabled, result.skillConfigurations().getFirst());
+        assertEquals(xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.InactiveReason.GLOBAL_DISABLED,
+            result.source().skillSources().stream().filter(row -> row.skillKey().equals("item_passive")).findFirst().orElseThrow().inactiveReason());
     }
 
     @Test
-    void selectedSkillsMayReferenceEachOtherButMissingSelectedSubObjectsStillFail() throws Exception {
+    void enabledConditionUsesActualSameSideSourceAndStillRejectsMissingState() throws Exception {
         selectedEquipment("item_a", "{}", "item_passive");
         SkillConfigurationResponse passive = selectedPassive("item_passive", 1);
         var state = new SkillInternalStateDetailResponse("lol", "item_passive", "guard", "守卫", SkillInternalStateType.FLAG,
             SkillInternalStateScope.SKILL, null, 0, new SkillInternalStateFlagDetail(false), null, null);
         when(configurations.get("lol", "item_passive")).thenReturn(new SkillConfigurationResponse(passive.skill(),
             List.of(), List.of(), List.of(), List.of(), List.of(state), List.of(), "passive-digest"));
-        var skillReference = json.readValue("""
-            {"ruleKey":"cross_skill","eventSource":{"eventType":"SKILL_HIT","detail":{"sourceSkillKey":"item_passive"}},
-             "conditionGroups":[],"actions":[]}
-            """, SkillTriggerRuleDetailResponse.class);
-        var stateReference = json.readValue("""
-            {"ruleKey":"cross_state","eventSource":{"eventType":"INTERNAL_STATE_CHANGED",
-             "detail":{"stateSkillKey":"item_passive","stateKey":"guard"}},"conditionGroups":[],"actions":[]}
+        var reference = json.readValue("""
+            {"ruleKey":"cross_state","eventSource":{"eventType":"SKILL_HIT","detail":{"sourceSkillKey":"shared_basic_attack"}},
+             "conditionGroups":[{"groupKey":"guarded","conditions":[{"conditionKey":"guard","conditionType":"INTERNAL_STATE_CHECK",
+             "detail":{"stateSkillKey":"item_passive","stateKey":"guard","checkKind":"FLAG_ENABLED","subject":"SOURCE"}}]}],
+             "actions":[{"actionKey":"deal","actionType":"EXECUTE_EFFECT","targetContext":"CURRENT_TARGET","detail":{"effectKey":"attack_hit"},
+             "runtimeInputBindings":[],"resultModifiers":[]}]}
             """, SkillTriggerRuleDetailResponse.class);
         configure(new SkillConfigurationResponse(skill.skill(), skill.parameters(), skill.formulas(), skill.effects(),
-            List.of(), List.of(), List.of(skillReference, stateReference), "skill-digest"));
-        Selection choice = equipmentChoice(List.of(), List.of("item_a"));
+            List.of(), List.of(), List.of(reference), "skill-digest"));
+        Selection choice = equipmentChoice(List.of("item_a"), List.of());
         var result = service.get("lol", choice);
-        assertTrue(result.references().stream().anyMatch(reference -> reference.sourceSkillKey().equals("shared_basic_attack")
-            && reference.targetType().equals("SKILL") && reference.targetKey().equals("item_passive")));
-        assertTrue(result.references().stream().anyMatch(reference -> reference.targetType().equals("STATE")
-            && reference.targetSkillKey().equals("item_passive") && reference.targetKey().equals("guard")));
+        assertTrue(result.references().stream().anyMatch(row -> row.targetType().equals("SKILL") && row.targetKey().equals("shared_basic_attack")));
+        assertTrue(result.references().stream().anyMatch(row -> row.targetType().equals("STATE") && row.targetKey().equals("guard")));
         when(configurations.get("lol", "item_passive")).thenReturn(passive);
-        assertIssue(choice, "REFERENCE_MISSING", "skillConfigurations[1].triggerRules.cross_state.eventSource.detail.stateKey");
+        assertIssue(choice, "REFERENCE_MISSING", "triggerRules.cross_state.conditionGroups[0].conditions[0].detail.stateKey");
         verify(configurations, never()).get("lol", "unselected_skill");
     }
 
     @Test
-    void equipmentReferenceToUnselectedSkillIsRejectedWithoutRecursiveLoading() throws Exception {
+    void equipmentActiveSiblingDoesNotRequireAnUnselectedSkill() throws Exception {
         selectedEquipment("item_a", "{}", "item_passive");
         SkillConfigurationResponse passive = selectedPassive("item_passive", 1);
         var reference = json.readValue("""
-            {"ruleKey":"outside","eventSource":{"eventType":"SKILL_HIT","detail":{"sourceSkillKey":"unselected_skill"}},
-             "conditionGroups":[],"actions":[]}
+            {"ruleKey":"outside","eventSource":{"eventType":"SKILL_USED","detail":{"sourceSkillKey":"unselected_skill","castPhase":"INITIAL"}},
+             "conditionGroups":[],"actions":[{"actionKey":"heal","actionType":"EXECUTE_EFFECT","targetContext":"EVENT_SOURCE",
+             "detail":{"effectKey":"unselected_effect"},"runtimeInputBindings":[],"resultModifiers":[]}]}
             """, SkillTriggerRuleDetailResponse.class);
         when(configurations.get("lol", "item_passive")).thenReturn(new SkillConfigurationResponse(passive.skill(),
             List.of(), List.of(), List.of(), List.of(), List.of(), List.of(reference), "passive-digest"));
-        assertIssue(equipmentChoice(List.of("item_a"), List.of()), "REFERENCE_OUT_OF_SCOPE",
-            "skillConfigurations[0].triggerRules.outside.eventSource.detail.sourceSkillKey");
+        var result = service.get("lol", equipmentChoice(List.of("item_a"), List.of()));
+        assertEquals(xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.InactiveReason.ACTIVE_DEFERRED,
+            result.source().skillSources().stream().filter(row -> row.skillKey().equals("item_passive")).findFirst().orElseThrow().inactiveReason());
         verify(configurations, never()).get("lol", "unselected_skill");
     }
 
@@ -548,10 +559,11 @@ class SimulationSnapshotServiceTest {
         var parameter = new SkillParameterResponse("lol", "item_passive", "scaled", "等级参数", SkillParameterValueType.DECIMAL,
             SkillParameterValueMode.CHARACTER_LEVEL, null, Map.of("1", BigDecimal.ONE), null, 0, null, null);
         when(configurations.get("lol", "item_passive")).thenReturn(new SkillConfigurationResponse(passive.skill(),
-            List.of(parameter), List.of(), List.of(), List.of(), List.of(), List.of(), "passive-digest"));
+            List.of(parameter), List.of(), List.of(healing("item_passive", SkillNumericValue.parameter("scaled"))),
+            List.of(), List.of(), List.of(initializationRule("heal")), "passive-digest"));
         characterValues("hero_b", "{\"1\":{\"armor\":0,\"health\":250},\"2\":{\"armor\":10,\"health\":300}}");
         Selection choice = new Selection("hero_a", 1, "hero_b", 2, "shared_basic_attack", 1,
-            List.of("item_a"), List.of("item_a"));
+            List.of("item_a"), List.of("item_a"), List.of(), List.of(), List.of(), List.of());
         assertIssue(choice, "NUMBER_MISSING", "skillConfigurations[0].parameters.scaled.levelValues.2");
     }
 
@@ -576,7 +588,7 @@ class SimulationSnapshotServiceTest {
                 new SkillEffectResultResponse("stun", "眩晕", SkillEffectResultType.STATUS_OPERATION, SkillEffectTarget.TARGET, null, 2,
                     null, new SkillEffectStatusOperationDetail("stun", SkillEffectStatusOperation.APPLY))), null, null);
         when(configurations.get("lol", "item_passive")).thenReturn(new SkillConfigurationResponse(passive.skill(),
-            List.of(), List.of(formula), List.of(effect), List.of(), List.of(), List.of(), "passive-digest"));
+            List.of(), List.of(formula), List.of(effect), List.of(), List.of(), List.of(initializationRule("item_effect")), "passive-digest"));
         when(damageTypes.get("lol", "magic")).thenReturn(new DamageTypeResponse("lol", "magic", "魔法", null,
             DamageTypeStatus.ENABLED, 0, null, null, true));
         when(damageTypes.getFormula("lol", "magic")).thenReturn(new DamageTypeFormulaResponse("lol", "magic",
@@ -647,7 +659,7 @@ class SimulationSnapshotServiceTest {
     }
 
     private static Selection equipmentChoice(List<String> source, List<String> target) {
-        return new Selection("hero_a", 1, "hero_b", 1, "shared_basic_attack", 1, source, target);
+        return new Selection("hero_a", 1, "hero_b", 1, "shared_basic_attack", 1, source, target, List.of(), List.of(), List.of(), List.of());
     }
 
     @Test
@@ -738,6 +750,19 @@ class SimulationSnapshotServiceTest {
                "sortOrder":0,"targetContext":"CURRENT_TARGET","detail":{"effectKey":"%s"},
                "runtimeInputBindings":[],"resultModifiers":[]}]}
             """.formatted(effectKey), SkillTriggerRuleDetailResponse.class);
+    }
+
+    private SkillTriggerRuleDetailResponse initializationRule(String effectKey) throws Exception {
+        var data = json.valueToTree(trigger(effectKey));
+        ((com.fasterxml.jackson.databind.node.ObjectNode) data.path("eventSource")).put("eventType", "SOURCE_INITIALIZED");
+        return json.treeToValue(data, SkillTriggerRuleDetailResponse.class);
+    }
+
+    private static SkillEffectDetailResponse healing(String skillKey, SkillNumericValue value) {
+        return new SkillEffectDetailResponse("lol", skillKey, "heal", "恢复", null, 0,
+            List.of(new SkillEffectResultResponse("amount", "恢复量", SkillEffectResultType.DIRECT_HEAL,
+                SkillEffectTarget.SOURCE, null, 0, new SkillEffectValueRuleResponse(value, BigDecimal.ONE, null, null),
+                new SkillEffectDirectHealDetail())), null, null);
     }
 
     private SkillParameterResponse parameter(SkillParameterValueMode mode, BigDecimal fixed, Map<String, BigDecimal> levels) {

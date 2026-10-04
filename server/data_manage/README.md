@@ -232,7 +232,7 @@
 | `/build-systems/{systemKey}/definition` | 同一可重复读事务返回系统、分组、可选项和技能授予；非法已存定义返回 500，不返回部分数据 |
 | `/build-systems/{systemKey}/groups`、`/build-systems/{systemKey}/options` | 分组完整位置布局和可选项；按点投入时同一可选项在整个布局最多出现一次 |
 | `/skills` | 技能基本资料；`skillKey` 在同游戏唯一且不可改，名称可重复，`maxLevel >= 1` |
-| `/simulation-snapshot` | 同一只读事务返回 A/B、所选装备、共享普攻和装备挂载技能及完整依赖；不保存场景或执行计算 |
+| `/simulation-snapshot` | POST结构化选择；同一只读事务返回双方角色／装备／构筑实际来源、完整作者配置与启用闭包；不保存场景或执行计算 |
 | `/skills/{skillKey}/parameters` | 参数四种取值方式：FIXED、SKILL_LEVEL、CHARACTER_LEVEL、RUNTIME_INPUT |
 | `/skills/{skillKey}/formulas` | 表达式节点 OPERATION、PARAMETER、ATTRIBUTE；深度最多 32、节点最多 256，不执行公式 |
 | `/skills/{skillKey}/effects` | 效果及完整结果、可选生命周期；已有结果的 `resultType` 不可改 |
@@ -340,23 +340,25 @@ CORS 当前覆盖 `/api/**`，并暴露 `ETag` 响应头。启动成功但首次
 
 ## 验证入口与证据边界
 
-### 所选场景只读快照
+### 场景配置只读快照（阶段5A）
 
-`GET /api/admin/games/{gameId}/simulation-snapshot` 沿用现有管理鉴权，原六个查询参数均须明确提供：`sourceCharacterKey`、`sourceLevel`、`targetCharacterKey`、`targetLevel`、`basicAttackSkillKey`、`basicAttackLevel`。普通攻击只接受 `shared_basic_attack`（共享普通攻击），且 A 必须真实挂载它；双方角色等级依当前游戏范围检查，普攻等级依原技能最高等级检查。新增可重复查询参数 `sourceEquipmentKeys`、`targetEquipmentKeys`（双方所选装备标识），每方0～6件，缺省为空数组，同方唯一、非空且格式合法，返回前按标识稳定排序。同一装备可分别出现在双方。必须使用重复参数传多件装备，不接受逗号拼接、空字符串、空白或重复项；非法选择返回带 `selection.sourceEquipmentKeys[i]` 或目标侧路径的400。
+使用 `POST /api/admin/games/{gameId}/simulation-snapshot`；旧 GET 已删除，不保留旧查询参数读取或格式兼容。请求保留双方角色／等级、所选普通攻击／等级、双方装备键八个字段，并要求明确提供 `sourceBuildConfigurations`、`targetBuildConfigurations`、`sourceSkillSettings`、`targetSkillSettings` 四个数组。空构筑数组表示未选择系统，空设置数组表示不覆盖默认来源；未知字段、缺字段、重复身份、字符串布尔值、非整数和超出每侧6件的装备选择返回现有400字段问题形状。
 
-响应的 `selection` 保存归一后的选择，包含两组装备标识数组。`source`、`target` 分别包含 `character`（角色原资料）、`attributes`（完整等级属性图）、`selectedLevelValues`（原所选等级数值）、`attachedSkills`（真实角色挂载列表）及与该方选择严格相等的 `selectedEquipment`（所选装备数组）。每件装备保留 `equipment`（原资料）、`attributes.attributeValues`（固定属性数值映射）和 `attachedSkills`（原装备技能关系），不把装备增量加进角色固有等级值。`skillConfigurations` 保存共享普攻与双方所选装备挂载技能的完整管理响应，按技能标识去重排序，最多32份，保留全部参数、公式、效果及并列结果、过程、内部状态和规则；装备技能的真实最高等级首期必须为1，等级参数按实际拥有方分别检查。`catalogs` 包含等级配置、装备固定属性及全部所选技能的实际依赖属性和分类、伤害类型及完整五阶段公式、乘区、状态与游戏吸血规则。装备增量的共享契约见规划真源[阶段4装备接入与机制验收详细设计第3、4节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段4装备接入与机制验收详细设计.md)，原场景读取契约仍见[单攻击方计算六阶段推进方案第4.1、4.2节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/单攻击方计算六阶段推进方案.md#41-所选对象的一致性快照)。
+双方角色响应新增 `selectedBuilds`（完整构筑定义与本次选择）和 `skillSources`（逐实例技能来源）。默认收集角色全部真实绑定、所选装备技能、完整合法构筑实际授予；开关与等级设置只能覆盖该侧真实来源的完整身份。角色、装备、构筑可选项三种身份分别携带真实角色键、装备键及系统／角色／分组／位置／可选项键，不按技能键跨实例合并。构筑规则、完整值和共享字段的唯一来源为规划真源[阶段5设计第3节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段5英雄被动接入与组合验收详细设计.md)及其引用的构筑设计第6节。
 
-整个读取处于同一可重复读只读事务，不取写锁、不写业务数据或引用索引。装备属性同时核对原始存储和管理读取，拒绝非对象、非有限数值、未知或被丢弃属性、非法整数及超出目录范围的值。所选装备关系指向禁用技能时整件拒绝，不过滤成部分成功。`references` 从本次全部所选完整配置的真实业务字段重新提取，集合内的跨技能根对象、参数和子项按实际存在目标核对；集合外引用明确拒绝，不递归加载未选技能，也不读取构筑选择。目录按所需稳定键读取，不依赖历史引用索引的完整性。`snapshotDigest`（场景摘要）覆盖归一选择、双方资料、全部装备资料与属性、关系、技能配置及依赖，不以单技能 `baseDigest` 替代，且排除追溯用的 `readAt`（读回时间）。输入装备顺序或关系读取顺序不改变相同内容摘要。
+构筑读取复用现有完整定义校验，随后检查分组角色、互异、允许位置、候选归属、选择与位置数量、前置、互斥和累计逐级成本。空分组角色规则不自动生成兼容角色；固定预算不得重复提交，场景预算必须显式提供。实际授予按激活投入等级与固定／随投入两种技能等级规则产生；同选项在不同合法位置保留不同实例。关闭授予不减少成本、不撤销构筑选择，也不能绕过整套选择校验。
 
-装备没有技能关系仅表示本次返回空关系数组，不证明它是已核定的纯属性装备；只有参数而没有执行结果的装备技能也如实返回。后端不计算属性贡献、被动、初始生命或伤害，不负责纯属性名单、机制支持、收益系数和光环假设等运行支持门禁；这些检查由前端装配和原生编译／运行承担。B 不产生自主攻击，但保留其装备配置，不能用后端读取成功代替机制验收。
+来源开关默认开启，但不猜角色技能等级。所选 A 普攻等级只来自 `basicAttackLevel`；其它角色等级仅按明确覆盖供值，0保留为未学，缺少必要等级保留为空并回显 `LEVEL_REQUIRED`（仍须供等级）。自然程序未配置为 `CONFIGURATION_INCOMPLETE`（配置尚缺），完整纯主动入口为 `ACTIVE_DEFERRED`（主动暂缓）；这些来源仍可读取、供值或关闭。B 普攻及非所选角色普攻为 `NO_AUTONOMOUS_ATTACK`（非自主攻击主体），不增加 B 自主攻击。全局禁用、本场关闭和未学分别回显 `GLOBAL_DISABLED`、`SCENE_DISABLED`、`UNLEARNED`；除此之外原因可为空，本场开关不能重新启用全局禁用技能。装备沿真实单级定义，构筑等级不能由来源设置覆盖。关闭技能不删除原关系或装备固定属性。
 
-装备包含 `bonus_attack_speed_percent`（额外攻速比例）时，同次快照额外读取 `attack_speed`（攻速）及 `attack_speed_ratio`（攻速收益系数）的合法目录；不创建角色系数值，也不从一级攻速推断。角色缺值继续由场景显式补填，派生及准入属于前端与原生计算层职责。
+全部读取位于同一可重复读的只读事务，不持久化场景、记录业务编辑日志、写关系或执行战斗。完整配置按技能键去重，保留主体、参数、公式、效果全部并列结果、过程、内部状态、规则与 `baseDigest`（技能配置摘要）；包含必要只读定义在内最多32份。真实所选普攻按角色关系与普通攻击分类核对，不按特定技能标识收窄；特殊主体能否运行仍由适配与运行层判断，不代表阶段5C已实现。
 
-角色已经录入的固有属性必须具有完整合法的等级图，所选等级缺行、缺数值或管理读取丢弃其值时拒绝。公式引用但角色从未录入的附加属性只返回其真实目录定义，角色数值保持缺失；由 Web 提供显式场景补充值，未填时在装配阶段报告具体路径，不补零、不覆盖固有值。伤害配置使用 `SOURCE_CRIT_CHANCE`（按来源暴击率）时，额外读取 `critical_strike_chance`（暴击率）属性定义；禁止暴击或强制暴击不因此增加该目录依赖。计算时传入参数同样保持无默认值。
+完整作者读取与自然执行闭包分开：`enabledRuleKeys` 回显该实例的有效自然根；闭包继续反查实际可产生的过程、结果、内部状态、生命周期订阅并展开其完整引用，直到稳定。关闭、未学、缺等级和独立主动兄弟不被当作必须执行的依赖。只读定义不自动授予来源或注册订阅；必要运行组成须有同侧实际开启的对应来源，不能以另一实例冒充。响应中的 `references`（引用）反映启用闭包，完整作者内容仍由 `skillConfigurations` 保留。
 
-已有场景配置不完整返回 `409.SIMULATION_SNAPSHOT_INVALID`，`fieldIssues`（字段问题）包含路径、问题代码和中文原因，包括 `REFERENCE_MISSING`（缺依赖）、`REFERENCE_DISABLED`（停用目录）、`FORMULA_MISSING`（缺完整五阶段公式）、`NUMBER_MISSING`（缺固有数值）、`LEVEL_VALUES_INCOMPLETE`（固有等级图不完整）、`REFERENCE_OUT_OF_SCOPE`（引用未选技能）、`SKILL_DISABLED`（禁用技能）、`ATTRIBUTE_VALUES_INCOMPLETE`（原装备属性读取丢失）、`PASSIVE_LEVEL_UNSUPPORTED`（装备技能最高等级不是1）和 `CONFIGURATION_LIMIT_EXCEEDED`（所选配置超过32份）。字段带所选方、装备位置或技能集合位置、对象稳定键及原配置路径。失败不返回部分成功快照。游戏、角色或所选装备不存在仍沿用现有404，保留真实稳定标识；管理权限沿用401／403；缺必填查询参数、类型错误或非法装备选择返回400。
+目录包含真实角色／装备固定属性、开启闭包及伤害类型五阶段公式的依赖。英雄常驻额外攻速同样读取攻速及收益系数目录，不因未选装备而遗漏；角色从未录入的附加数值保持缺失，不补零。固有等级图、原装备属性和必要目录损坏仍拒绝。场景摘要覆盖规范化选择、双方资料、构筑定义／实例、来源设置、等级、自然根、排除原因和完整作者／依赖，全文排除 `readAt`（读取时间）；只改开关或被排除作者内容也会改变摘要。
 
-定向检查为 `mvn "-Dtest=SimulationSnapshotServiceTest,SimulationSnapshotAdminControllerTest,SkillObjectReferencesTest" test`，覆盖双侧0～6件装备、重复／空值／数量错误、装备404、原属性过滤缺口、整数与范围、禁用关系、去重32份上限、被动最高等级1、各拥有方等级参数、集合内外引用、全部并列结果及目录依赖、摘要稳定性与鉴权。单测不代表实库 HTTP 已读回，也不代表 Web 装配、Wasm 编译或战斗运行通过；最终本地服务的真实快照与独立数据核对由集成验收记录。
+真实来源、构筑合法性、等级与必要依赖错误沿 `409.SIMULATION_SNAPSHOT_INVALID` 返回具体字段问题，不返回部分成功快照；请求数组错误保留原输入下标，成功回显采用稳定顺序。游戏、角色或所选装备不存在沿原404，管理鉴权沿401／403。快照读取成功与原因为空均不证明 Wasm 准入或战斗通过；阶段5A新增运行支持、5B／5C机制和真实构筑数据闭环不由本模块补造。
+
+定向检查：`mvn "-Dtest=SimulationSnapshotServiceTest,SimulationSnapshotAdminControllerTest,SimulationSnapshotSourcesTest,SimulationSnapshotBuildTest,SimulationSnapshotClosureTest,SkillObjectReferencesTest" test`。功能收尾运行 `mvn test`，需要最终服务产物时运行 `mvn -DskipTests package`。这些测试使用隔离替身，不访问实库；单测和打包不能替代真实数据库、HTTP、页面或最终 Wasm 运行验收。
 
 ### 技能统一配置与角色录入检查
 
