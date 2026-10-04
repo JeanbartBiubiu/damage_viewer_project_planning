@@ -395,17 +395,17 @@ func TestPipelineUnsupportedModifierRejectedAtCompile(t *testing.T) {
 	})
 	result := compile.CompileGeneric(compileReq)
 	if result.OK {
-		t.Fatal("expected compile failure for unsupported pipeline command")
+		t.Fatal("expected compile failure for invalid shield pipeline vocabulary")
 	}
 	found := false
 	for _, e := range result.Result.Errors {
-		if e.Code == model.GenericErrUnknownRef && strings.Contains(e.Message, "unsupported pipeline modifier command") {
+		if e.Code == model.GenericErrUnknownRef && strings.Contains(e.Message, "shield modifiers require normal_shield/received") {
 			found = true
 			break
 		}
 	}
 	if !found {
-		t.Fatalf("missing unsupported command error: %+v", result.Result.Errors)
+		t.Fatalf("missing invalid shield pipeline error: %+v", result.Result.Errors)
 	}
 }
 

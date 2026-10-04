@@ -65,22 +65,26 @@ type genericRunState struct {
 	combatants map[string]combatantRuntime
 	heap       scheduler.GenericHeap
 
-	budget                 model.SafetyBudget
-	currentEventCommands   int
-	basicAttackEventActive bool
-	budgetCause            model.BudgetCause
-	basicAttack            *basicAttackRuntime
-	attackRecords          []model.BasicAttackRecord
-	damageRecords          []map[string]interface{}
-	damageBreakdown        []model.DamageBreakdown
-	damageBreakdownIndex   map[damageBreakdownKey]int
-	sourceHpLoss           float64
-	targetHpLoss           float64
-	damageRecordCount      int
-	maxAttackRecords       int
-	maxDamageRecords       int
-	effectiveSampleEveryMs int64
-	nextSampleAtMs         int64
+	budget                    model.SafetyBudget
+	currentEventCommands      int
+	basicAttackEventActive    bool
+	initializationEventActive bool
+	initializationPending     int
+	budgetCause               model.BudgetCause
+	basicAttack               *basicAttackRuntime
+	attackRecords             []model.BasicAttackRecord
+	damageRecords             []map[string]interface{}
+	damageBreakdown           []model.DamageBreakdown
+	damageBreakdownIndex      map[damageBreakdownKey]int
+	sourceHpLoss              float64
+	targetHpLoss              float64
+	sourceVampHealing         float64
+	targetVampHealing         float64
+	damageRecordCount         int
+	maxAttackRecords          int
+	maxDamageRecords          int
+	effectiveSampleEveryMs    int64
+	nextSampleAtMs            int64
 
 	abilityAttemptCount int
 	abilityCastCount    int
@@ -154,6 +158,9 @@ func RunGeneric(compiled compilebundle.CompiledSession, req model.RunRequest) (m
 }
 
 func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunRequest) (*genericRunState, *model.EngineError) {
+	if req.DriverPlan.BasicAttack != nil && len(compiled.RuleModifiers) != 0 {
+		return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "continuous basic attack does not admit unselected global modifiers", "rules.modifiers", "", compiled.SchemaHash, compiled.RulesHash, req.SessionID)
+	}
 	recheck := normalizeConditionRecheckInterval(req.DriverPlan.ConditionRecheckIntervalMs)
 
 	sampling := req.Sampling
@@ -218,6 +225,9 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 
 	combatants, err := materializeCombatants(req.InitialSnapshot, compiled, req.SessionID)
 	if err != nil {
+		return nil, err
+	}
+	if err := validateFixedEquipmentHealth(compiled, combatants, req.SessionID); err != nil {
 		return nil, err
 	}
 	usedProviderRefs := map[string]bool{}
@@ -290,6 +300,9 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 		return nil, err
 	}
 	if err := state.initBasicAttack(); err != nil {
+		return nil, err
+	}
+	if err := state.seedSourceInitialization(); err != nil {
 		return nil, err
 	}
 	state.seedDriverAttempts()
@@ -426,7 +439,8 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 			SourceAttrs: c.attributes,
 			TargetAttrs: c.attributes,
 		}
-		c.attributes = c.resolver.ResolveAttributesWithProviderContext(
+		var resolveErr error
+		c.attributes, resolveErr = c.resolver.ResolveAttributesWithProviderContext(
 			c.attributes, evalCtx, compiled.Formulas,
 			func(ownerKey, providerRef string) formula.GenericEvalContext {
 				bagOwner := ownerKey
@@ -444,6 +458,9 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 				return providerFormulaContextFromBag(bag, providerTargetActiveKey(key, ownerKey, ""))
 			},
 		)
+		if resolveErr != nil {
+			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID)
+		}
 		out[key] = c
 	}
 	// Re-resolve with cross-combatant eval context after both sides exist.
@@ -462,7 +479,8 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 		}
 		// Same-combatant cast-proxy default remains target (historical materialize semantics).
 		castProxy := model.SelectorTarget
-		c.attributes = c.resolver.ResolveAttributesWithProviderContext(
+		var resolveErr error
+		c.attributes, resolveErr = c.resolver.ResolveAttributesWithProviderContext(
 			c.attributes, evalCtx, compiled.Formulas,
 			func(ownerKey, providerRef string) formula.GenericEvalContext {
 				bagOwner := ownerKey
@@ -480,7 +498,22 @@ func materializeCombatants(snapshot model.Snapshot, compiled compilebundle.Compi
 				return providerFormulaContextFromBag(bag, providerTargetActiveKey(key, ownerKey, castProxy))
 			},
 		)
+		if resolveErr != nil {
+			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID)
+		}
 		out[key] = c
+	}
+	for _, key := range []string{"source", "target"} {
+		actor, exists := out[key]
+		if !exists {
+			continue
+		}
+		resolved, resolveErr := resolveDerivedAttributes(compiled, key, actor.attributes, actor.resolver, out["source"].attributes, out["target"].attributes, nil)
+		if resolveErr != nil {
+			return nil, engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, resolveErr.Error(), "initialSnapshot.combatants."+key+".attributes", "", compiled.SchemaHash, compiled.RulesHash, sessionID)
+		}
+		actor.attributes = resolved
+		out[key] = actor
 	}
 	return out, nil
 }
@@ -700,6 +733,8 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		s.processedEvents++
 		var err *model.EngineError
 		switch ev.Kind {
+		case scheduler.GenericEventSourceInitialized:
+			err = s.handleSourceInitialized(ev)
 		case scheduler.GenericEventProcessTimer:
 			err = s.handleProcessTimer(ev)
 		case scheduler.GenericEventAnchoredTick:
@@ -713,7 +748,9 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		case scheduler.GenericEventTriggeredContinuation:
 			err = s.handleTriggeredContinuation(ev)
 		case scheduler.GenericEventBasicAttack:
-			err = s.handleBasicAttack()
+			if s.basicAttackEventCurrent(ev) {
+				err = s.handleBasicAttack()
+			}
 		}
 		if err == nil {
 			err = s.processFailure
@@ -725,6 +762,10 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			s.setStopReason(model.StopReasonBudgetExceeded)
 			break
 		}
+		if s.basicAttack != nil && (s.combatantHp(s.basicAttack.plan.Source) <= 0 || s.combatantHp(s.basicAttack.plan.Target) <= 0) {
+			s.publishBasicAttackWait()
+			s.finalizeStopReason()
+		}
 		next, hasNext = s.heap.PeekTime()
 		if !hasNext || next > s.nowMs {
 			s.flushSamplesThrough(s.nowMs)
@@ -734,6 +775,7 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		}
 	}
 	s.finalizeStopReason()
+	s.publishBasicAttackWait()
 	if s.stopReason == model.StopReasonBudgetExceeded && s.budgetCause == "" {
 		s.budgetCause = model.BudgetCauseMaxEvents
 	}
@@ -777,7 +819,7 @@ func (s *genericRunState) finalizeStopReason() {
 			best = reason
 		}
 	}
-	if s.processedEvents >= s.budget.MaxEvents || s.budgetCause != "" || (s.stopReasonSet && s.stopReason == model.StopReasonBudgetExceeded) {
+	if s.budgetCause != "" || (s.stopReasonSet && s.stopReason == model.StopReasonBudgetExceeded) {
 		consider(model.StopReasonBudgetExceeded)
 	}
 	sourceDead := s.combatantHasHp(model.SelectorSource) && s.combatantHp(model.SelectorSource) <= 0
@@ -1043,8 +1085,10 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 		droppedSeriesPoints = requestedPoints - len(series)
 	}
 	var basicSummary *model.BasicAttackSummary
+	var sourceVampHealing, targetVampHealing *float64
 	if s.basicAttack != nil {
 		basicSummary = &s.basicAttack.summary
+		sourceVampHealing, targetVampHealing = &s.sourceVampHealing, &s.targetVampHealing
 	}
 
 	s.appendTerminalEvidence(downsampled, requestedPoints, len(series))
@@ -1071,6 +1115,8 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 			Execution:           s.executionSummary(),
 			SourceHpLoss:        s.sourceHpLoss,
 			TargetHpLoss:        s.targetHpLoss,
+			SourceVampHealing:   sourceVampHealing,
+			TargetVampHealing:   targetVampHealing,
 			DamageBreakdown:     s.damageBreakdown,
 			DurationMs:          s.nowMs - s.startMs,
 			StopReason:          s.stopReason,

@@ -5,8 +5,10 @@ package model
 const (
 	AbilityTypeBasicAttack = "ability/basic_attack"
 
-	EventTypeBasicAttackHit   = "event/basic_attack_hit"
-	EventTypeBasicAttackStart = "event/basic_attack_start"
+	EventTypeBasicAttackHit      = "event/basic_attack_hit"
+	EventTypeBasicAttackStart    = "event/basic_attack_start"
+	EventTypeBasicAttackReceived = "event/basic_attack_received"
+	EventTypeDamageTaken         = "event/damage_taken"
 
 	ProviderStateRefreshStartOnFirstWrite = "start_on_first_write"
 
@@ -61,12 +63,15 @@ var ValidOperationOutputKind = map[string]struct{}{
 // EngineProducedEventTypes 禁止 emit_event 伪造。
 func EngineProducedEventTypes() map[string]struct{} {
 	return map[string]struct{}{
-		EventTypeSkillHit:           {},
-		EventTypeSpellShieldBlocked: {},
-		EventTypeBasicAttackHit:     {},
-		EventTypeBasicAttackStart:   {},
-		EventTypeAttackLinkApplied:  {},
-		EventTypeHitLinkApplied:     {},
+		EventTypeSourceInitialized:   {},
+		EventTypeSkillHit:            {},
+		EventTypeSpellShieldBlocked:  {},
+		EventTypeBasicAttackHit:      {},
+		EventTypeBasicAttackStart:    {},
+		EventTypeAttackLinkApplied:   {},
+		EventTypeHitLinkApplied:      {},
+		EventTypeBasicAttackReceived: {},
+		EventTypeDamageTaken:         {},
 	}
 }
 
@@ -79,7 +84,7 @@ func IsEngineProducedEvent(eventType string) bool {
 // RealUseEventTypes 是 oncePerUse 允许的真实使用事件。
 func IsRealUseEvent(eventType string) bool {
 	switch eventType {
-	case EventTypeSkillHit, EventTypeBasicAttackHit, EventTypeBasicAttackStart:
+	case EventTypeSkillHit, EventTypeBasicAttackHit, EventTypeBasicAttackStart, EventTypeBasicAttackReceived, EventTypeDamageTaken, EventTypeHitLinkApplied:
 		return true
 	default:
 		return false

@@ -767,6 +767,11 @@ func (s *genericRunState) dispatchSkillHitEvent(ev emittedEvent, chainDepth int)
 	if freeze == nil || freeze.plan == nil {
 		return s.dispatchListeners(ev, chainDepth)
 	}
+	if ev.eventType == model.EventTypeBasicAttackHit {
+		if err := s.dispatchBasicAttackReceived(ev, chainDepth); err != nil {
+			return err
+		}
+	}
 	for _, idx := range freeze.matchedIndexes {
 		cand := freeze.plan.Candidates[idx]
 		skipWrites := freeze.blocked == 1 && cand.HasBlockScope && model.ScopeCovers(freeze.unitScope, freeze.occurrenceID, freeze.effectOccurrenceKey, freeze.resultKey, freeze.candidateKey, freeze.useRef, cand.BlockScope, freeze.occurrenceID, cand.EffectOccurrenceKey, cand.ResultKey, cand.CandidateKey, freeze.useRef)

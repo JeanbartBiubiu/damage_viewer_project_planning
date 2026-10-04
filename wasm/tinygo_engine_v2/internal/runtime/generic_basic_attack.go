@@ -4,8 +4,9 @@ import (
 	"math"
 	"strconv"
 	compilebundle "tinygo_engine_v2/internal/compile"
+	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
-	"tinygo_engine_v2/internal/scheduler"
+	"tinygo_engine_v2/internal/pipeline"
 )
 
 const maxJSONSafeInteger int64 = 9007199254740991
@@ -19,6 +20,8 @@ type basicAttackRuntime struct {
 	unfinishedTail     bool
 	windowSettled      bool
 	initialAbility     compilebundle.CompiledAbility
+	wait               *basicAttackWait
+	waitGeneration     uint64
 }
 
 func (s *genericRunState) basicAttackErr(message, path string) *model.EngineError {
@@ -56,19 +59,81 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 	if len(s.combatants) != 2 || !s.combatantHasHp(p.Source) || !s.combatantHasHp(p.Target) || s.combatantHp(p.Source) <= 0 || s.combatantHp(p.Target) <= 0 {
 		return s.basicAttackErr("both initial HP values must be finite and positive", "initialSnapshot.combatants.attributes.hp")
 	}
-	source, target := s.combatants[p.Source], s.combatants[p.Target]
-	if len(source.providers) != 1 || len(target.providers) != 0 {
-		return s.basicAttackErr("basic attack requires only the selected source skill mount and no target mounts", "initialSnapshot.combatants.providers")
+	source := s.combatants[p.Source]
+	selectedRef, validRef := compilebundle.ParseAbilityRef(p.StartAbilityRef)
+	if !validRef || selectedRef.Combatant != p.Source {
+		return s.basicAttackErr("basic attack requires the selected source provider", "driverPlan.basicAttack.startAbilityRef")
+	}
+	periodicOperations := map[string]bool{}
+	for _, actor := range s.compiled.Combatants {
+		gearKeys := map[string]bool{}
+		initializerKeys := map[string]bool{}
+		initializers := 0
+		for _, mount := range actor.ProviderMounts {
+			if actor.Key == p.Source && mount.ProviderRef == selectedRef.ProviderRef {
+				continue
+			}
+			gear := s.compiled.Providers[mount.DefinitionIndex]
+			tickAbility, hasTick := findTickAbility(gear, s.compiled)
+			if len(gear.Listeners) > 0 || hasTick {
+				if initializerKeys[gear.StableID] {
+					return s.basicAttackErr("duplicate equipment initialization source", "initialSnapshot.combatants.providers")
+				}
+				initializerKeys[gear.StableID] = true
+				initializers++
+				if initializers > 6 {
+					return s.basicAttackErr("too many equipment initialization sources", "initialSnapshot.combatants.providers")
+				}
+				if hasTick {
+					if err := s.validateEquipmentPeriodicProvider(gear, actor.Key, mount.ProviderRef); err != nil {
+						return err
+					}
+					for _, operation := range s.compiled.Operations[int(tickAbility.TickSpec.OnTickStart) : int(tickAbility.TickSpec.OnTickStart)+int(tickAbility.TickSpec.OnTickCount)] {
+						periodicOperations[operation.Path] = true
+					}
+				} else if err := s.validateStaticInitializer(gear, actor.Key, mount.ProviderRef); err != nil {
+					if err := s.validateEquipmentHitProvider(gear, actor.Key, mount.ProviderRef); err != nil {
+						return err
+					}
+				}
+				continue
+			}
+			if gear.Kind != "item" || gear.StableID == "" || gearKeys[gear.StableID] || len(gearKeys) >= 6 || gear.AbilityCount != 0 || len(gear.Processes)+len(gear.Listeners)+len(gear.StateFields)+len(gear.StatusContributions) != 0 || gear.Lifecycle != nil {
+				return s.basicAttackErr("this stage accepts only complete fixed-attribute equipment providers", "initialSnapshot.combatants.providers")
+			}
+			gearKeys[gear.StableID] = true
+			for _, modifier := range gear.Modifiers {
+				if !modifier.HasValue || int(modifier.ValueProgram) >= len(s.compiled.Formulas.Programs) {
+					return s.basicAttackErr("equipment attribute contribution is missing", "initialSnapshot.combatants.providers")
+				}
+				selector := pipeline.ModifierTargetCombatantSelector(modifier.Target)
+				program := s.compiled.Formulas.Programs[modifier.ValueProgram]
+				if modifier.Kind != "attribute" || modifier.HasCondition || modifier.ValuePolicy != "add" || (selector != "" && selector != model.SelectorSelf) || len(program.Instr) != 1 || program.Instr[0].Op != formula.GenericOpConst {
+					return s.basicAttackErr("equipment attributes require unconditional flat contributions", "initialSnapshot.combatants.providers")
+				}
+			}
+		}
+		for key := range initializerKeys {
+			if !gearKeys[key] {
+				return s.basicAttackErr("equipment initializer must belong to a selected fixed equipment source", "initialSnapshot.combatants.providers")
+			}
+		}
+	}
+	for _, derivation := range s.compiled.AttributeDerivations {
+		if derivation.AttributeKey != p.AttackSpeedAttributeKey {
+			return s.basicAttackErr("this stage allows only the actual attack-speed derivation", derivation.Path+".attributeKey")
+		}
 	}
 	as, ok := source.attributes[p.AttackSpeedAttributeKey]
-	if !ok || math.IsNaN(as.Resolved) || math.IsInf(as.Resolved, 0) || as.Resolved <= 0 || math.IsNaN(p.AttackSpeedInputMax) || math.IsInf(p.AttackSpeedInputMax, 0) || p.AttackSpeedInputMax <= 0 || as.Resolved > p.AttackSpeedInputMax {
+	_, initializes := s.compiled.Types.Registry.Lookup(model.EventTypeSourceInitialized)
+	if !ok || math.IsNaN(as.Resolved) || math.IsInf(as.Resolved, 0) || as.Resolved <= 0 || math.IsNaN(p.AttackSpeedInputMax) || math.IsInf(p.AttackSpeedInputMax, 0) || p.AttackSpeedInputMax <= 0 || (!initializes && as.Resolved > p.AttackSpeedInputMax) {
 		return s.basicAttackErr("attack speed must be positive and within the explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
 	}
 	lookup := func(ref string) (compilebundle.CompiledAbility, bool) {
 		entry := model.DriverEntry{AbilityRef: ref, Source: p.Source, Target: p.Target}
 		ability, normalized, found := s.lookupDriverAbility(entry)
 		parsed, valid := compilebundle.ParseAbilityRef(ref)
-		return ability, found && valid && normalized == ref && parsed.Combatant == p.Source && parsed.ProviderRef == source.providers[0].ProviderRef && ability.SkillKey == p.SkillKey && ability.IsBasicAttack
+		return ability, found && valid && normalized == ref && parsed.Combatant == p.Source && parsed.ProviderRef == selectedRef.ProviderRef && ability.SkillKey == p.SkillKey && ability.IsBasicAttack
 	}
 	start, good := lookup(p.StartAbilityRef)
 	if !good || start.OperationCount != 0 || start.HasSkillHit || start.ProcessControl != nil || start.Cost != nil || start.Cooldown != nil || start.HasCastCondition || start.TickSpec != nil {
@@ -105,11 +170,45 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 	if len(provider.Processes) != 1 || provider.AbilityCount != 3 || provider.Lifecycle != nil || len(provider.Modifiers)+len(provider.StateFields)+len(provider.StatusContributions) != 0 {
 		return s.basicAttackErr("continuous basic attack requires the complete static three-ability provider", "driverPlan.basicAttack")
 	}
-	if len(s.compiled.Listeners) != 1 || len(s.runtimeListeners) != 0 {
+	if len(s.runtimeListeners) != 0 {
 		return s.basicAttackErr("continuous basic attack requires the unique native-start listener", "driverPlan.basicAttack")
 	}
-	listener := s.compiled.Listeners[0]
-	if listener.OwnerCombatantKey != p.Source || listener.OwnerProviderRef != source.providers[0].ProviderRef || !listener.HasAbilityRef || normalizeAbilityRef(listener.AbilityRef, p.Source, p.Target) != p.InitialControlAbilityRef || listener.OperationCount != 0 || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 {
+	var listener compilebundle.CompiledListener
+	startListeners := 0
+	initializationOperations := map[string]bool{}
+	triggerOperations := map[string]bool{}
+	auraOwners := map[string]bool{}
+	for _, entry := range s.compiled.Listeners {
+		if entry.OwnerCombatantKey == p.Source && entry.OwnerProviderRef == selectedRef.ProviderRef {
+			listener = entry
+			startListeners++
+		} else {
+			if err := s.validateStaticInitializationListener(entry); err != nil {
+				if err := s.validateEquipmentHitListener(entry); err != nil {
+					return err
+				}
+				for _, operation := range s.compiled.Operations[int(entry.OperationStart) : int(entry.OperationStart)+int(entry.OperationCount)] {
+					triggerOperations[operation.Path] = true
+				}
+				continue
+			}
+			for _, operation := range s.compiled.Operations[int(entry.OperationStart) : int(entry.OperationStart)+int(entry.OperationCount)] {
+				definition, _ := s.findProviderDefinitionIndex(operation.ProviderDefinitionRef)
+				modifier := s.compiled.Providers[definition].Modifiers[0]
+				if modifier.Kind == "attribute" {
+					if auraOwners[entry.OwnerCombatantKey] {
+						return s.basicAttackErr("this stage accepts only one static attack-speed aura per opponent", operation.Path)
+					}
+					auraOwners[entry.OwnerCombatantKey] = true
+				}
+				initializationOperations[operation.Path] = true
+			}
+		}
+	}
+	if startListeners != 1 {
+		return s.basicAttackErr("continuous basic attack requires the unique native-start listener", "driverPlan.basicAttack")
+	}
+	if listener.OwnerCombatantKey != p.Source || listener.OwnerProviderRef != selectedRef.ProviderRef || !listener.HasAbilityRef || normalizeAbilityRef(listener.AbilityRef, p.Source, p.Target) != p.InitialControlAbilityRef || listener.OperationCount != 0 || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 {
 		return s.basicAttackErr("pre-hit listener must only start the actual selected process", "driverPlan.basicAttack.initialControlAbilityRef")
 	}
 	set := start.TypeSet
@@ -135,6 +234,9 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		}
 	}
 	for _, op := range s.compiled.Operations {
+		if initializationOperations[op.Path] || triggerOperations[op.Path] || periodicOperations[op.Path] {
+			continue
+		}
 		if op.Target != "target" {
 			return s.basicAttackErr("continuous basic attack results require the actual target", op.Path)
 		}
@@ -174,6 +276,9 @@ func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
 	if b == nil {
 		return s.basicAttackErr("basic attack event has no plan", "driverPlan.basicAttack")
 	}
+	if s.initializationPending != 0 {
+		return s.basicAttackErr("all source initialization must settle before the first attack", "initialSnapshot")
+	}
 	if s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0 {
 		return nil
 	}
@@ -181,12 +286,10 @@ func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
 	if math.IsNaN(currentSpeed) || math.IsInf(currentSpeed, 0) || currentSpeed <= 0 || currentSpeed > b.plan.AttackSpeedInputMax {
 		return s.basicAttackErr("current attack speed violates its explicit input bound", "driverPlan.basicAttack.attackSpeedInputMax")
 	}
-	if b.current != nil && currentSpeed != b.current.AttackSpeed {
-		return s.basicAttackErr("dynamic attack speed is unsupported in this stage", "driverPlan.basicAttack.attackSpeedAttributeKey")
-	}
 	if b.summary.StartedCount >= s.budget.MaxBasicAttacks {
 		return s.budgetError(model.BudgetCauseMaxBasicAttacks, "basic attack count exceeded")
 	}
+	b.wait = nil
 	s.basicAttackEventActive = true
 	s.currentEventCommands = 0
 	defer func() { s.basicAttackEventActive = false; s.finishCurrentAttackRecord() }()
@@ -229,6 +332,10 @@ func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
 		return s.basicAttackErr("committed attack cooldown is missing or invalid", b.plan.InitialControlAbilityRef)
 	}
 	b.current.ReadyAtMs = &ready
+	b.current.FinalReadyAtMs = &ready
+	if err := s.beginBasicAttackWait(ready, currentSpeed); err != nil {
+		return err
+	}
 	if s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0 {
 		return s.basicAttackErr("combatant died before native hit", "driverPlan.basicAttack")
 	}
@@ -250,13 +357,6 @@ func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
 	if b.targetKilledAt != nil || s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0 {
 		return nil
 	}
-	if ready > s.startMs+s.durationMs {
-		b.windowSettled = true
-		return nil
-	}
-	if !s.pushCombatEvent(scheduler.GenericEvent{TimeMs: ready, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1}) {
-		return s.processFailure
-	}
-	b.current.NextStartAtMs = &ready
+	s.publishBasicAttackWait()
 	return nil
 }

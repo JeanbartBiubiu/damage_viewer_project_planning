@@ -17,6 +17,41 @@ type pendingFrameAnchoredTick struct {
 	payload anchoredTickPayload
 }
 
+type pendingFrameProviderTick struct {
+	at          int64
+	owner       string
+	provider    string
+	intervalMs  int64
+	expireAt    int64
+	activatedAt int64
+}
+
+func (f *executionFrame) providerTickCanContinue() bool {
+	if f.pendingProviderTick == nil {
+		return false
+	}
+	if f.run.basicAttack == nil {
+		return true
+	}
+	return f.continuousCombatantsLive()
+}
+
+func (f *executionFrame) continuousCombatantsLive() bool {
+	if f.run.basicAttack == nil {
+		return true
+	}
+	for _, key := range []string{f.run.basicAttack.plan.Source, f.run.basicAttack.plan.Target} {
+		health := f.run.combatantHp(key)
+		if staged := f.staged[key]; staged != nil {
+			health = staged.attributes["hp"].Current
+		}
+		if health <= 0 {
+			return false
+		}
+	}
+	return true
+}
+
 func (f *executionFrame) stageProviderTargetStateExpiry(owner, provider, target, key string, expires int64) {
 	if expires <= 0 || owner == "" || provider == "" || key == "" {
 		return
@@ -78,6 +113,14 @@ func (f *executionFrame) commitKeysAndPreflight() ([]string, *model.EngineError)
 	}
 	sort.Strings(keys)
 	count := len(f.pendingStateExpiry) + len(f.pendingAnchoredTicks)
+	if f.providerTickCanContinue() {
+		count++
+	}
+	waitEvents, waitError := f.prepareBasicAttackWait()
+	if waitError != nil {
+		return nil, waitError
+	}
+	count += waitEvents
 	if f.pendingProcessTimer {
 		count++
 	}
@@ -158,9 +201,11 @@ func (f *executionFrame) preflightProviderMutation(providers []status.ProviderIn
 		tick, hasTick := findTickAbility(definition, s.compiled)
 		if !hasTick || tick.TickSpec == nil || !tick.TickSpec.IsAnchored() {
 			interval, delay, ok := s.providerTickSchedule(defIndex)
-			first := s.nowMs + delay
-			if ok && interval > 0 && (expires <= 0 || first < expires) && first <= s.startMs+s.durationMs {
-				added++
+			if ok && interval > 0 && delay <= s.startMs+s.durationMs-s.nowMs && f.continuousCombatantsLive() {
+				first := s.nowMs + delay
+				if s.basicAttack != nil || expires <= 0 || first < expires {
+					added++
+				}
 			}
 		}
 		providers = append(providers, status.ProviderInstance{DefinitionRef: mutation.definitionRef, DefinitionIndex: defIndex,
@@ -212,11 +257,16 @@ func (f *executionFrame) preflightProviderMutation(providers []status.ProviderIn
 }
 
 func (f *executionFrame) commitFrameQueues() {
+	f.commitBasicAttackWait()
 	for _, pending := range f.pendingStateExpiry {
 		f.run.enqueueExpireCleanup(pending.at, pending.payload)
 	}
 	for _, pending := range f.pendingAnchoredTicks {
 		f.run.enqueueAnchoredTickAt(pending.at, pending.payload)
+	}
+	if f.providerTickCanContinue() {
+		pending := f.pendingProviderTick
+		f.run.enqueueProviderTickAt(pending.at, pending.owner, pending.provider, pending.intervalMs, pending.expireAt, pending.activatedAt)
 	}
 	f.enqueueCommittedTimedShields()
 	if f.pendingProcessTimer {

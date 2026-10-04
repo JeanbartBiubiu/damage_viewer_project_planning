@@ -469,6 +469,6 @@ func validateEmitEventNotForged(op model.OperationDefinition, path string, ctx *
 		eventType = op.Ref
 	}
 	if model.IsEngineProducedEvent(eventType) {
-		ctx.collector.addError(model.GenericErrUnknownRef, path+".eventType", "emit_event cannot forge engine-produced skill hit events", eventType)
+		ctx.collector.addError(model.GenericErrUnknownRef, path+".eventType", "emit_event cannot forge engine-produced events", eventType)
 	}
 }

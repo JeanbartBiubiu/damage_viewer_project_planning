@@ -2,7 +2,7 @@ package runtime
 
 import "tinygo_engine_v2/internal/model"
 
-type damageBreakdownKey struct{ owner, source, target, ability, operation, damageType string }
+type damageBreakdownKey struct{ owner, source, target, ability, operation, damageType, definition string }
 
 // This hook sees only committed damage; retention limits never affect totals.
 func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDamageEvidence) {
@@ -14,24 +14,43 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 	}
 	data := genericDamageEvidenceItem(ev, s.nowMs).Data
 	data["owner"] = ev.owner
+	if ev.providerDefinitionRef != "" {
+		data["providerDefinitionRef"] = ev.providerDefinitionRef
+		if ev.providerActivatedAtMs != nil {
+			data["providerActivatedAtMs"] = *ev.providerActivatedAtMs
+		}
+	}
 	data["operationPath"] = ev.operationPath
 	data["hpBefore"] = ev.hpBefore
 	data["hpAfter"] = ev.hpAfter
+	data["sourceHpBefore"], data["sourceHpAfter"] = nil, nil
+	if ev.hasSourceHp {
+		data["sourceHpBefore"], data["sourceHpAfter"] = ev.sourceHpBefore, ev.sourceHpAfter
+		if s.basicAttack != nil {
+			if ev.source == s.basicAttack.plan.Source {
+				s.sourceVampHealing += ev.sourceHpAfter - ev.sourceHpBefore
+			} else if ev.source == s.basicAttack.plan.Target {
+				s.targetVampHealing += ev.sourceHpAfter - ev.sourceHpBefore
+			}
+		}
+	}
 	data["castInstanceId"] = ev.castInstanceID
 	data["abilityRef"] = ev.abilityRef
 	data["operationRef"] = ev.operationRef
 	data["useRef"] = ""
 	data["attackIndex"] = 0
 	data["timeMs"] = s.nowMs
-	if s.basicAttack != nil && s.basicAttack.current != nil {
+	if s.basicAttack != nil && s.basicAttack.current != nil && s.basicAttackEventActive {
 		row := s.basicAttack.current
 		data["useRef"], data["attackIndex"] = row.UseRef, row.AttackIndex
-		row.PostDefenseDamage += ev.outcome.MitigatedAmount
-		row.ActualHpLoss += ev.outcome.HPDamage
-		if ev.target == s.basicAttack.plan.Target && ev.hpBefore > 0 && ev.hpAfter <= 0 && s.basicAttack.targetKilledAt == nil {
-			at := s.nowMs
-			s.basicAttack.targetKilledAt = &at
+		if ev.source == s.basicAttack.plan.Source && ev.target == s.basicAttack.plan.Target {
+			row.PostDefenseDamage += ev.outcome.MitigatedAmount
+			row.ActualHpLoss += ev.outcome.HPDamage
 		}
+	}
+	if s.basicAttack != nil && ev.target == s.basicAttack.plan.Target && ev.hpBefore > 0 && ev.hpAfter <= 0 && s.basicAttack.targetKilledAt == nil {
+		at := s.nowMs
+		s.basicAttack.targetKilledAt = &at
 	}
 	if ev.target == model.SelectorSource {
 		s.sourceHpLoss += ev.outcome.HPDamage
@@ -40,12 +59,12 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 		s.targetHpLoss += ev.outcome.HPDamage
 	}
 	overkill := data["overkillDamage"].(float64)
-	key := damageBreakdownKey{ev.owner, ev.source, ev.target, ev.abilityRef, ev.operationRef, ev.damageType}
+	key := damageBreakdownKey{ev.owner, ev.source, ev.target, ev.abilityRef, ev.operationRef, ev.damageType, ev.providerDefinitionRef}
 	index, ok := s.damageBreakdownIndex[key]
 	if !ok {
 		index = len(s.damageBreakdown)
 		s.damageBreakdownIndex[key] = index
-		s.damageBreakdown = append(s.damageBreakdown, model.DamageBreakdown{Owner: ev.owner, Source: ev.source, Target: ev.target, AbilityRef: ev.abilityRef, OperationRef: ev.operationRef, DamageType: ev.damageType})
+		s.damageBreakdown = append(s.damageBreakdown, model.DamageBreakdown{Owner: ev.owner, Source: ev.source, Target: ev.target, AbilityRef: ev.abilityRef, OperationRef: ev.operationRef, DamageType: ev.damageType, ProviderDefinitionRef: ev.providerDefinitionRef})
 	}
 	group := &s.damageBreakdown[index]
 	group.DamageCount++
@@ -64,7 +83,8 @@ func (s *genericRunState) executionSummary() *model.RunExecutionSummary {
 		return nil
 	}
 	b := s.basicAttack
-	complete := !b.unfinishedTail && (b.targetKilledAt != nil || s.nowMs >= s.startMs+s.durationMs)
+	dead := s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0
+	complete := s.budgetCause == "" && !b.unfinishedTail && (dead || s.nowMs >= s.startMs+s.durationMs)
 	result := &model.RunExecutionSummary{RequestedDurationMs: s.durationMs, Complete: complete, TargetKilled: b.targetKilledAt != nil, TargetKilledAtMs: b.targetKilledAt}
 	if s.budgetCause != "" {
 		cause := s.budgetCause

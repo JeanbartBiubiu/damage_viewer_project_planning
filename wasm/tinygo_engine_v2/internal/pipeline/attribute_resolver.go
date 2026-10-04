@@ -2,6 +2,7 @@
 package pipeline
 
 import (
+	"fmt"
 	"math"
 	"sort"
 	"strings"
@@ -153,7 +154,7 @@ type ProviderFormulaContextFunc func(ownerCombatantKey, providerRef string) form
 
 // ResolveAttributes 按 bucket/stage/priority 聚合 modifier，写回 resolved。
 // 等价于 ResolveAttributesWithProviderContext(..., nil)。
-func (r AttributeResolver) ResolveAttributes(attrs map[string]model.AttributeSlotDef, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry) map[string]model.AttributeSlotDef {
+func (r AttributeResolver) ResolveAttributes(attrs map[string]model.AttributeSlotDef, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry) (map[string]model.AttributeSlotDef, error) {
 	return r.ResolveAttributesWithProviderContext(attrs, evalCtx, formulas, nil)
 }
 
@@ -165,9 +166,21 @@ func (r AttributeResolver) ResolveAttributesWithProviderContext(
 	evalCtx formula.GenericEvalContext,
 	formulas formula.GenericRegistry,
 	providerContext ProviderFormulaContextFunc,
-) map[string]model.AttributeSlotDef {
+) (map[string]model.AttributeSlotDef, error) {
+	return r.resolveAttributes(attrs, evalCtx, formulas, providerContext, nil)
+}
+
+func (r AttributeResolver) ResolveDerivedAttribute(attributeKey string, slot model.AttributeSlotDef, value float64, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc) (model.AttributeSlotDef, error) {
+	resolved, err := r.resolveAttributes(map[string]model.AttributeSlotDef{attributeKey: slot}, evalCtx, formulas, providerContext, map[string]float64{attributeKey: value})
+	if err != nil {
+		return model.AttributeSlotDef{}, err
+	}
+	return resolved[attributeKey], nil
+}
+
+func (r AttributeResolver) resolveAttributes(attrs map[string]model.AttributeSlotDef, evalCtx formula.GenericEvalContext, formulas formula.GenericRegistry, providerContext ProviderFormulaContextFunc, initialValues map[string]float64) (map[string]model.AttributeSlotDef, error) {
 	if attrs == nil {
-		return attrs
+		return attrs, nil
 	}
 	byAttr := map[string][]MountedAttributeModifier{}
 	for _, m := range r.mounts {
@@ -177,11 +190,17 @@ func (r AttributeResolver) ResolveAttributesWithProviderContext(
 	for k, v := range attrs {
 		out[k] = v
 	}
-	for attrKey, slot := range out {
+	attributeKeys := make([]string, 0, len(out))
+	for attrKey := range out {
+		attributeKeys = append(attributeKeys, attrKey)
+	}
+	sort.Strings(attributeKeys)
+	for _, attrKey := range attributeKeys {
+		slot := out[attrKey]
 		mods := byAttr[attrKey]
 		base := slot.Base
-		if base == 0 {
-			base = slot.Current
+		if derived, exists := initialValues[attrKey]; exists {
+			base = derived
 		}
 		if len(mods) == 0 {
 			slot.Resolved = base
@@ -227,14 +246,17 @@ func (r AttributeResolver) ResolveAttributesWithProviderContext(
 			}
 			value, err := formulas.Eval(mod.ValueProgram, modCtx)
 			if err != nil || math.IsNaN(value) || math.IsInf(value, 0) {
-				continue
+				return nil, fmt.Errorf("attribute %s modifier %s: invalid value: %v", attrKey, mod.ModifierKey, err)
 			}
 			resolved = applyValuePolicy(resolved, base, mod.ValuePolicy, value)
+			if math.IsNaN(resolved) || math.IsInf(resolved, 0) {
+				return nil, fmt.Errorf("attribute %s modifier %s: non-finite resolved value", attrKey, mod.ModifierKey)
+			}
 		}
 		slot.Resolved = resolved
 		out[attrKey] = slot
 	}
-	return out
+	return out, nil
 }
 
 func applyValuePolicy(current, base float64, policy string, value float64) float64 {

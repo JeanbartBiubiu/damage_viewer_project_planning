@@ -252,7 +252,7 @@ func (s *genericRunState) oncePerUseKey(listener compilebundle.CompiledListener,
 		return useTriggerKey{}, s.skillHitErr(model.GenericErrMissingRequiredField, "oncePerUse requires a real use fact on the triggering event", "listeners["+listener.ListenerKey+"].oncePerUse", listener.OncePerUseGroup)
 	}
 	if !model.IsRealUseEvent(ev.eventType) {
-		return useTriggerKey{}, s.skillHitErr(model.GenericErrUnknownRef, "oncePerUse only accepts skill_hit, basic_attack_hit or basic_attack_start", "listeners["+listener.ListenerKey+"].oncePerUse", ev.eventType)
+		return useTriggerKey{}, s.skillHitErr(model.GenericErrUnknownRef, "oncePerUse requires an engine-produced originating-use event", "listeners["+listener.ListenerKey+"].oncePerUse", ev.eventType)
 	}
 	key := useTriggerKey{
 		owner:       listener.OwnerCombatantKey,
@@ -264,6 +264,9 @@ func (s *genericRunState) oncePerUseKey(listener compilebundle.CompiledListener,
 	}
 	if listener.OncePerUseScope == model.OncePerUseScopeProviderTarget {
 		key.target = ev.targetKey
+		if ev.eventType == model.EventTypeDamageTaken || ev.eventType == model.EventTypeBasicAttackReceived {
+			_, key.target = s.listenerFrameCombatants(ev, listener)
+		}
 	}
 	return key, nil
 }

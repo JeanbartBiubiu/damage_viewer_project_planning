@@ -274,12 +274,19 @@ type TypeMatcher struct {
 
 // RulesContainer 聚合全局规则。
 type RulesContainer struct {
-	DamageTypeFormulas []DamageTypeFormulaDefinition `json:"damageTypeFormulas,omitempty"`
-	VampRules          []VampRuleDefinition          `json:"vampRules,omitempty"`
-	Operations         []OperationDefinition         `json:"operations,omitempty"`
-	Modifiers          []ModifierDefinition          `json:"modifiers,omitempty"`
-	Listeners          []ListenerDefinition          `json:"listeners,omitempty"`
-	TriggerRules       []interface{}                 `json:"triggerRules,omitempty"`
+	AttributeDerivations []AttributeDerivationDefinition `json:"attributeDerivations,omitempty"`
+	DamageTypeFormulas   []DamageTypeFormulaDefinition   `json:"damageTypeFormulas,omitempty"`
+	VampRules            []VampRuleDefinition            `json:"vampRules,omitempty"`
+	Operations           []OperationDefinition           `json:"operations,omitempty"`
+	Modifiers            []ModifierDefinition            `json:"modifiers,omitempty"`
+	Listeners            []ListenerDefinition            `json:"listeners,omitempty"`
+	TriggerRules         []interface{}                   `json:"triggerRules,omitempty"`
+}
+
+type AttributeDerivationDefinition struct {
+	CombatantKey string             `json:"combatantKey"`
+	AttributeKey string             `json:"attributeKey"`
+	Value        GenericFormulaExpr `json:"value"`
 }
 
 // NamedFormula 是命名公式定义（供 ref 引用）。

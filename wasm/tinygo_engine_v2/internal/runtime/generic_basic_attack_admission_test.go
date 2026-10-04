@@ -7,7 +7,7 @@ import (
 )
 
 func TestContinuousAttackRejectsDynamicOrUnfreshInputs(t *testing.T) {
-	for _, kind := range []string{"dynamic_speed", "resource_cost", "mixed_listener", "extra_origin_listener", "temporary_mount", "provider_state", "unknown_target_mount", "changed_numeric_snapshot", "negative_sampling"} {
+	for _, kind := range []string{"dynamic_speed", "resource_cost", "mixed_listener", "extra_origin_listener", "temporary_mount", "provider_state", "unknown_target_mount", "changed_numeric_snapshot", "negative_sampling", "global_modifier"} {
 		t.Run(kind, func(t *testing.T) {
 			c, r := continuousAttackInput(1, 10000, 100, 0, 0, 2000)
 			switch kind {
@@ -34,9 +34,14 @@ func TestContinuousAttackRejectsDynamicOrUnfreshInputs(t *testing.T) {
 				r.InitialSnapshot.Combatants[0].Attributes["attack_speed"] = authoringSlot(2)
 			case "negative_sampling":
 				r.Sampling = model.SamplingConfig{SampleEveryMs: -1, DpsWindowMs: 1000, MaxSeriesPoints: 10}
+			case "global_modifier":
+				c.Rules.Modifiers = []model.ModifierDefinition{{ModifierKey: "unselected", Kind: "pipeline", Command: "damage", Channel: "all_damage", Stage: "outgoing_pre_mitigation", Bucket: "all_instances", ValuePolicy: "multiply", Value: authoringConst(1.1)}}
 			}
 			compiled := compile.CompileGeneric(c)
 			if !compiled.OK {
+				if kind == "global_modifier" {
+					t.Fatalf("global modifier fixture must compile before runtime admission: %+v", compiled.Result.Errors)
+				}
 				t.Logf("rejected at compile: %+v", compiled.Result.Errors)
 				return
 			}

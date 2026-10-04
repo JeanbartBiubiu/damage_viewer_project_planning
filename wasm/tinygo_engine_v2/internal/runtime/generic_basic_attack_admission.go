@@ -1,6 +1,9 @@
 package runtime
 
-import "tinygo_engine_v2/internal/model"
+import (
+	"math"
+	"tinygo_engine_v2/internal/model"
+)
 
 func (s *genericRunState) validateBasicAttackInitialSnapshot() *model.EngineError {
 	if len(s.req.InitialSnapshot.Combatants) != 2 || len(s.compiled.Combatants) != 2 {
@@ -31,19 +34,26 @@ func (s *genericRunState) validateBasicAttackInitialSnapshot() *model.EngineErro
 					return s.basicAttackErr("initial resource differs from the compiled input", "initialSnapshot.combatants.resources."+key)
 				}
 			}
-			expected := 0
-			if actor.Key == "source" {
-				expected = 1
+			if len(actor.Providers) != len(definition.ProviderMounts) {
+				return s.basicAttackErr("initial mounts must exactly match the compiled selection", "initialSnapshot.combatants.providers")
 			}
-			if len(actor.Providers) != expected || len(definition.ProviderMounts) != expected {
-				return s.basicAttackErr("initial mounts must exactly match the compiled selected skill", "initialSnapshot.combatants.providers")
-			}
-			if expected == 1 {
-				mount := definition.ProviderMounts[0]
-				raw := actor.Providers[0]
-				if raw.ProviderRef != mount.ProviderRef || raw.DefinitionRef != s.compiled.Providers[mount.DefinitionIndex].ProviderKey || raw.Source != actor.Key || raw.Owner != actor.Key || raw.Stacks != 1 || raw.ExpireAt != nil || len(raw.State)+len(raw.StatusContributions) != 0 {
-					return s.basicAttackErr("initial selected skill must be persistent, single-layer and without runtime state", "initialSnapshot.combatants.providers")
+			seenMounts := map[string]bool{}
+			for _, raw := range actor.Providers {
+				matched := false
+				for _, mount := range definition.ProviderMounts {
+					if raw.ProviderRef == mount.ProviderRef && raw.DefinitionRef == s.compiled.Providers[mount.DefinitionIndex].ProviderKey {
+						matched = true
+						break
+					}
 				}
+				if !matched || seenMounts[raw.ProviderRef] || raw.Source != actor.Key || raw.Owner != actor.Key || raw.Stacks != 1 || raw.ExpireAt != nil || len(raw.State)+len(raw.StatusContributions) != 0 {
+					return s.basicAttackErr("initial providers must match the fresh single-layer selected mounts", "initialSnapshot.combatants.providers")
+				}
+				seenMounts[raw.ProviderRef] = true
+			}
+			hp := s.combatants[actor.Key].attributes["hp"]
+			if math.IsNaN(hp.Max) || math.IsInf(hp.Max, 0) || hp.Max <= 0 || hp.Current < 0 || hp.Current > hp.Max || math.Abs(hp.Max-hp.Resolved) > 1e-9*math.Max(1, math.Abs(hp.Max)) {
+				return s.basicAttackErr("initial HP maximum must equal the native equipped maximum and current HP must stay within it", "initialSnapshot.combatants.attributes.hp")
 			}
 		}
 		if !found {

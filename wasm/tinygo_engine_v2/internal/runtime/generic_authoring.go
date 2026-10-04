@@ -102,11 +102,12 @@ func (f *executionFrame) applyLink(ability compilebundle.CompiledAbility, op com
 		"eventType": eventType, "source": f.sourceKey, "target": target, "useRef": useKey, "skillKey": useSkill, "count": count,
 	}})
 	for index := 1; index <= count; index++ {
+		eventTypes := append([]string{eventType}, f.abilityTypeKeys(ability)...)
 		snapshot := f.captureEmitSnapshot(eventType, f.sourceKey, target)
 		snapshot.hasLink, snapshot.linkIndex, snapshot.linkCount = true, index, count
 		ev := emittedEvent{
 			eventType: eventType, ref: op.Ref, sourceKey: f.sourceKey, targetKey: target,
-			types: f.appendCastOriginEventType([]string{eventType}), snapshot: snapshot,
+			types: f.appendCastOriginEventType(eventTypes), snapshot: snapshot,
 			castInstanceID: f.castInstanceID, castOrigin: f.castOrigin,
 			hasUse: true, useKey: useKey, useSource: useSource, useSkillKey: useSkill,
 		}

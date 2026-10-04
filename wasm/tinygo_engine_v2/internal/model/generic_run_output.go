@@ -66,6 +66,8 @@ type RunSummary struct {
 	Execution           *RunExecutionSummary `json:"execution,omitempty"`
 	SourceHpLoss        float64              `json:"sourceHpLoss"`
 	TargetHpLoss        float64              `json:"targetHpLoss"`
+	SourceVampHealing   *float64             `json:"sourceVampHealing,omitempty"`
+	TargetVampHealing   *float64             `json:"targetVampHealing,omitempty"`
 	DamageBreakdown     []DamageBreakdown    `json:"damageBreakdown"`
 	DurationMs          int64                `json:"durationMs"`
 	StopReason          StopReason           `json:"stopReason"`

@@ -126,6 +126,10 @@ func CompileMatcher(input model.TypeMatcherV2, registry Registry) (Matcher, []st
 	return matcher, problems
 }
 
+func (m Matcher) RequiresAllType(id TypeID) bool {
+	return m.all.Contains(id)
+}
+
 func (m Matcher) Match(types TypeSet) bool {
 	if m.impossible {
 		return false

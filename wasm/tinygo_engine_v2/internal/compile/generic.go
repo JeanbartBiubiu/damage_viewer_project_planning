@@ -23,21 +23,29 @@ type CompiledAbilityRef struct {
 
 // CompiledSession 是 generic compile 输出的只读 session 快照。
 type CompiledSession struct {
-	SchemaVersion      string
-	SchemaHash         string
-	RulesHash          string
-	Types              typeset.CatalogResult
-	Combatants         []CompiledCombatant
-	Providers          []CompiledProvider
-	Abilities          []CompiledAbility
-	Operations         []CompiledOperation
-	Formulas           formula.GenericRegistry
-	Settings           model.GenericCompileSettings
-	AbilityRefIndex    map[string]CompiledAbilityRef
-	RuleModifiers      []CompiledModifier
-	Listeners          []CompiledListener
-	VampRules          []CompiledVampRule
-	DamageTypeFormulas map[string]CompiledDamageTypeFormula
+	SchemaVersion        string
+	SchemaHash           string
+	RulesHash            string
+	Types                typeset.CatalogResult
+	Combatants           []CompiledCombatant
+	Providers            []CompiledProvider
+	Abilities            []CompiledAbility
+	Operations           []CompiledOperation
+	Formulas             formula.GenericRegistry
+	Settings             model.GenericCompileSettings
+	AbilityRefIndex      map[string]CompiledAbilityRef
+	RuleModifiers        []CompiledModifier
+	Listeners            []CompiledListener
+	VampRules            []CompiledVampRule
+	DamageTypeFormulas   map[string]CompiledDamageTypeFormula
+	AttributeDerivations []CompiledAttributeDerivation
+}
+
+type CompiledAttributeDerivation struct {
+	CombatantKey string
+	AttributeKey string
+	ValueProgram formula.GenericProgramID
+	Path         string
 }
 
 // CompiledCombatant 是 compile 后的 combatant 定义。
@@ -424,6 +432,7 @@ func CompileGeneric(req model.CompileRequest) GenericCompileResult {
 		session.Formulas.Programs = append(session.Formulas.Programs, prog)
 	}
 	compileRulesOperations(req.Rules, ctx)
+	compileAttributeDerivations(req.Rules.AttributeDerivations, ctx)
 	buildAbilityRefIndex(ctx)
 	validateProcessAbilityRefs(req, ctx)
 	validateAllAbilityRefs(req, ctx)
@@ -688,6 +697,9 @@ func compileAbilityDefinition(ability model.AbilityDefinition, path string, prov
 		if ts.IntervalMs <= 0 {
 			collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.intervalMs", "tickSpec.intervalMs must be > 0", ability.AbilityKey)
 		}
+		if ts.StartDelayMs < 0 {
+			collector.addError(model.GenericErrMissingRequiredField, path+".tickSpec.startDelayMs", "tickSpec.startDelayMs must be >= 0", ability.AbilityKey)
+		}
 		tickSpec := &CompiledTickSpec{
 			IntervalMs:   ts.IntervalMs,
 			StartDelayMs: ts.StartDelayMs,
@@ -876,6 +888,12 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 // command=crit stages: crit_chance_pre_settlement|crit_multiplier_forced_branch|crit_multiplier_natural_branch
 // Channels: basic_damage|all_damage. Buckets: all_instances|first_per_cast.
 func validatePipelineModifier(mod CompiledModifier, path string, collector *genericCollector) {
+	if mod.Command == "shield" {
+		if mod.Channel != "normal_shield" || mod.Stage != "received" || mod.Bucket == "" || mod.ValuePolicy != "add_percent" || !mod.HasValue || mod.HealDirection != "" || mod.HealCategory != "" || mod.HealGroupKey != "" || mod.HealGroupCalculationMode != "" {
+			collector.addError(model.GenericErrUnknownRef, path, "shield modifiers require normal_shield/received, an explicit group and add_percent", mod.ModifierKey)
+		}
+		return
+	}
 	if mod.Command == "heal" {
 		validateHealPipelineModifier(mod, path, collector)
 		return

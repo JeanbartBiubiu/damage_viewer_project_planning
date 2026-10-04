@@ -27,9 +27,44 @@ func TestAttributeResolverMultipleModifiersByPriority(t *testing.T) {
 		"attack_damage": {Base: 100, Current: 100},
 	}
 	ctx := formula.GenericEvalContext{TargetAttrs: attrs}
-	out := resolver.ResolveAttributes(attrs, ctx, registry)
+	out, err := resolver.ResolveAttributes(attrs, ctx, registry)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if out["attack_damage"].Resolved != 115 {
 		t.Fatalf("resolved=%v want 115", out["attack_damage"].Resolved)
+	}
+}
+
+func TestAttributeResolverZeroBaseDoesNotReuseCurrentTotal(t *testing.T) {
+	registry := formula.GenericRegistry{Programs: []formula.GenericProgram{
+		{Key: "gear_speed", Instr: []formula.GenericInstr{{Op: formula.GenericOpConst, Value: 0.15}}},
+	}}
+	var resolver AttributeResolver
+	resolver.MountCompiledModifierOwned("source", "gear", compilebundle.CompiledModifier{
+		ModifierKey: "gear_speed", Kind: "attribute", Target: "bonus_attack_speed_percent",
+		ValuePolicy: "add", ValueProgram: 0, HasValue: true,
+	})
+	attrs := map[string]model.AttributeSlotDef{
+		"bonus_attack_speed_percent": {Base: 0, Current: 0.15, Resolved: 0.15},
+	}
+	var err error
+	for iteration := 0; iteration < 3; iteration++ {
+		attrs, err = resolver.ResolveAttributes(attrs, formula.GenericEvalContext{SourceAttrs: attrs}, registry)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if attrs["bonus_attack_speed_percent"].Base != 0 || attrs["bonus_attack_speed_percent"].Resolved != 0.15 {
+			t.Fatalf("iteration %d reused current total: %+v", iteration, attrs)
+		}
+	}
+	resolver.UnmountProviderOwned("source", "gear")
+	attrs, err = resolver.ResolveAttributes(attrs, formula.GenericEvalContext{SourceAttrs: attrs}, registry)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if attrs["bonus_attack_speed_percent"].Resolved != 0 {
+		t.Fatalf("zero base must survive unmount: %+v", attrs)
 	}
 }
 
@@ -48,12 +83,18 @@ func TestAttributeResolverUnmountProvider(t *testing.T) {
 	resolver.MountProviderModifiers("source", "temp", provider, registry)
 	attrs := map[string]model.AttributeSlotDef{"attack_damage": {Base: 50, Current: 50}}
 	ctx := formula.GenericEvalContext{TargetAttrs: attrs}
-	out := resolver.ResolveAttributes(attrs, ctx, registry)
+	out, err := resolver.ResolveAttributes(attrs, ctx, registry)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if out["attack_damage"].Resolved != 70 {
 		t.Fatalf("resolved=%v want 70", out["attack_damage"].Resolved)
 	}
 	resolver.UnmountProviderOwned("source", "temp")
-	out = resolver.ResolveAttributes(attrs, ctx, registry)
+	out, err = resolver.ResolveAttributes(attrs, ctx, registry)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if out["attack_damage"].Resolved != 50 {
 		t.Fatalf("after unmount resolved=%v want 50", out["attack_damage"].Resolved)
 	}
@@ -101,7 +142,10 @@ func TestAttributeResolverCanonicalPathTarget(t *testing.T) {
 		"attack_damage": {Base: 100, Current: 100},
 	}
 	ctx := formula.GenericEvalContext{TargetAttrs: attrs}
-	out := resolver.ResolveAttributes(attrs, ctx, registry)
+	out, err := resolver.ResolveAttributes(attrs, ctx, registry)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if out["attack_damage"].Resolved != 125 {
 		t.Fatalf("resolved=%v want 125 for canonical path target", out["attack_damage"].Resolved)
 	}
@@ -135,7 +179,7 @@ func TestAttributeResolverPerModifierProviderContext(t *testing.T) {
 		AbilityParams: map[string]float64{"keep": 9},
 	}
 	var seen []string
-	out := resolver.ResolveAttributesWithProviderContext(attrs, baseCtx, registry, func(ownerKey, providerRef string) formula.GenericEvalContext {
+	out, err := resolver.ResolveAttributesWithProviderContext(attrs, baseCtx, registry, func(ownerKey, providerRef string) formula.GenericEvalContext {
 		seen = append(seen, ownerKey+"|"+providerRef)
 		switch providerRef {
 		case "buff_a":
@@ -154,6 +198,9 @@ func TestAttributeResolverPerModifierProviderContext(t *testing.T) {
 			return formula.GenericEvalContext{}
 		}
 	})
+	if err != nil {
+		t.Fatal(err)
+	}
 	if len(seen) != 2 || seen[0] != "source|buff_a" || seen[1] != "source|buff_b" {
 		t.Fatalf("providerRefs=%v want [source|buff_a source|buff_b]", seen)
 	}
@@ -183,7 +230,7 @@ func TestAttributeResolverCrossCombatantOwnerContext(t *testing.T) {
 		ModifierKey: "carve", Kind: "attribute", Target: "opponent.attr.armor",
 		ValuePolicy: "percent_add", ValueProgram: 0, HasValue: true,
 	})
-	out2 := r2.ResolveAttributesWithProviderContext(attrs, formula.GenericEvalContext{}, registry2, func(ownerKey, providerRef string) formula.GenericEvalContext {
+	out2, err := r2.ResolveAttributesWithProviderContext(attrs, formula.GenericEvalContext{}, registry2, func(ownerKey, providerRef string) formula.GenericEvalContext {
 		if ownerKey != "source" || providerRef != "bc" {
 			t.Fatalf("unexpected provenance owner=%q ref=%q", ownerKey, providerRef)
 		}
@@ -192,6 +239,9 @@ func TestAttributeResolverCrossCombatantOwnerContext(t *testing.T) {
 			ProviderTargetState: map[string]float64{"carve_stacks": 5},
 		}
 	})
+	if err != nil {
+		t.Fatal(err)
+	}
 	if out2["armor"].Resolved != 70 {
 		t.Fatalf("armor=%v want 70 (100 * (1 - 0.30))", out2["armor"].Resolved)
 	}
@@ -223,7 +273,10 @@ func TestAttributeResolverModifierKeyOrderBeforeOwnerProvider(t *testing.T) {
 	attrs := map[string]model.AttributeSlotDef{
 		"attack_damage": {Base: 100, Current: 100},
 	}
-	out := resolver.ResolveAttributes(attrs, formula.GenericEvalContext{TargetAttrs: attrs}, registry)
+	out, err := resolver.ResolveAttributes(attrs, formula.GenericEvalContext{TargetAttrs: attrs}, registry)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if out["attack_damage"].Resolved != 210 {
 		t.Fatalf("resolved=%v want 210 (modifierKey order); owner/provider must not reorder distinct keys", out["attack_damage"].Resolved)
 	}

@@ -130,6 +130,7 @@ type BasicAttackRecord struct {
 	StartAtMs         int64   `json:"startAtMs"`
 	HitAtMs           *int64  `json:"hitAtMs"`
 	ReadyAtMs         *int64  `json:"readyAtMs"`
+	FinalReadyAtMs    *int64  `json:"finalReadyAtMs"`
 	NextStartAtMs     *int64  `json:"nextStartAtMs"`
 	AttackSpeed       float64 `json:"attackSpeed"`
 	PostDefenseDamage float64 `json:"postDefenseDamage"`
@@ -139,17 +140,18 @@ type BasicAttackRecord struct {
 	Completed         bool    `json:"completed"`
 }
 type DamageBreakdown struct {
-	Owner             string  `json:"owner"`
-	Source            string  `json:"source"`
-	Target            string  `json:"target"`
-	AbilityRef        string  `json:"abilityRef"`
-	OperationRef      string  `json:"operationRef"`
-	DamageType        string  `json:"damageType"`
-	DamageCount       int     `json:"damageCount"`
-	PostDefenseDamage float64 `json:"postDefenseDamage"`
-	ShieldAbsorbed    float64 `json:"shieldAbsorbed"`
-	ActualHpLoss      float64 `json:"actualHpLoss"`
-	OverkillDamage    float64 `json:"overkillDamage"`
+	ProviderDefinitionRef string  `json:"providerDefinitionRef,omitempty"`
+	Owner                 string  `json:"owner"`
+	Source                string  `json:"source"`
+	Target                string  `json:"target"`
+	AbilityRef            string  `json:"abilityRef"`
+	OperationRef          string  `json:"operationRef"`
+	DamageType            string  `json:"damageType"`
+	DamageCount           int     `json:"damageCount"`
+	PostDefenseDamage     float64 `json:"postDefenseDamage"`
+	ShieldAbsorbed        float64 `json:"shieldAbsorbed"`
+	ActualHpLoss          float64 `json:"actualHpLoss"`
+	OverkillDamage        float64 `json:"overkillDamage"`
 }
 type RecordingSummary struct {
 	AttackRecordCount      int  `json:"attackRecordCount"`

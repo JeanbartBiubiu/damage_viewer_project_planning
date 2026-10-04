@@ -84,20 +84,21 @@ type eventFormulaSnapshot struct {
 }
 
 type executionFrame struct {
-	processUseKey        string
-	processUseSkillKey   string
-	processUseSource     string
-	damageDefenseContext *formula.GenericEvalContext
-	processActualCosts   map[string]float64
-	processCostReadable  bool
-	run                  *genericRunState
-	frameID              uint64
-	sourceKey            string
-	targetKey            string
-	abilityRef           string
-	ownerCombatantKey    string // mounted provider owner; distinct from event/op sourceKey
-	ownerProviderRef     string
-	strictReads          bool
+	pendingBasicAttackWait *basicAttackWait
+	processUseKey          string
+	processUseSkillKey     string
+	processUseSource       string
+	damageDefenseContext   *formula.GenericEvalContext
+	processActualCosts     map[string]float64
+	processCostReadable    bool
+	run                    *genericRunState
+	frameID                uint64
+	sourceKey              string
+	targetKey              string
+	abilityRef             string
+	ownerCombatantKey      string // mounted provider owner; distinct from event/op sourceKey
+	ownerProviderRef       string
+	strictReads            bool
 
 	// castInstanceID / castOrigin：同一次施放的身份与来源；多 op / delayed / listener ops 继承。
 	castInstanceID uint64
@@ -135,29 +136,33 @@ type executionFrame struct {
 	// Key: ownerCombatantKey + "\x00" + providerRef + "\x00" + modifierKey.
 	consumedFirstPerCast map[string]bool
 
-	driverEntryKey       string
-	skipBlockedWrites    bool
-	skillHitCandidateKey string
-	skillHitOccurrenceID uint64
-	operationOutputs     map[string]formula.OperationOutputValues
-	pendingShieldExpires []pendingShieldExpire
-	committed            bool
-	pendingEvidence      []model.EvidenceItem
-	pendingDamage        []genericDamageEvidence
-	pendingDamageHistory []damageRecord
-	pendingOverheal      map[string]float64
-	pendingDamageIDs     uint64
-	pendingCopyable      []copyableDamageFrozen
-	pendingRepeats       []deferredRepeatRequest
-	pendingStateExpiry   []pendingFrameStateExpiry
-	pendingAnchoredTicks []pendingFrameAnchoredTick
-	pendingProcess       *processRuntime
-	processOriginal      *processRuntime
-	processIsNew         bool
-	pendingProcessTimer  bool
-	countCastOnCommit    bool
-	castStatRef          string
-	statRef              string
+	driverEntryKey        string
+	skipBlockedWrites     bool
+	skillHitCandidateKey  string
+	skillHitOccurrenceID  uint64
+	operationOutputs      map[string]formula.OperationOutputValues
+	pendingShieldExpires  []pendingShieldExpire
+	committed             bool
+	pendingEvidence       []model.EvidenceItem
+	pendingDamage         []genericDamageEvidence
+	pendingDamageHistory  []damageRecord
+	pendingOverheal       map[string]float64
+	pendingDamageIDs      uint64
+	pendingCopyable       []copyableDamageFrozen
+	pendingRepeats        []deferredRepeatRequest
+	pendingStateExpiry    []pendingFrameStateExpiry
+	pendingAnchoredTicks  []pendingFrameAnchoredTick
+	pendingProviderTick   *pendingFrameProviderTick
+	providerDefinitionRef string
+	providerActivatedAtMs *int64
+	damageOwnerKey        string
+	pendingProcess        *processRuntime
+	processOriginal       *processRuntime
+	processIsNew          bool
+	pendingProcessTimer   bool
+	countCastOnCommit     bool
+	castStatRef           string
+	statRef               string
 }
 
 // copyableDamageFrozen 冻结一次 CopyableOnHit damage 的 replay 输入（不做公式重算 / 不二次 crit 结算）。
@@ -509,12 +514,34 @@ func (f *executionFrame) providerFormulaContextForTarget(combatantKey, targetKey
 
 func (f *executionFrame) resolveAttributesFor(combatantKey string, attrs map[string]model.AttributeSlotDef, evalCtx formula.GenericEvalContext) map[string]model.AttributeSlotDef {
 	sc := f.stageFor(combatantKey)
-	return sc.resolver.ResolveAttributesWithProviderContext(
+	resolved, err := sc.resolver.ResolveAttributesWithProviderContext(
 		attrs,
 		evalCtx,
 		f.run.compiled.Formulas,
 		f.providerFormulaContextFunc(combatantKey),
 	)
+	if err != nil {
+		f.fatal = true
+		f.fatalErr = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		return attrs
+	}
+	if len(f.run.compiled.AttributeDerivations) == 0 {
+		return resolved
+	}
+	sourceAttrs, targetAttrs := f.run.combatants["source"].attributes, f.run.combatants["target"].attributes
+	if staged := f.staged["source"]; staged != nil {
+		sourceAttrs = staged.attributes
+	}
+	if staged := f.staged["target"]; staged != nil {
+		targetAttrs = staged.attributes
+	}
+	resolved, err = resolveDerivedAttributes(f.run.compiled, combatantKey, resolved, sc.resolver, sourceAttrs, targetAttrs, f.providerFormulaContextFunc(combatantKey))
+	if err != nil {
+		f.fatal = true
+		f.fatalErr = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		return attrs
+	}
+	return resolved
 }
 
 func (f *executionFrame) evalAmount(programID formula.GenericProgramID, ability compilebundle.CompiledAbility) (float64, *model.EngineError) {
@@ -569,7 +596,7 @@ func (f *executionFrame) executeOperations(ability compilebundle.CompiledAbility
 }
 
 func (f *executionFrame) bumpCommandBudget() *model.EngineError {
-	if f.run.basicAttackEventActive {
+	if f.run.basicAttackEventActive || f.run.initializationEventActive {
 		return f.run.consumeEventCommands(1)
 	}
 	if f.copyableCollector != nil {
@@ -628,6 +655,10 @@ func (f *executionFrame) executeOperation(ability compilebundle.CompiledAbility,
 			return err
 		}
 		if op.Operation == "shield" {
+			amount, err = f.applyReceivedShieldModifiers(targetKey, amount, ability)
+			if err != nil {
+				return err
+			}
 			sc := f.stageFor(targetKey)
 			ref := op.ShieldRef
 			if ref == "" {
@@ -945,9 +976,15 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 		if !bag.refreshExpireAtOnWrite(op.Ref, f.run.nowMs) {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "provider state duration overflow", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
+		if expires := bag.expireAt[op.Ref]; expires > 0 && f.run.basicAttack != nil {
+			f.pendingStateExpiry = append(f.pendingStateExpiry, pendingFrameStateExpiry{at: expires, payload: expireCleanupPayload{
+				kind: "provider_source_state", combatantKey: ownerKey, providerRef: f.ownerProviderRef, stateKey: op.Ref, expectedExpireAt: expires,
+			}})
+		}
 		// Provider-scope write must immediately re-resolve owner attributes with provider-aware context.
 		sc := f.stageFor(ownerKey)
 		sc.attributes = f.resolveAttributesFor(ownerKey, sc.attributes, f.evalContext(ability))
+		f.reResolveStagedAttributesTwoPass(ability)
 	case stateScopeProviderTarget:
 		// Order: lazy-expire -> activate -> seed this key's default -> policy -> cap -> refresh.
 		bag.lazyExpireProviderTargetState(f.run.nowMs)
@@ -1267,6 +1304,7 @@ func (f *executionFrame) applyCommand(cmd command.Command, ability compilebundle
 // incoming_post_mitigation → shields/HP.
 func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundle.CompiledOperation, critEv frozenCritEvidence, ability compilebundle.CompiledAbility, modEvidence []map[string]interface{}) *model.EngineError {
 	operationRef := op.Ref
+	sourceHealthBefore, sourceHasHealth := f.stageFor(cmd.Source).attributes["hp"]
 	traits := append([]string(nil), op.Types...)
 	baseRawAmount := cmd.Amount
 	if critEv.present {
@@ -1308,6 +1346,7 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundl
 	sc.shields = next.Shields
 	f.applyDamageResult(cmd, result, sc)
 	f.reResolveStagedAttributesTwoPass(ability)
+	damageRecordIndex := len(f.pendingDamage)
 	f.recordGenericDamageEvidence(genericDamageEvidence{
 		source:                      cmd.Source,
 		target:                      cmd.Target,
@@ -1320,6 +1359,8 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundl
 		operationPath:               op.Path,
 		hpBefore:                    targetHPBefore,
 		hpAfter:                     attribute.ReadHP(next.Attributes),
+		hasSourceHp:                 sourceHasHealth,
+		sourceHpBefore:              sourceHealthBefore.Current,
 		phantom:                     false,
 		crit:                        critEv,
 		modifiers:                   modEvidence,
@@ -1340,6 +1381,8 @@ func (f *executionFrame) applyDamageCommand(cmd command.Command, op compilebundl
 	if err := f.settleDamageVamp(cmd, op, ability, outcome, targetHPBefore, damageID, false); err != nil {
 		return err
 	}
+	f.pendingDamage[damageRecordIndex].sourceHpAfter = f.stageFor(cmd.Source).attributes["hp"].Current
+	f.queueDamageTaken(cmd, op, ability, critEv, baseRawAmount, rawForEvidence, outcome)
 	f.recordLinkedPhysicalDamage(cmd, result, operationRef)
 	f.maybeQueueDamageInstanceEvent(cmd, op, ability, critEv, baseRawAmount, rawForEvidence, result.Amount)
 	return nil
@@ -1504,28 +1547,33 @@ func (f *executionFrame) applyDamageResult(cmd command.Command, result command.R
 
 // genericDamageEvidence 是 damage evidence Data 的构造输入（不新增顶层 DTO）。
 type genericDamageEvidence struct {
-	source          string
-	target          string
-	damageType      string
-	rawAmount       float64
-	mitigatedAmount float64
-	providerRef     string
-	abilityRef      string
-	operationRef    string
-	operationPath   string
-	owner           string
-	hpBefore        float64
-	hpAfter         float64
-	phantom         bool
-	repeatTag       string
-	replayedFrom    map[string]interface{}
-	crit            frozenCritEvidence
-	modifiers       []map[string]interface{}
-	traits          []string
-	castInstanceID  uint64
-	castOrigin      string
-	damageID        uint64
-	outcome         *pipeline.DamageOutcome
+	providerDefinitionRef string
+	providerActivatedAtMs *int64
+	source                string
+	target                string
+	damageType            string
+	rawAmount             float64
+	mitigatedAmount       float64
+	providerRef           string
+	abilityRef            string
+	operationRef          string
+	operationPath         string
+	owner                 string
+	hpBefore              float64
+	hpAfter               float64
+	hasSourceHp           bool
+	sourceHpBefore        float64
+	sourceHpAfter         float64
+	phantom               bool
+	repeatTag             string
+	replayedFrom          map[string]interface{}
+	crit                  frozenCritEvidence
+	modifiers             []map[string]interface{}
+	traits                []string
+	castInstanceID        uint64
+	castOrigin            string
+	damageID              uint64
+	outcome               *pipeline.DamageOutcome
 	// hasPostResistanceEvidence gates additive resistance/part fields for successful
 	// settlements only; fail-closed and phantom replay omit them.
 	hasPostResistanceEvidence   bool
@@ -2643,6 +2691,7 @@ func (s *genericRunState) dispatchListeners(ev emittedEvent, chainDepth int) *mo
 const (
 	eventSourceOwner    = "event/source_owner"
 	eventSourceOpponent = "event/source_opponent"
+	eventTargetOwner    = "event/target_owner"
 )
 
 func (s *genericRunState) listenerMatchesEvent(listener compilebundle.CompiledListener, ev emittedEvent, baseEventTypes typeset.TypeSet) bool {
@@ -2656,6 +2705,11 @@ func (s *genericRunState) listenerMatchesEvent(listener compilebundle.CompiledLi
 	eventTypes := baseEventTypes
 	if listener.OwnerCombatantKey != "" {
 		eventTypes = s.augmentOwnerRelativeEventTypes(baseEventTypes, ev.sourceKey, listener.OwnerCombatantKey)
+		if ev.targetKey == listener.OwnerCombatantKey {
+			if identity, declared := s.compiled.Types.Registry.Lookup(eventTargetOwner); declared {
+				eventTypes.Add(identity)
+			}
+		}
 	}
 	return listener.EventMatcher.Match(eventTypes)
 }
@@ -2676,6 +2730,9 @@ func (s *genericRunState) augmentOwnerRelativeEventTypes(base typeset.TypeSet, e
 func (s *genericRunState) listenerFrameCombatants(ev emittedEvent, listener compilebundle.CompiledListener) (sourceKey, targetKey string) {
 	sourceKey = ev.sourceKey
 	targetKey = ev.targetKey
+	if ev.eventType == model.EventTypeSourceInitialized {
+		return sourceKey, targetKey
+	}
 	if listener.OwnerCombatantKey != "" {
 		sourceKey = listener.OwnerCombatantKey
 		if targetKey == sourceKey {
@@ -2701,7 +2758,10 @@ func (s *genericRunState) dispatchListenerOperations(listener compilebundle.Comp
 		ability = s.compiled.Abilities[listener.SourceAbilityIndex]
 	}
 	frame := s.newExecutionFrame(sourceKey, targetKey, "listener:"+listener.ListenerKey)
-	frame.strictReads = listener.HasCondition || listener.HasOncePerUse
+	if listener.SourceAbilityIndex >= 0 && listener.SourceAbilityIndex < len(s.compiled.Abilities) {
+		frame.abilityRef = listener.OwnerCombatantKey + ".provider[" + listener.OwnerProviderRef + "].ability[" + ability.AbilityKey + "]"
+	}
+	frame.strictReads = s.basicAttack != nil || listener.HasCondition || listener.HasOncePerUse
 	frame.chainDepth = chainDepth
 	frame.ownerCombatantKey = listener.OwnerCombatantKey
 	frame.ownerProviderRef = listener.OwnerProviderRef
@@ -3133,6 +3193,7 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 	}
 	targetHPBefore := attribute.ReadHP(view.Attributes)
 	outcome, next := pipeline.ApplyMitigatedDamage(numbers.rawAmount, numbers.mitigatedAmount, view, s.nowMs)
+	sourceHealthBefore, sourceHasHealth := frame.stageFor(dmg.sourceKey).attributes["hp"]
 	result := command.Result{Kind: cmd.Kind, Applied: outcome.HPDamage > 0 || outcome.ShieldAbsorbed > 0, Amount: outcome.MitigatedAmount}
 	damageID := frame.nextDamageID()
 	targetStage.attributes = next.Attributes
@@ -3140,6 +3201,7 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 	frame.reResolveStagedAttributesTwoPass(dmg.ability)
 	frame.damageDealt += result.Amount
 	frame.recordDamage(dmg.sourceKey, dmg.targetKey, result.Amount)
+	damageRecordIndex := len(frame.pendingDamage)
 	frame.recordGenericDamageEvidence(genericDamageEvidence{
 		source:          dmg.sourceKey,
 		target:          dmg.targetKey,
@@ -3152,6 +3214,8 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 		operationPath:   dmg.operation.Path,
 		hpBefore:        targetHPBefore,
 		hpAfter:         attribute.ReadHP(next.Attributes),
+		hasSourceHp:     sourceHasHealth,
+		sourceHpBefore:  sourceHealthBefore.Current,
 		phantom:         true,
 		repeatTag:       repeatTag,
 		replayedFrom:    stableDamageReplayedFrom(dmg.providerRef, dmg.originRef, dmg.operationRef),
@@ -3166,6 +3230,7 @@ func (s *genericRunState) applyPhantomCopyableDamage(collector *eventCopyableCol
 	if err := frame.settleDamageVamp(cmd, dmg.operation, dmg.ability, outcome, targetHPBefore, damageID, true); err != nil {
 		return err
 	}
+	frame.pendingDamage[damageRecordIndex].sourceHpAfter = frame.stageFor(dmg.sourceKey).attributes["hp"].Current
 	frame.commit()
 	if frame.fatal {
 		return frame.fatalErr

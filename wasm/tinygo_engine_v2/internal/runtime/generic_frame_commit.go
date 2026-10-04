@@ -16,6 +16,13 @@ func (f *executionFrame) recordGenericExecuteEvidence(ev genericExecuteEvidence)
 }
 
 func (f *executionFrame) recordGenericDamageEvidence(ev genericDamageEvidence) {
+	if f.providerDefinitionRef != "" {
+		ev.providerDefinitionRef = f.providerDefinitionRef
+		ev.providerActivatedAtMs = f.providerActivatedAtMs
+	}
+	if f.damageOwnerKey != "" {
+		ev.owner = f.damageOwnerKey
+	}
 	if ev.owner == "" {
 		ev.owner = f.ownerCombatantKey
 	}

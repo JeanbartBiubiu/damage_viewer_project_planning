@@ -306,6 +306,8 @@ func (s *genericRunState) handleExpireCleanup(ev scheduler.GenericEvent) {
 		}
 	case "provider_target_state":
 		s.applyProviderTargetStateExpiry(payload)
+	case "provider_source_state":
+		s.applyProviderSourceStateExpiry(payload)
 	case "shield":
 		s.removeExpiredShieldInstance(payload.combatantKey, payload.shieldRef)
 	default:
@@ -418,20 +420,21 @@ func (s *genericRunState) seedExpireCleanups() {
 	}
 }
 
-func (s *genericRunState) enqueueProviderTickAt(atMs int64, combatantKey, providerRef string, intervalMs, expireAt int64) {
+func (s *genericRunState) enqueueProviderTickAt(atMs int64, combatantKey, providerRef string, intervalMs, expireAt, activatedAt int64) {
 	if intervalMs <= 0 {
 		return
 	}
 	if atMs > s.startMs+s.durationMs {
 		return
 	}
-	if expireAt > 0 && atMs > expireAt {
+	if s.basicAttack == nil && expireAt > 0 && atMs > expireAt {
 		return
 	}
 	s.pushCombatEvent(scheduler.GenericEvent{
-		TimeMs:   atMs,
-		Category: scheduler.GenericCategoryProviderTick,
-		Kind:     scheduler.GenericEventProviderTick,
+		TimeMs:                    atMs,
+		Category:                  scheduler.GenericCategoryProviderTick,
+		Kind:                      scheduler.GenericEventProviderTick,
+		ProviderTickActivatedAtMs: activatedAt,
 		ProviderInstanceRef: scheduler.ProviderInstanceRef{
 			CombatantKey: combatantKey,
 			ProviderRef:  providerRef,
@@ -557,12 +560,25 @@ func (s *genericRunState) resolveAttributesFor(combatantKey string, attrs map[st
 	if !ok {
 		return attrs
 	}
-	return c.resolver.ResolveAttributesWithProviderContext(
+	resolved, err := c.resolver.ResolveAttributesWithProviderContext(
 		attrs,
 		evalCtx,
 		s.compiled.Formulas,
 		s.providerFormulaContextFunc(combatantKey, activeTargetKey),
 	)
+	if err != nil {
+		s.processFailure = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+		return attrs
+	}
+	if len(s.compiled.AttributeDerivations) == 0 {
+		return resolved
+	}
+	resolved, err = resolveDerivedAttributes(s.compiled, combatantKey, resolved, c.resolver, s.combatants["source"].attributes, s.combatants["target"].attributes, s.providerFormulaContextFunc(combatantKey, activeTargetKey))
+	if err != nil {
+		s.processFailure = engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, err.Error(), "combatants."+combatantKey+".attributes", "", s.compiled.SchemaHash, s.compiled.RulesHash, s.req.SessionID)
+		return attrs
+	}
+	return resolved
 }
 
 // refreshProviderAwareAttributes lazy-expires provider timed state and re-resolves attributes
