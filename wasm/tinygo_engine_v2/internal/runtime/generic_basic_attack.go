@@ -68,12 +68,23 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 	for _, actor := range s.compiled.Combatants {
 		gearKeys := map[string]bool{}
 		initializerKeys := map[string]bool{}
+		permanentSourceKeys := map[string]bool{}
 		initializers := 0
 		for _, mount := range actor.ProviderMounts {
 			if actor.Key == p.Source && mount.ProviderRef == selectedRef.ProviderRef {
 				continue
 			}
 			gear := s.compiled.Providers[mount.DefinitionIndex]
+			if gear.Kind == "character" || gear.Kind == "build" {
+				if permanentSourceKeys[gear.StableID] {
+					return s.basicAttackErr("duplicate permanent skill source", "initialSnapshot.combatants.providers")
+				}
+				if err := s.validateStaticInitializer(gear, actor.Key, mount.ProviderRef); err != nil {
+					return err
+				}
+				permanentSourceKeys[gear.StableID] = true
+				continue
+			}
 			tickAbility, hasTick := findTickAbility(gear, s.compiled)
 			if len(gear.Listeners) > 0 || hasTick {
 				if initializerKeys[gear.StableID] {
@@ -195,7 +206,7 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 			for _, operation := range s.compiled.Operations[int(entry.OperationStart) : int(entry.OperationStart)+int(entry.OperationCount)] {
 				definition, _ := s.findProviderDefinitionIndex(operation.ProviderDefinitionRef)
 				modifier := s.compiled.Providers[definition].Modifiers[0]
-				if modifier.Kind == "attribute" {
+				if modifier.Kind == "attribute" && modifier.Target == "opponent.attr.attack_speed" {
 					if auraOwners[entry.OwnerCombatantKey] {
 						return s.basicAttackErr("this stage accepts only one static attack-speed aura per opponent", operation.Path)
 					}

@@ -1,15 +1,17 @@
 package runtime
 
 import (
+	"math"
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
 	"tinygo_engine_v2/internal/model"
+	"tinygo_engine_v2/internal/pipeline"
 	"tinygo_engine_v2/internal/typeset"
 )
 
 func (s *genericRunState) validateStaticInitializer(provider compilebundle.CompiledProvider, owner, providerRef string) *model.EngineError {
-	if provider.Kind != "item" || provider.StableID == "" || provider.AbilityCount != 0 || provider.Lifecycle != nil || len(provider.Processes)+len(provider.StateFields)+len(provider.StatusContributions)+len(provider.Modifiers) != 0 {
-		return s.basicAttackErr("equipment initializer must be a complete static owned source", "initialSnapshot.combatants.providers")
+	if (provider.Kind != "item" && provider.Kind != "character" && provider.Kind != "build") || provider.StableID == "" || provider.AbilityCount != 0 || provider.Lifecycle != nil || len(provider.Listeners) == 0 || len(provider.Processes)+len(provider.StateFields)+len(provider.StatusContributions)+len(provider.Modifiers) != 0 {
+		return s.basicAttackErr("initializer must be a complete static owned source", "initialSnapshot.combatants.providers")
 	}
 	for _, listener := range s.compiled.Listeners {
 		if listener.OwnerCombatantKey == owner && listener.OwnerProviderRef == providerRef {
@@ -46,12 +48,26 @@ func (s *genericRunState) validateStaticInitializationListener(listener compileb
 			return s.basicAttackErr("initialization modifier requires a finite constant", operation.Path)
 		}
 		program := s.compiled.Formulas.Programs[modifier.ValueProgram]
-		if len(program.Instr) != 1 || program.Instr[0].Op != formula.GenericOpConst {
+		if len(program.Instr) != 1 || program.Instr[0].Op != formula.GenericOpConst || math.IsNaN(program.Instr[0].Value) || math.IsInf(program.Instr[0].Value, 0) {
 			return s.basicAttackErr("initialization modifier requires an application snapshot constant", operation.Path)
 		}
 		if modifier.Kind == "attribute" && modifier.Target == "opponent.attr.attack_speed" && modifier.ValuePolicy == "multiply" {
 			if program.Instr[0].Value <= 0 || program.Instr[0].Value > 1 {
 				return s.basicAttackErr("static attack-speed aura requires a multiplier within (0,1]", operation.Path)
+			}
+			continue
+		}
+		if modifier.Kind == "attribute" && pipeline.ModifierTargetCombatantSelector(modifier.Target) == model.SelectorSelf {
+			attributeKey := pipeline.AttributeKeyFromModifierTarget(modifier.Target)
+			owner, ownerExists := s.combatants[listener.OwnerCombatantKey]
+			if !ownerExists || attributeKey == "hp" || attributeKey == "" {
+				return s.basicAttackErr("permanent skill attribute requires a supported owned non-HP slot", operation.Path)
+			}
+			if _, exists := owner.attributes[attributeKey]; !exists {
+				return s.basicAttackErr("permanent skill attribute slot is missing", operation.Path)
+			}
+			if modifier.ValuePolicy != "add" && modifier.ValuePolicy != "add_percent" && modifier.ValuePolicy != "multiply" {
+				return s.basicAttackErr("permanent skill attribute requires an explicit supported calculation", operation.Path)
 			}
 			continue
 		}
@@ -61,7 +77,7 @@ func (s *genericRunState) validateStaticInitializationListener(listener compileb
 		if modifier.Kind == "pipeline" && modifier.Command == "shield" && modifier.Channel == "normal_shield" && modifier.Stage == "received" && modifier.ValuePolicy == "add_percent" {
 			continue
 		}
-		return s.basicAttackErr("unsupported permanent equipment modifier", operation.Path)
+		return s.basicAttackErr("unsupported permanent source modifier", operation.Path)
 	}
 	return nil
 }
