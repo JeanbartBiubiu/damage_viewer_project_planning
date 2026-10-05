@@ -152,7 +152,7 @@ final class SimulationSnapshotFixture {
                     case DELAY -> json.treeToValue(detailData, SkillProcessDelayStepDetail.class);
                     default -> throw new IllegalArgumentException("未声明的隔离测试过程步骤");
                 };
-                steps.add(new SkillProcessStepResponse(step.stepKey(), step.name(), step.stepType(), step.description(), step.sortOrder(), detail));
+                steps.add(new SkillProcessStepResponse(step.stepKey(), step.name(), step.stepType(), step.description(), step.sortOrder(), step.occupiesAction(), detail));
             }
             ObjectNode processData = row.deepCopy();
             processData.putArray("steps");

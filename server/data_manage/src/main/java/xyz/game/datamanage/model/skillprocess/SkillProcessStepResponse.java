@@ -6,6 +6,7 @@ public record SkillProcessStepResponse(
     SkillProcessStepType stepType,
     String description,
     Integer sortOrder,
+    Boolean occupiesAction,
     SkillProcessStepDetail detail
 ) {
 }

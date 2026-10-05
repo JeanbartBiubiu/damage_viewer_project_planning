@@ -370,7 +370,8 @@ public class SkillProcessService {
                 process.gameId(), process.skillKey(), process.processKey(), process.name(), process.activationType(),
                 process.description(), process.sortOrder(), cooldown,
                 steps.stream().map(step -> new SkillProcessStepResponse(
-                    step.stepKey(), step.name(), step.stepType(), step.description(), step.sortOrder(), step.detail()
+                    step.stepKey(), step.name(), step.stepType(), step.description(), step.sortOrder(),
+                    step.occupiesAction(), step.detail()
                 )).toList(),
                 bindings.stream().map(binding -> new SkillProcessEffectBindingResponse(
                     binding.bindingKey(), binding.effectKey(), binding.moment(), binding.sortOrder()

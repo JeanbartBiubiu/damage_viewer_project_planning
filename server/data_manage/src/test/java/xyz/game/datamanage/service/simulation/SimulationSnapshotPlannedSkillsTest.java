@@ -289,6 +289,27 @@ class SimulationSnapshotPlannedSkillsTest {
         assertEquals(List.of("on_hit", "on_used"), source(result, "source", SPELL).enabledRuleKeys());
     }
 
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void fullAuthorOccupationChangesSnapshotDigestWithoutMakingMissingDeclarationsInvalid(boolean occupiesAction) throws Exception {
+        var baseline = fixture.service.get(GAME, choice(settings(1), plans(1)));
+        var baselineAuthor = baseline.skillConfigurations().stream()
+            .filter(configuration -> configuration.skill().skillKey().equals(SPELL)).findFirst().orElseThrow();
+        assertNull(baselineAuthor.processes().getFirst().steps().getFirst().occupiesAction());
+        var data = (com.fasterxml.jackson.databind.node.ObjectNode) fixture.json.valueToTree(baselineAuthor);
+        ((com.fasterxml.jackson.databind.node.ObjectNode) data.path("processes").get(0).path("steps").get(0))
+            .put("occupiesAction", occupiesAction);
+        fixture.configuration(SPELL, 2, data.toString());
+
+        var declared = fixture.service.get(GAME, choice(settings(1), plans(1)));
+        var author = declared.skillConfigurations().stream()
+            .filter(configuration -> configuration.skill().skillKey().equals(SPELL)).findFirst().orElseThrow();
+        assertEquals(occupiesAction, author.processes().getFirst().steps().getFirst().occupiesAction());
+        assertNotEquals(baseline.snapshotDigest(), declared.snapshotDigest());
+        assertEquals(baselineAuthor.baseDigest(), author.baseDigest());
+        assertNull(source(declared, "source", SPELL).inactiveReason());
+    }
+
     private void active(String key) throws Exception {
         fixture.configuration(key, 2, """
             {"parameters":[{"parameterKey":"amount","valueType":"DECIMAL","valueMode":"SKILL_LEVEL","levelValues":{"1":10,"2":20}}],

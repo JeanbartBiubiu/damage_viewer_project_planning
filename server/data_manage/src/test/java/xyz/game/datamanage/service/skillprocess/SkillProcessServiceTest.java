@@ -20,6 +20,9 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
@@ -148,6 +151,44 @@ class SkillProcessServiceTest {
         assertEquals(1, created.steps().size());
         assertTrue(created.effectBindings().isEmpty());
         assertTrue(created.stateOperations().isEmpty());
+    }
+
+    @ParameterizedTest
+    @NullSource
+    @ValueSource(booleans = {true, false})
+    void savesReadsAndUpdatesActionOccupationWithoutChangingDelayOrCooldown(Boolean occupiesAction) {
+        SkillProcessCooldown cooldown = new SkillProcessCooldown(
+            SkillNumericValue.fixed(new java.math.BigDecimal("9000")),
+            new SkillProcessMoment(SkillProcessMomentType.PROCESS_START, null)
+        );
+        SkillProcessDelayStepDetail delay = new SkillProcessDelayStepDetail(
+            SkillNumericValue.fixed(new java.math.BigDecimal("250"))
+        );
+        SkillProcessStepRequest step = new SkillProcessStepRequest(
+            "windup", "延时", SkillProcessStepType.DELAY, null, 0, occupiesAction, delay
+        );
+        var created = service.create(GAME_ID, SKILL_KEY, new SkillProcessCreateRequest(
+            PROCESS_KEY, "施放", SkillProcessActivationType.ACTIVE, null, 0,
+            cooldown, List.of(step), List.of(), List.of()
+        ));
+        assertEquals(occupiesAction, created.steps().getFirst().occupiesAction());
+        assertEquals(created, service.get(GAME_ID, SKILL_KEY, PROCESS_KEY));
+        assertEquals(occupiesAction, AggregateJson.readList(stored.stepsJson(),
+            SkillProcessStepRequest.class).getFirst().occupiesAction());
+
+        when(mapper.findProcessForUpdate(GAME_ID, SKILL_KEY, PROCESS_KEY)).thenAnswer(invocation -> stored);
+        when(mapper.listStepsForUpdate(GAME_ID, SKILL_KEY, PROCESS_KEY))
+            .thenReturn(List.of(stepRow("windup", SkillProcessStepType.DELAY)));
+        Boolean updatedOccupation = occupiesAction == null ? Boolean.FALSE : !occupiesAction;
+        var updated = service.update(GAME_ID, SKILL_KEY, PROCESS_KEY, new SkillProcessUpdateRequest(
+            null, "施放", SkillProcessActivationType.ACTIVE, null, 0, cooldown,
+            List.of(new SkillProcessStepRequest("windup", "延时", SkillProcessStepType.DELAY,
+                null, 0, updatedOccupation, delay)), List.of(), List.of()
+        ));
+        assertEquals(updatedOccupation, updated.steps().getFirst().occupiesAction());
+        assertEquals(delay, updated.steps().getFirst().detail());
+        assertEquals(cooldown, updated.cooldown());
+        assertEquals(updated, service.get(GAME_ID, SKILL_KEY, PROCESS_KEY));
     }
 
     @Test
@@ -443,6 +484,7 @@ class SkillProcessServiceTest {
                         SkillProcessStepType.DELAY,
                         null,
                         0,
+                        null,
                         new SkillProcessDelayStepDetail(SkillNumericValue.formula(FORMULA_KEY))
                     )),
                     List.of(),
@@ -500,6 +542,7 @@ class SkillProcessServiceTest {
                         SkillProcessStepType.IMMEDIATE,
                         null,
                         0,
+                        null,
                         new SkillProcessImmediateStepDetail(Set.of("delayValue"), Set.of())
                     )),
                     List.of(processStartBinding()),
@@ -589,35 +632,35 @@ class SkillProcessServiceTest {
             List.of(
                 immediateStep(),
                 new SkillProcessStepRequest(
-                    "delay", "延迟", SkillProcessStepType.DELAY, null, 1,
+                    "delay", "延迟", SkillProcessStepType.DELAY, null, 1, null,
                     new SkillProcessDelayStepDetail(SkillNumericValue.formula(FORMULA_KEY))
                 ),
                 new SkillProcessStepRequest(
-                    "multi", "多段", SkillProcessStepType.MULTI_HIT, null, 2,
+                    "multi", "多段", SkillProcessStepType.MULTI_HIT, null, 2, null,
                     new SkillProcessMultiHitStepDetail(SkillNumericValue.formula(FORMULA_KEY), null)
                 ),
                 new SkillProcessStepRequest(
-                    "tick", "周期", SkillProcessStepType.PERIODIC, null, 3,
+                    "tick", "周期", SkillProcessStepType.PERIODIC, null, 3, null,
                     new SkillProcessPeriodicStepDetail(
                         SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula(FORMULA_KEY), SkillProcessFirstExecution.IMMEDIATE
                     )
                 ),
                 new SkillProcessStepRequest(
-                    "channel", "引导", SkillProcessStepType.CHANNEL, null, 4,
+                    "channel", "引导", SkillProcessStepType.CHANNEL, null, 4, null,
                     new SkillProcessChannelStepDetail(
                         SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula(FORMULA_KEY), SkillProcessFirstExecution.AFTER_INTERVAL
                     )
                 ),
                 new SkillProcessStepRequest(
-                    "charge", "蓄力", SkillProcessStepType.CHARGE, null, 5,
+                    "charge", "蓄力", SkillProcessStepType.CHARGE, null, 5, null,
                     new SkillProcessChargeStepDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula(FORMULA_KEY), true)
                 ),
                 new SkillProcessStepRequest(
-                    "recast", "重施", SkillProcessStepType.RECAST, null, 6,
+                    "recast", "重施", SkillProcessStepType.RECAST, null, 6, null,
                     new SkillProcessRecastStepDetail(SkillNumericValue.formula(FORMULA_KEY), SkillNumericValue.formula(FORMULA_KEY))
                 ),
                 new SkillProcessStepRequest(
-                    "empower", "强化普攻", SkillProcessStepType.EMPOWERED_BASIC_ATTACK, null, 7,
+                    "empower", "强化普攻", SkillProcessStepType.EMPOWERED_BASIC_ATTACK, null, 7, null,
                     new SkillProcessEmpoweredAttackStepDetail(
                         SkillNumericValue.formula(FORMULA_KEY), SkillProcessEmpoweredConsumeMoment.ATTACK_HIT
                     )
@@ -654,7 +697,7 @@ class SkillProcessServiceTest {
 
     private static SkillProcessStepRequest immediateStep() {
         return new SkillProcessStepRequest(
-            "cast", "立即", SkillProcessStepType.IMMEDIATE, null, 0, new SkillProcessImmediateStepDetail()
+            "cast", "立即", SkillProcessStepType.IMMEDIATE, null, 0, null, new SkillProcessImmediateStepDetail()
         );
     }
 

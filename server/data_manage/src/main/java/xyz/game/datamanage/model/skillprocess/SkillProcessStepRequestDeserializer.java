@@ -14,6 +14,13 @@ public final class SkillProcessStepRequestDeserializer extends JsonDeserializer<
         throws IOException {
         ObjectCodec codec = parser.getCodec();
         JsonNode node = codec.readTree(parser);
+        JsonNode occupiesActionNode = node.get("occupiesAction");
+        if (occupiesActionNode != null && !occupiesActionNode.isNull() && !occupiesActionNode.isBoolean()) {
+            context.reportPropertyInputMismatch(SkillProcessStepRequest.class, "occupiesAction",
+                "是否占用行动必须是布尔值或空值");
+        }
+        Boolean occupiesAction = occupiesActionNode == null || occupiesActionNode.isNull()
+            ? null : occupiesActionNode.booleanValue();
         SkillProcessStepType stepType = codec.treeToValue(node.get("stepType"), SkillProcessStepType.class);
         SkillProcessStepDetail detail = null;
         JsonNode detailNode = node.get("detail");
@@ -36,6 +43,7 @@ public final class SkillProcessStepRequestDeserializer extends JsonDeserializer<
             stepType,
             text(node, "description"),
             codec.treeToValue(node.get("sortOrder"), Integer.class),
+            occupiesAction,
             detail
         );
     }

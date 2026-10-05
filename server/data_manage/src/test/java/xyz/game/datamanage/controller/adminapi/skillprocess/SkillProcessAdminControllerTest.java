@@ -1,6 +1,7 @@
 package xyz.game.datamanage.controller.adminapi.skillprocess;
 
 import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
@@ -20,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -165,6 +168,26 @@ class SkillProcessAdminControllerTest {
             .andExpect(jsonPath("$.error.details.fieldIssues[0].field").value("processKey"));
 
         verify(service, never()).create(any(), any(), any());
+        verify(logHelper, never()).log(any(), any(), any(), anyInt());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"\"true\"", "\"false\"", "0", "1", "[]", "{}"})
+    void nonBooleanActionOccupationIsRejectedBeforeServiceOrEditLog(String authorValue) throws Exception {
+        String occupation = "\"occupiesAction\":" + authorValue + ",\"detail\":{}";
+        mockMvc.perform(post(BASE_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(createJson().replace("\"detail\":{}", occupation)))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.code").value("400.INVALID_BODY"))
+            .andExpect(jsonPath("$.error.details.reason", containsString("occupiesAction")));
+        mockMvc.perform(put(BASE_PATH + "/cast")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateJson().replace("\"detail\":{}", occupation)))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.code").value("400.INVALID_BODY"));
+        verify(service, never()).create(any(), any(), any());
+        verify(service, never()).update(any(), any(), any(), any());
         verify(logHelper, never()).log(any(), any(), any(), anyInt());
     }
 
@@ -322,7 +345,7 @@ class SkillProcessAdminControllerTest {
             0,
             null,
             List.of(new SkillProcessStepResponse(
-                "cast", "立即", SkillProcessStepType.IMMEDIATE, null, 0, new SkillProcessImmediateStepDetail()
+                "cast", "立即", SkillProcessStepType.IMMEDIATE, null, 0, null, new SkillProcessImmediateStepDetail()
             )),
             List.of(new SkillProcessEffectBindingResponse(
                 "hit",

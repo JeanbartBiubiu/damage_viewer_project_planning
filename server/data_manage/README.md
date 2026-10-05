@@ -18,6 +18,14 @@
 
 状态存在／不存在检查不要求效果来源，不参与持续状态数值结果的反向形状检查；只有层数和剩余时间读取复核其持续来源。技能命中回读不再返回无意义的空使用种类或施放阶段，使用事件仍保存真实使用种类及阶段；避免统一配置保存后的只读核对误判冲突。这些修正仅涉及服务校验与现行JSON契约，不需要数据库结构迁移。
 
+## 阶段6B步骤行动声明
+
+过程步骤新增可空 `occupiesAction`（是否占用行动），与 `stepType`（步骤种类）同级，保存在已有 `steps`（步骤数组）JSON中，不增加表或数据库迁移。只接受明确的布尔值或空值；未声明和显式空值均保留为空，字符串、数值、数组和对象拒绝，不把延时步骤统一默认为占用。
+
+单对象过程接口、技能统一配置保存／读取与场景快照均保留此字段，完整作者内容参与技能和场景摘要。是否要求明确声明仅由选定混合计划的原生准入核对；后端不为全部旧过程增加必填限制，不批改数据，也不因声明占用就证明过程可运行。即时步骤不留下跨时刻占用，完整运行含义以规划真源[阶段6设计第6.2节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段6主动技能接入与混合时间线详细设计.md)为准。
+
+定向检查：`mvn "-Dtest=SkillProcessStepRequestTest,SkillProcessServiceTest,SkillProcessAdminControllerTest,SkillConfigurationServiceTest,SimulationSnapshotPlannedSkillsTest" test`；收尾运行 `mvn test` 和 `mvn -DskipTests package`。测试使用隔离替身；真实数据只读核验不替代管理页面更新或最终Wasm／工作线程验收。现有 `plannedSkills`（计划技能）已支持多个完整来源，本次不修改其接口。
+
 ## 开发范围与入口
 
 默认写入范围为本模块、`db/**`、后端接口文档和直接相关的 `tools/**`；`web/**`、`wasm/**` 与其他模块设计只读参考。修改前先读 [本模块规则](AGENTS.md) 和 [仓库规则](../../AGENTS.md)。
