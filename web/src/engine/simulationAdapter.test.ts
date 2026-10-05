@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { assembleSimulation, inspectSimulationSnapshot, prepareSimulation, singleAttackRequest } from './simulationAdapter';
 import { simulationSample } from '../../tests/fixtures/simulationSnapshot';
 import { triggeredEquipmentSimulationSample } from '../../tests/fixtures/simulationTriggeredEquipment';
+import { SIMULATION_ADAPTER_VERSION } from './simulationAdapter';
+import { simulationHash } from './simulationHash';
 
 function zeroInputs(snapshot = simulationSample()) {
   const values = { source: {} as Record<string, number>, target: {} as Record<string, number> };
@@ -13,6 +15,15 @@ function zeroInputs(snapshot = simulationSample()) {
 const initialHealth = { source: 650, target: 590 };
 
 describe('首批场景装配', () => {
+  it('5B适配版本参与摘要，即使编译形状未变也不能与5A规则摘要混用', async () => {
+    const snapshot = simulationSample();
+    const prepared = await prepareSimulation(snapshot, zeroInputs(snapshot), initialHealth);
+    const base = { snapshotDigest: snapshot.snapshotDigest, attributeInputs: prepared.attributeInputs,
+      initialHealth, equipmentAssumptions: prepared.equipmentAssumptions, request: prepared.compileRequest };
+    expect(SIMULATION_ADAPTER_VERSION).toBe('v9-natural-triggered-sources');
+    expect(prepared.compileRequest.rulesHash).not.toBe(await simulationHash({ ...base, adapter: 'v8-default-skill-sources' }));
+  });
+
   it('多来源共享目录覆盖只保留一条边，不同挂载和资料说明仍完整保留', () => {
     const snapshot = triggeredEquipmentSimulationSample(['item_1043'], ['item_1043']);
     const configuration = snapshot.skillConfigurations.find(row => row.skill.skillKey === 'item_1043_passive')!;

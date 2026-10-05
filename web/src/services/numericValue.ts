@@ -42,6 +42,7 @@ export function assertNumericUses(root: unknown, domain: 'effect' | 'process' | 
       slot(root.detail, 'initialValue', 'detail'); slot(root.detail, 'maxValue', 'detail');
     }
     if (root.stateType === 'AMMO') slot(root.detail, 'recoveryIntervalValue', 'detail');
+    if (root.stateType === 'COUNTER' && object(root.detail) && 'durationValue' in root.detail) slot(root.detail, 'durationValue', 'detail', true);
     if (root.stateType === 'INTERNAL_COOLDOWN') slot(root.detail, 'durationValue', 'detail');
   } else if (domain === 'process') {
     if (root.cooldown !== null) slot(root.cooldown, 'durationValue', 'cooldown');

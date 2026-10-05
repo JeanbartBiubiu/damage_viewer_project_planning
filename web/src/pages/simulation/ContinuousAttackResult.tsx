@@ -116,7 +116,7 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
       普攻{archive.snapshot.selection.basicAttackSkillKey}（等级{archive.snapshot.selection.basicAttackLevel}）。初始生命A：{number(archive.initialHealth.source)}，B：{number(archive.initialHealth.target)}。
     </Typography.Paragraph>
     <Typography.Paragraph type="secondary">
-      启用所选完整共享普攻及配置驱动装备分支；鬼索、荆棘和日炎部分时序为项目暂定配置。动态进出范围、英雄技能或构筑仍未接入，不表示角色没有这些能力。
+      启用所选完整普攻及本场开启的配置驱动自然来源与装备分支；鬼索、荆棘和日炎部分时序为项目暂定配置。动态进出范围、未支持的自然程序、主动施放及额外技能强化仍未接入，不表示整个角色或构筑已可运行。
       冻结装备来源：{archive.equipmentOrigins.length ? archive.equipmentOrigins.map(origin => `${sides[origin.side]} ${origin.equipmentName}（${origin.equipmentKey}）`).join('；') : '双方未选装备'}。
       冻结范围假设：{archive.equipmentAssumptions.length ? archive.equipmentAssumptions.map(row => `${sides[row.owner]}${archive.equipmentOrigins.find(item => item.side === row.owner && item.equipmentKey === row.equipmentKey)?.equipmentName ?? row.equipmentKey}→${sides[row.target]}，全程在范围内`).join('；') : '无范围假设'}。
       纯装备仅修正自身属性，普攻伤害仍归所选普攻来源，不伪造独立装备伤害。

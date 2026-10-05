@@ -172,7 +172,8 @@ export function ReadonlyStates({ states, notice, actions }: { states: SkillInter
           初始值：{numeric(state.detail.initialValue)}；最大值：{numeric(state.detail.maxValue)}
           {state.stateType === 'AMMO'
             ? `；恢复间隔：${numeric(state.detail.recoveryIntervalValue)} 毫秒；启动条件：${state.detail.recoveryStartCondition
-              ? AMMO_RECOVERY_START_CONDITION_LABELS[state.detail.recoveryStartCondition] : '待确认'}` : ''}
+              ? AMMO_RECOVERY_START_CONDITION_LABELS[state.detail.recoveryStartCondition] : '待确认'}`
+            : `；保持期限：${state.detail.durationValue ? numeric(state.detail.durationValue) + ' 毫秒' : '不计时'}`}
         </Typography.Text> : null}
         {state.stateType === 'INTERNAL_COOLDOWN' ? <Typography.Text>时长：{numeric(state.detail.durationValue)} 毫秒</Typography.Text> : null}
         {state.stateType === 'FLAG' ? <Typography.Text>初始启用：{state.detail.initialEnabled ? '是' : '否'}</Typography.Text> : null}

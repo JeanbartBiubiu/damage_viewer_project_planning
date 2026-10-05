@@ -261,6 +261,37 @@ function adaptHealingRatioMax(
   };
 }
 
+function adaptTargetAttribute(authored: AuthoredPersistentResult, providerKey: string, root: string, resultPath: string): AdaptedPersistentResult {
+  if (authored.result.resultType !== 'ATTRIBUTE_CHANGE') return fail(resultPath, '不是属性变化结果');
+  const result = authored.result;
+  const detail = result.detail;
+  const attributeKey = catalogKey(detail.attributeKey, `${resultPath}.detail.attributeKey`);
+  if (attributeKey === 'hp') return fail(resultPath, '本期不接持续生命上限修正');
+  const zones = authored.modifierZones.filter(zone => zone.modifierZoneKey === detail.modifierZoneKey);
+  const zone = zones[0];
+  if (zones.length !== 1 || !zone || zone.status !== 'ENABLED' || zone.domain !== 'ATTRIBUTE'
+    || !['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY'].includes(zone.calculationMode)) return fail(resultPath, '持续属性需要真实启用的加算或比例修正区');
+  if (!['INCREASE', 'DECREASE'].includes(detail.operation)) return fail(resultPath, '持续属性需要明确的增加或减少');
+  assertPersistentBehavior(authored, resultPath, ['REPLACE']);
+  if (!result.valueRule) return fail(resultPath, '持续属性数值缺失');
+  const value = tryFoldConstant(compileValueRule(result.valueRule, `${resultPath}.valueRule`, numericState(authored, false, false)));
+  if (value === null || !Number.isFinite(value) || value < 0
+    || zone.calculationMode !== 'FLAT_ADD' && detail.operation === 'DECREASE' && value > 1) {
+    return fail(resultPath, '持续属性施加快照需要明确有限非负常量，比例减少不能超过1');
+  }
+  const numeric = numericState(authored, true, true);
+  const duration = compileDuration(authored, `${root}.lifecycle.durationValue`, numeric);
+  const multiplier = zone.calculationMode === 'RATIO_MULTIPLY';
+  const signedValue = detail.operation === 'DECREASE' ? -value : value;
+  const modifier: ModifierDefinition = { modifierKey: result.resultKey, kind: 'attribute', target: `self.attr.${attributeKey}`,
+    valuePolicy: multiplier ? 'multiply' : zone.calculationMode === 'FLAT_ADD' ? 'add' : 'add_percent', bucket: zone.modifierZoneKey,
+    value: constExpr(multiplier ? 1 + signedValue : signedValue) };
+  return { provider: { providerKey, stableId: providerKey, kind: 'status',
+    lifecycle: { durationMs: duration, maxStacks: 1, refreshPolicy: 'replace', instanceScope: 'source_target' }, modifiers: [modifier] },
+    operation: { operation: 'apply_provider', target: 'target', providerDefinitionRef: providerKey }, params: numeric.params,
+    formulas: [...numeric.namedFormulas.values()], requiredAttributes: [...new Set([attributeKey, ...numeric.requiredAttributes])] };
+}
+
 function compilePersistentResultBody(
   authored: AuthoredPersistentResult,
   providerKey: string
@@ -282,7 +313,10 @@ function compilePersistentResultBody(
   if (authored.result.resultType === 'HEALING_MODIFIER') {
     return adaptHealingRatioMax(authored, providerKey, root, resultPath);
   }
-  return fail(`${resultPath}.resultType`, '本期只支持普通移动减速施加和受到治疗降低 RATIO_MAX');
+  if (authored.result.resultType === 'ATTRIBUTE_CHANGE') {
+    return adaptTargetAttribute(authored, providerKey, root, resultPath);
+  }
+  return fail(`${resultPath}.resultType`, '本期只支持普通移动减速、受到治疗降低和完整目标持续属性');
 }
 
 /** 命中入口复用的持续结果编译；保留原法术护盾粒度，不在这里拒绝或改写。 */

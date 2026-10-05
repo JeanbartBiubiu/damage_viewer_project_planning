@@ -21,6 +21,16 @@ describe('modifierZoneForm', () => {
     }, true)).toMatchObject({ applicationStage: expect.any(String) });
   });
 
+  it('only exposes percentage multiplication for attributes and keeps existing modes', () => {
+    expect(allowedCalculationModes('ATTRIBUTE')).toEqual(['FLAT_ADD', 'RATIO_ADD', 'RATIO_MULTIPLY']);
+    expect(allowedApplicationStages('ATTRIBUTE', 'RATIO_MULTIPLY')).toEqual(['ATTRIBUTE_PERCENT']);
+    expect(validateModifierZoneDraft({ modifierZoneKey: 'attribute_multiply', name: '属性比例乘算', domain: 'ATTRIBUTE',
+      calculationMode: 'RATIO_MULTIPLY', applicationStage: 'ATTRIBUTE_PERCENT', description: '', sortOrder: '0' }, true)).toEqual({});
+    for (const domain of ['DAMAGE', 'HEALING', 'SHIELD'] as const) {
+      expect(allowedCalculationModes(domain)).not.toContain('RATIO_MULTIPLY');
+    }
+  });
+
   it('allows HEALING RATIO_MAX with HEALING_RESULT and keeps RATIO_ADD', () => {
     expect(allowedCalculationModes('HEALING')).toEqual(['RATIO_ADD', 'RATIO_MAX']);
     expect(allowedCalculationModes('DAMAGE')).toEqual(['RATIO_ADD']);

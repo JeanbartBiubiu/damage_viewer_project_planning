@@ -1,4 +1,4 @@
-import { formulaValue } from '../../../../types/numericValue';
+import { fixedValue, formulaValue } from '../../../../types/numericValue';
 import { describe, expect, it } from 'vitest';
 import { ApiRequestError } from '../../../../services/apiClient';
 import type { SkillInternalState } from '../../../../types/skillInternalState';
@@ -185,10 +185,20 @@ describe('skill internal state kinds and scope', () => {
     const targetCounter = expectValid(validCounterDraft({ scope: 'TARGET' }));
     expect(targetCounter.scope).toBe('TARGET');
 
+    const timedCounter = expectValid(validCounterDraft({ scope: 'TARGET', durationValue: fixedValue(4000) }));
+    expect(timedCounter.stateType).toBe('COUNTER');
+    if (timedCounter.stateType !== 'COUNTER') throw new Error('expected counter');
+    expect(timedCounter.detail.durationValue).toEqual(fixedValue(4000));
+    expect(skillInternalStateToDraft({ ...COUNTER, scope: 'TARGET', detail: timedCounter.detail }).durationValue).toEqual(fixedValue(4000));
+    for (const value of [-1, 1.5]) {
+      expect(validateSkillInternalStateDraft(validCounterDraft({ durationValue: fixedValue(value) }), { catalog: CATALOG }).fieldErrors.durationValue).toBeTruthy();
+    }
+
     const switched = applyStateTypeChange(validCounterDraft({ scope: 'TARGET' }), 'AMMO');
     expect(switched.scope).toBe('SKILL');
     expect(switched.initialValue).toEqual(null);
     expect(switched.recoveryMode).toBe('ONE_BY_ONE');
+    expect(applyStateTypeChange(validCounterDraft({ durationValue: fixedValue(4000) }), 'AMMO').durationValue).toBeNull();
 
     const invalidAmmo = validateSkillInternalStateDraft({
       ...createEmptyInternalStateDraft('AMMO'),

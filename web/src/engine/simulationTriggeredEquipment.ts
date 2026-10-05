@@ -15,7 +15,7 @@ import { SKILL_TRIGGER_TARGET_CATEGORIES, type SkillTriggerAction, type SkillTri
 import type { FormulaExpressionNode } from '../types/skillFormula';
 import type { SkillParameter } from '../types/skillParameter';
 import type { SimulationSnapshot } from '../types/simulationSnapshot';
-import { executableEquipmentRelations, validateSimulationSkillSourceManifest } from './simulationNaturalSkillSources';
+import { executableEquipmentRelations, validateSimulationSkillSourceManifest, type TriggeredSkillSourceDescription } from './simulationSkillSourceDescription';
 import {
   compileFormulaExpression, compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
   NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression
@@ -37,6 +37,7 @@ export type TriggeredEquipmentAssembly = {
   coverage: SimulationCoverage[];
   required: Record<Side, Set<string>>;
   selectedSkills: Set<string>;
+  derivationSides: Set<Side>;
 };
 
 const METADATA = ['name', 'description', 'sortOrder', 'createdAt', 'updatedAt'];
@@ -163,13 +164,16 @@ function combine(operation: 'min' | 'max', expressions: GenericFormulaExpr[]): G
   if (!expressions.length) fail('conditionGroups', '条件组不能为空');
   return expressions.reduce((left, right) => ({ op: operation, args: [left, right] }));
 }
-function validateConfiguration(configuration: SkillConfiguration, gameId: string, root: string) {
+function validateConfiguration(configuration: SkillConfiguration, gameId: string, root: string, item: boolean, skillLevel: number) {
   exact(configuration, ['skill', 'parameters', 'formulas', 'effects', 'processes', 'internalStates', 'triggerRules', 'baseDigest'], root);
   exact(configuration.skill, ['gameId', 'skillKey', 'maxLevel', 'status', 'skillCategoryKeys', ...METADATA], `${root}.skill`);
-  if (configuration.skill.gameId !== gameId || configuration.skill.status !== 'ENABLED' || configuration.skill.maxLevel !== 1
-    || !array(configuration.skill.skillCategoryKeys, `${root}.skill.skillCategoryKeys`).includes('passive')
-    || new Set(configuration.skill.skillCategoryKeys).size !== configuration.skill.skillCategoryKeys.length) {
-    fail(root, '装备关系需要完整单级、已启用的被动技能');
+  const categories = array(configuration.skill.skillCategoryKeys, `${root}.skill.skillCategoryKeys`);
+  if (configuration.skill.gameId !== gameId || configuration.skill.status !== 'ENABLED'
+    || !Number.isSafeInteger(configuration.skill.maxLevel) || configuration.skill.maxLevel < 1
+    || !Number.isSafeInteger(skillLevel) || skillLevel < 1 || skillLevel > configuration.skill.maxLevel
+    || item && (configuration.skill.maxLevel !== 1 || skillLevel !== 1 || !categories.includes('passive'))
+    || new Set(categories).size !== categories.length) {
+    fail(root, item ? '装备关系需要完整单级、已启用的被动技能' : '自然来源需要真实启用技能与明确合法已学等级');
   }
   uniqueRows(configuration.parameters, row => row.parameterKey, `${root}.parameters`);
   uniqueRows(configuration.formulas, row => row.formulaKey, `${root}.formulas`);
@@ -177,7 +181,7 @@ function validateConfiguration(configuration: SkillConfiguration, gameId: string
   uniqueRows(configuration.processes, row => row.processKey, `${root}.processes`);
   uniqueRows(configuration.internalStates, row => row.stateKey, `${root}.internalStates`);
   uniqueRows(configuration.triggerRules, row => row.ruleKey, `${root}.triggerRules`);
-  if (!configuration.effects.length || !configuration.triggerRules.length) fail(root, '缺少完整效果或触发规则，不能仅取直接属性');
+  if (!configuration.triggerRules.length || !configuration.effects.length && (item || !configuration.processes.length && !configuration.internalStates.length)) fail(root, '缺少完整效果或触发规则，不能仅取直接属性');
   for (const parameter of configuration.parameters) {
     const path = `${root}.parameters.${parameter.parameterKey}`;
     exact(parameter, ['gameId', 'skillKey', 'parameterKey', 'valueType', 'valueMode', 'fixedValue', 'levelValues', ...METADATA], path);
@@ -214,6 +218,47 @@ function validateValueRule(rule: SkillEffectValueRule, path: string) {
 
 export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): TriggeredEquipmentAssembly {
   validateSimulationSkillSourceManifest(snapshot);
+  const descriptions: TriggeredSkillSourceDescription[] = [];
+  for (const side of ['source', 'target'] as const) {
+    const keys = array(snapshot.selection[`${side}EquipmentKeys`], `selection.${side}EquipmentKeys`);
+    const items = array(snapshot[side].selectedEquipment, `${side}.selectedEquipment`);
+    if (new Set(keys).size !== keys.length || keys.length > 6) fail(`selection.${side}EquipmentKeys`, '装备选择不能重复或超过6件');
+    if (keys.length !== items.length
+      || new Set(items.map(item => item.equipment.equipmentKey)).size !== items.length
+      || items.some(item => !keys.includes(item.equipment.equipmentKey))) fail(`${side}.selectedEquipment`, '所选装备完整集缺失或重复');
+    for (const equipmentKey of [...keys].sort()) {
+      stableKey(equipmentKey, `selection.${side}EquipmentKeys`);
+      const path = `${side}.selectedEquipment[${equipmentKey}]`;
+      const item = items.find(row => row.equipment.equipmentKey === equipmentKey)!;
+      if (item.equipment.gameId !== snapshot.gameId || item.attributes.equipmentKey !== equipmentKey) fail(path, '装备归属不一致');
+      const allRelations = array(item.attachedSkills, `${path}.attachedSkills`);
+      const relations = executableEquipmentRelations(snapshot, side, equipmentKey);
+      uniqueRows(allRelations, row => row.skillKey, `${path}.attachedSkills`);
+      uniqueRows(relations, row => row.skillKey, `${path}.attachedSkills`);
+      for (const relation of relations) {
+        const relationPath = `${path}.attachedSkills[${relations.indexOf(relation)}]`;
+        exact(relation, ['gameId', 'skillKey', 'skillName', 'skillStatus', 'sortOrder', 'equipmentKey', 'equipmentName'], relationPath);
+        if (relation.gameId !== snapshot.gameId || relation.equipmentKey !== equipmentKey || relation.skillStatus !== 'ENABLED') {
+          fail(relationPath, '必须保留完整启用被动关系，整件装备拒绝，不能过滤后只取直接属性');
+        }
+      }
+      if (PERMANENT_EQUIPMENT_SKILLS[equipmentKey] || !relations.length) continue;
+      if (!Number.isInteger(snapshot.selection[`${side}Level`]) || snapshot.selection[`${side}Level`] < 1) fail(`selection.${side}Level`, '装备拥有方等级必须明确且有效');
+      const providerRef = `${side}_${equipmentKey}_passive`;
+      const definitionRef = `${providerRef}_definition`;
+      descriptions.push({ side, kind: 'item', stableId: `${side}_equipment_${equipmentKey}_definition`,
+        providerRef, definitionRef, path, skills: ordered(relations, `${path}.attachedSkills`).map(relation => {
+          const configurations = snapshot.skillConfigurations.filter(row => row.skill.skillKey === relation.skillKey);
+          if (configurations.length !== 1) fail(`${path}.attachedSkills`, '完整被动配置缺失或重复，整件装备拒绝');
+          return { skillKey: relation.skillKey, skillLevel: 1,
+            path: `${path}.attachedSkills[${relations.indexOf(relation)}]`, configuration: configurations[0]! };
+        }) });
+    }
+  }
+  return assembleTriggeredSkillSources(snapshot, descriptions);
+}
+
+export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, descriptions: readonly TriggeredSkillSourceDescription[]): TriggeredEquipmentAssembly {
   const providers: ProviderDefinition[] = [];
   const mounts: TriggeredEquipmentAssembly['mounts'] = [];
   const types = new Map<string, string>();
@@ -223,6 +268,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
   const coverage: SimulationCoverage[] = [];
   const required: Record<Side, Set<string>> = { source: new Set(), target: new Set() };
   const selectedSkills = new Set<string>();
+  const derivationSides = new Set<Side>();
   const cover = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const addFormula = (formula: NamedFormula, path: string) => {
     const existing = formulas.get(formula.key);
@@ -264,51 +310,25 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
     return damageType;
   };
 
-  for (const side of ['source', 'target'] as const) {
-    const keys = array(snapshot.selection[`${side}EquipmentKeys`], `selection.${side}EquipmentKeys`);
-    const items = array(snapshot[side].selectedEquipment, `${side}.selectedEquipment`);
-    if (new Set(keys).size !== keys.length || keys.length > 6 || keys.length !== items.length
-      || new Set(items.map(item => item.equipment.equipmentKey)).size !== items.length
-      || items.some(item => !keys.includes(item.equipment.equipmentKey))) fail(`${side}.selectedEquipment`, '所选装备完整集缺失或重复');
-    for (const equipmentKey of [...keys].sort()) {
-      stableKey(equipmentKey, `selection.${side}EquipmentKeys`);
-      const path = `${side}.selectedEquipment[${equipmentKey}]`;
-      const item = items.find(row => row.equipment.equipmentKey === equipmentKey)!;
-      if (item.equipment.gameId !== snapshot.gameId || item.attributes.equipmentKey !== equipmentKey) fail(path, '装备归属不一致');
-      const allRelations = array(item.attachedSkills, `${path}.attachedSkills`);
-      const relations = executableEquipmentRelations(snapshot, side, equipmentKey);
-      uniqueRows(allRelations, row => row.skillKey, `${path}.attachedSkills`);
-      uniqueRows(relations, row => row.skillKey, `${path}.attachedSkills`);
-      for (const relation of relations) {
-        const relationPath = `${path}.attachedSkills[${relations.indexOf(relation)}]`;
-        exact(relation, ['gameId', 'skillKey', 'skillName', 'skillStatus', 'sortOrder', 'equipmentKey', 'equipmentName'], relationPath);
-        if (relation.gameId !== snapshot.gameId || relation.equipmentKey !== equipmentKey || relation.skillStatus !== 'ENABLED') {
-          fail(relationPath, '必须保留完整启用被动关系，整件装备拒绝，不能过滤后只取直接属性');
-        }
-      }
-      if (PERMANENT_EQUIPMENT_SKILLS[equipmentKey] || !relations.length) continue;
-      if (!Number.isInteger(snapshot.selection[`${side}Level`]) || snapshot.selection[`${side}Level`] < 1) fail(`selection.${side}Level`, '装备拥有方等级必须明确且有效');
-      const providerRef = `${side}_${equipmentKey}_passive`;
-      const definitionRef = `${providerRef}_definition`;
+  for (const description of descriptions) {
+      const { side, providerRef, definitionRef, stableId, path, skills } = description;
+      if (!Number.isSafeInteger(snapshot.selection[`${side}Level`]) || snapshot.selection[`${side}Level`] < 1) fail(`selection.${side}Level`, '实际拥有方等级必须明确且有效');
       const compiledRoot = `sharedProviders.${definitionRef}`;
       const schema: Record<string, ProviderStateFieldSchema> = {};
       const modifiers: ModifierDefinition[] = [];
-      const provider: ProviderDefinition = { providerKey: definitionRef, stableId: `${side}_equipment_${equipmentKey}_definition`, kind: 'item', abilities: [] };
+      const provider: ProviderDefinition = { providerKey: definitionRef, stableId, kind: description.kind, abilities: [] };
       const opponent = side === 'source' ? 'target' : 'source';
-      const namedKey = (skillKey: string, key: string) => relations.length === 1 ? key : `${skillKey}_${key}`;
+      const namedKey = (skillKey: string, key: string) => skills.length === 1 ? key : `${skillKey}_${key}`;
 
-      for (const relation of ordered(relations, `${path}.attachedSkills`)) {
-        const skillKey = relation.skillKey;
-        const configurations = snapshot.skillConfigurations.filter(row => row.skill.skillKey === skillKey);
-          if (configurations.length !== 1) fail(`${path}.attachedSkills`, '完整被动配置缺失或重复，整件装备拒绝');
-        const configuration = configurations[0]!;
+      for (const source of skills) {
+        const { skillKey, skillLevel, configuration } = source;
         const root = `skills.${skillKey}`;
-        validateConfiguration(configuration, snapshot.gameId, root);
+        validateConfiguration(configuration, snapshot.gameId, root, description.kind === 'item', skillLevel);
         selectedSkills.add(skillKey);
-        const numeric = createNumericCompileState({ gameId: snapshot.gameId, skillKey, skillLevel: 1,
+        const numeric = createNumericCompileState({ gameId: snapshot.gameId, skillKey, skillLevel,
           characterLevel: snapshot.selection[`${side}Level`], parameters: configuration.parameters,
-          formulas: configuration.formulas, formulaNamespace: relations.length === 1 ? providerRef : `${providerRef}/${skillKey}`,
-          bindParameters: true, allowAttributeReads: true, runtimeInputMessage: '触发装备不允许未供值的计算时参数' });
+          formulas: configuration.formulas, formulaNamespace: skills.length === 1 ? providerRef : `${providerRef}/${skillKey}`,
+          bindParameters: true, allowAttributeReads: true, runtimeInputMessage: '触发来源不允许未供值的计算时参数' });
         const usedParameters = new Set<string>();
         const usedFormulas = new Set<string>();
         const usedEffects = new Set<string>();
@@ -321,6 +341,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
         const periodicEffects = new Map<string, { definition: ProviderDefinition; dynamic: boolean }>();
         const activeProcesses = new Set<string>();
         const activeEffects = new Set<string>();
+        let rootEvent = '';
         const skillTypes = configuration.skill.skillCategoryKeys.map(category);
         const noteNumeric = (value: NumericValue) => {
           if (value.kind === 'PARAMETER') usedParameters.add(value.parameterKey);
@@ -362,23 +383,32 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
         const lookupState = (key: string, sourceSkillKey: string, statePath: string) => {
           const state = configuration.internalStates.find(row => row.stateKey === key);
           if (!state || sourceSkillKey !== skillKey) fail(statePath, '内部状态引用缺失或不属于当前来源技能');
+          if (state.scope === 'TARGET' && rootEvent === 'SOURCE_INITIALIZED') fail(statePath,
+            '自身初始化没有实际攻击对手身份，不能读写来源对手状态');
           usedStates.add(key);
           return state;
         };
-        const stateChange = (key: string, policy: string, expression: GenericFormulaExpr): OperationDefinition => {
-          types.set('state_scope/provider', 'state_scope');
-          return { operation: 'state_change', target: 'self', ref: key, valuePolicy: policy, amount: expression, types: ['state_scope/provider'] };
+        const stateRead = (state: SkillInternalState): GenericFormulaExpr => ({
+          op: 'read', path: `provider.${state.scope === 'TARGET' ? 'target_state' : 'state'}.${stateKey(state)}`
+        });
+        const stateChange = (key: string, policy: string, expression: GenericFormulaExpr, scope: SkillInternalState['scope'] = 'SKILL'): OperationDefinition => {
+          const scopeType = scope === 'TARGET' ? 'state_scope/provider_target' : 'state_scope/provider';
+          types.set(scopeType, 'state_scope');
+          return { operation: 'state_change', target: 'self', ref: key, valuePolicy: policy, amount: expression, types: [scopeType] };
         };
         for (const state of configuration.internalStates) {
           const statePath = `${root}.internalStates.${state.stateKey}`;
           exact(state, ['gameId', 'skillKey', 'stateKey', 'stateType', 'scope', 'detail', ...METADATA], statePath);
-          if (state.gameId !== snapshot.gameId || state.skillKey !== skillKey || state.scope !== 'SKILL') fail(statePath, '只接入真实来源范围内部状态');
+          if (state.gameId !== snapshot.gameId || state.skillKey !== skillKey || !['SKILL', 'TARGET'].includes(state.scope)) fail(statePath, '只接入真实来源或来源对手范围内部状态');
           if (state.stateType === 'COUNTER') {
-            exact(state.detail, ['initialValue', 'maxValue'], `${statePath}.detail`);
+            exact(state.detail, ['initialValue', 'maxValue', 'durationValue'], `${statePath}.detail`);
             const initial = constant(state.detail.initialValue, `${statePath}.detail.initialValue`, true);
-            const maximum = constant(state.detail.maxValue, `${statePath}.detail.maxValue`, true, 1);
+            const maximum = constant(state.detail.maxValue, `${statePath}.detail.maxValue`, true);
             if (initial > maximum) fail(statePath, '计数初始值不能超过上限');
-            schema[stateKey(state)] = { valueType: 'number', defaultValue: initial, maxValue: maximum, durationMs: 0 };
+            const durationValue = state.detail.durationValue;
+            const durationMs = durationValue == null ? 0 : constant(durationValue, `${statePath}.detail.durationValue`, true);
+            schema[stateKey(state)] = { valueType: 'integer', defaultValue: initial, maxValue: maximum, durationMs,
+              ...(durationMs > 0 ? { refreshPolicy: 'refresh_on_write' } : {}) };
           } else if (state.stateType === 'INTERNAL_COOLDOWN') {
             exact(state.detail, ['durationValue'], `${statePath}.detail`);
             schema[stateKey(state)] = { valueType: 'number', defaultValue: 0, maxValue: 1,
@@ -459,10 +489,10 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
             const expression = value(operation.value, `${operationPath}.value`);
             const decrease = operation.operation === 'DECREASE' || operation.operation === 'CONSUME';
             return stateChange(stateKey(state), operation.operation === 'SET' ? 'set' : 'add',
-              decrease ? { op: 'mul', args: [constExpr(-1), expression] } : expression);
+              decrease ? { op: 'mul', args: [constExpr(-1), expression] } : expression, state.scope);
           }
           if (state.stateType === 'INTERNAL_COOLDOWN' && ['START', 'RESET'].includes(operation.operation) && operation.value === null) {
-            return stateChange(stateKey(state), 'set', constExpr(operation.operation === 'START' ? 1 : 0));
+            return stateChange(stateKey(state), 'set', constExpr(operation.operation === 'START' ? 1 : 0), state.scope);
           }
           return fail(operationPath, '状态操作与真实COUNTER或内部冷却不一致');
         };
@@ -481,7 +511,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
           const key = namedKey(skillKey, `effect_${authored.effectKey}`);
           if (schema[key]) fail(authorPath, '生命周期状态标识与内部状态冲突');
           const refreshPolicy = life.reapplicationDurationMode === 'REFRESH_ALL' ? 'refresh_on_write' : 'start_on_first_write';
-          schema[key] = { valueType: 'number', defaultValue: 0, maxValue: maximum, durationMs: duration, refreshPolicy };
+          schema[key] = { valueType: 'integer', defaultValue: 0, maxValue: maximum, durationMs: duration, refreshPolicy };
           if (!authored.results.length) fail(authorPath, '来源叠层缺少完整属性结果');
           for (const result of ordered(authored.results, `${authorPath}.results`)) {
             const resultPath = `${authorPath}.results.${result.resultKey}`;
@@ -505,6 +535,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
             }
             stableKey(result.detail.attributeKey, `${resultPath}.detail.attributeKey`);
             required[side].add(result.detail.attributeKey);
+            if (result.detail.attributeKey === 'bonus_attack_speed_percent') derivationSides.add(side);
             const magnitude = foldAmount(result, resultPath) * (result.detail.operation === 'DECREASE' ? -1 : 1);
             const read: GenericFormulaExpr = { op: 'read', path: `provider.state.${key}` };
             const layers = behavior.stackValueMode === 'PER_STACK' ? read : { op: 'min', args: [constExpr(1), read] };
@@ -533,8 +564,11 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
             exact(detail, ['stateSkillKey', 'stateKey', 'valueKind', 'optionKey', 'expectedBoolean', 'comparator', 'comparisonValue'], detailPath);
             const state = lookupState(detail.stateKey, detail.stateSkillKey, detailPath);
             if (detail.optionKey !== null || detail.expectedBoolean !== null || !detail.comparisonValue || !detail.comparator) fail(detailPath, '真实数值状态检查字段不完整');
-            const read: GenericFormulaExpr = { op: 'read', path: `provider.state.${stateKey(state)}` };
-            if (state.stateType === 'COUNTER' && detail.valueKind === 'VALUE') return comparator(detail.comparator, read, value(detail.comparisonValue, detailPath), detailPath);
+            const read = stateRead(state);
+            if (state.stateType === 'COUNTER' && detail.valueKind === 'VALUE') {
+              constant(detail.comparisonValue, `${detailPath}.comparisonValue`, true);
+              return comparator(detail.comparator, read, value(detail.comparisonValue, detailPath), detailPath);
+            }
             if (state.stateType === 'INTERNAL_COOLDOWN' && detail.valueKind === 'REMAINING_MS'
               && constant(detail.comparisonValue, detailPath) === 0) return comparator(detail.comparator, read, constExpr(0), detailPath);
             return fail(detailPath, '内部冷却只接入真实与零的就绪判断，不把活动标记当毫秒');
@@ -560,7 +594,8 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
               ...(node.path ? { path: node.path.replace(/^source\.attr\./, 'event.source.attr.') } : {}),
               ...(node.args ? { args: node.args.map(eventRead) } : {}) });
             if (detail.subject === 'EVENT_SOURCE') required[event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED' ? opponent : side].add(detail.attributeKey);
-            return comparator(detail.comparator, detail.subject === 'EVENT_SOURCE' ? eventRead(expression) : expression, value(detail.comparisonValue, detailPath), detailPath);
+            return comparator(detail.comparator, detail.subject === 'EVENT_SOURCE' && event !== 'PROCESS_MOMENT'
+              ? eventRead(expression) : expression, value(detail.comparisonValue, detailPath), detailPath);
           }
           if (authored.conditionType === 'TARGET_CATEGORY_CHECK') {
             exact(authored.detail, ['categories'], detailPath);
@@ -580,7 +615,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
           if (authored.conditionType === 'EVENT_VALUE_COMPARE') {
             exact(authored.detail, ['eventValueKey', 'comparator', 'comparisonValue'], detailPath);
             const link = ({ LINK_INDEX: 'event.link.index', LINK_COUNT: 'event.link.count' } as Record<string, string>)[authored.detail.eventValueKey];
-            if (!link || event !== 'HIT_LINK_APPLIED') fail(detailPath, '事件数值没有已接入的真实冻结字段');
+            if (!link || !['HIT_LINK_APPLIED', 'ATTACK_LINK_APPLIED'].includes(event)) fail(detailPath, '事件数值没有已接入的真实冻结字段');
             return comparator(authored.detail.comparator, { op: 'read', path: link }, value(authored.detail.comparisonValue, detailPath), detailPath);
           }
           return fail(conditionPath, '未接入的条件节点不能被丢弃');
@@ -627,7 +662,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
             exact(vampRule, ['vampType', 'sourceAttributeKey', 'basisOutputKind', 'defaultEfficiency', 'deliveryKinds', 'originKinds', 'skillCategoryKeys'], `catalogs.vampRules.rules[${index}]`);
           }
           const vamp = adaptDamageVamp(snapshot.catalogs.vampRules.rules, { gameId: snapshot.gameId, skillKey,
-            skillCategoryKeys: configuration.skill.skillCategoryKeys, skillLevel: 1, characterLevel: snapshot.selection[`${side}Level`],
+            skillCategoryKeys: configuration.skill.skillCategoryKeys, skillLevel, characterLevel: snapshot.selection[`${side}Level`],
             detail: result.detail, parameters: configuration.parameters, formulas: configuration.formulas });
           if (rules.vampRules && JSON.stringify(rules.vampRules) !== JSON.stringify(vamp.rules)) fail(resultPath, '游戏吸血规则冲突');
           rules.vampRules = vamp.rules;
@@ -654,11 +689,49 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
           let operation: OperationDefinition;
           if (result.resultType === 'DAMAGE') {
             operation = compileDamage(result, resultPath);
-          } else if (result.resultType === 'HIT_LINK_APPLICATION') {
+          } else if (result.resultType === 'HIT_LINK_APPLICATION' || result.resultType === 'ATTACK_LINK_APPLICATION') {
             exact(result.detail, [], `${resultPath}.detail`);
             if (result.target !== 'TARGET' || authored.lifecycle !== null || result.lifecycleBehavior !== null) fail(resultPath, '命中联动必须有完整即时对手次数');
-            types.set('event/hit_link_applied', 'event');
-            operation = { operation: 'apply_hit_link', target: 'target', ref: resultPath, amount: amount(result, resultPath) };
+            const hit = result.resultType === 'HIT_LINK_APPLICATION';
+            types.set(hit ? 'event/hit_link_applied' : 'event/attack_link_applied', 'event');
+            operation = { operation: hit ? 'apply_hit_link' : 'apply_attack_link', target: 'target', ref: resultPath, amount: amount(result, resultPath) };
+          } else if (result.resultType === 'ATTRIBUTE_CHANGE') {
+            if (!authored.lifecycle) fail(resultPath, '属性修正缺少真实生命周期');
+            exact(result.detail, ['attributeKey', 'operation', 'modifierZoneKey'], `${resultPath}.detail`);
+            const zones = snapshot.catalogs.modifierZones.filter(zone => zone.modifierZoneKey === result.detail.modifierZoneKey);
+            const zone = zones[0];
+            if (zones.length !== 1 || !zone || zone.gameId !== snapshot.gameId || zone.status !== 'ENABLED'
+              || zone.domain !== 'ATTRIBUTE' || !(zone.calculationMode === 'FLAT_ADD' && zone.applicationStage === 'ATTRIBUTE_FLAT'
+                || ['RATIO_ADD', 'RATIO_MULTIPLY'].includes(zone.calculationMode) && zone.applicationStage === 'ATTRIBUTE_PERCENT')) {
+              fail(resultPath, '目标属性修正区需要唯一已启用、同游戏的真实属性目录与对应作用阶段');
+            }
+            amount(result, resultPath);
+            for (const field of ['durationValue', 'maxStacksValue', 'applicationStacksValue'] as const) {
+              if (!authored.lifecycle[field]) fail(`${resultPath}.lifecycle.${field}`, '属性生命周期缺项');
+              value(authored.lifecycle[field]!, `${root}.effects.${authored.effectKey}.lifecycle.${field}`);
+            }
+            const key = `${definitionRef}_${skillKey}_${authored.effectKey}_${result.resultKey}`;
+            const compiled = compilePersistentResult({ gameId: snapshot.gameId, skillKey, skillLevel,
+              characterLevel: snapshot.selection[`${side}Level`], effectKey: authored.effectKey, lifecycle: authored.lifecycle, result,
+              parameters: configuration.parameters, formulas: configuration.formulas, statuses: snapshot.catalogs.statuses,
+              modifierZones: snapshot.catalogs.modifierZones, source: 'source', target: 'target' }, key);
+            compiled.provider.stableId = provider.stableId;
+            Object.assign(numeric.params, compiled.params);
+            const names = new Map(compiled.formulas.map(formula => [formula.key, `${numeric.formulaNamespace}/${formula.key}`]));
+            for (const formula of compiled.formulas) addFormula({ key: names.get(formula.key)!, expression: renameFormulaRefs(formula.expression, names) }, resultPath);
+            if (compiled.provider.lifecycle?.durationMs) {
+              compiled.provider.lifecycle.durationMs = renameFormulaRefs(compiled.provider.lifecycle.durationMs, names);
+            }
+            compiled.provider.modifiers = compiled.provider.modifiers!.map(modifier => ({
+              ...modifier, value: renameFormulaRefs(modifier.value, names)
+            }));
+            if (!providers.some(row => row.providerKey === key)) providers.push(compiled.provider);
+            required[result.target === 'SOURCE' ? side : opponent].add(result.detail.attributeKey);
+            collectAttributes(compiled.provider, side, required);
+            operation = { ...compiled.operation, ref: resultPath };
+            cover(`${root}.effects.${authored.effectKey}.lifecycle`, `sharedProviders.${key}.lifecycle`);
+            cover(`catalogs.modifierZones.${result.detail.modifierZoneKey}`, `sharedProviders.${key}.modifiers[0]`);
+            cover(resultPath, `sharedProviders.${key}.modifiers[0]`);
           } else if (result.resultType === 'HEALING_MODIFIER') {
             if (!authored.lifecycle) fail(resultPath, '受到治疗降低缺少真实生命周期');
             exact(result.detail, ['modifierZoneKey', 'direction', 'operation', 'healingKind'], `${resultPath}.detail`);
@@ -671,7 +744,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
               value(life[field]!, `${root}.effects.${authored.effectKey}.lifecycle.${field}`);
             }
             const key = `${definitionRef}_${skillKey}_${authored.effectKey}_${result.resultKey}`;
-            const compiled = compilePersistentResult({ gameId: snapshot.gameId, skillKey, skillLevel: 1,
+            const compiled = compilePersistentResult({ gameId: snapshot.gameId, skillKey, skillLevel,
               characterLevel: snapshot.selection[`${side}Level`], effectKey: authored.effectKey, lifecycle: life, result,
               parameters: configuration.parameters, formulas: configuration.formulas, statuses: snapshot.catalogs.statuses,
               modifierZones: snapshot.catalogs.modifierZones, source: 'source', target: 'target' }, key);
@@ -680,6 +753,13 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
             Object.assign(numeric.params, compiled.params);
             const names = new Map(compiled.formulas.map(formula => [formula.key, `${numeric.formulaNamespace}/${formula.key}`]));
             for (const formula of compiled.formulas) addFormula({ key: names.get(formula.key)!, expression: renameFormulaRefs(formula.expression, names) }, resultPath);
+            if (compiled.provider.lifecycle?.durationMs) {
+              compiled.provider.lifecycle.durationMs = renameFormulaRefs(compiled.provider.lifecycle.durationMs, names);
+            }
+            compiled.provider.modifiers = compiled.provider.modifiers!.map(modifier => ({
+              ...modifier, value: renameFormulaRefs(modifier.value, names)
+            }));
+            collectAttributes(compiled.provider, side, required);
             operation = { ...compiled.operation, ref: resultPath };
             cover(`${root}.effects.${authored.effectKey}.lifecycle`, `sharedProviders.${key}.lifecycle`);
             cover(`catalogs.modifierZones.${result.detail.modifierZoneKey}`, `sharedProviders.${key}.modifiers[0]`);
@@ -699,7 +779,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
               value(life[field]!, `${root}.effects.${authored.effectKey}.lifecycle.${field}`);
             }
             const key = `${definitionRef}_${skillKey}_${authored.effectKey}_${result.resultKey}`;
-            const compiled = compilePersistentResult({ gameId: snapshot.gameId, skillKey, skillLevel: 1,
+            const compiled = compilePersistentResult({ gameId: snapshot.gameId, skillKey, skillLevel,
               characterLevel: snapshot.selection[`${side}Level`], effectKey: authored.effectKey, lifecycle: life, result,
               parameters: configuration.parameters, formulas: configuration.formulas, statuses: snapshot.catalogs.statuses,
               modifierZones: snapshot.catalogs.modifierZones, source: 'source', target: 'target' }, key);
@@ -707,6 +787,9 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
             Object.assign(numeric.params, compiled.params);
             const names = new Map(compiled.formulas.map(formula => [formula.key, `${numeric.formulaNamespace}/${formula.key}`]));
             for (const formula of compiled.formulas) addFormula({ key: names.get(formula.key)!, expression: renameFormulaRefs(formula.expression, names) }, resultPath);
+            if (compiled.provider.lifecycle?.durationMs) {
+              compiled.provider.lifecycle.durationMs = renameFormulaRefs(compiled.provider.lifecycle.durationMs, names);
+            }
             compiled.provider.statusContributions = compiled.provider.statusContributions!.map(contribution => ({
               ...contribution, strength: renameFormulaRefs(contribution.strength, names)
             }));
@@ -735,7 +818,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
           if (action.targetContext === 'CURRENT_TARGET') return event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED' || event === 'SOURCE_INITIALIZED' ? 'self' : 'target';
           if (action.targetContext === 'EVENT_SOURCE') {
             if (event === 'DAMAGE_TAKEN' || event === 'BASIC_ATTACK_RECEIVED') return 'target';
-            if (['BASIC_ATTACK_HIT', 'HIT_LINK_APPLIED', 'DAMAGE_DEALT', 'SOURCE_INITIALIZED'].includes(event)) return 'self';
+            if (['BASIC_ATTACK_START', 'BASIC_ATTACK_HIT', 'ATTACK_LINK_APPLIED', 'HIT_LINK_APPLIED', 'SKILL_USED', 'SKILL_HIT', 'PROCESS_MOMENT', 'DAMAGE_DEALT', 'SOURCE_INITIALIZED'].includes(event)) return 'self';
           }
           return fail(actionPath, '动作目标缺少真实事件来源到当前对手的完整映射');
         };
@@ -753,6 +836,27 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
           try {
             if (authored.lifecycle?.periodicIntervalValue !== null && authored.lifecycle?.periodicIntervalValue !== undefined) {
               compilePeriodic(authored, output, outputRoot, event, actionPath);
+            } else if (authored.lifecycle?.instanceScope === 'SOURCE' && authored.lifecycle.expiryMode === 'EXPLICIT_ONLY' && source.permanentModifier) {
+              if (!authored.results.length) fail(effectPath, '永久效果缺少完整并列结果');
+              for (const result of ordered(authored.results, `${effectPath}.results`)) {
+                const resultPath = `${effectPath}.results.${result.resultKey}`;
+                resultShape(result, resultPath);
+                const key = `${definitionRef}_${authored.effectKey}_${result.resultKey}`;
+                const modifier = source.permanentModifier(result, resultPath);
+                if (!providers.some(row => row.providerKey === key)) providers.push({
+                  providerKey: key, stableId, kind: 'status', modifiers: [modifier]
+                });
+                const operationPath = `${outputRoot}[${output.length}]`;
+                output.push({ operation: 'apply_provider', target: 'self', providerDefinitionRef: key, providerRef: key });
+                if (result.resultType === 'ATTRIBUTE_CHANGE') {
+                  const attributeKey = String(result.detail.attributeKey);
+                  required[side].add(attributeKey);
+                  if (attributeKey === 'bonus_attack_speed_percent') derivationSides.add(side);
+                }
+                origin(result, authored, abilityRef, [operationPath]);
+                cover(resultPath, `sharedProviders.${key}.modifiers[0]`);
+              }
+              cover(effectPath, outputRoot);
             } else if (authored.lifecycle?.instanceScope === 'SOURCE') {
               const stack = ensureStack(authored);
               const operationPath = `${outputRoot}[${output.length}]`;
@@ -762,7 +866,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
             } else {
               if (!authored.results.length) fail(effectPath, '效果缺少完整结果');
               for (const result of ordered(authored.results, `${effectPath}.results`)) {
-                if (authored.lifecycle !== null && result.resultType !== 'HEALING_MODIFIER' && result.resultType !== 'STATUS_OPERATION') fail(effectPath, '未接入的持续效果不能伪装成即时结果');
+                if (authored.lifecycle !== null && !['ATTRIBUTE_CHANGE', 'HEALING_MODIFIER', 'STATUS_OPERATION'].includes(result.resultType)) fail(effectPath, '未接入的持续效果不能伪装成即时结果');
                 if (context === 'self' && result.target === 'TARGET') fail(actionPath, '当前节点未接入把对手结果改投到事件拥有方');
                 if (authored.lifecycle === null && result.lifecycleBehavior !== null) fail(effectPath, '即时效果不能夹带生命周期结果');
                 addResult(result, authored, output, outputRoot, abilityRef);
@@ -783,8 +887,8 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
               executeEffect(effect(action.detail.effectKey, actionPath), output, outputRoot, abilityRef, event, actionPath, context);
             } else if (action.actionType === 'START_PROCESS') {
               exact(action.detail, ['processKey'], `${actionPath}.detail`);
-              if (context !== 'target') fail(actionPath, '静态被动过程必须保持同一真实对手目标');
-              compileProcess(process(action.detail.processKey, actionPath), output, outputRoot, abilityRef, event);
+              if (context !== 'target' && event !== 'SOURCE_INITIALIZED') fail(actionPath, '静态被动过程必须保持同一真实对手目标');
+              compileProcess(process(action.detail.processKey, actionPath), output, outputRoot, abilityRef, event, context);
             } else fail(actionPath, '未接入的动作节点');
             cover(actionPath, output.length ? operationPath : `${compiledRoot}.abilities`);
           }
@@ -812,7 +916,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
           }
           cover(rulePath, outputRoot);
         };
-        function compileProcess(authored: SkillProcess, output: OperationDefinition[], outputRoot: string, abilityRef: string, event: string) {
+        function compileProcess(authored: SkillProcess, output: OperationDefinition[], outputRoot: string, abilityRef: string, event: string, context: string) {
           const processPath = `${root}.processes.${authored.processKey}`;
           if (activeProcesses.has(authored.processKey)) fail(processPath, '即时被动过程存在循环');
           activeProcesses.add(authored.processKey);
@@ -830,7 +934,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
               const bindingPath = `${processPath}.effectBindings.${binding.bindingKey}`;
               exact(binding, ['bindingKey', 'effectKey', 'moment', 'sortOrder'], bindingPath);
               scheduled.push({ moment: momentOrder(binding.moment, authored, bindingPath), sortOrder: binding.sortOrder, key: bindingPath, run: () => {
-                executeEffect(effect(binding.effectKey, bindingPath), output, outputRoot, abilityRef, event, bindingPath, 'target');
+                executeEffect(effect(binding.effectKey, bindingPath), output, outputRoot, abilityRef, event, bindingPath, context);
                 cover(bindingPath, outputRoot);
               } });
             }
@@ -838,7 +942,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
               const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
               exact(rule.eventSource.detail, ['processKey', 'moment'], `${rulePath}.eventSource.detail`);
               scheduled.push({ moment: momentOrder(rule.eventSource.detail.moment, authored, rulePath), sortOrder: rule.sortOrder,
-                key: rulePath, run: () => executeMomentRule(rule, output, outputRoot, abilityRef, event) });
+                key: rulePath, run: () => executeMomentRule(rule, output, outputRoot, abilityRef, 'PROCESS_MOMENT') });
             }
             scheduled.sort((left, right) => left.moment - right.moment || left.sortOrder - right.sortOrder);
             for (const [index, entry] of scheduled.entries()) {
@@ -912,9 +1016,13 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
 
         for (const rule of ordered(configuration.triggerRules, `${root}.triggerRules`)) {
           const event: string = rule.eventSource.eventType;
+          rootEvent = event;
           const rulePath = `${root}.triggerRules.${rule.ruleKey}`;
           if (event === 'PROCESS_MOMENT' || event === 'LIFECYCLE_MOMENT') continue;
-          const eventTypes: Record<string, string> = { BASIC_ATTACK_HIT: 'event/basic_attack_hit', HIT_LINK_APPLIED: 'event/hit_link_applied',
+          if (source.allowedRootKeys && !source.allowedRootKeys.includes(rule.ruleKey)) fail(rulePath, '必要闭包的事件尾规则尚未接入，不能编译自然根后忽略尾部');
+          if (event === 'SOURCE_INITIALIZED' && rule.oncePerUse !== null) fail(rulePath, '初始化没有真实攻击使用身份，不能配置同次使用额度');
+          const eventTypes: Record<string, string> = { BASIC_ATTACK_START: 'event/basic_attack_start', ATTACK_LINK_APPLIED: 'event/attack_link_applied',
+            SKILL_USED: 'event/basic_attack_start', SKILL_HIT: 'event/basic_attack_hit', BASIC_ATTACK_HIT: 'event/basic_attack_hit', HIT_LINK_APPLIED: 'event/hit_link_applied',
             DAMAGE_TAKEN: 'event/damage_taken', BASIC_ATTACK_RECEIVED: 'event/basic_attack_received', DAMAGE_DEALT: 'event/damage_instance',
             SOURCE_INITIALIZED: 'event/source_initialized' };
           const eventType = eventTypes[event];
@@ -937,7 +1045,16 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
               const identity = `ability/skill/${key}`;
               types.set(identity, 'ability'); matcher.all.push(identity);
             }
-          } else if (event === 'HIT_LINK_APPLIED') {
+          } else if (event === 'SKILL_USED' || event === 'SKILL_HIT') {
+            exact(rule.eventSource.detail, event === 'SKILL_USED' ? ['sourceSkillKey', 'useKind', 'castPhase'] : ['sourceSkillKey'], `${rulePath}.eventSource.detail`);
+            const detail = record(rule.eventSource.detail, `${rulePath}.eventSource.detail`);
+            if (side !== 'source' || detail.sourceSkillKey !== snapshot.selection.basicAttackSkillKey
+              || event === 'SKILL_USED' && (detail.castPhase !== 'INITIAL' || !['ANY', 'ACTIVE'].includes(String(detail.useKind)))) {
+              fail(rulePath, '本期仅接入所选真实普攻自身的开始或命中，不自动执行主动兄弟');
+            }
+            const identity = `ability/skill/${snapshot.selection.basicAttackSkillKey}`;
+            types.set(identity, 'ability'); matcher.all.push(identity);
+          } else if (event === 'HIT_LINK_APPLIED' || event === 'ATTACK_LINK_APPLIED') {
             exact(rule.eventSource.detail, ['sourceSkillKey'], `${rulePath}.eventSource.detail`);
             const sourceSkillKey = record(rule.eventSource.detail, `${rulePath}.eventSource.detail`).sourceSkillKey;
             if (sourceSkillKey !== null) {
@@ -945,7 +1062,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
               fail(`${rulePath}.eventSource.detail.sourceSkillKey`, '非空命中联动来源筛选需要原生原使用技能身份匹配，不能忽略后继续');
             }
           } else exact(rule.eventSource.detail, [], `${rulePath}.eventSource.detail`);
-          if (event === 'SOURCE_INITIALIZED') {
+          if (event === 'SOURCE_INITIALIZED' && description.kind === 'item') {
             if (rule.conditionGroups.length || rule.oncePerUse !== null) fail(rulePath, '固定周期必须有无条件真实初始化依据');
             for (const action of rule.actions) if (action.actionType !== 'EXECUTE_EFFECT'
               || !configuration.effects.find(row => row.effectKey === action.detail.effectKey)?.lifecycle?.periodicIntervalValue) fail(rulePath, '通用初始化只接入完整始终持久周期，4B常驻关系不重复编译');
@@ -1015,7 +1132,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
           collectAttributes(ability, side, required);
         }
         for (const formula of formulas.values()) if (formula.key.startsWith(`${numeric.formulaNamespace}/`)) collectAttributes(formula.expression, side, required);
-        cover(`${path}.attachedSkills[${relations.indexOf(relation)}]`, compiledRoot);
+        cover(source.path, compiledRoot);
         cover(`${root}.skill`, compiledRoot);
       }
       if (Object.keys(schema).length) provider.initialStateSchema = schema;
@@ -1023,7 +1140,7 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
       providers.push(provider);
       mounts.push({ side, providerRef, definitionRef });
       collectAttributes(modifiers, side, required);
-    }
+      cover(path, compiledRoot);
   }
   for (const provider of providers) for (const ability of provider.abilities ?? []) if (ability.skillKey) {
     types.set(`ability/skill/${ability.skillKey}`, 'ability');
@@ -1033,5 +1150,5 @@ export function assembleTriggeredEquipment(snapshot: SimulationSnapshot): Trigge
     if (entries.length !== 1 || entries[0]!.gameId !== snapshot.gameId || entries[0]!.status !== 'ENABLED') fail(`catalogs.attributes.${key}`, '依赖属性缺少唯一已启用的真实目录');
   }
   return { providers, mounts, types: [...types].map(([key, domain]) => ({ key, domain })), formulas: [...formulas.values()],
-    rules, operationOrigins, coverage, required, selectedSkills };
+    rules, operationOrigins, coverage, required, selectedSkills, derivationSides };
 }

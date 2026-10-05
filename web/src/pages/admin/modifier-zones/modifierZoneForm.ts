@@ -30,6 +30,7 @@ export const DOMAIN_LABELS: Record<ModifierZoneDomain, string> = {
 export const CALCULATION_MODE_LABELS: Record<ModifierZoneCalculationMode, string> = {
   FLAT_ADD: '固定值加算',
   RATIO_ADD: '比例加算',
+  RATIO_MULTIPLY: '比例乘算',
   RATIO_MAX: '比例减少取强'
 };
 

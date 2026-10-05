@@ -45,6 +45,34 @@ function authored(kind: 'slow' | 'wound' = 'slow', patch: Partial<AuthoredPersis
   };
 }
 
+describe('5B按真实来源与承受者的持续属性', () => {
+  it('护甲比例削减沿已有修正及施加时等级，不转成来源自身永久属性', () => {
+    const result: SkillEffectResult = { ...slowResult(), resultType: 'ATTRIBUTE_CHANGE', resultKey: 'armor',
+      detail: { attributeKey: 'armor', operation: 'DECREASE', modifierZoneKey: 'author_attribute_percent' },
+      valueRule: { value: fixedValue(.2), fixedMultiplier: 1, fixedMinValue: 0, fixedMaxValue: null } };
+    const value = authored('slow', { result, modifierZones: [{ modifierZoneKey: 'author_attribute_percent',
+      domain: 'ATTRIBUTE', calculationMode: 'RATIO_ADD', status: 'ENABLED' }] });
+    const compiled = compilePersistentResult(value, 'owned_armor_modifier');
+    expect(compiled.operation).toEqual({ operation: 'apply_provider', target: 'target', providerDefinitionRef: 'owned_armor_modifier' });
+    expect(compiled.provider).toMatchObject({ kind: 'status', lifecycle: { instanceScope: 'source_target',
+      durationMs: { op: 'const', value: 1000 }, maxStacks: 1, refreshPolicy: 'replace' }, modifiers: [{
+      kind: 'attribute', target: 'self.attr.armor', valuePolicy: 'add_percent', value: { op: 'const', value: -.2 }
+    }] });
+    expect(compiled.requiredAttributes).toContain('armor');
+    const multiplicative = compilePersistentResult({ ...value, modifierZones: [{ ...value.modifierZones[0]!, calculationMode: 'RATIO_MULTIPLY' }] }, 'owned_total_armor');
+    expect(multiplicative.provider.modifiers![0]).toMatchObject({ valuePolicy: 'multiply', value: { op: 'const', value: .8 } });
+    const before = structuredClone(value);
+    expect(compilePersistentResult(value, 'owned_armor_modifier')).toEqual(compiled);
+    expect(value).toEqual(before);
+    for (const patch of [
+      { result: { ...result, detail: { ...result.detail, attributeKey: 'hp' } } as SkillEffectResult },
+      { result: { ...result, valueRule: { ...result.valueRule!, value: fixedValue(1.1) } } },
+      { modifierZones: [{ modifierZoneKey: 'author_attribute_percent', domain: 'ATTRIBUTE' as const,
+        calculationMode: 'RATIO_ADD' as const, status: 'DISABLED' as const }] }
+    ]) expect(() => compilePersistentResult({ ...value, ...patch }, 'owned_armor_modifier')).toThrow();
+  });
+});
+
 function request(): CompileRequest {
   const slot = { base: 100, current: 100, max: 100, resolved: 100 };
   return {

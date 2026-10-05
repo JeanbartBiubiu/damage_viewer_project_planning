@@ -801,17 +801,17 @@ export function SkillInternalStateEditorModal({
             </Form.Item>
           ) : null}
 
-          {draft.stateType === 'INTERNAL_COOLDOWN' ? (
+          {draft.stateType === 'INTERNAL_COOLDOWN' || draft.stateType === 'COUNTER' ? (
             <Form.Item
-              label="时长取值"
-              required
-              extra={MILLISECOND_FORMULA_HINT}
+              label={draft.stateType === 'COUNTER' ? '保持期限（毫秒，可留空）' : '时长取值'}
+              required={draft.stateType === 'INTERNAL_COOLDOWN'}
+              extra={draft.stateType === 'COUNTER' ? '留空或0不计时；正整数表示每次写入刷新，到期恢复初始值。' : MILLISECOND_FORMULA_HINT}
               validateStatus={errors.durationValue ? 'error' : undefined}
               help={errors.durationValue}
             >
-              <NumericValueField aria-label="时长取值"
+              <NumericValueField aria-label={draft.stateType === 'COUNTER' ? '保持期限取值' : '时长取值'}
                   value={draft.durationValue}
-                  onChange={(value) => patchDraft({ ...draft, durationValue: value! })}
+                  onChange={(value) => patchDraft({ ...draft, durationValue: value ?? null })}
                   parameters={parameters}
                   parametersLoadState={parametersLoadState}
                   formulas={formulas}

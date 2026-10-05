@@ -31,7 +31,7 @@ describe('4C完整反曲之弓触发装备装配', () => {
   it('没有装备名算法表，无所选触发关系时返回空片段，不认领4A/4B配置', () => {
     const assembled = assembleTriggeredEquipment(triggeredEquipmentSimulationSample(['item_1036', 'item_3065'], ['item_1042', 'item_3110']));
     expect(assembled).toEqual({ providers: [], mounts: [], types: [], formulas: [], rules: { damageTypeFormulas: [] },
-      operationOrigins: [], coverage: [], required: { source: new Set(), target: new Set() }, selectedSkills: new Set() });
+      operationOrigins: [], coverage: [], required: { source: new Set(), target: new Set() }, selectedSkills: new Set(), derivationSides: new Set() });
   });
 
   it('完整已核定伤害由拥有方命中监听立即执行，保留参数、分类、伤害特征与资格', () => {
@@ -295,7 +295,7 @@ const invalidShapes: Array<[string, (snapshot: SimulationSnapshot) => void, RegE
   ['未知配置字段', snapshot => { Object.assign(configuration(snapshot), { hiddenBehavior: true }); }, /hiddenBehavior.*未接入/],
   ['缺失关系', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills = []; }, /原始绑定不一致/],
   ['关系重复', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills.push(structuredClone(snapshot.source.selectedEquipment[0]!.attachedSkills[0]!)); }, /稳定标识重复/],
-  ['禁用关系', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills[0]!.skillStatus = 'DISABLED'; }, /完整启用被动关系/],
+  ['禁用关系', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills[0]!.skillStatus = 'DISABLED'; }, /完整启用被动关系|真实绑定授予不一致/],
   ['错误关系装备', snapshot => { snapshot.source.selectedEquipment[0]!.attachedSkills[0]!.equipmentKey = 'item_1042'; }, /完整启用被动关系/],
   ['未知关系字段', snapshot => { Object.assign(snapshot.source.selectedEquipment[0]!.attachedSkills[0]!, { skillLevelMode: 'CHARACTER_LEVEL' }); }, /skillLevelMode.*未接入/],
   ['缺少配置', snapshot => { snapshot.skillConfigurations.pop(); }, /完整启用作者配置缺失/],
@@ -304,7 +304,7 @@ const invalidShapes: Array<[string, (snapshot: SimulationSnapshot) => void, RegE
   ['多余效果', snapshot => { configuration(snapshot).effects.push(structuredClone(configuration(snapshot).effects[0]!)); }, /稳定标识重复/],
   ['多余规则', snapshot => { configuration(snapshot).triggerRules.push(structuredClone(configuration(snapshot).triggerRules[0]!)); }, /稳定标识重复/],
   ['未知事件', snapshot => { Object.assign(configuration(snapshot).triggerRules[0]!.eventSource, { eventType: 'UNKNOWN' }); }, /未接入的事件节点/],
-  ['攻击开始事件', snapshot => { configuration(snapshot).triggerRules[0]!.eventSource = { eventType: 'BASIC_ATTACK_START', detail: {} }; }, /未接入的事件节点/],
+  ['未接入的伤害等待事件', snapshot => { configuration(snapshot).triggerRules[0]!.eventSource = { eventType: 'DAMAGE_PENDING', detail: {} }; }, /未接入的事件节点/],
   ['额外事件细节', snapshot => { Object.assign(configuration(snapshot).triggerRules[0]!.eventSource.detail, { sourceSkillKey: 'ignored' }); }, /sourceSkillKey.*未接入/],
   ['未接入条件', snapshot => { Object.assign(configuration(snapshot).triggerRules[0]!, { conditionGroups: [{}] }); }, /稳定标识/],
   ['未知同次使用范围', snapshot => { Object.assign(configuration(snapshot).triggerRules[0]!, { oncePerUse: { groupKey: 'single', scope: 'UNKNOWN' } }); }, /同次使用范围/],
@@ -355,7 +355,7 @@ const invalidShapes: Array<[string, (snapshot: SimulationSnapshot) => void, RegE
   ['伤害依赖属性缺目录', snapshot => { snapshot.catalogs.attributes = snapshot.catalogs.attributes.filter(row => row.attributeKey !== 'armor'); }, /catalogs.attributes.armor.*真实目录/],
   ['吸血属性缺目录', snapshot => { snapshot.catalogs.attributes = snapshot.catalogs.attributes.filter(row => row.attributeKey !== 'life_steal_percent'); }, /catalogs.attributes.life_steal_percent.*真实目录/],
   ['装备完整集缺失', snapshot => { snapshot.source.selectedEquipment = []; }, /原始绑定不一致/],
-  ['所选装备重复', snapshot => { snapshot.selection.sourceEquipmentKeys.push('item_1043'); }, /完整集缺失或重复/],
+  ['所选装备重复', snapshot => { snapshot.selection.sourceEquipmentKeys.push('item_1043'); }, /selection.sourceEquipmentKeys.*重复/],
   ['拥有方等级缺失', snapshot => { snapshot.selection.sourceLevel = 0; }, /拥有方等级/]
 ];
 
@@ -635,6 +635,33 @@ describe('组合补验的通用普通减速与显式身份', () => {
   });
 
   it.each([
+    ['source', false], ['source', true], ['target', false], ['target', true]
+  ] as const)('%s生命周期公式动态=%s保留完整命名空间及双方依赖', (side, dynamic) => {
+    const snapshot = movementSlowSample('authored_duration', side === 'source');
+    const config = genericConfiguration(snapshot);
+    config.formulas.push({ ...snapshot.skillConfigurations[0]!.formulas[0]!, skillKey: config.skill.skillKey,
+      formulaKey: 'authored_duration', expression: dynamic ? {
+        nodeType: 'OPERATION', operation: 'ADD', operands: [
+          { nodeType: 'PARAMETER', parameterKey: 'slow_duration' },
+          { nodeType: 'ATTRIBUTE', attributeOwner: 'SOURCE', attributeKey: 'hp', attributeValueKind: 'TOTAL' }
+        ]
+      } : { nodeType: 'PARAMETER', parameterKey: 'slow_duration' } });
+    config.effects[0]!.lifecycle!.durationValue = { kind: 'FORMULA', formulaKey: 'authored_duration' };
+    const before = structuredClone(snapshot);
+    const assembled = assembleTriggeredEquipment(snapshot);
+    const status = assembled.providers.find(provider => provider.kind === 'status')!;
+    if (dynamic) {
+      const duration = assembled.formulas.find(formula => formula.key.includes('/status/') && formula.key.endsWith('/authored_duration'))!;
+      expect(status.lifecycle!.durationMs).toEqual({ op: 'ref', ref: duration.key });
+      expect(duration.key).toMatch(new RegExp(`^${side}_authored_duration_passive/`));
+      expect(assembled.required[side].has('hp')).toBe(true);
+    } else {
+      expect(status.lifecycle!.durationMs).toEqual({ op: 'const', value: 1000 });
+    }
+    expect(snapshot).toEqual(before);
+  });
+
+  it.each([
     ['缺目录', (snapshot: SimulationSnapshot) => { snapshot.catalogs.statuses = []; }],
     ['禁用目录', (snapshot: SimulationSnapshot) => { snapshot.catalogs.statuses[0]!.status = 'DISABLED'; }],
     ['异游戏目录', (snapshot: SimulationSnapshot) => { snapshot.catalogs.statuses[0]!.gameId = 'other_game'; }],
@@ -692,6 +719,74 @@ describe('组合补验的通用普通减速与显式身份', () => {
 });
 
 describe('配置驱动装备通用节点编译', () => {
+  it.each(['SKILL', 'TARGET'] as const)('%s离散COUNTER与ICD保持真实状态范围、读取、写入及不同刷新策略', scope => {
+    const snapshot = counterSample();
+    const config = genericConfiguration(snapshot);
+    for (const state of config.internalStates) state.scope = scope;
+    const hits = config.internalStates[0]!;
+    if (hits.stateType !== 'COUNTER') throw new Error('需要完整计数结构');
+    hits.detail.durationValue = { kind: 'FIXED', value: 4000 };
+    const root = rootProvider(assembleTriggeredEquipment(snapshot));
+    expect(root.initialStateSchema!.hits).toEqual({ valueType: 'integer', defaultValue: 0, maxValue: 3,
+      durationMs: 4000, refreshPolicy: 'refresh_on_write' });
+    expect(root.initialStateSchema!.gate).toMatchObject({ durationMs: 1001, refreshPolicy: 'start_on_first_write' });
+    const operations = root.abilities!.find(row => row.abilityKey === 'on_hit')!.listenerSpec!.operations!;
+    for (const operation of operations.filter(row => row.ref === 'hits' || row.ref === 'gate')) {
+      expect(operation.types).toEqual([scope === 'TARGET' ? 'state_scope/provider_target' : 'state_scope/provider']);
+    }
+    const stateReads = reads(operations);
+    expect(stateReads).toContain(scope === 'TARGET' ? 'provider.target_state.hits' : 'provider.state.hits');
+    expect(stateReads).toContain(scope === 'TARGET' ? 'provider.target_state.gate' : 'provider.state.gate');
+  });
+
+  it.each([undefined, null, 0, 4000])('COUNTER保持期%s不猜默认值，无保持期不计时，正值刷新', duration => {
+    const snapshot = counterSample();
+    const state = genericConfiguration(snapshot).internalStates[0]!;
+    if (state.stateType !== 'COUNTER') throw new Error('需要完整计数结构');
+    if (duration !== undefined) state.detail.durationValue = duration === null ? null : { kind: 'FIXED', value: duration };
+    expect(rootProvider(assembleTriggeredEquipment(snapshot)).initialStateSchema!.hits).toEqual({
+      valueType: 'integer', defaultValue: 0, maxValue: 3, durationMs: duration ?? 0,
+      ...(duration && duration > 0 ? { refreshPolicy: 'refresh_on_write' } : {})
+    });
+  });
+
+  it.each([-1, .5, Infinity])('COUNTER非法期限%s拒绝，不能截断或封顶', duration => {
+    const snapshot = counterSample();
+    const state = genericConfiguration(snapshot).internalStates[0]!;
+    if (state.stateType !== 'COUNTER') throw new Error('需要完整计数结构');
+    state.detail.durationValue = { kind: 'FIXED', value: duration };
+    expect(() => assembleTriggeredEquipment(snapshot)).toThrow(/durationValue.*常量|durationValue.*有限/);
+  });
+
+  it('COUNTER明确零上限仍输出离散声明，负数及小数写入不因封顶变合法', () => {
+    const snapshot = counterSample();
+    const config = genericConfiguration(snapshot);
+    const state = config.internalStates[0]!;
+    if (state.stateType !== 'COUNTER') throw new Error('需要完整计数结构');
+    state.detail.maxValue = { kind: 'FIXED', value: 0 };
+    expect(rootProvider(assembleTriggeredEquipment(snapshot)).initialStateSchema!.hits).toMatchObject({
+      valueType: 'integer', defaultValue: 0, maxValue: 0
+    });
+    for (const value of [-1, .5]) {
+      config.processes[0]!.stateOperations[0]!.value = { kind: 'FIXED', value };
+      expect(() => assembleTriggeredEquipment(snapshot)).toThrow(/合法整数/);
+    }
+  });
+
+  it('开始与攻击联动按配置独立注册，不重复产生主动过程', () => {
+    const snapshot = genericSample();
+    const config = genericConfiguration(snapshot);
+    config.triggerRules[0]!.eventSource = { eventType: 'BASIC_ATTACK_START', detail: {} };
+    config.triggerRules.push({ ...structuredClone(config.triggerRules[0]!), ruleKey: 'explicit_attack_link', sortOrder: 20,
+      eventSource: { eventType: 'ATTACK_LINK_APPLIED', detail: { sourceSkillKey: null } } });
+    const root = rootProvider(assembleTriggeredEquipment(snapshot));
+    expect(root.abilities!.map(row => row.listenerSpec!.eventMatcher.all)).toEqual([
+      ['event/basic_attack_start', 'event/source_owner'], ['event/attack_link_applied', 'event/source_owner']
+    ]);
+    expect(root.processes).toBeUndefined();
+    expect(root.abilities!.every(row => row.kind === 'passive_listener')).toBe(true);
+  });
+
   it.each(['authored_blade', 'item_3124', 'item_3075', 'item_3068'])('异名%s同结构编译，不按装备名选择算法或拒绝', key => {
     const snapshot = genericSample(key);
     const config = genericConfiguration(snapshot);
@@ -738,9 +833,9 @@ describe('配置驱动装备通用节点编译', () => {
     const assembled = assembleTriggeredEquipment(snapshot);
     const root = rootProvider(assembled);
     expect(root.initialStateSchema).toMatchObject({
-      hits: { valueType: 'number', defaultValue: 0, maxValue: 3 },
+      hits: { valueType: 'integer', defaultValue: 0, maxValue: 3 },
       gate: { valueType: 'number', defaultValue: 0, maxValue: 1, durationMs: 1001, refreshPolicy: 'start_on_first_write' },
-      effect_stacking: { valueType: 'number', defaultValue: 0, maxValue: 4, durationMs: 3000, refreshPolicy: 'refresh_on_write' }
+      effect_stacking: { valueType: 'integer', defaultValue: 0, maxValue: 4, durationMs: 3000, refreshPolicy: 'refresh_on_write' }
     });
     const hit = root.abilities!.find(ability => ability.abilityKey === 'on_hit')!;
     expect(hit.listenerSpec!.operations!.map(operation => operation.operation)).toEqual([
@@ -781,7 +876,7 @@ describe('配置驱动装备通用节点编译', () => {
     const root = rootProvider(assembled);
     const full = root.abilities!.find(ability => ability.abilityKey === 'full_count')!;
     const reset = root.abilities!.find(ability => ability.abilityKey === 'not_full_reset')!;
-    expect(root.initialStateSchema!.hits).toEqual({ valueType: 'number', defaultValue: 0, maxValue: 3, durationMs: 0 });
+    expect(root.initialStateSchema!.hits).toEqual({ valueType: 'integer', defaultValue: 0, maxValue: 3, durationMs: 0 });
     expect(root.initialStateSchema!.effect_stacking).toMatchObject({ durationMs: 3000, refreshPolicy: 'refresh_on_write' });
     expect(full.listenerSpec!.condition).toEqual({ op: 'gte', args: [{ op: 'read', path: 'provider.state.effect_stacking' }, { op: 'const', value: 4 }] });
     expect(reset.listenerSpec!.condition).toEqual({ op: 'lt', args: [{ op: 'read', path: 'provider.state.effect_stacking' }, { op: 'const', value: 4 }] });
@@ -1017,7 +1112,7 @@ describe('配置驱动装备通用节点编译', () => {
     const compiled = compileWithInputs(snapshot);
     expect(compiled.compileRequest.combatants.every(combatant => combatant.providers.every(mount => mount.definitionRef !== temporary.providerKey))).toBe(true);
     expect(compiled.operationOrigins.find(origin => origin.providerDefinitionRef === temporary.providerKey)!.compiledPaths[0]).toMatch(/^sharedProviders\[\d+\]\.abilities\[0\]\.tickSpec.onTick\[0\]$/);
-    expect(SIMULATION_ADAPTER_VERSION).toBe('v8-default-skill-sources');
+    expect(SIMULATION_ADAPTER_VERSION).toBe('v9-natural-triggered-sources');
   });
 
   it('异名有期周期、改参改首跳只读取作者配置，3秒参数不自动成为常驻周期', () => {
