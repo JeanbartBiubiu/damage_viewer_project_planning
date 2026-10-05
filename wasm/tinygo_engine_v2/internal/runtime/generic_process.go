@@ -295,6 +295,9 @@ func (s *genericRunState) applyProcessMoment(p *processRuntime, f *executionFram
 		if err := f.applyCooldownChange(p.Owner, p.abilityRef, ready); err != nil {
 			return err
 		}
+		if err := f.stageInitialBasicAttackWait(p, ready); err != nil {
+			return err
+		}
 		p.CooldownStarted = true
 	}
 	f.recordProcess(p, "process_moment", kind)

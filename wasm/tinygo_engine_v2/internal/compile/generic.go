@@ -137,6 +137,7 @@ type CompiledStatusContribution struct {
 
 // CompiledProviderStateField 是 initialStateSchema 规范化后的 provider-scope 字段定义（Gate H1）。
 type CompiledProviderStateField struct {
+	ValueType     string
 	DefaultValue  float64
 	MaxValue      float64
 	HasCap        bool
@@ -843,6 +844,9 @@ func compileModifierDefinition(mod model.ModifierDefinition, path string, ctx *g
 		HealGroupKey:             mod.HealGroupKey,
 		HealGroupCalculationMode: mod.HealGroupCalculationMode,
 	}
+	if (compiled.Kind == "attribute" || compiled.Kind == "") && compiled.ValuePolicy == "add_percent" {
+		compiled.ValuePolicy = "percent_add"
+	}
 	if mod.ModifierKey == "" {
 		collector.addError(model.GenericErrMissingRequiredField, path+".modifierKey", "modifierKey is required", "")
 	}
@@ -1214,6 +1218,11 @@ func compileOperation(op model.OperationDefinition, path string, ownerProviderIn
 	}
 	if op.Amount != nil {
 		instr := formula.CompileGenericFormula(*op.Amount, path+".amount", ctx.namedFormulas, map[string]bool{}, collector.addError)
+		if op.Operation == "state_change" && ownerProviderIndex >= 0 && ownerProviderIndex < len(session.Providers) && session.Providers[ownerProviderIndex].StateFields[op.Ref].ValueType == model.ProviderStateValueInteger {
+			if value, constant := formula.TryFoldConst(instr); constant && (!validStateInteger(value) || (value < 0 && op.ValuePolicy != "add" && op.ValuePolicy != "")) {
+				collector.addError(model.GenericErrFormulaTypeError, path+".amount", "integer state requires a safe integer operand; only addition accepts a negative delta", op.Ref)
+			}
+		}
 		validateProcessActualCostReads(instr, path+".amount", ctx)
 		if op.Operation == "cooldown_change" && op.ValuePolicy == "set_remaining" {
 			if value, constant := formula.TryFoldConst(instr); constant && (value < 0 || (value != 0 && !formula.ValidPositiveInt64DurationMs(value))) {

@@ -3,6 +3,7 @@ package runtime
 
 import (
 	"fmt"
+	"sort"
 
 	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/formula"
@@ -302,7 +303,22 @@ func (s *genericRunState) handleExpireCleanup(ev scheduler.GenericEvent) {
 				}
 			}
 			evalCtx := s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
-			s.removeProviderInstance(payload.combatantKey, payload.providerRef, evalCtx, model.EvidenceKindProviderExpire)
+			if s.basicAttack == nil {
+				s.removeProviderInstance(payload.combatantKey, payload.providerRef, evalCtx, model.EvidenceKindProviderExpire)
+			} else {
+				frame := s.newExecutionFrame(s.basicAttack.plan.Source, s.basicAttack.plan.Target, "provider_expiry:"+payload.providerRef)
+				if err := frame.consumeCommands(1); err != nil {
+					s.processFailure = err
+					return
+				}
+				staged := frame.stageFor(payload.combatantKey)
+				staged.providerOps = append(staged.providerOps, stagedProviderMutation{kind: "expire", targetKey: payload.combatantKey,
+					providerRef: payload.providerRef, evidenceKind: model.EvidenceKindProviderExpire})
+				frame.commit()
+				if frame.fatal {
+					s.processFailure = frame.fatalErr
+				}
+			}
 		}
 	case "provider_target_state":
 		s.applyProviderTargetStateExpiry(payload)
@@ -398,7 +414,11 @@ func (s *genericRunState) addShieldInstance(targetKey, sourceKey string, amount 
 }
 
 func (s *genericRunState) seedExpireCleanups() {
-	for key, c := range s.combatants {
+	for _, key := range []string{model.SelectorSource, model.SelectorTarget} {
+		c, exists := s.combatants[key]
+		if !exists {
+			continue
+		}
 		for _, inst := range c.providers {
 			if inst.ExpireAt > 0 && inst.ExpireAt > s.nowMs {
 				s.enqueueExpireCleanup(inst.ExpireAt, expireCleanupPayload{
@@ -415,6 +435,34 @@ func (s *genericRunState) seedExpireCleanups() {
 					shieldRef:    sh.ShieldRef,
 					kind:         "shield",
 				})
+			}
+		}
+		refs := make([]string, 0, len(c.providerState))
+		for ref := range c.providerState {
+			refs = append(refs, ref)
+		}
+		sort.Strings(refs)
+		for _, ref := range refs {
+			bag := c.providerState[ref]
+			if bag == nil {
+				continue
+			}
+			for _, scope := range []string{"provider_source_state", "provider_target_state"} {
+				timers := bag.expireAt
+				if scope == "provider_target_state" {
+					timers = bag.targetExpireAt
+				}
+				fields := make([]string, 0, len(timers))
+				for field := range timers {
+					fields = append(fields, field)
+				}
+				sort.Strings(fields)
+				for _, field := range fields {
+					if expires := timers[field]; expires > s.nowMs {
+						s.enqueueExpireCleanup(expires, expireCleanupPayload{kind: scope, combatantKey: key,
+							providerRef: ref, targetKey: bag.targetKey, stateKey: field, expectedExpireAt: expires})
+					}
+				}
 			}
 		}
 	}

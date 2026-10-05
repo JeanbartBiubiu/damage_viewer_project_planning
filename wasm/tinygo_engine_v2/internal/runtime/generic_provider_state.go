@@ -14,6 +14,7 @@ const (
 
 // providerStateFieldDef is the runtime copy of compiled provider-scope field metadata (Gate H1).
 type providerStateFieldDef struct {
+	valueType     string
 	defaultValue  float64
 	maxValue      float64
 	hasCap        bool
@@ -307,6 +308,7 @@ func compiledStateFieldsToRuntime(fields map[string]compilebundle.CompiledProvid
 	out := make(map[string]providerStateFieldDef, len(fields))
 	for k, f := range fields {
 		out[k] = providerStateFieldDef{
+			valueType:     f.ValueType,
 			defaultValue:  f.DefaultValue,
 			maxValue:      f.MaxValue,
 			hasCap:        f.HasCap,
@@ -519,6 +521,36 @@ func (b *providerStateBag) clampProviderStateValue(key string, value float64) fl
 	return value
 }
 
+func validStateInteger(value float64) bool {
+	return finiteState(value) && math.Trunc(value) == value && math.Abs(value) <= float64(maxJSONSafeInteger)
+}
+
+func (b *providerStateBag) nextStateValue(key string, current, amount float64, policy string) (float64, string) {
+	integer := b.fieldDefs[key].valueType == model.ProviderStateValueInteger
+	if integer {
+		if !validStateInteger(current) || current < 0 || !validStateInteger(amount) {
+			return 0, "integer state requires a non-negative safe current value and a safe integer operand"
+		}
+		if (policy == "set" || policy == "override") && amount < 0 {
+			return 0, "integer state cannot be assigned a negative value"
+		}
+		if (policy == "add" || policy == "") && amount > 0 && current > float64(maxJSONSafeInteger)-amount {
+			return 0, "integer state addition exceeds the safe integer range"
+		}
+	}
+	next, supported := applyStatePolicy(current, amount, policy)
+	if !supported {
+		return 0, "unsupported state_change valuePolicy"
+	}
+	if !finiteState(next) {
+		return 0, "non-finite state result"
+	}
+	if integer && (!validStateInteger(next) || next < 0) {
+		return 0, "integer state result must be a non-negative safe integer"
+	}
+	return b.clampProviderStateValue(key, next), ""
+}
+
 func (b *providerStateBag) refreshExpireAtOnWrite(key string, nowMs int64) bool {
 	if b == nil {
 		return true
@@ -697,6 +729,9 @@ func restoreBagTimers(bag *providerStateBag, snapshotTime int64, combatantKeys m
 		if !finiteState(value) {
 			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "providerState value must be finite", path+".state."+key, key, schemaHash, rulesHash, sessionID)
 		}
+		if def.valueType == model.ProviderStateValueInteger && (!validStateInteger(value) || value < 0) {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "integer providerState must be a non-negative safe integer", path+".state."+key, key, schemaHash, rulesHash, sessionID)
+		}
 		if def.hasCap && value > def.maxValue {
 			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "providerState value exceeds maxValue", path+".state."+key, key, schemaHash, rulesHash, sessionID)
 		}
@@ -729,6 +764,9 @@ func restoreBagTimers(bag *providerStateBag, snapshotTime int64, combatantKeys m
 		}
 		if !finiteState(value) {
 			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "provider targetState value must be finite", path+".targetState.values."+key, key, schemaHash, rulesHash, sessionID)
+		}
+		if def.valueType == model.ProviderStateValueInteger && (!validStateInteger(value) || value < 0) {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "integer provider targetState must be a non-negative safe integer", path+".targetState.values."+key, key, schemaHash, rulesHash, sessionID)
 		}
 		if def.hasCap && value > def.maxValue {
 			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "provider targetState value exceeds maxValue", path+".targetState.values."+key, key, schemaHash, rulesHash, sessionID)

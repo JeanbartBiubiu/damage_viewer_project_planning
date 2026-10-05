@@ -107,20 +107,19 @@ func (f *executionFrame) commitKeysAndPreflight() ([]string, *model.EngineError)
 	if f.run.processFailure != nil {
 		return nil, f.run.processFailure
 	}
+	waitEvents, waitError := f.prepareBasicAttackWait()
+	if waitError != nil {
+		return nil, waitError
+	}
 	keys := make([]string, 0, len(f.staged))
 	for key := range f.staged {
 		keys = append(keys, key)
 	}
 	sort.Strings(keys)
-	count := len(f.pendingStateExpiry) + len(f.pendingAnchoredTicks)
+	count := len(f.pendingStateExpiry) + len(f.pendingAnchoredTicks) + waitEvents
 	if f.providerTickCanContinue() {
 		count++
 	}
-	waitEvents, waitError := f.prepareBasicAttackWait()
-	if waitError != nil {
-		return nil, waitError
-	}
-	count += waitEvents
 	if f.pendingProcessTimer {
 		count++
 	}

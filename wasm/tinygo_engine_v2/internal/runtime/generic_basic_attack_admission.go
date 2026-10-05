@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"math"
+	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -59,6 +60,79 @@ func (s *genericRunState) validateBasicAttackInitialSnapshot() *model.EngineErro
 		if !found {
 			return s.basicAttackErr("initial combatant is not compiled", "initialSnapshot.combatants")
 		}
+	}
+	return nil
+}
+
+func (s *genericRunState) validateIdleBasicAttackProvider(provider compilebundle.CompiledProvider, owner, ref string) *model.EngineError {
+	fail := func() *model.EngineError {
+		return s.basicAttackErr("idle opponent binding must contain its complete static basic attack and unique owner-start listener", "initialSnapshot.combatants.providers")
+	}
+	if provider.AbilityCount != 3 || len(provider.Processes) != 1 || provider.Lifecycle != nil || len(provider.Modifiers)+len(provider.StateFields)+len(provider.StatusContributions) != 0 {
+		return fail()
+	}
+	process := provider.Processes[0]
+	if process.Cooldown == nil || !process.Cooldown.RoundPositiveMs || process.Cooldown.StartMoment.MomentType != "PROCESS_START" || len(process.Costs) != 0 {
+		return fail()
+	}
+	for _, step := range process.Steps {
+		if step.StepType != "IMMEDIATE" {
+			return fail()
+		}
+	}
+	for _, moment := range process.MomentOperations {
+		if moment.Moment.MomentType != "PROCESS_START" {
+			return fail()
+		}
+		for _, operation := range s.compiled.Operations[int(moment.OperationStart) : int(moment.OperationStart)+int(moment.OperationCount)] {
+			if operation.Operation != model.OperationKindApplyAttackLink && operation.Operation != model.OperationKindApplyHitLink {
+				return fail()
+			}
+		}
+	}
+	var start compilebundle.CompiledAbility
+	initialRef := ""
+	starts, hits := 0, 0
+	for _, ability := range s.compiled.Abilities[int(provider.AbilityStart) : int(provider.AbilityStart)+int(provider.AbilityCount)] {
+		if !ability.IsBasicAttack || ability.SkillKey != process.SkillKey || ability.Kind != "active" || ability.Cost != nil || ability.Cooldown != nil || ability.HasCastCondition || ability.TickSpec != nil {
+			return fail()
+		}
+		if ability.ProcessControl != nil {
+			if initialRef != "" || ability.ProcessControl.Action != "INITIAL" || !ability.ProcessControl.UseRefFromEvent || ability.ProcessControl.ProcessIndex != 0 || ability.OperationCount != 0 || ability.HasSkillHit {
+				return fail()
+			}
+			initialRef = owner + ".provider[" + ref + "].ability[" + ability.AbilityKey + "]"
+		} else if ability.HasSkillHit {
+			if ability.OperationCount != 1 || s.compiled.Operations[ability.OperationStart].Operation != model.OperationKindResolveSkillHit {
+				return fail()
+			}
+			hits++
+		} else {
+			if ability.OperationCount != 0 {
+				return fail()
+			}
+			start = ability
+			starts++
+		}
+	}
+	if initialRef == "" || starts != 1 || hits != 1 {
+		return fail()
+	}
+	startType, declared := s.compiled.Types.Registry.Lookup(model.EventTypeBasicAttackStart)
+	ownerType, ownerDeclared := s.compiled.Types.Registry.Lookup(eventSourceOwner)
+	start.TypeSet.Add(startType)
+	listeners := 0
+	for _, listener := range s.compiled.Listeners {
+		if listener.OwnerCombatantKey != owner || listener.OwnerProviderRef != ref {
+			continue
+		}
+		if !declared || !ownerDeclared || !listener.HasAbilityRef || normalizeAbilityRef(listener.AbilityRef, owner, opponentCombatantKey(owner)) != initialRef || listener.OperationCount != 0 || listener.HasCondition || listener.HasOncePerUse || listener.PerCastThrottleMs != 0 || listener.MaxTriggersPerEvent != 1 || !listener.EventMatcher.RequiresAllType(startType) || !listener.EventMatcher.RequiresAllType(ownerType) || !s.listenerMatchesEvent(listener, emittedEvent{eventType: model.EventTypeBasicAttackStart, sourceKey: owner, targetKey: opponentCombatantKey(owner)}, start.TypeSet) {
+			return fail()
+		}
+		listeners++
+	}
+	if listeners != 1 {
+		return fail()
 	}
 	return nil
 }

@@ -65,6 +65,7 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		return s.basicAttackErr("basic attack requires the selected source provider", "driverPlan.basicAttack.startAbilityRef")
 	}
 	periodicOperations := map[string]bool{}
+	idleAttackProvider := ""
 	for _, actor := range s.compiled.Combatants {
 		gearKeys := map[string]bool{}
 		initializerKeys := map[string]bool{}
@@ -75,12 +76,24 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 				continue
 			}
 			gear := s.compiled.Providers[mount.DefinitionIndex]
+			if actor.Key == p.Target && gear.Kind == "skill" {
+				if idleAttackProvider != "" {
+					return s.basicAttackErr("idle opponent may have only one complete basic-attack binding", "initialSnapshot.combatants.providers")
+				}
+				if err := s.validateIdleBasicAttackProvider(gear, actor.Key, mount.ProviderRef); err != nil {
+					return err
+				}
+				idleAttackProvider = mount.ProviderRef
+				continue
+			}
 			if gear.Kind == "character" || gear.Kind == "build" {
 				if permanentSourceKeys[gear.StableID] {
 					return s.basicAttackErr("duplicate permanent skill source", "initialSnapshot.combatants.providers")
 				}
 				if err := s.validateStaticInitializer(gear, actor.Key, mount.ProviderRef); err != nil {
-					return err
+					if err := s.validateEquipmentHitProvider(gear, actor.Key, mount.ProviderRef); err != nil {
+						return err
+					}
 				}
 				permanentSourceKeys[gear.StableID] = true
 				continue
@@ -190,6 +203,9 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 	triggerOperations := map[string]bool{}
 	auraOwners := map[string]bool{}
 	for _, entry := range s.compiled.Listeners {
+		if entry.OwnerCombatantKey == p.Target && entry.OwnerProviderRef == idleAttackProvider {
+			continue
+		}
 		if entry.OwnerCombatantKey == p.Source && entry.OwnerProviderRef == selectedRef.ProviderRef {
 			listener = entry
 			startListeners++
@@ -342,10 +358,8 @@ func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
 	if !ok || ready <= s.nowMs || ready > maxJSONSafeInteger {
 		return s.basicAttackErr("committed attack cooldown is missing or invalid", b.plan.InitialControlAbilityRef)
 	}
-	b.current.ReadyAtMs = &ready
-	b.current.FinalReadyAtMs = &ready
-	if err := s.beginBasicAttackWait(ready, currentSpeed); err != nil {
-		return err
+	if b.wait == nil || b.wait.ready != ready || b.current.ReadyAtMs == nil {
+		return s.basicAttackErr("attack process did not commit its unique waiting node", b.plan.InitialControlAbilityRef)
 	}
 	if s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0 {
 		return s.basicAttackErr("combatant died before native hit", "driverPlan.basicAttack")

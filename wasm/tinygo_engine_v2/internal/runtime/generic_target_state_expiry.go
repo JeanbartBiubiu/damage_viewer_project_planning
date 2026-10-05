@@ -1,6 +1,7 @@
 package runtime
 
 import (
+	compilebundle "tinygo_engine_v2/internal/compile"
 	"tinygo_engine_v2/internal/model"
 )
 
@@ -47,30 +48,24 @@ func (s *genericRunState) applyProviderTargetStateExpiry(payload expireCleanupPa
 	if bag.targetExpireAt[payload.stateKey] != payload.expectedExpireAt {
 		return
 	}
-	def, hasDef := bag.fieldDefs[payload.stateKey]
-	defaultValue := 0.0
-	if hasDef {
-		defaultValue = def.defaultValue
-	}
-	bag.targetValues[payload.stateKey] = defaultValue
-	bag.targetExpireAt[payload.stateKey] = 0
-	owner.providerState[payload.providerRef] = bag
-	s.combatants[payload.combatantKey] = owner
-
-	affectedKey := payload.targetKey
-	if affectedKey == "" {
+	if payload.expectedExpireAt > s.nowMs || payload.targetKey == "" {
 		return
 	}
-	evalCtx := s.evalContextForCombatants(model.SelectorSource, model.SelectorTarget)
-	if affected, ok := s.combatants[affectedKey]; ok {
-		affected.attributes = s.resolveAttributesFor(affectedKey, affected.attributes, evalCtx, affectedKey)
-		s.combatants[affectedKey] = affected
+	frame := s.newExecutionFrame(payload.combatantKey, payload.targetKey, "target_state_expiry:"+payload.providerRef)
+	frame.ownerCombatantKey, frame.ownerProviderRef = payload.combatantKey, payload.providerRef
+	if err := frame.consumeCommands(1); err != nil {
+		s.processFailure = err
+		return
 	}
-	// Owner-side modifiers reading target_state (rare) also refresh.
-	if payload.combatantKey != affectedKey {
-		if own, ok := s.combatants[payload.combatantKey]; ok {
-			own.attributes = s.resolveAttributesFor(payload.combatantKey, own.attributes, evalCtx, affectedKey)
-			s.combatants[payload.combatantKey] = own
-		}
+	staged := frame.stageFor(payload.combatantKey)
+	stagedBag := staged.providerState[payload.providerRef]
+	stagedBag.targetValues[payload.stateKey] = stagedBag.fieldDefs[payload.stateKey].defaultValue
+	stagedBag.targetExpireAt[payload.stateKey] = 0
+	frame.reResolveStagedAttributesTwoPass(compilebundle.CompiledAbility{})
+	frame.recordEvidence(model.EvidenceItem{TimeMs: s.nowMs, Kind: "provider_target_state_expired", Ref: payload.providerRef,
+		Data: map[string]interface{}{"owner": payload.combatantKey, "target": payload.targetKey, "stateKey": payload.stateKey, "expectedExpireAt": payload.expectedExpireAt}})
+	frame.commit()
+	if frame.fatal {
+		s.processFailure = frame.fatalErr
 	}
 }

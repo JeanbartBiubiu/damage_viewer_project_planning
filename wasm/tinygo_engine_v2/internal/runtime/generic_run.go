@@ -1187,7 +1187,9 @@ func (s *genericRunState) buildFinalSnapshot() model.Snapshot {
 			snapshot.Combatants[i].Vars = map[string]interface{}{}
 		}
 	}
-	s.lazyExpireAllProviderState()
+	if s.basicAttack == nil || s.budgetCause == "" {
+		s.lazyExpireAllProviderState()
+	}
 	for i, c := range snapshot.Combatants {
 		rt, ok := s.combatants[c.Key]
 		if !ok {

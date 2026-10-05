@@ -66,7 +66,7 @@ func (s *genericRunState) validateStaticInitializationListener(listener compileb
 			if _, exists := owner.attributes[attributeKey]; !exists {
 				return s.basicAttackErr("permanent skill attribute slot is missing", operation.Path)
 			}
-			if modifier.ValuePolicy != "add" && modifier.ValuePolicy != "add_percent" && modifier.ValuePolicy != "multiply" {
+			if modifier.ValuePolicy != "add" && modifier.ValuePolicy != "percent_add" && modifier.ValuePolicy != "multiply" {
 				return s.basicAttackErr("permanent skill attribute requires an explicit supported calculation", operation.Path)
 			}
 			continue

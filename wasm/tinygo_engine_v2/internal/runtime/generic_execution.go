@@ -19,6 +19,7 @@ import (
 )
 
 type stagedProviderMutation struct {
+	evidenceKind   model.EvidenceKind
 	kind           string
 	providerRef    string
 	definitionRef  string
@@ -964,14 +965,10 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 	switch scope {
 	case stateScopeProvider:
 		bag.lazyExpireProviderState(f.run.nowMs)
-		next, ok := applyStatePolicy(bag.state[op.Ref], amount, op.ValuePolicy)
-		if !ok {
-			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "unsupported state_change valuePolicy", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		next, message := bag.nextStateValue(op.Ref, bag.state[op.Ref], amount, op.ValuePolicy)
+		if message != "" {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, message, op.Path+".amount", op.Ref, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
-		if !finiteState(next) {
-			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite state result", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
-		}
-		next = bag.clampProviderStateValue(op.Ref, next)
 		bag.state[op.Ref] = next
 		if !bag.refreshExpireAtOnWrite(op.Ref, f.run.nowMs) {
 			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "provider state duration overflow", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
@@ -991,14 +988,10 @@ func (f *executionFrame) applyStateChange(op compilebundle.CompiledOperation, ab
 		bag.activateProviderTarget(f.targetKey)
 		bag.seedTargetValueIfAbsent(op.Ref)
 		current := bag.readTargetValue(op.Ref)
-		next, ok := applyStatePolicy(current, amount, op.ValuePolicy)
-		if !ok {
-			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrRuntimeInvariantFailed, "unsupported state_change valuePolicy", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
+		next, message := bag.nextStateValue(op.Ref, current, amount, op.ValuePolicy)
+		if message != "" {
+			return engineErrorPtrAt(model.GenericPhaseRun, model.GenericErrFormulaTypeError, message, op.Path+".amount", op.Ref, f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
 		}
-		if !finiteState(next) {
-			return engineErrorPtr(model.GenericPhaseRun, model.GenericErrFormulaTypeError, "non-finite state result", f.run.compiled.SchemaHash, f.run.compiled.RulesHash, f.run.req.SessionID)
-		}
-		next = bag.clampProviderStateValue(op.Ref, next)
 		bag.targetValues[op.Ref] = next
 		exp, ok := bag.refreshTargetExpireAtOnWrite(op.Ref, f.run.nowMs)
 		if !ok {
@@ -1965,7 +1958,11 @@ func (f *executionFrame) commit() {
 					}
 					continue
 				}
-				f.run.expireProviderInstance(mut.targetKey, mut.providerRef, evalCtx)
+				kind := mut.evidenceKind
+				if kind == "" {
+					kind = model.EvidenceKindProviderRemove
+				}
+				f.run.removeProviderInstance(mut.targetKey, mut.providerRef, evalCtx, kind)
 			}
 		}
 	}

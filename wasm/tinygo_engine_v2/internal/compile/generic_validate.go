@@ -121,6 +121,15 @@ func compileInitialStateSchema(schema map[string]interface{}, path string, colle
 func compileStructuredStateField(obj map[string]interface{}, path, key string, collector *genericCollector) (CompiledProviderStateField, bool) {
 	var field CompiledProviderStateField
 	ok := true
+	if raw, declared := obj["valueType"]; declared {
+		valueType, valid := raw.(string)
+		if !valid || (valueType != model.ProviderStateValueNumber && valueType != model.ProviderStateValueInteger) {
+			collector.addError(model.GenericErrFormulaTypeError, path+".valueType", "valueType must be number or integer", key)
+			ok = false
+		} else {
+			field.ValueType = valueType
+		}
+	}
 
 	defaultRaw, hasDefault := obj["defaultValue"]
 	if !hasDefault {
@@ -143,6 +152,16 @@ func compileStructuredStateField(obj map[string]interface{}, path, key string, c
 	} else {
 		field.MaxValue = n
 		field.HasCap = true
+	}
+	if field.ValueType == model.ProviderStateValueInteger {
+		if hasDefault && (!validStateInteger(field.DefaultValue) || field.DefaultValue < 0) {
+			collector.addError(model.GenericErrFormulaTypeError, path+".defaultValue", "integer defaultValue must be a non-negative safe integer", key)
+			ok = false
+		}
+		if hasMax && (!validStateInteger(field.MaxValue) || field.MaxValue < 0) {
+			collector.addError(model.GenericErrFormulaTypeError, path+".maxValue", "integer maxValue must be a non-negative safe integer", key)
+			ok = false
+		}
 	}
 
 	if hasDefault && hasMax && isFiniteFloat(field.DefaultValue) && isFiniteFloat(field.MaxValue) && field.MaxValue < field.DefaultValue {
@@ -234,6 +253,10 @@ func asSchemaInt64(v interface{}) (int64, bool) {
 
 func isFiniteFloat(v float64) bool {
 	return !math.IsNaN(v) && !math.IsInf(v, 0)
+}
+
+func validStateInteger(value float64) bool {
+	return isFiniteFloat(value) && math.Trunc(value) == value && math.Abs(value) <= 9007199254740991
 }
 
 // validateRepeatOperation 校验 Gate K deferred repeat compile 合同（collect-all）。

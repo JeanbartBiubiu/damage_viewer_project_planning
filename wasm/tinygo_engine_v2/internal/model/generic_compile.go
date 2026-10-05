@@ -86,6 +86,7 @@ type ProviderDefinition struct {
 // ProviderStateFieldSchema 是 initialStateSchema 的结构化字段形态（Gate H1）。
 // 旧形态仍允许纯数字默认值；结构化对象携带封顶与定时元数据。
 type ProviderStateFieldSchema struct {
+	ValueType     string  `json:"valueType,omitempty"`
 	DefaultValue  float64 `json:"defaultValue"`
 	MaxValue      float64 `json:"maxValue"`
 	DurationMs    int64   `json:"durationMs"`
@@ -94,6 +95,11 @@ type ProviderStateFieldSchema struct {
 
 // ProviderStateRefreshOnWrite 是每次写入续期的既有 refreshPolicy。
 const ProviderStateRefreshOnWrite = "refresh_on_write"
+
+const (
+	ProviderStateValueNumber  = "number"
+	ProviderStateValueInteger = "integer"
+)
 
 // Provider 实例范围与普通减速种类。
 const (
