@@ -21,7 +21,7 @@ async function sample() {
     const actualHpLoss = Math.min(100, hpBefore);
     attackRecords.push({ planKey: plan.planKey, attackIndex: index, useRef: `use_${index}`, source: 'source', target: 'target', skillKey: plan.skillKey,
       startAtMs: (index - 1) * 1000, hitAtMs: (index - 1) * 1000, readyAtMs: index * 1000,
-      finalReadyAtMs: index * 1000, nextStartAtMs: index === 3 ? null : index * 1000, attackSpeed: 1, postDefenseDamage: 100, actualHpLoss,
+      finalReadyAtMs: index * 1000, mechanicReadyAtMs: null, nextStartAtMs: index === 3 ? null : index * 1000, attackSpeed: 1, postDefenseDamage: 100, actualHpLoss,
       sourceHpAfter: 650, targetHpAfter: hpBefore - actualHpLoss, completed: true });
     damageRecords.push({ damageId: index, attackIndex: index, useRef: `use_${index}`, timeMs: (index - 1) * 1000,
       owner: 'source', source: 'source', target: 'target', abilityRef: plan.hitAbilityRef, castInstanceId: index * 3,
@@ -48,9 +48,10 @@ async function sample() {
       execution: { requestedDurationMs: 30000, complete: true, incompleteReason: null, budgetCause: null, targetKilled: true, targetKilledAtMs: 2000 },
       damageBreakdown: [{ owner: 'source', source: 'source', target: 'target', abilityRef: plan.hitAbilityRef,
         operationRef: origin.operationRef, damageType: 'damage/physics', damageCount: 3, postDefenseDamage: 300, shieldAbsorbed: 0, actualHpLoss: 250, overkillDamage: 50 }] },
-    finalSnapshot, attackRecords, damageRecords,
+    finalSnapshot, attackRecords, damageRecords, mechanicRecords: [],
     recording: { attackRecordCount: 3, returnedAttackRecords: 3, droppedAttackRecords: 0, attackRecordsTruncated: false,
-      damageRecordCount: 3, returnedDamageRecords: 3, droppedDamageRecords: 0, damageRecordsTruncated: false },
+      damageRecordCount: 3, returnedDamageRecords: 3, droppedDamageRecords: 0, damageRecordsTruncated: false,
+      mechanicRecordCount: 0, returnedMechanicRecords: 0, droppedMechanicRecords: 0, mechanicRecordsTruncated: false },
     evidence: { items: [], truncated: false, truncatedEvidenceCount: 0, countsByKind: {} }, warnings: [], series: [],
     seriesSamplingEvidence: { requestedSampleEveryMs: 100, effectiveSampleEveryMs: 0, requestedPointCount: 0, finalPointCount: 0, maxSeriesPoints: 5000, downsampled: false, method: 'disabled' } };
   return { prepared, request, done };
@@ -58,6 +59,36 @@ async function sample() {
 const assess = (item: Awaited<ReturnType<typeof sample>>) => assessContinuousAttackResult(item.prepared.compileRequest, item.request, item.done, item.prepared.operationOrigins);
 type Sample = Awaited<ReturnType<typeof sample>>;
 type Side = 'source' | 'target';
+
+async function ammoTimingSample(initialAmmo: 0 | 1) {
+  const input = await sample();
+  const definition = input.prepared.compileRequest.sharedProviders![0]!;
+  definition.initialStateSchema = { rounds: { valueType: 'integer', defaultValue: initialAmmo, maxValue: 4, stateKind: 'ammo',
+    ammoRecovery: { intervalMs: { op: 'const', value: 2500 }, mode: 'all_at_once', startCondition: 'when_empty' } } };
+  const providerRef = input.prepared.compileRequest.combatants[0]!.providers[0]!.providerRef;
+  input.done.summary.basicAttack!.initialMechanicReadyAtMs = initialAmmo === 0 ? 2500 : null;
+  for (const row of input.done.attackRecords!) {
+    const offset = initialAmmo === 0 ? 2500 : row.attackIndex === 1 ? 0 : 1500;
+    row.startAtMs += offset; row.hitAtMs! += offset; row.readyAtMs! += offset; row.finalReadyAtMs! += offset;
+    if (row.nextStartAtMs !== null) row.nextStartAtMs += initialAmmo === 0 ? 2500 : 1500;
+    if (initialAmmo === 1 && row.attackIndex === 1) row.mechanicReadyAtMs = 2500;
+  }
+  input.done.damageRecords!.forEach(row => { row.timeMs = input.done.attackRecords![row.attackIndex - 1]!.hitAtMs!; });
+  input.done.finalSnapshot.processInstances!.forEach(process => {
+    const attack = input.done.attackRecords!.find(row => row.useRef === process.useKey)!;
+    process.startedAtMs = process.stepStartedAtMs = process.advanceAtMs = process.finishedAtMs = attack.startAtMs;
+  });
+  const wait = { owner: 'source' as const, providerRef, providerDefinitionRef: definition.providerKey,
+    skillKey: input.request.driverPlan.basicAttack!.skillKey, stateKey: 'rounds', operationRef: 'ammo_recovery', beforeValue: 0 };
+  input.done.mechanicRecords = [
+    { ...wait, kind: 'WAIT_STARTED', timeMs: 0, afterValue: 0, useRef: initialAmmo === 0 ? null : 'use_1', readyAtMs: 2500 },
+    { ...wait, kind: 'WAIT_ENDED', timeMs: 2500, afterValue: 4, useRef: null, readyAtMs: 2500 }
+  ];
+  refreshFacts(input, input.done.attackRecords![2]!.startAtMs);
+  input.done.recording = { ...input.done.recording!, mechanicRecordCount: 2, returnedMechanicRecords: 2,
+    droppedMechanicRecords: 0, mechanicRecordsTruncated: false };
+  return input;
+}
 
 function mechanism(input: Sample, side: Side, key: string, kind: 'passive_listener' | 'tick', condition?: GenericFormulaExpr) {
   const providerIndex = input.prepared.compileRequest.sharedProviders!.length;
@@ -148,7 +179,8 @@ function refreshFacts(input: Sample, durationMs = 2000) {
   summary.basicAttack = { ...summary.basicAttack!, startedCount: attackCount, hitCount: attackCount, completedCount: attackCount };
   input.done.finalSnapshot.processInstances = input.done.finalSnapshot.processInstances!.slice(0, attackCount);
   input.done.recording = { attackRecordCount: attackCount, returnedAttackRecords: attackCount, droppedAttackRecords: 0, attackRecordsTruncated: false,
-    damageRecordCount: rows.length, returnedDamageRecords: rows.length, droppedDamageRecords: 0, damageRecordsTruncated: false };
+    damageRecordCount: rows.length, returnedDamageRecords: rows.length, droppedDamageRecords: 0, damageRecordsTruncated: false,
+    mechanicRecordCount: 0, returnedMechanicRecords: 0, droppedMechanicRecords: 0, mechanicRecordsTruncated: false };
 }
 function retainRecords(input: Sample, maxAttackRecords: number, maxDamageRecords: number) {
   input.request.recordBudget = { maxAttackRecords, maxDamageRecords };
@@ -182,6 +214,60 @@ async function vampPeriodicSample() {
 }
 
 describe('连续可靠结果解释', () => {
+  it('0弹首刀必须由初态、真实等待和恢复记录解释，普通场景不放宽首刀时刻', async () => {
+    const zero = await ammoTimingSample(0);
+    expect(assess(zero).issues).toEqual([]);
+    zero.done.mechanicRecords![1]!.timeMs = 2400;
+    expect(assess(zero).complete).toBe(false);
+    const ordinary = await sample();
+    ordinary.done.attackRecords![0]!.startAtMs = ordinary.done.attackRecords![0]!.hitAtMs = 1;
+    expect(assess(ordinary).complete).toBe(false);
+  });
+  it('下一刀取普通冷却与机制就绪较晚者，不相加也不忽略机制', async () => {
+    const limited = await ammoTimingSample(1);
+    expect(assess(limited).issues).toEqual([]);
+    limited.done.attackRecords![0]!.nextStartAtMs = 1000;
+    expect(assess(limited).complete).toBe(false);
+    limited.done.attackRecords![0]!.nextStartAtMs = 3500;
+    expect(assess(limited).complete).toBe(false);
+  });
+  it('机制记录禁用／截断不影响实际初次就绪汇总，缺事实仍拒绝', async () => {
+    const limited = await ammoTimingSample(1);
+    limited.request.recordBudget!.maxMechanicRecords = 0;
+    limited.done.mechanicRecords = [];
+    limited.done.recording = { ...limited.done.recording!, returnedMechanicRecords: 0, droppedMechanicRecords: 2, mechanicRecordsTruncated: true };
+    expect(assess(limited).complete).toBe(true);
+    const zero = await ammoTimingSample(0);
+    zero.request.recordBudget!.maxMechanicRecords = 0; zero.done.mechanicRecords = [];
+    zero.done.recording = { ...zero.done.recording!, returnedMechanicRecords: 0, droppedMechanicRecords: 2, mechanicRecordsTruncated: true };
+    expect(assess(zero).complete).toBe(true);
+    zero.done.summary.basicAttack!.initialMechanicReadyAtMs = null;
+    expect(assess(zero).complete).toBe(false);
+  });
+  it('计时等待允许空使用身份，但不接受其它攻击身份', async () => {
+    const input = await ammoTimingSample(1);
+    input.done.mechanicRecords[0]!.useRef = null;
+    expect(assess(input).complete).toBe(true);
+    input.done.mechanicRecords[0]!.useRef = 'other_attack';
+    expect(assess(input).complete).toBe(false);
+  });
+  it('真实条件主体伤害有原生结算事实即可，不要求无条件分支', async () => {
+    const input = await sample();
+    const hit = input.prepared.compileRequest.sharedProviders![0]!.abilities!.find(row => row.abilityKey === 'attack_hit')!;
+    hit.operations![0]!.skillHit!.candidates[0]!.participationCondition = { op: 'const', value: 1 };
+    expect(assess(input).complete).toBe(true);
+  });
+  it('恢复不能伪造攻击使用身份，错误容量或记录说明拒绝', async () => {
+    const input = await ammoTimingSample(1);
+    input.done.mechanicRecords![1]!.useRef = 'use_2';
+    expect(assess(input).complete).toBe(false);
+    input.done.mechanicRecords![1]!.useRef = null;
+    input.done.mechanicRecords![1]!.afterValue = 3;
+    expect(assess(input).complete).toBe(false);
+    input.done.mechanicRecords![1]!.afterValue = 4;
+    input.done.recording!.returnedMechanicRecords = 1;
+    expect(assess(input).complete).toBe(false);
+  });
   it.each([
     { attacks: 0, damages: 0 }, { attacks: 3, damages: 0 }, { attacks: 3, damages: 2 }, { attacks: 0, damages: 4 }
   ])('吸血周期记录预算攻击$attacks／伤害$damages保留严格汇总，不强求最后一刀等于最终生命', async ({ attacks, damages }) => {
@@ -583,7 +669,8 @@ describe('连续可靠结果解释', () => {
     input.request.recordBudget = { maxAttackRecords: 0, maxDamageRecords: 0 };
     input.done.attackRecords = []; input.done.damageRecords = [];
     input.done.recording = { attackRecordCount: 3, returnedAttackRecords: 0, droppedAttackRecords: 3, attackRecordsTruncated: true,
-      damageRecordCount: 3, returnedDamageRecords: 0, droppedDamageRecords: 3, damageRecordsTruncated: true };
+      damageRecordCount: 3, returnedDamageRecords: 0, droppedDamageRecords: 3, damageRecordsTruncated: true,
+      mechanicRecordCount: 0, returnedMechanicRecords: 0, droppedMechanicRecords: 0, mechanicRecordsTruncated: false };
     input.done.summary.evidenceTruncated = true;
     input.done.evidence.truncated = true; input.done.evidence.truncatedEvidenceCount = 1;
     input.done.warnings = [{ code: 'evidence_truncated', message: '截断', severity: 'warning' }]; input.done.summary.warningCount = 1;

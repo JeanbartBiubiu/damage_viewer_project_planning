@@ -344,6 +344,17 @@ describe('skill effect form defaults and conversion', () => {
     expect(STATUS_OPERATION_LABELS.REMOVE).toBe('移除');
   });
 
+  it('持续覆盖首次选择时提供唯一合法共享方式，不留下禁用且空白的字段', () => {
+    const attribute = applyResultTypeChange(createEmptyResultDraft(), 'ATTRIBUTE_CHANGE');
+    const persistent = applyLifecycleMomentChange({ ...attribute, attributeOperation: 'SET' }, 'PERSISTENT');
+    expect(persistent.lifecycleBehavior.valueReadMode).toBe('APPLICATION_SNAPSHOT');
+    expect(persistent.lifecycleBehavior.stackValueMode).toBe('SHARED');
+    const invalid = clearHiddenLifecycleBehaviorFields({ ...persistent, lifecycleBehavior: {
+      ...persistent.lifecycleBehavior, stackValueMode: 'PER_STACK'
+    } });
+    expect(invalid.lifecycleBehavior.stackValueMode).toBe('PER_STACK');
+  });
+
   it('converts an effect detail into drafts and keeps original catalog refs', () => {
     const draft = skillEffectToDraft(EFFECT);
     expect(draft.effectKey).toBe('on_hit_results');

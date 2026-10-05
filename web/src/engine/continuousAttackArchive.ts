@@ -1,6 +1,6 @@
 import type { ContinuousAttackView } from './continuousAttackPresentation';
 
-const archiveFields = ['taskKind', 'adapterVersion', 'snapshot', 'snapshotDigest', 'attributeInputs', 'initialHealth', 'equipmentAssumptions',
+const archiveFields = ['taskKind', 'adapterVersion', 'snapshot', 'snapshotDigest', 'attributeInputs', 'initialHealth', 'equipmentAssumptions', 'mechanicStateInputs',
   'attackSpeedAdmission', 'compileRequest', 'runRequest', 'runInputHash', 'coverage', 'operationOrigins', 'equipmentOrigins', 'skillOrigins', 'wasm',
   'compileResult', 'runResult', 'releaseResult', 'assessment', 'outcome', 'cleanup', 'failurePhase', 'error'] as const;
 const forbiddenField = /^(?:__proto__|prototype|constructor|headers?|requests?|responses?|connection|apiBaseUrl|baseUrl|adminToken|authorization|proxyAuthorization|cookies?|password|passwd|secret|apiKey|api_key|accessToken|refreshToken|bearerToken|token|controller|client|worker|localStorage|sessionStorage)$/i;
@@ -42,7 +42,7 @@ const csvColumns: Record<ContinuousCsvKind, string[][]> = {
   breakdown: [...sourceColumns, ['damageCount', '结算笔数'], ...amountColumns],
   attack: [['planKey', '计划标识'], ['attackIndex', '刀号'], ['useRef', '使用身份'], ['source', '攻击方'], ['target', '目标'],
     ['skillKey', '技能标识'], ['startAtMs', '开始（毫秒）'], ['hitAtMs', '命中（毫秒）'], ['readyAtMs', '就绪（毫秒）'],
-    ['finalReadyAtMs', '调整后就绪（毫秒）'], ['nextStartAtMs', '下一刀（毫秒）'], ['attackSpeed', '攻速'], ['postDefenseDamage', '造成伤害'], ['actualHpLoss', '实际扣血'],
+    ['finalReadyAtMs', '普通攻击最终就绪（毫秒）'], ['mechanicReadyAtMs', '机制就绪（毫秒）'], ['nextStartAtMs', '下一刀（毫秒）'], ['attackSpeed', '攻速'], ['postDefenseDamage', '造成伤害'], ['actualHpLoss', '实际扣血'],
     ['sourceHpAfter', '攻击方尾部生命'], ['targetHpAfter', '目标尾部生命'], ['completed', '尾部完成']],
   damage: [['damageId', '伤害编号'], ['attackIndex', '刀号'], ['useRef', '使用身份'], ['timeMs', '时刻（毫秒）'],
     ...sourceColumns, ['providerActivatedAtMs', '周期激活时点（毫秒）'], ['castInstanceId', '施放实例'], ['operationPath', '编译路径'], ['rawAmount', '防御前输入金额'], ...amountColumns,

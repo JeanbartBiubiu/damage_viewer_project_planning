@@ -24,6 +24,7 @@ import type { OperationOrigin, SimulationCoverage } from './simulationAdapter';
 import { adaptDamageVamp } from './vampAdapter';
 import { compilePersistentResult } from './persistentResultAdapter';
 import { PERMANENT_EQUIPMENT_SKILLS } from './simulationEquipmentPassives';
+import { compileSimulationStatusCondition } from './simulationPrimaryAttack';
 
 
 type Side = 'source' | 'target';
@@ -164,7 +165,7 @@ function combine(operation: 'min' | 'max', expressions: GenericFormulaExpr[]): G
   if (!expressions.length) fail('conditionGroups', '条件组不能为空');
   return expressions.reduce((left, right) => ({ op: operation, args: [left, right] }));
 }
-function validateConfiguration(configuration: SkillConfiguration, gameId: string, root: string, item: boolean, skillLevel: number) {
+export function validateConfiguration(configuration: SkillConfiguration, gameId: string, root: string, item: boolean, skillLevel: number) {
   exact(configuration, ['skill', 'parameters', 'formulas', 'effects', 'processes', 'internalStates', 'triggerRules', 'baseDigest'], root);
   exact(configuration.skill, ['gameId', 'skillKey', 'maxLevel', 'status', 'skillCategoryKeys', ...METADATA], `${root}.skill`);
   const categories = array(configuration.skill.skillCategoryKeys, `${root}.skill.skillCategoryKeys`);
@@ -559,6 +560,10 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
         const condition = (authored: SkillTriggerCondition, conditionPath: string, event: string): GenericFormulaExpr => {
           exact(authored, ['conditionKey', 'conditionType', 'sortOrder', 'detail'], conditionPath);
           const detailPath = `${conditionPath}.detail`;
+          if (authored.conditionType === 'STATUS_CHECK') {
+            cover(`catalogs.statuses.${authored.detail.statusKey}`, `${compiledRoot}.abilities`);
+            return compileSimulationStatusCondition(snapshot, authored, detailPath, statusKey => types.set(`status/${statusKey}`, 'status'));
+          }
           if (authored.conditionType === 'INTERNAL_STATE_CHECK') {
             const detail = authored.detail;
             exact(detail, ['stateSkillKey', 'stateKey', 'valueKind', 'optionKey', 'expectedBoolean', 'comparator', 'comparisonValue'], detailPath);
@@ -1048,7 +1053,7 @@ export function assembleTriggeredSkillSources(snapshot: SimulationSnapshot, desc
           } else if (event === 'SKILL_USED' || event === 'SKILL_HIT') {
             exact(rule.eventSource.detail, event === 'SKILL_USED' ? ['sourceSkillKey', 'useKind', 'castPhase'] : ['sourceSkillKey'], `${rulePath}.eventSource.detail`);
             const detail = record(rule.eventSource.detail, `${rulePath}.eventSource.detail`);
-            if (side !== 'source' || detail.sourceSkillKey !== snapshot.selection.basicAttackSkillKey
+            if (side !== 'source' || detail.sourceSkillKey !== null && detail.sourceSkillKey !== snapshot.selection.basicAttackSkillKey
               || event === 'SKILL_USED' && (detail.castPhase !== 'INITIAL' || !['ANY', 'ACTIVE'].includes(String(detail.useKind)))) {
               fail(rulePath, '本期仅接入所选真实普攻自身的开始或命中，不自动执行主动兄弟');
             }

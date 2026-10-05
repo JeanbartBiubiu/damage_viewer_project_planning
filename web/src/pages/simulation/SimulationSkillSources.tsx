@@ -22,6 +22,7 @@ const reasonLabels: Record<SimulationSkillInactiveReason, string> = {
 };
 const eventLabels: Record<string, string> = {
   SOURCE_INITIALIZED: '角色初始化', BASIC_ATTACK_START: '普攻开始', BASIC_ATTACK_HIT: '普攻命中',
+  SKILL_USED: '实际技能使用', SKILL_HIT: '实际技能命中',
   BASIC_ATTACK_RECEIVED: '收到普攻', DAMAGE_TAKEN: '实际受伤', ATTACK_LINK_APPLIED: '攻击联动', HIT_LINK_APPLIED: '命中联动'
 };
 
@@ -71,7 +72,8 @@ export function SimulationSkillSources({ side, snapshot, sources, settings, basi
                 const event = configuration?.triggerRules.find(rule => rule.ruleKey === ruleKey)?.eventSource.eventType;
                 return `${event ? eventLabels[event] ?? event : '入口'}（${ruleKey}）`;
               });
-              const activeDeferred = configuration?.triggerRules.some(rule => rule.eventSource.eventType === 'SKILL_USED' || rule.eventSource.eventType === 'SKILL_HIT');
+              const activeDeferred = configuration?.triggerRules.some(rule => !source.enabledRuleKeys.includes(rule.ruleKey)
+                && (rule.eventSource.eventType === 'SKILL_USED' || rule.eventSource.eventType === 'SKILL_HIT'));
               return <span>{reason ? reasonLabels[reason] : stale ? '等待重新读取自然入口与最终等级' : roots.join('；') || '没有本期可执行自然入口'}
                 {activeDeferred && source.inactiveReason !== 'ACTIVE_DEFERRED' ? <><br />主动使用／技能命中入口暂缓，不自动施放。</> : null}
                 {selectedAttack ? <><br />所选普攻仅驱动一次，不作为附加技能重编。</> : null}</span>;

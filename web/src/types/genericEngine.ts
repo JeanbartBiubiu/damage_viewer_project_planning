@@ -298,6 +298,8 @@ export type ProviderStateFieldSchema = {
   maxValue?: number;
   durationMs?: number;
   refreshPolicy?: string;
+  stateKind?: 'ammo';
+  ammoRecovery?: { intervalMs: GenericFormulaExpr; mode: 'all_at_once'; startCondition: 'when_empty' };
 };
 
 export type ProviderInstanceScope = 'source_target';
@@ -344,6 +346,7 @@ export type GenericRules = {
     combatantKey: 'source' | 'target';
     attributeKey: string;
     value: GenericFormulaExpr;
+    valuePolicy?: 'multiply';
   }>;
 };
 
@@ -509,7 +512,7 @@ export type SafetyBudget = {
   maxBasicAttacks?: number;
 };
 
-export type RecordBudget = { maxAttackRecords?: number; maxDamageRecords?: number };
+export type RecordBudget = { maxAttackRecords?: number; maxDamageRecords?: number; maxMechanicRecords?: number };
 
 export type ProcessControlAction = 'INITIAL' | 'RECAST' | 'CHARGE_RELEASE' | 'CANCEL' | 'INTERRUPT';
 
@@ -619,6 +622,7 @@ export type RunRequest = {
     skillOrigins?: Array<import('./simulationSnapshot').SimulationSkillSource & {
       side: 'source' | 'target'; providerRef?: string; definitionRef?: string;
     }>;
+    mechanicStateInputs?: import('./simulationSnapshot').SimulationMechanicStateInput[];
   };
   sessionId: string;
   expectedRulesHash: string;
@@ -670,7 +674,8 @@ export type RunSummary = {
   }>;
 };
 
-export type BasicAttackSummary = { planKey: string; startedCount: number; hitCount: number; completedCount: number };
+export type BasicAttackSummary = { planKey: string; startedCount: number; hitCount: number; completedCount: number;
+  initialMechanicReadyAtMs?: number | null };
 export type BudgetCause = 'max_events' | 'max_commands_per_event' | 'max_chain_depth' | 'max_queue_events'
   | 'max_process_instances' | 'max_skill_hits' | 'max_basic_attacks' | 'max_use_trigger_ledger';
 export type ExecutionSummary = {
@@ -684,6 +689,7 @@ export type ExecutionSummary = {
 export type AttackRecord = {
   planKey: string; attackIndex: number; useRef: string; source: string; target: string; skillKey: string;
   startAtMs: number; hitAtMs: number | null; readyAtMs: number | null; finalReadyAtMs: number | null; nextStartAtMs: number | null;
+  mechanicReadyAtMs: number | null;
   attackSpeed: number; postDefenseDamage: number; actualHpLoss: number;
   sourceHpAfter: number; targetHpAfter: number; completed: boolean;
 };
@@ -706,6 +712,13 @@ export type DamageRecord = Omit<DamageBreakdown, 'damageCount'> & {
 export type RecordingSummary = {
   attackRecordCount: number; returnedAttackRecords: number; droppedAttackRecords: number; attackRecordsTruncated: boolean;
   damageRecordCount: number; returnedDamageRecords: number; droppedDamageRecords: number; damageRecordsTruncated: boolean;
+  mechanicRecordCount: number; returnedMechanicRecords: number; droppedMechanicRecords: number; mechanicRecordsTruncated: boolean;
+};
+
+export type MechanicRecord = {
+  timeMs: number; kind: 'STATE_CHANGED' | 'WAIT_STARTED' | 'WAIT_ENDED'; owner: 'source' | 'target';
+  providerRef: string; providerDefinitionRef: string; skillKey: string; stateKey: string;
+  beforeValue: number; afterValue: number; operationRef: string; useRef: string | null; readyAtMs: number | null;
 };
 
 export type SeriesPoint = {
@@ -756,6 +769,7 @@ export type DoneResult = {
   seriesSamplingEvidence: SeriesSamplingEvidence;
   attackRecords?: AttackRecord[];
   damageRecords?: DamageRecord[];
+  mechanicRecords?: MechanicRecord[];
   recording?: RecordingSummary;
 };
 

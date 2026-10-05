@@ -786,7 +786,7 @@ export function SkillEffectEditorModal({
   };
 
   const save = async () => {
-    if (readOnly || saving || !detailReady || loadingDetail) return;
+    if (readOnly || saving || !detailReady || loadingDetail || resultEditor) return;
     const sorted = { ...draft, results: sortResultDrafts(draft.results) };
     const validation = validateSkillEffectDraft(sorted, {
       gameVampRules: gameVamp.rules,
@@ -1126,7 +1126,7 @@ export function SkillEffectEditorModal({
               <Button
                 type="primary"
                 loading={saving || loadingDetail}
-                disabled={!detailReady || hasUnconfiguredLifecycleResults(draft)}
+                disabled={!detailReady || hasUnconfiguredLifecycleResults(draft) || Boolean(resultEditor)}
                 onClick={() => void save()}
               >
                 {workspaceDraft ? '确认到技能草稿' : '保存'}

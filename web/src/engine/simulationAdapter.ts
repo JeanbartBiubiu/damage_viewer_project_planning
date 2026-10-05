@@ -10,7 +10,7 @@ import type {
 import type { SkillEffect, SkillEffectResult } from '../types/skillEffect';
 import type { SkillConfiguration } from '../types/skillConfiguration';
 import type { SkillTriggerRuleDetail } from '../types/skillTriggerRule';
-import type { SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth, SimulationSnapshot } from '../types/simulationSnapshot';
+import type { SimulationAttributeInputs, SimulationEquipmentAssumption, SimulationInitialHealth, SimulationMechanicStateInput, SimulationSnapshot } from '../types/simulationSnapshot';
 import {
   compileNumericValue, constExpr, createNumericCompileState, finiteNumber,
   NumericAdaptationError, wrapValueRuleExpression
@@ -20,10 +20,12 @@ import { simulationInitialSnapshot } from './simulationInitialSnapshot';
 import { simulationHash } from './simulationHash';
 import { assembleEquipment, equipmentContribution, type EquipmentOrigin } from './simulationEquipment';
 import { assembleEquipmentPassives, validateEquipmentAssumptions } from './simulationEquipmentPassives';
-import { assembleTriggeredEquipment } from './simulationTriggeredEquipment';
+import { assembleTriggeredEquipment, validateConfiguration } from './simulationTriggeredEquipment';
 import { assembleNaturalSkillSources, type SimulationSkillOriginTrace } from './simulationNaturalSkillSources';
+import { compilePrimaryAmmo, compilePrimaryCondition, primaryConditionsExclusive, primaryMechanicRequirements, validateMechanicStateInputs } from './simulationPrimaryAttack';
+import { validateSimulationAttributeDerivations } from './simulationAttributeConversion';
 
-export const SIMULATION_ADAPTER_VERSION = 'v9-natural-triggered-sources';
+export const SIMULATION_ADAPTER_VERSION = 'v10-ammo-special-primary';
 export const SIMULATION_SCHEMA_HASH = 'generic-basic-attack-input-v4';
 const MOUNT = 'selected_basic_attack';
 const DEFINITION = 'selected_basic_attack_definition';
@@ -64,12 +66,14 @@ function ordered<T extends { sortOrder: number }>(values: T[], path: string): T[
   return values.map((value, index) => ({ value, index }))
     .sort((a, b) => a.value.sortOrder - b.value.sortOrder || a.index - b.index).map(row => row.value);
 }
-function ruleIsPlain(rule: SkillTriggerRuleDetail, path: string) {
-  if (!Array.isArray(rule.conditionGroups) || rule.conditionGroups.length
+function ruleIsPlain(rule: SkillTriggerRuleDetail, path: string, hit = false) {
+  exact(rule, ['ruleKey', 'name', 'description', 'sortOrder', 'eventSource', 'conditionGroups', 'actions', 'perTargetCooldown', 'maxTriggersPerProcess', 'oncePerUse'], path);
+  exact(rule.eventSource, ['eventType', 'detail'], `${path}.eventSource`);
+  if (!Array.isArray(rule.conditionGroups) || !hit && rule.conditionGroups.length
     || rule.perTargetCooldown != null || rule.maxTriggersPerProcess != null || rule.oncePerUse != null) {
     fail(path, '首批普攻入口不接受未接入的条件或触发限制');
   }
-  if (Object.keys(record(rule.eventSource.detail, `${path}.eventSource.detail`)).length) {
+  if (!['SKILL_USED', 'SKILL_HIT'].includes(rule.eventSource.eventType) && Object.keys(record(rule.eventSource.detail, `${path}.eventSource.detail`)).length) {
     fail(`${path}.eventSource.detail`, '原生普攻事件必须是空明细');
   }
 }
@@ -90,18 +94,19 @@ function program(snapshot: SimulationSnapshot): Program {
   const natural = assembleNaturalSkillSources(snapshot);
   const triggered = assembleTriggeredEquipment(snapshot);
   const triggeredPrograms = [triggered, natural.triggered];
-  const equipment = assembleEquipment(snapshot, new Set([...natural.derivationSides, ...triggered.derivationSides]));
+  const equipment = assembleEquipment(snapshot, new Set([...natural.derivationSides, ...triggered.derivationSides]),
+    new Set(natural.derivations.filter(row => row.attributeKey === 'attack_speed').map(row => row.combatantKey)));
   const passives = assembleEquipmentPassives(snapshot);
   const selection = snapshot.selection;
   const config = snapshot.skillConfigurations.find(row => row.skill.skillKey === selection.basicAttackSkillKey);
   if (!config) fail('skillConfigurations', '缺少完整所选普攻配置');
+  validateConfiguration(config, snapshot.gameId, `skills.${config.skill.skillKey}`, false, selection.basicAttackLevel);
   if (config.skill.status !== 'ENABLED' || !config.skill.skillCategoryKeys.includes('basic_attack')) {
     fail('skillConfigurations[0].skill', '所选技能必须为已启用的普通攻击');
   }
   if (selection.basicAttackLevel < 1 || selection.basicAttackLevel > config.skill.maxLevel) {
     fail('selection.basicAttackLevel', '所选技能等级无效');
   }
-  if (config.internalStates.length) fail('skillConfigurations[0].internalStates', '首批不接入内部状态或特殊普攻');
   if (config.processes.length !== 1) fail('skillConfigurations[0].processes', '首批要求唯一的攻击过程');
   const state = createNumericCompileState({
     gameId: snapshot.gameId, skillKey: config.skill.skillKey, skillLevel: selection.basicAttackLevel,
@@ -109,6 +114,7 @@ function program(snapshot: SimulationSnapshot): Program {
     formulaNamespace: `selected/${config.skill.skillKey}`, bindParameters: true, allowAttributeReads: true,
     runtimeInputMessage: '首批普攻没有未绑定的计算时参数'
   });
+  const ammo = compilePrimaryAmmo(config, state);
   const coverage: SimulationCoverage[] = [];
   const operationOrigins: OperationOrigin[] = [];
   const usedEffects = new Set<string>();
@@ -142,7 +148,9 @@ function program(snapshot: SimulationSnapshot): Program {
   for (const side of ['source', 'target'] as const) for (const key of natural.required[side]) required.get(side)!.add(key);
   for (const type of triggeredPrograms.flatMap(assembly => assembly.types)) types.set(type.key, type.domain);
   if (passives.mounts.length || natural.mounts.length) types.set('event/source_initialized', 'event');
-  if (equipment.derivations.length) rules.attributeDerivations = equipment.derivations;
+  if (ammo.schema) types.set('state_scope/provider', 'state_scope');
+  if (equipment.derivations.length || natural.derivations.length) rules.attributeDerivations = [...equipment.derivations, ...natural.derivations];
+  validateSimulationAttributeDerivations(rules.attributeDerivations ?? []);
   const addCoverage = (authorPath: string, compiledPath: string) => coverage.push({ authorPath, compiledPath });
   const skillPath = `skills.${config.skill.skillKey}`;
   const value = (numeric: Parameters<typeof compileNumericValue>[0], path: string) => compileNumericValue(numeric, path, state, fail);
@@ -151,11 +159,14 @@ function program(snapshot: SimulationSnapshot): Program {
     const matches = config!.effects.filter(row => row.effectKey === key);
     if (matches.length !== 1) fail(path, '效果引用缺失或重复');
     const result = matches[0]!;
+    exact(result, ['gameId', 'skillKey', 'effectKey', 'name', 'description', 'sortOrder', 'createdAt', 'updatedAt', 'lifecycle', 'results'], `${skillPath}.effects.${key}`);
+    if (result.gameId !== snapshot.gameId || result.skillKey !== config!.skill.skillKey) fail(path, '主体效果归属不一致');
     if (result.lifecycle != null) fail(`${skillPath}.effects.${key}.lifecycle`, '首批只接入即时普攻结果');
     usedEffects.add(key);
     return result;
   }
   function resultOperation(result: SkillEffectResult, path: string, compiledPath: string): OperationDefinition {
+    exact(result, ['resultKey', 'name', 'description', 'sortOrder', 'resultType', 'target', 'valueRule', 'detail', 'lifecycleBehavior', 'spellShieldBlockScope'], path);
     if (result.target !== 'TARGET' || result.lifecycleBehavior != null || result.spellShieldBlockScope != null) {
       fail(path, '首批结果必须为对目标的即时、无阻挡粒度结果');
     }
@@ -169,6 +180,7 @@ function program(snapshot: SimulationSnapshot): Program {
     }
     if (result.resultType !== 'DAMAGE') fail(`${path}.resultType`, '该并列结果尚未接入，不能丢弃后继续');
     const detail = result.detail;
+    exact(detail, ['damageTypeKey', 'deliveryKind', 'originKind', 'critical', 'vampQualification', 'vampOverrides'], `${path}.detail`);
     if (detail.deliveryKind !== 'BASIC_ATTACK' || detail.originKind !== 'DIRECT') fail(`${path}.detail`, '首批只接受普通攻击直接伤害');
     const damageKey = stableKey(detail.damageTypeKey, `${path}.detail.damageTypeKey`);
     const damageType = `damage/${damageKey}`;
@@ -263,8 +275,10 @@ function program(snapshot: SimulationSnapshot): Program {
   const process = config.processes[0]!;
   const controlKey = `process_${process.processKey}`;
   const processPath = `${skillPath}.processes.${process.processKey}`;
+  exact(process, ['gameId', 'skillKey', 'processKey', 'name', 'description', 'sortOrder', 'createdAt', 'updatedAt', 'activationType', 'steps', 'cooldown', 'effectBindings', 'stateOperations'], processPath);
+  if (process.gameId !== snapshot.gameId || process.skillKey !== config.skill.skillKey) fail(processPath, '主体过程归属不一致');
   stableKey(process.processKey, `${processPath}.processKey`);
-  if (process.activationType !== 'ACTIVE' || process.stateOperations.length || !process.steps.length
+  if (process.activationType !== 'ACTIVE' || !ammo.consumption && process.stateOperations.length || !process.steps.length
     || process.steps.some(step => step.stepType !== 'IMMEDIATE' || Object.keys(record(step.detail, processPath)).length)) {
     fail(processPath, '首批只接入有界即时攻击记录过程，不把记录步骤当成命中');
   }
@@ -283,9 +297,17 @@ function program(snapshot: SimulationSnapshot): Program {
   };
   addCoverage(`${processPath}.cooldown`, 'sharedProviders[0].processes[0].cooldown');
   for (const [index, step] of ordered(process.steps, `${processPath}.steps`).entries()) {
+    exact(step, ['stepKey', 'name', 'description', 'sortOrder', 'stepType', 'detail'], `${processPath}.steps.${step.stepKey}`);
     addCoverage(`${processPath}.steps.${step.stepKey}`, `sharedProviders[0].processes[0].steps[${index}]`);
   }
   for (const binding of ordered(process.effectBindings, `${processPath}.effectBindings`)) {
+    exact(binding, ['bindingKey', 'effectKey', 'moment', 'sortOrder'], `${processPath}.effectBindings.${binding.bindingKey}`);
+    if (ammo.consumption && genericProcess.momentOperations.length === ordered(process.effectBindings, `${processPath}.effectBindings`)
+      .filter(row => row.sortOrder < process.stateOperations[0]!.sortOrder).length) {
+      const index = genericProcess.momentOperations.length;
+      genericProcess.momentOperations.push({ moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null }, operations: [ammo.consumption] });
+      addCoverage(`${processPath}.stateOperations.${process.stateOperations[0]!.operationKey}`, `sharedProviders[0].processes[0].momentOperations[${index}].operations[0]`);
+    }
     if (binding.moment.momentType !== 'PROCESS_START' || binding.moment.stepKey != null || binding.moment.failureReason != null) {
       fail(`${processPath}.effectBindings.${binding.bindingKey}`, '首批只接入过程开始的即时效果挂接');
     }
@@ -298,16 +320,39 @@ function program(snapshot: SimulationSnapshot): Program {
     });
     addCoverage(`${processPath}.effectBindings.${binding.bindingKey}`, `sharedProviders[0].processes[0].momentOperations[${momentIndex}]`);
   }
+  if (ammo.consumption && !genericProcess.momentOperations.some(row => row.operations.includes(ammo.consumption!))) {
+    const index = genericProcess.momentOperations.length;
+    genericProcess.momentOperations.push({ moment: { momentType: 'PROCESS_START', stepKey: null, failureReason: null }, operations: [ammo.consumption] });
+    addCoverage(`${processPath}.stateOperations.${process.stateOperations[0]!.operationKey}`, `sharedProviders[0].processes[0].momentOperations[${index}].operations[0]`);
+  }
+  if (ammo.schema) {
+    const authorPath = `${skillPath}.internalStates.${ammo.stateKey}`;
+    const compiledPath = `sharedProviders[0].initialStateSchema.${ammo.stateKey}`;
+    addCoverage(authorPath, compiledPath);
+    for (const [field, output] of [['initialValue', 'defaultValue'], ['maxValue', 'maxValue'], ['recoveryIntervalValue', 'ammoRecovery.intervalMs'],
+      ['recoveryMode', 'ammoRecovery.mode'], ['recoveryStartCondition', 'ammoRecovery.startCondition']]) {
+      addCoverage(`${authorPath}.detail.${field}`, `${compiledPath}.${output}`);
+    }
+  }
 
   const listeners: NonNullable<ProviderDefinition['listeners']> = [];
   const candidates: SkillHitCandidate[] = [];
+  const hitConditions: Array<GenericFormulaExpr | undefined> = [];
   let starts = 0;
   let hits = 0;
   for (const rule of ordered(config.triggerRules, `${skillPath}.triggerRules`)) {
     const rulePath = `${skillPath}.triggerRules.${rule.ruleKey}`;
-    ruleIsPlain(rule, rulePath);
+    const hitRule = ['BASIC_ATTACK_HIT', 'SKILL_HIT'].includes(rule.eventSource.eventType);
+    ruleIsPlain(rule, rulePath, hitRule);
+    for (const action of rule.actions) exact(action, ['actionKey', 'name', 'sortOrder', 'actionType', 'targetContext', 'detail', 'runtimeInputBindings', 'resultModifiers'], `${rulePath}.actions.${action.actionKey}`);
+    if (rule.eventSource.eventType === 'SKILL_USED' || rule.eventSource.eventType === 'SKILL_HIT') {
+      const event = rule.eventSource;
+      exact(event.detail, event.eventType === 'SKILL_USED' ? ['sourceSkillKey', 'useKind', 'castPhase'] : ['sourceSkillKey'], `${rulePath}.eventSource.detail`);
+      if (event.detail.sourceSkillKey !== null && event.detail.sourceSkillKey !== config.skill.skillKey || event.eventType === 'SKILL_USED'
+        && (event.detail.castPhase !== 'INITIAL' || !['ANY', 'ACTIVE'].includes(event.detail.useKind))) fail(rulePath, '主体只执行自身真实开始与命中入口');
+    }
     if (!rule.actions.length) fail(`${rulePath}.actions`, '启用入口不能是空规则');
-    if (rule.eventSource.eventType === 'BASIC_ATTACK_START') {
+    if (rule.eventSource.eventType === 'BASIC_ATTACK_START' || rule.eventSource.eventType === 'SKILL_USED') {
       starts++;
       if (rule.actions.length !== 1) fail(`${rulePath}.actions`, '首批攻击开始入口要求唯一启动过程动作');
       const action = rule.actions[0]!;
@@ -320,8 +365,10 @@ function program(snapshot: SimulationSnapshot): Program {
       addCoverage(rulePath, 'sharedProviders[0].listeners[0]');
       continue;
     }
-    if (rule.eventSource.eventType !== 'BASIC_ATTACK_HIT') fail(`${rulePath}.eventSource`, '首批不接入此执行入口');
+    if (!hitRule) fail(`${rulePath}.eventSource`, '首批不接入此执行入口');
     hits++;
+    const participationCondition = compilePrimaryCondition(snapshot, config, rule, state, statusKey => types.set(`status/${statusKey}`, 'status'));
+    hitConditions.push(participationCondition);
     for (const action of ordered(rule.actions, `${rulePath}.actions`)) {
       if (action.actionType !== 'EXECUTE_EFFECT' || action.targetContext !== 'CURRENT_TARGET'
         || action.runtimeInputBindings.length || action.resultModifiers.length) fail(rulePath, '命中入口需要完整即时执行效果动作');
@@ -336,14 +383,20 @@ function program(snapshot: SimulationSnapshot): Program {
           candidateKey: `${rule.ruleKey}:${action.actionKey}:${result.resultKey}`,
           effectOccurrenceKey: `${rule.ruleKey}:${action.actionKey}`, effectKey: authored.effectKey, resultKey: result.resultKey,
           semantic: { resultType: result.resultType as SkillHitCandidate['semantic']['resultType'], target: 'TARGET', moment: 'INSTANT' },
-          spellShieldBlockScope: null, operations: [operations[index]!]
+          spellShieldBlockScope: null, operations: [operations[index]!], ...(participationCondition ? { participationCondition } : {})
         });
       }
       addCoverage(`${rulePath}.actions.${action.actionKey}`, 'sharedProviders[0].abilities[2].operations[0].skillHit.candidates');
+      if (participationCondition) addCoverage(`${rulePath}.conditionGroups`, `sharedProviders[0].abilities[2].operations[0].skillHit.candidates[${firstCandidate}].participationCondition`);
     }
     addCoverage(rulePath, 'sharedProviders[0].abilities[2].operations[0].skillHit');
   }
-  if (starts !== 1 || hits !== 1 || !candidates.length) fail(`${skillPath}.triggerRules`, '首批需要完整的唯一攻击开始与命中入口');
+  if (starts !== 1 || hits < 1 || !candidates.length || hits > 1 && candidates.some(candidate => !candidate.participationCondition)) {
+    fail(`${skillPath}.triggerRules`, '需要唯一攻击开始与完整命中入口；多个主体命中分支必须保留互斥条件');
+  }
+  for (const [index, condition] of hitConditions.entries()) for (const other of hitConditions.slice(index + 1)) {
+    if (!condition || !other || !primaryConditionsExclusive(condition, other, state)) fail(`${skillPath}.triggerRules`, '多个主体命中规则未能证明条件互斥，不能重复执行本体或联动');
+  }
   if (config.effects.some(row => !usedEffects.has(row.effectKey))) fail(`${skillPath}.effects`, '存在未接入的效果，不能宣称完整配置通过');
   const abilities: AbilityDefinition[] = [
     { abilityKey: START_ABILITY, kind: 'active', skillKey: config.skill.skillKey, types: [...abilityTypes], operations: [] },
@@ -360,7 +413,8 @@ function program(snapshot: SimulationSnapshot): Program {
   for (const key of Object.keys(state.params)) {
     addCoverage(`${skillPath}.parameters.${key}`, `sharedProviders[0].abilities[2].params.${key}`);
   }
-  const provider: ProviderDefinition = { providerKey: DEFINITION, stableId: DEFINITION, kind: 'champion', abilities, listeners, processes: [genericProcess] };
+  const provider: ProviderDefinition = { providerKey: DEFINITION, stableId: DEFINITION, kind: 'champion', abilities, listeners, processes: [genericProcess],
+    ...(ammo.schema ? { initialStateSchema: ammo.schema } : {}) };
   // 从已翻译的表达式按实际source/target收集，不把某一侧所需属性强塞给双方。
   const collect = (value: unknown) => {
     if (Array.isArray(value)) { value.forEach(collect); return; }
@@ -396,7 +450,8 @@ function program(snapshot: SimulationSnapshot): Program {
     const indices = defenseIndices.find(assembly => assembly.coverage.includes(row))?.indices;
     const path = indices ? row.compiledPath.replace(/rules\.damageTypeFormulas\[(\d+)\]/,
       (original, index: string) => indices.has(Number(index)) ? `rules.damageTypeFormulas[${indices.get(Number(index))}]` : original) : row.compiledPath;
-    const compiledPath = rebase(path);
+    const compiledPath = rebase(path).replace(/rules\.attributeDerivations\[conversion_(\d+)\]/,
+      (_original, index: string) => `rules.attributeDerivations[${equipment.derivations.length + Number(index)}]`);
     const key = JSON.stringify([row.authorPath, compiledPath]);
     let entry = coverageByReference.get(key);
     if (!entry) {
@@ -417,7 +472,8 @@ function program(snapshot: SimulationSnapshot): Program {
 }
 
 export function inspectSimulationSnapshot(snapshot: SimulationSnapshot): {
-  requirements: SimulationAttributeRequirement[]; coverage: SimulationCoverage[]; equipmentOrigins: EquipmentOrigin[]
+  requirements: SimulationAttributeRequirement[]; coverage: SimulationCoverage[]; equipmentOrigins: EquipmentOrigin[];
+  mechanicRequirements: ReturnType<typeof primaryMechanicRequirements>
 } {
   const compiled = program(snapshot);
   const requirements: SimulationAttributeRequirement[] = [];
@@ -428,17 +484,25 @@ export function inspectSimulationSnapshot(snapshot: SimulationSnapshot): {
       requirements.push({ side, attribute, storedValue: snapshot[side].selectedLevelValues[key] });
     }
   }
-  return { requirements, coverage: compiled.coverage, equipmentOrigins: compiled.equipment.origins };
+  return { requirements, coverage: compiled.coverage, equipmentOrigins: compiled.equipment.origins,
+    mechanicRequirements: primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema) };
 }
 
 export function assembleSimulation(
   snapshot: SimulationSnapshot, attributeInputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
-  assumptions: readonly SimulationEquipmentAssumption[] = []
+  assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = []
 ): { compileRequest: CompileRequest; coverage: SimulationCoverage[]; operationOrigins: OperationOrigin[];
   equipmentOrigins: EquipmentOrigin[]; skillOrigins: SimulationSkillOriginTrace[]; basicAttackBinding: BasicAttackBinding; snapshotDigest: string;
-  attributeInputs: SimulationAttributeInputs; initialHealth: SimulationInitialHealth; equipmentAssumptions: SimulationEquipmentAssumption[] } {
+  attributeInputs: SimulationAttributeInputs; initialHealth: SimulationInitialHealth; equipmentAssumptions: SimulationEquipmentAssumption[];
+  mechanicStateInputs: SimulationMechanicStateInput[] } {
   const compiled = program(snapshot);
   const equipmentAssumptions = validateEquipmentAssumptions(snapshot, assumptions);
+  const mechanicStateInputs = validateMechanicStateInputs(primaryMechanicRequirements(snapshot, compiled.provider.initialStateSchema), mechanicInputs);
+  for (const input of mechanicStateInputs) {
+    const field = compiled.provider.initialStateSchema?.[input.stateKey];
+    if (!field || typeof field !== 'object' || field.stateKind !== 'ammo') fail('mechanicStateInputs', '机制初值缺少真实弹药编译声明');
+    compiled.provider.initialStateSchema![input.stateKey] = { ...field, defaultValue: input.value };
+  }
   const { requirements } = inspectSimulationSnapshot(snapshot);
   const actors = (['source', 'target'] as const).map(side => {
     const attributes: Record<string, AttributeSlot> = {};
@@ -459,8 +523,8 @@ export function assembleSimulation(
         || (attribute.maxValue !== null && resolved > attribute.maxValue)) fail(`combatants.${side}.attributes.${key}`, '装备平加后的属性违反真实范围');
     }
     const hpLimit = combined.hp! + equipmentContribution(snapshot, side, 'hp');
-    const hasDerivation = compiled.equipment.derivations.some(row => row.combatantKey === side);
-    if (hasDerivation && !(combined.attack_speed_ratio! > 0)) fail(`attributeInputs.${side}.attack_speed_ratio`, '装备攻速收益系数必须明确填写有限正数，不提供默认值');
+    const hasDerivation = compiled.rules.attributeDerivations?.some(row => row.combatantKey === side && row.attributeKey === 'attack_speed');
+    if (compiled.equipment.derivations.some(row => row.combatantKey === side) && !(combined.attack_speed_ratio! > 0)) fail(`attributeInputs.${side}.attack_speed_ratio`, '装备攻速收益系数必须明确填写有限正数，不提供默认值');
     if (!Number.isFinite(hpLimit) || !(hpLimit > 0)) fail(`combatants.${side}.hp`, '初始生命上限必须是有限正数');
     const currentHp = finiteNumber(initialHealth?.[side], `initialHealth.${side}`, fail);
     if (currentHp < 0 || currentHp > hpLimit) fail(`initialHealth.${side}`, '初始当前生命须在0与含装备生命上限之间，不自动填满或夹取');
@@ -487,16 +551,17 @@ export function assembleSimulation(
       settings: { maxEvents: 10000, maxCommandsPerEvent: 256, maxQueueEvents: 10000, maxChainDepth: 32 }
     }, coverage: compiled.coverage, operationOrigins: compiled.operationOrigins, basicAttackBinding: compiled.basicAttackBinding,
     equipmentOrigins: compiled.equipment.origins, skillOrigins: compiled.natural.origins, snapshotDigest: snapshot.snapshotDigest,
-    attributeInputs: structuredClone(attributeInputs), initialHealth: structuredClone(initialHealth), equipmentAssumptions
+    attributeInputs: structuredClone(attributeInputs), initialHealth: structuredClone(initialHealth), equipmentAssumptions, mechanicStateInputs
   };
 }
 
 /** 摘要仅含业务输入和适配后的定义；不包含接口基址、令牌或读取时间。 */
 export async function prepareSimulation(snapshot: SimulationSnapshot, inputs: SimulationAttributeInputs, initialHealth: SimulationInitialHealth,
-  assumptions: readonly SimulationEquipmentAssumption[] = []) {
-  const assembled = assembleSimulation(snapshot, inputs, initialHealth, assumptions);
+  assumptions: readonly SimulationEquipmentAssumption[] = [], mechanicInputs: readonly SimulationMechanicStateInput[] = []) {
+  const assembled = assembleSimulation(snapshot, inputs, initialHealth, assumptions, mechanicInputs);
   assembled.compileRequest.rulesHash = await simulationHash({ snapshotDigest: snapshot.snapshotDigest, adapter: SIMULATION_ADAPTER_VERSION,
-    attributeInputs: inputs, initialHealth, equipmentAssumptions: assembled.equipmentAssumptions, request: assembled.compileRequest });
+    attributeInputs: inputs, initialHealth, equipmentAssumptions: assembled.equipmentAssumptions,
+    mechanicStateInputs: assembled.mechanicStateInputs, request: assembled.compileRequest });
   return assembled;
 }
 
@@ -506,6 +571,9 @@ export function singleAttackRequest(input: CompileRequest, sessionId: string): R
   const hitRef = `source.provider[${MOUNT}].ability[${HIT_ABILITY}]`;
   const start = simulationAbility(input, startRef);
   const hit = simulationAbility(input, hitRef);
+  if (Object.values(start?.provider.initialStateSchema ?? {}).some(field => typeof field === 'object' && field.stateKind === 'ammo')) {
+    fail('single.basicAttack', '弹药主体需要原生连续计划的攻击许可、开始值冻结与恢复唤醒；单次外部事件入口尚未支持，请使用连续普攻');
+  }
   const skillKey = start?.ability.skillKey;
   if (!skillKey || hit?.ability.skillKey !== skillKey || hit.mount.providerRef !== start!.mount.providerRef) {
     fail('single.basicAttack', '实际开始与命中引用必须属于同一完整普攻挂载');

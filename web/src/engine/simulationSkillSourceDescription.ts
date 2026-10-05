@@ -38,7 +38,7 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
     if (OWN_ATTACK_EVENTS.has(event.eventType)) return side === 'source';
     if (event.eventType === 'BASIC_ATTACK_RECEIVED') return side === 'target';
     if (event.eventType === 'SKILL_USED' || event.eventType === 'SKILL_HIT') {
-      return side === 'source' && event.detail.sourceSkillKey === snapshot.selection.basicAttackSkillKey
+      return side === 'source' && (event.detail.sourceSkillKey === null || event.detail.sourceSkillKey === snapshot.selection.basicAttackSkillKey)
         && (event.eventType !== 'SKILL_USED' || event.detail.castPhase === 'INITIAL');
     }
     return false;
@@ -46,7 +46,9 @@ export function naturalRuleKeys(snapshot: SimulationSnapshot, configuration: Ski
 }
 
 function onlyUndrivenAttackRoots(configuration: SkillConfiguration) {
-  const roots = configuration.triggerRules.filter(rule => OWN_ATTACK_EVENTS.has(rule.eventSource.eventType)
+  const roots = configuration.triggerRules.filter(rule => (OWN_ATTACK_EVENTS.has(rule.eventSource.eventType)
+    || configuration.skill.skillCategoryKeys.includes('basic_attack') && rule.eventSource.eventType === 'SKILL_HIT'
+      && (rule.eventSource.detail.sourceSkillKey === null || rule.eventSource.detail.sourceSkillKey === configuration.skill.skillKey))
     && rule.actions.length > 0).map(rule => rule.ruleKey);
   if (!roots.length) return false;
   return selectSimulationSkillSourceClosure(configuration, roots).excludedRuleKeys.length === 0;

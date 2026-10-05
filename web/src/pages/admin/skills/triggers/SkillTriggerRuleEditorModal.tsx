@@ -880,6 +880,11 @@ export function SkillTriggerRuleEditorModal({
 
   const ensureFormula = useCallback(async (formulaKey: string): Promise<SkillFormula | null> => {
     if (!formulaKey.trim()) return null;
+    if (workspaceSnapshot) {
+      const formula = workspaceSnapshot.formulas.find(item => item.formulaKey === formulaKey);
+      if (!formula) setReferenceError(`当前技能草稿缺少公式「${formulaKey}」。`);
+      return formula ?? null;
+    }
     const cached = formulaCacheRef.current.get(selectedGameId, skill.skillKey, formulaKey);
     if (cached) return cached;
     const token = adminToken.trim();
@@ -895,7 +900,7 @@ export function SkillTriggerRuleEditorModal({
       setReferenceError(getErrorMessage(error));
       return null;
     }
-  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey]);
+  }, [adminToken, apiBaseUrl, handleMissing, selectedGameId, skill.skillKey, workspaceSnapshot]);
 
   const reloadReferences = useCallback(async () => {
     setReferenceError(null);

@@ -135,6 +135,7 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
       </Typography.Paragraph>
       {usable.recording.attackRecordsTruncated || usable.recording.damageRecordsTruncated ? <Alert type="warning"
         content={'明细不完整：攻击记录丢弃' + usable.recording.droppedAttackRecords + '条，伤害记录丢弃' + usable.recording.droppedDamageRecords + '条；完整汇总独立于记录预算。'} /> : null}
+      {usable.recording.mechanicRecordsTruncated ? <Alert type="warning" content={`机制记录丢弃${usable.recording.droppedMechanicRecords}条，不能声称机制历史完整；库存和完整结算不受记录预算影响。`} /> : null}
       <div className="continuous-section">
         <Typography.Title heading={5}>时间轴与只读采样</Typography.Title>
         <Space wrap>
@@ -149,7 +150,7 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
         {usable.series.length ? <>
           <Typography.Paragraph data-testid="continuous-sampling-evidence" style={{ marginTop: 12 }}>请求间隔{usable.seriesSamplingEvidence!.requestedSampleEveryMs}毫秒；有效间隔{usable.seriesSamplingEvidence!.effectiveSampleEveryMs}毫秒；
             返回{usable.seriesSamplingEvidence!.finalPointCount}／候选{usable.seriesSamplingEvidence!.requestedPointCount}点；上限{usable.seriesSamplingEvidence!.maxSeriesPoints}点；
-            {usable.seriesSamplingEvidence!.downsampled ? '已降采样' : '未降采样'}。0毫秒为首刀提交后的观察，采样点不是全部攻击。</Typography.Paragraph>
+            {usable.seriesSamplingEvidence!.downsampled ? '已降采样' : '未降采样'}。0毫秒观察该时刻已提交的状态，不表示一定发生首刀；采样点不是全部攻击。</Typography.Paragraph>
           <div className="continuous-chart-key">{continuousCurves.map(key => <label key={key}><input type="checkbox" aria-label={curveLabels[key]} checked={view.visibleCurves.includes(key)}
             onChange={event => patchView({ visibleCurves: event.target.checked ? [...view.visibleCurves, key] : view.visibleCurves.filter(curve => curve !== key) })} />{curveLabels[key]}</label>)}</div>
           <ContinuousAttackCharts points={usable.series} attacks={usable.attackRecords} view={view} durationMs={usable.durationMs} killedAtMs={usable.execution.targetKilledAtMs}
@@ -194,11 +195,28 @@ export function ContinuousAttackResult({ archive, cleanupLabel, released, warnin
         <Typography.Paragraph type="secondary">按时间和刀号筛选，不用有限伤害行反推来源归属。没有记录不等于0刀；当前筛选{data.attackRows.length}条。</Typography.Paragraph>
         <Table data={data.attackRows} rowKey="useRef" pagination={{ pageSize: 10, current: attackPage, onChange: setAttackPage }} scroll={{ x: 1000 }} columns={[
           { title: '刀号', dataIndex: 'attackIndex' }, { title: '开始（毫秒）', dataIndex: 'startAtMs' }, { title: '命中（毫秒）', render: (_, row) => row.hitAtMs ?? '未发生' },
+          { title: '普通冷却就绪', render: (_, row) => row.finalReadyAtMs ?? '未发生' }, { title: '机制就绪', render: (_, row) => row.mechanicReadyAtMs ?? '无需等待' },
+          { title: '下一刀', render: (_, row) => row.nextStartAtMs ?? '未安排' },
           { title: '造成伤害', render: (_, row) => number(row.postDefenseDamage) }, { title: '实际扣血', render: (_, row) => number(row.actualHpLoss) },
           { title: '目标尾部生命', render: (_, row) => number(row.targetHpAfter) }, { title: '尾部完成', render: (_, row) => row.completed ? '是' : '否' },
           { title: '查看', render: (_, row) => <Button size="small" onClick={() => selectAttack(row)}>查看第{row.attackIndex}刀</Button> }
         ]} />
         <Button disabled={!data.attackRows.length} onClick={() => csv('attack')}>导出当前攻击表CSV</Button>
+      </div>
+      <div className="continuous-section" aria-label="机制变化记录">
+        <Typography.Title heading={5}>机制变化记录（保留{usable.recording.returnedMechanicRecords}／{usable.recording.mechanicRecordCount}条）</Typography.Title>
+        <Typography.Paragraph type="secondary">只展示真实提交的弹药状态与等待；无使用身份的恢复不伪造刀号。记录预算明确为2000条。</Typography.Paragraph>
+        <Table data={usable.mechanicRecords.filter(row => row.timeMs >= view.timeRangeMs[0] && row.timeMs <= view.timeRangeMs[1])}
+          rowKey={row => `${row.timeMs}:${row.providerRef}:${row.kind}:${row.operationRef}:${row.useRef}`} pagination={{ pageSize: 10 }} scroll={{ x: 1100 }} columns={[
+            { title: '时刻（毫秒）', dataIndex: 'timeMs' }, { title: '种类', render: (_, row) => ({ STATE_CHANGED: '库存变化', WAIT_STARTED: '等待开始', WAIT_ENDED: '等待结束' })[row.kind] },
+            { title: '拥有方', dataIndex: 'owner' }, { title: '挂载／定义', render: (_, row) => `${row.providerRef}／${row.providerDefinitionRef}` },
+            { title: '技能／状态', render: (_, row) => `${row.skillKey}／${row.stateKey}` }, { title: '之前', dataIndex: 'beforeValue' }, { title: '之后', dataIndex: 'afterValue' },
+            { title: '就绪（毫秒）', render: (_, row) => row.readyAtMs ?? '无' }, { title: '操作来源', dataIndex: 'operationRef' },
+            { title: '使用身份', render: (_, row) => row.useRef ?? '非攻击事件' }, { title: '联动', render: (_, row) => {
+              const attack = usable.attackRecords.find(attack => attack.useRef === row.useRef);
+              return attack ? <Button size="small" onClick={() => selectAttack(attack)}>查看第{attack.attackIndex}刀</Button> : '无攻击身份';
+            } }
+          ]} />
       </div>
       <div className="continuous-section" aria-label="伤害事实">
         <Typography.Title heading={5}>伤害事实（保留{usable.recording.returnedDamageRecords}／{usable.recording.damageRecordCount}条）</Typography.Title>

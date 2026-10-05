@@ -29,7 +29,7 @@ import type {
   SkillTriggerCombatStatusValueKind,
   SkillTriggerEventSource,
   SkillTriggerEventValueKey,
-  SkillTriggerInternalStateValueKind,
+  SkillTriggerInternalStateBindingDetail,
   SkillTriggerPriorResultBinding,
   SkillTriggerPriorResultOutputKind,
   SkillTriggerRuntimeInputBinding,
@@ -606,7 +606,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
                     setCurrent(patchInternalStateBindingDetail(current, {
                       stateSkillKey: nextState?.skillKey ?? skillKey,
                       stateKey: String(value ?? ''),
-                      valueKind: kinds[0] ?? 'VALUE',
+                      valueKind: (kinds[0] ?? 'VALUE') as SkillTriggerInternalStateBindingDetail['valueKind'],
                       optionKey: null
                     }));
                   }}
@@ -624,7 +624,7 @@ export function SkillTriggerRuntimeInputBindingEditorModal({
                   onChange={(value) => {
                     if (current.sourceType !== 'INTERNAL_STATE') return;
                     setCurrent(patchInternalStateBindingDetail(current, {
-                      valueKind: value as SkillTriggerInternalStateValueKind,
+                      valueKind: value as SkillTriggerInternalStateBindingDetail['valueKind'],
                       optionKey: value === 'OPTION_SELECTED' ? current.detail.optionKey : null
                     }));
                   }}

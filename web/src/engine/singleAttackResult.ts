@@ -252,9 +252,23 @@ export function assessSingleAttackResult(compileRequest: CompileRequest, runRequ
     for (const plan of plans) {
       const operationIndex = hitAbility.definition.operations!.indexOf(plan);
       check(plan.skillHit!.skillKey === use?.skillKey, 'compileRequest.sharedProviders', '命中计划技能身份不一致');
+      const conditionalRules = new Set(plan.skillHit!.candidates.filter(candidate => candidate.participationCondition != null)
+        .map(candidate => candidate.candidateKey.split(':')[0]!));
+      const observedRules = new Set<string>();
+      for (const [index, candidate] of plan.skillHit!.candidates.entries()) {
+        const prefix = `${hitAbility.path}.operations[${operationIndex}].skillHit.candidates[${index}].operations`;
+        if (candidate.operations.some((operation, operationIndexInCandidate) => evidence.some(item =>
+          operation.operation === 'damage' ? item.row.kind === 'damage' && item.data.abilityRef === hit!.abilityRef && item.data.operationRef === operation.ref
+            : item.row.kind === 'link_application' && item.row.path === `${prefix}[${operationIndexInCandidate}]`))) {
+          observedRules.add(candidate.candidateKey.split(':')[0]!);
+        }
+      }
+      if (conditionalRules.size) check([...observedRules].filter(rule => conditionalRules.has(rule)).length === 1,
+        'runResult.evidence.items', '互斥主体必须有唯一真实命中分支，不能以汇总代替分支证明');
       plan.skillHit!.candidates.forEach((candidate, index) => {
-        check(candidate.spellShieldBlockScope === null && candidate.participationCondition == null && !candidate.eventValueConditions?.length,
-          `${hitAbility.path}.operations[${operationIndex}].skillHit.candidates[${index}]`, '所选结果超出首批无条件命中边界');
+        check(candidate.spellShieldBlockScope === null && !candidate.eventValueConditions?.length,
+          `${hitAbility.path}.operations[${operationIndex}].skillHit.candidates[${index}]`, '所选结果包含未支持的阻挡或事件数值条件');
+        if (candidate.participationCondition != null && !observedRules.has(candidate.candidateKey.split(':')[0]!)) return;
         candidate.operations.forEach((operation, operationIndexInCandidate) => expected.push({ operation,
           path: `${hitAbility.path}.operations[${operationIndex}].skillHit.candidates[${index}].operations[${operationIndexInCandidate}]`,
           abilityRef: hit!.abilityRef, providerRef: hitAbility.providerRef }));

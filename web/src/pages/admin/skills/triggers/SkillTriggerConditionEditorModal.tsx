@@ -222,7 +222,7 @@ export function SkillTriggerConditionEditorModal({
       setLocalError(stateReference.error || '外部内部状态详情尚未读取。'); return;
     }
     if (current.conditionType === 'INTERNAL_STATE_CHECK' && selectedState
-      && !valueKindsForInternalState(selectedState.stateType).includes(current.detail.valueKind)) {
+      && !valueKindsForInternalState(selectedState.stateType, eventSource.eventType === 'SKILL_HIT').includes(current.detail.valueKind)) {
       setLocalError('该内部状态不支持当前取值方式。'); return;
     }
     if (current.conditionType === 'INTERNAL_STATE_CHECK' && current.detail.valueKind === 'OPTION_SELECTED'
@@ -645,7 +645,7 @@ export function SkillTriggerConditionEditorModal({
                   options={stateOptions}
                   onChange={(value) => {
                     const nextState = internalStates.find((item) => item.stateKey === value);
-                    const kinds = valueKindsForInternalState(nextState?.stateType ?? null);
+                    const kinds = valueKindsForInternalState(nextState?.stateType ?? null, eventSource.eventType === 'SKILL_HIT');
                     const next = patchInternalStateCheckStateKey(
                       current,
                       String(value ?? ''),
@@ -662,7 +662,7 @@ export function SkillTriggerConditionEditorModal({
                   aria-label="内部状态取值方式"
                   value={current.detail.valueKind}
                   disabled={disabled}
-                  options={valueKindsForInternalState(selectedState?.stateType ?? null).map((value) => ({
+                  options={valueKindsForInternalState(selectedState?.stateType ?? null, eventSource.eventType === 'SKILL_HIT').map((value) => ({
                     value,
                     label: SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS[value]
                   }))}
@@ -698,7 +698,7 @@ export function SkillTriggerConditionEditorModal({
                   />
                 </Form.Item>
               ) : null}
-              {current.detail.valueKind === 'VALUE' || current.detail.valueKind === 'REMAINING_MS' ? (
+              {current.detail.valueKind === 'VALUE' || current.detail.valueKind === 'ATTACK_START_VALUE' || current.detail.valueKind === 'REMAINING_MS' ? (
                 <>
                   <Form.Item label="比较符" required>
                     <Select

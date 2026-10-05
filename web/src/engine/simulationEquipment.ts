@@ -13,7 +13,8 @@ export type EquipmentOrigin = {
 
 function fail(path: string, message: string): never { throw new NumericAdaptationError(path, message); }
 
-export function assembleEquipment(snapshot: SimulationSnapshot, skillDerivationSides: ReadonlySet<'source' | 'target'> = new Set()) {
+export function assembleEquipment(snapshot: SimulationSnapshot, skillDerivationSides: ReadonlySet<'source' | 'target'> = new Set(),
+  fixedAttackSpeedSides: ReadonlySet<'source' | 'target'> = new Set()) {
   const providers: ProviderDefinition[] = [];
   const origins: EquipmentOrigin[] = [];
   const coverage: Array<{ authorPath: string; compiledPath: string }> = [];
@@ -62,7 +63,7 @@ export function assembleEquipment(snapshot: SimulationSnapshot, skillDerivationS
         attributeValues: { ...values }, authorPath: path, compiledPath });
       coverage.push({ authorPath: `${path}.equipment.equipmentKey`, compiledPath: `combatants[${side === 'source' ? 0 : 1}].providers[${mountIndex}]` });
     }
-    if (needsDerivation) {
+    if (needsDerivation && !fixedAttackSpeedSides.has(side)) {
       const ratio = snapshot.catalogs.attributes.filter(row => row.attributeKey === 'attack_speed_ratio' && row.status === 'ENABLED');
       if (ratio.length !== 1 || ratio[0]!.valueType !== 'DECIMAL' || ratio[0]!.minValue !== 0) {
         fail(`catalogs.attributes.attack_speed_ratio`, `${side === 'source' ? '攻击方' : '目标'}装备攻速需要已启用、小数类型且最小值为0的收益系数目录；缺目录不能运行短剑`);

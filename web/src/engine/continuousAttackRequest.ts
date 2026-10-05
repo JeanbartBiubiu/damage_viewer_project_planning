@@ -79,7 +79,11 @@ export async function continuousAttackRequest(
   }
   if (process.costs.length || process.steps.some(row => row.stepType !== 'IMMEDIATE')
     || start.operations?.length || control.operations?.length
-    || process.momentOperations.some(row => row.operations.some(operation => !['apply_attack_link', 'apply_hit_link'].includes(operation.operation)))) {
+    || process.momentOperations.some(row => row.operations.some(operation => !['apply_attack_link', 'apply_hit_link'].includes(operation.operation)
+      && !(row.moment.momentType === 'PROCESS_START' && operation.operation === 'state_change' && operation.valuePolicy === 'add'
+        && operation.amount?.op === 'const' && operation.amount.value === -1 && operation.ref
+        && typeof provider.initialStateSchema?.[operation.ref] === 'object'
+        && (provider.initialStateSchema[operation.ref] as import('../types/genericEngine').ProviderStateFieldSchema).stateKind === 'ammo')))) {
     fail('continuous.basicAttack', '连续普攻不接受费用、延时或命中前扣血；必须整体保留作者配置。');
   }
   const attributeKey = binding.attackSpeedAttributeKey;
@@ -99,7 +103,7 @@ export async function continuousAttackRequest(
   const attackSpeedAdmission: AttackSpeedAdmission = { attributeKey, inputMax, source: range === null ? 'scenario_input' : 'attribute_range' };
   const basicAttack: BasicAttackPlan = { ...binding, planKey: 'selected_basic_attack_plan', attackSpeedInputMax: inputMax };
   const runRequest: RunRequest = {
-    runtimeOptions: { equipmentAssumptions: prepared.equipmentAssumptions, skillOrigins: prepared.skillOrigins },
+    runtimeOptions: { equipmentAssumptions: prepared.equipmentAssumptions, skillOrigins: prepared.skillOrigins, mechanicStateInputs: prepared.mechanicStateInputs },
     sessionId, expectedRulesHash: input.rulesHash, schemaVersion: input.schemaVersion,
     schemaHash: input.schemaHash, rulesHash: input.rulesHash,
     initialSnapshot: simulationInitialSnapshot(input),
@@ -107,7 +111,7 @@ export async function continuousAttackRequest(
     stopPolicy: { durationMs: inputs.durationMs, stopOnTargetDeath: true, stopWhenNoEvents: true },
     sampling: { disabled: inputs.recordTimeSeries === false, sampleEveryMs: 100, dpsWindowMs: 1000, maxSeriesPoints: 5000 },
     safetyBudget: { maxEvents: 10000, maxCommandsPerEvent: 256, maxChainDepth: 32, maxProcessInstances: 10000, maxBasicAttacks: 4096 },
-    recordBudget: { maxAttackRecords: 1000, maxDamageRecords: 2000 }
+    recordBudget: { maxAttackRecords: 1000, maxDamageRecords: 2000, maxMechanicRecords: 2000 }
   };
   const runInputHash = await continuousAttackRunInputHash(runRequest, attackSpeedAdmission);
   return { runRequest, runInputHash, attackSpeedAdmission };

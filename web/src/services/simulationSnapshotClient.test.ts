@@ -124,6 +124,12 @@ describe('场景只读快照接口', () => {
     expect(() => normalizeSimulationSelection({ ...sample.selection, extraSkills: [] } as SimulationSelection)).toThrow(/extraSkills/);
   });
 
+  it('机制初值只属于Web冻结输入，不增加后端POST快照字段', () => {
+    const snapshot = simulationSample();
+    expect(() => normalizeSimulationSelection({ ...snapshot.selection, mechanicStateInputs: [] } as SimulationSelection)).toThrow(/mechanicStateInputs/);
+    expect(normalizeSimulationSelection(snapshot.selection)).not.toHaveProperty('mechanicStateInputs');
+  });
+
   it('覆盖仅限完整默认集合，同来源重复拒绝且所选普攻等级不能冲突', () => {
     const sample = simulationDefaultSourcesSample();
     const setting = { origin: { kind: 'CHARACTER' as const, characterKey: 'actor_a' }, skillKey: 'sample_natural', enabled: false };

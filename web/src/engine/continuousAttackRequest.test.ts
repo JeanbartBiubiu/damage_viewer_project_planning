@@ -28,7 +28,7 @@ describe('连续普攻请求与冻结身份', () => {
     expect(runRequest).not.toHaveProperty('attackStartFacts');
     expect(runRequest).not.toHaveProperty('skillHitFacts');
     expect(runRequest.safetyBudget).toEqual({ maxEvents: 10000, maxCommandsPerEvent: 256, maxChainDepth: 32, maxProcessInstances: 10000, maxBasicAttacks: 4096 });
-    expect(runRequest.recordBudget).toEqual({ maxAttackRecords: 1000, maxDamageRecords: 2000 });
+    expect(runRequest.recordBudget).toEqual({ maxAttackRecords: 1000, maxDamageRecords: 2000, maxMechanicRecords: 2000 });
     expect(runRequest.sampling).toEqual({ disabled: false, sampleEveryMs: 100, dpsWindowMs: 1000, maxSeriesPoints: 5000 });
     expect(runRequest.initialSnapshot.combatants[0]!.attributes.attack_speed!.max).toBe(0.651);
     expect(attackSpeedAdmission).toEqual({ attributeKey: 'attack_speed', inputMax: 2, source: 'scenario_input' });

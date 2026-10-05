@@ -114,6 +114,7 @@ export type SkillTriggerStatusCheckKind =
 
 export type SkillTriggerInternalStateValueKind =
   | 'VALUE'
+  | 'ATTACK_START_VALUE'
   | 'OPTION_SELECTED'
   | 'ENABLED'
   | 'REMAINING_MS';
@@ -405,7 +406,7 @@ export type SkillTriggerLifecycleCheckDetail = {
 export type SkillTriggerInternalStateValueDetail = {
   stateSkillKey: string;
   stateKey: string;
-  valueKind: 'VALUE';
+  valueKind: 'VALUE' | 'ATTACK_START_VALUE';
   optionKey: null;
   expectedBoolean: null;
   comparator: SkillTriggerComparator;
@@ -526,7 +527,7 @@ export type SkillTriggerConditionGroup = {
 export type SkillTriggerInternalStateBindingDetail = {
   stateSkillKey: string;
   stateKey: string;
-  valueKind: SkillTriggerInternalStateValueKind;
+  valueKind: Exclude<SkillTriggerInternalStateValueKind, 'ATTACK_START_VALUE'>;
   optionKey: string | null;
 };
 

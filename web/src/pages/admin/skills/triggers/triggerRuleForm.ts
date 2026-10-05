@@ -751,6 +751,7 @@ export const SKILL_TRIGGER_STATUS_CHECK_LABELS = {
 
 export const SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS = {
   VALUE: '数值',
+  ATTACK_START_VALUE: '本次攻击开始值',
   OPTION_SELECTED: '模式是否选中',
   ENABLED: '准备标记是否启用',
   REMAINING_MS: '剩余毫秒'
@@ -1687,7 +1688,7 @@ export function rebuildStatusCheckDetail(
 
 export function rebuildInternalStateCheckDetail(
   current: SkillTriggerInternalStateCheckDetail,
-  valueKind: 'VALUE'
+  valueKind: 'VALUE' | 'ATTACK_START_VALUE'
 ): SkillTriggerInternalStateValueDetail;
 export function rebuildInternalStateCheckDetail(
   current: SkillTriggerInternalStateCheckDetail,
@@ -1709,17 +1710,17 @@ export function rebuildInternalStateCheckDetail(
   current: SkillTriggerInternalStateCheckDetail,
   valueKind: SkillTriggerInternalStateValueKind
 ): SkillTriggerInternalStateCheckDetail {
-  if (valueKind === 'VALUE') {
+  if (valueKind === 'VALUE' || valueKind === 'ATTACK_START_VALUE') {
     return {
       stateSkillKey: current.stateSkillKey,
       stateKey: current.stateKey,
       valueKind,
       optionKey: null,
       expectedBoolean: null,
-      comparator: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
+      comparator: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparator
         : 'GTE',
-      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
+      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparisonValue
         : fixedValue(Number.NaN)
     };
@@ -1731,10 +1732,10 @@ export function rebuildInternalStateCheckDetail(
       valueKind,
       optionKey: null,
       expectedBoolean: null,
-      comparator: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
+      comparator: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparator
         : 'GTE',
-      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'REMAINING_MS'
+      comparisonValue: current.valueKind === 'VALUE' || current.valueKind === 'ATTACK_START_VALUE' || current.valueKind === 'REMAINING_MS'
         ? current.comparisonValue
         : fixedValue(Number.NaN)
     };
@@ -1884,7 +1885,7 @@ export function patchInternalStateCompareFields(
     'comparator' | 'comparisonValue'
   >>
 ): SkillTriggerInternalStateCheckConditionDraft {
-  if (current.detail.valueKind !== 'VALUE' && current.detail.valueKind !== 'REMAINING_MS') {
+  if (current.detail.valueKind !== 'VALUE' && current.detail.valueKind !== 'ATTACK_START_VALUE' && current.detail.valueKind !== 'REMAINING_MS') {
     return current;
   }
   return { ...current, detail: { ...current.detail, ...patch } };
@@ -2780,7 +2781,7 @@ export function conditionSummary(condition: SkillTriggerConditionDraft): string 
         SKILL_TRIGGER_CONDITION_TYPE_LABELS.INTERNAL_STATE_CHECK,
         condition.detail.stateKey,
         SKILL_TRIGGER_INTERNAL_STATE_VALUE_LABELS[condition.detail.valueKind],
-        ...(condition.detail.valueKind === 'VALUE' || condition.detail.valueKind === 'REMAINING_MS'
+        ...(condition.detail.valueKind === 'VALUE' || condition.detail.valueKind === 'ATTACK_START_VALUE' || condition.detail.valueKind === 'REMAINING_MS'
           ? [SKILL_TRIGGER_COMPARATOR_LABELS[condition.detail.comparator], numericValueSummary(condition.detail.comparisonValue)]
           : [])
       ].join(' / ');
@@ -3366,12 +3367,14 @@ export function changeKindsForInternalState(
 }
 
 export function valueKindsForInternalState(
-  stateType: SkillInternalStateType | null
+  stateType: SkillInternalStateType | null,
+  includeAttackStart = false
 ): SkillTriggerInternalStateValueKind[] {
   switch (stateType) {
     case 'COUNTER':
-    case 'AMMO':
       return ['VALUE'];
+    case 'AMMO':
+      return includeAttackStart ? ['VALUE', 'ATTACK_START_VALUE'] : ['VALUE'];
     case 'MODE':
       return ['OPTION_SELECTED'];
     case 'FLAG':

@@ -87,6 +87,20 @@ function recount(done: DoneResult) {
 function assess(input: ReturnType<typeof sample>) {
   return assessSingleAttackResult(input.compileRequest, input.runRequest, input.done);
 }
+
+describe('5C单次条件主体完整分支核对', () => {
+  it('只接受唯一真实分支的完整并列伤害与联动，不要求未选分支也执行', () => {
+    const input = sample();
+    const candidates = input.compileRequest.sharedProviders![0]!.abilities![2]!.operations![0]!.skillHit!.candidates;
+    for (const candidate of candidates) candidate.participationCondition = { op: 'const', value: 1 };
+    candidates.push(...structuredClone(candidates).map(candidate => ({ ...candidate, candidateKey: `other:${candidate.candidateKey}`,
+      effectOccurrenceKey: 'other', participationCondition: { op: 'const', value: 0 }, operations: candidate.operations.map(operation => ({ ...operation, ref: `${operation.ref}_other` })) })));
+    expect(assess(input).issues).toEqual([]);
+    input.done.evidence.items = input.done.evidence.items.filter(row => row.kind !== 'damage');
+    recount(input.done);
+    expect(assess(input).complete).toBe(false);
+  });
+});
 function damage(input: ReturnType<typeof sample>) {
   return input.done.evidence.items.find(row => row.kind === 'damage')!;
 }

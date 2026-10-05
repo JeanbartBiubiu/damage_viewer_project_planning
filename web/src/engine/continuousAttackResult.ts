@@ -1,6 +1,6 @@
 import type {
   AbilityDefinition, AttackRecord, BudgetCause, CompileRequest, DamageBreakdown, DamageRecord, DoneResult,
-  ExecutionSummary, OperationDefinition, RecordingSummary, RunRequest, StopReason, SeriesPoint, SeriesSamplingEvidence
+  ExecutionSummary, MechanicRecord, OperationDefinition, ProviderStateFieldSchema, RecordingSummary, RunRequest, StopReason, SeriesPoint, SeriesSamplingEvidence
 } from '../types/genericEngine';
 import type { OperationOrigin } from './simulationAdapter';
 import { inspectContinuousAttackSeries } from './continuousAttackSeries';
@@ -12,7 +12,7 @@ export type ContinuousAttackAssessment = {
   startedCount: number; hitCount: number; completedCount: number;
   sourceInitialHp: number; targetInitialHp: number; sourceFinalHp: number; targetFinalHp: number;
   damageDealt: number; hpLoss: number; durationMs: number; stopReason: StopReason;
-  attackRecords: AttackRecord[]; damageRecords: DamageRecord[]; recording: RecordingSummary;
+  attackRecords: AttackRecord[]; damageRecords: DamageRecord[]; mechanicRecords: MechanicRecord[]; recording: RecordingSummary;
 };
 type Row = Record<string, unknown>;
 type DamageContract = { kind: 'attack' | 'periodic' | 'reaction' | 'linked'; required: boolean; allowed: boolean; origin: OperationOrigin;
@@ -192,8 +192,8 @@ export function assessContinuousAttackResult(
     'summary.stopReason', '时长停止与真实死亡或观察终点矛盾');
   check(stopReason !== 'budget_exceeded' || execution.budgetCause !== null, 'summary.execution.budgetCause', '预算停止缺少预算原因');
   if (computationComplete) {
-    check(execution.incompleteReason === null && startedCount === hitCount && hitCount === completedCount && completedCount > 0,
-      'summary.execution.complete', '完整计算含未完成尾部或无攻击');
+    check(execution.incompleteReason === null && startedCount === hitCount && hitCount === completedCount,
+      'summary.execution.complete', '完整计算含未完成尾部');
     check(killed || sourceFinalHp === 0 || finalTime === request.stopPolicy.durationMs, 'summary.execution.complete', '未死亡且没有观察到终点');
   } else check(execution.incompleteReason !== null && execution.budgetCause !== null, 'summary.execution', '部分结果缺少显式停止原因');
 
@@ -261,8 +261,8 @@ export function assessContinuousAttackResult(
     mapping.set(key, origin);
   }
   const attackContracts = [...damageContracts].filter(([, contract]) => contract.kind === 'attack');
-  check(attackContracts.some(([, contract]) => contract.origin.abilityRef === plan.hitAbilityRef && contract.required),
-    'operationOrigins', '缺少主体无条件必需伤害结果');
+  check(attackContracts.some(([, contract]) => contract.origin.abilityRef === plan.hitAbilityRef),
+    'operationOrigins', '缺少主体真实伤害结果');
   const identity = (row: Row, path: string) => {
     for (const key of ['owner', 'source', 'target', 'abilityRef', 'operationRef', 'damageType']) text(row[key], `${path}.${key}`);
     let origin = mapping.get(`${row.abilityRef}|${row.operationRef}`);
@@ -293,12 +293,51 @@ export function assessContinuousAttackResult(
     return row as DamageBreakdown;
   });
   const sum = (rows: Row[], field: string) => rows.reduce((total, row) => total + (row[field] as number), 0);
+  check(sum(breakdown.filter(row => row.abilityRef === plan.hitAbilityRef && row.source === plan.source
+    && row.target === plan.target), 'damageCount') >= hitCount,
+  'summary.damageBreakdown', '每次真实主体命中必须有已提交的主体伤害事实');
   check(new Set(breakdown.map(breakdownKey)).size === breakdown.length, 'summary.damageBreakdown', '分类汇总键重复');
   for (const side of ['source', 'target'] as const) {
     check(close(sum(breakdown.filter(row => row.source === side), 'postDefenseDamage'), summary[`${side}DamageDealt`] as number)
       && close(sum(breakdown.filter(row => row.target === side), 'actualHpLoss'), summary[`${side}HpLoss`] as number), 'summary.damageBreakdown', '方向分类金额与汇总不一致');
   }
 
+  const primaryRef = /^source\.provider\[([^\]]+)\]/.exec(plan.startAbilityRef)?.[1];
+  const primaryMount = input.combatants.find(actor => actor.key === plan.source)?.providers.find(mount => mount.providerRef === primaryRef);
+  const primaryProvider = input.sharedProviders?.find(provider => provider.providerKey === primaryMount?.definitionRef);
+  const ammoDeclarations = Object.entries(primaryProvider?.initialStateSchema ?? {}).filter(([, field]) =>
+    typeof field === 'object' && field.stateKind === 'ammo') as Array<[string, ProviderStateFieldSchema]>;
+  const mechanics = array(result.mechanicRecords, 'runResult.mechanicRecords').map((value, index) => {
+    const path = `mechanicRecords[${index}]`; const row = object(value, path);
+    const at = integer(row.timeMs, `${path}.timeMs`);
+    for (const key of ['owner', 'providerRef', 'providerDefinitionRef', 'skillKey', 'stateKey', 'operationRef']) text(row[key], `${path}.${key}`);
+    const declaration = ammoDeclarations.find(([key]) => key === row.stateKey)?.[1];
+    const before = integer(row.beforeValue, `${path}.beforeValue`);
+    const after = integer(row.afterValue, `${path}.afterValue`);
+    const ready = nullableTime(row.readyAtMs, `${path}.readyAtMs`);
+    if (row.useRef !== null) text(row.useRef, `${path}.useRef`);
+    check(at <= finalTime && row.owner === plan.source && row.providerRef === primaryRef && row.providerDefinitionRef === primaryProvider?.providerKey
+      && row.skillKey === plan.skillKey && !!declaration && before <= declaration.maxValue! && after <= declaration.maxValue!, path, '机制记录身份、时刻或库存与主体声明不一致');
+    check(['STATE_CHANGED', 'WAIT_STARTED', 'WAIT_ENDED'].includes(row.kind as string), path, '未知机制记录种类');
+    if (row.kind === 'WAIT_STARTED') check(before === 0 && after === 0 && ready !== null && ready > at, path, '等待必须由耗尽启动并提供真实唤醒时点');
+    if (row.kind === 'WAIT_ENDED') check(before === 0 && after === declaration?.maxValue && row.useRef === null && (ready === null || ready === at), path, '恢复结束必须一次补满且不能伪造攻击身份');
+    if (row.kind === 'STATE_CHANGED') check(row.useRef === null ? before === 0 && after === declaration?.maxValue : before > 0 && after === before - 1,
+      path, '库存变化必须是实际消费1或合法一次补满');
+    return row as MechanicRecord;
+  });
+  mechanics.forEach((row, index) => check(index === 0 || mechanics[index - 1]!.timeMs <= row.timeMs, `mechanicRecords[${index}]`, '机制记录时刻逆序'));
+  const initialAmmo = ammoDeclarations.length === 1 ? ammoDeclarations[0]![1].defaultValue : undefined;
+  const initialMechanicReadyAt = nullableTime(basic.initialMechanicReadyAtMs ?? null, 'summary.basicAttack.initialMechanicReadyAtMs');
+  check(initialMechanicReadyAt === null || initialAmmo === 0 && initialMechanicReadyAt > 0,
+    'summary.basicAttack.initialMechanicReadyAtMs', '初次就绪事实只能来自零弹初态的实际恢复');
+  if (computationComplete) {
+    check(initialAmmo !== 0 || initialMechanicReadyAt !== null,
+      'summary.basicAttack.initialMechanicReadyAtMs', '完整零弹观察缺少实际恢复安排');
+    check(completedCount > 0 || killed || sourceFinalHp === 0
+      || initialMechanicReadyAt !== null && initialMechanicReadyAt > finalTime,
+    'summary.execution.complete', '无攻击的完整观察必须仍在实际初次机制等待或已死亡');
+  }
+  const firstWaitExplained = (startAt: number) => initialAmmo === 0 && initialMechanicReadyAt === startAt;
   const attacks = array(result.attackRecords, 'runResult.attackRecords').map((value, index) => {
     const path = `attackRecords[${index}]`; const row = object(value, path);
     for (const key of ['planKey', 'useRef', 'source', 'target', 'skillKey']) text(row[key], `${path}.${key}`);
@@ -307,6 +346,7 @@ export function assessContinuousAttackResult(
     const hitAt = nullableTime(row.hitAtMs, `${path}.hitAtMs`);
     const readyAt = nullableTime(row.readyAtMs, `${path}.readyAtMs`);
     const finalReadyAt = nullableTime(row.finalReadyAtMs, `${path}.finalReadyAtMs`);
+    const mechanicReadyAt = nullableTime(row.mechanicReadyAtMs, `${path}.mechanicReadyAtMs`);
     const nextAt = nullableTime(row.nextStartAtMs, `${path}.nextStartAtMs`);
     const completed = bool(row.completed, `${path}.completed`);
     const speed = finite(row.attackSpeed, `${path}.attackSpeed`);
@@ -315,9 +355,11 @@ export function assessContinuousAttackResult(
       path, '攻击尾部生命超过初始生命上限');
     check(attackIndex === index + 1 && row.planKey === plan.planKey && row.source === plan.source && row.target === plan.target && row.skillKey === plan.skillKey,
       path, '攻击顺序或计划身份不一致');
-    check(startAt <= finalTime && (index !== 0 || startAt === 0) && (hitAt === null || hitAt === startAt)
+    check(startAt <= finalTime && (index !== 0 || (initialAmmo === 0 ? firstWaitExplained(startAt) : startAt === 0)) && (hitAt === null || hitAt === startAt)
       && (readyAt === null || readyAt > startAt) && (readyAt === null) === (finalReadyAt === null)
-      && (finalReadyAt === null || finalReadyAt > startAt) && (nextAt === null || nextAt === finalReadyAt && nextAt <= request.stopPolicy.durationMs), path, '攻击时刻或唯一冷却时刻不一致');
+      && (finalReadyAt === null || finalReadyAt > startAt) && (mechanicReadyAt === null || ammoDeclarations.length === 1 && mechanicReadyAt >= startAt)
+      && (nextAt === null || finalReadyAt !== null && nextAt === Math.max(finalReadyAt, mechanicReadyAt ?? 0)
+        && nextAt <= request.stopPolicy.durationMs), path, '攻击时刻或普通冷却与机制的共同就绪时刻不一致');
     const derived = input.rules.attributeDerivations?.some(derivation => derivation.combatantKey === plan.source && derivation.attributeKey === plan.attackSpeedAttributeKey);
     const initialized = input.typeCatalog.types.some(entry => entry.key === 'event/source_initialized');
     const speedSnapshot = derived || initialized ? final : initial;
@@ -377,14 +419,31 @@ export function assessContinuousAttackResult(
     if (row.modifiers !== undefined) array(row.modifiers, `${path}.modifiers`).forEach((modifier, i) => object(modifier, `${path}.modifiers[${i}]`));
     return row as DamageRecord;
   });
-  for (const [kind, rows, maximum] of [['attack', attacks, request.recordBudget?.maxAttackRecords ?? 1000], ['damage', damages, request.recordBudget?.maxDamageRecords ?? 2000]] as const) {
+  for (const [kind, rows, maximum] of [['attack', attacks, request.recordBudget?.maxAttackRecords ?? 1000], ['damage', damages, request.recordBudget?.maxDamageRecords ?? 2000],
+    ['mechanic', mechanics, request.recordBudget?.maxMechanicRecords ?? 0]] as const) {
+    const label = kind === 'attack' ? 'Attack' : kind === 'damage' ? 'Damage' : 'Mechanic';
     const count = integer(recording[`${kind}RecordCount`], `recording.${kind}RecordCount`);
-    const returned = integer(recording[`returned${kind === 'attack' ? 'Attack' : 'Damage'}Records`], 'recording.returned');
-    const dropped = integer(recording[`dropped${kind === 'attack' ? 'Attack' : 'Damage'}Records`], 'recording.dropped');
+    const returned = integer(recording[`returned${label}Records`], 'recording.returned');
+    const dropped = integer(recording[`dropped${label}Records`], 'recording.dropped');
     const truncated = bool(recording[`${kind}RecordsTruncated`], 'recording.truncated');
     check(count === returned + dropped && returned === rows.length && returned === Math.min(count, maximum) && truncated === (dropped > 0), 'recording', '记录预算、总数、返回数或截断说明矛盾');
   }
   check(recording.attackRecordCount === startedCount && recording.damageRecordCount === sum(breakdown, 'damageCount'), 'recording', '可靠总条数与攻击、分类汇总不一致');
+  for (const row of mechanics) if (row.useRef !== null) check(attacks.some(attack => attack.useRef === row.useRef && attack.startAtMs === row.timeMs)
+    || recording.attackRecordsTruncated === true, 'mechanicRecords.useRef', '机制使用身份必须来自同刻真实攻击');
+  if (recording.mechanicRecordsTruncated === false) {
+    if (initialMechanicReadyAt !== null) {
+      check(mechanics.some(row => row.kind === 'WAIT_STARTED' && row.timeMs === 0 && row.useRef === null
+        && row.readyAtMs === initialMechanicReadyAt), 'summary.basicAttack.initialMechanicReadyAtMs', '完整机制记录缺少初始等待安排');
+      if (initialMechanicReadyAt <= finalTime) check(mechanics.some(row => row.kind === 'WAIT_ENDED'
+        && row.timeMs === initialMechanicReadyAt && row.useRef === null),
+      'summary.basicAttack.initialMechanicReadyAtMs', '完整机制记录缺少初始恢复完成');
+    }
+    for (const attack of attacks) if (attack.mechanicReadyAtMs !== null && attack.mechanicReadyAtMs > attack.startAtMs) check(mechanics.some(row => row.kind === 'WAIT_STARTED'
+      && row.owner === plan.source && row.providerRef === primaryRef && row.skillKey === plan.skillKey
+      && row.timeMs === attack.startAtMs && (row.useRef === null || row.useRef === attack.useRef) && row.readyAtMs === attack.mechanicReadyAtMs),
+    'attackRecords.mechanicReadyAtMs', '机制等待必须有实际提交记录解释');
+  }
   const hp = { source: sourceInitialHp, target: targetInitialHp };
   const vampHealing = { source: 0, target: 0 };
   const hpLoss = { source: 0, target: 0 };
@@ -474,5 +533,5 @@ export function assessContinuousAttackResult(
     damageBreakdown: breakdown, execution: execution as ExecutionSummary,
     startedCount, hitCount, completedCount, sourceInitialHp, targetInitialHp, sourceFinalHp, targetFinalHp,
     damageDealt: summary.sourceDamageDealt as number, hpLoss: summary.targetHpLoss as number, durationMs, stopReason,
-    attackRecords: attacks, damageRecords: damages, recording: recording as RecordingSummary };
+    attackRecords: attacks, damageRecords: damages, mechanicRecords: mechanics, recording: recording as RecordingSummary };
 }

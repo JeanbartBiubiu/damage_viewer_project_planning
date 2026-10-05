@@ -112,6 +112,10 @@ export type SimulationAttributeInputs = {
 
 export type SimulationInitialHealth = { source: number; target: number };
 
+export type SimulationMechanicStateInput = {
+  side: 'source' | 'target'; origin: SimulationSkillOrigin; skillKey: string; stateKey: string; value: number;
+};
+
 export type SimulationEquipmentAssumption = {
   owner: 'source' | 'target'; equipmentKey: string; target: 'source' | 'target'; inRange: boolean;
 };

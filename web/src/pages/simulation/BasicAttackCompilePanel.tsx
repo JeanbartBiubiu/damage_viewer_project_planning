@@ -30,6 +30,8 @@ import { buildContinuousAttackArchive } from '../../engine/continuousAttackArchi
 import { SimulationBuildConfigurationEditor } from './SimulationBuildConfigurationEditor';
 import { SimulationSkillSources } from './SimulationSkillSources';
 import { fillSimulationSkillLevelDefaults } from './simulationSkillLevelDefaults';
+import { SimulationMechanicInputs } from './SimulationMechanicInputs';
+import { mechanicDraftIssues, mechanicInputsFromDrafts, type SimulationMechanicDrafts } from './simulationMechanicDrafts';
 import './SimulationSkillSources.css';
 
 export type BasicAttackCompilePanelProps = {
@@ -80,6 +82,7 @@ type CompileArchive = {
   attributeInputs: SimulationAttributeInputs;
   initialHealth: SimulationInitialHealth;
   equipmentAssumptions: SimulationEquipmentAssumption[];
+  mechanicStateInputs: PreparedSimulation['mechanicStateInputs'];
   compileRequest: PreparedSimulation['compileRequest'];
   coverage: SimulationCoverage[];
   operationOrigins: PreparedSimulation['operationOrigins'];
@@ -203,6 +206,7 @@ function archiveFor(task: Task, outcome: CompileArchive['outcome'], error: strin
     snapshotDigest: task.prepared.snapshotDigest, attributeInputs: task.prepared.attributeInputs,
     initialHealth: task.prepared.initialHealth,
     equipmentAssumptions: task.prepared.equipmentAssumptions,
+    mechanicStateInputs: task.prepared.mechanicStateInputs,
     compileRequest: task.prepared.compileRequest, coverage: task.prepared.coverage,
     operationOrigins: task.prepared.operationOrigins, equipmentOrigins: task.prepared.equipmentOrigins, skillOrigins: task.prepared.skillOrigins,
     compileResult: task.result, releaseResult: task.release, error
@@ -286,6 +290,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const [inspection, setInspection] = useState<Inspection | null>(null);
   const [attributeDrafts, setAttributeDrafts] = useState(emptyAttributeDrafts);
   const [initialHealth, setInitialHealth] = useState(emptyInitialHealth);
+  const [mechanicDrafts, setMechanicDrafts] = useState<SimulationMechanicDrafts>({});
   const [auraConfirmed, setAuraConfirmed] = useState<Record<string, boolean>>({});
   const [durationMs, setDurationMs] = useState<number | undefined>(CONTINUOUS_DURATION_INITIAL_MS);
   const [attackSpeedInputMax, setAttackSpeedInputMax] = useState<number | undefined>();
@@ -316,6 +321,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
   const unfilled = missing.filter(row => attributeDrafts[row.side][row.attribute.attributeKey] === undefined);
   const coverage = prepared?.coverage ?? inspection?.coverage ?? [];
   const healthUnfilled = initialHealth.source === undefined || initialHealth.target === undefined;
+  const mechanicRequirements = inspection?.mechanicRequirements ?? [];
+  const mechanicIssues = mechanicDraftIssues(mechanicRequirements, mechanicDrafts);
   const sourceHealthLimit = snapshot ? simulationHealthLimit(snapshot, 'source', attributeDrafts.source.hp) : undefined;
   const targetHealthLimit = snapshot ? simulationHealthLimit(snapshot, 'target', attributeDrafts.target.hp) : undefined;
   const healthIssues = (['source', 'target'] as const).flatMap(side => {
@@ -345,6 +352,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     setInspection(null);
     setAttributeDrafts(emptyAttributeDrafts());
     setInitialHealth(emptyInitialHealth());
+    setMechanicDrafts({});
     setAuraConfirmed({});
     setDurationMs(CONTINUOUS_DURATION_INITIAL_MS);
     setRecordTimeSeries(true);
@@ -575,6 +583,15 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
     setNotice(null);
   };
 
+  const updateMechanic = (identity: string, value: number | undefined) => {
+    if (taskRef.current) return;
+    setMechanicDrafts(current => ({ ...current, [identity]: value }));
+    setPrepared(null);
+    invalidateRunResult(true);
+    setError(null);
+    setNotice(null);
+  };
+
   const startAtFullHealth = () => {
     if (taskRef.current || !fullHealthAvailable) return;
     setInitialHealth({ source: sourceHealthLimit, target: targetHealthLimit });
@@ -592,6 +609,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
 
   const execute = async (kind: 'compile' | 'single_attack' | 'continuous_attack') => {
     if (taskRef.current || !snapshot || !inspection || candidateUnconfirmed || !selectedGameId) return;
+    if (mechanicIssues.length) { setError(mechanicIssues.join('；')); return; }
     if (kind !== 'compile') {
       for (const side of ['source', 'target'] as const) {
         const hp = initialHealth[side];
@@ -633,7 +651,8 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
       if (initialHealth.target === undefined) throw new Error('initialHealth.target: 请明确填写目标初始当前生命。');
       const assumptions: SimulationEquipmentAssumption[] = equipmentRangeRequirements(task.snapshot)
         .map(({ owner, equipmentKey }) => ({ owner, equipmentKey, target: owner === 'source' ? 'target' : 'source', inRange: auraConfirmed[`${owner}:${equipmentKey}`] === true }));
-      task.prepared = await prepareSimulation(task.snapshot, inputs, { source: initialHealth.source, target: initialHealth.target }, assumptions);
+      task.prepared = await prepareSimulation(task.snapshot, inputs, { source: initialHealth.source, target: initialHealth.target }, assumptions,
+        mechanicInputsFromDrafts(mechanicRequirements, mechanicDrafts));
       if (!isCurrent(task)) return;
       if (kind === 'continuous_attack') {
         task.continuousPrepared = await continuousAttackRequest(task.prepared, task.snapshot, continuousInputs);
@@ -660,7 +679,7 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         task.runRequest = kind === 'single_attack' ? singleAttackRequest(task.prepared.compileRequest, task.sessionId!)
           : { ...task.continuousPrepared!.runRequest, sessionId: task.sessionId! };
         task.runRequest.runtimeOptions = { ...task.runRequest.runtimeOptions, equipmentAssumptions: task.prepared.equipmentAssumptions,
-          skillOrigins: task.prepared.skillOrigins };
+          skillOrigins: task.prepared.skillOrigins, mechanicStateInputs: task.prepared.mechanicStateInputs };
         task.phase = 'running';
         setPhase('running');
         task.runResult = await task.client.run(task.runRequest);
@@ -899,6 +918,9 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
         </section>
       ) : null}
 
+      {inspection ? <SimulationMechanicInputs requirements={mechanicRequirements} drafts={mechanicDrafts} disabled={busy} onChange={updateMechanic} /> : null}
+      {mechanicIssues.length ? <Alert type="error" content={mechanicIssues.join('；')} /> : null}
+
       {inspection ? (
         <section key="required-attributes" aria-label="必要属性">
           <Typography.Title heading={5}>必要属性与场景补充值</Typography.Title>
@@ -945,10 +967,11 @@ export function BasicAttackCompilePanel({ apiBaseUrl, selectedGameId, adminToken
           </Form>
           <Space wrap style={{ marginTop: 16 }}>
             <Button disabled={busy || unfilled.length === 0} onClick={fillMissingWithZero}>将缺失属性填写为0</Button>
-            <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0} onClick={() => void execute('single_attack')}>执行一次普攻</Button>
-            <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0} onClick={() => void execute('continuous_attack')}>连续普攻</Button>
-            <Button disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0} onClick={() => void execute('compile')}>编译验证</Button>
+            <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0 || mechanicRequirements.length > 0} onClick={() => void execute('single_attack')}>执行一次普攻</Button>
+            <Button type="primary" disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('continuous_attack')}>连续普攻</Button>
+            <Button disabled={busy || candidateUnconfirmed || unfilled.length > 0 || healthUnfilled || healthIssues.length > 0 || mechanicIssues.length > 0} onClick={() => void execute('compile')}>编译验证</Button>
           </Space>
+          {mechanicRequirements.length ? <Typography.Paragraph type="secondary">弹药主体使用连续普攻，由原生统一核对攻击许可、冻结开始库存及安排恢复；单次外部事件入口不支持此闭环。</Typography.Paragraph> : null}
           <Typography.Paragraph type="secondary" style={{ marginTop: 8 }}>
             补零按钮只填写仍为空的缺失项，保留已填数值；攻速收益系数不补零，须明确填写正值；违反原属性范围的0仍会被拒绝。
           </Typography.Paragraph>

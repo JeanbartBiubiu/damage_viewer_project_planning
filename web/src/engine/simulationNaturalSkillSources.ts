@@ -9,6 +9,7 @@ import { selectSimulationSkillSourceClosure } from './simulationSkillSourceClosu
 export { executableEquipmentRelations, validateSimulationSkillSourceManifest, equipmentSourceEnabled } from './simulationSkillSourceDescription';
 import { compileNumericValue, constExpr, createNumericCompileState, NumericAdaptationError, tryFoldConstant, wrapValueRuleExpression } from './numericAdapter';
 import type { SimulationCoverage } from './simulationAdapter';
+import { permanentAttributeConversion, type SimulationAttributeDerivation } from './simulationAttributeConversion';
 
 type Side = 'source' | 'target';
 export type SimulationSkillOriginTrace = SimulationSkillSource & {
@@ -30,7 +31,7 @@ function validatePermanentEffect(effect: SkillConfiguration['effects'][number], 
 }
 
 function permanentModifier(snapshot: SimulationSnapshot, configuration: SkillConfiguration, source: SimulationSkillSource,
-  side: Side, result: SkillEffectResult, path: string): ModifierDefinition {
+  side: Side, result: SkillEffectResult, path: string): ModifierDefinition | SimulationAttributeDerivation {
   const behavior = result.lifecycleBehavior;
   if (!['ATTRIBUTE_CHANGE', 'HEALING_MODIFIER', 'SHIELD_RECEIVED_MODIFIER'].includes(result.resultType)
     || result.valueRule === null) fail(path, '该完整常驻结果尚未进入5A，不能只执行其它结果');
@@ -38,6 +39,8 @@ function permanentModifier(snapshot: SimulationSnapshot, configuration: SkillCon
     || behavior.valueReadMode === null || !['APPLICATION_SNAPSHOT', 'MOMENT_EVALUATION'].includes(behavior.valueReadMode)
     || behavior.stackValueMode !== 'SHARED' || ![null, 'REPLACE'].includes(behavior.reapplicationValueMode)
     || behavior.periodicExecutionMode !== null) fail(path, '5A只接入完整永久自身常驻结果');
+  const conversion = permanentAttributeConversion(snapshot, configuration, source, side, result, path);
+  if (conversion) return conversion;
   const numeric = createNumericCompileState({ gameId: snapshot.gameId, skillKey: source.skillKey,
     skillLevel: source.skillLevel!, characterLevel: snapshot.selection[`${side}Level`], parameters: configuration.parameters,
     formulas: configuration.formulas, formulaNamespace: `${side}/${source.skillKey}`, bindParameters: false,
@@ -82,6 +85,7 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
   const coverage: SimulationCoverage[] = [];
   const required: Record<Side, Set<string>> = { source: new Set(), target: new Set() };
   const derivationSides = new Set<Side>();
+  const derivations: SimulationAttributeDerivation[] = [];
   const descriptions: TriggeredSkillSourceDescription[] = [];
   for (const side of ['source', 'target'] as const) {
     const sources = [...snapshot[side].skillSources].sort((left, right) => {
@@ -142,7 +146,9 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
             allowedRootKeys: source.enabledRuleKeys, permanentModifier: (result, resultPath) => {
               const effect = configuration.effects.find(row => row.results.includes(result))!;
               validatePermanentEffect(effect, `skills.${source.skillKey}.effects.${effect.effectKey}`);
-              return permanentModifier(snapshot, configuration, source, side, result, resultPath);
+              const modifier = permanentModifier(snapshot, configuration, source, side, result, resultPath);
+              if ('combatantKey' in modifier) fail(resultPath, '属性转换只允许完整无条件初始化，不能改为动态触发');
+              return modifier;
             }
           }] });
         continue;
@@ -179,6 +185,19 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
           for (const result of [...effect.results].sort((left, right) => left.sortOrder - right.sortOrder)) {
             const resultPath = `${effectPath}.results.${result.resultKey}`;
             const modifier = permanentModifier(snapshot, configuration, source, side, result, resultPath);
+            if ('combatantKey' in modifier) {
+              const index = derivations.length;
+              derivations.push(modifier);
+              required[side].add(modifier.attributeKey);
+              const collect = (expression: typeof modifier.value) => {
+                const read = /^(source|target)\.attr\.([a-z][a-z0-9_]*)\./.exec(expression.path ?? '');
+                if (read) required[read[1] as Side].add(read[2]!);
+                expression.args?.forEach(collect);
+              };
+              collect(modifier.value);
+              coverage.push({ authorPath: resultPath, compiledPath: `rules.attributeDerivations[conversion_${index}]` });
+              continue;
+            }
             const effectRef = `${providerRef}_effect_${providers.length}`;
             providers.push({ providerKey: effectRef, stableId: effectRef, kind: 'status', modifiers: [modifier] });
             operations.push({ operation: 'apply_provider', target: 'self', providerDefinitionRef: effectRef, providerRef: effectRef });
@@ -190,9 +209,9 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
             }
           }
         }
-        initializer.listeners!.push({ listenerKey: rule.ruleKey, eventMatcher: { all: ['event/source_initialized', 'event/source_owner'] },
+        if (operations.length) initializer.listeners!.push({ listenerKey: rule.ruleKey, eventMatcher: { all: ['event/source_initialized', 'event/source_owner'] },
           operations, maxTriggersPerEvent: 1 });
-        coverage.push({ authorPath: rulePath, compiledPath: `sharedProviders[${definitionRef}].listeners[${initializer.listeners!.length - 1}]` });
+        coverage.push({ authorPath: rulePath, compiledPath: `sharedProviders[${definitionRef}]` });
       }
       providers.push(initializer);
       mounts.push({ side, providerRef, definitionRef });
@@ -206,5 +225,5 @@ export function assembleNaturalSkillSources(snapshot: SimulationSnapshot) {
     for (const key of triggered.required[side]) required[side].add(key);
     if (triggered.derivationSides.has(side)) derivationSides.add(side);
   }
-  return { providers, mounts, origins, coverage, required, derivationSides, triggered };
+  return { providers, mounts, origins, coverage, required, derivationSides, derivations, triggered };
 }
