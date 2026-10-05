@@ -12,6 +12,7 @@ import xyz.game.datamanage.model.build.BuildConfiguration;
 import xyz.game.datamanage.model.build.BuildConfiguration.GroupAssignment;
 import xyz.game.datamanage.model.build.BuildConfiguration.OptionSelection;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Origin;
+import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.PlannedSkill;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Selection;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.SkillSetting;
 
@@ -19,21 +20,78 @@ public final class SnapshotSelectionParser {
     private static final Pattern KEY = Pattern.compile("^[a-z][a-z0-9_]{0,63}$");
     private static final Set<String> FIELDS = Set.of("sourceCharacterKey", "sourceLevel", "targetCharacterKey",
         "targetLevel", "basicAttackSkillKey", "basicAttackLevel", "sourceEquipmentKeys", "targetEquipmentKeys",
-        "sourceBuildConfigurations", "targetBuildConfigurations", "sourceSkillSettings", "targetSkillSettings");
+        "sourceBuildConfigurations", "targetBuildConfigurations", "sourceSkillSettings", "targetSkillSettings", "plannedSkills");
 
     private SnapshotSelectionParser() { }
 
     public static Selection parse(JsonNode body) {
-        object(body, "selection", FIELDS, FIELDS);
+        Set<String> required = new HashSet<>(FIELDS);
+        required.removeAll(Set.of("basicAttackSkillKey", "basicAttackLevel"));
+        object(body, "selection", FIELDS, required);
+        for (String field : List.of("basicAttackSkillKey", "basicAttackLevel")) {
+            if (!body.has(field)) throw SnapshotIssues.request("selection." + field, "REQUIRED", "必须明确提供此字段，可配对为空");
+        }
+        boolean attackSelected = !body.get("basicAttackSkillKey").isNull();
+        if (attackSelected != !body.get("basicAttackLevel").isNull()) {
+            String field = attackSelected ? "basicAttackLevel" : "basicAttackSkillKey";
+            throw SnapshotIssues.request("selection." + field, "PAIR_REQUIRED", "普通攻击标识和等级必须同时提供或同时为空");
+        }
         return new Selection(key(body, "sourceCharacterKey", "selection"), integer(body.get("sourceLevel"), "selection.sourceLevel"),
             key(body, "targetCharacterKey", "selection"), integer(body.get("targetLevel"), "selection.targetLevel"),
-            key(body, "basicAttackSkillKey", "selection"), integer(body.get("basicAttackLevel"), "selection.basicAttackLevel"),
+            attackSelected ? key(body, "basicAttackSkillKey", "selection") : null,
+            attackSelected ? integer(body.get("basicAttackLevel"), "selection.basicAttackLevel") : null,
             equipment(body.get("sourceEquipmentKeys"), "selection.sourceEquipmentKeys"),
             equipment(body.get("targetEquipmentKeys"), "selection.targetEquipmentKeys"),
             builds(body.get("sourceBuildConfigurations"), "selection.sourceBuildConfigurations"),
             builds(body.get("targetBuildConfigurations"), "selection.targetBuildConfigurations"),
             settings(body.get("sourceSkillSettings"), "selection.sourceSkillSettings"),
-            settings(body.get("targetSkillSettings"), "selection.targetSkillSettings"));
+            settings(body.get("targetSkillSettings"), "selection.targetSkillSettings"),
+            plannedSkills(body.get("plannedSkills"), "selection.plannedSkills"));
+    }
+
+    private static List<PlannedSkill> plannedSkills(JsonNode values, String path) {
+        array(values, path);
+        if (values.size() > 16) throw SnapshotIssues.request(path + "[16]", "SELECTION_LIMIT_EXCEEDED", "计划技能来源不能超过16份");
+        List<PlannedSkill> result = new ArrayList<>();
+        Set<List<Object>> seen = new HashSet<>();
+        Map<String, Integer> levels = new TreeMap<>();
+        for (int index = 0; index < values.size(); index++) {
+            JsonNode value = values.get(index);
+            String item = path + "[" + index + "]";
+            Set<String> fields = Set.of("origin", "skillKey", "skillLevel", "phaseKinds");
+            object(value, item, fields, fields);
+            JsonNode origin = value.get("origin");
+            Set<String> originFields = Set.of("kind", "characterKey");
+            if (!origin.isObject() || !origin.path("kind").isTextual()) {
+                throw SnapshotIssues.request(item + ".origin.kind", "REQUIRED", "必须提供角色来源类型");
+            }
+            if (!origin.path("kind").textValue().equals("CHARACTER")) {
+                throw SnapshotIssues.request(item + ".origin.kind", "ENUM_INVALID", "计划只允许A的真实角色来源");
+            }
+            object(origin, item + ".origin", originFields, originFields);
+            Origin identity = Origin.character(key(origin, "characterKey", item + ".origin"));
+            String skillKey = key(value, "skillKey", item);
+            unique(seen, List.of(identity, skillKey), item);
+            int level = integer(value.get("skillLevel"), item + ".skillLevel");
+            Integer previous = levels.putIfAbsent(skillKey, level);
+            if (previous != null && previous != level) {
+                throw SnapshotIssues.request(item + ".skillLevel", "LEVEL_CONFLICT", "同一技能不能选择两个不同等级");
+            }
+            JsonNode phases = value.get("phaseKinds");
+            array(phases, item + ".phaseKinds");
+            if (phases.isEmpty()) throw SnapshotIssues.request(item + ".phaseKinds", "REQUIRED", "必须明确选择首次使用阶段");
+            Set<String> seenPhases = new HashSet<>();
+            for (int phaseIndex = 0; phaseIndex < phases.size(); phaseIndex++) {
+                String phasePath = item + ".phaseKinds[" + phaseIndex + "]";
+                JsonNode phase = phases.get(phaseIndex);
+                if (!phase.isTextual() || !phase.textValue().equals("INITIAL")) {
+                    throw SnapshotIssues.request(phasePath, "ENUM_INVALID", "本阶段只接受INITIAL首次使用");
+                }
+                unique(seenPhases, phase.textValue(), phasePath);
+            }
+            result.add(new PlannedSkill(identity, skillKey, level, List.of("INITIAL")));
+        }
+        return List.copyOf(result);
     }
 
     private static List<String> equipment(JsonNode values, String path) {

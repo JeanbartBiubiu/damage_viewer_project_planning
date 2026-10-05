@@ -110,7 +110,7 @@ class SimulationSnapshotSourcesTest {
         Selection selection = new Selection(base.sourceCharacterKey(), base.sourceLevel(), base.targetCharacterKey(), base.targetLevel(),
             base.basicAttackSkillKey(), base.basicAttackLevel(), List.of(), List.of(), List.of(), List.of(),
             List.of(new SkillSetting(Origin.character("hero_a"), "scaled_passive", true, 3)),
-            List.of(new SkillSetting(Origin.character("hero_b"), "scaled_passive", true, 2)));
+            List.of(new SkillSetting(Origin.character("hero_b"), "scaled_passive", true, 2)), List.of());
         var result = fixture.service.get(GAME, selection);
         assertEquals(3, row(result, "source", "scaled_passive").skillLevel());
         assertEquals(2, row(result, "target", "scaled_passive").skillLevel());
@@ -126,7 +126,7 @@ class SimulationSnapshotSourcesTest {
         assertIssue(error, "LEVEL_OVERRIDE_FORBIDDEN");
         Selection base = fixture.choice();
         Selection unlearned = new Selection(base.sourceCharacterKey(), base.sourceLevel(), base.targetCharacterKey(), base.targetLevel(),
-            base.basicAttackSkillKey(), 0, List.of(), List.of(), List.of(), List.of(), List.of(), List.of());
+            base.basicAttackSkillKey(), 0, List.of(), List.of(), List.of(), List.of(), List.of(), List.of(), List.of());
         var result = fixture.service.get(GAME, unlearned);
         assertEquals(0, row(result, "source", ATTACK).skillLevel());
         assertEquals(InactiveReason.UNLEARNED, row(result, "source", ATTACK).inactiveReason());
@@ -329,13 +329,13 @@ class SimulationSnapshotSourcesTest {
     private Selection equipment(List<String> keys) {
         Selection base = fixture.choice();
         return new Selection(base.sourceCharacterKey(), base.sourceLevel(), base.targetCharacterKey(), base.targetLevel(),
-            base.basicAttackSkillKey(), base.basicAttackLevel(), keys, List.of(), List.of(), List.of(), List.of(), List.of());
+            base.basicAttackSkillKey(), base.basicAttackLevel(), keys, List.of(), List.of(), List.of(), List.of(), List.of(), List.of());
     }
 
     private static Selection copySettings(Selection base, List<SkillSetting> settings) {
         return new Selection(base.sourceCharacterKey(), base.sourceLevel(), base.targetCharacterKey(), base.targetLevel(),
             base.basicAttackSkillKey(), base.basicAttackLevel(), base.sourceEquipmentKeys(), base.targetEquipmentKeys(),
-            base.sourceBuildConfigurations(), base.targetBuildConfigurations(), settings, base.targetSkillSettings());
+            base.sourceBuildConfigurations(), base.targetBuildConfigurations(), settings, base.targetSkillSettings(), base.plannedSkills());
     }
 
     private static SkillSource row(SimulationSnapshotResponse result, String side, String key) {

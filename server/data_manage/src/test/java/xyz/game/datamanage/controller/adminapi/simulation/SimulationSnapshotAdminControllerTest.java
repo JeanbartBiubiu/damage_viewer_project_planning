@@ -35,7 +35,7 @@ import xyz.game.datamanage.support.error.GlobalExceptionHandler;
 class SimulationSnapshotAdminControllerTest {
     private static final String URL = "/api/admin/games/lol/simulation-snapshot";
     private static final Selection CHOICE = new Selection("hero_a", 1, "hero_b", 2,
-        "shared_basic_attack", 1, List.of(), List.of(), List.of(), List.of(), List.of(), List.of());
+        "shared_basic_attack", 1, List.of(), List.of(), List.of(), List.of(), List.of(), List.of(), List.of());
     private final SimulationSnapshotService service = mock(SimulationSnapshotService.class);
     private final JwtVerifier verifier = mock(JwtVerifier.class);
     private ObjectMapper json;
@@ -54,7 +54,7 @@ class SimulationSnapshotAdminControllerTest {
     }
 
     @Test
-    void acceptsOnlyPostWithAllTwelveStructuredFields() throws Exception {
+    void acceptsOnlyPostWithAllThirteenStructuredFields() throws Exception {
         when(service.get("lol", CHOICE)).thenReturn(snapshot(CHOICE));
         mvc.perform(request(body())).andExpect(status().isOk())
             .andExpect(jsonPath("$.selection.sourceLevel").value(1))
@@ -62,6 +62,7 @@ class SimulationSnapshotAdminControllerTest {
             .andExpect(jsonPath("$.selection.targetBuildConfigurations").isEmpty())
             .andExpect(jsonPath("$.selection.sourceSkillSettings").isEmpty())
             .andExpect(jsonPath("$.selection.targetSkillSettings").isEmpty())
+            .andExpect(jsonPath("$.selection.plannedSkills").isEmpty())
             .andExpect(jsonPath("$.snapshotDigest").value("scene-digest"))
             .andExpect(jsonPath("$.readAt").isString());
         verify(service).get("lol", CHOICE);
@@ -80,8 +81,8 @@ class SimulationSnapshotAdminControllerTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"sourceCharacterKey", "sourceLevel", "targetCharacterKey", "targetLevel",
-        "basicAttackSkillKey", "basicAttackLevel", "sourceEquipmentKeys", "targetEquipmentKeys",
-        "sourceBuildConfigurations", "targetBuildConfigurations", "sourceSkillSettings", "targetSkillSettings"})
+        "sourceEquipmentKeys", "targetEquipmentKeys", "sourceBuildConfigurations", "targetBuildConfigurations",
+        "sourceSkillSettings", "targetSkillSettings", "plannedSkills"})
     void everyFieldIsRequiredIncludingExplicitEmptyArrays(String field) throws Exception {
         ObjectNode request = body();
         request.remove(field);
@@ -90,6 +91,110 @@ class SimulationSnapshotAdminControllerTest {
         request.putNull(field);
         invalid(request, "selection." + field, "REQUIRED");
         verifyNoInteractions(service);
+    }
+
+    @Test
+    void basicAttackFieldsAreRequiredButCanOnlyBeNullAsAPair() throws Exception {
+        for (String field : List.of("basicAttackSkillKey", "basicAttackLevel")) {
+            ObjectNode missing = body();
+            missing.remove(field);
+            invalid(missing, "selection." + field, "REQUIRED");
+            ObjectNode half = body();
+            half.putNull(field);
+            invalid(half, "selection." + field, "PAIR_REQUIRED");
+        }
+        ObjectNode request = body();
+        request.putNull("basicAttackSkillKey");
+        request.putNull("basicAttackLevel");
+        Selection choice = SnapshotSelectionParser.parse(request);
+        when(service.get("lol", choice)).thenReturn(snapshot(choice));
+        mvc.perform(request(request)).andExpect(status().isOk())
+            .andExpect(jsonPath("$.selection.basicAttackSkillKey").value(org.hamcrest.Matchers.nullValue()))
+            .andExpect(jsonPath("$.selection.basicAttackLevel").value(org.hamcrest.Matchers.nullValue()));
+        verify(service).get("lol", choice);
+    }
+
+    @Test
+    void plannedSkillsRequireStrictCompleteCharacterIdentitiesAndExplicitInitialPhase() throws Exception {
+        ObjectNode request = body();
+        request.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[\"INITIAL\"]")));
+        Selection choice = SnapshotSelectionParser.parse(request);
+        when(service.get("lol", choice)).thenReturn(snapshot(choice));
+        mvc.perform(request(request)).andExpect(status().isOk())
+            .andExpect(jsonPath("$.selection.plannedSkills[0].origin.characterKey").value("hero_a"))
+            .andExpect(jsonPath("$.selection.plannedSkills[0].skillLevel").value(2))
+            .andExpect(jsonPath("$.selection.plannedSkills[0].phaseKinds[0]").value("INITIAL"));
+        verify(service).get("lol", choice);
+        for (String field : List.of("origin", "skillKey", "skillLevel", "phaseKinds")) {
+            ObjectNode missing = request.deepCopy();
+            ((ObjectNode) missing.path("plannedSkills").get(0)).remove(field);
+            invalid(missing, "selection.plannedSkills[0]." + field, "REQUIRED");
+        }
+        for (String phase : List.of("RECAST", "CHARGE_RELEASE", "CANCEL", "unknown")) {
+            ObjectNode unsupported = body();
+            unsupported.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[\"" + phase + "\"]")));
+            invalid(unsupported, "selection.plannedSkills[0].phaseKinds[0]", "ENUM_INVALID");
+        }
+        ObjectNode empty = body();
+        empty.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[]")));
+        invalid(empty, "selection.plannedSkills[0].phaseKinds", "REQUIRED");
+        ObjectNode duplicatePhase = body();
+        duplicatePhase.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[\"INITIAL\",\"INITIAL\"]")));
+        invalid(duplicatePhase, "selection.plannedSkills[0].phaseKinds[1]", "DUPLICATE_KEY");
+    }
+
+    @Test
+    void plannedSkillsDoNotAcceptOtherOriginsTimingsHitPresetsOrCoercedLevels() throws Exception {
+        for (String kind : List.of("EQUIPMENT", "BUILD_OPTION")) {
+            ObjectNode request = body();
+            request.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[\"INITIAL\"]")));
+            ((ObjectNode) request.path("plannedSkills").get(0).path("origin")).put("kind", kind);
+            invalid(request, "selection.plannedSkills[0].origin.kind", "ENUM_INVALID");
+        }
+        for (String field : List.of("atMs", "sortOrder", "hitPreset", "enabled", "skillActions")) {
+            ObjectNode request = body();
+            request.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[\"INITIAL\"]")));
+            ((ObjectNode) request.path("plannedSkills").get(0)).put(field, "MISS");
+            invalid(request, "selection.plannedSkills[0]." + field, "UNKNOWN_FIELD");
+        }
+        ObjectNode request = body();
+        request.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[\"INITIAL\"]")));
+        ((ObjectNode) request.path("plannedSkills").get(0).path("origin")).put("equipmentKey", "item");
+        invalid(request, "selection.plannedSkills[0].origin.equipmentKey", "UNKNOWN_FIELD");
+        request = body();
+        request.set("plannedSkills", json.readTree(planned("hero_a", "spell", 2, "[\"INITIAL\"]")));
+        ((ObjectNode) request.path("plannedSkills").get(0)).put("skillLevel", "2");
+        invalid(request, "selection.plannedSkills[0].skillLevel", "INTEGER_REQUIRED");
+        verifyNoInteractions(service);
+    }
+
+    @Test
+    void plannedSkillLimitDuplicatesAndConflictingGradesAreRejectedAtOriginalIndices() throws Exception {
+        ObjectNode request = body();
+        for (int index = 0; index < 16; index++) {
+            request.withArray("plannedSkills").add(json.readTree(planned("hero_a", "spell_" + index, 1, "[\"INITIAL\"]")).get(0));
+        }
+        Selection choice = SnapshotSelectionParser.parse(request);
+        when(service.get("lol", choice)).thenReturn(snapshot(choice));
+        mvc.perform(request(request)).andExpect(status().isOk());
+        request.withArray("plannedSkills").add(json.readTree(planned("hero_a", "spell_16", 1, "[\"INITIAL\"]")).get(0));
+        invalid(request, "selection.plannedSkills[16]", "SELECTION_LIMIT_EXCEEDED");
+        ObjectNode duplicate = body();
+        duplicate.set("plannedSkills", json.readTree(planned("hero_a", "spell", 1, "[\"INITIAL\"]")));
+        duplicate.withArray("plannedSkills").add(duplicate.path("plannedSkills").get(0).deepCopy());
+        invalid(duplicate, "selection.plannedSkills[1]", "DUPLICATE_KEY");
+        ObjectNode conflicting = body();
+        conflicting.set("plannedSkills", json.readTree(planned("hero_a", "spell", 1, "[\"INITIAL\"]")));
+        conflicting.withArray("plannedSkills").add(json.readTree(planned("hero_b", "spell", 2, "[\"INITIAL\"]")).get(0));
+        invalid(conflicting, "selection.plannedSkills[1].skillLevel", "LEVEL_CONFLICT");
+        verify(service).get("lol", choice);
+        verifyNoMoreInteractions(service);
+    }
+
+    private static String planned(String character, String skill, int level, String phases) {
+        return """
+            [{"origin":{"kind":"CHARACTER","characterKey":"%s"},"skillKey":"%s","skillLevel":%d,"phaseKinds":%s}]
+            """.formatted(character, skill, level, phases);
     }
 
     @ParameterizedTest

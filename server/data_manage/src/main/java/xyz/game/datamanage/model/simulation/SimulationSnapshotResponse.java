@@ -36,11 +36,14 @@ public record SimulationSnapshotResponse(
     OffsetDateTime readAt
 ) {
     public record Selection(String sourceCharacterKey, int sourceLevel, String targetCharacterKey,
-                            int targetLevel, String basicAttackSkillKey, int basicAttackLevel,
+                            int targetLevel, String basicAttackSkillKey, Integer basicAttackLevel,
                             List<String> sourceEquipmentKeys, List<String> targetEquipmentKeys,
                             List<BuildConfiguration> sourceBuildConfigurations,
                             List<BuildConfiguration> targetBuildConfigurations,
-                            List<SkillSetting> sourceSkillSettings, List<SkillSetting> targetSkillSettings) { }
+                            List<SkillSetting> sourceSkillSettings, List<SkillSetting> targetSkillSettings,
+                            List<PlannedSkill> plannedSkills) { }
+
+    public record PlannedSkill(Origin origin, String skillKey, int skillLevel, List<String> phaseKinds) { }
 
     public record Combatant(CharacterResponse character, CharacterAttributesResponse attributes,
                             JsonNode selectedLevelValues, List<CharacterSkillRelationResponse> attachedSkills,

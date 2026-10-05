@@ -44,6 +44,7 @@ import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Catalogs;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Combatant;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.DamageTypeEntry;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Reference;
+import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.PlannedSkill;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Selection;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.SelectedEquipment;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.SelectedBuild;
@@ -122,7 +123,9 @@ public class SimulationSnapshotService {
             selection.basicAttackLevel(), selection.sourceEquipmentKeys().stream().sorted().toList(),
             selection.targetEquipmentKeys().stream().sorted().toList(),
             normalizeBuilds(selection.sourceBuildConfigurations()), normalizeBuilds(selection.targetBuildConfigurations()),
-            normalizeSettings(selection.sourceSkillSettings()), normalizeSettings(selection.targetSkillSettings()));
+            normalizeSettings(selection.sourceSkillSettings()), normalizeSettings(selection.targetSkillSettings()),
+            selection.plannedSkills().stream().sorted(Comparator.comparing((PlannedSkill planned) -> planned.origin().toString())
+                .thenComparing(PlannedSkill::skillKey)).toList());
         LevelConfigResponse levels = characters.getLevelConfig(gameId);
         validateLevel("sourceLevel", choice.sourceLevel(), levels);
         validateLevel("targetLevel", choice.targetLevel(), levels);
@@ -130,7 +133,8 @@ public class SimulationSnapshotService {
             choice.sourceEquipmentKeys(), selection.sourceBuildConfigurations(), "source");
         Combatant target = combatant(gameId, choice.targetCharacterKey(), choice.targetLevel(),
             choice.targetEquipmentKeys(), selection.targetBuildConfigurations(), "target");
-        if (source.attachedSkills().stream().noneMatch(relation -> choice.basicAttackSkillKey().equals(relation.skillKey()))) {
+        if (choice.basicAttackSkillKey() != null
+            && source.attachedSkills().stream().noneMatch(relation -> choice.basicAttackSkillKey().equals(relation.skillKey()))) {
             throw invalid("source.attachedSkills", "SKILL_NOT_ATTACHED", "A 未挂载所选普通攻击");
         }
         List<SnapshotSources.Source> sources = new ArrayList<>();
@@ -138,11 +142,13 @@ public class SimulationSnapshotService {
         sources.addAll(SnapshotSources.collect(target, "target", choice.targetLevel(), choice.basicAttackSkillKey(), choice.basicAttackLevel()));
         sources.sort(SnapshotSources.ORDER);
         Map<String, SkillConfigurationResponse> selected = selectedSkillConfigurations(gameId, sources);
-        if (!selected.get(choice.basicAttackSkillKey()).skill().skillCategoryKeys().contains("basic_attack")) {
+        if (choice.basicAttackSkillKey() != null
+            && !selected.get(choice.basicAttackSkillKey()).skill().skillCategoryKeys().contains("basic_attack")) {
             throw invalid("basicAttackSkillKey", "BASIC_ATTACK_CATEGORY_REQUIRED", "所选真实主体必须属于普通攻击分类");
         }
         SnapshotSources.apply(sources, selection.sourceSkillSettings(), "source", choice.basicAttackSkillKey());
         SnapshotSources.apply(sources, selection.targetSkillSettings(), "target", choice.basicAttackSkillKey());
+        SnapshotSources.plan(sources, selection.plannedSkills());
         SnapshotSkillClosure closure = new SnapshotSkillClosure(gameId, choice.basicAttackSkillKey(), json, sources, selected,
             (key, path) -> readSkillConfiguration(gameId, key, path));
         SnapshotSkillClosure.Result execution = closure.collect();

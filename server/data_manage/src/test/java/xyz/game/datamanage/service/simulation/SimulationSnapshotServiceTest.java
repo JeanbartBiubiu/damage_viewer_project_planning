@@ -60,7 +60,7 @@ import xyz.game.datamanage.support.error.ApiException;
 
 class SimulationSnapshotServiceTest {
     private static final Selection CHOICE = new Selection("hero_a", 1, "hero_b", 1,
-        "shared_basic_attack", 1, List.of(), List.of(), List.of(), List.of(), List.of(), List.of());
+        "shared_basic_attack", 1, List.of(), List.of(), List.of(), List.of(), List.of(), List.of(), List.of());
 
     private final CharacterService characters = mock(CharacterService.class);
     private final CharacterMapper characterMapper = mock(CharacterMapper.class);
@@ -297,9 +297,9 @@ class SimulationSnapshotServiceTest {
             .thenReturn(new CharacterSkillRelationListResponse(List.of(), 0));
         assertIssue("SKILL_NOT_ATTACHED", "source.attachedSkills");
         assertThrows(ApiException.class, () -> service.get("lol", new Selection("hero_a", 0, "hero_b", 1,
-            "shared_basic_attack", 1, List.of(), List.of(), List.of(), List.of(), List.of(), List.of())));
+            "shared_basic_attack", 1, List.of(), List.of(), List.of(), List.of(), List.of(), List.of(), List.of())));
         assertThrows(ApiException.class, () -> service.get("lol", new Selection("hero_a", 1, "hero_b", 1,
-            "other_skill", 1, List.of(), List.of(), List.of(), List.of(), List.of(), List.of())));
+            "other_skill", 1, List.of(), List.of(), List.of(), List.of(), List.of(), List.of(), List.of())));
         verifyNoInteractions(configurations);
     }
 
@@ -563,7 +563,7 @@ class SimulationSnapshotServiceTest {
             List.of(), List.of(), List.of(initializationRule("heal")), "passive-digest"));
         characterValues("hero_b", "{\"1\":{\"armor\":0,\"health\":250},\"2\":{\"armor\":10,\"health\":300}}");
         Selection choice = new Selection("hero_a", 1, "hero_b", 2, "shared_basic_attack", 1,
-            List.of("item_a"), List.of("item_a"), List.of(), List.of(), List.of(), List.of());
+            List.of("item_a"), List.of("item_a"), List.of(), List.of(), List.of(), List.of(), List.of());
         assertIssue(choice, "NUMBER_MISSING", "skillConfigurations[0].parameters.scaled.levelValues.2");
     }
 
@@ -659,7 +659,7 @@ class SimulationSnapshotServiceTest {
     }
 
     private static Selection equipmentChoice(List<String> source, List<String> target) {
-        return new Selection("hero_a", 1, "hero_b", 1, "shared_basic_attack", 1, source, target, List.of(), List.of(), List.of(), List.of());
+        return new Selection("hero_a", 1, "hero_b", 1, "shared_basic_attack", 1, source, target, List.of(), List.of(), List.of(), List.of(), List.of());
     }
 
     @Test

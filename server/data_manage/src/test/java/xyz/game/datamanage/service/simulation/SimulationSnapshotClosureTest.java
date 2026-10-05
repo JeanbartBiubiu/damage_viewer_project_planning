@@ -112,7 +112,7 @@ class SimulationSnapshotClosureTest {
         Selection base = fixture.choice();
         var closed = fixture.service.get(GAME, new Selection(base.sourceCharacterKey(), base.sourceLevel(), base.targetCharacterKey(), base.targetLevel(),
             base.basicAttackSkillKey(), base.basicAttackLevel(), List.of(), List.of(), List.of(), List.of(),
-            List.of(new SkillSetting(Origin.character("hero_a"), "subscriber", false, null)), List.of()));
+            List.of(new SkillSetting(Origin.character("hero_a"), "subscriber", false, null)), List.of(), List.of()));
         assertFalse(closed.references().stream().anyMatch(reference -> reference.sourceSkillKey().equals("subscriber")));
         assertEquals(InactiveReason.SCENE_DISABLED, source(closed.source(), "subscriber").inactiveReason());
         assertEquals(3, closed.skillConfigurations().size());
@@ -156,7 +156,7 @@ class SimulationSnapshotClosureTest {
         Selection base = fixture.choice();
         var result = fixture.service.get(GAME, new Selection(base.sourceCharacterKey(), base.sourceLevel(), base.targetCharacterKey(), base.targetLevel(),
             base.basicAttackSkillKey(), base.basicAttackLevel(), List.of(), List.of(), List.of(), List.of(),
-            List.of(new SkillSetting(Origin.character("hero_a"), "sample_q", true, 3)), List.of()));
+            List.of(new SkillSetting(Origin.character("hero_a"), "sample_q", true, 3)), List.of(), List.of()));
         assertNull(source(result.source(), "sample_q").inactiveReason());
         assertEquals(List.of("initialize"), source(result.source(), "sample_q").enabledRuleKeys());
         assertEquals(configuration, result.skillConfigurations().stream().filter(skill -> skill.skill().skillKey().equals("sample_q")).findFirst().orElseThrow());

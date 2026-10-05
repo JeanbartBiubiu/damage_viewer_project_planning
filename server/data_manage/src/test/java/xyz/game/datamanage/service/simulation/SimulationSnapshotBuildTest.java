@@ -205,7 +205,7 @@ class SimulationSnapshotBuildTest {
     private Selection select(BuildConfiguration configuration, List<SkillSetting> settings) {
         Selection base = fixture.choice();
         return new Selection(base.sourceCharacterKey(), base.sourceLevel(), base.targetCharacterKey(), base.targetLevel(),
-            base.basicAttackSkillKey(), base.basicAttackLevel(), List.of(), List.of(), List.of(configuration), List.of(), settings, List.of());
+            base.basicAttackSkillKey(), base.basicAttackLevel(), List.of(), List.of(), List.of(configuration), List.of(), settings, List.of(), List.of());
     }
 
     private void assertIssue(Selection selection, String code, String path) {

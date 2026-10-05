@@ -6,6 +6,7 @@ import java.util.List;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Combatant;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.InactiveReason;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.Origin;
+import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.PlannedSkill;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.SkillSetting;
 import xyz.game.datamanage.model.simulation.SimulationSnapshotResponse.SkillSource;
 import xyz.game.datamanage.model.skill.SkillStatus;
@@ -14,7 +15,7 @@ import xyz.game.datamanage.model.skillconfiguration.SkillConfigurationResponse;
 final class SnapshotSources {
     private SnapshotSources() { }
 
-    static List<Source> collect(Combatant combatant, String side, int characterLevel, String attackKey, int attackLevel) {
+    static List<Source> collect(Combatant combatant, String side, int characterLevel, String attackKey, Integer attackLevel) {
         List<Source> result = new ArrayList<>();
         for (int index = 0; index < combatant.attachedSkills().size(); index++) {
             var relation = combatant.attachedSkills().get(index);
@@ -81,10 +82,27 @@ final class SnapshotSources {
             if (source.status != SkillStatus.ENABLED) source.inactive = InactiveReason.GLOBAL_DISABLED;
             else if (!source.enabled) source.inactive = InactiveReason.SCENE_DISABLED;
             else if (Integer.valueOf(0).equals(source.level)) source.inactive = InactiveReason.UNLEARNED;
-            else if ("CHARACTER".equals(source.origin.kind()) && source.configuration.skill().skillCategoryKeys().contains("basic_attack")
-                && !(source.side.equals("source") && source.skillKey.equals(attackKey))) {
-                source.inactive = InactiveReason.NO_AUTONOMOUS_ATTACK;
+        }
+    }
+
+    static void plan(List<Source> sources, List<PlannedSkill> plannedSkills) {
+        for (int index = 0; index < plannedSkills.size(); index++) {
+            PlannedSkill planned = plannedSkills.get(index);
+            String path = "selection.plannedSkills[" + index + "]";
+            Source source = sources.stream().filter(candidate -> candidate.side.equals("source")
+                && candidate.origin.equals(planned.origin()) && candidate.skillKey.equals(planned.skillKey())).findFirst().orElse(null);
+            if (source == null) throw SnapshotIssues.invalid(path + ".origin", "SOURCE_NOT_SELECTED", "计划不能授予技能，必须使用A的真实角色绑定");
+            if (source.status != SkillStatus.ENABLED) throw SnapshotIssues.invalid(path + ".skillKey", "SKILL_DISABLED", "计划技能全局未启用");
+            if (!source.enabled) throw SnapshotIssues.invalid(path + ".skillKey", "SOURCE_DEPENDENCY_INACTIVE", "计划技能本场已关闭");
+            if (Integer.valueOf(0).equals(source.level) || planned.skillLevel() == 0) {
+                throw SnapshotIssues.invalid(path + ".skillLevel", "UNLEARNED", "计划技能必须已学");
             }
+            if (source.level == null) throw SnapshotIssues.invalid(path + ".skillLevel", "LEVEL_REQUIRED", "须先通过来源设置明确技能等级");
+            if (!source.level.equals(planned.skillLevel())) {
+                throw SnapshotIssues.invalid(path + ".skillLevel", "LEVEL_MISMATCH", "计划等级必须与来源最终等级一致，不能覆盖来源设置");
+            }
+            source.planned = planned;
+            source.plannedPath = path;
         }
     }
 
@@ -100,6 +118,8 @@ final class SnapshotSources {
         boolean enabled = true;
         InactiveReason inactive;
         SkillConfigurationResponse configuration;
+        PlannedSkill planned;
+        String plannedPath;
         final List<String> ruleKeys = new ArrayList<>();
 
         Source(String side, Origin origin, String skillKey, SkillStatus status, Integer level, int characterLevel, String path) {

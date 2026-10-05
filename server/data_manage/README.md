@@ -352,15 +352,19 @@ CORS 当前覆盖 `/api/**`，并暴露 `ETag` 响应头。启动成功但首次
 
 ## 验证入口与证据边界
 
-### 场景配置只读快照（阶段5A）
+### 场景配置只读快照（阶段6A）
 
-使用 `POST /api/admin/games/{gameId}/simulation-snapshot`；旧 GET 已删除，不保留旧查询参数读取或格式兼容。请求保留双方角色／等级、所选普通攻击／等级、双方装备键八个字段，并要求明确提供 `sourceBuildConfigurations`、`targetBuildConfigurations`、`sourceSkillSettings`、`targetSkillSettings` 四个数组。空构筑数组表示未选择系统，空设置数组表示不覆盖默认来源；未知字段、缺字段、重复身份、字符串布尔值、非整数和超出每侧6件的装备选择返回现有400字段问题形状。
+使用 `POST /api/admin/games/{gameId}/simulation-snapshot`；旧 GET 已删除，不保留旧查询参数读取或格式兼容。请求保留双方角色／等级、所选普通攻击／等级、双方装备键八个字段，并要求明确提供 `sourceBuildConfigurations`、`targetBuildConfigurations`、`sourceSkillSettings`、`targetSkillSettings`、`plannedSkills` 五个数组。空构筑数组表示未选择系统，空设置数组表示不覆盖默认来源，空计划数组表示不选择主动入口；未知字段、缺字段、重复身份、字符串布尔值、非整数和超出每侧6件的装备选择返回现有400字段问题形状。
+
+`basicAttackSkillKey`（普通攻击标识）与 `basicAttackLevel`（普通攻击等级）仍必须明确提供，但允许配对为空，表示没有背景普攻；仅一项为空拒绝。`plannedSkills`（计划技能）最多16份不同完整来源，每项为 `origin`（来源身份）、`skillKey`（技能标识）、`skillLevel`（技能等级）及 `phaseKinds`（阶段集合）。本期身份仅允许A的 `CHARACTER`（角色）及其真实角色标识，阶段仅允许无重复的 `INITIAL`（首次使用）。计划不能授予技能或供给默认等级，必须与 `sourceSkillSettings` 核定的已启用、已学最终来源等级一致；与默认自然来源使用同一挂载实例。装备、构筑与B主动计划不开放。
+
+关闭背景普攻后不独立播种普攻开始、命中和接收根；双方初始化、本次计划的首次成功使用、合法技能命中、真实过程订阅及显式结果可产生的伤害／接收／联动尾部仍展开完整引用。未计划主动作者原样保留，与未激活理由分开。所选使用入口缺少或具有未知 `castPhase`（施放阶段）时拒绝，不默认首次；没有所选阶段的实际根也拒绝。时刻、同刻顺序和命中预设不接受为场景选择字段，不能以本次未命中裁剪命中作者。场景摘要覆盖规范化计划与完整作者内容，不包含读取时刻；唯一增量契约为规划真源[阶段6设计第4.1节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段6主动技能接入与混合时间线详细设计.md)。
 
 双方角色响应新增 `selectedBuilds`（完整构筑定义与本次选择）和 `skillSources`（逐实例技能来源）。默认收集角色全部真实绑定、所选装备技能、完整合法构筑实际授予；开关与等级设置只能覆盖该侧真实来源的完整身份。角色、装备、构筑可选项三种身份分别携带真实角色键、装备键及系统／角色／分组／位置／可选项键，不按技能键跨实例合并。构筑规则、完整值和共享字段的唯一来源为规划真源[阶段5设计第3节](../../../damage_viewer_project_planning/文档记录/详细设计/项目/阶段5英雄被动接入与组合验收详细设计.md)及其引用的构筑设计第6节。
 
 构筑读取复用现有完整定义校验，随后检查分组角色、互异、允许位置、候选归属、选择与位置数量、前置、互斥和累计逐级成本。空分组角色规则不自动生成兼容角色；固定预算不得重复提交，场景预算必须显式提供。实际授予按激活投入等级与固定／随投入两种技能等级规则产生；同选项在不同合法位置保留不同实例。关闭授予不减少成本、不撤销构筑选择，也不能绕过整套选择校验。
 
-来源开关默认开启，但不猜角色技能等级。所选 A 普攻等级只来自 `basicAttackLevel`；其它角色等级仅按明确覆盖供值，0保留为未学，缺少必要等级保留为空并回显 `LEVEL_REQUIRED`（仍须供等级）。自然程序未配置为 `CONFIGURATION_INCOMPLETE`（配置尚缺），完整纯主动入口为 `ACTIVE_DEFERRED`（主动暂缓）；这些来源仍可读取、供值或关闭。B 普攻及非所选角色普攻为 `NO_AUTONOMOUS_ATTACK`（非自主攻击主体），不增加 B 自主攻击。全局禁用、本场关闭和未学分别回显 `GLOBAL_DISABLED`、`SCENE_DISABLED`、`UNLEARNED`；除此之外原因可为空，本场开关不能重新启用全局禁用技能。装备沿真实单级定义，构筑等级不能由来源设置覆盖。关闭技能不删除原关系或装备固定属性。
+来源开关默认开启，但不猜角色技能等级。所选 A 普攻等级只来自 `basicAttackLevel`；其它角色等级仅按明确覆盖供值，0保留为未学，缺少必要等级保留为空并回显 `LEVEL_REQUIRED`（仍须供等级）。自然程序未配置为 `CONFIGURATION_INCOMPLETE`（配置尚缺），未计划的完整纯主动入口为 `ACTIVE_DEFERRED`（主动暂缓）；这些来源仍可读取、供值或关闭。B 普攻及非所选角色普攻没有其它可达自然根时为 `NO_AUTONOMOUS_ATTACK`（非自主攻击主体），不能隐藏真实初始化或接收根，不增加 B 自主攻击。全局禁用、本场关闭和未学分别回显 `GLOBAL_DISABLED`、`SCENE_DISABLED`、`UNLEARNED`；除此之外原因可为空，本场开关不能重新启用全局禁用技能。装备沿真实单级定义，构筑等级不能由来源设置覆盖。关闭技能不删除原关系或装备固定属性。
 
 全部读取位于同一可重复读的只读事务，不持久化场景、记录业务编辑日志、写关系或执行战斗。完整配置按技能键去重，保留主体、参数、公式、效果全部并列结果、过程、内部状态、规则与 `baseDigest`（技能配置摘要）；包含必要只读定义在内最多32份。真实所选普攻按角色关系与普通攻击分类核对，不按特定技能标识收窄；特殊主体能否运行仍由适配与运行层判断，后端读取成功不单独证明5C运行。命中根的来源技能过滤未声明或为空时保留当前主体的实际命中语义，不因空字段漏掉必要条件分支。
 
@@ -370,7 +374,7 @@ CORS 当前覆盖 `/api/**`，并暴露 `ETag` 响应头。启动成功但首次
 
 真实来源、构筑合法性、等级与必要依赖错误沿 `409.SIMULATION_SNAPSHOT_INVALID` 返回具体字段问题，不返回部分成功快照；请求数组错误保留原输入下标，成功回显采用稳定顺序。游戏、角色或所选装备不存在沿原404，管理鉴权沿401／403。快照读取成功与原因为空均不证明 Wasm 准入或战斗通过；阶段5A新增运行支持、5B／5C机制和真实构筑数据闭环不由本模块补造。
 
-定向检查：`mvn "-Dtest=SimulationSnapshotServiceTest,SimulationSnapshotAdminControllerTest,SimulationSnapshotSourcesTest,SimulationSnapshotBuildTest,SimulationSnapshotClosureTest,SkillObjectReferencesTest" test`。功能收尾运行 `mvn test`，需要最终服务产物时运行 `mvn -DskipTests package`。这些测试使用隔离替身，不访问实库；单测和打包不能替代真实数据库、HTTP、页面或最终 Wasm 运行验收。
+定向检查：`mvn "-Dtest=SimulationSnapshotServiceTest,SimulationSnapshotAdminControllerTest,SimulationSnapshotSourcesTest,SimulationSnapshotBuildTest,SimulationSnapshotClosureTest,SimulationSnapshotPlannedSkillsTest,SkillObjectReferencesTest" test`。功能收尾运行 `mvn test`，需要最终服务产物时运行 `mvn -DskipTests package`。这些测试使用隔离替身，不访问实库；单测和打包不能替代真实数据库、HTTP、页面或最终 Wasm 运行验收。阶段6A后端不补写真实技能阶段，不执行运行指令；库奇Q、盖伦R缺少的首次阶段须由负责人通过管理页面核定。
 
 ### 技能统一配置与角色录入检查
 

@@ -61,6 +61,7 @@ final class SnapshotSkillClosure {
     Result collect() {
         for (Source source : sources) {
             if (source.inactive != null) continue;
+            if (source.planned != null) validatePlannedRoots(source);
             for (Aggregate rule : rules(source)) {
                 if (!natural(source, rule) || rule.data().path("actions").isEmpty()) continue;
                 if (requiresLevel(source, rule)) {
@@ -95,11 +96,13 @@ final class SnapshotSkillClosure {
             boolean deferred = rules(source).stream().anyMatch(rule ->
                 Set.of("SKILL_USED", "SKILL_HIT").contains(rule.data().path("eventSource").path("eventType").asText())
                     && !rule.data().path("actions").isEmpty());
-            Set<String> attackEvents = Set.of("BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "HIT_LINK_APPLIED", "ATTACK_LINK_APPLIED");
-            boolean withoutAttackDriver = source.side.equals("target") && rules(source).stream().anyMatch(rule ->
-                attackEvents.contains(rule.data().path("eventSource").path("eventType").asText()) && !rule.data().path("actions").isEmpty())
-                && rules(source).stream().noneMatch(rule -> NATURAL_EVENTS.contains(rule.data().path("eventSource").path("eventType").asText())
-                    && !attackEvents.contains(rule.data().path("eventSource").path("eventType").asText()) && !rule.data().path("actions").isEmpty());
+            Set<String> attackEvents = Set.of("BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "BASIC_ATTACK_RECEIVED", "HIT_LINK_APPLIED", "ATTACK_LINK_APPLIED");
+            boolean withoutAttackDriver = (attackKey == null || source.side.equals("target"))
+                && (source.configuration.skill().skillCategoryKeys().contains("basic_attack")
+                    || rules(source).stream().anyMatch(rule -> attackEvents.contains(rule.data().path("eventSource").path("eventType").asText())
+                        && !rule.data().path("actions").isEmpty())
+                    && rules(source).stream().noneMatch(rule -> NATURAL_EVENTS.contains(rule.data().path("eventSource").path("eventType").asText())
+                        && !attackEvents.contains(rule.data().path("eventSource").path("eventType").asText()) && !rule.data().path("actions").isEmpty()));
             source.inactive = withoutAttackDriver ? InactiveReason.NO_AUTONOMOUS_ATTACK
                 : deferred ? InactiveReason.ACTIVE_DEFERRED : InactiveReason.CONFIGURATION_INCOMPLETE;
         }
@@ -178,7 +181,7 @@ final class SnapshotSkillClosure {
 
     private void subscribe(Invocation producer) {
         for (Source source : sources) {
-            if (!source.side.equals(producer.owner().side) || source.inactive != null) continue;
+            if (source.inactive != null) continue;
             for (Aggregate rule : rules(source)) {
                 if (!matches(source, rule, producer) || rule.data().path("actions").isEmpty()) continue;
                 if (requiresLevel(source, rule)) {
@@ -187,6 +190,7 @@ final class SnapshotSkillClosure {
                     levelsChanged = true;
                     continue;
                 }
+                if (NATURAL_EVENTS.contains(rule.data().path("eventSource").path("eventType").asText())) source.ruleKeys.add(rule.key());
                 enqueue(source, rule, true);
             }
         }
@@ -196,6 +200,8 @@ final class SnapshotSkillClosure {
         JsonNode event = rule.data().path("eventSource");
         JsonNode detail = event.path("detail");
         Aggregate object = producer.object();
+        if (object.type() == SourceType.EFFECT && matchesResultEvent(subscriber, event, producer)) return true;
+        if (!subscriber.side.equals(producer.owner().side)) return false;
         boolean local = subscriber == producer.owner() && subscriber.skillKey.equals(object.skillKey());
         return switch (event.path("eventType").asText()) {
             case "PROCESS_MOMENT" -> local && object.type() == SourceType.PROCESS && detail.path("processKey").asText().equals(object.key());
@@ -214,6 +220,31 @@ final class SnapshotSkillClosure {
                 && (subscriber.origin.equals(producer.owner().origin) || !subscriber.skillKey.equals(object.skillKey()));
             default -> false;
         };
+    }
+
+    private static boolean matchesResultEvent(Source subscriber, JsonNode event, Invocation producer) {
+        JsonNode filter = event.path("detail");
+        if (filter.hasNonNull("sourceSkillKey") && !filter.path("sourceSkillKey").asText().equals(producer.object().skillKey())) return false;
+        String type = event.path("eventType").asText();
+        for (JsonNode result : producer.object().data().path("results")) {
+            String resultType = result.path("resultType").asText();
+            if (Set.of("DAMAGE_PENDING", "DAMAGE_DEALT", "DAMAGE_TAKEN").contains(type) && resultType.equals("DAMAGE")) {
+                if (type.equals("DAMAGE_DEALT") && !subscriber.side.equals(producer.owner().side)) continue;
+                if (!type.equals("DAMAGE_DEALT") && result.path("target").asText().equals("SOURCE")
+                    && !subscriber.side.equals(producer.owner().side)) continue;
+                JsonNode detail = result.path("detail");
+                boolean possible = true;
+                for (String field : List.of("damageTypeKey", "deliveryKind", "originKind")) {
+                    if (filter.hasNonNull(field) && !filter.path(field).asText().equals("ANY")
+                        && detail.hasNonNull(field) && !filter.get(field).equals(detail.get(field))) possible = false;
+                }
+                if (possible) return true;
+            }
+            if (subscriber.side.equals(producer.owner().side)
+                && (type.equals("HIT_LINK_APPLIED") && resultType.equals("HIT_LINK_APPLICATION")
+                    || type.equals("ATTACK_LINK_APPLIED") && resultType.equals("ATTACK_LINK_APPLICATION"))) return true;
+        }
+        return false;
     }
 
     private static boolean lifecycleEventPossible(String moment, JsonNode lifecycle) {
@@ -241,16 +272,39 @@ final class SnapshotSkillClosure {
         String type = event.path("eventType").asText();
         if (Set.of("SKILL_USED", "SKILL_HIT").contains(type)) {
             JsonNode detail = event.path("detail");
-            if (!source.side.equals("source") || detail.hasNonNull("sourceSkillKey")
-                && !detail.path("sourceSkillKey").asText().equals(attackKey)) return false;
+            if (!source.side.equals("source")) return false;
+            if (detail.hasNonNull("sourceSkillKey")) {
+                String skillKey = detail.path("sourceSkillKey").asText();
+                if (!skillKey.equals(attackKey) && sources.stream().noneMatch(candidate -> candidate.planned != null && candidate.skillKey.equals(skillKey))) return false;
+            } else if (attackKey == null && sources.stream().noneMatch(candidate -> candidate.planned != null)) return false;
             return !type.equals("SKILL_USED") || event.path("detail").path("castPhase").asText().equals("INITIAL");
         }
         if (!NATURAL_EVENTS.contains(type)) return false;
+        if (attackKey == null) return type.equals("SOURCE_INITIALIZED");
         if (type.equals("BASIC_ATTACK_RECEIVED")) return source.side.equals("target");
         if (Set.of("BASIC_ATTACK_START", "BASIC_ATTACK_HIT", "HIT_LINK_APPLIED", "ATTACK_LINK_APPLIED").contains(type)) {
             return source.side.equals("source");
         }
         return true;
+    }
+
+    private void validatePlannedRoots(Source source) {
+        boolean initial = false;
+        for (Aggregate rule : rules(source)) {
+            JsonNode event = rule.data().path("eventSource");
+            JsonNode detail = event.path("detail");
+            if (!event.path("eventType").asText().equals("SKILL_USED") || rule.data().path("actions").isEmpty()
+                || detail.hasNonNull("sourceSkillKey") && !detail.path("sourceSkillKey").asText().equals(source.skillKey)) continue;
+            String phase = detail.path("castPhase").asText();
+            if (!detail.hasNonNull("castPhase")) {
+                throw SnapshotIssues.invalid(objectPath(rule) + ".eventSource.detail.castPhase", "CAST_PHASE_REQUIRED", "计划技能的真实使用入口缺少施放阶段，不能默认首次");
+            }
+            if (!Set.of("INITIAL", "RECAST", "CHARGE_RELEASE").contains(phase)) {
+                throw SnapshotIssues.invalid(objectPath(rule) + ".eventSource.detail.castPhase", "CAST_PHASE_INVALID", "计划技能使用入口的施放阶段不合法");
+            }
+            if (phase.equals("INITIAL")) initial = true;
+        }
+        if (!initial) throw SnapshotIssues.invalid(source.plannedPath + ".phaseKinds", "PHASE_ROOT_MISSING", "计划来源没有所选首次阶段的实际使用根");
     }
 
     private boolean requiresLevel(Source source, Aggregate root) {

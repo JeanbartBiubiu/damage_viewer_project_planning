@@ -80,7 +80,7 @@ final class SimulationSnapshotFixture {
 
     Selection choice() {
         return new Selection("hero_a", 1, "hero_b", 2, ATTACK, 1, List.of(), List.of(),
-            List.of(), List.of(), List.of(), List.of());
+            List.of(), List.of(), List.of(), List.of(), List.of());
     }
 
     SkillConfigurationResponse configuration(String key, int maximum, String additions) throws Exception {
@@ -109,9 +109,13 @@ final class SimulationSnapshotFixture {
                 var detailData = resultData.remove("detail");
                 SkillEffectResultResponse result = json.treeToValue(resultData, SkillEffectResultResponse.class);
                 SkillEffectResultDetail detail = switch (result.resultType()) {
+                    case DAMAGE -> json.treeToValue(detailData, SkillEffectDamageDetail.class);
                     case DIRECT_HEAL -> json.treeToValue(detailData, SkillEffectDirectHealDetail.class);
                     case ATTRIBUTE_CHANGE -> json.treeToValue(detailData, SkillEffectAttributeChangeDetail.class);
                     case RESOURCE_CHANGE -> json.treeToValue(detailData, SkillEffectResourceChangeDetail.class);
+                    case COOLDOWN_CHANGE -> json.treeToValue(detailData, SkillEffectCooldownChangeDetail.class);
+                    case HIT_LINK_APPLICATION -> json.treeToValue(detailData, SkillEffectHitLinkApplicationDetail.class);
+                    case ATTACK_LINK_APPLICATION -> json.treeToValue(detailData, SkillEffectAttackLinkApplicationDetail.class);
                     default -> throw new IllegalArgumentException("未声明的隔离测试结果");
                 };
                 results.add(new SkillEffectResultResponse(result.resultKey(), result.name(), result.resultType(), result.target(),
@@ -143,7 +147,11 @@ final class SimulationSnapshotFixture {
                 ObjectNode stepData = stepRow.deepCopy();
                 var detailData = stepData.remove("detail");
                 var step = json.treeToValue(stepData, SkillProcessStepResponse.class);
-                var detail = json.treeToValue(detailData, SkillProcessImmediateStepDetail.class);
+                SkillProcessStepDetail detail = switch (step.stepType()) {
+                    case IMMEDIATE -> json.treeToValue(detailData, SkillProcessImmediateStepDetail.class);
+                    case DELAY -> json.treeToValue(detailData, SkillProcessDelayStepDetail.class);
+                    default -> throw new IllegalArgumentException("未声明的隔离测试过程步骤");
+                };
                 steps.add(new SkillProcessStepResponse(step.stepKey(), step.name(), step.stepType(), step.description(), step.sortOrder(), detail));
             }
             ObjectNode processData = row.deepCopy();
