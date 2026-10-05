@@ -135,6 +135,7 @@ type BasicAttackSummary struct {
 	HitCount                 int    `json:"hitCount"`
 	CompletedCount           int    `json:"completedCount"`
 	InitialMechanicReadyAtMs *int64 `json:"initialMechanicReadyAtMs"`
+	InitialActionReadyAtMs   *int64 `json:"initialActionReadyAtMs"`
 }
 type RunExecutionSummary struct {
 	RequestedDurationMs int64        `json:"requestedDurationMs"`
@@ -146,6 +147,7 @@ type RunExecutionSummary struct {
 }
 type BasicAttackRecord struct {
 	MechanicReadyAtMs *int64  `json:"mechanicReadyAtMs"`
+	ActionReadyAtMs   *int64  `json:"actionReadyAtMs"`
 	PlanKey           string  `json:"planKey"`
 	AttackIndex       int     `json:"attackIndex"`
 	UseRef            string  `json:"useRef"`

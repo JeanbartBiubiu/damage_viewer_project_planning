@@ -13,6 +13,7 @@ func (s *genericRunState) validateEquipmentHitListener(listener compilebundle.Co
 		{model.EventTypeAttackLinkApplied, eventSourceOwner}, {model.EventTypeHitLinkApplied, eventSourceOwner},
 		{model.EventTypeBasicAttackReceived, eventTargetOwner}, {model.EventTypeDamageTaken, eventTargetOwner},
 		{eventTypeDamageInstance, eventSourceOwner},
+		{eventTypeAbilityStarted, eventSourceOwner},
 	} {
 		kind, kindDeclared := s.compiled.Types.Registry.Lookup(event.kind)
 		relation, relationDeclared := s.compiled.Types.Registry.Lookup(event.relation)

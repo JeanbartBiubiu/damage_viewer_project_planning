@@ -52,6 +52,10 @@ type damageRecord struct {
 
 type genericRunState struct {
 	skillAction                *skillActionRuntime
+	skillActions               []skillActionRuntime
+	skillActionByUse           map[string]*skillActionRuntime
+	skillTargetKilledAt        *int64
+	actionDeaths               map[string]bool
 	skillActionRecords         []model.SkillActionRecord
 	skillUseRecords            []model.SkillUseRecord
 	healingRecords             []model.DirectHealingRecord
@@ -318,10 +322,10 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	if err := state.initProcessState(); err != nil {
 		return nil, err
 	}
-	if err := state.initBasicAttack(); err != nil {
+	if err := state.initSkillAction(); err != nil {
 		return nil, err
 	}
-	if err := state.initSkillAction(); err != nil {
+	if err := state.initBasicAttack(); err != nil {
 		return nil, err
 	}
 	if err := state.seedSourceInitialization(); err != nil {
@@ -332,6 +336,9 @@ func newGenericRunState(compiled compilebundle.CompiledSession, req model.RunReq
 	state.seedExpireCleanups()
 	state.seedProviderTicks()
 	if state.basicAttack != nil {
+		if state.basicAttack.ammo != nil && len(state.skillActions) > 0 {
+			state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.startMs, Category: scheduler.GenericCategoryAmmoRecovery, Kind: scheduler.GenericEventAmmoAdmission, DriverEntryIndex: -1})
+		}
 		state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.startMs, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventBasicAttack, DriverEntryIndex: -1})
 	}
 	return state, nil
@@ -726,11 +733,11 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			break
 		}
 		next, hasNext := s.heap.PeekTime()
-		if s.skillAction != nil && (s.combatantHp(model.SelectorSource) <= 0 || s.combatantHp(model.SelectorTarget) <= 0) {
+		if len(s.skillActions) > 0 && (s.actionDeaths[model.SelectorSource] || s.actionDeaths[model.SelectorTarget] || s.combatantHp(model.SelectorSource) <= 0 || s.combatantHp(model.SelectorTarget) <= 0) {
 			s.finalizeStopReason()
 			break
 		}
-		if s.skillAction != nil && (!hasNext || next > end) {
+		if len(s.skillActions) > 0 && (!hasNext || next > end) {
 			s.flushSamplesBefore(end)
 			s.nowMs = end
 			s.setStopReason(model.StopReasonDurationReached)
@@ -770,7 +777,7 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		s.flushSamplesBefore(ev.TimeMs)
 		s.nowMs = ev.TimeMs
 		s.processedEvents++
-		if s.skillAction != nil {
+		if len(s.skillActions) > 0 {
 			s.currentEventCommands = 0
 		}
 		var err *model.EngineError
@@ -788,7 +795,7 @@ func (s *genericRunState) runLoop() *model.EngineError {
 		case scheduler.GenericEventAbilityAttempt:
 			err = s.handleAbilityAttempt(ev)
 		case scheduler.GenericEventSkillAction:
-			err = s.handleSkillAction()
+			err = s.handleSkillAction(ev.SkillActionIndex)
 		case scheduler.GenericEventTriggeredContinuation:
 			err = s.handleTriggeredContinuation(ev)
 		case scheduler.GenericEventBasicAttack:
@@ -797,6 +804,8 @@ func (s *genericRunState) runLoop() *model.EngineError {
 			}
 		case scheduler.GenericEventAmmoRecovery:
 			err = s.handleAmmoRecovery(ev)
+		case scheduler.GenericEventAmmoAdmission:
+			_, err = s.basicAttackAmmoReady()
 		}
 		if err == nil {
 			err = s.processFailure
@@ -868,8 +877,8 @@ func (s *genericRunState) finalizeStopReason() {
 	if s.budgetCause != "" || (s.stopReasonSet && s.stopReason == model.StopReasonBudgetExceeded) {
 		consider(model.StopReasonBudgetExceeded)
 	}
-	sourceDead := s.combatantHasHp(model.SelectorSource) && s.combatantHp(model.SelectorSource) <= 0
-	targetDead := s.combatantHasHp(model.SelectorTarget) && s.combatantHp(model.SelectorTarget) <= 0
+	sourceDead := s.actionDeaths[model.SelectorSource] || s.combatantHasHp(model.SelectorSource) && s.combatantHp(model.SelectorSource) <= 0
+	targetDead := s.actionDeaths[model.SelectorTarget] || s.combatantHasHp(model.SelectorTarget) && s.combatantHp(model.SelectorTarget) <= 0
 	if sourceDead && targetDead {
 		consider(model.StopReasonBothDead)
 	} else if sourceDead {
@@ -1138,10 +1147,9 @@ func (s *genericRunState) buildDoneResult() model.DoneResult {
 	var actionSummary *model.SkillActionSummary
 	var useSummary *model.SkillUseSummary
 	var sourceDirectHealing, targetDirectHealing *float64
-	if s.skillAction != nil {
-		s.skillAction.summary.UnreachedCount = s.skillAction.summary.PlannedCount - s.skillAction.summary.ReachedCount
-		s.skillAction.uses.InFlightCount = s.skillAction.uses.StartedCount - s.skillAction.uses.CompletedCount - s.skillAction.uses.FailedCount
-		actionSummary, useSummary = &s.skillAction.summary, &s.skillAction.uses
+	if len(s.skillActions) > 0 {
+		actions, uses := s.skillSummaries()
+		actionSummary, useSummary = &actions, &uses
 	}
 	if s.automatedRun() {
 		sourceDirectHealing, targetDirectHealing = &s.sourceDirectHealing, &s.targetDirectHealing

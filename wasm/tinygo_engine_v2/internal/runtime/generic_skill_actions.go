@@ -1,6 +1,7 @@
 package runtime
 
 import (
+	"sort"
 	"strconv"
 	"strings"
 	compilebundle "tinygo_engine_v2/internal/compile"
@@ -9,18 +10,17 @@ import (
 )
 
 type skillActionRuntime struct {
-	plan           model.SkillActionPlan
-	binding        compilebundle.CompiledSkillActionBinding
-	summary        model.SkillActionSummary
-	uses           model.SkillUseSummary
-	useRef         string
-	accepted       bool
-	rejection      string
-	targetKilledAt *int64
+	plan      model.SkillActionPlan
+	binding   compilebundle.CompiledSkillActionBinding
+	summary   model.SkillActionSummary
+	uses      model.SkillUseSummary
+	useRef    string
+	accepted  bool
+	rejection string
 }
 
 func (state *genericRunState) automatedRun() bool {
-	return state.basicAttack != nil || state.skillAction != nil
+	return state.basicAttack != nil || len(state.skillActions) > 0
 }
 
 func (state *genericRunState) initSkillAction() *model.EngineError {
@@ -45,8 +45,8 @@ func (state *genericRunState) initSkillAction() *model.EngineError {
 	if len(state.req.DriverPlan.SkillActions) == 0 {
 		return nil
 	}
-	if len(state.req.DriverPlan.SkillActions) != 1 || state.req.DriverPlan.BasicAttack != nil || state.req.DriverPlan.Entries == nil || len(state.req.DriverPlan.Entries)+len(state.req.SkillUses)+len(state.req.SkillHitFacts)+len(state.req.AttackStartFacts)+len(state.req.ProcessCommandFacts) != 0 {
-		return state.basicAttackErr("single cast requires exactly one skill instruction and no background attack or external facts", "driverPlan")
+	if len(state.req.DriverPlan.SkillActions) > 64 || state.req.DriverPlan.Entries == nil || len(state.req.DriverPlan.Entries)+len(state.req.SkillUses)+len(state.req.SkillHitFacts)+len(state.req.AttackStartFacts)+len(state.req.ProcessCommandFacts) != 0 {
+		return state.basicAttackErr("planned casts require 1 to 64 instructions and no external facts", "driverPlan")
 	}
 	if state.startMs != 0 || state.durationMs < 1 || state.durationMs > 600000 {
 		return state.basicAttackErr("single cast requires time zero and duration in [1,600000]", "stopPolicy")
@@ -62,33 +62,66 @@ func (state *genericRunState) initSkillAction() *model.EngineError {
 	if err := state.validateBasicAttackInitialSnapshot(); err != nil {
 		return err
 	}
-	plan := state.req.DriverPlan.SkillActions[0]
-	if strings.TrimSpace(plan.InstructionKey) == "" || plan.Source != model.SelectorSource || (plan.Target != model.SelectorSource && plan.Target != model.SelectorTarget) || plan.Action != "INITIAL" || plan.ParentInstructionKey != nil || plan.FirstAtMs < 0 || plan.FirstAtMs > state.durationMs || plan.SortOrder < 0 || plan.HitBindings == nil {
-		return state.basicAttackErr("invalid single INITIAL instruction, timing or target", "driverPlan.skillActions[0]")
+	seen := map[string]bool{}
+	state.skillActions = make([]skillActionRuntime, 0, len(state.req.DriverPlan.SkillActions))
+	for index, plan := range state.req.DriverPlan.SkillActions {
+		path := "driverPlan.skillActions[" + strconv.Itoa(index) + "]"
+		if strings.TrimSpace(plan.InstructionKey) == "" || seen[plan.InstructionKey] || plan.Source != model.SelectorSource || (plan.Target != model.SelectorSource && plan.Target != model.SelectorTarget) || plan.Action != "INITIAL" || plan.ParentInstructionKey != nil || plan.FirstAtMs < 0 || plan.FirstAtMs > state.durationMs || plan.SortOrder < 0 || plan.HitBindings == nil {
+			return state.basicAttackErr("invalid unique INITIAL instruction, timing or target", path)
+		}
+		seen[plan.InstructionKey] = true
+		found := false
+		for _, binding := range state.compiled.SkillActionBindings {
+			if binding.BindingKey != plan.BindingKey {
+				continue
+			}
+			if binding.SkillKey != plan.SkillKey || binding.Source != plan.Source || binding.Controls[0].AbilityRef != plan.AbilityRef || binding.Controls[0].Action != plan.Action || len(plan.HitBindings) != len(binding.HitBindings) {
+				return state.basicAttackErr("instruction does not match its immutable compiled skill binding", path)
+			}
+			if len(plan.HitBindings) > 0 && (plan.HitBindings[0].HitBindingKey != binding.HitBindings[0].HitBindingKey || (plan.HitBindings[0].Preset != "TARGET_HIT" && plan.HitBindings[0].Preset != "MISS") || plan.Target != model.SelectorTarget) {
+				return state.basicAttackErr("invalid release binding, hit preset or unique target", path+".hitBindings")
+			}
+			state.skillActions = append(state.skillActions, skillActionRuntime{plan: plan, binding: binding, useRef: "skill:" + plan.InstructionKey, summary: model.SkillActionSummary{PlannedCount: 1}})
+			found = true
+			break
+		}
+		if !found {
+			return state.basicAttackErr("unknown compiled skill binding", path+".bindingKey")
+		}
 	}
-	for _, binding := range state.compiled.SkillActionBindings {
-		if binding.BindingKey != plan.BindingKey {
-			continue
+	sort.Slice(state.skillActions, func(first, second int) bool {
+		left, right := state.skillActions[first].plan, state.skillActions[second].plan
+		if left.FirstAtMs != right.FirstAtMs {
+			return left.FirstAtMs < right.FirstAtMs
 		}
-		if binding.SkillKey != plan.SkillKey || binding.Source != plan.Source || binding.Controls[0].AbilityRef != plan.AbilityRef || binding.Controls[0].Action != plan.Action || len(plan.HitBindings) != len(binding.HitBindings) {
-			return state.basicAttackErr("instruction does not match its immutable compiled skill binding", "driverPlan.skillActions[0]")
+		if left.SortOrder != right.SortOrder {
+			return left.SortOrder < right.SortOrder
 		}
-		if len(plan.HitBindings) > 0 && (plan.HitBindings[0].HitBindingKey != binding.HitBindings[0].HitBindingKey || (plan.HitBindings[0].Preset != "TARGET_HIT" && plan.HitBindings[0].Preset != "MISS") || plan.Target != model.SelectorTarget) {
-			return state.basicAttackErr("invalid release binding, hit preset or unique target", "driverPlan.skillActions[0].hitBindings")
+		return left.InstructionKey < right.InstructionKey
+	})
+	state.skillActionByUse = make(map[string]*skillActionRuntime, len(state.skillActions))
+	for index := range state.skillActions {
+		action := &state.skillActions[index]
+		state.skillActionByUse[action.useRef] = action
+		providerIndex := state.compiled.Abilities[action.binding.InitialAbilityIndex].ProviderIndex
+		if err := state.validatePlannedSkillProvider(action.plan.Source, action.binding.ProviderRef, providerIndex); err != nil {
+			return err
 		}
-		state.skillAction = &skillActionRuntime{plan: plan, binding: binding, summary: model.SkillActionSummary{PlannedCount: 1}}
-		return nil
 	}
-	return state.basicAttackErr("unknown compiled skill binding", "driverPlan.skillActions[0].bindingKey")
+	return nil
 }
 
-func (state *genericRunState) handleSkillAction() *model.EngineError {
-	action := state.skillAction
+func (state *genericRunState) handleSkillAction(index int) *model.EngineError {
+	if index < 0 || index >= len(state.skillActions) {
+		return state.basicAttackErr("unknown skill instruction event", "driverPlan.skillActions")
+	}
+	action := &state.skillActions[index]
+	state.skillAction = action
+	defer func() { state.skillAction = nil }()
 	action.summary.ReachedCount++
 	state.currentEventCommands = 0
 	state.abilityAttemptCount++
 	state.statFor(action.plan.AbilityRef).attemptCount++
-	action.useRef = "skill:" + action.plan.InstructionKey
 	entry := model.DriverEntry{EntryKey: action.plan.InstructionKey, AbilityRef: action.plan.AbilityRef, Source: action.plan.Source, Target: action.plan.Target, FirstAtMs: state.nowMs}
 	state.processFacts[entry.EntryKey] = model.ProcessCommandFact{DriverEntryKey: entry.EntryKey, UseRef: action.useRef}
 	ability := state.compiled.Abilities[action.binding.InitialAbilityIndex]
@@ -129,7 +162,7 @@ func (state *genericRunState) finishSkillActionAttempt(err *model.EngineError) {
 }
 
 func (state *genericRunState) publishSkillActionStart(process *processRuntime) {
-	action := state.skillAction
+	action := state.skillActionByUse[process.UseKey]
 	if action == nil || action.accepted || process.UseKey != action.useRef || process.abilityRef != action.plan.AbilityRef {
 		return
 	}
@@ -141,7 +174,7 @@ func (state *genericRunState) publishSkillActionStart(process *processRuntime) {
 }
 
 func (state *genericRunState) recordSkillUse(process *processRuntime, kind string, hit, reason *string) {
-	action := state.skillAction
+	action := state.skillActionByUse[process.UseKey]
 	if action == nil || !action.accepted || process.UseKey != action.useRef {
 		return
 	}
@@ -152,7 +185,7 @@ func (state *genericRunState) recordSkillUse(process *processRuntime, kind strin
 }
 
 func (state *genericRunState) publishSkillActionFinish(process *processRuntime) {
-	action := state.skillAction
+	action := state.skillActionByUse[process.UseKey]
 	if action == nil || !action.accepted || process.UseKey != action.useRef {
 		return
 	}
@@ -168,7 +201,7 @@ func (state *genericRunState) publishSkillActionFinish(process *processRuntime) 
 }
 
 func (state *genericRunState) resolveSkillActionRelease(process *processRuntime) *model.EngineError {
-	action := state.skillAction
+	action := state.skillActionByUse[process.UseKey]
 	if action == nil || !action.accepted || process.UseKey != action.useRef || process.Status != "complete" || process.Owner != action.plan.Source || process.ProviderRef != action.binding.ProviderRef || process.ProcessKey != action.binding.Controls[0].ProcessKey || state.combatantHp(process.Owner) <= 0 || state.combatantHp(process.Target) <= 0 || len(action.plan.HitBindings) == 0 || action.plan.HitBindings[0].Preset == "MISS" {
 		return nil
 	}
@@ -207,8 +240,9 @@ func (frame *executionFrame) skillActionUseRef() string {
 }
 
 func (state *genericRunState) recordSkillActionHit(item model.EvidenceItem) {
-	action := state.skillAction
-	if action == nil || !action.accepted || item.Kind != model.EvidenceKindSkillHit || item.Data["useRef"] != action.useRef {
+	use, _ := item.Data["useRef"].(string)
+	action := state.skillActionByUse[use]
+	if action == nil || !action.accepted || item.Kind != model.EvidenceKindSkillHit {
 		return
 	}
 	action.uses.HitCount++
@@ -235,9 +269,28 @@ func (state *genericRunState) recordDirectHealing(record model.DirectHealingReco
 }
 
 func (state *genericRunState) seedSkillAction() {
-	if state.skillAction != nil {
-		state.pushCombatEvent(scheduler.GenericEvent{TimeMs: state.skillAction.plan.FirstAtMs, Category: scheduler.GenericCategoryAbilityAttempt, Kind: scheduler.GenericEventSkillAction, DriverEntryIndex: -1})
+	for index, action := range state.skillActions {
+		state.pushCombatEvent(scheduler.GenericEvent{TimeMs: action.plan.FirstAtMs, Category: scheduler.GenericCategorySkillAction, Kind: scheduler.GenericEventSkillAction, SkillActionIndex: index, DriverEntryIndex: -1})
 	}
+}
+
+func (state *genericRunState) skillSummaries() (model.SkillActionSummary, model.SkillUseSummary) {
+	actions := model.SkillActionSummary{PlannedCount: len(state.skillActions)}
+	uses := model.SkillUseSummary{}
+	for _, action := range state.skillActions {
+		actions.ReachedCount += action.summary.ReachedCount
+		actions.AcceptedCount += action.summary.AcceptedCount
+		actions.RejectedCount += action.summary.RejectedCount
+		actions.AbortedBeforeAcceptCount += action.summary.AbortedBeforeAcceptCount
+		uses.StartedCount += action.uses.StartedCount
+		uses.ReleasedCount += action.uses.ReleasedCount
+		uses.HitCount += action.uses.HitCount
+		uses.CompletedCount += action.uses.CompletedCount
+		uses.FailedCount += action.uses.FailedCount
+	}
+	actions.UnreachedCount = actions.PlannedCount - actions.ReachedCount
+	uses.InFlightCount = uses.StartedCount - uses.CompletedCount - uses.FailedCount
+	return actions, uses
 }
 
 func (state *genericRunState) skillRecordingSummary(summary model.RecordingSummary) model.RecordingSummary {

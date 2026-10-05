@@ -41,6 +41,9 @@ func (f *executionFrame) continuousCombatantsLive() bool {
 		return true
 	}
 	for _, key := range []string{f.run.basicAttack.plan.Source, f.run.basicAttack.plan.Target} {
+		if f.run.actionDeaths[key] {
+			return false
+		}
 		health := f.run.combatantHp(key)
 		if staged := f.staged[key]; staged != nil {
 			health = staged.attributes["hp"].Current
@@ -106,6 +109,9 @@ func (f *executionFrame) stageAnchoredTicksOnTargetWrite(owner, provider, source
 func (f *executionFrame) commitKeysAndPreflight() ([]string, *model.EngineError) {
 	if f.run.processFailure != nil {
 		return nil, f.run.processFailure
+	}
+	if err := f.validatePlannedProcessDeadline(); err != nil {
+		return nil, err
 	}
 	waitEvents, waitError := f.prepareBasicAttackWait()
 	if waitError != nil {

@@ -89,6 +89,7 @@ type executionFrame struct {
 	pendingAmmoCapture     *ammoUseCapture
 	pendingMechanicRecords []model.MechanicRecord
 	pendingBasicAttackWait *basicAttackWait
+	pendingActionWait      bool
 	processUseKey          string
 	processUseSkillKey     string
 	processUseSource       string
@@ -615,7 +616,7 @@ func (f *executionFrame) executeOperations(ability compilebundle.CompiledAbility
 }
 
 func (f *executionFrame) bumpCommandBudget() *model.EngineError {
-	if f.run.basicAttackEventActive || f.run.initializationEventActive || f.run.skillAction != nil {
+	if f.run.basicAttackEventActive || f.run.initializationEventActive || len(f.run.skillActions) > 0 {
 		return f.run.consumeEventCommands(1)
 	}
 	if f.copyableCollector != nil {
@@ -2012,6 +2013,7 @@ func (f *executionFrame) commit() {
 			f.run.processInstances = append(f.run.processInstances, f.processOriginal)
 		}
 	}
+	f.run.freezeActionDeaths()
 	f.commitFrameQueues()
 	if f.run.processFailure != nil {
 		f.fatal, f.fatalErr = true, f.run.processFailure
@@ -2171,8 +2173,8 @@ func (s *genericRunState) castAbilityAt(sourceKey, targetKey, abilityRef string,
 	}
 	// Mint after successful gate (driver) / lifecycle staging; Listener AbilityRef always new ID.
 	frame.castInstanceID = s.mintCastInstanceID()
-	if s.skillAction != nil {
-		if fact, exists := s.skillHitFacts[driverEntryKey]; exists && fact.UseRef != nil && *fact.UseRef == s.skillAction.useRef {
+	if len(s.skillActions) > 0 {
+		if fact, exists := s.skillHitFacts[driverEntryKey]; exists && fact.UseRef != nil && s.skillActionByUse[*fact.UseRef] != nil {
 			for _, process := range s.processInstances {
 				if process.UseKey == *fact.UseRef {
 					frame.castInstanceID = process.castID
@@ -2465,9 +2467,9 @@ func (f *executionFrame) maybeDispatchAbilityStartedEvent(ability compilebundle.
 	if useRef != "" {
 		startedData["useRef"], startedData["skillKey"], startedData["phaseKind"] = useRef, f.processUseSkillKey, "INITIAL"
 		startedData["owner"], startedData["providerRef"] = f.ownerCombatantKey, f.ownerProviderRef
-		if f.run.skillAction != nil && f.run.skillAction.useRef == useRef {
-			startedData["instructionKey"] = f.run.skillAction.plan.InstructionKey
-			startedData["providerDefinitionRef"] = f.run.skillAction.binding.ProviderDefinitionRef
+		if action := f.run.skillActionByUse[useRef]; action != nil {
+			startedData["instructionKey"] = action.plan.InstructionKey
+			startedData["providerDefinitionRef"] = action.binding.ProviderDefinitionRef
 		}
 	}
 	attachCastProvenance(startedData, f.castInstanceID, f.castOrigin)
@@ -3347,8 +3349,8 @@ func (s *genericRunState) checkDeathStopReason() {
 	if s.stopReasonSet {
 		return
 	}
-	sourceDead := s.combatantHasHp(model.SelectorSource) && s.combatantHp(model.SelectorSource) <= 0
-	targetDead := s.combatantHasHp(model.SelectorTarget) && s.combatantHp(model.SelectorTarget) <= 0
+	sourceDead := s.actionDeaths[model.SelectorSource] || s.combatantHasHp(model.SelectorSource) && s.combatantHp(model.SelectorSource) <= 0
+	targetDead := s.actionDeaths[model.SelectorTarget] || s.combatantHasHp(model.SelectorTarget) && s.combatantHp(model.SelectorTarget) <= 0
 	if sourceDead && targetDead {
 		s.setStopReason(model.StopReasonBothDead)
 	} else if sourceDead {

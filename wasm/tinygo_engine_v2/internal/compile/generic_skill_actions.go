@@ -48,6 +48,10 @@ func compileSkillActionBindings(bindings []model.SkillActionBinding, ctx *generi
 			fail("single cast requires one declared finite immediate or delay step")
 			continue
 		}
+		if !process.Steps[0].HasActionOccupancy {
+			fail("planned skill step requires an explicit occupiesAction boolean")
+			continue
+		}
 		if _, exists := ctx.session.Types.Registry.Lookup("event/ability_started"); !exists {
 			fail("single cast requires its real successful-use event catalog")
 			continue

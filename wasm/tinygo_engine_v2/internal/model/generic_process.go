@@ -13,6 +13,7 @@ type ProcessControlDefinition struct {
 type ProcessStepDefinition struct {
 	StepKey          string              `json:"stepKey"`
 	StepType         string              `json:"stepType"`
+	OccupiesAction   *bool               `json:"occupiesAction,omitempty"`
 	DelayMs          *GenericFormulaExpr `json:"delayMs,omitempty"`
 	MinimumChargeMs  *GenericFormulaExpr `json:"minimumChargeMs,omitempty"`
 	MaximumChargeMs  *GenericFormulaExpr `json:"maximumChargeMs,omitempty"`

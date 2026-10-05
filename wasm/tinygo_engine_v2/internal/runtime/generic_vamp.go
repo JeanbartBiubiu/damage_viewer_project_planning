@@ -253,8 +253,8 @@ func (f *executionFrame) applyDirectHeal(cmd command.Command, ability compilebun
 	record := model.DirectHealingRecord{TimeMs: f.run.nowMs, Source: cmd.Source, Target: cmd.Target, AbilityRef: f.abilityRef, OperationRef: cmd.Ref, RawAmount: heal.before, HealingAfterDone: heal.afterDone, HealingAfterModifiers: heal.after, ActualHealing: heal.actual, Overheal: heal.overheal, HpBefore: hpBefore, HpAfter: f.stageFor(cmd.Target).attributes["hp"].Current}
 	if use := f.skillActionUseRef(); use != "" {
 		record.UseRef = &use
-		if f.run.skillAction != nil && use == f.run.skillAction.useRef {
-			record.InstructionKey = &f.run.skillAction.plan.InstructionKey
+		if action := f.run.skillActionByUse[use]; action != nil {
+			record.InstructionKey = &action.plan.InstructionKey
 		}
 	}
 	f.pendingDirectHealing = append(f.pendingDirectHealing, record)

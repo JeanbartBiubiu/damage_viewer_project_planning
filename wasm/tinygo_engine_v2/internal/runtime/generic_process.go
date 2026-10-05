@@ -83,6 +83,9 @@ func (s *genericRunState) handleProcessCommand(entry model.DriverEntry, entryInd
 		if s.combatantHasHp(source) && s.combatantHp(source) <= 0 {
 			return s.rejectProcess(entry, "source_dead")
 		}
+		if len(s.skillActions) > 0 && s.actionOccupied(source) {
+			return s.rejectProcess(entry, "action_occupied")
+		}
 		if _, blocked := s.cooldownGate(source, resolvedRef); blocked {
 			return s.rejectProcess(entry, "cooldown_not_ready")
 		}
@@ -543,7 +546,7 @@ func (s *genericRunState) failDeadProcesses() *model.EngineError {
 	for {
 		pending := make([]*processRuntime, 0)
 		for _, p := range ordered {
-			if p.Status == "active" && s.combatantHasHp(p.Owner) && s.combatantHp(p.Owner) <= 0 {
+			if p.Status == "active" && (s.actionDeaths[p.Owner] || s.combatantHasHp(p.Owner) && s.combatantHp(p.Owner) <= 0) {
 				pending = append(pending, p)
 			}
 		}

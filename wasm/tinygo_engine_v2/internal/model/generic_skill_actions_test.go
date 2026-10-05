@@ -6,6 +6,21 @@ import (
 	"testing"
 )
 
+func TestPlannedStepOccupancyShape(test *testing.T) {
+	for _, declaration := range []string{"true", "false", "null"} {
+		var step ProcessStepDefinition
+		if err := json.Unmarshal([]byte(`{"stepKey":"cast","stepType":"IMMEDIATE","occupiesAction":`+declaration+`}`), &step); err != nil {
+			test.Fatal(declaration, err)
+		}
+	}
+	for _, declaration := range []string{`"true"`, `1`, `{}`} {
+		var step ProcessStepDefinition
+		if err := json.Unmarshal([]byte(`{"stepKey":"cast","stepType":"IMMEDIATE","occupiesAction":`+declaration+`}`), &step); err == nil {
+			test.Fatal("invalid boolean shape", declaration)
+		}
+	}
+}
+
 func TestSkillActionBindingStrictShape(test *testing.T) {
 	valid := `{"bindingKey":"bind","source":"source","providerRef":"mount","providerDefinitionRef":"definition","skillKey":"skill","controls":[{"action":"INITIAL","processKey":"cast","abilityRef":"ref"}],"hitBindings":[{"hitBindingKey":"hit","processKey":"cast","moment":{"momentType":"PROCESS_COMPLETE","stepKey":null,"failureReason":null},"hitAbilityRef":"hit_ref"}]}`
 	var binding SkillActionBinding

@@ -98,23 +98,40 @@ func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 	if attack == nil {
 		return 0, nil
 	}
+	if err := f.prepareActionWait(); err != nil {
+		return 0, err
+	}
 	previous := attack.wait
 	if f.pendingBasicAttackWait != nil {
 		previous = f.pendingBasicAttackWait
 	}
 	if previous == nil {
-		if f.pendingAmmoWait != nil && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
-			return 1, nil
-		}
-		return 0, nil
-	}
-	if previous.ready <= f.run.nowMs {
-		if f.pendingAmmoWait != nil && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
+		if (f.pendingAmmoWait != nil || f.pendingActionWait) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
 			return 1, nil
 		}
 		return 0, nil
 	}
 	staged := f.stageFor(attack.plan.Source)
+	if f.pendingBasicAttackWait == nil && staged.cooldowns[attack.plan.InitialControlAbilityRef] != previous.ready {
+		ready := staged.cooldowns[attack.plan.InitialControlAbilityRef]
+		if ready < f.run.nowMs || ready > maxJSONSafeInteger {
+			return 0, f.run.basicAttackErr("changed attack cooldown requires a safe actual remaining deadline", attack.plan.InitialControlAbilityRef)
+		}
+		if err := f.consumeCommands(1); err != nil {
+			return 0, err
+		}
+		wait := *previous
+		wait.anchor, wait.ready = f.run.nowMs, ready
+		wait.remaining = float64(ready-f.run.nowMs) / float64(wait.period)
+		wait.generation++
+		f.pendingBasicAttackWait, previous = &wait, &wait
+	}
+	if previous.ready <= f.run.nowMs {
+		if (f.pendingBasicAttackWait != nil || f.pendingAmmoWait != nil || f.pendingActionWait) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
+			return 1, nil
+		}
+		return 0, nil
+	}
 	f.stageFor(attack.plan.Target)
 	context, contextError := f.basicAttackWaitContext()
 	if contextError != nil {
@@ -130,7 +147,7 @@ func (f *executionFrame) prepareBasicAttackWait() (int, *model.EngineError) {
 	program := f.run.compiled.Formulas.Programs[process.Cooldown.DurationProgram]
 	evalContext := context.evalContext(attack.initialAbility)
 	if speed == previous.speed && !basicAttackWaitDependenciesChanged(program, previous, sourceAttributes, targetAttributes, evalContext) {
-		if (f.pendingBasicAttackWait != nil || f.pendingAmmoWait != nil) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
+		if (f.pendingBasicAttackWait != nil || f.pendingAmmoWait != nil || f.pendingActionWait) && !f.run.heap.HasBasicAttack() && f.continuousCombatantsLive() {
 			return 1, nil
 		}
 		return 0, nil
@@ -242,7 +259,7 @@ func (f *executionFrame) unmountWaitingProvider(owner, ref string) {
 }
 
 func (f *executionFrame) commitBasicAttackWait() {
-	if f.pendingBasicAttackWait == nil && f.pendingAmmoWait == nil {
+	if f.pendingBasicAttackWait == nil && f.pendingAmmoWait == nil && !f.pendingActionWait {
 		return
 	}
 	attack := f.run.basicAttack
@@ -281,6 +298,10 @@ func (s *genericRunState) publishBasicAttackWait() {
 	}
 	next := s.nextBasicAttackTime()
 	attack.windowSettled = next > s.startMs+s.durationMs
+	actionReady := s.actionReadyAt(attack.plan.Source)
+	if attack.summary.StartedCount == 0 && actionReady > s.nowMs {
+		attack.summary.InitialActionReadyAtMs = &actionReady
+	}
 	if attack.current == nil {
 		return
 	}
@@ -296,8 +317,11 @@ func (s *genericRunState) publishBasicAttackWait() {
 	}
 	ready := attack.wait.ready
 	attack.current.FinalReadyAtMs = &ready
+	if actionReady > s.nowMs && (attack.current.ActionReadyAtMs == nil || actionReady > *attack.current.ActionReadyAtMs) {
+		attack.current.ActionReadyAtMs = &actionReady
+	}
 	attack.current.NextStartAtMs = nil
-	if !attack.windowSettled && s.combatantHp(attack.plan.Source) > 0 && s.combatantHp(attack.plan.Target) > 0 && s.budgetCause == "" {
+	if !attack.windowSettled && !s.actionDeaths[attack.plan.Source] && !s.actionDeaths[attack.plan.Target] && s.combatantHp(attack.plan.Source) > 0 && s.combatantHp(attack.plan.Target) > 0 && s.budgetCause == "" {
 		attack.current.NextStartAtMs = &next
 	}
 	if attack.currentRecordIndex >= 0 {
@@ -317,7 +341,7 @@ func (s *genericRunState) basicAttackEventCurrent(event scheduler.GenericEvent) 
 }
 
 func (s *genericRunState) nextBasicAttackTime() int64 {
-	ready := s.nowMs
+	ready := s.actionReadyAt(s.basicAttack.plan.Source)
 	if s.basicAttack.wait != nil && s.basicAttack.wait.ready > ready {
 		ready = s.basicAttack.wait.ready
 	}

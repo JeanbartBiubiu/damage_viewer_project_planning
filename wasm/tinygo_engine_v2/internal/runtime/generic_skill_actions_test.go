@@ -9,12 +9,13 @@ import (
 )
 
 func singleSkillInput(healing bool) (model.CompileRequest, model.RunRequest) {
+	occupies := false
 	hp := model.AttributeSlotDef{Base: 1000, Current: 500, Max: 1000, Resolved: 1000}
 	zero := model.AttributeSlotDef{}
 	actors := []model.CombatantDefinition{{Key: "source", Attributes: map[string]model.AttributeSlotDef{"hp": hp, "armor": zero}, Resources: map[string]model.ResourceSlotDef{}, Providers: []model.CombatantProviderMount{{ProviderRef: "caster", DefinitionRef: "skill_source"}}}, {Key: "target", Attributes: map[string]model.AttributeSlotDef{"hp": hp, "armor": zero}, Resources: map[string]model.ResourceSlotDef{}, Providers: []model.CombatantProviderMount{}}}
 	initialRef := "source.provider[caster].ability[initial]"
 	hitRef := "source.provider[caster].ability[hit]"
-	process := model.ProcessDefinition{ProcessKey: "cast", SkillKey: "configured_spell", Steps: []model.ProcessStepDefinition{{StepKey: "delay", StepType: "DELAY", DelayMs: timedShieldExpr(250)}}, Costs: []model.ProcessCostDefinition{}, Cooldown: &model.ProcessCooldownDefinition{DurationMs: *timedShieldExpr(1000), StartMoment: model.ProcessMomentDefinition{MomentType: "PROCESS_START"}}, MomentOperations: []model.ProcessMomentOperations{}}
+	process := model.ProcessDefinition{ProcessKey: "cast", SkillKey: "configured_spell", Steps: []model.ProcessStepDefinition{{StepKey: "delay", StepType: "DELAY", OccupiesAction: &occupies, DelayMs: timedShieldExpr(250)}}, Costs: []model.ProcessCostDefinition{}, Cooldown: &model.ProcessCooldownDefinition{DurationMs: *timedShieldExpr(1000), StartMoment: model.ProcessMomentDefinition{MomentType: "PROCESS_START"}}, MomentOperations: []model.ProcessMomentOperations{}}
 	provider := model.ProviderDefinition{ProviderKey: "skill_source", Kind: "character", StableID: "configured_spell", Processes: []model.ProcessDefinition{process}, Abilities: []model.AbilityDefinition{{AbilityKey: "initial", Kind: "active", SkillKey: "configured_spell", Types: []string{"ability/spell"}, ProcessControl: &model.ProcessControlDefinition{Action: "INITIAL", ProcessKey: "cast"}}}}
 	binding := model.SkillActionBinding{BindingKey: "bound_spell", Source: "source", ProviderRef: "caster", ProviderDefinitionRef: "skill_source", SkillKey: "configured_spell", Controls: []model.SkillActionControl{{Action: "INITIAL", ProcessKey: "cast", AbilityRef: initialRef}}, HitBindings: []model.SkillActionHitBinding{}}
 	plan := model.SkillActionPlan{InstructionKey: "cast_once", FirstAtMs: 100, SortOrder: 0, Source: "source", Target: "target", SkillKey: "configured_spell", BindingKey: "bound_spell", Action: "INITIAL", AbilityRef: initialRef, HitBindings: []model.SkillActionHitPreset{}}
@@ -187,15 +188,15 @@ func TestSingleSkillCooldownGateDoesNotPublishRejectedUse(test *testing.T) {
 		}
 		state.nowMs = now
 		state.combatants["source"].cooldowns[run.DriverPlan.SkillActions[0].AbilityRef] = 1000
-		if err := state.handleSkillAction(); err != nil {
+		if err := state.handleSkillAction(0); err != nil {
 			test.Fatal(err)
 		}
 		if now < 1000 {
-			if state.skillAction.summary.RejectedCount != 1 || state.skillAction.uses.StartedCount != 0 || len(state.skillUses) != 0 || len(state.processInstances) != 0 || state.skillActionRecords[0].UseRef != nil || *state.skillActionRecords[0].Reason != "cooldown_not_ready" {
+			if state.skillActions[0].summary.RejectedCount != 1 || state.skillActions[0].uses.StartedCount != 0 || len(state.skillUses) != 0 || len(state.processInstances) != 0 || state.skillActionRecords[0].UseRef != nil || *state.skillActionRecords[0].Reason != "cooldown_not_ready" {
 				test.Fatal(state.skillActionRecords)
 			}
-		} else if state.skillAction.summary.AcceptedCount != 1 || state.skillAction.uses.StartedCount != 1 {
-			test.Fatal(state.skillAction.summary)
+		} else if state.skillActions[0].summary.AcceptedCount != 1 || state.skillActions[0].uses.StartedCount != 1 {
+			test.Fatal(state.skillActions[0].summary)
 		}
 	}
 }

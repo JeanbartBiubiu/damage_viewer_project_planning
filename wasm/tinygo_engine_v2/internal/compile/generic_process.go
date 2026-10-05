@@ -23,6 +23,8 @@ type CompiledProcess struct {
 type CompiledProcessStep struct {
 	StepKey              string
 	StepType             string
+	OccupiesAction       bool
+	HasActionOccupancy   bool
 	DelayProgram         formula.GenericProgramID
 	MinimumChargeProgram formula.GenericProgramID
 	MaximumChargeProgram formula.GenericProgramID
@@ -183,6 +185,9 @@ func compileProviderProcesses(provider model.ProviderDefinition, path string, ct
 
 func compileProcessStep(def model.ProcessStepDefinition, path string, last bool, ctx *genericCompileContext) CompiledProcessStep {
 	compiled := CompiledProcessStep{StepKey: def.StepKey, StepType: def.StepType, Path: path}
+	if def.OccupiesAction != nil {
+		compiled.HasActionOccupancy, compiled.OccupiesAction = true, *def.OccupiesAction
+	}
 	validateProcessKey(def.StepKey, path+".stepKey", ctx)
 	if (def.StepType == "CHARGE" || def.StepType == "RECAST") && !last {
 		ctx.collector.addError(model.GenericErrUnknownRef, path+".stepType", "CHARGE or RECAST must be the final step", def.StepType)

@@ -39,7 +39,7 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 	data["operationRef"] = ev.operationRef
 	data["useRef"] = ""
 	data["attackIndex"] = 0
-	if s.skillAction != nil {
+	if len(s.skillActions) > 0 {
 		data["attackIndex"] = nil
 		data["hitRef"] = nil
 		hit := f.skillHitOccurrenceID
@@ -52,8 +52,8 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 	}
 	if use := f.skillActionUseRef(); use != "" {
 		data["useRef"] = use
-		if s.skillAction != nil && use == s.skillAction.useRef {
-			data["instructionKey"] = s.skillAction.plan.InstructionKey
+		if action := s.skillActionByUse[use]; action != nil {
+			data["instructionKey"] = action.plan.InstructionKey
 		}
 	}
 	data["timeMs"] = s.nowMs
@@ -69,9 +69,9 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 		at := s.nowMs
 		s.basicAttack.targetKilledAt = &at
 	}
-	if s.skillAction != nil && ev.target == model.SelectorTarget && ev.hpBefore > 0 && ev.hpAfter <= 0 && s.skillAction.targetKilledAt == nil {
+	if len(s.skillActions) > 0 && ev.target == model.SelectorTarget && ev.hpBefore > 0 && ev.hpAfter <= 0 && s.skillTargetKilledAt == nil {
 		at := s.nowMs
-		s.skillAction.targetKilledAt = &at
+		s.skillTargetKilledAt = &at
 	}
 	if ev.target == model.SelectorSource {
 
@@ -101,8 +101,8 @@ func (s *genericRunState) recordCommittedDamage(f *executionFrame, ev genericDam
 }
 
 func (s *genericRunState) executionSummary() *model.RunExecutionSummary {
-	if s.skillAction != nil {
-		result := &model.RunExecutionSummary{RequestedDurationMs: s.durationMs, Complete: s.budgetCause == "" && (s.nowMs >= s.startMs+s.durationMs || s.combatantHp(model.SelectorSource) <= 0 || s.combatantHp(model.SelectorTarget) <= 0), TargetKilled: s.skillAction.targetKilledAt != nil, TargetKilledAtMs: s.skillAction.targetKilledAt}
+	if len(s.skillActions) > 0 && s.basicAttack == nil {
+		result := &model.RunExecutionSummary{RequestedDurationMs: s.durationMs, Complete: s.budgetCause == "" && (s.nowMs >= s.startMs+s.durationMs || s.actionDeaths[model.SelectorSource] || s.actionDeaths[model.SelectorTarget] || s.combatantHp(model.SelectorSource) <= 0 || s.combatantHp(model.SelectorTarget) <= 0), TargetKilled: s.skillTargetKilledAt != nil, TargetKilledAtMs: s.skillTargetKilledAt}
 		if s.budgetCause != "" {
 			cause := s.budgetCause
 			result.BudgetCause = &cause
@@ -115,7 +115,7 @@ func (s *genericRunState) executionSummary() *model.RunExecutionSummary {
 		return nil
 	}
 	b := s.basicAttack
-	dead := s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0
+	dead := s.actionDeaths[b.plan.Source] || s.actionDeaths[b.plan.Target] || s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0
 	complete := s.budgetCause == "" && !b.unfinishedTail && (dead || s.nowMs >= s.startMs+s.durationMs)
 	result := &model.RunExecutionSummary{RequestedDurationMs: s.durationMs, Complete: complete, TargetKilled: b.targetKilledAt != nil, TargetKilledAtMs: b.targetKilledAt}
 	if s.budgetCause != "" {

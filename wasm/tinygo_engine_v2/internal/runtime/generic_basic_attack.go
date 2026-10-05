@@ -77,6 +77,12 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 			if actor.Key == p.Source && mount.ProviderRef == selectedRef.ProviderRef {
 				continue
 			}
+			if s.plannedSkillProvider(actor.Key, mount.ProviderRef) {
+				if err := s.validatePlannedSkillProvider(actor.Key, mount.ProviderRef, mount.DefinitionIndex); err != nil {
+					return err
+				}
+				continue
+			}
 			gear := s.compiled.Providers[mount.DefinitionIndex]
 			if actor.Key == p.Target && gear.Kind == "skill" {
 				if idleAttackProvider != "" {
@@ -215,6 +221,9 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 	triggerOperations := map[string]bool{}
 	auraOwners := map[string]bool{}
 	for _, entry := range s.compiled.Listeners {
+		if s.plannedSkillProvider(entry.OwnerCombatantKey, entry.OwnerProviderRef) {
+			continue
+		}
 		if entry.OwnerCombatantKey == p.Target && entry.OwnerProviderRef == idleAttackProvider {
 			continue
 		}
@@ -276,6 +285,9 @@ func (s *genericRunState) initBasicAttack() *model.EngineError {
 		}
 	}
 	for _, op := range s.compiled.Operations {
+		if s.plannedSkillOperation(op.OwnerProviderIndex) {
+			continue
+		}
 		if ammoOperations[op.Path] {
 			continue
 		}
@@ -326,6 +338,9 @@ func (s *genericRunState) handleBasicAttack() (err *model.EngineError) {
 	}
 	if s.combatantHp(b.plan.Source) <= 0 || s.combatantHp(b.plan.Target) <= 0 {
 		return nil
+	}
+	if s.actionOccupied(b.plan.Source) {
+		return s.basicAttackErr("attack cannot start while its source action is occupied", "driverPlan.basicAttack")
 	}
 	if ready, readinessError := s.basicAttackAmmoReady(); readinessError != nil || !ready {
 		return readinessError

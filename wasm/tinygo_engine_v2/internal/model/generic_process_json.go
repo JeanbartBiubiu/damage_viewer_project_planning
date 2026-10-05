@@ -105,7 +105,7 @@ func (v *ProcessControlDefinition) UnmarshalJSON(data []byte) error {
 	return nil
 }
 func (v *ProcessStepDefinition) UnmarshalJSON(data []byte) error {
-	if err := processJSONShape(data, "ProcessStepDefinition", "stepKey stepType delayMs minimumChargeMs maximumChargeMs releaseAtMaximum windowMs", "stepKey stepType"); err != nil {
+	if err := processJSONShape(data, "ProcessStepDefinition", "stepKey stepType occupiesAction delayMs minimumChargeMs maximumChargeMs releaseAtMaximum windowMs", "stepKey stepType"); err != nil {
 		return err
 	}
 	type plain ProcessStepDefinition
